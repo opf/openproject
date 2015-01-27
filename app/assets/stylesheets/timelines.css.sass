@@ -1,0 +1,486 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+/* ╭───────────────────────────────────────────────────────────────────╮ *
+ * │ General and initialization                                        │ *
+ * ╰───────────────────────────────────────────────────────────────────╯
+
+.select2-choices
+  width: 500px
+
+li.select2-result.select2-visible-selected-parent
+  display: list-item
+
+.timeline
+  clear: right
+  /* we only want to clear the 'float: right' of the .tl-toolbar
+  overflow: auto
+  border: 1px solid black
+  svg
+    display: block
+    overflow: hidden
+
+.tl-under-construction
+  background: image-url("loadingAnimation.gif") no-repeat center
+  border: 1px solid #ddd
+  height: 48px
+  *
+    visibility: hidden
+
+.tl-invisible
+  visibility: hidden
+
+.tl-hidden-info
+  display: none
+
+#timeline_select
+  margin-top: 2px
+  margin-bottom: 8px
+
+#content .ui-sortable .select2-search-choice
+  cursor: move
+
+/* ╭───────────────────────────────────────────────────────────────────╮ *
+ * │ Timeline forms.                                                   │ *
+ * ╰───────────────────────────────────────────────────────────────────╯
+
+#specialForm
+  display: block
+  padding-bottom: 5px
+
+#content .timelines_edit_form .tl-form-overflow
+  overflow: visible
+
+.tl-space-both, .tl-space-after
+  margin-right: 1em
+
+.tl-space-both, .tl-space-before
+  margin-left: 1em
+
+#content .edit_form fieldset.collapsible.header_collapsible
+  margin-bottom: 1em
+
+.select2-choices
+  width: 500px
+
+#s2id_reporting_reported_project_status_id, #s2id_reporting_reporting_to_project_id, #s2id_timeline_select, #s2id_timeline_options_columns, #s2id_timeline_options_initial_outline_expansion, #s2id_timeline_options_zoom_factor, #s2id_project_association_select_project_b_id, #s2id_timeline_options_grouping_one_sort, #s2id_timeline_options_project_sort, #s2id_timeline_options_grouping_two_sort
+  width: 250px
+
+#project-search-container .select2-container
+  margin-left: 0
+
+.select2-container
+  vertical-align: middle
+  margin-left: 5px
+
+#s2id_timeline_options_compare_to_relative_unit, #s2id_timeline_options_planning_element_time_relative_one_unit, #s2id_timeline_options_planning_element_time_relative_two_unit
+  margin-right: 1em
+
+.timelines_edit_form
+  .calendar-trigger
+    margin-right: 1em
+  input
+    margin-left: 1em
+
+#timeline_options_compare_to_relative
+  padding-right: 5px
+  text-align: right
+  width: 40px
+
+#content .tabular
+  label
+    float: none
+    display: inline-block
+    width: 250px
+    padding-right: 5px
+    vertical-align: middle
+  input
+    min-height: 22px
+  .select2-input
+    min-height: auto
+  .select2-container
+    vertical-align: middle
+  .twoBlocks
+    width: 500px
+
+/* ╭───────────────────────────────────────────────────────────────────╮ *
+ * │ Timeline toolbar & icons.                                         │ *
+ * ╰───────────────────────────────────────────────────────────────────╯
+
+.tl-toolbar
+  float: right
+  margin: 10px
+  .tl-toolbar-container
+    float: left
+    margin-left: 6px
+
+/* IE9 interprets this as baseline from inherited css, although it must
+ *not be applied in anything that is not display:table-cell
+
+.tl-toolbar-container *
+  vertical-align: bottom
+
+.tl-icon-postponed, .tl-icon-preponed, .tl-icon-added, .tl-icon-deleted, .tl-icon-changed, .tl-icon-calendar, .tl-icon-zoomin, .tl-icon-zoomout, .tl-icon-outline
+  background-position: 0% 50%
+  background-repeat: no-repeat
+  padding-left: 19px
+  padding-top: 2px
+  padding-bottom: 3px
+
+.tl-icon-postponed
+  cursor: default
+  background: image-url("bullet_red.png") no-repeat center
+
+.tl-icon-preponed
+  cursor: default
+  background: image-url("bullet_green.png") no-repeat center
+
+.tl-icon-added
+  cursor: default
+  background: image-url("added.png") no-repeat center
+  display: inline
+  width: 16px
+  background-position: 2px 2px
+
+.tl-icon-deleted
+  cursor: default
+  background: image-url("webalys/deleted.png") no-repeat center
+  display: inline
+  width: 16px
+  background-position: 2px 2px
+
+.tl-icon-changed
+  cursor: default
+  background: image-url("webalys/arrow_left_right.png") no-repeat center
+  display: inline
+  width: 16px
+  background-position: 2px 2px
+
+.tl-icon-calendar
+  cursor: default
+  background: image-url("webalys/calendar.png") no-repeat center
+  display: inline
+  width: 16px
+
+.tl-icon-zoomin
+  background: image-url("webalys/zoom_in.png") no-repeat center
+
+.tl-icon-zoomout
+  background: image-url("webalys/zoom_out.png") no-repeat center
+
+.tl-icon-outline
+  background: image-url("webalys/outline.png") no-repeat center
+
+/* ╭───────────────────────────────────────────────────────────────────╮ *
+ * │ Timeline tree                                                     │ *
+ * ├───────────────────────────────────────────────────────────────────┤ *
+ * │ I don't like the #content either, but ChiliProject decided it     │ *
+ * │ would be a great idea to define a high-specificity rule for table │ *
+ * │ headers.                                                          │ *
+ * ╰───────────────────────────────────────────────────────────────────╯
+
+a.tl-discreet-link, input.tl-discreet-link
+  color: #4b4b4b
+  font-weight: normal
+
+a.tl-discreet-link:hover, input.icon:hover
+  color: #008BD0
+  text-decoration: underline
+
+#content .timeline
+  table
+    border: 0
+    padding: 0
+    margin: 0
+    border-collapse: collapse
+    border-spacing: 0
+    page-break-inside: auto
+  tr
+    page-break-inside: avoid
+    page-break-after: auto
+  thead
+    display: table-header-group
+  tfoot
+    display: table-footer-group
+  table
+    td, th
+      margin: 0
+      padding-bottom: 0
+      padding-left: 6px
+      padding-right: 6px
+      padding-top: 0
+      border-bottom: 0
+      border-left: 1px solid black
+      border-right: 0
+      border-top: 0
+      white-space: nowrap
+      vertical-align: middle
+
+.timeline thead
+
+#content .timeline table th
+  color: black
+  vertical-align: bottom
+  font-weight: bold
+  border-bottom: 1px solid black
+
+.timelines-attributes
+  th
+    width: 20%
+  td
+    width: 80%
+
+.tl-historical
+  line-height: 8px
+  text-decoration: line-through
+  white-space: nowrap
+
+.tl-current
+  line-height: 18px
+  padding-bottom: 8px
+
+.tl-postponed
+  color: red
+
+.tl-preponed
+  color: green
+
+.tl-expanded > a
+  background: image-url("arrow_expanded.png") no-repeat center
+
+.tl-collapsed > a
+  background: image-url("arrow_collapsed.png") no-repeat center
+
+.tl-expanded > a, .tl-collapsed > a
+  text-indent: -999em
+  display: block
+  height: 16px
+  width: 16px
+  position: relative
+  left: -16px
+  float: left
+
+.tl-expanded > span, .tl-collapsed > span
+  padding-right: 0
+  position: relative
+  left: -16px
+
+#content table td
+  &.tl-indent-0
+    padding-left: 16px
+  &.tl-indent-1
+    padding-left: 28px
+  &.tl-indent-2
+    padding-left: 40px
+  &.tl-indent-3
+    padding-left: 52px
+  &.tl-indent-4
+    padding-left: 64px
+  &.tl-indent-5
+    padding-left: 76px
+  &.tl-indent-6
+    padding-left: 88px
+  &.tl-indent-7
+    padding-left: 100px
+
+.tl-left-main
+  border-right: 1px solid black
+  line-height: 20px
+
+.tl-column
+  left: 100px
+  display: inline-block
+  line-height: 18px
+  padding-bottom: 8px
+
+#content
+  .tl-word-ellipsis
+    overflow: hidden
+    text-overflow: ellipsis
+    display: inline-block
+  table
+    th.tl-first-column, td.tl-first-column
+      text-align: left
+      border-left: 0
+  .tl-left-main table td
+    padding-top: 0
+    padding-bottom: 1px
+    vertical-align: middle
+  table
+    tr
+      &.tl-project-row td
+        border-top: 1px solid black
+        padding-top: 6px
+        padding-bottom: 6px
+      &.tl-first-row td
+        padding-top: 6px
+      &.tl-last-row td
+        padding-bottom: 12px
+      &.tl-project-row td
+        border-top: 1px solid black
+        padding-top: 6px
+        padding-bottom: 6px
+    td.tl-grouping
+      padding-left: 4px
+      font-size: 125%
+      line-height: 20px
+      color: #000000
+      /* #e20074; <-- magenta
+      font-weight: bold
+      background-color: #dddddd
+      border-bottom: 1px solid black
+      border-top: 1px solid black
+      border-left: 0
+
+a
+  &:hover.tl-project, &.tl-project
+    font-weight: bold
+
+.tl-project
+  font-weight: bold
+
+/* ╭───────────────────────────────────────────────────────────────────╮ *
+ * │ Div floating layout                                               │ *
+ * ╰───────────────────────────────────────────────────────────────────╯
+
+.tl-left
+  float: left
+
+.tl-right
+  float: right
+
+.tl-decoration
+  /* height: 48px;
+
+.tl-chart
+  overflow-y: hidden
+  overflow-x: scroll
+
+/* ╭───────────────────────────────────────────────────────────────────╮ *
+ * │ Tooltip                                                           │ *
+ * ╰───────────────────────────────────────────────────────────────────╯
+
+.tl-tooltip
+  display: none
+  position: absolute
+  min-width: 20px
+  padding: 5px
+  z-index: 1000
+  opacity: 0.9
+  &.fade.in
+    opacity: 0.9
+  &.above .tl-tooltip-arrow
+    bottom: 0
+    left: 16px
+    margin-left: -5px
+    border-left: 5px solid transparent
+    border-right: 5px solid transparent
+    border-top: 5px solid #000000
+  &.left .tl-tooltip-arrow
+    top: 50%
+    right: 0
+    margin-top: -5px
+    border-top: 5px solid transparent
+    border-bottom: 5px solid transparent
+    border-left: 5px solid #000000
+  &.below .tl-tooltip-arrow
+    top: 0
+    left: 50%
+    margin-left: -5px
+    border-left: 5px solid transparent
+    border-right: 5px solid transparent
+    border-bottom: 5px solid #000000
+  &.right .tl-tooltip-arrow
+    top: 50%
+    left: 0
+    margin-top: -5px
+    border-top: 5px solid transparent
+    border-bottom: 5px solid transparent
+    border-right: 5px solid #000000
+
+.tl-tooltip-inner
+  padding: 3px 8px
+  background-color: #000000
+  color: #ffffff
+  text-align: left
+  max-width: 200px
+  text-decoration: none
+  border-radius: 4px
+
+.tl-tooltip-arrow
+  position: absolute
+  width: 0
+  height: 0
+
+/* ╭───────────────────────────────────────────────────────────────────╮ *
+ * │ Printing                                                          │ *
+ * ╰───────────────────────────────────────────────────────────────────╯
+
+@media print
+  .tl-historical
+    text-decoration: line-through
+  #content
+    table
+      max-width: 900px
+    .tl-word-ellipsis
+      overflow: hidden
+      text-wrap: ellipsis
+      max-width: 250px !important
+      display: inline-block
+    .action_menu_main, .tl-toolbar-container, .flash, .tl-chart, .tl-scrollcontainer, form
+      display: none
+  .timeline
+    overflow: visible
+  #content
+    h2
+      border: none
+    .tl-left
+      /*width: 100%;
+      table
+        /*width: 100%;
+        border-left: 0
+        border-right: 0
+    .timeline
+      tr
+        border-bottom: 1px dashed gray
+      thead
+        border-top: 0
+        border-bottom: 1px solid black
+    .tl-project-row .tl-responsible
+      font-weight: bold
+  /* #content .timeline table th
+  .tl-invisible
+    display: none
+  #content
+    .timeline, .tl-left-main
+      border: 0
+
+/* Icons for activity view
+
+dt.timelines\2F planning-element
+  background-image: image-url("webalys/new_planning_element.png")

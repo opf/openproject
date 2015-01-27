@@ -169,4 +169,62 @@ describe ApplicationHelper, type: :helper do
     end
 
   end
+
+  describe 'time_tag' do
+    around do |example|
+      I18n.with_locale(:en) { example.run }
+    end
+
+    subject { time_tag(time) }
+
+    context 'with project' do
+      before do
+        @project = FactoryGirl.build(:project)
+      end
+
+      context 'right now' do
+        let(:time) { Time.now }
+
+        it { is_expected.to match /^\<a/ }
+        it { is_expected.to match /less than a minute/ }
+        it { is_expected.to be_html_safe }
+      end
+
+      context 'some time ago' do
+        let(:time) {
+          Timecop.travel(2.weeks.ago) do
+            Time.now
+          end
+        }
+
+        it { is_expected.to match /^\<a/ }
+        it { is_expected.to match /14 days/ }
+        it { is_expected.to be_html_safe }
+      end
+    end
+
+    context 'without project' do
+      context 'right now' do
+        let(:time) { Time.now }
+
+        it { is_expected.to match /^\<time/ }
+        it { is_expected.to match /datetime=\"#{Regexp.escape(time.xmlschema)}\"/ }
+        it { is_expected.to match /less than a minute/ }
+        it { is_expected.to be_html_safe }
+      end
+
+      context 'some time ago' do
+        let(:time) {
+          Timecop.travel(1.week.ago) do
+            Time.now
+          end
+        }
+
+        it { is_expected.to match /^\<time/ }
+        it { is_expected.to match /datetime=\"#{Regexp.escape(time.xmlschema)}\"/ }
+        it { is_expected.to match /7 days/ }
+        it { is_expected.to be_html_safe }
+      end
+    end
+  end
 end

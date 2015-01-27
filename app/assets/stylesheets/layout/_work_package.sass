@@ -29,10 +29,6 @@
 .controller-work_packages.action-index
   @extend %absolute-layout-mode
 
-// TODO: apply this throughout the application
-#work-packages-index div
-  box-sizing: border-box
-
 #content
   $flash-margins-padding: 10px + (2 * 4px)
 
@@ -80,7 +76,7 @@
 
 .work-packages--list-pagination-area
   position: absolute
-  bottom:   0px
+  bottom:   0
   width:    100%
   height:   55px
   padding:  3px 10px 0 0
@@ -116,7 +112,10 @@
   width:      100%
   background: #F8F8F8
   border:     1px solid #eeeeee
-  padding:    0 10px
+  padding:    0 1rem .5rem
+
+  & > .button
+    margin: .5rem .5rem 0 0
 
 .controller-work_packages
   #work-packages-query-selection
@@ -144,6 +143,6 @@
 
   .work_package
     tr
-      line-height: $user_avatar_mini_width
+      line-height: $user-avatar-mini-width
   .avatar-mini
     float: left

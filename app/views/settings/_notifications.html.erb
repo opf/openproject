@@ -26,58 +26,45 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <% if @deliveries %>
-<%= form_tag({:action => 'edit', :tab => 'notifications'}) do %>
-
-<div class="box tabular settings">
-<p><%= setting_text_field :mail_from, :size => 60 %></p>
-
-<p><%= setting_check_box :bcc_recipients %></p>
-
-<p><%= setting_check_box :plain_text_mail %></p>
-
-<p><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [l(o.last), o.first.to_s]}) %></p>
-
-</div>
-
-<fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
-<%= hidden_field_tag 'settings[notified_events][]', '' %>
-<% @notifiables.each do |notifiable| %>
-<%= notification_field notifiable %>
-<br />
-<% end %>
-<p><%= check_all_links('notified_events') %></p>
-</fieldset>
-
-<fieldset id="emails_decorators" class="box"><legend><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
-  <%= select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), :id => 'emails_decorators_switch', :onchange => "toggleEmailDecoratorFields()" %>
-
-  <% Setting.available_languages.each do |lang| %>
-    <div id="emails_decorators_<%= lang %>" style="display:none" class="emails_decorators">
-      <%= label_tag "settings[emails_header][#{lang}]", l(:setting_emails_header) %>
-      <%= text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
-
-      <%= label_tag "settings[emails_footer][#{lang}]", l(:setting_emails_footer) %>
-      <%= text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+  <%= form_tag({:action => 'edit', :tab => 'notifications'}) do %>
+    <div class="box tabular settings">
+      <p><%= setting_text_field :mail_from, :size => 60 %></p>
+      <p><%= setting_check_box :bcc_recipients %></p>
+      <p><%= setting_check_box :plain_text_mail %></p>
+      <p><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [l(o.last), o.first.to_s]}) %></p>
     </div>
-  <% end %>
-</fieldset>
-
-<%= javascript_tag do -%>
-  jQuery(document).ready(function () {
+    <fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
+      <%= hidden_field_tag 'settings[notified_events][]', '' %>
+      <% @notifiables.each do |notifiable| %>
+        <%= notification_field notifiable %>
+        <br />
+      <% end %>
+      <p><%= check_all_links('notified_events') %></p>
+    </fieldset>
+    <fieldset id="emails_decorators" class="box"><legend><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
+      <%= select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), :id => 'emails_decorators_switch', :onchange => "toggleEmailDecoratorFields()" %>
+      <% Setting.available_languages.each do |lang| %>
+        <div id="emails_decorators_<%= lang %>" style="display:none" class="emails_decorators">
+          <%= label_tag "settings[emails_header][#{lang}]", l(:setting_emails_header) %>
+          <%= text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+          <%= label_tag "settings[emails_footer][#{lang}]", l(:setting_emails_footer) %>
+          <%= text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+        </div>
+      <% end %>
+    </fieldset>
+    <%= javascript_tag do -%>
+      jQuery(document).ready(function () {
     toggleEmailDecoratorFields();
   });
-<% end -%>
-
-<div style="float:right;">
-<%= link_to l(:label_send_test_email), :controller => '/admin', :action => 'test_email' %>
-</div>
-
-<%= submit_tag l(:button_save) %>
-<% end %>
+    <% end -%>
+    <div style="float:right;">
+      <%= link_to l(:label_send_test_email), :controller => '/admin', :action => 'test_email' %>
+    </div>
+    <%= submit_tag l(:button_save), class: 'button -highlight' %>
+  <% end %>
 <% else %>
-<div class="nodata">
-<%= simple_format(l(:text_email_delivery_not_configured)) %>
-</div>
+  <div class="nodata">
+    <%= simple_format(l(:text_email_delivery_not_configured)) %>
+  </div>
 <% end %>

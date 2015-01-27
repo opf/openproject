@@ -69,7 +69,9 @@ See doc/COPYRIGHT.rdoc for more details.
     </p>
   </fieldset>
   <p>
-    <%= submit_tag l(:button_save), :method => :post %>
-    <%= link_to l(:button_cancel), {:controller => '/wiki', :action => 'show', :project_id => @project, :id => @page_title} %>
+    <%= submit_tag l(:button_save), :method => :post, class: 'button -highlight' %>
+    <%= link_to l(:button_cancel),
+          {:controller => '/wiki', :action => 'show', :project_id => @project, :id => @page_title},
+          class: 'button'%>
   </p>
   <% end %>

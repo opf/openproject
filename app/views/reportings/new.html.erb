@@ -48,12 +48,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset class="timelines-reporting-properties">
     <legend><%= l('timelines.properties') %></legend>
 
-    <p>
-      <label for="reporting_reporting_to_project_id">
+    <span class='inline-label'>
+      <label for="reporting_reporting_to_project_id" class="form-label -transparent">
         <%= Reporting.human_attribute_name(:reporting_to_project_id) %>
       </label>
-      <%# f.select(:reporting_to_project_id, @reporting_to_project_candidates.collect { |p| [p.name, p.id] }) %>
-
 
       <% if User.current.impaired? %>
         <%= f.select(:reporting_to_project_id, @reporting_to_project_candidates.collect { |p| [p.name, p.id] }) %>
@@ -68,13 +66,13 @@ See doc/COPYRIGHT.rdoc for more details.
       %>
       <% end %>
 
-    </p>
+    </span>
   </fieldset>
 
   <br/>
   <p>
-    <%= f.submit l(:button_create), :name => nil %>
-    <%= link_to l(:button_cancel), project_reportings_path(@project) %>
+    <%= f.submit l(:button_create), :name => nil, class: 'button -highlight' %>
+    <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
   </p>
 <% end %>
 

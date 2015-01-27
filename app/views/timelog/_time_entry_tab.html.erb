@@ -26,10 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <li>
-<%= link_to(tab_path, :class => (tab_selected ? 'selected' : nil)) do %>
-  <%= tab_selected ? you_are_here_info : nil %>
-  <%= tab_title %>
-<% end %>
+  <%= link_to(tab_path, :class => (tab_selected ? 'selected' : nil)) do %>
+    <%= tab_selected ? you_are_here_info : nil %>
+    <%= tab_title %>
+  <% end %>
 </li>

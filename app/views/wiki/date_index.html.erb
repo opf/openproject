@@ -30,35 +30,28 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :action_menu_specific do %>
   <%= watcher_link(@wiki, User.current) %>
 <% end %>
-
 <h2><%= l(:label_index_by_date) %></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
 <% if @pages.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-
 <% @pages_by_date.keys.sort.reverse.each do |date| %>
-<h3><%= format_date(date) %></h3>
-<ul>
-<% @pages_by_date[date].each do |page| %>
-    <li><%= link_to page.pretty_title, project_wiki_path(page.project, page) %></li>
+  <h3><%= format_date(date) %></h3>
+  <ul>
+    <% @pages_by_date[date].each do |page| %>
+      <li><%= link_to page.pretty_title, project_wiki_path(page.project, page) %></li>
+    <% end %>
+  </ul>
 <% end %>
-</ul>
-<% end %>
-
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
 <% end %>
-
 <% unless @pages.empty? %>
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:controller => '/activities', :action => 'index', :show_wiki_edits => 1, :key => User.current.rss_key} %>
-  <%= f.link_to('HTML', :url => {:action => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
+  <%= other_formats_links do |f| %>
+    <%= f.link_to 'Atom', :url => {:controller => '/activities', :action => 'index', :show_wiki_edits => 1, :key => User.current.rss_key} %>
+    <%= f.link_to('HTML', :url => {:action => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
+  <% end %>
 <% end %>
-<% end %>
-
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, :controller => '/activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
+  <%= auto_discovery_link_tag(:atom, :controller => '/activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
 <% end %>

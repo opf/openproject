@@ -26,13 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/***** My page layout ****
+.attributes-key-value
+  @include grid-block($wrap: true)
 
-#activity dt
-  clear: left
+.attributes-key-value--key
+  @include grid-content(4)
+  margin-bottom: 0.4rem
+  padding: 0 1rem 0 0
+  font-size: 0.9rem
+  font-weight: bold
+  line-height: $list-line-height / 0.9
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
 
-.journal-link
-  float: right
+.attributes-key-value--value-container
+  @include grid-content(8)
+  margin-bottom: 0.4rem
+  padding: 0
 
-h2 img
-  vertical-align: middle
+.attributes-key-value--value
+  &.-user
+    overflow: hidden

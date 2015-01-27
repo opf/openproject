@@ -26,42 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/* Please use these styles for future purposes! The idea is to use these as global styles for form elements, after we finalised the work-packages view. The width of the elements may vary in different views */
-
-#work-packages-index
-  input
-    background: #ffffff
-    font-family: $font_family_normal
-    font-size: $global_font_size
-    box-sizing: border-box
-    &:focus
-      box-shadow: 1px 1px 1px #dddddd inset
-  input:not([type="checkbox"])
-    padding: 8px
-    border: 1px solid #cacaca
-    border-radius: 2px
-    &:hover
-      border: 1px solid #aaaaaa
-  input[type="checkbox"]
-    /* IE (at least 10) has a padding by default.
-      Remove it to prevent a white border around the checkbox. */
-    padding: 0
-  .wide
-    width: 180px
-  .small
-    width: 90px
-  .form-textarea
-    margin: 0 0 10px 0
-  textarea
-    border: 1px solid #cacaca
-    background: #ffffff
-    border-radius: 2px
-    padding: 8px
-    font-family: $font_family_normal
-    font-size: $global_font_size
-    width: 100%
-    box-sizing: border-box
-    &:hover
-      border: 1px solid #aaaaaa
-    &:focus
-      box-shadow: 1px 1px 1px #dddddd inset
+@import open_project_global/accessibility
+@import open_project_global/variables
+@import open_project_global/mixins

@@ -36,5 +36,5 @@ See doc/COPYRIGHT.rdoc for more details.
     <p><%= f.text_field :title, :required => true, :size => 100  %></p>
     <p><%= f.check_box :redirect_existing_links %></p>
   </div>
-  <%= submit_tag l(:button_rename) %>
+  <%= submit_tag l(:button_rename), class: 'button -highlight' %>
 <% end %>

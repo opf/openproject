@@ -26,138 +26,143 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%# TODO Remove when not needed any more %>
-
 <script type="text/javascript">
-//<![CDATA[
-function add_filter() {
-    select = $('add_filter_select');
-    field = select.value
-    Element.show('tr_' +  field);
-    check_box = $('cb_' + field);
-    check_box.checked = true;
-    toggle_filter(field);
-    select.selectedIndex = 0;
+  //<![CDATA[
+  function add_filter() {
+      select = $('add_filter_select');
+      field = select.value
+      Element.show('tr_' +  field);
+      check_box = $('cb_' + field);
+      check_box.checked = true;
+      toggle_filter(field);
+      select.selectedIndex = 0;
 
-    for (i=0; i<select.options.length; i++) {
-        if (select.options[i].value == field) {
-            select.options[i].disabled = true;
-        }
+      for (i=0; i<select.options.length; i++) {
+          if (select.options[i].value == field) {
+              select.options[i].disabled = true;
+          }
+      }
+  }
+
+  function toggle_filter(field) {
+      check_box = $('cb_' + field);
+
+      if (check_box.checked) {
+          Element.show("operators_" + field);
+          Form.Element.enable("operators_" + field);
+          Form.Element.enable("values_" + field);
+          toggle_operator(field);
+      } else {
+          Element.hide("operators_" + field);
+          Element.hide("div_values_" + field);
+          Form.Element.disable("operators_" + field);
+          Form.Element.disable("values_" + field);
     }
-}
+  }
 
-function toggle_filter(field) {
-    check_box = $('cb_' + field);
-
-    if (check_box.checked) {
-        Element.show("operators_" + field);
-        Form.Element.enable("operators_" + field);
-        Form.Element.enable("values_" + field);
-        toggle_operator(field);
-    } else {
-        Element.hide("operators_" + field);
+  function toggle_operator(field) {
+    operator = $("operators_" + field);
+    switch (operator.value) {
+      case "!*":
+      case "*":
+      case "t":
+      case "w":
+      case "o":
+      case "c":
         Element.hide("div_values_" + field);
-        Form.Element.disable("operators_" + field);
-        Form.Element.disable("values_" + field);
-  }
-}
-
-function toggle_operator(field) {
-  operator = $("operators_" + field);
-  switch (operator.value) {
-    case "!*":
-    case "*":
-    case "t":
-    case "w":
-    case "o":
-    case "c":
-      Element.hide("div_values_" + field);
-      break;
-    default:
-      Element.show("div_values_" + field);
-      break;
-  }
-}
-
-function toggle_multi_select(field) {
-    select = $('values_' + field);
-    if (select.multiple == true) {
-        select.multiple = false;
-    } else {
-        select.multiple = true;
+        break;
+      default:
+        Element.show("div_values_" + field);
+        break;
     }
-}
+  }
 
-function apply_filters_observer() {
-  $$("#query_form input[type=text]").invoke("observe", "keypress", function(e){
-    if(e.keyCode == Event.KEY_RETURN) {
-      <%= remote_function(:url => { :set_filter => 1},
-                          :update => "content",
-                          :before => 'selectAllOptions("selected_columns");',
-                          :method => :get,
-                          :with => "jQuery('#query_form').serialize()",
-                          :complete => "e.stop(); apply_filters_observer()") %>
-    }
-  });
-}
-Event.observe(document,"dom:loaded", apply_filters_observer);
-//]]>
+  function toggle_multi_select(field) {
+      select = $('values_' + field);
+      if (select.multiple == true) {
+          select.multiple = false;
+      } else {
+          select.multiple = true;
+      }
+  }
+
+  function apply_filters_observer() {
+    $$("#query_form input[type=text]").invoke("observe", "keypress", function(e){
+      if(e.keyCode == Event.KEY_RETURN) {
+        <%= remote_function(:url => { :set_filter => 1},
+                            :update => "content",
+                            :before => 'selectAllOptions("selected_columns");',
+                            :method => :get,
+                            :with => "jQuery('#query_form').serialize()",
+                            :complete => "e.stop(); apply_filters_observer()") %>
+      }
+    });
+  }
+  Event.observe(document,"dom:loaded", apply_filters_observer);
+  //]]>
 </script>
-
 <table width="100%">
-<tr>
-<td>
-<table>
-<% query.available_work_package_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
-    <% field = filter[0]
-       options = filter[1] %>
-    <tr <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
-    <td style="width:200px;">
-        <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
-        <label for="cb_<%= field %>"><%= filter[1][:name] || WorkPackage.human_attribute_name(field) %></label>
-    </td>
-    <td style="width:150px;">
-        <%= label_tag "op_#{field}", l(:description_filter), :class => "hidden-for-sighted" %>
-        <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.filter_for(field).try(:operator)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
-    </td>
+  <tr>
     <td>
-    <div id="div_values_<%= field %>" style="display:none;">
-    <% field_values = query.filter_for(field).try(:values) || []
+      <table>
+        <% query.available_work_package_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
+          <% field = filter[0]
+       options = filter[1] %>
+          <tr <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
+            <td style="width:200px;">
+              <label>
+                <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
+                <%= filter[1][:name] || WorkPackage.human_attribute_name(field) %>
+              </label>
+            </td>
+            <td style="width:150px;">
+              <%= label_tag "op_#{field}", l(:description_filter), :class => "hidden-for-sighted" %>
+              <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.filter_for(field).try(:operator)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "form--select -small", :style => "vertical-align: top;" %>
+            </td>
+            <td>
+              <div id="div_values_<%= field %>" style="display:none;">
+                <% field_values = query.filter_for(field).try(:values) || []
     case options[:type]
     when :list, :list_optional, :list_status, :list_subprojects %>
-        <select <%= "multiple=true" if field_values and field_values.length > 1 %> name="v[<%= field %>][]" id="values_<%= field %>" class="select-small" style="vertical-align: top;">
-        <%= options_for_select options[:values], field_values %>
-        </select>
-        <%= link_to_function icon_wrapper('icon-context icon-plus', l(:label_enable_multi_select)),
-                             "toggle_multi_select('#{field}');",
-                             :title => l(:label_enable_multi_select),
-                             :class => 'no-decoration-on-hover' %>
-    <% when :date, :date_past %>
-      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "select-small" %>
-      <label for='<%= "values_#{field}" %>'><%= l(:label_day_plural) %></label>
-    <% when :string, :text %>
-      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 30, :class => "select-small" %>
-      <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_text) %></label>
-    <% when :integer %>
-      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "select-small" %>
-      <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_number) %></label>
-    <% end %>
-    </div>
-    <script type="text/javascript">toggle_filter('<%= field %>');</script>
-    </td>
-    </tr>
-<% end %>
-</table>
-</td>
-<td class="add-filter">
-<%= label_tag('add_filter_select', l(:label_filter_add)) %>:
-<%= select_tag 'add_filter_select',
+                  <span class="inline-label">
+                    <select <%= "multiple=true" if field_values and field_values.length > 1 %> name="v[<%= field %>][]" id="values_<%= field %>" class="form--select -small" style="vertical-align: top;">
+                      <%= options_for_select options[:values], field_values %>
+                    </select>
+                    <%= link_to_function icon_wrapper('icon-context icon-plus', l(:label_enable_multi_select)),
+                               "toggle_multi_select('#{field}');",
+                               :title => l(:label_enable_multi_select),
+                               :class => 'form-label no-decoration-on-hover' %>
+                  </span>
+                  <% when :date, :date_past %>
+                    <span class="inline-label">
+                      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "form--text-field -small" %>
+                      <label for='<%= "values_#{field}" %>' class="form-label"><%= l(:label_day_plural) %></label>
+                    </span>
+                    <% when :string, :text %>
+                      <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 30, :class => "form--text-field -small" %>
+                      <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_text) %></label>
+                      <% when :integer %>
+                        <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "form--text-field -small" %>
+                        <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_number) %></label>
+                      <% end %>
+                    </div>
+                    <script type="text/javascript">
+                      toggle_filter('<%= field %>');
+                    </script>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </td>
+          <td class="add-filter">
+            <%= label_tag('add_filter_select', l(:label_filter_add)) %>
+            <%= select_tag 'add_filter_select',
   options_for_select(entries_for_filter_select_sorted(query)),
     :onchange => "add_filter();",
-    :class => "select-small",
+    :class => "form--select -small",
     :name => nil %>
-</td>
-</tr>
-</table>
-<%= hidden_field_tag 'f[]', '' %>
+          </td>
+        </tr>
+      </table>
+      <%= hidden_field_tag 'f[]', '' %>

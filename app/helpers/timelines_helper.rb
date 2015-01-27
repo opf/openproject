@@ -125,10 +125,7 @@ module TimelinesHelper
           margin-right: 5px;
         }
         .timelines-milestone {
-          -webkit-transform: rotate(45deg);
-             -moz-transform: rotate(45deg);
-               -o-transform: rotate(45deg);
-                  transform: rotate(45deg);
+          transform: rotate(45deg);
         }
         .timelines-phase {
           border-radius: 4px;

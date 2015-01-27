@@ -47,7 +47,7 @@ table
         width: 15px
         padding: 2px 0 0 0
         input
-          padding: 0px
+          padding: 0
       &.buttons
         width: 15%
         white-space: nowrap
@@ -316,123 +316,6 @@ table
 td.center, th.center
   text-align: center
 
-#watchers
-  ul
-    margin: 0
-    padding: 0
-  select
-    width: 200px
-    display: block
-    float: left
-    margin-right: 10px
-  a.delete
-    opacity: 0.4
-    &:hover
-      opacity: 1
-
-.highlight
-  background-color: #FCFD8D
-  &.token-1
-    background-color: #faa
-  &.token-2
-    background-color: #afa
-  &.token-3
-    background-color: #aaf
-
-.box
-  padding: 6px
-  margin-bottom: 10px
-  line-height: 1.5em
-  border: 1px solid #e4e4e4
-
-div.square
-  border: 1px solid #999
-  float: left
-  margin: .3em .4em 0 .4em
-  overflow: hidden
-  width: .6em
-  height: .6em
-
-.contextual
-  float: right
-  white-space: nowrap
-  line-height: 1.4em
-  margin-top: 8px
-  padding-left: 10px
-  input, select
-    font-size: 0.9em
-
-.message .contextual
-  margin-top: 0
-
-.splitcontentleft
-  float: left
-  width: 49%
-
-.splitcontentright
-  float: right
-  width: 49%
-
-form
-  display: inline
-
-input, select
-  vertical-align: middle
-  margin-top: 1px
-  margin-bottom: 1px
-
-fieldset
-  border: 1px solid #e4e4e4
-  margin: 0
-
-hr
-  width: 100%
-  height: 1px
-  background: #ccc
-  border: 0
-
-blockquote
-  font-style: italic
-  border-left: 3px solid #e0e0e0
-  padding-left: 0.6em
-  margin-left: 2.4em
-  blockquote
-    margin-left: 0
-
-.news label.timestamp
-  border-bottom: 1px dotted
-  cursor: help
-
-textarea.wiki-edit
-  width: 99%
-
-li p
-  margin-top: 0
-
-p
-  &.breadcrumb
-    font-size: 0.9em
-    margin: 4px 0 4px 0
-  &.subtitle
-    font-size: 0.9em
-    margin: -6px 0 12px 0
-    font-style: italic
-  &.footnote
-    font-size: 0.9em
-    margin-top: 0px
-    margin-bottom: 0px
-
-div.issue div.subject
-  div div
-    padding-left: 16px
-  p
-    margin: 0
-    margin-bottom: 0.1em
-    font-size: 90%
-    color: #999
-  > div > p
-    margin-top: 0.5em
-
 #issue_tree
   table.issues
     border: 0
@@ -441,124 +324,6 @@ div.issue div.subject
 
 th.hidden
   display: none
-
-.buttons
-  margin-bottom: 1.4em
-  margin-top: 1em
-
-div
-  &#work_package-changesets
-    float: right
-    width: 45%
-    margin: 1em 0 1em 1em
-    background: #fff
-    padding-left: 1em
-    h3
-      margin-top: 0
-    div.changeset
-      padding: 4px
-      border-bottom: 1px solid #ddd
-    p
-      margin-top: 0
-      margin-bottom: 1em
-  &#activity dl
-    margin-left: 2em
-
-#search-results
-  margin-left: 2em
-
-div#activity dd, #search-results dd
-  margin-bottom: 1em
-  padding-left: 18px
-  font-size: 0.9em
-
-div#activity
-  dt
-    &.me .time
-      border-bottom: 1px solid #999
-    .time
-      color: #777
-      font-size: 80%
-  dd .description
-    font-style: italic
-
-#search-results dd .description
-  font-style: italic
-
-div#activity span.project:after, #search-results span.project:after
-  content: " -"
-
-div#activity dd span.description
-  display: block
-  color: #808080
-
-#search-results dd
-  span.description
-    display: block
-    color: #808080
-  margin-bottom: 1em
-  padding-left: 20px
-  margin-left: 0px
-
-div#search-results-counts
-  float: right
-  ul
-    margin-top: 0.5em
-  li
-    list-style-type: none
-    float: left
-    margin-left: 1em
-
-.search-pagination
-  text-align: center
-  a
-    padding: 0 5px
-
-#project-search-container .select2-container
-  display: block
-
-div
-  &#roadmap
-    .related-issues
-      border: 0
-      margin-bottom: 1em
-      td.checkbox
-        display: none
-    .wiki
-      h1
-        &:first-child
-          display: none
-        font-size: 120%
-      h2
-        font-size: 110%
-  &#version-summary
-    float: right
-    width: 380px
-    margin-left: 16px
-    margin-bottom: 16px
-    background-color: #fff
-    fieldset
-      margin-bottom: 1em
-    .total-hours
-      text-align: right
-
-.top-page
-  width: 100%
-  border-bottom: 1px solid #bbbbbb
-  margin: 0 0 10px
-  h2
-    padding-right: 0px !important
-    border: none
-    margin: 0
-    text-align: left
-    display: block
-    text-overflow: ellipsis
-    white-space: nowrap
-    overflow: hidden
-  ul
-    margin: 0
-    text-align: right
-    white-space: nowrap
 
 table#time-report
   td.hours
@@ -582,75 +347,42 @@ table#time-report
   .hours-dec
     font-size: 0.9em
 
-form .attributes
-  margin-bottom: 8px
-  overflow: auto
-  p
-    padding-top: 1px
-    padding-bottom: 2px
-  select
-    min-width: 50%
-
-ul.projects
-  margin: 0
-  padding-left: 1em
-  &.root
-    margin: 0
-    padding: 0
-  ul
-    border: none
-    &.projects
-      border-left: 3px solid #e0e0e0
-  li
-    &.root
-      list-style-type: none
-      margin-bottom: 1em
-    &.child
-      list-style-type: none
-      margin-top: 1em
-  div.root a.project
-    font-weight: bold
-    font-size: 16px
-    margin: 0 0 10px 0
-
-#type_project_ids
-  ul
-    margin: 0
-    padding-left: 1em
-  li
-    list-style-type: none
-
-ul.properties
-  padding: 0
-  font-size: 0.9em
-  color: #333
-  li
-    list-style-type: none
-    span
-      font-style: italic
-
-.total-hours
-  font-size: 110%
-  font-weight: bold
-  span.hours-int
-    font-size: 120%
-
-.autoscroll
-  overflow-x: auto
-  padding: 1px
-  margin-bottom: 1.2em
-
-#user_firstname, #user_lastname, #user_mail, #my_account_form select
-  width: 90%
-
-#workflow_copy_form select
-  width: 200px
-
-textarea#custom_field_possible_values
-  width: 99%
-
-.legacy-pagination
-  font-size: 90%
-
-p.legacy-pagination
-  margin-top: 8px
+#content table
+  &.issues
+    width: 100%
+  th
+    font-weight: normal
+  &.issues td
+    border: 0 none
+    padding: 3px 6px
+    text-align: left
+    position: relative
+    vertical-align: top
+  th
+    a:hover
+    &.current-sort
+      background: white image-url("gradient-up.png") repeat-x
+      a
+        background: image-url("sort_desc.png") no-repeat right center
+        padding-right: 16px
+        display: block
+  tr
+    &.odd
+      background-color: white
+    &.even
+      background-color: #f6f7f8
+      &:hover
+        background-color: #FFD
+    &.odd:hover
+      background-color: #FFD
+    &.context-menu-selection
+      background-color: #FFFFB2
+      &:hover
+        background-color: #FFFFB2
+  td
+    &.issue
+      background: image-url("arrow-bottom-right.png") no-repeat right bottom
+      width: 42px
+      cursor: context-menu
+    &.updated
+      width: 80px

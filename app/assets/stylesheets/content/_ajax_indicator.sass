@@ -26,6 +26,46 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/accessibility
-@import global/variables
-@import global/mixins
+/***** Ajax indicator *****
+
+#ajax-indicator
+  position: absolute
+  /* fixed not supported by IE
+  background-color: #eee
+  border: 1px solid #bbb
+  top: 35%
+  left: 40%
+  width: 20%
+  font-weight: bold
+  text-align: center
+  padding: 0.6em
+  z-index: 100
+  opacity: 0.5
+
+html > body #ajax-indicator
+  position: fixed
+
+#ajax-indicator span, .ajax-indicator
+  background-position: 0% 40%
+  background-repeat: no-repeat
+  background-image: image-url("loading.gif")
+  padding-left: 26px
+  vertical-align: bottom
+
+.ajax_appended_information.loading .ajax-indicator
+  padding-left: 22px
+  display: block
+  width: 0
+  margin-left: auto
+  margin-right: auto
+  white-space: nowrap
+
+/***** Ajax indicator *****
+
+// FIXME: find out which values actually apply
+#ajax-indicator
+  position: absolute
+  /* fixed not supported by IE
+  background-color: #d9d9d9
+  border: 1px solid #8f8f8f
+  opacity: 0.7

@@ -34,61 +34,66 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :action_menu_specific do %>
   <%= link_to l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add' %>
 <% end %>
-
 <% html_title(l(:label_administration), l(:label_project_plural)) -%>
-
 <h2><%=l(:label_project_plural)%></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
 <%= form_tag({}, :method => :get) do %>
-<fieldset><legend><%= l(:label_filter_plural) %></legend>
-<label for='status'><%= Project.human_attribute_name(:status) %> :</label>
-<%= select_tag 'status', project_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
-<label for='name'><%= Project.model_name.human %>:</label>
-<%= text_field_tag 'name', params[:name], :size => 30 %>
-<%= submit_tag l(:button_apply), :class => "small", :name => nil %>
-<%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'icon icon-undo' %>
-</fieldset>
+  <fieldset><legend><%= l(:label_filter_plural) %></legend>
+    <div class="vertical grid-block">
+      <div class="grid-block">
+        <div class="grid-content">
+          <label for='status'><%= Project.human_attribute_name(:status) %> :</label>
+          <%= select_tag 'status', project_status_options_for_select(@status), :class => "form--select -small", :onchange => "this.form.submit(); return false;"  %>
+        </div>
+        <div class="grid-content">
+          <label for='name'><%= Project.model_name.human %>:</label>
+          <%= text_field_tag 'name', params[:name], :size => 30, class: 'form--select -small' %>
+        </div>
+      </div>
+      <div class="grid-content">
+        <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
+        <%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'button -small icon icon-undo' %>
+      </div>
+    </div>
+  </fieldset>
 <% end %>
 &nbsp;
 
 <div class="autoscroll">
-<table class="list">
-  <thead><tr>
-    <th><%=  Project.model_name.human %></th>
-    <th><%=  Project.human_attribute_name(:is_public) %></th>
-    <th><%=  Project.human_attribute_name(:created_on) %></th>
-  <th></th>
-  </tr></thead>
-  <tbody>
-<% project_tree(@projects) do |project, level| %>
-  <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-  <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
-  <td align="center"><%= checked_image project.is_public? %></td>
-  <td align="center"><%= format_date(project.created_on) %></td>
-  <td class="buttons">
-    <%= link_to(l(:button_archive),
+  <table class="list">
+    <thead>
+      <tr>
+        <th><%=  Project.model_name.human %></th>
+        <th><%=  Project.human_attribute_name(:is_public) %></th>
+        <th><%=  Project.human_attribute_name(:created_on) %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% project_tree(@projects) do |project, level| %>
+        <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+          <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
+          <td align="center"><%= checked_image project.is_public? %></td>
+          <td align="center"><%= format_date(project.created_on) %></td>
+          <td class="buttons">
+            <%= link_to(l(:button_archive),
                 archive_project_path(project, :status => params[:status]),
                 :confirm => l(:text_are_you_sure),
                 :method => :put,
                 :class => 'icon icon-locked') if project.active? %>
-
-    <%= link_to(l(:button_unarchive),
+            <%= link_to(l(:button_unarchive),
                 unarchive_project_path(project, :status => params[:status]),
                 :method => :put,
                 :class => 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
-
-    <%= link_to(l(:button_copy),
+            <%= link_to(l(:button_copy),
                 copy_from_project_path(project, :admin),
                 :class => 'icon icon-copy') %>
-
-    <%= link_to(l(:button_delete),
+            <%= link_to(l(:button_delete),
                 confirm_destroy_project_path(project),
                 :class => 'icon icon-delete') %>
-  </td>
-  </tr>
-<% end %>
-  </tbody>
-</table>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

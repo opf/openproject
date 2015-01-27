@@ -26,102 +26,87 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= header_tags %>
-
 <h2><%= @copy ? l(:button_copy) : l(:button_move) %></h2>
-
 <ul>
-<% @work_packages.each do |work_package| -%>
-  <li><%= link_to_work_package work_package %></li>
-<% end -%>
+  <% @work_packages.each do |work_package| -%>
+    <li><%= link_to_work_package work_package %></li>
+  <% end -%>
 </ul>
-
 <%= form_tag({:action => 'create'}, :id => 'move_form') do %>
-<%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
-
-<div class="box tabular">
-<fieldset class="attributes">
-<legend><%= l(:label_change_properties) %></legend>
-
-<div class="splitcontentleft">
-<p><label for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
-<%= select_tag "new_project_id",
-               project_tree_options_for_select(@allowed_projects, :selected => @target_project),
-               :onchange => remote_function(:url => { :action => 'new' },
-                                            :method => :get,
-                                            :update => 'content',
-                                            :with => "Form.serialize('move_form')") %></p>
-
-<p><label for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
-  <%= select_tag("new_type_id",
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 options_from_collection_for_select(@types, "id", "name")) %>
-</p>
-
-<p>
-  <label for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
-  <%= select_tag('status_id',
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 options_from_collection_for_select(@available_statuses, :id, :name)) %>
-</p>
-
-<p>
-  <label for='priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
-  <%= select_tag('priority_id',
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
-</p>
-
-<p>
-  <label for='assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
-  <%= select_tag('assigned_to_id',
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 content_tag('option', l(:label_nobody), :value => 'none') +
-                 options_from_collection_for_select(@target_project.possible_assignees, :id, :name)) %>
-</p>
-<p>
-  <label for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
-  <%= select_tag('responsible_id',
-                 content_tag('option', l(:label_no_change_option), :value => '') +
-                 content_tag('option', l(:label_nobody), :value => 'none') +
-                 options_from_collection_for_select(@target_project.possible_responsibles, :id, :name)) %>
-</p>
-</div>
-
-<div class="splitcontentright">
-<p>
-  <label for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
-  <%= text_field_tag 'start_date', '', :size => 10 %><%= calendar_for('start_date') %>
-</p>
-
-<p>
-  <label for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
-  <%= text_field_tag 'due_date', '', :size => 10 %><%= calendar_for('due_date') %>
-</p>
-</div>
-
-</fieldset>
-
-<fieldset><legend><%= Journal.human_attribute_name(:notes) %></legend>
-
-<%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
-<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
+  <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+  <div class="box tabular">
+    <fieldset class="attributes">
+      <legend><%= l(:label_change_properties) %></legend>
+      <div class="grid-block">
+        <div class="grid-content">
+          <p><label for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
+            <%= select_tag "new_project_id",
+                 project_tree_options_for_select(@allowed_projects, :selected => @target_project),
+                 :onchange => remote_function(:url => { :action => 'new' },
+                                              :method => :get,
+                                              :update => 'content',
+                                              :with => "Form.serialize('move_form')") %></p>
+          <p><label for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
+            <%= select_tag("new_type_id",
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   options_from_collection_for_select(@types, "id", "name")) %>
+          </p>
+          <p>
+            <label for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
+            <%= select_tag('status_id',
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   options_from_collection_for_select(@available_statuses, :id, :name)) %>
+          </p>
+          <p>
+            <label for='priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
+            <%= select_tag('priority_id',
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
+          </p>
+          <p>
+            <label for='assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
+            <%= select_tag('assigned_to_id',
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   content_tag('option', l(:label_nobody), :value => 'none') +
+                   options_from_collection_for_select(@target_project.possible_assignees, :id, :name)) %>
+          </p>
+          <p>
+            <label for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
+            <%= select_tag('responsible_id',
+                   content_tag('option', l(:label_no_change_option), :value => '') +
+                   content_tag('option', l(:label_nobody), :value => 'none') +
+                   options_from_collection_for_select(@target_project.possible_responsibles, :id, :name)) %>
+          </p>
+        </div>
+        <div class="grid-content">
+          <p>
+            <label for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
+            <%= text_field_tag 'start_date', '', :size => 10 %><%= calendar_for('start_date') %>
+          </p>
+          <p>
+            <label for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
+            <%= text_field_tag 'due_date', '', :size => 10 %><%= calendar_for('due_date') %>
+          </p>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset><legend><%= Journal.human_attribute_name(:notes) %></legend>
+      <%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
+      <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
                   :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @target_project, :format => :json) %>
-<%= wikitoolbar_for 'notes' %>
-</fieldset>
-
-<%= call_hook(:view_work_packages_move_bottom, :work_packages => @work_packages, :target_project => @target_project, :copy => !!@copy) %>
-</div>
-
-<% if @copy %>
-  <%= hidden_field_tag("copy") %>
-  <%= submit_tag l(:button_copy) %>
-  <%= submit_tag l(:button_copy_and_follow), :name => 'follow' %>
-<% else %>
-  <%= submit_tag l(:button_move) %>
-  <%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
-<% end %>
+      <%= wikitoolbar_for 'notes' %>
+    </fieldset>
+    <%= call_hook(:view_work_packages_move_bottom, :work_packages => @work_packages, :target_project => @target_project, :copy => !!@copy) %>
+  </div>
+  <% if @copy %>
+    <%= hidden_field_tag("copy") %>
+    <%= submit_tag l(:button_copy), class: 'button -highlight' %>
+    <%= submit_tag l(:button_copy_and_follow), :name => 'follow', class: 'button -highlight' %>
+  <% else %>
+    <%= submit_tag l(:button_move), class: 'button -highlight' %>
+    <%= submit_tag l(:button_move_and_follow), :name => 'follow', class: 'button -highlight' %>
+  <% end %>
 <% end %>
 <% content_for :header_tags do %>
   <%= robot_exclusion_tag %>

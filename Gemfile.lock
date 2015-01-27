@@ -384,7 +384,7 @@ GEM
       json (>= 1.7.5)
       structured_warnings (>= 0.1.3)
     rubyzip (1.1.6)
-    sass (3.3.14)
+    sass (3.4.9)
     selenium-webdriver (2.44.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
@@ -516,7 +516,7 @@ DEPENDENCIES
   ruby-prof
   ruby-progressbar
   rubytree (~> 0.8.3)
-  sass (~> 3.3.6)
+  sass (~> 3.4.9)
   sass-rails!
   selenium-webdriver (~> 2.44.0)
   shoulda

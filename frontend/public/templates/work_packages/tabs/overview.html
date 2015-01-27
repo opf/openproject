@@ -1,8 +1,14 @@
-<div class="detail-panel-description">
+<div class="attributes-group">
 
-  <h3>{{ I18n.t('js.label_description') }}</h3>
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">
+        {{ I18n.t('js.label_description') }}
+      </h3>
+    </div>
+  </div>
 
-  <div class="detail-panel-description-content wiki">
+  <div class="single-attribute wiki">
     <span inplace-editor
           ined-type="wiki_textarea"
           ined-entity="workPackage"
@@ -14,68 +20,74 @@
   </div>
 </div>
 
-<div class="detail-panel-attributes">
-  <div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="detail-panel-attributes-group">
-    <h3 ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
-    <dl>
-      <dt ng-repeat-start="propertyData in group.attributes"
-          ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
-          ng-bind="propertyData.label"
-          class="work-package-attributes--label">
-      </dt>
-      <dd ng-repeat-end
-          ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
-          class="work-package-attributes--value-container">
-        <div ng-if="inplaceProperties[propertyData.property]"
-          ng-class="['work-package-attributes--value', '-' + propertyData.format]">
-          <div inplace-editor
-            ined-type="{{inplaceProperties[propertyData.property].type}}"
-            ined-entity="workPackage"
-            ined-attribute="{{inplaceProperties[propertyData.property].attribute}}"
-            ined-attribute-embedded="inplaceProperties[propertyData.property].embedded"
-            placeholder="{{inplaceProperties[propertyData.property].placeholder}}">
-          </div>
-        </div>
-        <div ng-if="!inplaceProperties[propertyData.property]"
-          ng-class="['work-package-attributes--value', '-' + propertyData.format]">
-          <empty-element ng-if="propertyData.value === null"></empty-element>
-          <div ng-if="propertyData.value !== null" ng-switch="propertyData.format">
-            <div ng-class="['work-package-attributes--value', '-' + propertyData.format]">
-              <span ng-switch-when="dynamic" work-package-dynamic-attribute
-                                             html-element="propertyData.value"
-                                             work-package="workPackage">
-              </span>
-              <span ng-switch-when="user">
-                <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}"
-                  ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
-                <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
-              </span>
-              <span ng-switch-when="version">
-                <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}"
-                  ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
-                <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
-              </span>
-              <span ng-switch-when="time_entry">
-                <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}"
-                  ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
-                <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
-              </span>
-              <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
-              <span ng-switch-default
-                ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
-                ng-attr-title="{{propertyData.value}}"/>
-            </div>
-          </div>
-        </div>
-      </dd>
-    </dl>
+<div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="attributes-group">
+
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"
+        ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+    </div>
+    <div class="attributes-group--header-toggle">
+      <panel-expander ng-if="anyEmptyWorkPackageValue() && $first"
+        collapsed="toggleStates.hideAllAttributes"
+        expand-text="{{ I18n.t('js.label_show_attributes') }}"
+        collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
+      </panel-expander>
+    </div>
   </div>
 
-  <panel-expander if="anyEmptyWorkPackageValue()"
-                  collapsed="toggleStates.hideAllAttributes"
-                  expand-text="{{ I18n.t('js.label_show_attributes') }}"
-                  collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
-  </panel-expander>
+  <dl class="attributes-key-value">
+    <dt ng-repeat-start="propertyData in group.attributes"
+        ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
+        ng-bind="propertyData.label"
+        class="attributes-key-value--key">
+    </dt>
+    <dd ng-repeat-end
+        ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
+        class="attributes-key-value--value-container">
+      <div ng-if="inplaceProperties[propertyData.property]"
+        ng-class="['attributes-key-value--value', '-' + propertyData.format]">
+        <div inplace-editor
+          ined-type="{{inplaceProperties[propertyData.property].type}}"
+          ined-entity="workPackage"
+          ined-attribute="{{inplaceProperties[propertyData.property].attribute}}"
+          ined-attribute-embedded="inplaceProperties[propertyData.property].embedded"
+          placeholder="{{inplaceProperties[propertyData.property].placeholder}}">
+        </div>
+      </div>
+      <div ng-if="!inplaceProperties[propertyData.property]"
+        ng-class="['attributes-key-value--value', '-' + propertyData.format]">
+        <empty-element ng-if="propertyData.value === null"></empty-element>
+        <div ng-if="propertyData.value !== null" ng-switch="propertyData.format">
+          <div ng-class="['attributes-key-value--value', '-' + propertyData.format]">
+            <span ng-switch-when="dynamic" work-package-dynamic-attribute
+                                           html-element="propertyData.value"
+                                           work-package="workPackage">
+            </span>
+            <span ng-switch-when="user">
+              <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}"
+                ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+              <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
+            </span>
+            <span ng-switch-when="version">
+              <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}"
+                ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+              <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
+            </span>
+            <span ng-switch-when="time_entry">
+              <a ng-if="propertyData.value.viewable" title="{{propertyData.value.title}}"
+                ng-href="{{propertyData.value.href}}">{{propertyData.value.title}}</a>
+              <span ng-if="!propertyData.value.viewable" title="{{propertyData.value.title}}">{{propertyData.value.title}}</span>
+            </span>
+            <span ng-switch-when="category">{{ propertyData.value.props.name }}</span>
+            <span ng-switch-default
+              ng-bind="(propertyData.value !== undefined) ? propertyData.value : '-'"
+              ng-attr-title="{{propertyData.value}}"/>
+          </div>
+        </div>
+      </div>
+    </dd>
+  </dl>
 </div>
 
 <div class="detail-panel-latest-activity">

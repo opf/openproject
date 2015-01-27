@@ -33,5 +33,5 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for(@group) do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <p><%= f.submit l(:button_create) %></p>
+  <p><%= f.submit l(:button_create), class: 'button -highlight' %></p>
 <% end %>

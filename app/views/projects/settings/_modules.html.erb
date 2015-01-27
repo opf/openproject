@@ -31,19 +31,15 @@ See doc/COPYRIGHT.rdoc for more details.
              :url => { :action => 'modules', :id => @project },
              :method => :put,
              :html => {:id => 'modules-form'} do |f| %>
-
-<div class="box">
-<fieldset>
-<legend><%= l(:text_select_project_modules) %></legend>
-
-<% Redmine::AccessControl.available_project_modules.each do |m| %>
-<p><label><%= check_box_tag 'enabled_module_names[]', m, @project.module_enabled?(m) -%>
- <%= l_or_humanize(m, :prefix => "project_module_") %></label></p>
-<% end %>
-</fieldset>
-</div>
-
-<p><%= check_all_links 'modules-form' %></p>
-<p><%= submit_tag l(:button_save) %></p>
-
+  <div class="box">
+    <fieldset>
+      <legend><%= l(:text_select_project_modules) %></legend>
+      <% Redmine::AccessControl.available_project_modules.each do |m| %>
+        <p><label><%= check_box_tag 'enabled_module_names[]', m, @project.module_enabled?(m) -%>
+            <%= l_or_humanize(m, :prefix => "project_module_") %></label></p>
+      <% end %>
+    </fieldset>
+  </div>
+  <p><%= check_all_links 'modules-form' %></p>
+  <p><%= submit_tag l(:button_save), class: 'button -highlight' %></p>
 <% end %>

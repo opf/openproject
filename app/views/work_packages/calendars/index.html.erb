@@ -26,54 +26,51 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <h2><%= @query.new_record? ? l(:label_calendar) : h(@query.name) %></h2>
-
 <%= form_tag(work_packages_calendar_index_path, :method => :get, :id => 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
-<fieldset id="filters" class="header_collapsible collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-  <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
-  <div class=""<%= " style=\"display: none;\"" if !@query.new_record? %>>
-    <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+  <fieldset id="filters" class="header_collapsible collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+    <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
+    <div class=""<%= " style=\"display: none;\"" if !@query.new_record? %>>
+      <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    </div>
+  </fieldset>
+  <p style="float:right;">
+    <%= link_to_previous_month(@year, @month, :project => @project) %> | <%= link_to_next_month(@year, @month, :project => @project) %>
+  </p>
+  <div class="vertical medium-horizontal grid-block">
+    <div class="grid-content">
+      <%= label_tag('month', l(:label_month)) %>
+      <%= select_month(@month, { :prefix => "month", :discard_type => true }, class: 'form--select -small') %>
+    </div>
+    <div class="grid-content">
+      <%= label_tag('year', l(:label_year)) %>
+      <%= select_year(@year, { :prefix => "year", :discard_type => true }, class: 'form--select -small') %>
+    </div>
+    <div class="grid-content">
+      <%= link_to_remote l(:button_apply),
+                       { :url => { :set_filter => 1 },
+                         :method => :get,
+                         :update => "content",
+                         :with => "jQuery('#query_form').serialize()"
+                       }, :class => 'button -small icon icon-yes' %>
+      <%= link_to_remote l(:button_clear),
+                       { :url => { :project_id => @project, :set_filter => 1 },
+                         :method => :get,
+                         :update => "content",
+                       }, :class => 'button -small icon icon-undo' %>
+    </div>
   </div>
-</fieldset>
-
-<p style="float:right;">
-  <%= link_to_previous_month(@year, @month, :project => @project) %> | <%= link_to_next_month(@year, @month, :project => @project) %>
-</p>
-
-<p class="buttons">
-<%= label_tag('month', l(:label_month)) %>
-<%= select_month(@month, :prefix => "month", :discard_type => true) %>
-<%= label_tag('year', l(:label_year)) %>
-<%= select_year(@year, :prefix => "year", :discard_type => true) %>
-
-<%= link_to_remote l(:button_apply),
-                   { :url => { :set_filter => 1 },
-                     :method => :get,
-                     :update => "content",
-                     :with => "jQuery('#query_form').serialize()"
-                   }, :class => 'icon icon-yes' %>
-
-<%= link_to_remote l(:button_clear),
-                   { :url => { :project_id => @project, :set_filter => 1 },
-                     :method => :get,
-                     :update => "content",
-                   }, :class => 'icon icon-undo' %>
-</p>
 <% end %>
-
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
-<%= render :partial => 'common/calendar', :locals => {:calendar => @calendar} %>
-
-<p class="legend cal">
-  <span class="starting"><%= l(:text_tip_work_package_begin_day) %></span>
-  <span class="ending"><%= l(:text_tip_work_package_end_day) %></span>
-  <span class="starting ending"><%= l(:text_tip_work_package_begin_end_day) %></span>
-</p>
+  <%= render :partial => 'common/calendar', :locals => {:calendar => @calendar} %>
+  <p class="legend cal">
+    <span class="starting"><%= l(:text_tip_work_package_begin_day) %></span>
+    <span class="ending"><%= l(:text_tip_work_package_end_day) %></span>
+    <span class="starting ending"><%= l(:text_tip_work_package_begin_end_day) %></span>
+  </p>
 <% end %>
-
 <% content_for :sidebar do %>
   <%= render :partial => 'work_packages/sidebar' %>
 <% end %>

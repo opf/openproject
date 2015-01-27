@@ -77,7 +77,7 @@ describe ProjectsController, type: :controller do
       it 'renders main menu without wiki menu item' do
         get 'show', @params
 
-        assert_select '#main-menu a.Wiki', false # assert_no_select
+        assert_select '#main-menu a.Wiki-menu-item', false # assert_no_select
       end
     end
 
@@ -98,7 +98,7 @@ describe ProjectsController, type: :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          assert_select '#main-menu a.Wiki', 'Wiki'
+          assert_select '#main-menu a.Wiki-menu-item', 'Wiki'
         end
       end
 
@@ -117,13 +117,13 @@ describe ProjectsController, type: :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          assert_select '#main-menu a.Example', 'Example'
+          assert_select '#main-menu a.Example-menu-item', 'Example'
         end
 
         it 'renders main menu with sub wiki menu item' do
           get 'show', @params
 
-          assert_select '#main-menu a.Sub', 'Sub'
+          assert_select '#main-menu a.Sub-menu-item', 'Sub'
         end
       end
     end
@@ -142,7 +142,7 @@ describe ProjectsController, type: :controller do
 
       it 'renders main menu with activity tab' do
         get 'show', @params
-        assert_select '#main-menu a.activity'
+        assert_select '#main-menu a.activity-menu-item'
       end
     end
 
@@ -160,7 +160,7 @@ describe ProjectsController, type: :controller do
 
       it 'renders main menu without activity tab' do
         get 'show', @params
-        expect(response.body).not_to have_selector '#main-menu a.activity'
+        expect(response.body).not_to have_selector '#main-menu a.activity-menu-item'
       end
     end
   end

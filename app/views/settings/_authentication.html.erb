@@ -97,12 +97,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <p><%= setting_check_box :rest_api_enabled %></p>
     </fieldset>
   </div>
-
   <% unless OpenProject::Configuration.disable_password_login? %>
     <div style="float:right;">
-        <%= link_to l(:label_ldap_authentication), {:controller => '/ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-key' %>
+      <%= link_to l(:label_ldap_authentication), {:controller => '/ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-key' %>
     </div>
   <% end %>
-
-  <%= submit_tag l(:button_save) %>
+  <%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

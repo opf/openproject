@@ -28,6 +28,7 @@
 //= require_self
 //= require coderay
 
+@import open_project_global/all
 @import fonts/openproject_icon_font
 
 div.changeset-changes ul
@@ -111,7 +112,7 @@ table.filecontent
       color: inherit
 
   td.line-code pre
-    margin: 0px
+    margin: 0
     white-space: pre-wrap
     white-space: -moz-pre-wrap
     white-space: -o-pre-wrap
@@ -208,4 +209,4 @@ tr
       td
         &.filename
           a
-            margin-left: $repository_entry_filename_margin_left
+            margin-left: $repository-entry-filename-margin-left

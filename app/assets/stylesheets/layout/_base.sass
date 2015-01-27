@@ -26,21 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/all
-
 html
-  @include html_body_spacing
   min-width: 1100px
   &.in_modal
     min-width: 0
 
 body
-  @include html_body_spacing
-  color: $global_font_color
-  font: normal normal normal $global_font_size $font_family_normal
-  line-height: $global_line_height
-  background: white
-
   &%absolute-layout-mode
     overflow:
       x: auto
@@ -48,45 +39,31 @@ body
 
 #wrapper
   @include default-transition
-  +background-image(linear-gradient(to bottom, $main_menu_bg_color 0%, $main_menu_bg_color 100%))
+  +background-image(linear-gradient(to bottom, $main-menu-bg-color 0%, $main-menu-bg-color 100%))
   background-repeat: no-repeat
-  background-size: $main_menu_width 100%
+  background-size: $main-menu-width 100%
   min-height: 100%
   height: auto
   position: relative
   &.nosidebar, &.nomenus
     background: none
   &.hidden-navigation
-    background-size: $main_menu_folded_width 100%
+    background-size: $main-menu-folded-width 100%
 
-h1
-  margin: 0
-  padding: 0
-  font-size: 24px
-h3, .wiki h2
-  font-size: 16px
-  padding: 2px 10px 1px 0px
-  margin: 0 0 10px 0
-  border-bottom: 1px solid #bbbbbb
-h4, .wiki h3
-  font-size: 13px
-  padding: 0px 10px 1px 0px
-  margin-bottom: 5px
-  border-bottom: 1px dotted #bbbbbb
 
 #main
-  z-index: 20
+  width:    100%
+  z-index:  20
   overflow: auto
-  padding-bottom: $footer_height
+  padding-bottom: $footer-height
 
   %absolute-layout-mode &
     position: absolute
     top:      55px
     bottom:   0
-    width:    100%
     overflow: hidden
     border:
-      bottom: 5px solid $footer_bg_color
+      bottom: 5px solid $footer-bg-color
 
   &.nomenus
     padding-bottom: 0
@@ -96,27 +73,25 @@ h4, .wiki h3
 
 #content
   @include default-transition
-  margin: 0 0 0 $main_menu_width
+  margin: 0 0 0 $main-menu-width
   padding: 10px 20px
   width: auto
   overflow: hidden
   height: auto
   background-color: #fff
-  border-style: none solid solid solid
   z-index: 10
 
   %absolute-layout-mode &
     position:   absolute
-    box-sizing: border-box
-    width:      calc(100% - #{$main_menu_width})
+    width:      calc(100% - #{$main-menu-width})
     height:     calc(100% - 40px)
     padding:    10px 0 0 20px
 
   &.hidden-navigation
-    margin-left: $main_menu_folded_width
+    margin-left: $main-menu-folded-width
 
     %absolute-layout-mode &
-      width:    calc(100% - #{$main_menu_folded_width})
+      width:    calc(100% - #{$main-menu-folded-width})
 
   &.nosidebar
     margin-left: 0

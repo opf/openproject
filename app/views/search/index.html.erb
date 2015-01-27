@@ -30,52 +30,43 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= call_hook :search_index_head %>
 <% end %>
-
 <h2><%= l(:label_search) %></h2>
-
 <div class="box">
-<%= form_tag(search_path(@project), :method => :get) do %>
-<%= label_tag "search-input", l(:description_search), :class => "hidden-for-sighted" %>
-<p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
-<%= javascript_tag "Field.focus('search-input')" %>
-<%= project_select_tag %>
-<label><%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></label>
-<label><%= check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %></label>
-</p>
-<p>
-<% @object_types.each do |t| %>
-<label><%= check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %></label>
-<% end %>
-</p>
-
-<p><%= submit_tag l(:button_submit), :name => 'submit' %></p>
-<% end %>
-</div>
-
-<% if @results %>
-    <div id="search-results-counts">
-    <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
-    </div>
-
-    <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
-
-    <%= render :partial => 'pagination', :locals => {:pagination_previous_date => @pagination_previous_date, :pagination_next_date => @pagination_next_date } %>
-
-    <dl id="search-results">
-      <% @results.each do |e| %>
-        <dt class="<%= e.event_type %>">
-          <%= icon_wrapper("icon-context icon-#{e.event_type}", e.event_name) %>
-          <% if e.project != @project %>
-            <span class="project"><%= e.project %></span>
-          <% end %>
-          <%= link_to highlight_tokens(truncate(e.event_title, :length => 255), @tokens), with_notes_anchor(e, @tokens) %>
-        </dt>
-        <dd><span class="description"><%= highlight_first([last_journal(e).try(:notes), e.event_description], @tokens) %></span>
-        <span class="author"><%= format_time(e.event_datetime) %></span></dd>
+  <%= form_tag(search_path(@project), :method => :get) do %>
+    <%= label_tag "search-input", l(:description_search), :class => "hidden-for-sighted" %>
+    <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
+      <%= javascript_tag "Field.focus('search-input')" %>
+      <%= project_select_tag %>
+      <label><%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></label>
+      <label><%= check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %></label>
+    </p>
+    <p>
+      <% @object_types.each do |t| %>
+        <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %></label>
       <% end %>
-    </dl>
+    </p>
+    <p><%= submit_tag l(:button_submit), :name => 'submit', class: 'button -highlight' %></p>
+  <% end %>
+</div>
+<% if @results %>
+  <div id="search-results-counts">
+    <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
+  </div>
+  <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
+  <%= render :partial => 'pagination', :locals => {:pagination_previous_date => @pagination_previous_date, :pagination_next_date => @pagination_next_date } %>
+  <dl id="search-results">
+    <% @results.each do |e| %>
+      <dt class="<%= e.event_type %>">
+        <%= icon_wrapper("icon-context icon-#{e.event_type}", e.event_name) %>
+        <% if e.project != @project %>
+          <span class="project"><%= e.project %></span>
+        <% end %>
+        <%= link_to highlight_tokens(truncate(e.event_title, :length => 255), @tokens), with_notes_anchor(e, @tokens) %>
+      </dt>
+      <dd><span class="description"><%= highlight_first([last_journal(e).try(:notes), e.event_description], @tokens) %></span>
+        <span class="author"><%= format_time(e.event_datetime) %></span></dd>
+    <% end %>
+  </dl>
 <% end %>
-
 <%= render :partial => 'pagination', :locals => {:pagination_previous_date => @pagination_previous_date, :pagination_next_date => @pagination_next_date } %>
-
 <% html_title(l(:label_search)) -%>

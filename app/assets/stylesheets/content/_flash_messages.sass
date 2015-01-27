@@ -26,19 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/all
-
 #errorExplanation, .flash, .nodata, .warning
   padding: 4px
   margin: 0 0 10px 0
-  color: $content_flash_msg_font_color
+  color: $content-flash-msg-font-color
 
   %absolute-layout-mode &
     height: $content-flash-height
 
 .flash.error a:link, .flash.warning a:link, .flash.notice a:link, #errorExplanation a:link,
 .flash.error a:hover, .flash.warning a:hover, .flash.notice a:hover, #errorExplanation a:hover
-  @include default-font-normal($content_flash_msg_font_color)
+  @include default-font($content-flash-msg-font-color)
   text-decoration: none
   cursor: default
 
@@ -49,7 +47,7 @@
     @include animation(0.5s fade-out)
   i.close-handler
     float: right
-    font-size: $content_flash_icon_close_handler_font-size
+    font-size: $content-flash-icon-close-handler-font-size
     padding: 3px 2px
     cursor: pointer
 
@@ -62,13 +60,13 @@
     @extend .hidden-for-sighted
 
 .flash.error, #errorExplanation
-  background-color: $content_flash_error_msg_bg_color
+  background-color: $content-flash-error-msg-bg-color
 
 .flash.notice
-  background-color: $content_flash_notice_msg_bg_color
+  background-color: $content-flash-notice-msg-bg-color
 
 .flash.warning, .nodata, .warning
-  background-color: $content_flash_warning_msg_bg_color
+  background-color: $content-flash-warning-msg-bg-color
 
 .flash.permanent
   display: block

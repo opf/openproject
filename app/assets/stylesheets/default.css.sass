@@ -31,19 +31,21 @@
 //= require top-shelf
 //= require openproject_plugins
 //= require_self
-//= require legacy/main
 
-@import reset
 @import bourbon
-@import global/all
+
+@import open_project_global/all
+@import settings
+
 @import fonts/lato
 @import fonts/openproject_icon_font
+
+@import foundation
 
 @import layout/all
 @import content/accounts
 @import content/context_menu
 @import content/forms
-@import content/form_elements_input_textarea
 @import content/flash_messages
 @import content/calendar
 @import content/wiki
@@ -51,6 +53,7 @@
 @import content/action_menu_main
 @import content/legacy_actions
 @import content/my_page
+@import content/news
 @import content/buttons
 @import content/boxes
 @import content/tabular
@@ -58,6 +61,8 @@
 @import content/work_packages
 @import content/work_packages_filters
 @import content/work_packages_table
+@import content/attributes_key_value
+@import content/attributes_group
 
 @import content/work_package_details/tables
 @import content/work_package_details/activities_tab
@@ -71,6 +76,7 @@
 @import content/components_add_comments_default
 @import content/components_add_comments_onclick
 
+@import content/tables
 @import content/tabular
 @import content/headings
 @import content/timelines
@@ -79,6 +85,16 @@
 @import content/modal
 @import content/grid_table
 @import content/journal
+@import content/legacy_pagination
 @import content/pagination
 @import content/progress_bar
 @import content/in_place_editing
+
+@import content/form_error_messages
+@import content/ajax_indicator
+@import content/tooltips.sass
+@import content/tabs.sass
+@import content/autocomplete
+@import content/diff
+
+@import misc_legacy

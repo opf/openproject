@@ -26,25 +26,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <h2><%=l(:label_news_plural)%></h2>
-
 <% if @newss.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<% @newss.each do |news| %>
+  <% @newss.each do |news| %>
     <h3><%= avatar(news.author) %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
-    <%= link_to h(news.title), news_path(news) %>
-    <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
+      <%= link_to h(news.title), news_path(news) %>
+      <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
     <p class="author"><%= authoring news.created_on, news.author %></p>
     <div class="wiki">
       <%= format_text(news.summary.present? ? news.summary : truncate(news.description), :object => news) %>
     </div>
+  <% end %>
 <% end %>
-<% end %>
-
 <%= pagination_links_full @newss %>
-
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.rss_key} %>
 <% end %>

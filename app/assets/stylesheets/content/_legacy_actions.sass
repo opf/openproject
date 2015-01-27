@@ -26,9 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@mixin legacy_actions_defaults($margin-top: 7px)
+@mixin legacy-actions-defaults($margin-top: 7px)
   float: right
   margin-top: $margin-top
+  font-size: 0.9rem
   > li
     float: left
     position: relative
@@ -43,19 +44,23 @@
 
 
 ul.legacy-actions-main
-  @include legacy_actions_defaults
+  @include legacy-actions-defaults
 
 ul.legacy-actions-specific,
 .nosidebar ul.legacy-actions-specific
-  @include legacy_actions_defaults(-34px)
+  @include legacy-actions-defaults(-34px)
 
 p.subtitle + ul.legacy-actions-specific
-  @include legacy_actions_defaults(-57px)
+  @include legacy-actions-defaults(-57px)
 
 ul.legacy-actions-more
+  margin: 0
+  list-style-type: none
+  font-size: 0.9rem
+
   position: absolute
   top: 23px
-  right: 0px
+  right: 0
   z-index: 100
   white-space: nowrap
   padding: 5px 0 5px 0
@@ -76,7 +81,7 @@ ul.legacy-actions-more
 
 
 #lower-title-bar ul.legacy-actions-specific
-  @include legacy_actions_defaults
+  @include legacy-actions-defaults
   padding-top: 10px
 
 #lower-title-bar ul.legacy-actions-more
@@ -89,3 +94,14 @@ ul.legacy-actions-more
 
 .message-reply-menu
   @include contextual(-39px)
+
+.legacy-actions--inline-label
+  @extend .inline-label
+  height: 1.5em
+
+  .form-label
+    color: $content-icon-link-color
+  input, select
+    font-size: 1em
+  select
+    padding: 0 1.5rem 0.0 0.5rem

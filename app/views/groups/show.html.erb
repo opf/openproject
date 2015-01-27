@@ -26,11 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <h2><%= link_to l(:label_group_plural), groups_path %> &#187; <%=h @group %></h2>
-
 <ul>
-<% @group.users.each do |user| %>
+  <% @group.users.each do |user| %>
     <li><%=h user %></li>
-<% end %>
+  <% end %>
 </ul>

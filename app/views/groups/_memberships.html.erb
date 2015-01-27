@@ -26,68 +26,71 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <% roles = Role.find_all_givable %>
 <% projects = Project.active.find(:all, :order => 'lft') %>
 
-<div class="splitcontentleft">
-<% if @group.memberships.any? %>
-<table class="list memberships">
-  <thead><tr>
-    <th><%= Project.model_name.human %></th>
-    <th><%= l(:label_role_plural) %></th>
-    <th style="width:15%"></th>
-  </tr></thead>
-  <tbody>
-  <% @group.memberships.each do |membership| %>
-  <% next if membership.new_record? %>
-  <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
-  <td class="project"><%=h membership.project %></td>
-  <td class="roles">
-    <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
-    <%= form_tag(membership_of_group_path(@group, membership),
+<div class="grid-block">
+  <div class="grid-content">
+  <% if @group.memberships.any? %>
+    <table class="list memberships">
+      <thead>
+        <tr>
+          <th><%= Project.model_name.human %></th>
+          <th><%= l(:label_role_plural) %></th>
+          <th style="width:15%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @group.memberships.each do |membership| %>
+          <% next if membership.new_record? %>
+            <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
+              <td class="project"><%=h membership.project %></td>
+              <td class="roles">
+                <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
+                <%= form_tag(membership_of_group_path(@group, membership),
                  :method => :put,
                  :remote => true,
                  :id => "member-#{membership.id}-roles-form",
                  :style => 'display:none;') do %>
-        <p><% roles.each do |role| %>
-        <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role) %> <%=h role %></label><br />
-        <% end %></p>
-        <p><%= submit_tag l(:button_change) %>
-        <%= link_to_function l(:button_cancel), "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide(); return false;" %></p>
-    <% end %>
-  </td>
-  <td class="buttons">
-      <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-      <%= link_to l(:button_delete), membership_of_group_path(@group, membership),
+                  <p><% roles.each do |role| %>
+                      <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role) %> <%=h role %></label>
+                    <% end %></p>
+                  <p><%= submit_tag l(:button_change), class: 'button -highlight -small' %>
+                    <%= link_to_function l(:button_cancel), "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide(); return false;",
+              class: 'button -small' %></p>
+                <% end %>
+              </td>
+              <td class="buttons">
+                <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
+                <%= link_to l(:button_delete), membership_of_group_path(@group, membership),
                                      :method => :delete,
                                      :remote => true,
                                      :class => 'icon icon-delete' %>
-  </td>
-  </tr>
-  </tbody>
-<% end; reset_cycle %>
-</table>
-<% else %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-</div>
-
-<div class="splitcontentright">
-<% if projects.any? %>
-  <fieldset>
-    <legend><%=l(:label_project_new)%></legend>
-      <%= form_tag(memberships_of_group_path(@group),
+              </td>
+            </tr>
+          </tbody>
+        <% end; reset_cycle %>
+      </table>
+    <% else %>
+      <p class="nodata"><%= l(:label_no_data) %></p>
+    <% end %>
+  </div>
+  <div class="grid-content">
+    <% if projects.any? %>
+      <fieldset>
+        <legend><%=l(:label_project_new)%></legend>
+        <%= form_tag(memberships_of_group_path(@group),
                                              :method => :post,
                                              :remote => true) do %>
-        <%= label_tag "membership_project_id", l(:description_choose_project), :class => "hidden-for-sighted" %>
-        <%= select_tag 'membership[project_id]', options_for_membership_project_select(@group, projects) %>
-        <p>
-          <%= l(:label_role_plural) %>:
-          <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
-        <p>
-        <%= submit_tag l(:button_add) %></p>
+          <%= label_tag "membership_project_id", l(:description_choose_project), :class => "hidden-for-sighted" %>
+          <%= select_tag 'membership[project_id]', options_for_membership_project_select(@group, projects) %>
+          <p>
+            <%= l(:label_role_plural) %>:
+            <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
+            <p>
+              <%= submit_tag l(:button_add), class: 'button -highlight' %></p>
+          <% end %>
+        </fieldset>
       <% end %>
-  </fieldset>
-<% end %>
+    </div>
 </div>

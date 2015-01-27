@@ -45,8 +45,9 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 
   <p>
-    <%= form.submit l(:button_delete) %>
-    <%= link_to l(:button_cancel), { :controller => '/my', :action => 'account' } %>
+    <%= form.submit l(:button_delete), class: 'button -highlight' %>
+    <%= link_to l(:button_cancel), { :controller => '/my', :action => 'account' },
+          class: 'button' %>
   </p>
 <% end %>
 

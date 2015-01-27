@@ -27,7 +27,7 @@
 //++
 
 $ng-modal-padding:       3em
-$ng-modal-background:    $base-body-color
+$ng-modal-background:    $body-background
 $ng-modal-close-color:   $light-gray
 $ng-modal-image-height:  135px
 $ng-modal-image-width:   $ng-modal-image-height
@@ -39,13 +39,13 @@ $ng-modal-image-width:   $ng-modal-image-height
 
 .ng-modal-window
   // overlay
-  +position(fixed, 0px 0px 0px 0px)
+  +position(fixed, 0 0 0 0)
   background: rgba(0, 0, 0, 0.5)
   text-align: left
   z-index: 10000
 
   .ng-modal-bg
-    +position(absolute, 0px 0px 0px 0px)
+    +position(absolute, 0 0 0 0)
     cursor: pointer
 
   &.ng-enter
@@ -99,7 +99,6 @@ $ng-modal-image-width:   $ng-modal-image-height
     padding: 0 5px
     background: #ffffff
     border: 1px solid #cacaca
-    font-size: 13px
     color: #222222
     border-radius: 2px
   button
@@ -131,11 +130,11 @@ ul.export-options
     a
       cursor: pointer
       text-decoration: none
-      color: $global_font_color
+      color: $body-font-color
       font-weight: normal
       &:hover, &:active
         text-decoration: none
-        color: $global_font_color
+        color: $body-font-color
       span.export-label
         display: block
         padding: 10px 0 0 0

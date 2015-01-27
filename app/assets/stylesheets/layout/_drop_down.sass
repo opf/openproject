@@ -26,9 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/all
-@import fonts/openproject_icon_font
-
 // Styles taken from jquery-dropdown plugin:
 // https://github.com/plapier/jquery-dropdown
 // (dual MIT/GPL-Licensed)
@@ -52,7 +49,7 @@
   background: #FFF
   border: solid 1px #DDD
   border: solid 1px rgba(0, 0, 0, .2)
-  border-radius: 0px
+  border-radius: 0
   box-shadow: 1px 1px 4px #cccccc
   overflow: visible
   padding: 3px 0
@@ -100,14 +97,14 @@
 
 .dropdown .dropdown-menu LI
   list-style: none
-  padding: 0 0
+  padding: 0
   margin: 0
   line-height: 18px
 
 .dropdown .dropdown-menu LI > A,
 .dropdown .dropdown-menu LABEL
   display: block
-  color: $context_menu_font_color
+  color: $context-menu-font-color
   text-decoration: none
   padding: 4px 13px 4px 10px
   white-space: nowrap
@@ -123,7 +120,7 @@
 
 .dropdown LI > A.dropdown-menu-hasicons
   display: block
-  color: $context_menu_font_color
+  color: $context-menu-font-color
   text-decoration: none
   padding: 3px 10px
   white-space: nowrap

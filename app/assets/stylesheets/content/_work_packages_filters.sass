@@ -26,39 +26,74 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$work-packages-filters--background-color: #efefef
+$work-packages-filters--inset-background-color: darken($work-packages-filters--background-color, 8)
+
 .work-packages-filters--container
-  background-color: #efefef
+  background-color: $work-packages-filters--background-color
   border:   1px solid #E6E6E6
   padding:  10px
   max-height: 250px
   overflow-y: auto
+
   legend
     @extend .hidden-for-sighted
 
+.work-packages-filters--filters
+  @include grid-block($wrap: true, $align: right)
+  list-style-type:  none
+  margin:           0
+  background:       $work-packages-filters--inset-background-color
+  border:           1px solid #ccc
+  border-radius:    $global-radius
 
-.work-packages-filters--filter-table
-  border-collapse: collapse
+.work-packages-filters--filter
+  @include grid-block(6)
+  align-items:      center
+  background:       #efefef
+  padding:          0.25rem 0
+  border:           1px solid #ccc
+  border-radius:    $global-radius
 
-  td
-    padding: 0
-    vertical-align: middle
+%work-packages-filters--filter-part
+  .inline-label,
+  .form--text-field,
+  .form--select
+    margin-bottom: 0
 
-  tr.filter
-    height: 2em
+.work-packages-filters--filter-name
+  @include grid-content(3)
+  @extend %work-packages-filters--filter-part
 
-  td.add-filter
-    text-align: right
-    vertical-align: top
+.work-packages-filters--filter-operator
+  @include grid-content(3)
+  @extend %work-packages-filters--filter-part
 
-  div.add-filter
-    text-align: right
+.work-packages-filters--filter-value
+  @include grid-content(5)
+  @extend %work-packages-filters--filter-part
+
+.work-packages-filters--remove-filter
+  @include grid-content(shrink)
+
+.work-packages-filters--add-filter
+  @include grid-block(6)
+  @extend %work-packages-filters--filter-part
+  align-items:      center
+  padding:          0.25rem 0
+
+.work-packages-filters--add-filter-label
+  @include grid-content(3)
+
+.work-packages-filters--add-filter-value
+  @include grid-content(expand)
 
 
 #content fieldset.collapsible.header_collapsible
-  padding-top: 0px
-  padding-bottom: 0px
-  border: 0px
-  margin: 0px
+  padding-top: 0
+  padding-bottom: 0
+  border: 0
+  margin: 0
   margin-right: 10px
   margin-left: 1px
 

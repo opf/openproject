@@ -26,10 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 User-agent: *
 <% @projects.each do |p| -%>
-Disallow: /projects/<%= p.to_param %>/repository
+  Disallow: /projects/<%= p.to_param %>/repository
 Disallow: /projects/<%= p.to_param %>/issues
 Disallow: /projects/<%= p.to_param %>/activity
 <% end -%>

@@ -54,70 +54,64 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'layouts/action_menu_specific' %>
   <h2 title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
 </div>
-
 <div class="message">
-<p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
-<div class="wiki" ng-non-bindable>
-<%= format_text(@topic.content, :object => @topic, :attachments => @topic.attachments) %>
-</div>
-<%= link_to_attachments @topic, :author => false %>
+  <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
+  <div class="wiki" ng-non-bindable>
+    <%= format_text(@topic.content, :object => @topic, :attachments => @topic.attachments) %>
+  </div>
+  <%= link_to_attachments @topic, :author => false %>
 </div>
 <br />
-
 <% unless @replies.empty? %>
-<h3 class="icon-context icon-quote"><%= l(:label_reply_plural) %> (<%= @replies.count %>)</h3>
-<% @replies.each do |message| %>
-  <div class="message reply" id="<%= "message-#{message.id}" %>">
-    <h4>
-      <%= avatar(message.author) %>
-      <%= link_to h(message.subject), topic_path(@topic,
+  <h3 class="icon-context icon-quote"><%= l(:label_reply_plural) %> (<%= @replies.count %>)</h3>
+  <% @replies.each do |message| %>
+    <div class="message reply" id="<%= "message-#{message.id}" %>">
+      <h4>
+        <%= avatar(message.author) %>
+        <%= link_to h(message.subject), topic_path(@topic,
                                                  :r => message,
                                                  :anchor => "message-#{message.id}") %>
-      -
+        -
       <%= authoring message.created_on, message.author %>
-    </h4>
-    <div class="message-reply-menu">
-      <%= link_to(icon_wrapper('icon-context icon-quote', l(:button_quote)),
+      </h4>
+      <div class="message-reply-menu">
+        <%= link_to(icon_wrapper('icon-context icon-quote', l(:button_quote)),
                   { action: 'quote', id: message },
                   remote: true,
                   method: 'get',
                   title: l(:button_quote),
                   class: 'no-decoration-on-hover',
                   alt: l(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
-      <%= link_to(icon_wrapper('icon-context icon-edit', l(:button_edit)),
+        <%= link_to(icon_wrapper('icon-context icon-edit', l(:button_edit)),
                   { :action => 'edit', :id => message },
                   :title => l(:button_edit),
                   :class => 'no-decoration-on-hover',
                   :alt => l(:button_edit)) if message.editable_by?(User.current) %>
-      <%= link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
+        <%= link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
                   { :action => 'destroy', :id => message},
                   :method => :delete,
                   :confirm => l(:text_are_you_sure),
                   :title => l(:button_delete),
                   :class => 'no-decoration-on-hover',
                   :alt => l(:button_delete)) if message.destroyable_by?(User.current) %>
+      </div>
+      <div class="wiki" ng-non-bindable>
+        <%= format_text message, :content, :attachments => message.attachments %>
+      </div>
+      <%= link_to_attachments message, :author => false %>
     </div>
-    <div class="wiki" ng-non-bindable>
-      <%= format_text message, :content, :attachments => message.attachments %>
-    </div>
-    <%= link_to_attachments message, :author => false %>
+  <% end %>
+  <%= pagination_links_full @replies, :per_page_links => false %>
+<% end %>
+<% if !@topic.locked? && authorize_for('messages', 'reply') %>
+  <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
+  <div id="reply" style="display:none;">
+    <%= form_for @reply, :as => :reply, :url => reply_to_topic_path(@topic), :html => {:multipart => true, :id => 'message-form'} do |f| %>
+      <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
+      <%= submit_tag l(:button_submit), class: 'button -highlight' %>
+      <%= preview_link preview_topic_path(@message), 'message-form', class: 'button' %>
+    <% end %>
+    <div id="preview" class="wiki"></div>
   </div>
 <% end %>
-
-<%= pagination_links_full @replies, :per_page_links => false %>
-
-<% end %>
-
-<% if !@topic.locked? && authorize_for('messages', 'reply') %>
-<p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
-<div id="reply" style="display:none;">
-<%= form_for @reply, :as => :reply, :url => reply_to_topic_path(@topic), :html => {:multipart => true, :id => 'message-form'} do |f| %>
-  <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
-  <%= submit_tag l(:button_submit) %>
-  <%= preview_link preview_topic_path(@message), 'message-form' %>
-<% end %>
-<div id="preview" class="wiki"></div>
-</div>
-<% end %>
-
 <% html_title h(@topic.subject) %>

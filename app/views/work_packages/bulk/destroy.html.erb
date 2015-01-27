@@ -40,8 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <%= work_package_associations_to_address(associated) %>
 
-    <p class="bold">
-      <%= l(:text_destroy_what_to_do) %>
+    <p>
+      <strong><%= l(:text_destroy_what_to_do) %></strong>
     </p>
 
     <%= fields_for :to_do do |f| %>
@@ -69,6 +69,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </div>
 
-  <%= submit_tag l(:button_apply) %>
+  <%= submit_tag l(:button_apply), class: 'button -highlight' %>
 
 <% end %>

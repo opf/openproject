@@ -48,7 +48,7 @@ custom_fields.each do |custom_field|
                   { :class => "cf_boolean_select", :multiple => false, :size => 1}
       %>
     <% elsif custom_field.field_format == "list" then %>
-        <%= hidden_field_tag("timeline[options][custom_fields][#{custom_field.id.to_s}][]",
+      <%= hidden_field_tag("timeline[options][custom_fields][#{custom_field.id.to_s}][]",
             timeline.custom_field_list_value(custom_field.id.to_s),
             {
               :"data-values" => list_to_select_object_with_none(custom_field.possible_values).to_json,
@@ -57,7 +57,7 @@ custom_fields.each do |custom_field|
           ) %>
     <% end %>
   </p>
-<%
+  <%
   end
 end
 %>

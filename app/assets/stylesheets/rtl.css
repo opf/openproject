@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 body, #wrapper { direction: rtl;}
 
 #quick-search { float: left; }
-#main-menu { margin-left: -500px; left: auto; right: 6px; margin-right: 0px;}
+#main-menu { margin-left: -500px; left: auto; right: 6px; margin-right: 0;}
 #main-menu li { float: right; }
 #top-menu ul { float: right; }
 #account { float: left; }
@@ -56,13 +56,13 @@ body, #wrapper { direction: rtl;}
 {
        background-position: 100% 40%;
        padding-right: 20px;
-       padding-left: 0px;
+       padding-left: 0;
 }
 div#activity dt, #search-results dt
 {
   background-position: 100% 50%;
   padding-right: 20px;
-  padding-left: 0px;
+  padding-left: 0;
 }
 #content .tabs ul li { float: right; }
 #content .tabs ul { padding-left: auto; padding-right: 1em; }
@@ -76,8 +76,7 @@ tr.time-entry td.subject, tr.time-entry td.comments { text-align: right; }
 #sidebar { float: left; }
 #main.nosidebar #content { border-width: 1px; border-style: solid; border-color: #D7D7D7 #BBBBBB #BBBBBB #D7D7D7;}
 .tabular.settings label { margin-left: auto; }
-.splitcontentleft { float: right; }
-.splitcontentright { float: left; }
+
 p.progress-info { clear: right; }
 table.list td.buttons a { padding-right: 20px; }
 .filecontent { direction: ltr; }

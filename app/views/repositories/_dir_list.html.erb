@@ -26,19 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <table class="list entries" id="browser">
-<thead>
-<tr id="root">
-<th><%= Attachment.human_attribute_name(:filename) %></th>
-<th><%= Attachment.human_attribute_name(:filesize) %></th>
-<th><%= l(:label_revision) %></th>
-<th><%= l(:label_age) %></th>
-<th><%= Changeset.human_attribute_name(:author) %></th>
-<th><%= Changeset.human_attribute_name(:comments) %></th>
-</tr>
-</thead>
-<tbody>
-<%= render :partial => 'dir_list_content' %>
-</tbody>
+  <thead>
+    <tr id="root">
+      <th><%= Attachment.human_attribute_name(:filename) %></th>
+      <th><%= Attachment.human_attribute_name(:filesize) %></th>
+      <th><%= l(:label_revision) %></th>
+      <th><%= l(:label_age) %></th>
+      <th><%= Changeset.human_attribute_name(:author) %></th>
+      <th><%= Changeset.human_attribute_name(:comments) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => 'dir_list_content' %>
+  </tbody>
 </table>

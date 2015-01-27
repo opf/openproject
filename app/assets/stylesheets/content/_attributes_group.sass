@@ -26,44 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*-------------------------------------------------------------------------------
- *  =06 - Projects Page
- *
- *  This section defines the styles for the projects "home" page.
- *------------------------------------------------------------------------------
+.attributes-group--header
+  @include grid-block
+  margin:  0 0 1rem 0
+  border-bottom: 2px solid #eee
+  align-items: flex-end
 
-#project-links
-  right: 30px
-  color: #ccc
+.attributes-group--header-container
+  @include grid-content
+  padding: 0 1rem 0.4rem 0
+
+.attributes-group--header-toggle
+  @include grid-content(shrink)
+  padding: 0 0 0 1rem
+  overflow-y: hidden
+
+  .button
+    margin: 0 0 1px 0
+
+// HACK. TODO: Remove H3 element rules in various places.
+.attributes-group--header-text,
+#content h3.attributes-group--header-text
+  font-size: 1rem
   font-weight: bold
-
-.nosidebar
-  blockquote
-    margin: 1em 0
-  p
-    margin-bottom: 1em
-
-li
-  &.root
-    font-size: 18px
-    margin-bottom: 24px
-  &.child
-    font-size: 14px
-
-.nosidebar ul.projects
-  margin: 24px 0 0
-  ul
-    margin: 0
-
-ul.projects .description
-  font-size: 12px
-
-.nosidebar ul.projects li
-  list-style: none outside none
-  background: none
-
-ul.projects
-  a
-    font-weight: bold
-  li div.root
-    margin-bottom: 12px
+  text-transform: uppercase
+  // properties to reset h3
+  margin: 0
+  padding: 0
+  border: 0

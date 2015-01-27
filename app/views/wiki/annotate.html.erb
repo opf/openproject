@@ -34,29 +34,26 @@ See doc/COPYRIGHT.rdoc for more details.
               :accesskey => accesskey(:edit)) %>
   <%= link_to(l(:label_history), {:action => 'history', :id => @page}, :class => 'icon icon-wiki') %>
 <% end %>
-
 <h2><%= h(@page.pretty_title) %></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
 <p>
-<%= Version.model_name.human %> <%= link_to h(@annotate.content.version), :action => 'show', :id => @page, :version => @annotate.content.version %>
-<em>(<%= h(@annotate.content.journable.author ? @annotate.content.journable.author.name : l(:label_user_anonymous)) %>, <%= format_time(@annotate.content.journable.updated_on) %>)</em>
+  <%= Version.model_name.human %> <%= link_to h(@annotate.content.version), :action => 'show', :id => @page, :version => @annotate.content.version %>
+  <em>(<%= h(@annotate.content.journable.author ? @annotate.content.journable.author.name : l(:label_user_anonymous)) %>, <%= format_time(@annotate.content.journable.updated_on) %>)</em>
 </p>
-
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
-
 <table class="filecontent annotate">
-<tbody>
-<% line_num = 1 %>
-<% @annotate.lines.each do |line| -%>
-<tr class="bloc-<%= colors[line[0]] %>">
-    <th class="line-num"><%= line_num %></th>
-    <td class="revision"><%= link_to line[0], :controller => '/wiki', :action => 'show', :project_id => @project, :id => @page, :version => line[0] %></td>
-    <td class="author"><%= h(line[1]) %></td>
-    <td class="line-code"><pre><%=h line[2] %></pre></td>
-</tr>
-<% line_num += 1 %>
-<% end -%>
-</tbody>
+  <tbody>
+    <% line_num = 1 %>
+    <% @annotate.lines.each do |line| -%>
+      <tr class="bloc-<%= colors[line[0]] %>">
+        <th class="line-num"><%= line_num %></th>
+        <td class="revision"><%= link_to line[0], :controller => '/wiki', :action => 'show', :project_id => @project, :id => @page, :version => line[0] %></td>
+        <td class="author"><%= h(line[1]) %></td>
+        <td class="line-code">
+          <pre><%=h line[2] %></pre>
+        </td>
+      </tr>
+      <% line_num += 1 %>
+    <% end -%>
+  </tbody>
 </table>

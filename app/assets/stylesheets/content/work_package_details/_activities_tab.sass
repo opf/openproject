@@ -30,15 +30,10 @@
   textarea
     width: 100%
     height: 6em
-    -webkit-box-sizing: border-box
-    -moz-box-sizing: border-box
-    box-sizing: border-box
-    -webkit-border-radius: 3px
-    -moz-border-radius: 3px
     border-radius: 3px
   .button
     float: right
-    margin-right: 0px
+    margin-right: 0
 
 // TODO: remove or rename with more specific name
 span.comment
@@ -69,6 +64,10 @@ span.comment
     padding: 0 !important
     margin: 0 !important
 
+.work-package-details-activities-list
+  list-style-type: none
+  margin: 0
+
 .work-package-details-activities-activity:not(:last-child)
   margin-bottom: 10px
 
@@ -93,13 +92,12 @@ span.comment
 
   .date
     display: block
-    font-size: 12px
 
 .work-package-details-activities-activity-contents
   .comments-icons
     a:hover
       text-decoration: none
   .action-icon
-    color: $main_menu_font_color
+    color: $main-menu-font-color
     &::before
       padding: 0 0 0 0.3em

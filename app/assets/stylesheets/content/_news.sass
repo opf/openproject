@@ -26,52 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/* Merged from the new layout #263
-/**
- * ToC
- * 00 - Base Typography
- * 01 - Header
- * 02 - Main Menu
- * 03 - Main Content
- * 04 - Issue Tables
- * 05 - Single Issue Page
- * 06 - Projects Page
- * 07 - Behavior Styles
- * 08 - Reusable classes
- * 09 - New Issue Form
- * 10 - Plugins and misc
- * 11 - Appended from staging
+.news
+  margin-bottom: 30px
 
-/*-------------------------------------------------------------------------------
- *  =00 - Base Typography
- *
- *  This section includes the typography base for the body and heading elements.
- *------------------------------------------------------------------------------
+  &.box > p
+    margin-top: -15px
 
-h1, h2, h3, h4, h5, h6
-  font-weight: bold
+  .timestamp
+    border-bottom: 1px dotted
+    cursor: help
 
-h1
-  font-size: 21px
+  .additional-information
+    font-size: 11px
 
-h2, .wiki h1
-  font-size: 18px
-  padding: 2px 10px 1px 0px
-  margin: 0 0 10px 0
-  border-bottom: 1px solid #bbbbbb
+h4.overview
+  margin-bottom: 0
+  border: 0
 
-h3
-  font-size: 16px
-  margin-bottom: 16px
+.summary
+  font-style: italic
 
-h4
-  font-size: 14px
-  margin-bottom: 16px
-
-h5
-  font-size: 12px
-  text-transform: uppercase
-  margin-bottom: 18px
-
-a:hover
-  text-decoration: underline
+p.author
+  font-style: italic
+  /* to accomodate the .profile-wrap class
+  height: 42px

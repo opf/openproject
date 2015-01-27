@@ -85,6 +85,6 @@ shared_context 'work package table helpers' do
     # the last spec, might expect data that has already been removed as
     # preparation for the current spec.
     find('#work-packages-filter-toggle-button').click
-    expect(page).to have_selector('.filter label', text: 'Status')
+    expect(page).to have_selector('.work-packages-filters--filter label', text: 'Status')
   end
 end

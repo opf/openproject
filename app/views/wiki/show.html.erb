@@ -56,13 +56,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   <%= li_unless_nil(link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page}, :class => 'icon-context icon-wiki')) %>
   <%= li_unless_nil(link_to_if_authorized(l(:button_manage_menu_entry), {:controller => '/wiki_menu_items', :action => 'edit', :project_id => @project.identifier, :id => @page}, :class => 'icon-context icon-settings')) %>
-
 <% end %>
-
 <% breadcrumb_paths(*(@page.ancestors.reverse.collect {|parent| link_to h(parent.breadcrumb_title), {:id => parent, :project_id => parent.project}} + [h(@page.breadcrumb_title)])) %>
-
 <% if @content.version != @page.content.version %>
-    <p>
+  <p>
     <%= link_to(l(:label_previous), { :action => 'show', :id => @page, :project_id => @page.project, :version => (@content.version - 1) }, :class => 'navigate-left') + " - " if @content.version > 1 %>
     <%= "#{Version.model_name.human} #{@content.version}/#{@page.content.version}" %>
     <%= '(' + link_to(l(:label_diff), :controller => '/wiki', :action => 'diff', :id => @page, :project_id => @page.project, :version => @content.version) + ')' if @content.version > 1 %> -
@@ -71,28 +68,26 @@ See doc/COPYRIGHT.rdoc for more details.
     <br />
     <em><%= @content.author ? link_to_user(@content.author) : l(:label_user_anonymous) %>, <%= format_time(@content.updated_on) %> </em><br />
     <%=h @content.comments %>
-    </p>
-    <hr />
+  </p>
+  <hr />
 <% end %>
-
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
-
 <%= link_to_attachments @page %>
-
 <% if @editable && authorize_for('wiki', 'add_attachment') %>
-<div id="wiki_add_attachment">
-<p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
+  <div id="wiki_add_attachment">
+    <p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
                                              :id => 'attach_files_link' %></p>
-<%= form_tag({ :controller => '/wiki', :action => 'add_attachment', :project_id => @project, :id => @page }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
-  <div class="box">
-  <p><%= render :partial => 'attachments/form' %></p>
+    <%= form_tag({ :controller => '/wiki', :action => 'add_attachment', :project_id => @project, :id => @page }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
+      <div class="box">
+        <p><%= render :partial => 'attachments/form' %></p>
+      </div>
+      <%= submit_tag l(:button_add), class: 'button -highlight' %>
+      <%= link_to l(:button_cancel), {},
+      :onclick => "Element.hide('add_attachment_form'); Element.show('attach_files_link'); return false;",
+      class: 'button' %>
+    <% end %>
   </div>
-<%= submit_tag l(:button_add) %>
-<%= link_to l(:button_cancel), {}, :onclick => "Element.hide('add_attachment_form'); Element.show('attach_files_link'); return false;" %>
 <% end %>
-</div>
-<% end %>
-
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => { :controller => '/activities',
                                   :action => 'index',

@@ -32,8 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
                  { :builder => TabularFormBuilder,
                  :lang => current_language} do |fields| %>
 
-  <div class="clear">
-    <div class="splitcontentleft">
+  <div class="grid-block">
+    <div class="grid-content">
       <div class="attribute_wrapper">
         <%= fields.text_field :hours,
                               :value => number_with_delimiter(time_entry.hours, locale: I18n.locale),
@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
 
-    <div class="splitcontentright">
+    <div class="grid-content">
       <div class="attribute_wrapper">
         <%= fields.select :activity_id, activity_collection_for_select_options %>
       </div>

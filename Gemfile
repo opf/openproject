@@ -95,7 +95,7 @@ gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '
 gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
-gem 'sass',             '~> 3.3.6'
+gem 'sass',             '~> 3.4.9'
 gem 'bourbon',          '~> 4.0'
 gem 'uglifier',         '>= 1.0.3', require: false
 gem 'livingstyleguide', '~> 1.2.0'

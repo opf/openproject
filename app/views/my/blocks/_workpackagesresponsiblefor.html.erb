@@ -49,12 +49,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <p class="small">
     <%= link_to l(:label_work_package_view_all_responsible_for),
                 work_packages_responsible_for_path,
-                :class => 'button_highlight' %>
+                :class => 'button -highlight' %>
   </p>
 <% end %>
-
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom,
+  <%= auto_discovery_link_tag(:atom,
                             work_packages_responsible_for_path({:format => 'atom', :key => User.current.rss_key}),
                             {title: l(:label_responsible_for_work_packages)}) %>
 <% end %>

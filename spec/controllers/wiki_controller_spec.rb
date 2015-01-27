@@ -288,8 +288,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
         end
 
         it "is inactive, when another wiki menu item's page is shown" do
@@ -298,8 +298,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
         end
 
         it 'is active, when the given wiki menu item is shown' do
@@ -308,7 +308,7 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
         end
       end
 
@@ -320,8 +320,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_no_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
         end
 
         it 'is inactive, when a toc page is shown' do
@@ -330,8 +330,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_no_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
         end
       end
 
@@ -342,7 +342,7 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
         end
       end
 
