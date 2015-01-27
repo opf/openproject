@@ -169,35 +169,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   border: none;
 }
 
-.remove-box {
-  height: 20px;
-  width: 20px;
-  background: white;
-  float: right;
-  padding: 1px 0 0 0;
-  display: block;
-  margin-top: -5px;
-  margin-right: -2px;
-}
-
 .filter_rem { }
-
-.icon-reporting-filter-rem {
-  background: #E6E6E6;
-  overflow: hidden;
-  cursor: pointer;
-  height: 18px;
-  width: 18px;
-  display: block;
-  margin: 0 0 0 2px;
-}
-
-.icon-reporting-filter-rem:before {
-  padding: inherit;
-  font-size: 12px;
-  vertical-align: text-top;
-  margin-left: 3px;
-}
 
 /***** icons *****/
 /*
@@ -234,7 +206,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   margin-left: 20px;
 }
 
-.filter_values {
+.work-packages-filters--filter-value {
   white-space: nowrap;
 }
 
@@ -249,38 +221,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #add_filter_select {
   margin-bottom: 10px;
-}
-
-fieldset#filters table tr.filter:hover {
-  background: #aaa;
-}
-
-fieldset#filters table tr.filter {
-  color: #000;
-  background: #ededed;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
-/* Aligning filter elements at the top. */
-fieldset#filters table td {
-  vertical-align: top;
-  border-spacing: 5px 5px;
-  border-color: white;
-  border-style: solid;
-  border-width: 2px 0px 0px;
-  padding: 5px 2px 5px 2px;
-}
-
-fieldset#filters table .no-border td {
-  border-style: none !important;
-}
-
-fieldset#filters table td > label {
-  left: 3px;
-  top: 3px;
-  position: relative;
 }
 
 /* ----- group by --- */
@@ -397,6 +337,7 @@ h3.reporting_formatting {
 .drag_container select {
   margin-right: 3px;
   float: right;
+  width: auto;
 }
 
 .drag_target {
