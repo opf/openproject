@@ -35,7 +35,7 @@ OpenProject Developer Documentation
 * [Developing Plugins](doc/DEVELOP_PLUGINS.md)
 * [Running Tests](doc/RUNNING_TESTS.md)
 * [Upgrading](doc/UPGRADING.rdoc)
-* [API Documentation](#API Documentation)
+* [API Documentation](#api-documentation)
 
 API Documentation
 -----------------
