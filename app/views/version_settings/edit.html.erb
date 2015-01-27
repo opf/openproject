@@ -38,5 +38,5 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% labelled_tabular_form_for :version, @version, :url => project_version_path(@project, @version), :html => {:method => :put} do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

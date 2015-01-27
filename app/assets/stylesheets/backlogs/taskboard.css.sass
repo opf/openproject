@@ -26,21 +26,21 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@import backlogs/taskboard_legacy
-@import global/all
+@import open_project_global/all
+@import helpers/functions
 
-@mixin story_header
+@mixin story-header
   background-color: #FFFFFF
-  font-size: $global_font_size - 5
+  font-size: 1rem - rem-calc(5px)
   opacity: 0.8
   filter: alpha(opacity = 80)
   overflow: hidden
   padding-bottom: 1px
   padding-right: 3px
 
-@mixin story_footer
+@mixin story-footer
   float: left
-  font-size: $global_font_size - 5
+  font-size: 1rem - rem-calc(5px)
   width: 85%
   margin-top: 4px
   padding: 2px
@@ -51,9 +51,262 @@
   white-space: nowrap
   text-overflow: ellipsis
 
+
+.controller-rb_taskboards.action-show #main
+  overflow: visible
+
+#taskboard
+  overflow-x: auto
+
+#rb .task
+  color: #484848
+  line-height: inherit
+  white-space: inherit
+
+.action_menu_specific #col_width input
+  text-align: right
+  width: 2em
+  margin-top: -1px
+
+#rb
+  #assigned_to_id_options
+    display: none
+  .swimlane
+    min-width: 105px
+    /* width + (2*margin) + (2*padding) + (2*border) of .work_package
+    padding: 5px
+    width: 105px
+    /* Must be the same as min-width
+  #board_header
+    background-color: #EBEBEB
+    border: 1px solid #CCCCCC
+    margin-bottom: 0
+    margin-right: 10px
+    td
+      background-color: #EBEBEB
+      border-right: 1px dotted #CFCFCF
+      color: black
+      font-weight: bold
+      text-align: center
+      vertical-align: middle
+      &:first-child
+        min-width: 231px
+        padding: 6px 10px 6px 10px
+        width: 231px
+      &:last-child
+        border-right: none
+  .board
+    background-color: #FCFCFC
+    border: 1px solid #CCCCCC
+    border-top: none
+    margin-right: 10px
+    /* IE7 table fix
+    table-layout: fixed
+    border-collapse: collapse
+    empty-cells: show
+    tr:hover
+      background-color: #ffffff
+    td
+      border-right: 1px dotted #CFCFCF
+      border-bottom: 1px dotted #CFCFCF
+      vertical-align: top
+      &:first-child
+        min-width: 210px
+        padding: 5px
+        width: 210px
+      &:last-child
+        border-right: none
+    tr:last-child td
+      border-bottom: none
+    .add_new
+      margin: 0
+      min-width: 30px
+      padding: 0
+      text-align: center
+      vertical-align: middle
+      width: 30px
+      &.clickable:hover
+        cursor: pointer
+        background-color: #ffffcc
+  .story, .label_sprint_impediments
+    background-color: #F8F6A5
+    border: none
+    display: block
+    float: left
+    height: 80px
+    margin: 5px
+    padding: 5px
+    position: relative
+    width: 190px
+  .story
+    .subject
+      height: 52px
+      line-height: 13px
+      margin-top: 0
+      overflow: hidden
+      padding: 2px
+      width: 186px
+    &.closed .subject
+      text-decoration: line-through
+  .work_package, .placeholder
+    background-color: #AFAFAF
+    border: none
+    cursor: move
+    display: block
+    float: left
+    font-size: 10px
+    height: 80px
+    margin: 5px
+    padding: 5px
+    position: relative
+    width: 85px
+  .work_package.prevent_edit
+    cursor: default
+  .placeholder
+    background-color: #FFFF00
+    border: 1px dashed #333300
+    height: 78px
+    width: 83px
+  .work_package
+    &.closed .subject.editable
+      text-decoration: line-through
+    .v
+      display: none
+    .remaining_hours.editable
+      border: 2px solid #FFFFFF
+      background-color: #EE0000
+      bottom: -5px
+      color: #FFFFFF
+      font-size: 9px
+      height: 13px
+      padding-left: 5px
+      padding-right: 5px
+      position: absolute
+      right: -5px
+    .blocks, .remaining_hours.editable.empty
+      display: none
+    .indicator
+      background-color: #FFFFFF
+      background-position: center
+      background-repeat: no-repeat
+      border: 2px solid #000000
+      display: none
+      height: 16px
+      left: 36px
+      padding: 2px
+      position: absolute
+      top: 38px
+      width: 16px
+    &.saving .indicator
+      background-image: image-url("loading.gif")
+      display: block
+    &.error .indicator
+      background-image: image-url("webalys/warning.png")
+      background-position: 2px 0
+      border-color: #CC0000
+      display: block
+    .editors
+      display: none
+
+/*
+ *  swimlane class is used by:
+ *    - #board_header
+ *    - .board
+ *
+ *  Also use by the Column Width preference to determine the unit width of the
+ *  swimlanes. See RB.Taskboard.initialize()
+
+/* status labels
+
+/* shared #impediments and #tasks
+
+/* item styles used by .task and .impediment
+
+/* dialog
+
+.task_editor_dialog.ui-dialog
+  .ui-dialog-titlebar-close
+    display: none
+  .ui-widget-header
+    background: none
+    background-color: #FFFFFF
+    opacity: 0.5
+    filter: alpha(opacity = 50)
+  .ui-dialog-title
+    float: right
+    margin-right: 0
+  &.ui-widget-content
+    background: none
+    border: none
+  .ui-dialog-buttonpane.ui-widget-content
+    background: none
+    background-color: none
+    border: none
+
+.dark #task_editor label
+  color: #FFFFFF
+
+.light #task_editor label
+  color: #000000
+
+.dark div
+  color: #FFFFFF
+
+.light div
+  color: #000000
+
+/* item editor
+
+#task_editor
+  label
+    display: block
+    font-size: 11px
+    text-transform: capitalize
+    width: 100%
+  .editor
+    font-size: 11px
+    margin-bottom: 10px
+    width: 100%
+  .subject
+    height: 65px
+    width: 272px
+  .remaining_hours, .blocks
+    width: 268px
+
+/* compact view
+
+#rb
+  .compact
+    .story, .label_sprint_impediments
+      height: 15px
+    .story .subject
+      display: none
+    .work_package
+      height: 21px
+      padding: 0
+      width: 21px
+      *
+        display: none
+    .placeholder
+      background-color: #FFFF00
+      border: 1px dashed #333300
+      height: 19px
+      width: 19px
+  #impediment_template, #task_template
+    display: none
+  #preloader
+    left: -500px
+    position: absolute
+  #spinner
+    background-image: image-url("loading.gif")
+  #warning
+    background-image: image-url("webalys/warning.png")
+
+/* others
+
 .story
   .story-bar
-    @include story_header
+    @include story-header
     text-align: right
     width: 187px
     clear: both
@@ -64,11 +317,11 @@
 
 .story,
 .label_sprint_impediments
-  font-size: $global_font_size - 3
+  font-size: 1rem - rem-calc(3px)
 
 .work_package
   .id
-    @include story_header
+    @include story-header
     text-align: right
     width: 82px
     a
@@ -77,7 +330,7 @@
   .editable:hover
     background-color: transparent
   .subject.editable
-    font-size: $global_font_size - 3
+    font-size: 1rem - rem-calc(3px)
     height: 52px
     line-height: 13px
     margin-top: 0
@@ -88,13 +341,13 @@
 .story
   .story-footer
     .assigned_to_id
-      @include story_footer
+      @include story-footer
       @include ellipsis
     .story-points
       margin-top: 2px
       float: right
 .work_package
   .assigned_to_id.editable
-    @include story_footer
+    @include story-footer
     .t
       @include ellipsis
