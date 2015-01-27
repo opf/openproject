@@ -34,17 +34,24 @@ See doc/COPYRIGHT.md for more details.
 </div>
 
 <div class="meeting details box">
-  <%= avatar(@meeting.author, :size => "64") %>
-  <p class="author"><%= authoring @meeting.created_at, @meeting.author %></p>
-  <div class="splitcontentleft">
-  <p><strong><%= Meeting.human_attribute_name(:start_time) %></strong>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %> - <%= format_time @meeting.end_time, false %> <%= Time.zone %></p>
+  <div class="grid-block wrap">
+    <div class="grid-content small-12">
+      <%= avatar(@meeting.author, :size => "64") %>
+      <p class="author"><%= authoring @meeting.created_at, @meeting.author %></p>
+    </div>
+    <div class="grid-content small-6">
+      <p><strong><%= Meeting.human_attribute_name(:start_time) %></strong>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %> - <%= format_time @meeting.end_time, false %> <%= Time.zone %></p>
+    </div>
+    <div class="grid-content small-6">
+      <p><strong><%= Meeting.human_attribute_name(:location) %></strong>: <%=h @meeting.location %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:participants_invited) %></strong>: <%= format_participant_list @meeting.participants.invited %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:participants_attended) %></strong>: <%= format_participant_list @meeting.participants.attended %></p>
+    </div>
   </div>
-  <div class="splitcontentright">
-  <p><strong><%= Meeting.human_attribute_name(:location) %></strong>: <%=h @meeting.location %></p>
-  </div>
-  <div style="clear:both;"> </div>
-  <p><strong><%= Meeting.human_attribute_name(:participants_invited) %></strong>: <%= format_participant_list @meeting.participants.invited %></p>
-  <p><strong><%= Meeting.human_attribute_name(:participants_attended) %></strong>: <%= format_participant_list @meeting.participants.attended %></p>
 </div>
 
 <%= render_tabs [{:name => 'agenda', :action => :create_meeting_agendas, :partial => 'meeting_contents/show', :label => :label_meeting_agenda, :content => @meeting.agenda || @meeting.build_agenda, :content_type => "meeting_agenda"},
