@@ -35,7 +35,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     super
     @project = Project.find(3)
     @repository = Repository::Subversion.create(project: @project,
-             url: self.class.subversion_repository_url)
+                                                url: self.class.subversion_repository_url)
     assert @repository
   end
 
@@ -52,7 +52,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
       # Remove changesets with revision > 5
-      @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 5}
+      @repository.changesets.find(:all).each { |c| c.destroy if c.revision.to_i > 5 }
       @repository.reload
       assert_equal 5, @repository.changesets.count
 
@@ -66,15 +66,15 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       # with limit
       changesets = @repository.latest_changesets('', nil, 2)
       assert_equal 2, changesets.size
-      assert_equal @repository.latest_changesets('', nil).slice(0,2), changesets
+      assert_equal @repository.latest_changesets('', nil).slice(0, 2), changesets
 
       # with path
       changesets = @repository.latest_changesets('subversion_test/folder', nil)
-      assert_equal ["10", "9", "7", "6", "5", "2"], changesets.collect(&:revision)
+      assert_equal ['10', '9', '7', '6', '5', '2'], changesets.collect(&:revision)
 
       # with path and revision
       changesets = @repository.latest_changesets('subversion_test/folder', 8)
-      assert_equal ["7", "6", "5", "2"], changesets.collect(&:revision)
+      assert_equal ['7', '6', '5', '2'], changesets.collect(&:revision)
     end
 
     def test_directory_listing_with_square_brackets_in_path
@@ -149,7 +149,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
     def test_activities_nine_digit
       c = Changeset.create(repository: @repository, committed_on: Time.now,
-                        revision: '123456789', comments: 'test')
+                           revision: '123456789', comments: 'test')
       event = find_events(User.find(2)).first # manager
       assert event.event_title.include?('123456789:')
       assert event.event_path =~ /\?rev=123456789$/
@@ -201,13 +201,13 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_nil changeset.next
     end
   else
-    puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
+    puts 'Subversion test repository NOT FOUND. Skipping unit tests !!!'
     def test_fake; assert true end
   end
 
   private
 
-  def find_events(user, options={})
+  def find_events(user, options = {})
     fetcher = Redmine::Activity::Fetcher.new(user, options)
     fetcher.scope = ['changesets']
     fetcher.events(Date.today - 30, Date.today + 1)

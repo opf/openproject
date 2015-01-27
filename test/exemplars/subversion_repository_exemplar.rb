@@ -36,5 +36,4 @@ class Repository::Subversion < Repository
     @last_url.succ!
     @last_url
   end
-
 end

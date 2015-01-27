@@ -54,25 +54,25 @@ class RepositoriesControllerTest < ActionController::TestCase
     get :revision, project_id: 1, rev: 1
     assert_response :success
     assert_not_nil assigns(:changeset)
-    assert_equal "1", assigns(:changeset).revision
+    assert_equal '1', assigns(:changeset).revision
   end
 
   def test_revision_with_before_nil_and_after_normal
-    get :revision, {project_id: 1, rev: 1}
+    get :revision, project_id: 1, rev: 1
     assert_response :success
     assert_template 'revision'
-    assert_no_tag tag: "ul", attributes: { class: /action_menu_specific/ },
-      child: { tag: "a", attributes: { href: @controller.url_for(only_path: true,
+    assert_no_tag tag: 'ul', attributes: { class: /action_menu_specific/ },
+                  child: { tag: 'a', attributes: { href: @controller.url_for(only_path: true,
                                                                              controller: 'repositories',
                                                                              action: 'revision',
                                                                              project_id: 'ecookbook',
                                                                              rev: '0') } }
-    assert_tag tag: "ul", attributes: { class: /action_menu_specific/ },
-      child: { tag: "a", attributes: { href: @controller.url_for(only_path: true,
-                                                                             controller: 'repositories',
-                                                                             action: 'revision',
-                                                                             project_id: 'ecookbook',
-                                                                             rev: '2') } }
+    assert_tag tag: 'ul', attributes: { class: /action_menu_specific/ },
+               child: { tag: 'a', attributes: { href: @controller.url_for(only_path: true,
+                                                                          controller: 'repositories',
+                                                                          action: 'revision',
+                                                                          project_id: 'ecookbook',
+                                                                          rev: '2') } }
   end
 
   def test_graph_commits_per_month
@@ -98,15 +98,15 @@ class RepositoriesControllerTest < ActionController::TestCase
 
     assert_tag :td, content: 'dlopper',
                     sibling: { tag: 'td',
-                                  child: { tag: 'select', attributes: { name: %r{^committers\[\d+\]\[\]$} },
-                                                                child: { tag: 'option', content: 'Dave Lopper',
-                                                                                              attributes: { value: '3', selected: 'selected' }}}}
+                               child: { tag: 'select', attributes: { name: %r{^committers\[\d+\]\[\]$} },
+                                        child: { tag: 'option', content: 'Dave Lopper',
+                                                 attributes: { value: '3', selected: 'selected' } } } }
     assert_tag :td, content: 'foo',
                     sibling: { tag: 'td',
-                                  child: { tag: 'select', attributes: { name: %r{^committers\[\d+\]\[\]$} }}}
+                               child: { tag: 'select', attributes: { name: %r{^committers\[\d+\]\[\]$} } } }
     assert_no_tag :td, content: 'foo',
                        sibling: { tag: 'td',
-                                     descendant: { tag: 'option', attributes: { selected: 'selected' }}}
+                                  descendant: { tag: 'option', attributes: { selected: 'selected' } } }
   end
 
   def test_map_committers
@@ -120,7 +120,7 @@ class RepositoriesControllerTest < ActionController::TestCase
             comments: 'Committed by foo.'
           )
     assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
-      post :committers, project_id: 1, committers: { '0' => ['foo', '2'], '1' => ['dlopper', '3']}
+      post :committers, project_id: 1, committers: { '0' => ['foo', '2'], '1' => ['dlopper', '3'] }
       assert_redirected_to '/projects/ecookbook/repository/committers'
       assert_equal User.find(2), c.reload.user
     end

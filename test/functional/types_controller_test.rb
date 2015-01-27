@@ -81,36 +81,36 @@ class TypesControllerTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_tag :input, attributes: { name: 'type[project_ids][]',
-                                        value: '1',
-                                        checked: 'checked' }
+                                     value: '1',
+                                     checked: 'checked' }
 
     assert_tag :input, attributes: { name: 'type[project_ids][]',
-                                        value: '2',
-                                        checked: nil }
+                                     value: '2',
+                                     checked: nil }
 
     assert_tag :input, attributes: { name: 'type[project_ids][]',
-                                        value: '',
-                                        type: 'hidden'}
+                                     value: '',
+                                     type: 'hidden' }
   end
 
   def test_post_update
     post :update, id: 1, type: { name: 'Renamed',
-                                       project_ids: ['1', '2', ''] }
+                                 project_ids: ['1', '2', ''] }
     assert_redirected_to action: 'index'
     assert_equal [1, 2], Type.find(1).project_ids.sort
   end
 
   def test_post_update_without_projects
     post :update, id: 1, type: { name: 'Renamed',
-                                        project_ids: [''] }
+                                 project_ids: [''] }
     assert_redirected_to action: 'index'
     assert Type.find(1).project_ids.empty?
   end
 
   def test_move_lower
-   type = Type.find_by_position(1)
-   post :move, id: 1, type: { move_to: 'lower' }
-   assert_equal 2, type.reload.position
+    type = Type.find_by_position(1)
+    post :move, id: 1, type: { move_to: 'lower' }
+    assert_equal 2, type.reload.position
   end
 
   def test_destroy

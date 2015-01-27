@@ -51,7 +51,7 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     count = Workflow.count(:all, conditions: 'role_id = 1 AND type_id = 2')
     assert_tag tag: 'a', content: count.to_s,
-                            attributes: { href: '/workflows/edit?role_id=1&amp;type_id=2' }
+               attributes: { href: '/workflows/edit?role_id=1&amp;type_id=2' }
   end
 
   def test_get_edit
@@ -77,17 +77,17 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     # allowed transitions
     assert_tag tag: 'input', attributes: { type: 'checkbox',
-                                                 name: 'status[3][5][]',
-                                                 value: 'always',
-                                                 checked: 'checked' }
+                                           name: 'status[3][5][]',
+                                           value: 'always',
+                                           checked: 'checked' }
     # not allowed
     assert_tag tag: 'input', attributes: { type: 'checkbox',
-                                                 name: 'status[3][2][]',
-                                                 value: 'always',
-                                                 checked: nil }
+                                           name: 'status[3][2][]',
+                                           value: 'always',
+                                           checked: nil }
     # unused
     assert_no_tag tag: 'input', attributes: { type: 'checkbox',
-                                                    name: 'status[1][1][]' }
+                                              name: 'status[1][1][]' }
   end
 
   def test_get_edit_with_role_and_type_and_all_statuses
@@ -101,53 +101,53 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal Status.count, assigns(:statuses).size
 
     assert_tag tag: 'input', attributes: { type: 'checkbox',
-                                                 name: 'status[1][1][]',
-                                                 value: 'always',
-                                                 checked: nil }
+                                           name: 'status[1][1][]',
+                                           value: 'always',
+                                           checked: nil }
   end
 
   def test_post_edit
     post :edit, role_id: 2, type_id: 1,
-      status: {
-        '4' => {'5' => ['always']},
-        '3' => {'1' => ['always'], '2' => ['always']}
-      }
+                status: {
+                  '4' => { '5' => ['always'] },
+                  '3' => { '1' => ['always'], '2' => ['always'] }
+                }
     assert_redirected_to '/workflows/edit?role_id=2&type_id=1'
 
-    assert_equal 3, Workflow.count(conditions: {type_id: 1, role_id: 2})
-    assert_not_nil  Workflow.find(:first, conditions: {role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2})
-    assert_nil      Workflow.find(:first, conditions: {role_id: 2, type_id: 1, old_status_id: 5, new_status_id: 4})
+    assert_equal 3, Workflow.count(conditions: { type_id: 1, role_id: 2 })
+    assert_not_nil Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2 })
+    assert_nil Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 5, new_status_id: 4 })
   end
 
   def test_post_edit_with_additional_transitions
     post :edit, role_id: 2, type_id: 1,
-      status: {
-        '4' => {'5' => ['always']},
-        '3' => {'1' => ['author'], '2' => ['assignee'], '4' => ['author', 'assignee']}
-      }
+                status: {
+                  '4' => { '5' => ['always'] },
+                  '3' => { '1' => ['author'], '2' => ['assignee'], '4' => ['author', 'assignee'] }
+                }
     assert_redirected_to '/workflows/edit?role_id=2&type_id=1'
 
-    assert_equal 4, Workflow.count(conditions: {type_id: 1, role_id: 2})
+    assert_equal 4, Workflow.count(conditions: { type_id: 1, role_id: 2 })
 
-    w = Workflow.find(:first, conditions: {role_id: 2, type_id: 1, old_status_id: 4, new_status_id: 5})
-    assert ! w.author
-    assert ! w.assignee
-    w = Workflow.find(:first, conditions: {role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 1})
+    w = Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 4, new_status_id: 5 })
+    assert !w.author
+    assert !w.assignee
+    w = Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 1 })
     assert w.author
-    assert ! w.assignee
-    w = Workflow.find(:first, conditions: {role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2})
-    assert ! w.author
+    assert !w.assignee
+    w = Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2 })
+    assert !w.author
     assert w.assignee
-    w = Workflow.find(:first, conditions: {role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 4})
+    w = Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 4 })
     assert w.author
     assert w.assignee
   end
 
   def test_clear_workflow
-    assert Workflow.count(conditions: {type_id: 1, role_id: 2}) > 0
+    assert Workflow.count(conditions: { type_id: 1, role_id: 2 }) > 0
 
     post :edit, role_id: 2, type_id: 1
-    assert_equal 0, Workflow.count(conditions: {type_id: 1, role_id: 2})
+    assert_equal 0, Workflow.count(conditions: { type_id: 1, role_id: 2 })
   end
 
   def test_get_copy
@@ -193,6 +193,6 @@ class WorkflowsControllerTest < ActionController::TestCase
   # Returns an array of status transitions that can be compared
   def status_transitions(conditions)
     Workflow.find(:all, conditions: conditions,
-                        order: 'type_id, role_id, old_status_id, new_status_id').collect {|w| [w.old_status, w.new_status_id]}
+                        order: 'type_id, role_id, old_status_id, new_status_id').collect { |w| [w.old_status, w.new_status_id] }
   end
 end

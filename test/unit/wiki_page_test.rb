@@ -42,7 +42,7 @@ class WikiPageTest < ActiveSupport::TestCase
     assert !page.save
     assert_equal 1, page.errors.count
 
-    page.title = "Page"
+    page.title = 'Page'
     assert page.save
     page.reload
     assert !page.protected?
@@ -58,11 +58,11 @@ class WikiPageTest < ActiveSupport::TestCase
   end
 
   def test_find_or_new_page
-    page = @wiki.find_or_new_page("CookBook documentation")
+    page = @wiki.find_or_new_page('CookBook documentation')
     assert_kind_of WikiPage, page
     assert !page.new_record?
 
-    page = @wiki.find_or_new_page("Non existing page")
+    page = @wiki.find_or_new_page('Non existing page')
     assert_kind_of WikiPage, page
     assert page.new_record?
   end

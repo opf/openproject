@@ -50,7 +50,7 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:news)
     assert_not_nil assigns(:projects)
-    assert !assigns(:projects).include?(Project.find(:first, conditions: {is_public: false}))
+    assert !assigns(:projects).include?(Project.find(:first, conditions: { is_public: false }))
   end
 
   def test_browser_language

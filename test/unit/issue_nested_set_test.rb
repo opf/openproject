@@ -41,7 +41,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_creating_a_child_in_different_project_should_not_validate_unless_allowed
-    Setting.cross_project_work_package_relations = "0"
+    Setting.cross_project_work_package_relations = '0'
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
       i.force_attributes = { project_id: 2,
@@ -55,7 +55,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_creating_a_child_in_different_project_should_validate_if_allowed
-    Setting.cross_project_work_package_relations = "1"
+    Setting.cross_project_work_package_relations = '1'
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
       i.force_attributes = { project_id: 2,
@@ -218,7 +218,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   def test_parent_dates_should_be_lowest_start_and_highest_due_dates
     parent = create_issue!
     create_issue!(start_date: '2010-01-25', due_date: '2010-02-15', parent_id: parent.id)
-    create_issue!(                             due_date: '2010-02-13', parent_id: parent.id)
+    create_issue!(due_date: '2010-02-13', parent_id: parent.id)
     create_issue!(start_date: '2010-02-01', due_date: '2010-02-22', parent_id: parent.id)
     parent.reload
     assert_equal Date.parse('2010-01-25'), parent.start_date
@@ -292,7 +292,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   # Helper that creates an issue with default attributes
-  def create_issue!(attributes={})
+  def create_issue!(attributes = {})
     (i = WorkPackage.new.tap do |i|
       attr = { project_id: 1, type_id: 1, author_id: 1, subject: 'test' }.merge(attributes)
       i.force_attributes = attr

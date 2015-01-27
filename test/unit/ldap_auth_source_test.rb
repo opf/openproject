@@ -51,8 +51,8 @@ class LdapAuthSourceTest < ActiveSupport::TestCase
 
       context 'with a valid LDAP user' do
         should 'return the user attributes' do
-          attributes =  @auth.authenticate('example1','123456')
-          assert attributes.is_a?(Hash), "An hash was not returned"
+          attributes =  @auth.authenticate('example1', '123456')
+          assert attributes.is_a?(Hash), 'An hash was not returned'
           assert_equal 'Example', attributes[:firstname]
           assert_equal 'One', attributes[:lastname]
           assert_equal 'example1@redmine.org', attributes[:mail]
@@ -65,22 +65,21 @@ class LdapAuthSourceTest < ActiveSupport::TestCase
 
       context 'with an invalid LDAP user' do
         should 'return nil' do
-          assert_equal nil, @auth.authenticate('nouser','123456')
+          assert_equal nil, @auth.authenticate('nouser', '123456')
         end
       end
 
       context 'without a login' do
         should 'return nil' do
-          assert_equal nil, @auth.authenticate('','123456')
+          assert_equal nil, @auth.authenticate('', '123456')
         end
       end
 
       context 'without a password' do
         should 'return nil' do
-          assert_equal nil, @auth.authenticate('edavis','')
+          assert_equal nil, @auth.authenticate('edavis', '')
         end
       end
-
     end
   else
     puts '(Test LDAP server not configured)'

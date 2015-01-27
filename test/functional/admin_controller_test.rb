@@ -63,7 +63,7 @@ class AdminControllerTest < ActionController::TestCase
     assert_template 'projects'
     assert_not_nil assigns(:projects)
     # active projects only
-    assert_nil assigns(:projects).detect {|u| !u.active?}
+    assert_nil assigns(:projects).detect { |u| !u.active? }
   end
 
   def test_projects_with_name_filter
@@ -109,7 +109,7 @@ class AdminControllerTest < ActionController::TestCase
       author 'John Smith'
       description 'This is a test plugin'
       version '0.0.1'
-      settings default: {'sample_setting' => 'value', 'foo'=>'bar'}, partial: 'foo/settings'
+      settings default: { 'sample_setting' => 'value', 'foo' => 'bar' }, partial: 'foo/settings'
     end
     Redmine::Plugin.register :bar do
     end

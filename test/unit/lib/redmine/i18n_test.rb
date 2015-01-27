@@ -128,22 +128,22 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     valid_languages.each do |lang|
       set_language_if_valid lang
       assert_nothing_raised "#{lang} failure" do
-        number_to_human_size(1024*1024*4)
+        number_to_human_size(1024 * 1024 * 4)
       end
     end
   end
 
   def test_fallback
-    ::I18n.backend.store_translations(:en, {untranslated: "Untranslated string"})
+    ::I18n.backend.store_translations(:en, untranslated: 'Untranslated string')
     ::I18n.locale = 'en'
-    assert_equal "Untranslated string", l(:untranslated)
+    assert_equal 'Untranslated string', l(:untranslated)
     ::I18n.locale = 'de'
-    assert_equal "Untranslated string", l(:untranslated)
+    assert_equal 'Untranslated string', l(:untranslated)
 
-    ::I18n.backend.store_translations(:de, {untranslated: "Keine Übersetzung"})
+    ::I18n.backend.store_translations(:de, untranslated: 'Keine Übersetzung')
     ::I18n.locale = 'en'
-    assert_equal "Untranslated string", l(:untranslated)
+    assert_equal 'Untranslated string', l(:untranslated)
     ::I18n.locale = 'de'
-    assert_equal "Keine Übersetzung", l(:untranslated)
+    assert_equal 'Keine Übersetzung', l(:untranslated)
   end
 end

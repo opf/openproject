@@ -54,7 +54,7 @@ class TypeTest < ActiveSupport::TestCase
   end
 
   def test_statuses_empty
-    Workflow.delete_all("type_id = 1")
+    Workflow.delete_all('type_id = 1')
     assert_equal [], Type.find(1).statuses
   end
 end

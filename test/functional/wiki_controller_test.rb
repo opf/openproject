@@ -59,9 +59,9 @@ class WikiControllerTest < ActionController::TestCase
 
     # child_pages macro
     assert_tag :ul, attributes: { class: 'pages-hierarchy' },
-               child: { tag: 'li',
-                           child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
-                                                    content: 'Page with an inline image' } }
+                    child: { tag: 'li',
+                             child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
+                                      content: 'Page with an inline image' } }
   end
 
   def test_show_page_with_name
@@ -72,7 +72,7 @@ class WikiControllerTest < ActionController::TestCase
     # Included page with an inline image
     assert_tag tag: 'p', content: /This is an inline image/
     assert_tag tag: 'img', attributes: { src: '/attachments/3/download',
-                                               alt: 'This is a logo' }
+                                         alt: 'This is a logo' }
   end
 
   def test_show_with_sidebar
@@ -82,8 +82,8 @@ class WikiControllerTest < ActionController::TestCase
 
     get :show, project_id: 1, id: 'Another_page'
     assert_response :success
-    assert_tag tag: 'div', attributes: {id: 'sidebar'},
-                              content: /Side bar content for test_show_with_sidebar/
+    assert_tag tag: 'div', attributes: { id: 'sidebar' },
+               content: /Side bar content for test_show_with_sidebar/
   end
 
   def test_show_unexistent_page_without_edit_right
@@ -101,9 +101,9 @@ class WikiControllerTest < ActionController::TestCase
   def test_create_page
     @request.session[:user_id] = 2
     put :update, project_id: 1,
-                id: 'New page',
-                content: {comments: 'Created the page',
-                             text: "h1. New page\n\nThis is a new page" }
+                 id: 'New page',
+                 content: { comments: 'Created the page',
+                            text: "h1. New page\n\nThis is a new page" }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'New_page'
     page = wiki.find_page('New page')
     assert !page.new_record?
@@ -116,11 +116,11 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference 'WikiPage.count' do
       assert_difference 'Attachment.count' do
         put :update, project_id: 1,
-                    id: 'New page',
-                    content: {comments: 'Created the page',
-                                 text: "h1. New page\n\nThis is a new page",
-                                 lock_version: 0},
-                    attachments: {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+                     id: 'New page',
+                     content: { comments: 'Created the page',
+                                text: "h1. New page\n\nThis is a new page",
+                                lock_version: 0 },
+                     attachments: { '1' => { 'file' => uploaded_test_file('testfile.txt', 'text/plain') } }
       end
     end
     page = wiki.find_page('New page')
@@ -137,21 +137,21 @@ class WikiControllerTest < ActionController::TestCase
       assert_no_difference 'WikiContent.count' do
         assert_difference 'Journal.count' do
           put :update, project_id: 1,
-            id: 'Another_page',
-            content: {
-              comments: "my comments",
-              text: "edited",
-              lock_version: 2
-            }
+                       id: 'Another_page',
+                       content: {
+                         comments: 'my comments',
+                         text: 'edited',
+                         lock_version: 2
+                       }
         end
       end
     end
     assert_redirected_to '/projects/ecookbook/wiki/Another_page'
 
     page.reload
-    assert_equal "edited", page.content.text
+    assert_equal 'edited', page.content.text
     assert_equal page.content.journals.map(&:version).max, page.content.version
-    assert_equal "my comments", page.content.last_journal.notes
+    assert_equal 'my comments', page.content.last_journal.notes
   end
 
   def test_update_page_with_failure
@@ -160,21 +160,21 @@ class WikiControllerTest < ActionController::TestCase
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'Journal.count' do
           put :update, project_id: 1,
-            id: 'Another_page',
-            content: {
-              comments: 'a' * 300,  # failure here, comment is too long
-              text: 'edited',
-              lock_version: 1
-            }
-          end
+                       id: 'Another_page',
+                       content: {
+                         comments: 'a' * 300,  # failure here, comment is too long
+                         text: 'edited',
+                         lock_version: 1
+                       }
         end
       end
+    end
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag descendant: {content: /Comment is too long/}
-    assert_tag tag: 'textarea', attributes: {id: 'content_text'}, content: /edited/
-    assert_tag tag: 'input', attributes: {id: 'content_lock_version', value: '1'}
+    assert_error_tag descendant: { content: /Comment is too long/ }
+    assert_tag tag: 'textarea', attributes: { id: 'content_text' }, content: /edited/
+    assert_tag tag: 'input', attributes: { id: 'content_lock_version', value: '1' }
   end
 
   # NOTE: this test seems to depend on other tests in suite
@@ -196,25 +196,25 @@ class WikiControllerTest < ActionController::TestCase
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'Journal.count' do
           put :update, project_id: 1,
-            id: 'Another_page',
-            content: {
-              comments: 'My comments',
-              text: 'Text should not be lost',
-              lock_version: 1
-            }
+                       id: 'Another_page',
+                       content: {
+                         comments: 'My comments',
+                         text: 'Text should not be lost',
+                         lock_version: 1
+                       }
         end
       end
     end
     assert_response :success
     assert_template 'edit'
     assert_tag :div,
-      attributes: { class: /error/ },
-      content: /Information has been updated by at least one other user in the meantime/
+               attributes: { class: /error/ },
+               content: /Information has been updated by at least one other user in the meantime/
     assert_tag 'textarea',
-      attributes: { name: 'content[text]' },
-      content: /Text should not be lost/
+               attributes: { name: 'content[text]' },
+               content: /Text should not be lost/
     assert_tag 'input',
-      attributes: { name: 'content[comments]', value: 'My comments' }
+               attributes: { name: 'content[comments]', value: 'My comments' }
 
     c.reload
     assert_equal 'Previous text', c.text
@@ -225,7 +225,7 @@ class WikiControllerTest < ActionController::TestCase
     FactoryGirl.create :wiki_content_journal,
                        journable_id: 1,
                        data: FactoryGirl.build(:journal_wiki_content_journal,
-                                               text: "h1. CookBook documentation")
+                                               text: 'h1. CookBook documentation')
     FactoryGirl.create :wiki_content_journal,
                        journable_id: 1,
                        data: FactoryGirl.build(:journal_wiki_content_journal,
@@ -240,7 +240,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'history'
     assert_not_nil assigns(:versions)
     assert_equal 3, assigns(:versions).size
-    assert_select "input[type=submit][name=commit]"
+    assert_select 'input[type=submit][name=commit]'
   end
 
   def test_history_with_one_version
@@ -253,14 +253,14 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'history'
     assert_not_nil assigns(:versions)
     assert_equal 1, assigns(:versions).size
-    assert_select "input[type=submit][name=commit]", false
+    assert_select 'input[type=submit][name=commit]', false
   end
 
   def test_diff
     journal_from = FactoryGirl.create :wiki_content_journal,
                                       journable_id: 1,
                                       data: FactoryGirl.build(:journal_wiki_content_journal,
-                                                              text: "h1. CookBook documentation")
+                                                              text: 'h1. CookBook documentation')
     journal_to = FactoryGirl.create :wiki_content_journal,
                                     journable_id: 1,
                                     data: FactoryGirl.build(:journal_wiki_content_journal,
@@ -269,15 +269,15 @@ class WikiControllerTest < ActionController::TestCase
     get :diff, project_id: 1, id: 'CookBook_documentation', version: journal_to.version, version_from: journal_from.version
     assert_response :success
     assert_template 'diff'
-    assert_tag tag: 'ins', attributes: { class: 'diffins'},
-                              content: /updated/
+    assert_tag tag: 'ins', attributes: { class: 'diffins' },
+               content: /updated/
   end
 
   def test_annotate
     FactoryGirl.create :wiki_content_journal,
                        journable_id: 1,
                        data: FactoryGirl.build(:journal_wiki_content_journal,
-                                               text: "h1. CookBook documentation")
+                                               text: 'h1. CookBook documentation')
     journal_to = FactoryGirl.create :wiki_content_journal,
                                     journable_id: 1,
                                     data: FactoryGirl.build(:journal_wiki_content_journal,
@@ -287,13 +287,13 @@ class WikiControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'annotate'
     # Line 1
-    assert_tag tag: 'tr', child: { tag: 'th', attributes: {class: 'line-num'}, content: '1' },
-                             child: { tag: 'td', attributes: {class: 'author'}, content: /John Smith/ },
-                             child: { tag: 'td', content: /h1\. CookBook documentation/ }
+    assert_tag tag: 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '1' },
+               child: { tag: 'td', attributes: { class: 'author' }, content: /John Smith/ },
+               child: { tag: 'td', content: /h1\. CookBook documentation/ }
     # Line 2
-    assert_tag tag: 'tr', child: { tag: 'th', attributes: {class: 'line-num'}, content: '2' },
-                             child: { tag: 'td', attributes: {class: 'author'}, content: /redMine Admin/ },
-                             child: { tag: 'td', content: /Some updated \[\[documentation\]\] here/ }
+    assert_tag tag: 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '2' },
+               child: { tag: 'td', attributes: { class: 'author' }, content: /redMine Admin/ },
+               child: { tag: 'td', content: /Some updated \[\[documentation\]\] here/ }
   end
 
   def test_get_rename
@@ -314,7 +314,7 @@ class WikiControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     put :rename, project_id: 1, id: 'Another_page',
                  page: { title: 'Another renamed page',
-                            redirect_existing_links: 1 }
+                         redirect_existing_links: 1 }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_renamed_page'
     # Check redirects
     assert_not_nil wiki.find_page('Another page')
@@ -325,7 +325,7 @@ class WikiControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     put :rename, project_id: 1, id: 'Another_page',
                  page: { title: 'Another renamed page',
-                            redirect_existing_links: "0" }
+                         redirect_existing_links: '0' }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_renamed_page'
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')
@@ -386,22 +386,22 @@ class WikiControllerTest < ActionController::TestCase
 
     assert_tag :ul, attributes: { class: 'pages-hierarchy' },
                     child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook_documentation' },
-                                              content: 'CookBook documentation' },
-                                child: { tag: 'ul',
-                                            child: { tag: 'li',
-                                                        child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
-                                                                                 content: 'Page with an inline image' } } } },
+                                                 content: 'CookBook documentation' },
+                             child: { tag: 'ul',
+                                      child: { tag: 'li',
+                                               child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
+                                                        content: 'Page with an inline image' } } } },
                     child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Another_page' },
-                                                                       content: 'Another page' } }
+                                                 content: 'Another page' } }
   end
 
   def test_index_should_include_atom_link
     get :index, project_id: 'ecookbook'
-    assert_tag 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1'}
+    assert_tag 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1' }
   end
 
-  context "GET :export" do
-    context "with an authorized user to export the wiki" do
+  context 'GET :export' do
+    context 'with an authorized user to export the wiki' do
       setup do
         @request.session[:user_id] = 2
         get :export, project_id: 'ecookbook'
@@ -409,26 +409,25 @@ class WikiControllerTest < ActionController::TestCase
 
       should respond_with :success
       should_assign_to :pages
-      should_respond_with_content_type "text/html"
-      should "export all of the wiki pages to a single html file" do
-        assert_select "a[name=?]", "CookBook_documentation"
-        assert_select "a[name=?]", "Another_page"
-        assert_select "a[name=?]", "Page_with_an_inline_image"
+      should_respond_with_content_type 'text/html'
+      should 'export all of the wiki pages to a single html file' do
+        assert_select 'a[name=?]', 'CookBook_documentation'
+        assert_select 'a[name=?]', 'Another_page'
+        assert_select 'a[name=?]', 'Page_with_an_inline_image'
       end
-
     end
 
-    context "with an unauthorized user" do
+    context 'with an unauthorized user' do
       setup do
         get :export, project_id: 'ecookbook'
 
         should respond_with :redirect
-        should redirect_to('wiki index') { {action: 'show', project_id: @project, id: nil} }
+        should redirect_to('wiki index') { { action: 'show', project_id: @project, id: nil } }
       end
     end
   end
 
-  context "GET :date_index" do
+  context 'GET :date_index' do
     setup do
       get :date_index, project_id: 'ecookbook'
     end
@@ -438,8 +437,8 @@ class WikiControllerTest < ActionController::TestCase
     should_assign_to :pages_by_date
     should render_template 'wiki/date_index'
 
-    should "include atom link" do
-      assert_tag 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1'}
+    should 'include atom link' do
+      assert_tag 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1' }
     end
   end
 

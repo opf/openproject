@@ -100,7 +100,7 @@ class UserMailerTest < ActionMailer::TestCase
       assert_select 'li', text: /Description changed/
       assert_select 'li>a[href=?]',
                     "https://mydomain.foo/journals/#{journal.id}/diff/description",
-                    text: "Details"
+                    text: 'Details'
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     "https://mydomain.foo/work_packages/#{related_issue.id}",
@@ -141,7 +141,7 @@ class UserMailerTest < ActionMailer::TestCase
       assert_select 'li', text: /Description changed/
       assert_select 'li>a[href=?]',
                     "http://mydomain.foo/rdm/journals/#{journal.id}/diff/description",
-                    text: "Details"
+                    text: 'Details'
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
@@ -185,7 +185,7 @@ class UserMailerTest < ActionMailer::TestCase
       assert_select 'li', text: /Description changed/
       assert_select 'li>a[href=?]',
                     "http://mydomain.foo/rdm/journals/#{journal.id}/diff/description",
-                    text: "Details"
+                    text: 'Details'
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
@@ -303,7 +303,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_nil mail.references
     assert_select_email do
       # link to the message
-      assert_select "a[href*=?]", "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.id}", text: message.subject
+      assert_select 'a[href*=?]', "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.id}", text: message.subject
     end
   end
 
@@ -318,12 +318,12 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match mail.references, UserMailer.generate_message_id(parent, user)
     assert_select_email do
       # link to the reply
-      assert_select "a[href=?]", "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", text: message.subject
+      assert_select 'a[href=?]', "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", text: message.subject
     end
   end
 
-  context("#issue_add") do
-    should "send one email per recipient" do
+  context('#issue_add') do
+    should 'send one email per recipient' do
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de')
       issue = FactoryGirl.create(:work_package)
       ActionMailer::Base.deliveries.clear
@@ -332,7 +332,7 @@ class UserMailerTest < ActionMailer::TestCase
       assert_equal ['foo@bar.de'], last_email.to
     end
 
-    should "change mail language depending on recipient language" do
+    should 'change mail language depending on recipient language' do
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: 'de')
       ActionMailer::Base.deliveries.clear
@@ -348,7 +348,7 @@ class UserMailerTest < ActionMailer::TestCase
       end
     end
 
-    should "falls back to default language if user has no language" do
+    should 'falls back to default language if user has no language' do
       # 1. user's language
       # 2. Setting.default_language
       # 3. I18n.default_locale
@@ -489,11 +489,11 @@ class UserMailerTest < ActionMailer::TestCase
     assert ActionMailer::Base.perform_deliveries
   end
 
-  context "layout" do
-    should "include the emails_header depeding on the locale" do
+  context 'layout' do
+    should 'include the emails_header depeding on the locale' do
       with_settings available_languages: [:en, :de],
-                    emails_header: { "de" => "deutscher header",
-                                        "en" => "english header" } do
+                    emails_header: { 'de' => 'deutscher header',
+                                     'en' => 'english header' } do
         user = FactoryGirl.create(:user, language: :en)
         assert UserMailer.test_mail(user).deliver
         mail = ActionMailer::Base.deliveries.last
@@ -506,7 +506,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-private
+  private
 
   def last_email
     mail = ActionMailer::Base.deliveries.last
@@ -522,15 +522,15 @@ private
     project.save
 
     related_issue = FactoryGirl.create(:work_package,
-        subject: 'My related Ticket',
-        type: type,
-        project: project)
+                                       subject: 'My related Ticket',
+                                       type: type,
+                                       project: project)
 
     issue   = FactoryGirl.create(:work_package,
-        subject: 'My awesome Ticket',
-        type: type,
-        project: project,
-        description: "nothing here yet")
+                                 subject: 'My awesome Ticket',
+                                 type: type,
+                                 project: project,
+                                 description: 'nothing here yet')
 
     # now change the issue, to get a nice journal
     # we create a Filesystem repository for our changeset, so we have to enable it
@@ -539,8 +539,8 @@ private
                                    repository: FactoryGirl.create(:repository, project: project),
                                    comments: 'This commit fixes #1, #2 and references #1 and #3'
     attachment = FactoryGirl.create(:attachment,
-        container: issue,
-        author: issue.author)
+                                    container: issue,
+                                    author: issue.author)
     issue.description = "This is related to issue ##{related_issue.id}\n A reference to a changeset r#{changeset.revision}\n A reference to an attachment attachment:#{attachment.filename}"
     assert issue.save
     issue.reload
@@ -552,7 +552,7 @@ private
   end
 
   def url_for(options)
-    options.merge!({ host: Setting.host_name, protocol: Setting.protocol })
+    options.merge!(host: Setting.host_name, protocol: Setting.protocol)
     Rails.application.routes.url_helpers.url_for options
   end
 end

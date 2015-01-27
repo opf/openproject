@@ -52,11 +52,11 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:projects)
 
-    assert_tag :ul, child: {tag: 'li',
-                               descendant: {tag: 'a', content: 'eCookbook'},
-                               child: { tag: 'ul',
-                                           descendant: { tag: 'a',
-                                                            content: 'Child of private child'
+    assert_tag :ul, child: { tag: 'li',
+                             descendant: { tag: 'a', content: 'eCookbook' },
+                             child: { tag: 'ul',
+                                      descendant: { tag: 'a',
+                                                    content: 'Child of private child'
                                                            }
                                           }
                                }
@@ -72,103 +72,101 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select 'feed>entry', count: Project.count(conditions: Project.visible_by(User.current))
   end
 
-  context "#index" do
-    context "by non-admin user with view_time_entries permission" do
+  context '#index' do
+    context 'by non-admin user with view_time_entries permission' do
       setup do
         @request.session[:user_id] = 3
       end
-      should "show overall spent time link" do
+      should 'show overall spent time link' do
         get :index
         assert_template 'index'
-        assert_tag :a, attributes: {href: '/time_entries'}
+        assert_tag :a, attributes: { href: '/time_entries' }
       end
     end
 
-    context "by non-admin user without view_time_entries permission" do
+    context 'by non-admin user without view_time_entries permission' do
       setup do
         Role.find(2).remove_permission! :view_time_entries
         Role.non_member.remove_permission! :view_time_entries
         Role.anonymous.remove_permission! :view_time_entries
         @request.session[:user_id] = 3
       end
-      should "not show overall spent time link" do
+      should 'not show overall spent time link' do
         get :index
         assert_template 'index'
-        assert_no_tag :a, attributes: {href: '/time_entries'}
+        assert_no_tag :a, attributes: { href: '/time_entries' }
       end
     end
   end
 
-  context "#new" do
-    context "by admin user" do
+  context '#new' do
+    context 'by admin user' do
       setup do
         @request.session[:user_id] = 1
       end
 
-      should "accept get" do
+      should 'accept get' do
         get :new
         assert_response :success
         assert_template 'new'
       end
-
     end
 
-    context "by non-admin user with add_project permission" do
+    context 'by non-admin user with add_project permission' do
       setup do
         Role.non_member.add_permission! :add_project
         @request.session[:user_id] = 9
       end
 
-      should "accept get" do
+      should 'accept get' do
         get :new
         assert_response :success
         assert_template 'new'
-        assert_no_tag :select, attributes: {name: 'project[parent_id]'}
+        assert_no_tag :select, attributes: { name: 'project[parent_id]' }
       end
     end
 
-    context "by non-admin user with add_subprojects permission" do
+    context 'by non-admin user with add_subprojects permission' do
       setup do
         Role.find(1).remove_permission! :add_project
         Role.find(1).add_permission! :add_subprojects
         @request.session[:user_id] = 2
       end
 
-      should "accept get" do
+      should 'accept get' do
         get :new, parent_id: 'ecookbook'
         assert_response :success
         assert_template 'new'
         # parent project selected
-        assert_tag :select, attributes: {name: 'project[parent_id]'},
-                            child: {tag: 'option', attributes: {value: '1', selected: 'selected'}}
+        assert_tag :select, attributes: { name: 'project[parent_id]' },
+                            child: { tag: 'option', attributes: { value: '1', selected: 'selected' } }
         # no empty value
-        assert_no_tag :select, attributes: {name: 'project[parent_id]'},
-                               child: {tag: 'option', attributes: {value: ''}}
+        assert_no_tag :select, attributes: { name: 'project[parent_id]' },
+                               child: { tag: 'option', attributes: { value: '' } }
       end
     end
-
   end
 
-  context "POST :create" do
-    context "by admin user" do
+  context 'POST :create' do
+    context 'by admin user' do
       setup do
         @request.session[:user_id] = 1
       end
 
-      should "create a new project" do
+      should 'create a new project' do
         post :create,
-          project: {
-            name: "blog",
-            description: "weblog",
-            homepage: 'http://weblog',
-            identifier: "blog",
-            is_public: 1,
-            custom_field_values: { '3' => 'Beta' },
-            type_ids: ['1', '3'],
-            # an issue custom field that is not for all project
-            work_package_custom_field_ids: ['9'],
-            enabled_module_names: ['work_package_tracking', 'news', 'repository']
-          }
+             project: {
+               name: 'blog',
+               description: 'weblog',
+               homepage: 'http://weblog',
+               identifier: 'blog',
+               is_public: 1,
+               custom_field_values: { '3' => 'Beta' },
+               type_ids: ['1', '3'],
+               # an issue custom field that is not for all project
+               work_package_custom_field_ids: ['9'],
+               enabled_module_names: ['work_package_tracking', 'news', 'repository']
+             }
         assert_redirected_to '/projects/blog/settings'
 
         project = Project.find_by_name('blog')
@@ -184,10 +182,10 @@ class ProjectsControllerTest < ActionController::TestCase
         assert project.work_package_custom_fields.include?(WorkPackageCustomField.find(9))
       end
 
-      should "create a new subproject" do
-        post :create, project: { name: "blog",
-                                 description: "weblog",
-                                 identifier: "blog",
+      should 'create a new subproject' do
+        post :create, project: { name: 'blog',
+                                 description: 'weblog',
+                                 identifier: 'blog',
                                  is_public: 1,
                                  custom_field_values: { '3' => 'Beta' },
                                  parent_id: 1
@@ -200,16 +198,16 @@ class ProjectsControllerTest < ActionController::TestCase
       end
     end
 
-    context "by non-admin user with add_project permission" do
+    context 'by non-admin user with add_project permission' do
       setup do
         Role.non_member.add_permission! :add_project
         @request.session[:user_id] = 9
       end
 
-      should "accept create a Project" do
-        post :create, project: { name: "blog",
-                                 description: "weblog",
-                                 identifier: "blog",
+      should 'accept create a Project' do
+        post :create, project: { name: 'blog',
+                                 description: 'weblog',
+                                 identifier: 'blog',
                                  is_public: 1,
                                  custom_field_values: { '3' => 'Beta' },
                                  type_ids: ['1', '3'],
@@ -230,11 +228,11 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_equal 1, project.members.size
       end
 
-      should "fail with parent_id" do
+      should 'fail with parent_id' do
         assert_no_difference 'Project.count' do
-          post :create, project: { name: "blog",
-                                   description: "weblog",
-                                   identifier: "blog",
+          post :create, project: { name: 'blog',
+                                   description: 'weblog',
+                                   identifier: 'blog',
                                    is_public: 1,
                                    custom_field_values: { '3' => 'Beta' },
                                    parent_id: 1
@@ -247,17 +245,17 @@ class ProjectsControllerTest < ActionController::TestCase
       end
     end
 
-    context "by non-admin user with add_subprojects permission" do
+    context 'by non-admin user with add_subprojects permission' do
       setup do
         Role.find(1).remove_permission! :add_project
         Role.find(1).add_permission! :add_subprojects
         @request.session[:user_id] = 2
       end
 
-      should "create a project with a parent_id" do
-        post :create, project: { name: "blog",
-                                 description: "weblog",
-                                 identifier: "blog",
+      should 'create a project with a parent_id' do
+        post :create, project: { name: 'blog',
+                                 description: 'weblog',
+                                 identifier: 'blog',
                                  is_public: 1,
                                  custom_field_values: { '3' => 'Beta' },
                                  parent_id: 1
@@ -266,11 +264,11 @@ class ProjectsControllerTest < ActionController::TestCase
         project = Project.find_by_name('blog')
       end
 
-      should "fail without parent_id" do
+      should 'fail without parent_id' do
         assert_no_difference 'Project.count' do
-          post :create, project: { name: "blog",
-                                   description: "weblog",
-                                   identifier: "blog",
+          post :create, project: { name: 'blog',
+                                   description: 'weblog',
+                                   identifier: 'blog',
                                    is_public: 1,
                                    custom_field_values: { '3' => 'Beta' }
                                   }
@@ -281,12 +279,12 @@ class ProjectsControllerTest < ActionController::TestCase
         refute_empty project.errors[:parent_id]
       end
 
-      should "fail with unauthorized parent_id" do
+      should 'fail with unauthorized parent_id' do
         assert !User.find(2).member_of?(Project.find(6))
         assert_no_difference 'Project.count' do
-          post :create, project: { name: "blog",
-                                   description: "weblog",
-                                   identifier: "blog",
+          post :create, project: { name: 'blog',
+                                   description: 'weblog',
+                                   identifier: 'blog',
                                    is_public: 1,
                                    custom_field_values: { '3' => 'Beta' },
                                    parent_id: 6
@@ -305,8 +303,8 @@ class ProjectsControllerTest < ActionController::TestCase
       @request.session[:user_id] = 1
       assert_no_difference 'Project.count' do
         post :create, project: {
-          name: "blog",
-          identifier: "",
+          name: 'blog',
+          identifier: '',
           enabled_module_names: %w(work_package_tracking news)
         }
       end
@@ -387,8 +385,8 @@ class ProjectsControllerTest < ActionController::TestCase
 
   def test_update
     @request.session[:user_id] = 2 # manager
-    put :update, id: 1, project: {name: 'Test changed name',
-                                       issue_custom_field_ids: ['']}
+    put :update, id: 1, project: { name: 'Test changed name',
+                                   issue_custom_field_ids: [''] }
     assert_redirected_to '/projects/ecookbook/settings'
     project = Project.find(1)
     assert_equal 'Test changed name', project.name
@@ -463,8 +461,8 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_hook_response
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, id: 1
-    assert_tag tag: 'link', attributes: {href: '/assets/ecookbook.css'},
-                               parent: {tag: 'head'}
+    assert_tag tag: 'link', attributes: { href: '/assets/ecookbook.css' },
+               parent: { tag: 'head' }
 
     Redmine::Hook.clear_listeners
   end

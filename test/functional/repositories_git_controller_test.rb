@@ -37,7 +37,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
 
   # No '..' in the repository path
   REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
-  REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
+  REPOSITORY_PATH.gsub!(/\//, '\\') if Redmine::Platform.mswin?
 
   def setup
     super
@@ -54,7 +54,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     # see repositories_subversion_controller_test.rb
     def @repository.reload
       ActiveRecord::Base.connection.clear_query_cache
-      self.class.find(self.id)
+      self.class.find(id)
     end
 
     assert @repository
@@ -69,15 +69,15 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal 9, assigns(:entries).size
-      assert assigns(:entries).detect {|e| e.name == 'images' && e.kind == 'dir'}
-      assert assigns(:entries).detect {|e| e.name == 'this_is_a_really_long_and_verbose_directory_name' && e.kind == 'dir'}
-      assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
-      assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
-      assert assigns(:entries).detect {|e| e.name == 'copied_README' && e.kind == 'file'}
-      assert assigns(:entries).detect {|e| e.name == 'new_file.txt' && e.kind == 'file'}
-      assert assigns(:entries).detect {|e| e.name == 'renamed_test.txt' && e.kind == 'file'}
-      assert assigns(:entries).detect {|e| e.name == 'filemane with spaces.txt' && e.kind == 'file'}
-      assert assigns(:entries).detect {|e| e.name == ' filename with a leading space.txt ' && e.kind == 'file'}
+      assert assigns(:entries).detect { |e| e.name == 'images' && e.kind == 'dir' }
+      assert assigns(:entries).detect { |e| e.name == 'this_is_a_really_long_and_verbose_directory_name' && e.kind == 'dir' }
+      assert assigns(:entries).detect { |e| e.name == 'sources' && e.kind == 'dir' }
+      assert assigns(:entries).detect { |e| e.name == 'README' && e.kind == 'file' }
+      assert assigns(:entries).detect { |e| e.name == 'copied_README' && e.kind == 'file' }
+      assert assigns(:entries).detect { |e| e.name == 'new_file.txt' && e.kind == 'file' }
+      assert assigns(:entries).detect { |e| e.name == 'renamed_test.txt' && e.kind == 'file' }
+      assert assigns(:entries).detect { |e| e.name == 'filemane with spaces.txt' && e.kind == 'file' }
+      assert assigns(:entries).detect { |e| e.name == ' filename with a leading space.txt ' && e.kind == 'file' }
       assert_not_nil assigns(:changesets)
       assigns(:changesets).size > 0
     end
@@ -90,10 +90,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal 4, assigns(:entries).size
-      assert assigns(:entries).detect {|e| e.name == 'images' && e.kind == 'dir'}
-      assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
-      assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
-      assert assigns(:entries).detect {|e| e.name == 'test.txt' && e.kind == 'file'}
+      assert assigns(:entries).detect { |e| e.name == 'images' && e.kind == 'dir' }
+      assert assigns(:entries).detect { |e| e.name == 'sources' && e.kind == 'dir' }
+      assert assigns(:entries).detect { |e| e.name == 'README' && e.kind == 'file' }
+      assert assigns(:entries).detect { |e| e.name == 'test.txt' && e.kind == 'file' }
       assert_not_nil assigns(:changesets)
       assigns(:changesets).size > 0
     end
@@ -101,10 +101,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_browse_tag
       @repository.fetch_changesets
       @repository.reload
-       [
-        "tag00.lightweight",
-        "tag01.annotated",
-       ].each do |t1|
+      [
+        'tag00.lightweight',
+        'tag01.annotated',
+      ].each do |t1|
         get :show, project_id: 3, rev: t1
         assert_response :success
         assert_template 'show'
@@ -123,7 +123,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['edit.png'], assigns(:entries).collect(&:name)
-      entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
+      entry = assigns(:entries).detect { |e| e.name == 'edit.png' }
       assert_not_nil entry
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
@@ -188,8 +188,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_tag tag: 'th',
                  content: /22/,
                  sibling: { tag: 'td',
-                               attributes: { class: /diff_out/ },
-                               content: /def remove/ }
+                            attributes: { class: /diff_out/ },
+                            content: /def remove/ }
       assert_tag tag: 'h2', content: /2f9c0091/
     end
 
@@ -198,7 +198,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @repository.reload
 
       get :diff, project_id: 3, rev:    '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
-                           rev_to: '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+                 rev_to: '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
       assert_response :success
       assert_template 'diff'
 
@@ -231,7 +231,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       get :annotate, project_id: 3, path: 'images/edit.png'
       assert_response 500
       assert_tag tag: 'div', attributes: { id: /errorExplanation/ },
-                                content: /cannot be annotated/
+                 content: /cannot be annotated/
     end
 
     def test_revision
@@ -254,7 +254,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       end
     end
   else
-    puts "Git test repository NOT FOUND. Skipping functional tests !!!"
+    puts 'Git test repository NOT FOUND. Skipping functional tests !!!'
     def test_fake; assert true end
   end
 end

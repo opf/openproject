@@ -29,7 +29,6 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::SafeAttributesTest < ActiveSupport::TestCase
-
   class Base
     def attributes=(attrs)
       attrs.each do |key, value|
@@ -42,7 +41,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     attr_accessor :firstname, :lastname, :login
     include Redmine::SafeAttributes
     safe_attributes :firstname, :lastname
-    safe_attributes :login, if: lambda {|person, user| user.admin?}
+    safe_attributes :login, if: lambda { |_person, user| user.admin? }
   end
 
   class Book < Base
@@ -51,14 +50,13 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     safe_attributes :title
   end
 
-
   class PublishedBook < Book
     safe_attributes :isbn
   end
 
   def setup
     super
-    @admin = User.find_by_login("admin") || FactoryGirl.create(:admin)
+    @admin = User.find_by_login('admin') || FactoryGirl.create(:admin)
     @anonymous = User.anonymous || FactoryGirl.create(:anonymous)
   end
 
@@ -78,14 +76,14 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
 
   def test_set_safe_attributes
     p = Person.new
-    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, @anonymous)
+    p.send('safe_attributes=', { 'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith' }, @anonymous)
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_nil p.login
 
     p = Person.new
     User.current = @admin
-    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, @admin)
+    p.send('safe_attributes=', { 'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith' }, @admin)
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_equal 'jsmith', p.login
@@ -94,14 +92,14 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
   def test_set_safe_attributes_without_user
     p = Person.new
     User.current = nil
-    p.safe_attributes = {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}
+    p.safe_attributes = { 'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith' }
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_nil p.login
 
     p = Person.new
     User.current = @admin
-    p.safe_attributes = {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}
+    p.safe_attributes = { 'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith' }
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_equal 'jsmith', p.login
@@ -109,7 +107,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
 
   def test_with_indifferent_access
     p = Person.new
-    p.safe_attributes = {'firstname' => 'Jack', lastname: 'Miller'}
+    p.safe_attributes = { 'firstname' => 'Jack', lastname: 'Miller' }
     assert_equal 'Jack', p.firstname
     assert_equal 'Miller', p.lastname
   end
@@ -118,8 +116,8 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     b = Book.new
     p = PublishedBook.new
 
-    b.safe_attributes = {'title' => 'My awesome Ruby Book', 'isbn' => '1221132343'}
-    p.safe_attributes = {'title' => 'The Pickaxe',          'isbn' => '1934356085'}
+    b.safe_attributes = { 'title' => 'My awesome Ruby Book', 'isbn' => '1221132343' }
+    p.safe_attributes = { 'title' => 'The Pickaxe',          'isbn' => '1934356085' }
 
     assert_equal 'My awesome Ruby Book', b.title
     assert_nil b.isbn

@@ -44,14 +44,13 @@ class ApiTest::HttpBasicLoginWithApiTokenTest < ActionDispatch::IntegrationTest
     Setting.login_required = '0'
   end
 
-  context "get /api/v2/projects" do
-
-    context "in :xml format" do
-      should_allow_http_basic_auth_with_key(:get, "/api/v2/projects.xml")
+  context 'get /api/v2/projects' do
+    context 'in :xml format' do
+      should_allow_http_basic_auth_with_key(:get, '/api/v2/projects.xml')
     end
 
-    context "in :json format" do
-      should_allow_http_basic_auth_with_key(:get, "/api/v2/projects.json")
+    context 'in :json format' do
+      should_allow_http_basic_auth_with_key(:get, '/api/v2/projects.json')
     end
   end
 end

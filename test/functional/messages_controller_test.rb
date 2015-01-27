@@ -57,7 +57,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_difference 'Message.count', 110 do
       110.times do
         m = Message.new
-        m.force_attributes = {subject: 'Reply', content: 'Reply body', author_id: 2, board_id: 1}
+        m.force_attributes = { subject: 'Reply', content: 'Reply body', author_id: 2, board_id: 1 }
         message.children << m
       end
     end
@@ -98,7 +98,7 @@ class MessagesControllerTest < ActionController::TestCase
 
     post :create, board_id: 1,
                   message: { subject: 'Test created message',
-                                content: 'Message body'}
+                             content: 'Message body' }
     message = Message.find_by_subject('Test created message')
     assert_not_nil message
     assert_redirected_to topic_path(message)
@@ -107,7 +107,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_equal 1, message.board_id
 
     # author
-    mails_to_author = ActionMailer::Base.deliveries.select {|m| m.to.include?('jsmith@somenet.foo') }
+    mails_to_author = ActionMailer::Base.deliveries.select { |m| m.to.include?('jsmith@somenet.foo') }
     assert_equal 1, mails_to_author.length
     mail = mails_to_author.first
     assert mail.to.include?('jsmith@somenet.foo')
@@ -116,7 +116,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert mail.body.encoded.include?('Message body')
 
     # project member
-    mails_to_member = ActionMailer::Base.deliveries.select {|m| m.to.include?('dlopper@somenet.foo') }
+    mails_to_member = ActionMailer::Base.deliveries.select { |m| m.to.include?('dlopper@somenet.foo') }
     assert_equal 1, mails_to_member.length
     assert mails_to_member.first.to.include?('dlopper@somenet.foo')
   end
@@ -132,7 +132,7 @@ class MessagesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     put :update, id: 1,
                  message: { subject: 'New subject',
-                               content: 'New body' }
+                            content: 'New body' }
     message = Message.find(1)
     assert_redirected_to topic_path(message)
     assert_equal 'New subject', message.subject
@@ -150,7 +150,7 @@ class MessagesControllerTest < ActionController::TestCase
   def test_destroy_topic
     @request.session[:user_id] = 2
     delete :destroy, id: 1
-    assert_redirected_to project_board_path("ecookbook", 1)
+    assert_redirected_to project_board_path('ecookbook', 1)
     assert_nil Message.find_by_id(1)
   end
 

@@ -36,5 +36,4 @@ class Version < ActiveRecord::Base
     @last_name.succ!
     @last_name
   end
-
 end

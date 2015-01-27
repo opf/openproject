@@ -47,7 +47,7 @@ class AccountControllerTest < ActionController::TestCase
     post :login, username: 'admin', password: 'bad'
     assert_response :success
     assert_template 'login'
-    assert_select "div.flash.error.icon.icon-error", /Invalid user or password/
+    assert_select 'div.flash.error.icon.icon-error', /Invalid user or password/
   end
 
   def test_login

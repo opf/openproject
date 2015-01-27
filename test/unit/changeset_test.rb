@@ -32,10 +32,10 @@ class ChangesetTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_ref_keywords_any
-    WorkPackage.all.each { |m| m.recreate_initial_journal! }
+    WorkPackage.all.each(&:recreate_initial_journal!)
 
     ActionMailer::Base.deliveries.clear
-    Setting.commit_fix_status_id = Status.find(:first, conditions: ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -117,7 +117,7 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_ref_keywords_closing_with_timelog
-    Setting.commit_fix_status_id = Status.find(:first, conditions: ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.commit_logtime_enabled = '1'
@@ -168,7 +168,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       comments: '[#1 #2, #3] Worked on these')
     c.scan_comment_for_work_package_ids
 
-    assert_equal [1,2,3], c.work_package_ids.sort
+    assert_equal [1, 2, 3], c.work_package_ids.sort
   end
 
   def test_commit_referencing_a_subproject_work_package
@@ -239,15 +239,15 @@ class ChangesetTest < ActiveSupport::TestCase
       str = File.read(Rails.root.join('test/fixtures/encoding/iso-8859-1.txt'))
       r = Repository::Filesystem.create!(
             project: proj, url: '/tmp/test/filesystem_repository',
-            log_encoding: 'ISO-8859-1' )
+            log_encoding: 'ISO-8859-1')
       assert r
       c = Changeset.new(repository: r,
                         committed_on: Time.now,
                         revision: '123',
                         scmid: '12345',
                         comments: str)
-      assert( c.save )
-      assert_equal "Texte encodé en ISO-8859-1.", c.comments
+      assert(c.save)
+      assert_equal 'Texte encodé en ISO-8859-1.', c.comments
     end
   end
 
@@ -258,15 +258,15 @@ class ChangesetTest < ActiveSupport::TestCase
       r = Repository::Filesystem.create!(
             project: proj,
             url: '/tmp/test/filesystem_repository',
-            log_encoding: 'UTF-8' )
+            log_encoding: 'UTF-8')
       assert r
       c = Changeset.new(repository:   r,
                         committed_on: Time.now,
                         revision:     '123',
                         scmid:        '12345',
                         comments:     str)
-      assert( c.save )
-      assert_equal "Texte encod? en ISO-8859-1.", c.comments
+      assert(c.save)
+      assert_equal 'Texte encod? en ISO-8859-1.', c.comments
     end
   end
 
@@ -280,15 +280,15 @@ class ChangesetTest < ActiveSupport::TestCase
       r = Repository::Filesystem.create!(
             project: proj,
             url:     '/tmp/test/filesystem_repository',
-            log_encoding: 'ISO-2022-JP' )
+            log_encoding: 'ISO-2022-JP')
       assert r
       c = Changeset.new(repository:   r,
                         committed_on: Time.now,
                         revision:     '123',
                         scmid:        '12345',
                         comments:     str)
-      assert( c.save )
-      assert_equal "test??test??", c.comments
+      assert(c.save)
+      assert_equal 'test??test??', c.comments
     end
   end
 
@@ -308,14 +308,14 @@ class ChangesetTest < ActiveSupport::TestCase
       proj = Project.find(3)
       r = Repository::Filesystem.create!(
             project: proj, url: '/tmp/test/filesystem_repository',
-            log_encoding: 'ISO-8859-1' )
+            log_encoding: 'ISO-8859-1')
       assert r
       c = Changeset.new(repository: r,
                         committed_on: Time.now,
                         revision: '123',
                         scmid: '12345',
                         comments: s1)
-      assert( c.save )
+      assert(c.save)
       assert_equal s4, c.comments
     end
   end
@@ -325,17 +325,17 @@ class ChangesetTest < ActiveSupport::TestCase
       proj = Project.find(3)
       r = Repository::Filesystem.create!(
             project: proj, url: '/tmp/test/filesystem_repository',
-            log_encoding: 'ISO-8859-1' )
+            log_encoding: 'ISO-8859-1')
       assert r
       c = Changeset.new(repository: r,
                         committed_on: Time.now,
                         revision: '123',
                         scmid: '12345',
                         comments: nil)
-      assert( c.save )
-      assert_equal "", c.comments
+      assert(c.save)
+      assert_equal '', c.comments
       if c.comments.respond_to?(:force_encoding)
-        assert_equal "UTF-8", c.comments.encoding.to_s
+        assert_equal 'UTF-8', c.comments.encoding.to_s
       end
     end
   end
@@ -345,17 +345,17 @@ class ChangesetTest < ActiveSupport::TestCase
       proj = Project.find(3)
       r = Repository::Filesystem.create!(
             project: proj, url: '/tmp/test/filesystem_repository',
-            log_encoding: 'ISO-8859-1' )
+            log_encoding: 'ISO-8859-1')
       assert r
       c = Changeset.new(repository: r,
                         committed_on: Time.now,
                         revision: '123',
                         scmid: '12345',
-                        comments: "")
-      assert( c.save )
-      assert_equal "", c.comments
+                        comments: '')
+      assert(c.save)
+      assert_equal '', c.comments
       if c.comments.respond_to?(:force_encoding)
-        assert_equal "UTF-8", c.comments.encoding.to_s
+        assert_equal 'UTF-8', c.comments.encoding.to_s
       end
     end
   end

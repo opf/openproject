@@ -40,7 +40,7 @@ module RedmineMenuTestHelper
 
   # Helpers
   def get_menu_item(menu_name, item_name)
-    Redmine::MenuManager.items(menu_name).find {|item| item.name == item_name.to_sym}
+    Redmine::MenuManager.items(menu_name).find { |item| item.name == item_name.to_sym }
   end
 end
 

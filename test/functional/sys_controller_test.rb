@@ -59,7 +59,7 @@ class SysControllerTest < ActionController::TestCase
 
     post :create_project_repository, id: 4,
                                      vendor: 'Subversion',
-                                     repository: { url: 'file:///create/project/repository/subproject2'}
+                                     repository: { url: 'file:///create/project/repository/subproject2' }
     assert_response :created
 
     r = Project.find(4).repository

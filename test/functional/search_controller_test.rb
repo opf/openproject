@@ -74,13 +74,13 @@ class SearchControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:project)
 
-    get :index, project_id: 1, q: "can"
+    get :index, project_id: 1, q: 'can'
     assert_response :success
     assert_template 'index'
   end
 
   def test_search_with_searchable_custom_fields
-    get :index, project_id: 1, q: "stringforcustomfield"
+    get :index, project_id: 1, q: 'stringforcustomfield'
     assert_response :success
     results = assigns(:results)
     assert_not_nil results
@@ -127,11 +127,11 @@ class SearchControllerTest < ActionController::TestCase
 
   def test_quick_jump_to_work_packages
     # work_package of a public project
-    get :index, q: "3"
+    get :index, q: '3'
     assert_redirected_to '/work_packages/3'
 
     # work_package of a private project
-    get :index, q: "4"
+    get :index, q: '4'
     assert_response :success
     assert_template 'index'
   end
@@ -144,6 +144,6 @@ class SearchControllerTest < ActionController::TestCase
 
   def test_tokens_with_quotes
     get :index, project_id: 1, q: '"good bye" hello "bye bye"'
-    assert_equal ["good bye", "hello", "bye bye"], assigns(:tokens)
+    assert_equal ['good bye', 'hello', 'bye bye'], assigns(:tokens)
   end
 end

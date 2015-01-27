@@ -47,14 +47,14 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
 
     @project = Project.find(PRJ_ID)
     @repository = Repository::Subversion.create(project: @project,
-               url: self.class.subversion_repository_url)
+                                                url: self.class.subversion_repository_url)
 
     # #reload is broken for repositories because it defines
     # `has_many :changes` which conflicts with AR's #changes method
     # here we implement #reload differently for that single repository instance
     def @repository.reload
       ActiveRecord::Base.connection.clear_query_cache
-      self.class.find(self.id)
+      self.class.find(id)
     end
 
     assert @repository
@@ -78,7 +78,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
-      entry = assigns(:entries).detect {|e| e.name == 'subversion_test'}
+      entry = assigns(:entries).detect { |e| e.name == 'subversion_test' }
       assert_equal 'dir', entry.kind
     end
 
@@ -90,7 +90,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['[folder_with_brackets]', 'folder', '.project', 'helloworld.c', 'textfile.txt'], assigns(:entries).collect(&:name)
-      entry = assigns(:entries).detect {|e| e.name == 'helloworld.c'}
+      entry = assigns(:entries).detect { |e| e.name == 'helloworld.c' }
       assert_equal 'file', entry.kind
       assert_equal 'subversion_test/helloworld.c', entry.path
       assert_tag :a, content: 'helloworld.c', attributes: { class: /text\-x\-c/ }
@@ -123,8 +123,8 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
         assert_equal 'native', assigns(:properties)['svn:eol-style']
         assert_tag :ul,
                    child: { tag: 'li',
-                               child: { tag: 'b', content: 'svn:eol-style' },
-                               child: { tag: 'span', content: 'native' } }
+                            child: { tag: 'b', content: 'svn:eol-style' },
+                            child: { tag: 'span', content: 'native' } }
       end
     end
 
@@ -167,8 +167,8 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'entry'
       # this line was removed in r3 and file was moved in r6
-      assert_tag tag: 'td', attributes: { class: /line-code/},
-                               content: /Here's the code/
+      assert_tag tag: 'td', attributes: { class: /line-code/ },
+                 content: /Here's the code/
     end
 
     def test_entry_not_found
@@ -176,7 +176,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.reload
       get :entry, project_id: PRJ_ID, path: 'subversion_test/zzz.c'
       assert_tag tag: 'div', attributes: { id: /errorExplanation/ },
-                                content: /The entry or revision was not found in the repository/
+                 content: /The entry or revision was not found in the repository/
     end
 
     def test_entry_download
@@ -207,13 +207,13 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_template 'revision'
       assert_tag tag: 'ul',
                  child: { tag: 'li',
-                             # link to the entry at rev 2
-                             child: { tag: 'a',
-                                         attributes: {href: '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo'},
-                                         content: 'repo',
-                                         # link to partial diff
-                                         sibling:  { tag: 'a',
-                                                        attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' }
+                          # link to the entry at rev 2
+                          child: { tag: 'a',
+                                   attributes: { href: '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo' },
+                                   content: 'repo',
+                                   # link to partial diff
+                                   sibling:  { tag: 'a',
+                                               attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' }
                                                        }
                                         }
                             }
@@ -254,13 +254,13 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_template 'revision'
       assert_tag tag: 'ul',
                  child: { tag: 'li',
-                             # link to the entry at rev 2
-                             child: { tag: 'a',
-                                         attributes: {href: '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo'},
-                                         content: 'repo',
-                                         # link to partial diff
-                                         sibling:  { tag: 'a',
-                                                        attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo' }
+                          # link to the entry at rev 2
+                          child: { tag: 'a',
+                                   attributes: { href: '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo' },
+                                   content: 'repo',
+                                   # link to partial diff
+                                   sibling:  { tag: 'a',
+                                               attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo' }
                                                        }
                                         }
                             }
@@ -308,7 +308,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_tag tag: 'h2', content: /@ 8/
     end
   else
-    puts "Subversion test repository NOT FOUND. Skipping functional tests !!!"
+    puts 'Subversion test repository NOT FOUND. Skipping functional tests !!!'
     def test_fake; assert true end
   end
 end

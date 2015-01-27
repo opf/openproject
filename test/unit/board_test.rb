@@ -60,6 +60,6 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
     end
-    assert_equal 0, Message.count(conditions: {board_id: 1})
+    assert_equal 0, Message.count(conditions: { board_id: 1 })
   end
 end

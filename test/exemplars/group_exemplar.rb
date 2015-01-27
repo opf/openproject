@@ -35,5 +35,4 @@ class Group < Principal
     @last_lastname.succ!
     @last_lastname
   end
-
 end

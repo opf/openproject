@@ -36,5 +36,4 @@ class Repository < ActiveRecord::Base
     @last_url.succ!
     @last_url
   end
-
 end

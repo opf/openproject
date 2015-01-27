@@ -43,7 +43,7 @@ class UserTest < ActiveSupport::TestCase
   test 'object_daddy creation' do
     User.generate_with_protected!(firstname: 'Testing connection')
     User.generate_with_protected!(firstname: 'Testing connection')
-    assert_equal 2, User.count(:all, conditions: {firstname: 'Testing connection'})
+    assert_equal 2, User.count(:all, conditions: { firstname: 'Testing connection' })
   end
 
   def test_truth
@@ -52,31 +52,31 @@ class UserTest < ActiveSupport::TestCase
 
   def test_mail_should_be_stripped
     u = User.new
-    u.mail = " foo@bar.com  "
-    assert_equal "foo@bar.com", u.mail
+    u.mail = ' foo@bar.com  '
+    assert_equal 'foo@bar.com', u.mail
   end
 
   def test_create
-    user = User.new(firstname: "new", lastname: "user", mail: "newuser@somenet.foo")
+    user = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
 
-    user.login = "jsmith"
-    user.password, user.password_confirmation = "adminADMIN!", "adminADMIN!"
+    user.login = 'jsmith'
+    user.password, user.password_confirmation = 'adminADMIN!', 'adminADMIN!'
     # login uniqueness
     assert !user.save
     assert_equal 1, user.errors.count
 
-    user.login = "newuser"
-    user.password, user.password_confirmation = "adminADMIN!", "NOTadminADMIN!"
+    user.login = 'newuser'
+    user.password, user.password_confirmation = 'adminADMIN!', 'NOTadminADMIN!'
     # password confirmation
     assert !user.save
     assert_equal 1, user.errors.count
 
-    user.password, user.password_confirmation = "adminADMIN!", "adminADMIN!"
+    user.password, user.password_confirmation = 'adminADMIN!', 'adminADMIN!'
     assert user.save
   end
 
-  context "User#before_create" do
-    should "set the mail_notification to the default Setting" do
+  context 'User#before_create' do
+    should 'set the mail_notification to the default Setting' do
       @user1 = User.generate_with_protected!
       assert_equal 'only_my_events', @user1.mail_notification
 
@@ -87,40 +87,40 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  context "User.login" do
-    should "be case-insensitive." do
-      u = User.new(firstname: "new", lastname: "user", mail: "newuser@somenet.foo")
+  context 'User.login' do
+    should 'be case-insensitive.' do
+      u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
       u.login = 'newuser'
-      u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
+      u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
       assert u.save
 
-      u = User.new(firstname: "Similar", lastname: "User", mail: "similaruser@somenet.foo")
+      u = User.new(firstname: 'Similar', lastname: 'User', mail: 'similaruser@somenet.foo')
       u.login = 'NewUser'
-      u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
+      u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
       assert !u.save
       assert_include u.errors[:login], I18n.translate('activerecord.errors.messages.taken')
     end
   end
 
   def test_mail_uniqueness_should_not_be_case_sensitive
-    u = User.new(firstname: "new", lastname: "user", mail: "newuser@somenet.foo")
+    u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
     u.login = 'newuser1'
-    u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
+    u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
     assert u.save
 
-    u = User.new(firstname: "new", lastname: "user", mail: "newUser@Somenet.foo")
+    u = User.new(firstname: 'new', lastname: 'user', mail: 'newUser@Somenet.foo')
     u.login = 'newuser2'
-    u.password, u.password_confirmation = "adminADMIN!", "adminADMIN!"
+    u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
     assert !u.save
     assert_include u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
   end
 
   def test_update
-    assert_equal "admin", @admin.login
-    @admin.login = "john"
-    assert @admin.save, @admin.errors.full_messages.join("; ")
+    assert_equal 'admin', @admin.login
+    @admin.login = 'john'
+    assert @admin.save, @admin.errors.full_messages.join('; ')
     @admin.reload
-    assert_equal "john", @admin.login
+    assert_equal 'john', @admin.login
   end
 
   def test_destroy
@@ -130,7 +130,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_validate_login_presence
-    @admin.login = ""
+    @admin.login = ''
     assert !@admin.save
     assert_equal 1, @admin.errors.count
   end
@@ -142,35 +142,34 @@ class UserTest < ActiveSupport::TestCase
     refute_empty u.errors[:mail_notification]
   end
 
-  context "User#try_to_login" do
-    should "fall-back to case-insensitive if user login is not found as-typed." do
-      user = User.try_to_login("AdMin", "adminADMIN!")
+  context 'User#try_to_login' do
+    should 'fall-back to case-insensitive if user login is not found as-typed.' do
+      user = User.try_to_login('AdMin', 'adminADMIN!')
       assert_kind_of User, user
-      assert_equal "admin", user.login
+      assert_equal 'admin', user.login
     end
 
-    should "select the exact matching user first" do
+    should 'select the exact matching user first' do
       case_sensitive_user = User.generate_with_protected!(login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
-      user = User.try_to_login("ADMIN", "adminADMIN!")
+      user = User.try_to_login('ADMIN', 'adminADMIN!')
       assert_kind_of User, user
-      assert_equal "ADMIN", user.login
-
+      assert_equal 'ADMIN', user.login
     end
   end
 
   def test_password
-    user = User.try_to_login("admin", "adminADMIN!")
+    user = User.try_to_login('admin', 'adminADMIN!')
     assert_kind_of User, user
-    assert_equal "admin", user.login
-    user.password = "newpassPASS!"
+    assert_equal 'admin', user.login
+    user.password = 'newpassPASS!'
     assert user.save
 
-    user = User.try_to_login("admin", "newpassPASS!")
+    user = User.try_to_login('admin', 'newpassPASS!')
     assert_kind_of User, user
-    assert_equal "admin", user.login
+    assert_equal 'admin', user.login
   end
 
   def test_name_format
@@ -182,36 +181,36 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_lock
-    user = User.try_to_login("jsmith", "jsmith")
+    user = User.try_to_login('jsmith', 'jsmith')
     assert_equal @jsmith, user
 
     @jsmith.status = User::STATUSES[:locked]
     assert @jsmith.save
 
-    user = User.try_to_login("jsmith", "jsmith")
+    user = User.try_to_login('jsmith', 'jsmith')
     assert_equal nil, user
   end
 
-  context ".try_to_login" do
-    context "with good credentials" do
-      should "return the user" do
-        user = User.try_to_login("admin", "adminADMIN!")
+  context '.try_to_login' do
+    context 'with good credentials' do
+      should 'return the user' do
+        user = User.try_to_login('admin', 'adminADMIN!')
         assert_kind_of User, user
-        assert_equal "admin", user.login
+        assert_equal 'admin', user.login
       end
     end
 
-    context "with wrong credentials" do
-      should "return nil" do
-        assert_nil User.try_to_login("admin", "foo")
+    context 'with wrong credentials' do
+      should 'return nil' do
+        assert_nil User.try_to_login('admin', 'foo')
       end
     end
   end
 
   if ldap_configured?
-    context "#try_to_login using LDAP" do
-      context "with failed connection to the LDAP server" do
-        should "return nil" do
+    context '#try_to_login using LDAP' do
+      context 'with failed connection to the LDAP server' do
+        should 'return nil' do
           @auth_source = LdapAuthSource.find(1)
           AuthSource.any_instance.stub(:initialize_ldap_con).and_raise(Net::LDAP::LdapError, 'Cannot connect')
 
@@ -219,18 +218,18 @@ class UserTest < ActiveSupport::TestCase
         end
       end
 
-      context "with an unsuccessful authentication" do
-        should "return nil" do
+      context 'with an unsuccessful authentication' do
+        should 'return nil' do
           assert_equal nil, User.try_to_login('edavis', 'wrong')
         end
       end
 
-      context "on the fly registration" do
+      context 'on the fly registration' do
         setup do
           @auth_source = LdapAuthSource.find(1)
         end
 
-        context "with a successful authentication" do
+        context 'with a successful authentication' do
           should "create a new user account if it doesn't exist" do
             assert_difference('User.count') do
               user = User.try_to_login('edavis', '123456')
@@ -238,7 +237,7 @@ class UserTest < ActiveSupport::TestCase
             end
           end
 
-          should "retrieve existing user" do
+          should 'retrieve existing user' do
             user = User.try_to_login('edavis', '123456')
             user.admin = true
             user.save!
@@ -253,7 +252,7 @@ class UserTest < ActiveSupport::TestCase
     end
 
   else
-    puts "Skipping LDAP tests."
+    puts 'Skipping LDAP tests.'
   end
 
   def test_create_anonymous
@@ -274,10 +273,9 @@ class UserTest < ActiveSupport::TestCase
     assert_equal key, @jsmith.rss_key
   end
 
-
   should have_one :api_token
 
-  context "User#api_key" do
+  context 'User#api_key' do
     should "generate a new one if the user doesn't have one" do
       user = User.generate_with_protected!(api_token: nil)
       assert_nil user.api_token
@@ -288,7 +286,7 @@ class UserTest < ActiveSupport::TestCase
       assert_equal key, user.api_key
     end
 
-    should "return the existing api token value" do
+    should 'return the existing api token value' do
       user = User.generate_with_protected!
       token = Token.generate!(action: 'api')
       user.api_token = token
@@ -298,12 +296,12 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  context "User#find_by_api_key" do
-    should "return nil if no matching key is found" do
+  context 'User#find_by_api_key' do
+    should 'return nil if no matching key is found' do
       assert_nil User.find_by_api_key('zzzzzzzzz')
     end
 
-    should "return nil if the key is found for an inactive user" do
+    should 'return nil if the key is found for an inactive user' do
       user = User.generate_with_protected!(status: User::STATUSES[:locked])
       token = Token.generate!(action: 'api')
       user.api_token = token
@@ -312,7 +310,7 @@ class UserTest < ActiveSupport::TestCase
       assert_nil User.find_by_api_key(token.value)
     end
 
-    should "return the user if the key is found for an active user" do
+    should 'return the user if the key is found for an active user' do
       user = User.generate_with_protected!(status: User::STATUSES[:active])
       token = Token.generate!(action: 'api')
       user.api_token = token
@@ -326,17 +324,17 @@ class UserTest < ActiveSupport::TestCase
     # user with a role
     roles = @jsmith.roles_for_project(Project.find(1))
     assert_kind_of Role, roles.first
-    assert_equal "Manager", roles.first.name
+    assert_equal 'Manager', roles.first.name
 
     # user with no role
-    assert_nil @dlopper.roles_for_project(Project.find(2)).detect {|role| role.member?}
+    assert_nil @dlopper.roles_for_project(Project.find(2)).detect(&:member?)
   end
 
   def test_projects_by_role_for_user_with_role
     user = User.find(2)
     assert_kind_of Hash, user.projects_by_role
     assert_equal 2, user.projects_by_role.size
-    assert_equal [1,5], user.projects_by_role[Role.find(1)].collect(&:id).sort
+    assert_equal [1, 5], user.projects_by_role[Role.find(1)].collect(&:id).sort
     assert_equal [2], user.projects_by_role[Role.find(2)].collect(&:id).sort
   end
 
@@ -400,70 +398,70 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'jsmith@somenet.foo', u.mail
   end
 
-  context "#allowed_to?" do
-    context "with a unique project" do
-      should "return false if project is archived" do
+  context '#allowed_to?' do
+    context 'with a unique project' do
+      should 'return false if project is archived' do
         project = Project.find(1)
         Project.any_instance.stub(:status).and_return(Project::STATUS_ARCHIVED)
         assert ! @admin.allowed_to?(:view_work_packages, Project.find(1))
       end
 
-      should "return false if related module is disabled" do
+      should 'return false if related module is disabled' do
         project = Project.find(1)
-        project.enabled_module_names = ["work_package_tracking"]
+        project.enabled_module_names = ['work_package_tracking']
         assert @admin.allowed_to?(:add_work_packages, project)
         assert ! @admin.allowed_to?(:view_wiki_pages, project)
       end
 
-      should "authorize nearly everything for admin users" do
+      should 'authorize nearly everything for admin users' do
         project = Project.find(1)
-        project.enabled_module_names = ["work_package_tracking", "news", "wiki", "repository"]
+        project.enabled_module_names = ['work_package_tracking', 'news', 'wiki', 'repository']
         assert ! @admin.member_of?(project)
         %w(edit_work_packages delete_work_packages manage_news manage_repository manage_wiki).each do |p|
           assert @admin.allowed_to?(p.to_sym, project)
         end
       end
 
-      should "authorize normal users depending on their roles" do
+      should 'authorize normal users depending on their roles' do
         project = Project.find(1)
-        project.enabled_module_names = ["boards"]
-        assert @jsmith.allowed_to?(:delete_messages, project)    #Manager
-        assert ! @dlopper.allowed_to?(:delete_messages, project) #Developper
+        project.enabled_module_names = ['boards']
+        assert @jsmith.allowed_to?(:delete_messages, project)    # Manager
+        assert ! @dlopper.allowed_to?(:delete_messages, project) # Developper
       end
 
-      should "only managers are allowed to export tickets" do
+      should 'only managers are allowed to export tickets' do
         project = Project.find(1)
-        project.enabled_module_names = ["work_package_tracking"]
-        assert @jsmith.allowed_to?(:export_work_packages, project)    #Manager
-        assert ! @dlopper.allowed_to?(:export_work_packages, project) #Developper
+        project.enabled_module_names = ['work_package_tracking']
+        assert @jsmith.allowed_to?(:export_work_packages, project)    # Manager
+        assert ! @dlopper.allowed_to?(:export_work_packages, project) # Developper
       end
     end
 
-    context "with multiple projects" do
-      should "return false if array is empty" do
+    context 'with multiple projects' do
+      should 'return false if array is empty' do
         assert ! @admin.allowed_to?(:view_project, [])
       end
 
-      should "return true only if user has permission on all these projects" do
+      should 'return true only if user has permission on all these projects' do
         Project.all.each do |project|
-          project.enabled_module_names = ["work_package_tracking"]
+          project.enabled_module_names = ['work_package_tracking']
           project.save!
         end
 
         assert @admin.allowed_to?(:view_project, Project.all)
-        assert ! @dlopper.allowed_to?(:view_project, Project.all) #cannot see Project(2)
-        assert @jsmith.allowed_to?(:edit_work_packages, @jsmith.projects) #Manager or Developer everywhere
-        assert ! @jsmith.allowed_to?(:delete_work_package_watchers, @jsmith.projects) #Dev cannot delete_work_package_watchers
+        assert ! @dlopper.allowed_to?(:view_project, Project.all) # cannot see Project(2)
+        assert @jsmith.allowed_to?(:edit_work_packages, @jsmith.projects) # Manager or Developer everywhere
+        assert ! @jsmith.allowed_to?(:delete_work_package_watchers, @jsmith.projects) # Dev cannot delete_work_package_watchers
       end
 
-      should "behave correctly with arrays of 1 project" do
-        assert ! User.anonymous.allowed_to?(:delete_work_packages, [Project.first])
+      should 'behave correctly with arrays of 1 project' do
+        assert !User.anonymous.allowed_to?(:delete_work_packages, [Project.first])
       end
     end
 
-    context "with options[:global]" do
-      should "authorize if user has at least one role that has this permission" do
-        @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
+    context 'with options[:global]' do
+      should 'authorize if user has at least one role that has this permission' do
+        @dlopper2 = User.find(5) # only Developper on a project, not Manager anywhere
         @anonymous = User.find(6)
         assert @jsmith.allowed_to?(:delete_work_package_watchers, nil, global: true)
         assert ! @dlopper2.allowed_to?(:delete_work_package_watchers, nil, global: true)
@@ -474,8 +472,8 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  context "User#notify_about?" do
-    context "Issues" do
+  context 'User#notify_about?' do
+    context 'Issues' do
       setup do
         @project = Project.find(1)
         @author = User.generate_with_protected!
@@ -483,12 +481,12 @@ class UserTest < ActiveSupport::TestCase
         @issue = FactoryGirl.create(:work_package, project: @project, assigned_to: @assignee, author: @author)
       end
 
-      should "be true for a user with :all" do
+      should 'be true for a user with :all' do
         @author.update_attribute(:mail_notification, 'all')
         assert @author.notify_about?(@issue)
       end
 
-      should "be false for a user with :none" do
+      should 'be false for a user with :none' do
         @author.update_attribute(:mail_notification, 'none')
         assert ! @author.notify_about?(@issue)
       end
@@ -501,47 +499,47 @@ class UserTest < ActiveSupport::TestCase
         assert ! @user.notify_about?(@issue)
       end
 
-      should "be true for a user with :only_my_events and is the author" do
+      should 'be true for a user with :only_my_events and is the author' do
         @author.update_attribute(:mail_notification, 'only_my_events')
         assert @author.notify_about?(@issue)
       end
 
-      should "be true for a user with :only_my_events and is the assignee" do
+      should 'be true for a user with :only_my_events and is the assignee' do
         @assignee.update_attribute(:mail_notification, 'only_my_events')
         assert @assignee.notify_about?(@issue)
       end
 
-      should "be true for a user with :only_assigned and is the assignee" do
+      should 'be true for a user with :only_assigned and is the assignee' do
         @assignee.update_attribute(:mail_notification, 'only_assigned')
         assert @assignee.notify_about?(@issue)
       end
 
-      should "be false for a user with :only_assigned and is not the assignee" do
+      should 'be false for a user with :only_assigned and is not the assignee' do
         @author.update_attribute(:mail_notification, 'only_assigned')
         assert ! @author.notify_about?(@issue)
       end
 
-      should "be true for a user with :only_owner and is the author" do
+      should 'be true for a user with :only_owner and is the author' do
         @author.update_attribute(:mail_notification, 'only_owner')
         assert @author.notify_about?(@issue)
       end
 
-      should "be false for a user with :only_owner and is not the author" do
+      should 'be false for a user with :only_owner and is not the author' do
         @assignee.update_attribute(:mail_notification, 'only_owner')
         assert ! @assignee.notify_about?(@issue)
       end
 
-      should "be true for a user with :selected and is the author" do
+      should 'be true for a user with :selected and is the author' do
         @author.update_attribute(:mail_notification, 'selected')
         assert @author.notify_about?(@issue)
       end
 
-      should "be true for a user with :selected and is the assignee" do
+      should 'be true for a user with :selected and is the assignee' do
         @assignee.update_attribute(:mail_notification, 'selected')
         assert @assignee.notify_about?(@issue)
       end
 
-      should "be false for a user with :selected and is not the author or assignee" do
+      should 'be false for a user with :selected and is not the author or assignee' do
         @user = User.generate_with_protected!(mail_notification: 'selected')
         (Member.new.tap do |m|
           m.force_attributes = { user: @user, project: @project, role_ids: [1] }
@@ -550,9 +548,8 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
-    context "other events" do
+    context 'other events' do
       should 'be added and tested'
     end
   end
-
 end

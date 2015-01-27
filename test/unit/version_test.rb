@@ -47,9 +47,9 @@ class VersionTest < ActiveSupport::TestCase
     assert_include v.errors[:effective_date], I18n.translate('activerecord.errors.messages.not_a_date')
   end
 
-  context "#start_date" do
-    context "with no value saved" do
-      should "be the date of the earlist issue" do
+  context '#start_date' do
+    context 'with no value saved' do
+      should 'be the date of the earlist issue' do
         project = Project.find(1)
         (v = Version.new.tap do |v|
           v.force_attributes = { project: project, name: 'Progress' }
@@ -61,8 +61,8 @@ class VersionTest < ActiveSupport::TestCase
       end
     end
 
-    context "with a value saved" do
-      should "be the value" do
+    context 'with a value saved' do
+      should 'be the value' do
         project = Project.find(1)
         (v = Version.new.tap do |v|
           v.force_attributes = { project: project, name: 'Progress', start_date: '2010-01-05' }
@@ -73,9 +73,7 @@ class VersionTest < ActiveSupport::TestCase
         assert_equal '2010-01-05', v.start_date.to_s
       end
     end
-
   end
-
 
   def test_progress_should_be_0_with_no_assigned_issues
     project = Project.find(1)
@@ -99,7 +97,7 @@ class VersionTest < ActiveSupport::TestCase
 
   def test_progress_should_be_100_with_closed_assigned_issues
     project = Project.find(1)
-    status = Status.find(:first, conditions: {is_closed: true})
+    status = Status.find(:first, conditions: { is_closed: true })
     (v = Version.new.tap do |v|
       v.force_attributes = { project: project, name: 'Progress' }
     end).save!
@@ -119,7 +117,7 @@ class VersionTest < ActiveSupport::TestCase
     add_work_package(v)
     add_work_package(v, done_ratio: 20)
     add_work_package(v, done_ratio: 70)
-    assert_progress_equal (0.0 + 20.0 + 70.0)/3, v.completed_percent
+    assert_progress_equal (0.0 + 20.0 + 70.0) / 3, v.completed_percent
     assert_progress_equal 0, v.closed_percent
   end
 
@@ -130,9 +128,9 @@ class VersionTest < ActiveSupport::TestCase
     end).save!
     add_work_package(v)
     add_work_package(v, done_ratio: 20)
-    add_work_package(v, status: Status.find(:first, conditions: {is_closed: true}))
-    assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_percent
-    assert_progress_equal (100.0)/3, v.closed_percent
+    add_work_package(v, status: Status.find(:first, conditions: { is_closed: true }))
+    assert_progress_equal (0.0 + 20.0 + 100.0) / 3, v.completed_percent
+    assert_progress_equal (100.0) / 3, v.closed_percent
   end
 
   def test_progress_should_consider_estimated_hours_to_weigth_issues
@@ -143,9 +141,9 @@ class VersionTest < ActiveSupport::TestCase
     add_work_package(v, estimated_hours: 10)
     add_work_package(v, estimated_hours: 20, done_ratio: 30)
     add_work_package(v, estimated_hours: 40, done_ratio: 10)
-    add_work_package(v, estimated_hours: 25, status: Status.find(:first, conditions: {is_closed: true}))
-    assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_percent
-    assert_progress_equal 25.0/95.0*100, v.closed_percent
+    add_work_package(v, estimated_hours: 25, status: Status.find(:first, conditions: { is_closed: true }))
+    assert_progress_equal (10.0 * 0 + 20.0 * 0.3 + 40 * 0.1 + 25.0 * 1) / 95.0 * 100, v.completed_percent
+    assert_progress_equal 25.0 / 95.0 * 100, v.closed_percent
   end
 
   def test_progress_should_consider_average_estimated_hours_to_weigth_unestimated_issues
@@ -154,88 +152,87 @@ class VersionTest < ActiveSupport::TestCase
       v.force_attributes = { project: project, name: 'Progress' }
     end).save!
     add_work_package(v, done_ratio: 20)
-    add_work_package(v, status: Status.find(:first, conditions: {is_closed: true}))
+    add_work_package(v, status: Status.find(:first, conditions: { is_closed: true }))
     add_work_package(v, estimated_hours: 10, done_ratio: 30)
     add_work_package(v, estimated_hours: 40, done_ratio: 10)
-    assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_percent
-    assert_progress_equal 25.0/100.0*100, v.closed_percent
+    assert_progress_equal (25.0 * 0.2 + 25.0 * 1 + 10.0 * 0.3 + 40.0 * 0.1) / 100.0 * 100, v.completed_percent
+    assert_progress_equal 25.0 / 100.0 * 100, v.closed_percent
   end
 
-  context "#behind_schedule?" do
+  context '#behind_schedule?' do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(identifier: 'test0')
       @project.types << Type.generate!
 
       (@version = Version.new.tap do |v|
-        v.force_attributes = { project: @project, effective_date: nil, name: "test" }
+        v.force_attributes = { project: @project, effective_date: nil, name: 'test' }
       end).save!
     end
 
-    should "be false if there are no issues assigned" do
+    should 'be false if there are no issues assigned' do
       @version.update_attribute(:effective_date, Date.yesterday)
       assert_equal false, @version.behind_schedule?
     end
 
-    should "be false if there is no effective_date" do
+    should 'be false if there is no effective_date' do
       assert_equal false, @version.behind_schedule?
     end
 
-    should "be false if all of the issues are ahead of schedule" do
+    should 'be false if all of the issues are ahead of schedule' do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
-                               FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60) # 14 day span, 60% done, 50% time left
-                              ]
+        FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
+        FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60) # 14 day span, 60% done, 50% time left
+      ]
       assert_equal 60, @version.completed_percent
       assert_equal false, @version.behind_schedule?
     end
 
-    should "be true if any of the issues are behind schedule" do
+    should 'be true if any of the issues are behind schedule' do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
-                               FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 20) # 14 day span, 20% done, 50% time left
-                              ]
+        FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
+        FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 20) # 14 day span, 20% done, 50% time left
+      ]
       assert_equal 40, @version.completed_percent
       assert_equal true, @version.behind_schedule?
     end
 
-    should "be false if all of the issues are complete" do
+    should 'be false if all of the issues are complete' do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               FactoryGirl.create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)), # 7 day span
-                               FactoryGirl.create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)) # 7 day span
-                              ]
+        FactoryGirl.create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)), # 7 day span
+        FactoryGirl.create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)) # 7 day span
+      ]
       assert_equal 100, @version.completed_percent
       assert_equal false, @version.behind_schedule?
-
     end
   end
 
-  context "#estimated_hours" do
+  context '#estimated_hours' do
     setup do
       (@version = Version.new.tap do |v|
         v.force_attributes = { project_id: 1, name: '#estimated_hours' }
       end).save!
     end
 
-    should "return 0 with no assigned issues" do
+    should 'return 0 with no assigned issues' do
       assert_equal 0, @version.estimated_hours
     end
 
-    should "return 0 with no estimated hours" do
+    should 'return 0 with no estimated hours' do
       add_work_package(@version)
       assert_equal 0, @version.estimated_hours
     end
 
-    should "return the sum of estimated hours" do
+    should 'return the sum of estimated hours' do
       add_work_package(@version, estimated_hours: 2.5)
       add_work_package(@version, estimated_hours: 5)
       assert_equal 7.5, @version.estimated_hours
     end
 
-    should "return the sum of leaves estimated hours" do
+    should 'return the sum of leaves estimated hours' do
       parent = add_work_package(@version)
       add_work_package(@version, estimated_hours: 2.5, parent_id: parent.id)
       add_work_package(@version, estimated_hours: 5, parent_id: parent.id)
@@ -280,7 +277,7 @@ class VersionTest < ActiveSupport::TestCase
 
   private
 
-  def add_work_package(version, attributes={})
+  def add_work_package(version, attributes = {})
     (v = WorkPackage.new.tap do |v|
       v.force_attributes = { project: version.project,
                              fixed_version: version,
@@ -292,7 +289,7 @@ class VersionTest < ActiveSupport::TestCase
     v
   end
 
-  def assert_progress_equal(expected_float, actual_float, message="")
-    assert_in_delta(expected_float, actual_float, 0.000001, message="")
+  def assert_progress_equal(expected_float, actual_float, _message = '')
+    assert_in_delta(expected_float, actual_float, 0.000001, message = '')
   end
 end

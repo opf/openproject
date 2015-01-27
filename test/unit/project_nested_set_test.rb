@@ -29,8 +29,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ProjectNestedSetTest < ActiveSupport::TestCase
-
-  context "nested set" do
+  context 'nested set' do
     setup do
       FactoryGirl.create(:type_standard)
       Project.delete_all
@@ -56,65 +55,65 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
       [@a, @a1, @a2, @b, @b1, @b11, @b2, @c, @c1].each(&:reload)
     end
 
-    context "#create" do
-      should "build valid tree" do
-        assert_nested_set_values({
+    context '#create' do
+      should 'build valid tree' do
+        assert_nested_set_values(
           @a   => [nil,   1,  6],
           @a1  => [@a.id, 2,  3],
           @a2  => [@a.id, 4,  5],
           @b   => [nil,   7, 14],
           @b1  => [@b.id, 8, 11],
-          @b11 => [@b1.id,9, 10],
-          @b2  => [@b.id,12, 13],
+          @b11 => [@b1.id, 9, 10],
+          @b2  => [@b.id, 12, 13],
           @c   => [nil,  15, 18],
-          @c1  => [@c.id,16, 17]
-        })
+          @c1  => [@c.id, 16, 17]
+        )
       end
     end
 
-    context "#set_parent!" do
-      should "keep valid tree" do
+    context '#set_parent!' do
+      should 'keep valid tree' do
         assert_no_difference 'Project.count' do
           Project.find_by_name('Project B1').set_parent!(Project.find_by_name('Project A2'))
         end
-        assert_nested_set_values({
+        assert_nested_set_values(
           @a   => [nil,   1, 10],
           @a2  => [@a.id, 4,  9],
-          @b1  => [@a2.id,5,  8],
-          @b11 => [@b1.id,6,  7],
+          @b1  => [@a2.id, 5,  8],
+          @b11 => [@b1.id, 6,  7],
           @b   => [nil,  11, 14],
           @c   => [nil,  15, 18]
-        })
+        )
       end
     end
 
-    context "#destroy" do
-      context "a root with children" do
-        should "not mess up the tree" do
+    context '#destroy' do
+      context 'a root with children' do
+        should 'not mess up the tree' do
           assert_difference 'Project.count', -4 do
             Project.find_by_name('Project B').destroy
           end
-          assert_nested_set_values({
+          assert_nested_set_values(
             @a  => [nil,   1,  6],
             @a1 => [@a.id, 2,  3],
             @a2 => [@a.id, 4,  5],
             @c  => [nil,   7, 10],
             @c1 => [@c.id, 8,  9]
-          })
+          )
         end
       end
 
-      context "a child with children" do
-        should "not mess up the tree" do
+      context 'a child with children' do
+        should 'not mess up the tree' do
           assert_difference 'Project.count', -2 do
             Project.find_by_name('Project B1').destroy
           end
-          assert_nested_set_values({
+          assert_nested_set_values(
             @a  => [nil,   1,  6],
             @b  => [nil,   7, 10],
             @b2 => [@b.id, 8,  9],
             @c  => [nil,  11, 14]
-          })
+          )
         end
       end
     end

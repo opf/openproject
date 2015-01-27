@@ -35,16 +35,16 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
 
   def test_project_menu_with_specific_locale
     Setting.available_languages = [:de, :en]
-    get 'projects/ecookbook', { }, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
+    get 'projects/ecookbook', {}, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
 
     assert_tag :div, attributes: { id: 'main-menu' },
                      descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_activity),
-                                                                             attributes: { href: '/projects/ecookbook/activity',
-                                                                                              class: 'icon2 icon-yes activity-menu-item ellipsis' } } }
+                                                       attributes: { href: '/projects/ecookbook/activity',
+                                                                     class: 'icon2 icon-yes activity-menu-item ellipsis' } } }
     assert_tag :div, attributes: { id: 'main-menu' },
                      descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_overview),
-                                                                             attributes: { href: '/projects/ecookbook',
-                                                                                              class: 'icon2 icon-list-view2 overview-menu-item ellipsis selected' } } }
+                                                       attributes: { href: '/projects/ecookbook',
+                                                                     class: 'icon2 icon-list-view2 overview-menu-item ellipsis selected' } } }
   end
 
   def test_project_menu_with_additional_menu_items
@@ -53,23 +53,23 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
       Redmine::MenuManager.map :project_menu do |menu|
         menu.push :foo, { controller: 'projects', action: 'show' }, caption: 'Foo'
         menu.push :bar, { controller: 'projects', action: 'show' }, before: :activity
-        menu.push :hello, { controller: 'projects', action: 'show' }, caption: Proc.new {|p| p.name.upcase }, after: :bar
+        menu.push :hello, { controller: 'projects', action: 'show' }, caption: Proc.new { |p| p.name.upcase }, after: :bar
       end
 
       get 'projects/ecookbook'
       assert_tag :div, attributes: { id: 'main-menu' },
                        descendant: { tag: 'li', child: { tag: 'a', content: 'Foo',
-                                                                               attributes: { class: 'foo-menu-item ellipsis' } } }
+                                                         attributes: { class: 'foo-menu-item ellipsis' } } }
 
       assert_tag :div, attributes: { id: 'main-menu' },
                        descendant: { tag: 'li', child: { tag: 'a', content: 'Bar',
-                                                                               attributes: { class: 'bar-menu-item ellipsis' } },
-                                                      before: { tag: 'li', child: { tag: 'a', content: 'ECOOKBOOK' } } }
+                                                         attributes: { class: 'bar-menu-item ellipsis' } },
+                                     before: { tag: 'li', child: { tag: 'a', content: 'ECOOKBOOK' } } }
 
       assert_tag :div, attributes: { id: 'main-menu' },
                        descendant: { tag: 'li', child: { tag: 'a', content: 'ECOOKBOOK',
-                                                                               attributes: { class: 'hello-menu-item ellipsis' } },
-                                                      before: { tag: 'li', child: { tag: 'a', content: 'Activity' } } }
+                                                         attributes: { class: 'hello-menu-item ellipsis' } },
+                                     before: { tag: 'li', child: { tag: 'a', content: 'Activity' } } }
 
       # Remove the menu items
       Redmine::MenuManager.map :project_menu do |menu|
@@ -89,11 +89,11 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
     end
 
     base_size = Redmine::MenuManager.items(:some_menu).size
-    list.push({ name: :foo, url: {controller: 'projects', action: 'show'}, options: {caption: 'Foo'}})
+    list.push(name: :foo, url: { controller: 'projects', action: 'show' }, options: { caption: 'Foo' })
     assert_equal base_size + 1, Redmine::MenuManager.items(:some_menu).size
-    list.push({ name: :bar, url: {controller: 'projects', action: 'show'}, options: {caption: 'Bar'}})
+    list.push(name: :bar, url: { controller: 'projects', action: 'show' }, options: { caption: 'Bar' })
     assert_equal base_size + 2, Redmine::MenuManager.items(:some_menu).size
-    list.push({ name: :hello, url: {controller: 'projects', action: 'show'}, options: {caption: 'Hello'}})
+    list.push(name: :hello, url: { controller: 'projects', action: 'show' }, options: { caption: 'Hello' })
     assert_equal base_size + 3, Redmine::MenuManager.items(:some_menu).size
     list.pop
     assert_equal base_size + 2, Redmine::MenuManager.items(:some_menu).size
@@ -101,7 +101,7 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
 
   def test_dynamic_menu_map_deferred
     assert_no_difference 'Redmine::MenuManager.items(:some_menu).size' do
-      Redmine::MenuManager.map(:some_other_menu).push :baz, {controller: 'projects', action: 'show'}, caption: 'Baz'
+      Redmine::MenuManager.map(:some_other_menu).push :baz, { controller: 'projects', action: 'show' }, caption: 'Baz'
       Redmine::MenuManager.map(:some_other_menu).delete :baz
     end
   end

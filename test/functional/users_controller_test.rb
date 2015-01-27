@@ -59,7 +59,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:users)
     # active users only
-    assert_nil assigns(:users).detect {|u| !u.active?}
+    assert_nil assigns(:users).detect { |u| !u.active? }
   end
 
   def test_index_with_name_filter
@@ -129,7 +129,7 @@ class UsersControllerTest < ActionController::TestCase
     memberships = assigns(:memberships)
     assert_not_nil memberships
     project_ids = memberships.map(&:project_id)
-    assert project_ids.include?(2) #private project admin can see
+    assert project_ids.include?(2) # private project admin can see
   end
 
   def test_show_current_should_require_authentication
@@ -160,16 +160,16 @@ class UsersControllerTest < ActionController::TestCase
     assert_difference 'User.count' do
       assert_difference 'ActionMailer::Base.deliveries.size' do
         post :create,
-          user: {
-            firstname: 'John',
-            lastname: 'Doe',
-            login: 'jdoe',
-            password: 'adminADMIN!',
-            password_confirmation: 'adminADMIN!',
-            mail: 'jdoe@gmail.com',
-            mail_notification: 'none'
-          },
-          send_information: '1'
+             user: {
+               firstname: 'John',
+               lastname: 'Doe',
+               login: 'jdoe',
+               password: 'adminADMIN!',
+               password_confirmation: 'adminADMIN!',
+               mail: 'jdoe@gmail.com',
+               mail_notification: 'none'
+             },
+             send_information: '1'
       end
     end
 
@@ -211,7 +211,7 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_update_with_failure
     assert_no_difference 'User.count' do
-      put :update, id: 2, user: {firstname: ''}
+      put :update, id: 2, user: { firstname: '' }
     end
 
     assert_response :success
@@ -219,7 +219,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_update_with_group_ids_should_assign_groups
-    put :update, id: 2, user: {group_ids: ['10']}
+    put :update, id: 2, user: { group_ids: ['10'] }
 
     user = User.find(2)
     assert_equal [10], user.group_ids
@@ -229,7 +229,7 @@ class UsersControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
 
-    put :update, id: 2, user: {password: 'newpassPASS!', password_confirmation: 'newpassPASS!'}, send_information: '1'
+    put :update, id: 2, user: { password: 'newpassPASS!', password_confirmation: 'newpassPASS!' }, send_information: '1'
     u = User.find(2)
     assert u.check_password?('newpassPASS!')
 
@@ -241,7 +241,7 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_edit_membership
     post :edit_membership, id: 2, membership_id: 1,
-                           membership: { role_ids: [2]}
+                           membership: { role_ids: [2] }
     assert_redirected_to action: 'edit', id: '2', tab: 'memberships'
     assert_equal [2], Member.find(1).role_ids
   end

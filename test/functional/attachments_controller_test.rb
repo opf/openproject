@@ -33,7 +33,6 @@ require 'attachments_controller'
 # Re-raise errors caught by the controller.
 class AttachmentsController; def rescue_action(e) raise e end; end
 
-
 class AttachmentsControllerTest < ActionController::TestCase
   fixtures :all
 
@@ -53,11 +52,11 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'text/html', @response.content_type
 
     assert_tag 'th',
-      attributes: {class: /filename/},
-      content: /issues_controller.rb\t\(révision 1484\)/
+               attributes: { class: /filename/ },
+               content: /issues_controller.rb\t\(révision 1484\)/
     assert_tag 'td',
-      attributes: {class: /line-code/},
-      content: /Demande créée avec succès/
+               attributes: { class: /line-code/ },
+               content: /Demande créée avec succès/
   end
 
   def test_show_diff_should_strip_non_utf8_content
@@ -67,11 +66,11 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'text/html', @response.content_type
 
     assert_tag 'th',
-      attributes: {class: /filename/},
-      content: /issues_controller.rb\t\(rvision 1484\)/
+               attributes: { class: /filename/ },
+               content: /issues_controller.rb\t\(rvision 1484\)/
     assert_tag 'td',
-      attributes: {class: /line-code/},
-      content: /Demande cre avec succs/
+               attributes: { class: /line-code/ },
+               content: /Demande cre avec succs/
   end
 
   def test_show_text_file

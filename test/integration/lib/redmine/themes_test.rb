@@ -49,7 +49,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_tag tag: 'link',
-      attributes: {href: '/assets/default.css'}
+               attributes: { href: '/assets/default.css' }
   end
 
   should_eventually 'test_without_theme_js' do
@@ -57,7 +57,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_no_tag tag: 'script',
-      attributes: {src: '/assets/default.js'}
+                  attributes: { src: '/assets/default.js' }
   end
 
   should_eventually 'test_with_theme_js' do
@@ -68,7 +68,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_tag tag: 'script',
-        attributes: {src: '/assets/default.js'}
+                 attributes: { src: '/assets/default.js' }
     ensure
       @theme.javascripts.delete 'theme'
     end
@@ -82,9 +82,9 @@ class ThemesTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_tag tag: 'link',
-        attributes: {src: '/foo/assets/default.js'}
+                 attributes: { src: '/foo/assets/default.js' }
       assert_tag tag: 'script',
-        attributes: {src: '/foo/assets/default.js'}
+                 attributes: { src: '/foo/assets/default.js' }
     ensure
       OpenProject::Configuration['rails_relative_url_root'] = ''
     end

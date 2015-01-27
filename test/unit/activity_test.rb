@@ -34,14 +34,14 @@ class ActivityTest < ActiveSupport::TestCase
   def setup
     super
     @project = Project.find(1)
-    [1,4,5,6].each do |issue_id|
+    [1, 4, 5, 6].each do |issue_id|
       i = WorkPackage.find(issue_id)
-      i.add_journal(User.current, "A journal to find")
+      i.add_journal(User.current, 'A journal to find')
       i.save!
     end
 
-    WorkPackage.all.each { |i| i.recreate_initial_journal! }
-    Message.all.each { |m| m.recreate_initial_journal! }
+    WorkPackage.all.each(&:recreate_initial_journal!)
+    Message.all.each(&:recreate_initial_journal!)
   end
 
   def teardown
@@ -93,12 +93,12 @@ class ActivityTest < ActiveSupport::TestCase
 
     assert(events.size > 0)
     assert(events.size <= 10)
-    assert_nil(events.detect {|e| e.event_author != user})
+    assert_nil(events.detect { |e| e.event_author != user })
   end
 
   private
 
-  def find_events(user, options={})
+  def find_events(user, options = {})
     events = Redmine::Activity::Fetcher.new(user, options).events(Date.today - 30, Date.today + 1)
     # Because events are provided by the journals, but we want to test for
     # their targets here, transform that

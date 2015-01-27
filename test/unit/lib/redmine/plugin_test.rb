@@ -29,7 +29,6 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::PluginTest < ActiveSupport::TestCase
-
   def setup
     super
     @klass = Redmine::Plugin
@@ -50,7 +49,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       author_url 'http://example.net/jsmith'
       description 'This is a test plugin'
       version '0.0.1'
-      settings default: {'sample_setting' => 'value', 'foo'=>'bar'}, partial: 'foo/settings'
+      settings default: { 'sample_setting' => 'value', 'foo' => 'bar' }, partial: 'foo/settings'
     end
 
     assert_equal 1, @klass.all.size
@@ -80,9 +79,9 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       test.assert_raise Redmine::PluginRequirementError do
         requires_openproject('< 0.9')
       end
-      requires_openproject('> 0.9', "<= 99.0.0")
+      requires_openproject('> 0.9', '<= 99.0.0')
       test.assert_raise Redmine::PluginRequirementError do
-        requires_openproject('< 0.9', ">= 98.0.0")
+        requires_openproject('< 0.9', '>= 98.0.0')
       end
 
       test.assert requires_openproject("~> #{Redmine::VERSION.to_semver.gsub(/\d+\z/, '0')}")
@@ -124,7 +123,6 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       test.assert_raise Redmine::PluginNotFound do
         requires_redmine_plugin(:missing, version: '0.1.0')
       end
-
     end
   end
 end

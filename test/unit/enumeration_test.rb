@@ -87,7 +87,7 @@ class EnumerationTest < ActiveSupport::TestCase
   def test_destroy_with_reassign
     new_priority = FactoryGirl.create :priority
     Enumeration.find(@low_priority).destroy(new_priority)
-    assert_nil WorkPackage.find(:first, conditions: {priority_id: @low_priority.id})
+    assert_nil WorkPackage.find(:first, conditions: { priority_id: @low_priority.id })
     assert_equal @issues.size, new_priority.objects_count
   end
 
@@ -97,7 +97,7 @@ class EnumerationTest < ActiveSupport::TestCase
 
   def test_should_belong_to_a_project
     association = Enumeration.reflect_on_association(:project)
-    assert association, "No Project association found"
+    assert association, 'No Project association found'
     assert_equal :belongs_to, association.macro
   end
 

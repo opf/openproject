@@ -103,10 +103,10 @@ class MemberTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::RecordNotFound) { Member.find(@member.id) }
   end
 
-  context "removing permissions" do
+  context 'removing permissions' do
     setup do
       @private_project = FactoryGirl.create :project_with_types,
-        is_public: true # has to be public first to successfully create things. Will be set to private later
+                                            is_public: true # has to be public first to successfully create things. Will be set to private later
       @watcher_user = FactoryGirl.create(:user)
 
       # watchers for public issue
@@ -129,7 +129,7 @@ class MemberTest < ActiveSupport::TestCase
       @private_project.save
     end
 
-    context "of user" do
+    context 'of user' do
       setup do
         (@member = Member.new.tap do |m|
           m.force_attributes = { project_id: @private_project.id,
@@ -138,16 +138,16 @@ class MemberTest < ActiveSupport::TestCase
         end).save!
       end
 
-      context "by deleting membership" do
-        should "prune watchers" do
+      context 'by deleting membership' do
+        should 'prune watchers' do
           assert_difference 'Watcher.count', -4 do
             @member.destroy
           end
         end
       end
 
-      context "by updating roles" do
-        should "prune watchers" do
+      context 'by updating roles' do
+        should 'prune watchers' do
           @private_role.remove_permission! :view_wiki_pages
           assert_difference 'Watcher.count', -2 do
             @member.role_ids = [@private_role.id]
@@ -158,7 +158,7 @@ class MemberTest < ActiveSupport::TestCase
       end
     end
 
-    context "of group" do
+    context 'of group' do
       setup do
         @group = FactoryGirl.create :group
         @member = (Member.new.tap do |m|
@@ -172,16 +172,16 @@ class MemberTest < ActiveSupport::TestCase
         assert @group.save
       end
 
-      context "by deleting membership" do
-        should "prune watchers" do
+      context 'by deleting membership' do
+        should 'prune watchers' do
           assert_difference 'Watcher.count', -4 do
             @member.destroy
           end
         end
       end
 
-      context "by updating roles" do
-        should "prune watchers" do
+      context 'by updating roles' do
+        should 'prune watchers' do
           @private_role.remove_permission! :view_wiki_pages
           assert_difference 'Watcher.count', -2 do
             @member.role_ids = [@private_role.id]

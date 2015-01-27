@@ -95,6 +95,4 @@ class JournalsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:journals)
     assert_equal 'application/atom+xml', @response.content_type
   end
-
-
 end

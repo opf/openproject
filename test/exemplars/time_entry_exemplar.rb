@@ -35,5 +35,4 @@ class TimeEntry < ActiveRecord::Base
   def self.generate_user
     User.generate_with_protected!
   end
-
 end

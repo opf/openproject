@@ -64,7 +64,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   def test_create
     assert_difference 'Group.count' do
-      post :create, group: {lastname: 'New group'}
+      post :create, group: { lastname: 'New group' }
     end
     assert_redirected_to groups_path
   end
@@ -76,7 +76,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_update
-    put :update, id: 10, group: {lastname: 'new name'}
+    put :update, id: 10, group: { lastname: 'new name' }
     assert_redirected_to groups_path
   end
 
@@ -101,13 +101,13 @@ class GroupsControllerTest < ActionController::TestCase
 
   def test_create_membership
     assert_difference 'Group.find(10).members.count' do
-      post :create_memberships, id: 10, membership: { project_id: 2, role_ids: ['1', '2']}
+      post :create_memberships, id: 10, membership: { project_id: 2, role_ids: ['1', '2'] }
     end
   end
 
   def test_edit_membership
     assert_no_difference 'Group.find(10).members.count' do
-      put :edit_membership, id: 10, membership_id: 6, membership: { role_ids: ['1', '3']}
+      put :edit_membership, id: 10, membership_id: 6, membership: { role_ids: ['1', '3'] }
     end
   end
 

@@ -100,13 +100,12 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
         get :entry, project_id: PRJ_ID, path: 'japanese/utf-16.txt'
         assert_response :success
 
-        assert_select "tr" do
-          assert_select "th.line-num" do
-            assert_select "a", text: /2/
+        assert_select 'tr' do
+          assert_select 'th.line-num' do
+            assert_select 'a', text: /2/
           end
-          assert_select "td", content: /japanese/
+          assert_select 'td', content: /japanese/
         end
-
       end
     end
 
@@ -118,7 +117,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       end
     end
   else
-    puts "Filesystem test repository NOT FOUND. Skipping functional tests !!!"
+    puts 'Filesystem test repository NOT FOUND. Skipping functional tests !!!'
     def test_fake; assert true end
   end
 end

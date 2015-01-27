@@ -45,5 +45,4 @@ class Issue < WorkPackage
   def self.fetch_priority
     IssuePriority.first || IssuePriority.generate!
   end
-
 end

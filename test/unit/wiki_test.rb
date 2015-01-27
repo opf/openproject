@@ -36,16 +36,16 @@ class WikiTest < ActiveSupport::TestCase
     assert !wiki.save
     assert_equal 1, wiki.errors.count
 
-    wiki.start_page = "Start page"
+    wiki.start_page = 'Start page'
     assert wiki.save
   end
 
   def test_update
     @wiki = Wiki.find(1)
-    @wiki.start_page = "Another start page"
+    @wiki.start_page = 'Another start page'
     assert @wiki.save
     @wiki.reload
-    assert_equal "Another start page", @wiki.start_page
+    assert_equal 'Another start page', @wiki.start_page
   end
 
   def test_find_page
@@ -68,16 +68,16 @@ class WikiTest < ActiveSupport::TestCase
     assert_equal 'テスト', Wiki.titleize('テスト')
   end
 
-  context "#sidebar" do
+  context '#sidebar' do
     setup do
       @wiki = Wiki.find(1)
     end
 
-    should "return nil if undefined" do
+    should 'return nil if undefined' do
       assert_nil @wiki.sidebar
     end
 
-    should "return a WikiPage if defined" do
+    should 'return a WikiPage if defined' do
       page = @wiki.pages.new(title: 'Sidebar')
       page.content = WikiContent.new(text: 'Side bar content for test_show_with_sidebar')
       page.save!

@@ -72,7 +72,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_work_package_with_default_type
     # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml', issue: {type: 'Support request'})
+    issue = submit_email('ticket_on_given_project.eml', issue: { type: 'Support request' })
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -86,7 +86,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.new_record?
     issue.reload
     assert_equal Project.find(2), issue.project
-    assert_equal Status.find_by_name("Resolved"), issue.status
+    assert_equal Status.find_by_name('Resolved'), issue.status
   end
 
   def test_add_work_package_with_attributes_override
@@ -116,7 +116,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_partial_attributes_override
-    issue = submit_email('ticket_with_attributes.eml', issue: {priority: 'High'}, allow_override: ['type'])
+    issue = submit_email('ticket_with_attributes.eml', issue: { priority: 'High' }, allow_override: ['type'])
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -143,9 +143,8 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-
   def test_add_work_package_with_attachment_to_specific_project
-    issue = submit_email('ticket_with_attachment.eml', issue: {project: 'onlinestore'})
+    issue = submit_email('ticket_with_attachment.eml', issue: { project: 'onlinestore' })
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -161,7 +160,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_custom_fields
-    issue = submit_email('ticket_with_custom_fields.eml', issue: {project: 'onlinestore'})
+    issue = submit_email('ticket_with_custom_fields.eml', issue: { project: 'onlinestore' })
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -181,7 +180,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_with_cc
-    issue = submit_email('ticket_with_cc.eml', issue: {project: 'ecookbook'})
+    issue = submit_email('ticket_with_cc.eml', issue: { project: 'ecookbook' })
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -191,14 +190,14 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_work_package_by_unknown_user
     assert_no_difference 'User.count' do
-      assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: {project: 'ecookbook'})
+      assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: { project: 'ecookbook' })
     end
   end
 
   def test_add_work_package_by_anonymous_user
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_unknown_user.eml', issue: {project: 'ecookbook'}, unknown_user: 'accept')
+      issue = submit_email('ticket_by_unknown_user.eml', issue: { project: 'ecookbook' }, unknown_user: 'accept')
       assert issue.is_a?(WorkPackage)
       assert issue.author.anonymous?
     end
@@ -207,7 +206,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_work_package_by_anonymous_user_with_no_from_address
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_empty_user.eml', issue: {project: 'ecookbook'}, unknown_user: 'accept')
+      issue = submit_email('ticket_by_empty_user.eml', issue: { project: 'ecookbook' }, unknown_user: 'accept')
       assert issue.is_a?(WorkPackage)
       assert issue.author.anonymous?
     end
@@ -217,7 +216,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       assert_no_difference 'WorkPackage.count' do
-        assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: {project: 'onlinestore'}, unknown_user: 'accept')
+        assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'accept')
       end
     end
   end
@@ -225,7 +224,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_work_package_by_anonymous_user_on_private_project_without_permission_check
     assert_no_difference 'User.count' do
       assert_difference 'WorkPackage.count' do
-        issue = submit_email('ticket_by_unknown_user.eml', issue: {project: 'onlinestore'}, no_permission_check: '1', unknown_user: 'accept')
+        issue = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, no_permission_check: '1', unknown_user: 'accept')
         assert issue.is_a?(WorkPackage)
         assert issue.author.anonymous?
         assert !issue.project.is_public?
@@ -271,7 +270,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_work_package_with_japanese_keywords
     type = Type.create!(name: '開発')
     Project.find(1).types << type
-    issue = submit_email('japanese_keywords_iso_2022_jp.eml', issue: {project: 'ecookbook'}, allow_override: 'type')
+    issue = submit_email('japanese_keywords_iso_2022_jp.eml', issue: { project: 'ecookbook' }, allow_override: 'type')
     assert_kind_of WorkPackage, issue
     assert_equal type, issue.type
   end
@@ -279,7 +278,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_from_apple_mail
     issue = submit_email(
               'apple_mail_with_attachment.eml',
-              issue: {project: 'ecookbook'}
+              issue: { project: 'ecookbook' }
             )
     assert_kind_of WorkPackage, issue
     assert_equal 1, issue.attachments.size
@@ -295,7 +294,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_work_package_with_iso_8859_1_subject
     issue = submit_email(
               'subject_as_iso-8859-1.eml',
-              issue: {project: 'ecookbook'}
+              issue: { project: 'ecookbook' }
             )
     assert_kind_of WorkPackage, issue
     assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
@@ -313,17 +312,17 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_should_ignore_emails_from_emission_address
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
-      assert !submit_email('ticket_from_emission_address.eml', issue: { project: 'ecookbook'}, unknown_user: 'create')
+      assert !submit_email('ticket_from_emission_address.eml', issue: { project: 'ecookbook' }, unknown_user: 'create')
     end
   end
 
   def test_should_ignore_auto_replied_emails
     MailHandler.any_instance.should_receive(:dispatch).never
     [
-      "X-Auto-Response-Suppress: OOF",
-      "Auto-Submitted: auto-replied",
-      "Auto-Submitted: Auto-Replied",
-      "Auto-Submitted: auto-generated"
+      'X-Auto-Response-Suppress: OOF',
+      'Auto-Submitted: auto-replied',
+      'Auto-Submitted: Auto-Replied',
+      'Auto-Submitted: auto-generated'
     ].each do |header|
       raw = IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
       raw = header + "\n" + raw
@@ -352,7 +351,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Feature request', journal.journable.type.name
   end
 
-  test "reply to issue update (Journal) by message_id" do
+  test 'reply to issue update (Journal) by message_id' do
     Journal.delete_all
     issue = WorkPackage.find(2)
     j = FactoryGirl.create :work_package_journal,
@@ -376,11 +375,11 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
-    assert_equal Status.find_by_name("Resolved"), issue.status
+    assert_equal Status.find_by_name('Resolved'), issue.status
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
     assert_equal User.find_by_login('jsmith'), issue.assigned_to
-    assert_equal "52.6", issue.custom_value_for(CustomField.find_by_name('Float field')).value
+    assert_equal '52.6', issue.custom_value_for(CustomField.find_by_name('Float field')).value
     # keywords should be removed from the email body
     assert !journal.notes.match(/^Status:/i)
     assert !journal.notes.match(/^Start Date:/i)
@@ -395,7 +394,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_note_should_not_set_defaults
-    journal = submit_email('ticket_reply.eml', issue: {type: 'Support request', priority: 'High'})
+    journal = submit_email('ticket_reply.eml', issue: { type: 'Support request', priority: 'High' })
     assert journal.is_a?(Journal)
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
@@ -422,7 +421,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_should_strip_tags_of_html_only_emails
-    issue = submit_email('ticket_html_only.eml', issue: {project: 'ecookbook'})
+    issue = submit_email('ticket_html_only.eml', issue: { project: 'ecookbook' })
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
@@ -430,13 +429,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'This is a html-only email.', issue.description
   end
 
-  context "truncate emails based on the Setting" do
-    context "with no setting" do
+  context 'truncate emails based on the Setting' do
+    context 'with no setting' do
       setup do
         Setting.mail_handler_body_delimiters = ''
       end
 
-      should "add the entire email into the issue" do
+      should 'add the entire email into the issue' do
         issue = submit_email('ticket_on_given_project.eml')
         assert_issue_created(issue)
         assert issue.description.include?('---')
@@ -444,12 +443,12 @@ class MailHandlerTest < ActiveSupport::TestCase
       end
     end
 
-    context "with a single string" do
+    context 'with a single string' do
       setup do
         Setting.mail_handler_body_delimiters = '---'
       end
 
-      should "truncate the email at the delimiter for the issue" do
+      should 'truncate the email at the delimiter for the issue' do
         issue = submit_email('ticket_on_given_project.eml')
         assert_issue_created(issue)
         assert issue.description.include?('This paragraph is before delimiters')
@@ -459,44 +458,40 @@ class MailHandlerTest < ActiveSupport::TestCase
       end
     end
 
-    context "with a single quoted reply (e.g. reply to a Redmine email notification)" do
+    context 'with a single quoted reply (e.g. reply to a Redmine email notification)' do
       setup do
         Setting.mail_handler_body_delimiters = '--- Reply above. Do not remove this line. ---'
       end
 
-      should "truncate the email at the delimiter with the quoted reply symbols (>)" do
+      should 'truncate the email at the delimiter with the quoted reply symbols (>)' do
         journal = submit_email('issue_update_with_quoted_reply_above.eml')
         assert journal.is_a?(Journal)
         assert journal.notes.include?('An update to the issue by the sender.')
-        assert !journal.notes.match(Regexp.escape("--- Reply above. Do not remove this line. ---"))
+        assert !journal.notes.match(Regexp.escape('--- Reply above. Do not remove this line. ---'))
         assert !journal.notes.include?('Looks like the JSON api for projects was missed.')
-
       end
-
     end
 
-    context "with multiple quoted replies (e.g. reply to a reply of a Redmine email notification)" do
+    context 'with multiple quoted replies (e.g. reply to a reply of a Redmine email notification)' do
       setup do
         Setting.mail_handler_body_delimiters = '--- Reply above. Do not remove this line. ---'
       end
 
-      should "truncate the email at the delimiter with the quoted reply symbols (>)" do
+      should 'truncate the email at the delimiter with the quoted reply symbols (>)' do
         journal = submit_email('issue_update_with_multiple_quoted_reply_above.eml')
         assert journal.is_a?(Journal)
         assert journal.notes.include?('An update to the issue by the sender.')
-        assert !journal.notes.match(Regexp.escape("--- Reply above. Do not remove this line. ---"))
+        assert !journal.notes.match(Regexp.escape('--- Reply above. Do not remove this line. ---'))
         assert !journal.notes.include?('Looks like the JSON api for projects was missed.')
-
       end
-
     end
 
-    context "with multiple strings" do
+    context 'with multiple strings' do
       setup do
         Setting.mail_handler_body_delimiters = "---\nBREAK"
       end
 
-      should "truncate the email at the first delimiter found (BREAK)" do
+      should 'truncate the email at the first delimiter found (BREAK)' do
         issue = submit_email('ticket_on_given_project.eml')
         assert_issue_created(issue)
         assert issue.description.include?('This paragraph is before delimiters')
@@ -511,7 +506,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_email_with_long_subject_line
     issue = submit_email('ticket_with_long_subject.eml')
     assert issue.is_a?(WorkPackage)
-    assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0,255]
+    assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0, 255]
   end
 
   def test_new_user_from_attributes_should_return_valid_user
@@ -558,13 +553,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_difference 'User.count' do
       issue = submit_email(
                 'fullname_of_sender_as_utf8_encoded.eml',
-                issue: {project: 'ecookbook'},
+                issue: { project: 'ecookbook' },
                 unknown_user: 'create'
               )
     end
 
     user = User.first(order: 'id DESC')
-    assert_equal "foo@example.org", user.mail
+    assert_equal 'foo@example.org', user.mail
     str1 = "\xc3\x84\xc3\xa4"
     str2 = "\xc3\x96\xc3\xb6"
     str1.force_encoding('UTF-8') if str1.respond_to?(:force_encoding)
@@ -575,7 +570,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   private
 
-  def submit_email(filename, options={})
+  def submit_email(filename, options = {})
     raw = IO.read(File.join(FIXTURES_PATH, filename))
     yield raw if block_given?
     MailHandler.receive(raw, options)

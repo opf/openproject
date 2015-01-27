@@ -41,10 +41,10 @@ class ApplicationHelperTest < ActionView::TestCase
     @anonymous = FactoryGirl.create :anonymous
     @non_member = FactoryGirl.create :user
     @project_member = FactoryGirl.create :user,
-      member_in_project: @project,
-      member_through_role: FactoryGirl.create(:role,
-          permissions: [:view_work_packages, :edit_work_packages,
-                           :browse_repository, :view_changesets, :view_wiki_pages])
+                                         member_in_project: @project,
+                                         member_through_role: FactoryGirl.create(:role,
+                                                                                 permissions: [:view_work_packages, :edit_work_packages,
+                                                                                               :browse_repository, :view_changesets, :view_wiki_pages])
 
     @issue = FactoryGirl.create :work_package, project: @project, author: @project_member, type: @project.types.first
 
@@ -53,11 +53,11 @@ class ApplicationHelperTest < ActionView::TestCase
                                 content: 'not actually a gif',
                                 binary: true
     @attachment = FactoryGirl.create :attachment,
-        author: @project_member,
-        file: file,
-        content_type: 'image/gif',
-        container: @issue,
-        description: 'This is a logo'
+                                     author: @project_member,
+                                     file: file,
+                                     content_type: 'image/gif',
+                                     container: @issue,
+                                     description: 'This is a logo'
 
     User.stub(:current).and_return(@project_member)
   end
@@ -102,7 +102,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_auto_mailto
     assert_equal '<p><a class="email" href="mailto:test@foo.bar">test@foo.bar</a></p>',
-      format_text('test@foo.bar')
+                 format_text('test@foo.bar')
   end
 
   def test_inline_images
@@ -192,25 +192,24 @@ RAW
 
   def test_cross_project_redmine_links
     version = FactoryGirl.create :version,
-                 name: '1.0',
-                 project: @project
-    Setting.enabled_scm = Setting.enabled_scm << "Filesystem" unless Setting.enabled_scm.include? "Filesystem"
+                                 name: '1.0',
+                                 project: @project
+    Setting.enabled_scm = Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include? 'Filesystem'
     repository = FactoryGirl.create :repository,
-                 project: @project
+                                    project: @project
     changeset = FactoryGirl.create :changeset,
-                 repository: repository,
-                 comments: 'This commit fixes #1, #2 and references #1 & #3'
+                                   repository: repository,
+                                   comments: 'This commit fixes #1, #2 and references #1 & #3'
     identifier = @project.identifier
 
     source_link = link_to("#{identifier}:source:/some/file", { controller: 'repositories',
                                                                action: 'entry',
                                                                project_id: identifier,
-                                                               path: 'some/file'} ,
-                                                             class: 'source')
+                                                               path: 'some/file' },
+                          class: 'source')
     changeset_link = link_to("#{identifier}:r#{changeset.revision}",
-      {controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset.revision},
-      class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3')
-
+                             { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset.revision },
+                             class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3')
 
     # format_text "sees" the text is parses from the_other_project (and not @project)
     the_other_project = FactoryGirl.create :valid_project
@@ -235,16 +234,16 @@ RAW
   def test_redmine_links_git_commit
     User.stub(:current).and_return(@admin)
     changeset_link = link_to('abcd',
-                               {
-                                 controller: 'repositories',
-                                 action:     'revision',
-                                 project_id: @project.identifier,
-                                 rev:        'abcd',
-                                },
-                              class: 'changeset', title: 'test commit')
+                             {
+                               controller: 'repositories',
+                               action:     'revision',
+                               project_id: @project.identifier,
+                               rev:        'abcd',
+                             },
+                             class: 'changeset', title: 'test commit')
     to_test = {
       'commit:abcd' => changeset_link,
-     }
+    }
     r = Repository::Git.create!(project: @project, url: '/tmp/test/git')
     assert r
     c = Changeset.new(repository: r,
@@ -252,13 +251,13 @@ RAW
                       revision: 'abcd',
                       scmid: 'abcd',
                       comments: 'test commit')
-    assert( c.save )
+    assert(c.save)
     @project.reload
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
   def test_attachment_links
-    attachment_link = link_to('logo.gif', {controller: 'attachments', action: 'download', id: @attachment}, class: 'attachment')
+    attachment_link = link_to('logo.gif', { controller: 'attachments', action: 'download', id: @attachment }, class: 'attachment')
     to_test = {
       'attachment:logo.gif' => attachment_link
     }
@@ -267,21 +266,21 @@ RAW
 
   def test_html_tags
     to_test = {
-      "<div>content</div>" => "<p>&lt;div&gt;content&lt;/div&gt;</p>",
+      '<div>content</div>' => '<p>&lt;div&gt;content&lt;/div&gt;</p>',
       "<div class=\"bold\">content</div>" => "<p>&lt;div class=\"bold\"&gt;content&lt;/div&gt;</p>",
-      "<script>some script;</script>" => "<p>&lt;script&gt;some script;&lt;/script&gt;</p>",
+      '<script>some script;</script>' => '<p>&lt;script&gt;some script;&lt;/script&gt;</p>',
       # do not escape pre/code tags
       "<pre>\nline 1\nline2</pre>" => "<pre>\nline 1\nline2</pre>",
       "<pre><code>\nline 1\nline2</code></pre>" => "<pre><code>\nline 1\nline2</code></pre>",
-      "<pre><div>content</div></pre>" => "<pre>&lt;div&gt;content&lt;/div&gt;</pre>",
-      "HTML comment: <!-- no comments -->" => "<p>HTML comment: &lt;!-- no comments --&gt;</p>",
-      "<!-- opening comment" => "<p>&lt;!-- opening comment</p>",
+      '<pre><div>content</div></pre>' => '<pre>&lt;div&gt;content&lt;/div&gt;</pre>',
+      'HTML comment: <!-- no comments -->' => '<p>HTML comment: &lt;!-- no comments --&gt;</p>',
+      '<!-- opening comment' => '<p>&lt;!-- opening comment</p>',
       # remove attributes except class
       "<pre class='foo'>some text</pre>" => "<pre class='foo'>some text</pre>",
       '<pre class="foo">some text</pre>' => '<pre class="foo">some text</pre>',
       "<pre class='foo bar'>some text</pre>" => "<pre class='foo bar'>some text</pre>",
       '<pre class="foo bar">some text</pre>' => '<pre class="foo bar">some text</pre>',
-      "<pre onmouseover='alert(1)'>some text</pre>" => "<pre>some text</pre>",
+      "<pre onmouseover='alert(1)'>some text</pre>" => '<pre>some text</pre>',
       # xss
       '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
       '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
@@ -291,9 +290,9 @@ RAW
 
   def test_allowed_html_tags
     to_test = {
-      "<pre>preformatted text</pre>" => "<pre>preformatted text</pre>",
-      "<notextile>no *textile* formatting</notextile>" => "no *textile* formatting",
-      "<notextile>this is <tag>a tag</tag></notextile>" => "this is &lt;tag&gt;a tag&lt;/tag&gt;"
+      '<pre>preformatted text</pre>' => '<pre>preformatted text</pre>',
+      '<notextile>no *textile* formatting</notextile>' => 'no *textile* formatting',
+      '<notextile>this is <tag>a tag</tag></notextile>' => 'this is &lt;tag&gt;a tag&lt;/tag&gt;'
     }
     to_test.each { |text, result| assert_equal result, format_text(text) }
   end
@@ -336,12 +335,12 @@ EXPECTED
   end
 
   def test_wiki_links_in_tables
-    @project.wiki.start_page = "Page"
+    @project.wiki.start_page = 'Page'
     @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "Other page"
-    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "Last page"
+    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Other page'
+    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Last page'
 
-    to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
+    to_test = { "|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  "<tr><td><a href=\"/projects/#{@project.identifier}/wiki/Page\" class=\"wiki-page new\">Link title</a></td>" +
                  "<td><a href=\"/projects/#{@project.identifier}/wiki/Other_Page\" class=\"wiki-page\">Other title</a></td>" +
                  "</tr><tr><td>Cell 21</td><td><a href=\"/projects/#{@project.identifier}/wiki/Last_page\" class=\"wiki-page\">Last page</a></td></tr>"
@@ -351,11 +350,11 @@ EXPECTED
   end
 
   def test_text_formatting
-    to_test = {'*_+bold, italic and underline+_*' => '<strong><em><ins>bold, italic and underline</ins></em></strong>',
-               '(_text within parentheses_)' => '(<em>text within parentheses</em>)',
-               'a *Humane Web* Text Generator' => 'a <strong>Humane Web</strong> Text Generator',
-               'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
-               'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
+    to_test = { '*_+bold, italic and underline+_*' => '<strong><em><ins>bold, italic and underline</ins></em></strong>',
+                '(_text within parentheses_)' => '(<em>text within parentheses</em>)',
+                'a *Humane Web* Text Generator' => 'a <strong>Humane Web</strong> Text Generator',
+                'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
+                'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
               }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
@@ -388,10 +387,10 @@ EXPECTED
   end
 
   def test_table_of_content
-    @project.wiki.start_page = "Wiki"
+    @project.wiki.start_page = 'Wiki'
     @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "Wiki"
-    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "another Wiki"
+    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
+    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'another Wiki'
 
     raw = <<-RAW
 {{toc}}
@@ -423,37 +422,37 @@ h2. "Project Name !/attachments/#{@attachment.id}/#{@attachment.filename}!":/pro
 RAW
 
     expected =  '<ul class="toc">' +
-                  '<li><a href="#Title">Title</a>' +
-                    '<ul>' +
-                      '<li><a href="#Subtitle-with-a-Wiki-link">Subtitle with a Wiki link</a></li>' +
-                      '<li><a href="#Subtitle-with-another-Wiki-link">Subtitle with another Wiki link</a></li>' +
-                      '<li><a href="#Subtitle-with-red-text">Subtitle with red text</a>' +
-                        '<ul>' +
-                          '<li><a href="#Subtitle-with-some-modifiers">Subtitle with some modifiers</a></li>' +
-                        '</ul>' +
-                      '</li>' +
-                    '</ul>' +
-                  '</li>' +
-                  '<li><a href="#Another-title">Another title</a>' +
-                    '<ul>' +
-                      '<li>' +
-                        '<ul>' +
-                          '<li><a href="#An-Internet-link-inside-subtitle">An Internet link inside subtitle</a></li>' +
-                        '</ul>' +
-                      '</li>' +
-                      '<li><a href="#Project-Name">Project Name</a></li>' +
-                    '</ul>' +
-                  '</li>' +
-               '</ul>'
+                '<li><a href="#Title">Title</a>' +
+                '<ul>' +
+                '<li><a href="#Subtitle-with-a-Wiki-link">Subtitle with a Wiki link</a></li>' +
+                '<li><a href="#Subtitle-with-another-Wiki-link">Subtitle with another Wiki link</a></li>' +
+                '<li><a href="#Subtitle-with-red-text">Subtitle with red text</a>' +
+                '<ul>' +
+                '<li><a href="#Subtitle-with-some-modifiers">Subtitle with some modifiers</a></li>' +
+                '</ul>' +
+                '</li>' +
+                '</ul>' +
+                '</li>' +
+                '<li><a href="#Another-title">Another title</a>' +
+                '<ul>' +
+                '<li>' +
+                '<ul>' +
+                '<li><a href="#An-Internet-link-inside-subtitle">An Internet link inside subtitle</a></li>' +
+                '</ul>' +
+                '</li>' +
+                '<li><a href="#Project-Name">Project Name</a></li>' +
+                '</ul>' +
+                '</li>' +
+                '</ul>'
 
-    assert format_text(raw).gsub("\n", "").include?(expected), format_text(raw)
+    assert format_text(raw).gsub("\n", '').include?(expected), format_text(raw)
   end
 
   def test_table_of_content_should_contain_included_page_headings
-    @project.wiki.start_page = "Wiki"
+    @project.wiki.start_page = 'Wiki'
     @project.save!
-    page  = FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: "Wiki"
-    child = FactoryGirl.create :wiki_page, wiki: @project.wiki, title: "Child_1", parent: page
+    page  = FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
+    child = FactoryGirl.create :wiki_page, wiki: @project.wiki, title: 'Child_1', parent: page
     child.content = FactoryGirl.create :wiki_content, page: child, text: "h1. Child page 1\n\nThis is a child page"
     child.save!
 
@@ -470,7 +469,7 @@ RAW
                '<li><a href="#Child-page-1">Child page 1</a></li>' +
                '</ul>'
 
-    assert format_text(raw).gsub("\n", "").include?(expected), format_text(raw)
+    assert format_text(raw).gsub("\n", '').include?(expected), format_text(raw)
   end
 
   def test_default_formatter
@@ -525,8 +524,8 @@ RAW
     assert_equal %(<a href="/projects/#{p_id}/settings/members">#{p_name}</a>),
                  link_to_project(@project, action: 'settings', tab: 'members')
     assert_equal %(<a href="#{root_url}projects/#{p_id}?jump=blah">#{p_name}</a>),
-                 link_to_project(@project, {only_path: false, jump: 'blah'})
+                 link_to_project(@project, only_path: false, jump: 'blah')
     assert_equal %(<a href="/projects/#{p_id}/settings" class="project">#{p_name}</a>),
-                 link_to_project(@project, {action: 'settings'}, class: "project")
+                 link_to_project(@project, { action: 'settings' }, class: 'project')
   end
 end

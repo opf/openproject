@@ -35,13 +35,13 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
   class TestHook < Redmine::Hook::ViewListener; end
 
   class TestHook1 < TestHook
-    def view_layouts_base_html_head(context)
+    def view_layouts_base_html_head(_context)
       'Test hook 1 listener.'
     end
   end
 
   class TestHook2 < TestHook
-    def view_layouts_base_html_head(context)
+    def view_layouts_base_html_head(_context)
       'Test hook 2 listener.'
     end
   end
@@ -53,7 +53,7 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
   end
 
   class TestLinkToHook < TestHook
-    def view_layouts_base_html_head(context)
+    def view_layouts_base_html_head(_context)
       link_to('Issues', controller: 'issues')
     end
   end

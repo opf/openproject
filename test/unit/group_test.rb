@@ -29,7 +29,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class GroupTest < ActiveSupport::TestCase
-
   def setup
     super
     @group = FactoryGirl.create :group
@@ -64,7 +63,7 @@ class GroupTest < ActiveSupport::TestCase
     group = FactoryGirl.create :group
     member = FactoryGirl.build :member
     roles = FactoryGirl.create_list :role, 2
-    role_ids = roles.map { |r| r.id }
+    role_ids = roles.map(&:id)
     member.force_attributes = { principal: group, role_ids: role_ids }
     member.save!
     user = FactoryGirl.create :user

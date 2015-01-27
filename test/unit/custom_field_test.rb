@@ -36,20 +36,20 @@ class CustomFieldTest < ActiveSupport::TestCase
 
   def test_possible_values_should_accept_an_array
     field = CustomField.new
-    field.possible_values = ["One value", ""]
-    assert_equal ["One value"], field.possible_values
+    field.possible_values = ['One value', '']
+    assert_equal ['One value'], field.possible_values
   end
 
   def test_possible_values_should_accept_a_string
     field = CustomField.new
-    field.possible_values = "One value"
-    assert_equal ["One value"], field.possible_values
+    field.possible_values = 'One value'
+    assert_equal ['One value'], field.possible_values
   end
 
   def test_possible_values_should_accept_a_multiline_string
     field = CustomField.new
     field.possible_values = "One value\nAnd another one  \r\n \n"
-    assert_equal ["One value", "And another one"], field.possible_values
+    assert_equal ['One value', 'And another one'], field.possible_values
   end
 
   def test_destroy
