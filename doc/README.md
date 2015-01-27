@@ -30,11 +30,11 @@ See doc/COPYRIGHT.rdoc for more details.
 OpenProject Developer Documentation
 ===================================
 
-* [Quick Start for Developers](doc/QUICK_START.md)
-* [Configuration](doc/CONFIGURATION.md)
-* [Developing Plugins](doc/DEVELOP_PLUGINS.md)
-* [Running Tests](doc/RUNNING_TESTS.md)
-* [Upgrading](doc/UPGRADING.rdoc)
+* [Quick Start for Developers](QUICK_START.md)
+* [Configuration](CONFIGURATION.md)
+* [Developing Plugins](DEVELOP_PLUGINS.md)
+* [Running Tests](RUNNING_TESTS.md)
+* [Upgrading](UPGRADING.rdoc)
 * [API Documentation](#api-documentation)
 
 API Documentation
