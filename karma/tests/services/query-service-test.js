@@ -30,7 +30,9 @@
 
 describe('QueryService', function() {
 
-  var QueryService, query, queryData, stateParams = {};
+
+  var QueryService, PathHelper, query, queryData, stateParams = {}, $rootScope,
+    $httpBackend;
 
   beforeEach(module('openproject.layout',
                     'openproject.models',
@@ -46,8 +48,11 @@ describe('QueryService', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(inject(function(_QueryService_){
+  beforeEach(inject(function(_QueryService_, _$rootScope_, _$httpBackend_, _PathHelper_) {
     QueryService = _QueryService_;
+    $rootScope = _$rootScope_;
+    PathHelper = _PathHelper_;
+    $httpBackend = _$httpBackend_;
   }));
 
   describe('query setup', function () {
@@ -83,6 +88,35 @@ describe('QueryService', function() {
       it('should assign filters to the query');
     });
 
+  });
+
+  describe('deleteQuery', function() {
+    var spy;
+    beforeEach(function() {
+      spy = sinon.spy($rootScope, '$broadcast');
+        queryData = { name: '_', 'project_id': 1 };
+        QueryService.initQuery(1, queryData);
+        var path = PathHelper.apiProjectQueryPath(1, 1);
+        $httpBackend.when('DELETE', new RegExp(path + '*')).respond(200, []);
+        $httpBackend.when(
+          'GET',
+          PathHelper.apiProjectCustomFieldsPath(1)
+        ).respond(200, []);
+        $httpBackend.when(
+          'GET',
+          PathHelper.apiProjectGroupedQueriesPath(1)
+        ).respond(200, []);
+        QueryService.deleteQuery();
+        $httpBackend.flush();
+    });
+
+  afterEach(function() {
+    spy.restore();
+  });
+
+    it('should broadcast a query deletion message', function() {
+      expect($rootScope.$broadcast.calledWith('openproject.layout.removeMenuItem')).to.be.true;
+    });
   });
 
   describe('getQueryName', function() {
@@ -122,7 +156,6 @@ describe('QueryService', function() {
   describe('loadAvailableGroupedQueries', function() {
     var projectIdentifier = 'test_project',
         $httpBackend,
-        $rootScope,
         path,
         groupedQueries;
 
@@ -131,10 +164,9 @@ describe('QueryService', function() {
       $httpBackend.flush();
     }
 
-    beforeEach(inject(function(_$httpBackend_, _PathHelper_, _$rootScope_) {
+    beforeEach(inject(function(_$httpBackend_, _PathHelper_) {
       $httpBackend = _$httpBackend_;
       PathHelper = _PathHelper_;
-      $rootScope = _$rootScope_;
 
       path = PathHelper.apiProjectGroupedQueriesPath(projectIdentifier);
       groupedQueries = {
