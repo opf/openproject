@@ -30,6 +30,8 @@
 require 'open_project/repository_authentication'
 
 class SysController < ActionController::Base
+  include ActionController::HttpAuthentication::Basic
+
   before_filter :check_enabled
   before_filter :require_basic_auth, only: [:repo_auth]
 
@@ -99,14 +101,37 @@ class SysController < ActionController::Base
   private
 
   def require_basic_auth
-    authenticate_with_http_basic do |username, password|
-      @authenticated_user = cached_user_login(username, password)
-      return true if @authenticated_user
+    @authenticated_user =
+    if Setting.repository_authentication_bypass?
+      find_user_from_basic_auth
+    else
+      # Authenticate the user internally
+      perform_basic_auth
     end
 
+    render_authorization_required unless @authenticated_user.present?
+  end
+
+  ##
+  # Return the user from the username parameter
+  # in the basic auth header.
+  def find_user_from_basic_auth
+    authenticate_with_http_basic do |login, _|
+      return User.find_by_login(login)
+    end
+  end
+
+  ##
+  # Authenticate the user from the basic auth header
+  def perform_basic_auth
+    authenticate_with_http_basic do |username, password|
+      return cached_user_login(username, password)
+    end
+  end
+
+  def render_authorization_required
     response.headers['WWW-Authenticate'] = 'Basic realm="Repository Authentication"'
     render text: 'Authorization required', status: 401
-    false
   end
 
   def user_login(username, password)

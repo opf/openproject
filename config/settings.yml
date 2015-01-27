@@ -135,6 +135,9 @@ sys_api_key:
   default: ''
 repository_authentication_caching_enabled:
   default: 1
+repository_authentication_bypass:
+  default: 0
+commit_ref_keywords:
 commit_ref_keywords:
   default: 'refs,references,IssueID'
 commit_fix_keywords:
