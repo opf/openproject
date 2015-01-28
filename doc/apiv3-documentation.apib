@@ -757,7 +757,7 @@ and objects describing the corresponding property as values. The values are call
 
 | Property       | Description                                                    | Default |
 |:--------------:|----------------------------------------------------------------| ------- |
-| type           | The data type of the properties values                         |         |
+| types          | The possible data types of the properties values               |         |
 | required       | If true every request **must** contain this property           | false   |
 | writable       | If false it is not allowed to **change** the properties value  | true    |
 
@@ -815,51 +815,81 @@ That is because the main purpose of a form is helping the client to sort out val
                     },
                     "schema": {
                         "lockVersion": {
-                            "type": "Integer",
+                            "types": [ "Integer" ],
                             "required": true,
                             "writable": false
                         },
                         "_type": {
-                            "type": "MetaType",
+                            "types": [ "MetaType" ],
                             "required": true,
                             "writable": false
                         },
                         "subject": {
-                            "type": "String"
+                            "types": [ "String" ]
                         },
-                        "status": {
+                        "assignee": {
                             "_links": {
                                 "allowedValues": [
-                                    { "href": "/api/v3/statuses/1", "title": "New" },
-                                    { "href": "/api/v3/statuses/2", "title": "Closed" }
+                                    { "href": "/api/v3/users/1" },
+                                    { "href": "/api/v3/users/2" }
                                 ]
                             },
 
-                            "type": "Status",
+                            "types": [ "User", "Group" ],
 
                             "_embedded": {
                                 "allowedValues": [
                                     {
-                                        "_links": { "self": { "href": "/api/v3/statuses/1" } },
-                                        "_type": "Status",
+                                        "_type": "User",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/users/1",
+                                                "title": "John Sheppard - j.sheppard"
+                                            },
+                                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                                            "lock": {
+                                                "href": "/api/v3/users/1/lock",
+                                                "method": "POST"
+                                            },
+                                            "delete": {
+                                                "href": "/api/v3/users/1",
+                                                "method": "DELETE"
+                                            }
+                                        },
                                         "id": 1,
-                                        "name": "New",
-                                        "position": 1,
-                                        "isDefault": true,
-                                        "isClosed": false,
-                                        "defaultDoneRatio": 0,
+                                        "login": "j.sheppard",
+                                        "firstName": "John",
+                                        "lastName": "Sheppard",
+                                        "email": "shep@mail.com",
+                                        "name": "John Sheppard",
+                                        "avatar": "https://gravatar/avatar",
                                         "createdAt": "2014-05-21T08:51:20Z",
                                         "updatedAt": "2014-05-21T09:12:00Z"
                                     },
                                     {
-                                        "_links": { "self": { "href": "/api/v3/statuses/2" } },
-                                        "_type": "Status",
+                                        "_type": "User",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/users/2",
+                                                "title": "Jim Sheppard - j.sheppard"
+                                            },
+                                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                                            "lock": {
+                                                "href": "/api/v3/users/1/lock",
+                                                "method": "POST"
+                                            },
+                                            "delete": {
+                                                "href": "/api/v3/users/1",
+                                                "method": "DELETE"
+                                            }
+                                        },
                                         "id": 2,
-                                        "name": "Closed",
-                                        "position": 2,
-                                        "isDefault": false,
-                                        "isClosed": true,
-                                        "defaultDoneRatio": 100,
+                                        "login": "j.sheppard2",
+                                        "firstName": "Jim",
+                                        "lastName": "Sheppard",
+                                        "email": "shep@mail.net",
+                                        "name": "Jim Sheppard",
+                                        "avatar": "https://gravatar/avatar",
                                         "createdAt": "2014-05-21T08:51:20Z",
                                         "updatedAt": "2014-05-21T09:12:00Z"
                                     }
@@ -931,6 +961,120 @@ This is an example of how a form might look like. Note that this endpoint does n
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
                 "message": "The resource you are about to edit was changed in the meantime."
+            }
+
+# Group Groups
+
+## Linked Properties:
+|  Link               | Description                              | Type          | Nullable | Supported operations |
+|:-------------------:|----------------------------------------- | ------------- | -------- | -------------------- |
+| self                | This group                               | Group         |          | READ                 |
+| members             | The members of this group                | Users         |          | READ                 |
+
+## Properties:
+| Property    | Description                                               | Type     | Constraints | Supported operations |
+| :---------: | -------------                                             | ----     | ----------- | -------------------- |
+| id          | Group id                                                  | Integer  | x > 0       | READ                 |
+| name        | Group name                                                | String   |             | READ                 |
+| createdAt   | Time of creation                                          | DateTime |             | READ                 |
+| updatedAt   | Time of the most recent change to the group               | DateTime |             | READ                 |
+
+
+## Group [/api/v3/groups/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Group",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/groups/1",
+                        "title": "Developers"
+                    },
+                    "members": { "href": "/api/v3/groups/1/members" }
+                },
+                "id": 1,
+                "name": "Developers",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
+            }
+
+## View group [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Group id
+
++ Response 200 (application/hal+json)
+
+    [Group][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the group does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified group does not exist."
+            }
+
+## Groups by User [/api/v3/users/{id}/groups]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/users/1/groups" }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Group",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/groups/1",
+                                    "title": "Developers"
+                                },
+                                "members": { "href": "/api/v3/groups/1/members" }
+                            },
+                            "id": 1,
+                            "name": "Developers",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List groups of a user [GET]
+
+This endpoint lists the groups where the specified user is a member.
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the user whoose groups will be listed
+
++ Response 200 (application/hal+json)
+
+    [Groups by User][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the specified user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
             }
 
 # Group Previewing
@@ -1950,9 +2094,10 @@ This endpoint lists the types that are *available* in a given project.
 | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete |
 
 ## Linked Properties:
-|  Link     | Description                                 | Type          | Constraints           | Supported operations |
-|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
-| self      | This user                                   | User          | not null              | READ                 |
+|  Link               | Description                                   | Type          | Nullable | Supported operations |
+|:-------------------:|---------------------------------------------- | ------------- | -------- | -------------------- |
+| self                | This user                                     | User          |          | READ                 |
+| groupMemberships    | Collection of groups this user is a member of | Groups        |          | READ                 |
 
 ## Properties:
 | Property    | Description                                               | Type     | Constraints | Supported operations |
@@ -1962,7 +2107,7 @@ This endpoint lists the types that are *available* in a given project.
 | firstName   | User's first name                                         | String   |             | READ                 |
 | lastName    | User's last name                                          | String   |             | READ                 |
 | name        | User's full name, formatting depends on instance settings | String   |             | READ                 |
-| mail        | User's email                                              | String   |             | READ                 |
+| email       | User's email                                              | String   |             | READ                 |
 | avatar      | URL to user's avatar                                      | String   |             | READ                 |
 | status      | The current activation status of the user (see below)     | String   |             | READ                 |
 | createdAt   | Time of creation                                          | DateTime |             | READ                 |
@@ -1986,14 +2131,15 @@ The `status` of a user can be one of:
                         "href": "/api/v3/users/1",
                         "title": "John Sheppard - j.sheppard"
                     },
+                    "groupMemberships": { "href": "/api/v3/users/1/groups" },
                     "lock": {
                         "href": "/api/v3/users/1/lock",
-                        "title": "Set lock on j.sheppard"
+                        "title": "Set lock on j.sheppard",
                         "method": "POST"
                     },
                     "delete": {
                         "href": "/api/v3/users/1",
-                        "title": "Delete j.sheppard"
+                        "title": "Delete j.sheppard",
                         "method": "DELETE"
                     }
                 },
@@ -2001,7 +2147,8 @@ The `status` of a user can be one of:
                 "login": "j.sheppard",
                 "firstName": "John",
                 "lastName": "Sheppard",
-                "mail": "shep@mail.com",
+                "email": "shep@mail.com",
+                "name": "John Sheppard",
                 "avatar": "https://gravatar/avatar",
                 "status": "active",
                 "createdAt": "2014-05-21T08:51:20Z",
@@ -2071,6 +2218,101 @@ Permanently deletes the specified user account.
                 "message": "The specified user does not exist."
             }
 
+## Users by Group [/api/v3/groups/{id}/members]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/groups/11/members" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "User",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "John Sheppard - j.sheppard"
+                                },
+                                "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                                "lock": {
+                                    "href": "/api/v3/users/1/lock",
+                                    "method": "POST"
+                                },
+                                "delete": {
+                                    "href": "/api/v3/users/1",
+                                    "method": "DELETE"
+                                }
+                            },
+                            "id": 1,
+                            "login": "j.sheppard",
+                            "firstName": "John",
+                            "lastName": "Sheppard",
+                            "email": "shep@mail.com",
+                            "name": "John Sheppard",
+                            "avatar": "https://gravatar/avatar",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        },
+                        {
+                            "_type": "User",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/users/2",
+                                    "title": "Jim Sheppard - j.sheppard"
+                                },
+                                "groupMemberships": { "href": "/api/v3/users/1/groups" },
+                                "lock": {
+                                    "href": "/api/v3/users/1/lock",
+                                    "method": "POST"
+                                },
+                                "delete": {
+                                    "href": "/api/v3/users/1",
+                                    "method": "DELETE"
+                                }
+                            },
+                            "id": 2,
+                            "login": "j.sheppard2",
+                            "firstName": "Jim",
+                            "lastName": "Sheppard",
+                            "email": "shep@mail.net",
+                            "name": "Jim Sheppard",
+                            "avatar": "https://gravatar/avatar",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List users of a group [GET]
+
+This endpoint lists the users that are member of the given group.
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the group whoose members will be listed
+
++ Response 200 (application/hal+json)
+
+    [Users by Group][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the specified group does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified group does not exist."
+            }
 
 ## User Account Locking [/api/v3/users/{id}/lock]
 
@@ -2365,12 +2607,12 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
 | self               | This work package                                                                                                                                     | WorkPackage  | not null     | READ                  |                                           |
 | author             | The person that created the work package                                                                                                              | User         | not null     | READ                  |                                           |
-| assignee           | The person that is intended to work on the work package                                                                                               | User         |              | READ / WRITE          |                                           |
-| availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
+| assignee           | The person that is intended to work on the work package                                                                                               | User/Group   |              | READ / WRITE          |                                           |
+| availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | Users        |              | READ                  | **Permission** add work package watchers  |
 | category           | The category of the work package                                                                                                                      | Category     |              | READ / WRITE          |                                           |
 | priority           | The priority of the work package                                                                                                                      | Priority     | not null     | READ / WRITE          |                                           |
 | project            | The project to which the work package belongs                                                                                                         | Project      | not null     | READ                  |                                           |
-| responsible        | The person that is responsible for the overall outcome                                                                                                | User         |              | READ / WRITE          |                                           |
+| responsible        | The person that is responsible for the overall outcome                                                                                                | User/Group   |              | READ / WRITE          |                                           |
 | status             | The current status of the work package                                                                                                                | Status       | not null     | READ / WRITE          |                                           |
 | timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
 | type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
@@ -2706,14 +2948,15 @@ For more details and all possible responses see the general specification of [Fo
                                 "href": "/api/v3/users/1",
                                 "title": "John Sheppard - j.sheppard"
                             },
+                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
                             "lock": {
                                 "href": "/api/v3/users/1/lock",
-                                "title": "Set lock on j.sheppard"
+                                "title": "Set lock on j.sheppard",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/1",
-                                "title": "Delete j.sheppard"
+                                "title": "Delete j.sheppard",
                                 "method": "DELETE"
                             }
                         },
@@ -2734,14 +2977,15 @@ For more details and all possible responses see the general specification of [Fo
                                 "href": "/api/v3/users/2",
                                 "title": "Jim Sheppard - j.sheppard2"
                             },
+                            "groupMemberships": { "href": "/api/v3/users/2/groups" },
                             "lock": {
                                 "href": "/api/v3/users/2/lock",
-                                "title": "Set lock on j.sheppard2"
+                                "title": "Set lock on j.sheppard2",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/2",
-                                "title": "Delete j.sheppard2"
+                                "title": "Delete j.sheppard2",
                                 "method": "DELETE"
                             }
                         },
@@ -2855,14 +3099,15 @@ updated activity.
                                 "href": "/api/v3/users/1",
                                 "title": "John Sheppard - j.sheppard"
                             },
+                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
                             "lock": {
                                 "href": "/api/v3/users/1/lock",
-                                "title": "Set lock on j.sheppard"
+                                "title": "Set lock on j.sheppard",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/1",
-                                "title": "Delete j.sheppard"
+                                "title": "Delete j.sheppard",
                                 "method": "DELETE"
                             }
                         },
@@ -2883,14 +3128,15 @@ updated activity.
                                 "href": "/api/v3/users/2",
                                 "title": "Jim Sheppard - j.sheppard2"
                             },
+                            "groupMemberships": { "href": "/api/v3/users/2/groups" },
                             "lock": {
                                 "href": "/api/v3/users/2/lock",
-                                "title": "Set lock on j.sheppard2"
+                                "title": "Set lock on j.sheppard2",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/2",
-                                "title": "Delete j.sheppard2"
+                                "title": "Delete j.sheppard2",
                                 "method": "DELETE"
                             }
                         },
@@ -2909,7 +3155,7 @@ updated activity.
 
 ## Available assignees [GET]
 
-Gets a list of users that can be assigned to work packages in the given project.
+Gets a list of users and groups that can be assigned to work packages in the given project.
 
 + Parameters
     + project_id (required, integer, `1`) ... Project id
@@ -2963,14 +3209,15 @@ Gets a list of users that can be assigned to work packages in the given project.
                                 "href": "/api/v3/users/1",
                                 "title": "John Sheppard - j.sheppard"
                             },
+                            "groupMemberships": { "href": "/api/v3/users/1/groups" },
                             "lock": {
                                 "href": "/api/v3/users/1/lock",
-                                "title": "Set lock on j.sheppard"
+                                "title": "Set lock on j.sheppard",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/1",
-                                "title": "Delete j.sheppard"
+                                "title": "Delete j.sheppard",
                                 "method": "DELETE"
                             }
                         },
@@ -2991,14 +3238,15 @@ Gets a list of users that can be assigned to work packages in the given project.
                                 "href": "/api/v3/users/2",
                                 "title": "Jim Sheppard - j.sheppard2"
                             },
+                            "groupMemberships": { "href": "/api/v3/users/2/groups" },
                             "lock": {
                                 "href": "/api/v3/users/2/lock",
-                                "title": "Set lock on j.sheppard2"
+                                "title": "Set lock on j.sheppard2",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/2",
-                                "title": "Delete j.sheppard2"
+                                "title": "Delete j.sheppard2",
                                 "method": "DELETE"
                             }
                         },
@@ -3017,7 +3265,7 @@ Gets a list of users that can be assigned to work packages in the given project.
 
 ## Available responsibles [GET]
 
-Gets a list of users that can be assigned as the responsible of a work package in the given project.
+Gets a list of users and groups that can be assigned as the responsible of a work package in the given project.
 
 + Parameters
     + project_id (required, integer, `1`) ... Project id
