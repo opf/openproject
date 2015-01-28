@@ -93,6 +93,26 @@ _with class applied_
 </select>
 ```
 
+## Narrow select
+
+_By default, a `form--select` will take the full width of its container element.
+In most cases it is recommended to apply a width to the container element, but
+in certain circumstances the `-narrow` variant may be preferable._
+
+```
+<select class="form--select -narrow">
+  <option>one</option>
+  <option>two</option>
+  <option>three</option>
+</select>
+
+<select class="form--select -small -narrow">
+  <option>one</option>
+  <option>two</option>
+  <option>three</option>
+</select>
+```
+
 # Forms: Text fields
 
 ## Default text field
