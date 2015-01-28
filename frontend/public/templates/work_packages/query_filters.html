@@ -1,26 +1,26 @@
-<fieldset id="filters" class="work-packages-filters--container">
+<fieldset id="filters" class="advanced-filters--container">
   <legend ng-bind="I18n.t('js.label_selected_filter_list')"></legend>
 
-  <ul class="work-packages-filters--filters">
+  <ul class="advanced-filters--filters">
     <li query-filter
         ng-repeat="filter in query.filters"
         ng-show="!filter.deactivated"
         id="filter_{{filter.name}}"
-        class="work-packages-filters--filter">
+        class="advanced-filters--filter">
 
       <!-- Hidden for form -->
       <input id="h_{{ filter.name }}" name="f[]" type="hidden" value="{{ filter.name }}" ng-disabled="filter.deactivated"/>
 
       <!-- Name -->
-      <label for="operators-{{filter.name}}" class="work-packages-filters--filter-name">
+      <label for="operators-{{filter.name}}" class="advanced-filters--filter-name">
         {{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}
       </label>
 
       <!-- Operator -->
-      <div class="work-packages-filters--filter-operator">
+      <div class="advanced-filters--filter-operator">
         <select require
                 focus="$index == focusElementIndex"
-                class="work-packages-filters--select"
+                class="advanced-filters--select"
                 id="operators-{{filter.name}}"
                 name="op[{{filter.name}}]"
                 ng-model="filter.operator"
@@ -32,7 +32,7 @@
       </div>
 
       <!-- Values -->
-      <div class="work-packages-filters--filter-value">
+      <div class="advanced-filters--filter-value">
         <div id="div-values-{{filter.name}}"
              ng-if="!showValueOptionsAsSelect"
              ng-show="showValuesInput"
@@ -42,7 +42,7 @@
                  ng-model="filter.textValue"
                  ng-minlength="3"
                  ng-required="true"
-                 class="work-packages-filters--text-field"
+                 class="advanced-filters--text-field"
                  id="values-{{filter.name}}"
                  name="v[{{filter.name}}]"
                  size="30"
@@ -59,7 +59,7 @@
                  ng-model="filter.textValue"
                  ng-minlength="3"
                  ng-required="true"
-                 class="work-packages-filters--text-field"
+                 class="advanced-filters--text-field"
                  id="values-{{filter.name}}"
                  name="v[{{filter.name}}]"
                  size="30"
@@ -73,7 +73,7 @@
           <input ng-switch-when="integer"
                  ng-model="filter.textValue"
                  ng-required="true"
-                 class="work-packages-filters--text-field"
+                 class="advanced-filters--text-field"
                  id="values-{{filter.name}}"
                  name="v[{{filter.name}}]"
                  min="0"
@@ -87,7 +87,7 @@
           <span class="inline-label" ng-switch-when="date">
             <input ng-model="filter.textValue"
                    ng-required="true"
-                   class="work-packages-filters--text-field"
+                   class="advanced-filters--text-field"
                    id="values-{{filter.name}}"
                    name="v[{{filter.name}}]"
                    size="3"
@@ -101,7 +101,7 @@
           <span class="inline-label" ng-switch-when="date_past">
             <input ng-model="filter.textValue"
                    ng-required="true"
-                   class="work-packages-filters--text-field"
+                   class="advanced-filters--text-field"
                    id="values-{{filter.name}}"
                    name="v[{{filter.name}}]"
                    size="3"
@@ -124,7 +124,7 @@
         </div>
       </div>
 
-      <div class="work-packages-filters--remove-filter">
+      <div class="advanced-filters--remove-filter">
         <accessible-by-keyboard execute="deactivateFilter(filter)">
           <icon-wrapper icon-name="delete2"
                         icon-title="{{I18n.t('js.button_delete')}}"/>
@@ -133,13 +133,13 @@
       </div>
     </li>
 
-    <li class="work-packages-filters--add-filter">
+    <li class="advanced-filters--add-filter">
       <!-- Add filters -->
-      <label for="add_filter_select" class="work-packages-filters--add-filter-label">
+      <label for="add_filter_select" class="advanced-filters--add-filter-label">
         {{ I18n.t('js.work_packages.label_filter_add') }}:
       </label>
-      <div class="work-packages-filters--add-filter-value">
-        <select class="work-packages-filters--select"
+      <div class="advanced-filters--add-filter-value">
+        <select class="advanced-filters--select"
           id="add_filter_select"
           focus="focusElementIndex == -1"
           ng-model="filterToBeAdded"

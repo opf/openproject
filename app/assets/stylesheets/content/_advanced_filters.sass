@@ -26,11 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$work-packages-filters--background-color: #efefef
-$work-packages-filters--inset-background-color: darken($work-packages-filters--background-color, 8)
+$advanced-filters--background-color: #efefef
+$advanced-filters--inset-background-color: darken($advanced-filters--background-color, 8)
 
-.work-packages-filters--container
-  background-color: $work-packages-filters--background-color
+.advanced-filters--container
+  background-color: $advanced-filters--background-color
   border:   1px solid #E6E6E6
   padding:  10px
   max-height: 250px
@@ -39,15 +39,15 @@ $work-packages-filters--inset-background-color: darken($work-packages-filters--b
   legend
     @extend .hidden-for-sighted
 
-.work-packages-filters--filters
+.advanced-filters--filters
   @include grid-block($wrap: true, $align: right)
   list-style-type:  none
   margin:           0
-  background:       $work-packages-filters--inset-background-color
+  background:       $advanced-filters--inset-background-color
   border:           1px solid #ccc
   border-radius:    $global-radius
 
-.work-packages-filters--filter
+.advanced-filters--filter
   @include grid-block(6)
   align-items:      center
   background:       #efefef
@@ -55,43 +55,43 @@ $work-packages-filters--inset-background-color: darken($work-packages-filters--b
   border:           1px solid #ccc
   border-radius:    $global-radius
 
-.work-packages-filters--text-field
+.advanced-filters--text-field
   @extend .form--text-field, .form--text-field.-small
   margin-bottom: 0
 
-.work-packages-filters--select
+.advanced-filters--select
   @extend .form--select, .form--select.-small, .form--select.-narrow
   margin-bottom: 0
 
-%work-packages-filters--filter-part
+%advanced-filters--filter-part
   .inline-label
     margin-bottom: 0
 
-.work-packages-filters--filter-name
+.advanced-filters--filter-name
   @include grid-content(3)
-  @extend %work-packages-filters--filter-part
+  @extend %advanced-filters--filter-part
 
-.work-packages-filters--filter-operator
+.advanced-filters--filter-operator
   @include grid-content(3)
-  @extend %work-packages-filters--filter-part
+  @extend %advanced-filters--filter-part
 
-.work-packages-filters--filter-value
+.advanced-filters--filter-value
   @include grid-content(5)
-  @extend %work-packages-filters--filter-part
+  @extend %advanced-filters--filter-part
 
-.work-packages-filters--remove-filter
+.advanced-filters--remove-filter
   @include grid-content(shrink)
 
-.work-packages-filters--add-filter
+.advanced-filters--add-filter
   @include grid-block(6)
-  @extend %work-packages-filters--filter-part
+  @extend %advanced-filters--filter-part
   align-items:      center
   padding:          0.25rem 0
 
-.work-packages-filters--add-filter-label
+.advanced-filters--add-filter-label
   @include grid-content(3)
 
-.work-packages-filters--add-filter-value
+.advanced-filters--add-filter-value
   @include grid-content(expand)
 
 

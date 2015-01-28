@@ -40,8 +40,8 @@ describe 'Work package index accessibility', type: :feature do
   def visit_index_page
     work_packages_page.visit_index
     # ensure the page is loaded before expecting anything
-    find('.work-packages-filters--filters select option', text: /\AAssignee\Z/,
-                                         visible: false)
+    find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
+                                                     visible: false)
   end
 
   before do
@@ -57,7 +57,7 @@ describe 'Work package index accessibility', type: :feature do
     # the data in the db to prepare for the next spec.
     #
     # Taking an element, that get's activated late in the page setup.
-    expect(page).to have_selector('.work-packages-filters--filter label',
+    expect(page).to have_selector('.advanced-filters--filter label',
                                   text: I18n.t(:label_status),
                                   visible: false)
   end
