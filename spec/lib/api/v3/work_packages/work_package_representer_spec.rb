@@ -81,7 +81,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('dueDate') }
 
       it { is_expected.to have_json_path('percentageDone') }
-      it { is_expected.to have_json_path('priority') }
 
       it { is_expected.to have_json_path('projectId') }
       it { is_expected.to have_json_path('projectName') }
@@ -284,6 +283,21 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               is_expected.to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
             end
           end
+        end
+      end
+
+      describe 'priority' do
+        let(:link) { "/api/v3/priorities/#{work_package.priority.id}".to_json }
+        let(:title) { "#{work_package.priority.name}".to_json }
+        let(:href_path) { '_links/priority/href' }
+        let(:title_path) { '_links/priority/title' }
+
+        it 'has a link' do
+          is_expected.to be_json_eql(link).at_path(href_path)
+        end
+
+        it 'has a title' do
+          is_expected.to be_json_eql(title).at_path(title_path)
         end
       end
 

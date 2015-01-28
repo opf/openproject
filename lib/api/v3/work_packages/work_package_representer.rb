@@ -210,6 +210,13 @@ module API
                version_policy.allowed?(represented.fixed_version, :show)
         end
 
+        link :priority do
+          {
+            href: api_v3_paths.priority(represented.priority.id),
+            title: represented.priority.name
+          }
+        end
+
         links :children do
           visible_children.map do |child|
             { href: "#{root_path}api/v3/work_packages/#{child.id}", title: child.subject }
@@ -231,7 +238,6 @@ module API
                  },
                  setter: -> (value, *) { represented.description = value['raw'] },
                  render_nil: true
-        property :priority, getter: -> (*) { priority.try(:name) }, render_nil: true
         property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
         property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
         property :estimated_time,
