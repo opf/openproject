@@ -317,7 +317,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
       var url = query.project_id ? PathHelper.apiProjectQueryPath(query.project_id, query.id) : PathHelper.apiQueryPath(query.id);
 
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response) {
-        query.save(response.data.query);
+        query.dirty = false;
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
