@@ -225,8 +225,14 @@ fieldset
     border-right: none
     @include transform(rotate(-50deg))
 
-.form--select[multiple]
-  background-image: none
+.form--select
+  // TODO: remove padding property once upstream PR merged:
+  // https://github.com/zurb/foundation-apps/pull/416
+  padding-right: $form-padding + rem-calc(18px)
+
+  &[multiple]
+    background-image: none
+    padding-right: $form-padding
 
 .form--text-field,
 .form--select
