@@ -389,7 +389,7 @@ de:
       delete: Beziehung löschen
     inplace:
       button_edit: "%{attribute} bearbeiten"
-      button_save: "%{attribute} Speichern"
+      button_save: "%{attribute}: Speichern"
       button_save_and_send: "%{attribute} Speichern mit E-Mail-Benachrichtigung"
       button_cancel: "%{attribute} Abbrechen"
       link_formatting_help: "Textformatierung"
