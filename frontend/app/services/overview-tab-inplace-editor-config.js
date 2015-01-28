@@ -28,7 +28,44 @@
 
 module.exports = function() {
 
+  var activeScopes = [];
+
   var OverviewTabInplaceEditorConfig = {
+
+    isBusy: false,
+
+    registerActiveEditorScope: function($scope) {
+      activeScopes.push($scope);
+    },
+
+    clearActiveEditorScopes: function() {
+      activeScopes = [];
+    },
+
+    deregisterActiveEditorScope: function($scope) {
+      _.remove(activeScopes, function(scope) {
+        return scope === $scope;
+      });
+    },
+
+    collectChanges: function(data) {
+      _.forEach(activeScopes, function(scope) {
+        scope.collectChanges(data);
+        scope.isBusy = true;
+      });
+      return data;
+    },
+
+    dispatchChanges: function(workPackage) {
+      _.forEach(activeScopes, function(scope) {
+        if (!scope) {
+          return;
+        }
+        scope.dispatchChanges(workPackage);
+        scope.isBusy = false;
+      });
+    },
+
     getInplaceProperties: function() {
       return {
         assignee: {

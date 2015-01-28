@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispatcher) {
+module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispatcher, OverviewTabInplaceEditorConfig) {
   return {
     restrict: 'A',
     transclude: false,
@@ -97,6 +97,8 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
     $scope.onFinally = onFinally;
     $scope.getTemplateUrl = getTemplateUrl;
     $scope.getDisplayTemplateUrl = getDisplayTemplateUrl;
+    $scope.collectChanges = collectChanges;
+    $scope.dispatchChanges = dispatchChanges;
     $scope.pathHelper = PathHelper;
 
     activate();
@@ -124,13 +126,16 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
       $scope.isBusy = false;
       InplaceEditorDispatcher.dispatchHook($scope, 'startEditing');
       $scope.$broadcast('startEditing');
+      OverviewTabInplaceEditorConfig.registerActiveEditorScope($scope);
     }
 
     function submit(notify) {
+
       // angular.copy here to make a new object instead of a reference
-      var data = angular.copy($scope.entity.form.embedded.payload.props);
-      InplaceEditorDispatcher.dispatchHook($scope, 'submit', data);
       $scope.isBusy = true;
+      var data = angular.copy($scope.entity.form.embedded.payload.props);
+      //$scope.collectChanges(data);
+      OverviewTabInplaceEditorConfig.collectChanges(data);
       var result = WorkPackageService.updateWorkPackage($scope.entity, data, notify);
       result.then(function(workPackage) {
         $scope.onSuccess(workPackage);
@@ -140,16 +145,25 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
       });
     }
 
+    function collectChanges(data) {
+      InplaceEditorDispatcher.dispatchHook($scope, 'submit', data);
+    }
+
+    function dispatchChanges(workPackage) {
+      $scope.entity = workPackage;
+      setReadValue();
+      finishEditing();
+      $scope.onFinally();
+    }
+
     function onSuccess(entity) {
       $scope.error = null;
       $scope.isBusy = true;
       $scope.$emit(
         'workPackageRefreshRequired',
         function(workPackage) {
-          $scope.entity = workPackage;
-          setReadValue();
-          finishEditing();
-          $scope.onFinally();
+          OverviewTabInplaceEditorConfig.dispatchChanges(workPackage);
+          $scope.dispatchChanges(workPackage);
         }
       );
     }
@@ -171,6 +185,7 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
     function finishEditing() {
       $scope.isEditing = false;
       $scope.$broadcast('finishEditing');
+      OverviewTabInplaceEditorConfig.deregisterActiveEditorScope($scope);
     }
 
     function setReadValue() {

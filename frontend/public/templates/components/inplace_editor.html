@@ -1,4 +1,4 @@
-<div class="inplace-editor type-{{type}} attribute-{{attribute}}" ng-class="{busy: isBusy, preview: isPreview, editable: isEditable}">
+<div class="inplace-editor type-{{type}} attribute-{{attribute}}" ng-class="{busy: isBusy, preview: isPreview, editable: isEditable}" ng-disabled="isBusy">
   <div class="ined-read-value" ng-class="{ default: placeholderSet, editable: isEditable }" ng-hide="isEditing">
     <span class="read-value-wrapper" ng-include src="getDisplayTemplateUrl()"></span>
     <span ng-if="isEditable" class="editing-link-wrapper">
