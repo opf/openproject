@@ -27,7 +27,7 @@ class Widget::Filters::TextBox < Widget::Filters::Base
                         for: "#{filter_class.underscore_name}_arg_1_val",
                         class: 'hidden-for-sighted'
 
-    write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'work-packages-filters--filter-value') do
+    write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value') do
       label + text_field_tag("values[#{filter_class.underscore_name}]", '',
                              size: '6',
                              class: 'form--text-field -small',

@@ -26,6 +26,6 @@ class Widget::Filters::RemoveButton < Widget::Filters::Base
                                name: 'fields[]', type: 'hidden', value: ''
     button = icon_wrapper('icon-context icon-button icon-delete2 filter_rem', l(:description_remove_filter))
     write(content_tag(:div, hidden_field + button, id: "rm_box_#{filter_class.underscore_name}",
-                                                   class: 'work-packages-filters--remove-filter'))
+                                                   class: 'advanced-filters--remove-filter'))
   end
 end

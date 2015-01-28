@@ -23,7 +23,7 @@ require_dependency 'widget/filters/base'
 class Widget::Filters::MultiChoice < Widget::Filters::Base
   def render
     filterName = filter_class.underscore_name
-    write(content_tag :div, id: "#{filterName}_arg_1", class: 'work-packages-filters--filter-value' do
+    write(content_tag :div, id: "#{filterName}_arg_1", class: 'advanced-filters--filter-value' do
       choices = filter_class.available_values.each_with_index.map do |(label, value), i|
         opts = {
           type: 'radio',

@@ -31,7 +31,7 @@ class Widget::Filters::Heavy < Widget::Filters::Base
     #       this might be a bug - further research would be fine
     values = filter.values.first.is_a?(Array) ? filter.values.first : filter.values
     opts = Array(values).empty? ? [] : values.map { |i| filter_class.label_for_value(i.to_i) }
-    div = content_tag :div, id: "#{filter_class.underscore_name}_arg_1", class: 'work-packages-filters--filter-value hidden' do
+    div = content_tag :div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value hidden' do
       select_options = {  :"data-remote-url" => url_for(action: 'available_values'),
                           name: "values[#{filter_class.underscore_name}][]",
                           :"data-loading" => '',

@@ -24,7 +24,7 @@ class Widget::Filters::Label < Widget::Filters::Base
   def render
     options = {
       id:    filter_class.underscore_name,
-      class: 'work-packages-filters--filter-name'
+      class: 'advanced-filters--filter-name'
     }
     if engine::Filter.all.any? { |f| f.dependents.include?(filter_class) }
       options.merge! class: 'dependent-filter-label'

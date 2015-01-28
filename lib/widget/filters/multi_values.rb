@@ -22,7 +22,7 @@
 require_dependency 'widget/filters/base'
 class Widget::Filters::MultiValues < Widget::Filters::Base
   def render
-    write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'work-packages-filters--filter-value') do
+    write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value') do
       select_options = {  :"data-remote-url" => url_for(action: 'available_values'),
                           style: 'vertical-align: top;', # FIXME: Do CSS
                           name: "values[#{filter_class.underscore_name}][]",
