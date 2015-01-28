@@ -12,7 +12,9 @@
       <input id="h_{{ filter.name }}" name="f[]" type="hidden" value="{{ filter.name }}" ng-disabled="filter.deactivated"/>
 
       <!-- Name -->
-      <label for="operators-{{filter.name}}" class="advanced-filters--filter-name">
+      <label for="operators-{{filter.name}}"
+             class="advanced-filters--filter-name"
+             title="{{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}">
         {{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}
       </label>
 
@@ -73,7 +75,7 @@
           <input ng-switch-when="integer"
                  ng-model="filter.textValue"
                  ng-required="true"
-                 class="advanced-filters--text-field"
+                 class="advanced-filters--number-field"
                  id="values-{{filter.name}}"
                  name="v[{{filter.name}}]"
                  min="0"
@@ -93,7 +95,7 @@
                    size="3"
                    type="text"
                    ng-disabled="isLoading"/>
-            <label for="values_{{name}}" class="form-label">
+            <label for="values_{{name}}" class="form-label -transparent">
               {{ I18n.t('js.work_packages.time_relative.days') }}
             </label>
           </span>
@@ -107,7 +109,7 @@
                    size="3"
                    type="text"
                    ng-disabled="isLoading"/>
-            <label ng-switch-when="date_past" for="values_{{name}}" class="form-label">
+            <label ng-switch-when="date_past" for="values_{{name}}" class="form-label -transparent">
               {{ I18n.t('js.work_packages.time_relative.days') }}
             </label>
           </span>
@@ -126,16 +128,20 @@
 
       <div class="advanced-filters--remove-filter">
         <accessible-by-keyboard execute="deactivateFilter(filter)">
-          <icon-wrapper icon-name="delete2"
-                        icon-title="{{I18n.t('js.button_delete')}}"/>
+          <icon-wrapper icon-name="close"
+                        icon-title="{{I18n.t('js.button_delete')}}"
+                        css-class="advanced-filters--remove-filter-icon"/>
         </accessible-by-keyboard>
         <!-- TODO I18n -->
       </div>
     </li>
 
+    <li class="advanced-filters--spacer" ng-if="query.getActiveFilters().size() > 0"></li>
+
     <li class="advanced-filters--add-filter">
       <!-- Add filters -->
       <label for="add_filter_select" class="advanced-filters--add-filter-label">
+        <i class="icon-add icon4"></i>
         {{ I18n.t('js.work_packages.label_filter_add') }}:
       </label>
       <div class="advanced-filters--add-filter-value">

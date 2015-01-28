@@ -26,12 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$advanced-filters--background-color: #efefef
-$advanced-filters--inset-background-color: darken($advanced-filters--background-color, 8)
+$advanced-filters--background-color: $gray-light
+$advanced-filters--border-color: $gray
 
 .advanced-filters--container
   background-color: $advanced-filters--background-color
-  border:   1px solid #E6E6E6
+  border:   1px solid $advanced-filters--border-color
+  border-top-width: 3px
   padding:  10px
   max-height: 250px
   overflow-y: auto
@@ -39,37 +40,60 @@ $advanced-filters--inset-background-color: darken($advanced-filters--background-
   legend
     @extend .hidden-for-sighted
 
+@mixin advanced-filters--sizing()
+  @include grid-block()
+
+  @include breakpoint(medium)
+    @include grid-size(12)
+
+  @include breakpoint(large)
+    @include grid-size(10)
+
+  @include breakpoint(xlarge)
+    @include grid-size(8)
+
+  @include breakpoint(xxlarge)
+    @include grid-size(6)
+
+  @include breakpoint(xxxlarge)
+    @include grid-size(5)
+
 .advanced-filters--filters
-  @include grid-block($wrap: true, $align: right)
+  @include grid-block($align: right)
+  // putting the orientation into the grid-block include statement caused compile error
+  @include grid-orient(vertical)
   list-style-type:  none
   margin:           0
-  background:       $advanced-filters--inset-background-color
-  border:           1px solid #ccc
-  border-radius:    $global-radius
 
 .advanced-filters--filter
-  @include grid-block(6)
+  @include advanced-filters--sizing
   align-items:      center
-  background:       #efefef
-  padding:          0.25rem 0
-  border:           1px solid #ccc
-  border-radius:    $global-radius
+  padding:          0.5rem 0
 
 .advanced-filters--text-field
   @extend .form--text-field, .form--text-field.-small
-  margin-bottom: 0
 
 .advanced-filters--select
   @extend .form--select, .form--select.-small, .form--select.-narrow
   margin-bottom: 0
 
+.advanced-filters--number-field
+  @extend .form--text-field, .form--text-field.-small
+
 %advanced-filters--filter-part
   .inline-label
+    margin-bottom: 0
+  // adding the input rules to be more specific than the resets of
+  // foundation.
+  input, select
     margin-bottom: 0
 
 .advanced-filters--filter-name
   @include grid-content(3)
   @extend %advanced-filters--filter-part
+  overflow-y: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
 
 .advanced-filters--filter-operator
   @include grid-content(3)
@@ -80,20 +104,32 @@ $advanced-filters--inset-background-color: darken($advanced-filters--background-
   @extend %advanced-filters--filter-part
 
 .advanced-filters--remove-filter
-  @include grid-content(shrink)
+  @include grid-content($size: shrink)
+  padding: 0
+
+.advanced-filters--remove-filter-icon
+  @extend .icon-close, .icon4
+  @include grid-content(1)
 
 .advanced-filters--add-filter
-  @include grid-block(6)
+  @include advanced-filters--sizing
   @extend %advanced-filters--filter-part
   align-items:      center
   padding:          0.25rem 0
 
 .advanced-filters--add-filter-label
-  @include grid-content(3)
+  @include grid-content(shrink)
+
+.advanced-filters--add-filter-label-icon
+  @extend .icon-add, .icon4
 
 .advanced-filters--add-filter-value
-  @include grid-content(expand)
+  @include grid-content(3)
 
+.advanced-filters--spacer
+  border-top:   1px solid $advanced-filters--border-color
+  height: 1px
+  margin:          0.75rem 1rem
 
 #content fieldset.collapsible.header_collapsible
   padding-top: 0

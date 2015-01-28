@@ -24,7 +24,7 @@
     <option ng-repeat="value in availableOptions" value="{{ value[1] }}" ng-selected="isSelected(value[1])" label="{{ value[0] }}">{{ value[0] }}</option>
   </select>
 
-  <a href class="form-label no-decoration-on-hover" title="{{I18n.t('js.work_packages.label_enable_multi_select')}}" ng-click="toggleMultiselect()">
+  <a href class="form-label no-decoration-on-hover -transparent" title="{{I18n.t('js.work_packages.label_enable_multi_select')}}" ng-click="toggleMultiselect()">
     <icon-wrapper icon-name="plus"
                   icon-title="{{I18n.t('js.work_packages.label_enable_multi_select')}}"/>
   </a>
