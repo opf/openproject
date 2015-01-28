@@ -39,7 +39,7 @@ module API
         link :self do
           {
             href: api_v3_paths.work_package(represented.id),
-            title: "#{represented.subject}"
+            title: represented.subject
           }
         end
 
@@ -94,7 +94,7 @@ module API
         link :status do
           {
             href: api_v3_paths.status(represented.status_id),
-            title: "#{represented.status.name}"
+            title: represented.status.name
           }
         end
 
