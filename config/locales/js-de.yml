@@ -187,7 +187,7 @@ de:
     relation_labels:
       parent: "Übergeordnetes Arbeitspaket"
       children: "Untergeordnetes Arbeitspaket"
-      relatedTo: "Beziehung mit"
+      relates: "Beziehung mit"
       duplicates: "Dupliziert"
       duplicated: "Dupliziert durch"
       blocks: "Blockiert"
@@ -205,15 +205,8 @@ de:
       add_blocked_by: "Blockiert durch hinzufügen"
       add_precedes: "Vorgänger von hinzufügen"
       add_follows: "Folgt hinzufügen"
-    relation_button_inputs:
-      parent: "Parent"
-      relates: "Related to"
-      duplicates: "Duplicates"
-      duplicated: "Duplicated by"
-      blocks: "Blocks"
-      blocked: "Blocked by"
-      precedes: "Precedes"
-      follows: "Follows"
+
+    field_value_enter_prompt: "Einen Wert für '%{field}' eingeben"
 
     select2:
       input_too_short:
