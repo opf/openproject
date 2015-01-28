@@ -30,7 +30,7 @@ class Widget::Filters::TextBox < Widget::Filters::Base
     write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value') do
       label + text_field_tag("values[#{filter_class.underscore_name}]", '',
                              size: '6',
-                             class: 'form--text-field -small',
+                             class: 'advanced-filters--text-field',
                              id: "#{filter_class.underscore_name}_arg_1_val",
                              :'data-filter-name' => filter_class.underscore_name)
     end)

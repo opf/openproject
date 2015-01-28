@@ -26,7 +26,7 @@ class Widget::Filters < Widget::Base
       add_filter_value = content_tag :div, class: 'advanced-filters--add-filter-value' do
         value = select_tag 'add_filter_select',
                            options_for_select([['', '']] + selectables),
-                           class: 'form--select -small',
+                           class: 'advanced-filters--select',
                            name: nil
         value += maybe_with_help icon: { class: 'filter-icon' },
                                  tooltip: { class: 'filter-tip' },
