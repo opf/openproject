@@ -28,20 +28,22 @@
 
 require 'spec_helper'
 require 'rack/test'
+require 'pry'
 
 describe 'API v3 Priority resource' do
   include Rack::Test::Methods
 
   let(:current_user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role, permissions: []) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:priorities) { FactoryGirl.create_list(:priority, 2) }
 
-  describe '#get' do
+  describe 'priorities' do
     subject(:response) { last_response }
 
+    let(:get_path) { '/api/v3/priorities' }
+
     context 'logged in user' do
-      let(:get_path) { '/api/v3/priorities' }
       before do
         allow(User).to receive(:current).and_return current_user
         member = FactoryGirl.build(:member, user: current_user, project: project)
@@ -54,6 +56,62 @@ describe 'API v3 Priority resource' do
       end
 
       it_behaves_like 'API V3 collection response', 2, 2, 'Priority'
+    end
+
+    context 'not logged in user' do
+      before do
+        get get_path
+      end
+
+      it_behaves_like 'error response',
+                  403,
+                  'MissingPermission',
+                  I18n.t('api_v3.errors.code_403')
+    end
+  end
+
+  describe 'priorities/:id' do
+    subject(:response) { last_response }
+
+    let(:get_path) { "/api/v3/priorities/#{priorities.first.id}" }
+
+    context 'logged in user' do
+      before do
+        allow(User).to receive(:current).and_return current_user
+        member = FactoryGirl.build(:member, user: current_user, project: project)
+        member.role_ids = [role.id]
+        member.save!
+
+        priorities
+
+        get get_path
+      end
+
+      context 'valid priority id' do
+        it 'should return HTTP 200' do
+          expect(response.status).to eql(200)
+        end
+      end
+
+      context 'invalid priority id' do
+        let(:get_path) { '/api/v3/priorities/bogus' }
+
+        it_behaves_like 'not found' do
+          let(:id) { 'bogus' }
+          let(:type) { 'IssuePriority' }
+        end
+      end
+    end
+
+    context 'not logged in user' do
+      before do
+        get get_path
+      end
+
+      it_behaves_like 'error response',
+                  403,
+                  'MissingPermission',
+                  I18n.t('api_v3.errors.code_403')
     end
   end
 end
