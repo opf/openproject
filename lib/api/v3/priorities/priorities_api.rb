@@ -44,6 +44,16 @@ module API
                                               @priorities.count,
                                               api_v3_paths.priorities)
           end
+
+          namespace ':id' do
+            before do
+              @priority = IssuePriority.find(params[:id])
+            end
+
+            get do
+              PriorityRepresenter.new(@priority, current_user: current_user)
+            end
+          end
         end
       end
     end
