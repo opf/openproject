@@ -143,8 +143,12 @@ module.exports = function(
   };
 
   $scope.saveQueryInvalid = function() {
-    return ($scope.query.isDirty()) ||
-      (!$scope.query.isDirty() && AuthorisationService.cannot('query', 'update')) ||
+    return (!$scope.query.isDirty()) ||
+      (
+        $scope.query.isDirty() &&
+        !$scope.query.isNew() &&
+        AuthorisationService.cannot('query', 'update')
+      ) ||
       ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
   };
 
