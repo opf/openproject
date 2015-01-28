@@ -186,7 +186,7 @@ en:
     relation_labels:
       parent: "Parent"
       children: "Children"
-      relatedTo: "Related To"
+      relates: "Related To"
       duplicates: "Duplicates"
       duplicated: "Duplicated by"
       blocks: "Blocks"
@@ -204,6 +204,8 @@ en:
       add_blocked_by: "Add blocked by"
       add_precedes: "Add precedes"
       add_follows: "Add follows"
+
+    field_value_enter_prompt: "Enter a value for '%{field}'"
 
     select2:
       input_too_short:
