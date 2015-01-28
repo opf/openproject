@@ -139,8 +139,6 @@ GEM
       cucumber (>= 1.2.0)
       nokogiri (>= 1.5.0)
       rails (~> 3.0)
-    cucumber-rails-training-wheels (1.0.0)
-      cucumber-rails (>= 1.1.1)
     daemons (1.1.9)
     dalli (2.6.4)
     database_cleaner (1.2.0)
@@ -459,7 +457,6 @@ DEPENDENCIES
   coderay (~> 1.0.5)
   color-tools (~> 1.3.0)
   cucumber-rails
-  cucumber-rails-training-wheels
   daemons
   dalli
   database_cleaner (~> 1.2.0)

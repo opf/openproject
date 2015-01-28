@@ -138,7 +138,6 @@ group :test do
   # connection with database cleaner here but setting it to 1.2 fixes the
   # issue.
   gem 'database_cleaner', '~> 1.2.0'
-  gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
   gem 'rspec', '~> 2.99.0'
   # also add to development group, so "spec" rake task gets loaded
   gem "rspec-rails", "~> 2.99.0", :group => :development
