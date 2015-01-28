@@ -63,6 +63,7 @@ describe 'API v3 Status resource' do
     describe '#get' do
       let(:user) { FactoryGirl.create(:user, member_in_project: project) }
       let(:status) { statuses.first }
+      let(:path) { "/api/v3/statuses/#{status.id}" }
 
       subject(:response) { last_response }
 
@@ -73,8 +74,6 @@ describe 'API v3 Status resource' do
       end
 
       context 'valid status id' do
-        let(:path) { "/api/v3/statuses/#{status.id}" }
-
         it { expect(response.status).to eq(200) }
       end
 
