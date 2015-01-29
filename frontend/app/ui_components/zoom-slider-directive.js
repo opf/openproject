@@ -28,40 +28,24 @@
 
 module.exports = function(I18n) {
 
-  function makeSliderAccessible(slider) {
-    var defaultLabel = angular.element('<span class="hidden-for-sighted">');
-    var sliderLabel = defaultLabel.text(I18n.t('js.timelines.zoom.slider'));
-    var sliderHandle = slider.find('a.ui-slider-handle');
-
-    sliderHandle.append(sliderLabel);
-  }
+  var latestId = 0;
 
   // TODO pass options to directive and do not refer to timelines
   return {
     restrict: 'A',
+    templateUrl: '/templates/components/zoom_slider.html',
     link: function(scope, element, attributes) {
       scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
-      scope.slider = element.slider({
-        min: 1,
-        max: Timeline.ZOOM_SCALES.length,
-        range: 'min',
-        value: scope.currentScaleIndex + 1,
-        slide: function(event, ui) {
-          scope.currentScaleIndex = ui.value - 1;
-          scope.$apply();
-        },
-        change: function(event, ui) {
-          scope.currentScaleIndex = ui.value - 1;
-        }
-      }).css({
-        // top right bottom left
-        'margin': '4px 6px 3px'
+      scope.minValue = 1;
+      scope.maxValue = Timeline.ZOOM_SCALES.length;
+      scope.sliderId = 'zoom-slider-' + latestId++;
+      scope.labelText = I18n.t('js.timelines.zoom.slider');
+
+      var slider = element.find('input');
+      slider.on('change', function() {
+        scope.currentScaleIndex = slider.val() - 1;
+        scope.$apply();
       });
-
-      // Slider
-      // TODO integrate angular-ui-slider
-
-      makeSliderAccessible(scope.slider);
 
       scope.$watch('currentScaleIndex', function(newIndex){
         scope.currentScaleIndex = newIndex;

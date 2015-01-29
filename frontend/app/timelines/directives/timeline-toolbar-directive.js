@@ -38,7 +38,6 @@ module.exports = function(I18n) {
       scope.currentScaleName = 'monthly';
 
       scope.updateToolbar = function() {
-        scope.slider.slider('value', scope.timeline.zoomIndex + 1);
         scope.currentOutlineLevel = scope.timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
         scope.currentScaleName = scope.timeline.ZOOM_SCALES[scope.timeline.zoomIndex];
       };
@@ -61,7 +60,6 @@ module.exports = function(I18n) {
       scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
         if (newScaleName !== oldScaleName) {
           scope.currentScaleIndex = scope.timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
-          scope.slider.slider('value', scope.currentScaleIndex + 1);
 
           scope.timeline.zoom(scope.currentScaleIndex); // TODO replace event-driven adaption by bindings
         }
