@@ -300,7 +300,8 @@ en:
       description_options_hide: "Hide options"
       description_options_show: "Show options"
       error: "An error has occured."
-      label_enable_multi_select: "Toggle multiselect"
+      label_enable_multi_select: "Enable multiselect"
+      label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Add filter"
       label_options: "Options"
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
