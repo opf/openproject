@@ -22,7 +22,7 @@
 require_dependency 'widget/filters/base'
 class Widget::Filters::MultiValues < Widget::Filters::Base
   def render
-    write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'work-packages-filters--filter-value') do
+    write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value') do
       select_options = {  :"data-remote-url" => url_for(action: 'available_values'),
                           style: 'vertical-align: top;', # FIXME: Do CSS
                           name: "values[#{filter_class.underscore_name}][]",
@@ -54,7 +54,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
       box = content_tag :select, select_options, id: "#{filter_class.underscore_name}_select_1" do
         render_widget Widget::Filters::Option, filter, to: box_content unless @options[:lazy]
       end
-      plus = content_tag :a, href: 'javascript:', class: 'form-label filter_multi-select',
+      plus = content_tag :a, href: 'javascript:', class: 'form-label filter_multi-select -transparent',
                              :"data-filter-name" => filter_class.underscore_name,
                              title: l(:description_multi_select) do
         image_tag 'bullet_toggle_plus.png',
