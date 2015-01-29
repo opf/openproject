@@ -59,9 +59,6 @@ $advanced-filters--border-color: $gray
     @include grid-size(5)
 
 .advanced-filters--filters
-  @include grid-block($align: right)
-  // putting the orientation into the grid-block include statement caused compile error
-  @include grid-orient(vertical)
   list-style-type:  none
   margin:           0
 
