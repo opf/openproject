@@ -71,7 +71,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                           child: { tag: 'dt',
                                    attributes: { class: /work_package/ },
                                    child: { tag: 'a',
-                                            content: /#{ERB::Util.html_escape(Status.find(2).name)}/
+                                            content: /#{ERB::Util.h(Status.find(2).name)}/
                    }
                  }
                }
@@ -99,7 +99,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                           child: { tag: 'dt',
                                    attributes: { class: /work_package/ },
                                    child: { tag: 'a',
-                                            content: /#{ERB::Util.html_escape(issue.subject)}/
+                                            content: /#{ERB::Util.h(issue.subject)}/
                    }
                  }
                }
@@ -128,7 +128,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                           child: { tag: 'dt',
                                    attributes: { class: /work_package/ },
                                    child: { tag: 'a',
-                                            content: /#{ERB::Util.html_escape(WorkPackage.find(1).subject)}/
+                                            content: /#{ERB::Util.h(WorkPackage.find(1).subject)}/
                    }
                  }
                }
