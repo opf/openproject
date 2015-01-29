@@ -75,6 +75,7 @@ module.exports = function(
             PaginationService.resetPage();
             scope.$emit('queryStateChange');
             scope.$emit('workPackagesRefreshRequired');
+            scope.query.dirty = true;
           }
         }
       }, true);

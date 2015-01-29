@@ -190,6 +190,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
 
     setGroupBy: function(groupBy) {
       query.setGroupBy(groupBy);
+      query.dirty = true;
     },
 
     getSelectedColumns: function() {
@@ -197,6 +198,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
     },
 
     setSelectedColumns: function(selectedColumnNames) {
+      query.dirty = true;
       var currentColumns = this.getSelectedColumns();
 
       this.hideColumns(currentColumns.map(function(column) { return column.name; }));
@@ -316,7 +318,8 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
     saveQuery: function() {
       var url = query.project_id ? PathHelper.apiProjectQueryPath(query.project_id, query.id) : PathHelper.apiQueryPath(query.id);
 
-      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
+      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response) {
+        query.dirty = false;
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );

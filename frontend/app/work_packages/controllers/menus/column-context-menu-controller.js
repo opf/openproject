@@ -40,27 +40,33 @@ module.exports = function($scope, ColumnContextMenu, I18n, QueryService, WorkPac
 
     $scope.groupBy = function(columnName) {
       QueryService.getQuery().groupBy = columnName;
+      QueryService.getQuery().dirty = true;
     };
 
     $scope.sortAscending = function(columnName) {
       WorkPackagesTableService.sortBy(columnName || 'id', 'asc');
+      QueryService.getQuery().dirty = true;
     };
 
     $scope.sortDescending = function(columnName) {
       WorkPackagesTableService.sortBy(columnName || 'id', 'desc');
+      QueryService.getQuery().dirty = true;
     };
 
     $scope.moveLeft = function(columnName) {
       WorkPackagesTableHelper.moveColumnBy($scope.columns, columnName, -1);
+      QueryService.getQuery().dirty = true;
     };
 
     $scope.moveRight = function(columnName) {
       WorkPackagesTableHelper.moveColumnBy($scope.columns, columnName, 1);
+      QueryService.getQuery().dirty = true;
     };
 
     $scope.hideColumn = function(columnName) {
       ColumnContextMenu.close();
       QueryService.hideColumns(new Array(columnName));
+      QueryService.getQuery().dirty = true;
     };
 
     $scope.insertColumns = function() {

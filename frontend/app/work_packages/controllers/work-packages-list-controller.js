@@ -59,7 +59,9 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     }
 
     $scope.settingUpPage = fetchWorkPackages // put promise in scope for cg-busy
-      .then(setupPage)
+      .then(function(json) {
+        return setupPage(json, !!queryParams);
+      })
       .then(function() {
         fetchAvailableColumns();
         fetchProjectTypesAndQueries();
@@ -109,8 +111,8 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     }
   }
 
-  function setupPage(json) {
-    initQuery(json.meta);
+  function setupPage(json, queryParamsPresent) {
+    initQuery(json.meta, queryParamsPresent);
     setupWorkPackagesTable(json);
 
     if (json.work_packages.length) {
@@ -118,7 +120,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     }
   }
 
-  function initQuery(metaData) {
+  function initQuery(metaData, queryParamsPresent) {
     var queryData = metaData.query,
         columnData = metaData.columns;
 
@@ -132,6 +134,9 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     } else {
       // Set up fresh query from retrieved query meta data
       $scope.query = QueryService.initQuery($state.params.query_id, queryData, columnData, metaData.export_formats, afterQuerySetupCallback);
+      if (queryParamsPresent) {
+        $scope.query.dirty = true;
+      }
     }
 
     $scope.maintainBackUrl();

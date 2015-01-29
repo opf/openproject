@@ -40,7 +40,10 @@ module.exports = function(
   });
 
   $scope.saveQuery = function(event){
-    if($scope.query.isNew()){
+    if (!$scope.query.isDirty()) {
+      return;
+    }
+    if($scope.query.isNew()) {
       if( allowQueryAction(event, 'create') ){
         $scope.$emit('hideAllDropdowns');
         saveModal.activate();
@@ -140,8 +143,13 @@ module.exports = function(
   };
 
   $scope.saveQueryInvalid = function() {
-    return (!$scope.query.isDirty() && AuthorisationService.cannot('query', 'update')) ||
-             ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
+    return (!$scope.query.isDirty()) ||
+      (
+        $scope.query.isDirty() &&
+        !$scope.query.isNew() &&
+        AuthorisationService.cannot('query', 'update')
+      ) ||
+      ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
   };
 
   function preventNewQueryAction(event){
