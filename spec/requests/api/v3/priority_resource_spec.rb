@@ -64,9 +64,9 @@ describe 'API v3 Priority resource' do
       end
 
       it_behaves_like 'error response',
-                  403,
-                  'MissingPermission',
-                  I18n.t('api_v3.errors.code_403')
+                      403,
+                      'MissingPermission',
+                      I18n.t('api_v3.errors.code_403')
     end
   end
 

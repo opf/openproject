@@ -34,7 +34,6 @@ module API
   module V3
     module Priorities
       class PriorityRepresenter < ::API::Decorators::Single
-
         link :self do
           {
             href: api_v3_paths.priority(represented.id),
@@ -45,8 +44,8 @@ module API
         property :id, render_nil: true
         property :name
         property :position
-      	property :is_default
-      	property :active, as: :isActive
+        property :is_default
+        property :active, as: :isActive
 
         def _type
           'Priority'
