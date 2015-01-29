@@ -80,6 +80,11 @@ module API
                           method: :fixed_version_id,
                           path: :version)
 
+          linked_property(property_name: :priority,
+                          namespace: :priorities,
+                          method: :priority_id,
+                          path: :priority)
+
           private
 
           def get_path(get_method: nil, path: nil)

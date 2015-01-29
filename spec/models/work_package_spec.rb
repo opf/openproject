@@ -281,6 +281,21 @@ describe WorkPackage, type: :model do
     end
   end
 
+  describe :assignable_priorities do
+    let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+    let(:active_priority) { FactoryGirl.build(:priority, active: true) }
+    let(:inactive_priority) { FactoryGirl.build(:priority, active: false) }
+
+    before do
+      active_priority.save!
+      inactive_priority.save!
+    end
+
+    it 'returns active priorities' do
+      expect(work_package.assignable_priorities).to match_array([active_priority])
+    end
+  end
+
   describe :assignable_versions do
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []

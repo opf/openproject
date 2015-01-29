@@ -91,6 +91,19 @@ module API
                                                           current_user: current_user)
                    }
 
+          property :priority,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     priority_origin = represented
+
+                     if represented.persisted? && represented.priority_id_changed?
+                       priority_origin = represented.class.find(represented.id)
+                     end
+
+                     SchemaAllowedPrioritiesRepresenter.new(priority_origin.assignable_priorities,
+                                                          current_user: current_user)
+                   }
+
           def current_user
             context[:current_user]
           end

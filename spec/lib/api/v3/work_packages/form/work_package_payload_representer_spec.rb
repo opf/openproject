@@ -118,6 +118,17 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
           let(:link) { "/api/v3/versions/#{version.id}" }
         end
       end
+
+      describe 'priority' do
+        let(:priority) { FactoryGirl.build_stubbed(:priority) }
+
+        before { work_package.priority = priority }
+
+        it_behaves_like 'linked property' do
+          let(:property) { 'priority' }
+          let(:link) { "/api/v3/priorities/#{priority.id}" }
+        end
+      end
     end
   end
 

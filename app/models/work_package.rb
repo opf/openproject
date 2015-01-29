@@ -399,6 +399,10 @@ class WorkPackage < ActiveRecord::Base
     @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
 
+  def assignable_priorities
+    IssuePriority.where(active: true)
+  end
+
   def kind
     type
   end
