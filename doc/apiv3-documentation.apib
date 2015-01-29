@@ -1024,63 +1024,72 @@ The request body is the actual string that shall be rendered as HTML string.
     + Body
 
             {
-                "_links": {
-                    "self": { "href": "/api/v3/priorities" }
+                "_links" : {
+                    "self" : {
+                        "href" : "/api/v3/priorities"
+                    }
                 },
-                "total": 5,
-                "count": 5,
-                "_type": "Collection",
-                "_embedded":
-                {
-                    "elements": [
-                        {
-                            "_links": {
-                                "self": { "href": "/api/v3/priorities/1" }
+                "_type" : "Collection",
+                "total" : 4,
+                "count" : 4,
+                "_embedded" : {
+                    "elements" : [{
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/1",
+                                    "title" : "Low"
+                                }
                             },
-                            "_type": "Priority",
-                            "id": 1,
-                            "name": "Low",
-                            "position": 1
-                        },
-                        {
-                            "_links": {
-                                "self": { "href": "/api/v3/priorities/2" }
+                            "id" : 1,
+                            "name" : "Low",
+                            "position" : 1,
+                            "isDefault" : false,
+                            "isActive" : true
+                        }, {
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/2",
+                                    "title" : "Normal"
+                                }
                             },
-                            "_type": "Priority",
-                            "id": 2,
-                            "name": "Normal",
-                            "position": 2
-                        },
-                        {
-                            "_links": {
-                                "self": { "href": "/api/v3/priorities/3" }
+                            "id" : 2,
+                            "name" : "Normal",
+                            "position" : 2,
+                            "isDefault" : true,
+                            "isActive" : true
+                        }, {
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/3",
+                                    "title" : "High"
+                                }
                             },
-                            "_type": "Priority",
-                            "id": 3,
-                            "name": "High",
-                            "position": 3
-                        },
-                        {
-                            "_links": {
-                                "self": { "href": "/api/v3/priorities/4" }
+                            "id" : 3,
+                            "name" : "High",
+                            "position" : 3,
+                            "isDefault" : false,
+                            "isActive" : true
+                        }, {
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/4",
+                                    "title" : "Immediate"
+                                }
                             },
-                            "_type": "Priority",
-                            "id": 4,
-                            "name": "Urgent",
-                            "position": 4
-                        },
-                        {
-                            "_links": {
-                                "self": { "href": "/api/v3/priorities/5" }
-                            },
-                            "_type": "Priority",
-                            "id": 5,
-                            "name": "Immediate",
-                            "position": 5
+                            "id" : 4,
+                            "name" : "Immediate",
+                            "position" : 5,
+                            "isDefault" : false,
+                            "isActive" : true
                         }
                     ]
                 }
             }
+
 
 ## List all Priorities [GET]
 
@@ -1108,14 +1117,20 @@ The request body is the actual string that shall be rendered as HTML string.
     + Body
 
             {
-                "_links": {
-                    "self": { "href": "/api/v3/priorities/1" }
+                "_type" : "Priority",
+                "_links" : {
+                    "self" : {
+                        "href" : "/api/v3/priorities/1",
+                        "title" : "Low"
+                    }
                 },
-                "_type": "Priority",
-                "id": 1,
-                "name": "Low",
-                "position": 1
+                "id" : 1,
+                "name" : "Low",
+                "position" : 1,
+                "isDefault" : false,
+                "isActive" : true
             }
+
 
 ## view Priority [GET]
 
