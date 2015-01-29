@@ -32,7 +32,6 @@ module API
     module Priorities
       class PrioritiesAPI < Grape::API
         resources :priorities do
-
           before do
             authorize(:view_work_packages, global: true)
 

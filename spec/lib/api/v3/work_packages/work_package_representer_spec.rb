@@ -31,7 +31,9 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:member) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
+  let(:member) do
+    FactoryGirl.create(:user,  member_in_project: project, member_through_role: role)
+  end
   let(:current_user) { member }
 
   let(:representer)  { described_class.new(work_package, current_user: current_user) }
@@ -136,15 +138,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           allow(User).to receive(:current).and_return(user)
 
           allow(user).to receive(:allowed_to?).and_return(false)
-          allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
-                                              .and_return(true)
+          allow(user).to receive(:allowed_to?).with(:view_time_entries, anything).and_return(true)
         end
 
         context 'no view_time_entries permission' do
           before do
             allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
                                                 .and_return(false)
-
           end
 
           it { is_expected.to_not have_json_path('spentTime') }
@@ -439,7 +439,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                project: project,
                                parent_id: forbidden_work_package.id)
           }
-          let!(:forbidden_work_package) { FactoryGirl.create(:work_package, project: forbidden_project) }
+          let!(:forbidden_work_package) do
+            FactoryGirl.create(:work_package, project: forbidden_project)
+          end
 
           it { expect(subject).to_not have_json_path('_links/parent') }
         end
@@ -463,7 +465,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
             it { expect(subject).to have_json_size(1).at_path('_links/children') }
 
-            it { expect(parse_json(subject)['_links']['children'][0]['title']).to eq(child.subject) }
+            it do
+              expect(parse_json(subject)['_links']['children'][0]['title']).to eq(child.subject)
+            end
           end
         end
       end
