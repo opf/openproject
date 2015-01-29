@@ -40,6 +40,9 @@
 /npm-debug.log
 /tmp
 
+# Ignore RubyMine files
+/.idea
+
 /backup
 /.project
 /.loadpath
