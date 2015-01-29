@@ -101,7 +101,7 @@ module API
                      end
 
                      SchemaAllowedPrioritiesRepresenter.new(priority_origin.assignable_priorities,
-                                                          current_user: current_user)
+                                                            current_user: current_user)
                    }
 
           def current_user

@@ -221,7 +221,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
           it_behaves_like 'contains priorities'
         end
       end
-      
+
       describe 'responsible and assignee' do
         let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
 
