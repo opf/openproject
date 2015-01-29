@@ -104,6 +104,8 @@ module.exports = function(
     $scope.acceptErrors = acceptErrors;
     $scope.pathHelper = PathHelper;
 
+    $scope.nullValueLabel = I18n.t('js.inplace.null_value_label');
+
     activate();
 
     function activate() {

@@ -333,6 +333,7 @@ de:
         type: "Typ"
         updatedAt: "Aktualisiert"
         versionName: "Version"
+        version: "Version"
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
@@ -395,6 +396,7 @@ de:
       link_formatting_help: "Textformatierung"
       btn_preview_enable: "Vorschau"
       btn_preview_disable: "Vorschau deaktivieren"
+      null_value_label: "Kein Wert"
 
     error_could_not_resolve_version_name: "Versionsbezeichner konnte nicht aufgelöst werden"
     error_could_not_resolve_user_name: "Benutzername konnte nicht aufgelöst werden"

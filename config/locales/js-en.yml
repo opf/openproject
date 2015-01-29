@@ -336,6 +336,7 @@ en:
         type: "Type"
         updatedAt: "Updated on"
         versionName: "Version"
+        version: "Version"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -398,6 +399,7 @@ en:
       link_formatting_help: "Text formatting"
       btn_preview_enable: "Preview"
       btn_preview_disable: "Disable preview"
+      null_value_label: "No value"
 
     error_could_not_resolve_version_name: "Couldn't resolve version name"
     error_could_not_resolve_user_name: "Couldn't resolve user name"
