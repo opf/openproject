@@ -190,6 +190,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
 
     setGroupBy: function(groupBy) {
       query.setGroupBy(groupBy);
+      query.dirty = true;
     },
 
     getSelectedColumns: function() {
@@ -197,6 +198,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
     },
 
     setSelectedColumns: function(selectedColumnNames) {
+      query.dirty = true;
       var currentColumns = this.getSelectedColumns();
 
       this.hideColumns(currentColumns.map(function(column) { return column.name; }));
