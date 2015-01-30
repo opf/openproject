@@ -27,8 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CopyProjectJob < Struct.new(:user,
-                                  :source_project,
+class CopyProjectJob < Struct.new(:user_id,
+                                  :source_project_id,
                                   :target_project_params,
                                   :enabled_modules,
                                   :associations_to_copy,
@@ -47,15 +47,23 @@ class CopyProjectJob < Struct.new(:user,
     end
 
     if target_project
-      UserMailer.delay.copy_project_succeeded(user, source_project, target_project, errors)
+      UserMailer.copy_project_succeeded(user, source_project, target_project, errors)
     else
       target_project_name = target_project_params[:name]
 
-      UserMailer.delay.copy_project_failed(user, source_project, target_project_name)
+      UserMailer.copy_project_failed(user, source_project, target_project_name)
     end
   end
 
   private
+
+  def user
+    @user ||= User.find user_id
+  end
+
+  def source_project
+    @project ||= Project.find source_project_id
+  end
 
   def create_project_copy(source_project,
                           target_project_params,

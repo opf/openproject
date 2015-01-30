@@ -41,8 +41,8 @@ class CopyProjectsController < ApplicationController
     @copy_project.safe_attributes = params[:project]
     if @copy_project.valid?
       modules = params[:project][:enabled_module_names] || params[:enabled_modules]
-      copy_project_job = CopyProjectJob.new(User.current,
-                                            @project,
+      copy_project_job = CopyProjectJob.new(User.current.id,
+                                            @project.id,
                                             params[:project],
                                             modules,
                                             params[:only],
