@@ -239,14 +239,15 @@ module API
                  },
                  setter: -> (value, *) { represented.description = value['raw'] },
                  render_nil: true
+
         property :start_date,
                  getter: -> (*) do
-                   start_date.to_datetime.utc.iso8601 unless start_date.nil?
+                   start_date.to_date.iso8601 unless start_date.nil?
                  end,
                  render_nil: true
         property :due_date,
                  getter: -> (*) do
-                   due_date.to_datetime.utc.iso8601 unless due_date.nil?
+                   due_date.to_date.iso8601 unless due_date.nil?
                  end,
                  render_nil: true
         property :estimated_time,

@@ -41,6 +41,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:work_package) {
     FactoryGirl.build(:work_package,
                       id: 42,
+                      start_date: Date.today.to_datetime,
+                      due_date: Date.today.to_datetime,
                       created_at: DateTime.now,
                       updated_at: DateTime.now,
                       category:   category,
@@ -72,6 +74,30 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     it { is_expected.to include_json('WorkPackage'.to_json).at_path('_type') }
 
     describe 'work_package' do
+      shared_examples_for 'ISO 8601 date only' do
+        let(:iso_date_only_string) { '%d-%02d-%02d' % [ date.year, date.month, date.day ] }
+
+        it 'exists' do
+          is_expected.to have_json_path(json_path)
+        end
+
+        it 'indicates date only as ISO 8601' do
+          is_expected.to be_json_eql(iso_date_only_string.to_json).at_path(json_path)
+        end
+      end
+
+      shared_examples_for 'UTC ISO 8601 date and time' do
+        let(:iso_string) { date.utc.iso8601 }
+
+        it 'exists' do
+          is_expected.to have_json_path(json_path)
+        end
+
+        it 'indicates date and time as ISO 8601' do
+          is_expected.to be_json_eql(iso_string.to_json).at_path(json_path)
+        end
+      end
+
       it { is_expected.to have_json_path('id') }
 
       it_behaves_like 'API V3 formattable', 'description' do
@@ -80,19 +106,41 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:html) { '<p>' + work_package.description + '</p>' }
       end
 
-      it { is_expected.to have_json_path('dueDate') }
-
       it { is_expected.to have_json_path('percentageDone') }
 
       it { is_expected.to have_json_path('projectId') }
       it { is_expected.to have_json_path('projectName') }
 
-      it { is_expected.to have_json_path('startDate') }
+      describe 'startDate' do
+        it_behaves_like 'ISO 8601 date only' do
+          let(:date) { work_package.start_date }
+          let(:json_path) { 'startDate' }
+        end
+      end
+
+      describe 'dueDate' do
+        it_behaves_like 'ISO 8601 date only' do
+          let(:date) { work_package.due_date }
+          let(:json_path) { 'dueDate' }
+        end
+      end
+
+      describe 'createdAt' do
+        it_behaves_like 'UTC ISO 8601 date and time' do
+          let(:date) { work_package.created_at }
+          let(:json_path) { 'createdAt' }
+        end
+      end
+
+      describe 'updatedAt' do
+        it_behaves_like 'UTC ISO 8601 date and time' do
+          let(:date) { work_package.updated_at }
+          let(:json_path) { 'updatedAt' }
+        end
+      end
+
       it { is_expected.to have_json_path('subject') }
       it { is_expected.to have_json_path('type') }
-
-      it { is_expected.to have_json_path('createdAt') }
-      it { is_expected.to have_json_path('updatedAt') }
 
       describe 'version' do
         it { is_expected.to have_json_path('versionId') }
