@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 require 'rack/test'
-require 'pry'
 
 describe 'API v3 Priority resource' do
   include Rack::Test::Methods
