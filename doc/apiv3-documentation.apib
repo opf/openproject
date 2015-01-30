@@ -398,16 +398,85 @@ Cursor based pagination is therefore less suited for use cases where you want to
 
 # Group Activities
 
-## Properties:
-| Property    | Description      | Type                | Constraints | Supported operations |
-| :---------: | -------------    | ----                | ----------- | -------------------- |
-| id          | Activity id      | Integer             | x > 0       | READ                 |
-| version     | Activity version | Integer             | x > 0       | READ                 |
-| comment     |                  | Formatable          |             | READ / WRITE         |
-| details     |                  | Array of Formatable |             | READ                 |
-| createdAt   | Time of creation | DateTime            |             | READ                 |
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:| ------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This activity                               | Activity      | not null              | READ                 |
 
-Activity can be either _type Activity or _type Activity::Comment.
+## Properties
+| Property    | Description                                 | Type       | Constraints | Supported operations |
+| :---------: | ------------------------------------------- | ---------- | ----------- | -------------------- |
+| id          | Activity id                                 | Integer    | x > 0       | READ                 |
+| name        | Activity name                               | String     | not empty   | READ                 |
+| position    | Sort index of the activity                  | Integer    | x > 0       | READ                 |
+| isDefault   | Indicates whether this is the default value | Boolean    |             | READ                 |
+| isActive    | Indicates whether the activity is available | Boolean    |             | READ                 |
+
+## Activities [/api/v3/activities]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/activities" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/activities/1" }
+                            },
+                            "_type": "Activity",
+                            "id": 1,
+                            "name": "Engineering",
+                            "position": 1
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/activities/2" }
+                            },
+                            "_type": "Activity",
+                            "id": 2,
+                            "name": "Management",
+                            "position": 2
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/activities/3" }
+                            },
+                            "_type": "Activity",
+                            "id": 3,
+                            "name": "Maintenance",
+                            "position": 3
+                        }
+                    ]
+                }
+            }
+
+## List all Activities [GET]
+
++ Response 200 (application/hal+json)
+
+    [Activities][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view time entries (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the activities."
+            }
 
 ## Activity [/api/v3/activities/{id}]
 
@@ -415,39 +484,16 @@ Activity can be either _type Activity or _type Activity::Comment.
     + Body
 
             {
-                "_type": "Activity::Comment",
                 "_links": {
-                    "self": {
-                        "href": "/api/v3/activity/1",
-                        "title": "Priority changed from High to Low"
-                    },
-                    "workPackage": {
-                        "href": "/api/v3/work_packages/1",
-                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
-                    },
-                    "user": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - admin"
-                    }
+                    "self": { "href": "/api/v3/activities/1" }
                 },
+                "_type": "Activity",
                 "id": 1,
-                "details": [
-                    {
-                        "format": "textile",
-                        "raw": "Lorem ipsum dolor sit amet.",
-                        "html": "<p>Lorem ipsum dolor sit amet.</p>"
-                    }
-                ],
-                "comment": {
-                    "format": "textile",
-                    "raw": "Lorem ipsum dolor sit amet.",
-                    "html": "<p>Lorem ipsum dolor sit amet.</p>"
-                },
-                "createdAt": "2014-05-21T08:51:20Z",
-                "version": 31
+                "name": "Engineering",
+                "position": 1
             }
 
-## View activity [GET]
+## view Activity [GET]
 
 + Parameters
     + id (required, integer, `1`) ... Activity id
@@ -455,61 +501,19 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Activity][]
-
-## Update activity [PATCH]
-
-Updates an activity's comment and, on success, returns the updated activity.
-
-+ Parameters
-    + id (required, integer, `1`) ... Activity id
-
-+ Request (application/json)
-
-        {
-          "comment": { "raw": "The updated comment" }
-        }
-
-+ Response 200 (application/hal+json)
-
-    [Activity][]
-
-+ Response 400 (application/hal+json)
-
-    Occurs when the client did not send a valid JSON object in the request body.
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
-                "message": "The request body was not a single JSON object."
-            }
 
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
 
-    **Required permission:** edit journals
+    **Required permission:** view time entries (on any project)
 
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to edit the comment of this journal entry."
-            }
-
-
-+ Response 422 (application/hal+json)
-
-    Returned if the client tries to modify a read-only property.
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyIsReadOnly",
-                "message": "The ID of an activity can't be changed."
+                "message": "You are not allowed to see this activity."
             }
 
 # Group Attachments
@@ -933,6 +937,123 @@ This is an example of how a form might look like. Note that this endpoint does n
                 "message": "The resource you are about to edit was changed in the meantime."
             }
 
+# Group Journal Entries
+
+## Properties:
+| Property    | Description      | Type                | Constraints | Supported operations |
+| :---------: | -------------    | ----                | ----------- | -------------------- |
+| id          | entry id         | Integer             | x > 0       | READ                 |
+| version     | entry version    | Integer             | x > 0       | READ                 |
+| comment     |                  | Formatable          |             | READ / WRITE         |
+| details     |                  | Array of Formatable |             | READ                 |
+| createdAt   | Time of creation | DateTime            |             | READ                 |
+
+The `_type` of a journal entry can be either `JournalEntry` or `JournalEntry::Comment`. The latter
+is used for journal entries that do not change any properties of the associated work package.
+
+## Journal Entry [/api/v3/journal_entries/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "JournalEntry::Comment",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/journal_entries/1",
+                        "title": "Priority changed from High to Low"
+                    },
+                    "workPackage": {
+                        "href": "/api/v3/work_packages/1",
+                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard - admin"
+                    }
+                },
+                "id": 1,
+                "details": [
+                    {
+                        "format": "textile",
+                        "raw": "Lorem ipsum dolor sit amet.",
+                        "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                    }
+                ],
+                "comment": {
+                    "format": "textile",
+                    "raw": "Lorem ipsum dolor sit amet.",
+                    "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                },
+                "createdAt": "2014-05-21T08:51:20Z",
+                "version": 31
+            }
+
+## View Journal Entry [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... entry id
+
++ Response 200 (application/hal+json)
+
+    [Journal Entry][]
+
+## Update Journal Entry [PATCH]
+
+Updates the comment of a journal entry and, on success, returns the updated entry.
+
++ Parameters
+    + id (required, integer, `1`) ... entry id
+
++ Request (application/json)
+
+        {
+          "comment": { "raw": "The updated comment" }
+        }
+
++ Response 200 (application/hal+json)
+
+    [Journal Entry][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit journals
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit the comment of this journal entry."
+            }
+
+
++ Response 422 (application/hal+json)
+
+    Returned if the client tries to modify a read-only property.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyIsReadOnly",
+                "message": "The ID of a journal entry can't be changed."
+            }
+
 # Group Previewing
 
 Throughout OpenProject user input for many properties can be formatted (e.g. using *Textile*).
@@ -1143,16 +1264,17 @@ The request body is the actual string that shall be rendered as HTML string.
 # Group Projects
 
 ## Linked Properties:
-| Link       | Description                          | Type       | Constraints | Supported operations |
-| :------:   | -------------                        | ----       | ----------- | -------------------- |
-| self       | This project                         | Project    | not null    | READ                 |
-| categories | Categories available in this project | Categories | not null    | READ                 |
-| types      | Types available in this project      | Types      | not null    | READ                 |
-| versions   | Versions available in this project   | Versions   | not null    | READ                 |
+| Link        | Description                          | Type        | Constraints | Supported operations | Condition                         |
+| :---------: | ------------------------------------ | ----------- | ----------- | -------------------- | --------------------------------- |
+| self        | This project                         | Project     | not null    | READ                 |                                   |
+| categories  | Categories available in this project | Categories  | not null    | READ                 |                                   |
+| timeEntries | Time entries logged in this project  | TimeEntries | not null    | READ                 | **Permission**: View time entries |
+| types       | Types available in this project      | Types       | not null    | READ                 |                                   |
+| versions    | Versions available in this project   | Versions    | not null    | READ                 |                                   |
 
 ## Properties:
 | Property    | Description                                   | Type     | Constraints | Supported operations |
-| :---------: | -------------                                 | ----     | ----------- | -------------------- |
+| :---------: | --------------------------------------------- | -------- | ----------- | -------------------- |
 | id          | Projects's id                                 | Integer  | x > 0       | READ                 |
 | identifier  |                                               | String   |             | READ                 |
 | name        |                                               | String   |             | READ                 |
@@ -1171,9 +1293,10 @@ The request body is the actual string that shall be rendered as HTML string.
                 "_links": {
                     "self": {
                         "href": "/api/v3/projects/1",
-                        "title": "Lorem"
+                        "title": "Project example"
                     },
                     "categories": { "href": "/api/v3/projects/1/categories" },
+                    "timeEntries": { "href": "/api/v3/projects/1/time_entries" },
                     "types": { "href": "/api/v3/projects/1/types" },
                     "versions": { "href": "/api/v3/projects/1/versions" }
                 },
@@ -1709,6 +1832,257 @@ but are also limited to the projects that the current user is allowed to see.
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see this status."
+            }
+
+# Group Time Entries
+
+## Linked Properties:
+|  Link         | Description                                  | Type          | Constraints | Supported operations |
+|:-------------:|--------------------------                    | ------------- | ----------- | -------------------- |
+| self          | This time entry                              | TimeEntry     | not null    | READ                 |
+| workPackage   | The work package where this entry was logged | WorkPackage   | not null    | READ                 |
+| project       | The project of this time entry               | Project       | not null    | READ                 |
+| user          | The user that spent the time                 | User          | not null    | READ                 |
+| activity      | The kind of activity performed               | Activity      | not null    | READ                 |
+
+## Properties
+| Property         | Description                                                   | Type        | Constraints   | Supported operations |
+| :--------:       | -------------                                                 | ----------- | -----------   | -------------------- |
+| id               | Time entry id                                                 | Integer     | x > 0         | READ                 |
+| comment          | Addtitional notes regarding the time entry                    | Formattable |               | READ                 |
+| spentOn          | The day on which the time was spent                           | Date        |               | READ                 |
+| spentTime        | The amount of time that was spent                             | Duration    |               | READ                 |
+| createdAt        | Time of creation                                              | DateTime    |               | READ                 |
+| updatedAt        | Time of the most recent change to the user                    | DateTime    |               | READ                 |
+
+# Time Entry [/api/v3/time_entries/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self": { "href": "/api/v3/time_entries/1" },
+                    "workPackage": { "href": "/api/v3/work_packages/1" },
+                    "project": { "href": "/api/v3/projects/1" },
+                    "user": { "href": "/api/v3/users/1" },
+                    "activity": { "href": "/api/v3/activities/1" }
+                },
+                "_type": "TimeEntry",
+                "id": 1,
+                "comment": {
+                    "format": "plain",
+                    "raw": "I did some work!",
+                    "html": "<p>I did some work!</p>"
+                },
+                "spentOn": "2014-12-06",
+                "spentTime": "PT2H",
+                "createdAt": "2014-12-06T08:51:20Z",
+                "updatedAt": "2014-12-06T08:51:20Z"
+            }
+
+## View Time Entry [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... entry id
+
++ Response 200 (application/hal+json)
+
+    [Time Entry][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view time entries
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this time entry."
+            }
+
+# Time Entries by Project [/api/v3/projects/{id}/time_entries]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/time_entries" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links":
+                            {
+                                "self": { "href": "/api/v3/time_entries/1" },
+                                "workPackage": { "href": "/api/v3/work_packages/1" },
+                                "project": { "href": "/api/v3/projects/11" },
+                                "user": { "href": "/api/v3/users/1" },
+                                "activity": { "href": "/api/v3/activities/1" }
+                            },
+                            "_type": "TimeEntry",
+                            "id": 1,
+                            "comment": {
+                                "format": "plain",
+                                "raw": "I did some work!",
+                                "html": "<p>I did some work!</p>"
+                            },
+                            "spentOn": "2014-12-06",
+                            "spentTime": "PT2H",
+                            "createdAt": "2014-12-06T08:51:20Z",
+                            "updatedAt": "2014-12-06T08:51:20Z"
+                        },
+                        {
+                            "_links":
+                            {
+                                "self": { "href": "/api/v3/time_entries/2" },
+                                "workPackage": { "href": "/api/v3/work_packages/1" },
+                                "project": { "href": "/api/v3/projects/11" },
+                                "user": { "href": "/api/v3/users/1" },
+                                "activity": { "href": "/api/v3/activities/1" }
+                            },
+                            "_type": "TimeEntry",
+                            "id": 2,
+                            "comment": {
+                                "format": "plain",
+                                "raw": "I did some work!",
+                                "html": "<p>I did some work!</p>"
+                            },
+                            "spentOn": "2014-12-06",
+                            "spentTime": "PT2H",
+                            "createdAt": "2014-12-06T08:51:20Z",
+                            "updatedAt": "2014-12-06T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List time entries of a project [GET]
+
+This endpoint lists the time entries that were logged on the work packages of a given project.
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the project whoose time entries will be listed
+
++ Response 200 (application/hal+json)
+
+    [Time Entries by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view time entries (on given project)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+# Time Entries by Work Package [/api/v3/work_packages/{id}/time_entries]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/1/time_entries" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links":
+                            {
+                                "self": { "href": "/api/v3/time_entries/1" },
+                                "workPackage": { "href": "/api/v3/work_packages/1" },
+                                "project": { "href": "/api/v3/projects/11" },
+                                "user": { "href": "/api/v3/users/1" },
+                                "activity": { "href": "/api/v3/activities/1" }
+                            },
+                            "_type": "TimeEntry",
+                            "id": 1,
+                            "comment": {
+                                "format": "plain",
+                                "raw": "I did some work!",
+                                "html": "<p>I did some work!</p>"
+                            },
+                            "spentOn": "2014-12-06",
+                            "spentTime": "PT2H",
+                            "createdAt": "2014-12-06T08:51:20Z",
+                            "updatedAt": "2014-12-06T08:51:20Z"
+                        },
+                        {
+                            "_links":
+                            {
+                                "self": { "href": "/api/v3/time_entries/2" },
+                                "workPackage": { "href": "/api/v3/work_packages/1" },
+                                "project": { "href": "/api/v3/projects/11" },
+                                "user": { "href": "/api/v3/users/1" },
+                                "activity": { "href": "/api/v3/activities/1" }
+                            },
+                            "_type": "TimeEntry",
+                            "id": 2,
+                            "comment": {
+                                "format": "plain",
+                                "raw": "I did some work!",
+                                "html": "<p>I did some work!</p>"
+                            },
+                            "spentOn": "2014-12-06",
+                            "spentTime": "PT2H",
+                            "createdAt": "2014-12-06T08:51:20Z",
+                            "updatedAt": "2014-12-06T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List time entries of a work package [GET]
+
+This endpoint lists the time entries that were logged on the given work package.
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the work package whoose time entries will be listed
+
++ Response 200 (application/hal+json)
+
+    [Time Entries by Work Package][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view time entries
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
             }
 
 # Group Types
@@ -2361,20 +2735,19 @@ Note that due to sharing this might be more than the versions *defined* by that 
 
 ## Linked Properties:
 
-| Link               | Description                                                                                                                                           | Type         | Constraints  | Supported operations  | Condition                                 |
-| :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
-| self               | This work package                                                                                                                                     | WorkPackage  | not null     | READ                  |                                           |
-| author             | The person that created the work package                                                                                                              | User         | not null     | READ                  |                                           |
-| assignee           | The person that is intended to work on the work package                                                                                               | User         |              | READ / WRITE          |                                           |
-| availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
-| category           | The category of the work package                                                                                                                      | Category     |              | READ / WRITE          |                                           |
-| priority           | The priority of the work package                                                                                                                      | Priority     | not null     | READ / WRITE          |                                           |
-| project            | The project to which the work package belongs                                                                                                         | Project      | not null     | READ                  |                                           |
-| responsible        | The person that is responsible for the overall outcome                                                                                                | User         |              | READ / WRITE          |                                           |
-| status             | The current status of the work package                                                                                                                | Status       | not null     | READ / WRITE          |                                           |
-| timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
-| type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
-| version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
+| Link               | Description                                                  | Type         | Constraints  | Supported operations  | Condition                                 |
+| :----------------: | ------------------------------------------------------------ | ------------ | ------------ | --------------------- | ----------------------------------------- |
+| self               | This work package                                            | WorkPackage  | not null     | READ                  |                                           |
+| author             | The person that created the work package                     | User         | not null     | READ                  |                                           |
+| assignee           | The person that is intended to work on the work package      | User         |              | READ / WRITE          |                                           |
+| availableWatchers  | All users that can be added to the work package as watchers. | User         |              | READ                  | **Permission** add work package watchers  |
+| category           | The category of the work package                             | Category     |              | READ / WRITE          |                                           |
+| priority           | The priority of the work package                             | Priority     | not null     | READ / WRITE          |                                           |
+| responsible        | The person that is responsible for the overall outcome       | User         |              | READ / WRITE          |                                           |
+| status             | The current status of the work package                       | Status       | not null     | READ / WRITE          |                                           |
+| timeEntries        | All time entries logged on the work package.                 | TimeEntries  |              | READ                  | **Permission** view time entries          |
+| type               | The type of the work package                                 | Type         | not null     | READ / WRITE          |                                           |
+| version            | The version associated to the work package                   | Version      |              | READ / WRITE          |                                           |
 
 ## Properties:
 
@@ -2492,7 +2865,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
                       "title": "Change parent of Bug in OpenProject"
                     },
                     "addComment": {
-                        "href": "/api/v3/work_packages/1528/activities",
+                        "href": "/api/v3/work_packages/1528/journal_entries",
                         "method": "post",
                         "title": "Add comment"
                     },
@@ -2507,8 +2880,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         }
                     ],
                     "timeEntries": {
-                        "href": "/work_packages/1528/time_entries",
-                        "type": "text/html",
+                        "href": "/api/v3/work_packages/1528/time_entries",
                         "title": "Time entries"
                     }
                 },
@@ -2783,12 +3155,12 @@ Gets a list of users that can watch the work package.
                 "message": "You are not authorized to access this resource."
             }
 
-## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
+## Comment WorkPackage [/api/v3/work_packages/{id}/journal_entries]
 
 ## Comment work package [POST]
 
-Creates an activity for the selected work package and, on success, returns the
-updated activity.
+Creates a journal entry for the selected work package and, on success, returns the
+newly created entry.
 
 + Parameters
     + id (required, integer, `1`) ... Work package id
@@ -2801,7 +3173,7 @@ updated activity.
 
 + Response 201 (application/hal+json)
 
-    [Activity][]
+    [Journal Entry][]
 
 + Response 400 (application/hal+json)
 
