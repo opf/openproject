@@ -143,7 +143,7 @@ group :test do
   gem "rspec-rails", "~> 2.99.0", :group => :development
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
-  gem 'capybara', '~> 2.3.0'
+  gem 'capybara', '~> 2.4.4' 
   gem 'capybara-screenshot'
   gem 'selenium-webdriver', '~> 2.43.0'
   gem 'timecop', "~> 0.6.1"
