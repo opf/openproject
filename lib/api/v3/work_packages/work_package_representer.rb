@@ -306,6 +306,10 @@ module API
                  class: ::Category,
                  decorator: ::API::V3::Categories::CategoryRepresenter,
                  if: -> (*) { !category.nil? }
+        property :priority,
+                 embedded: true,
+                 class: ::IssuePriority,
+                 decorator: ::API::V3::Priorities::PriorityRepresenter
 
         property :activities, embedded: true, exec_context: :decorator
 

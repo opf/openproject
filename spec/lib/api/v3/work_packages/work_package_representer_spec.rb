@@ -287,8 +287,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'priority' do
-        let(:link) { "/api/v3/priorities/#{work_package.priority.id}".to_json }
-        let(:title) { "#{work_package.priority.name}".to_json }
+        let(:priority) { work_package.priority }
+        let(:link) { "/api/v3/priorities/#{priority.id}".to_json }
+        let(:title) { "#{priority.name}".to_json }
         let(:href_path) { '_links/priority/href' }
         let(:title_path) { '_links/priority/title' }
 
@@ -298,6 +299,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'has a title' do
           is_expected.to be_json_eql(title).at_path(title_path)
+        end
+
+        it 'has the priority embedded' do
+          is_expected.to be_json_eql('Priority'.to_json).at_path('_embedded/priority/_type')
+          is_expected.to be_json_eql(priority.name.to_json).at_path('_embedded/priority/name')
         end
       end
 
