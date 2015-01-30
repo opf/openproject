@@ -135,6 +135,9 @@
       "name": "specified",
       "isClosed": false
     },
+    "priority": {
+      "name": "high"
+    },
     "author": {
       "_type": "User",
       "_links": {
