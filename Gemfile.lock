@@ -207,7 +207,7 @@ GEM
     interception (0.3)
     iso8601 (0.8.2)
     journey (1.0.4)
-    json (1.8.1)
+    json (1.8.2)
     json_spec (1.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
@@ -379,7 +379,7 @@ GEM
       actionpack (~> 3.0)
       activemodel (~> 3.0)
       railties (~> 3.0)
-    structured_warnings (0.1.4)
+    structured_warnings (0.2.0)
     svg-graph (1.0.5)
     syck (1.0.1)
     test-unit (2.5.5)
@@ -489,7 +489,7 @@ DEPENDENCIES
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar
-  rubytree (~> 0.8.3)
+  rubytree (~> 0.9.4)
   sass (~> 3.3.6)
   sass-rails!
   selenium-webdriver (~> 2.43.0)
