@@ -33,6 +33,7 @@ module.exports = function($scope,
            STATUS_TYPE,
            VERSION_TYPE,
            CATEGORY_TYPE,
+           PRIORITY_TYPE,
            USER_TYPE,
            TIME_ENTRY_TYPE,
            USER_FIELDS,
@@ -59,9 +60,9 @@ module.exports = function($scope,
   function getPropertyValue(property, format) {
     switch(format) {
     case STATUS_TYPE:
-      return $scope.workPackage.embedded.status.props.name;
+    case PRIORITY_TYPE:
+      return $scope.workPackage.embedded[property].props.name;
     case USER_TYPE:
-      return $scope.workPackage.embedded[property];
     case CATEGORY_TYPE:
       return $scope.workPackage.embedded[property];
     case TIME_ENTRY_TYPE:
@@ -200,6 +201,8 @@ module.exports = function($scope,
       return STATUS_TYPE;
     case 'category':
       return CATEGORY_TYPE;
+    case 'priority':
+      return PRIORITY_TYPE;
     case 'spentTime':
       return TIME_ENTRY_TYPE;
     default:
