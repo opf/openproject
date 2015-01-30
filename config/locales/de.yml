@@ -322,6 +322,7 @@ de:
     mail: "E-Mail"
     name: "Name"
     password: "Kennwort"
+    priority: "Priorität"
     project: "Projekt"
     responsible: "Verantwortlicher"
     role: "Rolle"
