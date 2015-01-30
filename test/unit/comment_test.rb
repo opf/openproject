@@ -36,17 +36,17 @@ class CommentTest < ActiveSupport::TestCase
     assert FactoryGirl.build(:comment).valid?
 
     # comment text required
-    refute FactoryGirl.build(:comment, :comments => '').valid?
+    refute FactoryGirl.build(:comment, comments: '').valid?
     # object that is commented required
-    refute FactoryGirl.build(:comment, :commented => nil).valid?
+    refute FactoryGirl.build(:comment, commented: nil).valid?
     # author required
-    refute FactoryGirl.build(:comment, :author => nil).valid?
+    refute FactoryGirl.build(:comment, author: nil).valid?
   end
 
   def test_create
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
-    comment = Comment.new(:commented => news, :author => user, :comments => 'some important words')
+    comment = Comment.new(commented: news, author: user, comments: 'some important words')
     assert comment.save
     assert_equal 1, news.reload.comments_count
   end
@@ -54,7 +54,7 @@ class CommentTest < ActiveSupport::TestCase
   def test_create_through_news
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
-    comment = news.new_comment(:author => user, :comments => 'some important words')
+    comment = news.new_comment(author: user, comments: 'some important words')
     assert comment.save
     assert_equal 1, news.reload.comments_count
   end
@@ -62,12 +62,12 @@ class CommentTest < ActiveSupport::TestCase
   def test_create_comment_through_news
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
-    news.post_comment!(:author => user, :comments => 'some important words')
+    news.post_comment!(author: user, comments: 'some important words')
     assert_equal 1, news.reload.comments_count
   end
 
   def test_text
-    comment = FactoryGirl.build(:comment, :comments => 'something useful')
+    comment = FactoryGirl.build(:comment, comments: 'something useful')
     assert_equal 'something useful', comment.text
   end
 
@@ -75,21 +75,21 @@ class CommentTest < ActiveSupport::TestCase
     # news needs a project in order to be notified
     # see Redmine::Acts::Journalized::Deprecated#recipients
     project = FactoryGirl.create(:project)
-    user = FactoryGirl.create(:user, :member_in_project => project)
+    user = FactoryGirl.create(:user, member_in_project: project)
     # author is automatically added as watcher
     # this makes #user to receive a notification
-    news = FactoryGirl.create(:news, :project => project, :author => user)
+    news = FactoryGirl.create(:news, project: project, author: user)
 
     # with notifications for that event turned on
     Notifier.stub(:notify?).with(:news_comment_added).and_return(true)
     assert_difference 'ActionMailer::Base.deliveries.size', 1 do
-      Comment.create!(:commented => news, :author => user, :comments => 'more useful stuff')
+      Comment.create!(commented: news, author: user, comments: 'more useful stuff')
     end
 
     # with notifications for that event turned off
     Notifier.stub(:notify?).with(:news_comment_added).and_return(false)
     assert_no_difference 'ActionMailer::Base.deliveries.size' do
-      Comment.create!(:commented => news, :author => user, :comments => 'more useful stuff')
+      Comment.create!(commented: news, author: user, comments: 'more useful stuff')
     end
   end
 

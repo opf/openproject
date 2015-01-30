@@ -52,7 +52,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                                                status_id: 1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
-                       notes: "Some notes with Redmine links: #2, r2.",
+                       notes: 'Some notes with Redmine links: #2, r2.',
                        created_at: 1.days.ago.to_date.to_s(:db),
                        data: FactoryGirl.build(:journal_work_package_journal,
                                                subject: issue.subject,
@@ -60,18 +60,18 @@ class ActivitiesControllerTest < ActionController::TestCase
                                                type_id: issue.type_id,
                                                project_id: issue.project_id)
 
-    get :index, :id => 1, :with_subprojects => 0
+    get :index, id: 1, with_subprojects: 0
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:events_by_day)
 
-    assert_tag :tag => "h3",
-               :content => /#{1.day.ago.to_date.day}/,
-               :sibling => { :tag => "dl",
-                 :child => { :tag => "dt",
-                   :attributes => { :class => /work_package/ },
-                   :child => { :tag => "a",
-                     :content => /#{ERB::Util.html_escape(Status.find(2).name)}/
+    assert_tag tag: 'h3',
+               content: /#{1.day.ago.to_date.day}/,
+               sibling: { tag: 'dl',
+                          child: { tag: 'dt',
+                                   attributes: { class: /work_package/ },
+                                   child: { tag: 'a',
+                                            content: /#{ERB::Util.h(Status.find(2).name)}/
                    }
                  }
                }
@@ -88,18 +88,18 @@ class ActivitiesControllerTest < ActionController::TestCase
                                                type_id: issue.type_id,
                                                project_id: issue.project_id)
 
-    get :index, :id => 1, :from => 3.days.ago.to_date
+    get :index, id: 1, from: 3.days.ago.to_date
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:events_by_day)
 
-    assert_tag :tag => "h3",
-               :content => /#{3.day.ago.to_date.day}/,
-               :sibling => { :tag => "dl",
-                 :child => { :tag => "dt",
-                   :attributes => { :class => /work_package/ },
-                   :child => { :tag => "a",
-                     :content => /#{ERB::Util.html_escape(issue.subject)}/
+    assert_tag tag: 'h3',
+               content: /#{3.day.ago.to_date.day}/,
+               sibling: { tag: 'dl',
+                          child: { tag: 'dt',
+                                   attributes: { class: /work_package/ },
+                                   child: { tag: 'a',
+                                            content: /#{ERB::Util.h(issue.subject)}/
                    }
                  }
                }
@@ -117,18 +117,18 @@ class ActivitiesControllerTest < ActionController::TestCase
                                                type_id: issue.type_id,
                                                project_id: issue.project_id)
 
-    get :index, :user_id => 2
+    get :index, user_id: 2
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:events_by_day)
 
-    assert_tag :tag => "h3",
-               :content => /#{3.day.ago.to_date.day}/,
-               :sibling => { :tag => "dl",
-                 :child => { :tag => "dt",
-                   :attributes => { :class => /work_package/ },
-                   :child => { :tag => "a",
-                     :content => /#{ERB::Util.html_escape(WorkPackage.find(1).subject)}/
+    assert_tag tag: 'h3',
+               content: /#{3.day.ago.to_date.day}/,
+               sibling: { tag: 'dl',
+                          child: { tag: 'dt',
+                                   attributes: { class: /work_package/ },
+                                   child: { tag: 'a',
+                                            content: /#{ERB::Util.h(WorkPackage.find(1).subject)}/
                    }
                  }
                }

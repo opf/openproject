@@ -33,7 +33,7 @@ class EnumerationTest < ActiveSupport::TestCase
     super
     WorkPackage.delete_all
     @low_priority = FactoryGirl.create :priority_low
-    @issues = FactoryGirl.create_list :work_package, 6, :priority => @low_priority
+    @issues = FactoryGirl.create_list :work_package, 6, priority: @low_priority
     @default_enumeration = FactoryGirl.create :default_enumeration
   end
 
@@ -55,39 +55,39 @@ class EnumerationTest < ActiveSupport::TestCase
   end
 
   def test_create
-    e = Enumeration.new(:name => 'Not default', :is_default => false)
+    e = Enumeration.new(name: 'Not default', is_default: false)
     e.type = 'Enumeration'
     assert e.save
     assert_equal @default_enumeration.name, Enumeration.default.name
   end
 
   def test_create_as_default
-    e = Enumeration.new(:name => 'Very urgent', :is_default => true)
+    e = Enumeration.new(name: 'Very urgent', is_default: true)
     e.type = 'Enumeration'
     assert e.save
     assert_equal e, Enumeration.default
   end
 
   def test_update_default
-    @default_enumeration.update_attributes(:name => 'Changed', :is_default => true)
+    @default_enumeration.update_attributes(name: 'Changed', is_default: true)
     assert_equal @default_enumeration, Enumeration.default
   end
 
   def test_update_default_to_non_default
-    @default_enumeration.update_attributes(:name => 'Changed', :is_default => false)
+    @default_enumeration.update_attributes(name: 'Changed', is_default: false)
     assert_nil Enumeration.default
   end
 
   def test_change_default
     e = Enumeration.find_by_name(@default_enumeration.name)
-    e.update_attributes(:name => 'Changed Enumeration', :is_default => true)
+    e.update_attributes(name: 'Changed Enumeration', is_default: true)
     assert_equal e, Enumeration.default
   end
 
   def test_destroy_with_reassign
     new_priority = FactoryGirl.create :priority
     Enumeration.find(@low_priority).destroy(new_priority)
-    assert_nil WorkPackage.find(:first, :conditions => {:priority_id => @low_priority.id})
+    assert_nil WorkPackage.find(:first, conditions: { priority_id: @low_priority.id })
     assert_equal @issues.size, new_priority.objects_count
   end
 
@@ -97,7 +97,7 @@ class EnumerationTest < ActiveSupport::TestCase
 
   def test_should_belong_to_a_project
     association = Enumeration.reflect_on_association(:project)
-    assert association, "No Project association found"
+    assert association, 'No Project association found'
     assert_equal :belongs_to, association.macro
   end
 

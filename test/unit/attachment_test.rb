@@ -32,9 +32,9 @@ class AttachmentTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    a = Attachment.new(:container => WorkPackage.find(1),
-                       :file => uploaded_test_file("testfile.txt", "text/plain"),
-                       :author => User.find(1))
+    a = Attachment.new(container: WorkPackage.find(1),
+                       file: uploaded_test_file('testfile.txt', 'text/plain'),
+                       author: User.find(1))
     assert a.save
     assert_equal 'testfile.txt', a.filename
     assert_equal 59, a.filesize
@@ -45,27 +45,27 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_create_should_auto_assign_content_type
-    a = Attachment.new(:container => WorkPackage.find(1),
-                       :file => uploaded_test_file("testfile.txt", ""),
-                       :author => User.find(1))
+    a = Attachment.new(container: WorkPackage.find(1),
+                       file: uploaded_test_file('testfile.txt', ''),
+                       author: User.find(1))
     assert a.save
     assert_equal 'text/plain', a.content_type
   end
 
   def test_identical_attachments_at_the_same_time_should_not_overwrite
-    a1 = Attachment.create!(:container => WorkPackage.find(1),
-                            :file => uploaded_test_file("testfile.txt", ""),
-                            :author => User.find(1))
-    a2 = Attachment.create!(:container => WorkPackage.find(1),
-                            :file => uploaded_test_file("testfile.txt", ""),
-                            :author => User.find(1))
+    a1 = Attachment.create!(container: WorkPackage.find(1),
+                            file: uploaded_test_file('testfile.txt', ''),
+                            author: User.find(1))
+    a2 = Attachment.create!(container: WorkPackage.find(1),
+                            file: uploaded_test_file('testfile.txt', ''),
+                            author: User.find(1))
     assert a1.diskfile.path != a2.diskfile.path
   end
 
-  context "Attachmnet#attach_files" do
-    should "add unsaved files to the object as unsaved attachments" do
+  context 'Attachmnet#attach_files' do
+    should 'add unsaved files to the object as unsaved attachments' do
       # Max size of 0 to force Attachment creation failures
-      with_settings(:attachment_max_size => 0) do
+      with_settings(attachment_max_size: 0) do
         @issue = WorkPackage.find(1)
         response = Attachment.attach_files(
           @issue,

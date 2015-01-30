@@ -38,20 +38,19 @@ class TestingTest < ActiveSupport::TestCase
     assert true
   end
 
-  test "Generating with object_daddy" do
-    assert_difference "Status.count" do
+  test 'Generating with object_daddy' do
+    assert_difference 'Status.count' do
       Status.generate!
     end
   end
 
-  should "work with shoulda" do
+  should 'work with shoulda' do
     assert true
   end
 
-  context "works with a context" do
-    should "work" do
+  context 'works with a context' do
+    should 'work' do
       assert true
     end
   end
-
 end

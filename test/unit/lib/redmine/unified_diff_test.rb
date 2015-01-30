@@ -30,16 +30,15 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
-
   def test_subversion_diff
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'))
     # number of files
     assert_equal 4, diff.size
-    assert diff.detect {|file| file.file_name =~ %r{\Aconfig/settings.yml}}
+    assert diff.detect { |file| file.file_name =~ %r{\Aconfig/settings.yml} }
   end
 
   def test_truncate_diff
-    diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'), :max_lines => 20)
+    diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'), max_lines: 20)
     assert_equal 2, diff.size
   end
 
@@ -76,7 +75,7 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
   end
 
   def test_side_by_side_partials
-    diff = Redmine::UnifiedDiff.new(read_diff_fixture('partials.diff'), :type => 'sbs')
+    diff = Redmine::UnifiedDiff.new(read_diff_fixture('partials.diff'), type: 'sbs')
     assert_equal 1, diff.size
     diff = diff.first
     assert_equal 32, diff.size
@@ -97,7 +96,6 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
     assert_equal [24, -8], diff[6].offsets
     assert_equal [37, -1], diff[8].offsets
     assert_equal [0, -38], diff[10].offsets
-
   end
 
   def test_line_starting_with_dashes

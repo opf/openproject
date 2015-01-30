@@ -44,18 +44,18 @@ class ApiTest::HttpBasicLoginTest < ActionDispatch::IntegrationTest
     Setting.login_required = '0'
   end
 
-  context "get /api/v2/projects/<ID>/planning_elements" do
+  context 'get /api/v2/projects/<ID>/planning_elements' do
     setup do
       project = Project.find('onlinestore')
-      EnabledModule.create(:project => project, :name => 'work_package_tracking')
+      EnabledModule.create(project: project, name: 'work_package_tracking')
     end
 
-    context "in :xml format" do
-      should_allow_http_basic_auth_with_username_and_password(:get, "/api/v2/projects/onlinestore/planning_elements.xml")
+    context 'in :xml format' do
+      should_allow_http_basic_auth_with_username_and_password(:get, '/api/v2/projects/onlinestore/planning_elements.xml')
     end
 
-    context "in :json format" do
-      should_allow_http_basic_auth_with_username_and_password(:get, "/api/v2/projects/onlinestore/planning_elements.json")
+    context 'in :json format' do
+      should_allow_http_basic_auth_with_username_and_password(:get, '/api/v2/projects/onlinestore/planning_elements.json')
     end
   end
 end

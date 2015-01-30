@@ -28,8 +28,8 @@
 #++
 
 class TimeEntryActivity < Enumeration
-  generator_for :name, :method => :next_name
-  generator_for :type => 'TimeEntryActivity'
+  generator_for :name, method: :next_name
+  generator_for type: 'TimeEntryActivity'
 
   def self.next_name
     @last_name ||= 'TimeEntryActivity0'

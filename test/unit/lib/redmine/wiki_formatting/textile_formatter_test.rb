@@ -30,19 +30,18 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
-
   def setup
     super
     @formatter = Redmine::WikiFormatting::Textile::Formatter
   end
 
   MODIFIERS = {
-    "*" => 'strong', # bold
-    "_" => 'em',     # italic
-    "+" => 'ins',    # underline
-    "-" => 'del',    # deleted
-    "^" => 'sup',    # superscript
-    "~" => 'sub'     # subscript
+    '*' => 'strong', # bold
+    '_' => 'em',     # italic
+    '+' => 'ins',    # underline
+    '-' => 'del',    # deleted
+    '^' => 'sup',    # superscript
+    '~' => 'sub'     # subscript
   }
 
   def test_modifiers
@@ -86,8 +85,8 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
 
   def test_use_of_backslashes_followed_by_numbers_in_headers
     assert_html_output({
-      'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
-    }, false)
+                         'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
+                       }, false)
   end
 
   def test_double_dashes_should_not_strikethrough
@@ -107,19 +106,15 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
 
   def test_inline_auto_link
     assert_html_output(
-        'Autolink to http://www.google.com'=>
-        'Autolink to <a class="external" href="http://www.google.com">http://www.google.com</a>'
+        'Autolink to http://www.google.com' =>         'Autolink to <a class="external" href="http://www.google.com">http://www.google.com</a>'
     )
   end
 
   def test_ignore_links_inside_macros
     assert_html_output(
-        '{{embed_youtube(http://www.google.com)}}'=>
-        '{{embed_youtube(http://www.google.com)}}'
+        '{{embed_youtube(http://www.google.com)}}' =>         '{{embed_youtube(http://www.google.com)}}'
     )
   end
-
-
 
   def test_blockquote
     # orig raw text
@@ -238,7 +233,7 @@ EXPECTED
 
   def assert_html_output(to_test, expect_paragraph = true)
     to_test.each do |text, expected|
-      assert_equal(( expect_paragraph ? "<p>#{expected}</p>" : expected ), @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n")
+      assert_equal((expect_paragraph ? "<p>#{expected}</p>" : expected), @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n")
     end
   end
 

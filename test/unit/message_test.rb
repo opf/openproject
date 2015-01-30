@@ -42,13 +42,13 @@ class MessageTest < ActiveSupport::TestCase
     topics_count = @board.topics_count
     messages_count = @board.messages_count
 
-    message = Message.new(:board => @board, :subject => 'Test message', :content => 'Test message content', :author => @user)
+    message = Message.new(board: @board, subject: 'Test message', content: 'Test message content', author: @user)
     assert message.save
     @board.reload
     # topics count incremented
-    assert_equal topics_count+1, @board[:topics_count]
+    assert_equal topics_count + 1, @board[:topics_count]
     # messages count incremented
-    assert_equal messages_count+1, @board[:messages_count]
+    assert_equal messages_count + 1, @board[:messages_count]
     assert_equal message, @board.last_message
     # author should be watching the message
     assert message.watched_by?(@user)
@@ -61,17 +61,17 @@ class MessageTest < ActiveSupport::TestCase
     replies_count = @message.replies_count
 
     reply_author = User.find(2)
-    reply = Message.new(:board => @board, :subject => 'Test reply', :content => 'Test reply content', :parent => @message, :author => reply_author)
+    reply = Message.new(board: @board, subject: 'Test reply', content: 'Test reply content', parent: @message, author: reply_author)
     assert reply.save
     @board.reload
     # same topics count
     assert_equal topics_count, @board[:topics_count]
     # messages count incremented
-    assert_equal messages_count+1, @board[:messages_count]
+    assert_equal messages_count + 1, @board[:messages_count]
     assert_equal reply, @board.last_message
     @message.reload
     # replies count incremented
-    assert_equal replies_count+1, @message[:replies_count]
+    assert_equal replies_count + 1, @message[:replies_count]
     assert_equal reply, @message.last_reply
     # author should be watching the message
     assert @message.watched_by?(reply_author)
@@ -86,7 +86,7 @@ class MessageTest < ActiveSupport::TestCase
           # New board
           assert_difference 'Board.find(2).topics_count' do
             assert_difference 'Board.find(2).messages_count', (1 + @message.replies_count) do
-              @message.update_attributes(:board_id => 2)
+              @message.update_attributes(board_id: 2)
             end
           end
         end
@@ -157,11 +157,10 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal 1, message.sticky
   end
 
-  test "email notifications for creating a message" do
-    assert_difference("ActionMailer::Base.deliveries.count", 3) do
-      message = Message.new(:board => @board, :subject => 'Test message', :content => 'Test message content', :author => @user)
+  test 'email notifications for creating a message' do
+    assert_difference('ActionMailer::Base.deliveries.count', 3) do
+      message = Message.new(board: @board, subject: 'Test message', content: 'Test message content', author: @user)
       assert message.save
     end
-
   end
 end

@@ -50,7 +50,7 @@ class MailHandlerControllerTest < ActionController::TestCase
     Setting.mail_handler_api_enabled = 1
     Setting.mail_handler_api_key = 'secret'
 
-    post :index, :key => 'secret', :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
     assert_response 201
   end
 
@@ -59,7 +59,7 @@ class MailHandlerControllerTest < ActionController::TestCase
     Setting.mail_handler_api_enabled = 0
     Setting.mail_handler_api_key = 'secret'
 
-    post :index, :key => 'secret', :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
     assert_response 403
   end
 end

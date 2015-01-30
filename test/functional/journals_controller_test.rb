@@ -50,7 +50,7 @@ class JournalsControllerTest < ActionController::TestCase
     identifier = "journal-#{journal.id}"
 
     @request.session[:user_id] = 1
-    xhr :get, :edit, :id => journal.id
+    xhr :get, :edit, id: journal.id
     assert_response :success
     assert_select_rjs :insert, :after, "#{identifier}-notes" do
       assert_select "form[id=#{identifier}-form]"
@@ -66,7 +66,7 @@ class JournalsControllerTest < ActionController::TestCase
     identifier = "journal-#{journal.id}-notes"
 
     @request.session[:user_id] = 1
-    xhr :post, :update, :id => journal.id, :notes => 'Updated notes'
+    xhr :post, :update, id: journal.id, notes: 'Updated notes'
     assert_response :success
     assert_select_rjs :replace, identifier
     assert_equal 'Updated notes', Journal.find(journal.id).notes
@@ -83,18 +83,16 @@ class JournalsControllerTest < ActionController::TestCase
     identifier = "change-#{journal.id}"
 
     @request.session[:user_id] = 1
-    xhr :post, :update, :id => journal.id, :notes => ''
+    xhr :post, :update, id: journal.id, notes: ''
     assert_response :success
     assert_select_rjs :remove, identifier
     assert_nil Journal.find_by_id(journal.id)
   end
 
   def test_index
-    get :index, :project_id => 1, :format => :atom
+    get :index, project_id: 1, format: :atom
     assert_response :success
     assert_not_nil assigns(:journals)
     assert_equal 'application/atom+xml', @response.content_type
   end
-
-
 end

@@ -38,7 +38,7 @@ class BoardTest < ActiveSupport::TestCase
   end
 
   def test_create
-    board = Board.new(:project => @project, :name => 'Test board', :description => 'Test board description')
+    board = Board.new(project: @project, name: 'Test board', description: 'Test board description')
     assert board.save
     board.reload
     assert_equal 'Test board', board.name
@@ -60,6 +60,6 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
     end
-    assert_equal 0, Message.count(:conditions => {:board_id => 1})
+    assert_equal 0, Message.count(conditions: { board_id: 1 })
   end
 end

@@ -41,28 +41,28 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_creating_a_child_in_different_project_should_not_validate_unless_allowed
-    Setting.cross_project_work_package_relations = "0"
+    Setting.cross_project_work_package_relations = '0'
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
-      i.force_attributes = { :project_id => 2,
-                             :type_id => 1,
-                             :author_id => 1,
-                             :subject => 'child',
-                             :parent_id => issue.id }
+      i.force_attributes = { project_id: 2,
+                             type_id: 1,
+                             author_id: 1,
+                             subject: 'child',
+                             parent_id: issue.id }
     end
     assert !child.save
     refute_empty child.errors[:parent_id]
   end
 
   def test_creating_a_child_in_different_project_should_validate_if_allowed
-    Setting.cross_project_work_package_relations = "1"
+    Setting.cross_project_work_package_relations = '1'
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
-      i.force_attributes = { :project_id => 2,
-                             :type_id => 1,
-                             :author_id => 1,
-                             :subject => 'child',
-                             :parent_id => issue.id }
+      i.force_attributes = { project_id: 2,
+                             type_id: 1,
+                             author_id: 1,
+                             subject: 'child',
+                             parent_id: issue.id }
     end
     assert child.save
     assert_empty child.errors[:parent_id]
@@ -70,8 +70,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   def test_invalid_move_to_another_project
     parent1 = create_issue!
-    child =   create_issue!(:parent_id => parent1.id)
-    grandchild = create_issue!(:parent_id => child.id, :type_id => 2)
+    child =   create_issue!(parent_id: parent1.id)
+    grandchild = create_issue!(parent_id: child.id, type_id: 2)
     Project.find(2).type_ids = [1]
 
     parent1.reload
@@ -92,8 +92,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   def test_moving_an_to_a_descendant_should_not_validate
     parent1 = create_issue!
     parent2 = create_issue!
-    child =   create_issue!(:parent_id => parent1.id)
-    grandchild = create_issue!(:parent_id => child.id)
+    child =   create_issue!(parent_id: parent1.id)
+    grandchild = create_issue!(parent_id: child.id)
 
     child.reload
     child.parent_id = grandchild.id
@@ -104,22 +104,22 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   def test_moving_an_issue_should_keep_valid_relations_only
     issue1 = create_issue!
     issue2 = create_issue!
-    issue3 = create_issue!(:parent_id => issue2.id)
+    issue3 = create_issue!(parent_id: issue2.id)
     issue4 = create_issue!
     (r1 = Relation.new.tap do |i|
-      i.force_attributes = { :from => issue1,
-                             :to => issue2,
-                             :relation_type => Relation::TYPE_PRECEDES }
+      i.force_attributes = { from: issue1,
+                             to: issue2,
+                             relation_type: Relation::TYPE_PRECEDES }
     end).save!
     (r2 = Relation.new.tap do |i|
-      i.force_attributes = { :from => issue1,
-                             :to => issue3,
-                             :relation_type => Relation::TYPE_PRECEDES }
+      i.force_attributes = { from: issue1,
+                             to: issue3,
+                             relation_type: Relation::TYPE_PRECEDES }
     end).save!
     (r3 = Relation.new.tap do |i|
-      i.force_attributes = { :from => issue2,
-                             :to => issue4,
-                             :relation_type => Relation::TYPE_PRECEDES }
+      i.force_attributes = { from: issue2,
+                             to: issue4,
+                             relation_type: Relation::TYPE_PRECEDES }
     end).save!
     issue2.reload
     issue2.parent_id = issue1.id
@@ -132,8 +132,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   def test_destroy_should_destroy_children
     issue1 = create_issue!
     issue2 = create_issue!
-    issue3 = create_issue!(:parent_id => issue2.id)
-    issue4 = create_issue!(:parent_id => issue1.id)
+    issue3 = create_issue!(parent_id: issue2.id)
+    issue4 = create_issue!(parent_id: issue1.id)
 
     issue3.add_journal(User.find(2))
     issue3.subject = 'child with journal'
@@ -155,8 +155,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   def test_destroy_parent_work_package_updated_during_children_destroy
     parent = create_issue!
-    create_issue!(:start_date => Date.today, :parent_id => parent.id)
-    create_issue!(:start_date => 2.days.from_now, :parent_id => parent.id)
+    create_issue!(start_date: Date.today, parent_id: parent.id)
+    create_issue!(start_date: 2.days.from_now, parent_id: parent.id)
 
     assert_difference 'WorkPackage.count', -3 do
       WorkPackage.find(parent.id).destroy
@@ -164,9 +164,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_destroy_child_issue_with_children
-    root = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'root').reload
-    child = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'child', :parent_id => root.id).reload
-    leaf = create_issue!(:project_id => 1, :author_id => 2, :type_id => 1, :subject => 'leaf', :parent_id => child.id).reload
+    root = create_issue!(project_id: 1, author_id: 2, type_id: 1, subject: 'root').reload
+    child = create_issue!(project_id: 1, author_id: 2, type_id: 1, subject: 'child', parent_id: root.id).reload
+    leaf = create_issue!(project_id: 1, author_id: 2, type_id: 1, subject: 'leaf', parent_id: child.id).reload
     leaf.add_journal(User.find(2))
     leaf.subject = 'leaf with journal'
     leaf.save!
@@ -184,10 +184,10 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   def test_destroy_issue_with_grand_child
     parent = create_issue!
-    issue = create_issue!(:parent_id => parent.id)
-    child = create_issue!(:parent_id => issue.id)
-    grandchild1 = create_issue!(:parent_id => child.id)
-    grandchild2 = create_issue!(:parent_id => child.id)
+    issue = create_issue!(parent_id: parent.id)
+    child = create_issue!(parent_id: issue.id)
+    grandchild1 = create_issue!(parent_id: child.id)
+    grandchild2 = create_issue!(parent_id: child.id)
 
     assert_difference 'WorkPackage.count', -4 do
       WorkPackage.find(issue.id).destroy
@@ -197,14 +197,14 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_parent_priority_should_be_the_highest_child_priority
-    parent = create_issue!(:priority => IssuePriority.find_by_name('Normal'))
+    parent = create_issue!(priority: IssuePriority.find_by_name('Normal'))
     # Create children
-    child1 = create_issue!(:priority => IssuePriority.find_by_name('High'), :parent_id => parent.id)
+    child1 = create_issue!(priority: IssuePriority.find_by_name('High'), parent_id: parent.id)
     assert_equal 'High', parent.reload.priority.name
-    child2 = create_issue!(:priority => IssuePriority.find_by_name('Immediate'), :parent_id => child1.id)
+    child2 = create_issue!(priority: IssuePriority.find_by_name('Immediate'), parent_id: child1.id)
     assert_equal 'Immediate', child1.reload.priority.name
     assert_equal 'Immediate', parent.reload.priority.name
-    child3 = create_issue!(:priority => IssuePriority.find_by_name('Low'), :parent_id => parent.id)
+    child3 = create_issue!(priority: IssuePriority.find_by_name('Low'), parent_id: parent.id)
     assert_equal 'Immediate', parent.reload.priority.name
     # Destroy a child
     child1.destroy
@@ -217,9 +217,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   def test_parent_dates_should_be_lowest_start_and_highest_due_dates
     parent = create_issue!
-    create_issue!(:start_date => '2010-01-25', :due_date => '2010-02-15', :parent_id => parent.id)
-    create_issue!(                             :due_date => '2010-02-13', :parent_id => parent.id)
-    create_issue!(:start_date => '2010-02-01', :due_date => '2010-02-22', :parent_id => parent.id)
+    create_issue!(start_date: '2010-01-25', due_date: '2010-02-15', parent_id: parent.id)
+    create_issue!(due_date: '2010-02-13', parent_id: parent.id)
+    create_issue!(start_date: '2010-02-01', due_date: '2010-02-22', parent_id: parent.id)
     parent.reload
     assert_equal Date.parse('2010-01-25'), parent.start_date
     assert_equal Date.parse('2010-02-22'), parent.due_date
@@ -227,59 +227,59 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   def test_parent_done_ratio_should_be_average_done_ratio_of_leaves
     parent = create_issue!
-    create_issue!(:done_ratio => 20, :parent_id => parent.id)
+    create_issue!(done_ratio: 20, parent_id: parent.id)
     assert_equal 20, parent.reload.done_ratio
-    create_issue!(:done_ratio => 70, :parent_id => parent.id)
+    create_issue!(done_ratio: 70, parent_id: parent.id)
     assert_equal 45, parent.reload.done_ratio
 
-    child = create_issue!(:done_ratio => 0, :parent_id => parent.id)
+    child = create_issue!(done_ratio: 0, parent_id: parent.id)
     assert_equal 30, parent.reload.done_ratio
 
-    create_issue!(:done_ratio => 30, :parent_id => child.id)
+    create_issue!(done_ratio: 30, parent_id: child.id)
     assert_equal 30, child.reload.done_ratio
     assert_equal 40, parent.reload.done_ratio
   end
 
   def test_parent_done_ratio_should_be_weighted_by_estimated_times_if_any
     parent = create_issue!
-    create_issue!(:estimated_hours => 10, :done_ratio => 20, :parent_id => parent.id)
+    create_issue!(estimated_hours: 10, done_ratio: 20, parent_id: parent.id)
     assert_equal 20, parent.reload.done_ratio
-    create_issue!(:estimated_hours => 20, :done_ratio => 50, :parent_id => parent.id)
+    create_issue!(estimated_hours: 20, done_ratio: 50, parent_id: parent.id)
     assert_equal (50 * 20 + 20 * 10) / 30, parent.reload.done_ratio
   end
 
   def test_parent_estimate_should_be_sum_of_leaves
     parent = create_issue!
-    create_issue!(:estimated_hours => nil, :parent_id => parent.id)
+    create_issue!(estimated_hours: nil, parent_id: parent.id)
     assert_equal nil, parent.reload.estimated_hours
-    create_issue!(:estimated_hours => 5, :parent_id => parent.id)
+    create_issue!(estimated_hours: 5, parent_id: parent.id)
     assert_equal 5, parent.reload.estimated_hours
-    create_issue!(:estimated_hours => 7, :parent_id => parent.id)
+    create_issue!(estimated_hours: 7, parent_id: parent.id)
     assert_equal 12, parent.reload.estimated_hours
   end
 
   def test_move_parent_updates_old_parent_attributes
     first_parent = create_issue!
     second_parent = create_issue!
-    child = create_issue!(:estimated_hours => 5,
-                          :parent_id => first_parent.id)
+    child = create_issue!(estimated_hours: 5,
+                          parent_id: first_parent.id)
     assert_equal 5, first_parent.reload.estimated_hours
-    child.update_attributes(:estimated_hours => 7,
-                            :parent_id => second_parent.id)
+    child.update_attributes(estimated_hours: 7,
+                            parent_id: second_parent.id)
     assert_equal 7, second_parent.reload.estimated_hours
     assert_nil first_parent.reload.estimated_hours
   end
 
   def test_project_copy_should_copy_issue_tree
     Project.delete_all # make sure unqiue identifiers
-    p = Project.create!(:name => 'Tree copy', :identifier => 'tree-copy', :type_ids => [1, 2])
-    i1 = create_issue!(:project_id => p.id, :subject => 'i1')
-    i2 = create_issue!(:project_id => p.id, :subject => 'i2', :parent_id => i1.id)
-    i3 = create_issue!(:project_id => p.id, :subject => 'i3', :parent_id => i1.id)
-    i4 = create_issue!(:project_id => p.id, :subject => 'i4', :parent_id => i2.id)
-    i5 = create_issue!(:project_id => p.id, :subject => 'i5')
-    c = Project.new(:name => 'Copy', :identifier => 'copy', :type_ids => [1, 2])
-    c.copy(p, :only => 'work_packages')
+    p = Project.create!(name: 'Tree copy', identifier: 'tree-copy', type_ids: [1, 2])
+    i1 = create_issue!(project_id: p.id, subject: 'i1')
+    i2 = create_issue!(project_id: p.id, subject: 'i2', parent_id: i1.id)
+    i3 = create_issue!(project_id: p.id, subject: 'i3', parent_id: i1.id)
+    i4 = create_issue!(project_id: p.id, subject: 'i4', parent_id: i2.id)
+    i5 = create_issue!(project_id: p.id, subject: 'i5')
+    c = Project.new(name: 'Copy', identifier: 'copy', type_ids: [1, 2])
+    c.copy(p, only: 'work_packages')
     c.reload
 
     assert_equal 5, c.work_packages.count
@@ -292,9 +292,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   # Helper that creates an issue with default attributes
-  def create_issue!(attributes={})
+  def create_issue!(attributes = {})
     (i = WorkPackage.new.tap do |i|
-      attr = { :project_id => 1, :type_id => 1, :author_id => 1, :subject => 'test' }.merge(attributes)
+      attr = { project_id: 1, type_id: 1, author_id: 1, subject: 'test' }.merge(attributes)
       i.force_attributes = attr
     end).save!
     i

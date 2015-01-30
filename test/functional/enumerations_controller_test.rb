@@ -50,21 +50,21 @@ class EnumerationsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_enumeration_not_in_use
-    post :destroy, :id => 7
+    post :destroy, id: 7
     assert_redirected_to enumerations_path
     assert_nil Enumeration.find_by_id(7)
   end
 
   def test_destroy_enumeration_in_use
-    post :destroy, :id => 4
+    post :destroy, id: 4
     assert_response :success
     assert_template 'destroy'
     assert_not_nil Enumeration.find_by_id(4)
   end
 
   def test_destroy_enumeration_in_use_with_reassignment
-    issue = WorkPackage.find(:first, :conditions => {:priority_id => 4})
-    post :destroy, :id => 4, :reassign_to_id => 6
+    issue = WorkPackage.find(:first, conditions: { priority_id: 4 })
+    post :destroy, id: 4, reassign_to_id: 6
     assert_redirected_to enumerations_path
     assert_nil Enumeration.find_by_id(4)
     # check that the issue was reassign

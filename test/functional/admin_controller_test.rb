@@ -46,15 +46,15 @@ class AdminControllerTest < ActionController::TestCase
 
   def test_index
     get :index
-    assert_no_tag :tag => 'div',
-                  :attributes => { :class => /nodata/ }
+    assert_no_tag tag: 'div',
+                  attributes: { class: /nodata/ }
   end
 
   def test_index_with_no_configuration_data
     delete_configuration_data
     get :projects
-    assert_tag :tag => 'div',
-               :attributes => { :class => /nodata/ }
+    assert_tag tag: 'div',
+               attributes: { class: /nodata/ }
   end
 
   def test_projects
@@ -63,11 +63,11 @@ class AdminControllerTest < ActionController::TestCase
     assert_template 'projects'
     assert_not_nil assigns(:projects)
     # active projects only
-    assert_nil assigns(:projects).detect {|u| !u.active?}
+    assert_nil assigns(:projects).detect { |u| !u.active? }
   end
 
   def test_projects_with_name_filter
-    get :projects, :name => 'store', :status => ''
+    get :projects, name: 'store', status: ''
     assert_response :success
     assert_template 'projects'
     projects = assigns(:projects)
@@ -79,7 +79,7 @@ class AdminControllerTest < ActionController::TestCase
   def test_load_default_configuration_data
     Setting.available_languages = [:de]
     delete_configuration_data
-    post :default_configuration, :lang => 'de'
+    post :default_configuration, lang: 'de'
     assert_response :redirect
     assert_nil flash[:error]
     assert Status.find_by_name('neu')
@@ -109,7 +109,7 @@ class AdminControllerTest < ActionController::TestCase
       author 'John Smith'
       description 'This is a test plugin'
       version '0.0.1'
-      settings :default => {'sample_setting' => 'value', 'foo'=>'bar'}, :partial => 'foo/settings'
+      settings default: { 'sample_setting' => 'value', 'foo' => 'bar' }, partial: 'foo/settings'
     end
     Redmine::Plugin.register :bar do
     end
@@ -118,8 +118,8 @@ class AdminControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'plugins'
 
-    assert_tag :td, :child => { :tag => 'span', :content => 'Foo plugin' }
-    assert_tag :td, :child => { :tag => 'span', :content => 'Bar' }
+    assert_tag :td, child: { tag: 'span', content: 'Foo plugin' }
+    assert_tag :td, child: { tag: 'span', content: 'Bar' }
   end
 
   def test_info
@@ -131,16 +131,16 @@ class AdminControllerTest < ActionController::TestCase
   def test_admin_menu_plugin_extension
     Redmine::MenuManager.map :admin_menu do |menu|
       menu.push :test_admin_menu_plugin_extension,
-                { :controller => 'projects', :action => 'index' },
-                :caption => 'Test'
+                { controller: 'projects', action: 'index' },
+                caption: 'Test'
     end
 
     User.current = User.find(1)
 
     get :projects
     assert_response :success
-    assert_tag :a, :attributes => { :href => '/projects' },
-                   :content => 'Test'
+    assert_tag :a, attributes: { href: '/projects' },
+                   content: 'Test'
 
     Redmine::MenuManager.map :admin_menu do |menu|
       menu.delete :test_admin_menu_plugin_extension

@@ -44,97 +44,95 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
     Setting.login_required = '0'
   end
 
-  context "get /api/v2/projects with the API disabled" do
-
-    context "in :xml format" do
-      context "with a valid api token" do
+  context 'get /api/v2/projects with the API disabled' do
+    context 'in :xml format' do
+      context 'with a valid api token' do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @token = Token.generate!(user: @user, action: 'api')
           get "/api/v2/projects.xml?key=#{@token.value}"
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type "application/xml"
-        should "not login as the user" do
+        should_respond_with_content_type 'application/xml'
+        should 'not login as the user' do
           assert_equal User.anonymous, User.current
         end
       end
 
-      context "with a valid HTTP authentication" do
+      context 'with a valid HTTP authentication' do
         setup do
-          @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
+          @user = User.generate_with_protected!(password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
-          get '/api/v2/projects.xml', nil, :authorization => @authorization
+          get '/api/v2/projects.xml', nil, authorization: @authorization
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type "application/xml"
-        should "not login as the user" do
+        should_respond_with_content_type 'application/xml'
+        should 'not login as the user' do
           assert_equal User.anonymous, User.current
         end
       end
 
-      context "with a valid HTTP authentication using the API token" do
+      context 'with a valid HTTP authentication using the API token' do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @token = Token.generate!(user: @user, action: 'api')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          get '/api/v2/projects.xml', nil, :authorization => @authorization
+          get '/api/v2/projects.xml', nil, authorization: @authorization
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type "application/xml"
-        should "not login as the user" do
+        should_respond_with_content_type 'application/xml'
+        should 'not login as the user' do
           assert_equal User.anonymous, User.current
         end
       end
     end
 
-    context "in :json format" do
-      context "with a valid api token" do
+    context 'in :json format' do
+      context 'with a valid api token' do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @token = Token.generate!(user: @user, action: 'api')
           get "/api/v2/projects.json?key=#{@token.value}"
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type "application/json"
-        should "not login as the user" do
+        should_respond_with_content_type 'application/json'
+        should 'not login as the user' do
           assert_equal User.anonymous, User.current
         end
       end
 
-      context "with a valid HTTP authentication" do
+      context 'with a valid HTTP authentication' do
         setup do
-          @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
+          @user = User.generate_with_protected!(password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
-          get '/api/v2/projects.json', nil, :authorization => @authorization
+          get '/api/v2/projects.json', nil, authorization: @authorization
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type "application/json"
-        should "not login as the user" do
+        should_respond_with_content_type 'application/json'
+        should 'not login as the user' do
           assert_equal User.anonymous, User.current
         end
       end
 
-      context "with a valid HTTP authentication using the API token" do
+      context 'with a valid HTTP authentication using the API token' do
         setup do
           @user = User.generate_with_protected!
-          @token = Token.generate!(:user => @user, :action => 'api')
+          @token = Token.generate!(user: @user, action: 'api')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'DoesNotMatter')
-          get '/api/v2/projects.json', nil, :authorization => @authorization
+          get '/api/v2/projects.json', nil, authorization: @authorization
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type "application/json"
-        should "not login as the user" do
+        should_respond_with_content_type 'application/json'
+        should 'not login as the user' do
           assert_equal User.anonymous, User.current
         end
       end
-
     end
   end
 end

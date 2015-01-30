@@ -32,12 +32,12 @@ class StatusTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    status = Status.new :name => "Assigned"
+    status = Status.new name: 'Assigned'
     assert !status.save
     # status name uniqueness
     assert_equal 1, status.errors.count
 
-    status.name = "Test Status"
+    status.name = 'Test Status'
     assert status.save
     assert !status.is_default
   end
@@ -47,8 +47,8 @@ class StatusTest < ActiveSupport::TestCase
     assert_difference 'Status.count', -1 do
       assert status.destroy
     end
-    assert_nil Workflow.first(:conditions => {:old_status_id => status.id})
-    assert_nil Workflow.first(:conditions => {:new_status_id => status.id})
+    assert_nil Workflow.first(conditions: { old_status_id: status.id })
+    assert_nil Workflow.first(conditions: { new_status_id: status.id })
   end
 
   def test_destroy_status_in_use
@@ -80,26 +80,26 @@ class StatusTest < ActiveSupport::TestCase
     assert status.is_default?
   end
 
-  context "#update_done_ratios" do
+  context '#update_done_ratios' do
     setup do
       @issue = WorkPackage.find(1)
       @status = Status.find(1)
       @status.update_attribute(:default_done_ratio, 50)
     end
 
-    context "with Setting.work_package_done_ratio using the field" do
+    context 'with Setting.work_package_done_ratio using the field' do
       setup do
         Setting.work_package_done_ratio = 'field'
       end
 
-      should "change nothing" do
+      should 'change nothing' do
         Status.update_work_package_done_ratios
 
-        assert_equal 0, WorkPackage.count(:conditions => {:done_ratio => 50})
+        assert_equal 0, WorkPackage.count(conditions: { done_ratio: 50 })
       end
     end
 
-    context "with Setting.work_package_done_ratio using the status" do
+    context 'with Setting.work_package_done_ratio using the status' do
       setup do
         Setting.work_package_done_ratio = 'status'
       end
@@ -107,7 +107,7 @@ class StatusTest < ActiveSupport::TestCase
       should "update all of the issue's done_ratios to match their Issue Status" do
         Status.update_work_package_done_ratios
 
-        issues = WorkPackage.find([1,3,4,5,6,7,9,10])
+        issues = WorkPackage.find([1, 3, 4, 5, 6, 7, 9, 10])
         issues.each do |issue|
           assert_equal @status, issue.status
           assert_equal 50, issue.read_attribute(:done_ratio)
