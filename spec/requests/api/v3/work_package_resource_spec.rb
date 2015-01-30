@@ -592,6 +592,28 @@ h4. things we like
         end
       end
 
+      context 'priority' do
+        let(:target_priority) { FactoryGirl.create(:priority) }
+        let(:priority_link) { "/api/v3/priorities/#{target_priority.id}" }
+        let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
+        let(:params) { valid_params.merge(priority_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid' do
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with the work package assigned to the priority' do
+            expect(subject.body).to be_json_eql(target_priority.name.to_json)
+                                      .at_path('_embedded/priority/name')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+      end
+
       describe 'update with read-only attributes' do
         describe 'single read-only violation' do
           context 'start date' do
