@@ -32,10 +32,15 @@ require 'rack/test'
 describe 'API v3 Priority resource' do
   include Rack::Test::Methods
 
-  let(:current_user) { FactoryGirl.create(:user) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:priorities) { FactoryGirl.create_list(:priority, 2) }
+  let(:current_user) do
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
+  end
+
+  let!(:priorities) { FactoryGirl.create_list(:priority, 2) }
 
   describe 'priorities' do
     subject(:response) { last_response }
@@ -45,11 +50,6 @@ describe 'API v3 Priority resource' do
     context 'logged in user' do
       before do
         allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
-
-        priorities
 
         get get_path
       end
@@ -77,11 +77,6 @@ describe 'API v3 Priority resource' do
     context 'logged in user' do
       before do
         allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
-
-        priorities
 
         get get_path
       end

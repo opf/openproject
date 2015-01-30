@@ -32,10 +32,15 @@ require 'rack/test'
 describe 'API v3 Status resource' do
   include Rack::Test::Methods
 
-  let(:current_user) { FactoryGirl.create(:user) }
   let(:role) { FactoryGirl.create(:role, permissions: []) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:statuses) { FactoryGirl.create_list(:status, 4) }
+  let(:current_user) do
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
+  end
+
+  let!(:statuses) { FactoryGirl.create_list(:status, 4) }
 
   describe 'statuses' do
     describe '#get' do
@@ -45,11 +50,6 @@ describe 'API v3 Status resource' do
         let(:get_path) { '/api/v3/statuses' }
         before do
           allow(User).to receive(:current).and_return current_user
-          member = FactoryGirl.build(:member, user: current_user, project: project)
-          member.role_ids = [role.id]
-          member.save!
-
-          statuses
 
           get get_path
         end
