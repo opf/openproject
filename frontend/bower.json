@@ -27,7 +27,7 @@
     "hyperagent": "manwithtwowatches/hyperagent#v0.4.2",
     "lodash": "~2.4.1",
     "foundation-apps": "~1.0.2",
-    "ui-select": "0xF013/ui-select#b98f2d0808c77b78519cae527d662b2c1e374aae"
+    "ui-select": "0xF013/ui-select#2e139ea3f2cd3936396037e36d7803ba884de9aa"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
