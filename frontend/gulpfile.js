@@ -63,8 +63,10 @@ gulp.task('sass', function() {
   return gulp.src('../app/assets/stylesheets/default.css.sass')
     .pipe(sass({
       bundleExec: true,
-      require: 'bourbon',
-      loadPath: ['./bower_components/foundation-apps/scss']
+      loadPath: [
+        './bower_components/foundation-apps/scss',
+        './bower_components/bourbon/app/assets/stylesheets'
+      ]
     }))
     .on('error', function(err) {
       console.log(err.message);
