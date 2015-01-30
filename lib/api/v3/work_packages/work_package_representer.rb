@@ -39,7 +39,7 @@ module API
         link :self do
           {
             href: api_v3_paths.work_package(represented.id),
-            title: "#{represented.subject}"
+            title: represented.subject
           }
         end
 
@@ -94,7 +94,7 @@ module API
         link :status do
           {
             href: api_v3_paths.status(represented.status_id),
-            title: "#{represented.status.name}"
+            title: represented.status.name
           }
         end
 
@@ -165,7 +165,8 @@ module API
 
         link :addChild do
           {
-            href: new_project_work_package_path(represented.project, work_package: { parent_id: represented }),
+            href: new_project_work_package_path(represented.project,
+                                                work_package: { parent_id: represented }),
             type: 'text/html',
             title: "Add child of #{represented.subject}"
           } if current_user_allowed_to(:add_work_packages)
@@ -210,6 +211,13 @@ module API
                version_policy.allowed?(represented.fixed_version, :show)
         end
 
+        link :priority do
+          {
+            href: api_v3_paths.priority(represented.priority.id),
+            title: represented.priority.name
+          }
+        end
+
         links :children do
           visible_children.map do |child|
             { href: "#{root_path}api/v3/work_packages/#{child.id}", title: child.subject }
@@ -231,9 +239,16 @@ module API
                  },
                  setter: -> (value, *) { represented.description = value['raw'] },
                  render_nil: true
-        property :priority, getter: -> (*) { priority.try(:name) }, render_nil: true
-        property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
-        property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
+        property :start_date,
+                 getter: -> (*) do
+                   start_date.to_datetime.utc.iso8601 unless start_date.nil?
+                 end,
+                 render_nil: true
+        property :due_date,
+                 getter: -> (*) do
+                   due_date.to_datetime.utc.iso8601 unless due_date.nil?
+                 end,
+                 render_nil: true
         property :estimated_time,
                  getter: -> (*) do
                    Duration.new(hours_and_minutes(represented.estimated_hours)).iso8601
@@ -270,10 +285,31 @@ module API
                  embedded: true,
                  class: ::Status,
                  decorator: ::API::V3::Statuses::StatusRepresenter
-        property :author, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
-        property :responsible, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }
-        property :assigned_to, as: :assignee, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assigned_to.nil? }
-        property :category, embedded: true, class: ::Category, decorator: ::API::V3::Categories::CategoryRepresenter, if: -> (*) { !category.nil? }
+        property :author,
+                 embedded: true,
+                 class: ::User,
+                 decorator: ::API::V3::Users::UserRepresenter,
+                 if: -> (*) { !author.nil? }
+        property :responsible,
+                 embedded: true,
+                 class: ::User,
+                 decorator: ::API::V3::Users::UserRepresenter,
+                 if: -> (*) { !responsible.nil? }
+        property :assigned_to,
+                 as: :assignee,
+                 embedded: true,
+                 class: ::User,
+                 decorator: ::API::V3::Users::UserRepresenter,
+                 if: -> (*) { !assigned_to.nil? }
+        property :category,
+                 embedded: true,
+                 class: ::Category,
+                 decorator: ::API::V3::Categories::CategoryRepresenter,
+                 if: -> (*) { !category.nil? }
+        property :priority,
+                 embedded: true,
+                 class: ::IssuePriority,
+                 decorator: ::API::V3::Priorities::PriorityRepresenter
 
         property :activities, embedded: true, exec_context: :decorator
 
@@ -281,9 +317,15 @@ module API
                  embedded: true,
                  exec_context: :decorator,
                  if: ->(*) { represented.fixed_version.present? }
+        property :watchers,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: -> (*) { current_user_allowed_to(:view_work_package_watchers) }
+        collection :attachments,
+                   embedded: true,
+                   class: ::Attachment,
+                   decorator: ::API::V3::Attachments::AttachmentRepresenter
 
-        property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers) }
-        collection :attachments, embedded: true, class: ::Attachment, decorator: ::API::V3::Attachments::AttachmentRepresenter
         property :relations, embedded: true, exec_context: :decorator
 
         def _type
@@ -291,18 +333,31 @@ module API
         end
 
         def activities
-          represented.journals.map { |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: current_user) }
+          represented.journals.map do |activity|
+            ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: current_user)
+          end
         end
 
         def watchers
           watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-          watchers.map { |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented, current_user: current_user) }
+          watchers.map do |watcher|
+            ::API::V3::Users::UserRepresenter.new(watcher,
+                                                  work_package: represented,
+                                                  current_user: current_user)
+          end
         end
 
         def relations
           relations = represented.relations
-          visible_relations = relations.select { |relation| relation.other_work_package(represented).visible? }
-          visible_relations.map { |relation| RelationRepresenter.new(relation, work_package: represented, current_user: current_user) }
+          visible_relations = relations.select do |relation|
+            relation.other_work_package(represented).visible?
+          end
+
+          visible_relations.map do |relation|
+            RelationRepresenter.new(relation,
+                                    work_package: represented,
+                                    current_user: current_user)
+          end
         end
 
         def version
@@ -321,7 +376,7 @@ module API
         end
 
         def visible_children
-          @visible_children ||= represented.children.select { |child| child.visible? }
+          @visible_children ||= represented.children.select(&:visible?)
         end
 
         def percentage_done

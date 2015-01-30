@@ -99,12 +99,22 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/\?\/api\/v3\/work_packages\/42$/) }
   end
 
-  describe '#priorities' do
-    subject { helper.priorities }
+  describe 'priorities paths' do
+    describe '#priorities' do
+      subject { helper.priorities }
 
-    it_behaves_like 'api v3 path'
+      it_behaves_like 'api v3 path'
 
-    it { is_expected.to match(/^\/api\/v3\/priorities/) }
+      it { is_expected.to match(/^\/api\/v3\/priorities/) }
+    end
+
+    describe '#priority' do
+      subject { helper.priority 1 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to match(/^\/api\/v3\/priorities\/1/) }
+    end
   end
 
   describe 'projects paths' do

@@ -31,7 +31,9 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:member) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
+  let(:member) do
+    FactoryGirl.create(:user,  member_in_project: project, member_through_role: role)
+  end
   let(:current_user) { member }
 
   let(:representer)  { described_class.new(work_package, current_user: current_user) }
@@ -81,7 +83,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to have_json_path('dueDate') }
 
       it { is_expected.to have_json_path('percentageDone') }
-      it { is_expected.to have_json_path('priority') }
 
       it { is_expected.to have_json_path('projectId') }
       it { is_expected.to have_json_path('projectName') }
@@ -137,15 +138,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           allow(User).to receive(:current).and_return(user)
 
           allow(user).to receive(:allowed_to?).and_return(false)
-          allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
-                                              .and_return(true)
+          allow(user).to receive(:allowed_to?).with(:view_time_entries, anything).and_return(true)
         end
 
         context 'no view_time_entries permission' do
           before do
             allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
                                                 .and_return(false)
-
           end
 
           it { is_expected.to_not have_json_path('spentTime') }
@@ -287,6 +286,27 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'priority' do
+        let(:priority) { work_package.priority }
+        let(:link) { "/api/v3/priorities/#{priority.id}".to_json }
+        let(:title) { "#{priority.name}".to_json }
+        let(:href_path) { '_links/priority/href' }
+        let(:title_path) { '_links/priority/title' }
+
+        it 'has a link' do
+          is_expected.to be_json_eql(link).at_path(href_path)
+        end
+
+        it 'has a title' do
+          is_expected.to be_json_eql(title).at_path(title_path)
+        end
+
+        it 'has the priority embedded' do
+          is_expected.to be_json_eql('Priority'.to_json).at_path('_embedded/priority/_type')
+          is_expected.to be_json_eql(priority.name.to_json).at_path('_embedded/priority/name')
+        end
+      end
+
       context 'when the user has the permission to view work packages' do
         context 'and the user is not watching the work package' do
           it 'should have a link to watch' do
@@ -425,7 +445,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                project: project,
                                parent_id: forbidden_work_package.id)
           }
-          let!(:forbidden_work_package) { FactoryGirl.create(:work_package, project: forbidden_project) }
+          let!(:forbidden_work_package) do
+            FactoryGirl.create(:work_package, project: forbidden_project)
+          end
 
           it { expect(subject).to_not have_json_path('_links/parent') }
         end
@@ -449,7 +471,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
             it { expect(subject).to have_json_size(1).at_path('_links/children') }
 
-            it { expect(parse_json(subject)['_links']['children'][0]['title']).to eq(child.subject) }
+            it do
+              expect(parse_json(subject)['_links']['children'][0]['title']).to eq(child.subject)
+            end
           end
         end
       end

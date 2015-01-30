@@ -31,6 +31,7 @@ angular.module('openproject.workPackages.controllers')
   .constant('STATUS_TYPE', 'status')
   .constant('VERSION_TYPE', 'version')
   .constant('CATEGORY_TYPE', 'category')
+  .constant('PRIORITY_TYPE', 'priority')
   .constant('USER_TYPE', 'user')
   .constant('TIME_ENTRY_TYPE', 'time_entry')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
@@ -42,6 +43,7 @@ angular.module('openproject.workPackages.controllers')
     'STATUS_TYPE',
     'VERSION_TYPE',
     'CATEGORY_TYPE',
+    'PRIORITY_TYPE',
     'USER_TYPE',
     'TIME_ENTRY_TYPE',
     'USER_FIELDS',

@@ -70,6 +70,10 @@ module API
             "#{root}/priorities"
           end
 
+          def self.priority(id)
+            "#{priorities}/#{id}"
+          end
+
           def self.projects
             "#{root}/projects"
           end

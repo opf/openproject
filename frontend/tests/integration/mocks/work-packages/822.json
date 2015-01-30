@@ -147,6 +147,9 @@
       "defaultDoneRatio": null,
       "position": 9
     },
+    "priority": {
+      "name": "high"
+    },
     "author": {
       "_type": "User",
       "_links": {

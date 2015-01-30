@@ -126,6 +126,9 @@
       "name": "rejected",
       "isClosed": true
     },
+    "priority": {
+      "name": "high"
+    },
     "author": {
       "_type": "User",
       "_links": {

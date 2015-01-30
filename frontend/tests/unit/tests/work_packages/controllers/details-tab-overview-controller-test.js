@@ -66,6 +66,11 @@ describe('DetailsTabOverviewController', function() {
               name: 'open'
             }
           },
+          priority: {
+            props: {
+              name: 'high'
+            }
+          },
           activities: [],
           watchers: [],
           attachments: []
