@@ -32,7 +32,7 @@ require 'rack/test'
 describe 'API v3 Status resource' do
   include Rack::Test::Methods
 
-  let(:role) { FactoryGirl.create(:role, permissions: []) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:current_user) do
     FactoryGirl.create(:user,
@@ -44,10 +44,10 @@ describe 'API v3 Status resource' do
 
   describe 'statuses' do
     describe '#get' do
+      let(:get_path) { '/api/v3/statuses' }
       subject(:response) { last_response }
 
       context 'logged in user' do
-        let(:get_path) { '/api/v3/statuses' }
         before do
           allow(User).to receive(:current).and_return current_user
 
@@ -56,34 +56,57 @@ describe 'API v3 Status resource' do
 
         it_behaves_like 'API V3 collection response', 4, 4, 'Status'
       end
+
+      context 'not logged in user' do
+        before do
+          get get_path
+        end
+
+        it_behaves_like 'error response',
+                        403,
+                        'MissingPermission',
+                        I18n.t('api_v3.errors.code_403')
+      end
     end
   end
 
   describe 'statuses/:id' do
     describe '#get' do
-      let(:user) { FactoryGirl.create(:user, member_in_project: project) }
       let(:status) { statuses.first }
-      let(:path) { "/api/v3/statuses/#{status.id}" }
+      let(:get_path) { "/api/v3/statuses/#{status.id}" }
 
       subject(:response) { last_response }
 
-      before do
-        allow(User).to receive(:current).and_return(user)
+      context 'logged in user' do
+        before do
+          allow(User).to receive(:current).and_return(current_user)
 
-        get path
-      end
-
-      context 'valid status id' do
-        it { expect(response.status).to eq(200) }
-      end
-
-      context 'invalid status id' do
-        let(:path) { '/api/v3/statuses/bogus' }
-
-        it_behaves_like 'not found' do
-          let(:id) { 'bogus' }
-          let(:type) { 'Status' }
+          get get_path
         end
+
+        context 'valid status id' do
+          it { expect(response.status).to eq(200) }
+        end
+
+        context 'invalid status id' do
+          let(:get_path) { '/api/v3/statuses/bogus' }
+
+          it_behaves_like 'not found' do
+            let(:id) { 'bogus' }
+            let(:type) { 'Status' }
+          end
+        end
+      end
+
+      context 'not logged in user' do
+        before do
+          get get_path
+        end
+
+        it_behaves_like 'error response',
+                        403,
+                        'MissingPermission',
+                        I18n.t('api_v3.errors.code_403')
       end
     end
   end
