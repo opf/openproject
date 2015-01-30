@@ -55,19 +55,19 @@ describe ::API::V3::Priorities::PriorityRepresenter do
 
     describe 'priority' do
       it 'should have an id' do
-        should have_json_path('id')
+        is_expected.to be_json_eql(priority.id.to_json).at_path('id')
       end
       it 'should have a name' do
-        should have_json_path('name')
+        is_expected.to be_json_eql(priority.name.to_json).at_path('name')
       end
       it 'should have a position' do
-        should have_json_path('position')
+        is_expected.to be_json_eql(priority.position.to_json).at_path('position')
       end
       it 'should have a default flag' do
-        should have_json_path('isDefault')
+        is_expected.to be_json_eql(priority.is_default.to_json).at_path('isDefault')
       end
       it 'should have an active flag' do
-        should have_json_path('isActive')
+        is_expected.to be_json_eql(priority.active.to_json).at_path('isActive')
       end
     end
   end
