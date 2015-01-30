@@ -494,6 +494,7 @@ describe 'API v3 Work package form resource', type: :request do
 
             describe 'priority' do
               let(:path) { '_embedded/payload/_links/priority/href' }
+              let(:links_path) { '_embedded/schema/priority/_links' }
               let(:target_priority) { FactoryGirl.create(:priority) }
               let(:other_priority) { work_package.priority }
               let(:priority_link) { "/api/v3/priorities/#{target_priority.id}" }
@@ -510,9 +511,9 @@ describe 'API v3 Work package form resource', type: :request do
 
                 it 'should list the priorities' do
                   expect(subject.body).to be_json_eql(priority_link.to_json)
-                                            .at_path('_embedded/schema/priority/_links/allowedValues/1/href')
+                                            .at_path("#{links_path}/allowedValues/1/href")
                   expect(subject.body).to be_json_eql(other_priority_link.to_json)
-                                            .at_path('_embedded/schema/priority/_links/allowedValues/0/href')
+                                            .at_path("#{links_path}/allowedValues/0/href")
                 end
               end
 
