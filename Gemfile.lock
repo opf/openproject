@@ -390,7 +390,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
-    timecop (0.6.1)
+    timecop (0.7.1)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -504,7 +504,7 @@ DEPENDENCIES
   syck
   test-unit (= 2.5.5)
   thin
-  timecop (~> 0.6.1)
+  timecop (~> 0.7.1)
   uglifier (>= 1.0.3)
   unicorn
   will_paginate (~> 3.0)
