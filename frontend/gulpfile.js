@@ -33,6 +33,7 @@ var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var sass = require('gulp-ruby-sass');
 var watch = require('gulp-watch');
+var livingstyleguide = require('gulp-livingstyleguide');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -72,6 +73,18 @@ gulp.task('sass', function() {
       console.log(err.message);
     })
     .pipe(gulp.dest('tmp/stylesheets'));
+});
+
+gulp.task('styleguide', function () {
+  process.env.SASS_PATH = [
+    '../app/assets/stylesheets',
+    './bower_components/foundation-apps/scss',
+    './bower_components/bourbon/app/assets/stylesheets'
+  ].join(':')
+
+  gulp.src('../app/assets/stylesheets/styleguide.html.lsg')
+      .pipe(livingstyleguide())
+      .pipe(gulp.dest('public'));
 });
 
 gulp.task('express', function(done) {
