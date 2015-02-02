@@ -175,10 +175,10 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
 
     subject { representer.from_json(json) }
 
-    describe 'startDate' do
+    shared_examples_for 'settable ISO 8601 date only' do
       let(:attributes) do
         {
-          startDate: dateString
+          property => dateString
         }
       end
 
@@ -186,7 +186,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         let(:dateString) { '2015-01-31' }
 
         it 'sets the date' do
-          expect(subject.start_date).to eql(Date.new(2015, 1, 31))
+          expect(subject.send(method)).to eql(Date.new(2015, 1, 31))
         end
       end
 
@@ -194,7 +194,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         let(:dateString) { nil }
 
         it 'sets the date to nil' do
-          expect(subject.start_date).to eql(nil)
+          expect(subject.send(method)).to eql(nil)
         end
       end
 
@@ -215,43 +215,17 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
       end
     end
 
+    describe 'startDate' do
+      it_behaves_like 'settable ISO 8601 date only' do
+        let(:property) { :startDate }
+        let(:method) { :start_date }
+      end
+    end
+
     describe 'dueDate' do
-      let(:attributes) do
-        {
-          dueDate: dateString
-        }
-      end
-
-      context 'with an ISO formatted date' do
-        let(:dateString) { '2015-01-31' }
-
-        it 'sets the date' do
-          expect(subject.due_date).to eql(Date.new(2015, 1, 31))
-        end
-      end
-
-      context 'with null' do
-        let(:dateString) { nil }
-
-        it 'sets the date to nil' do
-          expect(subject.due_date).to eql(nil)
-        end
-      end
-
-      context 'with a non ISO formatted date' do
-        let(:dateString) { '31.01.2015' }
-
-        it 'raises an error' do
-          expect { subject }.to raise_error(API::Errors::PropertyFormatError)
-        end
-      end
-
-      context 'with an ISO formatted date and time' do
-        let(:dateString) { '2015-01-31T13:37:00Z' }
-
-        it 'raises an error' do
-          expect { subject }.to raise_error(API::Errors::PropertyFormatError)
-        end
+      it_behaves_like 'settable ISO 8601 date only' do
+        let(:property) { :dueDate }
+        let(:method) { :due_date }
       end
     end
 
