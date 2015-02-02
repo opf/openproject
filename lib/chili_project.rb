@@ -35,4 +35,16 @@ module ChiliProject
   Database = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
     'ChiliProject::Database', 'OpenProject::Database'
   )
+
+  module PrincipalAllowanceEvaluator
+    Base = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
+      'ChiliProject::PrincipalAllowanceEvaluator::Base',
+      'OpenProject::PrincipalAllowanceEvaluator::Base'
+    )
+
+    Default = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
+      'ChiliProject::PrincipalAllowanceEvaluator::Default',
+      'OpenProject::PrincipalAllowanceEvaluator::Default'
+    )
+  end
 end

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ChiliProject::PrincipalAllowanceEvaluator::Default < ChiliProject::PrincipalAllowanceEvaluator::Base
+class OpenProject::PrincipalAllowanceEvaluator::Default < OpenProject::PrincipalAllowanceEvaluator::Base
   def granted_for_global?(candidate, action, options)
     granted = super
 

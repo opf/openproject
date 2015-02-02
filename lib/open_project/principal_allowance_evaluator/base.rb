@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ChiliProject::PrincipalAllowanceEvaluator::Base
+class OpenProject::PrincipalAllowanceEvaluator::Base
   def initialize(user)
     @user = user
   end
