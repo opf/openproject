@@ -28,34 +28,34 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class ChiliProject::DatabaseTest < ActiveSupport::TestCase
+class OpenProject::DatabaseTest < ActiveSupport::TestCase
   setup do
-    ChiliProject::Database.stub(:adapter_name).and_return 'PostgresQL'
+    OpenProject::Database.stub(:adapter_name).and_return 'PostgresQL'
   end
 
   should 'return the correct identifier' do
-    assert_equal :postgresql, ChiliProject::Database.name
+    assert_equal :postgresql, OpenProject::Database.name
   end
 
   should 'be able to use the helper methods' do
-    assert_equal false, ChiliProject::Database.mysql?
-    assert_equal true, ChiliProject::Database.postgresql?
+    assert_equal false, OpenProject::Database.mysql?
+    assert_equal true, OpenProject::Database.postgresql?
   end
 
   should 'return a version string for PostgreSQL' do
-    ChiliProject::Database.stub(:adapter_name).and_return 'PostgreSQL'
+    OpenProject::Database.stub(:adapter_name).and_return 'PostgreSQL'
     raw_version = 'PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2'
     ActiveRecord::Base.connection.stub(:select_value).and_return raw_version
 
-    assert_equal '8.3.11', ChiliProject::Database.version
-    assert_equal raw_version, ChiliProject::Database.version(true)
+    assert_equal '8.3.11', OpenProject::Database.version
+    assert_equal raw_version, OpenProject::Database.version(true)
   end
 
   should 'return a version string for MySQL' do
-    ChiliProject::Database.stub(:adapter_name).and_return 'MySQL'
+    OpenProject::Database.stub(:adapter_name).and_return 'MySQL'
     ActiveRecord::Base.connection.stub(:select_value).and_return '5.1.2'
 
-    assert_equal '5.1.2', ChiliProject::Database.version
-    assert_equal '5.1.2', ChiliProject::Database.version(true)
+    assert_equal '5.1.2', OpenProject::Database.version
+    assert_equal '5.1.2', OpenProject::Database.version(true)
   end
 end

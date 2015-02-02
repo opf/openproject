@@ -28,4 +28,7 @@
 #++
 
 module ChiliProject
+  Database = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
+    'ChiliProject::Database', 'OpenProject::Database'
+  )
 end
