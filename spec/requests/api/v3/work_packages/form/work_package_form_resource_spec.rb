@@ -257,6 +257,60 @@ describe 'API v3 Work package form resource', type: :request do
               it_behaves_like 'having no errors'
             end
 
+            describe 'start date' do
+              include_context 'post request'
+
+              context 'valid date' do
+                let(:params) { valid_params.merge(startDate: '2015-01-31') }
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package' do
+                  expect(subject.body).to be_json_eql('2015-01-31'.to_json)
+                                            .at_path('_embedded/payload/startDate')
+                end
+              end
+
+              context 'invalid date' do
+                let(:params) { valid_params.merge(startDate: 'not a date') }
+
+                it_behaves_like 'format error',
+                                I18n.t('api_v3.errors.invalid_format',
+                                       property: 'startDate',
+                                       expected_format: 'YYYY-MM-DD',
+                                       actual: 'not a date')
+              end
+            end
+
+            describe 'due date' do
+              include_context 'post request'
+
+              context 'valid date' do
+                let(:params) { valid_params.merge(dueDate: '2015-01-31') }
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package' do
+                  expect(subject.body).to be_json_eql('2015-01-31'.to_json)
+                                            .at_path('_embedded/payload/dueDate')
+                end
+              end
+
+              context 'invalid date' do
+                let(:params) { valid_params.merge(dueDate: 'not a date') }
+
+                it_behaves_like 'format error',
+                                I18n.t('api_v3.errors.invalid_format',
+                                       property: 'dueDate',
+                                       expected_format: 'YYYY-MM-DD',
+                                       actual: 'not a date')
+              end
+            end
+
             describe 'status' do
               let(:path) { '_embedded/payload/_links/status/href' }
               let(:target_status) { FactoryGirl.create(:status) }
