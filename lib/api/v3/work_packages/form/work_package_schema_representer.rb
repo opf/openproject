@@ -47,6 +47,12 @@ module API
           property :description,
                    getter: -> (*) { { type: 'Formattable' } },
                    writeable: false
+          property :startDate,
+                   getter: -> (*) { { type: 'Date' } },
+                   writeable: false
+          property :dueDate,
+                   getter: -> (*) { { type: 'Date' } },
+                   writeable: false
           property :status,
                    exec_context: :decorator,
                    getter: -> (*) {
