@@ -51,7 +51,7 @@ class Principal < ActiveRecord::Base
     lastnamefirstname = "((lastname || ' ') || firstname)"
 
     # special concat for mysql
-    if ChiliProject::Database.mysql?
+    if OpenProject::Database.mysql?
       firstnamelastname = "CONCAT(CONCAT(firstname, ' '), lastname)"
       lastnamefirstname = "CONCAT(CONCAT(lastname, ' '), firstname)"
     end
