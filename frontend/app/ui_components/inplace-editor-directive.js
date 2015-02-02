@@ -98,7 +98,8 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
     $scope.getTemplateUrl = getTemplateUrl;
     $scope.getDisplayTemplateUrl = getDisplayTemplateUrl;
     $scope.collectChanges = collectChanges;
-    $scope.dispatchChanges = dispatchChanges;
+    $scope.acceptChanges = acceptChanges;
+    $scope.acceptErrors = acceptErrors;
     $scope.pathHelper = PathHelper;
 
     activate();
@@ -142,6 +143,7 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
       });
       result.catch(function(e) {
         $scope.onFail(e);
+        OverviewTabInplaceEditorConfig.dispatchErrors(e);
       });
     }
 
@@ -149,11 +151,15 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
       InplaceEditorDispatcher.dispatchHook($scope, 'submit', data);
     }
 
-    function dispatchChanges(workPackage) {
+    function acceptChanges(workPackage) {
       $scope.entity = workPackage;
       setReadValue();
       finishEditing();
       $scope.onFinally();
+    }
+
+    function acceptErrors(e) {
+      $scope.onFail(e);
     }
 
     function onSuccess(entity) {
@@ -163,7 +169,7 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
         'workPackageRefreshRequired',
         function(workPackage) {
           OverviewTabInplaceEditorConfig.dispatchChanges(workPackage);
-          $scope.dispatchChanges(workPackage);
+          $scope.acceptChanges(workPackage);
         }
       );
     }

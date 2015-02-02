@@ -56,13 +56,21 @@ module.exports = function() {
       return data;
     },
 
+    dispatchErrors: function(e) {
+      _.forEach(activeScopes, function(scope) {
+        if (!scope) {
+          return;
+        }
+        scope.acceptErrors(e);
+      });
+    },
+
     dispatchChanges: function(workPackage) {
       _.forEach(activeScopes, function(scope) {
         if (!scope) {
           return;
         }
-        scope.dispatchChanges(workPackage);
-        scope.isBusy = false;
+        scope.acceptChanges(workPackage);
       });
     },
 
