@@ -26,12 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$work-packages-filters--background-color: #efefef
-$work-packages-filters--inset-background-color: darken($work-packages-filters--background-color, 8)
+$advanced-filters--background-color: $gray-light !default
+$advanced-filters--border-color: $gray !default
 
-.work-packages-filters--container
-  background-color: $work-packages-filters--background-color
-  border:   1px solid #E6E6E6
+.advanced-filters--container
+  background-color: $advanced-filters--background-color
+  border:   1px solid $advanced-filters--border-color
+  border-top-width: 3px
   padding:  10px
   max-height: 250px
   overflow-y: auto
@@ -39,55 +40,93 @@ $work-packages-filters--inset-background-color: darken($work-packages-filters--b
   legend
     @extend .hidden-for-sighted
 
-.work-packages-filters--filters
-  @include grid-block($wrap: true, $align: right)
+@mixin advanced-filters--sizing()
+  @include grid-block()
+
+  @include breakpoint(medium)
+    @include grid-size(12)
+
+  @include breakpoint(large)
+    @include grid-size(10)
+
+  @include breakpoint(xlarge)
+    @include grid-size(8)
+
+  @include breakpoint(xxlarge)
+    @include grid-size(6)
+
+  @include breakpoint(xxxlarge)
+    @include grid-size(5)
+
+.advanced-filters--filters
   list-style-type:  none
   margin:           0
-  background:       $work-packages-filters--inset-background-color
-  border:           1px solid #ccc
-  border-radius:    $global-radius
 
-.work-packages-filters--filter
-  @include grid-block(6)
+.advanced-filters--filter
+  @include advanced-filters--sizing
   align-items:      center
-  background:       #efefef
-  padding:          0.25rem 0
-  border:           1px solid #ccc
-  border-radius:    $global-radius
+  padding:          0.5rem 0
 
-%work-packages-filters--filter-part
-  .inline-label,
-  .form--text-field,
-  .form--select
+.advanced-filters--text-field
+  @extend .form--text-field, .form--text-field.-small
+
+.advanced-filters--select
+  @extend .form--select, .form--select.-small, .form--select.-narrow
+  margin-bottom: 0
+
+.advanced-filters--number-field
+  @extend .form--text-field, .form--text-field.-small
+
+%advanced-filters--filter-part
+  .inline-label
+    margin-bottom: 0
+  // adding the input rules to be more specific than the resets of
+  // foundation.
+  input, select
     margin-bottom: 0
 
-.work-packages-filters--filter-name
+.advanced-filters--filter-name
   @include grid-content(3)
-  @extend %work-packages-filters--filter-part
+  @extend %advanced-filters--filter-part
+  overflow-y: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
 
-.work-packages-filters--filter-operator
+.advanced-filters--filter-operator
   @include grid-content(3)
-  @extend %work-packages-filters--filter-part
+  @extend %advanced-filters--filter-part
 
-.work-packages-filters--filter-value
+.advanced-filters--filter-value
   @include grid-content(5)
-  @extend %work-packages-filters--filter-part
+  @extend %advanced-filters--filter-part
 
-.work-packages-filters--remove-filter
-  @include grid-content(shrink)
+.advanced-filters--remove-filter
+  @include grid-content($size: shrink)
+  padding: 0
 
-.work-packages-filters--add-filter
-  @include grid-block(6)
-  @extend %work-packages-filters--filter-part
+.advanced-filters--remove-filter-icon
+  @extend .icon-close, .icon4
+  @include grid-content(1)
+
+.advanced-filters--add-filter
+  @include advanced-filters--sizing
+  @extend %advanced-filters--filter-part
   align-items:      center
   padding:          0.25rem 0
 
-.work-packages-filters--add-filter-label
+.advanced-filters--add-filter-label
+  @include grid-content(shrink)
+
+.advanced-filters--add-filter-label-icon
+  @extend .icon-add, .icon4
+
+.advanced-filters--add-filter-value
   @include grid-content(3)
 
-.work-packages-filters--add-filter-value
-  @include grid-content(expand)
-
+.advanced-filters--spacer
+  border-top:   1px solid $advanced-filters--border-color
+  height: 1px
+  margin:          0.75rem 1rem
 
 #content fieldset.collapsible.header_collapsible
   padding-top: 0

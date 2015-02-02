@@ -297,7 +297,8 @@ de:
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
       description_options_show: "Optionen einblenden"
-      label_enable_multi_select: "Mehrfachauswahl umschalten"
+      label_enable_multi_select: "Mehrfachauswahl aktivieren"
+      label_disable_multi_select: "Mehrfachauswahl deaktivieren"
       label_filter_add: "Filter hinzufügen"
       label_options: "Optionen"
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.

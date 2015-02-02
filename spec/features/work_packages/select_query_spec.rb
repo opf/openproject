@@ -55,8 +55,8 @@ describe 'Query selection', type: :feature do
     before do
       work_packages_page.select_query query
       # ensure the page is loaded before expecting anything
-      find('.work-packages-filters--filters select option', text: /\AAssignee\Z/,
-                                                            visible: false)
+      find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
+                                                       visible: false)
     end
 
     it 'should show the filter', js: true do

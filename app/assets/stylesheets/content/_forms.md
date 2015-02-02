@@ -49,6 +49,12 @@ _with class applied_
   <option>two</option>
   <option>three</option>
 </select>
+
+<select class="form--select" multiple>
+  <option>one</option>
+  <option>two</option>
+  <option>three</option>
+</select>
 ```
 
 ## Default Select with Option Groups
@@ -81,6 +87,26 @@ _with class applied_
 </select>
 
 <select class="form--select -large">
+  <option>one</option>
+  <option>two</option>
+  <option>three</option>
+</select>
+```
+
+## Narrow select
+
+_By default, a `form--select` will take the full width of its container element.
+In most cases it is recommended to apply a width to the container element, but
+in certain circumstances the `-narrow` variant may be preferable._
+
+```
+<select class="form--select -narrow">
+  <option>one</option>
+  <option>two</option>
+  <option>three</option>
+</select>
+
+<select class="form--select -small -narrow">
   <option>one</option>
   <option>two</option>
   <option>three</option>
