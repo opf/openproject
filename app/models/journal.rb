@@ -48,6 +48,7 @@ class Journal < ActiveRecord::Base
   has_many :attachable_journals, class_name: Journal::AttachableJournal, dependent: :destroy
   has_many :customizable_journals, class_name: Journal::CustomizableJournal, dependent: :destroy
 
+  after_create :save_data, if: :data
   after_save :save_data, :touch_journable
 
   # Scopes to all journals excluding the initial journal - useful for change
