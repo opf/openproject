@@ -40,6 +40,7 @@ module.exports = function(
   });
 
   $scope.saveQuery = function(event){
+    event.stopPropagation();
     if (!$scope.query.isDirty()) {
       return;
     }
@@ -62,6 +63,7 @@ module.exports = function(
   };
 
   $scope.deleteQuery = function(event){
+    event.stopPropagation();
     if( allowQueryAction(event, 'delete') && preventNewQueryAction(event) && deleteConfirmed() ){
       QueryService.deleteQuery()
         .then(function(data){
@@ -76,38 +78,45 @@ module.exports = function(
 
   // Modals
   $scope.showSaveAsModal = function(event){
+    event.stopPropagation();
     if( allowQueryAction(event, 'create') ) {
       showExistingQueryModal.call(saveModal, event);
     }
   };
 
   $scope.showShareModal = function(event){
+    event.stopPropagation();
     if (allowQueryAction(event, 'publicize') || allowQueryAction(event, 'star')) {
       showExistingQueryModal.call(shareModal, event);
     }
   };
 
   $scope.showSettingsModal = function(event){
+    event.stopPropagation();
     if( allowQueryAction(event, 'update') ) {
       showExistingQueryModal.call(settingsModal, event);
     }
   };
 
   $scope.showExportModal = function(event){
+    event.stopPropagation();
     if( allowWorkPackageAction(event, 'export') ) {
       showModal.call(exportModal);
     }
   };
 
-  $scope.showColumnsModal = function(){
+  $scope.showColumnsModal = function(event){
+    event.stopPropagation();
     showModal.call(columnsModal);
   };
 
-  $scope.showGroupingModal = function(){
+  $scope.showGroupingModal = function(event){
+    event.stopPropagation();
     showModal.call(groupingModal);
   };
 
-  $scope.showSortingModal = function(){
+  $scope.showSortingModal = function(event){
+    event.stopPropagation();
     showModal.call(sortingModal);
   };
 
@@ -154,7 +163,6 @@ module.exports = function(
 
   function preventNewQueryAction(event){
     if (event && $scope.query.isNew()) {
-      event.preventDefault();
       event.stopPropagation();
       return false;
     }
@@ -185,7 +193,6 @@ module.exports = function(
     if(AuthorisationService.can(modelName, action)){
       return true;
     } else {
-      event.preventDefault();
       event.stopPropagation();
       return false;
     }
