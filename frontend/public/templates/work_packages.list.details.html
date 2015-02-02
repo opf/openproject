@@ -32,14 +32,15 @@
 
   <div class="select-type">{{ workPackage.props.type }}:&nbsp;</div>
 
-  <h2
+  <div
+    class="wp-subject"
     inplace-editor
     ined-type="text"
     ined-entity="workPackage"
     ined-attribute="subject"
     ined-attribute-title="{{ I18n.t('js.work_packages.properties.subject') }}"
     title="{{ workPackage.props.subject }}"
-  ></h2>
+  ></div>
 
   <span class="subtitle">
     <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()" class="star">

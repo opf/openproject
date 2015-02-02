@@ -102,7 +102,7 @@ describe('OpenProject', function() {
     }
 
     describe('subject', function() {
-      var subjectEditor = $('h2 .inplace-editor');
+      var subjectEditor = $('.wp-subject .inplace-editor');
 
       context('work package with updateImmediately link', function() {
         beforeEach(function() {
