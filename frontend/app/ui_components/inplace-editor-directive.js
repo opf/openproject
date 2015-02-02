@@ -131,7 +131,6 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
     }
 
     function submit(notify) {
-
       // angular.copy here to make a new object instead of a reference
       $scope.isBusy = true;
       var data = angular.copy($scope.entity.form.embedded.payload.props);
