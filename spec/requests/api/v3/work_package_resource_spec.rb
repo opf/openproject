@@ -383,6 +383,36 @@ h4. things we like
         end
       end
 
+      context 'start date' do
+        let(:dateString) { Date.today.to_date.iso8601 }
+        let(:params) { valid_params.merge(startDate: dateString) }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should respond with updated start date' do
+          expect(subject.body).to be_json_eql(dateString.to_json).at_path('startDate')
+        end
+
+        it_behaves_like 'lock version updated'
+      end
+
+      context 'due date' do
+        let(:dateString) { Date.today.to_date.iso8601 }
+        let(:params) { valid_params.merge(dueDate: dateString) }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should respond with updated due date' do
+          expect(subject.body).to be_json_eql(dateString.to_json).at_path('dueDate')
+        end
+
+        it_behaves_like 'lock version updated'
+      end
+
       context 'status' do
         let(:target_status) { FactoryGirl.create(:status) }
         let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
@@ -616,22 +646,6 @@ h4. things we like
 
       describe 'update with read-only attributes' do
         describe 'single read-only violation' do
-          context 'start date' do
-            let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
-
-            include_context 'patch request'
-
-            it_behaves_like 'read-only violation', 'startDate'
-          end
-
-          context 'due date' do
-            let(:params) { valid_params.merge(dueDate: DateTime.now.utc.iso8601) }
-
-            include_context 'patch request'
-
-            it_behaves_like 'read-only violation', 'dueDate'
-          end
-
           context 'created and updated' do
             let(:tomorrow) { (DateTime.now + 1.day).utc.iso8601 }
             include_context 'patch request'
@@ -669,7 +683,7 @@ h4. things we like
 
         context 'multiple read-only attributes' do
           let(:params) do
-            valid_params.merge(startDate: DateTime.now.utc.iso8601, dueDate: DateTime.now.utc.iso8601)
+            valid_params.merge(createdAt: Date.today.iso8601, updatedAt: Date.today.iso8601)
           end
 
           include_context 'patch request'
@@ -680,7 +694,7 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type with details',
                           'attribute',
-                          'attribute' => ['startDate', 'dueDate']
+                          'attribute' => ['createdAt', 'updatedAt']
         end
       end
 
