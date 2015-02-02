@@ -31,6 +31,8 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
   let(:work_package) {
     FactoryGirl.build(:work_package,
+                      start_date: Date.today.to_datetime,
+                      due_date: Date.today.to_datetime,
                       created_at: DateTime.now,
                       updated_at: DateTime.now)
   }
@@ -58,6 +60,36 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         it { is_expected.to have_json_type(Integer).at_path('lockVersion') }
 
         it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
+      end
+
+      describe 'startDate' do
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { work_package.start_date }
+          let(:json_path) { 'startDate' }
+        end
+
+        context 'no start date' do
+          let(:work_package) { FactoryGirl.build(:work_package, start_date: nil) }
+
+          it 'renders as null' do
+            is_expected.to be_json_eql(nil.to_json).at_path('startDate')
+          end
+        end
+      end
+
+      describe 'dueDate' do
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { work_package.due_date }
+          let(:json_path) { 'dueDate' }
+        end
+
+        context 'no due date' do
+          let(:work_package) { FactoryGirl.build(:work_package, due_date: nil) }
+
+          it 'renders as null' do
+            is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
+          end
+        end
       end
     end
 
@@ -133,14 +165,95 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
   end
 
   describe 'parsing' do
+    let(:attributes) { {} }
     let(:links) { {} }
     let(:json) do
-      {
-        _links: links
-      }.to_json
+      copy = attributes.clone
+      copy[:_links] = links
+      copy.to_json
     end
 
-    subject(:parsed) { representer.from_json(json) }
+    subject { representer.from_json(json) }
+
+    describe 'startDate' do
+      let(:attributes) do
+        {
+          startDate: dateString
+        }
+      end
+
+      context 'with an ISO formatted date' do
+        let(:dateString) { '2015-01-31' }
+
+        it 'sets the date' do
+          expect(subject.start_date).to eql(Date.new(2015, 1, 31))
+        end
+      end
+
+      context 'with null' do
+        let(:dateString) { nil }
+
+        it 'sets the date to nil' do
+          expect(subject.start_date).to eql(nil)
+        end
+      end
+
+      context 'with a non ISO formatted date' do
+        let(:dateString) { '31.01.2015' }
+
+        it 'raises an error' do
+          expect{ subject }.to raise_error(API::Errors::PropertyFormatError)
+        end
+      end
+
+      context 'with an ISO formatted date and time' do
+        let(:dateString) { '2015-01-31T13:37:00Z' }
+
+        it 'raises an error' do
+          expect{ subject }.to raise_error(API::Errors::PropertyFormatError)
+        end
+      end
+    end
+
+    describe 'dueDate' do
+      let(:attributes) do
+        {
+          dueDate: dateString
+        }
+      end
+
+      context 'with an ISO formatted date' do
+        let(:dateString) { '2015-01-31' }
+
+        it 'sets the date' do
+          expect(subject.due_date).to eql(Date.new(2015, 1, 31))
+        end
+      end
+
+      context 'with null' do
+        let(:dateString) { nil }
+
+        it 'sets the date to nil' do
+          expect(subject.due_date).to eql(nil)
+        end
+      end
+
+      context 'with a non ISO formatted date' do
+        let(:dateString) { '31.01.2015' }
+
+        it 'raises an error' do
+          expect{ subject }.to raise_error(API::Errors::PropertyFormatError)
+        end
+      end
+
+      context 'with an ISO formatted date and time' do
+        let(:dateString) { '2015-01-31T13:37:00Z' }
+
+        it 'raises an error' do
+          expect{ subject }.to raise_error(API::Errors::PropertyFormatError)
+        end
+      end
+    end
 
     describe 'version' do
       let(:id) { 5 }

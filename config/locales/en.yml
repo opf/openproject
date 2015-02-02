@@ -1665,6 +1665,7 @@ en:
       multiple_errors: "Multiple fields violated their constraints."
       parse_error: "The request body was neither empty, nor did it contain a single JSON object."
       writing_read_only_attributes: "You must not write a read-only attribute."
+      invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       render:
         context_not_found: "No context found."
         unsupported_context: "Unsupported context found."

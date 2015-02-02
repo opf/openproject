@@ -80,12 +80,25 @@ module API
           property :project_id,
                    getter: -> (*) { nil },
                    render_nil: false
+
           property :start_date,
-                   getter: -> (*) { nil },
-                   render_nil: false
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     represented.start_date.to_date.iso8601 unless represented.start_date.nil?
+                   },
+                   setter: -> (value, *) {
+                     represented.start_date = parse_date_only(value, 'startDate')
+                   },
+                   render_nil: true
           property :due_date,
-                   getter: -> (*) { nil },
-                   render_nil: false
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     represented.due_date.to_date.iso8601 unless represented.due_date.nil?
+                   },
+                   setter: -> (value, *) {
+                     represented.due_date = parse_date_only(value, 'dueDate')
+                   },
+                   render_nil: true
           property :version_id,
                    getter: -> (*) { nil },
                    setter: -> (value, *) { self.fixed_version_id = value },
@@ -107,6 +120,27 @@ module API
 
           def description_renderer
             ::API::Utilities::Renderer::TextileRenderer.new(represented.description, represented)
+          end
+
+          def parse_date_only(value, property_name)
+            return nil if value.nil?
+
+            begin
+              date_and_time = DateTime.iso8601(value)
+            rescue ArgumentError
+              raise API::Errors::PropertyFormatError.new(property_name, 'YYYY-MM-DD', value)
+            end
+
+            date_only = date_and_time.to_date
+
+            # we only want to accept "timeless" dates, e.g. "2015-01-31",
+            # but not "2015-01-31T01:02:03".
+            # However Date.iso8601 is too generous and would accept that
+            unless date_and_time == date_only
+              raise API::Errors::PropertyFormatError.new(property_name, 'YYYY-MM-DD', value)
+            end
+
+            date_only
           end
         end
       end

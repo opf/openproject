@@ -26,33 +26,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :work_package do
-    ignore do
-      custom_values nil
-    end
+require 'spec_helper'
 
-    priority
-    project factory: :project_with_types
-    status factory: :status
-    sequence(:subject) { |n| "WorkPackage No. #{n}" }
-    description { |i| "Description for '#{i.subject}'" }
-    author factory: :user
-    created_at { DateTime.now }
-    updated_at { DateTime.now }
+shared_examples_for 'has ISO 8601 date only' do
+  let(:iso_date_only_string) { '%d-%02d-%02d' % [ date.year, date.month, date.day ] }
 
-    callback(:after_build) do |work_package, evaluator|
-      work_package.type = work_package.project.types.first unless work_package.type
+  it 'exists' do
+    is_expected.to have_json_path(json_path)
+  end
 
-      custom_values = evaluator.custom_values || {}
+  it 'indicates date only as ISO 8601' do
+    is_expected.to be_json_eql(iso_date_only_string.to_json).at_path(json_path)
+  end
+end
 
-      if custom_values.is_a? Hash
-        custom_values.each_pair do |custom_field_id, value|
-          work_package.custom_values.build custom_field_id: custom_field_id, value: value
-        end
-      else
-        custom_values.each { |cv| work_package.custom_values << cv }
-      end
-    end
+shared_examples_for 'has UTC ISO 8601 date and time' do
+  let(:iso_string) { date.utc.iso8601 }
+
+  it 'exists' do
+    is_expected.to have_json_path(json_path)
+  end
+
+  it 'indicates date and time as ISO 8601' do
+    is_expected.to be_json_eql(iso_string.to_json).at_path(json_path)
   end
 end

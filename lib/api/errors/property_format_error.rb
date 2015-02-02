@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,32 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :work_package do
-    ignore do
-      custom_values nil
-    end
-
-    priority
-    project factory: :project_with_types
-    status factory: :status
-    sequence(:subject) { |n| "WorkPackage No. #{n}" }
-    description { |i| "Description for '#{i.subject}'" }
-    author factory: :user
-    created_at { DateTime.now }
-    updated_at { DateTime.now }
-
-    callback(:after_build) do |work_package, evaluator|
-      work_package.type = work_package.project.types.first unless work_package.type
-
-      custom_values = evaluator.custom_values || {}
-
-      if custom_values.is_a? Hash
-        custom_values.each_pair do |custom_field_id, value|
-          work_package.custom_values.build custom_field_id: custom_field_id, value: value
-        end
-      else
-        custom_values.each { |cv| work_package.custom_values << cv }
+module API
+  module Errors
+    class PropertyFormatError < ErrorBase
+      def initialize(property, expected_format, actual_value)
+        message = I18n.t('api_v3.errors.invalid_format', property: property, expected_format: expected_format, actual: actual_value)
+        super 422, message
       end
     end
   end

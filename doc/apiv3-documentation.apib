@@ -180,6 +180,7 @@ embedded errors or simply state that multiple errors occured.
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
 * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
+* `urn:openproject-org:api:v3:errors:PropertyFormatError` (**HTTP 422**) - A property value was provided in a format that the server does not understand or accept
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 * `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
 
@@ -2644,6 +2645,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
     Returned if:
     * the client tries to modify a read-only property
     * a constraint for a property was violated
+    * a property was provided in an unreadable format
 
     + Body
 
