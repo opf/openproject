@@ -302,7 +302,10 @@ describe('inplaceEditor Directive', function() {
           describe('startEditing', function() {
             var registerActiveEditorScopeSpy;
             beforeEach(function() {
-              registerActiveEditorScopeSpy = sinon.spy(OverviewTabInplaceEditorConfig, 'registerActiveEditorScope');
+              registerActiveEditorScopeSpy = sinon.spy(
+                OverviewTabInplaceEditorConfig,
+                'registerActiveEditorScope'
+              );
               elementScope.startEditing();
             });
             it('should register the scope to a list of actives', function() {
@@ -312,7 +315,10 @@ describe('inplaceEditor Directive', function() {
           describe('discardEditing', function() {
             var deregisterActiveEditorScopeSpy;
             beforeEach(function() {
-              deregisterActiveEditorScopeSpy = sinon.spy(OverviewTabInplaceEditorConfig, 'deregisterActiveEditorScope');
+              deregisterActiveEditorScopeSpy = sinon.spy(
+                OverviewTabInplaceEditorConfig,
+                'deregisterActiveEditorScope'
+              );
               elementScope.discardEditing();
             });
             it('should register the scope to a list of actives', function() {
@@ -356,7 +362,7 @@ describe('inplaceEditor Directive', function() {
                     cb({
                       status: 500,
                       statusText: 'Nope'
-                    })
+                    });
                   }
                 };
               });

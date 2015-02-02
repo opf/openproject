@@ -26,7 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispatcher, OverviewTabInplaceEditorConfig) {
+module.exports = function(
+  $timeout, FocusHelper, PathHelper,
+  InplaceEditorDispatcher, OverviewTabInplaceEditorConfig) {
   return {
     restrict: 'A',
     transclude: false,
@@ -212,7 +214,8 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
     }
 
     function getDisplayTemplateUrl() {
-      return '/templates/components/inplace_editor/display/' + ($scope.displayStrategy || 'default') + '.html';
+      return '/templates/components/inplace_editor/display/' +
+        ($scope.displayStrategy || 'default') +'.html';
     }
 
   }
