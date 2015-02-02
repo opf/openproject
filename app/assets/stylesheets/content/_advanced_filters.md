@@ -1,6 +1,8 @@
 # Advanced filters
 
 ```
+@full-width
+
 <fieldset class="advanced-filters--container">
   <legend>Selected filters</legend>
   <ul class="advanced-filters--filters">
@@ -26,11 +28,22 @@
             <option value="6" label="Rejected">Rejected</option>
             <option value="2" label="In Progress">In Progress</option>
           </select>
-           <a href="" class="form-label no-decoration-on-hover" title="Toggle multiselect"><span class="icon-context icon-button icon-plus" title="Toggle multiselect"><span class="hidden-for-sighted">Toggle multiselect</span></span></a></span>
+          <a href="" class="form-label no-decoration-on-hover -transparent" ng-click="toggleMultiselect()" tabindex="0">
+            <span class="icon-context icon-button icon-add icon4" title="Enable multiselect" icon-name="add" icon-title="Enable multiselect" css-class="icon4">
+              <span class="hidden-for-sighted ng-binding">Enable multiselect</span>
+            </span>
+          </a>
+          </span>
         </div>
       </div>
       <div class="advanced-filters--remove-filter">
-        <span><span class="icon-context icon-button icon-delete2" title="Delete" icon-name="delete2" icon-title="Delete"><span class="hidden-for-sighted">Delete</span></span></span>
+        <span>
+          <a href="" class="">
+            <span class="icon-context icon-button icon-close advanced-filters--remove-filter-icon" title="Delete" icon-name="close" icon-title="Delete" css-class="advanced-filters--remove-filter-icon">
+              <span class="hidden-for-sighted ng-binding">Delete</span>
+            </span>
+          </a>
+        </span>
       </div>
     </li>
     <li class="advanced-filters--filter">
@@ -74,11 +87,22 @@
               GROPWITHREALLYRELLAYLONGNAMEA
             </option>
           </select>
-           <a href="" class="form-label no-decoration-on-hover" title="Toggle multiselect"><span class="icon-context icon-button icon-plus" title="Toggle multiselect"><span class="hidden-for-sighted">Toggle multiselect</span></span></a></span>
+          <a href="" class="form-label no-decoration-on-hover -transparent" ng-click="toggleMultiselect()" tabindex="0">
+            <span class="icon-context icon-button icon-add icon4" title="Enable multiselect" icon-name="add" icon-title="Enable multiselect" css-class="icon4">
+              <span class="hidden-for-sighted ng-binding">Enable multiselect</span>
+            </span>
+          </a>
+          </span>
         </div>
       </div>
       <div class="advanced-filters--remove-filter">
-        <span><span class="icon-context icon-button icon-delete2" title="Delete" icon-name="delete2" icon-title="Delete"><span class="hidden-for-sighted">Delete</span></span></span>
+        <span>
+          <a href="" class="">
+            <span class="icon-context icon-button icon-close advanced-filters--remove-filter-icon" title="Delete" icon-name="close" icon-title="Delete" css-class="advanced-filters--remove-filter-icon">
+              <span class="hidden-for-sighted ng-binding">Delete</span>
+            </span>
+          </a>
+        </span>
       </div>
     </li>
     <li id="filter_due_date" class="advanced-filters--filter">
@@ -97,11 +121,17 @@
       </div>
       <div class="advanced-filters--filter-value">
         <div id="div-values-due_date">
-           <span class="inline-label"><input class="advanced-filters--text-field" id="values-due_date" size="3" type="text" required><label for="values_" class="form-label">days</label></span>
+           <span class="inline-label"><input class="advanced-filters--text-field" id="values-due_date" size="3" type="text" required><label for="values_" class="form-label -transparent">days</label></span>
         </div>
       </div>
       <div class="advanced-filters--remove-filter">
-        <span><span class="icon-context icon-button icon-delete2" title="Delete" icon-name="delete2" icon-title="Delete"><span class="hidden-for-sighted">Delete</span></span></span>
+        <span>
+          <a href="" class="">
+            <span class="icon-context icon-button icon-close advanced-filters--remove-filter-icon" title="Delete" icon-name="close" icon-title="Delete" css-class="advanced-filters--remove-filter-icon">
+              <span class="hidden-for-sighted ng-binding">Delete</span>
+            </span>
+          </a>
+        </span>
       </div>
     </li>
     <li id="filter_start_date" class="advanced-filters--filter">
@@ -120,11 +150,17 @@
       </div>
       <div class="advanced-filters--filter-value">
         <div id="div-values-start_date">
-           <span class="inline-label" ><input class="advanced-filters--text-field" id="values-start_date" size="3" type="text" required> <label for="values_" class="form-label">days</label></span>
+           <span class="inline-label" ><input class="advanced-filters--text-field" id="values-start_date" size="3" type="text" required> <label for="values_" class="form-label -transparent">days</label></span>
         </div>
       </div>
       <div class="advanced-filters--remove-filter">
-        <span><span class="icon-context icon-button icon-delete2" title="Delete" icon-name="delete2" icon-title="Delete"><span class="hidden-for-sighted">Delete</span></span></span>
+        <span>
+          <a href="" class="">
+            <span class="icon-context icon-button icon-close advanced-filters--remove-filter-icon" title="Delete" icon-name="close" icon-title="Delete" css-class="advanced-filters--remove-filter-icon">
+              <span class="hidden-for-sighted ng-binding">Delete</span>
+            </span>
+          </a>
+        </span>
       </div>
     </li>
     <li id="filter_priority_id" class="advanced-filters--filter ng-hide">
@@ -137,7 +173,7 @@
       </div>
       <div class="advanced-filters--filter-value">
         <div>
-          <span class="inline-label"><select id="values-priority_id" class="form--select -small" style="vertical-align: top;">
+          <span class="inline-label"><select id="values-priority_id" class="form--select -small" multiple="true" style="vertical-align: top;">
             <option value="1" label="Low">
               Low
             </option>
@@ -154,11 +190,22 @@
               Immediate
             </option>
           </select>
-           <a href="" class="form-label no-decoration-on-hover" title="Toggle multiselect"><span class="icon-context icon-button icon-plus" title="Toggle multiselect"><span class="hidden-for-sighted">Toggle multiselect</span></span></a></span>
+          <a href="" class="form-label no-decoration-on-hover -transparent" tabindex="0">
+            <span class="icon-context icon-button icon-minus2 icon4" title="Disable multiselect" icon-name="minus2" icon-title="Disable multiselect" ng-if="isMultiselect" css-class="icon4">
+              <span class="hidden-for-sighted ng-binding">Disable multiselect</span>
+            </span>
+          </a>
+          </span>
         </div>
       </div>
       <div class="advanced-filters--remove-filter">
-        <span><span class="icon-context icon-button icon-delete2" title="Delete" icon-name="delete2" icon-title="Delete"><span class="hidden-for-sighted">Delete</span></span></span>
+        <span>
+          <a href="" class="">
+            <span class="icon-context icon-button icon-close advanced-filters--remove-filter-icon" title="Delete" icon-name="close" icon-title="Delete" css-class="advanced-filters--remove-filter-icon">
+              <span class="hidden-for-sighted ng-binding">Delete</span>
+            </span>
+          </a>
+        </span>
       </div>
     </li>
     <li id="filter_cf_8" class="advanced-filters--filter ng-hide">
@@ -193,11 +240,22 @@
               Zena Labadie
             </option>
           </select>
-           <a href="" class="form-label no-decoration-on-hover" title="Toggle multiselect"><span class="icon-context icon-button icon-plus" title="Toggle multiselect"><span class="hidden-for-sighted">Toggle multiselect</span></span></a></span>
+          <a href="" class="form-label no-decoration-on-hover -transparent" ng-click="toggleMultiselect()" tabindex="0">
+            <span class="icon-context icon-button icon-add icon4" title="Enable multiselect" icon-name="add" icon-title="Enable multiselect" css-class="icon4">
+              <span class="hidden-for-sighted ng-binding">Enable multiselect</span>
+            </span>
+          </a>
+          </span>
         </div>
       </div>
       <div class="advanced-filters--remove-filter">
-        <span><span class="icon-context icon-button icon-delete2" title="Delete" icon-name="delete2" icon-title="Delete"><span class="hidden-for-sighted">Delete</span></span></span>
+        <span>
+          <a href="" class="">
+            <span class="icon-context icon-button icon-close advanced-filters--remove-filter-icon" title="Delete" icon-name="close" icon-title="Delete" css-class="advanced-filters--remove-filter-icon">
+              <span class="hidden-for-sighted ng-binding">Delete</span>
+            </span>
+          </a>
+        </span>
       </div>
     </li>
     <li id="filter_done_ratio" class="advanced-filters--filter ng-hide">
@@ -218,9 +276,16 @@
         </div>
       </div>
       <div class="advanced-filters--remove-filter">
-        <span class="icon-context icon-button icon-delete2" title="Delete" icon-name="delete2" icon-title="Delete"><span class="hidden-for-sighted">Delete</span></span>
+        <span>
+          <a href="" class="">
+            <span class="icon-context icon-button icon-close advanced-filters--remove-filter-icon" title="Delete" icon-name="close" icon-title="Delete" css-class="advanced-filters--remove-filter-icon">
+              <span class="hidden-for-sighted ng-binding">Delete</span>
+            </span>
+          </a>
+        </span>
       </div>
     </li>
+    <li class="advanced-filters--spacer"></li>
     <li class="advanced-filters--add-filter">
       <label for="add_filter_select" class="advanced-filters--add-filter-label">Add filter:</label>
       <div class="advanced-filters--add-filter-value">
