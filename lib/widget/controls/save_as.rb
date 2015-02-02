@@ -36,13 +36,19 @@ class Widget::Controls::SaveAs < Widget::Controls
   end
 
   def render_popup_form
-    name = content_tag :p do
-      label_tag(:query_name, required_field_name(Query.human_attribute_name(:name))) +
-      text_field_tag(:query_name, @subject.name, required: true)
+    name = content_tag :p, class: 'inline-label' do
+      label_tag(:query_name,
+                required_field_name(Query.human_attribute_name(:name)),
+                class: 'form-label -transparent') +
+      text_field_tag(:query_name,
+                     @subject.name,
+                     required: true)
     end
     if @options[:can_save_as_public]
-      box = content_tag :p do
-        label_tag(:query_is_public, Query.human_attribute_name(:is_public)) +
+      box = content_tag :p, class: 'inline-label' do
+        label_tag(:query_is_public,
+                  Query.human_attribute_name(:is_public),
+                  class: 'form-label -transparent') +
         check_box_tag(:query_is_public)
       end
       name + box
@@ -52,19 +58,17 @@ class Widget::Controls::SaveAs < Widget::Controls
   end
 
   def render_popup_buttons
-    content_tag(:p) do
-      save = link_to(l(:button_save),
-                     '#',
-                     id: 'query-icon-save-button',
-                     class: 'button -highlight icon-context icon-save1',
-                     :"data-target" => url_for(action: 'create', set_filter: '1'))
+    save = link_to(l(:button_save),
+                   '#',
+                   id: 'query-icon-save-button',
+                   class: 'button -highlight icon-context icon-save1',
+                   :"data-target" => url_for(action: 'create', set_filter: '1'))
 
-      cancel = link_to(l(:button_cancel),
-                       '#',
-                       id: 'query-icon-save-as-cancel',
-                       class: 'button icon-context icon-cancel')
-      save + cancel
-    end
+    cancel = link_to(l(:button_cancel),
+                     '#',
+                     id: 'query-icon-save-as-cancel',
+                     class: 'button icon-context icon-cancel')
+    save + cancel
   end
 
   def render_popup

@@ -22,10 +22,9 @@
 require_dependency 'widget/filters/base'
 class Widget::Filters::Operators < Widget::Filters::Base
   def render
-    write(content_tag(:div, class: 'work-packages-filters--filter-operator') do
+    write(content_tag(:div, class: 'advanced-filters--filter-operator') do
       hide_select_box = (filter_class.available_operators.count == 1 || filter_class.heavy?)
-      options = { class: 'form--select -small filters-select filter_operator',
-                  style: 'vertical-align: top', # FIXME: put into CSS
+      options = { class: 'advanced-filters--select filters-select filter_operator',
                   id: "operators[#{filter_class.underscore_name}]",
                   name: "operators[#{filter_class.underscore_name}]",
                   :"data-filter-name" => filter_class.underscore_name }

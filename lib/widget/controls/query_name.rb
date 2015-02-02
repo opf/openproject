@@ -27,13 +27,6 @@ class Widget::Controls::QueryName < Widget::Controls
       icon = ''
     else
       name = @subject.name
-      if @options[:can_rename]
-        icon = content_tag :a, href: '#', class: 'icon-rename icon',
-                               id: 'query-name-edit-button', title: "#{l(:button_rename)}" do
-          l(:button_rename)
-        end
-        options['data-update-url'] = url_for(action: 'rename', id: @subject.id)
-      end
       options['data-is_public'] = @subject.public?
       options['data-is_new'] = @subject.new_record?
     end
@@ -41,11 +34,6 @@ class Widget::Controls::QueryName < Widget::Controls
   end
 
   def translations
-    { rename: l(:button_rename),
-      cancel: l(:button_cancel),
-      loading: l(:label_loading),
-      clickToEdit: l(:label_click_to_edit),
-      isPublic: l(:field_is_public),
-      saving: l(:label_saving) }.to_json
+    { isPublic: l(:field_is_public) }.to_json
   end
 end
