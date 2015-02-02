@@ -42,6 +42,7 @@
 
           <input ng-switch-when="string"
                  ng-model="filter.textValue"
+                 ng-model-options="::filterModelOptions"
                  ng-required="true"
                  class="advanced-filters--text-field"
                  id="values-{{filter.name}}"
@@ -58,6 +59,7 @@
 
           <input ng-switch-when="text"
                  ng-model="filter.textValue"
+                 ng-model-options="::filterModelOptions"
                  ng-required="true"
                  class="advanced-filters--text-field"
                  id="values-{{filter.name}}"
@@ -72,6 +74,7 @@
 
           <input ng-switch-when="integer"
                  ng-model="filter.textValue"
+                 ng-model-options="::filterModelOptions"
                  ng-required="true"
                  class="advanced-filters--number-field"
                  id="values-{{filter.name}}"
@@ -86,6 +89,7 @@
 
           <span class="inline-label" ng-switch-when="date">
             <input ng-model="filter.textValue"
+                   ng-model-options="::filterModelOptions"
                    ng-required="true"
                    class="advanced-filters--text-field"
                    id="values-{{filter.name}}"
@@ -100,6 +104,7 @@
 
           <span class="inline-label" ng-switch-when="date_past">
             <input ng-model="filter.textValue"
+                   ng-model-options="::filterModelOptions"
                    ng-required="true"
                    class="advanced-filters--text-field"
                    id="values-{{filter.name}}"
