@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 shared_examples_for 'has ISO 8601 date only' do
-  let(:iso_date_only_string) { '%d-%02d-%02d' % [ date.year, date.month, date.day ] }
+  let(:iso_date_only_string) { '%d-%02d-%02d' % [date.year, date.month, date.day] }
 
   it 'exists' do
     is_expected.to have_json_path(json_path)

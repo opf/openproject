@@ -202,7 +202,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         let(:dateString) { '31.01.2015' }
 
         it 'raises an error' do
-          expect{ subject }.to raise_error(API::Errors::PropertyFormatError)
+          expect { subject }.to raise_error(API::Errors::PropertyFormatError)
         end
       end
 
@@ -210,7 +210,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         let(:dateString) { '2015-01-31T13:37:00Z' }
 
         it 'raises an error' do
-          expect{ subject }.to raise_error(API::Errors::PropertyFormatError)
+          expect { subject }.to raise_error(API::Errors::PropertyFormatError)
         end
       end
     end
@@ -242,7 +242,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         let(:dateString) { '31.01.2015' }
 
         it 'raises an error' do
-          expect{ subject }.to raise_error(API::Errors::PropertyFormatError)
+          expect { subject }.to raise_error(API::Errors::PropertyFormatError)
         end
       end
 
@@ -250,7 +250,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         let(:dateString) { '2015-01-31T13:37:00Z' }
 
         it 'raises an error' do
-          expect{ subject }.to raise_error(API::Errors::PropertyFormatError)
+          expect { subject }.to raise_error(API::Errors::PropertyFormatError)
         end
       end
     end
