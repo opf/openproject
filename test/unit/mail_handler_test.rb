@@ -548,7 +548,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_new_user_from_attributes_should_use_default_login_if_invalid
-    user = MailHandler.new_user_from_attributes('foo+bar@example.net')
+    user = MailHandler.new_user_from_attributes('foo?bar@example.net')
     assert user.valid?
     assert user.login =~ /^user[a-f0-9]+$/
     assert_equal 'foo+bar@example.net', user.mail
