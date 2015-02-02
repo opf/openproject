@@ -98,7 +98,7 @@ gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git',
 gem 'sass',             '~> 3.4.9'
 gem 'bourbon',          '~> 4.1.1'
 gem 'uglifier',         '>= 1.0.3', require: false
-gem 'livingstyleguide', '~> 1.2.0'
+gem 'livingstyleguide', '~> 1.2.2'
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
