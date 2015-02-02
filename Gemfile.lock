@@ -351,7 +351,7 @@ GEM
       i18n
       iso8601
     ruby-prof (0.13.0)
-    ruby-progressbar (1.2.0)
+    ruby-progressbar (1.7.1)
     rubytree (0.8.3)
       json (>= 1.7.5)
       structured_warnings (>= 0.1.3)
