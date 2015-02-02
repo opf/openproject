@@ -492,6 +492,44 @@ describe 'API v3 Work package form resource', type: :request do
               end
             end
 
+            describe 'priority' do
+              let(:path) { '_embedded/payload/_links/priority/href' }
+              let(:links_path) { '_embedded/schema/priority/_links' }
+              let(:target_priority) { FactoryGirl.create(:priority) }
+              let(:other_priority) { work_package.priority }
+              let(:priority_link) { "/api/v3/priorities/#{target_priority.id}" }
+              let(:other_priority_link) { "/api/v3/priorities/#{other_priority.id}" }
+              let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
+              let(:params) { valid_params.merge(priority_parameter) }
+
+              describe 'allowed values' do
+                before do
+                  other_priority
+                end
+
+                include_context 'post request'
+
+                it 'should list the priorities' do
+                  expect(subject.body).to be_json_eql(priority_link.to_json)
+                                            .at_path("#{links_path}/allowedValues/1/href")
+                  expect(subject.body).to be_json_eql(other_priority_link.to_json)
+                                            .at_path("#{links_path}/allowedValues/0/href")
+                end
+              end
+
+              context 'valid priority' do
+                include_context 'post request'
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package priority' do
+                  expect(subject.body).to be_json_eql(priority_link.to_json).at_path(path)
+                end
+              end
+            end
+
             describe 'multiple errors' do
               let(:user_link) { '/api/v3/users/42' }
               let(:status_link) { '/api/v3/statuses/-1' }

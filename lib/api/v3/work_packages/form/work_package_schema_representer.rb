@@ -81,14 +81,15 @@ module API
           property :version,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     version_origin = represented
-
-                     if represented.persisted? && represented.fixed_version_id_changed?
-                       version_origin = represented.class.find(represented.id)
-                     end
-
-                     SchemaAllowedVersionsRepresenter.new(version_origin.assignable_versions,
+                     SchemaAllowedVersionsRepresenter.new(represented.assignable_versions,
                                                           current_user: current_user)
+                   }
+
+          property :priority,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     SchemaAllowedPrioritiesRepresenter.new(represented.assignable_priorities,
+                                                            current_user: current_user)
                    }
 
           def current_user

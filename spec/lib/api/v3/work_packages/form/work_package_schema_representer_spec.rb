@@ -184,6 +184,44 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
         end
       end
 
+      describe 'priorities' do
+        shared_examples_for 'contains priorities' do
+          it_behaves_like 'linked property', 'priority', 'Priority'
+
+          it 'contains valid links to priorities' do
+            priority_links = priorities.map do |priority|
+              { href: "/api/v3/priorities/#{priority.id}", title: priority.name }
+            end
+
+            is_expected.to be_json_eql(priority_links.to_json)
+                             .at_path('priority/_links/allowedValues')
+          end
+
+          it 'embeds priorities' do
+            priorities.each_with_index do |priority, i|
+              is_expected.to be_json_eql(priority.id.to_json)
+                               .at_path("priority/_embedded/allowedValues/#{i}/id")
+            end
+          end
+        end
+
+        context 'w/o allowed priorities' do
+          before { allow(work_package).to receive(:assignable_priorities).and_return([]) }
+
+          it_behaves_like 'contains priorities' do
+            let(:priorities) { [] }
+          end
+        end
+
+        context 'with allowed priorities' do
+          let(:priorities) { FactoryGirl.build_stubbed_list(:priority, 3) }
+
+          before { allow(work_package).to receive(:assignable_priorities).and_return(priorities) }
+
+          it_behaves_like 'contains priorities'
+        end
+      end
+
       describe 'responsible and assignee' do
         let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
 

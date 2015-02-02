@@ -321,6 +321,7 @@ en:
     mail: "Email"
     name: "Name"
     password: "Password"
+    priority: "Priority"
     project: "Project"
     responsible: "Responsible"
     role: "Role"
