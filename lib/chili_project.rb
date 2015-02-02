@@ -28,6 +28,10 @@
 #++
 
 module ChiliProject
+  VERSION = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
+    'ChiliProject::VERSION', 'OpenProject::VERSION'
+  )
+
   Database = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
     'ChiliProject::Database', 'OpenProject::Database'
   )
