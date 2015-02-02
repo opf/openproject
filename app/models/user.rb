@@ -229,7 +229,7 @@ class User < Principal
     end
   end
 
-  register_allowance_evaluator ChiliProject::PrincipalAllowanceEvaluator::Default
+  register_allowance_evaluator OpenProject::PrincipalAllowanceEvaluator::Default
 
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password)
