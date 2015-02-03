@@ -45,15 +45,15 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     formattedDate: function(date) {
-      var date;
+      var formatted;
 
       if (ConfigurationService.dateFormatPresent()) {
-        date = TimezoneService.parseDate(date).format(ConfigurationService.dateFormat());
+        formatted = TimezoneService.parseDate(date).format(ConfigurationService.dateFormat());
       } else {
-        date = TimezoneService.parseDate(date).format('L');
+        formatted = TimezoneService.parseDate(date).format('L');
       }
 
-      return date;
+      return formatted;
     },
 
     formattedTime: function(date) {
@@ -66,7 +66,7 @@ module.exports = function(ConfigurationService, I18n) {
       }
 
       return time;
-    },
+    }
   };
 
   return TimezoneService;
