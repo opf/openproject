@@ -35,7 +35,6 @@ class BoardsController < ApplicationController
   before_filter :find_board_if_available, except: [:index]
   accept_key_auth :index, :show
 
-  include MessagesHelper
   include SortHelper
   include WatchersHelper
   include PaginationHelper
