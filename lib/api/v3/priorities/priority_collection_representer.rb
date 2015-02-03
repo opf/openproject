@@ -29,13 +29,13 @@
 
 require 'roar/decorator'
 require 'representable/json/collection'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module V3
     module Priorities
       class PriorityCollectionRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
+        include Roar::JSON::HAL
         include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new

@@ -30,22 +30,53 @@ require 'spec_helper'
 
 describe ::API::V3::Categories::CategoryRepresenter do
   let(:category) { FactoryGirl.build(:category) }
-  let(:model) { ::API::V3::Categories::CategoryModel.new(category) }
-  let(:representer) { described_class.new(model) }
+  let(:user) { FactoryGirl.build(:user) }
+  let(:representer) { described_class.new(category) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('Category'.to_json).at_path('_type') }
+    shared_examples_for 'category has core values' do
+      it { is_expected.to include_json('Category'.to_json).at_path('_type') }
 
-    xit { should have_json_type(Object).at_path('_links') }
-    xit 'should link to self' do
-      expect(subject).to have_json_path('_links/self/href')
+      it { is_expected.to have_json_type(Object).at_path('_links') }
+      it 'should link to self' do
+        expect(subject).to have_json_path('_links/self/href')
+      end
+      it 'should display its name as title in self' do
+        expect(subject).to have_json_path('_links/self/title')
+      end
+      it 'should link to its project' do
+        expect(subject).to have_json_path('_links/project/href')
+      end
+      it 'should display its project title' do
+        expect(subject).to have_json_path('_links/project/title')
+      end
+
+      it { is_expected.to have_json_path('id') }
+      it { is_expected.to have_json_path('name') }
     end
 
-    describe 'category' do
-      it { should have_json_path('id') }
-      it { should have_json_path('name') }
+    context 'default assignee not set' do
+      it_behaves_like 'category has core values'
+
+      it 'should not link to an assignee' do
+        expect(subject).to_not have_json_path('_links/user')
+      end
+    end
+
+    context 'default assignee set' do
+      let(:category) {
+        FactoryGirl.build(:category, assigned_to: user)
+      }
+      it_behaves_like 'category has core values'
+
+      it 'should link to its default assignee' do
+        expect(subject).to have_json_path('_links/user/href')
+      end
+      it 'should display the name of its default assignee' do
+        expect(subject).to have_json_path('_links/user/title')
+      end
     end
   end
 end

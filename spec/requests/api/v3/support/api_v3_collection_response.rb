@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,27 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Categories
-      class CategoriesAPI < Grape::API
+require 'spec_helper'
 
-        resources :categories do
+shared_examples_for 'API V3 collection response' do |total, count, type|
+  subject { response.body }
 
-          namespace ':id' do
+  it { expect(response.status).to eql(200) }
 
-            before do
-              @category = Category.find(params[:id])
-              authorize(:view_project, context: @category.project)
-            end
+  it { is_expected.to be_json_eql('Collection'.to_json).at_path('_type') }
 
-            get do
-              CategoryRepresenter.new(@category)
-            end
-          end
-        end
+  it { is_expected.to be_json_eql(count.to_json).at_path('count') }
 
-      end
+  it { is_expected.to be_json_eql(total.to_json).at_path('total') }
+
+  it { is_expected.to have_json_size(count) .at_path('_embedded/elements') }
+
+  it 'has element of specified type if elements exist' do
+    if count > 0
+      is_expected.to be_json_eql(type.to_json).at_path('_embedded/elements/0/_type')
     end
   end
 end

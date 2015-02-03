@@ -40,14 +40,14 @@ module API
             before do
               @project = Project.find(params[:id])
               @model   = ProjectModel.new(@project)
+              authorize(:view_project, context: @project)
             end
 
             get do
-              authorize(:view_project, context: @project)
               ProjectRepresenter.new(@model)
             end
 
-            mount API::V3::Categories::CategoriesAPI
+            mount API::V3::Categories::CategoriesByProjectAPI
             mount API::V3::Versions::VersionsAPI
           end
 

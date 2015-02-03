@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,36 +29,12 @@
 require 'spec_helper'
 
 describe ::API::V3::Categories::CategoryCollectionRepresenter do
-  let(:project)    { FactoryGirl.build(:project, id: 888) }
   let(:categories) { FactoryGirl.build_list(:category, 3) }
-  let(:models)     { categories.map { |category|
-    ::API::V3::Categories::CategoryModel.new(category)
-  } }
-  let(:representer) { described_class.new(models, project) }
-
-  describe '#initialize' do
-    context 'with incorrect parameters' do
-      it 'should raise without a project' do
-        expect { described_class.new(models) }.to raise_error(ArgumentError)
-      end
-    end
-  end
+  let(:representer) { described_class.new(categories, 42, '/api/v3/projects/1/categories') }
 
   context 'generation' do
-    subject(:generated) { representer.to_json }
+    subject(:collection) { representer.to_json }
 
-    it { should include_json('Categories'.to_json).at_path('_type') }
-
-    it { should have_json_type(Object).at_path('_links') }
-    it 'should link to self' do
-      expect(generated).to have_json_path('_links/self/href')
-      expect(parse_json(generated, '_links/self/href')).to match %r{/api/v3/projects/888/categories$}
-    end
-
-    describe 'categories' do
-      it { should have_json_path('_embedded/categories') }
-      it { should have_json_size(3).at_path('_embedded/categories') }
-      it { should have_json_path('_embedded/categories/2/name') }
-    end
+    it_behaves_like 'API V3 collection decorated', 42, 3, 'projects/1/categories', 'Category'
   end
 end
