@@ -45,6 +45,11 @@ module.exports = function(
       scope.I18n = I18n;
       scope.isLoading = false; // shadow isLoading as its used for a different purpose in this context
 
+      scope.filterModelOptions = {
+        updateOn: 'default blur',
+        debounce: { 'default': 400, 'blur': 0 }
+      };
+
       $animate.enabled(false, element);
       scope.showValueOptionsAsSelect = !scope.filter.isSingleInputField();
 
