@@ -81,9 +81,11 @@ module Redmine
       def remove_modules_permissions(module_name)
         permissions = @permissions
 
+        module_permissions = permissions.select { |p| p.project_module.to_s == module_name.to_s }
+
         reset
 
-        @permissions = permissions - permissions.select { |p| p.project_module.to_s == module_name.to_s }
+        @permissions = permissions - module_permissions
       end
 
       def reset

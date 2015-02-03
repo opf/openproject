@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -25,26 +24,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++project_module
+#++
 
-module OpenProject::Plugins
-  class ModuleHandler
-    @@disabled_modules = []
+require 'spec_helper'
+describe Redmine::AccessControl do
+  after do
+    Redmine::AccessControl.map do |mapper|
+      mapper.project_module :repository do |map|
+        map.permission :manage_repository,
+                       { repositories: [:edit, :committers, :destroy] },
+                       require: :member
 
-    class << self
-      def disable_modules(module_names)
-        @@disabled_modules += Array(module_names).map(&:to_sym)
-      end
+        map.permission :browse_repository,
+                       repositories: [:show, :browse, :entry,
+                                      :annotate, :changes, :diff,
+                                      :stats, :graph]
 
-      def disable(disabled_modules)
-        disabled_modules.map do |module_name|
-          Redmine::AccessControl.remove_modules_permissions(module_name)
-        end
+        map.permission :view_changesets, repositories: [:show, :revisions, :revision]
+        map.permission :commit_access, {}
+        map.permission :view_commit_author_statistics, {}
       end
     end
+  end
+  
+  describe '#remove_modules_permissions' do
+    before_delete = Redmine::AccessControl.permissions.map(&:name)
+    Redmine::AccessControl.remove_modules_permissions(:repository)
+    after_delete = Redmine::AccessControl.permissions.map(&:name)
 
-    OpenProject::Application.config.to_prepare do
-      OpenProject::Plugins::ModuleHandler.disable(@@disabled_modules)
-    end
+    it { expect(after_delete).to_not eql(before_delete) }
   end
 end

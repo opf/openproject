@@ -28,11 +28,30 @@
 
 require 'spec_helper'
 describe OpenProject::Plugins::ModuleHandler do
-  let(:disabled_modules) { OpenProject::Plugins::ModuleHandler.disable_modules('repository') }
 
-  before { OpenProject::Plugins::ModuleHandler.disable(disabled_modules) }
+  after do
+    Redmine::AccessControl.map do |mapper|
+      mapper.project_module :repository do |map|
+        map.permission :manage_repository,
+                       { repositories: [:edit, :committers, :destroy] },
+                       require: :member
 
-  describe 'disable module' do
+        map.permission :browse_repository,
+                       repositories: [:show, :browse, :entry,
+                                      :annotate, :changes, :diff,
+                                      :stats, :graph]
+
+        map.permission :view_changesets, repositories: [:show, :revisions, :revision]
+        map.permission :commit_access, {}
+        map.permission :view_commit_author_statistics, {}
+      end
+    end
+  end
+
+  describe '#disable' do
+    disabled_modules = OpenProject::Plugins::ModuleHandler.disable_modules('repository')
+    OpenProject::Plugins::ModuleHandler.disable(disabled_modules)
+
     it { expect(Redmine::AccessControl.available_project_modules).to_not include(:repository) }
   end
 end
