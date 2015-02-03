@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global < ChiliProject::PrincipalAllowanceEvaluator::Base
+class OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global < OpenProject::PrincipalAllowanceEvaluator::Base
 
   def granted_for_global? membership, action, options
     return false unless membership.is_a?(PrincipalRole)
