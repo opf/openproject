@@ -62,6 +62,10 @@ module API
             "#{project(project_id)}/categories"
           end
 
+          def self.category(id)
+            "#{root}/categories/#{id}"
+          end
+
           def self.preview_textile(link)
             preview_markup(:textile, link)
           end
