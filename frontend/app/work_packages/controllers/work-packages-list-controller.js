@@ -208,7 +208,7 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     clearUrlQueryParams();
 
     // Load new query
-    $state.go('work-packages.list', { query_id: queryId });
+    $scope.settingUpPage = $state.go('work-packages.list', { 'query_id': queryId });
   };
 
   function updateResults() {
@@ -262,7 +262,12 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
   });
 
   $scope.openLatestTab = function() {
-    $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId, query_props: $location.search().query_props });
+    $scope.settingUpPage = $state.go(
+      latestTab.getStateName(),
+      {
+        workPackageId: $scope.preselectedWorkPackageId,
+        'query_props': $location.search()['query_props']
+      });
   };
 
   $scope.closeDetailsView = function() {
@@ -276,7 +281,10 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
 
   $scope.showWorkPackageDetails = function(id, force) {
     if (force || $state.current.url != "") {
-      $state.go(latestTab.getStateName(), { workPackageId: id, query_props: $location.search().query_props  });
+      $scope.settingUpPage = $state.go(
+        latestTab.getStateName(),
+        { workPackageId: id, 'query_props': $location.search()['query_props'] }
+      );
     }
   };
 };
