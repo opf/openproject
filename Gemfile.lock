@@ -114,7 +114,7 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
       activesupport (>= 3.0)
-    cocaine (0.5.4)
+    cocaine (0.5.5)
       climate_control (>= 0.0.3, < 1.0)
     codeclimate-test-reporter (0.1.1)
       simplecov (>= 0.7.1, < 1.0.0)
@@ -415,7 +415,7 @@ DEPENDENCIES
   bourbon (~> 4.0.2)
   capybara (~> 2.3.0)
   capybara-screenshot (~> 1.0.4)
-  cocaine
+  cocaine (~> 0.5.5)
   codeclimate-test-reporter
   coderay (~> 1.0.9)
   color-tools (~> 1.3.0)

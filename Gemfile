@@ -108,7 +108,7 @@ gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/protot
 gem 'i18n-js', '~> 3.0.0.rc6'
 
 # small wrapper around the command line
-gem 'cocaine'
+gem 'cocaine', '~> 0.5.5'
 
 # required by Procfile, for deployment on heroku or packaging with packager.io.
 # also, better than thin since we can control worker concurrency.
