@@ -90,8 +90,8 @@ describe ::API::V3::Versions::VersionRepresenter do
       it { is_expected.to be_json_eql(version.start_date.to_json).at_path('startDate') }
       it { is_expected.to be_json_eql(version.due_date.to_json).at_path('endDate') }
       it { is_expected.to be_json_eql(version.status.to_json).at_path('status') }
-      it { is_expected.to be_json_eql(version.created_on.to_json).at_path('createdAt') }
-      it { is_expected.to be_json_eql(version.updated_on.to_json).at_path('updatedAt') }
+      it { is_expected.to be_json_eql(version.created_on.utc.iso8601.to_json).at_path('createdAt') }
+      it { is_expected.to be_json_eql(version.updated_on.utc.iso8601.to_json).at_path('updatedAt') }
     end
   end
 end

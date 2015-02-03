@@ -29,6 +29,7 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
+require 'api/v3/utilities/date_time_formatter'
 
 module API
   module V3
@@ -37,6 +38,7 @@ module API
         class WorkPackagePayloadRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
+          include API::V3::Utilities
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -84,19 +86,23 @@ module API
           property :start_date,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     represented.start_date.to_date.iso8601 unless represented.start_date.nil?
+                     DateTimeFormatter::format_date(represented.start_date, allow_nil: true)
                    },
                    setter: -> (value, *) {
-                     represented.start_date = parse_date_only(value, 'startDate')
+                     represented.start_date = DateTimeFormatter::parse_date(value,
+                                                                            'startDate',
+                                                                            allow_nil: true)
                    },
                    render_nil: true
           property :due_date,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     represented.due_date.to_date.iso8601 unless represented.due_date.nil?
+                     DateTimeFormatter::format_date(represented.due_date, allow_nil: true)
                    },
                    setter: -> (value, *) {
-                     represented.due_date = parse_date_only(value, 'dueDate')
+                     represented.due_date = DateTimeFormatter::parse_date(value,
+                                                                          'dueDate',
+                                                                          allow_nil: true)
                    },
                    render_nil: true
           property :version_id,
@@ -120,27 +126,6 @@ module API
 
           def description_renderer
             ::API::Utilities::Renderer::TextileRenderer.new(represented.description, represented)
-          end
-
-          def parse_date_only(value, property_name)
-            return nil if value.nil?
-
-            begin
-              date_and_time = DateTime.iso8601(value)
-            rescue ArgumentError
-              raise API::Errors::PropertyFormatError.new(property_name, 'YYYY-MM-DD', value)
-            end
-
-            date_only = date_and_time.to_date
-
-            # we only want to accept "timeless" dates, e.g. "2015-01-31",
-            # but not "2015-01-31T01:02:03".
-            # However Date.iso8601 is too generous and would accept that
-            unless date_and_time == date_only
-              raise API::Errors::PropertyFormatError.new(property_name, 'YYYY-MM-DD', value)
-            end
-
-            date_only
           end
         end
       end

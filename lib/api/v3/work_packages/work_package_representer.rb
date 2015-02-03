@@ -29,12 +29,13 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
+require 'api/v3/utilities/date_time_formatter'
 
 module API
   module V3
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
-        include OpenProject::TextFormatting
+        include API::V3::Utilities
 
         link :self do
           {
@@ -242,24 +243,25 @@ module API
 
         property :start_date,
                  getter: -> (*) do
-                   start_date.to_date.iso8601 unless start_date.nil?
+                   DateTimeFormatter::format_date(start_date, allow_nil: true)
                  end,
                  render_nil: true
         property :due_date,
                  getter: -> (*) do
-                   due_date.to_date.iso8601 unless due_date.nil?
+                   DateTimeFormatter::format_date(due_date, allow_nil: true)
                  end,
                  render_nil: true
         property :estimated_time,
                  getter: -> (*) do
-                   Duration.new(hours_and_minutes(represented.estimated_hours)).iso8601
+                   DateTimeFormatter::format_duration_from_hours(represented.estimated_hours,
+                                                                 allow_nil: true)
                  end,
                  exec_context: :decorator,
                  render_nil: true,
                  writeable: false
         property :spent_time,
                  getter: -> (*) do
-                   Duration.new(hours_and_minutes(represented.spent_hours)).iso8601
+                   DateTimeFormatter::format_duration_from_hours(represented.spent_hours)
                  end,
                  writeable: false,
                  exec_context: :decorator,
@@ -277,8 +279,8 @@ module API
         property :project_id, getter: -> (*) { project.id }
         property :project_name, getter: -> (*) { project.try(:name) }
         property :parent_id, writeable: true
-        property :created_at, getter: -> (*) { created_at.utc.iso8601 }, render_nil: true
-        property :updated_at, getter: -> (*) { updated_at.utc.iso8601 }, render_nil: true
+        property :created_at, getter: -> (*) { DateTimeFormatter::format_datetime(created_at) }
+        property :updated_at, getter: -> (*) { DateTimeFormatter::format_datetime(updated_at) }
 
         collection :custom_properties, exec_context: :decorator, render_nil: true
 
@@ -388,13 +390,6 @@ module API
 
         def description_renderer
           ::API::Utilities::Renderer::TextileRenderer.new(represented.description, represented)
-        end
-
-        def hours_and_minutes(hours)
-          hours = hours.to_f
-          minutes = (hours - hours.to_i) * 60
-
-          { hours: hours.to_i, minutes: minutes }
         end
 
         def current_user

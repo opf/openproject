@@ -42,8 +42,8 @@ describe ::API::V3::Projects::ProjectRepresenter do
       it { should have_json_path('identifier') }
       it { should have_json_path('name') }
       it { should have_json_path('description') }
-      it { should have_json_path('createdOn') }
-      it { should have_json_path('updatedOn') }
+      it { should have_json_path('createdAt') }
+      it { should have_json_path('updatedAt') }
       it { should have_json_path('type') }
     end
 
