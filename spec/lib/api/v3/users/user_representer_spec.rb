@@ -127,7 +127,7 @@ describe ::API::V3::Users::UserRepresenter do
     describe 'avatar' do
       before do
         user.mail = 'foo@bar.com'
-        Setting.stub(:gravatar_enabled?).and_return(true)
+        allow(Setting).to receive(:gravatar_enabled?).and_return(true)
       end
 
       it 'should have an url to gravatar if settings permit and mail is set' do
@@ -135,7 +135,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       it 'should be blank if gravatar is disabled' do
-        Setting.stub(:gravatar_enabled?).and_return(false)
+        allow(Setting).to receive(:gravatar_enabled?).and_return(false)
 
         expect(parse_json(subject, 'avatar')).to be_blank
       end

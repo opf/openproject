@@ -118,7 +118,7 @@ describe SearchController, type: :controller do
                            version: 2
       }
 
-      before { Journal.any_instance.stub(predecessor: note_1) }
+      before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
 
       context 'and second note' do
         let!(:note_2) {

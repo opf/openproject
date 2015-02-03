@@ -50,7 +50,7 @@ feature 'Query menu items' do
   end
 
   before do
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   after do

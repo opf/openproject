@@ -6,7 +6,7 @@ describe 'projects/settings', type: :view do
   describe 'project copy permission' do
     before do
       assign(:project, project)
-      view.stub(:render_tabs).and_return('')
+      allow(view).to receive(:render_tabs).and_return('')
     end
 
     context 'when project copy is allowed' do

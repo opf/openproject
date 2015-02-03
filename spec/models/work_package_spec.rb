@@ -1726,7 +1726,7 @@ describe WorkPackage, type: :model do
         }
 
         before do
-          Setting.stub(:cross_project_work_package_relations?).and_return(true)
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
 
           other_work_package.parent = work_package
           other_work_package.save!

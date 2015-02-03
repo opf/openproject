@@ -143,10 +143,10 @@ describe WorkPackagesController, type: :controller do
 
         # Note: Stubs for methods used to build up the json query results.
         # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
-        query.stub_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
-        query.stub_chain(:results, :work_package_count_by_group).and_return([])
-        query.stub_chain(:results, :column_total_sums).and_return([])
-        query.stub_chain(:results, :column_group_sums).and_return([])
+        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
+        allow(query).to receive_message_chain(:results, :work_package_count_by_group).and_return([])
+        allow(query).to receive_message_chain(:results, :column_total_sums).and_return([])
+        allow(query).to receive_message_chain(:results, :column_group_sums).and_return([])
         allow(query).to receive(:as_json).and_return('')
       end
 
@@ -1115,7 +1115,7 @@ describe WorkPackagesController, type: :controller do
       let!(:original_description) { work_package.description }
 
       before do
-        User.stub(:current).and_return user
+        allow(User).to receive(:current).and_return user
 
         put 'update', wp_params
 

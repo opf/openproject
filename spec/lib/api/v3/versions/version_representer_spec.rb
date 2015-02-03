@@ -39,11 +39,11 @@ describe ::API::V3::Versions::VersionRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('Version'.to_json).at_path('_type') }
+    it { is_expected.to include_json('Version'.to_json).at_path('_type') }
 
     describe 'links' do
 
-      it { should have_json_type(Object).at_path('_links') }
+      it { is_expected.to have_json_type(Object).at_path('_links') }
 
       describe 'to self' do
         it_behaves_like 'has a titled link' do

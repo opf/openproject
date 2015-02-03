@@ -92,7 +92,7 @@ describe 'API v3 User resource', type: :request do
       end
 
       it 'should delete the account' do
-        expect(User.exists?(user.id)).not_to be_true
+        expect(User.exists?(user.id)).not_to be_truthy
       end
 
       context 'with a non-existent user' do
@@ -119,7 +119,7 @@ describe 'API v3 User resource', type: :request do
       end
 
       it 'should not delete the user' do
-        expect(User.exists?(user.id)).to be_true
+        expect(User.exists?(user.id)).to be_truthy
       end
     end
 
