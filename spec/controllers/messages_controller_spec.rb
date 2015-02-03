@@ -50,8 +50,8 @@ describe MessagesController, type: :controller do
 
   before { allow(User).to receive(:current).and_return user }
 
-  describe :create do
-    context :attachments do
+  describe '#create' do
+    context 'attachments' do
       # see ticket #2464 on OpenProject.org
       context 'new attachment on new messages' do
         before do
@@ -67,7 +67,7 @@ describe MessagesController, type: :controller do
                                                  'description' => '' } }
         end
 
-        describe :journal do
+        describe '#journal' do
           let(:attachment_id) { "attachments_#{Message.last.attachments.first.id}" }
 
           subject { Message.last.journals.last.changed_data }
@@ -80,7 +80,7 @@ describe MessagesController, type: :controller do
     end
   end
 
-  describe :update do
+  describe '#update' do
     let(:message) { FactoryGirl.create :message, board: board }
     let(:other_board) { FactoryGirl.create :board, project: project }
 
@@ -94,7 +94,7 @@ describe MessagesController, type: :controller do
     end
   end
 
-  describe :attachment do
+  describe '#attachment' do
     let!(:message) { FactoryGirl.create(:message) }
     let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
     let(:params) {
@@ -103,7 +103,7 @@ describe MessagesController, type: :controller do
                                 'description' => '' } } }
     }
 
-    describe :add do
+    describe '#add' do
       before do
         allow_any_instance_of(Message).to receive(:editable_by?).and_return(true)
 
@@ -120,13 +120,13 @@ describe MessagesController, type: :controller do
           put :update, params
         end
 
-        describe :view do
+        describe '#view' do
           subject { response }
 
           it { is_expected.to render_template('messages/edit', formats: ['html']) }
         end
 
-        describe :error do
+        describe '#error' do
           subject { assigns(:message).errors.messages }
 
           it { is_expected.to have_key(:attachments) }
@@ -135,20 +135,20 @@ describe MessagesController, type: :controller do
         end
       end
 
-      context :journal do
+      context 'journal' do
         before do
           put :update, params
 
           message.reload
         end
 
-        describe :key do
+        describe '#key' do
           subject { message.journals.last.changed_data }
 
           it { is_expected.to have_key attachment_id }
         end
 
-        describe :value do
+        describe '#value' do
           subject { message.journals.last.changed_data[attachment_id].last }
 
           it { is_expected.to eq(filename) }
@@ -156,7 +156,7 @@ describe MessagesController, type: :controller do
       end
     end
 
-    describe :remove do
+    describe '#remove' do
       let!(:attachment) {
         FactoryGirl.create(:attachment,
                            container: message,
@@ -176,16 +176,16 @@ describe MessagesController, type: :controller do
         message.reload
       end
 
-      context :journal do
+      context 'journal' do
         let(:attachment_id) { "attachments_#{attachment.id}" }
 
-        describe :key do
+        describe '#key' do
           subject { message.journals.last.changed_data }
 
           it { is_expected.to have_key attachment_id }
         end
 
-        describe :value do
+        describe '#value' do
           subject { message.journals.last.changed_data[attachment_id].first }
 
           it { is_expected.to eq(filename) }

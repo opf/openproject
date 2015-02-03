@@ -91,7 +91,7 @@ describe SearchController, type: :controller do
 
     it_behaves_like 'successful search'
 
-    describe :result do
+    describe '#result' do
 
       it { expect(assigns(:results).count).to be(2) }
 
@@ -99,7 +99,7 @@ describe SearchController, type: :controller do
 
       it { expect(assigns(:results)).to include(work_package_2) }
 
-      describe :view do
+      describe '#view' do
         render_views
 
         it 'marks closed work packages' do
@@ -140,13 +140,13 @@ describe SearchController, type: :controller do
 
         it_behaves_like 'successful search'
 
-        describe :result do
+        describe '#result' do
 
           it { expect(assigns(:results).count).to be 1 }
 
           it { expect(assigns(:results)).to include work_package_1 }
 
-          describe :view do
+          describe '#view' do
             render_views
 
             it 'highlights last note' do

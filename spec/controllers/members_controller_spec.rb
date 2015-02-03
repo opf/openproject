@@ -102,7 +102,7 @@ describe MembersController, type: :controller do
     end
   end
 
-  describe :autocomplete_for_member do
+  describe '#autocomplete_for_member' do
     let(:params) { ActionController::Parameters.new('id' => project.identifier.to_s) }
 
     before do
@@ -131,7 +131,7 @@ describe MembersController, type: :controller do
     end
   end
 
-  describe :create do
+  describe '#create' do
     render_views
     let(:user2) { FactoryGirl.create(:user) }
     let(:user3) { FactoryGirl.create(:user) }
@@ -207,7 +207,7 @@ describe MembersController, type: :controller do
     end
   end
 
-  describe :destroy do
+  describe '#destroy' do
     let(:action) { post :destroy, id: member.id }
     before do
       member
@@ -220,7 +220,7 @@ describe MembersController, type: :controller do
     end
   end
 
-  describe :update do
+  describe '#update' do
     let(:action) { post :update, id: member.id, member: { role_ids: [role2.id], user_id: user.id } }
     let(:role2) { FactoryGirl.create(:role) }
 

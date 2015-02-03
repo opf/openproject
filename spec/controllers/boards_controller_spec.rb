@@ -40,7 +40,7 @@ describe BoardsController, type: :controller do
     disable_flash_sweep
   end
 
-  describe :create do
+  describe '#create' do
     let(:params) { { board: board_params } }
     let(:board_params) { { name: 'my board', description: 'awesome board' } }
 
@@ -89,7 +89,7 @@ describe BoardsController, type: :controller do
     end
   end
 
-  describe :move do
+  describe '#move' do
     let(:project) { FactoryGirl.create(:project) }
     let!(:board_1) {
       FactoryGirl.create(:board,
@@ -104,7 +104,7 @@ describe BoardsController, type: :controller do
 
     before { allow(@controller).to receive(:authorize).and_return(true) }
 
-    describe :higher do
+    describe '#higher' do
       let(:move_to) { 'higher' }
       let(:redirect_url) { "http://test.host/projects/#{project.id}/settings/boards" }
 
@@ -123,7 +123,7 @@ describe BoardsController, type: :controller do
 
   end
 
-  describe :update do
+  describe '#update' do
     let!(:board) {
       FactoryGirl.create(:board, name: 'Board name',
                                  description: 'Board description')
@@ -184,7 +184,7 @@ describe BoardsController, type: :controller do
 
   end
 
-  describe :sticky do
+  describe '#sticky' do
 
     let!(:message1) { FactoryGirl.create(:message, board: board) }
     let!(:message2) { FactoryGirl.create(:message, board: board) }

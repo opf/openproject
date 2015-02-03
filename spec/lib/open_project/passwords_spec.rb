@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'open_project/passwords'
 
 describe OpenProject::Passwords::Generator do
-  describe :random_password do
+  describe '#random_password' do
     it 'should create a valid password' do
       with_settings password_active_rules: ['lowercase', 'uppercase', 'numeric', 'special'],
                     password_min_adhered_rules: 3,

@@ -507,7 +507,7 @@ EXPECTED
     end
 
     describe 'options' do
-      describe :format do
+      describe '#format' do
         it 'uses format of Settings, if nothing is specified' do
           expect(format_text('*Stars!*')).to eq('<p><strong>Stars!</strong></p>')
         end

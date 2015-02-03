@@ -33,7 +33,7 @@ describe WorkPackagePolicy, type: :controller do
   let(:project)      { FactoryGirl.build_stubbed(:project) }
   let(:work_package) { FactoryGirl.build_stubbed(:work_package, project: project) }
 
-  describe :allowed? do
+  describe '#allowed?' do
     let(:subject) { described_class.new(user) }
 
     before do

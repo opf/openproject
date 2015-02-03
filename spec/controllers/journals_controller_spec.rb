@@ -81,7 +81,7 @@ describe JournalsController, type: :controller do
     end
   end
 
-  describe :edit do
+  describe '#edit' do
     describe 'authorization' do
       let(:permissions) { [:edit_work_packages, :edit_own_work_package_notes] }
 

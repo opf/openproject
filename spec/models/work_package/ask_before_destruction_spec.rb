@@ -64,7 +64,7 @@ describe WorkPackage, type: :model do
                                    project: work_package2.project)
   }
 
-  describe :cleanup_action_required_before_destructing? do
+  describe '#cleanup_action_required_before_destructing?' do
     describe 'w/ the work package having a time entry' do
       before do
         work_package
@@ -99,7 +99,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :associated_classes_to_address_before_destructing? do
+  describe '#associated_classes_to_address_before_destructing?' do
     describe 'w/ the work package having a time entry' do
       before do
         work_package
@@ -122,7 +122,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :cleanup_associated_before_destructing_if_required do
+  describe '#cleanup_associated_before_destructing_if_required' do
     before do
       work_package.save!
 

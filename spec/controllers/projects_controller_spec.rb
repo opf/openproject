@@ -178,7 +178,7 @@ describe ProjectsController, type: :controller do
   describe 'settings' do
     render_views
 
-    describe :type do
+    describe '#type' do
       let(:user) { FactoryGirl.create(:admin) }
       let(:type_standard) { FactoryGirl.create(:type_standard) }
       let(:type_bug) { FactoryGirl.create(:type_bug) }
@@ -212,7 +212,7 @@ describe ProjectsController, type: :controller do
 
       before { allow(User).to receive(:current).and_return user }
 
-      shared_context :work_packages do
+      shared_context 'work_packages' do
         before do
           work_package_standard
           work_package_bug
@@ -229,7 +229,7 @@ describe ProjectsController, type: :controller do
       end
 
       context 'no type missing' do
-        include_context :work_packages
+        include_context 'work_packages'
 
         let(:type_ids) { types.map(&:id) }
 
@@ -245,7 +245,7 @@ describe ProjectsController, type: :controller do
       end
 
       context 'all types missing' do
-        include_context :work_packages
+        include_context 'work_packages'
 
         let(:missing_types) { types }
 

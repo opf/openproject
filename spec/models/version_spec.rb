@@ -59,7 +59,7 @@ describe Version, type: :model do
     it { is_expected.to respond_to :closed_pourcent    }
   end
 
-  describe :systemwide do
+  describe '#systemwide' do
     it 'contains the version if it is shared with all projects' do
       version.sharing = 'system'
       version.save!

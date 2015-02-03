@@ -81,7 +81,7 @@ describe WorkPackage, type: :model do
       it { is_expected.to eq(0) }
     end
 
-    context :group_assigned_work_package do
+    context 'group_assigned_work_package' do
       let(:group) { FactoryGirl.create(:group) }
 
       before do

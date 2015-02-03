@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter, type: :model do
-  describe :type do
+  describe '#type' do
 
     describe 'validations' do
       subject { filter }

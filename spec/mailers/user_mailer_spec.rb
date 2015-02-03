@@ -50,7 +50,7 @@ describe UserMailer, type: :mailer do
     allow(Setting).to receive(:default_language).and_return('en')
   end
 
-  describe :test_mail do
+  describe '#test_mail' do
     let(:test_email) { 'bob.bobbi@example.com' }
     let(:test_user) { User.new(firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
     let(:mail) { UserMailer.test_mail(test_user) }
@@ -67,8 +67,8 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  describe :issue_update do
-    context :delayed_job do
+  describe '#issue_update' do
+    context 'delayed_job' do
       before do
         # Delayed Job does not preserve the closure, so the context of the
         # delayed method call does not contain the user anymore, who triggered
@@ -86,7 +86,7 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  describe :wiki_content_updated do
+  describe '#wiki_content_updated' do
     let(:wiki_content) { FactoryGirl.create(:wiki_content) }
     let!(:mail) { UserMailer.wiki_content_updated(user, wiki_content) }
 
@@ -99,7 +99,7 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  describe :message_id do
+  describe '#message_id' do
     describe 'same user' do
       let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }
 

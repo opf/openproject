@@ -151,7 +151,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     describe 'spentTime' do
       before { permissions << :view_time_entries }
 
-      describe :content do
+      describe '#content' do
         let(:wp) { FactoryGirl.create(:work_package) }
         let(:permissions) { [:view_work_packages, :view_time_entries] }
         let(:role) { FactoryGirl.create(:role, permissions: permissions) }
