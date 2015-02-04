@@ -33,7 +33,7 @@ gem "rails", "~> 3.2.21"
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
-gem 'globalize'
+gem 'globalize', "~> 3.1.0"
 gem 'omniauth'
 gem 'request_store'
 gem 'gravatar_image_tag', '~> 1.2.0'
@@ -118,7 +118,7 @@ gem 'unicorn'
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
 
-gem 'i18n', '>=0.6.8'
+gem 'i18n', '~> 0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
 
 gem 'nokogiri', '>=1.5.11'
