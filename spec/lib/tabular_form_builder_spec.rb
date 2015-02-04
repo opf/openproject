@@ -76,8 +76,9 @@ describe TabularFormBuilder do
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_name" name="user[name]" size="30" title="Name" type="text" value="JJ Abrams" />
-      }.strip
+        <input id="user_name" name="user[name]" size="30" title="Name" type="text"
+          value="JJ Abrams" />
+      }.squish
     end
   end
 
@@ -161,8 +162,9 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_first_login" name="user[first_login]" title="Name" type="checkbox" value="1" />
-      }.strip
+        <input id="user_first_login" name="user[first_login]" title="Name" type="checkbox"
+          value="1" />
+      }.squish
     end
   end
 
@@ -176,7 +178,9 @@ JJ Abrams</textarea>
     it_behaves_like 'not labelled'
 
     it 'should output element' do
-      expect(output).to eq %{<input id="user_name_john" name="user[name]" type="radio" value="John" />}
+      expect(output).to eq %{
+        <input id="user_name_john" name="user[name]" type="radio" value="John" />
+      }.strip
     end
   end
 
@@ -191,8 +195,9 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins" type="number" value="45" />
-      }.strip
+        <input id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
+          type="number" value="45" />
+      }.squish
     end
   end
 
@@ -207,8 +212,9 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins" type="range" value="45" />
-      }.strip
+        <input id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
+          type="range" value="45" />
+      }.squish
     end
   end
 
@@ -223,8 +229,9 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_name" name="user[name]" size="30" title="Search name" type="search" value="JJ Abrams" />
-      }.strip
+        <input id="user_name" name="user[name]" size="30" title="Search name" type="search"
+          value="JJ Abrams" />
+      }.squish
     end
   end
 
@@ -239,8 +246,9 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_mail" name="user[mail]" size="30" title="Email" type="email" value="jj@lost-mail.com" />
-      }.strip
+        <input id="user_mail" name="user[mail]" size="30" title="Email" type="email"
+          value="jj@lost-mail.com" />
+      }.squish
     end
   end
 
@@ -255,8 +263,9 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_mail" name="user[mail]" size="30" title="Not really email" type="tel" value="jj@lost-mail.com" />
-      }.strip
+        <input id="user_mail" name="user[mail]" size="30" title="Not really email"
+          type="tel" value="jj@lost-mail.com" />
+      }.squish
     end
   end
 
@@ -271,8 +280,9 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_login" name="user[login]" size="30" title="Not really password" type="password" />
-      }.strip
+        <input id="user_login" name="user[login]" size="30" title="Not really password"
+          type="password" />
+      }.squish
     end
   end
 
@@ -288,7 +298,7 @@ JJ Abrams</textarea>
     it 'should output element' do
       expect(output).to include %{
         <input id="user_name" name="user[name]" title="Not really file" type="file" />
-      }.strip
+      }.squish
     end
   end
 
@@ -303,8 +313,9 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_name" name="user[name]" size="30" title="Not really file" type="url" value="JJ Abrams" />
-      }.strip
+        <input id="user_name" name="user[name]" size="30" title="Not really file"
+          type="url" value="JJ Abrams" />
+      }.squish
     end
   end
 
