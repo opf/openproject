@@ -48,7 +48,7 @@ module OpenProject
       path = (context.is_a? WorkPackage) ? preview_work_package_path(context)
                                          : preview_work_packages_path
 
-      preview_link path, form_id,  class: 'preview button'
+      preview_link path, "#{form_id}-preview", class: 'preview button'
     end
 
     # Generates a link to an attachment.
