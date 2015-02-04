@@ -121,7 +121,12 @@ module API
                 requires :comment, type: String
               end
               post do
-                authorize({ controller: :journals, action: :new }, context: @work_package.project)
+                authorize({ controller: :journals, action: :new },
+                          context: @work_package.project) do
+                  raise API::Errors::NotFound.new(I18n.t('api_v3.errors.code_404',
+                                                         type: I18n.t('activerecord.models.work_package'),
+                                                         id: params[:id]))
+                end
 
                 @work_package.journal_notes = params[:comment]
 
