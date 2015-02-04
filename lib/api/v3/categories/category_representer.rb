@@ -51,7 +51,7 @@ module API
         link :user do
           {
             href: api_v3_paths.user(represented.assigned_to.id),
-            title: "#{represented.assigned_to.name} - #{represented.assigned_to.login}"
+            title: represented.assigned_to.name
           } if represented.assigned_to
         end
 
