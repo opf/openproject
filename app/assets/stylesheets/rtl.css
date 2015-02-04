@@ -36,22 +36,7 @@ body, #wrapper { direction: rtl;}
 #account { float: left; }
 #top-menu #loggedas { float: left; }
 #top-menu li { float: right; }
-.tabular label.floating
-{
-  margin-right: 0;
-  margin-left: auto;
-  text-align: right;
-}
-.tabular label
-{
-  float: right;
-  margin-left: auto;
-}
-.tabular p
-{
-  clear: right;
-}
-.tabular label.block { text-align: right; }
+
 .icon
 {
        background-position: 100% 40%;
@@ -75,7 +60,6 @@ tr.issue td.subject { text-align: right; }
 tr.time-entry td.subject, tr.time-entry td.comments { text-align: right; }
 #sidebar { float: left; }
 #main.nosidebar #content { border-width: 1px; border-style: solid; border-color: #D7D7D7 #BBBBBB #BBBBBB #D7D7D7;}
-.tabular.settings label { margin-left: auto; }
 
 p.progress-info { clear: right; }
 table.list td.buttons a { padding-right: 20px; }

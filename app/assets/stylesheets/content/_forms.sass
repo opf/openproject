@@ -27,35 +27,21 @@
 //++
 
 @mixin input-style
-  width: $content-from-input-width
   border: $content-form-input-border
-  padding: 0 0 0 10px
   border-radius: 2px
   font-weight: bold
   font-size: 1rem
-  line-height: 30px
-  margin: 0
   &:hover, &:focus
     border: $content-form-input-hover-border
 
-  float: none
-  display: inline-block
   vertical-align: middle
 
 @mixin select-style
   @include input-style
-  margin: 0
-  min-width: $content-from-input-width + 10
-  max-width: $content-from-input-width + 10
 
 @mixin label-style
-  width: 155px
-  margin-left: 0
   text-align: left
   font-weight: normal
-  float: none
-  display: inline-block
-  padding-right: 5px
   vertical-align: middle
 
 %form-style
@@ -64,49 +50,9 @@
   display: block
   border: $content-form-border
 
-  div.attribute_wrapper
-    position: relative
-    padding: 0
-    margin-bottom: 10px
-    font-size: 1.1rem
-    line-height: 30px
-    label
-      @include label-style
-
-    .short
-      width: 100px
-      margin-right: 200px
-
-    &.indented
-      margin-left: 160px
-
-  select
-    @include select-style
-
   input
-    &[type=password], &[type=text]
-      @include input-style
     &#work_package_subject, &#work_package_time_entry_comments
       width: 50%
-  textarea
-    font-weight: bold
-    font-size: 1rem
-    border: $content-form-input-border
-    &:hover, &:focus
-      border: $content-form-input-hover-border
-
-  table
-    border: 0 none
-    background: none
-    margin: 0
-    td
-      padding: 6px
-      label
-        @include label-style
-        display: inline
-      &.label
-        vertical-align: middle
-        width: 160px
 
 // A general CSS class to be applied to forms using the above defined form style.
 // We can't define this on form itself as this would break a lot of existing forms.
@@ -116,13 +62,13 @@
 .form
   @extend %form-style
 
-hr.form_separator
+.form--separator
   border: 0
   border-bottom: 1px solid $content-form-separator-color
   margin: 0 0 30px
   background: none
 
-.form-space
+.form--space
   padding-top: 10px
 
 fieldset
@@ -160,13 +106,6 @@ fieldset
 .ui-datepicker-month,
 .ui-datepicker-year
   display: inline-block
-
-#content
-  .tabular
-    label.inline-label
-      width: auto
-      margin-left: 0
-      font-weight: normal
 
 .checkbox-label
   position: relative
@@ -225,7 +164,50 @@ fieldset
     border-right: none
     @include transform(rotate(-50deg))
 
+.form--field
+  @include grid-block($wrap: true)
+  align-items: center
+  margin-bottom: 1rem
+
+.form--label
+  @include grid-content(2)
+  @include label-style
+  // font-size: 0.9rem
+  // line-height: $list-line-height / 0.9
+
+  .form.-wide-labels &
+    @include grid-size(4)
+
+  .form--field.-required > &
+    &::after
+      @include default-transition
+      content:  '*'
+      color:    #008BD0
+      padding:  0 0.325rem
+    &:hover::after
+      color:    smartscale(#008BD0, 30%)
+
+.form--field-container
+  @include grid-content(10)
+
+  .form.-wide-labels &
+    @include grid-size(8)
+
+.form--field-instructions
+  @include grid-content(10, 2)
+  color:      $form-label-color
+  font-size:  $form-label-fontsize
+  font-style: italic
+
+  .form.-wide-labels &
+    @include grid-size(8)
+    @include grid-offset(4)
+
+.form--text-field
+  @include input-style
+
 .form--select
+  @include select-style
   // TODO: remove padding property once upstream PR merged:
   // https://github.com/zurb/foundation-apps/pull/416
   padding-right: $form-padding + rem-calc(18px)
@@ -248,6 +230,33 @@ fieldset
   &.-narrow
     width: auto
     max-width: 100%
+
+  .form &
+    margin-bottom: 0.5rem
+
+.form--text-area
+  font-weight: bold
+  font-size: 1rem
+  border: $content-form-input-border
+
+  &:hover, &:focus
+    border: $content-form-input-hover-border
+
+  .form &
+    margin-bottom: 0.5rem
+
+.form--table
+  border: 0 none
+  background: none
+  margin: 0
+  td
+    padding: 6px
+    //label
+      @include label-style
+      display: inline
+    //&.label
+      vertical-align: middle
+      width: 160px
 
 .inline-label
   > .form-label.-transparent
