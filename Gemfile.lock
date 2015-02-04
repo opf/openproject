@@ -429,7 +429,7 @@ DEPENDENCIES
   capybara-screenshot
   cocaine
   codeclimate-test-reporter
-  coderay (~> 1.0.5)
+  coderay (~> 1.0.9)
   color-tools (~> 1.3.0)
   cucumber-rails
   cucumber-rails-training-wheels
