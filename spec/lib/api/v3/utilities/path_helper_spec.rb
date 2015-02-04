@@ -89,6 +89,14 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/projects\/42\/categories/) }
   end
 
+  describe '#category' do
+    subject { helper.category 42 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to match(/^\/api\/v3\/categories\/42/) }
+  end
+
   describe '#preview_textile' do
     subject { helper.preview_textile '/api/v3/work_packages/42' }
 
