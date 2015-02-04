@@ -88,7 +88,7 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   # see https://github.com/mperham/dalli
-  gem 'dalli'
+  gem 'dalli', '~> 2.7.2'
 end
 
 gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '2_2_2_backport2'
