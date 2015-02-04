@@ -93,7 +93,7 @@ describe SettingsHelper, type: :helper do
 
   describe '#setting_text_field' do
     before do
-      expect(Setting).to receive(:field).and_return('Value')
+      expect(Setting).to receive(:field).and_return('important value')
     end
 
     subject(:output) {
@@ -103,13 +103,15 @@ describe SettingsHelper, type: :helper do
     it_behaves_like 'labelled'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="text"]'
+      expect(output).to include %{
+        <input id="settings_field" name="settings[field]" type="text" value="important value" />
+      }.strip
     end
   end
 
   describe '#setting_text_area' do
     before do
-      expect(Setting).to receive(:field).and_return('Value')
+      expect(Setting).to receive(:field).and_return('important text')
     end
 
     subject(:output) {
@@ -119,7 +121,10 @@ describe SettingsHelper, type: :helper do
     it_behaves_like 'labelled'
 
     it 'should output element' do
-      expect(output).to have_selector 'textarea'
+      expect(output).to include %{
+        <textarea id="settings_field" name="settings[field]">
+important text</textarea>
+      }.strip
     end
   end
 
