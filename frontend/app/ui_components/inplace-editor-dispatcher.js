@@ -197,7 +197,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       },
       startEditing: setOptions,
       submit: function($scope, data) {
-        data._links = { };
+        data._links = data._links || { };
         data._links[getAttribute($scope)] = { href: $scope.dataObject.value || null };
       },
       setReadValue: function($scope) {

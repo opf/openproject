@@ -136,7 +136,6 @@ module.exports = function(
       // angular.copy here to make a new object instead of a reference
       $scope.isBusy = true;
       var data = angular.copy($scope.entity.form.embedded.payload.props);
-      //$scope.collectChanges(data);
       OverviewTabInplaceEditorConfig.collectChanges(data);
       var result = WorkPackageService.updateWorkPackage($scope.entity, data, notify);
       result.then(function(workPackage) {
@@ -170,7 +169,7 @@ module.exports = function(
         'workPackageRefreshRequired',
         function(workPackage) {
           OverviewTabInplaceEditorConfig.dispatchChanges(workPackage);
-          $scope.acceptChanges(workPackage);
+          // $scope.acceptChanges(workPackage);
         }
       );
     }
@@ -192,7 +191,9 @@ module.exports = function(
     function finishEditing() {
       $scope.isEditing = false;
       $scope.$broadcast('finishEditing');
-      OverviewTabInplaceEditorConfig.deregisterActiveEditorScope($scope);
+      $timeout(function() {
+        OverviewTabInplaceEditorConfig.deregisterActiveEditorScope($scope);
+      });
     }
 
     function setReadValue() {

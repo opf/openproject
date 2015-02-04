@@ -38,10 +38,6 @@ module.exports = function() {
       activeScopes.push($scope);
     },
 
-    clearActiveEditorScopes: function() {
-      activeScopes = [];
-    },
-
     deregisterActiveEditorScope: function($scope) {
       _.remove(activeScopes, function(scope) {
         return scope === $scope;
@@ -58,18 +54,14 @@ module.exports = function() {
 
     dispatchErrors: function(e) {
       _.forEach(activeScopes, function(scope) {
-        if (!scope) {
-          return;
-        }
+        scope.isBusy = false;
         scope.acceptErrors(e);
       });
     },
 
     dispatchChanges: function(workPackage) {
       _.forEach(activeScopes, function(scope) {
-        if (!scope) {
-          return;
-        }
+        scope.isBusy = false;
         scope.acceptChanges(workPackage);
       });
     },
