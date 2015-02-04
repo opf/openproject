@@ -8,7 +8,7 @@
 
     <ul id="toolbar-items">
       <li class="toolbar-item">
-        <button class="button -highlight"
+        <button class="button -highlight -small"
                 has-dropdown-menu
                 target="TasksDropdownMenu"
                 locals="availableTypes,projectIdentifier"
@@ -23,7 +23,7 @@
           {{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}
         </label>
         <button id="work-packages-filter-toggle-button"
-                class="button"
+                class="button -small"
                 title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
                 ng-click="toggleShowFilterOptions()"
                 ng-class="{active: showFiltersOptions}">
@@ -37,7 +37,7 @@
               {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
             </label>
             <button id="work-packages-list-view-button"
-                    class="button"
+                    class="button -small"
                     title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                     ng-click="closeDetailsView()"
                     ng-class="{ active: !isDetailsViewActive() }">
@@ -49,7 +49,7 @@
               {{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}
             </label>
             <button id="work-packages-details-view-button"
-                    class="button"
+                    class="button -small"
                     title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
                     ng-class="{ active: isDetailsViewActive() }"
                     ng-click="openLatestTab()">
@@ -64,7 +64,7 @@
         </label>
         <button id="work-packages-settings-button"
                 title="{{ I18n.t('js.button_settings') }}"
-                class="button last work-packages-settings-button"
+                class="button last work-packages-settings-button -small"
                 has-dropdown-menu
                 target="SettingsDropdownMenu"
                 locals="query">
