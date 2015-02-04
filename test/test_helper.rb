@@ -93,16 +93,24 @@ class ActiveSupport::TestCase
       end
     end
 
+    reset_global_state!
+
     # initializes the mocking features
     RSpec::Mocks.setup
 
     OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
-
     initialize_attachments
   end
 
   ##
-  # Attachments generated through fixtures do not files associated with them even
+  # Resets any global state that may have been changed through tests and the change of which
+  # should not affect other tests.
+  def reset_global_state!
+    User.current = User.anonymous # reset current user in case it was changed in a test
+  end
+
+  ##
+  # Attachments generated through fixtures do not have files associated with them even
   # when one provides them within the fixture yml. Dunno why.
   #
   # This method fixes that. Tries to lookup existing files. Generates temporary files
