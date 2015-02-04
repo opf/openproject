@@ -146,7 +146,7 @@ group :test do
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver', '~> 2.44.0'
-  gem 'timecop', "~> 0.6.1"
+  gem 'timecop', '~> 0.7.1'
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
