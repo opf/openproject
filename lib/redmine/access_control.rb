@@ -77,6 +77,24 @@ module Redmine
       def modules_permissions(modules)
         @permissions.select {|p| p.project_module.nil? || modules.include?(p.project_module.to_s)}
       end
+
+      def remove_modules_permissions(module_name)
+        permissions = @permissions
+
+        module_permissions = permissions.select { |p| p.project_module.to_s == module_name.to_s }
+
+        reset
+
+        @permissions = permissions - module_permissions
+      end
+
+      def reset
+        @permissions = nil
+        @available_project_modules = nil
+        @public_permissions = nil
+        @members_only_permissions = nil
+        @loggedin_only_permissions = nil
+      end
     end
 
     class Mapper
