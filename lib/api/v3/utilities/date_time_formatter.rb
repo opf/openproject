@@ -80,7 +80,7 @@ module API
           Duration.new(hours_and_minutes(hours)).iso8601
         end
 
-        private
+        private_class_method
 
         def self.hours_and_minutes(hours)
           hours = hours.to_f
