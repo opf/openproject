@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <th><%= User.model_name.human %></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="font-small">
         <% i = 0 -%>
         <% @committers.each do |committer, user_id| -%>
           <tr class="<%= cycle 'odd', 'even' %>">

@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <th style="width:15%"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="font-small">
         <% @group.memberships.each do |membership| %>
           <% next if membership.new_record? %>
             <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">

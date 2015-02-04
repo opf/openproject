@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <th style="width:15%"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="font-small">
           <% @group.users.sort.each do |user| %>
             <tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
               <td class="user"><%= link_to_user user %></td>

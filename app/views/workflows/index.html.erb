@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="font-small">
         <% @workflow_counts.each do |type, roles| -%>
           <tr class="<%= cycle('odd', 'even') %>">
             <td><%= h type %></td>

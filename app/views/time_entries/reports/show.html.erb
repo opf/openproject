@@ -78,7 +78,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <th class="total" width="<%= columns_width %>%"><%= l(:label_total) %></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="font-small">
         <%= render :partial => 'report_criteria', :locals => {:criterias => @criterias, :hours => @hours, :level => 0} %>
         <tr class="total">
           <td><%= l(:label_total) %></td>

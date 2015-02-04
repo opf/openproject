@@ -68,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <th><sort-link sort-attr="updated_on" sort-func="loadMessages()"><%= l(:label_message_last) %></sort-link></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="font-small">
         <tr ng-repeat="message in messages">
           <td class="subject">
             <icon-wrapper ng-if="message.isSticky == true" icon-name="book2" icon-title="{{I18n.t('js.label_board_sticky')}}"></icon-wrapper>

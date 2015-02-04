@@ -60,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
         </tr>
       </thead>
-      <tbody>
+      <tbody class"font-small">
         <% @members.each do |member| %>
           <% next if member.new_record? %>
             <tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">

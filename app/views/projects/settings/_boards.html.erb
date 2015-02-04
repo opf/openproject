@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="font-small">
       <% @project.boards.each do |board|
   next if board.new_record? %>
         <tr class="<%= cycle 'odd', 'even' %>">

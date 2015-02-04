@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class"font-small">
       <% for category in @project.categories %>
         <% unless category.new_record? %>
           <tr class="<%= cycle 'odd', 'even' %>">

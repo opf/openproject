@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="font-small">
       <% project_tree(@projects) do |project, level| %>
         <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
           <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>

@@ -64,7 +64,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="font-small">
       <% @colors.each do |color| %>
         <tr id="color-<%= color.id %>" class="<%= cycle(:odd, :even) %>">
           <td class="timelines-color-name"><%= link_to(h(color.name), edit_color_path(color)) %></td>

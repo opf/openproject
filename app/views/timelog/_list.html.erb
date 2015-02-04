@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <th></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="font-small">
     <tr class="time-entry" ng-repeat="timeEntry in timeEntries" ng-class-even="'even'" ng-class-odd="'odd'">
       <td class="spent_on"><op-date date-value="timeEntry.spent_on"></op-date></td>
       <td class="user"><a ng-href="{{PathHelper.userPath(timeEntry.user.id)}}">{{timeEntry.user.name}}</a></td>

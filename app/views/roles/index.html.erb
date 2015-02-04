@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <th></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="font-small">
     <% for role in @roles %>
       <tr class="<%= cycle("odd", "even") %>">
         <td><%= content_tag(role.builtin? ? 'em' : 'span', link_to(h(role.name), :action => 'edit', :id => role)) %></td>

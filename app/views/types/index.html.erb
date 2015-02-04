@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <th></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="font-small">
     <% for type in @types %>
       <tr class="<%= cycle("odd", "even") %>">
         <td class="timelines-pet-name"><%= link_to type.name, edit_type_path(type) %></td>

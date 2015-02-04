@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="font-small">
       <% @groups.each do |group| %>
         <tr class="<%= cycle 'odd', 'even' %>">
           <td><%= link_to h(group), :action => 'edit', :id => group %></td>
