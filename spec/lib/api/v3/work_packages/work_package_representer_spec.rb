@@ -35,6 +35,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     FactoryGirl.create(:user,  member_in_project: project, member_through_role: role)
   end
   let(:current_user) { member }
+  let(:current_user) { member }
 
   let(:representer)  { described_class.new(work_package, current_user: current_user) }
 

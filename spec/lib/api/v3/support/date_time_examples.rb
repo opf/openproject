@@ -29,25 +29,34 @@
 require 'spec_helper'
 
 shared_examples_for 'has ISO 8601 date only' do
-  let(:iso_date_only_string) { '%d-%02d-%02d' % [date.year, date.month, date.day] }
-
   it 'exists' do
     is_expected.to have_json_path(json_path)
   end
 
   it 'indicates date only as ISO 8601' do
-    is_expected.to be_json_eql(iso_date_only_string.to_json).at_path(json_path)
+    called_with_expected = false
+    expect(::API::V3::Utilities::DateTimeFormatter).to receive(:format_date) do |actual, *_|
+      called_with_expected = true if actual.eql? date
+    end.at_least(:once)
+
+    subject # we need to resolve the subject for calls to occur
+    expect(called_with_expected).to be_true
   end
 end
 
 shared_examples_for 'has UTC ISO 8601 date and time' do
-  let(:iso_string) { date.utc.iso8601 }
-
   it 'exists' do
     is_expected.to have_json_path(json_path)
   end
 
   it 'indicates date and time as ISO 8601' do
-    is_expected.to be_json_eql(iso_string.to_json).at_path(json_path)
+    called_with_expected = false
+    expect(::API::V3::Utilities::DateTimeFormatter).to receive(:format_datetime) do |actual, *_|
+      # ActiveSupport flaws :eql? we circumvent that by calling utc (which is equally valid)
+      called_with_expected = true if actual.utc.eql? date.utc
+    end.at_least(:once)
+
+    subject # we need to resolve the subject for calls to occur
+    expect(called_with_expected).to be_true
   end
 end

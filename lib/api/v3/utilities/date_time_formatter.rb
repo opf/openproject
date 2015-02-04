@@ -31,12 +31,12 @@ module API
   module V3
     module Utilities
       class DateTimeFormatter
-        def self.format_date(date, allow_nil = false)
+        def self.format_date(date, allow_nil: false)
           return nil if date.nil? && allow_nil
           date.to_date.iso8601
         end
 
-        def self.parse_date(value, property_name, allow_nil = false)
+        def self.parse_date(value, property_name, allow_nil: false)
           return nil if value.nil? && allow_nil
 
           begin
@@ -57,12 +57,12 @@ module API
           date_only
         end
 
-        def self.format_datetime(datetime, allow_nil = false)
+        def self.format_datetime(datetime, allow_nil: false)
           return nil if datetime.nil? && allow_nil
           datetime.to_datetime.utc.iso8601
         end
 
-        def self.parse_datetime(value, property_name, allow_nil = false)
+        def self.parse_datetime(value, property_name, allow_nil: false)
           return nil if value.nil? && allow_nil
 
           begin
@@ -74,17 +74,10 @@ module API
           end
         end
 
-        def self.format_duration(duration, allow_nil = false)
-          return nil if duration.nil? && allow_nil
-
-          duration.iso8601
-        end
-
-        def self.format_duration_from_hours(hours, allow_nil = false)
+        def self.format_duration_from_hours(hours, allow_nil: false)
           return nil if hours.nil? && allow_nil
 
-          duration = Duration.new(hours_and_minutes(hours))
-          format_duration(duration)
+          Duration.new(hours_and_minutes(hours)).iso8601
         end
 
         private
