@@ -46,7 +46,11 @@ describe ::API::V3::Attachments::AttachmentRepresenter, type: :request do
       it { is_expected.to have_json_path('contentType') }
       it { is_expected.to have_json_path('digest') }
       it { is_expected.to have_json_path('downloads') }
-      it { is_expected.to have_json_path('createdAt') }
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { attachment.created_on }
+        let(:json_path) { 'createdAt' }
+      end
     end
 
     describe '_links' do

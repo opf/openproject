@@ -87,11 +87,27 @@ describe ::API::V3::Versions::VersionRepresenter do
         let(:raw) { version.description }
       end
 
-      it { is_expected.to be_json_eql(version.start_date.to_json).at_path('startDate') }
-      it { is_expected.to be_json_eql(version.due_date.to_json).at_path('endDate') }
+      it_behaves_like 'has ISO 8601 date only' do
+        let(:date) { version.start_date }
+        let(:json_path) { 'startDate' }
+      end
+
+      it_behaves_like 'has ISO 8601 date only' do
+        let(:date) { version.due_date }
+        let(:json_path) { 'endDate' }
+      end
+
       it { is_expected.to be_json_eql(version.status.to_json).at_path('status') }
-      it { is_expected.to be_json_eql(version.created_on.utc.iso8601.to_json).at_path('createdAt') }
-      it { is_expected.to be_json_eql(version.updated_on.utc.iso8601.to_json).at_path('updatedAt') }
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { version.created_on }
+        let(:json_path) { 'createdAt' }
+      end
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { version.updated_on }
+        let(:json_path) { 'updatedAt' }
+      end
     end
   end
 end

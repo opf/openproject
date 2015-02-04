@@ -42,8 +42,17 @@ describe ::API::V3::Projects::ProjectRepresenter do
       it { should have_json_path('identifier') }
       it { should have_json_path('name') }
       it { should have_json_path('description') }
-      it { should have_json_path('createdAt') }
-      it { should have_json_path('updatedAt') }
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { project.created_on }
+        let(:json_path) { 'createdAt' }
+      end
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { project.updated_on }
+        let(:json_path) { 'updatedAt' }
+      end
+
       it { should have_json_path('type') }
     end
 
