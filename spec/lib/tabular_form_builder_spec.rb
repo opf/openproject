@@ -35,7 +35,14 @@ describe TabularFormBuilder do
   include Capybara::RSpecMatchers
 
   let(:helper)   { TestViewHelper.new }
-  let(:resource) { FactoryGirl.build(:user) }
+  let(:resource) {
+    FactoryGirl.build(:user,
+                      firstname:  'JJ',
+                      lastname:   'Abrams',
+                      login:      'lost',
+                      mail:       'jj@lost-mail.com',
+                      failed_login_count: 45)
+  }
   let(:builder)  { TabularFormBuilder.new(:user, resource, helper, {}, nil) }
 
   shared_examples_for 'labelled' do
@@ -68,7 +75,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="text"]'
+      expect(output).to include %{
+        <input id="user_name" name="user[name]" size="30" title="Name" type="text" value="JJ Abrams" />
+      }.strip
     end
   end
 
@@ -82,7 +91,10 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'textarea'
+      expect(output).to include %{
+        <textarea cols="40" id="user_name" name="user[name]" rows="20" title="Name">
+JJ Abrams</textarea>
+      }.strip
     end
   end
 
@@ -148,7 +160,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="checkbox"]'
+      expect(output).to include %{
+        <input id="user_first_login" name="user[first_login]" title="Name" type="checkbox" value="1" />
+      }.strip
     end
   end
 
@@ -162,7 +176,7 @@ describe TabularFormBuilder do
     it_behaves_like 'not labelled'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="radio"]'
+      expect(output).to eq %{<input id="user_name_john" name="user[name]" type="radio" value="John" />}
     end
   end
 
@@ -176,7 +190,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="number"]'
+      expect(output).to include %{
+        <input id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins" type="number" value="45" />
+      }.strip
     end
   end
 
@@ -190,7 +206,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="range"]'
+      expect(output).to include %{
+        <input id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins" type="range" value="45" />
+      }.strip
     end
   end
 
@@ -204,7 +222,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="search"]'
+      expect(output).to include %{
+        <input id="user_name" name="user[name]" size="30" title="Search name" type="search" value="JJ Abrams" />
+      }.strip
     end
   end
 
@@ -218,7 +238,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="email"]'
+      expect(output).to include %{
+        <input id="user_mail" name="user[mail]" size="30" title="Email" type="email" value="jj@lost-mail.com" />
+      }.strip
     end
   end
 
@@ -232,7 +254,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="tel"]'
+      expect(output).to include %{
+        <input id="user_mail" name="user[mail]" size="30" title="Not really email" type="tel" value="jj@lost-mail.com" />
+      }.strip
     end
   end
 
@@ -246,7 +270,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="password"]'
+      expect(output).to include %{
+        <input id="user_login" name="user[login]" size="30" title="Not really password" type="password" />
+      }.strip
     end
   end
 
@@ -260,7 +286,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="file"]'
+      expect(output).to include %{
+        <input id="user_name" name="user[name]" title="Not really file" type="file" />
+      }.strip
     end
   end
 
@@ -274,7 +302,9 @@ describe TabularFormBuilder do
     it_behaves_like 'labelled by default'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="url"]'
+      expect(output).to include %{
+        <input id="user_name" name="user[name]" size="30" title="Not really file" type="url" value="JJ Abrams" />
+      }.strip
     end
   end
 
@@ -286,7 +316,7 @@ describe TabularFormBuilder do
     it_behaves_like 'not labelled'
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="submit"]'
+      expect(output).to eq %{<input name="commit" type="submit" value="Create User" />}
     end
   end
 
@@ -298,7 +328,7 @@ describe TabularFormBuilder do
     it_behaves_like 'not labelled'
 
     it 'should output element' do
-      expect(output).to have_selector 'button'
+      expect(output).to eq %{<button name="button" type="submit">Create User</button>}
     end
   end
 end
