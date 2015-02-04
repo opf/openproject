@@ -36,23 +36,23 @@ describe :DateTimeFormatter do
 
   shared_examples_for 'can format nil' do
     it 'accepts nil if asked to' do
-      expect(subject.send(method, nil, accept_nil: true)).to eql(nil)
+      expect(subject.send(method, nil, allow_nil: true)).to eql(nil)
     end
 
     it 'returns usual result for non-nils' do
       expected = subject.send(method, input)
-      expect(subject.send(method, input, accept_nil: true)).to eql(expected)
+      expect(subject.send(method, input, allow_nil: true)).to eql(expected)
     end
   end
 
   shared_examples_for 'can parse nil' do
     it 'accepts nil if asked to' do
-      expect(subject.send(method, nil, 'prop', accept_nil: true)).to eql(nil)
+      expect(subject.send(method, nil, 'prop', allow_nil: true)).to eql(nil)
     end
 
     it 'returns usual result for non-nils' do
       expected = subject.send(method, input, 'prop')
-      expect(subject.send(method, input, 'prop', accept_nil: true)).to eql(expected)
+      expect(subject.send(method, input, 'prop', allow_nil: true)).to eql(expected)
     end
   end
 
