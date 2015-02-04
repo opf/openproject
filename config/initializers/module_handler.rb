@@ -27,10 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'yaml'
-config = YAML.load_file('config/configuration.yml')[Rails.env].symbolize_keys
-
-unless config[:disabled_modules].nil?
-  to_disable = config[:disabled_modules]
+unless OpenProject::Configuration['disabled_modules'].empty?
+  to_disable = OpenProject::Configuration['disabled_modules']
   OpenProject::Plugins::ModuleHandler.disable_modules(to_disable)
 end

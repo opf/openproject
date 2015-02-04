@@ -97,12 +97,12 @@
 # Disable default module:
 #
 # By default user may choose which modules can be disabled
+# this can be done in lib/open_project/configuration.rb
 # disabled_modules:[list_of_modules_name]
 #
 # See following page:
 #
 # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
-
 
 
 # default configuration options for all environments

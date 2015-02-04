@@ -28,29 +28,26 @@
 
 require 'spec_helper'
 describe Redmine::AccessControl do
+  before { @permissions = Redmine::AccessControl.modules_permissions(['repository']) }
+
   after do
     Redmine::AccessControl.map do |mapper|
       mapper.project_module :repository do |map|
-        map.permission :manage_repository,
-                       { repositories: [:edit, :committers, :destroy] },
-                       require: :member
+        @permissions.map do |permission|
+          options = { project_module: permission.project_module,
+                      public: permission.public?,
+                      require: permission.require_loggedin? }
 
-        map.permission :browse_repository,
-                       repositories: [:show, :browse, :entry,
-                                      :annotate, :changes, :diff,
-                                      :stats, :graph]
-
-        map.permission :view_changesets, repositories: [:show, :revisions, :revision]
-        map.permission :commit_access, {}
-        map.permission :view_commit_author_statistics, {}
+          map.permission(permission.name, permission.actions, options)
+        end
       end
     end
   end
-  
+
   describe '#remove_modules_permissions' do
-    before_delete = Redmine::AccessControl.permissions.map(&:name)
+    before_delete = Redmine::AccessControl.permissions
     Redmine::AccessControl.remove_modules_permissions(:repository)
-    after_delete = Redmine::AccessControl.permissions.map(&:name)
+    after_delete = Redmine::AccessControl.permissions
 
     it { expect(after_delete).to_not eql(before_delete) }
   end

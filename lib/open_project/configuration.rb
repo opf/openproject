@@ -71,7 +71,10 @@ module OpenProject
       'sendmail_arguments' => '-i',
 
       'disable_password_login' => false,
-      'omniauth_direct_login_provider' => nil
+      'omniauth_direct_login_provider' => nil,
+
+      # allow to disable default modules
+      'disabled_modules' => []
     }
 
     @config = nil
