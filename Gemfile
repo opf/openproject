@@ -135,7 +135,7 @@ gem 'i18n', '~> 0.6.8'
 gem 'nokogiri', '~> 1.6.6'
 
 gem 'carrierwave', '~> 0.10.0'
-gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
+gem 'fog', '~> 1.29.0', require: "fog/aws/storage"
 
 group :test do
   gem 'rack-test', '~> 0.6.2'
