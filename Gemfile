@@ -144,7 +144,7 @@ group :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'capybara', '~> 2.3.0'
-  gem 'capybara-screenshot'
+  gem 'capybara-screenshot', '~> 1.0.4'
   gem 'selenium-webdriver', '~> 2.43.0'
   gem 'timecop', '~> 0.7.1'
 

@@ -117,8 +117,10 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-screenshot (0.3.6)
+    capybara-screenshot (1.0.4)
       capybara (>= 1.0, < 3)
+      colored
+      launchy
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
@@ -131,6 +133,7 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     color-tools (1.3.0)
+    colored (1.2)
     columnize (0.8.9)
     cucumber (1.3.8)
       builder (>= 2.1.2)
@@ -229,7 +232,7 @@ GEM
     metaclass (0.0.1)
     method_source (0.8.2)
     mime-types (1.25.1)
-    mini_portile (0.6.0)
+    mini_portile (0.6.2)
     minisyntax (0.2.3)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
@@ -238,8 +241,8 @@ GEM
     multi_xml (0.5.5)
     mysql2 (0.3.17)
     net-ldap (0.8.0)
-    nokogiri (1.6.2.1)
-      mini_portile (= 0.6.0)
+    nokogiri (1.6.6.2)
+      mini_portile (~> 0.6.0)
     non-stupid-digest-assets (1.0.4)
     object-daddy (1.1.1)
     oj (2.1.6)
@@ -426,7 +429,7 @@ DEPENDENCIES
   awesome_nested_set
   bourbon (~> 4.0.2)
   capybara (~> 2.3.0)
-  capybara-screenshot
+  capybara-screenshot (~> 1.0.4)
   cocaine
   codeclimate-test-reporter
   coderay (~> 1.0.5)
