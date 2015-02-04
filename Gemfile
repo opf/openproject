@@ -56,7 +56,7 @@ gem 'htmldiff'
 # used for statistics on svn repositories
 gem 'svg-graph'
 
-gem "date_validator"
+gem "date_validator", '~> 0.7.1'
 gem 'ruby-duration', '~> 3.2.0'
 
 # We rely on this specific version, which is the latest as of now (end of 2013),
@@ -118,7 +118,7 @@ gem 'unicorn'
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
 
-gem 'i18n', '>=0.6.8'
+gem 'i18n', '~> 0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
 
 gem 'nokogiri', '>=1.5.11'
