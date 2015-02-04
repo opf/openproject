@@ -192,7 +192,7 @@ describe('OpenProject', function() {
       behaveLikeEmbeddedDropdown('status.name', 'specified');
     });
     describe('priority', function() {
-      behaveLikeEmbeddedDropdown('priority.name', 'high');
+      behaveLikeEmbeddedDropdown('priority.name', 'High');
     });
     describe('version', function() {
       var name = 'version.name';
