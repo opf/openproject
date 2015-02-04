@@ -67,11 +67,16 @@ module API
       end
 
       def authenticate
-        raise API::Errors::Unauthenticated if current_user.nil? || current_user.anonymous? if Setting.login_required?
+        if Setting.login_required? && (current_user.nil? || current_user.anonymous?)
+          raise API::Errors::Unauthenticated
+        end
       end
 
       def authorize(permission, context: nil, global: false, user: current_user, &block)
-        is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
+        is_authorized = AuthorizationService.new(permission,
+                                                 context: context,
+                                                 global: global,
+                                                 user: user).call
 
         return true if is_authorized
 
@@ -83,7 +88,6 @@ module API
 
         false
       end
-
 
       def running_in_test_env?
         Rails.env.test? && ENV['CAPYBARA_DISABLE_TEST_AUTH_PROTECTION'] != 'true'

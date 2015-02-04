@@ -31,19 +31,18 @@ module API
     module WorkPackages
       class WorkPackagesAPI < Grape::API
         resources :work_packages do
-
           params do
             requires :id, desc: 'Work package id'
           end
           namespace ':id' do
-
             helpers do
               attr_reader :work_package
 
               def write_work_package_attributes
                 if request_body
-                  payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter
-                              .new(@work_package, enforce_lock_version_validation: true)
+                  payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter.new(
+                    @work_package,
+                    enforce_lock_version_validation: true)
 
                   begin
                     payload.from_json(request_body.to_json)
@@ -60,17 +59,22 @@ module API
               def write_request_valid?
                 contract = WorkPackageContract.new(@representer.represented, current_user)
 
-                # We need to merge the contract errors with the model errors in
-                # order to have them available at one place.
-                unless contract.validate & @representer.represented.valid?
-                  contract.errors.keys.each do |key|
-                    contract.errors[key].each do |message|
+                contract_valid = contract.validate
+                represented_valid = @representer.represented.valid?
+
+                if contract_valid && represented_valid
+                  true
+                else
+                  # We need to merge the contract errors with the model errors in
+                  # order to have them available at one place.
+                  contract.errors.each do |key, messages|
+                    messages.each do |message|
                       @representer.represented.errors.add(key, message)
                     end
                   end
-                end
 
-                @representer.represented.errors.count == 0
+                  false
+                end
               end
             end
 
@@ -104,11 +108,12 @@ module API
             end
 
             resource :activities do
-
               helpers do
                 def save_work_package(work_package)
                   if work_package.save
-                    representer = ::API::V3::Activities::ActivityRepresenter.new(work_package.journals.last, current_user: current_user)
+                    representer = ::API::V3::Activities::ActivityRepresenter.new(
+                      work_package.journals.last,
+                      current_user: current_user)
 
                     representer
                   else
@@ -123,24 +128,22 @@ module API
               post do
                 authorize({ controller: :journals, action: :new },
                           context: @work_package.project) do
-                  raise API::Errors::NotFound.new(I18n.t('api_v3.errors.code_404',
-                                                         type: I18n.t('activerecord.models.work_package'),
-                                                         id: params[:id]))
+                  raise API::Errors::NotFound.new(
+                          I18n.t('api_v3.errors.code_404',
+                                 type: I18n.t('activerecord.models.work_package'),
+                                 id: params[:id]))
                 end
 
                 @work_package.journal_notes = params[:comment]
 
                 save_work_package(@work_package)
               end
-
             end
 
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Relations::RelationsAPI
             mount ::API::V3::WorkPackages::Form::FormAPI
-
           end
-
         end
       end
     end

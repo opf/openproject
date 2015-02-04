@@ -32,13 +32,14 @@ module API
     module Categories
       class CategoriesAPI < Grape::API
         resources :categories do
-
           namespace ':id' do
-
             before do
               @category = Category.find(params[:id])
               authorize(:view_project, context: @category.project) do
-                raise API::Errors::NotFound.new(I18n.t('api_v3.errors.code_404', type: I18n.t('activerecord.models.category'), id: params[:id]))
+                raise API::Errors::NotFound.new(
+                        I18n.t('api_v3.errors.code_404',
+                               type: I18n.t('activerecord.models.category'),
+                               id: params[:id]))
               end
             end
 
