@@ -320,6 +320,7 @@ describe('inplaceEditor Directive', function() {
                 'deregisterActiveEditorScope'
               );
               elementScope.discardEditing();
+              $timeout.flush();
             });
             it('should register the scope to a list of actives', function() {
               deregisterActiveEditorScopeSpy.should.have.been.calledWith(elementScope);
@@ -345,9 +346,8 @@ describe('inplaceEditor Directive', function() {
             it('should switch to read view', function() {
               expect(elementScope.isEditing).to.eq(false);
             });
-            it('should propagate changes to all editor including self', function() {
+            it('should propagate changes to all editors', function() {
               dispatchChangesSpy.should.have.been.calledWith(elementScope.entity);
-              acceptChangesSpy.should.have.been.calledWith(elementScope.entity);
             });
           });
           describe('onFail', function() {

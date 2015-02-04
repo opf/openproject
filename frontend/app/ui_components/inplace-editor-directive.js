@@ -169,7 +169,6 @@ module.exports = function(
         'workPackageRefreshRequired',
         function(workPackage) {
           OverviewTabInplaceEditorConfig.dispatchChanges(workPackage);
-          // $scope.acceptChanges(workPackage);
         }
       );
     }
