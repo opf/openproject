@@ -79,10 +79,13 @@ describe ReportingsController, :type => :controller do
     it_should_behave_like "a controller action which needs project permissions"
 
     it 'should not create a reporting w/o a reporting project' do
-      post :create, project_id: project.identifier,
-                    reporting: FactoryGirl.build(:reporting,
-                    project_id: project.id,
-                    reporting_to_project_id: nil).attributes
+      post :create,
+           project_id: project.identifier,
+           reporting: FactoryGirl.build(
+             :reporting,
+             project_id: project.id,
+             reporting_to_project_id: nil
+           ).attributes
 
       expect(response).to render_template(:new)
     end
