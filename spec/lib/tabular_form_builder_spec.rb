@@ -46,11 +46,11 @@ describe TabularFormBuilder do
   let(:builder)  { TabularFormBuilder.new(:user, resource, helper, {}, nil) }
 
   shared_examples_for 'labelled' do
-    it { is_expected.to have_selector 'label' }
+    it { is_expected.to have_selector 'label.form--label' }
   end
 
   shared_examples_for 'not labelled' do
-    it { is_expected.not_to have_selector 'label' }
+    it { is_expected.not_to have_selector 'label.form--label' }
   end
 
   shared_examples_for 'labelled by default' do
@@ -65,6 +65,14 @@ describe TabularFormBuilder do
     end
   end
 
+  shared_examples_for 'wrapped in container span' do
+    it { is_expected.to have_selector 'span.form--field-container' }
+  end
+
+  shared_examples_for 'not wrapped in container span' do
+    it { is_expected.not_to have_selector 'span.form--field-container' }
+  end
+
   describe '#text_field' do
     let(:options) { { title: 'Name' } }
 
@@ -73,10 +81,12 @@ describe TabularFormBuilder do
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_name" name="user[name]" size="30" title="Name" type="text"
+        <input class="form--text-field"
+          id="user_name" name="user[name]" size="30" title="Name" type="text"
           value="JJ Abrams" />
       }.squish
     end
@@ -90,10 +100,11 @@ describe TabularFormBuilder do
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <textarea cols="40" id="user_name" name="user[name]" rows="20" title="Name">
+        <textarea class="form--text-area" cols="40" id="user_name" name="user[name]" rows="20" title="Name">
 JJ Abrams</textarea>
       }.strip
     end
@@ -107,11 +118,13 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
-      expect(output).to have_selector 'select'
-      expect(output).to have_selector 'option[value="33"]'
-      expect(output).to have_text 'FUN'
+      expect(output).to include %{
+        <select class="form--select"
+          id="user_name" name="user[name]"><option value="33">FUN</option></select>
+      }.squish
     end
   end
 
@@ -127,9 +140,10 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
-      expect(output).to have_selector 'select > option', count: 3
+      expect(output).to have_selector 'select.form--select > option', count: 3
       expect(output).to have_selector 'option:first[value="56"]'
       expect(output).to have_text 'Jonas'
     end
@@ -143,6 +157,7 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to have_selector 'select', count: 3
@@ -159,10 +174,12 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_first_login" name="user[first_login]" title="Name" type="checkbox"
+        <input class="form--check-box"
+          id="user_first_login" name="user[first_login]" title="Name" type="checkbox"
           value="1" />
       }.squish
     end
@@ -176,6 +193,7 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'not labelled'
+    it_behaves_like 'not wrapped in container span'
 
     it 'should output element' do
       expect(output).to eq %{
@@ -192,10 +210,12 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
+        <input class="form--text-field -number"
+          id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
           type="number" value="45" />
       }.squish
     end
@@ -209,10 +229,12 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
+        <input class="form--range-field"
+          id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
           type="range" value="45" />
       }.squish
     end
@@ -226,10 +248,11 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_name" name="user[name]" size="30" title="Search name" type="search"
+        <input class="form--search-field" id="user_name" name="user[name]" size="30" title="Search name" type="search"
           value="JJ Abrams" />
       }.squish
     end
@@ -243,10 +266,12 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_mail" name="user[mail]" size="30" title="Email" type="email"
+        <input class="form--text-field -email"
+          id="user_mail" name="user[mail]" size="30" title="Email" type="email"
           value="jj@lost-mail.com" />
       }.squish
     end
@@ -260,10 +285,12 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_mail" name="user[mail]" size="30" title="Not really email"
+        <input class="form--text-field -telephone"
+          id="user_mail" name="user[mail]" size="30" title="Not really email"
           type="tel" value="jj@lost-mail.com" />
       }.squish
     end
@@ -277,10 +304,12 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_login" name="user[login]" size="30" title="Not really password"
+        <input class="form--text-field -password"
+          id="user_login" name="user[login]" size="30" title="Not really password"
           type="password" />
       }.squish
     end
@@ -294,10 +323,12 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_name" name="user[name]" title="Not really file" type="file" />
+        <input class="form--file-field"
+          id="user_name" name="user[name]" title="Not really file" type="file" />
       }.squish
     end
   end
@@ -310,10 +341,12 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="user_name" name="user[name]" size="30" title="Not really file"
+        <input class="form--text-field -url"
+          id="user_name" name="user[name]" size="30" title="Not really file"
           type="url" value="JJ Abrams" />
       }.squish
     end
@@ -325,6 +358,7 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'not labelled'
+    it_behaves_like 'not wrapped in container span'
 
     it 'should output element' do
       expect(output).to eq %{<input name="commit" type="submit" value="Create User" />}
@@ -337,6 +371,7 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'not labelled'
+    it_behaves_like 'not wrapped in container span'
 
     it 'should output element' do
       expect(output).to eq %{<button name="button" type="submit">Create User</button>}

@@ -62,7 +62,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
         ret
       else
-        (label_for_field(field, options) + super).html_safe
+        options[:class] ||= ''
+        options[:class] << field_css_class('#{selector}')
+
+        (label_for_field(field, options) + content_tag(:span, super, class: 'form--field-container')).html_safe
       end
     end
     END_SRC
@@ -70,14 +73,32 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def select(field, choices, options = {}, html_options = {})
-    label_for_field(field, options) + super
+    html_options[:class] ||= ''
+    html_options[:class] << 'form--select'
+
+    label_for_field(field, options) + content_tag(:span, super, class: 'form--field-container')
   end
 
   def collection_select(field, collection, value_method, text_method, options = {}, html_options = {})
-    label_for_field(field, options) + super
+    html_options[:class] ||= ''
+    html_options[:class] << 'form--select'
+
+    label_for_field(field, options) + content_tag(:span, super, class: 'form--field-container')
   end
 
   private
+
+  TEXT_LIKE_FIELDS = [
+    'number_field', 'password_field', 'url_field', 'telephone_field', 'email_field'
+  ].freeze
+
+  def field_css_class(selector)
+    if TEXT_LIKE_FIELDS.include?(selector)
+      "form--text-field -#{selector.gsub(/_field$/, '')}"
+    else
+      "form--#{selector.tr('_', '-')}"
+    end
+  end
 
   # Returns a label tag for the given field
   def label_for_field(field, options = {}, translation_form = nil)
@@ -87,7 +108,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     text += @template.content_tag('span', ' *', class: 'required') if options.delete(:required)
 
     id = element_id(translation_form) if translation_form
-    label_options = { class: (@object && @object.errors[field] ? 'error' : nil) }
+    label_options = { class: (@object && @object.errors[field] ? '' : '') } # FIXME
+    label_options[:class] << 'form--label'
     label_options[:for] = id.sub(/\_id$/, "_#{field}") if options[:multi_locale] && id
 
     @template.label(@object_name, field.to_s, text.html_safe, label_options)
