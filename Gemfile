@@ -82,7 +82,7 @@ gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git"
 
 gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
-gem 'gon', '~> 4.0'
+gem 'gon', '~> 5.2.3'
 
 group :production do
   # we use dalli as standard memcache client
@@ -118,7 +118,7 @@ gem 'unicorn'
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
 
-gem 'i18n', '>=0.6.8'
+gem 'i18n', '~> 0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
 
 gem 'nokogiri', '>=1.5.11'
