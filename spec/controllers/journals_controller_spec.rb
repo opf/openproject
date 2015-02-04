@@ -28,30 +28,36 @@
 
 require 'spec_helper'
 
-describe JournalsController, :type => :controller do
+describe JournalsController, type: :controller do
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:role) { FactoryGirl.create(:role, :permissions => permissions) }
-  let(:member) { FactoryGirl.build(:member, :project => project,
-                                            :roles => [role],
-                                            :principal => user) }
-  let(:work_package) { FactoryGirl.build(:work_package, :type => project.types.first,
-                                                        :author => user,
-                                                        :project => project,
-                                                        :description => '') }
-  let(:journal) { FactoryGirl.create(:work_package_journal,
-                  journable: work_package,
-                  user: user) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:member) {
+    FactoryGirl.build(:member, project: project,
+                               roles: [role],
+                               principal: user)
+  }
+  let(:work_package) {
+    FactoryGirl.build(:work_package, type: project.types.first,
+                                     author: user,
+                                     project: project,
+                                     description: '')
+  }
+  let(:journal) {
+    FactoryGirl.create(:work_package_journal,
+                       journable: work_package,
+                       user: user)
+  }
   let(:permissions) { [:view_work_packages] }
 
   before do
     allow(User).to receive(:current).and_return user
   end
 
-  describe "GET diff" do
+  describe 'GET diff' do
     render_views
 
-    let(:params) { { :id => work_package.journals.last.id.to_s, :field => :description, :format => 'js' } }
+    let(:params) { { id: work_package.journals.last.id.to_s, field: :description, format: 'js' } }
 
     before do
       work_package.update_attribute :description, 'description'
@@ -59,11 +65,11 @@ describe JournalsController, :type => :controller do
     end
 
     describe 'w/ authorization' do
-      it "should be successful" do
+      it 'should be successful' do
         expect(response).to be_success
       end
 
-      it "should presetn the diff correctly" do
+      it 'should presetn the diff correctly' do
         expect(response.body.strip).to eq("<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>")
       end
     end
@@ -72,7 +78,6 @@ describe JournalsController, :type => :controller do
       let(:permissions) { [] }
       it { expect(response).not_to be_success }
     end
-
   end
 
   describe :edit do
