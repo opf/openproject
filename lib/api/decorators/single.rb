@@ -54,7 +54,7 @@ module API
       def self.self_link(path, title_getter: -> (*) { represented.name })
         link :self do
           link_object = { href: api_v3_paths.send(path, represented.id) }
-          link_object[:title] = self.instance_eval(&title_getter)
+          link_object[:title] = instance_eval(&title_getter)
 
           link_object
         end
@@ -68,9 +68,9 @@ module API
         link property do
           value = represented.send(backing_field)
           link_object = { href: (api_v3_paths.send(path, value.id) if value) }
-          link_object[:title] = self.instance_eval(&title_getter) if value
+          link_object[:title] = instance_eval(&title_getter) if value
 
-          link_object if self.instance_eval(&visible_condition)
+          link_object if instance_eval(&visible_condition)
         end
       end
 
