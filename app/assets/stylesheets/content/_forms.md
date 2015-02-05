@@ -11,6 +11,8 @@
 ## Forms: Standard layout
 
 ```
+@full-width
+
 <form class="form">
   <div class="form--field -required">
     <label class="form--label">Text:</label>
@@ -51,6 +53,8 @@
 ## Forms: Standard layout, wide labels
 
 ```
+@full-width
+
 <form class="form -wide-labels">
   <div class="form--field -required">
     <label class="form--label">Text:</label>
