@@ -46,7 +46,12 @@ module SettingsHelper
       choices = [[blank_text.is_a?(Symbol) ? I18n.t(blank_text) : blank_text, '']] + choices
     end
 
-    ret = select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
+    options[:class]  = ''
+    options[:class] << 'form--select'
+
+    ret = content_tag(:span, class: 'form--field-container') do
+      select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
+    end
     ret = setting_label(setting).safe_concat(ret) unless options[:label] == false
 
     ret
@@ -57,15 +62,18 @@ module SettingsHelper
     setting_values = [] unless setting_values.is_a?(Array)
 
     setting_label(setting, options) +
-      hidden_field_tag("settings[#{setting}][]", '') +
-      choices.map do |choice|
-        text, value = (choice.is_a?(Array) ? choice : [choice, choice])
+      content_tag(:span, class: 'form--field-container') do
+        hidden_field_tag("settings[#{setting}][]", '') +
+          choices.map do |choice|
+            text, value = (choice.is_a?(Array) ? choice : [choice, choice])
 
-        content_tag('label',
-                    check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value)) + text.to_s,
-                    class: 'block'
-        )
-      end.join.html_safe
+            content_tag('label',
+                        check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value),
+                                      class: 'form--check-box') + text.to_s,
+                        class: 'block'
+            )
+          end.join.html_safe
+      end
   end
 
   def settings_multiselect(settings, choices, options = {})
@@ -84,7 +92,9 @@ module SettingsHelper
           '<tr>' +
             '<td>' + h(text) + '</td>' +
             settings.map do |setting|
-              '<td align="center">' + check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value), id: "#{setting}_#{value}") + '</td>'
+              '<td align="center">' +
+                check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value),
+                              id: "#{setting}_#{value}", class: 'form--check-box') + '</td>'
             end.join +
           '</tr>'
         end.join +
@@ -94,23 +104,31 @@ module SettingsHelper
 
   def setting_text_field(setting, options = {})
     setting_label(setting, options) +
-      text_field_tag("settings[#{setting}]", Setting.send(setting), options)
+      content_tag(:span, class: 'form--field-container') do
+        text_field_tag("settings[#{setting}]", Setting.send(setting), options)
+      end
   end
 
   def setting_text_area(setting, options = {})
     setting_label(setting, options) +
-      text_area_tag("settings[#{setting}]", Setting.send(setting), options)
+      content_tag(:span, class: 'form--field-container') do
+        text_area_tag("settings[#{setting}]", Setting.send(setting), options)
+      end
   end
 
   def setting_check_box(setting, options = {})
     setting_label(setting, options) +
-      tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
-      check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
+      content_tag(:span, class: 'form--field-container') do
+        tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
+          check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
+      end
   end
 
   def setting_label(setting, options = {})
     label = options.delete(:label)
-    label != false ? content_tag('label', I18n.t(label || "setting_#{setting}"), for: "settings_#{setting}") : ''.html_safe
+    label != false ? content_tag('label', I18n.t(label || "setting_#{setting}"),
+                                 for: "settings_#{setting}",
+                                 class: 'form--label') : ''.html_safe
   end
 
   # Renders a notification field for a Redmine::Notifiable option
@@ -118,8 +136,9 @@ module SettingsHelper
     content_tag(:label,
                 check_box_tag('settings[notified_events][]',
                               notifiable.name,
-                              Setting.notified_events.include?(notifiable.name)) +
+                              Setting.notified_events.include?(notifiable.name),
+                              class: 'form--check-box') +
                   l_or_humanize(notifiable.name, prefix: 'label_'),
-                class: notifiable.parent.present? ? 'parent' : '')
+                class: 'form--label' + (notifiable.parent.present? ? ' parent' : ''))
   end
 end

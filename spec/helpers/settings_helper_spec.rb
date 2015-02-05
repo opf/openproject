@@ -34,7 +34,15 @@ describe SettingsHelper, type: :helper do
   include Capybara::RSpecMatchers
 
   shared_examples_for 'labelled' do
-    it { is_expected.to have_selector 'label' }
+    it { is_expected.to have_selector 'label.form--label' }
+  end
+
+  shared_examples_for 'wrapped in container span' do
+    it { is_expected.to have_selector 'span.form--field-container' }
+  end
+
+  shared_examples_for 'not wrapped in container span' do
+    it { is_expected.not_to have_selector 'span.form--field-container' }
   end
 
   describe '#setting_select' do
@@ -47,9 +55,10 @@ describe SettingsHelper, type: :helper do
     }
 
     it_behaves_like 'labelled'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
-      expect(output).to have_selector 'select > option', count: 3
+      expect(output).to have_selector 'select.form--select > option', count: 3
       expect(output).to have_select 'settings_field', selected: 'Jello'
     end
   end
@@ -63,12 +72,14 @@ describe SettingsHelper, type: :helper do
       helper.setting_multiselect :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']]
     }
 
+    it_behaves_like 'wrapped in container span'
+
     it 'should have three labels' do
       expect(output).to have_selector 'label.block', count: 3
     end
 
     it 'should output element' do
-      expect(output).to have_selector 'input[type="checkbox"]', count: 3
+      expect(output).to have_selector 'input[type="checkbox"].form--check-box', count: 3
     end
   end
 
@@ -84,8 +95,12 @@ describe SettingsHelper, type: :helper do
       ]
     }
 
+    it_behaves_like 'not wrapped in container span'
+
     it 'should output element' do
       expect(output).to have_selector 'table'
+      expect(output).to have_selector 'input[type="checkbox"].form--check-box'
+
       expect(output).to have_checked_field 'field_a_2'
       expect(output).to have_checked_field 'field_b_3'
     end
@@ -101,6 +116,7 @@ describe SettingsHelper, type: :helper do
     }
 
     it_behaves_like 'labelled'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
@@ -119,6 +135,7 @@ describe SettingsHelper, type: :helper do
     }
 
     it_behaves_like 'labelled'
+    it_behaves_like 'wrapped in container span'
 
     it 'should output element' do
       expect(output).to include %{
@@ -139,6 +156,7 @@ important text</textarea>
       end
 
       it_behaves_like 'labelled'
+      it_behaves_like 'wrapped in container span'
 
       it 'should output element' do
         expect(output).to have_selector 'input[type="checkbox"]'
@@ -152,6 +170,7 @@ important text</textarea>
       end
 
       it_behaves_like 'labelled'
+      it_behaves_like 'wrapped in container span'
 
       it 'should output element' do
         expect(output).to have_selector 'input[type="checkbox"]'
@@ -166,6 +185,7 @@ important text</textarea>
     }
 
     it_behaves_like 'labelled'
+    it_behaves_like 'not wrapped in container span'
   end
 
   describe '#notification_field' do
@@ -183,7 +203,7 @@ important text</textarea>
       it_behaves_like 'labelled'
 
       it 'should output element' do
-        expect(output).to have_selector 'input[type="checkbox"]'
+        expect(output).to have_selector 'input[type="checkbox"].form--check-box'
         expect(output).to have_checked_field 'Interesting stuff'
       end
     end
@@ -194,7 +214,7 @@ important text</textarea>
       it_behaves_like 'labelled'
 
       it 'should output element' do
-        expect(output).to have_selector 'input[type="checkbox"]'
+        expect(output).to have_selector 'input[type="checkbox"].form--check-box'
         expect(output).to have_unchecked_field 'Boring stuff'
       end
     end
