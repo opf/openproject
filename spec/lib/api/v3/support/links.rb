@@ -48,3 +48,29 @@ shared_examples_for 'action link' do
     it { expect(subject).to have_json_path("_links/#{action}/href") }
   end
 end
+
+shared_examples_for 'has a titled link' do
+  it { is_expected.to be_json_eql(href.to_json).at_path("_links/#{link}/href") }
+  it { is_expected.to be_json_eql(title.to_json).at_path("_links/#{link}/title") }
+end
+
+shared_examples_for 'has an untitled link' do
+  it { is_expected.to be_json_eql(href.to_json).at_path("_links/#{link}/href") }
+  it { is_expected.to_not have_json_path("_links/#{link}/title") }
+end
+
+shared_examples_for 'has an empty link' do
+  it { is_expected.to be_json_eql(nil.to_json).at_path("_links/#{link}/href") }
+
+  it 'has no embedded resource' do
+    is_expected.to_not have_json_path("_embedded/#{link}")
+  end
+end
+
+shared_examples_for 'has no link' do
+  it { is_expected.to_not have_json_path("_links/#{link}") }
+
+  it 'has no embedded resource' do
+    is_expected.to_not have_json_path("_embedded/#{link}")
+  end
+end

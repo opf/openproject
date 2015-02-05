@@ -233,19 +233,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe '_links' do
-      shared_examples_for 'has a titled link' do
-        it { is_expected.to be_json_eql(href.to_json).at_path("_links/#{link}/href") }
-        it { is_expected.to be_json_eql(title.to_json).at_path("_links/#{link}/title") }
-      end
-
-      shared_examples_for 'has an empty link' do
-        it { is_expected.to be_json_eql(nil.to_json).at_path("_links/#{link}/href") }
-
-        it 'has no embedded resource' do
-          is_expected.to_not have_json_path("_embedded/#{link}")
-        end
-      end
-
       it { is_expected.to have_json_type(Object).at_path('_links') }
 
       it 'should link to self' do

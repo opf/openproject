@@ -38,16 +38,14 @@ module API
         link :self do
           {
             href: api_v3_paths.version(represented.id),
-            title: "#{represented.name}"
+            title: represented.name
           }
         end
 
-        link :definingProject do
-          {
-            href: api_v3_paths.project(represented.project.id),
-            title: represented.project.name
-          } if represented.project.visible?(current_user)
-        end
+        linked_property :definingProject,
+                        path: :project,
+                        backing_field: :project,
+                        visible_condition: -> (*) { represented.project.visible?(current_user) }
 
         link :availableInProjects do
           {
