@@ -80,14 +80,14 @@ module API
           Duration.new(hours_and_minutes(hours)).iso8601
         end
 
-        private_class_method
-
         def self.hours_and_minutes(hours)
           hours = hours.to_f
           minutes = (hours - hours.to_i) * 60
 
           { hours: hours.to_i, minutes: minutes }
         end
+
+        private_class_method :hours_and_minutes
       end
     end
   end
