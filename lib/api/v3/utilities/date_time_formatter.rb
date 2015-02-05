@@ -42,7 +42,7 @@ module API
           begin
             date_and_time = DateTime.iso8601(value)
           rescue ArgumentError
-            raise API::Errors::PropertyFormatError.new(property_name, 'YYYY-MM-DD', value)
+            raise API::Errors::PropertyFormatError.new(property_name, 'ISO 8601 date only', value)
           end
 
           date_only = date_and_time.to_date
@@ -51,7 +51,7 @@ module API
           # but not "2015-01-31T01:02:03".
           # However Date.iso8601 is too generous and would accept that
           unless date_and_time == date_only
-            raise API::Errors::PropertyFormatError.new(property_name, 'YYYY-MM-DD', value)
+            raise API::Errors::PropertyFormatError.new(property_name, 'ISO 8601 date only', value)
           end
 
           date_only
