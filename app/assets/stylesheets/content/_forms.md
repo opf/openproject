@@ -121,6 +121,27 @@ _with no classes applied (uses default Foundation form styling)_
 <label>Number:<input type="number"></label>
 ```
 
+# Forms: Text areas
+
+## Default text areas
+
+### Standalone
+
+```
+<textarea class="form--text-area">
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+</textarea>
+```
+
+## Plain text areas
+
+_with no classes applied (uses default Foundation form styling)_
+
+```
+<textarea>
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+</textarea>
+```
 
 # Forms: Checkboxes
 
