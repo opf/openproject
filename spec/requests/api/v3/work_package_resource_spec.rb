@@ -494,6 +494,7 @@ h4. things we like
 
         shared_examples_for 'handling people' do |property|
           let(:user_parameter) { { _links: { property => { href: user_href } } } }
+          let(:href_path) { "_links/#{property}/href" }
 
           describe 'nil' do
             let(:user_href) { nil }
@@ -502,7 +503,7 @@ h4. things we like
 
             it { expect(response.status).to eq(200) }
 
-            it { expect(response.body).to be_json_eql(nil.to_json).at_path("_links/#{property}/href") }
+            it { expect(response.body).to be_json_eql(nil.to_json).at_path(href_path) }
 
             it_behaves_like 'lock version updated'
           end
