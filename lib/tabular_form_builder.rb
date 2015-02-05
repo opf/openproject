@@ -65,7 +65,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
         options[:class] ||= ''
         options[:class] << field_css_class('#{selector}')
 
-        (label_for_field(field, options) + content_tag(:span, super, class: 'form--field-container')).html_safe
+        (label_for_field(field, options) + container_wrap_field(super, '#{selector}')).html_safe
       end
     end
     END_SRC
@@ -76,14 +76,14 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     html_options[:class] ||= ''
     html_options[:class] << 'form--select'
 
-    label_for_field(field, options) + content_tag(:span, super, class: 'form--field-container')
+    label_for_field(field, options) + container_wrap_field(super, 'select')
   end
 
   def collection_select(field, collection, value_method, text_method, options = {}, html_options = {})
     html_options[:class] ||= ''
     html_options[:class] << 'form--select'
 
-    label_for_field(field, options) + content_tag(:span, super, class: 'form--field-container')
+    label_for_field(field, options) + container_wrap_field(super, 'select')
   end
 
   private
@@ -91,6 +91,20 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   TEXT_LIKE_FIELDS = [
     'number_field', 'password_field', 'url_field', 'telephone_field', 'email_field'
   ].freeze
+
+  def container_wrap_field(field_html, selector)
+    content_tag(:span,
+      content_tag(:span, field_html, class: field_container_css_class(selector)),
+        class: 'form--field-container')
+  end
+
+  def field_container_css_class(selector)
+    if TEXT_LIKE_FIELDS.include?(selector)
+      'form--text-field-container'
+    else
+      "form--#{selector.tr('_', '-')}-container"
+    end
+  end
 
   def field_css_class(selector)
     if TEXT_LIKE_FIELDS.include?(selector)
