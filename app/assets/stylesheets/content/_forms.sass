@@ -193,15 +193,21 @@ fieldset
   .form.-wide-labels &
     @include grid-size(8)
 
-.form--field-instructions
+%form--field-after-container
   @include grid-content(10, 2)
-  color:      $form-label-color
   font-size:  $form-label-fontsize
-  font-style: italic
+  color:      $form-label-color
 
   .form.-wide-labels &
     @include grid-size(8)
     @include grid-offset(4)
+
+.form--field-instructions
+  @extend %form--field-after-container
+  font-style: italic
+
+.form--field-extra-actions
+  @extend %form--field-after-container
 
 .form--text-field
   @include input-style

@@ -28,6 +28,9 @@
     <div class="form--field-container">
       <input type="email" class="form--text-field" placeholder="a valid email">
     </div>
+    <div class="form--field-extra-actions">
+      <a href="#">Request new email</a>
+    </div>
   </div>
   <div class="form--field -required">
     <label class="form--label">Number:</label>
