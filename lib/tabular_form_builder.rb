@@ -65,7 +65,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
         options[:class] ||= ''
         options[:class] << field_css_class('#{selector}')
 
-        (label_for_field(field, options) + container_wrap_field(super, '#{selector}')).html_safe
+        (label_for_field(field, options) + container_wrap_field(super, '#{selector}', options)).html_safe
       end
     end
     END_SRC
@@ -76,14 +76,14 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     html_options[:class] ||= ''
     html_options[:class] << 'form--select'
 
-    label_for_field(field, options) + container_wrap_field(super, 'select')
+    label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
 
   def collection_select(field, collection, value_method, text_method, options = {}, html_options = {})
     html_options[:class] ||= ''
     html_options[:class] << 'form--select'
 
-    label_for_field(field, options) + container_wrap_field(super, 'select')
+    label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
 
   private
@@ -92,10 +92,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     'number_field', 'password_field', 'url_field', 'telephone_field', 'email_field'
   ].freeze
 
-  def container_wrap_field(field_html, selector)
-    content_tag(:span,
-      content_tag(:span, field_html, class: field_container_css_class(selector)),
-        class: 'form--field-container')
+  def container_wrap_field(field_html, selector, options = {})
+    ret = content_tag(:span, field_html, class: field_container_css_class(selector))
+    ret = content_tag(:span, ret, class: 'form--field-container') unless options[:no_label]
+
+    ret
   end
 
   def field_container_css_class(selector)
@@ -116,6 +117,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   # Returns a label tag for the given field
   def label_for_field(field, options = {}, translation_form = nil)
+    options = options.dup
     return '' if options.delete(:no_label)
     text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
     text ||= @object.class.human_attribute_name(field.to_sym) if @object.is_a?(ActiveRecord::Base)

@@ -65,12 +65,24 @@ describe TabularFormBuilder do
     end
   end
 
-  shared_examples_for 'wrapped in container span' do |container = 'field-container'|
+  shared_examples_for 'wrapped in container' do |container = 'field-container'|
     it { is_expected.to have_selector "span.form--#{container}" }
   end
 
-  shared_examples_for 'not wrapped in container span' do |container = 'field-container'|
+  shared_examples_for 'not wrapped in container' do |container = 'field-container'|
     it { is_expected.not_to have_selector "span.form--#{container}" }
+  end
+
+  shared_examples_for 'wrapped in field-container by default' do
+    context 'by default' do
+      it_behaves_like 'wrapped in container'
+    end
+
+    context 'with no_label option' do
+      let(:options) { { no_label: true } }
+
+      it_behaves_like 'not wrapped in container'
+    end
   end
 
   describe '#text_field' do
@@ -81,8 +93,8 @@ describe TabularFormBuilder do
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'text-field-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -101,8 +113,8 @@ describe TabularFormBuilder do
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'text-area-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-area-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -120,8 +132,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'select-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'select-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -143,8 +155,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'select-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'select-container'
 
     it 'should output element' do
       expect(output).to have_selector 'select.form--select > option', count: 3
@@ -161,7 +173,7 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
+    it_behaves_like 'wrapped in field-container by default'
 
     it 'should output element' do
       expect(output).to have_selector 'select', count: 3
@@ -178,8 +190,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'check-box-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'check-box-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -198,8 +210,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'not labelled'
-    it_behaves_like 'not wrapped in container span'
-    it_behaves_like 'not wrapped in container span', 'radio-button-container'
+    it_behaves_like 'not wrapped in container'
+    it_behaves_like 'not wrapped in container', 'radio-button-container'
 
     it 'should output element' do
       expect(output).to eq %{
@@ -216,8 +228,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'text-field-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -236,8 +248,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'range-field-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'range-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -256,8 +268,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'search-field-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'search-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -275,8 +287,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'text-field-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -295,8 +307,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'text-field-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -315,8 +327,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'text-field-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -335,8 +347,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'file-field-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'file-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -354,8 +366,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in container span'
-    it_behaves_like 'wrapped in container span', 'text-field-container'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -372,8 +384,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'not labelled'
-    it_behaves_like 'not wrapped in container span'
-    it_behaves_like 'not wrapped in container span', 'submit-container'
+    it_behaves_like 'not wrapped in container'
+    it_behaves_like 'not wrapped in container', 'submit-container'
 
     it 'should output element' do
       expect(output).to eq %{<input name="commit" type="submit" value="Create User" />}
@@ -386,8 +398,8 @@ JJ Abrams</textarea>
     }
 
     it_behaves_like 'not labelled'
-    it_behaves_like 'not wrapped in container span'
-    it_behaves_like 'not wrapped in container span', 'button-container'
+    it_behaves_like 'not wrapped in container'
+    it_behaves_like 'not wrapped in container', 'button-container'
 
     it 'should output element' do
       expect(output).to eq %{<button name="button" type="submit">Create User</button>}
