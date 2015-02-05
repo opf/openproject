@@ -200,6 +200,13 @@ class ReportingsController < ApplicationController
   def create
     @reporting = @project.reportings_via_source.build
     @reporting.reporting_to_project_id = params['reporting']['reporting_to_project_id']
+
+    if @reporting.reporting_to_project.nil?
+      flash.now[:error] = l('timelines.reporting_could_not_be_saved')
+      render action: :new, status: :unprocessable_entity
+      return
+    end
+
     check_visibility
 
     if @reporting.save
