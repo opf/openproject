@@ -44,10 +44,10 @@ module.exports = function($scope,
            UserService,
            VersionService,
            HookService,
-           OverviewService,
+           OverviewTabInplaceEditorConfig,
            $q) {
 
-  $scope.inplaceProperties = OverviewService.getInplaceProperties();
+  $scope.inplaceProperties = OverviewTabInplaceEditorConfig.getInplaceProperties();
 
   $scope.userPath = PathHelper.staticUserPath;
   AuthorisationService.initModelAuth('work_package' + $scope.workPackage.id,
