@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$form--field-types: (text-field, text-area, select, check-box, range-field, search, file)
+
 @mixin input-style
   border: $content-form-input-border
   border-radius: 2px
@@ -210,12 +212,14 @@ fieldset
 .form--field-extra-actions
   @extend %form--field-after-container
 
-.form--text-field-container,
-.form--text-area-container,
-.form--select-container
+%form--field-element-container
   display: block
   padding-right: $block-padding
   flex: 1 1
+
+@each $field-type in $form--field-types
+  .form--#{$field-type}-container
+    @extend %form--field-element-container
 
 .form--text-field
   @include input-style
