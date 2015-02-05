@@ -88,7 +88,7 @@ class JournalsController < ApplicationController
   end
 
   def diff
-    if valid_field?(params[:field])
+    if valid_diff?
       field = params[:field].parameterize.underscore.to_sym
       from = @journal.changed_data[field][0]
       to = @journal.changed_data[field][1]
@@ -131,5 +131,10 @@ class JournalsController < ApplicationController
 
   def default_breadcrumb
     I18n.t(:label_journal_diff)
+  end
+
+  def valid_diff?
+    return false unless valid_field?(params[:field])
+    @journal.journable.class == WorkPackage
   end
 end
