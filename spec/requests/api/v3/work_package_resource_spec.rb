@@ -502,14 +502,14 @@ h4. things we like
 
             it { expect(response.status).to eq(200) }
 
-            it { expect(response.body).not_to have_json_path("_links/#{property}") }
+            it { expect(response.body).to be_json_eql(nil.to_json).at_path("_links/#{property}/href") }
 
             it_behaves_like 'lock version updated'
           end
 
           describe 'valid' do
             shared_examples_for 'valid user assignment' do
-              let(:title) { "#{assigned_user.name} - #{assigned_user.login}".to_json }
+              let(:title) { "#{assigned_user.name}".to_json }
 
               it { expect(response.status).to eq(200) }
 
