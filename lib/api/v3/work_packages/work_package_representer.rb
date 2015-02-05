@@ -90,33 +90,11 @@ module API
           } if current_user_allowed_to(:move_work_packages)
         end
 
-        link :status do
-          {
-            href: api_v3_paths.status(represented.status_id),
-            title: represented.status.name
-          }
-        end
+        linked_property :status
 
-        link :author do
-          {
-            href: api_v3_paths.user(represented.author.id),
-            title: "#{represented.author.name} - #{represented.author.login}"
-          } unless represented.author.nil?
-        end
-
-        link :responsible do
-          {
-            href: api_v3_paths.user(represented.responsible.id),
-            title: "#{represented.responsible.name} - #{represented.responsible.login}"
-          } unless represented.responsible.nil?
-        end
-
-        link :assignee do
-          {
-            href: api_v3_paths.user(represented.assigned_to.id),
-            title: "#{represented.assigned_to.name} - #{represented.assigned_to.login}"
-          } unless represented.assigned_to.nil?
-        end
+        linked_property :author, path: :user
+        linked_property :responsible, path: :user
+        linked_property :assignee, path: :user, backing_field: :assigned_to
 
         link :availableWatchers do
           {
@@ -202,27 +180,15 @@ module API
           } if current_user_allowed_to(:view_time_entries)
         end
 
-        link :category do
-          {
-            href: api_v3_paths.category(represented.category.id),
-            title: represented.category.name
-          } unless represented.category.nil?
-        end
+        linked_property :category
 
-        link :version do
-          {
-            href: api_v3_paths.version(represented.fixed_version.id),
-            title: "#{represented.fixed_version.to_s_for_project(represented.project)}"
-          } if represented.fixed_version &&
-               version_policy.allowed?(represented.fixed_version, :show)
-        end
+        linked_property :version,
+                        backing_field: :fixed_version,
+                        title_getter: -> (*) {
+                          represented.fixed_version.to_s_for_project(represented.project)
+                        }
 
-        link :priority do
-          {
-            href: api_v3_paths.priority(represented.priority.id),
-            title: represented.priority.name
-          }
-        end
+        linked_property :priority
 
         links :children do
           visible_children.map do |child|

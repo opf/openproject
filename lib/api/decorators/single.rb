@@ -51,6 +51,20 @@ module API
                exec_context: :decorator,
                render_nil: false
 
+      def self.linked_property(property,
+        path: property,
+        backing_field: property,
+        title_getter: -> (*) { represented.send(backing_field).name },
+        visible_condition: -> (*) { true })
+        link property do
+          value = represented.send(backing_field)
+          link_object = { href: (api_v3_paths.send(path, value.id) if value) }
+          link_object[:title] = self.instance_eval(&title_getter) if value
+
+          link_object if self.instance_eval(&visible_condition)
+        end
+      end
+
       private
 
       def datetime_formatter

@@ -38,8 +38,8 @@ FactoryGirl.define do
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user
-    created_at { Time.now }
-    updated_at { Time.now }
+    created_at Time.now
+    updated_at Time.now
 
     callback(:after_build) do |work_package, evaluator|
       work_package.type = work_package.project.types.first unless work_package.type
