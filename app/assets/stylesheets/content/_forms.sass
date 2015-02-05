@@ -193,6 +193,9 @@ fieldset
   @include grid-content(10)
   display: flex
 
+  &:nth-of-type(n+2)
+    @include grid-offset(2)
+
   .form.-wide-labels &
     @include grid-size(8)
 
