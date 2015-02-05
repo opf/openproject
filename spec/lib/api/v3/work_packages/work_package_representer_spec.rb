@@ -235,11 +235,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     describe '_links' do
       it { is_expected.to have_json_type(Object).at_path('_links') }
 
-      it 'should link to self' do
-        expect(subject).to have_json_path('_links/self/href')
-        expect(subject).to have_json_path('_links/self/title')
-      end
-
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
         let(:href) { "/api/v3/work_packages/#{work_package.id}" }
