@@ -17,7 +17,9 @@
   <div class="form--field -required">
     <label class="form--label">Text:</label>
     <div class="form--field-container">
-      <input type="text" class="form--text-field">
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field">
+      </div>
     </div>
     <div class="form--field-instructions">
       Write anything you like.
@@ -26,7 +28,9 @@
   <div class="form--field">
     <label class="form--label">Email:</label>
     <div class="form--field-container">
-      <input type="email" class="form--text-field" placeholder="a valid email">
+      <div class="form--text-field-container">
+        <input type="email" class="form--text-field" placeholder="a valid email">
+      </div>
     </div>
     <div class="form--field-extra-actions">
       <a href="#">Request new email</a>
@@ -35,7 +39,9 @@
   <div class="form--field -required">
     <label class="form--label">Number:</label>
     <div class="form--field-container">
-      <input type="number" class="form--text-field">
+      <div class="form--text-field-container">
+        <input type="number" class="form--text-field">
+      </div>
     </div>
     <div class="form--field-instructions">
       Any number from 1 to 10!
@@ -44,7 +50,9 @@
   <div class="form--field -required">
     <label class="form--label">Long text:</label>
     <div class="form--field-container">
-      <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
+      <div class="form--text-area-container">
+        <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
+      </div>
     </div>
     <div class="form--field-instructions">
       Write more about anything.
@@ -62,13 +70,17 @@
   <div class="form--field -required">
     <label class="form--label">Text:</label>
     <div class="form--field-container">
-      <input type="text" class="form--text-field">
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field">
+      </div>
     </div>
   </div>
   <div class="form--field">
     <label class="form--label">Email:</label>
     <div class="form--field-container">
-      <input type="email" class="form--text-field" placeholder="a valid email">
+      <div class="form--text-field-container">
+        <input type="email" class="form--text-field" placeholder="a valid email">
+      </div>
     </div>
     <div class="form--field-instructions">
       Your personal email address.
@@ -77,7 +89,9 @@
   <div class="form--field -required">
     <label class="form--label">Number:</label>
     <div class="form--field-container">
-      <input type="number" class="form--text-field">
+      <div class="form--text-field-container">
+        <input type="number" class="form--text-field">
+      </div>
     </div>
     <div class="form--field-instructions">
       Any number from 1 to 10!
@@ -86,7 +100,9 @@
   <div class="form--field -required">
     <label class="form--label">Long text:</label>
     <div class="form--field-container">
-      <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
+      <div class="form--text-field-container">
+        <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
+      </div>
     </div>
     <div class="form--field-instructions">
       Write more about anything.
@@ -95,6 +111,66 @@
 </form>
 ```
 
+## Forms: Multiple fields per row
+
+```
+@full-width
+
+<form class="form">
+  <div class="form--field -required">
+    <label class="form--label">Lieblingsstädte:</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field" value="Leipzig">
+      </div>
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field" placeholder="Berlin">
+      </div>
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field" placeholder="Zürich">
+      </div>
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field" placeholder="Paris">
+      </div>
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field" placeholder="Rom">
+      </div>
+    </div>
+  </div>
+  <div class="form--field -required">
+    <label class="form--label">Geburtsdatum:</label>
+    <div class="form--field-container">
+      <div class="form--select-container">
+        <select class="form--select">
+          <option>01</option><option>02</option><option>03</option>
+        </select>
+      </div>
+      <div class="form--select-container">
+        <select class="form--select">
+          <option>Januar</option>
+          <option selected>Februar</option>
+          <option>März</option>
+          <option>April</option>
+          <option>Mai</option>
+          <option>Juni</option>
+          <option>Juli</option>
+          <option>August</option>
+          <option>September</option>
+          <option>Oktober</option>
+          <option>November</option>
+          <option>Dezember</option>
+        </select>
+      </div>
+      <div class="form--text-field-container">
+        <input type="number" class="form--text-field" placeholder="1984">
+      </div>
+    </div>
+    <div class="form--field-instructions">
+      One never lies about one's age.
+    </div>
+  </div>
+</form>
+```
 
 # Forms: Text fields
 
@@ -219,11 +295,13 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
   <div class="form--field">
     <label class="form--label">Oranges:</label>
     <div class="form--field-container">
-      <select class="form--select">
-        <option>one</option>
-        <option>two</option>
-        <option>three</option>
-      </select>
+      <div class="form--select-container">
+        <select class="form--select">
+          <option>one</option>
+          <option>two</option>
+          <option>three</option>
+        </select>
+      </div>
     </div>
     <div class="form--field-instructions">
       Oranges are rich in Vitamin C. Eat more than two!
@@ -232,11 +310,13 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
   <div class="form--field">
     <label class="form--label">Apples:</label>
     <div class="form--field-container">
-      <select class="form--select" multiple>
-        <option>one</option>
-        <option>two</option>
-        <option>three</option>
-      </select>
+      <div class="form--select-container">
+        <select class="form--select" multiple>
+          <option>one</option>
+          <option>two</option>
+          <option>three</option>
+        </select>
+      </div>
     </div>
   </div>
 </form>

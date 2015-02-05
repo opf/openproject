@@ -188,7 +188,8 @@ fieldset
       color:    smartscale(#008BD0, 30%)
 
 .form--field-container
-  @include grid-content(10)
+  @include grid-content(8)
+  display: flex
 
   .form.-wide-labels &
     @include grid-size(8)
@@ -208,6 +209,13 @@ fieldset
 
 .form--field-extra-actions
   @extend %form--field-after-container
+
+.form--text-field-container,
+.form--text-area-container,
+.form--select-container
+  display: block
+  padding-right: $block-padding
+  flex: 1 1
 
 .form--text-field
   @include input-style
