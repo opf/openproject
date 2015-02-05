@@ -53,15 +53,56 @@ describe TabularFormBuilder do
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in field-container by default'
-    it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
-      expect(output).to include %{
-        <input class="custom-class form--text-field"
-          id="user_name" name="user[name]" size="30" title="Name" type="text"
-          value="JJ Abrams" />
-      }.squish
+    context 'with single_locale option' do
+      let(:options)   { { single_locale: true } }
+      let(:resource)  { FactoryGirl.build(:custom_field) }
+
+      # it_behaves_like 'wrapped in field-container by default'
+
+      it 'should output element' do
+        expect(output).to include %{
+          <input
+            id="user_translations_attributes_0_name"
+            name="user[translations_attributes][0][name]" size="30" type="text" />
+        }.squish
+      end
+    end
+
+    context 'with multi_locale option' do
+      let(:options)   { { multi_locale: true } }
+      let(:resource)  { FactoryGirl.build(:custom_field) }
+
+      # it_behaves_like 'wrapped in field-container by default'
+
+      it 'should output element' do
+        expect(output).to include %{
+          <input
+            id="user_translations_attributes_0_name"
+            name="user[translations_attributes][0][name]" size="30" type="text" />
+        }.squish
+      end
+
+      it 'should output select' do
+        expect(output).to have_selector 'select.locale_selector > option', count: 1
+      end
+
+      it 'should have a link to add a locale' do
+        expect(output).to include %{<a class="add_locale" href="#">Add</a>}
+      end
+    end
+
+    context 'without locale' do
+      it_behaves_like 'wrapped in field-container by default'
+      it_behaves_like 'wrapped in container', 'text-field-container'
+
+      it 'should output element' do
+        expect(output).to include %{
+          <input class="custom-class form--text-field"
+            id="user_name" name="user[name]" size="30" title="Name" type="text"
+            value="JJ Abrams" />
+        }.squish
+      end
     end
   end
 
