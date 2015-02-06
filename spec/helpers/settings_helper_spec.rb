@@ -44,6 +44,7 @@ describe SettingsHelper, type: :helper do
 
     it_behaves_like 'labelled'
     it_behaves_like 'wrapped in container'
+    it_behaves_like 'wrapped in container', 'select-container'
 
     it 'should output element' do
       expect(output).to have_selector 'select.form--select > option', count: 3
@@ -61,6 +62,10 @@ describe SettingsHelper, type: :helper do
     }
 
     it_behaves_like 'wrapped in container'
+
+    it 'should have checkboxes wrapped in checkbox-container' do
+      expect(output).to have_selector 'span.form--check-box-container', count: 3
+    end
 
     it 'should have three labels' do
       expect(output).to have_selector 'label.block', count: 3
@@ -85,6 +90,10 @@ describe SettingsHelper, type: :helper do
 
     it_behaves_like 'not wrapped in container'
 
+    it 'should have checkboxes wrapped in checkbox-container' do
+      expect(output).to have_selector 'span.form--check-box-container', count: 6
+    end
+
     it 'should output element' do
       expect(output).to have_selector 'table'
       expect(output).to have_selector 'input[type="checkbox"].form--check-box'
@@ -105,6 +114,7 @@ describe SettingsHelper, type: :helper do
 
     it_behaves_like 'labelled'
     it_behaves_like 'wrapped in container'
+    it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -124,6 +134,7 @@ describe SettingsHelper, type: :helper do
 
     it_behaves_like 'labelled'
     it_behaves_like 'wrapped in container'
+    it_behaves_like 'wrapped in container', 'text-area-container'
 
     it 'should output element' do
       expect(output).to include %{
@@ -145,6 +156,7 @@ important text</textarea>
 
       it_behaves_like 'labelled'
       it_behaves_like 'wrapped in container'
+      it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do
         expect(output).to have_selector 'input[type="checkbox"]'
@@ -159,6 +171,7 @@ important text</textarea>
 
       it_behaves_like 'labelled'
       it_behaves_like 'wrapped in container'
+      it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do
         expect(output).to have_selector 'input[type="checkbox"]'
@@ -189,6 +202,7 @@ important text</textarea>
       let(:notifiable) { OpenStruct.new(name: 'interesting_stuff') }
 
       it_behaves_like 'labelled'
+      it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do
         expect(output).to have_selector 'input[type="checkbox"].form--check-box'
@@ -200,6 +214,7 @@ important text</textarea>
       let(:notifiable) { OpenStruct.new(name: 'boring_stuff') }
 
       it_behaves_like 'labelled'
+      it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do
         expect(output).to have_selector 'input[type="checkbox"].form--check-box'

@@ -50,7 +50,9 @@ module SettingsHelper
     options[:class] << 'form--select'
 
     ret = content_tag(:span, class: 'form--field-container') do
-      select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
+      content_tag(:span, class: 'form--select-container') do
+        select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
+      end
     end
     ret = setting_label(setting).safe_concat(ret) unless options[:label] == false
 
@@ -67,11 +69,13 @@ module SettingsHelper
           choices.map do |choice|
             text, value = (choice.is_a?(Array) ? choice : [choice, choice])
 
-            content_tag('label',
-                        check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value),
-                                      class: 'form--check-box') + text.to_s,
-                        class: 'block'
-            )
+            content_tag(:label, class: 'block') do
+              content_tag(:span, class: 'form--check-box-container') do
+                check_box_tag("settings[#{setting}][]", value,
+                              Setting.send(setting).include?(value),
+                              class: 'form--check-box')
+              end + text.to_s
+            end
           end.join.html_safe
       end
   end
@@ -93,8 +97,11 @@ module SettingsHelper
             '<td>' + h(text) + '</td>' +
             settings.map do |setting|
               '<td align="center">' +
-                check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value),
-                              id: "#{setting}_#{value}", class: 'form--check-box') + '</td>'
+                content_tag(:span, class: 'form--check-box-container') do
+                  check_box_tag("settings[#{setting}][]", value,
+                                Setting.send(setting).include?(value),
+                                id: "#{setting}_#{value}", class: 'form--check-box')
+                end + '</td>'
             end.join +
           '</tr>'
         end.join +
@@ -105,22 +112,28 @@ module SettingsHelper
   def setting_text_field(setting, options = {})
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
-        text_field_tag("settings[#{setting}]", Setting.send(setting), options)
+        content_tag(:span, class: 'form--text-field-container') do
+          text_field_tag("settings[#{setting}]", Setting.send(setting), options)
+        end
       end
   end
 
   def setting_text_area(setting, options = {})
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
-        text_area_tag("settings[#{setting}]", Setting.send(setting), options)
+        content_tag(:span, class: 'form--text-area-container') do
+          text_area_tag("settings[#{setting}]", Setting.send(setting), options)
+        end
       end
   end
 
   def setting_check_box(setting, options = {})
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
-        tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
-          check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
+        content_tag(:span, class: 'form--check-box-container') do
+          tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
+            check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
+        end
       end
   end
 
@@ -133,12 +146,14 @@ module SettingsHelper
 
   # Renders a notification field for a Redmine::Notifiable option
   def notification_field(notifiable)
-    content_tag(:label,
-                check_box_tag('settings[notified_events][]',
-                              notifiable.name,
-                              Setting.notified_events.include?(notifiable.name),
-                              class: 'form--check-box') +
-                  l_or_humanize(notifiable.name, prefix: 'label_'),
-                class: 'form--label' + (notifiable.parent.present? ? ' parent' : ''))
+    content_tag(:label, class: 'form--label' + (notifiable.parent.present? ? ' parent' : '')) do
+      content_tag(:span, class: 'form--check-box-container') do
+        check_box_tag('settings[notified_events][]',
+                      notifiable.name,
+                      Setting.notified_events.include?(notifiable.name),
+                      class: 'form--check-box') +
+          l_or_humanize(notifiable.name, prefix: 'label_')
+      end
+    end
   end
 end
