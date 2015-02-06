@@ -59,7 +59,10 @@ module API
               def write_request_valid?
                 contract = WorkPackageContract.new(@representer.represented, current_user)
 
-                return true if contract.validate && @representer.represented.valid?
+                contract_valid = contract.validate
+                represented_valid = @representer.represented.valid?
+
+                return true if contract_valid && represented_valid
 
                 # We need to merge the contract errors with the model errors in
                 # order to have them available at one place.
