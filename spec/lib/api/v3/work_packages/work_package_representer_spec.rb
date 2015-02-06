@@ -538,16 +538,41 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         describe 'parent' do
-          let(:work_package) {
-            FactoryGirl.create(:work_package,
-                               project: project,
-                               parent_id: forbidden_work_package.id)
-          }
-          let!(:forbidden_work_package) do
-            FactoryGirl.create(:work_package, project: forbidden_project)
+          let(:visible_parent) { FactoryGirl.create(:work_package, project: project) }
+          let(:invisible_parent) { FactoryGirl.create(:work_package, project: forbidden_project) }
+          let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+
+          context 'no parent' do
+            it_behaves_like 'has an empty link' do
+              let(:link) { 'parent' }
+            end
           end
 
-          it { expect(subject).to_not have_json_path('_links/parent') }
+          context 'parent is visible' do
+            let(:work_package) {
+              FactoryGirl.create(:work_package,
+                                 project: project,
+                                 parent_id: visible_parent.id)
+            }
+
+            it_behaves_like 'has a titled link' do
+              let(:link) { 'parent' }
+              let(:href) { api_v3_paths.work_package(visible_parent.id) }
+              let(:title) { visible_parent.subject }
+            end
+          end
+
+          context 'parent not visible' do
+            let(:work_package) {
+              FactoryGirl.create(:work_package,
+                                 project: project,
+                                 parent_id: invisible_parent.id)
+            }
+
+            it_behaves_like 'has no link' do
+              let(:link) { 'parent' }
+            end
+          end
         end
 
         context 'children' do

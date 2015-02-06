@@ -160,12 +160,10 @@ module API
           } if current_user_allowed_to(:add_work_package_notes)
         end
 
-        link :parent do
-          {
-            href: api_v3_paths.work_package(represented.parent.id),
-            title:  represented.parent.subject
-          } unless represented.parent.nil? || !represented.parent.visible?
-        end
+        linked_property :parent,
+                        path: :work_package,
+                        title_getter: -> (*) { represented.parent.subject },
+                        show_if: -> (*) { represented.parent.nil? || represented.parent.visible? }
 
         link :timeEntries do
           {
