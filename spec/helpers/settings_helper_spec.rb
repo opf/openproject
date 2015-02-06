@@ -33,9 +33,9 @@ require 'ostruct'
 describe SettingsHelper, type: :helper do
   include Capybara::RSpecMatchers
 
-  describe '#setting_select' do
-    let(:options) { { } }
+  let(:options) { { class: 'custom-class' } }
 
+  describe '#setting_select' do
     before do
       expect(Setting).to receive(:field).and_return('2')
     end
@@ -111,7 +111,7 @@ describe SettingsHelper, type: :helper do
     end
 
     subject(:output) {
-      helper.setting_text_field :field
+      helper.setting_text_field :field, options
     }
 
     it_behaves_like 'labelled'
@@ -120,8 +120,9 @@ describe SettingsHelper, type: :helper do
 
     it 'should output element' do
       expect(output).to include %{
-        <input id="settings_field" name="settings[field]" type="text" value="important value" />
-      }.strip
+        <input class="custom-class form--text-field"
+          id="settings_field" name="settings[field]" type="text" value="important value" />
+      }.squish
     end
   end
 
@@ -131,7 +132,7 @@ describe SettingsHelper, type: :helper do
     end
 
     subject(:output) {
-      helper.setting_text_area :field
+      helper.setting_text_area :field, options
     }
 
     it_behaves_like 'labelled'
@@ -140,7 +141,7 @@ describe SettingsHelper, type: :helper do
 
     it 'should output element' do
       expect(output).to include %{
-        <textarea id="settings_field" name="settings[field]">
+        <textarea class="custom-class form--text-area" id="settings_field" name="settings[field]">
 important text</textarea>
       }.strip
     end
@@ -148,7 +149,7 @@ important text</textarea>
 
   describe '#setting_check_box' do
     subject(:output) {
-      helper.setting_check_box :field
+      helper.setting_check_box :field, options
     }
 
     context 'when setting is true' do
@@ -161,7 +162,7 @@ important text</textarea>
       it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do
-        expect(output).to have_selector 'input[type="checkbox"]'
+        expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_checked_field 'settings_field'
       end
     end
@@ -176,7 +177,7 @@ important text</textarea>
       it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do
-        expect(output).to have_selector 'input[type="checkbox"]'
+        expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_unchecked_field 'settings_field'
       end
     end

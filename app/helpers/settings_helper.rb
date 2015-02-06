@@ -110,6 +110,8 @@ module SettingsHelper
   end
 
   def setting_text_field(setting, options = {})
+    options[:class] = Array(options[:class]) + %w(form--text-field)
+
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
         content_tag(:span, class: 'form--text-field-container') do
@@ -119,6 +121,8 @@ module SettingsHelper
   end
 
   def setting_text_area(setting, options = {})
+    options[:class] = Array(options[:class]) + %w(form--text-area)
+
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
         content_tag(:span, class: 'form--text-area-container') do
@@ -128,6 +132,8 @@ module SettingsHelper
   end
 
   def setting_check_box(setting, options = {})
+    options[:class] = Array(options[:class]) + %w(form--check-box)
+
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
         content_tag(:span, class: 'form--check-box-container') do
