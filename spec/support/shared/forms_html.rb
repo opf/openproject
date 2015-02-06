@@ -41,7 +41,7 @@ shared_examples_for 'labelled by default' do
   end
 
   context 'with no_label option' do
-    let(:options) { { no_label: true } }
+    let(:options) { { no_label: true, label: false } }
 
     it_behaves_like 'not labelled'
   end
@@ -61,7 +61,7 @@ shared_examples_for 'wrapped in field-container by default' do
   end
 
   context 'with no_label option' do
-    let(:options) { { no_label: true } }
+    let(:options) { { no_label: true, label: false } }
 
     it_behaves_like 'not wrapped in container'
   end

@@ -49,12 +49,12 @@ module SettingsHelper
     options[:class]  = ''
     options[:class] << 'form--select'
 
-    ret = content_tag(:span, class: 'form--field-container') do
-      content_tag(:span, class: 'form--select-container') do
-        select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
-      end
+    ret = content_tag(:span, class: 'form--select-container') do
+      select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
     end
-    ret = setting_label(setting).safe_concat(ret) unless options[:label] == false
+    unless options[:label] == false
+      ret = setting_label(setting) + content_tag(:span, ret, class: 'form--field-container')
+    end
 
     ret
   end

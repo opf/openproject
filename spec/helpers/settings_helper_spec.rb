@@ -34,16 +34,18 @@ describe SettingsHelper, type: :helper do
   include Capybara::RSpecMatchers
 
   describe '#setting_select' do
+    let(:options) { { } }
+
     before do
       expect(Setting).to receive(:field).and_return('2')
     end
 
     subject(:output) {
-      helper.setting_select :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']]
+      helper.setting_select :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
     }
 
-    it_behaves_like 'labelled'
-    it_behaves_like 'wrapped in container'
+    it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'select-container'
 
     it 'should output element' do
