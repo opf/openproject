@@ -58,13 +58,14 @@ describe TabularFormBuilder do
       let(:options)   { { single_locale: true } }
       let(:resource)  { FactoryGirl.build(:custom_field) }
 
-      # it_behaves_like 'wrapped in field-container by default'
+      it_behaves_like 'wrapped in field-container by default'
+      it_behaves_like 'wrapped in container', 'text-field-container'
 
       it 'should output element' do
         expect(output).to include %{
-          <input
+          <input class="form--text-field"
             id="user_translations_attributes_0_name"
-            name="user[translations_attributes][0][name]" size="30" type="text" />
+            name="user[translations_attributes][0][name]" no_label="true" size="30" type="text" />
         }.squish
       end
     end
@@ -73,13 +74,14 @@ describe TabularFormBuilder do
       let(:options)   { { multi_locale: true } }
       let(:resource)  { FactoryGirl.build(:custom_field) }
 
-      # it_behaves_like 'wrapped in field-container by default'
+      it_behaves_like 'wrapped in field-container by default'
+      it_behaves_like 'wrapped in container', 'text-field-container'
 
       it 'should output element' do
         expect(output).to include %{
-          <input
+          <input class="form--text-field"
             id="user_translations_attributes_0_name"
-            name="user[translations_attributes][0][name]" size="30" type="text" />
+            name="user[translations_attributes][0][name]" no_label="true" size="30" type="text" />
         }.squish
       end
 
@@ -88,7 +90,7 @@ describe TabularFormBuilder do
       end
 
       it 'should have a link to add a locale' do
-        expect(output).to include %{<a class="add_locale" href="#">Add</a>}
+        expect(output).to include %{<a class="form--field-extra-actions add_locale" href="#">Add</a>}
       end
     end
 
