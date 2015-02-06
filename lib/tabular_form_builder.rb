@@ -42,7 +42,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     src = <<-END_SRC
     def #{selector}(field, options = {}, *args)
       if options[:multi_locale] || options[:single_locale]
-        localize_field(field, options)
+        localize_field(field, options, __method__)
       else
         options[:class] = Array(options[:class]) + [ field_css_class('#{selector}') ]
 
@@ -95,9 +95,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     ret
   end
 
-  def localize_field(field, options)
+  def localize_field(field, options, meth)
     localized_field = Proc.new do |translation_form, multiple|
-      localized_field(translation_form, __method__, field, options)
+      localized_field(translation_form, meth, field, options)
     end
 
     ret = nil
