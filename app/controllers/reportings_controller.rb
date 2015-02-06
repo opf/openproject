@@ -35,7 +35,7 @@ class ReportingsController < ApplicationController
   before_filter :find_project_by_project_id
   before_filter :authorize
 
-  before_filter :find_reporting_via_source, only: [:show, :edit, :update, :confirm_destroy, :destroy]
+  before_filter :find_reporting, only: [:show, :edit, :update, :confirm_destroy, :destroy]
   before_filter :build_reporting, only: :create
 
   before_filter :check_visibility!, except: [:create, :index, :new, :available_projects]
@@ -238,7 +238,7 @@ class ReportingsController < ApplicationController
 
   protected
 
-  def find_reporting_via_source
+  def find_reporting
     @reporting = @project.reportings_via_source.find(params[:id])
   end
 
