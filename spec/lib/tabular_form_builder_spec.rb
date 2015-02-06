@@ -45,46 +45,6 @@ describe TabularFormBuilder do
   }
   let(:builder)  { TabularFormBuilder.new(:user, resource, helper, {}, nil) }
 
-  shared_examples_for 'labelled' do
-    it { is_expected.to have_selector 'label.form--label' }
-  end
-
-  shared_examples_for 'not labelled' do
-    it { is_expected.not_to have_selector 'label.form--label' }
-  end
-
-  shared_examples_for 'labelled by default' do
-    context 'by default' do
-      it_behaves_like 'labelled'
-    end
-
-    context 'with no_label option' do
-      let(:options) { { no_label: true } }
-
-      it_behaves_like 'not labelled'
-    end
-  end
-
-  shared_examples_for 'wrapped in container' do |container = 'field-container'|
-    it { is_expected.to have_selector "span.form--#{container}" }
-  end
-
-  shared_examples_for 'not wrapped in container' do |container = 'field-container'|
-    it { is_expected.not_to have_selector "span.form--#{container}" }
-  end
-
-  shared_examples_for 'wrapped in field-container by default' do
-    context 'by default' do
-      it_behaves_like 'wrapped in container'
-    end
-
-    context 'with no_label option' do
-      let(:options) { { no_label: true } }
-
-      it_behaves_like 'not wrapped in container'
-    end
-  end
-
   describe '#text_field' do
     let(:options) { { title: 'Name' } }
 
