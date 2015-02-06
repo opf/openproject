@@ -29,6 +29,7 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
+require 'api/v3/utilities/date_time_formatter'
 
 module API
   module V3
@@ -37,6 +38,7 @@ module API
         class WorkPackagePayloadRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
+          include API::V3::Utilities
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -80,12 +82,29 @@ module API
           property :project_id,
                    getter: -> (*) { nil },
                    render_nil: false
+
           property :start_date,
-                   getter: -> (*) { nil },
-                   render_nil: false
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     DateTimeFormatter::format_date(represented.start_date, allow_nil: true)
+                   },
+                   setter: -> (value, *) {
+                     represented.start_date = DateTimeFormatter::parse_date(value,
+                                                                            'startDate',
+                                                                            allow_nil: true)
+                   },
+                   render_nil: true
           property :due_date,
-                   getter: -> (*) { nil },
-                   render_nil: false
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     DateTimeFormatter::format_date(represented.due_date, allow_nil: true)
+                   },
+                   setter: -> (value, *) {
+                     represented.due_date = DateTimeFormatter::parse_date(value,
+                                                                          'dueDate',
+                                                                          allow_nil: true)
+                   },
+                   render_nil: true
           property :version_id,
                    getter: -> (*) { nil },
                    setter: -> (value, *) { self.fixed_version_id = value },

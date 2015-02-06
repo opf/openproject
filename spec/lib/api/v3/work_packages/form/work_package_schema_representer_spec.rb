@@ -93,6 +93,18 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
         it_behaves_like 'schema property', 'subject', 'String'
       end
 
+      describe 'description' do
+        it_behaves_like 'schema property', 'description', 'Formattable'
+      end
+
+      describe 'startDate' do
+        it_behaves_like 'schema property', 'startDate', 'Date'
+      end
+
+      describe 'dueDate' do
+        it_behaves_like 'schema property', 'dueDate', 'Date'
+      end
+
       describe 'status' do
         shared_examples_for 'contains statuses' do
           it_behaves_like 'linked property', 'status', 'Status'

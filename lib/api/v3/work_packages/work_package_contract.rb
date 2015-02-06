@@ -39,6 +39,8 @@ module API
           'subject',
           'parent_id',
           'description',
+          'start_date',
+          'due_date',
           'status_id',
           'assigned_to_id',
           'responsible_id',

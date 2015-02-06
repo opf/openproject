@@ -163,6 +163,10 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
       };
 
       if (propertyName === 'estimatedTime' || propertyName === 'spentTime') {
+        if (value === null) {
+          return null;
+        }
+
         var hours = moment.duration(value).asHours();
 
         return I18n.t('js.units.hour', { count: hours });

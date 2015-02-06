@@ -26,33 +26,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :work_package do
-    ignore do
-      custom_values nil
-    end
+require 'spec_helper'
 
-    priority
-    project factory: :project_with_types
-    status factory: :status
-    sequence(:subject) { |n| "WorkPackage No. #{n}" }
-    description { |i| "Description for '#{i.subject}'" }
-    author factory: :user
-    created_at { Time.now }
-    updated_at { Time.now }
+shared_examples_for 'has ISO 8601 date only' do
+  it 'exists' do
+    is_expected.to have_json_path(json_path)
+  end
 
-    callback(:after_build) do |work_package, evaluator|
-      work_package.type = work_package.project.types.first unless work_package.type
+  it 'indicates date only as ISO 8601' do
+    called_with_expected = false
+    expect(::API::V3::Utilities::DateTimeFormatter).to receive(:format_date) do |actual, *_|
+      called_with_expected = true if actual.eql? date
+    end.at_least(:once)
 
-      custom_values = evaluator.custom_values || {}
+    subject # we need to resolve the subject for calls to occur
+    expect(called_with_expected).to be_true
+  end
+end
 
-      if custom_values.is_a? Hash
-        custom_values.each_pair do |custom_field_id, value|
-          work_package.custom_values.build custom_field_id: custom_field_id, value: value
-        end
-      else
-        custom_values.each { |cv| work_package.custom_values << cv }
-      end
-    end
+shared_examples_for 'has UTC ISO 8601 date and time' do
+  it 'exists' do
+    is_expected.to have_json_path(json_path)
+  end
+
+  it 'indicates date and time as ISO 8601' do
+    called_with_expected = false
+    expect(::API::V3::Utilities::DateTimeFormatter).to receive(:format_datetime) do |actual, *_|
+      # ActiveSupport flaws :eql? we circumvent that by calling utc (which is equally valid)
+      called_with_expected = true if actual.utc.eql? date.utc
+    end.at_least(:once)
+
+    subject # we need to resolve the subject for calls to occur
+    expect(called_with_expected).to be_true
   end
 end
