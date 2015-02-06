@@ -191,6 +191,9 @@ describe('OpenProject', function() {
     describe('status', function() {
       behaveLikeEmbeddedDropdown('status.name', 'specified');
     });
+    describe('priority', function() {
+      behaveLikeEmbeddedDropdown('priority.name', 'High');
+    });
     describe('version', function() {
       var name = 'version.name';
       var editor = $('[ined-attribute=\'' + name + '\'] .inplace-editor');

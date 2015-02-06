@@ -60,10 +60,9 @@ module.exports = function($scope,
   function getPropertyValue(property, format) {
     switch(format) {
     case STATUS_TYPE:
-    case PRIORITY_TYPE:
-      return $scope.workPackage.embedded[property].props.name;
     case USER_TYPE:
     case CATEGORY_TYPE:
+    case PRIORITY_TYPE:
       return $scope.workPackage.embedded[property];
     case TIME_ENTRY_TYPE:
       return getLinkedTimeEntryValue(property);

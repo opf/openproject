@@ -95,7 +95,13 @@ module.exports = function() {
           placeholder: '-',
           displayStrategy: 'version',
           attributeTitle: I18n.t('js.work_packages.properties.version')
-        }
+        },
+        priority: {
+          type: 'select2',
+          attribute: 'priority.name',
+          embedded: true,
+          placeholder: '-'
+        },
       };
     }
   };

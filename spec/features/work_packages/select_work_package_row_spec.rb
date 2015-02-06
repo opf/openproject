@@ -326,6 +326,7 @@ describe 'Select work package row', type: :feature do
           text: work_package_3.subject,
           visible: false
         )
+
       end
 
       it_behaves_like 'work package row selected' do

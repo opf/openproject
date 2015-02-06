@@ -32,6 +32,9 @@
         },
         "version": {
           "href": "/api/v3/versions/1"
+        },
+        "priority": {
+          "href": null
         }
       },
       "lockVersion": 145,
@@ -297,6 +300,89 @@
             "createdAt": "01/21/2015/ 09:30 AM",
             "updatedAt": "01/21/2015/ 09:30 AM"
           }]
+        }
+      },
+      "priority":{
+        "_links":{
+          "allowedValues":[
+            {
+              "href":"/api/v3/priorities/1",
+              "title":"Low"
+            },
+            {
+              "href":"/api/v3/priorities/2",
+              "title":"Normal"
+            },
+            {
+              "href":"/api/v3/priorities/3",
+              "title":"High"
+            },
+            {
+              "href":"/api/v3/priorities/4",
+              "title":"Immediate"
+            }
+          ]
+        },
+        "type":"Priority",
+        "_embedded":{
+          "allowedValues":[
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/1",
+                  "title":"Low"
+                }
+              },
+              "id":1,
+              "name":"Low",
+              "position":1,
+              "isDefault":false,
+              "isActive":true
+            },
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/2",
+                  "title":"Normal"
+                }
+              },
+              "id":2,
+              "name":"Normal",
+              "position":2,
+              "isDefault":true,
+              "isActive":true
+            },
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/3",
+                  "title":"High"
+                }
+              },
+              "id":3,
+              "name":"High",
+              "position":3,
+              "isDefault":false,
+              "isActive":true
+            },
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/4",
+                  "title":"Immediate"
+                }
+              },
+              "id":4,
+              "name":"Immediate",
+              "position":5,
+              "isDefault":false,
+              "isActive":true
+            }
+          ]
         }
       }
     },
