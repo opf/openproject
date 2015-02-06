@@ -61,10 +61,10 @@ module API
       end
 
       def self.linked_property(property,
-        path: property,
-        backing_field: property,
-        title_getter: -> (*) { represented.send(backing_field).name },
-        show_if: -> (*) { true })
+                               path: property,
+                               backing_field: property,
+                               title_getter: -> (*) { represented.send(backing_field).name },
+                               show_if: -> (*) { true })
         link property do
           value = represented.send(backing_field)
           link_object = { href: (api_v3_paths.send(path, value.id) if value) }
