@@ -34,12 +34,11 @@ module.exports = function() {
       var href = attrs.href;
       var id = attrs.id;
       var target = attrs.previewArea ||  '#preview';
-
       element.on('click', function() {
         jQuery.ajax({
           url: href,
           type: 'POST',
-          data: angular.element('#' + id.replace(/-preview/, '')).serialize()
+          data: angular.element('#' + id.replace(/(-preview)/g, '')).serialize()
             .replace(
               '_method=put&', ''),
           success: function(data) {

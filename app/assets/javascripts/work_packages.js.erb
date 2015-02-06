@@ -34,6 +34,17 @@ var WorkPackage = WorkPackage || {};
 (function($) {
   var init;
 
+  // TODO: remove this, once the issue edit view is completely angular based
+  var manuallyCompile = function(button) {
+    if (!window.angular || button.length < 1) {
+      return;
+    }
+    angular.element('body').injector().invoke(function($compile) {
+      var scope = angular.element(button).scope();
+      $compile(button)(scope);
+    })
+  };
+
   init = function () {
 
     $.ajaxAppend({
@@ -53,6 +64,10 @@ var WorkPackage = WorkPackage || {};
                 }, 200);
                 enable_textarea_auto_completion($("#work_package_notes"));
                 $("#work_package_notes").focus();
+
+                // TODO: see last todo
+                var previewButton = update.find(".preview.button")
+                manuallyCompile(previewButton);
       }
     });
 
