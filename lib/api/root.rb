@@ -89,6 +89,14 @@ module API
         false
       end
 
+      def authorize_by_with_raise(&block)
+        unless yield
+          raise API::Errors::Unauthorized
+        else
+          true
+        end
+      end
+
       def running_in_test_env?
         Rails.env.test? && ENV['CAPYBARA_DISABLE_TEST_AUTH_PROTECTION'] != 'true'
       end
