@@ -64,13 +64,13 @@ module API
         path: property,
         backing_field: property,
         title_getter: -> (*) { represented.send(backing_field).name },
-        visible_condition: -> (*) { true })
+        show_if: -> (*) { true })
         link property do
           value = represented.send(backing_field)
           link_object = { href: (api_v3_paths.send(path, value.id) if value) }
           link_object[:title] = instance_eval(&title_getter) if value
 
-          link_object if instance_eval(&visible_condition)
+          link_object if instance_eval(&show_if)
         end
       end
 

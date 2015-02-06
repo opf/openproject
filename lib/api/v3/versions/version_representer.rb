@@ -40,7 +40,7 @@ module API
         linked_property :definingProject,
                         path: :project,
                         backing_field: :project,
-                        visible_condition: -> (*) { represented.project.visible?(current_user) }
+                        show_if: -> (*) { represented.project.visible?(current_user) }
 
         link :availableInProjects do
           {
