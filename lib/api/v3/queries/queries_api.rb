@@ -33,12 +33,10 @@ module API
     module Queries
       class QueriesAPI < Grape::API
         resources :queries do
-
           params do
             requires :id, desc: 'Query id'
           end
           namespace ':id' do
-
             before do
               @query = Query.find(params[:id])
               @representer =  ::API::V3::Queries::QueryRepresenter.new(@query)
@@ -75,7 +73,6 @@ module API
               @representer
             end
           end
-
         end
       end
     end

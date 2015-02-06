@@ -89,11 +89,11 @@ module API
         false
       end
 
-      def authorize_by_with_raise(&block)
-        unless yield
-          raise API::Errors::Unauthorized
-        else
+      def authorize_by_with_raise(&_block)
+        if yield
           true
+        else
+          raise API::Errors::Unauthorized
         end
       end
 
