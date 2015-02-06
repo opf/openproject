@@ -46,7 +46,7 @@ describe TabularFormBuilder do
   let(:builder)  { TabularFormBuilder.new(:user, resource, helper, {}, nil) }
 
   describe '#text_field' do
-    let(:options) { { title: 'Name' } }
+    let(:options) { { title: 'Name', class: 'custom-class' } }
 
     subject(:output) {
       builder.text_field :name, options
@@ -58,7 +58,7 @@ describe TabularFormBuilder do
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--text-field"
+        <input class="custom-class form--text-field"
           id="user_name" name="user[name]" size="30" title="Name" type="text"
           value="JJ Abrams" />
       }.squish
@@ -66,7 +66,7 @@ describe TabularFormBuilder do
   end
 
   describe '#text_area' do
-    let(:options) { { title: 'Name' } }
+    let(:options) { { title: 'Name', class: 'custom-class' } }
 
     subject(:output) {
       builder.text_area :name, options
@@ -78,7 +78,7 @@ describe TabularFormBuilder do
 
     it 'should output element' do
       expect(output).to include %{
-        <textarea class="form--text-area" cols="40" id="user_name" name="user[name]" rows="20" title="Name">
+        <textarea class="custom-class form--text-area" cols="40" id="user_name" name="user[name]" rows="20" title="Name">
 JJ Abrams</textarea>
       }.strip
     end
@@ -86,9 +86,10 @@ JJ Abrams</textarea>
 
   describe '#select' do
     let(:options) { { title: 'Name' } }
+    let(:html_options) { { class: 'custom-class' } }
 
     subject(:output) {
-      builder.select :name, '<option value="33">FUN</option>'.html_safe, options
+      builder.select :name, '<option value="33">FUN</option>'.html_safe, options, html_options
     }
 
     it_behaves_like 'labelled by default'
@@ -97,7 +98,7 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <select class="form--select"
+        <select class="custom-class form--select"
           id="user_name" name="user[name]"><option value="33">FUN</option></select>
       }.squish
     end
@@ -105,13 +106,14 @@ JJ Abrams</textarea>
 
   describe '#collection_select' do
     let(:options) { { title: 'Name' } }
+    let(:html_options) { { class: 'custom-class' } }
 
     subject(:output) {
       builder.collection_select :name, [
         OpenStruct.new(id: 56, name: 'Diana'),
         OpenStruct.new(id: 46, name: 'Ricky'),
         OpenStruct.new(id: 33, name: 'Jonas')
-      ], :id, :name, options
+      ], :id, :name, options, html_options
     }
 
     it_behaves_like 'labelled by default'
@@ -119,7 +121,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'select-container'
 
     it 'should output element' do
-      expect(output).to have_selector 'select.form--select > option', count: 3
+      expect(output).to have_selector 'select.custom-class.form--select > option', count: 3
       expect(output).to have_selector 'option:first[value="56"]'
       expect(output).to have_text 'Jonas'
     end
@@ -143,7 +145,7 @@ JJ Abrams</textarea>
   end
 
   describe '#check_box' do
-    let(:options) { { title: 'Name' } }
+    let(:options) { { title: 'Name', class: 'custom-class' } }
 
     subject(:output) {
       builder.check_box :first_login, options
@@ -155,7 +157,7 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--check-box"
+        <input class="custom-class form--check-box"
           id="user_first_login" name="user[first_login]" title="Name" type="checkbox"
           value="1" />
       }.squish
@@ -181,7 +183,7 @@ JJ Abrams</textarea>
   end
 
   describe '#number_field' do
-    let(:options) { { title: 'Bad logins' } }
+    let(:options) { { title: 'Bad logins', class: 'custom-class' } }
 
     subject(:output) {
       builder.number_field :failed_login_count, options
@@ -193,7 +195,7 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--text-field -number"
+        <input class="custom-class form--text-field -number"
           id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
           type="number" value="45" />
       }.squish
@@ -201,7 +203,7 @@ JJ Abrams</textarea>
   end
 
   describe '#range_field' do
-    let(:options) { { title: 'Bad logins' } }
+    let(:options) { { title: 'Bad logins', class: 'custom-class' } }
 
     subject(:output) {
       builder.range_field :failed_login_count, options
@@ -213,7 +215,7 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--range-field"
+        <input class="custom-class form--range-field"
           id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
           type="range" value="45" />
       }.squish
@@ -221,7 +223,7 @@ JJ Abrams</textarea>
   end
 
   describe '#search_field' do
-    let(:options) { { title: 'Search name' } }
+    let(:options) { { title: 'Search name', class: 'custom-class' } }
 
     subject(:output) {
       builder.search_field :name, options
@@ -233,14 +235,15 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--search-field" id="user_name" name="user[name]" size="30" title="Search name" type="search"
+        <input class="custom-class form--search-field" id="user_name"
+          name="user[name]" size="30" title="Search name" type="search"
           value="JJ Abrams" />
       }.squish
     end
   end
 
   describe '#email_field' do
-    let(:options) { { title: 'Email' } }
+    let(:options) { { title: 'Email', class: 'custom-class' } }
 
     subject(:output) {
       builder.email_field :mail, options
@@ -252,7 +255,7 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--text-field -email"
+        <input class="custom-class form--text-field -email"
           id="user_mail" name="user[mail]" size="30" title="Email" type="email"
           value="jj@lost-mail.com" />
       }.squish
@@ -260,7 +263,7 @@ JJ Abrams</textarea>
   end
 
   describe '#telephone_field' do
-    let(:options) { { title: 'Not really email' } }
+    let(:options) { { title: 'Not really email', class: 'custom-class' } }
 
     subject(:output) {
       builder.telephone_field :mail, options
@@ -272,7 +275,7 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--text-field -telephone"
+        <input class="custom-class form--text-field -telephone"
           id="user_mail" name="user[mail]" size="30" title="Not really email"
           type="tel" value="jj@lost-mail.com" />
       }.squish
@@ -280,7 +283,7 @@ JJ Abrams</textarea>
   end
 
   describe '#password_field' do
-    let(:options) { { title: 'Not really password' } }
+    let(:options) { { title: 'Not really password', class: 'custom-class' } }
 
     subject(:output) {
       builder.password_field :login, options
@@ -292,7 +295,7 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--text-field -password"
+        <input class="custom-class form--text-field -password"
           id="user_login" name="user[login]" size="30" title="Not really password"
           type="password" />
       }.squish
@@ -300,7 +303,7 @@ JJ Abrams</textarea>
   end
 
   describe '#file_field' do
-    let(:options) { { title: 'Not really file' } }
+    let(:options) { { title: 'Not really file', class: 'custom-class' } }
 
     subject(:output) {
       builder.file_field :name, options
@@ -312,14 +315,14 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--file-field"
+        <input class="custom-class form--file-field"
           id="user_name" name="user[name]" title="Not really file" type="file" />
       }.squish
     end
   end
 
   describe '#url_field' do
-    let(:options) { { title: 'Not really file' } }
+    let(:options) { { title: 'Not really file', class: 'custom-class' } }
 
     subject(:output) {
       builder.url_field :name, options
@@ -331,7 +334,7 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to include %{
-        <input class="form--text-field -url"
+        <input class="custom-class form--text-field -url"
           id="user_name" name="user[name]" size="30" title="Not really file"
           type="url" value="JJ Abrams" />
       }.squish

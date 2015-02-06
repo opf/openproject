@@ -62,8 +62,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
         ret
       else
-        options[:class] ||= ''
-        options[:class] << field_css_class('#{selector}')
+        options[:class] = Array(options[:class]) + [ field_css_class('#{selector}') ]
 
         (label_for_field(field, options) + container_wrap_field(super, '#{selector}', options)).html_safe
       end
@@ -73,15 +72,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def select(field, choices, options = {}, html_options = {})
-    html_options[:class] ||= ''
-    html_options[:class] << 'form--select'
+    html_options[:class] = Array(html_options[:class]) + %w(form--select)
 
     label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
 
   def collection_select(field, collection, value_method, text_method, options = {}, html_options = {})
-    html_options[:class] ||= ''
-    html_options[:class] << 'form--select'
+    html_options[:class] = Array(html_options[:class]) + %w(form--select)
 
     label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
