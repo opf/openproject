@@ -35,6 +35,11 @@ class ReportingsController < ApplicationController
   before_filter :find_project_by_project_id
   before_filter :authorize
 
+  before_filter :find_reporting_via_source, only: [:show, :edit, :update, :confirm_destroy, :destroy]
+  before_filter :build_reporting, only: :create
+
+  before_filter :check_visibility!, except: [:create, :index, :new, :available_projects]
+
   accept_key_auth :index, :show
 
   menu_item :reportings
@@ -174,9 +179,6 @@ class ReportingsController < ApplicationController
   end
 
   def show
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
-
     respond_to do |format|
       format.html
     end
@@ -197,18 +199,7 @@ class ReportingsController < ApplicationController
   end
 
   def create
-    @reporting = @project.reportings_via_source.build
-    @reporting.reporting_to_project_id = params['reporting']['reporting_to_project_id']
-
-    if @reporting.reporting_to_project.nil?
-      flash.now[:error] = l('timelines.reporting_could_not_be_saved')
-      render action: :new, status: :unprocessable_entity
-      return
-    end
-
-    check_visibility
-
-    if @reporting.save
+    if @reporting.reporting_to_project.present? && @reporting.project.visible? && @reporting.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_reportings_path
     else
@@ -218,18 +209,12 @@ class ReportingsController < ApplicationController
   end
 
   def edit
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
-
     respond_to do |format|
       format.html
     end
   end
 
   def update
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
-
     if @reporting.update_attributes(params[:reporting])
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_reportings_path
@@ -240,26 +225,29 @@ class ReportingsController < ApplicationController
   end
 
   def confirm_destroy
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
-
     respond_to do |format|
       format.html
     end
   end
 
   def destroy
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
     @reporting.destroy
-
     flash[:notice] = l(:notice_successful_delete)
     redirect_to project_reportings_path
   end
 
   protected
 
-  def check_visibility
+  def find_reporting_via_source
+    @reporting = @project.reportings_via_source.find(params[:id])
+  end
+
+  def build_reporting
+    @reporting = @project.reportings_via_source.build
+    @reporting.reporting_to_project_id = params['reporting']['reporting_to_project_id']
+  end
+
+  def check_visibility!
     raise ActiveRecord::RecordNotFound unless @reporting.visible?
   end
 
