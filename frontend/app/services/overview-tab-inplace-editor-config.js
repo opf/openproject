@@ -28,20 +28,59 @@
 
 module.exports = function() {
 
-  var OverviewService = {
+  var activeScopes = [];
+
+  var OverviewTabInplaceEditorConfig = {
+
+    isBusy: false,
+
+    registerActiveEditorScope: function($scope) {
+      activeScopes.push($scope);
+    },
+
+    deregisterActiveEditorScope: function($scope) {
+      _.remove(activeScopes, function(scope) {
+        return scope === $scope;
+      });
+    },
+
+    collectChanges: function(data) {
+      _.forEach(activeScopes, function(scope) {
+        scope.collectChanges(data);
+        scope.isBusy = true;
+      });
+      return data;
+    },
+
+    dispatchErrors: function(e) {
+      _.forEach(activeScopes, function(scope) {
+        scope.isBusy = false;
+        scope.acceptErrors(e);
+      });
+    },
+
+    dispatchChanges: function(workPackage) {
+      _.forEach(activeScopes, function(scope) {
+        scope.isBusy = false;
+        scope.acceptChanges(workPackage);
+      });
+    },
+
     getInplaceProperties: function() {
       return {
         assignee: {
           type: 'select2',
           attribute: 'assignee',
           embedded: false,
-          placeholder: '-'
+          placeholder: '-',
+          displayStrategy: 'user',
         },
         responsible: {
           type: 'select2',
           attribute: 'responsible',
           embedded: false,
-          placeholder: '-'
+          placeholder: '-',
+          displayStrategy: 'user'
         },
         status: {
           type: 'select2',
@@ -54,11 +93,18 @@ module.exports = function() {
           attribute: 'version.name',
           embedded: true,
           placeholder: '-',
+          displayStrategy: 'version',
           attributeTitle: I18n.t('js.work_packages.properties.version')
-        }
+        },
+        priority: {
+          type: 'select2',
+          attribute: 'priority.name',
+          embedded: true,
+          placeholder: '-'
+        },
       };
     }
   };
 
-  return OverviewService;
+  return OverviewTabInplaceEditorConfig;
 };

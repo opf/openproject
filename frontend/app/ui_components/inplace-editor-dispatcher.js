@@ -197,7 +197,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       },
       startEditing: setOptions,
       submit: function($scope, data) {
-        data._links = { };
+        data._links = data._links || { };
         data._links[getAttribute($scope)] = { href: $scope.dataObject.value || null };
       },
       setReadValue: function($scope) {
@@ -210,8 +210,9 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         }
       },
       setWriteValue: function($scope) {
+        var link = $scope.entity.form.embedded.payload.links[getAttribute($scope)];
         $scope.dataObject = {
-          value: $scope.entity.form.embedded.payload.links[getAttribute($scope)].href
+          value: link ? link.href : null
         };
       }
     }

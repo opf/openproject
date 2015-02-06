@@ -180,6 +180,7 @@ embedded errors or simply state that multiple errors occured.
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
 * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
+* `urn:openproject-org:api:v3:errors:PropertyFormatError` (**HTTP 422**) - A property value was provided in a format that the server does not understand or accept
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 * `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
 
@@ -714,9 +715,15 @@ Subsequent calls to the form should contain a single JSON object as described by
 | commit              | Actually perform changes to the resource                              | form content is valid            |
 | previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
 
+## Linked Properties:
+
+| Link                | Description                                      | Type          | Nullable | Supported operations |
+|:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
+| self                | This form                                        | Form          |          | READ                 |
+
 ## Embedded Properties:
 
-Forms contain exactly three embedded properties:
+Apart from the linked properties, forms contain always three other embedded properties:
 
 * `payload`
 * `schema`
@@ -739,41 +746,21 @@ contain a default value for that property. Nevertheless the client will also rec
 
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
+A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
+It is only necessary to include the properties that you want to change, as well as the `_type` and a `lockVersion` if one is present.
+However you *may* include all the properties sent in the `payload` section.
+
 ### Schema
 
-The schema provides more detailed information about the properties of a resource.
-Technically `schema` is a dictionary containing names of properties as keys
-and objects describing the corresponding property as values. The values are called **field schema**.
-
-#### Field schema
-
-**Linked Properties**
-
-| Property       | Description                                                    |
-|:--------------:|----------------------------------------------------------------|
-| allowedValues  | List of resources that are assignable by the current user.     |
-
-**Properties**
-
-| Property       | Description                                                    | Default |
-|:--------------:|----------------------------------------------------------------| ------- |
-| type           | The data type of the properties values                         |         |
-| required       | If true every request **must** contain this property           | false   |
-| writable       | If false it is not allowed to **change** the properties value  | true    |
-
-**Remarks**
-
-The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
-This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
-resource lists (requiring one or more separate requests).
-
-A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
-It is only necessary to include the properties that you want to change and the properties that are defined as **required**
-by the field schema. However you *may* include all the properties sent in the `payload` section.
+The schema embedded in a form is a normal [schema describing the underlying resource](#schema).
+However, the embedded schema can change with each revalidation of the form.
+For example it might be possible, that changing the type of a work package affects the available properties
+of the work package, as well as possible values for certain properties.
+As this makes the embedded schema very dynamic, it is not included as a static link.
 
 ### Validation Errors
 
-Like `schema` the validation errors build a dictionary where the key is a property name.
+Like a [schema](#schema) the validation errors build a dictionary where the key is a property name.
 Each value is an error object that indicates the error that occured validating the corresponding property.
 There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
 
@@ -814,18 +801,23 @@ That is because the main purpose of a form is helping the client to sort out val
                         "subject": "An example title"
                     },
                     "schema": {
+                        "_type": "Schema",
+                        "_links": {
+                            "self": { "href": "/api/v3/example/schema" }
+                        },
+
                         "lockVersion": {
                             "type": "Integer",
-                            "required": true,
                             "writable": false
                         },
                         "_type": {
                             "type": "MetaType",
-                            "required": true,
                             "writable": false
                         },
                         "subject": {
-                            "type": "String"
+                            "type": "String",
+                            "minLength": 1,
+                            "maxLength": 255
                         },
                         "status": {
                             "_links": {
@@ -1525,6 +1517,124 @@ but are also limited to the projects that the current user is allowed to see.
                 "message": "The request body was not empty."
             }
 
+# Group Schemas
+
+| Link                | Description                              | Type          | Nullable | Supported operations |
+|:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
+| self                | This schema                              | Schema        |          | READ                 |
+
+The schema provides more detailed information about the properties of a resource.
+The schema is represented by a dictionary containing names of resource properties as keys
+and objects describing the corresponding property as values.
+These objects are called **field schema** and form the core of the schema representation,
+each of them can contain its own `_links` and `_embedded` section.
+
+# Field schema
+
+## Linked Properties:
+
+| Property       | Description                                                    |
+|:--------------:| -------------------------------------------------------------- |
+| allowedValues  | List of resources that are assignable by the current user.     |
+
+The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
+This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
+resource lists (requiring one or more separate requests).
+
+## Properties:
+
+| Property          | Description                                                                        | Type     | Default |
+|:-----------------:| ---------------------------------------------------------------------------------- | -------- | ------- |
+| name              | Human readable name of the property as it could be displayed in a UI               | String   |         |
+| type              | The data type of the properties values                                             | MetaType |         |
+| minLength         | The value of the property must at least contain the specified amount of characters | Integer  | 0       |
+| maxLength         | The value of the property must at most contain the specified amount of characters  | Integer  | ∞       |
+| regularExpression | The value of the property must match the given regular expression (if not null)    | String   | null    |
+| required          | If true this property is not nullable                                              | Boolean  | true    |
+| writable          | If false it is not allowed to **change** the properties value                      | Boolean  | true    |
+
+All of the above properties that do not have a default value *must* be present in the schema.
+For properties that have a default value, the client can assume the default value, if the property is missing.
+
+Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](http://www.ruby-doc.org/core-2.1.5/Regexp.html).
+
+## Example Schema [/api/v3/example/schema]
+
++ Model
+    + Body
+
+            {
+                "_type": "Schema",
+                "_links": {
+                    "self": { "href": "/api/v3/example/schema" }
+                },
+
+                "lockVersion": {
+                    "name": "Resource Version",
+                    "type": "Integer",
+                    "writable": false
+                },
+                "_type": {
+                    "name": "Resource Type",
+                    "type": "MetaType",
+                    "writable": false
+                },
+                "subject": {
+                    "name": "Subject",
+                    "type": "String",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "status": {
+                    "_links": {
+                        "allowedValues": [
+                            { "href": "/api/v3/statuses/1", "title": "New" },
+                            { "href": "/api/v3/statuses/2", "title": "Closed" }
+                        ]
+                    },
+
+                    "name": "Status",
+                    "type": "Status",
+
+                    "_embedded": {
+                        "allowedValues": [
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/1" } },
+                                "_type": "Status",
+                                "id": 1,
+                                "name": "New",
+                                "position": 1,
+                                "isDefault": true,
+                                "isClosed": false,
+                                "defaultDoneRatio": 0,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            },
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/2" } },
+                                "_type": "Status",
+                                "id": 2,
+                                "name": "Closed",
+                                "position": 2,
+                                "isDefault": false,
+                                "isClosed": true,
+                                "defaultDoneRatio": 100,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            }
+                        ]
+                    }
+                }
+            }
+
+## view the schema [GET]
+
+This is an example of how a schema might look like. Note that this endpoint does not exist in the actual implementation.
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
+
 # Group Statuses
 
 ## Linked Properties:
@@ -1725,6 +1835,43 @@ but are also limited to the projects that the current user is allowed to see.
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see this status."
             }
+
+# Group String Objects
+
+## Linked Properties:
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This type                 | Type          | not null    | READ                 |
+
+## Properties
+| Property         | Description                                    | Type     | Constraints | Supported operations |
+|:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
+| value            | The value of the string                        | String   |             | READ                 |
+
+String objects are a linkable representation of strings. They merely serve the purpose of making links to strings possible,
+e.g. to be able to provide `allowedValues` for a string typed property.
+
+## String Object [/api/v3/string_objects/{value}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/string_objects/Foo" }
+                },
+                "_type": "StringObject",
+                "value": "Foo"
+            }
+
+## View String Object [GET]
+
++ Parameters
+    + value (required, string, `Foo`) ... The string value being resolved
+
++ Response 200 (application/hal+json)
+
+    [String Object][]
 
 # Group Types
 
@@ -2379,6 +2526,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | Link               | Description                                                                                                                                           | Type         | Constraints  | Supported operations  | Condition                                 |
 | :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
 | self               | This work package                                                                                                                                     | WorkPackage  | not null     | READ                  |                                           |
+| schema             | The schema of this work package                                                                                                                       | Schema       | not null     | READ                  |                                           |
 | author             | The person that created the work package                                                                                                              | User         | not null     | READ                  |                                           |
 | assignee           | The person that is intended to work on the work package                                                                                               | User         |              | READ / WRITE          |                                           |
 | availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
@@ -2409,6 +2557,15 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | createdAt        | Time of creation                                       | DateTime   |                                                                              | READ                 |                                  |
 | updatedAt        | Time of the most recent change to the work package     | DateTime   |                                                                              | READ                 |                                  |
 
+*Note that the properties listed here only cover the built-in properties of the OpenProject Core.
+Using plug-ins and custom fields a work package might contain various additional properties.
+A client can consult the schema information to which the work package links. The schema will contain information about
+all properties of the linking work package, including properties added by plug-ins and custom fields.*
+
+*Custom fields are identified by a key in the form of `customFieldN`, where `N` is an integer. Depending on their type,
+they can occur as properties or as linked properties. A client has to consult the schema to resolve
+the human readable name of custom fields.*
+
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
 + Model
@@ -2421,6 +2578,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "href": "/api/v3/work_packages/1528",
                         "title": "Develop API"
                     },
+                    "schema": { "href": "/api/v3/work_packages/schemas/1-1-2" },
                     "update": {
                         "href": "/api/v3/work_packages/1528",
                         "method": "patch",
@@ -2525,6 +2683,9 @@ Note that due to sharing this might be more than the versions *defined* by that 
                         "href": "/work_packages/1528/time_entries",
                         "type": "text/html",
                         "title": "Time entries"
+                    },
+                    "customField3": {
+                        "href": "api/v3/users/14"
                     }
                 },
                 "id": 1528,
@@ -2539,25 +2700,10 @@ Note that due to sharing this might be more than the versions *defined* by that 
                 "estimatedTime": "PT2H",
                 "percentageDone": 0,
                 "parentId": 1298,
+                "customField1": "Foo",
+                "customField2": 42,
                 "createdAt": "2014-08-29T12:40:53Z",
-                "updatedAt": "2014-08-29T12:44:41Z",
-                "customProperties": [
-                    {
-                        "name": "velit molestiae",
-                        "format": "text",
-                        "value": "dolor sit amet"
-                    },
-                    {
-                        "name": "et quam",
-                        "format": "text",
-                        "value": ""
-                    },
-                    {
-                        "name": "quo deserunt",
-                        "format": "text",
-                        "value": ""
-                    }
-                ]
+                "updatedAt": "2014-08-29T12:44:41Z"
             }
 
 ## View work package [GET]
@@ -2644,6 +2790,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
     Returned if:
     * the client tries to modify a read-only property
     * a constraint for a property was violated
+    * a property was provided in an unreadable format
 
     + Body
 
@@ -2657,6 +2804,17 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
                     }
                 }
             }
+
+## Work Package Schema [/api/v3/work_packages/schemas/{identifier}]
+
+## View Work Package Schema [GET]
+
++ Parameters
+    + identifier (required, string, `12-13`) ... Identifier of the schema
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
 
 ## Work Package Edit Form [/api/v3/work_packages/{id}/form]
 

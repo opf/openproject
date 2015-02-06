@@ -29,6 +29,7 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
+require 'api/v3/utilities/date_time_formatter'
 
 module API
   module V3
@@ -37,6 +38,7 @@ module API
         include Roar::JSON::HAL
         include Roar::Hypermedia
         include API::V3::Utilities::PathHelper
+        include API::V3::Utilities
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -73,7 +75,9 @@ module API
         property :content_type, render_nil: true
         property :digest, render_nil: true
         property :downloads, render_nil: true
-        property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
+        property :created_on,
+                 as: 'createdAt',
+                 getter: -> (*) { DateTimeFormatter::format_datetime(created_on) }
 
         def _type
           'Attachment'

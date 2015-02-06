@@ -11,6 +11,7 @@
   <div class="single-attribute wiki">
     <span inplace-editor
           ined-type="wiki_textarea"
+          ined-display-strategy="wiki_textarea"
           ined-entity="workPackage"
           ined-attribute="description"
           ined-attribute-title="{{ I18n.t('js.work_packages.properties.description') }}"
@@ -49,6 +50,7 @@
         ng-class="['attributes-key-value--value', '-' + propertyData.format]">
         <div inplace-editor
           ined-type="{{inplaceProperties[propertyData.property].type}}"
+          ined-display-strategy="{{inplaceProperties[propertyData.property].displayStrategy}}"
           ined-entity="workPackage"
           ined-attribute="{{inplaceProperties[propertyData.property].attribute}}"
           ined-attribute-embedded="inplaceProperties[propertyData.property].embedded"

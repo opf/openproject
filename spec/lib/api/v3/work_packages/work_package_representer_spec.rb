@@ -41,6 +41,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:work_package) {
     FactoryGirl.build(:work_package,
                       id: 42,
+                      start_date: Date.today.to_datetime,
+                      due_date: Date.today.to_datetime,
                       created_at: DateTime.now,
                       updated_at: DateTime.now,
                       category:   category,
@@ -80,19 +82,57 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:html) { '<p>' + work_package.description + '</p>' }
       end
 
-      it { is_expected.to have_json_path('dueDate') }
-
       it { is_expected.to have_json_path('percentageDone') }
 
       it { is_expected.to have_json_path('projectId') }
       it { is_expected.to have_json_path('projectName') }
 
-      it { is_expected.to have_json_path('startDate') }
+      describe 'startDate' do
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { work_package.start_date }
+          let(:json_path) { 'startDate' }
+        end
+
+        context 'no start date' do
+          let(:work_package) { FactoryGirl.build(:work_package, start_date: nil) }
+
+          it 'renders as null' do
+            is_expected.to be_json_eql(nil.to_json).at_path('startDate')
+          end
+        end
+      end
+
+      describe 'dueDate' do
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { work_package.due_date }
+          let(:json_path) { 'dueDate' }
+        end
+
+        context 'no due date' do
+          let(:work_package) { FactoryGirl.build(:work_package, due_date: nil) }
+
+          it 'renders as null' do
+            is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
+          end
+        end
+      end
+
+      describe 'createdAt' do
+        it_behaves_like 'has UTC ISO 8601 date and time' do
+          let(:date) { work_package.created_at }
+          let(:json_path) { 'createdAt' }
+        end
+      end
+
+      describe 'updatedAt' do
+        it_behaves_like 'has UTC ISO 8601 date and time' do
+          let(:date) { work_package.updated_at }
+          let(:json_path) { 'updatedAt' }
+        end
+      end
+
       it { is_expected.to have_json_path('subject') }
       it { is_expected.to have_json_path('type') }
-
-      it { is_expected.to have_json_path('createdAt') }
-      it { is_expected.to have_json_path('updatedAt') }
 
       describe 'version' do
         it { is_expected.to have_json_path('versionId') }

@@ -29,11 +29,14 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
+require 'api/v3/utilities/date_time_formatter'
 
 module API
   module V3
     module Versions
       class VersionRepresenter < ::API::Decorators::Single
+        include API::V3::Utilities
+
         link :self do
           {
             href: api_v3_paths.version(represented.id),
@@ -67,11 +70,20 @@ module API
                  },
                  render_nil: true
 
-        property :start_date, render_nil: true
-        property :due_date, as: 'endDate', render_nil: true
+        property :start_date,
+                 getter: -> (*) { DateTimeFormatter::format_date(start_date, allow_nil: true) },
+                 render_nil: true
+        property :due_date,
+                 as: 'endDate',
+                 getter: -> (*) { DateTimeFormatter::format_date(due_date, allow_nil: true) },
+                 render_nil: true
         property :status, render_nil: true
-        property :created_on, as: 'createdAt', render_nil: true
-        property :updated_on, as: 'updatedAt', render_nil: true
+        property :created_on,
+                 as: 'createdAt',
+                 getter: -> (*) { DateTimeFormatter::format_datetime(created_on) }
+        property :updated_on,
+                 as: 'updatedAt',
+                 getter: -> (*) { DateTimeFormatter::format_datetime(updated_on) }
 
         def _type
           'Version'

@@ -27,50 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-require 'api/v3/utilities/date_time_formatter'
-
 module API
-  module V3
-    module Projects
-      class ProjectRepresenter < ::API::Decorators::Single
-        include API::V3::Utilities
-
-        link :self do
-          {
-            href: api_v3_paths.project(represented.id),
-            title: "#{represented.name}"
-          }
-        end
-
-        link 'categories' do
-          { href: api_v3_paths.categories(represented.id) }
-        end
-
-        link 'versions' do
-          { href: api_v3_paths.versions(represented.id) }
-        end
-
-        property :id, render_nil: true
-        property :identifier,   render_nil: true
-
-        property :name,         render_nil: true
-        property :description,  render_nil: true
-        property :homepage
-
-        property :created_on,
-                 as: 'createdAt',
-                 getter: -> (*) { DateTimeFormatter::format_datetime(created_on) }
-        property :updated_on,
-                 as: 'updatedAt',
-                 getter: -> (*) { DateTimeFormatter::format_datetime(updated_on) }
-
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
-
-        def _type
-          'Project'
-        end
+  module Errors
+    class PropertyFormatError < ErrorBase
+      def initialize(property, expected_format, actual_value)
+        message = I18n.t('api_v3.errors.invalid_format',
+                         property: property,
+                         expected_format: expected_format,
+                         actual: actual_value)
+        super 422, message
       end
     end
   end

@@ -75,6 +75,7 @@ angular.module('openproject.uiComponents')
       'FocusHelper',
       'PathHelper',
       'InplaceEditorDispatcher',
+      'OverviewTabInplaceEditorConfig',
       require('./inplace-editor-directive')
   ])
   .service('InplaceEditorDispatcher', require('./inplace-editor-dispatcher'))

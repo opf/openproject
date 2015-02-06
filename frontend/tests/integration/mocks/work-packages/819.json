@@ -136,7 +136,7 @@
       "isClosed": false
     },
     "priority": {
-      "name": "high"
+      "name": "High"
     },
     "author": {
       "_type": "User",

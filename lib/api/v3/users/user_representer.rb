@@ -29,12 +29,14 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
+require 'api/v3/utilities/date_time_formatter'
 
 module API
   module V3
     module Users
       class UserRepresenter < ::API::Decorators::Single
         include AvatarHelper
+        include API::V3::Utilities
 
         link :self do
           {
@@ -85,8 +87,12 @@ module API
         property :avatar, getter: -> (*) { avatar_url(represented) },
                           render_nil: true,
                           exec_context: :decorator
-        property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
-        property :updated_at, getter: -> (*) { updated_on.utc.iso8601 }, render_nil: true
+        property :created_on,
+                 as: 'createdAt',
+                 getter: -> (*) { DateTimeFormatter::format_datetime(created_on) }
+        property :updated_on,
+                 as: 'updatedAt',
+                 getter: -> (*) { DateTimeFormatter::format_datetime(updated_on) }
         property :status, getter: -> (*) { status_name }, render_nil: true
 
         def _type
