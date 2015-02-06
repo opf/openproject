@@ -40,27 +40,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   (field_helpers - %w(radio_button hidden_field fields_for label) + %w(date_select)).each do |selector|
     src = <<-END_SRC
-    def #{selector}(field, options = {})
+    def #{selector}(field, options = {}, *args)
       if options[:multi_locale] || options[:single_locale]
-        localized_field = Proc.new do |translation_form, multiple|
-          localized_field(translation_form, __method__, field, options)
-        end
-
-        ret = nil
-
-        translation_objects = translation_objects field, options
-
-        fields_for(:translations, translation_objects, :builder => ActionView::Helpers::FormBuilder) do |translation_form|
-          ret = label_for_field(field, options, translation_form) unless ret
-
-          ret.concat localized_field.call(translation_form)
-        end
-
-        if options[:multi_locale]
-          ret.concat add_localization_link
-        end
-
-        ret
+        localize_field(field, options)
       else
         options[:class] = Array(options[:class]) + [ field_css_class('#{selector}') ]
 
@@ -83,6 +65,23 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end
 
+  def collection_check_box(field,
+                           value,
+                           checked,
+                           text = field.to_s + "_#{value}",
+                           options = {})
+
+    label_options = options.reverse_merge(label: text)
+
+    label_for = "#{field}_#{value}".to_sym
+    label = label_for_field(label_for, label_options)
+
+    input_options = options.merge(multiple: true, no_label: true, checked: checked)
+    input = check_box(field, input_options, value, '')
+
+    label + container_wrap_field(input, 'check-box', options)
+  end
+
   private
 
   TEXT_LIKE_FIELDS = [
@@ -92,6 +91,28 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def container_wrap_field(field_html, selector, options = {})
     ret = content_tag(:span, field_html, class: field_container_css_class(selector))
     ret = content_tag(:span, ret, class: 'form--field-container') unless options[:no_label]
+
+    ret
+  end
+
+  def localize_field(field, options)
+    localized_field = Proc.new do |translation_form, multiple|
+      localized_field(translation_form, __method__, field, options)
+    end
+
+    ret = nil
+
+    translation_objects = translation_objects field, options
+
+    fields_for(:translations, translation_objects, :builder => ActionView::Helpers::FormBuilder) do |translation_form|
+      ret = label_for_field(field, options, translation_form) unless ret
+
+      ret.concat localized_field.call(translation_form)
+    end
+
+    if options[:multi_locale]
+      ret.concat add_localization_link
+    end
 
     ret
   end
@@ -121,7 +142,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     text += @template.content_tag('span', ' *', class: 'required') if options.delete(:required)
 
     id = element_id(translation_form) if translation_form
-    label_options = { class: (@object && @object.errors[field] ? '' : '') } # FIXME
+
+    label_options = { class: '' }
+    # FIXME: reenable the error handling
+    label_options[:class] << 'error' if false && @object && @object.respond_to?(:errors) && @object.errors[field] # FIXME
     label_options[:class] << 'form--label'
     label_options[:for] = id.sub(/\_id$/, "_#{field}") if options[:multi_locale] && id
 

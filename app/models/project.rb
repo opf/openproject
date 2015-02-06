@@ -730,7 +730,7 @@ class Project < ActiveRecord::Base
 
   def module_enabled?(module_name)
     module_name = module_name.to_s
-    enabled_modules.detect { |m| m.name == module_name }
+    enabled_modules.any? { |m| m.name == module_name }
   end
 
   def enabled_module_names=(module_names)

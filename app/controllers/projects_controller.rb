@@ -176,7 +176,7 @@ class ProjectsController < ApplicationController
   end
 
   def modules
-    @project.enabled_module_names = params[:enabled_module_names]
+    @project.enabled_module_names = params[:project][:enabled_module_names]
     flash[:notice] = l(:notice_successful_update)
     redirect_to action: 'settings', id: @project, tab: 'modules'
   end

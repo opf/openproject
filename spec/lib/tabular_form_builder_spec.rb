@@ -164,6 +164,35 @@ JJ Abrams</textarea>
     end
   end
 
+  describe '#collection_check_box' do
+    let(:options) { {} }
+
+    subject(:output) {
+      builder.collection_check_box :enabled_module_names,
+                                   :repositories,
+                                   true,
+                                   'name',
+                                   options
+    }
+
+    it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'check-box-container'
+
+    it 'should output element' do
+      # no_label=\"true\" is to be removed
+      expect(output).to include %{
+        <input checked="checked"
+               class="form--check-box"
+               id="user_enabled_module_names_repositories"
+               name="user[enabled_module_names][]"
+               no_label=\"true\"
+               type="checkbox"
+               value="repositories" />
+      }.squish
+    end
+  end
+
   describe '#radio_button' do
     let(:options) { { title: 'Name' } }
 
