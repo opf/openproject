@@ -30,12 +30,17 @@
 require 'roar/decorator'
 require 'roar/json/hal'
 
+# we need to help the rails autoloader, otherwise it MIGHT fail to resolve the DateTimeFormatter
+# during development mode
+API::V3::Utilities::DateTimeFormatter
+
 module API
   module Decorators
     class Single < Roar::Decorator
       include Roar::JSON::HAL
       include Roar::Hypermedia
       include API::V3::Utilities::PathHelper
+      include API::V3::Utilities
 
       attr_reader :context
       class_attribute :as_strategy

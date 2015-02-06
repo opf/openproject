@@ -29,13 +29,11 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
-require 'api/v3/utilities/date_time_formatter'
 
 module API
   module V3
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
-        include API::V3::Utilities
 
         link :self do
           {
