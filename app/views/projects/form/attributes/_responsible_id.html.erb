@@ -26,7 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<p>
+<%
+  project = form.object
+%>
+
+<div class="form--field">
   <% if project && project.persisted? %>
     <% if User.current.impaired? %>
       <%= form.select :responsible_id, project.possible_responsibles.map {|m| [m.name, m.id]}, :include_blank => true %>
@@ -46,4 +50,4 @@ See doc/COPYRIGHT.rdoc for more details.
      %>
     <% end %>
   <% end %>
-</p>
+</div>
