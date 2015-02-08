@@ -33,6 +33,9 @@ styleguide-sass: |
     @include menu-bar-layout
     @include menu-bar-style(#eee)
 
+  .livingstyleguide--code-block
+    max-height: 300px
+
 header: |
   <header class="livingstyleguide--header">
     <div class="styleguide-banner">
