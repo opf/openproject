@@ -172,6 +172,63 @@
 </form>
 ```
 
+## Forms: Vertical layout
+
+```
+@full-width
+
+<form class="form -vertical">
+  <div class="form--field-row">
+    <div class="form--field -required">
+      <label class="form--label">Text:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        Write anything you like.
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label">Email:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="email" class="form--text-field" placeholder="a valid email">
+        </div>
+      </div>
+      <div class="form--field-extra-actions">
+        <a href="#">Request new email</a>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">Number:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="number" class="form--text-field">
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        Any number from 1 to 10!
+      </div>
+    </div>
+  </div>
+  <div class="form--field-row">
+    <div class="form--field -required">
+      <label class="form--label">Long text:</label>
+      <div class="form--field-container">
+        <div class="form--text-area-container">
+          <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        Write more about anything.
+      </div>
+    </div>
+  </div>
+</form>
+```
+
 # Forms: Text fields
 
 ## Default text fields

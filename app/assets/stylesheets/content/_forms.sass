@@ -166,10 +166,16 @@ fieldset
     border-right: none
     @include transform(rotate(-50deg))
 
+.form--field-row
+  @include grid-block($wrap: true)
+
 .form--field
   @include grid-block($wrap: true)
   align-items: center
   margin-bottom: 1rem
+
+  .form.-vertical &
+    @include grid-orient(vertical)
 
 .form--label
   @include grid-content(2)
@@ -179,6 +185,9 @@ fieldset
 
   .form.-wide-labels &
     @include grid-size(4)
+
+  .form.-vertical &
+    @include grid-size(12)
 
   .form--field.-required > &
     &::after
@@ -199,6 +208,9 @@ fieldset
   .form.-wide-labels &
     @include grid-size(8)
 
+  .form.-vertical &
+    @include grid-size(12)
+
 %form--field-after-container
   @include grid-content(10, 2)
   font-size:  $form-label-fontsize
@@ -207,6 +219,10 @@ fieldset
   .form.-wide-labels &
     @include grid-size(8)
     @include grid-offset(4)
+
+  .form.-vertical &
+    @include grid-size(12)
+    @include grid-offset(0)
 
 .form--field-instructions
   @extend %form--field-after-container
