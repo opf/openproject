@@ -33,26 +33,6 @@
   // label width + label padding-right + input width + input padding-left + input border
   width: 155px + 5px + $content-from-input-width + 10px + 2px
 
-  .button.-highlight
-    // align with input fields
-    // label width + label padding-right
-    margin-left: 155px + 5px
-
-    height: 32px
-
-  .attribute_wrapper
-    @include prevent-float-collapse
-
-  label
-    // inline-block can't guarantee a specific width (possibly due to whitespace)
-    display: block
-    float: left
-
-  input
-    &[type=password], &[type=text]
-      // inline-block can't guarantee a specific width
-      display: block
-
   .login-options-container
     margin-bottom: 10px
     .login-links
