@@ -180,8 +180,9 @@ fieldset
 .form--label
   @include grid-content(2)
   @include label-style
-  // font-size: 0.9rem
-  // line-height: $list-line-height / 0.9
+  font-size:    $form-label-fontsize
+  line-height:  $base-line-height
+  color:        $form-label-color
 
   .form.-wide-labels &
     @include grid-size(4)
@@ -213,8 +214,9 @@ fieldset
 
 %form--field-after-container
   @include grid-content(10, 2)
-  font-size:  $form-label-fontsize
-  color:      $form-label-color
+  font-size:    $form-label-fontsize
+  line-height:  $base-line-height
+  color:        $form-label-color
 
   .form.-wide-labels &
     @include grid-size(8)
