@@ -114,7 +114,7 @@ describe SettingsHelper, type: :helper do
       helper.setting_text_field :field, options
     }
 
-    it_behaves_like 'labelled'
+    it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in container'
     it_behaves_like 'wrapped in container', 'text-field-container'
 
@@ -135,7 +135,7 @@ describe SettingsHelper, type: :helper do
       helper.setting_text_area :field, options
     }
 
-    it_behaves_like 'labelled'
+    it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in container'
     it_behaves_like 'wrapped in container', 'text-area-container'
 
@@ -157,7 +157,7 @@ important text</textarea>
         expect(Setting).to receive(:field?).and_return(true)
       end
 
-      it_behaves_like 'labelled'
+      it_behaves_like 'labelled by default'
       it_behaves_like 'wrapped in container'
       it_behaves_like 'wrapped in container', 'check-box-container'
 
@@ -172,8 +172,8 @@ important text</textarea>
         expect(Setting).to receive(:field?).and_return(false)
       end
 
-      it_behaves_like 'labelled'
       it_behaves_like 'wrapped in container'
+      it_behaves_like 'labelled by default'
       it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do

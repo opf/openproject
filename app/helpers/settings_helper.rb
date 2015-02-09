@@ -109,7 +109,7 @@ module SettingsHelper
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
         styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options) +
-        (unit ? content_tag(:span, unit, class: 'form-label'): '')
+        (unit ? content_tag(:span, unit, class: 'form-label') : '')
       end
   end
 
@@ -129,9 +129,10 @@ module SettingsHelper
   end
 
   def setting_label(setting, options = {})
-    if (label = options.delete(:label)) != false
-      styled_label_tag("settings_#{setting}", I18n.t(label || "setting_#{setting}"))
-    end
+    label = options.delete(:label)
+    return ''.html_safe if label == false
+
+    styled_label_tag("settings_#{setting}", I18n.t(label || "setting_#{setting}"))
   end
 
   # Renders a notification field for a Redmine::Notifiable option
