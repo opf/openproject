@@ -47,7 +47,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git"`, :branch => "stable"`
+`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable"`
 
 from the file `Gemfile.plugins` and run:
 
