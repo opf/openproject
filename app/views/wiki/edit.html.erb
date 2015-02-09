@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <hr>
   <%= f.submit l(:button_save), class: 'button -highlight' %>
-  <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form', class: 'button' %>
+  <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form-preview', class: 'button' %>
   <%= wikitoolbar_for 'content_text' %>
 <% end %>
 <div id="preview" class="wiki"></div>
