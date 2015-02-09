@@ -53,22 +53,16 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset class="timelines-reporting-properties">
     <legend><%= l('timelines.properties') %></legend>
     <div class="form--field -required">
-      <label for="reporting_reported_project_status_id">
-        <%= Reporting.human_attribute_name(:reported_project_status_id) %>:
-      </label>
       <%= f.select :reported_project_status_id,
                    @reporting.possible_reported_project_statuses.map { |s|
                       [s.name, s.id]
-                    }.unshift(["-",""]) %>
+                    }.unshift(["-",""]), label: Reporting.human_attribute_name(:reported_project_status_id) %>
     </div>
 
     <div class="form--field">
-      <label for="reporting_reported_project_status_comment">
-        <%= Reporting.human_attribute_name(:reported_project_status_comment) %>:
-      </label><br/>
       <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10,
                       :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
-                      :'ng-non-bindable' => '') %>
+                      :'ng-non-bindable' => '', label: Reporting.human_attribute_name(:reported_project_status_comment)) %>
     </div>
     <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
   </fieldset>
