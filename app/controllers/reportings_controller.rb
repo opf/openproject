@@ -38,7 +38,7 @@ class ReportingsController < ApplicationController
   before_filter :find_reporting, only: [:show, :edit, :update, :confirm_destroy, :destroy]
   before_filter :build_reporting, only: :create
 
-  before_filter :check_visibility!, except: [:create, :index, :new, :available_projects]
+  before_filter :check_visibility, except: [:create, :index, :new, :available_projects]
 
   accept_key_auth :index, :show
 
@@ -247,7 +247,7 @@ class ReportingsController < ApplicationController
     @reporting.reporting_to_project_id = params['reporting']['reporting_to_project_id']
   end
 
-  def check_visibility!
+  def check_visibility
     raise ActiveRecord::RecordNotFound unless @reporting.visible?
   end
 
