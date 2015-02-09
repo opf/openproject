@@ -46,20 +46,32 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= check_all_links('notified_events') %></div>
     </fieldset>
     <fieldset id="emails_decorators" class="box"><legend><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
-      <%= styled_select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), :id => 'emails_decorators_switch', :onchange => "toggleEmailDecoratorFields()" %>
+      <div class="form--field -vertical">
+        <div class="form--field-container">
+          <%= styled_select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), :id => 'emails_decorators_switch', :onchange => "toggleEmailDecoratorFields()" %>
+        </div>
+      </div>
       <% Setting.available_languages.each do |lang| %>
         <div id="emails_decorators_<%= lang %>" style="display:none" class="emails_decorators">
-          <%= styled_label_tag "settings[emails_header][#{lang}]", l(:setting_emails_header) %>
-          <%= styled_text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
-          <%= styled_label_tag "settings[emails_footer][#{lang}]", l(:setting_emails_footer) %>
-          <%= styled_text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+          <div class="form--field -vertical">
+            <%= styled_label_tag "settings[emails_header][#{lang}]", l(:setting_emails_header) %>
+            <div class="form--field-container">
+              <%= styled_text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+            </div>
+          </div>
+          <div class="form--field -vertical">
+            <%= styled_label_tag "settings[emails_footer][#{lang}]", l(:setting_emails_footer) %>
+            <div class="form--field-container">
+              <%= styled_text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+            </div>
+          </div>
         </div>
       <% end %>
     </fieldset>
     <%= javascript_tag do -%>
       jQuery(document).ready(function () {
-    toggleEmailDecoratorFields();
-  });
+        toggleEmailDecoratorFields();
+      });
     <% end -%>
     <div style="float:right;">
       <%= link_to l(:label_send_test_email), :controller => '/admin', :action => 'test_email' %>
