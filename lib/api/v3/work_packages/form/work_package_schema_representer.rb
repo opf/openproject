@@ -38,14 +38,14 @@ module API
 
           def self.property_schema(property,
                                    type: nil,
-                                   i18n_title: "activerecord.attributes.work_package.#{property}",
+                                   title: nil,
                                    required: true,
                                    writable: true,
                                    min_length: nil,
                                    max_length: nil)
             raise ArgumentError unless property != nil && type != nil
 
-            title = I18n.t(i18n_title)
+            title = I18n.t("activerecord.attributes.work_package.#{property}") unless title
 
             schema = {
               type: type,
@@ -64,11 +64,11 @@ module API
 
           property_schema :_type,
                           type: 'MetaType',
-                          i18n_title: 'api_v3.attributes._type',
+                          title: I18n.t('api_v3.attributes._type'),
                           writable: false
           property_schema :lock_version,
                           type: 'Integer',
-                          i18n_title: 'api_v3.attributes.lock_version',
+                          title: I18n.t('api_v3.attributes.lock_version'),
                           writable: false
           property_schema :id, type: 'Integer', writable: false
           property_schema :subject, type: 'String', min_length: 1, max_length: 255
@@ -79,7 +79,7 @@ module API
           property_schema :spent_time, type: 'Duration', writable: false
           property_schema :percentage_done,
                           type: 'Integer',
-                          i18n_title: 'activerecord.attributes.work_package.done_ratio',
+                          title: I18n.t('activerecord.attributes.work_package.done_ratio'),
                           writable: false
           property_schema :created_at, type: 'DateTime', writable: false
           property_schema :updated_at, type: 'DateTime', writable: false
