@@ -28,8 +28,12 @@
 #++
 
 module PreviewsHelper
-  def preview_link(path, form_id, options = {})
-    options = { class: 'preview', accesskey: accesskey(:preview), id: form_id }.merge(options)
+  def preview_link(path, link_id, options = {})
+    options = {
+      accesskey: accesskey(:preview),
+      id: link_id,
+      'has-preview' => ''
+    }.merge(options)
 
     link_to path, options do
       l(:label_preview)
