@@ -69,19 +69,27 @@ module API
                  render_nil: true
 
         property :start_date,
-                 getter: -> (*) { DateTimeFormatter::format_date(start_date, allow_nil: true) },
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   datetime_formatter.format_date(represented.start_date, allow_nil: true)
+                 },
                  render_nil: true
         property :due_date,
                  as: 'endDate',
-                 getter: -> (*) { DateTimeFormatter::format_date(due_date, allow_nil: true) },
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
+                 },
                  render_nil: true
         property :status, render_nil: true
         property :created_on,
                  as: 'createdAt',
-                 getter: -> (*) { DateTimeFormatter::format_datetime(created_on) }
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
         property :updated_on,
                  as: 'updatedAt',
-                 getter: -> (*) { DateTimeFormatter::format_datetime(updated_on) }
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
 
         def _type
           'Version'
