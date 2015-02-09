@@ -29,17 +29,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'project' %>
 
-<div class="box">
-  <!--[form:project]-->
+<!--[form:project]-->
 
-  <%= render partial: "projects/form/project_attributes",
-             locals: { project: project,
-                       form: f } %>
+<%= render partial: "projects/form/project_attributes",
+           locals: { project: project,
+                     form: f } %>
 
-  <%= call_hook(:view_projects_form,
-                project: project,
-                form: f) %>
-</div>
+<%= call_hook(:view_projects_form,
+              project: project,
+              form: f) %>
 
 <% if project.new_record? %>
   <div class="form-space">
