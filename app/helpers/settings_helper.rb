@@ -62,15 +62,15 @@ module SettingsHelper
     setting_values = [] unless setting_values.is_a?(Array)
 
     setting_label(setting, options) +
-      content_tag(:span, class: 'form--field-container') do
+      content_tag(:span, class: 'form--field-container -vertical') do
         hidden_field_tag("settings[#{setting}][]", '') +
           choices.map do |choice|
             text, value = (choice.is_a?(Array) ? choice : [choice, choice])
 
-            content_tag(:label, class: 'block') do
+            content_tag(:label, class: 'form--label-with-check-box') do
               styled_check_box_tag("settings[#{setting}][]", value,
-                                   Setting.send(setting).include?(value),
-                                   class: 'form--check-box') + text.to_s
+                                   Setting.send(setting).include?(value)) +
+                text.to_s
             end
           end.join.html_safe
       end
@@ -133,11 +133,10 @@ module SettingsHelper
 
   # Renders a notification field for a Redmine::Notifiable option
   def notification_field(notifiable)
-    content_tag(:label, class: 'form--label' + (notifiable.parent.present? ? ' parent' : '')) do
+    content_tag(:label, class: 'form--label-with-check-box' + (notifiable.parent.present? ? ' parent' : '')) do
       styled_check_box_tag('settings[notified_events][]',
                            notifiable.name,
-                           Setting.notified_events.include?(notifiable.name),
-                           class: 'form--check-box') +
+                           Setting.notified_events.include?(notifiable.name)) +
         l_or_humanize(notifiable.name, prefix: 'label_')
     end
   end

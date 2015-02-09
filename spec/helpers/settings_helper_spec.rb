@@ -70,7 +70,7 @@ describe SettingsHelper, type: :helper do
     end
 
     it 'should have three labels' do
-      expect(output).to have_selector 'label.block', count: 3
+      expect(output).to have_selector 'label.form--label-with-check-box', count: 3
     end
 
     it 'should output element' do
@@ -204,7 +204,10 @@ important text</textarea>
     context 'when setting includes option' do
       let(:notifiable) { OpenStruct.new(name: 'interesting_stuff') }
 
-      it_behaves_like 'labelled'
+      it 'should have a label' do
+        expect(output).to have_selector 'label.form--label-with-check-box', count: 1
+      end
+
       it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do
@@ -216,7 +219,10 @@ important text</textarea>
     context 'when setting does not include option' do
       let(:notifiable) { OpenStruct.new(name: 'boring_stuff') }
 
-      it_behaves_like 'labelled'
+      it 'should have a label' do
+        expect(output).to have_selector 'label.form--label-with-check-box', count: 1
+      end
+
       it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do
