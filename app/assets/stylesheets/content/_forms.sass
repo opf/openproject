@@ -203,6 +203,9 @@ fieldset
   @include grid-content(10)
   display: flex
 
+  &.-vertical
+    display: block
+
   &:nth-of-type(n+2)
     @include grid-offset(2)
 
@@ -303,3 +306,11 @@ fieldset
     font-size: 1em
     background: none
     border: none
+
+.form--label-with-check-box
+  display:  block
+  clear:    both
+
+  & > .form--check-box-container
+    display: block
+    float:   left

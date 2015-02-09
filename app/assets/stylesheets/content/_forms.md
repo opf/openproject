@@ -285,6 +285,71 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 # Forms: Checkboxes
 
+## Default checkboxes
+
+### Standalone
+
+```
+<input type="checkbox" class="form--check-box" id="checkbox_example_choice1">
+<label for="checkbox_example_choice1" class="form--label">Choice</label>
+```
+
+```
+<label class="form--label-with-check-box">
+  <div class="form--check-box-container">
+    <input type="checkbox" class="form--check-box">
+  </div>
+  Choice
+</label>
+```
+
+### Within a form
+
+```
+<form class="form">
+  <div class="form--field">
+    <label class="form--label" for="checkbox_example_choice2">Eat fruit:</label>
+    <div class="form--field-container">
+      <div class="form--check-box-container">
+        <input type="checkbox" class="form--check-box" id="checkbox_example_choice2">
+      </div>
+    </div>
+  </div>
+</form>
+```
+
+### Multiple, within a form
+
+```
+<form class="form">
+  <div class="form--field">
+    <label class="form--label">Multiple choices:</label>
+    <div class="form--field-container -vertical">
+      <label class="form--label-with-check-box">
+        <div class="form--check-box-container">
+          <input type="checkbox" class="form--check-box">
+        </div>
+        Apple
+      </label>
+      <label class="form--label-with-check-box">
+        <div class="form--check-box-container">
+          <input type="checkbox" class="form--check-box">
+        </div>
+        Grapefruit
+      </label>
+      <label class="form--label-with-check-box">
+        <div class="form--check-box-container">
+          <input type="checkbox" class="form--check-box">
+        </div>
+        Banana
+      </label>
+    </div>
+  </div>
+</form>
+```
+
+## Styled checkboxes [TO BE REFACTORED]
+
 ```
 <label class="checkbox-label">
   <input type="checkbox">
