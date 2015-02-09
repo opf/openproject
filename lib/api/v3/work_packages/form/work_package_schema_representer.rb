@@ -35,24 +35,55 @@ module API
     module WorkPackages
       module Form
         class WorkPackageSchemaRepresenter < ::API::Decorators::Single
-          property :_type,
-                   getter: -> (*) { { type: 'MetaType', required: true, writable: false } },
-                   writeable: false
-          property :lock_version,
-                   getter: -> (*) { { type: 'Integer', required: true, writable: false } },
-                   writeable: false
-          property :subject,
-                   getter: -> (*) { { type: 'String' } },
-                   writeable: false
-          property :description,
-                   getter: -> (*) { { type: 'Formattable' } },
-                   writeable: false
-          property :startDate,
-                   getter: -> (*) { { type: 'Date' } },
-                   writeable: false
-          property :dueDate,
-                   getter: -> (*) { { type: 'Date' } },
-                   writeable: false
+
+          def self.property_schema(property,
+                                   type: nil,
+                                   i18n_title: "activerecord.attributes.work_package.#{property}",
+                                   required: true,
+                                   writable: true,
+                                   min_length: nil,
+                                   max_length: nil)
+            raise ArgumentError unless property != nil && type != nil
+
+            title = I18n.t(i18n_title)
+
+            schema = {
+              type: type,
+              name: title,
+              required: required,
+              writable: writable
+            }
+
+            schema[:minLength] = min_length if min_length
+            schema[:maxLength] = max_length if max_length
+
+            property property,
+                     getter: -> (*) { schema },
+                     writeable: false
+          end
+
+          property_schema :_type,
+                          type: 'MetaType',
+                          i18n_title: 'api_v3.attributes._type',
+                          writable: false
+          property_schema :lock_version,
+                          type: 'Integer',
+                          i18n_title: 'api_v3.attributes.lock_version',
+                          writable: false
+          property_schema :id, type: 'Integer', writable: false
+          property_schema :subject, type: 'String', min_length: 1, max_length: 255
+          property_schema :description, type: 'Formattable'
+          property_schema :start_date, type: 'Date', required: false
+          property_schema :due_date, type: 'Date', required: false
+          property_schema :estimated_time, type: 'Duration', required: false, writable: false
+          property_schema :spent_time, type: 'Duration', writable: false
+          property_schema :percentage_done,
+                          type: 'Integer',
+                          i18n_title: 'activerecord.attributes.work_package.done_ratio',
+                          writable: false
+          property_schema :created_at, type: 'DateTime', writable: false
+          property_schema :updated_at, type: 'DateTime', writable: false
+
           property :status,
                    exec_context: :decorator,
                    getter: -> (*) {

@@ -170,8 +170,13 @@ en:
         reported_project_status: Project status
         created_at: Created
       work_package:
+        created_at: "Created at"
+        description: "Description"
         done_ratio: "% done"
+        due_date: "Due date"
+        estimated_time: "Estimated time"
         fixed_version: "Version"
+        id: "ID"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -179,9 +184,12 @@ en:
         progress: "% done"
         responsible: "Responsible"
         spent_time: "Spent time"
+        start_date: "Start date"
+        subject: "Subject"
         subproject: "Subproject"
         time_entries: "Log time"
         type: "Type"
+        updated_at: "Updated at"
         watcher: "Watcher"
     errors:
       messages:
@@ -1653,6 +1661,9 @@ en:
   nothing_to_preview: "Nothing to preview"
 
   api_v3:
+    attributes:
+      _type: "Resource Type"
+      lock_version: "Lock Version"
     errors:
       code_401: "You need to be authenticated to access this resource."
       code_403: "You are not authorized to access this resource."

@@ -170,8 +170,13 @@ de:
         parent_title: "Übergeordnete Seite"
         redirect_existing_links: "Existierende Links umleiten"
       work_package:
+        created_at: "Erstellt am"
+        description: "Beschreibung"
         done_ratio: "% erledigt"
+        due_date: "Abgabedatum"
+        estimated_time: "Geschätzter Aufwand"
         fixed_version: "Version"
+        id: "ID"
         parent: "Übergeordnete Aufgabe"
         parent_issue: "Übergeordnete Aufgabe"
         parent_work_package: "Übergeordnete Aufgabe"
@@ -179,9 +184,12 @@ de:
         progress: "% erledigt"
         responsible: "Verantwortlicher"
         spent_time: "Aufgewendete Zeit"
+        start_date: "Beginn"
+        subject: "Thema"
         subproject: "Unterprojekt"
         time_entries: "Logzeit"
         type: "Typ"
+        updated_at: "Aktualisiert am"
         watcher: "Beobachter"
     errors:
       messages:
@@ -1662,6 +1670,9 @@ de:
   nothing_to_preview: "Keine Inhalte für Vorschau vorhanden"
 
   api_v3:
+    attributes:
+        _type: "Ressourcenart"
+        lock_version: "Sperrversion"
     errors:
       code_401: "Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können."
       code_403: "Sie sind nicht berechtigt auf diese Ressource zuzugreifen."

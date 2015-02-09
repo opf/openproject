@@ -39,7 +39,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
     subject(:generated) { representer.to_json }
 
     describe 'schema' do
-      shared_examples_for 'schema property' do |path, type, required, writable|
+      shared_examples_for 'schema property' do |path, type, required: true, writable: true|
         it { is_expected.to have_json_path(path) }
 
         it { is_expected.to be_json_eql(type.to_json).at_path("#{path}/type") }
@@ -47,21 +47,13 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
         it 'has valid required value' do
           required_path = "#{path}/required"
 
-          if required.nil?
-            is_expected.not_to have_json_path(required_path)
-          else
-            is_expected.to be_json_eql(required.to_json).at_path(required_path)
-          end
+          is_expected.to be_json_eql(required.to_json).at_path(required_path)
         end
 
         it 'has valid writable value' do
           writable_path = "#{path}/writable"
 
-          if writable.nil?
-            is_expected.not_to have_json_path(writable_path)
-          else
-            is_expected.to be_json_eql(writable.to_json).at_path(writable_path)
-          end
+          is_expected.to be_json_eql(writable.to_json).at_path(writable_path)
         end
       end
 
@@ -82,27 +74,50 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
       end
 
       describe '_type' do
-        it_behaves_like 'schema property', '_type', 'MetaType', true, false
+        it_behaves_like 'schema property',
+                        '_type', 'MetaType',
+                        required: true,
+                        writable: false
       end
 
       describe 'lock version' do
-        it_behaves_like 'schema property', 'lockVersion', 'Integer', true, false
+        it_behaves_like 'schema property',
+                        'lockVersion',
+                        'Integer',
+                        required: true,
+                        writable: false
       end
 
       describe 'subject' do
-        it_behaves_like 'schema property', 'subject', 'String'
+        it_behaves_like 'schema property',
+                        'subject',
+                        'String',
+                        required: true,
+                        writable: true
       end
 
       describe 'description' do
-        it_behaves_like 'schema property', 'description', 'Formattable'
+        it_behaves_like 'schema property',
+                        'description',
+                        'Formattable',
+                        required: true,
+                        writable: true
       end
 
       describe 'startDate' do
-        it_behaves_like 'schema property', 'startDate', 'Date'
+        it_behaves_like 'schema property',
+                        'startDate',
+                        'Date',
+                        required: false,
+                        writable: true
       end
 
       describe 'dueDate' do
-        it_behaves_like 'schema property', 'dueDate', 'Date'
+        it_behaves_like 'schema property',
+                        'dueDate',
+                        'Date',
+                        required: false,
+                        writable: true
       end
 
       describe 'status' do
