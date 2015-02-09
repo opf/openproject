@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 
-<%= form_for :project_association,
+<%= labelled_tabular_form_for @project_association,
             :url  => project_project_associations_path(@project),
             :html => {:method => 'post'},
             class: "inline-label" do |f| %>
@@ -51,21 +51,21 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= error_messages_for 'project_association' %>
 
   <span class="inline-label">
-    <%= label_tag 'project_association_select_project_b_id', l('timelines.project_association_new_for_with',
+    <%# label_tag 'project_association_select_project_b_id', l('timelines.project_association_new_for_with',
                                                   :project_a => h(@project.name)),
                                                   class: "form-label -transparent" %>
 
     <% if User.current.impaired? %>
-      <%= select("project_association_select", "project_b_id",
+      <%= f.select("project_b_id",
                  grouped_options_for_select(@associated_project_candidates_by_type.collect do |type, projects|
                    [type.try(:name) || l('timelines.without_project_type'), projects.collect do |candidate|
                      [candidate.name, candidate.id]
                    end]
                  end)) %>
     <% else %>
-      <%= select("project_association_select", "project_b_id",
+      <%= f.select("project_b_id",
                    options_for_select([]),
-                   {},
+                   { label:  l('timelines.project_association_new_for_with', project_a: h(@project.name)) },
                    { :'data-ajaxURL' => url_for({:controller => "/api/v2/project_associations",
                                                  :action     => "available_projects",
                                                  :format     => "json"})
@@ -77,7 +77,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   </br>
   <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
-
+  <hr>
   <%= f.submit l("timelines.add_project_association"), :name => nil,
         class: 'button -highlight'%>
   <%= link_to l(:button_cancel), project_project_associations_path(@project),
