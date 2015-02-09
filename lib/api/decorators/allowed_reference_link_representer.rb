@@ -35,9 +35,12 @@ module API
     class AllowedReferenceLinkRepresenter < Roar::Decorator
       include Roar::JSON::HAL
 
-      def initialize(link, type)
+      def initialize(link, type, title, required, writable)
         @link = link
         @type = type
+        @name = title
+        @required = required
+        @writable = writable
 
         super(link)
       end
@@ -61,10 +64,22 @@ module API
       property :type,
                exec_context: :decorator
 
+      property :name,
+               exec_context: :decorator
+
+      property :required,
+               exec_context: :decorator
+
+      property :writable,
+               exec_context: :decorator
+
       private
 
       attr_reader :link,
-                  :type
+                  :type,
+                  :name,
+                  :required,
+                  :writable
     end
   end
 end

@@ -84,6 +84,37 @@ module API
           property_schema :created_at, type: 'DateTime', writable: false
           property_schema :updated_at, type: 'DateTime', writable: false
 
+          # non-writable links
+          property_schema :author, type: 'User', writable: false
+          property_schema :project, type: 'Project', writable: false
+          property_schema :type, type: 'Type', writable: false
+
+          property :assignee,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     link = api_v3_paths.available_assignees(represented.project.id)
+
+                     ::API::Decorators::AllowedReferenceLinkRepresenter.new(
+                       link,
+                       'User',
+                       I18n.t('activerecord.attributes.work_package.assigned_to'),
+                       false,
+                       true)
+                   }
+
+          property :responsible,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     link = api_v3_paths.available_responsibles(represented.project.id)
+
+                     ::API::Decorators::AllowedReferenceLinkRepresenter.new(
+                       link,
+                       'User',
+                       I18n.t('activerecord.attributes.work_package.responsible'),
+                       false,
+                       true)
+                   }
+
           property :status,
                    exec_context: :decorator,
                    getter: -> (*) {
@@ -97,22 +128,6 @@ module API
 
                      SchemaAllowedStatusesRepresenter.new(new_statuses,
                                                           current_user: current_user)
-                   }
-
-          property :assignee,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     link = api_v3_paths.available_assignees(represented.project.id)
-
-                     ::API::Decorators::AllowedReferenceLinkRepresenter.new(link, 'User')
-                   }
-
-          property :responsible,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     link = api_v3_paths.available_responsibles(represented.project.id)
-
-                     ::API::Decorators::AllowedReferenceLinkRepresenter.new(link, 'User')
                    }
 
           property :version,

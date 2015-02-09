@@ -35,6 +35,15 @@ module API
     module WorkPackages
       module Form
         class SchemaAllowedStatusesRepresenter < Decorators::SchemaAllowedValuesRepresenter
+          def initialize(model, context = {})
+            super(model,
+                  'Status',
+                  I18n.t('activerecord.attributes.work_package.status'),
+                  true,
+                  true,
+                  context)
+          end
+
           self.value_representer = Statuses::StatusRepresenter
 
           self.links_factory = -> (status) do
@@ -42,8 +51,6 @@ module API
 
             { href: api_v3_paths.status(status.id), title: status.name }
           end
-
-          self.type = 'Status'
         end
       end
     end

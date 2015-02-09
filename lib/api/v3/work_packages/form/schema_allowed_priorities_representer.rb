@@ -35,6 +35,15 @@ module API
     module WorkPackages
       module Form
         class SchemaAllowedPrioritiesRepresenter < Decorators::SchemaAllowedValuesRepresenter
+          def initialize(model, context = {})
+            super(model,
+                  'Priority',
+                  I18n.t('activerecord.attributes.work_package.priority'),
+                  true,
+                  true,
+                  context)
+          end
+
           self.value_representer = Priorities::PriorityRepresenter
 
           self.links_factory = -> (priority) do
@@ -42,8 +51,6 @@ module API
 
             { href: api_v3_paths.priority(priority.id), title: priority.name }
           end
-
-          self.type = 'Priority'
         end
       end
     end

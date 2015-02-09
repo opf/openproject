@@ -33,11 +33,29 @@ require 'roar/json/hal'
 module API
   module Decorators
     class SchemaAllowedValuesRepresenter < Single
+      def initialize(model, type, name, required, writable, context = {})
+        @type = type
+        @name = name
+        @required = required
+        @writable = writable
+
+        super(model, context)
+      end
+
       property :links,
                as: :_links,
                exec_context: :decorator
 
       property :type,
+               exec_context: :decorator
+
+      property :name,
+               exec_context: :decorator
+
+      property :required,
+               exec_context: :decorator
+
+      property :writable,
                exec_context: :decorator
 
       collection :allowed_values,
@@ -47,8 +65,12 @@ module API
       private
 
       class_attribute :value_representer,
-                      :links_factory,
-                      :type
+                      :links_factory
+
+      attr_reader :type,
+                  :name,
+                  :required,
+                  :writable
 
       def links
         AllowedLinksRepresenter.new(represented, links_factory)

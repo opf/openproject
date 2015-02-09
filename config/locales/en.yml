@@ -170,6 +170,8 @@ en:
         reported_project_status: Project status
         created_at: Created
       work_package:
+        assigned_to: "Assignee"
+        author: "Author"
         created_at: "Created at"
         description: "Description"
         done_ratio: "% done"
@@ -182,9 +184,11 @@ en:
         parent_work_package: "Parent"
         priority: "Priority"
         progress: "% done"
+        project: "Project"
         responsible: "Responsible"
         spent_time: "Spent time"
         start_date: "Start date"
+        status: "Status"
         subject: "Subject"
         subproject: "Subproject"
         time_entries: "Log time"

@@ -35,6 +35,15 @@ module API
     module WorkPackages
       module Form
         class SchemaAllowedVersionsRepresenter < Decorators::SchemaAllowedValuesRepresenter
+          def initialize(model, context = {})
+            super(model,
+                  'Version',
+                  I18n.t('activerecord.attributes.work_package.fixed_version'),
+                  false,
+                  true,
+                  context)
+          end
+
           self.value_representer = Versions::VersionRepresenter
 
           self.links_factory = -> (version) do
@@ -42,8 +51,6 @@ module API
 
             { href: api_v3_paths.version(version.id), title: version.name }
           end
-
-          self.type = 'Version'
         end
       end
     end
