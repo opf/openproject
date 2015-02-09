@@ -147,6 +147,15 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
     text: {
       link: function(scope, element) {
         enableAutoCompletion(element);
+        scope.$on('startEditing', function() {
+          $timeout(function() {
+            element.find('.ined-dashboard').css({
+              'margin-left': element
+                .closest('.work-packages--details-content')
+                .find('.select-type:first').width()
+            });
+          }, 0, false);
+        });
       }
     },
 
