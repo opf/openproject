@@ -28,8 +28,11 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= error_messages_for 'board' %>
 <!--[form:board]-->
-<div class="box">
-  <p><%= f.text_field :name, :required => true %></p>
-  <p><%= f.text_field :description, :required => true, :size => 80 %></p>
+<div class="form--field -required">
+  <%= f.text_field :name %>
 </div>
+<div class="form--field -required">
+  <%= f.text_field :description %>
+</div>
+<hr class="form--separator">
 <!--[eoform:board]-->
