@@ -36,7 +36,7 @@ module API
       class CategoryRepresenter < ::API::Decorators::Single
         link :self do
           {
-            href: api_v3_paths.categories(represented.id),
+            href: api_v3_paths.category(represented.id),
             title: "#{represented.name}"
           }
         end
