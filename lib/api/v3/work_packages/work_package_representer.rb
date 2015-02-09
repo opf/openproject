@@ -202,6 +202,13 @@ module API
           } if current_user_allowed_to(:view_time_entries)
         end
 
+        link :category do
+          {
+            href: api_v3_paths.category(represented.category.id),
+            title: represented.category.name
+          } unless represented.category.nil?
+        end
+
         link :version do
           {
             href: api_v3_paths.version(represented.fixed_version.id),
