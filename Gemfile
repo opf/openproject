@@ -118,7 +118,7 @@ gem 'unicorn'
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
 
-gem 'i18n', '>=0.6.8'
+gem 'i18n', '~> 0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
 
 gem 'nokogiri', '~> 1.6.6'
@@ -129,7 +129,7 @@ group :test do
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.0"
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', "~> 1.4.2", :require => false
   gem 'rack_session_access'
   # restrict because in version 1.3 a lot of tests using acts as journalized
   # fail stating: "Column 'user_id' cannot be null". I don't understand the
