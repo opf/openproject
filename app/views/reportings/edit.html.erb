@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
         :title => link_to_project(@reporting.reporting_to_project)).html_safe %>
 </h2>
 
-<%= form_for :reporting,
+<%= labelled_tabular_form_for :reporting,
             :url  => project_reporting_path(@project, @reporting),
             :html => {:method => 'put'} do |f| %>
 
@@ -52,8 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <fieldset class="timelines-reporting-properties">
     <legend><%= l('timelines.properties') %></legend>
-
-    <p>
+    <div class="form--field -required">
       <label for="reporting_reported_project_status_id">
         <%= Reporting.human_attribute_name(:reported_project_status_id) %>:
       </label>
@@ -61,24 +60,21 @@ See doc/COPYRIGHT.rdoc for more details.
                    @reporting.possible_reported_project_statuses.map { |s|
                       [s.name, s.id]
                     }.unshift(["-",""]) %>
-    </p>
+    </div>
 
-    <p>
+    <div class="form--field">
       <label for="reporting_reported_project_status_comment">
         <%= Reporting.human_attribute_name(:reported_project_status_comment) %>:
       </label><br/>
       <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10,
                       :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
                       :'ng-non-bindable' => '') %>
-      <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
-    </p>
+    </div>
+    <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
   </fieldset>
-
-  <br/>
-  <p>
-    <%= f.submit l(:button_save), :name => nil, class: 'button -highlight' %>
-    <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
-  </p>
+  <hr>
+  <%= f.submit l(:button_save), :name => nil, class: 'button -highlight' %>
+  <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
 <% end %>
 
 
