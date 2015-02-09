@@ -70,11 +70,5 @@ See doc/COPYRIGHT.rdoc for more details.
                version.allowed_sharings.collect { |v| [format_version_sharing(v), v] } %>
 </div>
 
-<% f.object.custom_field_values.each do |value| %>
-  <%= f.fields_for_custom_fields :custom_field_values, value do |value_form| %>
-    <% required = value.custom_field.is_required? %>
-    <div class="form--field <%= required ? '-required' : '' %>">
-      <%= value_form.custom_field %>
-    </div>
-  <% end %>
-<% end %>
+<%= render partial: "customizable/form",
+           locals: { form: f } %>
