@@ -28,6 +28,8 @@
 #++
 
 module SettingsHelper
+  include OpenProject::FormTagHelper
+
   def administration_settings_tabs
     [{ name: 'general', partial: 'settings/general', label: :label_general },
      { name: 'display', partial: 'settings/display', label: :label_display },
@@ -46,12 +48,8 @@ module SettingsHelper
       choices = [[blank_text.is_a?(Symbol) ? I18n.t(blank_text) : blank_text, '']] + choices
     end
 
-    options[:class]  = ''
-    options[:class] << 'form--select'
-
-    ret = content_tag(:span, class: 'form--select-container') do
-      select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
-    end
+    ret = styled_select_tag("settings[#{setting}]",
+                            options_for_select(choices, Setting.send(setting).to_s), options)
     unless options[:label] == false
       ret = setting_label(setting) + content_tag(:span, ret, class: 'form--field-container')
     end
@@ -70,11 +68,9 @@ module SettingsHelper
             text, value = (choice.is_a?(Array) ? choice : [choice, choice])
 
             content_tag(:label, class: 'block') do
-              content_tag(:span, class: 'form--check-box-container') do
-                check_box_tag("settings[#{setting}][]", value,
-                              Setting.send(setting).include?(value),
-                              class: 'form--check-box')
-              end + text.to_s
+              styled_check_box_tag("settings[#{setting}][]", value,
+                                   Setting.send(setting).include?(value),
+                                   class: 'form--check-box') + text.to_s
             end
           end.join.html_safe
       end
@@ -97,11 +93,9 @@ module SettingsHelper
             '<td>' + h(text) + '</td>' +
             settings.map do |setting|
               '<td align="center">' +
-                content_tag(:span, class: 'form--check-box-container') do
-                  check_box_tag("settings[#{setting}][]", value,
-                                Setting.send(setting).include?(value),
-                                id: "#{setting}_#{value}", class: 'form--check-box')
-                end + '</td>'
+                styled_check_box_tag("settings[#{setting}][]", value,
+                                     Setting.send(setting).include?(value),
+                                     id: "#{setting}_#{value}", class: 'form--check-box') + '</td>'
             end.join +
           '</tr>'
         end.join +
@@ -110,56 +104,41 @@ module SettingsHelper
   end
 
   def setting_text_field(setting, options = {})
-    options[:class] = Array(options[:class]) + %w(form--text-field)
-
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
-        content_tag(:span, class: 'form--text-field-container') do
-          text_field_tag("settings[#{setting}]", Setting.send(setting), options)
-        end
+        styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options)
       end
   end
 
   def setting_text_area(setting, options = {})
-    options[:class] = Array(options[:class]) + %w(form--text-area)
-
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
-        content_tag(:span, class: 'form--text-area-container') do
-          text_area_tag("settings[#{setting}]", Setting.send(setting), options)
-        end
+        styled_text_area_tag("settings[#{setting}]", Setting.send(setting), options)
       end
   end
 
   def setting_check_box(setting, options = {})
-    options[:class] = Array(options[:class]) + %w(form--check-box)
-
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
-        content_tag(:span, class: 'form--check-box-container') do
-          tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
-            check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
-        end
+        tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
+          styled_check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
       end
   end
 
   def setting_label(setting, options = {})
-    label = options.delete(:label)
-    label != false ? content_tag('label', I18n.t(label || "setting_#{setting}"),
-                                 for: "settings_#{setting}",
-                                 class: 'form--label') : ''.html_safe
+    if (label = options.delete(:label)) != false
+      styled_label_tag("settings_#{setting}", I18n.t(label || "setting_#{setting}"))
+    end
   end
 
   # Renders a notification field for a Redmine::Notifiable option
   def notification_field(notifiable)
     content_tag(:label, class: 'form--label' + (notifiable.parent.present? ? ' parent' : '')) do
-      content_tag(:span, class: 'form--check-box-container') do
-        check_box_tag('settings[notified_events][]',
-                      notifiable.name,
-                      Setting.notified_events.include?(notifiable.name),
-                      class: 'form--check-box') +
-          l_or_humanize(notifiable.name, prefix: 'label_')
-      end
+      styled_check_box_tag('settings[notified_events][]',
+                           notifiable.name,
+                           Setting.notified_events.include?(notifiable.name),
+                           class: 'form--check-box') +
+        l_or_humanize(notifiable.name, prefix: 'label_')
     end
   end
 end
