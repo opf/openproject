@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </h2>
 
-<%= form_for @content, :as => :content, :url => wiki_create_path(:project_id => @project), :html => {:method => :post, :multipart => true, :id => 'wiki_form'} do |f| %>
+<%= labelled_tabular_form_for @content, :as => :content, :url => wiki_create_path(:project_id => @project), :html => {:method => :post, :multipart => true, :id => 'wiki_form'} do |f| %>
 
   <%= error_messages_for 'page' %>
 
@@ -58,8 +58,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </p>
 
     <p>
-      <%= f.label :comments %>
-      <br />
       <%= f.text_field :comments, :size => 120 %>
     </p>
 
