@@ -82,18 +82,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label + container_wrap_field(input, 'check-box', options)
   end
 
-  # Return custom field html tag corresponding to its format
-  def custom_field(options = {})
-    input = custom_field_input(options)
+  def fields_for_custom_fields(record_name, record_object = nil, options = {}, &block)
+    options_with_defaults = options.merge(builder: CustomFieldFormBuilder)
 
-    if options[:no_label]
-      input
-    else
-      label = custom_field_label_tag
-      container_options = options.merge(no_label: true)
-
-      label + container_wrap_field(input, 'field', container_options)
-    end
+    fields_for(record_name, record_object, options_with_defaults, &block)
   end
 
   private
@@ -171,69 +163,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def element_id(translation_form)
     match = /id=\"(?<id>\w+)"/.match(translation_form.hidden_field :id)
     match ? match[:id] : nil
-  end
-
-  def custom_field_input(options = {})
-    field = :value
-
-    input_options = options.merge(no_label: true,
-                                  name: custom_field_field_name,
-                                  id: custom_field_field_id)
-
-    field_format = Redmine::CustomFieldFormat.find_by_name(object.custom_field.field_format)
-
-    case field_format.try(:edit_as)
-    when 'date'
-      text_field(field, input_options) +
-        template.calendar_for(custom_field_field_id)
-    when 'text'
-      text_area(field, input_options.merge(rows: 3))
-    when 'bool'
-      check_box(field, input_options)
-    when 'list'
-      custom_field_input_list(field, input_options)
-    else
-      text_field(field, input_options)
-    end
-  end
-
-  def custom_field_input_list(field, input_options)
-    select_options = { no_label: true }
-    is_required = object.custom_field.is_required?
-    default_value = object.custom_field.default_value
-    possible_options = object.custom_field.possible_values_options(object.customized)
-
-    if is_required && default_value.blank?
-      select_options[:prompt] = "--- #{l(:actionview_instancetag_blank_option)} ---"
-    elsif !is_required
-      select_options[:include_blank] = true
-    end
-
-    selectable_options = template.options_for_select(possible_options, object.value)
-
-    select(field, selectable_options, select_options, input_options).html_safe
-  end
-
-  def custom_field_field_name
-    "#{object_name}[#{ object.custom_field.id }]"
-  end
-
-  def custom_field_field_id
-    "#{object_name}_#{ object.custom_field.id }".gsub(/[\[\]]/, '_')
-  end
-
-  # Return custom field label tag
-  def custom_field_label_tag
-    custom_value = object
-
-    classes = 'form--label'
-    classes << ' error' unless custom_value.errors.empty?
-
-    content_tag 'label',
-                custom_value.custom_field.name,
-                for: custom_field_field_id,
-                class: classes,
-                lang: custom_value.custom_field.name_locale
   end
 
   def localized_field(translation_form, method, field, options)
