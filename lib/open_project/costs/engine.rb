@@ -140,7 +140,10 @@ module OpenProject::Costs
                if: -> (*) { costs_enabled && current_user_allowed_to_view_summarized_cost_entries }
 
       property :spent_time,
-               getter: -> (*) { Duration.new(hours_and_minutes(represented.spent_hours)).iso8601 },
+               getter: -> (*) do
+                 formatter = API::V3::Utilities::DateTimeFormatter
+                 formatter.format_duration_from_hours(represented.spent_hours)
+               end,
                writeable: false,
                exec_context: :decorator,
                if: -> (_) { user_has_time_entry_permissions? }
