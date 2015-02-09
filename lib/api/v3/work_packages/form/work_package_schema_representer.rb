@@ -43,7 +43,7 @@ module API
                                    writable: true,
                                    min_length: nil,
                                    max_length: nil)
-            raise ArgumentError unless property != nil && type != nil
+            raise ArgumentError if property.nil? || type.nil?
 
             title = I18n.t("activerecord.attributes.work_package.#{property}") unless title
 
