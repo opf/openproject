@@ -104,9 +104,12 @@ module SettingsHelper
   end
 
   def setting_text_field(setting, options = {})
+    unit = options.delete(:unit)
+
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container') do
-        styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options)
+        styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options) +
+        (unit ? content_tag(:span, unit, class: 'form-label'): '')
       end
   end
 
