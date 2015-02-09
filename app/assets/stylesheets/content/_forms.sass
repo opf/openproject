@@ -208,11 +208,15 @@ fieldset
   &.-vertical
     display: block
 
-  &:nth-of-type(n+2)
+  &:nth-of-type(n+2),
+  .form--field.-no-label &
     @include grid-offset(2)
 
   .form.-wide-labels &
     @include grid-size(8)
+
+  .form.-wide-labels .form--field.-no-label &
+    @include grid-offset(4)
 
   .form--field.-vertical &,
   .form.-vertical &
