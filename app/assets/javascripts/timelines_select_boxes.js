@@ -93,7 +93,7 @@ jQuery(document).ready(function($) {
 
   [
     $("#reporting_reporting_to_project_id"),
-    $("#project_association_select_project_b_id")
+    $("#project_association_project_b_id")
   ].forEach(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
     $(item).autocomplete({
