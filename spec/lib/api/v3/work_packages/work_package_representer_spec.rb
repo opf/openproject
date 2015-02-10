@@ -41,11 +41,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                       id: 42,
                       created_at: DateTime.now,
                       updated_at: DateTime.now,
-                      category:   category,
                       done_ratio: 50,
                       estimated_hours: 6.0)
   }
-  let(:category) { FactoryGirl.build(:category) }
   let(:project) { work_package.project }
   let(:permissions) {
     [
@@ -283,6 +281,40 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               is_expected.to be_json_eql('Version'.to_json).at_path("#{embedded_path}/_type")
               is_expected.to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
             end
+          end
+        end
+      end
+
+      describe 'category' do
+        let(:embedded_path) { '_embedded/category' }
+        let(:href_path) { '_links/category/href' }
+
+        context 'no category set' do
+          it 'has no category linked' do
+            is_expected.to_not have_json_path(href_path)
+          end
+
+          it 'has no category embedded' do
+            is_expected.to_not have_json_path(embedded_path)
+          end
+        end
+
+        context 'category set' do
+          let!(:category) { FactoryGirl.create :category, project: project }
+          let(:expected_url) { api_v3_paths.category(category.id).to_json }
+
+          before do
+            work_package.category = category
+          end
+
+          it 'has a link to the category' do
+            is_expected.to be_json_eql(expected_url).at_path(href_path)
+          end
+
+          it 'has the category embedded' do
+            is_expected.to have_json_type(Hash).at_path('_embedded/category')
+            is_expected.to be_json_eql('Category'.to_json).at_path("#{embedded_path}/_type")
+            is_expected.to be_json_eql(category.name.to_json).at_path("#{embedded_path}/name")
           end
         end
       end
@@ -536,11 +568,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           it { is_expected.not_to have_json_path('_embedded/watchers') }
         end
-      end
-
-      describe 'category' do
-        it { is_expected.to have_json_type(Hash).at_path('_embedded/category') }
-        it { is_expected.to be_json_eql(%{Category}.to_json).at_path('_embedded/category/_type') }
       end
     end
   end
