@@ -38,234 +38,340 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    describe 'schema' do
-      shared_examples_for 'schema property' do |path, type, required: true, writable: true|
-        it { is_expected.to have_json_path(path) }
-
-        it { is_expected.to be_json_eql(type.to_json).at_path("#{path}/type") }
-
-        it 'has valid required value' do
-          required_path = "#{path}/required"
-
-          is_expected.to be_json_eql(required.to_json).at_path(required_path)
-        end
-
-        it 'has valid writable value' do
-          writable_path = "#{path}/writable"
-
-          is_expected.to be_json_eql(writable.to_json).at_path(writable_path)
-        end
+    shared_examples_for 'has basic schema properties' do
+      it 'exists' do
+        is_expected.to have_json_path(path)
       end
 
-      shared_examples_for 'linked property' do |property_name, type|
-        it { is_expected.to have_json_path(property_name) }
-
-        it { is_expected.to be_json_eql(type.to_json).at_path("#{property_name}/type") }
-
-        it { is_expected.to have_json_path("#{property_name}/_links") }
-
-        it { is_expected.to have_json_path("#{property_name}/_links/allowedValues") }
+      it 'has a type' do
+        is_expected.to be_json_eql(type.to_json).at_path("#{path}/type")
       end
 
-      shared_examples_for 'linked with href' do |property_name|
-        let(:path) { "#{property_name}/_links/allowedValues/href" }
-
-        it { is_expected.to be_json_eql(href).at_path(path) }
+      it 'has a name' do
+        is_expected.to be_json_eql(name.to_json).at_path("#{path}/name")
       end
 
-      describe '_type' do
-        it_behaves_like 'schema property',
-                        '_type', 'MetaType',
-                        required: true,
-                        writable: false
+      it 'indicates if it is required' do
+        is_expected.to be_json_eql(required.to_json).at_path("#{path}/required")
       end
 
-      describe 'lock version' do
-        it_behaves_like 'schema property',
-                        'lockVersion',
-                        'Integer',
-                        required: true,
-                        writable: false
+      it 'indicates if it is writable' do
+        is_expected.to be_json_eql(writable.to_json).at_path("#{path}/writable")
+      end
+    end
+
+    shared_examples_for 'links to allowed values directly' do
+      it 'has the expected number of links' do
+        is_expected.to have_json_size(hrefs.size).at_path("#{path}/_links/allowedValues")
       end
 
-      describe 'subject' do
-        it_behaves_like 'schema property',
-                        'subject',
-                        'String',
-                        required: true,
-                        writable: true
-      end
-
-      describe 'description' do
-        it_behaves_like 'schema property',
-                        'description',
-                        'Formattable',
-                        required: true,
-                        writable: true
-      end
-
-      describe 'startDate' do
-        it_behaves_like 'schema property',
-                        'startDate',
-                        'Date',
-                        required: false,
-                        writable: true
-      end
-
-      describe 'dueDate' do
-        it_behaves_like 'schema property',
-                        'dueDate',
-                        'Date',
-                        required: false,
-                        writable: true
-      end
-
-      describe 'status' do
-        shared_examples_for 'contains statuses' do
-          it_behaves_like 'linked property', 'status', 'Status'
-
-          it 'contains valid links to statuses' do
-            status_links = statuses.map do |status|
-              { href: "/api/v3/statuses/#{status.id}", title: status.name }
-            end
-
-            is_expected.to be_json_eql(status_links.to_json).at_path('status/_links/allowedValues')
-          end
-
-          it 'embeds statuses' do
-            embedded_statuses = statuses.map do |status|
-              {
-                _links: {
-                  self: {
-                    href: "/api/v3/statuses/#{status.id}",
-                    title: status.name
-                  }
-                },
-                _type: 'Status',
-                id: status.id,
-                name: status.name,
-                defaultDoneRatio: status.default_done_ratio,
-                isClosed: status.is_closed,
-                isDefault: status.is_default,
-                position: status.position
-              }
-            end
-
-            is_expected.to be_json_eql(embedded_statuses.to_json)
-                           .at_path('status/_embedded/allowedValues')
-          end
-        end
-
-        context 'w/o allowed statuses' do
-          before { allow(work_package).to receive(:new_statuses_allowed_to).and_return([]) }
-
-          it_behaves_like 'contains statuses' do
-            let(:statuses) { [] }
-          end
-        end
-
-        context 'with allowed statuses' do
-          let(:statuses) { FactoryGirl.build_list(:status, 3) }
-
-          before { allow(work_package).to receive(:new_statuses_allowed_to).and_return(statuses) }
-
-          it_behaves_like 'contains statuses'
+      it 'contains links to the allowed values' do
+        index = 0
+        hrefs.each do |href|
+          href_path = "#{path}/_links/allowedValues/#{index}/href"
+          is_expected.to be_json_eql(href.to_json).at_path(href_path)
+          index += 1
         end
       end
 
-      describe 'versions' do
-        shared_examples_for 'contains versions' do
-          it_behaves_like 'linked property', 'version', 'Version'
+      it 'has the expected number of embedded values' do
+        is_expected.to have_json_size(hrefs.size).at_path("#{path}/_embedded/allowedValues")
+      end
 
-          it 'contains valid links to versions' do
-            version_links = versions.map do |version|
-              { href: "/api/v3/versions/#{version.id}", title: version.name }
-            end
-
-            is_expected.to be_json_eql(version_links.to_json)
-              .at_path('version/_links/allowedValues')
-          end
-
-          it 'embeds versions' do
-            versions.each_with_index do |version, i|
-              is_expected.to be_json_eql(version.id.to_json)
-                .at_path("version/_embedded/allowedValues/#{i}/id")
-            end
-          end
+      it 'embeds the allowed values' do
+        index = 0
+        hrefs.each do |href|
+          href_path = "#{path}/_embedded/allowedValues/#{index}/_links/self/href"
+          is_expected.to be_json_eql(href.to_json).at_path(href_path)
+          index += 1
         end
+      end
+    end
 
-        context 'w/o allowed versions' do
-          before { allow(work_package).to receive(:assignable_versions).and_return([]) }
+    shared_examples_for 'links to allowed values via collection link' do
+      it 'contains the link to the allowed values' do
+        is_expected.to be_json_eql(href.to_json).at_path("#{path}/_links/allowedValues/href")
+      end
+    end
 
-          it_behaves_like 'contains versions' do
-            let(:versions) { [] }
-          end
-        end
+    describe '_type' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { '_type' }
+        let(:type) { 'MetaType' }
+        let(:name) { I18n.t('api_v3.attributes._type') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
 
-        context 'with allowed versions' do
-          let(:versions) { FactoryGirl.build_stubbed_list(:version, 3) }
+    describe 'lock version' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'lockVersion' }
+        let(:type) { 'Integer' }
+        let(:name) { I18n.t('api_v3.attributes.lock_version') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
 
-          before { allow(work_package).to receive(:assignable_versions).and_return(versions) }
+    describe 'id' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'id' }
+        let(:type) { 'Integer' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.id') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
 
-          it_behaves_like 'contains versions'
+    describe 'subject' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'subject' }
+        let(:type) { 'String' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.subject') }
+        let(:required) { true }
+        let(:writable) { true }
+      end
+
+      it 'indicates its minimum length' do
+        is_expected.to be_json_eql(1.to_json).at_path('subject/minLength')
+      end
+
+      it 'indicates its maximum length' do
+        is_expected.to be_json_eql(255.to_json).at_path('subject/maxLength')
+      end
+    end
+
+    describe 'description' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'description' }
+        let(:type) { 'Formattable' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.description') }
+        let(:required) { true }
+        let(:writable) { true }
+      end
+    end
+
+    describe 'startDate' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'startDate' }
+        let(:type) { 'Date' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.start_date') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+    end
+
+    describe 'dueDate' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'dueDate' }
+        let(:type) { 'Date' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.due_date') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+    end
+
+    describe 'estimatedTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'estimatedTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.estimated_time') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
+
+    describe 'spentTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'spentTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
+
+    describe 'percentageDone' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'percentageDone' }
+        let(:type) { 'Integer' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.done_ratio') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
+
+    describe 'createdAt' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'createdAt' }
+        let(:type) { 'DateTime' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.created_at') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
+
+    describe 'updatedAt' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'updatedAt' }
+        let(:type) { 'DateTime' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.updated_at') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
+
+    describe 'author' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'author' }
+        let(:type) { 'User' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.author') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
+
+    describe 'project' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'project' }
+        let(:type) { 'Project' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.project') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
+
+    describe 'type' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'type' }
+        let(:type) { 'Type' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.type') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
+
+    describe 'status' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'status' }
+        let(:type) { 'Status' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.status') }
+        let(:required) { true }
+        let(:writable) { true }
+      end
+
+      context 'w/o allowed statuses' do
+        before { allow(work_package).to receive(:new_statuses_allowed_to).and_return([]) }
+
+        it_behaves_like 'links to allowed values directly' do
+          let(:path) { 'status' }
+          let(:hrefs) { [] }
         end
       end
 
-      describe 'priorities' do
-        shared_examples_for 'contains priorities' do
-          it_behaves_like 'linked property', 'priority', 'Priority'
+      context 'with allowed statuses' do
+        let(:statuses) { FactoryGirl.build_list(:status, 3) }
 
-          it 'contains valid links to priorities' do
-            priority_links = priorities.map do |priority|
-              { href: "/api/v3/priorities/#{priority.id}", title: priority.name }
-            end
+        before { allow(work_package).to receive(:new_statuses_allowed_to).and_return(statuses) }
 
-            is_expected.to be_json_eql(priority_links.to_json)
-                             .at_path('priority/_links/allowedValues')
-          end
-
-          it 'embeds priorities' do
-            priorities.each_with_index do |priority, i|
-              is_expected.to be_json_eql(priority.id.to_json)
-                               .at_path("priority/_embedded/allowedValues/#{i}/id")
-            end
-          end
+        it_behaves_like 'links to allowed values directly' do
+          let(:path) { 'status' }
+          let(:hrefs) { statuses.map { |status| "/api/v3/statuses/#{status.id}" } }
         end
+      end
+    end
 
-        context 'w/o allowed priorities' do
-          before { allow(work_package).to receive(:assignable_priorities).and_return([]) }
+    describe 'versions' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'version' }
+        let(:type) { 'Version' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.fixed_version') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
 
-          it_behaves_like 'contains priorities' do
-            let(:priorities) { [] }
-          end
-        end
+      context 'w/o allowed versions' do
+        before { allow(work_package).to receive(:assignable_versions).and_return([]) }
 
-        context 'with allowed priorities' do
-          let(:priorities) { FactoryGirl.build_stubbed_list(:priority, 3) }
-
-          before { allow(work_package).to receive(:assignable_priorities).and_return(priorities) }
-
-          it_behaves_like 'contains priorities'
+        it_behaves_like 'links to allowed values directly' do
+          let(:path) { 'version' }
+          let(:hrefs) { [] }
         end
       end
 
-      describe 'responsible and assignee' do
-        let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
+      context 'with allowed versions' do
+        let(:versions) { FactoryGirl.build_stubbed_list(:version, 3) }
 
-        describe 'assignee' do
-          it_behaves_like 'linked property', 'assignee', 'User'
+        before { allow(work_package).to receive(:assignable_versions).and_return(versions) }
 
-          it_behaves_like 'linked with href', 'assignee' do
-            let(:href) { "#{base_href}/available_assignees".to_json }
-          end
+        it_behaves_like 'links to allowed values directly' do
+          let(:path) { 'version' }
+          let(:hrefs) { versions.map { |version| "/api/v3/versions/#{version.id}" } }
+        end
+      end
+    end
+
+    describe 'priorities' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'priority' }
+        let(:type) { 'Priority' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.priority') }
+        let(:required) { true }
+        let(:writable) { true }
+      end
+
+      context 'w/o allowed priorities' do
+        before { allow(work_package).to receive(:assignable_priorities).and_return([]) }
+
+        it_behaves_like 'links to allowed values directly' do
+          let(:path) { 'priority' }
+          let(:hrefs) { [] }
+        end
+      end
+
+      context 'with allowed priorities' do
+        let(:priorities) { FactoryGirl.build_stubbed_list(:priority, 3) }
+
+        before { allow(work_package).to receive(:assignable_priorities).and_return(priorities) }
+
+        it_behaves_like 'links to allowed values directly' do
+          let(:path) { 'priority' }
+          let(:hrefs) { priorities.map { |priority| "/api/v3/priorities/#{priority.id}" } }
+        end
+      end
+    end
+
+    describe 'responsible and assignee' do
+      let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
+
+      describe 'assignee' do
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'assignee' }
+          let(:type) { 'User' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.assigned_to') }
+          let(:required) { false }
+          let(:writable) { true }
         end
 
-        describe 'responsible' do
-          it_behaves_like 'linked property', 'responsible', 'User'
+        it_behaves_like 'links to allowed values via collection link' do
+          let(:path) { 'assignee' }
+          let(:href) { "#{base_href}/available_assignees" }
+        end
+      end
 
-          it_behaves_like 'linked with href', 'responsible' do
-            let(:href) { "#{base_href}/available_responsibles".to_json }
-          end
+      describe 'responsible' do
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'responsible' }
+          let(:type) { 'User' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.responsible') }
+          let(:required) { false }
+          let(:writable) { true }
+        end
+
+        it_behaves_like 'links to allowed values via collection link' do
+          let(:path) { 'responsible' }
+          let(:href) { "#{base_href}/available_responsibles" }
         end
       end
     end
