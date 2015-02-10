@@ -32,7 +32,7 @@ class UseTheFullStiClassNamesForRepositories < ActiveRecord::Migration
     concatenation = "('Repository::' || type)"
 
     # special concat for mysql
-    if ChiliProject::Database.mysql?
+    if OpenProject::Database.mysql?
       concatenation = "CONCAT('Repository::', type)"
     end
 

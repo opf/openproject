@@ -27,5 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module MembersHelper
+module API
+  module Errors
+    class PropertyFormatError < ErrorBase
+      def initialize(property, expected_format, actual_value)
+        message = I18n.t('api_v3.errors.invalid_format',
+                         property: property,
+                         expected_format: expected_format,
+                         actual: actual_value)
+        super 422, message
+      end
+    end
+  end
 end

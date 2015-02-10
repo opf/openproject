@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -25,34 +26,36 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require File.expand_path('../../../../test_helper', __FILE__)
 
-class ChiliProject::PrincipalAllowanceEvaluator::Default < ChiliProject::PrincipalAllowanceEvaluator::Base
-  def granted_for_global?(candidate, action, options)
-    granted = super
-
-    granted || if candidate.is_a?(Member)
-                 candidate.roles.any? { |r| r.allowed_to?(action) }
-               elsif candidate.is_a?(Role)
-                 candidate.allowed_to?(action)
-               end
+class OpenProject::DatabaseTest < ActiveSupport::TestCase
+  setup do
+    OpenProject::Database.stub(:adapter_name).and_return 'PostgresQL'
   end
 
-  def granted_for_project?(role, action, project, options)
-    return false unless role.is_a?(Role)
-    granted = super
-
-    granted || (project.is_public? || role.member?) && role.allowed_to?(action)
+  should 'return the correct identifier' do
+    assert_equal :postgresql, OpenProject::Database.name
   end
 
-  def global_granting_candidates
-    role = @user.logged? ?
-             Role.non_member :
-             Role.anonymous
-
-    @user.memberships + [role]
+  should 'be able to use the helper methods' do
+    assert_equal false, OpenProject::Database.mysql?
+    assert_equal true, OpenProject::Database.postgresql?
   end
 
-  def project_granting_candidates(project)
-    @user.roles_for_project project
+  should 'return a version string for PostgreSQL' do
+    OpenProject::Database.stub(:adapter_name).and_return 'PostgreSQL'
+    raw_version = 'PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2'
+    ActiveRecord::Base.connection.stub(:select_value).and_return raw_version
+
+    assert_equal '8.3.11', OpenProject::Database.version
+    assert_equal raw_version, OpenProject::Database.version(true)
+  end
+
+  should 'return a version string for MySQL' do
+    OpenProject::Database.stub(:adapter_name).and_return 'MySQL'
+    ActiveRecord::Base.connection.stub(:select_value).and_return '5.1.2'
+
+    assert_equal '5.1.2', OpenProject::Database.version
+    assert_equal '5.1.2', OpenProject::Database.version(true)
   end
 end

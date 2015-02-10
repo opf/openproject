@@ -30,6 +30,8 @@
 require 'roar/decorator'
 require 'roar/json/hal'
 
+API::V3::Utilities::DateTimeFormatter
+
 module API
   module V3
     module Activities
@@ -37,6 +39,7 @@ module API
         include Roar::JSON::HAL
         include Roar::Hypermedia
         include API::V3::Utilities::PathHelper
+        include API::V3::Utilities
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -100,7 +103,7 @@ module API
                  },
                  render_nil: true
         property :version, render_nil: true
-        property :created_at, getter: -> (*) { created_at.utc.iso8601 }, render_nil: true
+        property :created_at, getter: -> (*) { DateTimeFormatter::format_datetime(created_at) }
 
         def _type
           if represented.notes.blank?

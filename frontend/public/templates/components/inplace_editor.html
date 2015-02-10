@@ -1,22 +1,6 @@
-<div class="inplace-editor type-{{type}} attribute-{{attribute}}" ng-class="{busy: isBusy, preview: isPreview, editable: isEditable}">
-  <div class="ined-read-value" ng-class="{ default: placeholderSet, editable: isEditable }" ng-hide="isEditing" ng-switch="type">
-    <span class="read-value-wrapper" ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>
-    <span class="read-value-wrapper" ng-switch-default>
-      <span ng-if="!isUserLink">
-        <span ng-if="attribute == 'version.name'">
-          <span ng-if="entity.links.version">
-            <a href="{{pathHelper.versionPath(entity.embedded.version.props.id)}}">
-              {{entity.links.version.props.title}}
-            </a>
-          </span>
-          <span ng-if="!entity.links.version">
-            {{readValue}}
-          </span>
-        </span>
-        <span ng-if="attribute != 'version.name'" ng-bind="readValue"></span>
-      </span>
-      <user-field ng-if="isUserLink" user="readValue"></user-field>
-    </span>
+<div class="inplace-editor type-{{type}} attribute-{{attribute}}" ng-class="{busy: isBusy, preview: isPreview, editable: isEditable}" ng-disabled="isBusy">
+  <div class="ined-read-value" ng-class="{ default: placeholderSet, editable: isEditable }" ng-hide="isEditing">
+    <span class="read-value-wrapper" ng-include src="getDisplayTemplateUrl()"></span>
     <span ng-if="isEditable" class="editing-link-wrapper">
       <accessible-by-keyboard execute="startEditing()">
         <icon-wrapper icon-name="edit" icon-title="{{ editTitle }}">
@@ -34,22 +18,24 @@
           <span ng-bind-html="previewHtml"></span>
         </div>
       </div>
-      <div class="ined-errors" ng-show="error" role="alert" ng-bind="error"></div>
-      <div class="ined-controls" ng-hide="isBusy">
-        <accessible-by-keyboard execute="editForm.$valid && submit(false)" class="ined-edit-save">
-          <icon-wrapper icon-name="yes" icon-title="{{ saveTitle }}">
-          </icon-wrapper>
-        </accessible-by-keyboard>
-        <accessible-by-keyboard execute="editForm.$valid && submit(true)" class="ined-edit-save-send">
-          <span title="{{ saveAndSendTitle }}">
-            <i class="icon-yes"></i>
-            <i class="icon-mail"></i>
-          </span>
-        </accessible-by-keyboard>
-        <accessible-by-keyboard execute="discardEditing()" class="ined-edit-close">
-          <icon-wrapper icon-name="close" icon-title="{{ cancelTitle }}">
-          </icon-wrapper>
-        </accessible-by-keyboard>
+      <div class="ined-dashboard">
+        <div class="ined-errors" ng-show="error" role="alert" ng-bind="error"></div>
+        <div class="ined-controls" ng-hide="isBusy">
+          <accessible-by-keyboard execute="editForm.$valid && submit(false)" class="ined-edit-save">
+            <icon-wrapper icon-name="yes" icon-title="{{ saveTitle }}">
+            </icon-wrapper>
+          </accessible-by-keyboard>
+          <accessible-by-keyboard execute="editForm.$valid && submit(true)" class="ined-edit-save-send">
+            <span title="{{ saveAndSendTitle }}">
+              <i class="icon-yes"></i>
+              <i class="icon-mail"></i>
+            </span>
+          </accessible-by-keyboard>
+          <accessible-by-keyboard execute="discardEditing()" class="ined-edit-close">
+            <icon-wrapper icon-name="close" icon-title="{{ cancelTitle }}">
+            </icon-wrapper>
+          </accessible-by-keyboard>
+        </div>
       </div>
     </form>
   </div>

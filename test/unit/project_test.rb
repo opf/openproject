@@ -44,7 +44,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   should validate_uniqueness_of :identifier
 
-  context "associations" do
+  context 'associations' do
     should have_many :members
     should have_many(:users).through(:members)
     should have_many :member_principals
@@ -69,53 +69,53 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_truth
     assert_kind_of Project, @ecookbook
-    assert_equal "eCookbook", @ecookbook.name
+    assert_equal 'eCookbook', @ecookbook.name
   end
 
   def test_default_attributes
-    with_settings :default_projects_public => '1' do
+    with_settings default_projects_public: '1' do
       assert_equal true, Project.new.is_public
-      assert_equal false, Project.new(:is_public => false).is_public
+      assert_equal false, Project.new(is_public: false).is_public
     end
 
-    with_settings :default_projects_public => '0' do
+    with_settings default_projects_public: '0' do
       assert_equal false, Project.new.is_public
-      assert_equal true, Project.new(:is_public => true).is_public
+      assert_equal true, Project.new(is_public: true).is_public
     end
 
-    with_settings :sequential_project_identifiers => '1' do
+    with_settings sequential_project_identifiers: '1' do
       assert !Project.new.identifier.blank?
-      assert Project.new(:identifier => '').identifier.blank?
+      assert Project.new(identifier: '').identifier.blank?
     end
 
-    with_settings :sequential_project_identifiers => '0' do
+    with_settings sequential_project_identifiers: '0' do
       assert Project.new.identifier.blank?
-      assert !Project.new(:identifier => 'test').blank?
+      assert !Project.new(identifier: 'test').blank?
     end
 
-    with_settings :default_projects_modules => ['work_package_tracking', 'repository'] do
+    with_settings default_projects_modules: ['work_package_tracking', 'repository'] do
       assert_equal ['work_package_tracking', 'repository'], Project.new.enabled_module_names
     end
 
     assert_equal Type.all, Project.new.types
-    assert_equal Type.find(1, 3), Project.new(:type_ids => [1, 3]).types
+    assert_equal Type.find(1, 3), Project.new(type_ids: [1, 3]).types
   end
 
   def test_update
-    assert_equal "eCookbook", @ecookbook.name
-    @ecookbook.name = "eCook"
-    assert @ecookbook.save, @ecookbook.errors.full_messages.join("; ")
+    assert_equal 'eCookbook', @ecookbook.name
+    @ecookbook.name = 'eCook'
+    assert @ecookbook.save, @ecookbook.errors.full_messages.join('; ')
     @ecookbook.reload
-    assert_equal "eCook", @ecookbook.name
+    assert_equal 'eCook', @ecookbook.name
   end
 
   def test_validate_identifier
-    to_test = {"abc" => true,
-               "ab12" => true,
-               "ab-12" => true,
-               "ab_12" => true,
-               "12" => false,
-               "new" => false}
+    to_test = { 'abc' => true,
+                'ab12' => true,
+                'ab-12' => true,
+                'ab_12' => true,
+                '12' => false,
+                'new' => false }
 
     to_test.each do |identifier, valid|
       p = Project.new
@@ -127,13 +127,13 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_members_should_be_active_users
     Project.all.each do |project|
-      assert_nil project.members.detect {|m| !(m.user.is_a?(User) && m.user.active?) }
+      assert_nil project.members.detect { |m| !(m.user.is_a?(User) && m.user.active?) }
     end
   end
 
   def test_users_should_be_active_users
     Project.all.each do |project|
-      assert_nil project.users.detect {|u| !(u.is_a?(User) && u.active?) }
+      assert_nil project.users.detect { |u| !(u.is_a?(User) && u.active?) }
     end
   end
 
@@ -184,7 +184,7 @@ class ProjectTest < ActiveSupport::TestCase
     # 2 active members
     assert_equal 2, @ecookbook.members.size
     # and 1 is locked
-    assert_equal 3, Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).size
+    assert_equal 3, Member.find(:all, conditions: ['project_id = ?', @ecookbook.id]).size
     # some boards
     assert @ecookbook.boards.any?
 
@@ -192,18 +192,16 @@ class ProjectTest < ActiveSupport::TestCase
     # make sure that the project non longer exists
     assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
     # make sure related data was removed
-    assert_nil Member.first(:conditions => {:project_id => @ecookbook.id})
-    assert_nil Board.first(:conditions => {:project_id => @ecookbook.id})
-    assert_nil WorkPackage.first(:conditions => {:project_id => @ecookbook.id})
+    assert_nil Member.first(conditions: { project_id: @ecookbook.id })
+    assert_nil Board.first(conditions: { project_id: @ecookbook.id })
+    assert_nil WorkPackage.first(conditions: { project_id: @ecookbook.id })
   end
 
   def test_destroying_root_projects_should_clear_data
     Journal.delete_all
     WorkPackage.all.each(&:recreate_initial_journal!)
 
-    Project.roots.each do |root|
-      root.destroy
-    end
+    Project.roots.each(&:destroy)
 
     assert_equal 0, Project.count, "Projects were not deleted: #{Project.all.inspect}"
     assert_equal 0, Member.count, "Members were not deleted: #{Member.all.inspect}"
@@ -216,7 +214,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Board.count
     assert_equal 0, Message.count
     assert_equal 0, News.count
-    assert_equal 0, Query.count(:conditions => "project_id IS NOT NULL")
+    assert_equal 0, Query.count(conditions: 'project_id IS NOT NULL')
     assert_equal 0, Repository.count
     assert_equal 0, Changeset.count
     assert_equal 0, Change.count
@@ -227,9 +225,9 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Wiki.count
     assert_equal 0, WikiPage.count
     assert_equal 0, WikiContent.count
-    assert_equal 0, Project.connection.select_all("SELECT * FROM projects_types").size
-    assert_equal 0, Project.connection.select_all("SELECT * FROM custom_fields_projects").size
-    assert_equal 0, CustomValue.count(:conditions => {:customized_type => ['Project', 'Issue', 'TimeEntry', 'Version']})
+    assert_equal 0, Project.connection.select_all('SELECT * FROM projects_types').size
+    assert_equal 0, Project.connection.select_all('SELECT * FROM custom_fields_projects').size
+    assert_equal 0, CustomValue.count(conditions: { customized_type: ['Project', 'Issue', 'TimeEntry', 'Version'] })
   end
 
   def test_move_an_orphan_project_to_a_root_project
@@ -258,10 +256,10 @@ class ProjectTest < ActiveSupport::TestCase
   def test_set_parent_should_add_roots_in_alphabetical_order
     ProjectCustomField.delete_all
     Project.delete_all
-    Project.create!(:name => 'Project C', :identifier => 'project-c').set_parent!(nil)
-    Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(nil)
-    Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(nil)
-    Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(nil)
+    Project.create!(name: 'Project C', identifier: 'project-c').set_parent!(nil)
+    Project.create!(name: 'Project B', identifier: 'project-b').set_parent!(nil)
+    Project.create!(name: 'Project D', identifier: 'project-d').set_parent!(nil)
+    Project.create!(name: 'Project A', identifier: 'project-a').set_parent!(nil)
 
     assert_equal 4, Project.count
     assert_equal Project.all.sort_by(&:name), Project.all.sort_by(&:lft)
@@ -269,11 +267,11 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_set_parent_should_add_children_in_alphabetical_order
     ProjectCustomField.delete_all
-    parent = Project.create!(:name => 'Parent', :identifier => 'parent')
-    Project.create!(:name => 'Project C', :identifier => 'project-c').set_parent!(parent)
-    Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(parent)
-    Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(parent)
-    Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(parent)
+    parent = Project.create!(name: 'Parent', identifier: 'parent')
+    Project.create!(name: 'Project C', identifier: 'project-c').set_parent!(parent)
+    Project.create!(name: 'Project B', identifier: 'project-b').set_parent!(parent)
+    Project.create!(name: 'Project D', identifier: 'project-d').set_parent!(parent)
+    Project.create!(name: 'Project A', identifier: 'project-a').set_parent!(parent)
 
     parent.reload
     assert_equal 4, parent.children.size
@@ -282,20 +280,19 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_rebuild_should_sort_children_alphabetically
     ProjectCustomField.delete_all
-    parent = Project.create!(:name => 'Parent', :identifier => 'parent')
-    Project.create!(:name => 'Project C', :identifier => 'project-c').move_to_child_of(parent)
-    Project.create!(:name => 'Project B', :identifier => 'project-b').move_to_child_of(parent)
-    Project.create!(:name => 'Project D', :identifier => 'project-d').move_to_child_of(parent)
-    Project.create!(:name => 'Project A', :identifier => 'project-a').move_to_child_of(parent)
+    parent = Project.create!(name: 'Parent', identifier: 'parent')
+    Project.create!(name: 'Project C', identifier: 'project-c').move_to_child_of(parent)
+    Project.create!(name: 'Project B', identifier: 'project-b').move_to_child_of(parent)
+    Project.create!(name: 'Project D', identifier: 'project-d').move_to_child_of(parent)
+    Project.create!(name: 'Project A', identifier: 'project-a').move_to_child_of(parent)
 
-    Project.update_all("lft = NULL, rgt = NULL")
+    Project.update_all('lft = NULL, rgt = NULL')
     Project.rebuild!
 
     parent.reload
     assert_equal 4, parent.children.size
     assert_equal parent.children.sort_by(&:name), parent.children
   end
-
 
   def test_set_parent_should_update_issue_fixed_version_associations_when_a_fixed_version_is_moved_out_of_the_hierarchy
     # Parent issue with a hierarchy project's fixed version
@@ -323,9 +320,9 @@ class ProjectTest < ActiveSupport::TestCase
     issue_with_local_fixed_version.reload
     issue_with_hierarchy_fixed_version.reload
 
-    assert_equal 4, issue_with_local_fixed_version.fixed_version_id, "Fixed version was not keep on an issue local to the moved project"
-    assert_equal nil, issue_with_hierarchy_fixed_version.fixed_version_id, "Fixed version is still set after moving the Project out of the hierarchy where the version is defined in"
-    assert_equal nil, parent_issue.fixed_version_id, "Fixed version is still set after moving the Version out of the hierarchy for the issue."
+    assert_equal 4, issue_with_local_fixed_version.fixed_version_id, 'Fixed version was not keep on an issue local to the moved project'
+    assert_equal nil, issue_with_hierarchy_fixed_version.fixed_version_id, 'Fixed version is still set after moving the Project out of the hierarchy where the version is defined in'
+    assert_equal nil, parent_issue.fixed_version_id, 'Fixed version is still set after moving the Version out of the hierarchy for the issue.'
   end
 
   def test_parent
@@ -420,7 +417,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_rolled_up_types
     parent = Project.find(1)
-    parent.types = Type.find([1,2])
+    parent.types = Type.find([1, 2])
     child = parent.children.find(3)
 
     assert_equal [1, 2], parent.type_ids
@@ -434,15 +431,15 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_rolled_up_types_should_ignore_archived_subprojects
     parent = Project.find(1)
-    parent.types = Type.find([1,2])
+    parent.types = Type.find([1, 2])
     child = parent.children.find(3)
-    child.types = Type.find([1,3])
+    child.types = Type.find([1, 3])
     parent.children.each(&:archive)
 
-    assert_equal [1,2], parent.rolled_up_types.collect(&:id)
+    assert_equal [1, 2], parent.rolled_up_types.collect(&:id)
   end
 
-  context "description" do
+  context 'description' do
     setup do
       # this block unfortunately isn't run
       # move first two lines of next to specs up here
@@ -451,63 +448,62 @@ class ProjectTest < ActiveSupport::TestCase
 
     def test_short_description_returns_shortened_description
       @project = Project.generate!
-      @project.description = ("Abcd " * 5 + "\n") * 11
-      @project.summary = ""
-      assert_equal (("Abcd " * 5 + "\n") * 10)[0..-2] + "...", @project.short_description
+      @project.description = ('Abcd ' * 5 + "\n") * 11
+      @project.summary = ''
+      assert_equal (('Abcd ' * 5 + "\n") * 10)[0..-2] + '...', @project.short_description
     end
 
     def test_short_description_returns_summary
       @project = Project.generate!
-      @project.description = ("Abcd " * 5 + "\n") * 11
-      @project.summary = "In short"
-      assert_equal "In short", @project.short_description
+      @project.description = ('Abcd ' * 5 + "\n") * 11
+      @project.summary = 'In short'
+      assert_equal 'In short', @project.short_description
     end
   end
 
-  context "#rolled_up_versions" do
+  context '#rolled_up_versions' do
     setup do
       @project = Project.generate!
-      @parent_version_1 = Version.generate!(:project => @project)
-      @parent_version_2 = Version.generate!(:project => @project)
+      @parent_version_1 = Version.generate!(project: @project)
+      @parent_version_2 = Version.generate!(project: @project)
     end
 
-    should "include the versions for the current project" do
+    should 'include the versions for the current project' do
       assert_same_elements [@parent_version_1, @parent_version_2], @project.rolled_up_versions
     end
 
-    should "include versions for a subproject" do
+    should 'include versions for a subproject' do
       @subproject = Project.generate!
       @subproject.set_parent!(@project)
-      @subproject_version = Version.generate!(:project => @subproject)
+      @subproject_version = Version.generate!(project: @subproject)
 
       assert_same_elements [
-                            @parent_version_1,
-                            @parent_version_2,
-                            @subproject_version
-                           ], @project.rolled_up_versions
+        @parent_version_1,
+        @parent_version_2,
+        @subproject_version
+      ], @project.rolled_up_versions
     end
 
-    should "include versions for a sub-subproject" do
+    should 'include versions for a sub-subproject' do
       @subproject = Project.generate!
       @subproject.set_parent!(@project)
       @sub_subproject = Project.generate!
       @sub_subproject.set_parent!(@subproject)
-      @sub_subproject_version = Version.generate!(:project => @sub_subproject)
+      @sub_subproject_version = Version.generate!(project: @sub_subproject)
 
       @project.reload
 
       assert_same_elements [
-                            @parent_version_1,
-                            @parent_version_2,
-                            @sub_subproject_version
-                           ], @project.rolled_up_versions
+        @parent_version_1,
+        @parent_version_2,
+        @sub_subproject_version
+      ], @project.rolled_up_versions
     end
 
-
-    should "only check active projects" do
+    should 'only check active projects' do
       @subproject = Project.generate!
       @subproject.set_parent!(@project)
-      @subproject_version = Version.generate!(:project => @subproject)
+      @subproject_version = Version.generate!(project: @subproject)
       assert @subproject.archive
 
       @project.reload
@@ -519,7 +515,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_shared_versions_none_sharing
     p = Project.find(5)
-    v = Version.create!(:name => 'none_sharing', :project => p, :sharing => 'none')
+    v = Version.create!(name: 'none_sharing', project: p, sharing: 'none')
     assert p.shared_versions.include?(v)
     assert !p.children.first.shared_versions.include?(v)
     assert !p.root.shared_versions.include?(v)
@@ -529,7 +525,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_shared_versions_descendants_sharing
     p = Project.find(5)
-    v = Version.create!(:name => 'descendants_sharing', :project => p, :sharing => 'descendants')
+    v = Version.create!(name: 'descendants_sharing', project: p, sharing: 'descendants')
     assert p.shared_versions.include?(v)
     assert p.children.first.shared_versions.include?(v)
     assert !p.root.shared_versions.include?(v)
@@ -539,7 +535,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_shared_versions_hierarchy_sharing
     p = Project.find(5)
-    v = Version.create!(:name => 'hierarchy_sharing', :project => p, :sharing => 'hierarchy')
+    v = Version.create!(name: 'hierarchy_sharing', project: p, sharing: 'hierarchy')
     assert p.shared_versions.include?(v)
     assert p.children.first.shared_versions.include?(v)
     assert p.root.shared_versions.include?(v)
@@ -549,7 +545,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_shared_versions_tree_sharing
     p = Project.find(5)
-    v = Version.create!(:name => 'tree_sharing', :project => p, :sharing => 'tree')
+    v = Version.create!(name: 'tree_sharing', project: p, sharing: 'tree')
     assert p.shared_versions.include?(v)
     assert p.children.first.shared_versions.include?(v)
     assert p.root.shared_versions.include?(v)
@@ -559,7 +555,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_shared_versions_system_sharing
     p = Project.find(5)
-    v = Version.create!(:name => 'system_sharing', :project => p, :sharing => 'system')
+    v = Version.create!(name: 'system_sharing', project: p, sharing: 'system')
     assert p.shared_versions.include?(v)
     assert p.children.first.shared_versions.include?(v)
     assert p.root.shared_versions.include?(v)
@@ -572,7 +568,7 @@ class ProjectTest < ActiveSupport::TestCase
     child = parent.children.find(3)
     private_child = parent.children.find(5)
 
-    assert_equal [1,2,3], parent.version_ids.sort
+    assert_equal [1, 2, 3], parent.version_ids.sort
     assert_equal [4], child.version_ids
     assert_equal [6], private_child.version_ids
     assert_equal [7], Version.find_all_by_sharing('system').collect(&:id)
@@ -582,7 +578,7 @@ class ProjectTest < ActiveSupport::TestCase
       assert_kind_of Version, version
     end
 
-    assert_equal [1,2,3,4,6,7], parent.shared_versions.collect(&:id).sort
+    assert_equal [1, 2, 3, 4, 6, 7], parent.shared_versions.collect(&:id).sort
   end
 
   def test_shared_versions_should_ignore_archived_subprojects
@@ -591,7 +587,7 @@ class ProjectTest < ActiveSupport::TestCase
     child.archive
     parent.reload
 
-    assert_equal [1,2,3], parent.version_ids.sort
+    assert_equal [1, 2, 3], parent.version_ids.sort
     assert_equal [4], child.version_ids
     assert !parent.shared_versions.collect(&:id).include?(4)
   end
@@ -601,7 +597,7 @@ class ProjectTest < ActiveSupport::TestCase
     parent = Project.find(1)
     child = parent.children.find(5)
 
-    assert_equal [1,2,3], parent.version_ids.sort
+    assert_equal [1, 2, 3], parent.version_ids.sort
     assert_equal [6], child.version_ids
 
     versions = parent.shared_versions.visible(user)
@@ -614,10 +610,9 @@ class ProjectTest < ActiveSupport::TestCase
     assert !versions.collect(&:id).include?(6)
   end
 
-
   def test_next_identifier
     ProjectCustomField.delete_all
-    Project.create!(:name => 'last', :identifier => 'p2008040')
+    Project.create!(name: 'last', identifier: 'p2008040')
     assert_equal 'p2008041', Project.next_identifier
   end
 
@@ -627,7 +622,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_enabled_module_names
-    with_settings :default_projects_modules => ['work_package_tracking', 'repository'] do
+    with_settings default_projects_modules: ['work_package_tracking', 'repository'] do
       project = Project.new
 
       project.enabled_module_names = %w(work_package_tracking news)
@@ -669,36 +664,35 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_activities_should_use_the_system_activities
     project = Project.find(1)
-    assert_equal project.activities, TimeEntryActivity.find(:all, :conditions => {:active => true} )
+    assert_equal project.activities, TimeEntryActivity.find(:all, conditions: { active: true })
   end
-
 
   def test_activities_should_use_the_project_specific_activities
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project})
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project)
     assert overridden_activity.save!
 
-    assert project.activities.include?(overridden_activity), "Project specific Activity not found"
+    assert project.activities.include?(overridden_activity), 'Project specific Activity not found'
   end
 
   def test_activities_should_not_include_the_inactive_project_specific_activities
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.find(:first), active: false)
     assert overridden_activity.save!
 
-    assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity found"
+    assert !project.activities.include?(overridden_activity), 'Inactive Project specific Activity found'
   end
 
   def test_activities_should_not_include_project_specific_activities_from_other_projects
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(2)})
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: Project.find(2))
     assert overridden_activity.save!
 
-    assert !project.activities.include?(overridden_activity), "Project specific Activity found on a different project"
+    assert !project.activities.include?(overridden_activity), 'Project specific Activity found on a different project'
   end
 
   def test_activities_should_handle_nils
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(1), :parent => TimeEntryActivity.find(:first)})
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: Project.find(1), parent: TimeEntryActivity.find(:first))
     TimeEntryActivity.delete_all
 
     # No activities
@@ -714,41 +708,41 @@ class ProjectTest < ActiveSupport::TestCase
   def test_activities_should_override_system_activities_with_project_activities
     project = Project.find(1)
     parent_activity = TimeEntryActivity.find(:first)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => parent_activity})
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: parent_activity)
     assert overridden_activity.save!
 
-    assert project.activities.include?(overridden_activity), "Project specific Activity not found"
-    assert !project.activities.include?(parent_activity), "System Activity found when it should have been overridden"
+    assert project.activities.include?(overridden_activity), 'Project specific Activity not found'
+    assert !project.activities.include?(parent_activity), 'System Activity found when it should have been overridden'
   end
 
   def test_activities_should_include_inactive_activities_if_specified
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.find(:first), active: false)
     assert overridden_activity.save!
 
-    assert project.activities(true).include?(overridden_activity), "Inactive Project specific Activity not found"
+    assert project.activities(true).include?(overridden_activity), 'Inactive Project specific Activity not found'
   end
 
   test 'activities should not include active System activities if the project has an override that is inactive' do
     project = Project.find(1)
     system_activity = TimeEntryActivity.find_by_name('Design')
     assert system_activity.active?
-    overridden_activity = TimeEntryActivity.generate!(:project => project, :parent => system_activity, :active => false)
+    overridden_activity = TimeEntryActivity.generate!(project: project, parent: system_activity, active: false)
     assert overridden_activity.save!
 
-    assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity not found"
-    assert !project.activities.include?(system_activity), "System activity found when the project has an inactive override"
+    assert !project.activities.include?(overridden_activity), 'Inactive Project specific Activity not found'
+    assert !project.activities.include?(system_activity), 'System activity found when the project has an inactive override'
   end
 
   def test_close_completed_versions
     Version.update_all("status = 'open'")
     project = Project.find(1)
-    assert_not_nil project.versions.detect {|v| v.completed? && v.status == 'open'}
-    assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
+    assert_not_nil project.versions.detect { |v| v.completed? && v.status == 'open' }
+    assert_not_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
     project.close_completed_versions
     project.reload
-    assert_nil project.versions.detect {|v| v.completed? && v.status != 'closed'}
-    assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
+    assert_nil project.versions.detect { |v| v.completed? && v.status != 'closed' }
+    assert_not_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
   end
 
   def test_export_work_packages_is_allowed
@@ -756,22 +750,22 @@ class ProjectTest < ActiveSupport::TestCase
     assert project.allows_to?(:export_work_packages)
   end
 
-  context "Project#copy" do
+  context 'Project#copy' do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      Project.destroy_all :identifier => "copy-test"
+      Project.destroy_all identifier: 'copy-test'
       @source_project = Project.find(2)
-      @project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
+      @project = Project.new(name: 'Copy Test', identifier: 'copy-test')
       @project.types = @source_project.types
       @project.enabled_module_names = @source_project.enabled_modules.collect(&:name)
     end
 
-    should "copy work units" do
-      @source_project.work_packages << WorkPackage.generate!(:status => Status.find_by_name('Closed'),
-                                                    :subject => "copy issue status",
-                                                    :type_id => 1,
-                                                    :assigned_to_id => 2,
-                                                    :project_id => @source_project.id)
+    should 'copy work units' do
+      @source_project.work_packages << WorkPackage.generate!(status: Status.find_by_name('Closed'),
+                                                             subject: 'copy issue status',
+                                                             type_id: 1,
+                                                             assigned_to_id: 2,
+                                                             project_id: @source_project.id)
       assert @project.valid?
       assert @project.work_packages.empty?
       assert @project.copy(@source_project)
@@ -779,73 +773,73 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal @source_project.work_packages.size, @project.work_packages.size
       @project.work_packages.each do |issue|
         assert issue.valid?
-        assert ! issue.assigned_to.blank?
+        assert !issue.assigned_to.blank?
         assert_equal @project, issue.project
       end
 
-      copied_issue = @project.work_packages.first(:conditions => {:subject => "copy issue status"})
+      copied_issue = @project.work_packages.first(conditions: { subject: 'copy issue status' })
       assert copied_issue
       assert copied_issue.status
-      assert_equal "Closed", copied_issue.status.name
+      assert_equal 'Closed', copied_issue.status.name
     end
 
-    should "change the new issues to use the copied version" do
+    should 'change the new issues to use the copied version' do
       User.current = User.find(1)
-      assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open')
+      assigned_version = Version.generate!(name: 'Assigned Issues', status: 'open')
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size
       FactoryGirl.create(:work_package, project: @source_project,
-                                  :fixed_version_id => assigned_version.id,
-                                  :subject => "change the new issues to use the copied version",
-                                  :type_id => 1,
-                                  :project_id => @source_project.id)
+                                        fixed_version_id: assigned_version.id,
+                                        subject: 'change the new issues to use the copied version',
+                                        type_id: 1,
+                                        project_id: @source_project.id)
 
       assert @project.copy(@source_project)
       @project.reload
-      copied_issue = @project.work_packages.first(:conditions => {:subject => "change the new issues to use the copied version"})
+      copied_issue = @project.work_packages.first(conditions: { subject: 'change the new issues to use the copied version' })
 
       assert copied_issue
       assert copied_issue.fixed_version
-      assert_equal "Assigned Issues", copied_issue.fixed_version.name # Same name
+      assert_equal 'Assigned Issues', copied_issue.fixed_version.name # Same name
       assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
     end
 
-    should "copy issue relations" do
+    should 'copy issue relations' do
       Setting.cross_project_work_package_relations = '1'
 
-      second_issue = WorkPackage.generate!(:status_id => 5,
-                                     :subject => "copy issue relation",
-                                     :type_id => 1,
-                                     :assigned_to_id => 2,
-                                     :project_id => @source_project.id)
-      source_relation = Relation.generate!(:from => WorkPackage.find(4),
-                                                :to => second_issue,
-                                                :relation_type => "relates")
-      source_relation_cross_project = Relation.generate!(:from => WorkPackage.find(1),
-                                                              :to => second_issue,
-                                                              :relation_type => "duplicates")
+      second_issue = WorkPackage.generate!(status_id: 5,
+                                           subject: 'copy issue relation',
+                                           type_id: 1,
+                                           assigned_to_id: 2,
+                                           project_id: @source_project.id)
+      source_relation = Relation.generate!(from: WorkPackage.find(4),
+                                           to: second_issue,
+                                           relation_type: 'relates')
+      source_relation_cross_project = Relation.generate!(from: WorkPackage.find(1),
+                                                         to: second_issue,
+                                                         relation_type: 'duplicates')
 
       assert @project.copy(@source_project)
       assert_equal @source_project.work_packages.count, @project.work_packages.count
-      copied_issue = @project.work_packages.find_by_subject("Issue on project 2") # Was #4
-      copied_second_issue = @project.work_packages.find_by_subject("copy issue relation")
+      copied_issue = @project.work_packages.find_by_subject('Issue on project 2') # Was #4
+      copied_second_issue = @project.work_packages.find_by_subject('copy issue relation')
 
       # First issue with a relation on project
-      assert_equal 1, copied_issue.relations.size, "Relation not copied"
+      assert_equal 1, copied_issue.relations.size, 'Relation not copied'
       copied_relation = copied_issue.relations.first
-      assert_equal "relates", copied_relation.relation_type
+      assert_equal 'relates', copied_relation.relation_type
       assert_equal copied_second_issue.id, copied_relation.to_id
       assert_not_equal source_relation.id, copied_relation.id
 
       # Second issue with a cross project relation
-      assert_equal 2, copied_second_issue.relations.size, "Relation not copied"
-      copied_relation = copied_second_issue.relations.select {|r| r.relation_type == 'duplicates'}.first
-      assert_equal "duplicates", copied_relation.relation_type
-      assert_equal 1, copied_relation.from_id, "Cross project relation not kept"
+      assert_equal 2, copied_second_issue.relations.size, 'Relation not copied'
+      copied_relation = copied_second_issue.relations.select { |r| r.relation_type == 'duplicates' }.first
+      assert_equal 'duplicates', copied_relation.relation_type
+      assert_equal 1, copied_relation.from_id, 'Cross project relation not kept'
       assert_not_equal source_relation_cross_project.id, copied_relation.id
     end
 
-    should "copy memberships" do
+    should 'copy memberships' do
       assert @project.valid?
       assert @project.members.empty?
       assert @project.copy(@source_project)
@@ -857,17 +851,17 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
 
-    should "copy memberships with groups and additional roles" do
-      group = Group.create!(:lastname => "Copy group")
+    should 'copy memberships with groups and additional roles' do
+      group = Group.create!(lastname: 'Copy group')
       user = User.find(7)
 
       group.users << user
 
       # group role
       (Member.new.tap do |m|
-        m.force_attributes = { :project_id => @source_project.id,
-                               :principal => group,
-                               :role_ids => [2] }
+        m.force_attributes = { project_id: @source_project.id,
+                               principal: group,
+                               role_ids: [2] }
       end).save!
 
       member = Member.find_by_user_id_and_project_id(user.id, @source_project.id)
@@ -880,7 +874,7 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal [1, 2], member.role_ids.sort
     end
 
-    should "copy project specific queries" do
+    should 'copy project specific queries' do
       assert @project.valid?
       assert @project.queries.empty?
       assert @project.copy(@source_project)
@@ -892,7 +886,7 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
 
-    should "copy versions" do
+    should 'copy versions' do
       @source_project.versions << Version.generate!
       @source_project.versions << Version.generate!
 
@@ -906,17 +900,17 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
 
-    should "copy wiki" do
+    should 'copy wiki' do
       assert_difference 'Wiki.count' do
         assert @project.copy(@source_project)
       end
 
       assert @project.wiki
       assert_not_equal @source_project.wiki, @project.wiki
-      assert_equal "Start page", @project.wiki.start_page
+      assert_equal 'Start page', @project.wiki.start_page
     end
 
-    should "copy wiki pages and content with hierarchy" do
+    should 'copy wiki pages and content with hierarchy' do
       assert_difference 'WikiPage.count', @source_project.wiki.pages.size do
         assert @project.copy(@source_project)
       end
@@ -936,7 +930,7 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal parent, child2.parent
     end
 
-    should "copy issue categories" do
+    should 'copy issue categories' do
       assert @project.copy(@source_project)
 
       assert_equal 2, @project.categories.size
@@ -945,7 +939,7 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
 
-    should "copy boards" do
+    should 'copy boards' do
       assert @project.copy(@source_project)
 
       assert_equal 1, @project.boards.size
@@ -954,7 +948,7 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
 
-    should "change the new issues to use the copied issue categories" do
+    should 'change the new issues to use the copied issue categories' do
       issue = WorkPackage.find(4)
       issue.update_attribute(:category_id, 3)
 
@@ -962,169 +956,163 @@ class ProjectTest < ActiveSupport::TestCase
 
       @project.work_packages.each do |issue|
         assert issue.category
-        assert_equal "Stock management", issue.category.name # Same name
+        assert_equal 'Stock management', issue.category.name # Same name
         assert_not_equal Category.find(3), issue.category # Different record
       end
     end
 
-    should "limit copy with :only option" do
+    should 'limit copy with :only option' do
       assert @project.members.empty?
       assert @project.categories.empty?
       assert @source_project.work_packages.any?
 
-      assert @project.copy(@source_project, :only => ['members', 'categories'])
+      assert @project.copy(@source_project, only: ['members', 'categories'])
 
       assert @project.members.any?
       assert @project.categories.any?
       assert @project.work_packages.empty?
     end
-
   end
 
-  context "#start_date" do
+  context '#start_date' do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = Project.generate!(:identifier => 'test0')
+      @project = Project.generate!(identifier: 'test0')
       @project.types << Type.generate!
     end
 
-    should "be nil if there are no issues on the project" do
+    should 'be nil if there are no issues on the project' do
       assert_nil @project.start_date
     end
 
-    should "be tested when issues have no start date"
+    should 'be tested when issues have no start date'
 
     should "be the earliest start date of it's issues" do
       early = 7.days.ago.to_date
-      FactoryGirl.create(:work_package, project: @project, :start_date => Date.today)
-      FactoryGirl.create(:work_package, project: @project, :start_date => early)
+      FactoryGirl.create(:work_package, project: @project, start_date: Date.today)
+      FactoryGirl.create(:work_package, project: @project, start_date: early)
 
       assert_equal early, @project.start_date
     end
-
   end
 
-  context "#due_date" do
+  context '#due_date' do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = Project.generate!(:identifier => 'test0')
+      @project = Project.generate!(identifier: 'test0')
       @project.types << Type.generate!
     end
 
-    should "be nil if there are no issues on the project" do
+    should 'be nil if there are no issues on the project' do
       assert_nil @project.due_date
     end
 
-    should "be tested when issues have no due date"
+    should 'be tested when issues have no due date'
 
     should "be the latest due date of it's issues" do
       future = 7.days.from_now.to_date
-      FactoryGirl.create(:work_package, project: @project, :due_date => future)
-      FactoryGirl.create(:work_package, project: @project, :due_date => Date.today)
+      FactoryGirl.create(:work_package, project: @project, due_date: future)
+      FactoryGirl.create(:work_package, project: @project, due_date: Date.today)
 
       assert_equal future, @project.due_date
     end
 
     should "be the latest due date of it's versions" do
       future = 7.days.from_now.to_date
-      @project.versions << Version.generate!(:effective_date => future)
-      @project.versions << Version.generate!(:effective_date => Date.today)
-
+      @project.versions << Version.generate!(effective_date: future)
+      @project.versions << Version.generate!(effective_date: Date.today)
 
       assert_equal future, @project.due_date
-
     end
 
     should "pick the latest date from it's issues and versions" do
       future = 7.days.from_now.to_date
       far_future = 14.days.from_now.to_date
-      FactoryGirl.create(:work_package, project: @project, :due_date => far_future)
-      @project.versions << Version.generate!(:effective_date => future)
+      FactoryGirl.create(:work_package, project: @project, due_date: far_future)
+      @project.versions << Version.generate!(effective_date: future)
 
       assert_equal far_future, @project.due_date
     end
-
   end
 
-  context "Project#completed_percent" do
+  context 'Project#completed_percent' do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = Project.generate!(:identifier => 'test0')
+      @project = Project.generate!(identifier: 'test0')
       @project.types << Type.generate!
     end
 
-    context "no versions" do
-      should "be 100" do
+    context 'no versions' do
+      should 'be 100' do
         assert_equal 100, @project.completed_percent
       end
     end
 
-    context "with versions" do
-      should "return 0 if the versions have no issues" do
-        Version.generate!(:project => @project)
-        Version.generate!(:project => @project)
+    context 'with versions' do
+      should 'return 0 if the versions have no issues' do
+        Version.generate!(project: @project)
+        Version.generate!(project: @project)
 
         assert_equal 0, @project.completed_percent
       end
 
-      should "return 100 if the version has only closed issues" do
-        v1 = Version.generate!(:project => @project)
-        FactoryGirl.create(:work_package, project: @project, :status => Status.find_by_name('Closed'), :fixed_version => v1)
-        v2 = Version.generate!(:project => @project)
-        FactoryGirl.create(:work_package, project: @project, :status => Status.find_by_name('Closed'), :fixed_version => v2)
+      should 'return 100 if the version has only closed issues' do
+        v1 = Version.generate!(project: @project)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v1)
+        v2 = Version.generate!(project: @project)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v2)
 
         assert_equal 100, @project.completed_percent
       end
 
-      should "return the averaged completed percent of the versions (not weighted)" do
-        v1 = Version.generate!(:project => @project)
-        FactoryGirl.create(:work_package, project: @project, :status => Status.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
-        v2 = Version.generate!(:project => @project)
-        FactoryGirl.create(:work_package, project: @project, :status => Status.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
+      should 'return the averaged completed percent of the versions (not weighted)' do
+        v1 = Version.generate!(project: @project)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v1)
+        v2 = Version.generate!(project: @project)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v2)
 
         assert_equal 50, @project.completed_percent
       end
-
     end
   end
 
-  context "#notified_users" do
+  context '#notified_users' do
     setup do
       @project = Project.generate!
       @role = Role.generate!
 
-      @user_with_membership_notification = User.generate!(:mail_notification => 'selected')
-      Member.create!(:project => @project, :principal => @user_with_membership_notification, :mail_notification => true) do |member|
+      @user_with_membership_notification = User.generate!(mail_notification: 'selected')
+      Member.create!(project: @project, principal: @user_with_membership_notification, mail_notification: true) do |member|
         member.role_ids = [@role.id]
       end
 
-      @all_events_user = User.generate!(:mail_notification => 'all')
-      Member.create!(:project => @project, :principal => @all_events_user) do |member|
+      @all_events_user = User.generate!(mail_notification: 'all')
+      Member.create!(project: @project, principal: @all_events_user) do |member|
         member.role_ids = [@role.id]
       end
 
-      @no_events_user = User.generate!(:mail_notification => 'none')
-      Member.create!(:project => @project, :principal => @no_events_user) do |member|
+      @no_events_user = User.generate!(mail_notification: 'none')
+      Member.create!(project: @project, principal: @no_events_user) do |member|
         member.role_ids = [@role.id]
       end
 
-      @only_my_events_user = User.generate!(:mail_notification => 'only_my_events')
-      Member.create!(:project => @project, :principal => @only_my_events_user) do |member|
+      @only_my_events_user = User.generate!(mail_notification: 'only_my_events')
+      Member.create!(project: @project, principal: @only_my_events_user) do |member|
         member.role_ids = [@role.id]
       end
 
-      @only_assigned_user = User.generate!(:mail_notification => 'only_assigned')
-      Member.create!(:project => @project, :principal => @only_assigned_user) do |member|
+      @only_assigned_user = User.generate!(mail_notification: 'only_assigned')
+      Member.create!(project: @project, principal: @only_assigned_user) do |member|
         member.role_ids = [@role.id]
       end
 
-      @only_owned_user = User.generate!(:mail_notification => 'only_owner')
-      Member.create!(:project => @project, :principal => @only_owned_user) do |member|
+      @only_owned_user = User.generate!(mail_notification: 'only_owner')
+      Member.create!(project: @project, principal: @only_owned_user) do |member|
         member.role_ids = [@role.id]
       end
     end
 
-    should "include members with a mail notification" do
+    should 'include members with a mail notification' do
       assert @project.notified_users.include?(@user_with_membership_notification)
     end
 
@@ -1148,5 +1136,4 @@ class ProjectTest < ActiveSupport::TestCase
       assert !@project.notified_users.include?(@only_owned_user)
     end
   end
-
 end

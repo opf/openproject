@@ -27,5 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module NewsHelper
+require 'roar/decorator'
+require 'roar/json/hal'
+
+module API
+  module V3
+    module WorkPackages
+      module Form
+        class SchemaAllowedPrioritiesRepresenter < Decorators::SchemaAllowedValuesRepresenter
+          self.value_representer = Priorities::PriorityRepresenter
+
+          self.links_factory = -> (priority) do
+            extend API::V3::Utilities::PathHelper
+
+            { href: api_v3_paths.priority(priority.id), title: priority.name }
+          end
+
+          self.type = 'Priority'
+        end
+      end
+    end
+  end
 end

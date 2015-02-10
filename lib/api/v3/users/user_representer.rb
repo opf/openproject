@@ -85,8 +85,14 @@ module API
         property :avatar, getter: -> (*) { avatar_url(represented) },
                           render_nil: true,
                           exec_context: :decorator
-        property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
-        property :updated_at, getter: -> (*) { updated_on.utc.iso8601 }, render_nil: true
+        property :created_on,
+                 as: 'createdAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+        property :updated_on,
+                 as: 'updatedAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
         property :status, getter: -> (*) { status_name }, render_nil: true
 
         def _type

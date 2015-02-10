@@ -39,7 +39,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
     @project = Project.find(3)
     Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
     assert @repository = Repository::Filesystem.create(
-                            :project => @project, :url => REPOSITORY_PATH)
+                            project: @project, url: REPOSITORY_PATH)
   end
 
   if File.directory?(REPOSITORY_PATH)
@@ -52,16 +52,16 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
     end
 
     def test_entries
-      assert_equal 3, @repository.entries("", 2).size
-      assert_equal 2, @repository.entries("dir", 3).size
+      assert_equal 3, @repository.entries('', 2).size
+      assert_equal 2, @repository.entries('dir', 3).size
     end
 
     def test_cat
-      assert_equal "TEST CAT\n", @repository.scm.cat("test")
+      assert_equal "TEST CAT\n", @repository.scm.cat('test')
     end
 
   else
-    puts "Filesystem test repository NOT FOUND. Skipping unit tests !!! See doc/RUNNING_TESTS."
+    puts 'Filesystem test repository NOT FOUND. Skipping unit tests !!! See doc/RUNNING_TESTS.'
     def test_fake; assert true end
   end
 end

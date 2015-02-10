@@ -26,13 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispatcher) {
+module.exports = function(
+  $timeout, FocusHelper, PathHelper,
+  InplaceEditorDispatcher, OverviewTabInplaceEditorConfig) {
   return {
     restrict: 'A',
     transclude: false,
     templateUrl: '/templates/components/inplace_editor.html',
     scope: {
       type: '@inedType',
+      displayStrategy: '@?inedDisplayStrategy',
       entity: '=inedEntity',
       attribute: '@inedAttribute',
       attributeTitle: '@inedAttributeTitle',
@@ -95,6 +98,10 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
     $scope.onFail = onFail;
     $scope.onFinally = onFinally;
     $scope.getTemplateUrl = getTemplateUrl;
+    $scope.getDisplayTemplateUrl = getDisplayTemplateUrl;
+    $scope.collectChanges = collectChanges;
+    $scope.acceptChanges = acceptChanges;
+    $scope.acceptErrors = acceptErrors;
     $scope.pathHelper = PathHelper;
 
     activate();
@@ -122,20 +129,37 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
       $scope.isBusy = false;
       InplaceEditorDispatcher.dispatchHook($scope, 'startEditing');
       $scope.$broadcast('startEditing');
+      OverviewTabInplaceEditorConfig.registerActiveEditorScope($scope);
     }
 
     function submit(notify) {
       // angular.copy here to make a new object instead of a reference
-      var data = angular.copy($scope.entity.form.embedded.payload.props);
-      InplaceEditorDispatcher.dispatchHook($scope, 'submit', data);
       $scope.isBusy = true;
+      var data = angular.copy($scope.entity.form.embedded.payload.props);
+      OverviewTabInplaceEditorConfig.collectChanges(data);
       var result = WorkPackageService.updateWorkPackage($scope.entity, data, notify);
       result.then(function(workPackage) {
         $scope.onSuccess(workPackage);
       });
       result.catch(function(e) {
         $scope.onFail(e);
+        OverviewTabInplaceEditorConfig.dispatchErrors(e);
       });
+    }
+
+    function collectChanges(data) {
+      InplaceEditorDispatcher.dispatchHook($scope, 'submit', data);
+    }
+
+    function acceptChanges(workPackage) {
+      $scope.entity = workPackage;
+      setReadValue();
+      finishEditing();
+      $scope.onFinally();
+    }
+
+    function acceptErrors(e) {
+      $scope.onFail(e);
     }
 
     function onSuccess(entity) {
@@ -144,10 +168,7 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
       $scope.$emit(
         'workPackageRefreshRequired',
         function(workPackage) {
-          $scope.entity = workPackage;
-          setReadValue();
-          finishEditing();
-          $scope.onFinally();
+          OverviewTabInplaceEditorConfig.dispatchChanges(workPackage);
         }
       );
     }
@@ -169,6 +190,9 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
     function finishEditing() {
       $scope.isEditing = false;
       $scope.$broadcast('finishEditing');
+      $timeout(function() {
+        OverviewTabInplaceEditorConfig.deregisterActiveEditorScope($scope);
+      });
     }
 
     function setReadValue() {
@@ -187,6 +211,11 @@ module.exports = function($timeout, FocusHelper, PathHelper, InplaceEditorDispat
 
     function getTemplateUrl() {
       return '/templates/components/inplace_editor/editable/' + $scope.type + '.html';
+    }
+
+    function getDisplayTemplateUrl() {
+      return '/templates/components/inplace_editor/display/' +
+        ($scope.displayStrategy || 'default') +'.html';
     }
 
   }

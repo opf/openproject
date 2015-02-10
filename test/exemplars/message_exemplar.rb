@@ -28,9 +28,9 @@
 #++
 
 class Message < ActiveRecord::Base
-  generator_for :subject, :method => :next_subject
-  generator_for :content, :method => :next_content
-  generator_for :board, :method => :generate_board
+  generator_for :subject, method: :next_subject
+  generator_for :content, method: :next_content
+  generator_for :board, method: :generate_board
 
   def self.next_subject
     @last_subject ||= 'A Message'

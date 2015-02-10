@@ -124,6 +124,13 @@ shared_examples_for 'constraint violation' do |message|
                   message
 end
 
+shared_examples_for 'format error' do |message|
+  it_behaves_like 'error response',
+                  422,
+                  'PropertyFormatError',
+                  message
+end
+
 shared_examples_for 'read-only violation' do |attribute|
   describe 'details' do
     subject { JSON.parse(last_response.body)['_embedded']['details'] }

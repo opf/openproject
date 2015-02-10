@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module ChiliProject
+module OpenProject
   # This module provides some information about the currently used database
   # adapter. It can be used to write code specific to certain database
   # vendors which, while not not encouraged, is sometimes necessary due to
@@ -57,7 +57,7 @@ module ChiliProject
     end
 
     # Provide helper methods to quickly check the database type
-    # ChiliProject::Database.mysql? returns true, if we have a MySQL DB
+    # OpenProject::Database.mysql? returns true, if we have a MySQL DB
     supported_adapters.keys.each do |adapter|
       (class << self; self; end).class_eval do
         define_method(:"#{adapter.to_s}?") { send(:name) == adapter }

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,5 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module AccountHelper
+class OpenProject::PrincipalAllowanceEvaluator::Base
+  def initialize(user)
+    @user = user
+  end
+
+  def granted_for_global?(_candidate, _action, _options)
+    false
+  end
+
+  def denied_for_global?(_candidate, _action, _options)
+    false
+  end
+
+  def granted_for_project?(_candidate, _action, _project, _options = {})
+    false
+  end
+
+  def denied_for_project?(_candidate, _action, _project, _options = {})
+    false
+  end
+
+  def global_granting_candidates
+    []
+  end
+
+  def project_granting_candidates(_project)
+    []
+  end
 end

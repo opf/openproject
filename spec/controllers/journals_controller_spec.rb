@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe JournalsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_package]) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:member) {
     FactoryGirl.build(:member, project: project,
                                roles: [role],
@@ -48,35 +48,51 @@ describe JournalsController, type: :controller do
                        journable: work_package,
                        user: user)
   }
+  let(:permissions) { [:view_work_packages] }
+
+  before do
+    allow(User).to receive(:current).and_return user
+  end
 
   describe 'GET diff' do
     render_views
 
+    let(:params) { { id: work_package.journals.last.id.to_s, field: :description, format: 'js' } }
+
     before do
       work_package.update_attribute :description, 'description'
-      params = { id: work_package.journals.last.id.to_s, field: :description, format: 'js' }
 
       get :diff, params
     end
 
-    it { expect(response).to be_success }
-    it { expect(response.body.strip).to eq("<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>") }
+    describe 'w/ authorization' do
+      it 'should be successful' do
+        expect(response).to be_success
+      end
+
+      it 'should presetn the diff correctly' do
+        expect(response.body.strip).to eq("<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>")
+      end
+    end
+
+    describe 'w/o authorization' do
+      let(:permissions) { [] }
+      it { expect(response).not_to be_success }
+    end
   end
 
   describe :edit do
     describe 'authorization' do
+      let(:permissions) { [:edit_work_packages, :edit_own_work_package_notes] }
+
       before do
         work_package.update_attribute :description, 'description'
-        role.add_permission! *permissions
-        member.save and user.reload
         allow(User).to receive(:current).and_return user
 
         get :edit, id: journal.id
       end
 
       context 'with permissions to edit work packages and edit own work package notes' do
-        let(:permissions) { [:edit_work_packages, :edit_own_work_package_notes] }
-
         example { assert_response :success }
       end
 

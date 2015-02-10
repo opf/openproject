@@ -257,6 +257,60 @@ describe 'API v3 Work package form resource', type: :request do
               it_behaves_like 'having no errors'
             end
 
+            describe 'start date' do
+              include_context 'post request'
+
+              context 'valid date' do
+                let(:params) { valid_params.merge(startDate: '2015-01-31') }
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package' do
+                  expect(subject.body).to be_json_eql('2015-01-31'.to_json)
+                                            .at_path('_embedded/payload/startDate')
+                end
+              end
+
+              context 'invalid date' do
+                let(:params) { valid_params.merge(startDate: 'not a date') }
+
+                it_behaves_like 'format error',
+                                I18n.t('api_v3.errors.invalid_format',
+                                       property: 'startDate',
+                                       expected_format: 'ISO 8601 date only',
+                                       actual: 'not a date')
+              end
+            end
+
+            describe 'due date' do
+              include_context 'post request'
+
+              context 'valid date' do
+                let(:params) { valid_params.merge(dueDate: '2015-01-31') }
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package' do
+                  expect(subject.body).to be_json_eql('2015-01-31'.to_json)
+                                            .at_path('_embedded/payload/dueDate')
+                end
+              end
+
+              context 'invalid date' do
+                let(:params) { valid_params.merge(dueDate: 'not a date') }
+
+                it_behaves_like 'format error',
+                                I18n.t('api_v3.errors.invalid_format',
+                                       property: 'dueDate',
+                                       expected_format: 'ISO 8601 date only',
+                                       actual: 'not a date')
+              end
+            end
+
             describe 'status' do
               let(:path) { '_embedded/payload/_links/status/href' }
               let(:target_status) { FactoryGirl.create(:status) }
@@ -488,6 +542,44 @@ describe 'API v3 Work package form resource', type: :request do
 
                 it 'should respond with updated work package version' do
                   expect(subject.body).to be_json_eql(version_link.to_json).at_path(path)
+                end
+              end
+            end
+
+            describe 'priority' do
+              let(:path) { '_embedded/payload/_links/priority/href' }
+              let(:links_path) { '_embedded/schema/priority/_links' }
+              let(:target_priority) { FactoryGirl.create(:priority) }
+              let(:other_priority) { work_package.priority }
+              let(:priority_link) { "/api/v3/priorities/#{target_priority.id}" }
+              let(:other_priority_link) { "/api/v3/priorities/#{other_priority.id}" }
+              let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
+              let(:params) { valid_params.merge(priority_parameter) }
+
+              describe 'allowed values' do
+                before do
+                  other_priority
+                end
+
+                include_context 'post request'
+
+                it 'should list the priorities' do
+                  expect(subject.body).to be_json_eql(priority_link.to_json)
+                                            .at_path("#{links_path}/allowedValues/1/href")
+                  expect(subject.body).to be_json_eql(other_priority_link.to_json)
+                                            .at_path("#{links_path}/allowedValues/0/href")
+                end
+              end
+
+              context 'valid priority' do
+                include_context 'post request'
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package priority' do
+                  expect(subject.body).to be_json_eql(priority_link.to_json).at_path(path)
                 end
               end
             end

@@ -28,8 +28,8 @@
 #++
 
 class Member < ActiveRecord::Base
-  generator_for :roles, :method => :generate_roles
-  generator_for :principal, :method => :generate_user
+  generator_for :roles, method: :generate_roles
+  generator_for :principal, method: :generate_user
 
   def self.generate_roles
     [Role.generate!]

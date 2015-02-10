@@ -26,39 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+/*jshint expr: true*/
 
-  var OverviewService = {
-    getInplaceProperties: function() {
-      return {
-        assignee: {
-          type: 'select2',
-          attribute: 'assignee',
-          embedded: false,
-          placeholder: '-'
-        },
-        responsible: {
-          type: 'select2',
-          attribute: 'responsible',
-          embedded: false,
-          placeholder: '-'
-        },
-        status: {
-          type: 'select2',
-          attribute: 'status.name',
-          embedded: true,
-          placeholder: '-'
-        },
-        versionName: {
-          type: 'select2',
-          attribute: 'version.name',
-          embedded: true,
-          placeholder: '-',
-          attributeTitle: I18n.t('js.work_packages.properties.version')
-        }
-      };
-    }
-  };
+describe('hasPreview Directive', function() {
+  var compile, element, scope;
 
-  return OverviewService;
-};
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(module('openproject.templates'));
+
+  beforeEach(inject(function($rootScope, $compile) {
+    var html = '<a href="/preview-url" id="text-preview" has-preview>Preview</a>';
+
+    element = angular.element(html);
+    scope = $rootScope.$new();
+
+    compile = function() {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
+
+  beforeEach(function() {
+    compile();
+  });
+
+  describe('link element', function() {
+    beforeEach(function() {
+      element.click();
+    });
+
+    xit('should load the preview', function() {
+    });
+  });
+});

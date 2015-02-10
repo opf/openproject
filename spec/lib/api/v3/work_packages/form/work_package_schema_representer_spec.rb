@@ -93,6 +93,18 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
         it_behaves_like 'schema property', 'subject', 'String'
       end
 
+      describe 'description' do
+        it_behaves_like 'schema property', 'description', 'Formattable'
+      end
+
+      describe 'startDate' do
+        it_behaves_like 'schema property', 'startDate', 'Date'
+      end
+
+      describe 'dueDate' do
+        it_behaves_like 'schema property', 'dueDate', 'Date'
+      end
+
       describe 'status' do
         shared_examples_for 'contains statuses' do
           it_behaves_like 'linked property', 'status', 'Status'
@@ -181,6 +193,44 @@ describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
           before { allow(work_package).to receive(:assignable_versions).and_return(versions) }
 
           it_behaves_like 'contains versions'
+        end
+      end
+
+      describe 'priorities' do
+        shared_examples_for 'contains priorities' do
+          it_behaves_like 'linked property', 'priority', 'Priority'
+
+          it 'contains valid links to priorities' do
+            priority_links = priorities.map do |priority|
+              { href: "/api/v3/priorities/#{priority.id}", title: priority.name }
+            end
+
+            is_expected.to be_json_eql(priority_links.to_json)
+                             .at_path('priority/_links/allowedValues')
+          end
+
+          it 'embeds priorities' do
+            priorities.each_with_index do |priority, i|
+              is_expected.to be_json_eql(priority.id.to_json)
+                               .at_path("priority/_embedded/allowedValues/#{i}/id")
+            end
+          end
+        end
+
+        context 'w/o allowed priorities' do
+          before { allow(work_package).to receive(:assignable_priorities).and_return([]) }
+
+          it_behaves_like 'contains priorities' do
+            let(:priorities) { [] }
+          end
+        end
+
+        context 'with allowed priorities' do
+          let(:priorities) { FactoryGirl.build_stubbed_list(:priority, 3) }
+
+          before { allow(work_package).to receive(:assignable_priorities).and_return(priorities) }
+
+          it_behaves_like 'contains priorities'
         end
       end
 

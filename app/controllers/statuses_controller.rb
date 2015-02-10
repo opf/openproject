@@ -81,6 +81,7 @@ class StatusesController < ApplicationController
       flash[:error] = l(:error_unable_delete_default_status)
     else
       status.destroy
+      flash[:notice] = l(:notice_successful_delete)
     end
     redirect_to action: 'index'
   rescue
