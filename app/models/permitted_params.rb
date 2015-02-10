@@ -247,7 +247,7 @@ class PermittedParams < Struct.new(:params, :current_user)
   def wiki_page
     permitted = permitted_attributes(:wiki_page)
 
-    permitted_params = params.require(:page).permit(*permitted)
+    permitted_params = params.require(:content).require(:page).permit(*permitted)
 
     permitted_params
   end

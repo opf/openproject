@@ -694,6 +694,15 @@ describe PermittedParams, type: :model do
     it { expect(subject).to eq(hash) }
   end
 
+  shared_examples_for 'allows nested params' do
+    let(:params_key) { (defined? hash_key) ? hash_key : attribute }
+    let(:params) { ActionController::Parameters.new( params_key => { nested_key => hash }) }
+
+    subject { PermittedParams.new(params, user).send attribute }
+
+    it { expect(subject).to eq(hash) }
+  end
+
   shared_examples_for 'forbids params' do
     include_context 'prepare params comparison'
 
@@ -789,25 +798,26 @@ describe PermittedParams, type: :model do
   end
 
   describe :wiki_page do
-    let (:hash_key) { :page }
+    let(:hash_key) { :content }
+    let(:nested_key) { :page }
     let (:attribute) { :wiki_page }
 
     describe 'title' do
       let(:hash) { { 'title' => 'blubs' } }
 
-      it_behaves_like 'allows params'
+      it_behaves_like 'allows nested params'
     end
 
     describe 'parent_id' do
       let(:hash) { { 'parent_id' => '1' } }
 
-      it_behaves_like 'allows params'
+      it_behaves_like 'allows nested params'
     end
 
     describe 'redirect_existing_links' do
       let(:hash) { { 'redirect_existing_links' => '1' } }
 
-      it_behaves_like 'allows params'
+      it_behaves_like 'allows nested params'
     end
   end
 

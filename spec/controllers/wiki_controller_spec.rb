@@ -115,8 +115,7 @@ describe WikiController, type: :controller do
         it 'redirects to the show action' do
           post 'create',
                project_id: @project,
-               page: { title: 'abc' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: 'abc' } }
 
           expect(response).to redirect_to action: 'show', project_id: @project, id: 'Abc'
         end
@@ -124,8 +123,7 @@ describe WikiController, type: :controller do
         it 'saves a new WikiPage with proper content' do
           post 'create',
                project_id: @project,
-               page: { title: 'abc' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: 'abc' } }
 
           page = @project.wiki.pages.find_by_title 'Abc'
           expect(page).not_to be_nil
@@ -138,8 +136,7 @@ describe WikiController, type: :controller do
         it 'renders "wiki/new"' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(response).to render_template('new')
         end
@@ -147,8 +144,7 @@ describe WikiController, type: :controller do
         it 'assigns project to work with new template' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(assigns[:project]).to eq(@project)
         end
@@ -156,8 +152,7 @@ describe WikiController, type: :controller do
         it 'assigns wiki to work with new template' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(assigns[:wiki]).to eq(@project.wiki)
           expect(assigns[:wiki]).not_to be_new_record
@@ -166,8 +161,7 @@ describe WikiController, type: :controller do
         it 'assigns page to work with new template' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(assigns[:page]).to be_new_record
           expect(assigns[:page].wiki.project).to eq(@project)
@@ -178,8 +172,7 @@ describe WikiController, type: :controller do
         it 'assigns content to work with new template' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(assigns[:content]).to be_new_record
           expect(assigns[:content].page.wiki.project).to eq(@project)
