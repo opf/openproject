@@ -87,7 +87,7 @@ module API
                    embedded: true,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     Form::WorkPackageSchemaRepresenter.new(represented,
+                     Schema::WorkPackageSchemaRepresenter.new(represented,
                                                             current_user: @current_user)
                    }
           property :validation_errors, embedded: true, exec_context: :decorator

@@ -33,23 +33,23 @@ require 'roar/json/hal'
 module API
   module V3
     module WorkPackages
-      module Form
-        class SchemaAllowedStatusesRepresenter < Decorators::SchemaAllowedValuesRepresenter
+      module Schema
+        class SchemaAllowedPrioritiesRepresenter < Decorators::SchemaAllowedValuesRepresenter
           def initialize(model, context = {})
             super(model,
-                  'Status',
-                  I18n.t('activerecord.attributes.work_package.status'),
+                  'Priority',
+                  I18n.t('activerecord.attributes.work_package.priority'),
                   true,
                   true,
                   context)
           end
 
-          self.value_representer = Statuses::StatusRepresenter
+          self.value_representer = Priorities::PriorityRepresenter
 
-          self.links_factory = -> (status) do
+          self.links_factory = -> (priority) do
             extend API::V3::Utilities::PathHelper
 
-            { href: api_v3_paths.status(status.id), title: status.name }
+            { href: api_v3_paths.priority(priority.id), title: priority.name }
           end
         end
       end

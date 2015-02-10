@@ -33,7 +33,7 @@ require 'roar/json/hal'
 module API
   module V3
     module WorkPackages
-      module Form
+      module Schema
         class SchemaAllowedVersionsRepresenter < Decorators::SchemaAllowedValuesRepresenter
           def initialize(model, context = {})
             super(model,

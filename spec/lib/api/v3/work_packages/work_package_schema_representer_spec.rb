@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Form::WorkPackageSchemaRepresenter do
+describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
