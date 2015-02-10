@@ -96,7 +96,7 @@ gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', 
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
 gem 'sass',             '~> 3.3.6'
-gem 'bourbon',          '~> 4.0'
+gem 'bourbon',          '~> 4.0.2'
 gem 'uglifier',         '>= 1.0.3', require: false
 gem 'livingstyleguide', '~> 1.2.0'
 
@@ -146,7 +146,7 @@ group :test do
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver', '~> 2.43.0'
-  gem 'timecop', "~> 0.6.1"
+  gem 'timecop', '~> 0.7.1'
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
