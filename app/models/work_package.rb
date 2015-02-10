@@ -391,6 +391,10 @@ class WorkPackage < ActiveRecord::Base
     project.possible_responsibles
   end
 
+  def assignable_categories
+    project.categories
+  end
+
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
   #   * any open, shared version of the project the wp belongs to
