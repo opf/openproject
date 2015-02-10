@@ -108,6 +108,30 @@
 # See following page:
 #
 # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
+#
+# Hide menu items:
+#
+# By default user may choose which menu items can be disabled,
+# they should be listed as an array in yml format more information
+# regarding yml format you can find here:
+# http://symfony.com/doc/current/components/yaml/yaml_format.html
+#
+# production:
+#   hidden_menu_items:
+#     admin_menu:
+#       - roles
+#       - types
+#       - statuses
+#       - workflows
+#       - enumerations
+#       - settings
+#       - ldap_authentication
+#       - colors
+#       - project_types
+#       - export_card_configurations
+#       - plugins
+#       - info
+#
 
 
 # default configuration options for all environments
