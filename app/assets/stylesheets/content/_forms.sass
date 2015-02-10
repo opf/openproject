@@ -52,10 +52,6 @@ $form--field-types: (text-field, text-area, select, check-box, range-field, sear
   display: block
   border: $content-form-border
 
-  input
-    &#work_package_subject, &#work_package_time_entry_comments
-      width: 50%
-
 // A general CSS class to be applied to forms using the above defined form style.
 // We can't define this on form itself as this would break a lot of existing forms.
 //
@@ -69,6 +65,9 @@ $form--field-types: (text-field, text-area, select, check-box, range-field, sear
   border-bottom: 1px solid $content-form-separator-color
   margin: 0 0 30px
   background: none
+
+  &.-invisible
+    border-bottom-width: 0px
 
 .form--space
   padding-top: 10px
@@ -185,7 +184,8 @@ fieldset
   line-height:  $base-line-height
   color:        $form-label-color
 
-  .form.-wide-labels &
+  .form.-wide-labels &,
+  .form--field.-wide-label &,
     @include grid-size(4)
 
   .form--field.-vertical &,
@@ -212,10 +212,12 @@ fieldset
   .form--field.-no-label &
     @include grid-offset(2)
 
-  .form.-wide-labels &
+  .form.-wide-labels &,
+  .form--field.-wide-label &
     @include grid-size(8)
 
-  .form.-wide-labels .form--field.-no-label &
+  .form.-wide-labels .form--field.-no-label &,
+  .form--field.-wide-label.-no-label &
     @include grid-offset(4)
 
   .form--field.-vertical &,
@@ -228,7 +230,8 @@ fieldset
   line-height:  $base-line-height
   color:        $form-label-color
 
-  .form.-wide-labels &
+  .form.-wide-labels &,
+  .form--field.-wide-label &
     @include grid-size(8)
     @include grid-offset(4)
 

@@ -379,7 +379,7 @@ class PermittedParams < Struct.new(:params, :current_user)
           end
         end,
         # attributes unique to :new_work_package
-        :notes,
+        :journal_notes,
         :lock_version],
       planning_element: [
         # attributes common with :new_work_package above

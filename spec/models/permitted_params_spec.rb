@@ -457,7 +457,7 @@ describe PermittedParams, type: :model do
     end
 
     it 'should permit notes' do
-      hash = { 'notes' => 'blubs' }
+      hash = { 'journal_notes' => 'blubs' }
 
       params = ActionController::Parameters.new(work_package: hash)
 
