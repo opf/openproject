@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'api/v3/utilities/date_time_formatter'
 
 describe :DateTimeFormatter do
   subject { ::API::V3::Utilities::DateTimeFormatter }

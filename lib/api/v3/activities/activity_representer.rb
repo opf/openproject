@@ -29,7 +29,8 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
-require 'api/v3/utilities/date_time_formatter'
+
+API::V3::Utilities::DateTimeFormatter
 
 module API
   module V3

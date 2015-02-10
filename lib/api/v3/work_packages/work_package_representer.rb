@@ -29,13 +29,11 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
-require 'api/v3/utilities/date_time_formatter'
 
 module API
   module V3
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
-        include API::V3::Utilities
 
         link :self do
           {
@@ -242,29 +240,31 @@ module API
                  render_nil: true
 
         property :start_date,
+                 exec_context: :decorator,
                  getter: -> (*) do
-                   DateTimeFormatter::format_date(start_date, allow_nil: true)
+                   datetime_formatter.format_date(represented.start_date, allow_nil: true)
                  end,
                  render_nil: true
         property :due_date,
+                 exec_context: :decorator,
                  getter: -> (*) do
-                   DateTimeFormatter::format_date(due_date, allow_nil: true)
+                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  end,
                  render_nil: true
         property :estimated_time,
+                 exec_context: :decorator,
                  getter: -> (*) do
-                   DateTimeFormatter::format_duration_from_hours(represented.estimated_hours,
+                   datetime_formatter.format_duration_from_hours(represented.estimated_hours,
                                                                  allow_nil: true)
                  end,
-                 exec_context: :decorator,
                  render_nil: true,
                  writeable: false
         property :spent_time,
+                 exec_context: :decorator,
                  getter: -> (*) do
-                   DateTimeFormatter::format_duration_from_hours(represented.spent_hours)
+                   datetime_formatter.format_duration_from_hours(represented.spent_hours)
                  end,
                  writeable: false,
-                 exec_context: :decorator,
                  if: -> (_) { current_user_allowed_to(:view_time_entries) }
         property :percentage_done,
                  render_nil: true,
@@ -279,8 +279,12 @@ module API
         property :project_id, getter: -> (*) { project.id }
         property :project_name, getter: -> (*) { project.try(:name) }
         property :parent_id, writeable: true
-        property :created_at, getter: -> (*) { DateTimeFormatter::format_datetime(created_at) }
-        property :updated_at, getter: -> (*) { DateTimeFormatter::format_datetime(updated_at) }
+        property :created_at,
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_at) }
+        property :updated_at,
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
 
         collection :custom_properties, exec_context: :decorator, render_nil: true
 
