@@ -30,11 +30,11 @@ Feature: Adding localized time log
     And I am already logged in as "manager"
 
   @javascript
-  Scenario: Adding a localized time entry
+  Scenario: Adding a localized time entry with a too long topic
     Given I am on the edit page of the work package called "pe1"
     When I follow "Mehr"
     And I fill in the following:
-    | Thema             |        |
+    | Thema             | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit |
     | Aufgewendete Zeit | 2,5    |
     | Aktivität         | design |
     And I submit the form by the "OK" button
