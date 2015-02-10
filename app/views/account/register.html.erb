@@ -77,11 +77,12 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= call_hook :view_account_register_after_basic_information, :f => f %>
     <div class="form--field"><%= f.select(:language, lang_options_for_select) %></div>
 
-    <% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>
-      <div class="form--field<%= ' -required' if value.required? %>">
-        <%= custom_field_tag_with_label :user, value %>
-      </div>
-    <% end %>
+    <%= render partial:     'customizable/field',
+               collection:  @user.custom_field_values.select { |v|
+                              v.editable? || v.required?
+                            },
+               as:          :value,
+               locals:      { form: f } %>
   </div>
 
   <%= styled_submit_tag l(:button_submit), class: '-highlight' %>
