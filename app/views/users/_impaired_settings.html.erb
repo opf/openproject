@@ -27,9 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= fields_for :pref, @user.pref, :lang => current_language do |pref_fields| %>
-  <p>
-    <%= pref_fields.label(:impaired, UserPreference.human_attribute_name(:impaired)) %>
+<%= fields_for :pref, @user.pref,
+      builder:  TabularFormBuilder,
+      lang:     current_language do |pref_fields| %>
+  <div class="form--field">
     <%= pref_fields.check_box :impaired %>
-  </p>
+  </div>
 <% end %>
