@@ -33,7 +33,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }
-  let(:representer)  { described_class.new(work_package, current_user: current_user) }
+  let(:schema) {
+    ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
+  }
+  let(:representer)  { described_class.new(schema, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

@@ -1699,3 +1699,5 @@ de:
       validation:
         invalid_user_assigned_to_work_package:
           "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
+    resources:
+      schema: 'Schema'

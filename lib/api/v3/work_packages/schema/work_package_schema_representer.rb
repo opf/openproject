@@ -89,6 +89,8 @@ module API
           property_schema :project, type: 'Project', writable: false
           property_schema :type, type: 'Type', writable: false
 
+          # TODO: obey represented.defines_assignable_values? and remove '|| []' from below         @hound: please remember me of that one
+
           property :assignee,
                    exec_context: :decorator,
                    getter: -> (*) {
@@ -118,29 +120,22 @@ module API
           property :status,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     status_origin = represented
-
-                     if represented.persisted? && represented.status_id_changed?
-                       status_origin = represented.class.find(represented.id)
-                     end
-
-                     new_statuses = status_origin.new_statuses_allowed_to(current_user)
-
-                     SchemaAllowedStatusesRepresenter.new(new_statuses,
+                     assignable_statuses = represented.assignable_statuses_for(current_user)
+                     SchemaAllowedStatusesRepresenter.new(assignable_statuses || [],
                                                           current_user: current_user)
                    }
 
           property :version,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     SchemaAllowedVersionsRepresenter.new(represented.assignable_versions,
+                     SchemaAllowedVersionsRepresenter.new(represented.assignable_versions || [],
                                                           current_user: current_user)
                    }
 
           property :priority,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     SchemaAllowedPrioritiesRepresenter.new(represented.assignable_priorities,
+                     SchemaAllowedPrioritiesRepresenter.new(represented.assignable_priorities || [],
                                                             current_user: current_user)
                    }
 

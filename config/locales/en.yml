@@ -1689,3 +1689,5 @@ en:
       validation:
         invalid_user_assigned_to_work_package:
           "The chosen user is not allowed to be '%{property}' for this work package."
+    resources:
+      schema: 'Schema'
