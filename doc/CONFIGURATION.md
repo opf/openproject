@@ -147,6 +147,31 @@ In the case of fog you only have to configure everything under `fog`, however. D
 to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source
 for the migration.
 
+#### Hide menu items
+
+By default user may choose which menu items can be disabled,
+they should be listed as an array in yml format.
+More information regarding yml format you can find here:
+http://symfony.com/doc/current/components/yaml/yaml_format.html
+
+```
+production:
+  hidden_menu_items:
+    admin_menu:
+      - roles
+      - types
+      - statuses
+      - workflows
+      - enumerations
+      - settings
+      - ldap_authentication
+      - colors
+      - project_types
+      - export_card_configurations
+      - plugins
+      - info
+```
+
 ## Email configuration
 
 * `email_delivery_method`: The way emails should be delivered. Possible values: `smtp` or `sendmail`
@@ -168,3 +193,5 @@ for the migration.
 * `cache_memcache_server`: The memcache server host and IP (default: `127.0.0.1:11211`)
 * `cache_expires_in`: Expiration time for memcache entries (default: `0`, no expiry)
 * `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: none)
+
+
