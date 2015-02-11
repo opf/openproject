@@ -176,6 +176,9 @@ fieldset
   .form.-vertical &
     @include grid-orient(vertical)
 
+  .grid-block:nth-last-of-type(n+2) > &
+    padding-right: 1rem
+
 .form--label
   @include grid-content(2)
   @include label-style
