@@ -35,13 +35,13 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchemaRepresenter < ::API::Decorators::Single
-          def self.property_schema(property,
-                                   type: nil,
-                                   title: nil,
-                                   required: true,
-                                   writable: true,
-                                   min_length: nil,
-                                   max_length: nil)
+          def self.schema(property,
+                          type: nil,
+                          title: nil,
+                          required: true,
+                          writable: true,
+                          min_length: nil,
+                          max_length: nil)
             raise ArgumentError if property.nil? || type.nil?
 
             title = I18n.t("activerecord.attributes.work_package.#{property}") unless title
@@ -58,32 +58,69 @@ module API
                      writeable: false
           end
 
-          property_schema :_type,
-                          type: 'MetaType',
-                          title: I18n.t('api_v3.attributes._type'),
-                          writable: false
-          property_schema :lock_version,
-                          type: 'Integer',
-                          title: I18n.t('api_v3.attributes.lock_version'),
-                          writable: false
-          property_schema :id, type: 'Integer', writable: false
-          property_schema :subject, type: 'String', min_length: 1, max_length: 255
-          property_schema :description, type: 'Formattable'
-          property_schema :start_date, type: 'Date', required: false
-          property_schema :due_date, type: 'Date', required: false
-          property_schema :estimated_time, type: 'Duration', required: false, writable: false
-          property_schema :spent_time, type: 'Duration', writable: false
-          property_schema :percentage_done,
-                          type: 'Integer',
-                          title: I18n.t('activerecord.attributes.work_package.done_ratio'),
-                          writable: false
-          property_schema :created_at, type: 'DateTime', writable: false
-          property_schema :updated_at, type: 'DateTime', writable: false
+          schema :_type,
+                 type: 'MetaType',
+                 title: I18n.t('api_v3.attributes._type'),
+                 writable: false
 
-          # non-writable links
-          property_schema :author, type: 'User', writable: false
-          property_schema :project, type: 'Project', writable: false
-          property_schema :type, type: 'Type', writable: false
+          schema :lock_version,
+                 type: 'Integer',
+                 title: I18n.t('api_v3.attributes.lock_version'),
+                 writable: false
+
+          schema :id,
+                 type: 'Integer',
+                 writable: false
+
+          schema :subject,
+                 type: 'String',
+                 min_length: 1,
+                 max_length: 255
+
+          schema :description,
+                 type: 'Formattable'
+
+          schema :start_date,
+                 type: 'Date',
+                 required: false
+
+          schema :due_date,
+                 type: 'Date',
+                 required: false
+
+          schema :estimated_time,
+                 type: 'Duration',
+                 required: false,
+                 writable: false
+
+          schema :spent_time,
+                 type: 'Duration',
+                 writable: false
+
+          schema :percentage_done,
+                 type: 'Integer',
+                 title: I18n.t('activerecord.attributes.work_package.done_ratio'),
+                 writable: false
+
+          schema :created_at,
+                 type: 'DateTime',
+                 writable: false
+
+          schema :updated_at,
+                 type: 'DateTime',
+                 writable: false
+
+          schema :author,
+                 type: 'User',
+                 writable: false
+
+          schema :project,
+                 type: 'Project',
+                 writable: false
+
+          schema :type,
+                 type: 'Type',
+                 writable: false
 
           property :assignee,
                    exec_context: :decorator,
