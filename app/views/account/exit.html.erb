@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
   instruction_text = I18n.t "instructions_#{instructions}", signin: signin_link
 %>
 
-<div id="login-form" class="form">
+<div id="login-form" class="form -bordered">
   <h1><%= I18n.t(:label_login) %></h1>
   <hr class="form--separator">
   <p><%= instruction_text.html_safe %></p>
