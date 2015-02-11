@@ -77,7 +77,7 @@ module OpenProject
       'disable_password_choice' => false,
       # allow to disable default modules
       'disabled_modules' => [],
-      'hidden_menu_items' => []
+      'hidden_menu_items' => {}
     }
 
     @config = nil
