@@ -94,20 +94,20 @@
 #
 # === More configuration options
 #
+# See following page:
+#
+# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
+#
 # Disable default module:
 #
-# By default user may choose which modules can be disabled, 
-# they should be listed as an array in yml format more information 
+# By default user may choose which modules can be disabled,
+# they should be listed as an array in yml format more information
 # regarding yml format you can find here:
 # http://symfony.com/doc/current/components/yaml/yaml_format.html
 #
 # disabled_modules:
 #   - module_name_1
 #   - module_name_2
-#
-# See following page:
-#
-# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
 #
 # Hide menu items:
 #
