@@ -1095,7 +1095,11 @@ describe WorkPackagesController, type: :controller do
 
     let(:description) { 'Muh hahahah!!!' }
     let(:notes) { 'Work package note' }
-    let(:wp_params) { { id: work_package.id, work_package: { description: description, notes: notes } } }
+    let(:wp_params) {
+      { id: work_package.id,
+        work_package: { description: description,
+                        journal_notes: notes } }
+    }
 
     shared_context 'update work package' do
       let(:user) {
