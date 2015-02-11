@@ -70,6 +70,18 @@ module OpenProject
         available_file_uploaders[OpenProject::Configuration.attachments_storage.to_sym]
       end
 
+      def hidden_menu_items
+        menus = self['hidden_menu_items'].map do |label, nodes|
+          [label, array(nodes)]
+        end
+
+        Hash[menus]
+      end
+
+      def disabled_modules
+        array self['disabled_modules']
+      end
+
       def available_file_uploaders
         {
           fog: ::FogFileUploader,
@@ -77,19 +89,19 @@ module OpenProject
         }
       end
 
-      # overrides default getter in OpenProject::Configuration
-      def hidden_menu_items
-        menus = self['hidden_menu_items'].map do |label, nodes|
-          if nodes =~ / /
-            [label, nodes.split(' ')]
-          else
-            [label, nodes]
-          end
-        end
-        Hash[menus]
-      end
-
       private
+
+      ##
+      # Yields the given configuration value as an array.
+      # Either the value already is an array or a string with values separated by spaces.
+      # In the latter case the string will be split and the values returned as an array.
+      def array(value)
+        if value =~ / /
+          value.split ' '
+        else
+          value
+        end
+      end
 
       def true?(value)
         ['true', true].include? value # check string to accommodate ENV override

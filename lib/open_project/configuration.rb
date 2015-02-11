@@ -75,8 +75,8 @@ module OpenProject
       'omniauth_direct_login_provider' => nil,
 
       'disable_password_choice' => false,
-      # allow to disable default modules
-      'disabled_modules' => [],
+
+      'disabled_modules' => [], # allow to disable default modules
       'hidden_menu_items' => {}
     }
 
