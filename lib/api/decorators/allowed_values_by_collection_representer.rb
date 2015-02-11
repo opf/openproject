@@ -41,7 +41,7 @@ module API
                      value_representer: nil,
                      link_factory: nil,
                      current_user: nil)
-        raise ArgumentError unless type && name
+        raise ArgumentError unless value_representer && link_factory
 
         @value_representer = value_representer
         @link_factory = link_factory
@@ -50,8 +50,6 @@ module API
       end
 
       links :allowedValues do
-        title_property = :name unless title_property
-
         allowed_values.map do |value|
           link_factory.call(value)
         end if allowed_values
