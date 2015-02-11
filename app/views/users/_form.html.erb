@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= javascript_include_tag 'admin_users' %>
 
 <!--[form:user]-->
-<div class="box">
+<section class="form--section">
   <div class="form--field"><%= f.text_field :login, :required => true, :size => 25  %></div>
   <div class="form--field"><%= f.text_field :firstname, :required => true %></div>
   <div class="form--field"><%= f.text_field :lastname, :required => true %></div>
@@ -46,15 +46,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="form--field"><%= f.check_box :admin, :disabled => (@user == User.current) %></div>
   <%= call_hook(:view_users_form, :user => @user, :form => f) %>
-</div>
+</section>
 
-<div class="box">
-  <h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
+<section class="form--section">
+  <h3 class="form--section-title"><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
   <%= render :partial => "users/impaired_settings" %>
-</div>
+</section>
 
-<div class="box">
-  <h3><%=l(:label_authentication)%></h3>
+<section class="form--section">
+  <h3 class="form--section-title"><%=l(:label_authentication)%></h3>
   <% if @user.uses_external_authentication? %>
     <div class="form--field">
       <%= styled_label_tag nil, I18n.t('user.authentication_provider') %>
@@ -124,15 +124,15 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
   <% end %>
-</div>
+</section>
 
-<div class="box">
-  <h3><%= User.human_attribute_name(:mail_notification) %></h3>
+<section class="form--section">
+  <h3 class="form--section-title"><%= User.human_attribute_name(:mail_notification) %></h3>
   <%= render :partial => 'users/mail_notifications' %>
-</div>
+</section>
 
-<div class="box">
-  <h3><%=l(:label_preferences)%></h3>
+<section class="form--section">
+  <h3 class="form--section-title"><%=l(:label_preferences)%></h3>
   <%= render :partial => 'users/preferences' %>
-</div>
+</section>
 <!--[eoform:user]-->

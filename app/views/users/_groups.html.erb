@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= labelled_tabular_form_for(:user, :url => { :action => 'update' }, :html => {:method => :put}) do %>
-  <div class="box">
+  <section class="form--section">
     <% Group.all.sort.each do |group| %>
       <label class="form--label-with-check-box">
         <%= styled_check_box_tag 'user[group_ids][]', group.id, @user.groups.include?(group) %>
@@ -35,6 +35,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </label>
     <% end %>
     <%= hidden_field_tag 'user[group_ids][]', '' %>
-  </div>
+  </section>
   <%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>

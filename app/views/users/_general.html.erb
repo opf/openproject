@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @user, :url => {:action => :change_status},
                     :method => :post do %>
-  <div class="box">
+  <section class="form--section">
     <div class="form--field">
       <%= styled_label_tag 'FIXME', I18n.t(:status, :scope => [:attributes]) %>
       <div class="form--field-container">
@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= change_user_status_buttons(@user) unless @user.id == current_user.id %>
       </div>
     </div>
-  </div>
+  </section>
 <% end %>
 
 <%= labelled_tabular_form_for @user,
