@@ -27,7 +27,7 @@
 #++
 
 shared_examples_for 'safeguarded API' do
-  it { expect(response.response_code).to eq(403) }
+  it { expect(response.response_code).to eq(404) }
 end
 
 shared_examples_for 'valid activity request' do
