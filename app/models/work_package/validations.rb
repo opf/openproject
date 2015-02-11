@@ -53,6 +53,8 @@ module WorkPackage::Validations
 
     validate :validate_active_priority
 
+    validate :validate_category
+
     validate :validate_children
   end
 
@@ -102,6 +104,12 @@ module WorkPackage::Validations
   def validate_active_priority
     if priority && !priority.active? && changes[:priority_id]
       errors.add :priority_id, :only_active_priorities_allowed
+    end
+  end
+
+  def validate_category
+    if category.present? && !project.categories.include?(category)
+      errors.add :category_id, :only_same_project_categories_allowed
     end
   end
 
