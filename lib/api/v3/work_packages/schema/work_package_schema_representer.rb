@@ -35,7 +35,6 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchemaRepresenter < ::API::Decorators::Single
-
           def self.property_schema(property,
                                    type: nil,
                                    title: nil,
@@ -47,10 +46,8 @@ module API
 
             title = I18n.t("activerecord.attributes.work_package.#{property}") unless title
 
-
             schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
                                                                       name: title)
-
             schema.required = required
             schema.writable = writable
             schema.min_length = min_length if min_length
@@ -87,8 +84,6 @@ module API
           property_schema :author, type: 'User', writable: false
           property_schema :project, type: 'Project', writable: false
           property_schema :type, type: 'Type', writable: false
-
-          # TODO: obey represented.defines_assignable_values? and remove '|| []' from below         @hound: please remember me of that one
 
           property :assignee,
                    exec_context: :decorator,
@@ -132,8 +127,11 @@ module API
                        current_user: current_user,
                        value_representer: API::V3::Statuses::StatusRepresenter,
                        link_factory: -> (status) do
-                           { href: api_v3_paths.status(status.id), title: status.name }
-                         end)
+                                       {
+                                         href: api_v3_paths.status(status.id),
+                                         title: status.name
+                                       }
+                                     end)
 
                      representer.allowed_values = assignable_statuses
                      representer
@@ -148,8 +146,11 @@ module API
                        current_user: current_user,
                        value_representer: API::V3::Versions::VersionRepresenter,
                        link_factory: -> (version) do
-                           { href: api_v3_paths.version(version.id), title: version.name }
-                       end)
+                                       {
+                                         href: api_v3_paths.version(version.id),
+                                         title: version.name
+                                       }
+                                     end)
 
                      representer.required = false
                      representer.allowed_values = represented.assignable_versions
@@ -165,8 +166,11 @@ module API
                        current_user: current_user,
                        value_representer: API::V3::Priorities::PriorityRepresenter,
                        link_factory: -> (priority) do
-                           { href: api_v3_paths.priority(priority.id), title: priority.name }
-                         end)
+                                       {
+                                         href: api_v3_paths.priority(priority.id),
+                                         title: priority.name
+                                       }
+                                     end)
 
                      representer.allowed_values = represented.assignable_priorities
                      representer
