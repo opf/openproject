@@ -31,27 +31,12 @@ require 'roar/decorator'
 require 'roar/json/hal'
 
 module API
-  module V3
-    module WorkPackages
-      module Schema
-        class SchemaAllowedVersionsRepresenter < Decorators::SchemaAllowedValuesRepresenter
-          def initialize(model, context = {})
-            super(model,
-                  'Version',
-                  I18n.t('activerecord.attributes.work_package.fixed_version'),
-                  false,
-                  true,
-                  context)
-          end
+  module Decorators
+    class AllowedValuesByLinkRepresenter < PropertySchemaRepresenter
+      attr_accessor :allowed_values_href
 
-          self.value_representer = Versions::VersionRepresenter
-
-          self.links_factory = -> (version) do
-            extend API::V3::Utilities::PathHelper
-
-            { href: api_v3_paths.version(version.id), title: version.name }
-          end
-        end
+      link :allowedValues do
+        { href: allowed_values_href } if allowed_values_href
       end
     end
   end

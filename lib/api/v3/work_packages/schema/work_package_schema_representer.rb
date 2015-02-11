@@ -47,15 +47,14 @@ module API
 
             title = I18n.t("activerecord.attributes.work_package.#{property}") unless title
 
-            schema = {
-              type: type,
-              name: title,
-              required: required,
-              writable: writable
-            }
 
-            schema[:minLength] = min_length if min_length
-            schema[:maxLength] = max_length if max_length
+            schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
+                                                                      name: title)
+
+            schema.required = required
+            schema.writable = writable
+            schema.min_length = min_length if min_length
+            schema.max_length = max_length if max_length
 
             property property,
                      getter: -> (*) { schema },
@@ -95,48 +94,82 @@ module API
                    exec_context: :decorator,
                    getter: -> (*) {
                      link = api_v3_paths.available_assignees(represented.project.id)
+                     representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
+                       type: 'User',
+                       name: I18n.t('activerecord.attributes.work_package.assigned_to'))
+                     representer.required = false
 
-                     ::API::Decorators::AllowedReferenceLinkRepresenter.new(
-                       link,
-                       'User',
-                       I18n.t('activerecord.attributes.work_package.assigned_to'),
-                       false,
-                       true)
+                     if represented.defines_assignable_values?
+                       representer.allowed_values_href = link
+                     end
+
+                     representer
                    }
 
           property :responsible,
                    exec_context: :decorator,
                    getter: -> (*) {
                      link = api_v3_paths.available_responsibles(represented.project.id)
+                     representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
+                       type: 'User',
+                       name: I18n.t('activerecord.attributes.work_package.responsible'))
+                     representer.required = false
 
-                     ::API::Decorators::AllowedReferenceLinkRepresenter.new(
-                       link,
-                       'User',
-                       I18n.t('activerecord.attributes.work_package.responsible'),
-                       false,
-                       true)
+                     if represented.defines_assignable_values?
+                       representer.allowed_values_href = link
+                     end
+
+                     representer
                    }
 
           property :status,
                    exec_context: :decorator,
                    getter: -> (*) {
                      assignable_statuses = represented.assignable_statuses_for(current_user)
-                     SchemaAllowedStatusesRepresenter.new(assignable_statuses || [],
-                                                          current_user: current_user)
+                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
+                       type: 'Status',
+                       name: I18n.t('activerecord.attributes.work_package.status'),
+                       current_user: current_user)
+                     representer.allowed_values = assignable_statuses
+                     representer.value_representer = API::V3::Statuses::StatusRepresenter
+                     representer.link_factory = -> (status) do
+                       { href: api_v3_paths.status(status.id), title: status.name }
+                     end
+
+                     representer
                    }
 
           property :version,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     SchemaAllowedVersionsRepresenter.new(represented.assignable_versions || [],
-                                                          current_user: current_user)
+                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
+                       type: 'Version',
+                       name: I18n.t('activerecord.attributes.work_package.fixed_version'),
+                       current_user: current_user)
+                     representer.required = false
+                     representer.allowed_values = represented.assignable_versions
+                     representer.value_representer = API::V3::Versions::VersionRepresenter
+                     representer.link_factory = -> (version) do
+                       { href: api_v3_paths.version(version.id), title: version.name }
+                     end
+
+                     representer
                    }
 
           property :priority,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     SchemaAllowedPrioritiesRepresenter.new(represented.assignable_priorities || [],
-                                                            current_user: current_user)
+                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
+                       type: 'Priority',
+                       name: I18n.t('activerecord.attributes.work_package.priority'),
+                       current_user: current_user)
+                     representer.allowed_values = represented.assignable_priorities
+                     representer.value_representer = API::V3::Priorities::PriorityRepresenter
+                     representer.link_factory = -> (priority) do
+                       { href: api_v3_paths.priority(priority.id), title: priority.name }
+                     end
+
+                     representer
                    }
 
           def current_user

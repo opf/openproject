@@ -31,28 +31,32 @@ require 'roar/decorator'
 require 'roar/json/hal'
 
 module API
-  module V3
-    module WorkPackages
-      module Schema
-        class SchemaAllowedPrioritiesRepresenter < Decorators::SchemaAllowedValuesRepresenter
-          def initialize(model, context = {})
-            super(model,
-                  'Priority',
-                  I18n.t('activerecord.attributes.work_package.priority'),
-                  true,
-                  true,
-                  context)
-          end
+  module Decorators
+    class PropertySchemaRepresenter < ::API::Decorators::Single
+      def initialize(type: nil, name: nil, current_user: nil)
+        raise ArgumentError unless type && name
 
-          self.value_representer = Priorities::PriorityRepresenter
+        @type = type
+        @name = name
+        @required = true
+        @writable = true
 
-          self.links_factory = -> (priority) do
-            extend API::V3::Utilities::PathHelper
-
-            { href: api_v3_paths.priority(priority.id), title: priority.name }
-          end
-        end
+        super(nil, current_user: current_user)
       end
+
+      attr_accessor :type,
+                    :name,
+                    :required,
+                    :writable,
+                    :min_length,
+                    :max_length
+
+      property :type, exec_context: :decorator
+      property :name, exec_context: :decorator
+      property :required, exec_context: :decorator
+      property :writable, exec_context: :decorator
+      property :min_length, exec_context: :decorator
+      property :max_length, exec_context: :decorator
     end
   end
 end

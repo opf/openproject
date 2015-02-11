@@ -31,28 +31,26 @@ require 'roar/decorator'
 require 'roar/json/hal'
 
 module API
-  module V3
-    module WorkPackages
-      module Schema
-        class SchemaAllowedStatusesRepresenter < Decorators::SchemaAllowedValuesRepresenter
-          def initialize(model, context = {})
-            super(model,
-                  'Status',
-                  I18n.t('activerecord.attributes.work_package.status'),
-                  true,
-                  true,
-                  context)
-          end
+  module Decorators
+    class AllowedValuesByCollectionRepresenter < PropertySchemaRepresenter
+      attr_accessor :allowed_values, :value_representer, :link_factory
 
-          self.value_representer = Statuses::StatusRepresenter
+      links :allowedValues do
+        title_property = :name unless title_property
 
-          self.links_factory = -> (status) do
-            extend API::V3::Utilities::PathHelper
-
-            { href: api_v3_paths.status(status.id), title: status.name }
-          end
-        end
+        allowed_values.map do |value|
+          link_factory.call(value)
+        end if allowed_values
       end
+
+      collection :allowed_values,
+                 exec_context: :decorator,
+                 embedded: true,
+                 getter: -> (*) {
+                   allowed_values.map do |value|
+                     value_representer.new(value, current_user: context[:current_user])
+                   end if allowed_values
+                 }
     end
   end
 end
