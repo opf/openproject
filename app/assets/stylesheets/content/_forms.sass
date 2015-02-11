@@ -247,8 +247,10 @@ fieldset
 
 %form--field-element-container
   display: block
-  padding-right: $block-padding
   flex: 1 1
+
+  &:nth-last-of-type(n+2)
+    padding-right: $block-padding
 
 @each $field-type in $form--field-types
   .form--#{$field-type}-container
