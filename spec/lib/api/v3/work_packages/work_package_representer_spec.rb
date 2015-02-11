@@ -355,25 +355,22 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:href_path) { '_links/category/href' }
 
         context 'no category set' do
-          it 'has no category linked' do
-            is_expected.to_not have_json_path(href_path)
-          end
-
-          it 'has no category embedded' do
-            is_expected.to_not have_json_path(embedded_path)
+          it_behaves_like 'has an empty link' do
+            let(:link) { 'category' }
           end
         end
 
         context 'category set' do
           let!(:category) { FactoryGirl.create :category, project: project }
-          let(:expected_url) { api_v3_paths.category(category.id).to_json }
 
           before do
             work_package.category = category
           end
 
-          it 'has a link to the category' do
-            is_expected.to be_json_eql(expected_url).at_path(href_path)
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'category' }
+            let(:href) { api_v3_paths.category(category.id) }
+            let(:title) { category.name }
           end
 
           it 'has the category embedded' do
