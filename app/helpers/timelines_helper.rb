@@ -316,4 +316,8 @@ module TimelinesHelper
     gon.timeline_options ||= {}
     gon.timeline_options[timeline.id] = timeline.options.reverse_merge(project_id: project_id)
   end
+
+  def timeline_options
+    OpenStruct.new @timeline.options
+  end
 end

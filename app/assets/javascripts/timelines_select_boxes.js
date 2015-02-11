@@ -146,25 +146,4 @@ jQuery(document).ready(function($) {
       ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
     });
   });
-
-  $("#content").find("input").each(function (index, e) {
-    e = $(e);
-    if (
-        ((e.attr("type") === "text" || e.attr("type") === "hidden") && e.val() !== "" && !e.hasClass("select2-input")) ||
-        (e.attr("type") === "checkbox" && e.attr("checked"))
-    ) {
-      showFieldSet(e);
-    }
-  });
-
-  $('#content').find('.cf_boolean_select').each(function (index, field) {
-    field = $(field);
-    if (field.val() !== '') {
-      showFieldSet(field);
-    }
-  });
-
-  function showFieldSet(field) {
-    field.closest("fieldset").removeClass('collapsed').children("div").show();
-  }
 });

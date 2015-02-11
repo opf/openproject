@@ -39,20 +39,20 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="edit_form">
 
-  <%= render :partial => "timelines/general", :locals => {:timeline => @timeline, :f => f}%>
+  <%= render partial: "timelines/general", locals: { timeline: @timeline, f: f }%>
 
-  <%= render :partial => "timelines/comparison", :locals => {:timeline => @timeline} %>
+  <%= render partial: "timelines/comparison", locals: { timeline: @timeline, f: f } %>
 
-  <%= render :partial => "timelines/vertical_planning_elements", :locals => {:timeline => @timeline}%>
+  <%= render partial: "timelines/vertical_planning_elements", locals: { timeline: @timeline, f: f } %>
 
-  <%= render :partial => "timelines/filter/planning_elements", :locals => {:timeline => @timeline} %>
+  <%= render partial: "timelines/filter/planning_elements", locals: { timeline: @timeline, f: f } %>
 
-  <%= render :partial => "timelines/filter/projects", :locals => {:timeline => @timeline} %>
+  <%= render partial: "timelines/filter/projects", locals: { timeline: @timeline, f: f } %>
 
-  <%= render :partial => "timelines/group/grouping", :locals => {:timeline => @timeline} %>
+  <%= render partial: "timelines/group/grouping", locals: { timeline: @timeline, f: f } %>
 
 </div>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
+  <%= stylesheet_link_tag 'timelines.css', media: "all" %>
 <% end %>

@@ -33,65 +33,35 @@ See doc/COPYRIGHT.rdoc for more details.
   </legend>
 
   <div style="display:none;">
-    <div>
-
-      <p class="tl-form-overflow">
-        <%= label_tag 'timeline_options_comparison_none',
-                      l('timelines.filter.comparison.none') %>
-
-        <%= radio_button("timeline[options]",
-                         :comparison,
-                         'none',
-                         :checked => (timeline.comparison == 'none')) %>
-
-      </p>
-      <p class="tl-form-overflow">
-
-        <%= label_tag 'timeline_options_comparison_relative',
-                      l('timelines.filter.comparison.relative') %>
-
-        <%= radio_button("timeline[options]",
-                         :comparison,
-                         'relative',
-                         :checked => (timeline.comparison == 'relative')) %>
-
-        <%  relative_text = text_field_tag "timeline[options][compare_to_relative]",
-                                           timeline.options["compare_to_relative"],
-                                           :size => 3
-
-            relative_select = select("timeline[options]",
-                                     :compare_to_relative_unit,
-                                     [ [l('timelines.filter.time_relative.days'), 0],
-                                       [l('timelines.filter.time_relative.weeks'), '1'],
-                                       [l('timelines.filter.time_relative.months'), '2']
-                                     ],
-                                     { :selected => timeline.options['compare_to_relative_unit'] },
-                                     { :multiple => false, :size => 1})
-        %>
-
-        <%= l('timelines.filter.comparison.compare_relative',
-              :timespan => relative_text + relative_select).html_safe %>
-
-      </p>
-      <p class="tl-form-overflow">
-
-        <%= label_tag 'timeline_options_comparison_absolute',
-                      l('timelines.filter.comparison.absolute') %>
-
-        <%= radio_button("timeline[options]",
-                         :comparison,
-                         'absolute',
-                         :checked => (timeline.comparison == 'absolute')) %>
-
-        <%  absolute_text = text_field_tag("timeline[options][compare_to_absolute]",
-                                           timeline.options["compare_to_absolute"],
-                                           :size => 10)
-            absolute_calendar = calendar_for('timeline_options_compare_to_absolute') %>
-
-        <%= l('timelines.filter.comparison.compare_absolute',
-              :date => absolute_text + absolute_calendar).html_safe %>
-
-      </p>
-    </div>
+    <%= f.fields_for :options, timeline_options do |ff| %>
+      <div class="form--field">
+        <%= ff.label :comparison, l('timelines.filter.comparison.none'), for: :timeline_options_comparison_none  %>
+        <div class="form--field-container">
+          <%= ff.radio_button :comparison, "none", no_label: true %>
+        </div>
+      </div>
+      <div class="form--field">
+        <%= ff.label :comparison, l('timelines.filter.comparison.relative'), for: :timeline_options_comparison_relative %>
+        <div class="form--field-container">
+          <%= ff.radio_button :comparison, "relative", no_label: true %>
+          <%= ff.label :compare_to_relative, l('timelines.filter.comparison.compare_relative', timespan: "") %>
+          <%= ff.text_field :compare_to_relative, no_label: true %>
+          <%= ff.select :compare_to_relative_unit,
+                               [ [l('timelines.filter.time_relative.days'), 0],
+                                 [l('timelines.filter.time_relative.weeks'), '1'],
+                                 [l('timelines.filter.time_relative.months'), '2']
+                               ], label: "" # FIXME: this breaks with no_label: true
+                              %>
+        </div>
+      </div>
+      <div class="form--field">
+        <%= ff.label :comparison, l('timelines.filter.comparison.absolute'), for: :timeline_options_comparison_absolute %>
+        <div class="form--field-container">
+          <%= ff.radio_button :comparison, "absolute", no_label: true %>
+          <%= ff.text_field :compare_to_absolute, label: l('timelines.filter.comparison.compare_absolute', date: "") %>
+          <%= calendar_for('timeline_options_compare_to_absolute') %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </fieldset>
