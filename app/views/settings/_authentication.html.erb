@@ -29,9 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= styled_form_tag({:action => 'edit', :tab => 'authentication'}) do %>
 
-  <div class="box settings">
-    <fieldset>
-      <legend><%= I18n.t(:general, :scope => [:settings]) %></legend>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:general, :scope => [:settings]) %></legend>
       <div class="form--field"><%= setting_check_box :login_required %></div>
 
       <div class="form--field"><%= setting_select :self_registration, [[l(:label_disabled), "0"],
@@ -41,8 +41,8 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </fieldset>
 
-    <fieldset>
-      <legend><%= I18n.t(:passwords, :scope => [:settings]) %></legend>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:passwords, :scope => [:settings]) %></legend>
       <% if !OpenProject::Configuration.disable_password_login? %>
         <div class="form--field"><%= setting_text_field :password_min_length, :size => 6 %></div>
         <div class="form--field"><%= setting_multiselect :password_active_rules,
@@ -69,15 +69,15 @@ See doc/COPYRIGHT.rdoc for more details.
     </fieldset>
 
     <% unless OpenProject::Configuration.disable_password_login? %>
-      <fieldset>
-        <legend><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= I18n.t(:brute_force_prevention, :scope => [:settings]) %></legend>
         <div class="form--field"><%= setting_text_field :brute_force_block_after_failed_logins %></div>
         <div class="form--field"><%= setting_text_field :brute_force_block_minutes %></div>
       </fieldset>
     <% end %>
 
-    <fieldset>
-      <legend><%= I18n.t(:session, :scope => [:settings]) %></legend>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:session, :scope => [:settings]) %></legend>
       <div class="form--field"><%= setting_select :autologin,
                  ([[l(:label_disabled), 0]] +
                   [1, 7, 30, 365].collect do |days|
@@ -94,12 +94,12 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </fieldset>
 
-    <fieldset>
-      <legend><%= I18n.t(:other, :scope => [:settings]) %></legend>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:other, :scope => [:settings]) %></legend>
       <div class="form--field"><%= setting_check_box :log_requesting_user %></div>
       <div class="form--field"><%= setting_check_box :rest_api_enabled %></div>
     </fieldset>
-  </div>
+  </section>
   <% unless OpenProject::Configuration.disable_password_login? %>
     <div style="float:right;">
       <%= link_to l(:label_ldap_authentication), {:controller => '/ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-key' %>

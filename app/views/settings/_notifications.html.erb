@@ -28,13 +28,13 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% if @deliveries %>
   <%= styled_form_tag({:action => 'edit', :tab => 'notifications'}) do %>
-    <div class="box settings">
+    <section class="form--section">
       <div class="form--field"><%= setting_text_field :mail_from, :size => 60 %></div>
       <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
       <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
       <div class="form--field"><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [l(o.last), o.first.to_s]}) %></div>
-    </div>
-    <fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
+    </section>
+    <fieldset id="notified_events" class="form--fieldset"><legend class="form--fieldset-legend"><%=l(:text_select_mail_notifications)%></legend>
       <%= hidden_field_tag 'settings[notified_events][]', '' %>
       <div class="form--field">
         <div class="form--field-container -vertical">
@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
       <div class="form--field"><%= check_all_links('notified_events') %></div>
     </fieldset>
-    <fieldset id="emails_decorators" class="box"><legend><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
+    <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
       <div class="form--field -vertical">
         <div class="form--field-container">
           <%= styled_select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), :id => 'emails_decorators_switch', :onchange => "toggleEmailDecoratorFields()" %>

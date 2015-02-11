@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= styled_form_tag({:action => 'edit'}) do %>
-  <div class="box settings">
+  <section class="form--section">
     <div class="form--field"><%= setting_text_field :app_title, :size => 30 %></div>
     <div class="form--field">
       <%= setting_text_area :welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit', :'ng-non-bindable' => '' %>
@@ -63,6 +63,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <div class="form--field"><%= setting_text_field :diff_max_lines_displayed, :size => 6 %></div>
     <%= call_hook(:view_settings_general_form) %>
-  </div>
+  </section>
   <%= styled_submit_tag l(:button_save), class: '-highlight' %>
 <% end %>

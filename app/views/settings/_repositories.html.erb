@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= styled_form_tag({:action => 'edit', :tab => 'repositories'}) do %>
-  <div class="box settings">
+  <section class="form--section">
     <div class="form--field"><%= setting_check_box :autofetch_changesets %></div>
     <div class="form--field"><%= setting_check_box :sys_api_enabled,
          :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %></div>
@@ -46,8 +46,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <div class="form--field"><%= setting_text_field :repository_log_display_limit, :size => 6 %></div>
     <div class="form--field"><%= setting_check_box :repository_authentication_caching_enabled %></div>
-  </div>
-  <fieldset class="box settings"><legend><%= l(:text_work_packages_ref_in_commit_messages) %></legend>
+  </section>
+  <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:text_work_packages_ref_in_commit_messages) %></legend>
     <div class="form--field">
       <%= setting_text_field :commit_ref_keywords, :size => 30 %>
       <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>

@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= styled_form_tag({:action => 'edit', :tab => 'display'}) do %>
 
-  <div class="box settings">
+  <section class="form--section">
     <div class="form--field"><%= setting_select :ui_theme, OpenProject::Themes.collect { |theme| [theme.name, theme.identifier] }, :label => :label_theme %></div>
     <div class="form--field"><%= setting_check_box :user_may_override_theme %></div>
 
@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_check_box :gravatar_enabled %></div>
 
     <div class="form--field"><%= setting_select :gravatar_default, [["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid'], ["Retro", 'retro'], ["Mystery man", 'mm']], :blank => :label_none %></div>
-  </div>
+  </section>
 
   <%= styled_submit_tag l(:button_save), class: '-highlight' %>
 <% end %>

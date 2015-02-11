@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= styled_form_tag({:action => 'edit', :tab => 'projects'}) do %>
-  <div class="box settings">
+  <section class="form--section">
     <div class="form--field"><%= setting_check_box :default_projects_public %></div>
     <div class="form--field"><%= setting_multiselect(:default_projects_modules,
         Redmine::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, :prefix => "project_module_"), m.to_s]}) %></div>
@@ -35,6 +35,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_select :new_project_user_role_id,
                       Role.find_all_givable.collect {|r| [r.name, r.id.to_s]},
                       :blank => "--- #{l(:actionview_instancetag_blank_option)} ---" %></div>
-  </div>
+  </section>
   <%= styled_submit_tag l(:button_save), class: '-highlight' %>
 <% end %>
