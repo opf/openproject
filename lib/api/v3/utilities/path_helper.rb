@@ -102,6 +102,10 @@ module API
             "#{statuses}/#{id}"
           end
 
+          def self.string_object(value)
+            "#{root}/string_objects/#{::ERB::Util::url_encode(value)}"
+          end
+
           def self.users
             "#{root}/users"
           end

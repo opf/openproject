@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,30 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'spec_helper'
 
-module API
-  module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+describe ::API::V3::StringObjects::StringObjectRepresenter do
+  let(:value) { 'foo bar' }
+  let(:representer) { described_class.new(value) }
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+  include API::V3::Utilities::PathHelper
 
-      get '/' do
-        RootRepresenter.new({})
+  context 'generation' do
+    subject { representer.to_json }
+
+    it 'should indicate its type' do
+      is_expected.to be_json_eql('StringObject'.to_json).at_path('_type')
+    end
+
+    describe 'links' do
+      it 'should link to self' do
+        path = api_v3_paths.string_object(value)
+
+        is_expected.to be_json_eql(path.to_json).at_path('_links/self/href')
+      end
+    end
+
+    describe 'value' do
+      it 'should have a value' do
+        is_expected.to be_json_eql(value.to_json).at_path('value')
       end
     end
   end
