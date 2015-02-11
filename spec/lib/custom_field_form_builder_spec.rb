@@ -67,7 +67,6 @@ describe CustomFieldFormBuilder do
           <input class="custom-class form--check-box"
                  id="user_#{resource.custom_field_id}"
                  name="user[#{resource.custom_field_id}]"
-                 no_label="true"
                  type="checkbox"
                  value="1" />
         }.squish
@@ -90,7 +89,6 @@ describe CustomFieldFormBuilder do
           <input class="custom-class form--text-field"
                  id="user_#{resource.custom_field_id}"
                  name="user[#{resource.custom_field_id}]"
-                 no_label="true"
                  size="30"
                  type="text"
                  value="" />
@@ -111,7 +109,6 @@ describe CustomFieldFormBuilder do
                     cols="40"
                     id="user_#{resource.custom_field_id}"
                     name="user[#{resource.custom_field_id}]"
-                    no_label="true"
                     rows="3">
           </textarea>
         }.squish
@@ -130,7 +127,6 @@ describe CustomFieldFormBuilder do
           <input class="custom-class form--text-field"
                  id="user_#{resource.custom_field_id}"
                  name="user[#{resource.custom_field_id}]"
-                 no_label="true"
                  size="30"
                  type="text"
                  value="" />
@@ -150,7 +146,6 @@ describe CustomFieldFormBuilder do
           <input class="custom-class form--text-field"
                  id="user_#{resource.custom_field_id}"
                  name="user[#{resource.custom_field_id}]"
-                 no_label="true"
                  size="30"
                  type="text"
                  value="" />
@@ -170,7 +165,6 @@ describe CustomFieldFormBuilder do
           <input class="custom-class form--text-field"
                  id="user_#{resource.custom_field_id}"
                  name="user[#{resource.custom_field_id}]"
-                 no_label="true"
                  size="30"
                  type="text"
                  value="" />
