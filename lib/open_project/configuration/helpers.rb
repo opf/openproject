@@ -77,6 +77,18 @@ module OpenProject
         }
       end
 
+      # overrides default getter in OpenProject::Configuration
+      def hidden_menu_items
+        menus = self['hidden_menu_items'].map do |label, nodes|
+          if nodes =~ / /
+            [label, nodes.split(' ')]
+          else
+            [label, nodes]
+          end
+        end
+        Hash[menus]
+      end
+
       private
 
       def true?(value)

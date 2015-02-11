@@ -267,8 +267,9 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def visible_node?(menu, node)
-    if OpenProject::Configuration['hidden_menu_items'].length > 0
-      hidden_nodes = OpenProject::Configuration['hidden_menu_items'][menu.to_s] || []
+    @hidden_menu_items ||= OpenProject::Configuration.hidden_menu_items
+    if @hidden_menu_items.length > 0
+      hidden_nodes = @hidden_menu_items[menu.to_s] || []
       !hidden_nodes.include? node.name.to_s
     else
       true

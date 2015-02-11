@@ -172,6 +172,10 @@ production:
       - info
 ```
 
+Or it can be overridden by by an environment variable:
+
+    OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU='roles types'
+
 ## Email configuration
 
 * `email_delivery_method`: The way emails should be delivered. Possible values: `smtp` or `sendmail`
