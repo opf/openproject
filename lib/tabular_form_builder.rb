@@ -46,7 +46,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       else
         options[:class] = Array(options[:class]) + [ field_css_class('#{selector}') ]
 
-        (label_for_field(field, options) + container_wrap_field(super, '#{selector}', options)).html_safe
+        label_options = options.dup
+        input_options = options.dup.except(:for, :label, :no_label)
+
+        label = label_for_field(field, label_options)
+        input = super(field, input_options, *args)
+
+        (label + container_wrap_field(input, '#{selector}', options)).html_safe
       end
     end
     END_SRC
@@ -71,15 +77,14 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                            text = field.to_s + "_#{value}",
                            options = {})
 
-    label_options = options.reverse_merge(label: text)
-
     label_for = "#{field}_#{value}".to_sym
-    label = label_for_field(label_for, label_options)
 
-    input_options = options.merge(multiple: true, no_label: true, checked: checked)
-    input = check_box(field, input_options, value, '')
+    input_options = options.reverse_merge(multiple: true,
+                                          checked: checked,
+                                          for: label_for,
+                                          label: text)
 
-    label + container_wrap_field(input, 'check-box', options)
+    check_box(field, input_options, value, '')
   end
 
   def fields_for_custom_fields(record_name, record_object = nil, options = {}, &block)
@@ -98,9 +103,16 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def container_wrap_field(field_html, selector, options = {})
     ret = content_tag(:span, field_html, class: field_container_css_class(selector))
-    ret = content_tag(:span, ret, class: 'form--field-container') unless options[:no_label]
 
-    ret
+    field_container_wrap_field(ret, options)
+  end
+
+  def field_container_wrap_field(field_html, options = {})
+    if options[:no_label]
+      field_html
+    else
+      content_tag(:span, field_html, class: 'form--field-container')
+    end
   end
 
   def localize_field(field, options, meth)
@@ -155,7 +167,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     # FIXME: reenable the error handling
     label_options[:class] << 'error' if false && @object && @object.respond_to?(:errors) && @object.errors[field] # FIXME
     label_options[:class] << 'form--label'
-    label_options[:for] = id.sub(/\_id$/, "_#{field}") if options[:multi_locale] && id
+    label_options[:for] = if options[:for]
+                            options[:for]
+                          elsif options[:multi_locale] && id
+                            id.sub(/\_id$/, "_#{field}")
+                          end
 
     @template.label(@object_name, field.to_s, text.html_safe, label_options)
   end

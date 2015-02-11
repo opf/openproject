@@ -65,7 +65,7 @@ describe TabularFormBuilder do
         expect(output).to include %{
           <input class="form--text-field"
             id="user_translations_attributes_0_name"
-            name="user[translations_attributes][0][name]" no_label="true" size="30" type="text" />
+            name="user[translations_attributes][0][name]" size="30" type="text" />
         }.squish
       end
     end
@@ -81,7 +81,7 @@ describe TabularFormBuilder do
         expect(output).to include %{
           <input class="form--text-field"
             id="user_translations_attributes_0_name"
-            name="user[translations_attributes][0][name]" no_label="true" size="30" type="text" />
+            name="user[translations_attributes][0][name]" size="30" type="text" />
         }.squish
       end
 
@@ -223,13 +223,11 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'check-box-container'
 
     it 'should output element' do
-      # no_label=\"true\" is to be removed
       expect(output).to include %{
         <input checked="checked"
                class="form--check-box"
                id="user_enabled_module_names_repositories"
                name="user[enabled_module_names][]"
-               no_label=\"true\"
                type="checkbox"
                value="repositories" />
       }.squish

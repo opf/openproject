@@ -48,7 +48,7 @@ shared_examples_for 'labelled by default' do
 end
 
 shared_examples_for 'wrapped in container' do |container = 'field-container'|
-  it { is_expected.to have_selector "span.form--#{container}" }
+  it { is_expected.to have_selector "span.form--#{container}", count: 1 }
 end
 
 shared_examples_for 'not wrapped in container' do |container = 'field-container'|
