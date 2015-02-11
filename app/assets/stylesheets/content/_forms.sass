@@ -46,19 +46,21 @@ $form--field-types: (text-field, text-area, select, check-box, range-field, sear
   font-weight: normal
   vertical-align: middle
 
-%form-style
-  padding: 30px 20px
-  background-color: $content-form-bg-color
-  display: block
-  border: $content-form-border
-
 // A general CSS class to be applied to forms using the above defined form style.
 // We can't define this on form itself as this would break a lot of existing forms.
 //
 // Using this form class allows to easily override defaults defined here with a more
 // specific definition.
 .form
-  @extend %form-style
+  display: block
+
+  &.-inline
+    display: inline
+
+  &.-bordered
+    padding: 30px 20px
+    background-color: $content-form-bg-color
+    border: $content-form-border
 
 .form--separator
   border: 0

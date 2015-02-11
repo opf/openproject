@@ -1,7 +1,37 @@
 # Forms
 
+## Forms: Standard style
+
 ```
 <form class="form">
+  <div class="form--field -required">
+    <label class="form--label">Text:</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field">
+      </div>
+    </div>
+  </div>
+
+  <hr class="form--separator">
+  <button class="button -highlight">Save</button>
+  <button class="button">Cancel</button>
+</form>
+```
+
+## Forms: Bordered style
+
+```
+<form class="form -bordered">
+  <div class="form--field -required">
+    <label class="form--label">Text:</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field">
+      </div>
+    </div>
+  </div>
+
   <hr class="form--separator">
   <button class="button -highlight">Save</button>
   <button class="button">Cancel</button>
