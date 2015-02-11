@@ -58,6 +58,34 @@ module API
                      writeable: false
           end
 
+          def self.schema_with_allowed_link(property,
+                                            type: nil,
+                                            title: nil,
+                                            href_callback: nil,
+                                            required: true,
+                                            writable: true)
+            raise ArgumentError if property.nil? || href_callback.nil?
+
+            type = property.to_s.camelize unless type
+            title = I18n.t("activerecord.attributes.work_package.#{property}") unless title
+
+            property property,
+                     exec_context: :decorator,
+                     getter: -> (*) {
+                       representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
+                         type: type,
+                         name: title)
+                       representer.required = required
+                       representer.writable = writable
+
+                       if represented.defines_assignable_values?
+                         representer.allowed_values_href = instance_eval(&href_callback)
+                       end
+
+                       representer
+                     }
+          end
+
           schema :_type,
                  type: 'MetaType',
                  title: I18n.t('api_v3.attributes._type'),
@@ -122,37 +150,17 @@ module API
                  type: 'Type',
                  writable: false
 
-          property :assignee,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     link = api_v3_paths.available_assignees(represented.project.id)
-                     representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
-                       type: 'User',
-                       name: I18n.t('activerecord.attributes.work_package.assigned_to'))
-                     representer.required = false
+          schema_with_allowed_link :assignee,
+                                   type: 'User',
+                                   title: I18n.t('activerecord.attributes.work_package.assigned_to'),
+                                   required: false,
+                                   href_callback: -> (*) { api_v3_paths.available_assignees(represented.project.id) }
 
-                     if represented.defines_assignable_values?
-                       representer.allowed_values_href = link
-                     end
-
-                     representer
-                   }
-
-          property :responsible,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     link = api_v3_paths.available_responsibles(represented.project.id)
-                     representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
-                       type: 'User',
-                       name: I18n.t('activerecord.attributes.work_package.responsible'))
-                     representer.required = false
-
-                     if represented.defines_assignable_values?
-                       representer.allowed_values_href = link
-                     end
-
-                     representer
-                   }
+          schema_with_allowed_link :responsible,
+                                   type: 'User',
+                                   title: I18n.t('activerecord.attributes.work_package.responsible'),
+                                   required: false,
+                                   href_callback: -> (*) { api_v3_paths.available_responsibles(represented.project.id) }
 
           property :status,
                    exec_context: :decorator,
