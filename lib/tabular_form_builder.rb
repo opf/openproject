@@ -172,6 +172,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                           elsif options[:multi_locale] && id
                             id.sub(/\_id$/, "_#{field}")
                           end
+    label_options[:lang] = options[:lang]
 
     @template.label(@object_name, field.to_s, text.html_safe, label_options)
   end

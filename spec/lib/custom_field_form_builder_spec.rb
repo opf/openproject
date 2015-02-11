@@ -65,7 +65,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to include %{
           <input class="custom-class form--check-box"
-                 id="user_#{resource.custom_field_id}"
+                 id="user#{resource.custom_field_id}"
+                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  type="checkbox"
                  value="1" />
@@ -77,7 +78,7 @@ describe CustomFieldFormBuilder do
       before do
         expect(helper)
           .to receive(:calendar_for)
-          .with("user_#{resource.custom_field_id}")
+          .with("user#{resource.custom_field_id}")
 
         resource.custom_field.field_format = 'date'
       end
@@ -87,7 +88,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to include %{
           <input class="custom-class form--text-field"
-                 id="user_#{resource.custom_field_id}"
+                 id="user#{resource.custom_field_id}"
+                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  size="30"
                  type="text"
@@ -107,7 +109,8 @@ describe CustomFieldFormBuilder do
         expect(output.squish).to include %{
           <textarea class="custom-class form--text-area"
                     cols="40"
-                    id="user_#{resource.custom_field_id}"
+                    id="user#{resource.custom_field_id}"
+                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     rows="3">
           </textarea>
@@ -125,7 +128,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output.squish).to include %{
           <input class="custom-class form--text-field"
-                 id="user_#{resource.custom_field_id}"
+                 id="user#{resource.custom_field_id}"
+                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  size="30"
                  type="text"
@@ -144,7 +148,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output.squish).to include %{
           <input class="custom-class form--text-field"
-                 id="user_#{resource.custom_field_id}"
+                 id="user#{resource.custom_field_id}"
+                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  size="30"
                  type="text"
@@ -163,7 +168,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output.squish).to include %{
           <input class="custom-class form--text-field"
-                 id="user_#{resource.custom_field_id}"
+                 id="user#{resource.custom_field_id}"
+                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  size="30"
                  type="text"
@@ -183,7 +189,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output.squish).to include %{
           <select class="custom-class form--select"
-                  id="user_#{resource.custom_field_id}"
+                  id="user#{resource.custom_field_id}"
+                  lang=\"en\"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true"><option
                   value=\"\"></option>
@@ -199,7 +206,8 @@ describe CustomFieldFormBuilder do
         it 'should output element' do
           expect(output.squish).to include %{
             <select class="custom-class form--select"
-                    id="user_#{resource.custom_field_id}"
+                    id="user#{resource.custom_field_id}"
+                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
@@ -217,7 +225,8 @@ describe CustomFieldFormBuilder do
         it 'should output element' do
           expect(output.squish).to include %{
             <select class="custom-class form--select"
-                    id="user_#{resource.custom_field_id}"
+                    id="user#{resource.custom_field_id}"
+                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option
                     value=\"my_option\">my_option</option></select>
@@ -236,7 +245,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output.squish).to include %{
           <select class="custom-class form--select"
-                  id="user_#{resource.custom_field_id}"
+                  id="user#{resource.custom_field_id}"
+                  lang=\"en\"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true"><option value=\"\"></option>
           </select>
@@ -251,7 +261,8 @@ describe CustomFieldFormBuilder do
         it 'should output element' do
           expect(output.squish).to include %{
             <select class="custom-class form--select"
-                    id="user_#{resource.custom_field_id}"
+                    id="user#{resource.custom_field_id}"
+                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
@@ -271,7 +282,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output.squish).to include %{
           <select class="custom-class form--select"
-                  id="user_#{resource.custom_field_id}"
+                  id="user#{resource.custom_field_id}"
+                  lang=\"en\"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true"><option value=\"\"></option>
           </select>
@@ -286,7 +298,8 @@ describe CustomFieldFormBuilder do
         it 'should output element' do
           expect(output.squish).to include %{
             <select class="custom-class form--select"
-                    id="user_#{resource.custom_field_id}"
+                    id="user#{resource.custom_field_id}"
+                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
