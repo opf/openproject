@@ -237,7 +237,7 @@
 @full-width
 
 <form class="form -vertical">
-  <div class="form--field-row">
+  <div class="grid-block">
     <div class="form--field -required">
       <label class="form--label">Text:</label>
       <div class="form--field-container">
@@ -272,7 +272,7 @@
       </div>
     </div>
   </div>
-  <div class="form--field-row">
+  <div class="grid-block">
     <div class="form--field -required">
       <label class="form--label">Long text:</label>
       <div class="form--field-container">

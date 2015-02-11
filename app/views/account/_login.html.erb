@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
                       :autocomplete => 'off', class: '-vertical') do %>
     <%= back_url_to_current_page_hidden_field_tag %>
 
-    <div class="form--field-row">
+    <div class="grid-block">
       <div class="form--field -required">
         <%= styled_label_tag 'username-pulldown', User.human_attribute_name(:login) %>
         <div class="form--field-container">
