@@ -27,30 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
-
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module StringObjects
+      class StringObjectsAPI < Grape::API
+        resources :string_objects do
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
-
-      get '/' do
-        RootRepresenter.new({})
+          namespace ':value' do
+            get do
+              StringObjectRepresenter.new(params[:value])
+            end
+          end
+        end
       end
     end
   end
