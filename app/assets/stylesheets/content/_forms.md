@@ -180,58 +180,61 @@
 @full-width
 
 <form class="form">
-  <div class="form--field -required">
-    <label class="form--label">Lieblingsstädte:</label>
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <input type="text" class="form--text-field" value="Leipzig">
-      </div>
-      <div class="form--text-field-container">
-        <input type="text" class="form--text-field" placeholder="Berlin">
-      </div>
-      <div class="form--text-field-container">
-        <input type="text" class="form--text-field" placeholder="Zürich">
-      </div>
-      <div class="form--text-field-container">
-        <input type="text" class="form--text-field" placeholder="Paris">
-      </div>
-      <div class="form--text-field-container">
-        <input type="text" class="form--text-field" placeholder="Rom">
-      </div>
-    </div>
-  </div>
-  <div class="form--field -required">
-    <label class="form--label">Geburtsdatum:</label>
-    <div class="form--field-container">
-      <div class="form--select-container">
-        <select class="form--select">
-          <option>01</option><option>02</option><option>03</option>
-        </select>
-      </div>
-      <div class="form--select-container">
-        <select class="form--select">
-          <option>Januar</option>
-          <option selected>Februar</option>
-          <option>März</option>
-          <option>April</option>
-          <option>Mai</option>
-          <option>Juni</option>
-          <option>Juli</option>
-          <option>August</option>
-          <option>September</option>
-          <option>Oktober</option>
-          <option>November</option>
-          <option>Dezember</option>
-        </select>
-      </div>
-      <div class="form--text-field-container">
-        <input type="number" class="form--text-field" placeholder="1984">
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend">Wichtige Daten</legend>
+    <div class="form--field -required">
+      <label class="form--label">Lieblingsstädte:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field" value="Leipzig">
+        </div>
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field" placeholder="Berlin">
+        </div>
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field" placeholder="Zürich">
+        </div>
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field" placeholder="Paris">
+        </div>
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field" placeholder="Rom">
+        </div>
       </div>
     </div>
-    <div class="form--field-instructions">
-      One never lies about one's age.
+    <div class="form--field -required">
+      <label class="form--label">Geburtsdatum:</label>
+      <div class="form--field-container">
+        <div class="form--select-container">
+          <select class="form--select">
+            <option>01</option><option>02</option><option>03</option>
+          </select>
+        </div>
+        <div class="form--select-container">
+          <select class="form--select">
+            <option>Januar</option>
+            <option selected>Februar</option>
+            <option>März</option>
+            <option>April</option>
+            <option>Mai</option>
+            <option>Juni</option>
+            <option>Juli</option>
+            <option>August</option>
+            <option>September</option>
+            <option>Oktober</option>
+            <option>November</option>
+            <option>Dezember</option>
+          </select>
+        </div>
+        <div class="form--text-field-container">
+          <input type="number" class="form--text-field" placeholder="1984">
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        One never lies about one's age.
+      </div>
     </div>
-  </div>
+  </fieldset>
 </form>
 ```
 
@@ -294,7 +297,7 @@
 </form>
 ```
 
-## Forms: Sections
+## Forms: Sections and fieldsets
 
 ```
 <form class="form -bordered">
@@ -311,7 +314,7 @@
   <section class="form--section">
     <h3 class="form--section-title">Advanced information</h3>
     <div class="form--field -required">
-      <label class="form--label">Text:</label>
+      <label class="form--label">More text:</label>
       <div class="form--field-container">
         <div class="form--text-field-container">
           <input type="text" class="form--text-field">
@@ -319,6 +322,19 @@
       </div>
     </div>
   </section>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend">
+      Even more advanced information
+    </legend>
+    <div class="form--field -required">
+      <label class="form--label">Even more text:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+  </fieldset>
 </form>
 ```
 

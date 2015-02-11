@@ -167,19 +167,35 @@ fieldset
     border-right: none
     @include transform(rotate(-50deg))
 
-.form--section
+
+%form--fieldset-or-section
   padding:        1rem
   margin-bottom:  1rem
   border:         1px solid $gray
+
+%form--fieldset-legend-or-section-title
+  color:          lighten($body-font-color, 10)
+  font-size:      1rem
+  font-weight:    bold
+  line-height:    1.8
+  text-transform: uppercase
+
+// HACK. TODO: Remove fieldset element rules in various places.
+.form--fieldset,
+fieldset.form--fieldset
+  @extend %form--fieldset-or-section
+
+.form--fieldset-legend
+  @extend %form--fieldset-legend-or-section-title
+
+.form--section
+  @extend %form--fieldset-or-section
 
 // HACK. TODO: Remove H3 element rules in various places.
 // See: https://community.openproject.org/work_packages/18330
 .form--section-title,
 #content h3.form--section-title
-  font-size:      1rem
-  font-weight:    bold
-  line-height:    1.8
-  text-transform: uppercase
+  @extend %form--fieldset-legend-or-section-title
   // properties to reset h3
   margin: 0
   padding: 0
