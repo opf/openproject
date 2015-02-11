@@ -167,6 +167,29 @@ fieldset
     border-right: none
     @include transform(rotate(-50deg))
 
+.form--section
+  padding:        1rem
+  margin-bottom:  1rem
+  border:         1px solid $gray
+
+// HACK. TODO: Remove H3 element rules in various places.
+// See: https://community.openproject.org/work_packages/18330
+.form--section-title,
+#content h3.form--section-title
+  font-size:      1rem
+  font-weight:    bold
+  line-height:    1.8
+  text-transform: uppercase
+  // properties to reset h3
+  margin: 0
+  padding: 0
+  border: 0
+
+  .form--section > &,
+  #content .form--section > &
+    border-bottom: 1px solid $gray
+    margin-bottom: 1rem
+
 .form--field
   @include grid-block($wrap: true)
   align-items: center

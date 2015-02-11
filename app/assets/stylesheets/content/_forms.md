@@ -44,60 +44,62 @@
 @full-width
 
 <form class="form">
-  <div class="form--field -required">
-    <label class="form--label">Text:</label>
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <input type="text" class="form--text-field">
+  <section class="form--section">
+    <div class="form--field -required">
+      <label class="form--label">Text:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        Write anything you like.
       </div>
     </div>
-    <div class="form--field-instructions">
-      Write anything you like.
-    </div>
-  </div>
-  <div class="form--field">
-    <label class="form--label">Email:</label>
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <input type="email" class="form--text-field" placeholder="a valid email">
+    <div class="form--field">
+      <label class="form--label">Email:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="email" class="form--text-field" placeholder="a valid email">
+        </div>
+      </div>
+      <div class="form--field-extra-actions">
+        <a href="#">Request new email</a>
       </div>
     </div>
-    <div class="form--field-extra-actions">
-      <a href="#">Request new email</a>
-    </div>
-  </div>
-  <div class="form--field -required">
-    <label class="form--label">Number:</label>
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <input type="number" class="form--text-field">
+    <div class="form--field -required">
+      <label class="form--label">Number:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="number" class="form--text-field">
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        Any number from 1 to 10!
       </div>
     </div>
-    <div class="form--field-instructions">
-      Any number from 1 to 10!
-    </div>
-  </div>
-  <div class="form--field -required">
-    <label class="form--label">Long text:</label>
-    <div class="form--field-container">
-      <div class="form--text-area-container">
-        <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
+    <div class="form--field -required">
+      <label class="form--label">Long text:</label>
+      <div class="form--field-container">
+        <div class="form--text-area-container">
+          <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        Write more about anything.
       </div>
     </div>
-    <div class="form--field-instructions">
-      Write more about anything.
-    </div>
-  </div>
-  <div class="form--field -required -no-label">
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <input type="text" class="form--text-field">
+    <div class="form--field -required -no-label">
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        This field has no label, which means you really can write what you like.
       </div>
     </div>
-    <div class="form--field-instructions">
-      This field has no label, which means you really can write what you like.
-    </div>
-  </div>
+  </section>
 </form>
 ```
 
@@ -107,66 +109,68 @@
 @full-width
 
 <form class="form -wide-labels">
-  <div class="form--field -required">
-    <label class="form--label">Text:</label>
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <input type="text" class="form--text-field">
-      </div>
-    </div>
-  </div>
-  <div class="form--field">
-    <label class="form--label">Email:</label>
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <input type="email" class="form--text-field" placeholder="a valid email">
-      </div>
-    </div>
-    <div class="form--field-instructions">
-      Your personal email address.
-    </div>
-  </div>
-  <div class="form--field -required">
-    <label class="form--label">Number:</label>
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <input type="number" class="form--text-field">
-      </div>
-    </div>
-    <div class="form--field-instructions">
-      Any number from 1 to 10!
-    </div>
-  </div>
-  <div class="form--field -required">
-    <label class="form--label">Long text:</label>
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
-      </div>
-    </div>
-    <div class="form--field-instructions">
-      Write more about anything.
-    </div>
-  </div>
-  <div class="form--field -required -no-label">
-    <div class="form--field-container">
-      <label class="form--label-with-check-box">
-        <div class="form--check-box-container">
-          <input type="checkbox" class="form--check-box">
+  <section class="form--section">
+    <div class="form--field -required">
+      <label class="form--label">Text:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
         </div>
-        Option 1
-      </label>
-      <label class="form--label-with-check-box">
-        <div class="form--check-box-container">
-          <input type="checkbox" class="form--check-box">
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label">Email:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="email" class="form--text-field" placeholder="a valid email">
         </div>
-        Option 2
-      </label>
+      </div>
+      <div class="form--field-instructions">
+        Your personal email address.
+      </div>
     </div>
-    <div class="form--field-instructions">
-      Selecting these option might be considered a dangerous operation.
+    <div class="form--field -required">
+      <label class="form--label">Number:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="number" class="form--text-field">
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        Any number from 1 to 10!
+      </div>
     </div>
-  </div>
+    <div class="form--field -required">
+      <label class="form--label">Long text:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        Write more about anything.
+      </div>
+    </div>
+    <div class="form--field -required -no-label">
+      <div class="form--field-container">
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox" class="form--check-box">
+          </div>
+          Option 1
+        </label>
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox" class="form--check-box">
+          </div>
+          Option 2
+        </label>
+      </div>
+      <div class="form--field-instructions">
+        Selecting these option might be considered a dangerous operation.
+      </div>
+    </div>
+  </section>
 </form>
 ```
 
@@ -237,7 +241,64 @@
 @full-width
 
 <form class="form -vertical">
-  <div class="grid-block">
+  <section class="form--section">
+    <div class="grid-block">
+      <div class="form--field -required">
+        <label class="form--label">Text:</label>
+        <div class="form--field-container">
+          <div class="form--text-field-container">
+            <input type="text" class="form--text-field">
+          </div>
+        </div>
+        <div class="form--field-instructions">
+          Write anything you like.
+        </div>
+      </div>
+      <div class="form--field">
+        <label class="form--label">Email:</label>
+        <div class="form--field-container">
+          <div class="form--text-field-container">
+            <input type="email" class="form--text-field" placeholder="a valid email">
+          </div>
+        </div>
+        <div class="form--field-extra-actions">
+          <a href="#">Request new email</a>
+        </div>
+      </div>
+      <div class="form--field -required">
+        <label class="form--label">Number:</label>
+        <div class="form--field-container">
+          <div class="form--text-field-container">
+            <input type="number" class="form--text-field">
+          </div>
+        </div>
+        <div class="form--field-instructions">
+          Any number from 1 to 10!
+        </div>
+      </div>
+    </div>
+    <div class="grid-block">
+      <div class="form--field -required">
+        <label class="form--label">Long text:</label>
+        <div class="form--field-container">
+          <div class="form--text-area-container">
+            <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
+          </div>
+        </div>
+        <div class="form--field-instructions">
+          Write more about anything.
+        </div>
+      </div>
+    </div>
+  </section>
+</form>
+```
+
+## Forms: Sections
+
+```
+<form class="form -bordered">
+  <section class="form--section">
     <div class="form--field -required">
       <label class="form--label">Text:</label>
       <div class="form--field-container">
@@ -245,46 +306,19 @@
           <input type="text" class="form--text-field">
         </div>
       </div>
-      <div class="form--field-instructions">
-        Write anything you like.
-      </div>
     </div>
-    <div class="form--field">
-      <label class="form--label">Email:</label>
+  </section>
+  <section class="form--section">
+    <h3 class="form--section-title">Advanced information</h3>
+    <div class="form--field -required">
+      <label class="form--label">Text:</label>
       <div class="form--field-container">
         <div class="form--text-field-container">
-          <input type="email" class="form--text-field" placeholder="a valid email">
+          <input type="text" class="form--text-field">
         </div>
       </div>
-      <div class="form--field-extra-actions">
-        <a href="#">Request new email</a>
-      </div>
     </div>
-    <div class="form--field -required">
-      <label class="form--label">Number:</label>
-      <div class="form--field-container">
-        <div class="form--text-field-container">
-          <input type="number" class="form--text-field">
-        </div>
-      </div>
-      <div class="form--field-instructions">
-        Any number from 1 to 10!
-      </div>
-    </div>
-  </div>
-  <div class="grid-block">
-    <div class="form--field -required">
-      <label class="form--label">Long text:</label>
-      <div class="form--field-container">
-        <div class="form--text-area-container">
-          <textarea class="form--text-area">El resto della concluían sayo de velarte, calzas de velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de entresemana se honraba con su vellorí de lo más fino.</textarea>
-        </div>
-      </div>
-      <div class="form--field-instructions">
-        Write more about anything.
-      </div>
-    </div>
-  </div>
+  </section>
 </form>
 ```
 
