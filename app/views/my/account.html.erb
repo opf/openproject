@@ -42,8 +42,8 @@ See doc/COPYRIGHT.rdoc for more details.
                           :html => { :id => 'my_account_form', class: 'form -wide-labels' } do |f| %>
   <div class="grid-block">
     <div class="grid-content">
-      <h3><%=l(:label_information_plural)%></h3>
-      <div class="box">
+      <h3 class="form--section-title"><%=l(:label_information_plural)%></h3>
+      <section class="form--section">
         <div class="form--field"><%= f.text_field :firstname, :required => true %></div>
         <div class="form--field"><%= f.text_field :lastname, :required => true %></div>
         <div class="form--field"><%= f.text_field :mail, :required => true %></div>
@@ -55,22 +55,22 @@ See doc/COPYRIGHT.rdoc for more details.
                    locals:      { form: f } %>
 
         <%= call_hook(:view_my_account, :user => @user, :form => f) %>
-      </div>
+      </section>
     </div>
 
     <div class="grid-content">
-      <h3><%= User.human_attribute_name(:mail_notification) %></h3>
-      <div class="box">
+      <h3 class="form--section-title"><%= User.human_attribute_name(:mail_notification) %></h3>
+      <section class="form--section">
         <%= render :partial => 'users/mail_notifications' %>
-      </div>
-      <h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
-      <div class="box">
+      </section>
+      <h3 class="form--section-title"><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
+      <section class="form--section">
         <%= render :partial => 'users/impaired_settings' %>
-      </div>
-      <h3><%=l(:label_preferences)%></h3>
-      <div class="box">
+      </section>
+      <h3 class="form--section-title"><%=l(:label_preferences)%></h3>
+      <section class="form--section">
         <%= render :partial => 'users/preferences' %>
-      </div>
+      </section>
     </div>
   </div>
 

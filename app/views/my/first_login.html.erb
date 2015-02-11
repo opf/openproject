@@ -31,10 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= back_url_hidden_field_tag %>
 
-  <h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
-  <div class="box">
+  <h3 class="form--section-title"><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
+  <section class="form--section">
     <%= render :partial => "users/impaired_settings" %>
-  </div>
+  </section>
 
   <%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>
