@@ -41,6 +41,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
+    shared_context 'no allowed values' do
+      before do
+        allow(schema).to receive(:defines_assignable_values?).and_return(false)
+      end
+    end
+
     shared_examples_for 'has basic schema properties' do
       it 'exists' do
         is_expected.to have_json_path(path)
@@ -94,6 +100,16 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     shared_examples_for 'links to allowed values via collection link' do
       it 'contains the link to the allowed values' do
         is_expected.to be_json_eql(href.to_json).at_path("#{path}/_links/allowedValues/href")
+      end
+    end
+
+    shared_examples_for 'does not link to allowed values' do
+      it 'contains no link to the allowed values' do
+        is_expected.to_not have_json_path("#{path}/_links/allowedValues")
+      end
+
+      it 'does not embed allowed values' do
+        is_expected.to_not have_json_path("#{path}/_embedded/allowedValues")
       end
     end
 
@@ -283,6 +299,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:hrefs) { statuses.map { |status| "/api/v3/statuses/#{status.id}" } }
         end
       end
+
+      context 'when allowed values are not defined' do
+        include_context 'no allowed values'
+
+        it_behaves_like 'does not link to allowed values' do
+          let(:path) { 'status' }
+        end
+      end
     end
 
     describe 'versions' do
@@ -311,6 +335,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         it_behaves_like 'links to allowed values directly' do
           let(:path) { 'version' }
           let(:hrefs) { versions.map { |version| "/api/v3/versions/#{version.id}" } }
+        end
+      end
+
+      context 'when allowed values are not defined' do
+        include_context 'no allowed values'
+
+        it_behaves_like 'does not link to allowed values' do
+          let(:path) { 'version' }
         end
       end
     end
@@ -343,6 +375,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:hrefs) { priorities.map { |priority| "/api/v3/priorities/#{priority.id}" } }
         end
       end
+
+      context 'when allowed values are not defined' do
+        include_context 'no allowed values'
+
+        it_behaves_like 'does not link to allowed values' do
+          let(:path) { 'priority' }
+        end
+      end
     end
 
     describe 'responsible and assignee' do
@@ -361,6 +401,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:path) { 'assignee' }
           let(:href) { "#{base_href}/available_assignees" }
         end
+
+        context 'when allowed values are not defined' do
+          include_context 'no allowed values'
+
+          it_behaves_like 'does not link to allowed values' do
+            let(:path) { 'assignee' }
+          end
+        end
       end
 
       describe 'responsible' do
@@ -375,6 +423,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'responsible' }
           let(:href) { "#{base_href}/available_responsibles" }
+        end
+
+        context 'when allowed values are not defined' do
+          include_context 'no allowed values'
+
+          it_behaves_like 'does not link to allowed values' do
+            let(:path) { 'responsible' }
+          end
         end
       end
     end

@@ -133,7 +133,10 @@ module API
                                        }
                                      end)
 
-                     representer.allowed_values = assignable_statuses
+                     if represented.defines_assignable_values?
+                       representer.allowed_values = assignable_statuses
+                     end
+
                      representer
                    }
 
@@ -153,7 +156,11 @@ module API
                                      end)
 
                      representer.required = false
-                     representer.allowed_values = represented.assignable_versions
+
+                     if represented.defines_assignable_values?
+                       representer.allowed_values = represented.assignable_versions
+                     end
+
                      representer
                    }
 
@@ -172,7 +179,10 @@ module API
                                        }
                                      end)
 
-                     representer.allowed_values = represented.assignable_priorities
+                     if represented.defines_assignable_values?
+                       representer.allowed_values = represented.assignable_priorities
+                     end
+
                      representer
                    }
 
