@@ -579,8 +579,8 @@ module WorkPackagesHelper
       end
 
       field
-
     end
+
     WorkPackageAttribute.new(:category, category_field)
   end
 
@@ -662,7 +662,7 @@ module WorkPackagesHelper
   end
 
   def work_package_form_custom_values_attribute(_form, work_package, _locals = {})
-    work_package.custom_field_values.map do |value|
+    fields = work_package.custom_field_values.map do |value|
       field = _form.fields_for_custom_fields :custom_field_values, value do |value_form|
         work_package_form_field required: value.custom_field.is_required? do
           value_form.custom_field
