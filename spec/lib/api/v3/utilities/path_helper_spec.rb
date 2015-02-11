@@ -203,6 +203,16 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'schemas paths' do
+    describe '#schema' do
+      subject { helper.schema 1, 2}
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to match(/^\/api\/v3\/work_packages\/schemas\/1-2/) }
+    end
+  end
+
   describe 'statuses paths' do
     describe '#statuses' do
       subject { helper.statuses }

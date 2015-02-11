@@ -44,6 +44,12 @@ module API
           } if current_user_allowed_to(:edit_work_packages)
         end
 
+        link :schema do
+          {
+            href: api_v3_paths.schema(represented.project.id, represented.type.id)
+          }
+        end
+
         link :updateImmediately do
           {
             href: api_v3_paths.work_package(represented.id),
