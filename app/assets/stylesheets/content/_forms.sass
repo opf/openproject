@@ -179,6 +179,7 @@ fieldset
 .form--label
   @include grid-content(2)
   @include label-style
+  padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
   color:        $form-label-color
@@ -202,6 +203,7 @@ fieldset
 
 .form--field-container
   @include grid-content(10)
+  padding: 0
   display: flex
 
   &.-vertical
@@ -225,6 +227,7 @@ fieldset
 
 %form--field-after-container
   @include grid-content(10, 2)
+  padding:      0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
   color:        $form-label-color
