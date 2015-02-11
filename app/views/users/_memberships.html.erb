@@ -89,12 +89,13 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
   <div class="grid-content">
     <% if projects.any? %>
-      <fieldset><legend><%=l(:label_project_new)%></legend>
-        <%= labelled_tabular_form_for(:membership, :url => {:controller => 'users',
+      <%= labelled_tabular_form_for(:membership, :url => {:controller => 'users',
                                    :action => 'edit_membership',
                                    :id => @user,
                                    :membership_id => nil },
              :remote => true, :html => {:id => "new_project_membership"}) do %>
+        <fieldset class="form--fieldset">
+          <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>
           <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@user, projects) %>
           <div class="form--field -vertical">
             <%= styled_label_tag nil, "#{l(:label_role_plural)}:" %>
@@ -103,8 +104,8 @@ See doc/COPYRIGHT.rdoc for more details.
             </div>
           </div>
           <div><%= styled_submit_tag l(:button_add), class: '-highlight' %></div>
-        <% end %>
-      </fieldset>
+        </fieldset>
+      <% end %>
     <% end %>
   </div>
 </div>
