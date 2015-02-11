@@ -129,13 +129,13 @@ module API
                      representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
                        type: 'Status',
                        name: I18n.t('activerecord.attributes.work_package.status'),
-                       current_user: current_user)
-                     representer.allowed_values = assignable_statuses
-                     representer.value_representer = API::V3::Statuses::StatusRepresenter
-                     representer.link_factory = -> (status) do
-                       { href: api_v3_paths.status(status.id), title: status.name }
-                     end
+                       current_user: current_user,
+                       value_representer: API::V3::Statuses::StatusRepresenter,
+                       link_factory: -> (status) do
+                           { href: api_v3_paths.status(status.id), title: status.name }
+                         end)
 
+                     representer.allowed_values = assignable_statuses
                      representer
                    }
 
@@ -145,14 +145,14 @@ module API
                      representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
                        type: 'Version',
                        name: I18n.t('activerecord.attributes.work_package.fixed_version'),
-                       current_user: current_user)
+                       current_user: current_user,
+                       value_representer: API::V3::Versions::VersionRepresenter,
+                       link_factory: -> (version) do
+                           { href: api_v3_paths.version(version.id), title: version.name }
+                       end)
+
                      representer.required = false
                      representer.allowed_values = represented.assignable_versions
-                     representer.value_representer = API::V3::Versions::VersionRepresenter
-                     representer.link_factory = -> (version) do
-                       { href: api_v3_paths.version(version.id), title: version.name }
-                     end
-
                      representer
                    }
 
@@ -162,13 +162,13 @@ module API
                      representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
                        type: 'Priority',
                        name: I18n.t('activerecord.attributes.work_package.priority'),
-                       current_user: current_user)
-                     representer.allowed_values = represented.assignable_priorities
-                     representer.value_representer = API::V3::Priorities::PriorityRepresenter
-                     representer.link_factory = -> (priority) do
-                       { href: api_v3_paths.priority(priority.id), title: priority.name }
-                     end
+                       current_user: current_user,
+                       value_representer: API::V3::Priorities::PriorityRepresenter,
+                       link_factory: -> (priority) do
+                           { href: api_v3_paths.priority(priority.id), title: priority.name }
+                         end)
 
+                     representer.allowed_values = represented.assignable_priorities
                      representer
                    }
 

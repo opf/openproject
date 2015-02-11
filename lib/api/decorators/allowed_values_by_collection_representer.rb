@@ -33,7 +33,21 @@ require 'roar/json/hal'
 module API
   module Decorators
     class AllowedValuesByCollectionRepresenter < PropertySchemaRepresenter
-      attr_accessor :allowed_values, :value_representer, :link_factory
+      attr_accessor :allowed_values
+      attr_reader :value_representer, :link_factory
+
+      def initialize(type: nil,
+                     name: nil,
+                     value_representer: nil,
+                     link_factory: nil,
+                     current_user: nil)
+        raise ArgumentError unless type && name
+
+        @value_representer = value_representer
+        @link_factory = link_factory
+
+        super(type: type, name: name, current_user: current_user)
+      end
 
       links :allowedValues do
         title_property = :name unless title_property
