@@ -28,28 +28,17 @@
 
 require 'spec_helper'
 describe OpenProject::Plugins::ModuleHandler do
-  before(:all) do
-    module_permissions = Redmine::AccessControl.modules_permissions(['repository'])
-    @repository_permissions = module_permissions.select do |permission|
-      permission.project_module == :repository
-    end
+  let!(:all_former_permissions) { Redmine::AccessControl.permissions }
 
+  before do
     disabled_modules = OpenProject::Plugins::ModuleHandler.disable_modules('repository')
     OpenProject::Plugins::ModuleHandler.disable(disabled_modules)
   end
 
-  after(:all) do
-    Redmine::AccessControl.map do |mapper|
-      mapper.project_module :repository do |map|
-        @repository_permissions.map do |permission|
-          options = { project_module: permission.project_module,
-                      public: permission.public?,
-                      require: permission.require_loggedin? }
-
-          map.permission(permission.name, permission.actions, options)
-        end
-      end
-    end
+  after do
+    raise 'Test outdated' unless Redmine::AccessControl.instance_variable_defined?(:@permissions)
+    Redmine::AccessControl.instance_variable_set(:@permissions, all_former_permissions)
+    Redmine::AccessControl.clear_caches
   end
 
   context '#disable' do

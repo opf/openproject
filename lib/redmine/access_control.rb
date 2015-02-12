@@ -82,13 +82,12 @@ module Redmine
 
         module_permissions = permissions.select { |p| p.project_module.to_s == module_name.to_s }
 
-        reset
+        clear_caches
 
         @permissions = permissions - module_permissions
       end
 
-      def reset
-        @permissions = nil
+      def clear_caches
         @available_project_modules = nil
         @public_permissions = nil
         @members_only_permissions = nil
