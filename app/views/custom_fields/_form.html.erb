@@ -132,7 +132,7 @@ See doc/COPYRIGHT.rdoc for more details.
   }
   //]]>
 </script>
-<div class="box">
+<section class="form--section">
   <p class="form--field -required" id="custom_field_name_attributes">
     <%= f.text_field :name,
                      :multi_locale => true %>
@@ -197,12 +197,13 @@ See doc/COPYRIGHT.rdoc for more details.
     </span>
   </p>
   <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
-</div>
-<div class="box">
+</section>
+
+<section class="form--section">
   <% case @custom_field.class.name
      when "WorkPackageCustomField" %>
-    <fieldset>
-      <legend><%=l(:label_type_plural)%></legend>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%=l(:label_type_plural)%></legend>
       <% for type in @types %>
         <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type),
               :id => "custom_field_type_ids_#{type.id}",
@@ -233,6 +234,6 @@ See doc/COPYRIGHT.rdoc for more details.
           <p class="form--field"><%= f.check_box :is_required %></p>
         <% end %>
         <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
-      </div>
+      </section>
       <%= javascript_tag "toggle_custom_field_format();" %>
       <%= javascript_tag "initLocaleChangeListener();" %>
