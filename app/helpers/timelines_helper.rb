@@ -192,7 +192,6 @@ module TimelinesHelper
           margin-left: 1em;
           line-height: 2em;
         }
-        .timelines-color-properties label,
         .timelines-pet-properties label,
         .timelines-pt-properties label {
           display: inline-block;
