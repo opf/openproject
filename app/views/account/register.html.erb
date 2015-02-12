@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= back_url_hidden_field_tag %>
   <%= error_messages_for :user %>
 
-  <div class="box">
+  <section class="form--section">
     <% if @user.auth_source_id.nil? %>
       <div class="form--field -required">
         <%= f.text_field :login, :size => 25, :required => true %>
@@ -83,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
                             },
                as:          :value,
                locals:      { form: f } %>
-  </div>
+  </section>
 
   <%= styled_submit_tag l(:button_submit), class: '-highlight' %>
 <% end %>
