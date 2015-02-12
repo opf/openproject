@@ -33,7 +33,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @color,
             :url  => colors_url,
-            :html => {:method => 'post'} do |f| %>
+            :html => {:method => 'post'},
+            as: :color do |f| %>
   <%= render :partial => 'form',
              :locals => {:f => f, :color => @color} %>
 <% end %>
