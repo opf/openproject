@@ -158,10 +158,10 @@ jQuery(document).ready(function($) {
     if (el.is(":checked") && el.is("[type='checkbox']")) {
       showFieldSet(el);
     }
-    if (el.is("[type='text']") && el.val() !== '') {
+    if (el.is("[type='text']") && el.val() !== "") {
       showFieldSet(el);
     }
-  })
+  });
   function showFieldSet(field) {
     field.closest("fieldset").removeClass("collapsed").children("div").show();
   }
