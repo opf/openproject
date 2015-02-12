@@ -74,19 +74,22 @@ module.exports = function() {
           embedded: false,
           placeholder: '-',
           displayStrategy: 'user',
+          attributeTitle: I18n.t('js.work_packages.properties.assignee')
         },
         responsible: {
           type: 'select2',
           attribute: 'responsible',
           embedded: false,
           placeholder: '-',
-          displayStrategy: 'user'
+          displayStrategy: 'user',
+          attributeTitle: I18n.t('js.work_packages.properties.responsible')
         },
         status: {
           type: 'select2',
           attribute: 'status.name',
           embedded: true,
-          placeholder: '-'
+          placeholder: '-',
+          attributeTitle: I18n.t('js.work_packages.properties.status')
         },
         versionName: {
           type: 'select2',

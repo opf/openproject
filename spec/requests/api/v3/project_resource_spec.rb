@@ -71,7 +71,10 @@ describe 'API v3 Project resource' do
         let(:another_project) { FactoryGirl.create(:project, is_public: false) }
         let(:get_path) { "/api/v3/projects/#{another_project.id}" }
 
-        it_behaves_like 'unauthorized access'
+        it_behaves_like 'not found' do
+          let(:id) { "#{another_project.id}" }
+          let(:type) { 'Project' }
+        end
       end
     end
   end

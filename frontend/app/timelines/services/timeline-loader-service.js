@@ -854,8 +854,10 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
   TimelineLoader.prototype.registerPlanningElementsByID = function (ids) {
 
     this.inChunks(ids, function (planningElementIdsOfPacket, i) {
-      var projectPrefix = PathHelper.staticBase +
-                          this.options.api_prefix;
+      var projectPrefix = this.globalPrefix +
+                          PathHelper.projectsPath() +
+                          "/" +
+                          this.options.project_id;
 
       // load current planning elements.
       this.loader.register(
@@ -865,7 +867,6 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
                 planningElementIdsOfPacket.join(',')},
         { storeIn: PlanningElement.identifier }
       );
-
       // load historical planning elements.
       // TODO: load historical PEs here!
       if (this.options.target_time) {

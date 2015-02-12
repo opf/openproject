@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,26 +26,43 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require 'spec_helper'
 
-module API
-  module V3
-    module Priorities
-      class PriorityRepresenter < ::API::Decorators::Single
+feature 'Admin menu items' do
+  let(:user) { FactoryGirl.create :admin }
 
-        self_link
+  before do
+    User.stub(:current).and_return user
+  end
 
-        property :id, render_nil: true
-        property :name
-        property :position
-        property :is_default
-        property :active, as: :isActive
+  after do
+    OpenProject::Configuration['hidden_menu_items'] = []
+  end
 
-        def _type
-          'Priority'
-        end
-      end
+  describe 'displaying all the menu items' do
+    it 'hides the specified admin menu items' do
+      visit admin_path
+
+      expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
+      expect(page).to have_selector('a', text: I18n.t('label_project_plural'))
+      expect(page).to have_selector('a', text: I18n.t('label_role_plural'))
+      expect(page).to have_selector('a', text: I18n.t('label_type_plural'))
+    end
+  end
+
+  describe 'hiding menu items' do
+    before do
+      OpenProject::Configuration['hidden_menu_items'] = { 'admin_menu' => ['roles', 'types'] }
+    end
+
+    it 'hides the specified admin menu items' do
+      visit admin_path
+
+      expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
+      expect(page).to have_selector('a', text: I18n.t('label_project_plural'))
+
+      expect(page).not_to have_selector('a', text: I18n.t('label_role_plural'))
+      expect(page).not_to have_selector('a', text: I18n.t('label_type_plural'))
     end
   end
 end

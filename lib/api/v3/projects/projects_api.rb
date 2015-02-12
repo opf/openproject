@@ -38,16 +38,22 @@ module API
           namespace ':id' do
             before do
               @project = Project.find(params[:id])
+
+              authorize(:view_project, context: @project) do
+                raise API::Errors::NotFound.new(
+                        I18n.t('api_v3.errors.code_404',
+                               type: I18n.t('activerecord.models.project'),
+                               id: params[:id]))
+              end
             end
 
             get do
-              authorize(:view_project, context: @project)
               ProjectRepresenter.new(@project)
             end
 
             mount API::V3::Projects::AvailableAssigneesAPI
             mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::Categories::CategoriesAPI
+            mount API::V3::Categories::CategoriesByProjectAPI
             mount API::V3::Versions::ProjectsVersionsAPI
           end
         end

@@ -32,16 +32,20 @@ module API
     module Categories
       class CategoriesAPI < Grape::API
         resources :categories do
-          before do
-            @categories = @project.categories
-          end
+          namespace ':id' do
+            before do
+              @category = Category.find(params[:id])
+              authorize(:view_project, context: @category.project) do
+                raise API::Errors::NotFound.new(
+                        I18n.t('api_v3.errors.code_404',
+                               type: I18n.t('activerecord.models.category'),
+                               id: params[:id]))
+              end
+            end
 
-          get do
-            self_link = api_v3_paths.categories(@project.identifier)
-
-            CategoryCollectionRepresenter.new(@categories,
-                                              @categories.count,
-                                              self_link)
+            get do
+              CategoryRepresenter.new(@category)
+            end
           end
         end
       end

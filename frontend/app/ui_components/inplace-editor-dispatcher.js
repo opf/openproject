@@ -192,7 +192,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         scope.$on('focusSelect2', function() {
           $timeout(function() {
             element.find('.select2-choice').trigger('click');
-          }, 0, false);
+          });
         });
       },
       startEditing: setOptions,
