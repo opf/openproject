@@ -31,8 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= color.new_record? ? l('timelines.new_color') : l('timelines.edit_color') %></h2>
 
-<fieldset class="timelines-color-properties">
-  <legend><%= l('timelines.properties') %></legend>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
 
   <div class="form--field">
     <%= f.text_field :name, required: true %>
