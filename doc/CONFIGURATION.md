@@ -85,6 +85,7 @@ storage config above like this:
 * [`attachments_storage`](#attachments-storage) (default: file)
 * [`hidden_menu_items`](#hidden-menu-items) (default: {})
 * [`disabled_modules`](#disabled-modules) (default: [])
+* [`blacklisted_routes`](#blacklisted-routes) (default: [])
 
 ### disable password login
 
@@ -179,6 +180,34 @@ For instance 'Roles' and 'Types' under 'Administration' can be disabled by defin
 
 ```
 OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU='roles types'
+```
+
+### blacklisted routes
+
+*default: []*
+
+You can blacklist specific routes 
+The following example forbid all routes for above disabled menu:
+
+```
+blacklisted_routes:
+  - 'admin/info'
+  - 'admin/plugins'
+  - 'export_card_configurations'
+  - 'project_types'
+  - 'colors'
+  - 'settings'
+  - 'admin/enumerations'
+  - 'workflows/*'
+  - 'statuses'
+  - 'types'
+  - 'admin/roles'
+```
+
+The configuration can be overridden through environment variables.
+
+```
+OPENPROJECT_BLACKLISTED__ROUTES='admin/info admin/plugins'
 ```
 
 ### disabled modules
