@@ -28,48 +28,46 @@
 
 require 'spec_helper'
 describe Redmine::AccessControl do
-  let(:global_permissions) { Redmine::AccessControl.permissions }
-  let(:public_permissions) { Redmine::AccessControl.public_permissions }
-  let(:members_only_permissions) { Redmine::AccessControl.members_only_permissions }
-  let(:loggedin_only_permissions) { Redmine::AccessControl.loggedin_only_permissions }
+  describe '.remove_modules_permissions' do
+    let!(:all_former_permissions) { Redmine::AccessControl.permissions }
+    let!(:former_repository_permissions) do
+      module_permissions = Redmine::AccessControl.modules_permissions(['repository'])
 
-  after(:all) do
-    Redmine::AccessControl.map do |mapper|
-      mapper.project_module :repository do |map|
-        @repository_permissions.map do |permission|
-          options = { project_module: permission.project_module,
-                      public: permission.public?,
-                      require: permission.require_loggedin? }
-
-          map.permission(permission.name, permission.actions, options)
-        end
+      module_permissions.select do |permission|
+        permission.project_module == :repository
       end
     end
-  end
 
-  before(:all) do
-    module_permissions = Redmine::AccessControl.modules_permissions(['repository'])
-    @repository_permissions = module_permissions.select do |permission|
-      permission.project_module == :repository
-    end
-    Redmine::AccessControl.remove_modules_permissions(:repository)
-  end
+    subject { Redmine::AccessControl }
 
-  describe 'remove module permissions' do
-    context 'remove from global permissions' do
-      it { expect(global_permissions).to_not include(@repository_permissions) }
+    before do
+      Redmine::AccessControl.remove_modules_permissions(:repository)
     end
 
-    context 'remove from public permissions' do
-      it { expect(public_permissions).to_not include(@repository_permissions) }
+    after do
+      raise 'Test outdated' unless Redmine::AccessControl.instance_variable_defined?(:@permissions)
+      Redmine::AccessControl.instance_variable_set(:@permissions, all_former_permissions)
+      Redmine::AccessControl.clear_caches
     end
 
-    context 'remove from members only permissions' do
-      it { expect(members_only_permissions).to_not include(@repository_permissions) }
+    it 'removes from global permissions' do
+      expect(subject.permissions).to_not include(former_repository_permissions)
     end
 
-    context 'remove from loggedin only permissions' do
-      it { expect(loggedin_only_permissions).to_not include(@repository_permissions) }
+    it 'removes from public permissions' do
+      expect(subject.public_permissions).to_not include(former_repository_permissions)
+    end
+
+    it 'removes from members only permissions' do
+      expect(subject.members_only_permissions).to_not include(former_repository_permissions)
+    end
+
+    it 'removes from loggedin only permissions' do
+      expect(subject.loggedin_only_permissions).to_not include(former_repository_permissions)
+    end
+
+    it 'should disable repository module' do
+      expect(subject.available_project_modules).to_not include(:repository)
     end
   end
 end
