@@ -133,18 +133,18 @@ See doc/COPYRIGHT.rdoc for more details.
   //]]>
 </script>
 <section class="form--section">
-  <p class="form--field -required" id="custom_field_name_attributes">
+  <div class="form--field -required" id="custom_field_name_attributes">
     <%= f.text_field :name,
                      :multi_locale => true %>
-  </p>
-  <p class="form--field">
+  </div>
+  <div class="form--field">
     <%= f.select :field_format,
                  custom_field_formats_for_select(@custom_field),
                  {},
                  :onchange => "toggle_custom_field_format();",
                  :disabled => !@custom_field.new_record? %>
-  </p>
-  <p class="form--field">
+  </div>
+  <div class="form--field">
     <label class="form--label" for="custom_field_min_length"><%=l(:label_min_max_length)%></label>
     <span class="form--field-container">
       <%= f.text_field :min_length,
@@ -157,16 +157,16 @@ See doc/COPYRIGHT.rdoc for more details.
     <span class="form--field-instructions">
       <%=l(:text_min_max_length_info)%>
     </span>
-  </p>
-  <p class="form--field">
+  </div>
+  <div class="form--field">
     <%= f.text_field :regexp,
                      :size => 50 %>
     <span class="form--field-instructions">
       <%=l(:text_regexp_info)%>
     </span>
-  </p>
+  </div>
 
-  <p class="form--field" id="custom_field_possible_values_attributes">
+  <div class="form--field" id="custom_field_possible_values_attributes">
     <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
       <% possible_values = @custom_field.translations.inject({}) do |h, t|
         h[t.locale] = t.possible_values.to_a.join("\n")
@@ -178,24 +178,24 @@ See doc/COPYRIGHT.rdoc for more details.
                       :multi_locale => true %><br>
     <% end %>
     <span class="form--field-instructions"><%= l(:text_custom_field_possible_values_info) %></span>
-  </p>
-  <p id="custom_field_default_value_attributes">
-    <span class="form--field" id="default_value_text_multi">
+  </div>
+  <div id="custom_field_default_value_attributes">
+    <div class="form--field" id="default_value_text_multi">
       <% unless @custom_field.field_format == 'bool' %>
         <%= f.text_field(:default_value, :multi_locale => true) %>
       <% end %>
-    </span>
-    <span class="form--field" id="default_value_text_single">
+    </div>
+    <div class="form--field" id="default_value_text_single">
       <% if @custom_field.new_record? || ['date', 'float', 'int'].include?(@custom_field.field_format) %>
         <%= f.text_field(:default_value, :single_locale => true) %>
       <% end %>
-    </span>
-    <span class="form--field" style="display:none" id="default_value_bool">
+    </div>
+    <div class="form--field" style="display:none" id="default_value_bool">
       <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
         <%= f.check_box(:default_value, :single_locale => true) %>
       <% end %>
-    </span>
-  </p>
+    </div>
+  </div>
   <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
 </section>
 
@@ -216,24 +216,25 @@ See doc/COPYRIGHT.rdoc for more details.
     </fieldset>
     &nbsp;
 
-    <p class="form--field"><%= f.check_box :is_required %></p>
-    <p class="form--field"><%= f.check_box :is_for_all %></p>
-    <p class="form--field"><%= f.check_box :is_filter %></p>
-    <p class="form--field"><%= f.check_box :searchable %></p>
-    <% when "UserCustomField" %>
-      <p class="form--field"><%= f.check_box :is_required %></p>
-      <p class="form--field"><%= f.check_box :visible %></p>
-      <p class="form--field"><%= f.check_box :editable %></p>
-      <% when "ProjectCustomField" %>
-        <p class="form--field"><%= f.check_box :is_required %></p>
-        <p class="form--field"><%= f.check_box :visible %></p>
-        <p class="form--field"><%= f.check_box :searchable %></p>
-        <% when "TimeEntryCustomField" %>
-          <p class="form--field"><%= f.check_box :is_required %></p>
-        <% else %>
-          <p class="form--field"><%= f.check_box :is_required %></p>
-        <% end %>
-        <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
-      </section>
-      <%= javascript_tag "toggle_custom_field_format();" %>
-      <%= javascript_tag "initLocaleChangeListener();" %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+    <div class="form--field"><%= f.check_box :is_for_all %></div>
+    <div class="form--field"><%= f.check_box :is_filter %></div>
+    <div class="form--field"><%= f.check_box :searchable %></div>
+  <% when "UserCustomField" %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+    <div class="form--field"><%= f.check_box :visible %></div>
+    <div class="form--field"><%= f.check_box :editable %></div>
+  <% when "ProjectCustomField" %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+    <div class="form--field"><%= f.check_box :visible %></div>
+    <div class="form--field"><%= f.check_box :searchable %></div>
+  <% when "TimeEntryCustomField" %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+  <% else %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+  <% end %>
+  <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
+</section>
+
+<%= javascript_tag "toggle_custom_field_format();" %>
+<%= javascript_tag "initLocaleChangeListener();" %>
