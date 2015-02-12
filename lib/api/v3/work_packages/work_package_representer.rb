@@ -35,7 +35,7 @@ module API
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
 
-        self_link :work_package, title_getter: -> (*) { represented.subject }
+        self_link title_getter: -> (*) { represented.subject }
 
         link :update do
           {

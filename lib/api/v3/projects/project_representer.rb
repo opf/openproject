@@ -35,7 +35,7 @@ module API
     module Projects
       class ProjectRepresenter < ::API::Decorators::Single
 
-        self_link :project
+        self_link
 
         link 'categories' do
           { href: api_v3_paths.categories(represented.id) }

@@ -35,7 +35,7 @@ module API
     module Versions
       class VersionRepresenter < ::API::Decorators::Single
 
-        self_link :version
+        self_link
 
         linked_property :definingProject,
                         path: :project,

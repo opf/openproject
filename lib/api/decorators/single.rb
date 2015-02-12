@@ -51,8 +51,9 @@ module API
                exec_context: :decorator,
                render_nil: false
 
-      def self.self_link(path, title_getter: -> (*) { represented.name })
+      def self.self_link(path: nil, title_getter: -> (*) { represented.name })
         link :self do
+          path = _type.underscore unless path
           link_object = { href: api_v3_paths.send(path, represented.id) }
           link_object[:title] = instance_eval(&title_getter)
 

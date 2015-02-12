@@ -32,7 +32,7 @@ module API
     module Statuses
       class StatusRepresenter < ::API::Decorators::Single
 
-        self_link :status
+        self_link
 
         property :id, render_nil: true
         property :name

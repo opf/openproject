@@ -36,7 +36,7 @@ module API
       class UserRepresenter < ::API::Decorators::Single
         include AvatarHelper
 
-        self_link :user
+        self_link
 
         link :lock do
           {
