@@ -118,7 +118,7 @@ describe StatusesController, type: :controller do
         render_views
 
         it do
-          assert_tag tag: 'p',
+          assert_tag tag: 'div',
                      content: Status.human_attribute_name(:is_default)
         end
       end
