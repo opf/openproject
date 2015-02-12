@@ -29,6 +29,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class CustomFieldsHelperTest < HelperTestCase
+  include OpenProject::FormTagHelper
   include CustomFieldsHelper
   include Redmine::I18n
 
@@ -51,7 +52,9 @@ class CustomFieldsHelperTest < HelperTestCase
     field = CustomField.new(field_format: 'foo')
     field.id = 52
 
-    assert_equal '<input id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="" />',
+    assert_equal '<span class="form--text-field-container"><input class="form--text-field"
+                  id="object_custom_field_values_52" name="object[custom_field_values][52]"
+                  type="text" value="" /></span>'.squish,
                  custom_field_tag_for_bulk_edit('object', field)
   end
 end

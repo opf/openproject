@@ -797,6 +797,23 @@ describe PermittedParams, type: :model do
     end
   end
 
+  describe :wiki_page_rename do
+    let(:hash_key) { :page }
+    let (:attribute) { :wiki_page_rename }
+
+    describe 'title' do
+      let(:hash) { { 'title' => 'blubs' } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'redirect_existing_links' do
+      let(:hash) { { 'redirect_existing_links' => '1' } }
+
+      it_behaves_like 'allows params'
+    end
+  end
+
   describe :wiki_page do
     let(:hash_key) { :content }
     let(:nested_key) { :page }

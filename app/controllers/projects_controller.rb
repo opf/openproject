@@ -75,6 +75,7 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
     @types = Type.all
     @project = Project.new
+    @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
     @project.safe_attributes = params[:project]
   end
 
