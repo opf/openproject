@@ -146,4 +146,17 @@ jQuery(document).ready(function($) {
       ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
     });
   });
+
+  $("#content").find("input").not('[type="radio"]').not('[class^="select2-"]').not(".button").not("[type='hidden']").each(function(idx, element) {
+    var el = $(element);
+    if (el.is(":checked") && el.is('[type="checkbox"]')) {
+      showFieldSet(el);
+    }
+    if (el.is("[type='text']") && el.val() !== '') {
+      showFieldSet(el);
+    };
+  })
+   function showFieldSet(field) {
+     field.closest("fieldset").removeClass('collapsed').children("div").show();
+   }
 });
