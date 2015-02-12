@@ -47,7 +47,7 @@ module OmniAuth
     # Tries to match the request path of the current request with one of the registered providers.
     # If a match is found the strategy is intialised with that provider to handle the request.
     def match_provider!
-      return false unless @providers
+      return false unless providers
 
       @provider = providers.find do |p|
         (current_path =~ /#{path_for_provider(p.to_hash[:name])}/) == 0
@@ -94,7 +94,6 @@ module OmniAuth
     def dup
       super.tap do |s|
         s.extend FlexibleStrategy
-        s.providers = providers
       end
     end
   end
