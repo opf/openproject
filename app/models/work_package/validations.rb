@@ -109,7 +109,7 @@ module WorkPackage::Validations
 
   def validate_category
     if category.present? && !project.categories.include?(category)
-      errors.add :category_id, :only_same_project_categories_allowed
+      errors.add :category, :only_same_project_categories_allowed
     end
   end
 

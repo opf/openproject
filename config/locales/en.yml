@@ -236,7 +236,7 @@ en:
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles"
             priority_id:
               only_active_priorities_allowed: "needs to be active"
-            category_id:
+            category:
               only_same_project_categories_allowed:
                 "The category of a work package must be within the same project as the work package."
         user:
