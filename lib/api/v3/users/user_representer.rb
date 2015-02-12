@@ -36,12 +36,7 @@ module API
       class UserRepresenter < ::API::Decorators::Single
         include AvatarHelper
 
-        link :self do
-          {
-            href: api_v3_paths.user(represented.id),
-            title: "#{represented.name} - #{represented.login}"
-          }
-        end
+        self_link
 
         link :lock do
           {

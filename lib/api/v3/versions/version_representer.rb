@@ -35,19 +35,12 @@ module API
     module Versions
       class VersionRepresenter < ::API::Decorators::Single
 
-        link :self do
-          {
-            href: api_v3_paths.version(represented.id),
-            title: "#{represented.name}"
-          }
-        end
+        self_link
 
-        link :definingProject do
-          {
-            href: api_v3_paths.project(represented.project.id),
-            title: represented.project.name
-          } if represented.project.visible?(current_user)
-        end
+        linked_property :definingProject,
+                        path: :project,
+                        association: :project,
+                        show_if: -> (*) { represented.project.visible?(current_user) }
 
         link :availableInProjects do
           {

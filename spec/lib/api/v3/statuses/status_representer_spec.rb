@@ -61,13 +61,11 @@ describe ::API::V3::Statuses::StatusRepresenter do
       it { is_expected.to have_json_type(Object).at_path('_links') }
 
       describe 'self' do
-        let(:href) { "/api/v3/statuses/#{status.id}".to_json }
-
-        it { is_expected.to have_json_path('_links/self/href') }
-        it { is_expected.to have_json_path('_links/self/title') }
-
-        it { is_expected.to be_json_eql(href).at_path('_links/self/href') }
-        it { is_expected.to be_json_eql(status.name.to_json).at_path('_links/self/title') }
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'self' }
+          let(:href) { "/api/v3/statuses/#{status.id}" }
+          let(:title) { status.name }
+        end
       end
     end
   end
