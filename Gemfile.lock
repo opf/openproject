@@ -303,6 +303,8 @@ GEM
     rack (1.4.5)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-attack (4.2.0)
+      rack
     rack-cache (1.2)
       rack (>= 0.4)
     rack-mount (0.8.3)
@@ -498,6 +500,7 @@ DEPENDENCIES
   pry-stack_explorer
   quiet_assets
   rabl (= 0.9.3)
+  rack-attack
   rack-protection!
   rack-test (~> 0.6.2)
   rack_session_access
