@@ -34,21 +34,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <fieldset class="timelines-color-properties">
   <legend><%= l('timelines.properties') %></legend>
 
-  <p>
-    <%= f.label :name do %>
-      <%= required_field_name PlanningElementTypeColor.human_attribute_name(:name) %>
-    <% end %>
+  <div class="form--field">
     <%= f.text_field :name, required: true %>
-  </p>
-
-  <p>
-    <%= f.label :hexcode do %>
-      <%= PlanningElementTypeColor.human_attribute_name(:hexcode) %>
-      <span class="required"> *</span>
-    <% end %>
-    <%= icon_for_color(color, :class => 'timelines-x-update-color timelines-color-properties-preview') %>
+  </div>
+  <div class="form--field">
     <%= f.text_field :hexcode, required: true %>
-  </p>
+    <%= icon_for_color(color, :class => 'timelines-x-update-color timelines-color-properties-preview') %>
+  </div>
 </fieldset>
 
 <%= submit_tag l(:button_save), class: 'button -highlight' %>

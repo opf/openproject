@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l(:label_administration), "#{l(:label_new)} #{l("timelines.admin_menu.color")}" %>
 
-<%= form_for :color,
+<%= labelled_tabular_form_for @color,
             :url  => colors_url,
             :html => {:method => 'post'} do |f| %>
   <%= render :partial => 'form',
