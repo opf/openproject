@@ -63,13 +63,13 @@ module API
 
       def self.linked_property(property,
                                path: property,
-                               backing_field: property,
-                               title_getter: -> (*) { represented.send(backing_field).name },
+                               association: property,
+                               title_getter: -> (*) { represented.send(association).name },
                                show_if: -> (*) { true })
         link property do
           next unless instance_eval(&show_if)
 
-          value = represented.send(backing_field)
+          value = represented.send(association)
           link_object = { href: (api_v3_paths.send(path, value.id) if value) }
           link_object[:title] = instance_eval(&title_getter) if value
 

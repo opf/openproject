@@ -89,7 +89,7 @@ module API
 
         linked_property :author, path: :user
         linked_property :responsible, path: :user
-        linked_property :assignee, path: :user, backing_field: :assigned_to
+        linked_property :assignee, path: :user, association: :assigned_to
 
         link :availableWatchers do
           {
@@ -176,7 +176,7 @@ module API
         linked_property :category
 
         linked_property :version,
-                        backing_field: :fixed_version,
+                        association: :fixed_version,
                         title_getter: -> (*) {
                           represented.fixed_version.to_s_for_project(represented.project)
                         }
