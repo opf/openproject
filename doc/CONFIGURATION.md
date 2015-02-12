@@ -83,6 +83,8 @@ storage config above like this:
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
 * [`attachments_storage`](#attachments-storage) (default: file)
+* [`hidden_menu_items`](#hidden-menu-items) (default: {})
+* [`disabled_modules`](#disabled-modules) (default: [])
 
 ### disable password login
 
@@ -147,34 +149,64 @@ In the case of fog you only have to configure everything under `fog`, however. D
 to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source
 for the migration.
 
-#### Hide menu items
+### hidden menu items
 
-By default user may choose which menu items can be disabled,
-they should be listed as an array in yml format.
-More information regarding yml format you can find here:
-http://symfony.com/doc/current/components/yaml/yaml_format.html
+*default: {}*
+
+You can disable specific menu items in the menu sidebar for each main menu (such as Administration and Projects).
+The following example disables all menu items except 'Users', 'Groups' and 'Custom fields' under 'Administration':
 
 ```
-production:
-  hidden_menu_items:
-    admin_menu:
-      - roles
-      - types
-      - statuses
-      - workflows
-      - enumerations
-      - settings
-      - ldap_authentication
-      - colors
-      - project_types
-      - export_card_configurations
-      - plugins
-      - info
+hidden_menu_items:
+  admin_menu:
+    - roles
+    - types
+    - statuses
+    - workflows
+    - enumerations
+    - settings
+    - ldap_authentication
+    - colors
+    - project_types
+    - export_card_configurations
+    - plugins
+    - info
 ```
 
-Or it can be overridden by by an environment variable:
+The configuration can be overridden through environment variables.
+You have to define one variable for each menu.
+For instance 'Roles' and 'Types' under 'Administration' can be disabled by defining the following variable:
 
-    OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU='roles types'
+```
+OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU='roles types'
+```
+
+### disabled modules
+
+*default: []*
+
+Modules may be disabled through the configuration.
+Just give a list of the module names either as an array or as a string with values separated by spaces.
+
+**Array example:**
+
+```
+disabled_modules:
+  - backlogs
+  - meetings
+```
+
+**String example:**
+
+```
+disabled_modules: backlogs meetings
+```
+
+The option to use a string is mostly relevant for when you want to override the disabled modules via ENV variables:
+
+```
+OPENPROJECT_DISABLED__MODULES='backlogs meetings'
+```
 
 ## Email configuration
 
