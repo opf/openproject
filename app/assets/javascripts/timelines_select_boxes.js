@@ -151,7 +151,7 @@ jQuery(document).ready(function($) {
                             .not("[type='radio']")
                             .not("[class^='select2-']")
                             .not(".button")
-                            .not("[type='hidden']")
+                            .not("[type='hidden']");
 
   fields.each(function(idx, element) {
     var el = $(element);
@@ -162,7 +162,7 @@ jQuery(document).ready(function($) {
       showFieldSet(el);
     }
   })
-   function showFieldSet(field) {
-     field.closest("fieldset").removeClass('collapsed').children("div").show();
-   }
+  function showFieldSet(field) {
+    field.closest("fieldset").removeClass("collapsed").children("div").show();
+  }
 });
