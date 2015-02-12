@@ -147,14 +147,20 @@ jQuery(document).ready(function($) {
     });
   });
 
-  $("#content").find("input").not('[type="radio"]').not('[class^="select2-"]').not(".button").not("[type='hidden']").each(function(idx, element) {
+  var fields = $("#content").find("input")
+                            .not("[type='radio']")
+                            .not("[class^='select2-']")
+                            .not(".button")
+                            .not("[type='hidden']")
+
+  fields.each(function(idx, element) {
     var el = $(element);
-    if (el.is(":checked") && el.is('[type="checkbox"]')) {
+    if (el.is(":checked") && el.is("[type='checkbox']")) {
       showFieldSet(el);
     }
     if (el.is("[type='text']") && el.val() !== '') {
       showFieldSet(el);
-    };
+    }
   })
    function showFieldSet(field) {
      field.closest("fieldset").removeClass('collapsed').children("div").show();
