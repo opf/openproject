@@ -35,10 +35,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <div style="display:none;">
     <%= f.fields_for :options, timeline_options do |ff| %>
       <div class="form--field">
-        <%= ff.check_box :exclude_reporters, { label: l('timelines.filter.exclude_reporters') }, :yes, :no %>
+        <%= ff.check_box :exclude_reporters, { label: l('timelines.filter.exclude_reporters') }, "yes", "no" %>
       </div>
       <div class="form--field">
-        <%= ff.check_box :exclude_empty, { label: l('timelines.filter.exclude_empty') }, :yes, :no %>
+        <%= ff.check_box :exclude_empty, { label: l('timelines.filter.exclude_empty') }, "yes", "no" %>
       </div>
       <div class="form--field">
         <% if User.current.impaired? %>
@@ -164,9 +164,21 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
       <div class="form--field-container">
         <%= ff.text_field :planning_element_time_relative_one, label: l('timelines.filter.project_time_filter_historical_from') %>
-        <%= calendar_for :timeline_options_planning_element_time_relative_one %>
+        <%= ff.select :planning_element_time_relative_one_unit,
+                    [ [l('timelines.filter.time_relative.days'), 0],
+                      [l('timelines.filter.time_relative.weeks'), '1'],
+                      [l('timelines.filter.time_relative.months'), '2']
+                    ],
+                    { :selected => timeline.options['planning_element_time_relative_one_unit'], label: "" },
+                    { :multiple => false, :size => 1 } %>
         <%= ff.text_field :planning_element_time_relative_two, label: l('timelines.filter.project_time_filter_historical_to') %>
-        <%= calendar_for :timeline_optionsplanning_element_time_relative_two %>
+        <%= ff.select :planning_element_time_relative_two_unit,
+                    [ [l('timelines.filter.time_relative.days'), 0],
+                      [l('timelines.filter.time_relative.weeks'), '1'],
+                      [l('timelines.filter.time_relative.months'), '2']
+                    ],
+                    { :selected => timeline.options['planning_element_time_relative_one_unit'], label: "" },
+                    { :multiple => false, :size => 1} %>
       </div>
     <% end %>
   </div>

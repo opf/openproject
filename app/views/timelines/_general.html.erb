@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= f.fields_for :options, timeline_options do |ff| %>
     <div class="form--field">
       <%= ff.hidden_field :exist %>
-      <%= ff.check_box :hide_chart, { label: l('timelines.filter.hide_chart') }, :yes, :no %>
+      <%= ff.check_box :hide_chart, { label: l('timelines.filter.hide_chart') }, "yes", "no" %>
     </div>
 
     <div class="form--field">
