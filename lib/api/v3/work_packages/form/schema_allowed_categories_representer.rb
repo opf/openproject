@@ -43,7 +43,7 @@ module API
             { href: api_v3_paths.category(category.id), title: category.name }
           end
 
-          self.type = 'Version'
+          self.type = 'Category'
         end
       end
     end
