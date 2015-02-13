@@ -153,7 +153,16 @@ When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
   begin
     select(value, from: field)
   rescue Capybara::ElementNotFound
-    container = find(:xpath, "//label[contains(., '#{field}')]/parent::*/*[contains(@class, 'select2-container')]")
+    # find the label, get the parent and from there find the appropriate
+    # select2 container. There are currently two dom structures in which
+    # this can happen.
+    xpath_selector = "//label[contains(., '#{field}')]/" +
+                     "parent::*/*[contains(@class, 'select2-container')] | " +
+                     "//label[contains(., '#{field}')]/" +
+                     "..//*[contains(@class, 'select2-container')]"
+
+    container = find(:xpath, xpath_selector)
+
     container.find('.select2-choice').click
     find(:xpath, "//*[@id='select2-drop']/descendant::li[contains(., '#{value}')]").click
   end
