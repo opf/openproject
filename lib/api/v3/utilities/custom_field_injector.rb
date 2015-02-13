@@ -49,11 +49,29 @@ module API
 
         def inject_schema(custom_field)
           # TODO: support allowed values for list, version and user
-          @class.schema "customField#{custom_field.id}".to_sym,
-                 type: TYPE_MAP[custom_field.field_format],
-                 title: custom_field.name,
-                 required: custom_field.is_required,
-                 writable: true
+          @class.schema property_name(custom_field.id),
+                        type: TYPE_MAP[custom_field.field_format],
+                        title: custom_field.name,
+                        required: custom_field.is_required,
+                        writable: true
+        end
+
+        def inject_value(custom_field)
+          # TODO: linked properties
+          # TODO: 'text' as formattable
+          @class.property property_name(custom_field.id),
+                          getter: -> (*) {
+                            self.custom_value_for(custom_field).value
+                          },
+                          setter: -> (value, *) {
+                            self.custom_field_values = { custom_field.id => value }
+                          }
+        end
+
+        private
+
+        def property_name(id)
+          "customField#{id}".to_sym
         end
       end
     end

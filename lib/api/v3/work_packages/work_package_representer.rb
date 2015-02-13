@@ -34,6 +34,23 @@ module API
   module V3
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
+        class << self
+          alias_method :original_new, :new
+
+          # we can't use a factory method as we sometimes rely on ROAR instantiating representers
+          # for us. Thus we override the :new method.
+          # This allows adding instance specific properties to our representer.
+          def new(work_package, context = {})
+            klass = Class.new(WorkPackageRepresenter)
+            injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
+            work_package.available_custom_fields.each do |custom_field|
+              injector.inject_value(custom_field)
+            end
+
+            klass.original_new(work_package, context)
+          end
+        end
+
         self_link title_getter: -> (*) { represented.subject }
 
         link :update do
@@ -248,8 +265,6 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
 
-        collection :custom_properties, exec_context: :decorator, render_nil: true
-
         property :status,
                  embedded: true,
                  class: ::Status,
@@ -336,13 +351,6 @@ module API
 
         def version
           Versions::VersionRepresenter.new(represented.fixed_version, current_user: current_user)
-        end
-
-        def custom_properties
-          values = represented.custom_field_values
-          values.map do |v|
-            { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }
-          end
         end
 
         def current_user_allowed_to(permission)

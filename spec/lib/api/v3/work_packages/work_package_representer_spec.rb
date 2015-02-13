@@ -224,6 +224,21 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe 'custom fields' do
+      let(:custom_field) { FactoryGirl.build(:custom_field)}
+      let(:injector) { double('injector') }
+
+      before do
+        allow(work_package).to receive(:available_custom_fields).and_return([custom_field])
+        allow(::API::V3::Utilities::CustomFieldInjector).to receive(:new).and_return(injector)
+      end
+
+      it 'contains the custom field' do
+        expect(injector).to receive(:inject_value).with(custom_field)
+        representer.to_json
+      end
+    end
+
     describe '_links' do
       it { is_expected.to have_json_type(Object).at_path('_links') }
 

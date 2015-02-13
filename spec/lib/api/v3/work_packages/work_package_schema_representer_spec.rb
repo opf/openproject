@@ -475,7 +475,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'custom fields' do
-      let(:injector) { double('injector')}
+      let(:injector) { double('injector') }
 
       before do
         allow(schema).to receive(:available_custom_fields).and_return([custom_field])

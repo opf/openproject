@@ -38,6 +38,23 @@ module API
           include Roar::JSON::HAL
           include Roar::Hypermedia
 
+        class << self
+          alias_method :original_new, :new
+
+          # we can't use a factory method as we sometimes rely on ROAR instantiating representers
+          # for us. Thus we override the :new method.
+          # This allows adding instance specific properties to our representer.
+          def new(work_package, options = {})
+            klass = Class.new(WorkPackagePayloadRepresenter)
+            injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
+            work_package.available_custom_fields.each do |custom_field|
+              injector.inject_value(custom_field)
+            end
+
+            klass.original_new(work_package, options)
+          end
+        end
+
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
           def initialize(represented, options = {})
