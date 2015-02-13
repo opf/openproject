@@ -76,8 +76,8 @@ class WorkPackage < ActiveRecord::Base
   }
 
   scope :in_status, -> (*args) do
-                    where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
-                  end
+                      where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
+                    end
 
   scope :for_projects, lambda { |projects|
     { conditions: { project_id: projects } }
@@ -710,7 +710,8 @@ class WorkPackage < ActiveRecord::Base
       work_package.attributes =
         options[:attributes].except(:copy, :new_project_id, :new_type_id, :follow, :ids)
           .reject { |_key, value| value.blank? }
-    end # FIXME this eliminates the case, where values shall be bulk-assigned to null, but this needs to work together with the permit
+    end # FIXME this eliminates the case, where values shall be bulk-assigned to null,
+    # but this needs to work together with the permit
     if options[:copy]
       work_package.author = User.current
       work_package.custom_field_values =
