@@ -72,7 +72,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                            text = field.to_s + "_#{value}",
                            options = {})
 
-    label_for = "#{field}_#{value}".to_sym
+    label_for = "#{options[:prefix] || ''}#{field}_#{value}".to_sym
 
     input_options = options.reverse_merge(multiple: true,
                                           checked: checked,
