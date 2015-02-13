@@ -35,18 +35,25 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchemaRepresenter < ::API::Decorators::Schema
-          def self.represented_class
-            WorkPackage
-          end
-
-          def self.create(work_package_schema, context = {})
-            klass = Class.new(WorkPackageSchemaRepresenter)
-            injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
-            work_package_schema.available_custom_fields.each do |custom_field|
-              injector.inject_schema(custom_field)
+          class << self
+            def represented_class
+              WorkPackage
             end
 
-            klass.new(work_package_schema, context)
+            alias_method :original_new, :new
+
+            # we can't use a factory method as we sometimes rely on ROAR instantiating representers
+            # for us. Thus we override the :new method.
+            # This allows adding instance specific properties to our representer.
+            def new(work_package_schema, context)
+              klass = Class.new(WorkPackageSchemaRepresenter)
+              injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
+              work_package_schema.available_custom_fields.each do |custom_field|
+                injector.inject_schema(custom_field)
+              end
+
+              klass.original_new(work_package_schema, context)
+            end
           end
 
           schema :_type,

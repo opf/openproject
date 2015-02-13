@@ -37,7 +37,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:schema) {
     ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
   }
-  let(:representer) { described_class.create(schema, current_user: current_user) }
+  let(:representer) { described_class.new(schema, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
