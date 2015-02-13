@@ -224,8 +224,6 @@ module TimelinesHelper
               input = preview.next('input');
             }
 
-            console.log(input)
-
             if (input.length == 0) {
               return;
             }
