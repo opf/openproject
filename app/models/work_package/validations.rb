@@ -38,7 +38,11 @@ module WorkPackage::Validations
     validates_numericality_of :estimated_hours, allow_nil: true
 
     validates :start_date, date: { allow_blank: true }
-    validates :due_date, date: { after_or_equal_to: :start_date, message: :greater_than_start_date, allow_blank: true }, unless: Proc.new { |wp| wp.start_date.blank? }
+    validates :due_date,
+              date: { after_or_equal_to: :start_date,
+                      message: :greater_than_start_date,
+                      allow_blank: true },
+              unless: Proc.new { |wp| wp.start_date.blank? }
     validates :due_date, date: { allow_blank: true }
 
     validate :validate_start_date_before_soonest_start_date
@@ -72,7 +76,9 @@ module WorkPackage::Validations
 
   def validate_fixed_version_is_still_open
     if fixed_version && assignable_versions.include?(fixed_version)
-      errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version) if reopened? && fixed_version.closed?
+      if reopened? && fixed_version.closed?
+        errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version)
+      end
     end
   end
 

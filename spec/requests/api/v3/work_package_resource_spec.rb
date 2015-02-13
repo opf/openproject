@@ -68,7 +68,9 @@ h4. things we like
 {{timeline(#{timeline.id})}}
   }}
 
-  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
+  let(:project) do
+    FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
+  end
   let(:role) do
     FactoryGirl.create(:role,
                        permissions: [:view_work_packages, :view_timelines, :edit_work_packages])
@@ -105,8 +107,8 @@ h4. things we like
         'priority' => work_package.priority.name,
         'startDate' => work_package.start_date,
         'dueDate' => work_package.due_date,
-        'estimatedTime' => JSON.parse({ units: 'hours',
-                                        value: work_package.estimated_hours }.to_json),
+        'estimatedTime' =>
+          JSON.parse({ units: 'hours', value: work_package.estimated_hours }.to_json),
         'percentageDone' => work_package.done_ratio,
         'versionId' => work_package.fixed_version_id,
         'versionName' => work_package.fixed_version.try(:name),

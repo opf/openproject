@@ -118,7 +118,6 @@ module API
 
             resource ? resource[:id] : nil
           end
-
         end
       end
     end
