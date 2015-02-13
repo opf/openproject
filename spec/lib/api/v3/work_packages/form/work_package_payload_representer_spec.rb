@@ -151,6 +151,17 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         end
       end
 
+      describe 'category' do
+        let(:category) { FactoryGirl.build_stubbed(:category) }
+
+        before { work_package.category = category }
+
+        it_behaves_like 'linked property' do
+          let(:property) { 'category' }
+          let(:link) { "/api/v3/categories/#{category.id}" }
+        end
+      end
+
       describe 'priority' do
         let(:priority) { FactoryGirl.build_stubbed(:priority) }
 

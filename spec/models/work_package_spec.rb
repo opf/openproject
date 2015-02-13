@@ -296,6 +296,20 @@ describe WorkPackage, type: :model do
     end
   end
 
+  describe :assignable_categories do
+    let(:work_package) { FactoryGirl.create(:work_package, project: project1) }
+    let(:same_project_category) { FactoryGirl.create(:category, project: work_package.project) }
+    let (:project1) { FactoryGirl.create(:project) }
+
+    before do
+      same_project_category.save!
+    end
+
+    it 'returns all categories within the same project' do
+      expect(work_package.assignable_categories).to match_array([same_project_category])
+    end
+  end
+
   describe :assignable_versions do
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []

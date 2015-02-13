@@ -191,6 +191,28 @@ describe WorkPackage, type: :model do
       end
     end
 
-  end
+    describe 'validations of category' do
+      let (:valid_category) { FactoryGirl.create(:category, project: project1) }
+      let (:invalid_category) { FactoryGirl.create(:category, project: project2) }
+      let (:project1) { FactoryGirl.create(:project) }
+      let (:project2) { FactoryGirl.create(:project) }
 
+      let (:valid_work_package) { FactoryGirl.build(:work_package, category: valid_category, project: project1) }
+      let (:invalid_work_package) { FactoryGirl.build(:work_package, category: invalid_category, project: project1) }
+
+      it 'should not raise for empty category' do
+        valid_work_package.category = nil
+        expect(valid_work_package).to be_valid
+      end
+
+      it 'should validate on matching project.id' do
+        expect(valid_work_package).to be_valid
+      end
+
+      it 'should be invalid for incorrect project.id' do
+        expect(invalid_work_package).not_to be_valid
+        expect(invalid_work_package.errors_on(:category).size).to eq(1)
+      end
+    end
+  end
 end

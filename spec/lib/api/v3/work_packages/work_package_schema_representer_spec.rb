@@ -309,6 +309,44 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'categories' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'category' }
+        let(:type) { 'Category' }
+        let(:name) { I18n.t('attributes.category') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+
+      context 'w/o allowed categories' do
+        before { allow(work_package).to receive(:assignable_categories).and_return([]) }
+
+        it_behaves_like 'links to allowed values directly' do
+          let(:path) { 'category' }
+          let(:hrefs) { [] }
+        end
+      end
+
+      context 'with allowed categories' do
+        let(:categories) { FactoryGirl.build_stubbed_list(:category, 3) }
+
+        before { allow(work_package).to receive(:assignable_categories).and_return(categories) }
+
+        it_behaves_like 'links to allowed values directly' do
+          let(:path) { 'category' }
+          let(:hrefs) { categories.map { |category| "/api/v3/categories/#{category.id}" } }
+        end
+      end
+
+      context 'when allowed values are not defined' do
+        include_context 'no allowed values'
+
+        it_behaves_like 'does not link to allowed values' do
+          let(:path) { 'category' }
+        end
+      end
+    end
+
     describe 'versions' do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'version' }

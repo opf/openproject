@@ -624,6 +624,28 @@ h4. things we like
         end
       end
 
+      context 'category' do
+        let(:target_category) { FactoryGirl.create(:category, project: project) }
+        let(:category_link) { "/api/v3/categories/#{target_category.id}" }
+        let(:category_parameter) { { _links: { category: { href: category_link } } } }
+        let(:params) { valid_params.merge(category_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid' do
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with the work package assigned to the category' do
+            expect(subject.body).to be_json_eql(target_category.name.to_json)
+              .at_path('_embedded/category/name')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+      end
+
       context 'priority' do
         let(:target_priority) { FactoryGirl.create(:priority) }
         let(:priority_link) { "/api/v3/priorities/#{target_priority.id}" }
