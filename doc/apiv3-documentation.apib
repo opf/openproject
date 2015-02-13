@@ -600,9 +600,18 @@ Updates an activity's comment and, on success, returns the updated activity.
                     "elements": [
                         {
                             "_links": {
-                                "self": { "href": "/api/v3/categories/10" },
-                                "project": { "href": "/api/v3/projects/11" },
-                                "defaultAssignee": { "href": "/api/v3/users/42" }
+                                "self": {
+                                    "href": "/api/v3/categories/10",
+                                    "title": "Category with assignee"
+                                },
+                                "project": {
+                                    "href": "/api/v3/projects/11",
+                                    "title": "Example project"
+                                },
+                                "defaultAssignee": {
+                                    "href": "/api/v3/users/42",
+                                    "title": "John Sheppard"
+                                }
                             },
                             "_type": "Category",
                             "id": 10,
@@ -655,9 +664,18 @@ Updates an activity's comment and, on success, returns the updated activity.
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/categories/10" },
-                    "project": { "href": "/api/v3/projects/11" },
-                    "defaultAssignee": { "href": "/api/v3/users/42" }
+                    "self": {
+                        "href": "/api/v3/categories/10",
+                        "title": "Category with assignee"
+                     },
+                    "project": {
+                        "href": "/api/v3/projects/11",
+                        "title": "Example project"
+                    },
+                    "defaultAssignee": {
+                        "href": "/api/v3/users/42",
+                        "title": "John Sheppard"
+                    }
                 },
                 "_type": "Category",
                 "id": 10,
@@ -2672,6 +2690,10 @@ the human readable name of custom fields.*
                     "parent": {
                         "href": "/api/v3/work_packages/1298",
                         "title": "nisi eligendi officiis eos delectus quis voluptas dolores"
+                    },
+                    "category": {
+                        "href": "/api/v3/categories/1298",
+                        "title": "eligend isi"
                     },
                     "children": [
                         {

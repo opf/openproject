@@ -31,9 +31,7 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:member) do
-    FactoryGirl.create(:user,  member_in_project: project, member_through_role: role)
-  end
+  let(:member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:current_user) { member }
 
   let(:representer)  { described_class.new(work_package, current_user: current_user) }
@@ -45,11 +43,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                       due_date: Date.today.to_datetime,
                       created_at: DateTime.now,
                       updated_at: DateTime.now,
-                      category:   category,
                       done_ratio: 50,
                       estimated_hours: 6.0)
   }
-  let(:category) { FactoryGirl.build(:category) }
   let(:project) { work_package.project }
   let(:permissions) {
     [
@@ -184,7 +180,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'no view_time_entries permission' do
           before do
             allow(user).to receive(:allowed_to?).with(:view_time_entries, anything)
-                                                .and_return(false)
+              .and_return(false)
           end
 
           it { is_expected.to_not have_json_path('spentTime') }
@@ -239,9 +235,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     describe '_links' do
       it { is_expected.to have_json_type(Object).at_path('_links') }
 
-      it 'should link to self' do
-        expect(subject).to have_json_path('_links/self/href')
-        expect(subject).to have_json_path('_links/self/title')
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'self' }
+        let(:href) { "/api/v3/work_packages/#{work_package.id}" }
+        let(:title) { work_package.subject }
       end
 
       describe 'update links' do
@@ -268,12 +265,59 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'status' do
-        let(:link) { "/api/v3/statuses/#{work_package.status_id}".to_json }
-        let(:title) { "#{work_package.status.name}".to_json }
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'status' }
+          let(:href) { "/api/v3/statuses/#{work_package.status_id}" }
+          let(:title) { work_package.status.name }
+        end
+      end
 
-        it { is_expected.to be_json_eql(link).at_path('_links/status/href') }
+      describe 'author' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'author' }
+          let(:href) { "/api/v3/users/#{work_package.author.id}" }
+          let(:title) { work_package.author.name }
+        end
+      end
 
-        it { is_expected.to be_json_eql(title).at_path('_links/status/title') }
+      describe 'assignee' do
+        context 'assignee is set' do
+          let(:work_package) {
+            FactoryGirl.build(:work_package, assigned_to: FactoryGirl.build(:user))
+          }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'assignee' }
+            let(:href) { "/api/v3/users/#{work_package.assigned_to.id}" }
+            let(:title) { work_package.assigned_to.name }
+          end
+        end
+
+        context 'assignee is not set' do
+          it_behaves_like 'has an empty link' do
+            let(:link) { 'assignee' }
+          end
+        end
+      end
+
+      describe 'responsible' do
+        context 'responsible is set' do
+          let(:work_package) {
+            FactoryGirl.build(:work_package, responsible: FactoryGirl.build(:user))
+          }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'responsible' }
+            let(:href) { "/api/v3/users/#{work_package.responsible.id}" }
+            let(:title) { work_package.responsible.name }
+          end
+        end
+
+        context 'responsible is not set' do
+          it_behaves_like 'has an empty link' do
+            let(:link) { 'responsible' }
+          end
+        end
       end
 
       describe 'version' do
@@ -281,47 +325,58 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:href_path) { '_links/version/href' }
 
         context 'no version set' do
-          it 'has no version linked' do
-            is_expected.to_not have_json_path(href_path)
-          end
-
-          it 'has no version embedded' do
-            is_expected.to_not have_json_path(embedded_path)
+          it_behaves_like 'has an empty link' do
+            let(:link) { 'version' }
           end
         end
 
         context 'version set' do
           let!(:version) { FactoryGirl.create :version, project: project }
-          let(:expected_url) { api_v3_paths.version(version.id).to_json }
 
           before do
             work_package.fixed_version = version
           end
 
-          it 'has a link to the version' do
-            is_expected.to be_json_eql(expected_url).at_path(href_path)
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'version' }
+            let(:href) { api_v3_paths.version(version.id) }
+            let(:title) { version.to_s_for_project(project) }
           end
 
           it 'has the version embedded' do
             is_expected.to be_json_eql('Version'.to_json).at_path("#{embedded_path}/_type")
             is_expected.to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
           end
+        end
+      end
 
-          context ' but is not accessible due to permissions' do
-            before do
-              policy = double('VersionPolicy')
-              allow(policy).to receive(:allowed?).with(version, :show).and_return(false)
-              representer.instance_variable_set(:@version_policy, policy)
-            end
+      describe 'category' do
+        let(:embedded_path) { '_embedded/category' }
+        let(:href_path) { '_links/category/href' }
 
-            it 'has no version linked' do
-              is_expected.to_not have_json_path(href_path)
-            end
+        context 'no category set' do
+          it_behaves_like 'has an empty link' do
+            let(:link) { 'category' }
+          end
+        end
 
-            it 'has the version embedded as the user has the view work package permission' do
-              is_expected.to be_json_eql('Version'.to_json).at_path("#{embedded_path}/_type")
-              is_expected.to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
-            end
+        context 'category set' do
+          let!(:category) { FactoryGirl.create :category, project: project }
+
+          before do
+            work_package.category = category
+          end
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'category' }
+            let(:href) { api_v3_paths.category(category.id) }
+            let(:title) { category.name }
+          end
+
+          it 'has the category embedded' do
+            is_expected.to have_json_type(Hash).at_path('_embedded/category')
+            is_expected.to be_json_eql('Category'.to_json).at_path("#{embedded_path}/_type")
+            is_expected.to be_json_eql(category.name.to_json).at_path("#{embedded_path}/name")
           end
         end
       end
@@ -479,17 +534,42 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
         end
 
-        context 'parent' do
-          let(:work_package) {
-            FactoryGirl.create(:work_package,
-                               project: project,
-                               parent_id: forbidden_work_package.id)
-          }
-          let!(:forbidden_work_package) do
-            FactoryGirl.create(:work_package, project: forbidden_project)
+        describe 'parent' do
+          let(:visible_parent) { FactoryGirl.create(:work_package, project: project) }
+          let(:invisible_parent) { FactoryGirl.create(:work_package, project: forbidden_project) }
+          let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+
+          context 'no parent' do
+            it_behaves_like 'has an empty link' do
+              let(:link) { 'parent' }
+            end
           end
 
-          it { expect(subject).to_not have_json_path('_links/parent') }
+          context 'parent is visible' do
+            let(:work_package) {
+              FactoryGirl.create(:work_package,
+                                 project: project,
+                                 parent_id: visible_parent.id)
+            }
+
+            it_behaves_like 'has a titled link' do
+              let(:link) { 'parent' }
+              let(:href) { api_v3_paths.work_package(visible_parent.id) }
+              let(:title) { visible_parent.subject }
+            end
+          end
+
+          context 'parent not visible' do
+            let(:work_package) {
+              FactoryGirl.create(:work_package,
+                                 project: project,
+                                 parent_id: invisible_parent.id)
+            }
+
+            it_behaves_like 'has no link' do
+              let(:link) { 'parent' }
+            end
+          end
         end
 
         context 'children' do
@@ -600,11 +680,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           it { is_expected.not_to have_json_path('_embedded/watchers') }
         end
-      end
-
-      describe 'category' do
-        it { is_expected.to have_json_type(Hash).at_path('_embedded/category') }
-        it { is_expected.to be_json_eql(%{Category}.to_json).at_path('_embedded/category/_type') }
       end
     end
   end

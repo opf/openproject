@@ -396,7 +396,7 @@ class ProjectsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     Project.find(1).enabled_module_names = ['work_package_tracking', 'news']
 
-    put :modules, id: 1, enabled_module_names: ['work_package_tracking', 'repository']
+    put :modules, id: 1, project: { enabled_module_names: ['work_package_tracking', 'repository'] }
     assert_redirected_to '/projects/ecookbook/settings/modules'
     assert_equal ['repository', 'work_package_tracking'], Project.find(1).enabled_module_names.sort
   end

@@ -41,40 +41,47 @@ describe ::API::V3::Versions::VersionRepresenter do
 
     it { should include_json('Version'.to_json).at_path('_type') }
 
-    context 'links' do
+    describe 'links' do
 
       it { should have_json_type(Object).at_path('_links') }
 
-      it 'to self' do
-        path = api_v3_paths.version(version.id)
-
-        expect(subject).to be_json_eql(path.to_json).at_path('_links/self/href')
-      end
-
-      context 'to the defining project' do
-        let(:path) { api_v3_paths.project(version.project.id) }
-
-        it 'exists if the user has the permission to see the project' do
-          allow(version.project).to receive(:visible?).with(user).and_return(true)
-
-          subject = representer.to_json
-
-          expect(subject).to be_json_eql(path.to_json).at_path('_links/definingProject/href')
-        end
-
-        it 'does not exist if the user lacks the permission to see the project' do
-          allow(version.project).to receive(:visible?).with(user).and_return(false)
-
-          subject = representer.to_json
-
-          expect(subject).to_not have_json_path('_links/definingProject/href')
+      describe 'to self' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'self' }
+          let(:href) { api_v3_paths.version(version.id) }
+          let(:title) { version.name }
         end
       end
 
-      it 'to available projects' do
-        path = api_v3_paths.versions_projects(version.id)
+      describe 'to the defining project' do
+        context 'if the user has the permission to see the project' do
+          before do
+            allow(version.project).to receive(:visible?).with(user).and_return(true)
+          end
 
-        expect(subject).to be_json_eql(path.to_json).at_path('_links/availableInProjects/href')
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'definingProject' }
+            let(:href) { api_v3_paths.project(version.project.id) }
+            let(:title) { version.project.name }
+          end
+        end
+
+        context 'if the user lacks the permission to see the project' do
+          before do
+            allow(version.project).to receive(:visible?).with(user).and_return(false)
+          end
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'definingProject' }
+          end
+        end
+      end
+
+      describe 'to available projects' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'availableInProjects' }
+          let(:href) { api_v3_paths.versions_projects(version.id) }
+        end
       end
     end
 

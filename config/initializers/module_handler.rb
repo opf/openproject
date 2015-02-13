@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-shared_examples_for 'action link' do
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :edit_work_packages]) }
-  let(:user) {
-    FactoryGirl.create(:user, member_in_project: project,
-                              member_through_role: role)
-  }
-
-  before { allow(User).to receive(:current).and_return(user) }
-
-  it { expect(subject).not_to have_json_path("_links/#{action}/href") }
-
-  describe 'with permission' do
-    before do
-      role.permissions << permission
-      role.save!
-    end
-
-    it { expect(subject).to have_json_path("_links/#{action}/href") }
-  end
+unless OpenProject::Configuration['disabled_modules'].empty?
+  to_disable = OpenProject::Configuration['disabled_modules']
+  OpenProject::Plugins::ModuleHandler.disable_modules(to_disable)
 end

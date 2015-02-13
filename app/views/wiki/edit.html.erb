@@ -39,12 +39,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="form--field -required">
     <%= f.text_field :comments, :size => 120 %>
   </div>
-  <div class="form--field">
-    <label>
-      <%= l(:label_attachment_plural) %>
-    </label>
-    <%= render :partial => 'attachments/form' %>
-  </div>
+
+  <%= render :partial => 'attachments/form' %>
 
   <hr>
   <%= f.submit l(:button_save), class: 'button -highlight' %>

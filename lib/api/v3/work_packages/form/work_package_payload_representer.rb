@@ -29,7 +29,6 @@
 
 require 'roar/decorator'
 require 'roar/json/hal'
-require 'api/v3/utilities/date_time_formatter'
 
 module API
   module V3
@@ -38,7 +37,6 @@ module API
         class WorkPackagePayloadRepresenter < Roar::Decorator
           include Roar::JSON::HAL
           include Roar::Hypermedia
-          include API::V3::Utilities
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -86,10 +84,10 @@ module API
           property :start_date,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     DateTimeFormatter::format_date(represented.start_date, allow_nil: true)
+                     datetime_formatter.format_date(represented.start_date, allow_nil: true)
                    },
                    setter: -> (value, *) {
-                     represented.start_date = DateTimeFormatter::parse_date(value,
+                     represented.start_date = datetime_formatter.parse_date(value,
                                                                             'startDate',
                                                                             allow_nil: true)
                    },
@@ -97,10 +95,10 @@ module API
           property :due_date,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     DateTimeFormatter::format_date(represented.due_date, allow_nil: true)
+                     datetime_formatter.format_date(represented.due_date, allow_nil: true)
                    },
                    setter: -> (value, *) {
-                     represented.due_date = DateTimeFormatter::parse_date(value,
+                     represented.due_date = datetime_formatter.parse_date(value,
                                                                           'dueDate',
                                                                           allow_nil: true)
                    },
@@ -119,6 +117,10 @@ module API
           end
 
           private
+
+          def datetime_formatter
+            API::V3::Utilities::DateTimeFormatter
+          end
 
           def work_package_attribute_links_representer(represented)
             ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.new represented

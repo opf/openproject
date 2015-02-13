@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,26 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require 'spec_helper'
+describe OpenProject::Plugins::ModuleHandler do
+  let!(:all_former_permissions) { Redmine::AccessControl.permissions }
 
-module API
-  module V3
-    module Priorities
-      class PriorityRepresenter < ::API::Decorators::Single
+  before do
+    disabled_modules = OpenProject::Plugins::ModuleHandler.disable_modules('repository')
+    OpenProject::Plugins::ModuleHandler.disable(disabled_modules)
+  end
 
-        self_link
+  after do
+    raise 'Test outdated' unless Redmine::AccessControl.instance_variable_defined?(:@permissions)
+    Redmine::AccessControl.instance_variable_set(:@permissions, all_former_permissions)
+    Redmine::AccessControl.clear_caches
+  end
 
-        property :id, render_nil: true
-        property :name
-        property :position
-        property :is_default
-        property :active, as: :isActive
-
-        def _type
-          'Priority'
-        end
-      end
+  context '#disable' do
+    it 'should disable repository module' do
+      expect(Redmine::AccessControl.available_project_modules).to_not include(:repository)
     end
   end
 end

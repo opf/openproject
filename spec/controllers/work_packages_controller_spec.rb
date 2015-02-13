@@ -1062,7 +1062,7 @@ describe WorkPackagesController, type: :controller do
     let(:notes) { 'Work package note' }
     let(:preview_params) {
       { work_package: { description: description,
-                        notes: notes } }
+                        journal_notes: notes } }
     }
 
     before { allow(User).to receive(:current).and_return(user) }

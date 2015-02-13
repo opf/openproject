@@ -244,6 +244,12 @@ class PermittedParams < Struct.new(:params, :current_user)
                                          :lock_version)
   end
 
+  def wiki_page_rename
+    permitted = permitted_attributes(:wiki_page)
+
+    params.require(:page).permit(*permitted)
+  end
+
   def wiki_page
     permitted = permitted_attributes(:wiki_page)
 

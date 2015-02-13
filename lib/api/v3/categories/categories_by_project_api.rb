@@ -27,24 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
-    module Priorities
-      class PriorityRepresenter < ::API::Decorators::Single
+    module Categories
+      class CategoriesByProjectAPI < Grape::API
+        resources :categories do
+          before do
+            @categories = @project.categories
+          end
 
-        self_link
+          get do
+            self_link = api_v3_paths.categories(@project.identifier)
 
-        property :id, render_nil: true
-        property :name
-        property :position
-        property :is_default
-        property :active, as: :isActive
-
-        def _type
-          'Priority'
+            CategoryCollectionRepresenter.new(@categories,
+                                              @categories.count,
+                                              self_link)
+          end
         end
       end
     end

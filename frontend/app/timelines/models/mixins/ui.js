@@ -608,8 +608,10 @@ module.exports = function($timeout) {
     bustVerticalOffsetCache: function(tree) {
       tree.iterateWithChildren(function(node) {
         var currentElement = node.getDOMElement();
-        currentElement.removeAttr("data-vertical-offset");
-        currentElement.removeAttr("data-vertical-bottom-offset");
+        if (currentElement) {
+          currentElement.removeAttr("data-vertical-offset");
+          currentElement.removeAttr("data-vertical-bottom-offset");
+        }
       });
     },
     rebuildForeground: function(tree) {
@@ -655,6 +657,9 @@ module.exports = function($timeout) {
 
       tree.iterateWithChildren(function(node, indent, index) {
         var currentElement = node.getDOMElement();
+        if (!currentElement) {
+          return;
+        }
         var currentOffset = timeline.getRelativeVerticalOffset(currentElement);
         var previousElement, previousEnd, groupHeight;
         var groupingChanged = false;
