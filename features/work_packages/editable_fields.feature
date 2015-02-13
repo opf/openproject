@@ -65,7 +65,6 @@ Feature: Fields editable on work package edit
       | pe1      | pe1 description | 2013-01-01 | 2013-12-31 | 30         | Phase | manager     | manager     | prio1    | parentpe | 5               | version1      |
 
     When I go to the edit page of the work package called "pe1"
-    And I follow "More"
 
     Then I should see the following fields:
       | Type            | Phase            |

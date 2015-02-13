@@ -44,27 +44,26 @@ See doc/COPYRIGHT.rdoc for more details.
       <strong><%= l(:text_destroy_what_to_do) %></strong>
     </p>
 
-    <%= fields_for :to_do, builder: TabularFormBuilder do |f| %>
+    <%= fields_for :to_do do |f| %>
       <div class="form--field">
-
-        <%= f.radio_button 'action', 'destroy' %>
-        <%= f.label 'action_destroy', l(:text_destroy) %>
-
+        <%= styled_label_tag :to_do_action_destroy, l(:text_destroy) %>
+        <div class="form--field-container">
+          <%= styled_radio_button_tag 'to_do[action]', 'destroy' %>
+        </div>
       </div>
       <div class="form--field">
-
-        <%= f.radio_button 'action' , 'nullify' %>
-        <%= f.label 'action_nullify', l(:text_assign_to_project) %>
-
+        <%=styled_label_tag 'to_do_action_nullify', l(:text_assign_to_project) %>
+        <div class="form--field-container">
+          <%= styled_radio_button_tag 'to_do[action]' , 'nullify' %>
+        </div>
       </div>
       <div class="form--field">
-
-        <%= f.radio_button 'action', 'reassign', :onclick => 'if(jQuery("#to_do_action_reassign").prop("checked")) { jQuery("#to_do_reassign_to_id").focus(); }' %>
-        <%= f.label 'action_reassign', l(:text_reassign) %>
-
-        <%= f.label 'reassign_to_id', l(:text_reassign_to) %>
-        <%= f.text_field 'reassign_to_id', :value => params[:reassign_to_id], :size => 6, :onfocus => 'jQuery("#to_do_action_reassign").prop("checked", true);' %>
-
+        <%= styled_label_tag 'to_do_action_reassign', l(:text_reassign) %>
+        <div class="form--field-container">
+          <%= styled_radio_button_tag 'to_do[action]', 'reassign', :onclick => 'if(jQuery("#to_do_action_reassign").prop("checked")) { jQuery("#to_do_reassign_to_id").focus(); }' %>
+          <%= styled_label_tag 'to_do_reassign_to_id', l(:text_reassign_to) %>
+          <%= f.text_field 'reassign_to_id', :value => params[:reassign_to_id], :size => 6, :onfocus => 'jQuery("#to_do_action_reassign").prop("checked", true);' %>
+        </div>
       </div>
     <% end %>
   </div>
