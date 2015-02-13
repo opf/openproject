@@ -56,7 +56,7 @@ module API
 
             # do not allow to skip statuses without intermediate saving
             if @work_package.persisted? && @work_package.status_id_changed?
-              status_origin = @work_package.class.find(represented.id)
+              status_origin = @work_package.class.find(@work_package.id)
             end
 
             status_origin.new_statuses_allowed_to(user)
