@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-unless OpenProject::Configuration['disabled_modules'].empty?
-  to_disable = OpenProject::Configuration['disabled_modules']
+unless OpenProject::Configuration.disabled_modules.empty?
+  to_disable = OpenProject::Configuration.disabled_modules
   OpenProject::Plugins::ModuleHandler.disable_modules(to_disable)
 end
