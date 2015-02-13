@@ -35,10 +35,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <div style="display:none;">
     <%= f.fields_for :options, timeline_options do |ff| %>
       <div class="form--field">
-        <%= ff.check_box :exclude_reporters, label: l('timelines.filter.exclude_reporters') %>
+        <%= ff.check_box :exclude_reporters, { label: l('timelines.filter.exclude_reporters') }, :yes, :no %>
       </div>
       <div class="form--field">
-        <%= ff.check_box :exclude_empty, label:  l('timelines.filter.exclude_empty') %>
+        <%= ff.check_box :exclude_empty, { label: l('timelines.filter.exclude_empty') }, :yes, :no %>
       </div>
       <div class="form--field">
         <% if User.current.impaired? %>

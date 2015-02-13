@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div style="display:none;">
     <%= f.fields_for :options, timeline_options do |ff| %>
       <div class="form--field">
-        <%= ff.check_box :grouping_one_enabled, label:  l('timelines.filter.grouping_one') %>
+        <%= ff.check_box :grouping_one_enabled, { label: l('timelines.filter.grouping_one') }, :yes, :no %>
       </div>
       <div class="form--field">
         <% if User.current.impaired? %>
@@ -66,7 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
            { label: l('timelines.filter.sort.sortation') }) %>
       </div>
       <div class="form--field">
-        <%= ff.check_box :grouping_two_enabled, label: l('timelines.filter.grouping_two') %>
+        <%= ff.check_box :grouping_two_enabled, { label: l('timelines.filter.grouping_two') }, :yes, :no %>
       </div>
       <div class="form--field">
         <% if User.current.impaired? %>
@@ -94,7 +94,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= ff.select(:grouping_two_sort, [[l('timelines.filter.sort.default'), '0'], [l('timelines.filter.sort.date'), '1'], [l('timelines.filter.sort.alphabet'), '2']], label: l('timelines.filter.sort.sortation') ) %>
       </div>
       <div class="form--field">
-        <%= ff.check_box :hide_other_group, label: I18n.t('timelines.filter.grouping_hide_group', :group => l('timelines.filter.grouping_other')) %>
+        <%= ff.check_box :hide_other_group, { label: I18n.t('timelines.filter.grouping_hide_group', :group => l('timelines.filter.grouping_other')) }, :yes, :no %>
       </div>
     <% end %>
   </div>
