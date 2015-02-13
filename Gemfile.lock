@@ -105,8 +105,6 @@ GEM
     bourbon (4.0.2)
       sass (~> 3.3)
       thor
-    bourne (1.4.0)
-      mocha (~> 0.13.2)
     builder (3.0.4)
     byebug (2.7.0)
       columnize (~> 0.3)
@@ -226,13 +224,10 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    metaclass (0.0.1)
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.6.0)
     minisyntax (0.2.3)
-    mocha (0.13.3)
-      metaclass (~> 0.0.1)
     multi_json (1.10.1)
     multi_test (0.0.2)
     multi_xml (0.5.5)
@@ -365,10 +360,9 @@ GEM
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
       shoulda-matchers (>= 1.4.1, < 3.0)
-    shoulda-context (1.1.2)
-    shoulda-matchers (2.1.0)
+    shoulda-context (1.2.1)
+    shoulda-matchers (2.4.0)
       activesupport (>= 3.0.0)
-      bourne (~> 1.3)
     simplecov (0.8.0.pre)
       multi_json
       simplecov-html (~> 0.7.1)
@@ -445,7 +439,7 @@ DEPENDENCIES
   grape (~> 0.7.0)
   gravatar_image_tag (~> 1.2.0)
   htmldiff
-  i18n (>= 0.6.8)
+  i18n (~> 0.6.8)
   i18n-js (~> 3.0.0.rc6)
   jruby-openssl
   json_spec
@@ -494,7 +488,7 @@ DEPENDENCIES
   sass-rails!
   selenium-webdriver (~> 2.43.0)
   shoulda
-  shoulda-matchers
+  shoulda-matchers (~> 2.4.0)
   simplecov (= 0.8.0.pre)
   sprockets!
   sprockets-rails!
