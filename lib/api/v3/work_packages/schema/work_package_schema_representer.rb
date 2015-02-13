@@ -34,51 +34,19 @@ module API
   module V3
     module WorkPackages
       module Schema
-        class WorkPackageSchemaRepresenter < ::API::Decorators::Single
-          def self.schema(property,
-                          type:,
-                          title: WorkPackage.human_attribute_name(property),
-                          required: true,
-                          writable: true,
-                          min_length: nil,
-                          max_length: nil)
-            raise ArgumentError if property.nil?
-
-            schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
-                                                                      name: title)
-            schema.required = required
-            schema.writable = writable
-            schema.min_length = min_length if min_length
-            schema.max_length = max_length if max_length
-
-            property property,
-                     getter: -> (*) { schema },
-                     writeable: false
+        class WorkPackageSchemaRepresenter < ::API::Decorators::Schema
+          def self.represented_class
+            WorkPackage
           end
 
-          def self.schema_with_allowed_link(property,
-                                            type: property.to_s.camelize,
-                                            title: WorkPackage.human_attribute_name(property),
-                                            href_callback:,
-                                            required: true,
-                                            writable: true)
-            raise ArgumentError if property.nil?
+          def self.create(work_package_schema, context = {})
+            klass = Class.new(WorkPackageSchemaRepresenter)
+            injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
+            work_package_schema.available_custom_fields.each do |custom_field|
+              injector.inject_schema(custom_field)
+            end
 
-            property property,
-                     exec_context: :decorator,
-                     getter: -> (*) {
-                       representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
-                         type: type,
-                         name: title)
-                       representer.required = required
-                       representer.writable = writable
-
-                       if represented.defines_assignable_values?
-                         representer.allowed_values_href = instance_eval(&href_callback)
-                       end
-
-                       representer
-                     }
+            klass.new(work_package_schema, context)
           end
 
           schema :_type,

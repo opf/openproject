@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
+  let(:custom_field) { FactoryGirl.build(:custom_field) }
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
@@ -36,7 +37,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:schema) {
     ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
   }
-  let(:representer) { described_class.new(schema, current_user: current_user) }
+  let(:representer) { described_class.create(schema, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -470,6 +471,20 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
             let(:path) { 'responsible' }
           end
         end
+      end
+    end
+
+    describe 'custom fields' do
+      let(:injector) { double('injector')}
+
+      before do
+        allow(schema).to receive(:available_custom_fields).and_return([custom_field])
+        allow(::API::V3::Utilities::CustomFieldInjector).to receive(:new).and_return(injector)
+      end
+
+      it 'contains the custom field' do
+        expect(injector).to receive(:inject_schema).with(custom_field)
+        representer.to_json
       end
     end
   end
