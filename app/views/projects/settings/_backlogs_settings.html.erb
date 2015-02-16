@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% statuses_done_for_project = @project.done_statuses.select(:id).map(&:id) %>
 
-<%= form_tag(:controller => '/projects', :action => "project_done_statuses", :id => @project) do %>
+<%= styled_form_tag(:controller => '/projects', :action => "project_done_statuses", :id => @project) do %>
 
 <table class="list">
   <thead>
@@ -48,8 +48,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </td>
     <td style="text-align:center">
       <% checkbox_id = status.name.parameterize.underscore %>
-      <%= label_tag checkbox_id, l('backlogs.label_is_done_status', status_name: status.name), class: 'hidden-for-sighted' %>
-      <%= (check_box_tag 'statuses[][status_id]', status.id.to_s, statuses_done_for_project.include?(status.id), id: checkbox_id) %>
+      <%= styled_label_tag checkbox_id, l('backlogs.label_is_done_status', status_name: status.name), class: 'hidden-for-sighted' %>
+      <%= (styled_check_box_tag 'statuses[][status_id]', status.id.to_s, statuses_done_for_project.include?(status.id), id: checkbox_id) %>
     </td>
   </tr>
 <% end %>
@@ -61,6 +61,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%=l('backlogs.rebuild_positions')%></h2>
 
-<%= form_tag(:controller => '/projects', :action => "rebuild_positions", :id => @project) do %>
+<%= styled_form_tag(:controller => '/projects', :action => "rebuild_positions", :id => @project) do %>
   <p><%= submit_tag l('backlogs.rebuild'), class: 'button' %></p>
 <% end %>
