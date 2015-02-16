@@ -35,10 +35,10 @@ describe 'API v3 String Objects resource' do
   describe 'string_objects' do
     subject(:response) { last_response }
 
-    let(:get_path) { '/api/v3/string_objects/foo%20bar' }
+    let(:path) { '/api/v3/string_objects/foo%20bar' }
 
     before do
-      get get_path
+      get path
     end
 
     it 'is successful' do
