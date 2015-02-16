@@ -14,8 +14,10 @@
     *
       cursor: wait!important
   &.preview
-    button, .help
+    button
       visibility: hidden
+    .help
+      display: none!important
     .btn-preview
       visibility: visible
     &.type-wiki_textarea .ined-controls
@@ -160,3 +162,11 @@
       width: 30px
       .icon-context:before
         padding: 0 1px 1px 0
+@media(max-width: 1440px)
+  .inplace-editor .jstElements .help a
+    width: 29px!important
+    display: inline-block
+    height: 25px
+    overflow: hidden
+    padding-top: 7px
+    margin-bottom: -2px
