@@ -134,97 +134,59 @@ module API
                                      api_v3_paths.available_responsibles(represented.project.id)
                                    }
 
-          property :status,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     assignable_statuses = represented.assignable_statuses_for(current_user)
-                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
-                       type: 'Status',
-                       name: WorkPackage.human_attribute_name(:status),
-                       current_user: current_user,
-                       value_representer: API::V3::Statuses::StatusRepresenter,
-                       link_factory: -> (status) {
-                         {
-                           href: api_v3_paths.status(status.id),
-                           title: status.name
-                         }
-                       })
+          schema_with_allowed_collection :status,
+                                         type: 'Status',
+                                         values_callback: -> (*) {
+                                           represented.assignable_statuses_for(current_user)
+                                         },
+                                         value_representer: Statuses::StatusRepresenter,
+                                         link_factory: -> (status) {
+                                           {
+                                             href: api_v3_paths.status(status.id),
+                                             title: status.name
+                                           }
+                                         }
 
-                     if represented.defines_assignable_values?
-                       representer.allowed_values = assignable_statuses
-                     end
+          schema_with_allowed_collection :category,
+                                         type: 'Category',
+                                         values_callback: -> (*) {
+                                           represented.assignable_categories
+                                         },
+                                         value_representer: Categories::CategoryRepresenter,
+                                         link_factory: -> (category) {
+                                           {
+                                             href: api_v3_paths.category(category.id),
+                                             title: category.name
+                                           }
+                                         },
+                                         required: false
 
-                     representer
-                   }
+          schema_with_allowed_collection :version,
+                                         type: 'Version',
+                                         values_callback: -> (*) {
+                                           represented.assignable_versions
+                                         },
+                                         value_representer: Versions::VersionRepresenter,
+                                         link_factory: -> (version) {
+                                           {
+                                             href: api_v3_paths.version(version.id),
+                                             title: version.name
+                                           }
+                                         },
+                                         required: false
 
-          property :category,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
-                       type: 'Category',
-                       name: WorkPackage.human_attribute_name(:category),
-                       value_representer: API::V3::Categories::CategoryRepresenter,
-                       link_factory: -> (category) {
-                         {
-                           href: api_v3_paths.category(category.id),
-                           title: category.name
-                         }
-                       })
-
-                     representer.required = false
-
-                     if represented.defines_assignable_values?
-                       representer.allowed_values = represented.assignable_categories
-                     end
-
-                     representer
-                   }
-
-          property :version,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
-                       type: 'Version',
-                       name: WorkPackage.human_attribute_name(:version),
-                       current_user: current_user,
-                       value_representer: API::V3::Versions::VersionRepresenter,
-                       link_factory: -> (version) {
-                         {
-                           href: api_v3_paths.version(version.id),
-                           title: version.name
-                         }
-                       })
-
-                     representer.required = false
-
-                     if represented.defines_assignable_values?
-                       representer.allowed_values = represented.assignable_versions
-                     end
-
-                     representer
-                   }
-
-          property :priority,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
-                       type: 'Priority',
-                       name: WorkPackage.human_attribute_name(:priority),
-                       current_user: current_user,
-                       value_representer: API::V3::Priorities::PriorityRepresenter,
-                       link_factory: -> (priority) {
-                         {
-                           href: api_v3_paths.priority(priority.id),
-                           title: priority.name
-                         }
-                       })
-
-                     if represented.defines_assignable_values?
-                       representer.allowed_values = represented.assignable_priorities
-                     end
-
-                     representer
-                   }
+          schema_with_allowed_collection :priority,
+                                         type: 'Priority',
+                                         values_callback: -> (*) {
+                                           represented.assignable_priorities
+                                         },
+                                         value_representer: Priorities::PriorityRepresenter,
+                                         link_factory: -> (priority) {
+                                           {
+                                             href: api_v3_paths.priority(priority.id),
+                                             title: priority.name
+                                           }
+                                         }
 
           def current_user
             context[:current_user]

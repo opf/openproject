@@ -76,6 +76,36 @@ module API
                  }
       end
 
+      def self.schema_with_allowed_collection(property,
+                                              type: property.to_s.camelize,
+                                              title: represented_class.human_attribute_name(property),
+                                              values_callback:,
+                                              value_representer:,
+                                              link_factory:,
+                                              required: true,
+                                              writable: true)
+        raise ArgumentError unless property
+
+        property property,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
+                     type: type,
+                     name: title,
+                     current_user: current_user,
+                     value_representer: value_representer,
+                     link_factory: -> (value) { instance_exec(value, &link_factory) })
+                   representer.required = required
+                   representer.writable = writable
+
+                   if represented.defines_assignable_values?
+                     representer.allowed_values = instance_exec(&values_callback)
+                   end
+
+                   representer
+                 }
+      end
+
       def self.represented_class
       end
     end
