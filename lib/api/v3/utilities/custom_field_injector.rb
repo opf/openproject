@@ -67,11 +67,13 @@ module API
           # TODO: 'text' as formattable
           @class.property property_name(custom_field.id),
                           getter: -> (*) {
-                            self.custom_value_for(custom_field).value
+                            custom_value = self.custom_value_for(custom_field)
+                            custom_value.value if custom_value
                           },
                           setter: -> (value, *) {
                             self.custom_field_values = { custom_field.id => value }
-                          }
+                          },
+                          render_nil: true
         end
 
         private
