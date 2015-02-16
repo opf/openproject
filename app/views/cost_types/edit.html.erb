@@ -28,11 +28,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= error_messages_for 'cost_type' %>
   <%= back_url_hidden_field_tag %>
 
-  <div class="box">
-    <p><%= f.text_field :name, :size => 40, :required => true %></p>
-    <p><%= f.text_field :unit, :size => 20, :required => true %></p>
-    <p><%= f.text_field :unit_plural, :size => 20, :required => true %></p>
-    <p><%= f.check_box :default %></p>
+  <div class="form--field">
+    <%= f.text_field :name, required: true %>
+  </div>
+  <div class="form--field">
+    <%= f.text_field :unit, required: true %>
+  </div>
+  <div class="form--field">
+    <%= f.text_field :unit_plural, required: true %>
+  </div>
+  <div class="form--field">
+    <%= f.check_box :default %>
   </div>
 
   <h3><%= l :caption_rate_history %></h3>
@@ -66,7 +72,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <label class="hidden-for-sighted", for="add_rate_date" %>"><%= l(:description_date_for_new_rate) %></label>
     <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "button icon icon-add"} %>
   </div>
-  <div><%= submit_tag l(:button_save), class: 'button -highlight' %></div>
+  <hr class="form--separator">
+  <%= submit_tag l(:button_save), class: 'button -highlight' %>
 <% end %>
 
 
