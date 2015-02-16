@@ -73,6 +73,10 @@ class Meeting < ActiveRecord::Base
     start_time.to_date if start_time.present?
   end
 
+  def start_time_hour
+    start_time.present? ? start_time.strftime('%H:%M') : '00:00'
+  end
+
   def start_month
     start_time.month
   end

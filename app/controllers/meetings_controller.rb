@@ -141,10 +141,9 @@ class MeetingsController < ApplicationController
 
   def convert_params
     start_date = params[:meeting].delete(:start_date)
-    start_time_4i = params[:meeting].delete(:"start_time(4i)")
-    start_time_5i = params[:meeting].delete(:"start_time(5i)")
+    start_time_hour = params[:meeting].delete(:"start_time_hour")
     begin
-      timestring = "#{start_date} #{start_time_4i}:#{start_time_5i}"
+      timestring = "#{start_date} #{start_time_hour}"
       time = Time.zone.parse(timestring)
       params[:meeting][:start_time] = time
     rescue ArgumentError
