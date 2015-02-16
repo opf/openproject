@@ -49,7 +49,7 @@ module API
               klass = Class.new(WorkPackageSchemaRepresenter)
               injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
               work_package_schema.available_custom_fields.each do |custom_field|
-                injector.inject_schema(custom_field)
+                injector.inject_schema(custom_field, wp_schema: work_package_schema)
               end
 
               klass.original_new(work_package_schema, context)

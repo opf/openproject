@@ -47,13 +47,19 @@ module API
           @class = representer_class
         end
 
-        def inject_schema(custom_field)
-          # TODO: support allowed values for list, version and user
-          @class.schema property_name(custom_field.id),
-                        type: TYPE_MAP[custom_field.field_format],
-                        title: custom_field.name,
-                        required: custom_field.is_required,
-                        writable: true
+        # N.B. accepting a wp_schema here is not too great, but seems like the best way
+        # to obtain available versions and users for WP custom fields
+        def inject_schema(custom_field, wp_schema: nil)
+          case custom_field.field_format
+            when 'version'
+              inject_version_schema(custom_field, wp_schema)
+            when 'user'
+              inject_user_schema(custom_field, wp_schema)
+            when 'list'
+              inject_list_schema(custom_field)
+            else
+              inject_basic_schema(custom_field)
+          end
         end
 
         def inject_value(custom_field)
@@ -72,6 +78,63 @@ module API
 
         def property_name(id)
           "customField#{id}".to_sym
+        end
+
+        def inject_version_schema(custom_field, wp_schema)
+          raise ArgumentError unless wp_schema
+
+          @class.schema_with_allowed_collection property_name(custom_field.id),
+                                                type: 'Version',
+                                                title: custom_field.name,
+                                                values_callback: -> (*) {
+                                                  wp_schema.assignable_versions
+                                                },
+                                                value_representer: Versions::VersionRepresenter,
+                                                link_factory: -> (version) {
+                                                  {
+                                                    href: api_v3_paths.version(version.id),
+                                                    title: version.name
+                                                  }
+                                                },
+                                                required: custom_field.is_required
+        end
+
+        def inject_user_schema(custom_field, wp_schema)
+          raise ArgumentError unless wp_schema
+
+          schema_with_allowed_link property_name(custom_field.id),
+                                   type: 'User',
+                                   title: custom_field.name,
+                                   required: custom_field.is_required,
+                                   href_callback: -> (*) {
+                                     api_v3_paths.available_assignees(wp_schema.project.id)
+                                   }
+        end
+
+        def inject_list_schema(custom_field)
+          representer = StringObjects::StringObjectRepresenter
+          @class.schema_with_allowed_collection property_name(custom_field.id),
+                                                type: 'StringObject',
+                                                title: custom_field.name,
+                                                values_callback: -> (*) {
+                                                  custom_field.possible_values
+                                                },
+                                                value_representer: representer,
+                                                link_factory: -> (value) {
+                                                  {
+                                                    href: api_v3_paths.string_object(value),
+                                                    title: value
+                                                  }
+                                                },
+                                                required: custom_field.is_required
+        end
+
+        def inject_basic_schema(custom_field)
+          @class.schema property_name(custom_field.id),
+                        type: TYPE_MAP[custom_field.field_format],
+                        title: custom_field.name,
+                        required: custom_field.is_required,
+                        writable: true
         end
       end
     end

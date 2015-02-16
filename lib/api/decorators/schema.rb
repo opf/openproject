@@ -108,6 +108,9 @@ module API
 
       def self.represented_class
       end
+
+      def current_user
+      end
     end
   end
 end
