@@ -31,7 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Utilities::CustomFieldInjector do
   let(:custom_field) {
     FactoryGirl.build(:custom_field,
-                      field_format: 'bool')
+                      field_format: 'bool',
+                      is_required: true)
   }
 
   describe 'TYPE_MAP' do
@@ -43,44 +44,30 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   end
 
   describe ':inject_schema' do
-    let(:schema_class) { Class.new(::API::Decorators::Schema) }
-    let(:rendered_json) { schema_class.new(nil).to_json }
+    let(:modified_class) { Class.new(::API::Decorators::Schema) }
     let(:cf_path) { "customField#{custom_field.id}" }
-    subject { described_class.new(schema_class) }
+    let(:injector) { described_class.new(modified_class) }
+    subject { modified_class.new(nil).to_json }
 
     before do
-      subject.inject_schema(custom_field)
+      injector.inject_schema(custom_field)
     end
 
-    it 'injects the schema' do
-      expect(rendered_json).to have_json_path(cf_path)
-    end
-
-    it 'sets the type' do
-      expect(rendered_json).to be_json_eql('Boolean'.to_json).at_path("#{cf_path}/type")
-    end
-
-    it 'sets the name' do
-      expect(rendered_json).to be_json_eql(custom_field.name.to_json).at_path("#{cf_path}/name")
-    end
-
-    it 'marks the field as writable' do
-      expect(rendered_json).to be_json_eql(true.to_json).at_path("#{cf_path}/writable")
-    end
-
-    context 'when the custom field is required' do
-      let(:custom_field) { FactoryGirl.build(:custom_field, is_required: true) }
-
-      it 'marks the field as required' do
-        expect(rendered_json).to be_json_eql(true.to_json).at_path("#{cf_path}/required")
+    describe 'basic custom field' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { cf_path }
+        let(:type) { 'Boolean' }
+        let(:name) { custom_field.name }
+        let(:required) { true }
+        let(:writable) { true }
       end
-    end
 
-    context 'when the custom field is not required' do
-      let(:custom_field) { FactoryGirl.build(:custom_field, is_required: false) }
+      context 'when the custom field is not required' do
+        let(:custom_field) { FactoryGirl.build(:custom_field, is_required: false) }
 
-      it 'marks the field as required' do
-        expect(rendered_json).to be_json_eql(false.to_json).at_path("#{cf_path}/required")
+        it 'marks the field as not required' do
+          is_expected.to be_json_eql(false.to_json).at_path("#{cf_path}/required")
+        end
       end
     end
   end

@@ -48,72 +48,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    shared_examples_for 'has basic schema properties' do
-      it 'exists' do
-        is_expected.to have_json_path(path)
-      end
-
-      it 'has a type' do
-        is_expected.to be_json_eql(type.to_json).at_path("#{path}/type")
-      end
-
-      it 'has a name' do
-        is_expected.to be_json_eql(name.to_json).at_path("#{path}/name")
-      end
-
-      it 'indicates if it is required' do
-        is_expected.to be_json_eql(required.to_json).at_path("#{path}/required")
-      end
-
-      it 'indicates if it is writable' do
-        is_expected.to be_json_eql(writable.to_json).at_path("#{path}/writable")
-      end
-    end
-
-    shared_examples_for 'links to allowed values directly' do
-      it 'has the expected number of links' do
-        is_expected.to have_json_size(hrefs.size).at_path("#{path}/_links/allowedValues")
-      end
-
-      it 'contains links to the allowed values' do
-        index = 0
-        hrefs.each do |href|
-          href_path = "#{path}/_links/allowedValues/#{index}/href"
-          is_expected.to be_json_eql(href.to_json).at_path(href_path)
-          index += 1
-        end
-      end
-
-      it 'has the expected number of embedded values' do
-        is_expected.to have_json_size(hrefs.size).at_path("#{path}/_embedded/allowedValues")
-      end
-
-      it 'embeds the allowed values' do
-        index = 0
-        hrefs.each do |href|
-          href_path = "#{path}/_embedded/allowedValues/#{index}/_links/self/href"
-          is_expected.to be_json_eql(href.to_json).at_path(href_path)
-          index += 1
-        end
-      end
-    end
-
-    shared_examples_for 'links to allowed values via collection link' do
-      it 'contains the link to the allowed values' do
-        is_expected.to be_json_eql(href.to_json).at_path("#{path}/_links/allowedValues/href")
-      end
-    end
-
-    shared_examples_for 'does not link to allowed values' do
-      it 'contains no link to the allowed values' do
-        is_expected.to_not have_json_path("#{path}/_links/allowedValues")
-      end
-
-      it 'does not embed allowed values' do
-        is_expected.to_not have_json_path("#{path}/_embedded/allowedValues")
-      end
-    end
-
     describe '_type' do
       it_behaves_like 'has basic schema properties' do
         let(:path) { '_type' }
@@ -482,8 +416,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         allow(::API::V3::Utilities::CustomFieldInjector).to receive(:new).and_return(injector)
       end
 
-      it 'contains the custom field' do
-        expect(injector).to receive(:inject_schema).with(custom_field)
+      it 'uses a custom field injector' do
+        expect(injector).to receive(:inject_schema).with(custom_field, wp_schema: schema)
         representer.to_json
       end
     end
