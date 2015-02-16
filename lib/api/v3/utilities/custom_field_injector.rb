@@ -102,13 +102,13 @@ module API
         def inject_user_schema(custom_field, wp_schema)
           raise ArgumentError unless wp_schema
 
-          schema_with_allowed_link property_name(custom_field.id),
-                                   type: 'User',
-                                   title: custom_field.name,
-                                   required: custom_field.is_required,
-                                   href_callback: -> (*) {
-                                     api_v3_paths.available_assignees(wp_schema.project.id)
-                                   }
+          @class.schema_with_allowed_link property_name(custom_field.id),
+                                          type: 'User',
+                                          title: custom_field.name,
+                                          required: custom_field.is_required,
+                                          href_callback: -> (*) {
+                                            api_v3_paths.available_assignees(wp_schema.project.id)
+                                          }
         end
 
         def inject_list_schema(custom_field)

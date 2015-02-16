@@ -47,10 +47,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     let(:modified_class) { Class.new(::API::Decorators::Schema) }
     let(:cf_path) { "customField#{custom_field.id}" }
     let(:injector) { described_class.new(modified_class) }
-    subject { modified_class.new(nil).to_json }
+    let(:schema) { nil }
+    subject { modified_class.new(schema).to_json }
 
     before do
-      injector.inject_schema(custom_field)
+      injector.inject_schema(custom_field, wp_schema: schema)
     end
 
     describe 'basic custom field' do
@@ -68,6 +69,96 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         it 'marks the field as not required' do
           is_expected.to be_json_eql(false.to_json).at_path("#{cf_path}/required")
         end
+      end
+    end
+
+    describe 'version custom field' do
+      let(:schema) {
+        double('WorkPackageSchema',
+               defines_assignable_values?: true,
+               assignable_versions: versions)
+      }
+      let(:custom_field) {
+        FactoryGirl.build(:custom_field,
+                          field_format: 'version',
+                          is_required: true)
+      }
+      let(:versions) { FactoryGirl.build_list(:version, 3) }
+
+      before do
+        allow(::API::V3::Versions::VersionRepresenter).to receive(:new).and_return(double())
+      end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { cf_path }
+        let(:type) { 'Version' }
+        let(:name) { custom_field.name }
+        let(:required) { true }
+        let(:writable) { true }
+      end
+
+      it_behaves_like 'links to allowed values directly' do
+        let(:path) { cf_path }
+        let(:hrefs) { versions.map { |version| "/api/v3/versions/#{version.id}" } }
+      end
+
+      it 'embeds allowed values' do
+        # N.B. we do not use the stricter 'links to and embeds allowed values directly' helper
+        # because this would not allow us to easily mock the VersionRepresenter away
+        is_expected.to have_json_size(versions.size).at_path("#{cf_path}/_embedded/allowedValues")
+      end
+    end
+
+    describe 'list custom field' do
+      let(:schema) {
+        double('WorkPackageSchema',
+               defines_assignable_values?: true)
+      }
+      let(:custom_field) {
+        FactoryGirl.build(:custom_field,
+                          field_format: 'list',
+                          is_required: true,
+                          possible_values: values)
+      }
+      let(:values) { ['foo', 'bar', 'baz'] }
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { cf_path }
+        let(:type) { 'StringObject' }
+        let(:name) { custom_field.name }
+        let(:required) { true }
+        let(:writable) { true }
+      end
+
+      it_behaves_like 'links to and embeds allowed values directly' do
+        let(:path) { cf_path }
+        let(:hrefs) { values.map { |value| "/api/v3/string_objects/#{value}" } }
+      end
+    end
+
+    describe 'user custom field' do
+      let(:schema) {
+        double('WorkPackageSchema',
+               defines_assignable_values?: true,
+               project: double(id: 42))
+      }
+      let(:custom_field) {
+        FactoryGirl.build(:custom_field,
+                          field_format: 'user',
+                          is_required: true)
+      }
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { cf_path }
+        let(:type) { 'User' }
+        let(:name) { custom_field.name }
+        let(:required) { true }
+        let(:writable) { true }
+      end
+
+      it_behaves_like 'links to allowed values via collection link' do
+        let(:path) { cf_path }
+        let(:href) { '/api/v3/projects/42/available_assignees' }
       end
     end
   end

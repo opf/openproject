@@ -218,7 +218,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'w/o allowed statuses' do
         before { allow(work_package).to receive(:new_statuses_allowed_to).and_return([]) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'status' }
           let(:hrefs) { [] }
         end
@@ -229,7 +229,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         before { allow(work_package).to receive(:new_statuses_allowed_to).and_return(statuses) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'status' }
           let(:hrefs) { statuses.map { |status| "/api/v3/statuses/#{status.id}" } }
         end
@@ -294,7 +294,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'w/o allowed versions' do
         before { allow(work_package).to receive(:assignable_versions).and_return([]) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'version' }
           let(:hrefs) { [] }
         end
@@ -305,7 +305,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         before { allow(work_package).to receive(:assignable_versions).and_return(versions) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'version' }
           let(:hrefs) { versions.map { |version| "/api/v3/versions/#{version.id}" } }
         end
@@ -332,7 +332,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'w/o allowed priorities' do
         before { allow(work_package).to receive(:assignable_priorities).and_return([]) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'priority' }
           let(:hrefs) { [] }
         end
@@ -343,7 +343,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         before { allow(work_package).to receive(:assignable_priorities).and_return(priorities) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'priority' }
           let(:hrefs) { priorities.map { |priority| "/api/v3/priorities/#{priority.id}" } }
         end

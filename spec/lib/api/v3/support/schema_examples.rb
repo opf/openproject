@@ -63,6 +63,10 @@ shared_examples_for 'links to allowed values directly' do
       index += 1
     end
   end
+end
+
+shared_examples_for 'links to and embeds allowed values directly' do
+  it_behaves_like 'links to allowed values directly'
 
   it 'has the expected number of embedded values' do
     is_expected.to have_json_size(hrefs.size).at_path("#{path}/_embedded/allowedValues")
