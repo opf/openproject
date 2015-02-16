@@ -187,6 +187,29 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'string object paths' do
+    describe '#string_object' do
+      subject { helper.string_object 'foo' }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to match(/^\/api\/v3\/string_objects\/foo/) }
+
+      it 'escapes correctly' do
+        value = 'foo/bar baz'
+        expect(helper.string_object value).to eql('/api/v3/string_objects/foo%2Fbar%20baz')
+      end
+    end
+
+    describe '#status' do
+      subject { helper.status 1 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to match(/^\/api\/v3\/statuses\/1/) }
+    end
+  end
+
   describe '#user' do
     subject { helper.user 1 }
 
