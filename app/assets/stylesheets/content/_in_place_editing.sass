@@ -1,6 +1,6 @@
 .inplace-editor
   display: inline
-  font-size: initial
+  font-size: medium
   .ined-input-wrapper-inner
     display: inline
   &.busy
@@ -58,9 +58,7 @@
     .ng-invalid
       background: lightpink!important
   .ined-dashboard
-    padding-left: 29px
     min-height: 42px
-    width: 502px
     .ined-errors
       float: right
       display: inline-block
@@ -88,6 +86,9 @@
         text-decoration: none
         &:hover
           background: #f0f0f0
+  &.type-text
+    .ined-dashboard
+      width: 90%
   &.type-wiki_textarea
     textarea
       min-height: 200px
@@ -108,7 +109,7 @@
       float: right
     .ined-dashboard
       padding-left: 0px
-      width: 526px
+      width: 100%
       .ined-controls
         left: 0px
         z-index: 1
