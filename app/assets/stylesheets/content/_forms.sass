@@ -233,6 +233,7 @@ fieldset.form--fieldset
   .form--field.-vertical &,
   .form.-vertical &
     @include grid-size(shrink)
+    max-width: none
 
   .form--field.-required > &
     &::after
@@ -266,6 +267,7 @@ fieldset.form--fieldset
   .form--field.-vertical &,
   .form.-vertical &
     @include grid-size(shrink)
+    max-width: none
 
 %form--field-after-container
   @include grid-content(10, 2)
@@ -282,6 +284,7 @@ fieldset.form--fieldset
   .form.-vertical &
     @include grid-size(shrink)
     @include grid-offset(0)
+    max-width: none
 
 .form--field-instructions
   @extend %form--field-after-container
