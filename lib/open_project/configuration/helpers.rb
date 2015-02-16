@@ -99,7 +99,7 @@ module OpenProject
         if value =~ / /
           value.split ' '
         else
-          value
+          Array(value)
         end
       end
 

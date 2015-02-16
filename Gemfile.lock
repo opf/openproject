@@ -85,6 +85,9 @@ GEM
       activerecord (>= 3.0)
     addressable (2.3.4)
     arel (3.0.3)
+    autoprefixer-rails (5.1.5)
+      execjs
+      json
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
     axiom-types (0.1.1)
@@ -447,6 +450,7 @@ DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
+  autoprefixer-rails
   awesome_nested_set
   bourbon (~> 4.1.1)
   capybara (~> 2.3.0)
