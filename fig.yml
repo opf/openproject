@@ -1,0 +1,40 @@
+## Basic fig.yml
+#
+# build the openproject image
+# $ fig build
+#
+# migrate the database
+# $ fig run web bundle exec rake db:migrate
+#
+# seed the database
+# $ fig run web bundle exec rake db:seed
+#
+# run database, openproject, and worker process
+# $ fig up -d
+
+web:
+  build: .
+  environment:
+    RAILS_ENV: production
+    DATABASE_URL: postgres://openproject:openproject@db:5432/openproject
+    SECRET_TOKEN: foobar
+  ports:
+    - "3000:3000"
+  links:
+    - db
+
+worker:
+  build: .
+  command: bundle exec rake jobs:work
+  environment:
+    RAILS_ENV: production
+    DATABASE_URL: postgres://openproject:openproject@db:5432/openproject
+    SECRET_TOKEN: foobar
+  links:
+    - db
+
+db:
+  image: postgres:9.4
+  environment:
+    POSTGRES_USER: openproject
+    POSTGRES_PASSWORD: openproject
