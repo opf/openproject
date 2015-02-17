@@ -155,7 +155,7 @@ group :test do
   gem "shoulda-matchers", '~> 2.5.0'
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
-  gem "codeclimate-test-reporter", :require => nil
+  gem "codeclimate-test-reporter", "~> 0.4.6", :require => nil
   gem 'test-unit', '2.5.5'
 end
 
