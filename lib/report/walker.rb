@@ -46,10 +46,10 @@ class Report::Walker
   end
 
   def walk_cell(cell)
-    cell ? for_cell[cell] : for_empty_cell[nil] 
+    cell ? for_cell[cell] : for_empty_cell[nil]
   end
 
-  def headers(result = nil, &block)
+  def headers(result = nil, &_block)
     @header_stack = []
     result ||= query.column_first
     sort result
@@ -76,7 +76,7 @@ class Report::Walker
   end
 
   def reverse_headers
-    fail "call header first" unless @header_stack
+    fail 'call header first' unless @header_stack
     first = true
     @header_stack.reverse_each do |list|
       list.each do |result, first_in_col, last_in_col|
@@ -87,7 +87,7 @@ class Report::Walker
   end
 
   def headers_empty?
-    fail "call header first" unless @header_stack
+    fail 'call header first' unless @header_stack
     @header_stack.empty?
   end
 

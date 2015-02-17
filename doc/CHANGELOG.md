@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
+* `#4179` Fix duplicated fieldset readout
 * `#4752` Fix button contrast
 * `#7505` HTML/scripts are not escaped when renaming cost reports
 * `#7904` Fixes: Filtering for more than one user in the cost report does not work

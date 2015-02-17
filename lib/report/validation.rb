@@ -31,7 +31,7 @@ module Report::Validation
     begin
       val_module = engine::Validation.const_get const_name
       singleton_class.send(:include, val_module)
-      val_method = "validate_" + val_method.to_s.pluralize
+      val_method = 'validate_' + val_method.to_s.pluralize
       if method(val_method)
         validations << val_method
       else
@@ -44,7 +44,7 @@ module Report::Validation
   end
 
   def errors
-    @errors ||= Hash.new { |h,k| h[k] = [] }
+    @errors ||= Hash.new { |h, k| h[k] = [] }
   end
 
   def validations
@@ -58,5 +58,4 @@ module Report::Validation
       values.empty? ? true : send(validation, *values)
     end
   end
-
 end

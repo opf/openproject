@@ -44,17 +44,17 @@ class Report < ActiveRecord::Base
     @chain_initializer ||= []
   end
 
-  def self.deserialize(hash, object = self.new)
+  def self.deserialize(hash, object = new)
     object.tap do |q|
-      hash[:filters].each {|name, opts| q.filter(name, opts) }
-      hash[:group_bys].each {|name, opts| q.group_by(name, opts) }
+      hash[:filters].each { |name, opts| q.filter(name, opts) }
+      hash[:group_bys].each { |name, opts| q.group_by(name, opts) }
     end
   end
 
   def serialize
     # have to take the reverse group_bys to retain the original order when deserializing
-    self.serialized = { :filters => (filters.collect(&:serialize).reject(&:nil?).sort {|a,b| a.first <=> b.first}),
-                        :group_bys => group_bys.collect(&:serialize).reject(&:nil?).reverse }
+    self.serialized = { filters: (filters.map(&:serialize).reject(&:nil?).sort { |a, b| a.first <=> b.first }),
+                        group_bys: group_bys.map(&:serialize).reject(&:nil?).reverse }
   end
 
   def deserialize
@@ -62,7 +62,7 @@ class Report < ActiveRecord::Base
       hash = serialized || serialize
       self.class.deserialize(hash, self)
     else
-      raise ArgumentError, "Cannot deserialize a report which already has a chain"
+      raise ArgumentError, 'Cannot deserialize a report which already has a chain'
     end
   end
 
@@ -76,7 +76,7 @@ class Report < ActiveRecord::Base
       params[:values].merge! filter_name => f.values
     end
     group_bys.each do |g|
-      params[:groups] ||= { :rows => [], :columns => [] }
+      params[:groups] ||= { rows: [], columns: [] }
       params[:groups][g.row? ? :rows : :columns] << g.class.underscore_name
     end
     params
@@ -121,7 +121,7 @@ class Report < ActiveRecord::Base
   end
 
   def build_new_chain
-    #FIXME: is there a better way to load all filter and groups?
+    # FIXME: is there a better way to load all filter and groups?
     self.class::Filter.all && self.class::GroupBy.all
 
     minimal_chain!
@@ -134,27 +134,27 @@ class Report < ActiveRecord::Base
   end
 
   def group_by(name, options = {})
-    add_chain self.class::GroupBy, name, options.reverse_merge(:type => :column)
+    add_chain self.class::GroupBy, name, options.reverse_merge(type: :column)
   end
 
   def column(name, options = {})
-    group_by name, options.merge(:type => :column)
+    group_by name, options.merge(type: :column)
   end
 
   def row(name, options = {})
-    group_by name, options.merge(:type => :row)
+    group_by name, options.merge(type: :row)
   end
 
   def table
     @table = self.class::Table.new(self)
   end
 
-  def group_bys(type=nil)
+  def group_bys(type = nil)
     chain.select { |c| c.group_by? && (type.nil? || c.type == type) }
   end
 
   def filters
-    chain.select { |c| c.filter? }
+    chain.select(&:filter?)
   end
 
   def depth_of(name)
@@ -162,11 +162,11 @@ class Report < ActiveRecord::Base
     @depths[name] ||= chain.inject(0) { |sum, child| child.type == name ? sum + 1 : sum }
   end
 
-  def_delegators  :transformer, :column_first, :row_first
-  def_delegators  :chain, :empty_chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result
-  def_delegators  :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :each_row, :count,
-                    :units, :final_number
-  def_delegators  :table, :row_index, :colum_index
+  def_delegators :transformer, :column_first, :row_first
+  def_delegators :chain, :empty_chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result
+  def_delegators :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :each_row, :count,
+                 :units, :final_number
+  def_delegators :table, :row_index, :colum_index
 
   def to_a
     chain.to_a
@@ -178,14 +178,14 @@ class Report < ActiveRecord::Base
 
   def size
     size = 0
-    recursive_each {|r| size += r.size }
+    recursive_each { |r| size += r.size }
     size
   end
 
   def cache_key
     deserialize unless @chain
     parts = [self.class.table_name.sub('_reports', '')]
-    parts.concat [filters.sort, group_bys].map { |l| l.map(&:cache_key).join(" ") }
+    parts.concat [filters.sort, group_bys].map { |l| l.map(&:cache_key).join(' ') }
     parts.join '/'
   end
 
@@ -202,7 +202,7 @@ class Report < ActiveRecord::Base
   end
 
   def public?
-    self.is_public
+    is_public
   end
 
   def private!

@@ -17,10 +17,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require "set"
+require 'set'
 
 class Report::Filter
-
   def self.all
     @all ||= Set[]
   end
@@ -30,7 +29,7 @@ class Report::Filter
   end
 
   def self.all_grouped
-    all.group_by { |f| f.applies_for }.to_a.sort { |a,b| a.first.to_s <=> b.first.to_s }
+    all.group_by(&:applies_for).to_a.sort { |a, b| a.first.to_s <=> b.first.to_s }
   end
 
   def self.from_hash

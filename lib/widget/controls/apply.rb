@@ -17,13 +17,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-
 class Widget::Controls::Apply < Widget::Controls
   def render
     write link_to(l(:button_apply),
                   '#',
                   id: 'query-icon-apply-button',
-                  :class => 'button_highlight',
+                  class: 'button_highlight',
                   :'data-target' => url_for(action: 'index', set_filter:  '1'))
   end
 end

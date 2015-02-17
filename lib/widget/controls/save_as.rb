@@ -21,12 +21,12 @@ class Widget::Controls::SaveAs < Widget::Controls
   def render
     if @subject.new_record?
       link_name = l(:button_save)
-      icon = "icon-save1"
+      icon = 'icon-save1'
     else
       link_name = l(:button_save_as)
-      icon = "icon-save1"
+      icon = 'icon-save1'
     end
-    button = link_to(link_name, '#', id: 'query-icon-save-as', :class => "button icon-context #{icon}")
+    button = link_to(link_name, '#', id: 'query-icon-save-as', class: "button icon-context #{icon}")
     write(button + render_popup)
     maybe_with_help
   end
@@ -38,12 +38,12 @@ class Widget::Controls::SaveAs < Widget::Controls
   def render_popup_form
     name = content_tag :p do
       label_tag(:query_name, required_field_name(Query.human_attribute_name(:name))) +
-      text_field_tag(:query_name, @subject.name, :required => true)
+      text_field_tag(:query_name, @subject.name, required: true)
     end
     if @options[:can_save_as_public]
       box = content_tag :p do
         label_tag(:query_is_public, Query.human_attribute_name(:is_public)) +
-          check_box_tag(:query_is_public)
+        check_box_tag(:query_is_public)
       end
       name + box
     else
@@ -56,19 +56,19 @@ class Widget::Controls::SaveAs < Widget::Controls
       save = link_to(l(:button_save),
                      '#',
                      id: 'query-icon-save-button',
-                     :class => 'button_highlight icon-context icon-save1',
+                     class: 'button_highlight icon-context icon-save1',
                      :"data-target" => url_for(action: 'create', set_filter: '1'))
 
       cancel = link_to(l(:button_cancel),
                        '#',
                        id: 'query-icon-save-as-cancel',
-                       :class => 'button icon-context icon-cancel')
+                       class: 'button icon-context icon-cancel')
       save + cancel
     end
   end
 
   def render_popup
-    content_tag :div, :id => 'save_as_form', :class => "button_form", :style => "display:none" do
+    content_tag :div, id: 'save_as_form', class: 'button_form', style: 'display:none' do
       render_popup_form + render_popup_buttons
     end
   end

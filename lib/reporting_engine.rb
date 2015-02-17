@@ -18,5 +18,5 @@
 #++
 
 module ReportingEngine
-  require "reporting_engine/engine"
+  require 'reporting_engine/engine'
 end

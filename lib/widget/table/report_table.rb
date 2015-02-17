@@ -40,10 +40,10 @@ class Widget::Table::ReportTable < Widget::Table
     @walker.for_row do |row, subrows|
       subrows.flatten!
       unless row.fields.empty?
-        subrows[0] = %Q{
+        subrows[0] = %{
             <th class='top left' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
               #{subrows[0].gsub("class='normal", "class='top")}
-            <th class='top right' rowspan='#{subrows.size}'>#{show_result(row)}#{debug_fields(row )}</th>
+            <th class='top right' rowspan='#{subrows.size}'>#{show_result(row)}#{debug_fields(row)}</th>
           }.html_safe
       end
       subrows.last.gsub!("class='normal", "class='bottom")
@@ -66,11 +66,11 @@ class Widget::Table::ReportTable < Widget::Table
     render_thead
     render_tfoot
     render_tbody
-    write "</table>"
+    write '</table>'
   end
 
   def render_tbody
-    write "<tbody>"
+    write '<tbody>'
     first = true
     odd = true
     walker.body do |line|
@@ -79,10 +79,10 @@ class Widget::Table::ReportTable < Widget::Table
         first = false
       end
       mark_penultimate_column! line
-      write "<tr class='#{odd ? "odd" : "even"}'>#{line}</tr>"
+      write "<tr class='#{odd ? 'odd' : 'even'}'>#{line}</tr>"
       odd = !odd
     end
-    write "</tbody>"
+    write '</tbody>'
   end
 
   def mark_penultimate_column!(line)
@@ -93,87 +93,86 @@ class Widget::Table::ReportTable < Widget::Table
 
   def render_thead
     return if (walker.headers || true) and walker.headers_empty?
-    write "<thead>"
+    write '<thead>'
     walker.headers do |list, first, first_in_col, last_in_col|
       write '<tr>' if first_in_col
       if first
-        write(content_tag(:th, :rowspan => @subject.depth_of(:column), :colspan => @subject.depth_of(:row)) do
-          ""
+        write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)) do
+          ''
         end)
       end
       list.each do |column|
-        opts = { :colspan => column.final_number(:column) }
-        opts.merge!(:class => "inner") if column.final?(:column)
+        opts = { colspan: column.final_number(:column) }
+        opts.merge!(class: 'inner') if column.final?(:column)
         write(content_tag(:th, opts) do
           show_row column
         end)
       end
       if first
-        write(content_tag(:th, :rowspan => @subject.depth_of(:column), :colspan => @subject.depth_of(:row)) do
-          ""
+        write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)) do
+          ''
         end)
       end
       write '</tr>' if last_in_col
     end
-    write "</thead>"
+    write '</thead>'
   end
 
   def render_tfoot
     return if walker.headers_empty?
-    write "<tfoot>"
+    write '<tfoot>'
     walker.reverse_headers do |list, first, first_in_col, last_in_col|
       if first_in_col
         write '<tr>'
         if first
-          write(content_tag(:th, :rowspan => @subject.depth_of(:column), :colspan => @subject.depth_of(:row), :class => 'top') do
-            " "
+          write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row), class: 'top') do
+            ' '
           end)
         end
       end
 
       list.each do |column|
-        opts = { :colspan => column.final_number(:column) }
-        opts.merge!(:class => "inner") if first
+        opts = { colspan: column.final_number(:column) }
+        opts.merge!(class: 'inner') if first
         write(content_tag(:th, opts) do
-          show_result(column) #{debug_fields(column)}
+          show_result(column) # {debug_fields(column)}
         end)
       end
       if last_in_col
         if first
           write(content_tag(:th,
-          :rowspan => @subject.depth_of(:column),
-          :colspan => @subject.depth_of(:row),
-          :class => 'top result') do
-            show_result @subject
-          end)
+                            rowspan: @subject.depth_of(:column),
+                            colspan: @subject.depth_of(:row),
+                            class: 'top result') do
+                  show_result @subject
+                end)
         end
         write '</tr>'
       end
     end
-    write "</tfoot>"
+    write '</tfoot>'
   end
 
   def debug_content
     content_tag :pre do
-      debug_pre_content = "[ Query ]" +
-      @subject.chain.each do |child|
-        "#{h child.class.inspect}, #{h child.type}"
-      end
+      debug_pre_content = '[ Query ]' +
+                          @subject.chain.each do |child|
+                            "#{h child.class.inspect}, #{h child.type}"
+                          end
 
-      debug_pre_content += "[ RESULT ]"
+      debug_pre_content += '[ RESULT ]'
       @subject.result.recursive_each_with_level do |level, result|
-        debug_pre_content += ">>> " * (level+1)
+        debug_pre_content += '>>> ' * (level + 1)
         debug_pre_content += h(result.inspect)
-        debug_pre_content += "   " * (level+1)
+        debug_pre_content += '   ' * (level + 1)
         debug_pre_content += h(result.type.inspect)
-        debug_pre_content += "   " * (level+1)
+        debug_pre_content += '   ' * (level + 1)
         debug_pre_content += h(result.fields.inspect)
       end
-      debug_pre_content += "[ HEADER STACK ]"
+      debug_pre_content += '[ HEADER STACK ]'
       debug_pre_content += walker.header_stack.each do |l|
         ">>> #{l.inspect}"
       end
     end
   end
 end
-

@@ -27,7 +27,7 @@ class Report < ActiveRecord::Base
     extend Forwardable
 
     # this attr. should point to a symbol useable for translations
-    inherited_attribute :applies_for, :default => :label_cost_entry_attributes
+    inherited_attribute :applies_for, default: :label_cost_entry_attributes
     def_delegators :'self.class', :table_joins, :table_name, :field, :display?, :help_text, :underscore_name
 
     def self.accepts_property(*list)
@@ -43,8 +43,8 @@ class Report < ActiveRecord::Base
 
     def self.base?
       superclass == engine::Chainable or self == engine::Chainable or
-      superclass == Chainable or self == Chainable or
-      self == engine::Filter::Base or self == engine::GroupBy::Base
+        superclass == Chainable or self == Chainable or
+        self == engine::Filter::Base or self == engine::GroupBy::Base
     end
 
     def self.base
@@ -62,7 +62,7 @@ class Report < ActiveRecord::Base
 
     def self.register(label)
       available << klass
-      set_inherited_attribute "label", label
+      set_inherited_attribute 'label', label
     end
 
     def self.table_joins
@@ -103,10 +103,10 @@ class Report < ActiveRecord::Base
       @cache_key ||= underscore_name
     end
 
-    inherited_attribute :properties, :list => true
+    inherited_attribute :properties, list: true
 
     def self.label
-      "Translation needed"
+      'Translation needed'
     end
 
     class << self
@@ -211,7 +211,7 @@ class Report < ActiveRecord::Base
     # See #chain_collect
     def subchain_collect(name, *args, &block)
       subchain = child.subchain_collect(name, *args, &block) unless bottom?
-      [* send(name, *args, &block) ].push(*subchain).compact.uniq
+      [* send(name, *args, &block)].push(*subchain).compact.uniq
     end
 
     # overwrite in subclass to maintain constisten state
@@ -258,7 +258,7 @@ class Report < ActiveRecord::Base
       self.class.display?
     end
 
-    inherited_attribute :display, :default => true
+    inherited_attribute :display, default: true
     def self.display!
       display true
     end
@@ -272,7 +272,7 @@ class Report < ActiveRecord::Base
       not_selectable!
     end
 
-    inherited_attribute :selectable, :default => true
+    inherited_attribute :selectable, default: true
     def self.selectable!
       selectable true
     end
@@ -295,7 +295,7 @@ class Report < ActiveRecord::Base
     def self.singleton
       class << self
         def new(chain = nil, options = {})
-          return chain if chain and chain.collect(&:class).include? self
+          return chain if chain and chain.map(&:class).include? self
           super
         end
       end
@@ -326,7 +326,7 @@ class Report < ActiveRecord::Base
     end
 
     def self.mapping_for(field)
-      @field_map ||= (engine::Filter.all + engine.GroupBy.all).inject(Hash.new {|h,k| h[k] = []}) do |hash,cbl|
+      @field_map ||= (engine::Filter.all + engine.GroupBy.all).inject(Hash.new { |h, k| h[k] = [] }) do |hash, cbl|
         hash[cbl.field] << cbl.mapping
       end
       @field_map[field]
@@ -342,6 +342,5 @@ class Report < ActiveRecord::Base
       @help_text = sym if sym
       @help_text
     end
-
   end
 end

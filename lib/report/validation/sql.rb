@@ -19,7 +19,7 @@
 
 module Report::Validation
   module Sql
-    def validate_sql(values = [])
+    def validate_sql(_values = [])
       raise NotImplementedError, "Haven't done SQL validation just yet!"
     end
   end
