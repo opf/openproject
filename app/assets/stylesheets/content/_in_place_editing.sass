@@ -138,6 +138,12 @@
         top: -4px
         left: -12px
         a
+          width: 29px
+          display: inline-block
+          height: 25px
+          overflow: hidden
+          padding-top: 7px
+          margin-bottom: -2px
           padding-left: 0
       .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
         display: inline
@@ -162,11 +168,10 @@
       width: 30px
       .icon-context:before
         padding: 0 1px 1px 0
-@media(max-width: 1440px)
+@include breakpoint(xlarge)
   .inplace-editor .jstElements .help a
-    width: 29px!important
-    display: inline-block
-    height: 25px
-    overflow: hidden
-    padding-top: 7px
-    margin-bottom: -2px
+    width: auto!important
+    display: inline!important
+    height: auto!important
+    padding-top: auto!important
+    margin-bottom: auto!important
