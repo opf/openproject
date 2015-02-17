@@ -419,7 +419,6 @@ GEM
     structured_warnings (0.1.4)
     svg-graph (1.0.5)
     syck (1.0.1)
-    test-unit (2.5.5)
     thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -539,7 +538,6 @@ DEPENDENCIES
   strong_parameters
   svg-graph
   syck
-  test-unit (= 2.5.5)
   thin
   timecop (~> 0.7.1)
   uglifier (>= 1.0.3)
