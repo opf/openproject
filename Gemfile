@@ -56,7 +56,7 @@ gem 'htmldiff'
 # used for statistics on svn repositories
 gem 'svg-graph'
 
-gem "date_validator"
+gem "date_validator", '~> 0.7.1'
 gem 'ruby-duration', '~> 3.2.0'
 
 # We rely on this specific version, which is the latest as of now (end of 2013),
