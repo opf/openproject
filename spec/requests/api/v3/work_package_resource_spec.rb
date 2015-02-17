@@ -167,10 +167,7 @@ h4. things we like
       context 'requesting nonexistent work package' do
         let(:get_path) { '/api/v3/work_packages/909090' }
 
-        it_behaves_like 'not found' do
-          let(:id) { 909090 }
-          let(:type) { 'WorkPackage' }
-        end
+        it_behaves_like 'not found'
       end
     end
 
@@ -221,10 +218,7 @@ h4. things we like
 
         include_context 'patch request'
 
-        it_behaves_like 'not found' do
-          let(:id) { work_package.id }
-          let(:type) { 'WorkPackage' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'no permission to edit the work package' do

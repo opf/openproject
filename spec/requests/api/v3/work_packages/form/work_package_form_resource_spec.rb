@@ -64,10 +64,7 @@ describe 'API v3 Work package form resource', type: :request do
         let(:current_user) { unauthorized_user }
       end
 
-      it_behaves_like 'not found' do
-        let(:id) { work_package.id }
-        let(:type) { 'WorkPackage' }
-      end
+      it_behaves_like 'not found'
     end
 
     context 'user with needed permissions' do

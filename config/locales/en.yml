@@ -1656,7 +1656,7 @@ en:
     errors:
       code_401: "You need to be authenticated to access this resource."
       code_403: "You are not authorized to access this resource."
-      code_404: "Couldn\'t find %{type} with id=%{id}"
+      code_404: "The requested resource could not be found."
       code_409: "Couldn\'t update the resource because of conflicting modifications."
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_resource:

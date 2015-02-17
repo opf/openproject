@@ -89,24 +89,10 @@ shared_examples_for 'unauthorized access' do
 end
 
 shared_examples_for 'not found' do
-  before do
-    unless defined?(id) && defined?(type)
-      message = <<MESSAGE
-  Required to have specified:
-    * id
-    * type
-  You can use 'let' for that.
-MESSAGE
-
-      raise message
-    end
-  end
-
   it_behaves_like 'error response',
                   404,
                   'NotFound' do
-
-    let(:message) { I18n.t('api_v3.errors.code_404', type: type, id: id) }
+    let(:message) { I18n.t('api_v3.errors.code_404') }
   end
 end
 
