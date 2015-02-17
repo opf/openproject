@@ -46,6 +46,7 @@ branches:
     - stable
     - release/3.0
     - release/4.0
+    - feature/ruby-2.2
 
 env:
   global:
