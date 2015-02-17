@@ -24,18 +24,19 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<div class="box tabular">
-  <!--[form:export_card_configuration]-->
-  <p><%= f.text_field :name, :required => true %></p>
-  <p><%= f.text_area :description, :class => "wiki-edit" %></p>
-  <p><%= f.text_field :per_page, :required => true, :label => I18n.t('export_config_per_page') %></p>
-  <p><%= f.text_field :page_size, :required => true, :value => "A4", :readonly => true, :label => I18n.t('export_config_page_size') %></p>
-  <P><%= f.select :orientation, [:landscape, :portrait], :required => true, :label => I18n.t('export_config_orientation') %></p>
-
-  <% field = (f.text_area :rows, :required => true, :class => "wiki-edit", :label => I18n.t('export_config_rows')) %>
-  <%= render partial: "rows_format_help", locals: { field: field } %>
-
-  <!--[eoform:export_card_configuration]-->
+<div class="form--field">
+  <%= f.text_field :name, required: true %>
 </div>
-<%= submit_tag l(@config.new_record? ? :button_create : :button_save),
-      class: 'button -highlight' %>
+<div class="form--field">
+  <%= f.text_area :description %>
+</div>
+<div class="form--field">
+  <%= f.number_field :per_page, required: true, label: I18n.t('export_config_per_page') %>
+</div>
+<div class="form--field">
+  <%= f.text_field :page_size, required: true, value: "A4", readonly: true, label: I18n.t('export_config_page_size')  %>
+</div>
+<div class="form--field">
+  <%= f.select :orientation, [:landscape, :portrait], :required => true, :label => I18n.t('export_config_orientation') %>
+</div>
+<%= render partial: "rows_format_help", locals: { f: f } %>
