@@ -181,6 +181,8 @@ module API
                           represented.fixed_version.to_s_for_project(represented.project)
                         }
 
+        linked_property :project
+
         linked_property :priority
 
         links :children do
@@ -237,13 +239,6 @@ module API
                  exec_context: :decorator,
                  setter: -> (value, *) { self.done_ratio = value },
                  writeable: false
-        property :version_id,
-                 getter: -> (*) { fixed_version.try(:id) },
-                 setter: -> (value, *) { self.fixed_version_id = value },
-                 render_nil: true
-        property :version_name,  getter: -> (*) { fixed_version.try(:name) }, render_nil: true
-        property :project_id, getter: -> (*) { project.id }
-        property :project_name, getter: -> (*) { project.try(:name) }
         property :parent_id, writeable: true
         property :created_at,
                  exec_context: :decorator,
@@ -290,6 +285,10 @@ module API
                  embedded: true,
                  exec_context: :decorator,
                  if: ->(*) { represented.fixed_version.present? }
+        property :project,
+                 embedded: true,
+                 class: ::Project,
+                 decorator: ::API::V3::Projects::ProjectRepresenter
         property :watchers,
                  embedded: true,
                  exec_context: :decorator,
