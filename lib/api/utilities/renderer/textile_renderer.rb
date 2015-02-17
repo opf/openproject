@@ -43,7 +43,7 @@ module API
         end
 
         def to_html
-          format_text(@text, object: @object, project: @project)
+          format_text(@text, format: 'textile', object: @object, project: @project)
         end
 
         def controller; end
