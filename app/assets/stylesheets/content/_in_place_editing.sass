@@ -1,4 +1,8 @@
+.select2-container
+  position: relative!important
 .inplace-editor
+  ul
+    margin-left: auto
   display: inline
   font-size: medium
   .ined-input-wrapper-inner
@@ -44,6 +48,7 @@
       margin-bottom: -1px
   .ined-read-value
     display: inline
+    position: relative
     &.default
       span
         font-style: italic
@@ -60,10 +65,8 @@
   .ined-dashboard
     min-height: 42px
     .ined-errors
-      float: right
-      display: inline-block
       line-height: 1.2em
-      width: 251px
+      width: 100%
       padding: 5px
       left: 251px
       bottom: -11px
@@ -102,19 +105,16 @@
       display: block
     .read-value-wrapper
       display: inline-block
-      width: 400px
+      width: 100%
     .editing-link-wrapper
-      position: relative
-      display: inline-block
-      float: right
+      top: 5px
+      right: 0px
     .ined-dashboard
       padding-left: 0px
       width: 100%
       .ined-controls
         left: 0px
         z-index: 1
-      .ined-errors
-        width: 307px
     .jstHandle
       display: none
     .jstElements
@@ -140,22 +140,13 @@
       .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
         display: inline
   &.type-select2
-    display: inline-block
-    width: 344px
     .select2-display-none
       display: none
-    .ui-select-choices
-      max-height: 100px
     input[type='text']
       width: 100%
     .ined-dashboard
       padding-left: 0px
-      width: 345px
-    .ined-errors
-      width: 225px
     .ined-controls
-    .ined-edit
-      height: 175px
     .ined-read-value
       position: relative
       display: block
@@ -164,7 +155,7 @@
         outline: 1px solid #cacaca
     .editing-link-wrapper
       position: absolute
-      right: -13px
+      right: -3px
       top: 1px
       width: 30px
       .icon-context:before
