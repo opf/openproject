@@ -42,14 +42,17 @@ module API
       property :format,
                exec_context: :decorator,
                getter: -> (*) { @format == '' ? 'plain' : @format },
-               writable: false
+               writable: false,
+               render_nil: true
       property :raw,
                exec_context: :decorator,
-               getter: -> (*) { represented }
+               getter: -> (*) { represented },
+               render_nil: true
       property :html,
                exec_context: :decorator,
                getter: -> (*) { to_html },
-               writable: false
+               writable: false,
+               render_nil: true
 
       def to_html
         format_text(represented, format: @format, object: @object)
