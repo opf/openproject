@@ -449,7 +449,7 @@ DEPENDENCIES
   multi_json
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.8.0)
-  nokogiri (>= 1.5.11)
+  nokogiri (~> 1.6.6)
   non-stupid-digest-assets
   object-daddy (~> 1.1.0)
   oj (~> 2.11.4)
