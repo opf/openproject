@@ -67,11 +67,7 @@ module API
           property :description,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     {
-                       format: 'textile',
-                       raw: represented.description,
-                       html: description_renderer.to_html
-                     }
+                     API::Decorators::Formatable.new(represented.description, object: represented)
                    },
                    setter: -> (value, *) { represented.description = value['raw'] },
                    render_nil: true
@@ -124,10 +120,6 @@ module API
 
           def work_package_attribute_links_representer(represented)
             ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.new represented
-          end
-
-          def description_renderer
-            ::API::Utilities::Renderer::TextileRenderer.new(represented.description, represented)
           end
         end
       end

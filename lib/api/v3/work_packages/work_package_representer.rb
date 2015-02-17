@@ -196,11 +196,7 @@ module API
         property :description,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   {
-                     format: 'textile',
-                     raw: represented.description,
-                     html: description_renderer.to_html
-                   }
+                   ::API::Decorators::Formatable.new(represented.description, object: represented)
                  },
                  setter: -> (value, *) { represented.description = value['raw'] },
                  render_nil: true
@@ -357,10 +353,6 @@ module API
         end
 
         private
-
-        def description_renderer
-          ::API::Utilities::Renderer::TextileRenderer.new(represented.description, represented)
-        end
 
         def current_user
           context[:current_user]

@@ -84,11 +84,8 @@ module API
         property :comment,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   {
-                     format: 'textile',
-                     raw: represented.notes,
-                     html: notes_renderer.to_html
-                   }
+                   ::API::Decorators::Formatable.new(represented.notes,
+                                                     object: represented.journable)
                  },
                  setter: -> (value, *) { represented.notes = value['raw'] },
                  render_nil: true
@@ -99,7 +96,7 @@ module API
                    html_details = render_details(represented)
                    formattables = details.zip(html_details)
 
-                   formattables.map { |d| { format: 'textile', raw: d[0], html: d[1] } }
+                   formattables.map { |d| { format: 'custom', raw: d[0], html: d[1] } }
                  },
                  render_nil: true
         property :version, render_nil: true
@@ -114,11 +111,6 @@ module API
         end
 
         private
-
-        def notes_renderer
-          ::API::Utilities::Renderer::TextileRenderer.new(represented.notes,
-                                                          represented.journable)
-        end
 
         def current_user_allowed_to_edit?
           (current_user_allowed_to(:edit_own_work_package_notes, represented.journable) && represented.editable_by?(@current_user)) || current_user_allowed_to(:edit_work_package_notes, represented.journable)
