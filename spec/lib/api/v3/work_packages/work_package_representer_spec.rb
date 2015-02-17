@@ -225,7 +225,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'custom fields' do
-      let(:custom_field) { FactoryGirl.build(:custom_field)}
+      let(:custom_field) { FactoryGirl.build(:custom_field) }
       let(:injector) { double('injector') }
 
       before do

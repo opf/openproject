@@ -51,14 +51,14 @@ module API
         # to obtain available versions and users for WP custom fields
         def inject_schema(custom_field, wp_schema: nil)
           case custom_field.field_format
-            when 'version'
-              inject_version_schema(custom_field, wp_schema)
-            when 'user'
-              inject_user_schema(custom_field, wp_schema)
-            when 'list'
-              inject_list_schema(custom_field)
-            else
-              inject_basic_schema(custom_field)
+          when 'version'
+            inject_version_schema(custom_field, wp_schema)
+          when 'user'
+            inject_user_schema(custom_field, wp_schema)
+          when 'list'
+            inject_list_schema(custom_field)
+          else
+            inject_basic_schema(custom_field)
           end
         end
 
@@ -67,7 +67,7 @@ module API
           # TODO: 'text' as formattable
           @class.property property_name(custom_field.id),
                           getter: -> (*) {
-                            custom_value = self.custom_value_for(custom_field)
+                            custom_value = custom_value_for(custom_field)
                             custom_value.value if custom_value
                           },
                           setter: -> (value, *) {

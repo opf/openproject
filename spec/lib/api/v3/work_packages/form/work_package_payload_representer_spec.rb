@@ -175,7 +175,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
     end
 
     describe 'custom fields' do
-      let(:custom_field) { FactoryGirl.build(:custom_field)}
+      let(:custom_field) { FactoryGirl.build(:custom_field) }
       let(:injector) { double('injector') }
 
       before do
