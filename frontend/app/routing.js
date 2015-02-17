@@ -42,7 +42,7 @@ angular.module('openproject')
       resolve: {
         latestTab: function($state) {
           var stateName = 'work-packages.list.details.overview'; // the default tab
-
+          
           return {
             getStateName: function() {
               return stateName;
@@ -76,7 +76,7 @@ angular.module('openproject')
     .state('work-packages.list.details.overview', {
       url: "/overview",
       controller: 'DetailsTabOverviewController',
-      templateUrl: "/templates/work_packages/tabs/overview.html",
+      templateUrl: "/templates/work_packages/tabs/overview.html"
     })
     .state('work-packages.list.details.activity', {
       url: "/activity",
