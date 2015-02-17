@@ -119,7 +119,7 @@ module API
       end
     end
 
-    rescue_from ActiveRecord::RecordNotFound do |e|
+    rescue_from ActiveRecord::RecordNotFound do
       api_error = ::API::Errors::NotFound.new(I18n.t('api_v3.errors.code_404'))
       representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
       error_response(status: api_error.code, message: representer.to_json)

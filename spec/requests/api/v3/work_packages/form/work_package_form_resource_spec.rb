@@ -266,7 +266,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                 it 'should respond with updated work package' do
                   expect(subject.body).to be_json_eql('2015-01-31'.to_json)
-                                            .at_path('_embedded/payload/startDate')
+                    .at_path('_embedded/payload/startDate')
                 end
               end
 
@@ -293,7 +293,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                 it 'should respond with updated work package' do
                   expect(subject.body).to be_json_eql('2015-01-31'.to_json)
-                                            .at_path('_embedded/payload/dueDate')
+                    .at_path('_embedded/payload/dueDate')
                 end
               end
 
@@ -562,9 +562,9 @@ describe 'API v3 Work package form resource', type: :request do
 
                 it 'should list the priorities' do
                   expect(subject.body).to be_json_eql(priority_link.to_json)
-                                            .at_path("#{links_path}/allowedValues/1/href")
+                    .at_path("#{links_path}/allowedValues/1/href")
                   expect(subject.body).to be_json_eql(other_priority_link.to_json)
-                                            .at_path("#{links_path}/allowedValues/0/href")
+                    .at_path("#{links_path}/allowedValues/0/href")
                 end
               end
 

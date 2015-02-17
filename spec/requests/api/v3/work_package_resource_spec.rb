@@ -69,8 +69,13 @@ h4. things we like
   }}
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines, :edit_work_packages]) }
-  let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
+  let(:role) do
+    FactoryGirl.create(:role,
+                       permissions: [:view_work_packages, :view_timelines, :edit_work_packages])
+  end
+  let(:current_user) do
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  end
   let(:watcher) do
     FactoryGirl
       .create(:user,  member_in_project: project, member_through_role: role)
@@ -100,7 +105,8 @@ h4. things we like
         'priority' => work_package.priority.name,
         'startDate' => work_package.start_date,
         'dueDate' => work_package.due_date,
-        'estimatedTime' => JSON.parse({ units: 'hours', value: work_package.estimated_hours }.to_json),
+        'estimatedTime' => JSON.parse({ units: 'hours',
+                                        value: work_package.estimated_hours }.to_json),
         'percentageDone' => work_package.done_ratio,
         'versionId' => work_package.fixed_version_id,
         'versionName' => work_package.fixed_version.try(:name),
@@ -123,7 +129,6 @@ h4. things we like
     end
 
     context 'when acting as a user with permission to view work package' do
-
       before(:each) do
         allow(User).to receive(:current).and_return current_user
         get get_path
@@ -160,7 +165,8 @@ h4. things we like
         end
 
         it 'should not resolve/show complex macros' do
-          expect(parsed_response['description']).to have_text('Macro timeline cannot be displayed.')
+          expect(parsed_response['description'])
+            .to have_text('Macro timeline cannot be displayed.')
         end
       end
 
@@ -188,7 +194,6 @@ h4. things we like
 
       it_behaves_like 'unauthorized access'
     end
-
   end
 
   # disabled the its below because the implementation was temporarily disabled
@@ -282,7 +287,9 @@ h4. things we like
         let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
         let(:params) { valid_params.merge(parentId: parent.id) }
 
-        before { allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true) }
+        before do
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+        end
 
         context 'w/o permission' do
           include_context 'patch request'
@@ -632,7 +639,7 @@ h4. things we like
 
           it 'should respond with the work package assigned to the priority' do
             expect(subject.body).to be_json_eql(target_priority.name.to_json)
-                                      .at_path('_embedded/priority/name')
+              .at_path('_embedded/priority/name')
           end
 
           it_behaves_like 'lock version updated'
