@@ -51,6 +51,14 @@ module API
               end
             end
 
+            def check_format(format)
+              supported_formats = [''] # we always support no formatting (aka 'plain')
+              supported_formats += Array(Redmine::WikiFormatting.format_names)
+              unless supported_formats.include?(format)
+                fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
+              end
+            end
+
             def setup_response
               status 200
               content_type 'text/html'
@@ -94,36 +102,21 @@ module API
                 context
               end
             end
-
-            def renderer(type)
-              case type
-              when :textile
-                ::API::Utilities::Renderer::TextileRenderer.new(request_body, context_object)
-              when :plain
-                ::API::Utilities::Renderer::PlainRenderer.new(request_body)
-              end
-            end
-
-            def render(type)
-              renderer(type).to_html
-            end
           end
 
-          resources :textile do
+          route_param :render_format do
+            before do
+              @format = params[:render_format]
+              @format = '' if @format == 'plain' # 'plain' is called '' internally
+            end
+
             post do
+              check_format(@format)
               check_content_type
               setup_response
 
-              render :textile
-            end
-          end
-
-          resources :plain do
-            post do
-              check_content_type
-              setup_response
-
-              render :plain
+              renderer = ::API::Utilities::TextRenderer.new(request_body, object: context_object, format: @format)
+              renderer.to_html
             end
           end
         end

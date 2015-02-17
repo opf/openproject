@@ -29,25 +29,24 @@
 
 module API
   module Utilities
-    module Renderer
-      class TextileRenderer
-        include ActionView::Helpers::UrlHelper
-        include OpenProject::StaticRouting::UrlHelpers
-        include OpenProject::TextFormatting
-        include WorkPackagesHelper
+    class TextRenderer
+      include ActionView::Helpers::UrlHelper
+      include OpenProject::StaticRouting::UrlHelpers
+      include OpenProject::TextFormatting
+      include WorkPackagesHelper
 
-        def initialize(text, object = nil)
-          @text = text
-          @object = object
-          @project = object.project if object.respond_to?(:project)
-        end
-
-        def to_html
-          format_text(@text, format: 'textile', object: @object, project: @project)
-        end
-
-        def controller; end
+      def initialize(text, format: nil, object: nil)
+        @text = text
+        @format = format
+        @object = object
+        @project = object.project if object.respond_to?(:project)
       end
+
+      def to_html
+        format_text(@text, format: @format, object: @object, project: @project)
+      end
+
+      def controller; end
     end
   end
 end
