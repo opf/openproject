@@ -78,8 +78,8 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              @representer = WorkPackageRepresenter.new(work_package,
-                                                        current_user: current_user)
+              @representer = WorkPackages::WorkPackageRepresenter.new(work_package,
+                                                                      current_user: current_user)
             end
 
             get do
