@@ -181,9 +181,11 @@ GEM
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
-    gon (4.0.0)
+    gon (5.2.3)
       actionpack (>= 2.3.0)
       json
+      multi_json
+      request_store (>= 1.0.5)
     grape (0.7.0)
       activesupport
       builder
@@ -316,7 +318,7 @@ GEM
       disposable (~> 0.0.4)
       representable (~> 1.8.1)
       uber (~> 0.0.4)
-    request_store (1.0.5)
+    request_store (1.1.0)
     roar (0.12.7)
       representable (>= 1.6.0)
     rspec (2.99.0)
@@ -436,7 +438,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   faker
   globalize
-  gon (~> 4.0)
+  gon (~> 5.2.3)
   grape (~> 0.7.0)
   gravatar_image_tag (~> 1.2.0)
   htmldiff
