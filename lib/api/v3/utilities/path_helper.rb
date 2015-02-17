@@ -66,10 +66,6 @@ module API
             "#{root}/categories/#{id}"
           end
 
-          def self.preview_textile(link)
-            preview_markup(:textile, link)
-          end
-
           def self.priorities
             "#{root}/priorities"
           end
@@ -92,6 +88,20 @@ module API
 
           def self.relation(id)
             "#{root}/relations/#{id}"
+          end
+
+          def self.render_markup(format: nil, link: nil)
+            format = format || Setting.text_formatting
+            format = 'plain' if format == ''
+
+            path = "#{root}/render/#{format}"
+            path += "?#{link}" if link
+
+            path
+          end
+
+          def self.render_textile(link)
+            render_markup(format: :textile, link: link)
           end
 
           def self.statuses
@@ -166,14 +176,6 @@ module API
             @@root_path ||= Class.new.tap do |c|
               c.extend(::API::V3::Utilities::PathHelper)
             end.root_path
-          end
-
-          def self.preview_markup(method, link)
-            path = "#{root}/render/#{method}"
-
-            path += "?#{link}" unless link.nil?
-
-            path
           end
         end
 
