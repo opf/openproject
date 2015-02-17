@@ -80,6 +80,11 @@ gem 'daemons'
 # (see https://community.openproject.org/work_packages/3029)
 gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
+# Rack::Attack is a rack middleware to protect your web app from bad clients. 
+# It allows whitelisting, blacklisting, throttling, and tracking based on arbitrary properties of the request.
+# https://github.com/kickstarter/rack-attack
+gem 'rack-attack'
+
 gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
 gem 'gon', '~> 4.0'

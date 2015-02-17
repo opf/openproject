@@ -132,6 +132,25 @@
 #       - plugins
 #       - info
 #
+# Also there is a posibility to specify which routes are forbidden,
+# they should be listed as an array in yml format more information
+# regarding yml format you can find here:
+# http://symfony.com/doc/current/components/yaml/yaml_format.html
+# You can also use wildcards (*) in your url
+#
+# production:
+#   blacklisted_routes:
+#     - 'admin/info'
+#     - 'admin/plugins'
+#     - 'export_card_configurations'
+#     - 'project_types'
+#     - 'colors'
+#     - 'settings'
+#     - 'admin/enumerations'
+#     - 'workflows/*'
+#     - 'statuses'
+#     - 'types'
+#     - 'admin/roles'
 
 
 # default configuration options for all environments
