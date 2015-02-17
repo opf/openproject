@@ -34,7 +34,6 @@ module API
   module V3
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
-
         self_link title_getter: -> (*) { represented.subject }
 
         link :update do
@@ -311,7 +310,8 @@ module API
         end
 
         def watchers
-          watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
+          watchers =
+            represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
           watchers.map do |watcher|
             ::API::V3::Users::UserRepresenter.new(watcher,
                                                   work_package: represented,
