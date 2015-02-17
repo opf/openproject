@@ -30,83 +30,95 @@
 module API
   module Decorators
     class Schema < Single
-      def self.schema(property,
-                      type:,
-                      title: represented_class.human_attribute_name(property),
-                      required: true,
-                      writable: true,
-                      min_length: nil,
-                      max_length: nil)
-        raise ArgumentError if property.nil?
+      class << self
+        def schema(property,
+                        type:,
+                        title: make_title(property),
+                        required: true,
+                        writable: true,
+                        min_length: nil,
+                        max_length: nil)
+          raise ArgumentError if property.nil?
 
-        schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
-                                                                  name: title)
-        schema.required = required
-        schema.writable = writable
-        schema.min_length = min_length if min_length
-        schema.max_length = max_length if max_length
+          schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
+                                                                    name: title)
+          schema.required = required
+          schema.writable = writable
+          schema.min_length = min_length if min_length
+          schema.max_length = max_length if max_length
 
-        property property,
-                 getter: -> (*) { schema },
-                 writeable: false
-      end
+          property property,
+                   getter: -> (*) { schema },
+                   writeable: false
+        end
 
-      def self.schema_with_allowed_link(property,
-                                        type: property.to_s.camelize,
-                                        title: represented_class.human_attribute_name(property),
-                                        href_callback:,
-                                        required: true,
-                                        writable: true)
-        raise ArgumentError if property.nil?
+        def schema_with_allowed_link(property,
+                                          type: make_type(property),
+                                          title: make_title(property),
+                                          href_callback:,
+                                          required: true,
+                                          writable: true)
+          raise ArgumentError if property.nil?
 
-        property property,
-                 exec_context: :decorator,
-                 getter: -> (*) {
-                   representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
-                     type: type,
-                     name: title)
-                   representer.required = required
-                   representer.writable = writable
+          property property,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
+                       type: type,
+                       name: title)
+                     representer.required = required
+                     representer.writable = writable
 
-                   if represented.defines_assignable_values?
-                     representer.allowed_values_href = instance_eval(&href_callback)
-                   end
+                     if represented.defines_assignable_values?
+                       representer.allowed_values_href = instance_eval(&href_callback)
+                     end
 
-                   representer
-                 }
-      end
+                     representer
+                   }
+        end
 
-      def self.schema_with_allowed_collection(property,
-                                              type: property.to_s.camelize,
-                                              title: represented_class.human_attribute_name(property),
-                                              values_callback:,
-                                              value_representer:,
-                                              link_factory:,
-                                              required: true,
-                                              writable: true)
-        raise ArgumentError unless property
+        def schema_with_allowed_collection(property,
+                                                type: make_type(property),
+                                                title: make_title(property),
+                                                values_callback:,
+                                                value_representer:,
+                                                link_factory:,
+                                                required: true,
+                                                writable: true)
+          raise ArgumentError unless property
 
-        property property,
-                 exec_context: :decorator,
-                 getter: -> (*) {
-                   representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
-                     type: type,
-                     name: title,
-                     current_user: current_user,
-                     value_representer: value_representer,
-                     link_factory: -> (value) { instance_exec(value, &link_factory) })
-                   representer.required = required
-                   representer.writable = writable
+          property property,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
+                       type: type,
+                       name: title,
+                       current_user: current_user,
+                       value_representer: value_representer,
+                       link_factory: -> (value) { instance_exec(value, &link_factory) })
+                     representer.required = required
+                     representer.writable = writable
 
-                   if represented.defines_assignable_values?
-                     representer.allowed_values = instance_exec(&values_callback)
-                   end
+                     if represented.defines_assignable_values?
+                       representer.allowed_values = instance_exec(&values_callback)
+                     end
 
-                   representer
-                 }
-      end
+                     representer
+                   }
+        end
 
-      def self.represented_class
+        def represented_class
+        end
+
+        private
+
+        def make_title(property_name)
+          represented_class.human_attribute_name(property_name)
+        end
+
+        def make_type(property_name)
+          property_name.to_s.camelize
+        end
       end
 
       def current_user
