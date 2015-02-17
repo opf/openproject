@@ -31,7 +31,7 @@
 describe('inplaceEditor Directive', function() {
   var compile, element, rootScope, scope, elementScope, $timeout, html,
   submitStub, updateWorkPackageStub, onSuccessSpy, onFailSpy, onFinallySpy,
-  WorkPackageService, form;
+  WorkPackageService, form, OverviewTabInplaceEditorConfig;
 
   form = {
     embedded: {
@@ -54,7 +54,9 @@ describe('inplaceEditor Directive', function() {
                     'openproject.layout',
                     'openproject.config',
                     'openproject.services'));
-  beforeEach(inject(function($rootScope, $compile, _$timeout_, _WorkPackageService_) {
+  beforeEach(inject(function(
+    $rootScope, $compile, _$timeout_,
+    _WorkPackageService_, _OverviewTabInplaceEditorConfig_) {
     html =
         '<h2 ' +
         'inplace-editor ' +
@@ -70,6 +72,7 @@ describe('inplaceEditor Directive', function() {
     scope = $rootScope.$new();
     $timeout = _$timeout_;
     WorkPackageService = _WorkPackageService_;
+    OverviewTabInplaceEditorConfig = _OverviewTabInplaceEditorConfig_;
 
     compile = function() {
       element = angular.element(html);
@@ -296,10 +299,43 @@ describe('inplaceEditor Directive', function() {
           });
         });
         describe('callbacks', function() {
-          describe('onSuccess', function() {
-            var emitSpy;
+          describe('startEditing', function() {
+            var registerActiveEditorScopeSpy;
             beforeEach(function() {
-              emitSpy = sinon.spy(elementScope, '$emit');
+              registerActiveEditorScopeSpy = sinon.spy(
+                OverviewTabInplaceEditorConfig,
+                'registerActiveEditorScope'
+              );
+              elementScope.startEditing();
+            });
+            it('should register the scope to a list of actives', function() {
+              registerActiveEditorScopeSpy.should.have.been.calledWith(elementScope);
+            });
+          });
+          describe('discardEditing', function() {
+            var deregisterActiveEditorScopeSpy;
+            beforeEach(function() {
+              deregisterActiveEditorScopeSpy = sinon.spy(
+                OverviewTabInplaceEditorConfig,
+                'deregisterActiveEditorScope'
+              );
+              elementScope.discardEditing();
+              $timeout.flush();
+            });
+            it('should register the scope to a list of actives', function() {
+              deregisterActiveEditorScopeSpy.should.have.been.calledWith(elementScope);
+            });
+          });
+          describe('onSuccess', function() {
+            var emitSpy, dispatchChangesSpy, acceptChangesSpy;
+            beforeEach(function() {
+              emitSpy = sinon.stub(elementScope, '$emit', function(eventName, callback) {
+                if (eventName == 'workPackageRefreshRequired') {
+                  callback(elementScope.entity);
+                }
+              });
+              acceptChangesSpy = sinon.spy(elementScope, 'acceptChanges');
+              dispatchChangesSpy = sinon.spy(OverviewTabInplaceEditorConfig, 'dispatchChanges');
               elementScope.onSuccess({
                 subject: 'Oh well'
               });
@@ -310,20 +346,39 @@ describe('inplaceEditor Directive', function() {
             it('should switch to read view', function() {
               expect(elementScope.isEditing).to.eq(false);
             });
+            it('should propagate changes to all editors', function() {
+              dispatchChangesSpy.should.have.been.calledWith(elementScope.entity);
+            });
           });
           describe('onFail', function() {
+            var dispatchErrorsSpy;
             beforeEach(function() {
+              dispatchErrorsSpy = sinon.spy(OverviewTabInplaceEditorConfig, 'dispatchErrors');
               elementScope.startEditing();
-              elementScope.onFail({
-                status: 500,
-                statusText: 'Nope'
+              sinon.stub(WorkPackageService, 'updateWorkPackage', function() {
+                return {
+                  then: angular.noop,
+                  catch: function(cb) {
+                    cb({
+                      status: 500,
+                      statusText: 'Nope'
+                    });
+                  }
+                };
               });
+              elementScope.submit();
             });
             it('should not leave the edit mode', function() {
               expect(elementScope.isEditing).to.eq(true);
             });
             it('should set the error', function() {
               expect(elementScope.error).to.eq('Nope');
+            });
+            it('should propagate errors to other editors', function() {
+              dispatchErrorsSpy.should.have.been.calledWith({
+                status: 500,
+                statusText: 'Nope'
+              });
             });
           });
           describe('onFinally', function() {

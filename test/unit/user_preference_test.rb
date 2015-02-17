@@ -36,7 +36,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert FactoryGirl.build(:user_preference).valid?
 
     # user required
-    refute FactoryGirl.build(:user_preference, :user => nil).valid?
+    refute FactoryGirl.build(:user_preference, user: nil).valid?
   end
 
   def test_create
@@ -49,7 +49,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
 
   def test_update
     user = FactoryGirl.create :user
-    pref = FactoryGirl.create :user_preference, :user => user, :hide_mail => true
+    pref = FactoryGirl.create :user_preference, user: user, hide_mail: true
     assert_equal true, user.pref.hide_mail
 
     user.pref['preftest'] = 'value'

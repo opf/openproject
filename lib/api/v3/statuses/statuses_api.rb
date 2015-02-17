@@ -33,6 +33,8 @@ module API
       class StatusesAPI < Grape::API
         resources :statuses do
           before do
+            authorize(:view_work_packages, global: true)
+
             @statuses = Status.all
           end
 

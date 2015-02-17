@@ -62,12 +62,20 @@ module API
             "#{project(project_id)}/categories"
           end
 
+          def self.category(id)
+            "#{root}/categories/#{id}"
+          end
+
           def self.preview_textile(link)
             preview_markup(:textile, link)
           end
 
           def self.priorities
             "#{root}/priorities"
+          end
+
+          def self.priority(id)
+            "#{priorities}/#{id}"
           end
 
           def self.projects
@@ -92,6 +100,10 @@ module API
 
           def self.status(id)
             "#{statuses}/#{id}"
+          end
+
+          def self.string_object(value)
+            "#{root}/string_objects/#{::ERB::Util::url_encode(value)}"
           end
 
           def self.users

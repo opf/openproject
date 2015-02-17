@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,5 +26,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module NewsHelper
+require 'spec_helper'
+require 'rack/test'
+
+describe 'API v3 String Objects resource' do
+  include Rack::Test::Methods
+
+  describe 'string_objects' do
+    subject(:response) { last_response }
+
+    let(:path) { '/api/v3/string_objects/foo%20bar' }
+
+    before do
+      get path
+    end
+
+    it 'is successful' do
+      expect(subject.status).to eql(200)
+    end
+
+    it 'returns the value' do
+      expect(subject.body).to be_json_eql('foo bar'.to_json).at_path('value')
+    end
+  end
 end

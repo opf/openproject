@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,25 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'roar/decorator'
+require 'roar/json/hal'
 
-shared_examples_for 'action link' do
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :edit_work_packages]) }
-  let(:user) {
-    FactoryGirl.create(:user, member_in_project: project,
-                              member_through_role: role)
-  }
+module API
+  module V3
+    module StringObjects
+      class StringObjectRepresenter < ::API::Decorators::Single
+        link :self do
+          {
+            href: api_v3_paths.string_object(represented)
+          }
+        end
 
-  before { allow(User).to receive(:current).and_return(user) }
+        property :value,
+                 exec_context: :decorator,
+                 getter: -> (*) { represented }
 
-  it { expect(subject).not_to have_json_path("_links/#{action}/href") }
-
-  describe 'with permission' do
-    before do
-      role.permissions << permission
-      role.save!
+        def _type
+          'StringObject'
+        end
+      end
     end
-
-    it { expect(subject).to have_json_path("_links/#{action}/href") }
   end
 end

@@ -39,6 +39,8 @@ FactoryGirl.define do
     sequence(:mail) { |n| "bob#{n}.bobbit@bob.com" }
     password 'adminADMIN!'
     password_confirmation 'adminADMIN!'
+    created_on Time.now
+    updated_on Time.now
 
     mail_notification(Redmine::VERSION::MAJOR > 0 ? 'all' : true)
 

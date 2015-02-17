@@ -51,7 +51,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_show
-    get :show, :id => 10
+    get :show, id: 10
     assert_response :success
     assert_template 'show'
   end
@@ -64,61 +64,61 @@ class GroupsControllerTest < ActionController::TestCase
 
   def test_create
     assert_difference 'Group.count' do
-      post :create, :group => {:lastname => 'New group'}
+      post :create, group: { lastname: 'New group' }
     end
     assert_redirected_to groups_path
   end
 
   def test_edit
-    get :edit, :id => 10
+    get :edit, id: 10
     assert_response :success
     assert_template 'edit'
   end
 
   def test_update
-    put :update, :id => 10, :group => {:lastname => 'new name'}
+    put :update, id: 10, group: { lastname: 'new name' }
     assert_redirected_to groups_path
   end
 
   def test_destroy
     assert_difference 'Group.count', -1 do
-      delete :destroy, :id => 10
+      delete :destroy, id: 10
     end
     assert_redirected_to groups_path
   end
 
   def test_add_users
     assert_difference 'Group.find(10).users.count', 2 do
-      post :add_users, :id => 10, :user_ids => ['2', '3']
+      post :add_users, id: 10, user_ids: ['2', '3']
     end
   end
 
   def test_remove_user
     assert_difference 'Group.find(10).users.count', -1 do
-      delete :remove_user, :id => 10, :user_id => '8'
+      delete :remove_user, id: 10, user_id: '8'
     end
   end
 
   def test_create_membership
     assert_difference 'Group.find(10).members.count' do
-      post :create_memberships, :id => 10, :membership => { :project_id => 2, :role_ids => ['1', '2']}
+      post :create_memberships, id: 10, membership: { project_id: 2, role_ids: ['1', '2'] }
     end
   end
 
   def test_edit_membership
     assert_no_difference 'Group.find(10).members.count' do
-      put :edit_membership, :id => 10, :membership_id => 6, :membership => { :role_ids => ['1', '3']}
+      put :edit_membership, id: 10, membership_id: 6, membership: { role_ids: ['1', '3'] }
     end
   end
 
   def test_destroy_membership
     assert_difference 'Group.find(10).members.count', -1 do
-      delete :destroy_membership, :id => 10, :membership_id => 6
+      delete :destroy_membership, id: 10, membership_id: 6
     end
   end
 
   def test_autocomplete_for_user
-    get :autocomplete_for_user, :id => 10, :q => 'mis'
+    get :autocomplete_for_user, id: 10, q: 'mis'
     assert_response :success
     users = assigns(:users)
     assert_not_nil users

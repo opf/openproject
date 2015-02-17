@@ -44,18 +44,18 @@ class ApiTest::HttpAcceptAuthTest < ActionDispatch::IntegrationTest
     Setting.login_required = '0'
   end
 
-  context "get /planning_elements" do
+  context 'get /planning_elements' do
     setup do
       project = Project.find('onlinestore')
-      EnabledModule.create(:project => project, :name => 'work_package_tracking')
+      EnabledModule.create(project: project, name: 'work_package_tracking')
     end
 
-    context "in :xml format" do
-      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, "/api/v2/projects/onlinestore/planning_elements.xml")
+    context 'in :xml format' do
+      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, '/api/v2/projects/onlinestore/planning_elements.xml')
     end
 
-    context "in :json format" do
-      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, "/api/v2/projects/onlinestore/planning_elements.json")
+    context 'in :json format' do
+      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, '/api/v2/projects/onlinestore/planning_elements.json')
     end
   end
 end

@@ -281,6 +281,21 @@ describe WorkPackage, type: :model do
     end
   end
 
+  describe :assignable_priorities do
+    let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+    let(:active_priority) { FactoryGirl.build(:priority, active: true) }
+    let(:inactive_priority) { FactoryGirl.build(:priority, active: false) }
+
+    before do
+      active_priority.save!
+      inactive_priority.save!
+    end
+
+    it 'returns active priorities' do
+      expect(work_package.assignable_priorities).to match_array([active_priority])
+    end
+  end
+
   describe :assignable_versions do
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []
@@ -1634,8 +1649,6 @@ describe WorkPackage, type: :model do
     }
 
     shared_examples_for 'returns spent hours' do |hours|
-      before { allow(User).to receive(:current).and_return(user) }
-
       subject { work_package.spent_hours }
 
       it { expect(subject).to eql(hours) }
@@ -1649,6 +1662,10 @@ describe WorkPackage, type: :model do
                            member_in_project: project,
                            member_through_role: role)
       }
+
+      before do
+        allow(User).to receive(:current).and_return(user)
+      end
 
       it_behaves_like 'returns spent hours', 44.0
 

@@ -56,6 +56,7 @@ module OpenProject
       'session_store'           => :cache_store,
       # url-path prefix
       'rails_relative_url_root' => '',
+      'rails_force_ssl' => false,
 
       # email configuration
       'email_delivery_method' => nil,
@@ -73,7 +74,11 @@ module OpenProject
       'disable_password_login' => false,
       'omniauth_direct_login_provider' => nil,
 
-      'disable_password_choice' => false
+      'disable_password_choice' => false,
+
+      'disabled_modules' => [], # allow to disable default modules
+      'hidden_menu_items' => {},
+      'blacklisted_routes' => []
     }
 
     @config = nil

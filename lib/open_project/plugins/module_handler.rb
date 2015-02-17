@@ -25,7 +25,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
+#++project_module
 
-module EnumerationsHelper
+module OpenProject::Plugins
+  class ModuleHandler
+    @@disabled_modules = []
+
+    class << self
+      def disable_modules(module_names)
+        @@disabled_modules += Array(module_names).map(&:to_sym)
+      end
+
+      def disable(disabled_modules)
+        disabled_modules.map do |module_name|
+          Redmine::AccessControl.remove_modules_permissions(module_name)
+        end
+      end
+    end
+
+    OpenProject::Application.config.to_prepare do
+      OpenProject::Plugins::ModuleHandler.disable(@@disabled_modules)
+    end
+  end
 end

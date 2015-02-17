@@ -50,7 +50,11 @@ describe ::API::V3::Activities::ActivityRepresenter do
     describe 'activity' do
       it { is_expected.to have_json_path('id') }
       it { is_expected.to have_json_path('version') }
-      it { is_expected.to have_json_path('createdAt') }
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { journal.created_at }
+        let(:json_path) { 'createdAt' }
+      end
 
       it_behaves_like 'API V3 formattable', 'comment' do
         let(:format) { 'textile' }

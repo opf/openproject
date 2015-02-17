@@ -32,20 +32,20 @@ class WikiTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_create
-    wiki = Wiki.new(:project => Project.find(2))
+    wiki = Wiki.new(project: Project.find(2))
     assert !wiki.save
     assert_equal 1, wiki.errors.count
 
-    wiki.start_page = "Start page"
+    wiki.start_page = 'Start page'
     assert wiki.save
   end
 
   def test_update
     @wiki = Wiki.find(1)
-    @wiki.start_page = "Another start page"
+    @wiki.start_page = 'Another start page'
     assert @wiki.save
     @wiki.reload
-    assert_equal "Another start page", @wiki.start_page
+    assert_equal 'Another start page', @wiki.start_page
   end
 
   def test_find_page
@@ -59,7 +59,7 @@ class WikiTest < ActiveSupport::TestCase
     page = WikiPage.find(10)
     assert_equal page, wiki.find_page('Этика_менеджмента')
 
-    page = WikiPage.generate!(:wiki => wiki, :title => '2009\\02\\09')
+    page = WikiPage.generate!(wiki: wiki, title: '2009\\02\\09')
     assert_equal page, wiki.find_page('2009\\02\\09')
   end
 
@@ -68,18 +68,18 @@ class WikiTest < ActiveSupport::TestCase
     assert_equal 'テスト', Wiki.titleize('テスト')
   end
 
-  context "#sidebar" do
+  context '#sidebar' do
     setup do
       @wiki = Wiki.find(1)
     end
 
-    should "return nil if undefined" do
+    should 'return nil if undefined' do
       assert_nil @wiki.sidebar
     end
 
-    should "return a WikiPage if defined" do
-      page = @wiki.pages.new(:title => 'Sidebar')
-      page.content = WikiContent.new(:text => 'Side bar content for test_show_with_sidebar')
+    should 'return a WikiPage if defined' do
+      page = @wiki.pages.new(title: 'Sidebar')
+      page.content = WikiContent.new(text: 'Side bar content for test_show_with_sidebar')
       page.save!
 
       assert_kind_of WikiPage, @wiki.sidebar

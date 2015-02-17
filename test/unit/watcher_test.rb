@@ -33,7 +33,7 @@ class WatcherTest < ActiveSupport::TestCase
     super
     @user  = FactoryGirl.create :user
     @issue = FactoryGirl.create :work_package
-    @role  = FactoryGirl.create :role, :permissions => [:view_work_packages]
+    @role  = FactoryGirl.create :role, permissions: [:view_work_packages]
     @issue.project.add_member! @user, @role
   end
 
@@ -112,7 +112,7 @@ class WatcherTest < ActiveSupport::TestCase
     @issue.add_watcher(@user)
 
     assert_no_difference 'Watcher.count' do
-      Watcher.prune(:user => @user)
+      Watcher.prune(user: @user)
     end
     assert @issue.watched_by?(@user)
 
@@ -120,7 +120,7 @@ class WatcherTest < ActiveSupport::TestCase
     @user.reload
 
     assert_difference 'Watcher.count', -1 do
-      Watcher.prune(:user => @user)
+      Watcher.prune(user: @user)
     end
     refute @issue.watched_by?(@user)
   end

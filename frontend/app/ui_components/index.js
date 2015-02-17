@@ -67,6 +67,9 @@ angular.module('openproject.uiComponents')
     'FocusHelper',
     require('./has-dropdown-menu-directive')
   ])
+  .directive('hasPreview', [
+    require('./has-preview-directive')
+  ])
   .service('I18n', [require('./i18n')])
   .directive('iconWrapper', [require('./icon-wrapper-directive')])
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
@@ -75,6 +78,7 @@ angular.module('openproject.uiComponents')
       'FocusHelper',
       'PathHelper',
       'InplaceEditorDispatcher',
+      'OverviewTabInplaceEditorConfig',
       require('./inplace-editor-directive')
   ])
   .service('InplaceEditorDispatcher', require('./inplace-editor-dispatcher'))

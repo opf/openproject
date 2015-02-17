@@ -40,7 +40,11 @@ module.exports = function(
   });
 
   $scope.saveQuery = function(event){
-    if($scope.query.isNew()){
+    event.stopPropagation();
+    if (!$scope.query.isDirty()) {
+      return;
+    }
+    if($scope.query.isNew()) {
       if( allowQueryAction(event, 'create') ){
         $scope.$emit('hideAllDropdowns');
         saveModal.activate();
@@ -59,6 +63,7 @@ module.exports = function(
   };
 
   $scope.deleteQuery = function(event){
+    event.stopPropagation();
     if( allowQueryAction(event, 'delete') && preventNewQueryAction(event) && deleteConfirmed() ){
       QueryService.deleteQuery()
         .then(function(data){
@@ -73,38 +78,45 @@ module.exports = function(
 
   // Modals
   $scope.showSaveAsModal = function(event){
+    event.stopPropagation();
     if( allowQueryAction(event, 'create') ) {
       showExistingQueryModal.call(saveModal, event);
     }
   };
 
   $scope.showShareModal = function(event){
+    event.stopPropagation();
     if (allowQueryAction(event, 'publicize') || allowQueryAction(event, 'star')) {
       showExistingQueryModal.call(shareModal, event);
     }
   };
 
   $scope.showSettingsModal = function(event){
+    event.stopPropagation();
     if( allowQueryAction(event, 'update') ) {
       showExistingQueryModal.call(settingsModal, event);
     }
   };
 
   $scope.showExportModal = function(event){
+    event.stopPropagation();
     if( allowWorkPackageAction(event, 'export') ) {
       showModal.call(exportModal);
     }
   };
 
-  $scope.showColumnsModal = function(){
+  $scope.showColumnsModal = function(event){
+    event.stopPropagation();
     showModal.call(columnsModal);
   };
 
-  $scope.showGroupingModal = function(){
+  $scope.showGroupingModal = function(event){
+    event.stopPropagation();
     showModal.call(groupingModal);
   };
 
-  $scope.showSortingModal = function(){
+  $scope.showSortingModal = function(event){
+    event.stopPropagation();
     showModal.call(sortingModal);
   };
 
@@ -140,13 +152,17 @@ module.exports = function(
   };
 
   $scope.saveQueryInvalid = function() {
-    return (!$scope.query.isDirty() && AuthorisationService.cannot('query', 'update')) ||
-             ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
+    return (!$scope.query.isDirty()) ||
+      (
+        $scope.query.isDirty() &&
+        !$scope.query.isNew() &&
+        AuthorisationService.cannot('query', 'update')
+      ) ||
+      ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
   };
 
   function preventNewQueryAction(event){
     if (event && $scope.query.isNew()) {
-      event.preventDefault();
       event.stopPropagation();
       return false;
     }
@@ -177,7 +193,6 @@ module.exports = function(
     if(AuthorisationService.can(modelName, action)){
       return true;
     } else {
-      event.preventDefault();
       event.stopPropagation();
       return false;
     }

@@ -95,7 +95,7 @@ describe('queryFilters', function() {
 
       var removeFilter = function(filterName) {
         var removeLinkElement = angular.element(element).find('#filter_' + filterName +
-          ' .work-packages-filters--remove-filter a');
+          ' .advanced-filters--remove-filter a');
         angular.element(removeLinkElement[0]).trigger(enterEvent);
         $timeout.flush();
       };
@@ -190,7 +190,7 @@ describe('queryFilters', function() {
         });
 
         it('focus is set to filter next to last', function() {
-          var el = angular.element(element).find('.work-packages-filters--add-filter' +
+          var el = angular.element(element).find('.advanced-filters--add-filter' +
             ' select#add_filter_select');
 
           expect(doc.activeElement).to.equal(el[0]);

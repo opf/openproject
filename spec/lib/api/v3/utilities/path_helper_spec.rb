@@ -89,6 +89,14 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/projects\/42\/categories/) }
   end
 
+  describe '#category' do
+    subject { helper.category 42 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to match(/^\/api\/v3\/categories\/42/) }
+  end
+
   describe '#preview_textile' do
     subject { helper.preview_textile '/api/v3/work_packages/42' }
 
@@ -99,12 +107,22 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/\?\/api\/v3\/work_packages\/42$/) }
   end
 
-  describe '#priorities' do
-    subject { helper.priorities }
+  describe 'priorities paths' do
+    describe '#priorities' do
+      subject { helper.priorities }
 
-    it_behaves_like 'api v3 path'
+      it_behaves_like 'api v3 path'
 
-    it { is_expected.to match(/^\/api\/v3\/priorities/) }
+      it { is_expected.to match(/^\/api\/v3\/priorities/) }
+    end
+
+    describe '#priority' do
+      subject { helper.priority 1 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to match(/^\/api\/v3\/priorities\/1/) }
+    end
   end
 
   describe 'projects paths' do
@@ -158,6 +176,29 @@ describe ::API::V3::Utilities::PathHelper do
       it_behaves_like 'api v3 path'
 
       it { is_expected.to match(/^\/api\/v3\/statuses/) }
+    end
+
+    describe '#status' do
+      subject { helper.status 1 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to match(/^\/api\/v3\/statuses\/1/) }
+    end
+  end
+
+  describe 'string object paths' do
+    describe '#string_object' do
+      subject { helper.string_object 'foo' }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to match(/^\/api\/v3\/string_objects\/foo/) }
+
+      it 'escapes correctly' do
+        value = 'foo/bar baz'
+        expect(helper.string_object value).to eql('/api/v3/string_objects/foo%2Fbar%20baz')
+      end
     end
 
     describe '#status' do

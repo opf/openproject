@@ -40,6 +40,9 @@
 /npm-debug.log
 /tmp
 
+# Ignore RubyMine files
+/.idea
+
 /backup
 /.project
 /.loadpath
@@ -65,7 +68,6 @@
 /tmp/sessions/*
 /tmp/sockets/*
 /tmp/test/*
-/vendor/rails
 /*.rbc
 /doc/app
 #/Gemfile.lock

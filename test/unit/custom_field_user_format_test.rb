@@ -32,14 +32,14 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   def setup
     super
     @project = FactoryGirl.create :valid_project
-    role   = FactoryGirl.create :role, :permissions => [:view_work_packages, :edit_work_packages]
+    role   = FactoryGirl.create :role, permissions: [:view_work_packages, :edit_work_packages]
     @users = FactoryGirl.create_list(:user, 5)
-    @users.each {|user| @project.add_member!(user, role) }
+    @users.each { |user| @project.add_member!(user, role) }
     @issue = FactoryGirl.create :work_package,
-        :project => @project,
-        :author => @users.first,
-        :type => @project.types.first
-    @field = WorkPackageCustomField.create!(:name => 'Tester', :field_format => 'user')
+                                project: @project,
+                                author: @users.first,
+                                type: @project.types.first
+    @field = WorkPackageCustomField.create!(name: 'Tester', field_format: 'user')
   end
 
   def test_possible_values_with_no_arguments
@@ -65,12 +65,12 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   def test_possible_values_options_with_project_resource
     possible_values_options = @field.possible_values_options(@project.work_packages.first)
     assert possible_values_options.any?
-    assert_equal @project.users.sort.map {|u| [u.name, u.id.to_s]}, possible_values_options
+    assert_equal @project.users.sort.map { |u| [u.name, u.id.to_s] }, possible_values_options
   end
 
   def test_cast_blank_value
     assert_equal nil, @field.cast_value(nil)
-    assert_equal nil, @field.cast_value("")
+    assert_equal nil, @field.cast_value('')
   end
 
   def test_cast_valid_value
@@ -81,6 +81,6 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
 
   def test_cast_invalid_value
     User.delete_all
-    assert_equal nil, @field.cast_value("1")
+    assert_equal nil, @field.cast_value('1')
   end
 end

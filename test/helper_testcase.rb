@@ -29,12 +29,11 @@
 
 # Re-raise errors caught by the controller.
 class StubController < ApplicationController
-  def rescue_action(e) raise e end;
+  def rescue_action(e) raise e end
   attr_accessor :request, :url
 end
 
 class HelperTestCase < ActionView::TestCase
-
   # Add other helpers here if you need them
   include ERB::Util
   include ActionView::Helpers::TagHelper

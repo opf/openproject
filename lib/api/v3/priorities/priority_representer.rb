@@ -34,8 +34,14 @@ module API
   module V3
     module Priorities
       class PriorityRepresenter < ::API::Decorators::Single
+
+        self_link
+
         property :id, render_nil: true
         property :name
+        property :position
+        property :is_default
+        property :active, as: :isActive
 
         def _type
           'Priority'

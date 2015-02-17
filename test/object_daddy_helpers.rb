@@ -30,15 +30,15 @@
 module ObjectDaddyHelpers
   # TODO: Remove these three once everyone has ported their code to use the
   # new object_daddy version with protected attribute support
-  def User.generate_with_protected(attributes={})
+  def User.generate_with_protected(attributes = {})
     User.generate(attributes)
   end
 
-  def User.generate_with_protected!(attributes={})
+  def User.generate_with_protected!(attributes = {})
     User.generate!(attributes)
   end
 
-  def User.spawn_with_protected(attributes={})
+  def User.spawn_with_protected(attributes = {})
     User.spawn(attributes)
   end
 
@@ -53,11 +53,10 @@ module ObjectDaddyHelpers
   end
 
   # Generate the default Query
-  def Query.generate_default!(attributes={})
+  def Query.generate_default!(attributes = {})
     query = Query.spawn(attributes)
     query.name ||= '_'
     query.save!
     query
   end
-
 end

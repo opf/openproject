@@ -34,6 +34,27 @@ module API
   module V3
     module Categories
       class CategoryRepresenter < ::API::Decorators::Single
+        link :self do
+          {
+            href: api_v3_paths.category(represented.id),
+            title: "#{represented.name}"
+          }
+        end
+
+        link :project do
+          {
+            href: api_v3_paths.project(represented.project.id),
+            title: represented.project.name
+          }
+        end
+
+        link :user do
+          {
+            href: api_v3_paths.user(represented.assigned_to.id),
+            title: represented.assigned_to.name
+          } if represented.assigned_to
+        end
+
         property :id, render_nil: true
         property :name, render_nil: true
 

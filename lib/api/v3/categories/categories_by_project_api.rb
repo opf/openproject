@@ -27,5 +27,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module MessagesHelper
+module API
+  module V3
+    module Categories
+      class CategoriesByProjectAPI < Grape::API
+        resources :categories do
+          before do
+            @categories = @project.categories
+          end
+
+          get do
+            self_link = api_v3_paths.categories(@project.identifier)
+
+            CategoryCollectionRepresenter.new(@categories,
+                                              @categories.count,
+                                              self_link)
+          end
+        end
+      end
+    end
+  end
 end

@@ -34,7 +34,7 @@ angular.module('openproject.services')
   .service('AuthorisationService', require('./authorisation-service'))
   .service('GroupService', ['$http', 'PathHelper', require('./group-service')])
   .service('HookService', require('./hook-service'))
-  .service('OverviewService', require('./overview-service'))
+  .service('OverviewTabInplaceEditorConfig', require('./overview-tab-inplace-editor-config'))
   .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', require(
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,36 +25,33 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../../../test_helper', __FILE__)
 
-class ChiliProject::DatabaseTest < ActiveSupport::TestCase
-  setup do
-    ChiliProject::Database.stub(:adapter_name).and_return 'PostgresQL'
+class OpenProject::PrincipalAllowanceEvaluator::Base
+  def initialize(user)
+    @user = user
   end
 
-  should 'return the correct identifier' do
-    assert_equal :postgresql, ChiliProject::Database.name
+  def granted_for_global?(_candidate, _action, _options)
+    false
   end
 
-  should 'be able to use the helper methods' do
-    assert_equal false, ChiliProject::Database.mysql?
-    assert_equal true, ChiliProject::Database.postgresql?
+  def denied_for_global?(_candidate, _action, _options)
+    false
   end
 
-  should 'return a version string for PostgreSQL' do
-    ChiliProject::Database.stub(:adapter_name).and_return 'PostgreSQL'
-    raw_version = 'PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2'
-    ActiveRecord::Base.connection.stub(:select_value).and_return raw_version
-
-    assert_equal '8.3.11', ChiliProject::Database.version
-    assert_equal raw_version, ChiliProject::Database.version(true)
+  def granted_for_project?(_candidate, _action, _project, _options = {})
+    false
   end
 
-  should 'return a version string for MySQL' do
-    ChiliProject::Database.stub(:adapter_name).and_return 'MySQL'
-    ActiveRecord::Base.connection.stub(:select_value).and_return '5.1.2'
+  def denied_for_project?(_candidate, _action, _project, _options = {})
+    false
+  end
 
-    assert_equal '5.1.2', ChiliProject::Database.version
-    assert_equal '5.1.2', ChiliProject::Database.version(true)
+  def global_granting_candidates
+    []
+  end
+
+  def project_granting_candidates(_project)
+    []
   end
 end

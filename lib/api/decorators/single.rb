@@ -51,7 +51,37 @@ module API
                exec_context: :decorator,
                render_nil: false
 
+      def self.self_link(path: nil, title_getter: -> (*) { represented.name })
+        link :self do
+          path = _type.underscore unless path
+          link_object = { href: api_v3_paths.send(path, represented.id) }
+          link_object[:title] = instance_eval(&title_getter)
+
+          link_object
+        end
+      end
+
+      def self.linked_property(property,
+                               path: property,
+                               association: property,
+                               title_getter: -> (*) { represented.send(association).name },
+                               show_if: -> (*) { true })
+        link property do
+          next unless instance_eval(&show_if)
+
+          value = represented.send(association)
+          link_object = { href: (api_v3_paths.send(path, value.id) if value) }
+          link_object[:title] = instance_eval(&title_getter) if value
+
+          link_object
+        end
+      end
+
       private
+
+      def datetime_formatter
+        API::V3::Utilities::DateTimeFormatter
+      end
 
       def _type; end
     end

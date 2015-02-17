@@ -58,11 +58,11 @@ class DefaultDataTest < ActiveSupport::TestCase
     end
   end
 
-private
+  private
 
   def delete_loaded_data!
-    Role.delete_all("builtin = 0")
-    Type.delete_all("is_standard = false")
+    Role.delete_all('builtin = 0')
+    Type.delete_all('is_standard = false')
     Status.delete_all
     Enumeration.delete_all
   end

@@ -1,4 +1,4 @@
-<div class="inplace-editor type-{{type}} attribute-{{attribute}}" ng-class="{busy: isBusy, preview: isPreview, editable: isEditable}">
+<div class="inplace-editor type-{{type}} attribute-{{attribute}}" ng-class="{busy: isBusy, preview: isPreview, editable: isEditable}" aria-busy="{{ isBusy }}" ng-disabled="!isEditable">
   <div class="ined-read-value" ng-class="{ default: placeholderSet, editable: isEditable }" ng-hide="isEditing" ng-switch="type">
     <span class="read-value-wrapper" ng-switch-when="wiki_textarea" ng-bind-html="readValue"></span>
     <span class="read-value-wrapper" ng-switch-default>
@@ -34,22 +34,24 @@
           <span ng-bind-html="previewHtml"></span>
         </div>
       </div>
-      <div class="ined-errors" ng-show="error" role="alert" ng-bind="error"></div>
-      <div class="ined-controls" ng-hide="isBusy">
-        <accessible-by-keyboard execute="editForm.$valid && submit(false)" class="ined-edit-save">
-          <icon-wrapper icon-name="yes" icon-title="{{ saveTitle }}">
-          </icon-wrapper>
-        </accessible-by-keyboard>
-        <accessible-by-keyboard execute="editForm.$valid && submit(true)" class="ined-edit-save-send">
-          <span title="{{ saveAndSendTitle }}">
-            <i class="icon-yes"></i>
-            <i class="icon-mail"></i>
-          </span>
-        </accessible-by-keyboard>
-        <accessible-by-keyboard execute="discardEditing()" class="ined-edit-close">
-          <icon-wrapper icon-name="close" icon-title="{{ cancelTitle }}">
-          </icon-wrapper>
-        </accessible-by-keyboard>
+      <div class="ined-dashboard">
+        <div class="ined-errors" ng-show="error" role="alert" ng-bind="error" aria-live="polite"></div>
+        <div class="ined-controls" ng-hide="isBusy">
+          <accessible-by-keyboard execute="editForm.$valid && submit(false)" class="ined-edit-save">
+            <icon-wrapper icon-name="yes" icon-title="{{ saveTitle }}">
+            </icon-wrapper>
+          </accessible-by-keyboard>
+          <accessible-by-keyboard execute="editForm.$valid && submit(true)" class="ined-edit-save-send">
+            <span title="{{ saveAndSendTitle }}">
+              <i class="icon-yes"></i>
+              <i class="icon-mail"></i>
+            </span>
+          </accessible-by-keyboard>
+          <accessible-by-keyboard execute="discardEditing()" class="ined-edit-close">
+            <icon-wrapper icon-name="close" icon-title="{{ cancelTitle }}">
+            </icon-wrapper>
+          </accessible-by-keyboard>
+        </div>
       </div>
     </form>
   </div>

@@ -1,5 +1,6 @@
 .inplace-editor
   display: inline
+  font-size: medium
   .ined-input-wrapper-inner
     display: inline
   &.busy
@@ -38,10 +39,9 @@
 
   .ined-input-wrapper
     display: inline
-    input, textarea
-      width: 370px
-    textarea
-      min-height: 200px
+    input
+      width: 90%
+      margin-bottom: -1px
   .ined-read-value
     display: inline
     &.default
@@ -57,32 +57,43 @@
     display: inline
     .ng-invalid
       background: lightpink!important
-  .ined-errors
-    position: absolute
-    line-height: 1.2em
-    width: 251px
-    padding: 5px
-    left: 0
-    bottom: -49px
-    background: white
-    border: 1px solid #cacaca
-    height: 42px
-  .ined-controls
-    position: absolute
-    bottom: -35px
-    right: 0
-    width: 120px
-    background: white
-    border: 1px solid #cacaca
-    text-align: center
-    a
-      width: 36px
+  .ined-dashboard
+    min-height: 42px
+    .ined-errors
+      float: right
       display: inline-block
+      line-height: 1.2em
+      width: 251px
+      padding: 5px
+      left: 251px
+      bottom: -11px
+      background: white
+      border: 1px solid #cacaca
+      min-height: 42px
+    .ined-controls
+      float: left
+      display: inline-block
+      bottom: 17px
+      left: 29px
+      width: 120px
+      background: white
+      border: 1px solid #cacaca
       text-align: center
-      text-decoration: none
-      &:hover
-        background: #f0f0f0
+      a
+        width: 36px
+        display: inline-block
+        text-align: center
+        text-decoration: none
+        &:hover
+          background: #f0f0f0
+  &.type-text
+    .ined-dashboard
+      width: 90%
   &.type-wiki_textarea
+    textarea
+      min-height: 200px
+      width: 100%
+      margin-bottom: -1px
     .ined-input-wrapper-inner
       display: block!important
     form
@@ -96,11 +107,16 @@
       position: relative
       display: inline-block
       float: right
-    .ined-controls
-      bottom: -6px
-    .ined-errors
-      bottom: -26px
-      width: 307px
+    .ined-dashboard
+      padding-left: 0px
+      width: 100%
+      .ined-controls
+        left: 0px
+        z-index: 1
+      .ined-errors
+        width: 307px
+    .jstHandle
+      display: none
     .jstElements
       display: inline
       bottom: -31px
@@ -123,14 +139,6 @@
           padding-left: 0
       .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
         display: inline
-  &.type-select
-    .ined-controls
-      right: auto
-      left: 0
-      bottom: -23px
-    .ined-errors
-      bottom: -44px
-      left: 119px
   &.type-select2
     display: inline-block
     width: 344px
@@ -140,13 +148,12 @@
       max-height: 100px
     input[type='text']
       width: 100%
+    .ined-dashboard
+      padding-left: 0px
+      width: 345px
     .ined-errors
-      bottom: -41px
-      left: 119px
       width: 225px
     .ined-controls
-      bottom: -27px
-      left: 0
     .ined-edit
       height: 175px
     .ined-read-value

@@ -147,6 +147,15 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
     text: {
       link: function(scope, element) {
         enableAutoCompletion(element);
+        scope.$on('startEditing', function() {
+          $timeout(function() {
+            element.find('.ined-dashboard').css({
+              'margin-left': element
+                .closest('.work-packages--details-content')
+                .find('.select-type:first').width()
+            });
+          }, 0, false);
+        });
       }
     },
 
@@ -192,12 +201,12 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         scope.$on('focusSelect2', function() {
           $timeout(function() {
             element.find('.select2-choice').trigger('click');
-          }, 0, false);
+          });
         });
       },
       startEditing: setOptions,
       submit: function($scope, data) {
-        data._links = { };
+        data._links = data._links || { };
         data._links[getAttribute($scope)] = { href: $scope.dataObject.value || null };
       },
       setReadValue: function($scope) {
@@ -210,8 +219,9 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         }
       },
       setWriteValue: function($scope) {
+        var link = $scope.entity.form.embedded.payload.links[getAttribute($scope)];
         $scope.dataObject = {
-          value: $scope.entity.form.embedded.payload.links[getAttribute($scope)].href
+          value: link ? link.href : null
         };
       }
     }

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,32 +27,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ChiliProject::PrincipalAllowanceEvaluator::Base
-  def initialize(user)
-    @user = user
+class DeliverWorkPackageUpdatedJob
+  def initialize(user_id, journal_id, current_user_id)
+    @user_id         = user_id
+    @journal_id      = journal_id
+    @current_user_id = current_user_id
   end
 
-  def granted_for_global?(_candidate, _action, _options)
-    false
+  def perform
+    notification_mail.deliver
   end
 
-  def denied_for_global?(_candidate, _action, _options)
-    false
+  private
+
+  def notification_mail
+    @notification_mail ||= UserMailer.work_package_updated(user, journal, current_user)
   end
 
-  def granted_for_project?(_candidate, _action, _project, _options = {})
-    false
+  def user
+    @user ||= Principal.find(@user_id)
   end
 
-  def denied_for_project?(_candidate, _action, _project, _options = {})
-    false
+  def journal
+    @journal ||= Journal.find(@journal_id)
   end
 
-  def global_granting_candidates
-    []
-  end
-
-  def project_granting_candidates(_project)
-    []
+  def current_user
+    @current_user ||= Principal.find(@current_user_id)
   end
 end

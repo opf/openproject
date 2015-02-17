@@ -39,10 +39,13 @@ module API
           'subject',
           'parent_id',
           'description',
+          'start_date',
+          'due_date',
           'status_id',
           'assigned_to_id',
           'responsible_id',
-          'fixed_version_id'
+          'fixed_version_id',
+          'priority_id'
         ].freeze
 
         def initialize(object, user)

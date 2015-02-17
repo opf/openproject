@@ -26,12 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@font-face
-  font-family: "openproject-icon-font"
-  src: font-url('openproject_icon/openproject-icon-font.eot')
-  src: font-url('openproject_icon/openproject-icon-font.eot?#iefix') format("embedded-opentype"), font-url('openproject_icon/openproject-icon-font.ttf') format("truetype"), font-url('openproject_icon/openproject-icon-font.svg#untitled-font-1') format("svg"), font-url('openproject_icon/openproject-icon-font.woff') format("woff")
-  font-weight: normal
-  font-style: normal
+$icon-font-file-formats: eot woff ttf
+
++font-face('openproject-icon-font', 'openproject_icon/openproject-icon-font', $file-formats: $icon-font-file-formats)
 
 @mixin icon-common
   font-family: "openproject-icon-font" !important

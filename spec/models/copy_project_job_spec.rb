@@ -41,8 +41,8 @@ describe CopyProjectJob, type: :model do
     let(:target_project) { FactoryGirl.create(:project) }
 
     let(:copy_job) {
-      CopyProjectJob.new user_de,
-                         source_project,
+      CopyProjectJob.new user_de.id,
+                         source_project.id,
                          target_project,
                          [], # enabled modules
                          [], # associations

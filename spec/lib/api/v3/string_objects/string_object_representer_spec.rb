@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,5 +26,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module WelcomeHelper
+require 'spec_helper'
+
+describe ::API::V3::StringObjects::StringObjectRepresenter do
+  let(:value) { 'foo bar' }
+  let(:representer) { described_class.new(value) }
+
+  include API::V3::Utilities::PathHelper
+
+  context 'generation' do
+    subject { representer.to_json }
+
+    it 'should indicate its type' do
+      is_expected.to be_json_eql('StringObject'.to_json).at_path('_type')
+    end
+
+    describe 'links' do
+      it 'should link to self' do
+        path = api_v3_paths.string_object(value)
+
+        is_expected.to be_json_eql(path.to_json).at_path('_links/self/href')
+      end
+    end
+
+    describe 'value' do
+      it 'should have a value' do
+        is_expected.to be_json_eql(value.to_json).at_path('value')
+      end
+    end
+  end
 end

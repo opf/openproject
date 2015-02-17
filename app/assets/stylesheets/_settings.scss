@@ -102,9 +102,9 @@ $include-css: (
 // $success-color: #43AC6A;
 // $warning-color: #F08A24;
 // $dark-color: #232323;
-// $gray: #dfdfdf;
-// $gray-dark: darken($gray, 8);
-// $gray-light: lighten($gray, 8);
+$gray: #EAEAEA;
+$gray-dark: darken($gray, 8);
+$gray-light: #F8F8F8;
 
 // We use these to make sure border radius matches unless we want it different.
 // $global-radius: 4px;
@@ -119,13 +119,14 @@ $include-css: (
 
 // These are our named breakpoints. You can use them in our breakpoint function like this:
 // @include breakpoint(medium) { // Medium and larger styles }
-// $breakpoints: (
-//   small: rem-calc(0),
-//   medium: rem-calc(640),
-//   large: rem-calc(1200),
-//   xlarge: rem-calc(1440),
-//   xxlarge: rem-calc(1920),
-// );
+$breakpoints: (
+  small: rem-calc(300),
+  medium: rem-calc(640),
+  large: rem-calc(1200),
+  xlarge: rem-calc(1440),
+  xxlarge: rem-calc(1920),
+  xxxlarge: rem-calc(2048),
+);
 
 // All of the names in this list will be output as classes in your CSS,
 // like small-12, medium-6, and so on.

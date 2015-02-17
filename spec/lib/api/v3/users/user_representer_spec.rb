@@ -51,8 +51,17 @@ describe ::API::V3::Users::UserRepresenter do
       it { is_expected.to have_json_path('name') }
       it { is_expected.to have_json_path('mail') }
       it { is_expected.to have_json_path('avatar') }
-      it { is_expected.to have_json_path('createdAt') }
-      it { is_expected.to have_json_path('updatedAt') }
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { user.created_on }
+        let(:json_path) { 'createdAt' }
+      end
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { user.updated_on }
+        let(:json_path) { 'updatedAt' }
+      end
+
       it { is_expected.to have_json_path('status') }
       it { is_expected.to have_json_path('avatar') }
     end

@@ -67,7 +67,7 @@ class WorkPackagesPage
   end
 
   def selected_filter(filter_name)
-    find(".work-packages-filters--filters #filter_#{filter_name}")
+    find(".advanced-filters--filters #filter_#{filter_name}")
   end
 
   private

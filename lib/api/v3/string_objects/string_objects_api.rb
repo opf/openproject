@@ -27,5 +27,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module BoardsHelper
+module API
+  module V3
+    module StringObjects
+      class StringObjectsAPI < Grape::API
+        resources :string_objects do
+
+          namespace ':value' do
+            get do
+              StringObjectRepresenter.new(params[:value])
+            end
+          end
+        end
+      end
+    end
+  end
 end

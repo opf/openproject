@@ -33,6 +33,7 @@ module.exports = function($scope,
            STATUS_TYPE,
            VERSION_TYPE,
            CATEGORY_TYPE,
+           PRIORITY_TYPE,
            USER_TYPE,
            TIME_ENTRY_TYPE,
            USER_FIELDS,
@@ -43,10 +44,10 @@ module.exports = function($scope,
            UserService,
            VersionService,
            HookService,
-           OverviewService,
+           OverviewTabInplaceEditorConfig,
            $q) {
 
-  $scope.inplaceProperties = OverviewService.getInplaceProperties();
+  $scope.inplaceProperties = OverviewTabInplaceEditorConfig.getInplaceProperties();
 
   $scope.userPath = PathHelper.staticUserPath;
   AuthorisationService.initModelAuth('work_package' + $scope.workPackage.id,
@@ -59,10 +60,9 @@ module.exports = function($scope,
   function getPropertyValue(property, format) {
     switch(format) {
     case STATUS_TYPE:
-      return $scope.workPackage.embedded.status.props.name;
     case USER_TYPE:
-      return $scope.workPackage.embedded[property];
     case CATEGORY_TYPE:
+    case PRIORITY_TYPE:
       return $scope.workPackage.embedded[property];
     case TIME_ENTRY_TYPE:
       return getLinkedTimeEntryValue(property);
@@ -200,6 +200,8 @@ module.exports = function($scope,
       return STATUS_TYPE;
     case 'category':
       return CATEGORY_TYPE;
+    case 'priority':
+      return PRIORITY_TYPE;
     case 'spentTime':
       return TIME_ENTRY_TYPE;
     default:

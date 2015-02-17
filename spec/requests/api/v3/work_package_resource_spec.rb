@@ -383,6 +383,36 @@ h4. things we like
         end
       end
 
+      context 'start date' do
+        let(:dateString) { Date.today.to_date.iso8601 }
+        let(:params) { valid_params.merge(startDate: dateString) }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should respond with updated start date' do
+          expect(subject.body).to be_json_eql(dateString.to_json).at_path('startDate')
+        end
+
+        it_behaves_like 'lock version updated'
+      end
+
+      context 'due date' do
+        let(:dateString) { Date.today.to_date.iso8601 }
+        let(:params) { valid_params.merge(dueDate: dateString) }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should respond with updated due date' do
+          expect(subject.body).to be_json_eql(dateString.to_json).at_path('dueDate')
+        end
+
+        it_behaves_like 'lock version updated'
+      end
+
       context 'status' do
         let(:target_status) { FactoryGirl.create(:status) }
         let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
@@ -464,6 +494,7 @@ h4. things we like
 
         shared_examples_for 'handling people' do |property|
           let(:user_parameter) { { _links: { property => { href: user_href } } } }
+          let(:href_path) { "_links/#{property}/href" }
 
           describe 'nil' do
             let(:user_href) { nil }
@@ -472,14 +503,14 @@ h4. things we like
 
             it { expect(response.status).to eq(200) }
 
-            it { expect(response.body).not_to have_json_path("_links/#{property}") }
+            it { expect(response.body).to be_json_eql(nil.to_json).at_path(href_path) }
 
             it_behaves_like 'lock version updated'
           end
 
           describe 'valid' do
             shared_examples_for 'valid user assignment' do
-              let(:title) { "#{assigned_user.name} - #{assigned_user.login}".to_json }
+              let(:title) { "#{assigned_user.name}".to_json }
 
               it { expect(response.status).to eq(200) }
 
@@ -592,24 +623,30 @@ h4. things we like
         end
       end
 
+      context 'priority' do
+        let(:target_priority) { FactoryGirl.create(:priority) }
+        let(:priority_link) { "/api/v3/priorities/#{target_priority.id}" }
+        let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
+        let(:params) { valid_params.merge(priority_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid' do
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with the work package assigned to the priority' do
+            expect(subject.body).to be_json_eql(target_priority.name.to_json)
+                                      .at_path('_embedded/priority/name')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+      end
+
       describe 'update with read-only attributes' do
         describe 'single read-only violation' do
-          context 'start date' do
-            let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
-
-            include_context 'patch request'
-
-            it_behaves_like 'read-only violation', 'startDate'
-          end
-
-          context 'due date' do
-            let(:params) { valid_params.merge(dueDate: DateTime.now.utc.iso8601) }
-
-            include_context 'patch request'
-
-            it_behaves_like 'read-only violation', 'dueDate'
-          end
-
           context 'created and updated' do
             let(:tomorrow) { (DateTime.now + 1.day).utc.iso8601 }
             include_context 'patch request'
@@ -647,7 +684,7 @@ h4. things we like
 
         context 'multiple read-only attributes' do
           let(:params) do
-            valid_params.merge(startDate: DateTime.now.utc.iso8601, dueDate: DateTime.now.utc.iso8601)
+            valid_params.merge(createdAt: Date.today.iso8601, updatedAt: Date.today.iso8601)
           end
 
           include_context 'patch request'
@@ -658,7 +695,7 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type with details',
                           'attribute',
-                          'attribute' => ['startDate', 'dueDate']
+                          'attribute' => ['createdAt', 'updatedAt']
         end
       end
 
