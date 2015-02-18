@@ -2612,12 +2612,10 @@ the human readable name of custom fields.*
 
 *Properties that cannot be set directly on parent work packages are inferred from their children instead:*
 
-* `start date` is the earliest start date from its children
-* `due date` is the latest due date from its children
-* `estimated time` is the sum of estimated times from its children
-* `percentage done` is the average of the sum of its children percentages done
-
-*However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred*
+* `startDate` is the earliest start date from its children
+* `dueDate` is the latest due date from its children
+* `estimatedTime` is the sum of estimated times from its children
+* `percentageDone` is the average of the sum of its children percentages done. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
 
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
