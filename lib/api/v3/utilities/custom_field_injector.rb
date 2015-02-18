@@ -122,7 +122,7 @@ module API
                                                                                 actual_namespace)
                             end
 
-                            value = resource[:id]
+                            value = resource[:id] || ''
                             represented.custom_field_values = { custom_field.id => value }
                           }
         end

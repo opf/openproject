@@ -38,10 +38,8 @@ module API
           # for a valid link (even though it does not match the compiled regex)
           match = route_options[:compiled].match(resource_link.chomp('/'))
 
-          # TODO: cleanup
-          # TODO: still does not support empty string_objects (makes them nil)
           if match
-            # we want to capture the identifying key regardless of its name
+            # we want to capture the identifying key regardless of its name (e.g. :id)
             id_key = match.names.reject { |name| ['version', 'format'].include?(name) }.first
             id = id_key ? match[id_key] : nil
 
