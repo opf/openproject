@@ -193,8 +193,6 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
 
       scope.selectWorkPackage = function(row, $event) {
         if ($event.target.type != 'checkbox') {
-          var currentRowCheckState = row.checked;
-          var index = scope.rows.indexOf(row);
 
           if (!($event.ctrlKey || $event.shiftKey)) {
             scope.setCheckedStateForAllRows(false);
@@ -204,7 +202,7 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
             clearSelection();
             activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
           } else {
-            setRowSelectionState(row, !currentRowCheckState);
+            setRowSelectionState(row, true);
 
             scope.activationCallback({ id: row.object.id, force: false });
           }
