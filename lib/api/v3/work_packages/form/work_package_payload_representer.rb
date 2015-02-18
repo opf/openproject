@@ -46,8 +46,13 @@ module API
             # This allows adding instance specific properties to our representer.
             def new(work_package, options = {})
               klass = Class.new(WorkPackagePayloadRepresenter)
-              injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
-              work_package.available_custom_fields.each do |custom_field|
+              injector_class = ::API::V3::Utilities::CustomFieldInjector
+              property_fields = work_package.available_custom_fields.select do |cf|
+                injector_class.property_field?(cf)
+              end
+
+              injector = injector_class.new(klass)
+              property_fields.each do |custom_field|
                 injector.inject_value(custom_field)
               end
 

@@ -43,6 +43,18 @@ module API
           'list' => 'StringObject'
         }
 
+        LINK_FORMATS = ['list', 'user', 'version']
+
+        class << self
+          def linked_field?(custom_field)
+            LINK_FORMATS.include?(custom_field.field_format)
+          end
+
+          def property_field?(custom_field)
+            !linked_field?(custom_field)
+          end
+        end
+
         def initialize(representer_class)
           @class = representer_class
         end
@@ -63,17 +75,16 @@ module API
         end
 
         def inject_value(custom_field)
-          # TODO: linked properties
-          # TODO: 'text' as formattable
-          @class.property property_name(custom_field.id),
-                          getter: -> (*) {
-                            custom_value = custom_value_for(custom_field)
-                            custom_value.value if custom_value
-                          },
-                          setter: -> (value, *) {
-                            self.custom_field_values = { custom_field.id => value }
-                          },
-                          render_nil: true
+          case custom_field.field_format
+          when *LINK_FORMATS
+            inject_link_value(custom_field)
+          else
+            inject_property_value(custom_field)
+          end
+        end
+
+        def inject_patchable_link_value(custom_field)
+          # NOP; TODO: implement
         end
 
         private
@@ -137,6 +148,40 @@ module API
                         title: custom_field.name,
                         required: custom_field.is_required,
                         writable: true
+        end
+
+        def path_method_for(custom_field)
+          case custom_field.field_format
+          when 'version'
+            :version
+          when 'user'
+            :user
+          when 'list'
+            :string_object
+          end
+        end
+
+        def inject_link_value(custom_field)
+          path = path_method_for(custom_field)
+          @class.link property_name(custom_field.id) do
+            custom_value = represented.custom_value_for(custom_field)
+            value = custom_value.value if custom_value
+
+            { href: (api_v3_paths.send(path, value) if value) }
+          end
+        end
+
+        def inject_property_value(custom_field)
+          # TODO: 'text' as formattable
+          @class.property property_name(custom_field.id),
+                          getter: -> (*) {
+                            custom_value = custom_value_for(custom_field)
+                            custom_value.value if custom_value
+                          },
+                          setter: -> (value, *) {
+                            self.custom_field_values = { custom_field.id => value }
+                          },
+                          render_nil: true
         end
       end
     end
