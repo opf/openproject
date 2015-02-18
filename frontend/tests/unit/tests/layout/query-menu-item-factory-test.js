@@ -109,7 +109,7 @@ describe('queryMenuItemFactory', function() {
 
     describe('when the query id matches the query id of the state params', function() {
       beforeEach(inject(function($timeout) {
-        stateParams.query_id = objectId;
+        stateParams['query_id'] = objectId;
         $timeout.flush();
       }));
 
@@ -119,7 +119,7 @@ describe('queryMenuItemFactory', function() {
       });
 
       it('toggles the selected state on state change', function() {
-        stateParams.query_id = null;
+        stateParams['query_id'] = null;
         $rootScope.$broadcast('openproject.layout.activateMenuItem');
 
         expect(itemLink.hasClass('selected')).to.be.false;
@@ -128,7 +128,7 @@ describe('queryMenuItemFactory', function() {
 
     describe('when the query id is undefined', function(){
       beforeEach(inject(function($timeout) {
-        stateParams.query_id = objectId;
+        stateParams['query_id'] = objectId;
         $timeout.flush();
       }));
 
@@ -137,7 +137,7 @@ describe('queryMenuItemFactory', function() {
       });
 
       it('toggles the selected state on state change', function() {
-        stateParams.query_id = objectId;
+        stateParams['query_id'] = objectId;
         $rootScope.$broadcast('openproject.layout.activateMenuItem');
 
         expect(itemLink.hasClass('selected')).to.be.true;
@@ -164,7 +164,7 @@ describe('queryMenuItemFactory', function() {
 
       describe('for an undefined query_id', function() {
         beforeEach(inject(function($timeout) {
-          stateParams.query_id = undefined;
+          stateParams['query_id'] = undefined;
           $timeout.flush();
         }));
 
@@ -176,7 +176,7 @@ describe('queryMenuItemFactory', function() {
 
       describe('for a null query_id', function() {
         beforeEach(inject(function($timeout) {
-          stateParams.query_id = null;
+          stateParams['query_id'] = null;
           $timeout.flush();
         }));
 
@@ -188,7 +188,7 @@ describe('queryMenuItemFactory', function() {
 
       describe('for an integer query_id', function() {
         beforeEach(inject(function($timeout) {
-          stateParams.query_id = 1;
+          stateParams['query_id'] = 1;
           $timeout.flush();
         }));
 
@@ -199,7 +199,7 @@ describe('queryMenuItemFactory', function() {
 
       describe('for a string query_id', function() {
         beforeEach(inject(function($timeout) {
-          stateParams.query_id = "1";
+          stateParams['query_id'] = "1";
           $timeout.flush();
         }));
 
@@ -217,7 +217,7 @@ describe('queryMenuItemFactory', function() {
 
       describe('for an undefined query_id', function() {
         beforeEach(inject(function($timeout) {
-          stateParams.query_id = undefined;
+          stateParams['query_id'] = undefined;
           $timeout.flush();
         }));
 
@@ -228,7 +228,7 @@ describe('queryMenuItemFactory', function() {
 
       describe('for a null query_id', function() {
         beforeEach(inject(function($timeout) {
-          stateParams.query_id = null;
+          stateParams['query_id'] = null;
           $timeout.flush();
         }));
 
