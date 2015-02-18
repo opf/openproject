@@ -27,30 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'roar/decorator'
+require 'roar/json/hal'
 
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module StringObjects
+      class StringObjectRepresenter < ::API::Decorators::Single
+        link :self do
+          {
+            href: api_v3_paths.string_object(represented)
+          }
+        end
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+        property :value,
+                 exec_context: :decorator,
+                 getter: -> (*) { represented }
 
-      get '/' do
-        RootRepresenter.new({})
+        def _type
+          'StringObject'
+        end
       end
     end
   end

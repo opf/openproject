@@ -30,10 +30,10 @@ source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.21"
 
-gem "coderay", "~> 1.0.5"
+gem "coderay", "~> 1.0.9"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
-gem 'globalize'
+gem 'globalize', "~> 3.1.0"
 gem 'omniauth'
 gem 'request_store'
 gem 'gravatar_image_tag', '~> 1.2.0'
@@ -56,7 +56,7 @@ gem 'htmldiff'
 # used for statistics on svn repositories
 gem 'svg-graph'
 
-gem "date_validator"
+gem "date_validator", '~> 0.7.1'
 gem 'ruby-duration', '~> 3.2.0'
 
 # We rely on this specific version, which is the latest as of now (end of 2013),
@@ -65,7 +65,7 @@ gem 'ruby-duration', '~> 3.2.0'
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '0.9.3'
 gem 'multi_json'
-gem 'oj'
+gem 'oj', '~> 2.11.4'
 
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
@@ -80,6 +80,11 @@ gem 'daemons'
 # (see https://community.openproject.org/work_packages/3029)
 gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
+# Rack::Attack is a rack middleware to protect your web app from bad clients.
+# It allows whitelisting, blacklisting, throttling, and tracking based on arbitrary properties of the request.
+# https://github.com/kickstarter/rack-attack
+gem 'rack-attack'
+
 gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
 gem 'gon', '~> 4.0'
@@ -88,7 +93,7 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   # see https://github.com/mperham/dalli
-  gem 'dalli'
+  gem 'dalli', '~> 2.7.2'
 end
 
 gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '2_2_2_backport2'
@@ -117,11 +122,10 @@ gem 'unicorn'
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
 
-gem 'i18n', '>=0.6.8'
+gem 'i18n', '~> 0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
 
-gem 'nokogiri', '>=1.5.11'
-# see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
+gem 'nokogiri', '~> 1.6.6'
 
 gem 'carrierwave', '~> 0.10.0'
 gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
@@ -132,7 +136,7 @@ group :test do
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.0"
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', "~> 1.4.2", :require => false
   gem 'rack_session_access'
   # restrict because in version 1.3 a lot of tests using acts as journalized
   # fail stating: "Column 'user_id' cannot be null". I don't understand the
@@ -145,7 +149,7 @@ group :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'capybara', '~> 2.3.0'
-  gem 'capybara-screenshot'
+  gem 'capybara-screenshot', '~> 1.0.4'
   gem 'selenium-webdriver', '~> 2.44.0'
   gem 'timecop', '~> 0.7.1'
 
@@ -153,11 +157,10 @@ group :test do
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', '0.8.0.pre'
-  gem "shoulda-matchers"
+  gem "shoulda-matchers", '~> 2.5.0'
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
   gem "codeclimate-test-reporter", :require => nil
-  gem 'test-unit', '2.5.5'
 end
 
 group :ldap do
@@ -170,6 +173,7 @@ group :development do
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
+  gem 'rubocop', '~> 0.28'
 end
 
 group :development, :test do

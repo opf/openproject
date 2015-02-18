@@ -82,6 +82,10 @@ module OpenProject
         array self['disabled_modules']
       end
 
+      def blacklisted_routes
+        array self['blacklisted_routes']
+      end
+
       def available_file_uploaders
         {
           fog: ::FogFileUploader,

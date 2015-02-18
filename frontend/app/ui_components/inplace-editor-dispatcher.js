@@ -103,8 +103,6 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         $scope.options = options;
       }
       $scope.$broadcast('focusSelect2');
-    } else {
-      $scope.isEditable = false;
     }
   }
 
@@ -149,10 +147,14 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         enableAutoCompletion(element);
         scope.$on('startEditing', function() {
           $timeout(function() {
-            element.find('.ined-dashboard').css({
-              'margin-left': element
+            var typeWidth = element
                 .closest('.work-packages--details-content')
-                .find('.select-type:first').width()
+                .find('.select-type:first').width();
+            element.find('.ined-dashboard').css({
+              'margin-left': typeWidth
+            });
+            element.find('input[type=text]').css({
+              'width': element.find('.ined-dashboard').width()
             });
           }, 0, false);
         });

@@ -85,6 +85,9 @@ GEM
       activerecord (>= 3.0)
     addressable (2.3.4)
     arel (3.0.3)
+    ast (2.0.0)
+    astrolabe (1.3.0)
+      parser (>= 2.2.0.pre.3, < 3.0)
     autoprefixer-rails (5.1.5)
       execjs
       json
@@ -99,8 +102,6 @@ GEM
     bourbon (4.1.1)
       sass (~> 3.3)
       thor
-    bourne (1.4.0)
-      mocha (~> 0.13.2)
     builder (3.0.4)
     byebug (2.7.0)
       columnize (~> 0.3)
@@ -111,8 +112,10 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-screenshot (0.3.6)
+    capybara-screenshot (1.0.5)
       capybara (>= 1.0, < 3)
+      colored
+      launchy
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -130,23 +133,25 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     color-tools (1.3.0)
+    colored (1.2)
     columnize (0.8.9)
-    cucumber (1.3.8)
+    cucumber (1.3.18)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
-      gherkin (~> 2.12.1)
+      gherkin (~> 2.12)
       multi_json (>= 1.7.5, < 2.0)
-      multi_test (>= 0.0.2)
-    cucumber-rails (1.3.1)
-      capybara (>= 1.1.2)
-      cucumber (>= 1.2.0)
-      nokogiri (>= 1.5.0)
-      rails (~> 3.0)
+      multi_test (>= 0.1.1)
+    cucumber-rails (1.4.2)
+      capybara (>= 1.1.2, < 3)
+      cucumber (>= 1.3.8, < 2)
+      mime-types (>= 1.16, < 3)
+      nokogiri (~> 1.5)
+      rails (>= 3, < 5)
     daemons (1.1.9)
-    dalli (2.6.4)
+    dalli (2.7.2)
     database_cleaner (1.2.0)
-    date_validator (0.7.0)
-      activemodel (>= 3)
+    date_validator (0.7.1)
+      activemodel
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     delayed_job (3.0.5)
@@ -200,10 +205,9 @@ GEM
     formatador (0.2.5)
     gherkin (2.12.2)
       multi_json (~> 1.3)
-    globalize (3.0.0)
-      activemodel (>= 3.0.0)
-      activerecord (>= 3.0.0)
-      paper_trail (~> 2)
+    globalize (3.1.0)
+      activemodel (>= 3.1.0, < 4.0.0)
+      activerecord (>= 3.1.0, < 4.0.0)
     gon (4.0.0)
       actionpack (>= 2.3.0)
       json
@@ -229,7 +233,7 @@ GEM
     ipaddress (0.8.0)
     iso8601 (0.8.2)
     journey (1.0.4)
-    json (1.8.1)
+    json (1.8.2)
     json_spec (1.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
@@ -248,34 +252,31 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    metaclass (0.0.1)
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.6.2)
     minisyntax (0.2.3)
-    mocha (0.13.3)
-      metaclass (~> 0.0.1)
     multi_json (1.10.1)
-    multi_test (0.0.2)
+    multi_test (0.1.1)
     multi_xml (0.5.5)
     mysql2 (0.3.17)
     net-ldap (0.8.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (2.9.1)
-    nokogiri (1.6.5)
+    net-ssh (2.9.2)
+    nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     non-stupid-digest-assets (1.0.4)
     object-daddy (1.1.1)
-    oj (2.1.6)
+    oj (2.11.4)
     omniauth (1.2.1)
       hashie (>= 1.2, < 3)
       rack (~> 1.0)
-    paper_trail (2.7.2)
-      activerecord (~> 3.0)
-      railties (~> 3.0)
+    parser (2.2.0.2)
+      ast (>= 1.1, < 3.0)
     pg (0.17.1)
     polyglot (0.3.5)
+    powerpack (0.0.9)
     prototype-rails (3.2.1)
       rails (~> 3.2)
     pry (0.9.12.6)
@@ -303,6 +304,8 @@ GEM
     rack (1.4.5)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-attack (4.2.0)
+      rack
     rack-cache (1.2)
       rack (>= 0.4)
     rack-mount (0.8.3)
@@ -334,8 +337,9 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
+    rainbow (2.0.0)
     raindrops (0.13.0)
-    rake (10.3.2)
+    rake (10.4.2)
     rb-readline (0.5.1)
     rdoc (3.12.2)
       json (~> 1.4)
@@ -375,6 +379,12 @@ GEM
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
       rspec-mocks (~> 2.99.0)
+    rubocop (0.28.0)
+      astrolabe (~> 1.3)
+      parser (>= 2.2.0.pre.7, < 3.0)
+      powerpack (~> 0.0.6)
+      rainbow (>= 1.99.1, < 3.0)
+      ruby-progressbar (~> 1.4)
     ruby-duration (3.2.0)
       activesupport (>= 3.0.0)
       i18n
@@ -394,10 +404,9 @@ GEM
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
       shoulda-matchers (>= 1.4.1, < 3.0)
-    shoulda-context (1.1.2)
-    shoulda-matchers (2.1.0)
+    shoulda-context (1.2.1)
+    shoulda-matchers (2.5.0)
       activesupport (>= 3.0.0)
-      bourne (~> 1.3)
     simplecov (0.8.0.pre)
       multi_json
       simplecov-html (~> 0.7.1)
@@ -410,7 +419,6 @@ GEM
     structured_warnings (0.1.4)
     svg-graph (1.0.5)
     syck (1.0.1)
-    test-unit (2.5.5)
     thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -422,7 +430,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.42)
+    tzinfo (0.3.43)
     uber (0.0.12)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
@@ -454,27 +462,27 @@ DEPENDENCIES
   awesome_nested_set
   bourbon (~> 4.1.1)
   capybara (~> 2.3.0)
-  capybara-screenshot
+  capybara-screenshot (~> 1.0.4)
   carrierwave (~> 0.10.0)
   cocaine
   codeclimate-test-reporter
-  coderay (~> 1.0.5)
+  coderay (~> 1.0.9)
   color-tools (~> 1.3.0)
-  cucumber-rails
+  cucumber-rails (~> 1.4.2)
   daemons
-  dalli
+  dalli (~> 2.7.2)
   database_cleaner (~> 1.2.0)
-  date_validator
+  date_validator (~> 0.7.1)
   delayed_job_active_record (= 0.3.3)
   factory_girl_rails (~> 4.0)
   faker
   fog (~> 1.23.0)
-  globalize
+  globalize (~> 3.1.0)
   gon (~> 4.0)
   grape (~> 0.10.1)
   gravatar_image_tag (~> 1.2.0)
   htmldiff
-  i18n (>= 0.6.8)
+  i18n (~> 0.6.8)
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)
@@ -483,10 +491,10 @@ DEPENDENCIES
   multi_json
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.8.0)
-  nokogiri (>= 1.5.11)
+  nokogiri (~> 1.6.6)
   non-stupid-digest-assets
   object-daddy (~> 1.1.0)
-  oj
+  oj (~> 2.11.4)
   omniauth
   pg (~> 0.17.1)
   prototype-rails
@@ -498,6 +506,7 @@ DEPENDENCIES
   pry-stack_explorer
   quiet_assets
   rabl (= 0.9.3)
+  rack-attack
   rack-protection!
   rack-test (~> 0.6.2)
   rack_session_access
@@ -513,6 +522,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-example_disabler!
   rspec-rails (~> 2.99.0)
+  rubocop (~> 0.28)
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar
@@ -521,14 +531,13 @@ DEPENDENCIES
   sass-rails!
   selenium-webdriver (~> 2.44.0)
   shoulda
-  shoulda-matchers
+  shoulda-matchers (~> 2.5.0)
   simplecov (= 0.8.0.pre)
   sprockets!
   sprockets-rails!
   strong_parameters
   svg-graph
   syck
-  test-unit (= 2.5.5)
   thin
   timecop (~> 0.7.1)
   uglifier (>= 1.0.3)
