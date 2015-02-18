@@ -45,6 +45,18 @@ module API
 
         LINK_FORMATS = ['list', 'user', 'version']
 
+        PATH_METHOD_MAP = {
+          'user' => :user,
+          'version' => :version,
+          'list' => :string_object
+        }
+
+        NAMESPACE_MAP = {
+          'user' => 'users',
+          'version' => 'versions',
+          'list' => 'string_objects'
+        }
+
         class << self
           def linked_field?(custom_field)
             LINK_FORMATS.include?(custom_field.field_format)
@@ -84,7 +96,35 @@ module API
         end
 
         def inject_patchable_link_value(custom_field)
-          # NOP; TODO: implement
+          property = property_name(custom_field.id)
+          path = path_method_for(custom_field)
+          expected_namespace = NAMESPACE_MAP[custom_field.field_format]
+
+          @class.property property,
+                          exec_context: :decorator,
+                          getter: -> (*) {
+                            custom_value = represented.custom_value_for(custom_field)
+                            value = custom_value.value if custom_value
+
+                            { href: (api_v3_paths.send(path, value) if value) }
+                          },
+                          setter: -> (link_object, *) {
+                            href = link_object['href']
+                            return nil unless href
+
+                            resource = ::API::Utilities::ResourceLinkParser.parse href
+
+                            if resource.nil? || resource[:ns] != expected_namespace
+                              actual_namespace = resource ? resource[:ns] : nil
+
+                              fail ::API::Errors::Form::InvalidResourceLink.new(property,
+                                                                                expected_namespace,
+                                                                                actual_namespace)
+                            end
+
+                            value = resource[:id]
+                            represented.custom_field_values = { custom_field.id => value }
+                          }
         end
 
         private
@@ -151,14 +191,7 @@ module API
         end
 
         def path_method_for(custom_field)
-          case custom_field.field_format
-          when 'version'
-            :version
-          when 'user'
-            :user
-          when 'list'
-            :string_object
-          end
+          PATH_METHOD_MAP[custom_field.field_format]
         end
 
         def inject_link_value(custom_field)

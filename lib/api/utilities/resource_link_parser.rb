@@ -33,12 +33,21 @@ module API
       def self.parse(resource_link)
         ::API::Root.routes.each do |route|
           route_options = route.instance_variable_get(:@options)
-          match = route_options[:compiled].match(resource_link)
 
+          # we are matching the resource link without trailing slashes, as they would still make
+          # for a valid link (even though it does not match the compiled regex)
+          match = route_options[:compiled].match(resource_link.chomp('/'))
+
+          # TODO: cleanup
+          # TODO: still does not support empty string_objects (makes them nil)
           if match
+            # we want to capture the identifying key regardless of its name
+            id_key = match.names.reject { |name| ['version', 'format'].include?(name) }.first
+            id = id_key ? match[id_key] : nil
+
             return {
-              ns: /\/(?<ns>\w+)\//.match(route_options[:namespace])[:ns],
-              id: match[:id]
+              ns: /\/(?<ns>\w+)/.match(route_options[:namespace])[:ns],
+              id: id
             }
           end
         end

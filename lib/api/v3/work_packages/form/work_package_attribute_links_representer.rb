@@ -39,6 +39,28 @@ module API
           include Roar::Hypermedia
           include API::V3::Utilities::PathHelper
 
+          class << self
+            alias_method :original_new, :new
+
+            # we can't use a factory method as we sometimes rely on ROAR instantiating representers
+            # for us. Thus we override the :new method.
+            # This allows adding instance specific properties to our representer.
+            def new(work_package)
+              klass = Class.new(WorkPackageAttributeLinksRepresenter)
+              injector_class = ::API::V3::Utilities::CustomFieldInjector
+              linked_fields = work_package.available_custom_fields.select do |cf|
+                injector_class.linked_field?(cf)
+              end
+
+              injector = injector_class.new(klass)
+              linked_fields.each do |custom_field|
+                injector.inject_patchable_link_value(custom_field)
+              end
+
+              klass.original_new(work_package)
+            end
+          end
+
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
           def self.linked_property(property_name: nil,
@@ -113,7 +135,12 @@ module API
             if resource.nil? || resource[:ns] != ns.to_s
               actual_ns = resource ? resource[:ns] : nil
 
-              fail ::API::Errors::Form::InvalidResourceLink.new(property, ns, actual_ns)
+              property_localized = I18n.t("attributes.#{property}")
+              expected_localized = I18n.t("attributes.#{ns.to_s.singularize}")
+              actual_localized = I18n.t("attributes.#{actual_ns.to_s.singularize}")
+              fail ::API::Errors::Form::InvalidResourceLink.new(property_localized,
+                                                                expected_localized,
+                                                                actual_localized)
             end
 
             resource ? resource[:id] : nil
