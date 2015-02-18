@@ -49,6 +49,12 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
     }
   }
 
+  $scope.setDefaultDirection = function(criterion) {
+    if (criterion.length === 1) {
+      criterion.push($scope.defaultDirection);
+    }
+  };
+
   // functions exposing available options to select2
 
   $scope.getAvailableColumnsData = function(term, result) {
@@ -97,6 +103,7 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
   // setup
 
   $scope.availableDirectionsData = [{ id: 'desc', label: I18n.t('js.label_descending')}, { id: 'asc', label: I18n.t('js.label_ascending')}];
+  $scope.defaultDirection = $scope.availableDirectionsData[1];
 
   var blankOption = { id: null, label: ' ', other: null };
 
