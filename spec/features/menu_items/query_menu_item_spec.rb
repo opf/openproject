@@ -27,13 +27,44 @@
 #++
 
 require 'spec_helper'
+require 'features/work_packages/work_packages_page'
 
 feature 'Query menu items' do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
+  let(:work_packages_page) { WorkPackagesPage.new(project) }
+
+  def visit_index_page(query)
+    work_packages_page.select_query(query)
+    # ensure the page is loaded before expecting anything
+    when_js_enabled do
+      find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
+                                                       visible: false)
+    end
+  end
+
+  def when_js_enabled(&block)
+    if Capybara.current_driver == Capybara.javascript_driver
+      block.call
+    end
+  end
 
   before do
     User.stub(:current).and_return user
+  end
+
+  after do
+    # Ensure that all requests have fired and are answered.  Otherwise one
+    # spec can interfere with the next when a request of the former is still
+    # running in the one process but the other process has already removed
+    # the data in the db to prepare for the next spec.
+    #
+    # Taking an element, that get's activated late in the page setup.
+    when_js_enabled do
+      expect(page).to have_selector('.advanced-filters--filter label',
+                                    text: I18n.t(:label_status),
+                                    visible: false)
+    end
   end
 
   context 'with identical names' do
@@ -44,7 +75,7 @@ feature 'Query menu items' do
     let!(:menu_item_b) { FactoryGirl.create :query_menu_item, query: query_b }
 
     it 'can be shown' do
-      visit "/projects/#{project.identifier}"
+      visit_index_page(query_a)
 
       expect(page).to have_selector('a', text: query_a.name, count: 2)
     end
@@ -58,7 +89,7 @@ feature 'Query menu items' do
     end
 
     it 'can be added', js: true do
-      visit project_work_packages_path(project, query_id: query.id)
+      visit_index_page(query)
 
       click_on 'Settings'
       click_on 'Share ...'
@@ -83,7 +114,7 @@ feature 'Query menu items' do
 
       new_name = 'aaaaa'
 
-      visit project_work_packages_path(project, query_id: query_b.id)
+      visit_index_page(query_b)
 
       click_on I18n.t('js.button_settings')
       click_on I18n.t('js.toolbar.settings.page_settings')
