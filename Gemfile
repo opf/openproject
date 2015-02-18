@@ -63,7 +63,7 @@ gem 'ruby-duration', '~> 3.2.0'
 # because we have to apply to it a bugfix which could break things in other versions.
 # This can be removed as soon as said bugfix is integrated into rabl itself.
 # See: config/initializers/rabl_hack.rb
-gem 'rabl', '0.9.3'
+gem 'rabl', '~> 0.11.6'
 gem 'multi_json'
 gem 'oj', '~> 2.11.4'
 
