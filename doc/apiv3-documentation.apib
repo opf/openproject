@@ -2590,14 +2590,14 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | id               | Work package id                                        | Integer     | x > 0                                                                        | READ                 |                                  |
 | lockVersion      | The version of the item as used for optimistic locking | Integer     |                                                                              | READ                 |                                  |
 | subject          | Work package subject                                   | String      | not null; 1 <= length <= 255                                                 | READ / WRITE         |                                  |
-| type             | Name of the work package's type                        | String      | not null                                                                     | READ                 |                                  |
+| type             | Name of the work package's type                        | String      |  not null                                                                    | READ                 |                                  |
 | description      | The work package description                           | Formattable |                                                                              | READ / WRITE         |                                  |
 | parentId         | Parent work package id                                 | Integer     | Must be an id of an existing and visible (for the current user) work package | READ / WRITE         |                                  |
 | startDate        |                                                        | Date        | must be equal or greater than the soonest possible start date                | READ / WRITE         |                                  |
 | dueDate          |                                                        | Date        | must be greater than or equal to the start date                              | READ / WRITE         |                                  |
-| estimatedTime    |                                                        | Duration    |                                                                              | READ                 |                                  |
+| estimatedTime    | Time a work package likely needs to be completed       | Duration    | Cannot be set for parent work packages                                       | READ / WRITE         |                                  |
 | spentTime        |                                                        | Duration    |                                                                              | READ                 | **Permission** view time entries |
-| percentageDone   |                                                        | Integer     | 0 <= x <= 100                                                                | READ                 |                                  |
+| percentageDone   | Amount of total completion for a work package          | Integer     | Cannot be set for parent work packages 0 <= x <= 100                         | READ / WRITE         |                                  |
 | createdAt        | Time of creation                                       | DateTime    |                                                                              | READ                 |                                  |
 | updatedAt        | Time of the most recent change to the work package     | DateTime    |                                                                              | READ                 |                                  |
 
@@ -2609,6 +2609,12 @@ all properties of the linking work package, including properties added by plug-i
 *Custom fields are identified by a key in the form of `customFieldN`, where `N` is an integer. Depending on their type,
 they can occur as properties or as linked properties. A client has to consult the schema to resolve
 the human readable name of custom fields.*
+
+*Properties that cannot be set directly on parent work packages are inferred from their children instead.
+I.e. start date is the soonest start date from its children whereas the due date is the latest due date from its children.
+The estimated time of a parent work package is the sum of its children estimates. The percentage done of a parent work
+package is the average of the sum of its children percentages done. However, if the percentage done is given by a work
+package's status, then only the status matters and no value is inferred.*
 
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
