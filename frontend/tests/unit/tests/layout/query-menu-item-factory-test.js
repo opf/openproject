@@ -114,6 +114,7 @@ describe('queryMenuItemFactory', function() {
       }));
 
       it('marks the new item as selected', function() {
+        $rootScope.$broadcast('openproject.layout.activateMenuItem');
         expect(itemLink.hasClass('selected')).to.be.true;
       });
 
@@ -122,6 +123,24 @@ describe('queryMenuItemFactory', function() {
         $rootScope.$broadcast('openproject.layout.activateMenuItem');
 
         expect(itemLink.hasClass('selected')).to.be.false;
+      });
+    });
+
+    describe('when the query id is undefined', function(){
+      beforeEach(inject(function($timeout) {
+        stateParams.query_id = objectId;
+        $timeout.flush();
+      }));
+
+      it('marks the new item as unselected', function() {
+        expect(itemLink.hasClass('selected')).to.be.false;
+      });
+
+      it('toggles the selected state on state change', function() {
+        stateParams.query_id = objectId;
+        $rootScope.$broadcast('openproject.layout.activateMenuItem');
+
+        expect(itemLink.hasClass('selected')).to.be.true;
       });
     });
   });
@@ -150,6 +169,7 @@ describe('queryMenuItemFactory', function() {
         }));
 
         it('marks the item as selected', function() {
+          $rootScope.$broadcast('openproject.layout.activateMenuItem');
           expect(itemLink.hasClass('selected')).to.be.true;
         });
       });
@@ -161,6 +181,7 @@ describe('queryMenuItemFactory', function() {
         }));
 
         it('marks the item as selected', function() {
+          $rootScope.$broadcast('openproject.layout.activateMenuItem');
           expect(itemLink.hasClass('selected')).to.be.true;
         });
       });
