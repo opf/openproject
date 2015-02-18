@@ -40,12 +40,7 @@ module API
           include API::V3::Utilities::PathHelper
 
           class << self
-            alias_method :original_new, :new
-
-            # we can't use a factory method as we sometimes rely on ROAR instantiating representers
-            # for us. Thus we override the :new method.
-            # This allows adding instance specific properties to our representer.
-            def new(work_package)
+            def create(work_package)
               klass = Class.new(WorkPackageAttributeLinksRepresenter)
               injector_class = ::API::V3::Utilities::CustomFieldInjector
               linked_fields = work_package.available_custom_fields.select do |cf|
@@ -57,7 +52,7 @@ module API
                 injector.inject_patchable_link_value(custom_field)
               end
 
-              klass.original_new(work_package)
+              klass.new(work_package)
             end
           end
 

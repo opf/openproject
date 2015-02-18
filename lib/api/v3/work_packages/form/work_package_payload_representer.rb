@@ -141,7 +141,7 @@ module API
           end
 
           def work_package_attribute_links_representer(represented)
-            ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.new represented
+            ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.create represented
           end
         end
       end
