@@ -193,10 +193,14 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
 
       function mulipleRowsChecked(){
         var counter = 0;
-        for(var i = 0, l = scope.rows.length; i<l; i++)
-          if(scope.rows[i].checked)
-            if(++counter === 2) return true;
-        return false
+        for (var i = 0, l = scope.rows.length; i<l; i++) {
+          if (scope.rows[i].checked) {
+            if (++counter === 2) {
+              return true;
+            }
+          }
+        }
+        return false;
       }
 
       scope.selectWorkPackage = function(row, $event) {
