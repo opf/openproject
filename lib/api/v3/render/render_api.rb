@@ -42,10 +42,11 @@ module API
             def check_content_type
               actual = request.content_type
 
-              unless actual.starts_with? SUPPORTED_MEDIA_TYPE
+              unless actual && actual.starts_with?(SUPPORTED_MEDIA_TYPE)
+                bad_type = actual || I18n.t('api_v3.errors.missing_content_type')
                 message = I18n.t('api_v3.errors.invalid_content_type',
                                  content_type: SUPPORTED_MEDIA_TYPE,
-                                 actual: actual)
+                                 actual: bad_type)
 
                 fail API::Errors::InvalidRequestBody, message
               end
