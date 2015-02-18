@@ -31,14 +31,15 @@ module.exports = function($http, PathHelper) {
     renderWithWorkPackageContext: renderWithWorkPackageContext
   };
 
-  function renderWithWorkPackageContext(workPackageForm) {
-    return render(workPackageForm.links.previewMarkup.props.href);
+  function renderWithWorkPackageContext(workPackageForm, text) {
+    return render(workPackageForm.links.previewMarkup.props.href, text);
   }
 
-  function render(url) {
+  function render(url, text) {
     return $http({
       url: url,
       method: 'POST',
+      data: text,
       headers: { 'Content-Type': 'text/plain; charset=UTF-8' }
     });
   }
