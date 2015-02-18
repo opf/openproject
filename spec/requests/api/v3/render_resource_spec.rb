@@ -69,7 +69,7 @@ describe 'API v3 Render resource' do
               { 'text' => "Hello World! Have a look at ##{work_package.id}" }.to_json
             }
 
-            it_behaves_like 'invalid request body',
+            it_behaves_like 'unsupported content type',
                             I18n.t('api_v3.errors.invalid_content_type',
                                    content_type: 'text/plain',
                                    actual: 'application/json')

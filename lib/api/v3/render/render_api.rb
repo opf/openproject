@@ -48,7 +48,7 @@ module API
                                  content_type: SUPPORTED_MEDIA_TYPE,
                                  actual: bad_type)
 
-                fail API::Errors::InvalidRequestBody, message
+                fail API::Errors::UnsupportedMediaType, message
               end
             end
 

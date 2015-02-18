@@ -177,6 +177,7 @@ embedded errors or simply state that multiple errors occured.
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
+* `urn:openproject-org:api:v3:errors:TypeNotSupported` (**HTTP 415**) - The request contained data in an unsupported media type (Content-Type)
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
 * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
@@ -946,10 +947,10 @@ This is an example of how a form might look like. Note that this endpoint does n
 # Group Previewing
 
 Throughout OpenProject user input for many properties can be formatted (e.g. using *Textile*).
-Using the apropriate rendering endpoint it is possible to render custom formatted inputs into HTML and thus
+Using the appropriate rendering endpoint it is possible to render custom formatted inputs into HTML and thus
 receive a preview of the rendered text.
 
-The request to a rendering endpoint should always have a MIME-Type of `text/plain`.
+The request to a rendering endpoint must always have a MIME-Type of `text/plain`.
 The request body is the actual string that shall be rendered as HTML string.
 
 ## Textile [/api/v3/render/textile{?context}]
@@ -995,6 +996,18 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "Could not render textile string in the given context."
             }
 
++ Response 415 (application/json)
+
+    Returned if the Content-Type indicated in the request is not `text/plain`.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:TypeNotSupported",
+                "message": "Expected Content-Type to be 'text/plain' but got 'application/json'."
+            }
+
 ## Plain Text [/api/v3/render/plain]
 
 + Model
@@ -1011,6 +1024,18 @@ The request body is the actual string that shall be rendered as HTML string.
 + Response 200 (text/html)
 
     [Plain Text][]
+
++ Response 415 (application/json)
+
+    Returned if the Content-Type indicated in the request is not `text/plain`.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:TypeNotSupported",
+                "message": "Expected Content-Type to be 'text/plain' but got 'application/json'."
+            }
 
 # Group Priorities
 

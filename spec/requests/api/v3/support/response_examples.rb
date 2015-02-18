@@ -64,6 +64,13 @@ shared_examples_for 'invalid request body' do |message|
                   message
 end
 
+shared_examples_for 'unsupported content type' do |message|
+  it_behaves_like 'error response',
+                  415,
+                  'TypeNotSupported',
+                  message
+end
+
 shared_examples_for 'parse error' do |message|
   it_behaves_like 'invalid request body',
                   I18n.t('api_v3.errors.parse_error')
