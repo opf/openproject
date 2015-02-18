@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('queryFilters', function() {
-  var doc, $httpBackend, $timeout, compile, scope, element;
+  var doc, $httpBackend, $timeout, compile, scope, element, PathHelper;
   var html = "<query-filters></query-filters>";
 
   beforeEach(module('ui.router',
@@ -43,9 +43,10 @@ describe('queryFilters', function() {
     $provide.constant('ConfigurationService', new Object());
   }));
 
-  beforeEach(inject(function($rootScope, $compile, $document, _$httpBackend_, _$timeout_) {
-    $httpBackend = _$httpBackend_; 
+  beforeEach(inject(function($rootScope, $compile, $document, _$httpBackend_, _$timeout_, _PathHelper_) {
+    $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
+    PathHelper = _PathHelper_;
 
     doc = $document[0];
     scope = $rootScope.$new();

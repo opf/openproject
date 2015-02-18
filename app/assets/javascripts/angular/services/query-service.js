@@ -368,6 +368,10 @@ angular.module('openproject.services')
       return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
+        $rootScope.$broadcast('openproject.layout.removeMenuItem', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          objectId: query.id
+        });
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
       });
     },
