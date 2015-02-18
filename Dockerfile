@@ -90,6 +90,15 @@ MAINTAINER Finn GmbH <info@finn.de>
 # update the package list
 RUN apt-get update
 
+# install build-essential because we need to compile some native extensions
+RUN apt-get install -y build-essential
+
+# install zlib development headers for nokogiri to build
+#
+# http://www.nokogiri.org/tutorials/installing_nokogiri.html
+#
+RUN apt-get install -y zlib1g-dev
+
 # we use a database for our backend, so let's add a couple of them
 RUN apt-get -y install libpq-dev libmysql++-dev sqlite3 libsqlite3-dev
 
