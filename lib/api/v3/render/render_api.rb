@@ -116,7 +116,9 @@ module API
               check_content_type
               setup_response
 
-              renderer = ::API::Utilities::TextRenderer.new(request_body, object: context_object, format: @format)
+              renderer = ::API::Utilities::TextRenderer.new(request_body,
+                                                            object: context_object,
+                                                            format: @format)
               renderer.to_html
             end
           end
