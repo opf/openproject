@@ -45,28 +45,14 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     formattedDate: function(date) {
-      var date;
-
-      if (ConfigurationService.dateFormatPresent()) {
-        date = TimezoneService.parseDate(date).format(ConfigurationService.dateFormat());
-      } else {
-        date = TimezoneService.parseDate(date).format('L');
-      }
-
-      return date;
+      var format = ConfigurationService.dateFormatPresent() ? ConfigurationService.dateFormat() : 'L';
+      return TimezoneService.parseDate(date).format(format);
     },
 
     formattedTime: function(date) {
-      var time;
-
-      if (ConfigurationService.timeFormatPresent()) {
-        time = TimezoneService.parseDate(date).format(ConfigurationService.timeFormat());
-      } else {
-        time = TimezoneService.parseDate(date).format('LT');
-      }
-
-      return time;
-    },
+      var format = ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
+      return TimezoneService.parseDate(date).format(format);
+    }
   };
 
   return TimezoneService;
