@@ -160,7 +160,7 @@ class CustomField < ActiveRecord::Base
   # :locale => <locale (-> :en, :de, ...)>
   def possible_values(obj = nil)
     case field_format
-    when 'user'
+    when 'user', 'version'
       possible_values_options(obj).map(&:last)
     else
       options = obj.nil? ? {} : obj

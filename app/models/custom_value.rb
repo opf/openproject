@@ -87,8 +87,10 @@ class CustomValue < ActiveRecord::Base
         begin; Kernel.Float(value); rescue; errors.add(:value, :invalid) end
       when 'date'
         errors.add(:value, :not_a_date) unless value =~ /\A\d{4}-\d{2}-\d{2}\z/
-      when 'list'
-        errors.add(:value, :inclusion) unless custom_field.possible_values.include?(value)
+      when 'list', 'user', 'version'
+        unless custom_field.possible_values(customized).include?(value)
+          errors.add(:value, :inclusion)
+        end
       end
     end
   end
