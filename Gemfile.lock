@@ -295,8 +295,6 @@ GEM
     rails-dev-tweaks (0.6.1)
       actionpack (~> 3.1)
       railties (~> 3.1)
-    rails_autolink (1.1.0)
-      rails (> 3.1)
     railties (3.2.21)
       actionpack (= 3.2.21)
       activesupport (= 3.2.21)
@@ -468,7 +466,6 @@ DEPENDENCIES
   rack_session_access
   rails (~> 3.2.21)
   rails-dev-tweaks (~> 0.6.1)
-  rails_autolink
   rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
   reform (~> 1.0.4)
