@@ -31,7 +31,7 @@
 describe('DetailsTabOverviewController', function() {
   var DEFAULT_WORK_PACKAGE_PROPERTIES = ['status', 'assignee', 'responsible',
                                          'date', 'percentageDone', 'priority',
-                                         'estimatedTime', 'versionName', 'spentTime'];
+                                         'estimatedTime', 'version', 'spentTime'];
 
   var scope, ctrl;
   var buildController;

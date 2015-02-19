@@ -94,10 +94,6 @@
       "type": "text/html",
       "title": "Time entries"
     },
-    "version": {
-      "href": "/api/v3/versions/1",
-      "title": "alpha"
-    },
     "project": {
       "href": "/api/v3/projects/1",
       "title": "Seeded Project"
