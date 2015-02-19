@@ -68,7 +68,7 @@ gem 'multi_json'
 gem 'oj', '~> 2.11.4'
 
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
-gem 'strong_parameters'
+gem 'strong_parameters', '~> 0.2.3'
 
 # we need the old Version to be compatible with pgsql 8.4
 # see: http://stackoverflow.com/questions/14862144/rake-jobswork-gives-pgerror-error-select-for-update-share-is-not-allowed-in
