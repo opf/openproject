@@ -54,7 +54,6 @@ gem 'globalize', "3.0.0"
 gem 'request_store'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
-gem 'rails_autolink'
 gem "will_paginate", '~> 3.0'
 gem "acts_as_list", "~> 0.2.0"
 
@@ -139,7 +138,7 @@ gem 'unicorn'
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
 
-gem 'i18n', '>=0.6.8'
+gem 'i18n', '~> 0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
 
 gem 'nokogiri', '>=1.5.11'
