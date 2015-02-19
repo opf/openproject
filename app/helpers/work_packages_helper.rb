@@ -520,7 +520,9 @@ module WorkPackagesHelper
                             required: true)
               end
             elsif work_package.status
-              form.label(:status) + work_package.status.name
+              work_package_form_field do
+                form.label(:status, class: "form--label") + wrap_element_in_container(work_package.status.name)
+              end
             else
               form.label(:status) + empty_element_tag
             end
@@ -756,5 +758,11 @@ module WorkPackagesHelper
                end
 
     [responsible, assignee].compact.join('<br>').html_safe
+  end
+
+  def wrap_element_in_container(name)
+    content_tag :span, class: "form--field-container" do
+      content_tag :span, name, class: "form--text-field-container"
+    end
   end
 end
