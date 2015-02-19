@@ -39,7 +39,7 @@ gem 'request_store'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
-gem 'rails_autolink'
+gem 'rails_autolink', '~> 1.1.6'
 gem "will_paginate", '~> 3.0'
 gem "acts_as_list", "~> 0.3.0"
 
