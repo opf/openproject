@@ -454,7 +454,6 @@ h4. things we like
                           'work_package.attributes.status_id.status_transition_invalid')
             }
           end
-
         end
 
         context 'wrong resource' do

@@ -102,24 +102,8 @@ module API
 
           @class.property property,
                           exec_context: :decorator,
-                          getter: -> (*) {
-                            custom_value = represented.custom_value_for(custom_field)
-                            value = custom_value.value if custom_value
-
-                            { href: (api_v3_paths.send(path, value) if value) }
-                          },
-                          setter: -> (link_object, *) {
-                            href = link_object['href']
-                            return nil unless href
-
-                            value = ::API::Utilities::ResourceLinkParser.parse_id(
-                              href,
-                              property: property,
-                              expected_version: '3',
-                              expected_namespace: expected_namespace)
-
-                            represented.custom_field_values = { custom_field.id => value }
-                          }
+                          getter: link_value_getter_for(custom_field, path),
+                          setter: link_value_setter_for(custom_field, property, expected_namespace)
         end
 
         private
@@ -190,13 +174,34 @@ module API
         end
 
         def inject_link_value(custom_field)
-          path = path_method_for(custom_field)
+          getter = link_value_getter_for(custom_field, path_method_for(custom_field))
           @class.link property_name(custom_field.id) do
+            instance_exec(&getter)
+          end
+        end
+
+        def link_value_getter_for(custom_field, path_method)
+          -> (*) {
             custom_value = represented.custom_value_for(custom_field)
             value = custom_value.value if custom_value
 
-            { href: (api_v3_paths.send(path, value) if value) }
-          end
+            { href: (api_v3_paths.send(path_method, value) if value) }
+          }
+        end
+
+        def link_value_setter_for(custom_field, property, expected_namespace)
+          -> (link_object, *) {
+            href = link_object['href']
+            return nil unless href
+
+            value = ::API::Utilities::ResourceLinkParser.parse_id(
+              href,
+              property: property,
+              expected_version: '3',
+              expected_namespace: expected_namespace)
+
+            represented.custom_field_values = { custom_field.id => value }
+          }
         end
 
         def inject_property_value(custom_field)

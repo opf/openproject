@@ -41,7 +41,7 @@ module API
 
           return nil unless match
 
-          return {
+          {
             version: match[:version],
             namespace: match[:namespace],
             id: match[:id]
@@ -57,9 +57,8 @@ module API
           resource = parse(resource_link)
 
           if resource
-            version_valid = expected_version.nil? || expected_version.to_s == resource[:version]
-            namespace_valid = expected_namespace.nil? ||
-                              expected_namespace.to_s == resource[:namespace]
+            version_valid = matches_expectation?(expected_version, resource[:version])
+            namespace_valid = matches_expectation?(expected_namespace, resource[:namespace])
           end
 
           unless resource && version_valid && namespace_valid
@@ -77,6 +76,12 @@ module API
 
         def resource_matcher
           @@matcher ||= Regexp.compile(RESOURCE_REGEX)
+        end
+
+        # returns whether expectation and actual are identical
+        # will always be true if there is no expectation (nil)
+        def matches_expectation?(expected, actual)
+          expected.nil? || expected.to_s == actual
         end
 
         def make_expected_link(version, namespace)

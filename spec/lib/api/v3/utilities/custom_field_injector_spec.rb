@@ -86,7 +86,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       let(:versions) { FactoryGirl.build_list(:version, 3) }
 
       before do
-        allow(::API::V3::Versions::VersionRepresenter).to receive(:new).and_return(double())
+        allow(::API::V3::Versions::VersionRepresenter).to receive(:new).and_return(double)
       end
 
       it_behaves_like 'has basic schema properties' do

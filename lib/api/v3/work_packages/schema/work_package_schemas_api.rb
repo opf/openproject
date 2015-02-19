@@ -32,7 +32,6 @@ module API
       module Schema
         class WorkPackageSchemasAPI < Grape::API
           resources :schemas do
-
             params do
               requires :project, desc: 'Work package schema id'
               requires :type, desc: 'Work package schema id'
