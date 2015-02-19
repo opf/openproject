@@ -268,7 +268,7 @@ GEM
       pry (>= 0.9.11)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
-    rabl (0.9.3)
+    rabl (0.11.6)
       activesupport (>= 2.3.14)
     rack (1.4.5)
     rack-accept (0.4.5)
@@ -462,7 +462,7 @@ DEPENDENCIES
   pry-rescue
   pry-stack_explorer
   quiet_assets
-  rabl (= 0.9.3)
+  rabl (~> 0.11.6)
   rack-protection!
   rack-test (~> 0.6.2)
   rack_session_access
