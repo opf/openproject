@@ -465,9 +465,9 @@ h4. things we like
           it_behaves_like 'constraint violation' do
             let(:message) {
               I18n.t('api_v3.errors.invalid_resource',
-                     property: 'Status',
-                     expected: 'Status',
-                     actual: 'User')
+                     property: 'status',
+                     expected: '/api/v3/statuses/:id',
+                     actual: status_link)
             }
           end
         end
@@ -589,9 +589,9 @@ h4. things we like
               it_behaves_like 'constraint violation' do
                 let(:message) {
                   I18n.t('api_v3.errors.invalid_resource',
-                         property: "#{property.capitalize}",
-                         expected: 'User',
-                         actual: 'Status')
+                         property: property,
+                         expected: '/api/v3/users/:id',
+                         actual: user_href)
                 }
               end
             end
