@@ -54,4 +54,8 @@ class ChiliProject::PrincipalAllowanceEvaluator::Base
   def project_granting_candidates project
     []
   end
+
+  def self.eager_load_for_project_authorization(project)
+    nil
+  end
 end
