@@ -114,8 +114,9 @@ module API
 
                             resource = ::API::Utilities::ResourceLinkParser.parse href
 
-                            if resource.nil? || resource[:ns] != expected_namespace
-                              actual_namespace = resource ? resource[:ns] : nil
+                            if resource.nil? || resource[:namespace] != expected_namespace ||
+                               resource[:version] != '3'
+                              actual_namespace = resource ? resource[:namespace] : nil
 
                               fail ::API::Errors::Form::InvalidResourceLink.new(property,
                                                                                 expected_namespace,

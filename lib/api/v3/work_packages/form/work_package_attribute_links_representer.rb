@@ -127,8 +127,9 @@ module API
 
             resource = ::API::Utilities::ResourceLinkParser.parse href
 
-            if resource.nil? || resource[:ns] != ns.to_s
-              actual_ns = resource ? resource[:ns] : nil
+            if resource.nil? || resource[:namespace] != ns.to_s ||
+               resource[:version] != '3'
+              actual_ns = resource ? resource[:namespace] : nil
 
               property_localized = I18n.t("attributes.#{property}")
               expected_localized = I18n.t("attributes.#{ns.to_s.singularize}")

@@ -30,27 +30,25 @@
 module API
   module Utilities
     module ResourceLinkParser
+      # N.B. valid characters for URL path segments as of
+      # http://tools.ietf.org/html/rfc3986#section-3.3
+      SEGMENT_CHARACTER = '(\w|[-~!$&\'\(\)*+\.,:;=@]|%[0-9A-Fa-f]{2})'
+      RESOURCE_REGEX = "/api/v(?<version>\\d)/(?<namespace>\\w+)/(?<id>#{SEGMENT_CHARACTER}*)\\z"
+
+      def self.resource_matcher
+        @@matcher ||= Regexp.compile(RESOURCE_REGEX)
+      end
+
       def self.parse(resource_link)
-        ::API::Root.routes.each do |route|
-          route_options = route.instance_variable_get(:@options)
+        match = resource_matcher.match(resource_link)
 
-          # we are matching the resource link without trailing slashes, as they would still make
-          # for a valid link (even though it does not match the compiled regex)
-          match = route_options[:compiled].match(resource_link.chomp('/'))
+        return nil unless match
 
-          if match
-            # we want to capture the identifying key regardless of its name (e.g. :id)
-            id_key = match.names.reject { |name| ['version', 'format'].include?(name) }.first
-            id = id_key ? match[id_key] : nil
-
-            return {
-              ns: /\/(?<ns>\w+)/.match(route_options[:namespace])[:ns],
-              id: id
-            }
-          end
-        end
-
-        nil
+        return {
+          version: match[:version],
+          namespace: match[:namespace],
+          id: match[:id]
+        }
       end
     end
   end
