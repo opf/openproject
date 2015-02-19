@@ -32,7 +32,7 @@ gem "rails", "~> 3.2.21"
 
 gem "coderay", "~> 1.0.9"
 gem "rubytree", "~> 0.8.3"
-gem "rdoc", ">= 2.4.2"
+gem "rdoc", "~> 3.12.2"
 gem 'globalize', "~> 3.1.0"
 gem 'omniauth'
 gem 'request_store'

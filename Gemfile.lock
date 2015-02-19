@@ -470,7 +470,7 @@ DEPENDENCIES
   rails-dev-tweaks (~> 0.6.1)
   rails_autolink
   rb-readline (~> 0.5.1)
-  rdoc (>= 2.4.2)
+  rdoc (~> 3.12.2)
   reform (~> 1.0.4)
   representable!
   request_store
