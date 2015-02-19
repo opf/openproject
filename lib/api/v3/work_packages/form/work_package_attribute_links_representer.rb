@@ -125,21 +125,10 @@ module API
           def parse_resource(property, ns, href)
             return nil unless href
 
-            resource = ::API::Utilities::ResourceLinkParser.parse href
-
-            if resource.nil? || resource[:namespace] != ns.to_s ||
-               resource[:version] != '3'
-              actual_ns = resource ? resource[:namespace] : nil
-
-              property_localized = I18n.t("attributes.#{property}")
-              expected_localized = I18n.t("attributes.#{ns.to_s.singularize}")
-              actual_localized = I18n.t("attributes.#{actual_ns.to_s.singularize}")
-              fail ::API::Errors::Form::InvalidResourceLink.new(property_localized,
-                                                                expected_localized,
-                                                                actual_localized)
-            end
-
-            resource ? resource[:id] : nil
+            ::API::Utilities::ResourceLinkParser.parse_id href,
+                                                          property: property,
+                                                          expected_version: '3',
+                                                          expected_namespace: ns
           end
         end
       end

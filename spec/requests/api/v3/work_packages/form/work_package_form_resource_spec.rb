@@ -375,11 +375,14 @@ describe 'API v3 Work package form resource', type: :request do
 
                   include_context 'post request'
 
-                  it_behaves_like 'constraint violation',
-                                  I18n.t('api_v3.errors.invalid_resource',
-                                         property: 'Status',
-                                         expected: 'Status',
-                                         actual: 'User')
+                  it_behaves_like 'constraint violation' do
+                    let(:message) {
+                      I18n.t('api_v3.errors.invalid_resource',
+                             property: 'status',
+                             expected: '/api/v3/statuses/:id',
+                             actual: status_link)
+                    }
+                  end
                 end
               end
             end
@@ -468,19 +471,21 @@ describe 'API v3 Work package form resource', type: :request do
 
                     include_context 'post request'
 
-                    it_behaves_like 'constraint violation',
-                                    I18n.t('api_v3.errors.invalid_resource',
-                                           property: "#{property.capitalize}",
-                                           expected: 'User',
-                                           actual: 'Status')
+                    it_behaves_like 'constraint violation' do
+                      let(:message) {
+                        I18n.t('api_v3.errors.invalid_resource',
+                               property: property,
+                               expected: '/api/v3/users/:id',
+                               actual: user_link)
+                      }
+                    end
                   end
 
                   context 'group assignement disabled' do
                     let(:user_link) { "/api/v3/users/#{group.id}" }
                     let(:error_message_path) { "_embedded/validationErrors/#{property}/message" }
                     let(:error_message) {
-                      I18n.t('api_v3.errors.validation.' \
-                             'invalid_user_assigned_to_work_package',
+                      I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                              property: "#{property.capitalize}").to_json
                     }
 

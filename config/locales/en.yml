@@ -1669,8 +1669,7 @@ en:
       code_404: "The requested resource could not be found."
       code_409: "Couldn\'t update the resource because of conflicting modifications."
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
-      invalid_resource:
-        "For property '%{property}' a resource of type '%{expected}' is expected but got a resource of type '%{actual}'."
+      invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
       multiple_errors: "Multiple fields violated their constraints."

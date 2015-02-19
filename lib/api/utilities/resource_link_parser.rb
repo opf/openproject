@@ -35,20 +35,55 @@ module API
       SEGMENT_CHARACTER = '(\w|[-~!$&\'\(\)*+\.,:;=@]|%[0-9A-Fa-f]{2})'
       RESOURCE_REGEX = "/api/v(?<version>\\d)/(?<namespace>\\w+)/(?<id>#{SEGMENT_CHARACTER}*)\\z"
 
-      def self.resource_matcher
-        @@matcher ||= Regexp.compile(RESOURCE_REGEX)
-      end
+      class << self
+        def parse(resource_link)
+          match = resource_matcher.match(resource_link)
 
-      def self.parse(resource_link)
-        match = resource_matcher.match(resource_link)
+          return nil unless match
 
-        return nil unless match
+          return {
+            version: match[:version],
+            namespace: match[:namespace],
+            id: match[:id]
+          }
+        end
 
-        return {
-          version: match[:version],
-          namespace: match[:namespace],
-          id: match[:id]
-        }
+        def parse_id(resource_link,
+                     property: nil,
+                     expected_version: nil,
+                     expected_namespace: nil)
+          raise ArgumentError unless resource_link && property
+
+          resource = parse(resource_link)
+
+          if resource
+            version_valid = expected_version.nil? || expected_version.to_s == resource[:version]
+            namespace_valid = expected_namespace.nil? ||
+                              expected_namespace.to_s == resource[:namespace]
+          end
+
+          unless resource && version_valid && namespace_valid
+            fail ::API::Errors::Form::InvalidResourceLink.new(property,
+                                                              make_expected_link(
+                                                                expected_version,
+                                                                expected_namespace),
+                                                              resource_link)
+          end
+
+          resource[:id]
+        end
+
+        private
+
+        def resource_matcher
+          @@matcher ||= Regexp.compile(RESOURCE_REGEX)
+        end
+
+        def make_expected_link(version, namespace)
+          version = "v#{version}" || ':apiVersion'
+          namespace = namespace || ':resource'
+          "/api/#{version}/#{namespace}/:id"
+        end
       end
     end
   end

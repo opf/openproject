@@ -31,11 +31,11 @@ module API
   module Errors
     module Form
       class InvalidResourceLink < StandardError
-        def initialize(property_name, expected_resource, actual_resource = :unknown)
+        def initialize(property_name, expected_link, actual_link)
           message = I18n.t('api_v3.errors.invalid_resource',
                            property: property_name,
-                           expected: expected_resource,
-                           actual: actual_resource)
+                           expected: expected_link,
+                           actual: actual_link)
 
           super(message)
         end

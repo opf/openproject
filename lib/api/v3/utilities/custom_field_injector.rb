@@ -112,18 +112,12 @@ module API
                             href = link_object['href']
                             return nil unless href
 
-                            resource = ::API::Utilities::ResourceLinkParser.parse href
+                            value = ::API::Utilities::ResourceLinkParser.parse_id(
+                              href,
+                              property: property,
+                              expected_version: '3',
+                              expected_namespace: expected_namespace)
 
-                            if resource.nil? || resource[:namespace] != expected_namespace ||
-                               resource[:version] != '3'
-                              actual_namespace = resource ? resource[:namespace] : nil
-
-                              fail ::API::Errors::Form::InvalidResourceLink.new(property,
-                                                                                expected_namespace,
-                                                                                actual_namespace)
-                            end
-
-                            value = resource[:id] || ''
                             represented.custom_field_values = { custom_field.id => value }
                           }
         end

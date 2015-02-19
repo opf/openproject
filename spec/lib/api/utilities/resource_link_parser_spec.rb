@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::Utilities::ResourceLinkParser do
   subject { described_class }
 
-  describe('#parse') do
+  describe '#parse' do
     shared_examples_for 'accepts resource link' do
       it 'parses the version' do
         expect(result[:version]).to eql(version)
@@ -95,6 +95,52 @@ describe ::API::Utilities::ResourceLinkParser do
       it_behaves_like 'rejects resource link' do
         let(:result) { subject.parse '/api/v3/statuses/imaginary/' }
       end
+    end
+  end
+
+  describe '#parse_id' do
+    it 'parses the id' do
+      expect(subject.parse_id('/api/v3/statuses/14', property: 'foo')).to eql('14')
+    end
+
+    it 'parses an empty id as empty string' do
+      expect(subject.parse_id('/api/v3/string_objects/', property: 'foo')).to eql('')
+    end
+
+    it 'accepts on matching version' do
+      expect {
+        subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_version: '3')
+      }.to_not raise_error
+    end
+
+    it 'accepts on matching version as integer' do
+      expect {
+        subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_version: 3)
+      }.to_not raise_error
+    end
+
+    it 'accepts on matching namespace' do
+      expect {
+        subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_namespace: 'statuses')
+      }.to_not raise_error
+    end
+
+    it 'accepts on matching namespace as symbol' do
+      expect {
+        subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_namespace: :statuses)
+      }.to_not raise_error
+    end
+
+    it 'raises on version mismatch' do
+      expect {
+        subject.parse_id('/api/v4/statuses/14', property: 'foo', expected_version: '3')
+      }.to raise_error(::API::Errors::Form::InvalidResourceLink)
+    end
+
+    it 'raises on namespace mismatch' do
+      expect {
+        subject.parse_id('/api/v3/types/14', property: 'foo', expected_namespace: 'statuses')
+      }.to raise_error(::API::Errors::Form::InvalidResourceLink)
     end
   end
 end
