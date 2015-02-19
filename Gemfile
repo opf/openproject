@@ -187,7 +187,7 @@ end
 # API gems
 gem 'grape', '~> 0.10.1'
 gem 'roar',   '~> 1.0.0'
-gem 'reform', '~> 1.2.4', require: false
+gem 'reform', '~> 1.2.6', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since
