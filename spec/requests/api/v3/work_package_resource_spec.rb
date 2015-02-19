@@ -741,17 +741,6 @@ h4. things we like
         end
       end
 
-      context 'valid update' do
-        xit 'should respond with updated work package priority' do
-          expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
-        end
-
-        xit 'should update the dates in iso8601 format' do
-          expect(subject.body).to be_json_eql(params[:startDate].to_json).at_path('startDate')
-          expect(subject.body).to be_json_eql(params[:dueDate].to_json).at_path('dueDate')
-        end
-      end
-
       context 'invalid update' do
         context 'single invalid attribute' do
           let(:params) { valid_params.tap { |h| h[:subject] = '' } }
