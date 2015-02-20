@@ -54,7 +54,7 @@ module API
         property :description,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   ::API::Decorators::Formatable.new(represented.description,
+                   ::API::Decorators::Formattable.new(represented.description,
                                                      object: represented,
                                                      format: '')
                  },

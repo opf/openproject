@@ -29,7 +29,7 @@
 
 module API
   module Decorators
-    class Formatable < Single
+    class Formattable < Single
       include OpenProject::TextFormatting
 
       def initialize(model, format: nil, object: nil)

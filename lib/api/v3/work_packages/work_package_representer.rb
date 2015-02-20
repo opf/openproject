@@ -196,7 +196,7 @@ module API
         property :description,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   ::API::Decorators::Formatable.new(represented.description, object: represented)
+                   ::API::Decorators::Formattable.new(represented.description, object: represented)
                  },
                  setter: -> (value, *) { represented.description = value['raw'] },
                  render_nil: true

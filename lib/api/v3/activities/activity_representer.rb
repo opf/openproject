@@ -84,7 +84,7 @@ module API
         property :comment,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   ::API::Decorators::Formatable.new(represented.notes,
+                   ::API::Decorators::Formattable.new(represented.notes,
                                                      object: represented.journable)
                  },
                  setter: -> (value, *) { represented.notes = value['raw'] },
