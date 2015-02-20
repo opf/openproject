@@ -37,14 +37,12 @@ module API
         class WorkPackageSchemaRepresenter < ::API::Decorators::Single
           def self.schema(property,
                           type:,
-                          title: nil,
+                          title: WorkPackage.human_attribute_name(property),
                           required: true,
                           writable: true,
                           min_length: nil,
                           max_length: nil)
             raise ArgumentError if property.nil?
-
-            title = WorkPackage.human_attribute_name(property) unless title
 
             schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
                                                                       name: title)
@@ -59,15 +57,12 @@ module API
           end
 
           def self.schema_with_allowed_link(property,
-                                            type: nil,
-                                            title: nil,
+                                            type: property.to_s.camelize,
+                                            title: WorkPackage.human_attribute_name(property),
                                             href_callback:,
                                             required: true,
                                             writable: true)
             raise ArgumentError if property.nil?
-
-            type = property.to_s.camelize unless type
-            title = WorkPackage.human_attribute_name(property) unless title
 
             property property,
                      exec_context: :decorator,
