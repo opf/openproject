@@ -104,10 +104,6 @@ module API
             render_markup(format: :textile, link: link)
           end
 
-          def self.schema(project_id, type_id)
-            "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
-          end
-
           def self.statuses
             "#{root}/statuses"
           end
@@ -160,6 +156,10 @@ module API
             "#{work_package(id)}/activities"
           end
 
+          def self.work_package_form(id)
+            "#{work_package(id)}/form"
+          end
+
           def self.work_package_relations(id)
             "#{work_package(id)}/relations"
           end
@@ -168,8 +168,8 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
-          def self.work_package_form(id)
-            "#{work_package(id)}/form"
+          def self.work_package_schema(project_id, type_id)
+            "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
 
           def self.work_package_watchers(id)

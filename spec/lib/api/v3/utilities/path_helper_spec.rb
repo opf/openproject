@@ -204,8 +204,8 @@ describe ::API::V3::Utilities::PathHelper do
   end
 
   describe 'schemas paths' do
-    describe '#schema' do
-      subject { helper.schema 1, 2 }
+    describe '#work_package_schema' do
+      subject { helper.work_package_schema 1, 2 }
 
       it_behaves_like 'api v3 path'
 
