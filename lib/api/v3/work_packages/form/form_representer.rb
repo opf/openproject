@@ -64,7 +64,7 @@ module API
 
           link :previewMarkup do
             {
-              href: api_v3_paths.preview_textile(api_v3_paths.work_package(represented.id)),
+              href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),
               method: :post
             }
           end

@@ -76,6 +76,8 @@ module API
             'urn:openproject-org:api:v3:errors:InvalidUserStatusTransition'
           when ::API::Errors::InvalidRequestBody
             'urn:openproject-org:api:v3:errors:InvalidRequestBody'
+          when ::API::Errors::UnsupportedMediaType
+            'urn:openproject-org:api:v3:errors:TypeNotSupported'
           end
         end
       end

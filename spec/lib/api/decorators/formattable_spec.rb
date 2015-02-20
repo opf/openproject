@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,21 +26,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Utilities
-    module Renderer
-      class PlainRenderer
-        def initialize(text)
-          @text = text
-        end
+require 'spec_helper'
 
-        def to_html
-          formatter = Redmine::WikiFormatting::NullFormatter::Formatter.new(@text)
-          formatter.to_html
-        end
+describe ::API::Decorators::Formattable do
+  let(:represented) { 'A *raw* string!' }
+  subject { described_class.new(represented).to_json }
 
-        def controller; end
-      end
+  before do
+    allow(Setting).to receive(:text_formatting).and_return('textile')
+  end
+
+  it 'should indicate its format' do
+    is_expected.to be_json_eql('textile'.to_json).at_path('format')
+  end
+
+  it 'should contain the raw string' do
+    is_expected.to be_json_eql(represented.to_json).at_path('raw')
+  end
+
+  it 'should contain the formatted string' do
+    is_expected.to be_json_eql('<p>A <strong>raw</strong> string!</p>'.to_json).at_path('html')
+  end
+
+  context 'format specified explicitly' do
+    subject { described_class.new(represented, format: 'plain').to_json }
+
+    it 'should indicate the explicit format' do
+      is_expected.to be_json_eql('plain'.to_json).at_path('format')
+    end
+
+    it 'should format using the explicit format' do
+      is_expected.to be_json_eql('<p>A *raw* string!</p>'.to_json).at_path('html')
     end
   end
 end

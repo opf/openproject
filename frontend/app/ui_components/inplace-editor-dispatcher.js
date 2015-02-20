@@ -185,7 +185,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
           }
           $scope.isBusy = true;
           TextileService
-            .renderWithWorkPackageContext($scope.entity.props.id, $scope.dataObject.value)
+            .renderWithWorkPackageContext($scope.entity.form, $scope.dataObject.value)
             .then(function(r) {
               $scope.onFinally();
               $scope.previewHtml = $sce.trustAsHtml(r.data);

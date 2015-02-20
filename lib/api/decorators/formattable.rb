@@ -28,25 +28,34 @@
 #++
 
 module API
-  module Utilities
-    module Renderer
-      class TextileRenderer
-        include ActionView::Helpers::UrlHelper
-        include OpenProject::StaticRouting::UrlHelpers
-        include OpenProject::TextFormatting
-        include WorkPackagesHelper
+  module Decorators
+    class Formattable < Single
+      include OpenProject::TextFormatting
 
-        def initialize(text, object = nil)
-          @text = text
-          @object = object
-          @project = object.project if object.respond_to?(:project)
-        end
+      def initialize(model, format: nil, object: nil)
+        @format = format || Setting.text_formatting
+        @object = object
 
-        def to_html
-          format_text(@text, object: @object, project: @project)
-        end
+        super(model)
+      end
 
-        def controller; end
+      property :format,
+               exec_context: :decorator,
+               getter: -> (*) { @format },
+               writable: false,
+               render_nil: true
+      property :raw,
+               exec_context: :decorator,
+               getter: -> (*) { represented },
+               render_nil: true
+      property :html,
+               exec_context: :decorator,
+               getter: -> (*) { to_html },
+               writable: false,
+               render_nil: true
+
+      def to_html
+        format_text(represented, format: @format, object: @object)
       end
     end
   end

@@ -28,17 +28,16 @@
 
 module.exports = function($http, PathHelper) {
   return {
-    render: render,
     renderWithWorkPackageContext: renderWithWorkPackageContext
   };
 
-  function renderWithWorkPackageContext(workPackageId, text) {
-    return render(text, PathHelper.apiV3WorkPackagePath(workPackageId));
+  function renderWithWorkPackageContext(workPackageForm, text) {
+    return render(workPackageForm.links.previewMarkup.props.href, text);
   }
 
-  function render(text, context) {
+  function render(url, text) {
     return $http({
-      url: PathHelper.apiV3TextilePath(context),
+      url: url,
       method: 'POST',
       data: text,
       headers: { 'Content-Type': 'text/plain; charset=UTF-8' }

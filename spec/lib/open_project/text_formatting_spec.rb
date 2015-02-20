@@ -60,6 +60,7 @@ describe OpenProject::TextFormatting do
       @project = project
 
       allow(User).to receive(:current).and_return(project_member)
+      allow(Setting).to receive(:text_formatting).and_return('textile')
 
       Setting.enabled_scm = Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include? 'Filesystem'
     end
@@ -503,6 +504,18 @@ EXPECTED
       subject { format_text(raw).gsub(%r{[\r\n\t]}, '') }
 
       it { is_expected.to eql(expected.gsub(%r{[\r\n\t]}, '')) }
+    end
+
+    describe 'options' do
+      describe :format do
+        it 'uses format of Settings, if nothing is specified' do
+          expect(format_text('*Stars!*')).to eq('<p><strong>Stars!</strong></p>')
+        end
+
+        it 'uses format of options, if specified' do
+          expect(format_text('*Stars!*', format: 'plain')).to eq('<p>*Stars!*</p>')
+        end
+      end
     end
   end
 

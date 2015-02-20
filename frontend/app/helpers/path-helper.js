@@ -253,13 +253,6 @@ module.exports = function() {
     apiV3WorkPackagePath: function(workPackageId) {
       return PathHelper.apiV3 + '/work_packages/' + workPackageId;
     },
-    apiV3TextilePath: function(context) {
-      var textilePath = PathHelper.apiV3 + '/render/textile';
-      if (context) {
-        textilePath += '?context=' + context;
-      }
-      return textilePath;
-    },
     // Static
     staticAttachmentPath: function(attachmentId, fileName) {
       return PathHelper.staticBase + PathHelper.attachmentPath(attachmentId, fileName);
