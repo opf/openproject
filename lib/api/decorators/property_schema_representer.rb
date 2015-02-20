@@ -33,9 +33,7 @@ require 'roar/json/hal'
 module API
   module Decorators
     class PropertySchemaRepresenter < ::API::Decorators::Single
-      def initialize(type: nil, name: nil, current_user: nil)
-        raise ArgumentError unless type && name
-
+      def initialize(type:, name:, current_user: nil)
         @type = type
         @name = name
         @required = true

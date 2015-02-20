@@ -36,13 +36,11 @@ module API
       attr_accessor :allowed_values
       attr_reader :value_representer, :link_factory
 
-      def initialize(type: nil,
-                     name: nil,
-                     value_representer: nil,
-                     link_factory: nil,
+      def initialize(type:,
+                     name:,
+                     value_representer:,
+                     link_factory:,
                      current_user: nil)
-        raise ArgumentError unless value_representer && link_factory
-
         @value_representer = value_representer
         @link_factory = link_factory
 
