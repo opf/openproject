@@ -40,19 +40,18 @@ module API
               WorkPackage
             end
 
-            alias_method :original_new, :new
-
-            # we can't use a factory method as we sometimes rely on ROAR instantiating representers
-            # for us. Thus we override the :new method.
-            # This allows adding instance specific properties to our representer.
-            def new(work_package_schema, context)
+            def create_class(work_package_schema)
               klass = Class.new(WorkPackageSchemaRepresenter)
               injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
               work_package_schema.available_custom_fields.each do |custom_field|
                 injector.inject_schema(custom_field, wp_schema: work_package_schema)
               end
 
-              klass.original_new(work_package_schema, context)
+              klass
+            end
+
+            def create(work_package_schema, context)
+              create_class(work_package_schema).new(work_package_schema, context)
             end
           end
 

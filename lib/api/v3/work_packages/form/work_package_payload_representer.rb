@@ -39,12 +39,7 @@ module API
           include Roar::Hypermedia
 
           class << self
-            alias_method :original_new, :new
-
-            # we can't use a factory method as we sometimes rely on ROAR instantiating representers
-            # for us. Thus we override the :new method.
-            # This allows adding instance specific properties to our representer.
-            def new(work_package, options = {})
+            def create_class(work_package)
               klass = Class.new(WorkPackagePayloadRepresenter)
               injector_class = ::API::V3::Utilities::CustomFieldInjector
               property_fields = work_package.available_custom_fields.select do |cf|
@@ -56,7 +51,11 @@ module API
                 injector.inject_value(custom_field)
               end
 
-              klass.original_new(work_package, options)
+              klass
+            end
+
+            def create(work_package, options = {})
+              create_class(work_package).new(work_package, options)
             end
           end
 

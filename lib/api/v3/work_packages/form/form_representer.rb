@@ -81,15 +81,17 @@ module API
 
           property :payload,
                    embedded: true,
-                   decorator: Form::WorkPackagePayloadRepresenter,
+                   decorator: -> (represented, *) {
+                     Form::WorkPackagePayloadRepresenter.create_class(represented)
+                   },
                    getter: -> (*) { self }
           property :schema,
                    embedded: true,
                    exec_context: :decorator,
                    getter: -> (*) {
                      schema = Schema::WorkPackageSchema.new(work_package: represented)
-                     Schema::WorkPackageSchemaRepresenter.new(schema,
-                                                            current_user: @current_user)
+                     Schema::WorkPackageSchemaRepresenter.create(schema,
+                                                                 current_user: @current_user)
                    }
           property :validation_errors, embedded: true, exec_context: :decorator
 
