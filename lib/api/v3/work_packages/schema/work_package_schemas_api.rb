@@ -34,16 +34,16 @@ module API
           resources :schemas do
 
             params do
-              requires :id, desc: 'Work package schema id'
+              requires :project, desc: 'Work package schema id'
+              requires :type, desc: 'Work package schema id'
             end
 
-            # The schema id is an artificial identifier that is composed of a work packages
+            # The schema identifier is an artificial identifier that is composed of a work packages
             # project and its type (separated by a dash)
             # This allows to have a separate schema URL for each kind of different work packages
             # but with better caching capabilities than simply using the work package id as
             # identifier for the schema
-            namespace ':id' do
-
+            namespace ':project-:type' do
               helpers do
                 def raise404
                   message = I18n.t('api_v3.errors.code_404',
@@ -54,12 +54,9 @@ module API
               end
 
               before do
-                ids = params[:id].split('-')
-                raise404 unless ids.size == 2 # we expect exactly two ids: project and type
-
                 begin
-                  project = Project.find(ids[0])
-                  type = Type.find(ids[1])
+                  project = Project.find(params[:project])
+                  type = Type.find(params[:type])
                 rescue ActiveRecord::RecordNotFound
                   raise404
                 end
