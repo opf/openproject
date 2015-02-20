@@ -92,7 +92,7 @@ module API
 
           def self.render_markup(format: nil, link: nil)
             format = format || Setting.text_formatting
-            format = 'plain' if format == ''
+            format = 'plain' if format == '' # Setting will return '' for plain
 
             path = "#{root}/render/#{format}"
             path += "?#{link}" if link

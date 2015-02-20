@@ -49,7 +49,7 @@ describe ::API::Decorators::Formattable do
   end
 
   context 'format specified explicitly' do
-    subject { described_class.new(represented, format: '').to_json }
+    subject { described_class.new(represented, format: 'plain').to_json }
 
     it 'should indicate the explicit format' do
       is_expected.to be_json_eql('plain'.to_json).at_path('format')

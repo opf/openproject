@@ -53,7 +53,7 @@ module API
             end
 
             def check_format(format)
-              supported_formats = [''] # we always support no formatting (aka 'plain')
+              supported_formats = ['plain']
               supported_formats += Array(Redmine::WikiFormatting.format_names)
               unless supported_formats.include?(format)
                 fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
@@ -108,7 +108,6 @@ module API
           route_param :render_format do
             before do
               @format = params[:render_format]
-              @format = '' if @format == 'plain' # 'plain' is called '' internally
             end
 
             post do

@@ -513,7 +513,7 @@ EXPECTED
         end
 
         it 'uses format of options, if specified' do
-          expect(format_text('*Stars!*', format: '')).to eq('<p>*Stars!*</p>')
+          expect(format_text('*Stars!*', format: 'plain')).to eq('<p>*Stars!*</p>')
         end
       end
     end

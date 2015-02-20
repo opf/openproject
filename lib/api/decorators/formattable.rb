@@ -41,7 +41,7 @@ module API
 
       property :format,
                exec_context: :decorator,
-               getter: -> (*) { @format == '' ? 'plain' : @format },
+               getter: -> (*) { @format },
                writable: false,
                render_nil: true
       property :raw,

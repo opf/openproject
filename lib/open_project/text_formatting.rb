@@ -82,7 +82,9 @@ module OpenProject
       project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
       only_path = options.delete(:only_path) == false ? false : true
 
-      format = options[:format] || Setting.text_formatting
+      # offer 'plain' as readable version for 'no formatting' to callers
+      options_format = options[:format] == 'plain' ? '' : options[:format]
+      format = options_format || Setting.text_formatting
       text = Redmine::WikiFormatting.to_html(format, text,
                                              object: obj,
                                              attribute: attr,
