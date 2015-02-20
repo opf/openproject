@@ -40,13 +40,13 @@ module API
           def initialize(work_package: nil, project: nil, type: nil)
             raise ArgumentError unless work_package || (project && type)
 
-            @project = project ? project : work_package.project
-            @type = type ? type : work_package.type
+            @project = project || work_package.project
+            @type = type || work_package.type
             @work_package = work_package
           end
 
           def defines_assignable_values?
-            !!@work_package
+            @work_package.present?
           end
 
           def assignable_statuses_for(user)
@@ -63,11 +63,11 @@ module API
           end
 
           def assignable_versions
-            @work_package.assignable_versions unless @work_package.nil?
+            @work_package.assignable_versions if defines_assignable_values?
           end
 
           def assignable_priorities
-            @work_package.assignable_priorities unless @work_package.nil?
+            @work_package.assignable_priorities if defines_assignable_values?
           end
 
           def available_custom_fields
