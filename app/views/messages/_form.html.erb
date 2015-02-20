@@ -26,44 +26,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<% replying ||= false %>
-
 <%= error_messages_for 'message' %>
-  <!--[form:message]-->
-
+<% replying ||= false %>
 <div class="form--field">
-  <%= f.text_field :subject, size: 120, id: "message_subject" %>
+  <%= f.text_field :subject, required: true %>
 </div>
-
-<% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
-  <div class="form--field">
-    <%= f.check_box :sticky %>
-  </div>
-  <div class="form--field">
-    <%= f.check_box :locked %>
-  </div>
-<% end %>
-
+<div class="form--field">
+  <%= f.check_box :sticky, label: l(:label_board_sticky) %>
+</div>
+<div class="form--field">
+  <%= f.check_box :locked, label: l(:label_board_locked) %>
+</div>
 <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
   <div class="form--field">
-    <%= f.select :board_id,
-                 @project.boards.collect {|b| [b.name, b.id]},
-                 label: Board.name.humanize %>
+    <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]}, label: Board.name.humanize %>
   </div>
 <% end %>
-
-<div class="form--field -vertical">
-  <%= f.text_area :content,
-                  rows: 15,
-                  class: 'wiki-edit',
-                  id: 'message_content',
-                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(project_id: @project,
-                                                                                  format: :json),
-                  :'ng-non-bindable' => '' %>
-
-</div>
+<div class="form--field">
+  <%= f.text_area :content, label: l(:description_message_content), data: { wp_autocomplete_url: work_packages_auto_complete_path(project_id: @project, format: :json), :'ng-non-bindable' => '' } %>
   <%= wikitoolbar_for 'message_content' %>
-<!--[eoform:message]-->
-
-<%= render partial: 'attachments/form' %>
+</div>
+<%= render :partial => 'attachments/form' %>
