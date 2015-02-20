@@ -170,30 +170,18 @@ en:
         reported_project_status: Project status
         created_at: Created
       work_package:
-        assigned_to: "Assignee"
-        author: "Author"
-        created_at: "Created at"
-        description: "Description"
         done_ratio: "% done"
-        due_date: "Due date"
-        estimated_time: "Estimated time"
         fixed_version: "Version"
-        id: "ID"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
         priority: "Priority"
         progress: "% done"
-        project: "Project"
         responsible: "Responsible"
         spent_time: "Spent time"
-        start_date: "Start date"
-        status: "Status"
-        subject: "Subject"
         subproject: "Subproject"
         time_entries: "Log time"
         type: "Type"
-        updated_at: "Updated at"
         watcher: "Watcher"
     errors:
       messages:
@@ -321,6 +309,7 @@ en:
     display_sums: "Display Sums"
     due_date: "Due date"
     estimated_hours: "Estimated time"
+    estimated_time: "Estimated time"
     firstname: "First name"
     group: "Group"
     groupname: "Group name"

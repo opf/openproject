@@ -137,7 +137,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'id' }
         let(:type) { 'Integer' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.id') }
+        let(:name) { I18n.t('attributes.id') }
         let(:required) { true }
         let(:writable) { false }
       end
@@ -147,7 +147,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'subject' }
         let(:type) { 'String' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.subject') }
+        let(:name) { I18n.t('attributes.subject') }
         let(:required) { true }
         let(:writable) { true }
       end
@@ -165,7 +165,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'description' }
         let(:type) { 'Formattable' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.description') }
+        let(:name) { I18n.t('attributes.description') }
         let(:required) { true }
         let(:writable) { true }
       end
@@ -175,7 +175,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'startDate' }
         let(:type) { 'Date' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.start_date') }
+        let(:name) { I18n.t('attributes.start_date') }
         let(:required) { false }
         let(:writable) { true }
       end
@@ -185,7 +185,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'dueDate' }
         let(:type) { 'Date' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.due_date') }
+        let(:name) { I18n.t('attributes.due_date') }
         let(:required) { false }
         let(:writable) { true }
       end
@@ -195,7 +195,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'estimatedTime' }
         let(:type) { 'Duration' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.estimated_time') }
+        let(:name) { I18n.t('attributes.estimated_time') }
         let(:required) { false }
         let(:writable) { false }
       end
@@ -225,7 +225,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'createdAt' }
         let(:type) { 'DateTime' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.created_at') }
+        let(:name) { I18n.t('attributes.created_at') }
         let(:required) { true }
         let(:writable) { false }
       end
@@ -235,7 +235,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'updatedAt' }
         let(:type) { 'DateTime' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.updated_at') }
+        let(:name) { I18n.t('attributes.updated_at') }
         let(:required) { true }
         let(:writable) { false }
       end
@@ -245,7 +245,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'author' }
         let(:type) { 'User' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.author') }
+        let(:name) { I18n.t('attributes.author') }
         let(:required) { true }
         let(:writable) { false }
       end
@@ -255,7 +255,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'project' }
         let(:type) { 'Project' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.project') }
+        let(:name) { I18n.t('attributes.project') }
         let(:required) { true }
         let(:writable) { false }
       end
@@ -275,7 +275,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'status' }
         let(:type) { 'Status' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.status') }
+        let(:name) { I18n.t('attributes.status') }
         let(:required) { true }
         let(:writable) { true }
       end
@@ -392,7 +392,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         it_behaves_like 'has basic schema properties' do
           let(:path) { 'assignee' }
           let(:type) { 'User' }
-          let(:name) { I18n.t('activerecord.attributes.work_package.assigned_to') }
+          let(:name) { I18n.t('attributes.assigned_to') }
           let(:required) { false }
           let(:writable) { true }
         end
