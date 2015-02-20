@@ -37,6 +37,11 @@ See doc/COPYRIGHT.rdoc for more details.
                                         :label => :setting_mail_handler_api_key %>
       <%= link_to_function l(:label_generate_key), "if ($('settings_sys_api_key').disabled == false) { $('settings_sys_api_key').value = randomKey(20) }" %>
     </p>
+    <p><%= setting_check_box :repository_authentication_bypass %>
+      <br/><em><%= l('settings.repositories.authentication_bypass_desc') %>
+      <br/><strong><%= l(:warning) %></strong>
+      <em><%= l('settings.repositories.authentication_bypass_warning') %>
+    </p>
     <p><%= setting_multiselect(:enabled_scm, Redmine::Scm::Base.all) %></p>
     <p><%= setting_text_field :repositories_encodings, :size => 60 %>
       <em><%= l(:text_comma_separated) %></em></p>
