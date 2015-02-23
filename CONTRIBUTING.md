@@ -3,7 +3,7 @@ OpenProject is an open source project and we encourage you to help us out. For c
 ## Development flow
 For contributing source code, please follow the Git Workflow below:
 
-- Fork Openproject on GitHub
+- Fork OpenProject on GitHub
 - Clone your fork to your development machine: 
 
 ```
