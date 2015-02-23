@@ -38,7 +38,7 @@ git push origin <your feature branch>
 
 We will then review your PR. Please note that you can add commits after the PR has been created by pushing to the branch in your fork.
 
-## Important notices
+## Important notes
 
 - Please add tests to your code to verify functionality, especially if it is a new feature. Please also run these tests locally.
 - Please create pull requests against the current `dev` branch. Hotfixes and Bugfixes should be created against the appropiate `release/*` branch.
