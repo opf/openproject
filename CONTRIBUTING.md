@@ -1,4 +1,4 @@
-OpenProject is an open source project and we encourage you to help us out. For contributing to OpenProject, please do follow these steps:
+OpenProject is an open source project and we encourage you to help us out. For contributing to OpenProject, please read the following guidelines:
 
 ## Development flow
 For contributing source code, please follow the Git Workflow below:
@@ -13,7 +13,7 @@ git clone git@github.com/<username>/openproject
 - Optional: Add the original OpenProject repository as a remote, so you can fetch changes: 
 
 ```
-git remote add upstream git@github.com:/opf/openproject
+git remote add upstream git@github.com:opf/openproject
 ```
 
 - Make sure you're on the right branch. The main development branch is `dev`: 
