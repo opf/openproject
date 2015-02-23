@@ -201,21 +201,17 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= ff.text_field :planning_element_time_relative_one, label: l('timelines.filter.project_time_filter_historical_from') %>
           </div>
           <div class="form--field">
-            <%= ff.select(:planning_element_time_relative_one_unit,
+            <%= ff.select :planning_element_time_relative_one_unit,
                           options_for_timeunits(timeline.options['planning_element_time_relative_one_unit']),
-                          no_label: true,
-                          :multiple => false,
-                          :size => 1).html_safe %>
+                          no_label: true %>
           </div>
           <div class="form--field">
             <%= ff.text_field :planning_element_time_relative_two, label: l('timelines.filter.project_time_filter_historical_to') %>
           </div>
           <div class="form--field">
-            <%= ff.select(:planning_element_time_relative_two_unit,
+            <%= ff.select :planning_element_time_relative_two_unit,
                           options_for_timeunits(timeline.options['planning_element_time_relative_two_unit']),
-                          no_label: true,
-                          :multiple => false,
-                          :size => 1).html_safe %>
+                          no_label: true %>
           </div>
         </div>
       </div>
