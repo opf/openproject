@@ -64,7 +64,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
 
       context 'id is missing' do
         it_behaves_like 'not found' do
-          let(:schema_path) { "/api/v3/work_packages/schemas/" }
+          let(:schema_path) { '/api/v3/work_packages/schemas/' }
         end
       end
     end
