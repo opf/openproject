@@ -234,6 +234,45 @@
         One never lies about one's age.
       </div>
     </div>
+    <div class="form--grouping" role="group" aria-labelledby="form-grouping-label">
+      <div id="form-grouping-label" class="form--grouping-label">Colors:</div>
+      <div class="form--grouping-row">
+        <div class="form--field">
+          <label class="form--label">Most favorite first:</label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="text" class="form--text-field" placeholder="Green">
+            </div>
+          </div>
+        </div>
+        <div class="form--field">
+          <label class="form--label">Most favorite second:</label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="text" class="form--text-field" placeholder="Blue">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form--grouping-row">
+        <div class="form--field">
+          <label class="form--label">Least favorite first:</label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="text" class="form--text-field" placeholder="Magenta">
+            </div>
+          </div>
+        </div>
+        <div class="form--field">
+          <label class="form--label">Least favorite second:</label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="text" class="form--text-field" placeholder="Orange">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </fieldset>
 </form>
 ```

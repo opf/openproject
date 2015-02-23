@@ -1480,7 +1480,8 @@ de:
         absolute: "Absolut"
         none: "Kein Planungsvergleich"
         relative: "Relativ"
-        compare_relative: "Vergleiche aktuelle Planung mit vor %{timespan}"
+        compare_relative_prefix: "Vergleiche aktuelle Planung mit vor"
+        compare_relative_suffix: ""
         compare_absolute: "Vergleiche aktuelle Planung mit %{date}"
       time_relative:
         days: "Tagen"
@@ -1506,8 +1507,7 @@ de:
       work_package_assignee: "Zugewiesen an"
 
       project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
-      project_time_filter_absolute_timeframe: "Absolutes Zeitfenster"
-      project_time_filter_relative_timeframe: "Relatives Zeitfenster"
+      project_time_filter_absolute_timeframe: "Zeitfenster"
       project_time_filter_historical_from: "von"
       project_time_filter_historical_to: "bis"
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"

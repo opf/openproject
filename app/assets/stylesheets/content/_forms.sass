@@ -350,6 +350,25 @@ fieldset.form--fieldset
   .form &
     margin-bottom: 0.5rem
 
+.form--grouping
+  @include grid-block($wrap: true)
+  align-items: center
+
+  .form--grouping-row
+    @include grid-block(10)
+
+  .form--grouping-row + .form--grouping-row
+    @include grid-offset(2)
+
+.form--grouping-label
+  @include grid-content(2)
+  @include label-style
+  padding:      0 1rem 0 0
+  font-size:    $form-label-fontsize
+  line-height:  $base-line-height
+  color:        $form-label-color
+  margin-bottom: 0.8rem
+
 .form--table
   border: 0 none
   background: none
