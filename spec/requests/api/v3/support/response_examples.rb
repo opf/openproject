@@ -96,24 +96,10 @@ shared_examples_for 'unauthorized access' do
 end
 
 shared_examples_for 'not found' do
-  before do
-    unless defined?(id) && defined?(type)
-      message = <<MESSAGE
-  Required to have specified:
-    * id
-    * type
-  You can use 'let' for that.
-MESSAGE
-
-      raise message
-    end
-  end
-
   it_behaves_like 'error response',
                   404,
                   'NotFound' do
-
-    let(:message) { I18n.t('api_v3.errors.code_404', type: type, id: id) }
+    let(:message) { I18n.t('api_v3.errors.code_404') }
   end
 end
 
@@ -151,7 +137,7 @@ shared_examples_for 'read-only violation' do |attribute|
                   I18n.t('api_v3.errors.writing_read_only_attributes')
 end
 
-shared_examples_for 'multiple errors' do |code, message|
+shared_examples_for 'multiple errors' do |code, _message|
   it_behaves_like 'error response',
                   code,
                   'MultipleErrors',
@@ -172,7 +158,9 @@ end
 
 shared_examples_for 'multiple errors of the same type with details' do |expected_details, expected_detail_values|
   let(:errors) { JSON.parse(last_response.body)['_embedded']['errors'] }
-  let(:details) { errors.each_with_object([]) { |error, l| l << error['_embedded']['details'] }.compact }
+  let(:details) do
+    errors.each_with_object([]) { |error, l| l << error['_embedded']['details'] }.compact
+  end
 
   subject do
     details.inject({}) do |h, d|
@@ -191,7 +179,9 @@ end
 
 shared_examples_for 'multiple errors of the same type with messages' do
   let(:errors) { JSON.parse(last_response.body)['_embedded']['errors'] }
-  let(:actual_messages) { errors.each_with_object([]) { |error, l| l << error['message'] }.compact }
+  let(:actual_messages) do
+    errors.each_with_object([]) { |error, l| l << error['message'] }.compact
+  end
 
   before do
     raise "Need to have 'message' defined to state\

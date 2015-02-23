@@ -40,10 +40,7 @@ module API
               @project = Project.find(params[:id])
 
               authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new(
-                        I18n.t('api_v3.errors.code_404',
-                               type: I18n.t('activerecord.models.project'),
-                               id: params[:id]))
+                raise API::Errors::NotFound.new
               end
             end
 
