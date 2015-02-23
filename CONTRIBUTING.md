@@ -1,7 +1,46 @@
 OpenProject is an open source project and we encourage you to help us out. We'd be happy if you do one of these things:
 
-* Create a [new work package on openproject.org](https://community.openproject.org/projects/openproject/work_packages) if you find a bug or need a feature
-* Help out other people on our [forums](https://community.openproject.org/projects/openproject/boards)
-* Help us [translate OpenProject to more languages](https://community.openproject.org/projects/openproject/wiki/Translations)
-* Contribute code via GitHub Pull Requests, see our [contribution page](https://community.openproject.org/projects/openproject/wiki/Contribution) for more information
-* See [Git Flow](https://community.openproject.org/projects/openproject/wiki/Git_Branching_Model)
+## Development flow
+For contributing source code, please follow the Git Workflow below:
+
+- Fork Openproject on GitHub
+- Clone your fork to your development machine: 
+
+```
+git clone git@github.com/<username>/openproject
+```
+
+- Optional: Add the original OpenProject repository as a remote, so you can fetch changes: 
+
+```
+git remote add upstream git@github.com:/opf/openproject
+```
+
+- Make sure you're on the right branch, right now (February 2015), the main development branch is dev: 
+
+```
+git checkout dev
+```
+
+- Create a feature branch: 
+
+```
+git checkout -b feature/<short description of your feature>
+```
+
+- Make your changes, then push the branch into your ***own*** repository:
+
+```
+git push origin <your feature branch>
+```
+
+- Create a pull request (PR) against a branch of of the <opf/openproject> repository, containing a ***clear description*** of what the pull request attempts to change and/or fix. 
+
+We will then review your PR. Please note that you can add commits after the PR has been created by pushing to the branch in your fork.
+
+## Important notices
+
+- Please add tests to your code to verify functionality, especially if it is a new feature. Please also run these tests locally.
+- Please create pull requests against the current `dev` branch. Hotfixes and Bugfixes should be created against the appropiate `release/*` branch.
+- We want to keep the Pull request list as cleaned up as possible - we will close pull requests after an inactivity period of 48 hours (no comments, no further pushes)
+- We use OpenProject for development coordination - please have a look at [the work packages list](https://community.openproject.org/projects/openproject/work_packages) for upcoming features and reported bugs.
