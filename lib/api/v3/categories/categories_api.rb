@@ -36,7 +36,7 @@ module API
             before do
               @category = Category.find(params[:id])
               authorize(:view_project, context: @category.project) do
-                raise API::Errors::NotFound.new(I18n.t('api_v3.errors.code_404'))
+                raise API::Errors::NotFound.new
               end
             end
 

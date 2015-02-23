@@ -126,7 +126,7 @@ module API
               post do
                 authorize({ controller: :journals, action: :new },
                           context: @work_package.project) do
-                  raise API::Errors::NotFound.new(I18n.t('api_v3.errors.code_404'))
+                  raise API::Errors::NotFound.new
                 end
 
                 @work_package.journal_notes = params[:comment]
