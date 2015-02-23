@@ -72,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   <h3><%= l(:label_version_plural) %></h3>
   <% @versions.each do |version| %>
-    <%= link_to format_version_name(version), "##{version.name}" %><br />
+    <%= link_to format_version_name(version), "#{project_roadmap_url}##{version.name}" %><br />
   <% end %>
 <% end %>
 <% html_title(l(:label_roadmap)) %>
