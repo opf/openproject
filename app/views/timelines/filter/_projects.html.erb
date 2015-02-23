@@ -147,38 +147,73 @@ See doc/COPYRIGHT.rdoc for more details.
                      }) %>
         <% end %>
       </div>
-      <h4><%= l('timelines.filter.project_time_filter_absolute_timeframe') %></h4>
-      <div class="form--field">
-        <%= ff.radio_button :planning_element_time, 'absolute' %>
-      </div>
-      <div class="form--field-container">
-        <%= ff.label :planning_element_time_absolute_one %>
-        <%= ff.text_field :planning_element_time_absolute_one, label: l('timelines.filter.project_time_filter_historical_from') %>
-        <%= calendar_for :timeline_options_planning_element_time_absolute_one %>
-        <%= ff.text_field :planning_element_time_absolute_two, label: l('timelines.filter.project_time_filter_historical_to') %>
-        <%= calendar_for :timeline_options_planning_element_time_absolute_two %>
-      </div>
-      <h4><%= l('timelines.filter.project_time_filter_relative_timeframe') %></h4>
-      <div class="form--field">
-        <%= ff.radio_button :planning_element_time, 'relative' %>
-      </div>
-      <div class="form--field-container">
-        <%= ff.text_field :planning_element_time_relative_one, label: l('timelines.filter.project_time_filter_historical_from') %>
-        <%= ff.select :planning_element_time_relative_one_unit,
-                    [ [l('timelines.filter.time_relative.days'), 0],
-                      [l('timelines.filter.time_relative.weeks'), '1'],
-                      [l('timelines.filter.time_relative.months'), '2']
-                    ],
-                    { :selected => timeline.options['planning_element_time_relative_one_unit'], label: "" },
-                    { :multiple => false, :size => 1 } %>
-        <%= ff.text_field :planning_element_time_relative_two, label: l('timelines.filter.project_time_filter_historical_to') %>
-        <%= ff.select :planning_element_time_relative_two_unit,
-                    [ [l('timelines.filter.time_relative.days'), 0],
-                      [l('timelines.filter.time_relative.weeks'), '1'],
-                      [l('timelines.filter.time_relative.months'), '2']
-                    ],
-                    { :selected => timeline.options['planning_element_time_relative_one_unit'], label: "" },
-                    { :multiple => false, :size => 1} %>
+
+      <div class="form--grouping" role="group" aria-labelledby="timeline--form--project-filter-timeframe">
+
+        <div id="timeline--form--project-filter-timeframe"
+             class="form--grouping-label">
+          <%= l('timelines.filter.project_time_filter_timeframe') %>
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field">
+            <%= ff.label :planning_element_time_absolute,
+              l('timelines.filter.comparison.absolute'),
+              class: "form--label" %>
+            <div class="form--field-container">
+              <div class="form--radio-button-container">
+                <%= ff.radio_button :planning_element_time, 'absolute' %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field">
+            <%= ff.text_field :planning_element_time_absolute_one, label: l('timelines.filter.project_time_filter_historical_from') %>
+            <%= calendar_for :timeline_options_planning_element_time_absolute_one %>
+          </div>
+          <div class="form--field">
+            <%= ff.text_field :planning_element_time_absolute_two, label: l('timelines.filter.project_time_filter_historical_to') %>
+            <%= calendar_for :timeline_options_planning_element_time_absolute_two %>
+          </div>
+        </div>
+
+        <div class="form--grouping-row">
+          <hr class="form--separator">
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field">
+            <%= ff.label :planning_element_time_relative,
+                         l('timelines.filter.comparison.relative'),
+                         class: "form--label" %>
+            <div class="form--field-container">
+              <div class="form--radio-button-container">
+                <%= ff.radio_button :planning_element_time, 'relative' %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field">
+            <%= ff.text_field :planning_element_time_relative_one, label: l('timelines.filter.project_time_filter_historical_from') %>
+          </div>
+          <div class="form--field">
+            <%= ff.select :planning_element_time_relative_one_unit,
+                          options_for_timeunits(timeline.options['planning_element_time_relative_one_unit']),
+                          no_label: true %>
+          </div>
+          <div class="form--field">
+            <%= ff.text_field :planning_element_time_relative_two, label: l('timelines.filter.project_time_filter_historical_to') %>
+          </div>
+          <div class="form--field">
+            <%= ff.select :planning_element_time_relative_two_unit,
+                          options_for_timeunits(timeline.options['planning_element_time_relative_two_unit']),
+                          no_label: true %>
+          </div>
+        </div>
       </div>
     <% end %>
   </div>

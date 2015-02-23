@@ -81,6 +81,13 @@ module TimelinesHelper
     s
   end
 
+  def options_for_timeunits(selected = nil)
+    options_for_select([[l('timelines.filter.time_relative.days'), 0],
+                        [l('timelines.filter.time_relative.weeks'), '1'],
+                        [l('timelines.filter.time_relative.months'), '2']],
+                       selected)
+  end
+
   def options_for_project_types
     ProjectType.all.map { |t| [t.name, t.id] }
   end
