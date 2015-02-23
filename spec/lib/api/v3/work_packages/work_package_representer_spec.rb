@@ -80,9 +80,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       it { is_expected.to have_json_path('percentageDone') }
 
-      it { is_expected.to have_json_path('projectId') }
-      it { is_expected.to have_json_path('projectName') }
-
       describe 'startDate' do
         it_behaves_like 'has ISO 8601 date only' do
           let(:date) { work_package.start_date }
@@ -129,11 +126,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       it { is_expected.to have_json_path('subject') }
       it { is_expected.to have_json_path('type') }
-
-      describe 'version' do
-        it { is_expected.to have_json_path('versionId') }
-        it { is_expected.to have_json_path('versionName') }
-      end
 
       describe 'lock version' do
         it { is_expected.to have_json_path('lockVersion') }
@@ -347,6 +339,22 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             is_expected.to be_json_eql('Version'.to_json).at_path("#{embedded_path}/_type")
             is_expected.to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
           end
+        end
+      end
+
+      describe 'project' do
+        let(:embedded_path) { '_embedded/project' }
+        let(:href_path) { '_links/project/href' }
+
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'project' }
+          let(:href) { api_v3_paths.project(project.id) }
+          let(:title) { project.name }
+        end
+
+        it 'has the project embedded' do
+          is_expected.to be_json_eql('Project'.to_json).at_path("#{embedded_path}/_type")
+          is_expected.to be_json_eql(project.name.to_json).at_path("#{embedded_path}/name")
         end
       end
 

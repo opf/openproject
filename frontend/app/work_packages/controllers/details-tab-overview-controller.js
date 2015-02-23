@@ -60,6 +60,7 @@ module.exports = function($scope,
   function getPropertyValue(property, format) {
     switch(format) {
     case STATUS_TYPE:
+    case VERSION_TYPE:
     case USER_TYPE:
     case CATEGORY_TYPE:
     case PRIORITY_TYPE:
@@ -198,6 +199,8 @@ module.exports = function($scope,
     switch(property) {
     case 'status':
       return STATUS_TYPE;
+    case 'version':
+      return VERSION_TYPE;
     case 'category':
       return CATEGORY_TYPE;
     case 'priority':
