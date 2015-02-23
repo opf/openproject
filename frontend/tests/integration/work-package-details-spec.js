@@ -162,7 +162,7 @@ describe('OpenProject', function() {
           expect(descriptionEditor.$('textarea').isDisplayed()).to.eventually.be.true;
         });
 
-        it('should not render the textarea if click is on the link', function() {
+        xit('should not render the textarea if click is on the link', function() {
           descriptionEditor.$('a.work_package').click();
           expect(descriptionEditor.$('textarea').isPresent()).to.eventually.be.false;
         });
