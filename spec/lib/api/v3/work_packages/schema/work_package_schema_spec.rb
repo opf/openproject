@@ -36,6 +36,57 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
     it 'defines assignable values' do
       expect(subject.defines_assignable_values?).to be_true
     end
+
+    describe '#assignable_statuses_for' do
+      let(:user) { double }
+      let(:status_result) { double }
+
+      before do
+        allow(work_package).to receive(:is_persisted?).and_return(false)
+        allow(work_package).to receive(:status_id_changed?).and_return(false)
+      end
+
+      it 'calls through to the work package' do
+        expect(work_package).to receive(:new_statuses_allowed_to).with(user)
+          .and_return(status_result)
+        expect(subject.assignable_statuses_for(user)).to eql(status_result)
+      end
+
+      context 'changed work package' do
+        let(:work_package) { FactoryGirl.create(:work_package) }
+        let(:stored_wp) { FactoryGirl.build(:work_package, id: work_package.id) }
+
+        before do
+          allow(work_package).to receive(:status_id_changed?).and_return(true)
+          allow(WorkPackage).to receive(:find).with(work_package.id).and_return(stored_wp)
+        end
+
+        it 'calls through to the stored work package' do
+          expect(work_package).to_not receive(:new_statuses_allowed_to)
+          expect(stored_wp).to receive(:new_statuses_allowed_to).with(user)
+            .and_return(status_result)
+          expect(subject.assignable_statuses_for(user)).to eql(status_result)
+        end
+      end
+    end
+
+    describe '#assignable_versions' do
+      let(:result) { double }
+
+      it 'calls through to the work package' do
+        expect(work_package).to receive(:assignable_versions).and_return(result)
+        expect(subject.assignable_versions).to eql(result)
+      end
+    end
+
+    describe '#assignable_priorities' do
+      let(:result) { double }
+
+      it 'calls through to the work package' do
+        expect(work_package).to receive(:assignable_priorities).and_return(result)
+        expect(subject.assignable_priorities).to eql(result)
+      end
+    end
   end
 
   context 'created from project and type' do
