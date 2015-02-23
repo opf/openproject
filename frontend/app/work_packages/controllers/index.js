@@ -109,6 +109,7 @@ angular.module('openproject.workPackages.controllers')
     '$stateParams',
     'QueryService',
     'PathHelper',
+    '$rootScope',
     require('./work-packages-controller')
   ])
   .controller('WorkPackagesListController', [
