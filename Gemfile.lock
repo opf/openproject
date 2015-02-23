@@ -99,8 +99,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bourbon (4.1.1)
-      sass (~> 3.3)
+    bourbon (4.2.0)
+      sass (~> 3.4)
       thor
     builder (3.0.4)
     byebug (2.7.0)
@@ -460,7 +460,7 @@ DEPENDENCIES
   acts_as_list (~> 0.2.0)
   autoprefixer-rails
   awesome_nested_set
-  bourbon (~> 4.1.1)
+  bourbon (~> 4.2.0)
   capybara (~> 2.3.0)
   capybara-screenshot (~> 1.0.4)
   carrierwave (~> 0.10.0)
