@@ -190,6 +190,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
               $scope.onFinally();
               $scope.previewHtml = $sce.trustAsHtml(r.data);
           }, function(e) {
+            disablePreview($scope);
             $scope.onFinally();
             $scope.onFail(e);
           });
