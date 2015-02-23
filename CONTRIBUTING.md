@@ -1,8 +1,4 @@
-OpenProject is an open source project and we encourage you to help us out. We'd be happy if you do one of these things:
-
-## Issue flow
-
-Ideally, there is a work package for every issue that is tackled by a contributor - the list can be found [here](https://community.openproject.org/projects/openproject/work_packages). Work packages can be created there on-demand if necessary.
+OpenProject is an open source project and we encourage you to help us out. For contributing to OpenProject, please do follow these steps:
 
 ## Development flow
 For contributing source code, please follow the Git Workflow below:
@@ -20,7 +16,7 @@ git clone git@github.com/<username>/openproject
 git remote add upstream git@github.com:/opf/openproject
 ```
 
-- Make sure you're on the right branch, right now (February 2015), the main development branch is dev: 
+- Make sure you're on the right branch. The main development branch is `dev`: 
 
 ```
 git checkout dev
