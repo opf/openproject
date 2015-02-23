@@ -42,5 +42,5 @@ We will then review your PR. Please note that you can add commits after the PR h
 
 - Please add tests to your code to verify functionality, especially if it is a new feature. Please also run these tests locally.
 - Please create pull requests against the current `dev` branch. Hotfixes and Bugfixes should be created against the appropiate `release/*` branch.
-- We want to keep the Pull request list as cleaned up as possible - we will close pull requests after an inactivity period of 48 hours (no comments, no further pushes)
+- We want to keep the Pull request list as cleaned up as possible - we will aim close pull requests after an **inactivity period of 72 hours** (no comments, no further pushes) which are not labelled as WIP.
 - We use OpenProject for development coordination - please have a look at [the work packages list](https://community.openproject.org/projects/openproject/work_packages) for upcoming features and reported bugs.
