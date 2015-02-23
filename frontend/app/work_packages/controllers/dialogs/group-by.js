@@ -44,7 +44,7 @@ module.exports = function($scope, $filter, groupingModal, QueryService, WorkPack
   $scope.$watch('workPackageTableData.groupableColumns', function(groupableColumns) {
     if (!groupableColumns) return;
 
-    $scope.vm.groupableColumns   = groupableColumns;
+    $scope.vm.groupableColumns   = [{}].concat(groupableColumns);
     $scope.vm.selectedColumnName = QueryService.getGroupBy();
   });
 
