@@ -35,6 +35,8 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
   let(:schema_path) { "/api/v3/work_packages/schemas/#{project.id}-#{type.id}" }
   let(:current_user) { FactoryGirl.build(:user, member_in_project: project) }
 
+  let(:last_response) { response } # FIXME: why is this needed? Where is this defined elsewhere?
+
   describe 'GET /api/v3/work_packages/schemas/:id' do
     context 'logged in' do
       before do

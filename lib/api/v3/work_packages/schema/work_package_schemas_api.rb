@@ -38,21 +38,18 @@ module API
               requires :type, desc: 'Work package schema id'
             end
 
+            helpers do
+              def raise404
+                raise ::API::Errors::NotFound.new
+              end
+            end
+
             # The schema identifier is an artificial identifier that is composed of a work packages
             # project and its type (separated by a dash)
             # This allows to have a separate schema URL for each kind of different work packages
             # but with better caching capabilities than simply using the work package id as
             # identifier for the schema
             namespace ':project-:type' do
-              helpers do
-                def raise404
-                  message = I18n.t('api_v3.errors.code_404',
-                                   type: I18n.t('api_v3.resources.schema'),
-                                   id: params[:id])
-                  raise ::API::Errors::NotFound.new(message)
-                end
-              end
-
               before do
                 begin
                   project = Project.find(params[:project])
@@ -72,6 +69,15 @@ module API
 
               get do
                 @representer
+              end
+            end
+
+            # Because the namespace declaration above does not match for shorter IDs we need
+            # to catch those cases (e.g. '12' instead of '12-13') here and manually return 404
+            # Otherwise we get a no route error
+            namespace ':id' do
+              get do
+                raise404
               end
             end
           end
