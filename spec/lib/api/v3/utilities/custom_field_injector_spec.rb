@@ -29,9 +29,13 @@
 require 'spec_helper'
 
 describe ::API::V3::Utilities::CustomFieldInjector do
+  let(:cf_path) { "customField#{custom_field.id}" }
+  let(:injector) { described_class.new(modified_class) }
+  let(:field_format) { 'bool' }
   let(:custom_field) {
     FactoryGirl.build(:custom_field,
-                      field_format: 'bool',
+                      id: 1,
+                      field_format: field_format,
                       is_required: true)
   }
 
@@ -43,10 +47,8 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
   end
 
-  describe ':inject_schema' do
+  describe '#inject_schema' do
     let(:modified_class) { Class.new(::API::Decorators::Schema) }
-    let(:cf_path) { "customField#{custom_field.id}" }
-    let(:injector) { described_class.new(modified_class) }
     let(:schema) { nil }
     subject { modified_class.new(schema).to_json }
 
@@ -159,6 +161,111 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       it_behaves_like 'links to allowed values via collection link' do
         let(:path) { cf_path }
         let(:href) { '/api/v3/projects/42/available_assignees' }
+      end
+    end
+  end
+
+  describe '#inject_value' do
+    shared_examples_for 'injects property custom field' do
+      it 'has a readable value' do
+        is_expected.to be_json_eql(json_value.to_json).at_path(cf_path)
+      end
+
+      it 'on writing it sets on the represented' do
+        expected = { custom_field.id => expected_setter }
+        expect(represented).to receive(:custom_field_values=).with(expected)
+        modified_class.new(represented).from_json({ cf_path => json_value }.to_json)
+      end
+    end
+
+    let(:represented) {
+      double('represented',
+             custom_value_for: double('custom_value',
+                                      value: custom_value))
+    }
+    let(:custom_value) { '' }
+    let(:modified_class) { Class.new(::API::Decorators::Single) }
+    subject { modified_class.new(represented).to_json }
+
+    before do
+      injector.inject_value(custom_field)
+    end
+
+    context 'link custom field' do
+      let(:custom_value) { '2' }
+      let(:field_format) { 'user' }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { cf_path }
+        let(:href) { '/api/v3/users/2' }
+      end
+
+      context 'value is nil' do
+        let(:represented) { double('represented', custom_value_for: nil) }
+
+        it_behaves_like 'has an empty link' do
+          let(:link) { cf_path }
+        end
+      end
+    end
+
+    context 'string custom field' do
+      it_behaves_like 'injects property custom field' do
+        let(:field_format) { 'string' }
+        let(:custom_value) { 'Foobar' }
+        let(:json_value) { 'Foobar' }
+        let(:expected_setter) { json_value }
+      end
+    end
+
+    context 'int custom field' do
+      it_behaves_like 'injects property custom field' do
+        let(:field_format) { 'int' }
+        let(:custom_value) { '42' }
+        let(:json_value) { 42 }
+        let(:expected_setter) { json_value }
+      end
+    end
+
+    context 'float custom field' do
+      it_behaves_like 'injects property custom field' do
+        let(:field_format) { 'float' }
+        let(:custom_value) { '3.14' }
+        let(:json_value) { 3.14 }
+        let(:expected_setter) { json_value }
+      end
+    end
+
+    context 'bool custom field' do
+      it_behaves_like 'injects property custom field' do
+        let(:field_format) { 'bool' }
+        let(:custom_value) { '1' }
+        let(:json_value) { true }
+        let(:expected_setter) { json_value }
+      end
+    end
+
+    context 'date custom field' do
+      it_behaves_like 'injects property custom field' do
+        let(:field_format) { 'date' }
+        let(:custom_value) { Date.today.to_date.iso8601 }
+        let(:json_value) { custom_value.to_date.iso8601 }
+        let(:expected_setter) { json_value }
+      end
+    end
+
+    context 'text custom field' do
+      it_behaves_like 'injects property custom field' do
+        let(:field_format) { 'text' }
+        let(:custom_value) { 'Foobar' }
+        let(:json_value) do
+          {
+            format: 'plain',
+            raw: custom_value,
+            html: "<p>#{custom_value}</p>"
+          }
+        end
+        let(:expected_setter) { custom_value }
       end
     end
   end

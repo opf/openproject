@@ -222,13 +222,13 @@ module API
               value
             end
           }
+        end
 
-          def property_value_setter_for(custom_field)
-            -> (value, *) {
-              value = value['raw'] if custom_field.field_format == 'text'
-              self.custom_field_values = { custom_field.id => value }
-            }
-          end
+        def property_value_setter_for(custom_field)
+          -> (value, *) {
+            value = value['raw'] if custom_field.field_format == 'text'
+            self.custom_field_values = { custom_field.id => value }
+          }
         end
       end
     end
