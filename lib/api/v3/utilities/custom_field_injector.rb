@@ -205,16 +205,30 @@ module API
         end
 
         def inject_property_value(custom_field)
-          # TODO: 'text' as formattable
           @class.property property_name(custom_field.id),
-                          getter: -> (*) {
-                            custom_value = custom_value_for(custom_field)
-                            custom_value.value if custom_value
-                          },
-                          setter: -> (value, *) {
-                            self.custom_field_values = { custom_field.id => value }
-                          },
+                          getter: property_value_getter_for(custom_field),
+                          setter: property_value_setter_for(custom_field),
                           render_nil: true
+        end
+
+        def property_value_getter_for(custom_field)
+          -> (*) {
+            custom_value = custom_value_for(custom_field)
+            value = custom_value.value if custom_value
+
+            if custom_field.field_format == 'text'
+              ::API::Decorators::Formattable.new(value, format: 'plain')
+            else
+              value
+            end
+          }
+
+          def property_value_setter_for(custom_field)
+            -> (value, *) {
+              value = value['raw'] if custom_field.field_format == 'text'
+              self.custom_field_values = { custom_field.id => value }
+            }
+          end
         end
       end
     end
