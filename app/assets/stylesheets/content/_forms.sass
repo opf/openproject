@@ -377,17 +377,31 @@ fieldset.form--fieldset
   margin-bottom: 0.8rem
 
 .form--table
-  border: 0 none
-  background: none
-  margin: 0
-  td
-    padding: 6px
-    //label
-      @include label-style
-      display: inline
-    //&.label
-      vertical-align: middle
-      width: 160px
+  border:       $content-form-input-border
+  border-radius: 2px
+  background:   none
+  margin:       0
+  font-size:    0.9rem
+  line-height:  1.5
+
+.form--table-header-row
+  font-weight:      bold
+  border-bottom:    $content-form-input-border
+  background-color: $gray-light
+
+.form--table-header-row-cell
+  padding:          0 1rem
+
+.form--table-row
+
+  &:nth-child(odd)
+    background-color: $gray-light
+  &:nth-child(even)
+    background-color: white
+
+.form--table-checkbox-cell
+  width:        1rem
+  text-align:   center
 
 .inline-label
   > .form-label.-transparent
