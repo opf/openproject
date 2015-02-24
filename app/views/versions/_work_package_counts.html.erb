@@ -28,7 +28,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% tag_for_selection = select_tag('status_by',
                                   status_by_options_for_select(criteria),
-                                  :id => 'status_by_select') %>
+                                  id: 'status_by_select',
+                                  class: 'form--select -narrow') %>
 
 <%= form_tag status_by_version_path(version),
              :id => "status_by_form" do %>
@@ -36,7 +37,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset>
 
     <legend>
-      <%= l(:label_work_packages_by, tag_for_selection).html_safe %>
+      <span class="inline-label">
+        <span class="form-label -transparent">
+          <%= l(:label_work_packages_by, '').html_safe %>
+        </span>
+        <%= tag_for_selection %>
+      </span>
     </legend>
 
     <% if counts.empty? %>
