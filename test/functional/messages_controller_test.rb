@@ -76,7 +76,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
     assert_tag :div, attributes: { id: 'reply' },
-                     descendant: { tag: 'textarea', attributes: { id: 'message_content' } }
+                     descendant: { tag: 'textarea', attributes: { id: 'reply_content' } }
   end
 
   def test_show_message_not_found
