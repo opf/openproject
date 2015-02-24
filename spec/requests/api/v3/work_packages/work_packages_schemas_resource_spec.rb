@@ -30,12 +30,12 @@ require 'spec_helper'
 require 'rack/test'
 
 describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
+  include Rack::Test::Methods
+
   let(:project) { FactoryGirl.create(:project) }
   let(:type) { FactoryGirl.create(:type) }
   let(:schema_path) { "/api/v3/work_packages/schemas/#{project.id}-#{type.id}" }
   let(:current_user) { FactoryGirl.build(:user, member_in_project: project) }
-
-  let(:last_response) { response } # FIXME: why is this needed? Where is this defined elsewhere?
 
   describe 'GET /api/v3/work_packages/schemas/:id' do
     context 'logged in' do
@@ -46,7 +46,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
 
       context 'valid schema' do
         it 'should return HTTP 200' do
-          expect(response.status).to eql(200)
+          expect(last_response.status).to eql(200)
         end
       end
 
@@ -72,7 +72,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
     context 'not logged in' do
       it 'should act as if the schema does not exist' do
         get schema_path
-        expect(response.status).to eql(404)
+        expect(last_response.status).to eql(404)
       end
     end
   end
