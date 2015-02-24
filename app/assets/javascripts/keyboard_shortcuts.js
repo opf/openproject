@@ -34,12 +34,12 @@
   var accessibleRowSelector = "table.list tr, table.keyboard-accessible-list tr";
 
 
-  var menu_sidebar = function() {
+  var menuSidebar = function() {
     return $('div#menu-sidebar');
   };
 
-  var we_are_in_project = function() {
-    return menu_sidebar().size() === 1;
+  var isProjectScope = function() {
+    return menuSidebar().size() === 1;
   };
 
   var show_help_modal = function(){
@@ -49,8 +49,8 @@
   };
 
   var go_overview = function(){
-    if (we_are_in_project()) {
-      menu_sidebar().find('.overview')[0].click();
+    if (isProjectScope()) {
+      menuSidebar().find('.overview')[0].click();
     }
   };
 
@@ -62,38 +62,38 @@
   };
 
   var go_work_packages = function(){
-    if (we_are_in_project()) {
-      menu_sidebar().find('.work-packages')[0].click();
+    if (isProjectScope()) {
+      menuSidebar().find('.work-packages')[0].click();
     }
   };
 
   var go_timelines = function(){
-    if (we_are_in_project()) {
-      menu_sidebar().find('.timelines')[0].click();
+    if (isProjectScope()) {
+      menuSidebar().find('.timelines')[0].click();
     }
   };
 
   var go_wiki = function(){
-    if (we_are_in_project()) {
-      menu_sidebar().find('.Wiki')[0].click();
+    if (isProjectScope()) {
+      menuSidebar().find('.Wiki')[0].click();
     }
   };
 
   var go_activity = function(){
-    if (we_are_in_project()) {
-      menu_sidebar().find('.activity')[0].click();
+    if (isProjectScope()) {
+      menuSidebar().find('.activity')[0].click();
     }
   };
 
   var go_calendar = function(){
-    if (we_are_in_project()) {
-      menu_sidebar().find('.calendar')[0].click();
+    if (isProjectScope()) {
+      menuSidebar().find('.calendar')[0].click();
     }
   };
 
   var go_news = function(){
-    if (we_are_in_project()) {
-      menu_sidebar().find('.news')[0].click();
+    if (isProjectScope()) {
+      menuSidebar().find('.news')[0].click();
     }
   };
 
@@ -119,8 +119,8 @@
   };
 
   var new_work_package = function(){
-    if (we_are_in_project()) {
-      menu_sidebar().find('.new-work-package')[0].click();
+    if (isProjectScope()) {
+      menuSidebar().find('.new-work-package')[0].click();
     }
   };
 
