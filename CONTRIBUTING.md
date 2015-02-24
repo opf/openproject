@@ -2,6 +2,11 @@ OpenProject is an open source project and we encourage you to help us out. For c
 
 *Please also note that these rules should be acknowledged by everyone, but repository contributors might occasionally deviate from them for practical purposes, e.g. not fork the repo, but have a branch on the main repository.*
 
+## Contributors License Agreement
+
+External contributors have to sign a CLA before contributing to OpenProject.
+The [CLA can be found here](https://www.openproject.org/wp-content/uploads/2014/09/OPF-Contributor-License-Agreement_v.2.pdf) and has to be filled out and sent to cla@openproject.org. Additionally, a GPG signature has to be provided.
+
 ## Development flow
 
 For contributing source code, please follow the Git Workflow below:
