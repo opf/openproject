@@ -46,24 +46,31 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   <%= render :partial => 'timelog/date_range' %>
   <%= render 'timelog/time_entry_tabs' %>
-  <div class="form--field">
-    <%= styled_label_tag :columns, l(:label_details) %>
-    <%= styled_select_tag 'columns', options_for_select([[l(:label_year), 'year'],
-                                                                            [l(:label_month), 'month'],
-                                                                            [l(:label_week), 'week'],
-                                                                            [l(:label_day_plural).titleize, 'day']], @columns) %>
-  </div>
 
-  <div class="form--field">
-    <%= styled_label_tag :criterias, l(:label_details) %>
-    <%= styled_select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l_or_humanize(@available_criterias[k][:label]), k]}),
-                                                          :style => 'width: 200px',
-                                                          :id => nil,
-                                                          :disabled => (@criterias.length >= 3), :id => "criterias") %>
+  <div class="timelog-report-selection grid-block small-6 vertical">
+    <div class="grid-block">
+
+      <div class="form--field">
+        <%= styled_label_tag :columns, "#{l(:label_details)}:" %>
+        <%= styled_select_tag 'columns', options_for_select([[l(:label_year), 'year'],
+                                                            [l(:label_month), 'month'],
+                                                            [l(:label_week), 'week'],
+                                                            [l(:label_day_plural).titleize, 'day']], @columns) %>
+      </div>
+
+      <div class="form--field">
+        <%= styled_label_tag :criterias, "#{l(:button_add)}:" %>
+        <%= styled_select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l_or_humanize(@available_criterias[k][:label]), k]}),
+                                                              :style => 'width: 200px',
+                                                              :id => nil,
+                                                              :disabled => (@criterias.length >= 3), :id => "criterias") %>
+      </div>
+    </div>
+    <div class="grid-block">
+      <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'button -highlight' %>
+      <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns}, :class => 'button' %>
+    </div>
   </div>
-  <hr class="form--separator">
-  <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'button -highlight' %>
-  <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns}, :class => 'button' %>
 <% end %>
 <% unless @criterias.empty? %>
   <div class="total-hours">

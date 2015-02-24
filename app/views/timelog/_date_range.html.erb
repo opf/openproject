@@ -28,34 +28,38 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <fieldset id="date-range" class="collapsible">
   <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_date_range) %></a></legend>
-  <div class="form--field">
-    <%= styled_label_tag "period_type_list", l(:description_date_range_list), :class => "hidden-for-sighted" %>
-    <%= styled_radio_button_tag 'period_type', '1', !@free_period, :onclick => 'Form.Element.disable("from");Form.Element.disable("to");Form.Element.enable("period");', :id => "period_type_list"%>
-    <%= styled_select_tag 'period', options_for_period_select(params[:period]),
-                       :onfocus => '$("period_type_1").checked = true;',
-                       :disabled => @free_period %>
-  </div>
-  <div class="form--field">
-    <%= styled_label_tag "period_type_interval", l(:description_date_range_interval), :class => "hidden-for-sighted" %>
-    <%= styled_radio_button_tag 'period_type', '2', @free_period, :onclick => 'Form.Element.enable("from");Form.Element.enable("to");Form.Element.disable("period");', :id => "period_type_interval" %>
-    <span onclick="$('period_type_2').checked = true;">
-        <%=
-raw l(:label_date_from_to,
-  :start => raw(
-    styled_label_tag("from", l(:description_date_from), :class => "hidden-for-sighted") +
-    styled_text_field_tag('from', @from, :size => 10, :disabled => !@free_period) +
-    calendar_for('from')
-  ),
-  :end => raw(
-    styled_label_tag("to", l(:description_date_to), :class => "hidden-for-sighted") +
-    styled_text_field_tag('to', @to, :size => 10, :disabled => !@free_period) +
-    calendar_for('to')
-  )
-)
-%>
+  <div>
+    <div class="form--field">
+      <%= styled_label_tag "period_type_list", l(:description_date_range_list), :class => "hidden-for-sighted" %>
+      <%= styled_radio_button_tag 'period_type', '1',
+                                  !@free_period,
+                                  :onclick => 'Form.Element.disable("from");Form.Element.disable("to");Form.Element.enable("period");',
+                                  :id => "period_type_list"%>
+      <%= styled_select_tag 'period',
+                            options_for_period_select(params[:period]),
+                            :onfocus => '$("period_type_1").checked = true;',
+                            :disabled => @free_period,
+                            class: "-narrow" %>
+    </div>
+    <div class="grid-block small-6">
+      <%= styled_label_tag "period_type_interval", l(:description_date_range_interval), :class => "hidden-for-sighted" %>
+      <%= styled_radio_button_tag 'period_type', '2', @free_period, :onclick => 'Form.Element.enable("from");Form.Element.enable("to");Form.Element.disable("period");', :id => "period_type_interval" %>
+
+      <span onclick="$('period_type_2').checked = true;" class="grid-block">
+      <div class="form--field">
+        <%= styled_label_tag("from", l(:label_date_from)) %>
+        <%= styled_text_field_tag('from', @from, :size => 10, :disabled => !@free_period) %>
+        <%= calendar_for('from') %>
+      </div>
+      <div class="form--field">
+        <%= styled_label_tag("to", l(:label_date_to)) %>
+        <%= styled_text_field_tag('to', @to, :size => 10, :disabled => !@free_period) %>
+        <%= calendar_for('to') %>
+      </div>
       </span>
+    </div>
+    <hr class="form--separator">
+    <%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'button -highlight' %>
+    <%= link_to l(:button_clear), polymorphic_time_entries_path(@issue || @project), :class => 'button ' %>
   </div>
 </fieldset>
-<hr class="form--separator">
-<%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'button -highlight' %>
-<%= link_to l(:button_clear), polymorphic_time_entries_path(@issue || @project), :class => 'button ' %>
