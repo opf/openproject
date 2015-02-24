@@ -95,7 +95,10 @@ $ng-modal-image-width:   $ng-modal-image-height
 
 
   #modal-sorting
+    min-height: 120px
     .select2-container
+      float: left
+      margin-right: 20px
       @media(max-width: 1800px)
         width: 280px
       @media(max-width: 1400px)
@@ -104,6 +107,9 @@ $ng-modal-image-width:   $ng-modal-image-height
         width: 160px
       @media(max-width: 800px)
         width: 120px
+    label.option-label
+      float: left
+      margin-right: 20px
 
   .columns-modal-content
     margin-bottom: 15px
