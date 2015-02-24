@@ -227,6 +227,14 @@ describe WorkPackage, type: :model do
         expect(valid_work_package).to be_valid
       end
 
+      let (:idless_category) { FactoryGirl.create(:category, id: nil) }
+
+      it 'should not validate on a missing category_id' do
+        wp = FactoryGirl.build(:work_package, category: idless_category, project: project1)
+        expect(wp).not_to be_valid
+        expect(wp.errors_on(:category).size).to eq(1)
+      end
+
       it 'should validate on matching project.id' do
         expect(valid_work_package).to be_valid
       end

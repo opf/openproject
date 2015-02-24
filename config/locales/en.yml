@@ -239,6 +239,7 @@ en:
             category:
               only_same_project_categories_allowed:
                 "The category of a work package must be within the same project as the work package."
+              does_not_exist: "The specified category does not exist."
         user:
           attributes:
             password:
