@@ -118,7 +118,6 @@ en:
       time_entry:
         activity: "Activity"
         hours: "Hours"
-        work_package: "Work Package"
         spent_on: "Date"
         type: "Type"
       type:
@@ -299,6 +298,7 @@ en:
     base: "General Error:"
     blocks_ids: "Blocks"
     category: "Category"
+    comment: "Comment"
     comments: "Comment"
     content: "Content"
     created_at: "Created on"
@@ -316,6 +316,8 @@ en:
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
+    # kept for backwards compatibility
+    issue: "Work package"
     lastname: "Last name"
     login: "Login"
     mail: "Email"

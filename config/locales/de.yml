@@ -119,7 +119,6 @@ de:
       time_entry:
         activity: "Aktivität"
         hours: "Stunden"
-        issue: "Arbeitspaket"
         spent_on: "Datum"
         type: "Typ"
       type_color:
@@ -300,6 +299,7 @@ de:
     base: "Allgemeiner Fehler:"
     blocks_ids: "Blockiert"
     category: "Kategorie"
+    comment: "Kommentar"
     comments: "Kommentar"
     content: "Inhalt"
     created_at: "Angelegt"
@@ -317,6 +317,8 @@ de:
     is_default: "Standardeinstellung"
     is_for_all: "Für alle Projekte"
     is_public: "Öffentlich"
+    # kept for backwards compatibility
+    issue: "Arbeitspaket"
     lastname: "Nachname"
     login: "Mitgliedsname"
     mail: "E-Mail"
