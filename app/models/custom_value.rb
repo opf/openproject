@@ -38,6 +38,32 @@ class CustomValue < ActiveRecord::Base
 
   after_initialize :set_default_value
 
+  # returns the value of this custom value, but converts it according to the field_format
+  # of the custom field beforehand
+  def typed_value
+    return nil if value.nil?
+
+    # strings may be blank, all other types can only be nil if their value is blank
+    return nil if value.blank? && !(['string', 'text'].include?(custom_field.field_format))
+
+    case custom_field.field_format
+    when 'int'
+      value.to_i
+    when 'float'
+      value.to_f
+    when 'date'
+      Date.iso8601(value)
+    when 'bool'
+      value == '1'
+    when 'user'
+      User.find(value)
+    when 'version'
+      Version.find(value)
+    else
+      value
+    end
+  end
+
   def set_default_value
     if new_record? && custom_field && (customized_type.blank? || (customized && customized.new_record?))
       self.value ||= custom_field.default_value

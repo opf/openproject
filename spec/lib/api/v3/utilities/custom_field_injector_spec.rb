@@ -181,7 +181,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     let(:represented) {
       double('represented',
              custom_value_for: double('custom_value',
-                                      value: custom_value))
+                                      typed_value: custom_value))
     }
     let(:custom_value) { '' }
     let(:modified_class) { Class.new(::API::Decorators::Single) }
@@ -192,7 +192,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     context 'link custom field' do
-      let(:custom_value) { '2' }
+      let(:custom_value) { FactoryGirl.build(:user, id: 2) }
       let(:field_format) { 'user' }
 
       it_behaves_like 'has an untitled link' do
@@ -221,7 +221,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'int custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'int' }
-        let(:custom_value) { '42' }
+        let(:custom_value) { 42 }
         let(:json_value) { 42 }
         let(:expected_setter) { json_value }
       end
@@ -230,7 +230,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'float custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'float' }
-        let(:custom_value) { '3.14' }
+        let(:custom_value) { 3.14 }
         let(:json_value) { 3.14 }
         let(:expected_setter) { json_value }
       end
@@ -239,7 +239,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'bool custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'bool' }
-        let(:custom_value) { '1' }
+        let(:custom_value) { true }
         let(:json_value) { true }
         let(:expected_setter) { json_value }
       end
@@ -248,7 +248,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'date custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'date' }
-        let(:custom_value) { Date.today.to_date.iso8601 }
+        let(:custom_value) { Date.today.to_date }
         let(:json_value) { custom_value.to_date.iso8601 }
         let(:expected_setter) { json_value }
       end

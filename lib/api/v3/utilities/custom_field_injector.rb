@@ -183,9 +183,10 @@ module API
         def link_value_getter_for(custom_field, path_method)
           -> (*) {
             custom_value = represented.custom_value_for(custom_field)
-            value = custom_value.value if custom_value
+            value = custom_value.typed_value if custom_value
+            path = api_v3_paths.send(path_method, value.is_a?(String) ? value : value.id) if value
 
-            { href: (api_v3_paths.send(path_method, value) if value) }
+            { href: path }
           }
         end
 
@@ -214,7 +215,7 @@ module API
         def property_value_getter_for(custom_field)
           -> (*) {
             custom_value = custom_value_for(custom_field)
-            value = custom_value.value if custom_value
+            value = custom_value.typed_value if custom_value
 
             if custom_field.field_format == 'text'
               ::API::Decorators::Formattable.new(value, format: 'plain')
