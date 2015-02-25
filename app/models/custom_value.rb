@@ -28,6 +28,18 @@
 #++
 
 class CustomValue < ActiveRecord::Base
+  FORMAT_STRATEGIES = {
+    'string' => CustomValue::StringStrategy,
+    'text' => CustomValue::StringStrategy,
+    'int' => CustomValue::IntStrategy,
+    'float' => CustomValue::FloatStrategy,
+    'date' => CustomValue::DateStrategy,
+    'bool' => CustomValue::BoolStrategy,
+    'user' => CustomValue::UserStrategy,
+    'version' => CustomValue::VersionStrategy,
+    'list' => CustomValue::ListStrategy
+  }
+
   belongs_to :custom_field
   belongs_to :customized, polymorphic: true
 
@@ -38,36 +50,16 @@ class CustomValue < ActiveRecord::Base
 
   after_initialize :set_default_value
 
-  # returns the value of this custom value, but converts it according to the field_format
-  # of the custom field beforehand
-  def typed_value
-    return nil if value.nil?
-
-    # strings may be blank, all other types can only be nil if their value is blank
-    return nil if value.blank? && !(['string', 'text'].include?(custom_field.field_format))
-
-    case custom_field.field_format
-    when 'int'
-      value.to_i
-    when 'float'
-      value.to_f
-    when 'date'
-      Date.iso8601(value)
-    when 'bool'
-      value == '1'
-    when 'user'
-      User.find(value)
-    when 'version'
-      Version.find(value)
-    else
-      value
-    end
-  end
-
   def set_default_value
     if new_record? && custom_field && (customized_type.blank? || (customized && customized.new_record?))
       self.value ||= custom_field.default_value
     end
+  end
+
+  # returns the value of this custom value, but converts it according to the field_format
+  # of the custom field beforehand
+  def typed_value
+    strategy.typed_value
   end
 
   # Returns true if the boolean custom value is true
@@ -105,22 +97,9 @@ class CustomValue < ActiveRecord::Base
 
   def validate_type_of_value
     if value.present?
-      # Format specific validations
-      case custom_field.field_format
-      when 'int'
-        errors.add(:value, :not_a_number) unless value =~ /\A[+-]?\d+\z/
-      when 'float'
-        begin; Kernel.Float(value); rescue; errors.add(:value, :invalid) end
-      when 'date'
-        errors.add(:value, :not_a_date) unless value =~ /\A\d{4}-\d{2}-\d{2}\z/
-      when 'user', 'version'
-        unless custom_field.possible_values(customized).include?(value)
-          errors.add(:value, :inclusion)
-        end
-      when 'list'
-        unless custom_field.possible_values.include?(value)
-          errors.add(:value, :inclusion)
-        end
+      result = strategy.validate_type_of_value
+      if result
+        errors.add(:value, result)
       end
     end
   end
@@ -130,5 +109,11 @@ class CustomValue < ActiveRecord::Base
       errors.add(:value, :too_short, count: custom_field.min_length) if custom_field.min_length > 0 and value.length < custom_field.min_length
       errors.add(:value, :too_long, count: custom_field.max_length) if custom_field.max_length > 0 and value.length > custom_field.max_length
     end
+  end
+
+  private
+
+  def strategy
+    @strategy = FORMAT_STRATEGIES[custom_field.field_format].new(self)
   end
 end
