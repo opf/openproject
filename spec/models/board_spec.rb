@@ -26,36 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ChiliProject::PrincipalAllowanceEvaluator::Base
-  def initialize(user)
-    @user = user
-  end
+require 'spec_helper'
 
-  def granted_for_global? candidate, action, options
-    false
-  end
+require 'support/shared/acts_as_watchable'
 
-  def denied_for_global? candidate, action, options
-    false
-  end
-
-  def granted_for_project? candidate, action, project, options = {}
-    false
-  end
-
-  def denied_for_project? candidate, action, project, options = {}
-    false
-  end
-
-  def global_granting_candidates
-    []
-  end
-
-  def project_granting_candidates project
-    []
-  end
-
-  def self.eager_load_for_project_authorization(project)
-    nil
+describe Board, type: :model do
+  it_behaves_like 'acts_as_watchable included' do
+    let(:model_instance) { FactoryGirl.create(:board) }
+    let(:watch_permission) { :view_messages } # view_messages is a public permission
+    let(:project) { model_instance.project }
   end
 end

@@ -39,9 +39,9 @@ gem 'request_store'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
-gem 'rails_autolink'
+gem 'rails_autolink', '~> 1.1.6'
 gem "will_paginate", '~> 3.0'
-gem "acts_as_list", "~> 0.2.0"
+gem "acts_as_list", "~> 0.3.0"
 
 gem 'awesome_nested_set'
 
@@ -128,7 +128,7 @@ group :test do
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
-  gem "factory_girl_rails", "~> 4.0"
+  gem "factory_girl_rails", "~> 4.5"
   gem 'cucumber-rails', "~> 1.4.2", :require => false
   gem 'rack_session_access'
   # restrict because in version 1.3 a lot of tests using acts as journalized
@@ -144,7 +144,7 @@ group :test do
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot', '~> 1.0.4'
-  gem 'selenium-webdriver', '~> 2.43.0'
+  gem 'selenium-webdriver', '~> 2.44.0'
   gem 'timecop', '~> 0.7.1'
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
