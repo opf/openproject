@@ -269,4 +269,58 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
   end
+
+  describe '#inject_patchable_link_value' do
+    let(:represented) {
+      double('represented',
+             custom_value_for: double('custom_value',
+                                      typed_value: custom_value))
+    }
+    let(:custom_value) { '' }
+    let(:modified_class) { Class.new(::API::Decorators::Single) }
+    subject { "{ \"_links\": #{modified_class.new(represented).to_json} }" }
+
+    before do
+      injector.inject_patchable_link_value(custom_field)
+    end
+
+    context 'reading' do
+      let(:custom_value) { FactoryGirl.build(:user, id: 2) }
+      let(:field_format) { 'user' }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { cf_path }
+        let(:href) { '/api/v3/users/2' }
+      end
+
+      context 'value is nil' do
+        let(:represented) { double('represented', custom_value_for: nil) }
+
+        it_behaves_like 'has an empty link' do
+          let(:link) { cf_path }
+        end
+      end
+    end
+
+    context 'writing' do
+      let(:custom_value) { nil }
+      let(:field_format) { 'user' }
+
+      it 'accepts a valid link' do
+        json = { cf_path => { href: '/api/v3/users/2' } }.to_json
+        expected = { custom_field.id => '2' }
+
+        expect(represented).to receive(:custom_field_values=).with(expected)
+        modified_class.new(represented).from_json(json)
+      end
+
+      it 'accepts an empty link' do
+        json = { cf_path => { href: nil } }.to_json
+        expected = { custom_field.id => nil }
+
+        expect(represented).to receive(:custom_field_values=).with(expected)
+        modified_class.new(represented).from_json(json)
+      end
+    end
+  end
 end

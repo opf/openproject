@@ -193,13 +193,16 @@ module API
         def link_value_setter_for(custom_field, property, expected_namespace)
           -> (link_object, *) {
             href = link_object['href']
-            return nil unless href
 
-            value = ::API::Utilities::ResourceLinkParser.parse_id(
-              href,
-              property: property,
-              expected_version: '3',
-              expected_namespace: expected_namespace)
+            if href
+              value = ::API::Utilities::ResourceLinkParser.parse_id(
+                href,
+                property: property,
+                expected_version: '3',
+                expected_namespace: expected_namespace)
+            else
+              value = nil
+            end
 
             represented.custom_field_values = { custom_field.id => value }
           }
