@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="font-small">
         <% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
         <% perms_by_module.keys.sort.each do |mod| %>
           <% unless mod.blank? %>

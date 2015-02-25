@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <th><%= WorkPackage.human_attribute_name(:subject)%></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="font-small">
         <% for work_package in work_packages %>
           <tr id="work_package-<%= h(work_package.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= work_package_css_classes(work_package) %>">
             <td class="id">

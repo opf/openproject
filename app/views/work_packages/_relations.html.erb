@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <th><span class="hidden-for-sighted"><%= t('button_delete') %></span></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="font-small">
     <%= render :partial => 'relation', :collection => relations,
                                        :as => :relation,
                                        :locals => { :work_package => work_package } -%>

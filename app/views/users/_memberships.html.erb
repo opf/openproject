@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= call_hook(:view_users_memberships_table_header, :user => @user )%>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="font-small">
         <% @user.memberships.each do |membership| %>
           <% next if membership.new_record? %>
             <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">

@@ -63,6 +63,9 @@ $include-css: (
   utilities: true,
 );
 
+// Have rem-calc available
+@import "helpers/functions";
+
 // 2. Global Styles
 // - - - - - - - - - - - - - - - - - - - -
 
@@ -175,7 +178,7 @@ $breakpoints: (
 // We use these to style paragraphs
 // $paragraph-font-family: inherit;
 // $paragraph-font-weight: $font-weight-normal;
-// $paragraph-font-size: 1rem;
+$paragraph-font-size: $typography-font-medium;
 // $paragraph-line-height: 1.6;
 // $paragraph-margin-bottom: rem-calc(20);
 // $paragraph-aside-font-size: rem-calc(14);
@@ -301,13 +304,13 @@ $button-padding: 0.65em 1em;
 // $button-background: $primary-color;
 // $button-color: auto;
 $button-radius: 2px;
-// $button-sizes: (
-//   tiny: 0.7,
-//   small: 0.8,
-//   medium: 1,
-//   large: 1.3,
-// );
-// $button-font-size: 0.9rem;
+$button-sizes: (
+  tiny: 0.7,
+  small: 0.8125,
+  medium: 0.875,
+  large: 1,
+);
+$button-font-size: $typography-font-large;
 // $button-opacity-disabled: 0.8;
 // $button-tag-selector: true;
 

@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <th></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="font-small">
     <% for status in @statuses %>
       <tr class="<%= cycle("odd", "even") %>">
         <td><%= link_to h(status.name), edit_status_path(status) %></td>

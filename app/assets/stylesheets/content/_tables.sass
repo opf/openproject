@@ -39,7 +39,6 @@ table
       padding: 4px
       white-space: nowrap
     td
-      vertical-align: top
       &.id
         width: 2%
         text-align: center
@@ -186,7 +185,6 @@ tr
         width: 30%
       &.size
         text-align: right
-        font-size: 90%
       &.revision, &.author
         text-align: center
       &.age
@@ -207,8 +205,6 @@ table
     &.filename
       text-align: left
       padding-left: 24px
-    &.digest
-      font-size: 80%
   &.members td.roles, &.memberships td.roles
     width: 45%
 
@@ -256,7 +252,7 @@ td.hours
   font-weight: bold
   padding-right: 0.5em
   .hours-dec
-    font-size: 0.9em
+    font-size: $typography-font-small
 
 table
   &.plugins
@@ -386,3 +382,7 @@ table#time-report
       cursor: context-menu
     &.updated
       width: 80px
+
+    // Hack to prevent the fixed font size of format_text
+    p
+      font-size: inherit

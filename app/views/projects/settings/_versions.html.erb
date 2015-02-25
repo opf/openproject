@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <th style="width:15%"></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="font-small">
       <% for version in @project.shared_versions.sort %>
         <tr class="version <%= cycle 'odd', 'even' %>  <%= 'shared' if version.project != @project %>">
           <td class="name <%=h version.status %><% ' icon-context icon-link' if version.project != @project%>"><%= link_to_version version %></td>

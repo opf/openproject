@@ -56,7 +56,7 @@ entries_by_day = entries.group_by(&:spent_on)
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="font-small">
       <% entries_by_day.keys.sort.reverse.each do |day| %>
         <tr class="odd">
           <td><strong><%= day == Date.today ? l(:label_today).titleize : format_date(day) %></strong></td>

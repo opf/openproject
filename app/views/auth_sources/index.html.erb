@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <th></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="font-small">
     <% for source in @auth_sources %>
       <tr class="<%= cycle("odd", "even") %>">
         <td><%= link_to source.name, :action => 'edit', :id => source %></td>
