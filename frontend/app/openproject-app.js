@@ -228,7 +228,8 @@ openprojectApp
     '$window',
     'featureFlags',
     'TimezoneService',
-    function($http, $rootScope, $window, flags, TimezoneService) {
+    'KeyboardShortcutService',
+    function($http, $rootScope, $window, flags, TimezoneService, KeyboardShortcutService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
       $rootScope.showNavigation =
@@ -237,6 +238,8 @@ openprojectApp
 
       flags.set($http.get('/javascripts/feature-flags.json'));
       TimezoneService.setupLocale();
+      KeyboardShortcutService.activate();
+
     }
   ]);
 

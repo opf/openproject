@@ -29,7 +29,7 @@
 //= require mousetrap
 
 (function($){
-
+  return;
   var accessibleListSelector = "table.list, table.keyboard-accessible-list";
   var accessibleRowSelector = "table.list tr, table.keyboard-accessible-list tr";
 

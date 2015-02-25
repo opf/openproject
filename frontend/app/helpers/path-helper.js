@@ -287,6 +287,15 @@ module.exports = function() {
     staticWorkPackageAutoCompletePath: function(projectId, workPackageId) {
       return PathHelper.staticBase
         + PathHelper.workPackageAutoCompletePath(projectId, workPackageId);
+    },
+    staticProjectWikiPath: function(projectId) {
+      return PathHelper.staticProjectWorkPackagesPath(projectId) + '/wiki';
+    },
+    staticMyPagePath: function() {
+      return PathHelper.staticBase + '/my/page';
+    },
+    staticKeyboardShortcutsHelpPath: function() {
+      return PathHelper.staticBase + '/help/keyboard_shortcuts';
     }
   };
 
