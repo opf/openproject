@@ -30,7 +30,7 @@ describe 'Select work package row', type: :feature do
     work_packages_page.visit_index
   end
 
-  include_context 'select2 helpers'
+  include_context 'ui-select helpers'
   include_context 'work package table helpers'
 
   after do

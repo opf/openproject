@@ -26,12 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-shared_context 'select2 helpers' do
-  def select2_select_option(select2_element, option_name)
+shared_context 'ui-select helpers' do
+  def ui_select_choose(select2_element, option_name)
     select2_element.find('.select2-choice').click
-
-    within('.select2-drop') do
-      find('.select2-result-selectable', text: option_name).click
-    end
+    select2_element.find('ul.select2-result-single li', text: option_name).click
   end
 end
