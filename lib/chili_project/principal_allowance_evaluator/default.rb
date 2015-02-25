@@ -52,7 +52,42 @@ class ChiliProject::PrincipalAllowanceEvaluator::Default < ChiliProject::Princip
     @user.memberships + [role]
   end
 
+  def self.eager_load_for_project_authorization(project)
+    User
+      .scoped
+      .eager_load(members: [:project, :roles])
+      .where(members: { project_id: project.id })
+  end
+
   def project_granting_candidates(project)
-    @user.roles_for_project project
+    if @user.memberships.loaded?
+      @user.roles_for_project(project)
+    else
+      roles_for_project(project)
+    end
+  end
+
+  def roles_for_project(project)
+    # This is a copy of User#roles_for_project.  As we cannot use User's
+    # memberships association for joining (the projects.status condition is not
+    # fit to be used as part of the ON clause as projects is not joined at this
+    # point), and User#roles_for_project relies on this association, we are
+    # forced to use User's members association.
+
+    # No role on archived projects
+    return [] unless project && project.active?
+
+    if @user.logged?
+      # Find project membership
+      member = @user.members.detect { |m| m.project_id == project.id }
+
+      if member
+        member.roles
+      else
+        [Role.non_member]
+      end
+    else
+      [Role.anonymous]
+    end
   end
 end
