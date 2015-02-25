@@ -73,16 +73,10 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   }
 
   function setOptions($scope) {
-    if ($scope.attribute == 'version.name') {
-      $scope.hasEmptyOption = true;
-    }
-    var href = $scope
-      .entity.form.embedded.schema
-      .props[getAttribute($scope)]._links.allowedValues.href;
-    if (href) {
-      setLinkedOptions($scope);
+    if ($scope.embedded) {
+      $scope.$broadcast('focusSelect2');
     } else {
-      setEmbeddedOptions($scope)
+      setLinkedOptions($scope);
     }
   }
 
@@ -102,7 +96,9 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       } else {
         $scope.options = options;
       }
-      $scope.$broadcast('focusSelect2');
+    } else {
+      $scope.isEditing = false;
+      $scope.isEditable = false;
     }
   }
 
@@ -213,11 +209,13 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         data._links[getAttribute($scope)] = { href: $scope.dataObject.value || null };
       },
       setReadValue: function($scope) {
+        if ($scope.attribute == 'version.name') {
+          $scope.hasEmptyOption = true;
+        }
         if ($scope.embedded) {
-          $scope.isUserLink = false;
           $scope.readValue = getReadAttributeValue($scope);
+          setEmbeddedOptions($scope);
         } else {
-          $scope.isUserLink = !!$scope.entity.embedded[$scope.attribute];
           $scope.readValue = $scope.entity.embedded[$scope.attribute];
         }
       },
