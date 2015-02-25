@@ -58,26 +58,6 @@ Please add tests to your code to verify functionality, especially if it is a new
 
 Pull requests will be verified by TravisCI as well, but please run them locally as well. We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
 
-### Code style guidelines
-
-We use [RuboCop](https://github.com/bbatsov/rubocop) to verify our code style for Ruby. A [RuboCop configuration](https://github.com/opf/openproject/blob/dev/.rubocop.yml) is included in the repository for your convenience. 
-
-Individual files can also be autocorrected with 
-
-```
-rubcocop -a ./path/to/file
-```
-
-JavaScript style for the frontend can be verified via a `gulp` task in the `frontend` folder:
-
-```
-gulp lint
-```
-
-Additionally, we use HoundCI to verifiy the styles for Ruby, as well as for JavaScript. We will reject pull requests which do not meet the code style requirements.
-
-The style guide applies **to lines you touch**. you do **not** have to correct a file completely if you only touch a single line for a bugfix. When in doubt, the matter will be discussed in the pull request.
-
 ### Branching model
 
 The main development branch for upcoming releases is `dev`. For identifying the branch to create a pull request against, please refer to these rules:
