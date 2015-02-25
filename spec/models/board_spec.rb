@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,25 +28,12 @@
 
 require 'spec_helper'
 
-describe Wiki, type: :model do
-  let(:project) { FactoryGirl.create(:project, :without_wiki) }
-  let(:start_page) { 'The wiki start page' }
+require 'support/shared/acts_as_watchable'
 
+describe Board, type: :model do
   it_behaves_like 'acts_as_watchable included' do
-    let(:model_instance) { FactoryGirl.create(:wiki) }
-    let(:watch_permission) { :view_wiki_pages }
+    let(:model_instance) { FactoryGirl.create(:board) }
+    let(:watch_permission) { :view_messages } # view_messages is a public permission
     let(:project) { model_instance.project }
-  end
-
-  describe '#create' do
-    let(:wiki) { project.create_wiki start_page: start_page }
-
-    it 'creates a wiki menu item on creation' do
-      expect(wiki.wiki_menu_items).to be_one
-    end
-
-    it 'sets the wiki menu item title to the name of the start page' do
-      expect(wiki.wiki_menu_items.first.title).to eq(start_page)
-    end
   end
 end

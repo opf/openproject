@@ -28,36 +28,12 @@
 
 require 'spec_helper'
 
-describe OpenProject::Acts::Watchable do
-  let(:project) { FactoryGirl.build(:project) }
-  let(:work_package) { FactoryGirl.build(:work_package, project: project) }
-  let(:users) { FactoryGirl.build_list(:user, 3) }
+require 'support/shared/acts_as_watchable'
 
-  before do
-    allow(project).to receive(:users).and_return(users)
-  end
-
-  describe '#possible_watcher_users' do
-    subject { work_package.possible_watcher_users }
-
-    context 'supports #visible?' do
-      context 'all are visible' do
-        before { allow(work_package).to receive(:visible?).and_return(true) }
-
-        it { is_expected.to match_array(users) }
-      end
-
-      context 'all are invisible' do
-        before { allow(work_package).to receive(:visible?).and_return(false) }
-
-        it { is_expected.to be_empty }
-      end
-    end
-
-    context 'does not support #visible?' do
-      before { allow(work_package).to receive(:respond_to?).with(:visible?).and_return(false) }
-
-      it { is_expected.to match_array(users) }
-    end
+describe Message, type: :model do
+  it_behaves_like 'acts_as_watchable included' do
+    let(:model_instance) { FactoryGirl.create(:message) }
+    let(:watch_permission) { :view_messages } # view_messages is a public permission
+    let(:project) { model_instance.board.project }
   end
 end

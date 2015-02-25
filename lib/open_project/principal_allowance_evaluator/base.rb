@@ -54,4 +54,8 @@ class OpenProject::PrincipalAllowanceEvaluator::Base
   def project_granting_candidates(_project)
     []
   end
+
+  def self.eager_load_for_project_authorization(project)
+    nil
+  end
 end

@@ -31,6 +31,7 @@ require 'digest/sha1'
 
 class User < Principal
   include ActiveModel::ForbiddenAttributesProtection
+  include User::Authorization
 
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
