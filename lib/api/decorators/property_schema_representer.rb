@@ -33,11 +33,11 @@ require 'roar/json/hal'
 module API
   module Decorators
     class PropertySchemaRepresenter < ::API::Decorators::Single
-      def initialize(type:, name:, current_user: nil)
+      def initialize(type:, name:, required: true, writable: true, current_user: nil)
         @type = type
         @name = name
-        @required = true
-        @writable = true
+        @required = required
+        @writable = writable
 
         super(nil, current_user: current_user)
       end

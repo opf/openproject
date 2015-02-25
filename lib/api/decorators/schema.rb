@@ -41,9 +41,9 @@ module API
           raise ArgumentError if property.nil?
 
           schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
-                                                                    name: title)
-          schema.required = required
-          schema.writable = writable
+                                                                    name: title,
+                                                                    required: required,
+                                                                    writable: writable)
           schema.min_length = min_length if min_length
           schema.max_length = max_length if max_length
 
@@ -65,9 +65,9 @@ module API
                    getter: -> (*) {
                      representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
                        type: type,
-                       name: title)
-                     representer.required = required
-                     representer.writable = writable
+                       name: title,
+                       required: required,
+                       writable: writable)
 
                      if represented.defines_assignable_values?
                        representer.allowed_values_href = instance_eval(&href_callback)
@@ -95,9 +95,9 @@ module API
                        name: title,
                        current_user: current_user,
                        value_representer: value_representer,
-                       link_factory: -> (value) { instance_exec(value, &link_factory) })
-                     representer.required = required
-                     representer.writable = writable
+                       link_factory: -> (value) { instance_exec(value, &link_factory) },
+                       required: required,
+                       writable: writable)
 
                      if represented.defines_assignable_values?
                        representer.allowed_values = instance_exec(&values_callback)
