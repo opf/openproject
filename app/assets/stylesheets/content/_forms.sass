@@ -313,6 +313,13 @@ fieldset.form--fieldset
   // https://github.com/zurb/foundation-apps/pull/416
   padding-right: $form-padding + rem-calc(18px)
 
+  // TODO: remove on upgrade Foundation 1.0.3
+  // https://github.com/zurb/foundation-apps/commit/43da85985770e430ce45a8c10fdd6bed29cf5096
+  $arrow-color: rgb(red($select-arrow-color), green($select-arrow-color), blue($select-arrow-color))
+  border: $input-border
+  background: $select-background url(image-triangle($arrow-color)) right 10px center no-repeat
+  background-size: 8px 8px
+
   // TODO: fix upstream in Foundation
   &::-ms-expand
     display: none
