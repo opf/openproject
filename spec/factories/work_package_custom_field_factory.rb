@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory :work_package_custom_field do
-    ignore do
+    transient do
       name_locales nil
       default_locales nil
     end

@@ -29,7 +29,7 @@
 
 FactoryGirl.define do
   factory :project do
-    ignore do
+    transient do
       no_types false
     end
 
