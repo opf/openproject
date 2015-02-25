@@ -410,6 +410,16 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'schema' do
+        let(:schema_id) { "#{work_package.project.id}-#{work_package.type.id}" }
+        let(:link) { "/api/v3/work_packages/schemas/#{schema_id}".to_json }
+        let(:href_path) { '_links/schema/href' }
+
+        it 'has a link' do
+          is_expected.to be_json_eql(link).at_path(href_path)
+        end
+      end
+
       context 'when the user has the permission to view work packages' do
         context 'and the user is not watching the work package' do
           it 'should have a link to watch' do

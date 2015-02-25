@@ -139,6 +139,8 @@ module API
             mount ::API::V3::Relations::RelationsAPI
             mount ::API::V3::WorkPackages::Form::FormAPI
           end
+
+          mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
         end
       end
     end

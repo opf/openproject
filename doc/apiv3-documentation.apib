@@ -2864,6 +2864,29 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
     [Example Schema][]
 
++ Response 404 (application/hal+json)
+
+    Returned if the schema does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages (on the project where this schema is used)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "The subject might not be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "Subject"
+                    }
+                }
+            }
+
 ## Work Package Edit Form [/api/v3/work_packages/{id}/form]
 
 This endpoint returns a form to allow a guided modification of an existing work package.

@@ -309,6 +309,7 @@ en:
     display_sums: "Display Sums"
     due_date: "Due date"
     estimated_hours: "Estimated time"
+    estimated_time: "Estimated time"
     firstname: "First name"
     group: "Group"
     groupname: "Group name"
@@ -1653,6 +1654,9 @@ en:
   nothing_to_preview: "Nothing to preview"
 
   api_v3:
+    attributes:
+      _type: "Resource Type"
+      lock_version: "Lock Version"
     errors:
       code_401: "You need to be authenticated to access this resource."
       code_403: "You are not authorized to access this resource."
@@ -1674,3 +1678,5 @@ en:
       validation:
         invalid_user_assigned_to_work_package:
           "The chosen user is not allowed to be '%{property}' for this work package."
+    resources:
+      schema: 'Schema'

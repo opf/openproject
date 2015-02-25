@@ -33,17 +33,46 @@ require 'roar/json/hal'
 module API
   module V3
     module WorkPackages
-      module Form
-        class SchemaAllowedPrioritiesRepresenter < Decorators::SchemaAllowedValuesRepresenter
-          self.value_representer = Priorities::PriorityRepresenter
+      module Schema
+        class WorkPackageSchema
+          attr_reader :project
 
-          self.links_factory = -> (priority) do
-            extend API::V3::Utilities::PathHelper
+          def initialize(work_package: nil, project: nil, type: nil)
+            raise ArgumentError unless work_package || (project && type)
 
-            { href: api_v3_paths.priority(priority.id), title: priority.name }
+            @project = project || work_package.project
+            @type = type || work_package.type
+            @work_package = work_package
           end
 
-          self.type = 'Priority'
+          def defines_assignable_values?
+            @work_package.present?
+          end
+
+          def assignable_statuses_for(user)
+            return nil if @work_package.nil?
+
+            status_origin = @work_package
+
+            # do not allow to skip statuses without intermediate saving
+            if @work_package.persisted? && @work_package.status_id_changed?
+              status_origin = @work_package.class.find(@work_package.id)
+            end
+
+            status_origin.new_statuses_allowed_to(user)
+          end
+
+          def assignable_versions
+            @work_package.assignable_versions if defines_assignable_values?
+          end
+
+          def assignable_priorities
+            @work_package.assignable_priorities if defines_assignable_values?
+          end
+
+          def available_custom_fields
+            @project.all_work_package_custom_fields & @type.custom_fields.all
+          end
         end
       end
     end
