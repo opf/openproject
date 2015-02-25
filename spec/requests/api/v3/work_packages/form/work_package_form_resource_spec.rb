@@ -543,6 +543,44 @@ describe 'API v3 Work package form resource', type: :request do
               end
             end
 
+            describe 'category' do
+              let(:path) { '_embedded/payload/_links/category/href' }
+              let(:links_path) { '_embedded/schema/category/_links' }
+              let(:target_category) { FactoryGirl.create(:category, project: project) }
+              let(:other_category) { FactoryGirl.create(:category, project: project) }
+              let(:category_link) { "/api/v3/categories/#{target_category.id}" }
+              let(:other_category_link) { "/api/v3/categories/#{other_category.id}" }
+              let(:category_parameter) { { _links: { category: { href: category_link } } } }
+              let(:params) { valid_params.merge(category_parameter) }
+
+              describe 'allowed values' do
+                before do
+                  other_category
+                end
+
+                include_context 'post request'
+
+                it 'should list the categories' do
+                  expect(subject.body).to be_json_eql(category_link.to_json)
+                    .at_path("#{links_path}/allowedValues/1/href")
+                  expect(subject.body).to be_json_eql(other_category_link.to_json)
+                    .at_path("#{links_path}/allowedValues/0/href")
+                end
+              end
+
+              context 'valid category' do
+                include_context 'post request'
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package category' do
+                  expect(subject.body).to be_json_eql(category_link.to_json).at_path(path)
+                end
+              end
+            end
+
             describe 'priority' do
               let(:path) { '_embedded/payload/_links/priority/href' }
               let(:links_path) { '_embedded/schema/priority/_links' }

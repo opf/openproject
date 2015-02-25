@@ -29,12 +29,10 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:user) }
 
   describe 'validations' do
-
     # validations
     [:subject, :priority, :project, :type, :author, :status].each do |field|
       it { is_expected.to validate_presence_of field }
@@ -56,45 +54,65 @@ describe WorkPackage, type: :model do
     end
 
     describe 'hierarchical work_package-validations' do
-      # There are basically __no__ validations for hierarchies: The sole semantic here is, that the start-date of a parent
+      # There are basically __no__ validations for hierarchies:
+      # The sole semantic here is, that the start-date of a parent
       # is set to the earliest start-date of its children.
 
       let(:early_date) { 1.week.from_now.to_date }
       let(:late_date)  { 2.weeks.from_now.to_date }
-      let(:parent) { FactoryGirl.create(:work_package, author: user, project: project, start_date: late_date) }
-      let(:child_1) { FactoryGirl.create(:work_package, author: user, project: project, parent: parent, start_date: late_date) }
-      let(:child_2) { FactoryGirl.create(:work_package, author: user, project: project, parent: parent, start_date: late_date) }
-
-      it "verify, that the start-date of a parent is set to the start-date of it's earliest child." do
-        child_1.start_date = early_date
-        expect(child_1).to be_valid # yes, I can move the child-start-date before the parent-start-date...
-        child_1.save
-
-        expect {
-          parent.reload
-        }.to change { parent.start_date }.from(late_date).to(early_date) # ... but this changes the parent's start_date to the child's start_date
+      let(:parent) do
+        FactoryGirl.create(:work_package, author: user, project: project, start_date: late_date)
+      end
+      let(:child_1) do
+        FactoryGirl.create(:work_package,
+                           author: user,
+                           project: project,
+                           parent: parent,
+                           start_date: late_date)
+      end
+      let(:child_2) do
+        FactoryGirl.create(:work_package,
+                           author: user,
+                           project: project,
+                           parent: parent,
+                           start_date: late_date)
       end
 
-    end
+      it "verify, that the start-date of a parent equals the start-date of it's earliest child." do
+        child_1.start_date = early_date
+        expect(child_1).to be_valid # yes, child-start-date can moved before parent-start-date...
+        child_1.save
 
+        expect do
+          parent.reload
+        end.to change { parent.start_date }
+          .from(late_date)
+          .to(early_date) # ... but this changes the parent's start_date to the child's start_date
+      end
+    end
   end
 
   describe 'validations of related packages' do
-    let(:predecessor) { FactoryGirl.create(:work_package, author: user, project: project, start_date: '31/01/13') }
-    let(:successor)  { FactoryGirl.create(:work_package, author: user, project: project, start_date: '31/01/13') }
+    let(:predecessor) do
+      FactoryGirl.create(:work_package, author: user, project: project, start_date: '31/01/13')
+    end
+    let(:successor) do
+      FactoryGirl.create(:work_package, author: user, project: project, start_date: '31/01/13')
+    end
 
-    it 'validate, that the start date of a work-package is no sooner than the start_dates of preceding work_packages' do
-      relation = Relation.new(from: predecessor, to: successor, relation_type: Relation::TYPE_PRECEDES)
+    it 'validate the start date of a work-package is >= start_dates of preceding work_packages' do
+      relation = Relation.new(from: predecessor,
+                              to: successor,
+                              relation_type: Relation::TYPE_PRECEDES)
       relation.save!
 
-      successor.reload   # TODO this is ugly: We should be able to test all this with stubbed objects and without hitting the db...
+      # TODO: We should be able to test all this with stubbed objects and without hitting the db...
+      successor.reload
       successor.start_date = '01/01/13'
 
       expect(successor).not_to be_valid
       expect(successor.errors_on(:start_date).size).to eq(1)
-
     end
-
   end
 
   describe 'validations of versions' do
@@ -105,7 +123,6 @@ describe WorkPackage, type: :model do
 
       wp.fixed_version = assignable_version
       expect(wp).to be_valid
-
     end
     it 'validate, that the fixed_version belongs to the project ticket lives in' do
       other_project = FactoryGirl.create(:project)
@@ -138,7 +155,9 @@ describe WorkPackage, type: :model do
       let (:old_type)     { FactoryGirl.create(:type, name: 'old') }
 
       let (:old_project)  { FactoryGirl.create(:project, types: [old_type]) }
-      let (:work_package) { FactoryGirl.create(:work_package, project: old_project, type: old_type) }
+      let (:work_package) do
+        FactoryGirl.create(:work_package, project: old_project, type: old_type)
+      end
 
       let (:new_type)     { FactoryGirl.create(:type, name: 'new') }
       let (:new_project)  { FactoryGirl.create(:project, types: [new_type]) }
@@ -158,7 +177,6 @@ describe WorkPackage, type: :model do
         expect(work_package).not_to be_valid
         expect(work_package.errors_on(:type_id).size).to eq(1)
       end
-
     end
 
     describe 'validations of priority' do
@@ -172,7 +190,7 @@ describe WorkPackage, type: :model do
         expect(wp).to be_valid
       end
 
-      it 'should validate on an inactive priority that has been assigned before becoming inactive' do
+      it 'should validate an inactive priority that has been assigned before becoming inactive' do
         wp.priority = active_priority
         wp.save!
 
@@ -191,6 +209,40 @@ describe WorkPackage, type: :model do
       end
     end
 
-  end
+    describe 'validations of category' do
+      let (:valid_category) { FactoryGirl.create(:category, project: project1) }
+      let (:invalid_category) { FactoryGirl.create(:category, project: project2) }
+      let (:project1) { FactoryGirl.create(:project) }
+      let (:project2) { FactoryGirl.create(:project) }
 
+      let (:valid_work_package) do
+        FactoryGirl.build(:work_package, category: valid_category, project: project1)
+      end
+      let (:invalid_work_package) do
+        FactoryGirl.build(:work_package, category: invalid_category, project: project1)
+      end
+
+      it 'should not raise for empty category' do
+        valid_work_package.category = nil
+        expect(valid_work_package).to be_valid
+      end
+
+      let (:idless_category) { FactoryGirl.create(:category, id: nil) }
+
+      it 'should not validate on a missing category_id' do
+        wp = FactoryGirl.build(:work_package, category: idless_category, project: project1)
+        expect(wp).not_to be_valid
+        expect(wp.errors_on(:category).size).to eq(1)
+      end
+
+      it 'should validate on matching project.id' do
+        expect(valid_work_package).to be_valid
+      end
+
+      it 'should be invalid for incorrect project.id' do
+        expect(invalid_work_package).not_to be_valid
+        expect(invalid_work_package.errors_on(:category).size).to eq(1)
+      end
+    end
+  end
 end

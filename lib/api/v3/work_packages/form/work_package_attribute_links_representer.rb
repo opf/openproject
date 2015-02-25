@@ -75,6 +75,11 @@ module API
                           method: :responsible_id,
                           path: :user)
 
+          linked_property(property_name: :category,
+                          namespace: :categories,
+                          method: :category_id,
+                          path: :category)
+
           linked_property(property_name: :version,
                           namespace: :versions,
                           method: :fixed_version_id,
@@ -113,7 +118,6 @@ module API
 
             resource ? resource[:id] : nil
           end
-
         end
       end
     end

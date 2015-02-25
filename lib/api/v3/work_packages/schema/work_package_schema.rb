@@ -70,6 +70,10 @@ module API
             @work_package.assignable_priorities if defines_assignable_values?
           end
 
+          def assignable_categories
+            @work_package.assignable_categories if defines_assignable_values?
+          end
+
           def available_custom_fields
             @project.all_work_package_custom_fields & @type.custom_fields.all
           end

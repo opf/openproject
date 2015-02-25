@@ -182,6 +182,29 @@ module API
                      representer
                    }
 
+          property :category,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
+                       type: 'Category',
+                       name: WorkPackage.human_attribute_name(:category),
+                       value_representer: API::V3::Categories::CategoryRepresenter,
+                       link_factory: -> (category) {
+                         {
+                           href: api_v3_paths.category(category.id),
+                           title: category.name
+                         }
+                       })
+
+                     representer.required = false
+
+                     if represented.defines_assignable_values?
+                       representer.allowed_values = represented.assignable_categories
+                     end
+
+                     representer
+                   }
+
           property :version,
                    exec_context: :decorator,
                    getter: -> (*) {

@@ -48,7 +48,7 @@ module API
           }
         end
 
-        link :user do
+        link :defaultAssignee do
           {
             href: api_v3_paths.user(represented.assigned_to.id),
             title: represented.assigned_to.name
