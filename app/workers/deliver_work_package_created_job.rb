@@ -27,11 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWorkPackageUpdatedJob
-  def initialize(user_id, journal_id, current_user_id)
+class DeliverWorkPackageCreatedJob
+  def initialize(user_id, work_package_id)
     @user_id         = user_id
-    @journal_id      = journal_id
-    @current_user_id = current_user_id
+    @work_package_id = work_package_id
   end
 
   def perform
@@ -39,24 +38,20 @@ class DeliverWorkPackageUpdatedJob
   end
 
   def error(_job, e)
-    Rails.logger.error "notification of #{user.mail} failed (work package updated): #{e}"
+    Rails.logger.error "notification of #{user.mail} failed (work package created): #{e}"
   end
 
   private
 
   def notification_mail
-    @notification_mail ||= UserMailer.work_package_updated(user, journal, current_user)
+    @notification_mail ||= UserMailer.work_package_added(user, work_package)
   end
 
   def user
     @user ||= Principal.find(@user_id)
   end
 
-  def journal
-    @journal ||= Journal.find(@journal_id)
-  end
-
-  def current_user
-    @current_user ||= Principal.find(@current_user_id)
+  def work_package
+    @journal ||= WorkPackage.find(@work_package_id)
   end
 end
