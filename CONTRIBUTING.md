@@ -1,6 +1,6 @@
 OpenProject is an open source project and we encourage you to help us out. For contributing to OpenProject, please read the following guidelines. 
 
-*Please also note that these rules should be acknowledged by everyone, but repository contributors might occasionally deviate from them for practical purposes, e.g. not fork the repo, but have a branch on the main repository.*
+*Please also note that these rules should be acknowledged by everyone, but repository contributors might occasionally deviate from them for practical purposes, e.g. not fork the repo, but have a branch on the main repository. This should however stay an exception.*
 
 ## Contributors License Agreement
 
@@ -9,7 +9,7 @@ The [CLA can be found here](https://www.openproject.org/wp-content/uploads/2014/
 
 ## Development flow
 
-For contributing source code, please follow the Git Workflow below:
+For contributing source code, please follow the git workflow below:
 
 - **Fork** OpenProject on GitHub
 - Clone your fork to your development machine: 
@@ -50,7 +50,7 @@ We will then review your pull request. Please note that you can add commits afte
 
 ## Important notes
 
-To ensure a smooth workflow for, please take note of the following:
+To ensure a smooth workflow for everyone, please take note of the following:
 
 ### Testing
 
@@ -65,7 +65,9 @@ The main development branch for upcoming releases is `dev`. For identifying the 
 - If in doubt, create your pull request against `dev`. All new features, gem updates and bugfixes for the upcoming release should go into the `dev` branch.
 - Hotfixes should be created against the appropiate `release/*` branch. Backports for fixes also go against their specific `release/*` branch.
 
-If you push to your branch in quick sucession, please consider stopping the assoicated Travis builds, as Travis will run for each commit. This is especially true if you force push to the branch.
+If you push to your branch in quick sucession, please consider stopping the associated Travis builds, as Travis will run for each commit. This is especially true if you force push to the branch.
+
+Please also use `[ci skip]` in your commit message to suppress builds which are not necessary (e.g. after fixing a typo in the README).
 
 ### Inactive pull requests
 
