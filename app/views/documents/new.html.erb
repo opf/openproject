@@ -32,16 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%=l(:label_document_new)%></h2>
 
-<%= form_tag(project_documents_path(@project),
-             :class => "tabular",
-             :multipart => true) do %>
-<%= render :partial => 'documents/form' %>
-
-<div class="box">
-<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
-</div>
-
-<%= submit_tag l(:button_create) %>
+<%= labelled_tabular_form_for @document, url: project_documents_path(@project), html: { multipart: true } do |f| -%>
+  <%= render :partial => 'documents/form', locals: { f: f } %>
+  <%= render :partial => 'attachments/form' %>
+  <%= f.submit l(:button_create), class: "button -highlight" %>
 <% end %>
 
 
