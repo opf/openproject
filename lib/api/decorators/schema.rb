@@ -32,12 +32,12 @@ module API
     class Schema < Single
       class << self
         def schema(property,
-                        type:,
-                        title: make_title(property),
-                        required: true,
-                        writable: true,
-                        min_length: nil,
-                        max_length: nil)
+                   type:,
+                   title: make_title(property),
+                   required: true,
+                   writable: true,
+                   min_length: nil,
+                   max_length: nil)
           raise ArgumentError if property.nil?
 
           schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
@@ -53,11 +53,11 @@ module API
         end
 
         def schema_with_allowed_link(property,
-                                          type: make_type(property),
-                                          title: make_title(property),
-                                          href_callback:,
-                                          required: true,
-                                          writable: true)
+                                     type: make_type(property),
+                                     title: make_title(property),
+                                     href_callback:,
+                                     required: true,
+                                     writable: true)
           raise ArgumentError if property.nil?
 
           property property,
@@ -78,13 +78,13 @@ module API
         end
 
         def schema_with_allowed_collection(property,
-                                                type: make_type(property),
-                                                title: make_title(property),
-                                                values_callback:,
-                                                value_representer:,
-                                                link_factory:,
-                                                required: true,
-                                                writable: true)
+                                           type: make_type(property),
+                                           title: make_title(property),
+                                           values_callback:,
+                                           value_representer:,
+                                           link_factory:,
+                                           required: true,
+                                           writable: true)
           raise ArgumentError unless property
 
           property property,
