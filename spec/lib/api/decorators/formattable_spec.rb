@@ -59,4 +59,19 @@ describe ::API::Decorators::Formattable do
       is_expected.to be_json_eql('<p>A *raw* string!</p>'.to_json).at_path('html')
     end
   end
+
+  context 'format set to plain by Settings' do
+    before do
+      # N.B. Settings may return '' even though they mean 'plain'
+      allow(Setting).to receive(:text_formatting).and_return('')
+    end
+
+    it 'should indicate the plain format' do
+      is_expected.to be_json_eql('plain'.to_json).at_path('format')
+    end
+
+    it 'should format using the plain format' do
+      is_expected.to be_json_eql('<p>A *raw* string!</p>'.to_json).at_path('html')
+    end
+  end
 end

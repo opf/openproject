@@ -36,6 +36,8 @@ module API
         @format = format || Setting.text_formatting
         @object = object
 
+        @format = 'plain' if @format.blank?
+
         super(model)
       end
 
