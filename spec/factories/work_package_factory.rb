@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory :work_package do
-    ignore do
+    transient do
       custom_values nil
     end
 
