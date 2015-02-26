@@ -68,8 +68,7 @@ Feature: Copy meetings
         And the "meeting[location]" field should contain "CZI"
         And the "meeting[duration]" field should contain "1.5"
         And the "meeting[start_date]" field should contain "2013-03-27"
-        And the "meeting[start_time(4i)]" field should contain "18"
-        And the "meeting[start_time(5i)]" field should contain "55"
+        And the "meeting[start_time_hour]" field should contain "18:55"
        #And no participant should be selected as attendee
        #And only invited participants should be selected as invitees
 
