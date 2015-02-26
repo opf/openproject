@@ -36,8 +36,8 @@ class CustomValue::IntStrategy < CustomValue::FormatStrategy
 
   def validate_type_of_value
     Kernel.Integer(value)
-    return nil
+    nil
   rescue
-    return :not_an_integer
+    :not_an_integer
   end
 end

@@ -36,7 +36,7 @@ class CustomValue::VersionStrategy < CustomValue::FormatStrategy
 
   def validate_type_of_value
     unless custom_field.possible_values(custom_value.customized).include?(value)
-      return :inclusion
+      :inclusion
     end
   end
 end
