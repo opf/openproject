@@ -89,6 +89,7 @@ en:
     story_points: "Story Points"
     story_points_ideal: "Story Points (ideal)"
     task: "Task"
+    task_color: "Task color"
     unassigned: "Unassigned"
     x_more: "%{count} more..."
 

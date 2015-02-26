@@ -89,6 +89,7 @@ de:
     story_points: "Story Points"
     story_points_ideal: "Story Points (ideal)"
     task: "Aufgabe"
+    task_color: "Farbe für Aufgaben"
     unassigned: "Nicht zugewiesen"
     x_more: "%{count} mehr..."
 
