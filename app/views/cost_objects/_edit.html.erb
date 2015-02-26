@@ -25,13 +25,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                                         :id => 'cost_object_form',
                                         :class => nil} do |f| %>
     <%= error_messages_for 'cost_object' %>
-    <div class="box">
-    <div class="tabular">
-      <%= render :partial => 'form', :locals => {:f => f} %>
-    </div>
+    <%= render :partial => 'form', :locals => {:f => f} %>
     <fieldset><legend><%= l(:label_attachment_plural )%></legend>
       <p><%= render :partial => 'attachments/form' %></p>
     </fieldset>
-    </div>
     <%= submit_tag l(:button_submit), class: 'button -highlight' %>
 <% end %>

@@ -29,31 +29,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
-<%= form_tag(cost_types_path, { :method => :get, :id => 'query_form' }) do %>
+<%= styled_form_tag(cost_types_path, { :method => :get, :id => 'query_form' }) do %>
   <fieldset id="filters">
     <legend><%= l(:label_filter_plural) %></legend>
-    <p>
-      <label for="fixed_date"><%= l(:label_fixed_date) %></label>
-      <%= text_field_tag :fixed_date, @fixed_date, :size => 10 %><%= calendar_for('fixed_date') %>
-    </p>
-<p>
-  <%= check_box_tag :include_deleted, "1", @include_deleted, :autocomplete => "off" %>
-  <label for="include_deleted"><%= l(:caption_show_locked) %></label>
-</p>
-</fieldset>
-<p class="buttons">
+    <div class="form--field">
+      <%= styled_label_tag :fixed_date, l(:label_fixed_date) %>
+      <%= styled_text_field_tag :fixed_date, @fixed_date %>
+      <%= calendar_for :fixed_date %>
+    </div>
+    <div class="form--field">
+      <%= styled_label_tag :include_deleted, l(:caption_show_locked) %>
+      <%= styled_check_box_tag :include_deleted, "1", @include_deleted, :autocomplete => "off" %>
+    </div>
+  </fieldset>
+<hr class="form--separator">
 <%= link_to_remote l(:button_apply),
                    { :update => "content",
                      :with => "Form.serialize('query_form')",
                      :method => :get
-                   }, :class => 'icon icon-yes' %>
+                   }, :class => 'button -highlight' %>
 
 <%= link_to_remote l(:button_clear),
                    { :url => { :clear_filter => true },
                      :method => :get,
                      :update => "content",
-                   }, :class => 'icon icon-reload1' %>
-</p>
+                   }, :class => 'button' %>
 <% end %>
 
 <div id="cost_type_flash_notice_outer" style="display:none">

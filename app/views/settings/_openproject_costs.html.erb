@@ -17,12 +17,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
+<div class="form--field">
+  <%= styled_label_tag :label_currency, l(:label_currency) %>
+  <%= styled_text_field_tag 'settings[costs_currency]', @settings['costs_currency'] %>
+</div>
 
-<p>
-  <label><%= l(:label_currency) %></label><%= text_field_tag 'settings[costs_currency]', @settings['costs_currency'], :size => 15 %>
-</p>
-
-<p>
-  <label><%= l(:label_currency_format) %></label><%= text_field_tag 'settings[costs_currency_format]', @settings['costs_currency_format'], :size => 15 %>
-  <br /><em><%= l(:help_currency_format) %></em>
-</p>
+<div class="form--field">
+  <%= styled_label_tag :label_currency_format, l(:label_currency_format) %>
+  <%= styled_text_field_tag 'settings[costs_currency_format]', @settings['costs_currency_format'] %>
+</div>
