@@ -54,9 +54,9 @@ To ensure a smooth workflow for everyone, please take note of the following:
 
 ### Testing
 
-Please add tests to your code to verify functionality, especially if it is a new feature.
+Please add tests to your code to verify functionality, especially if it is a new feature. 
 
-Pull requests will be verified by TravisCI as well, but please run them locally as well. We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
+Pull requests will be verified by TravisCI as well, but please run them locally as well and make sure there are green before creating your pull request. We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
 
 ### Branching model
 
