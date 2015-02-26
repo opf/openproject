@@ -102,7 +102,7 @@ class CustomField < ActiveRecord::Base
   # validate default value in every translation available
   def validate_default_value_in_translations
     # it is not possible to determine the validity of a value, when there is no valid format.
-    # another validation will take take of adding an error, but here we need to abort
+    # another validation will take care of adding an error, but here we need to abort
     return nil if field_format.blank?
 
     required_field = is_required

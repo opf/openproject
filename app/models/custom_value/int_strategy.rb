@@ -29,7 +29,7 @@
 
 class CustomValue::IntStrategy < CustomValue::FormatStrategy
   def typed_value
-    unless value.nil? || value.blank?
+    unless value.blank?
       value.to_i
     end
   end

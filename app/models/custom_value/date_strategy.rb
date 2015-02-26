@@ -29,7 +29,7 @@
 
 class CustomValue::DateStrategy < CustomValue::FormatStrategy
   def typed_value
-    unless value.nil? || value.blank?
+    unless value.blank?
       Date.iso8601(value)
     end
   end

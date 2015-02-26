@@ -114,6 +114,6 @@ class CustomValue < ActiveRecord::Base
   private
 
   def strategy
-    @strategy = FORMAT_STRATEGIES[custom_field.field_format].new(self)
+    @strategy ||= FORMAT_STRATEGIES[custom_field.field_format].new(self)
   end
 end

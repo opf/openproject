@@ -29,7 +29,7 @@
 
 class CustomValue::VersionStrategy < CustomValue::FormatStrategy
   def typed_value
-    unless value.nil? || value.blank?
+    unless value.blank?
       Version.find_by_id(value)
     end
   end
