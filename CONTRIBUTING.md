@@ -81,4 +81,4 @@ We use OpenProject for development coordination - please have a look at [the wor
 
 Lastly, be nice and respectful to each other. We are working hard to make OpenProject the best project management software there is and we are grateful for each contribution. 
 
-If you want to get in touch with us, there is also a [Gitter channel](https://gitter.im) to talk to us directly.
+If you want to get in touch with us, there is also a [Gitter channel](https://gitter.im/opf/openproject) to talk to us directly.
