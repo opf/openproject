@@ -75,7 +75,7 @@ module API
         private
 
         def resource_matcher
-          @@matcher ||= Regexp.compile(RESOURCE_REGEX)
+          @matcher ||= Regexp.compile(RESOURCE_REGEX)
         end
 
         # returns whether expectation and actual are identical
