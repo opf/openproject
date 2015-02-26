@@ -97,9 +97,9 @@ class CustomValue < ActiveRecord::Base
 
   def validate_type_of_value
     if value.present?
-      result = strategy.validate_type_of_value
-      if result
-        errors.add(:value, result)
+      validation_error = strategy.validate_type_of_value
+      if validation_error
+        errors.add(:value, validation_error)
       end
     end
   end
