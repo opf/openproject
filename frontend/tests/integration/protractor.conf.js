@@ -32,15 +32,14 @@ exports.config = {
 
   // Capabilities to be passed to the webdriver instance.
   capabilities: {
-    'browserName': 'firefox'
+    'browserName': 'chrome'
   },
 
   directConnect: true,
 
   specs: [
-    'work-packages-spec.js',
-    'work-package-details-spec.js',
-    'work-package-details-relations-spec.js'
+    'specs/*spec.js',
+    'specs/**/*spec.js'
   ],
 
   allScriptsTimeout: 500000,

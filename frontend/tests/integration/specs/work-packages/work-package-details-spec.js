@@ -33,7 +33,7 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 
 
-var WorkPackageDetailsPane = require('./pages/work-package-details-pane.js');
+var WorkPackageDetailsPane = require('../../pages/work-package-details-pane.js');
 
 /*jshint expr: true*/
 
@@ -53,7 +53,6 @@ describe('OpenProject', function() {
       expect($('.work-packages--details').isPresent()).to.eventually.be.true;
     });
   });
-
 
   describe('editable', function() {
 

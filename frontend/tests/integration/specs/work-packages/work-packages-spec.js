@@ -32,7 +32,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-var WorkPackagesPage = require('./pages/work-packages-page.js');
+var WorkPackagesPage = require('../../pages/work-packages-page.js');
 
 describe('OpenProject', function() {
   var page = new WorkPackagesPage();
