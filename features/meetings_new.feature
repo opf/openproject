@@ -67,11 +67,10 @@ Feature: Create new meetings
         And I go to the Meetings page for the project called "dingens"
         And I click on "New Meeting"
         And I fill in the following:
-            | meeting_title         | FSR Sitzung 123 |
-            | meeting_start_date    | 2013-03-28      |
-            | meeting_duration      | 1.5             |
-        And I select "13" from "meeting_start_time_4i"
-        And I select "30" from "meeting_start_time_5i"
+            | meeting_title           | FSR Sitzung 123 |
+            | meeting_start_date      | 2013-03-28      |
+            | meeting_start_time_hour | 13:30           |
+            | meeting_duration        | 1.5             |
         And I click on "Create"
        Then I should see "Successful creation."
         And I should see "FSR Sitzung 123"
@@ -83,20 +82,6 @@ Feature: Create new meetings
     | UTC    |
     | CET    |
     | CEST   |
-
-  @javascript
-  Scenario: The start-time should be selectable in 5-minute increments
-      Given the role "user" may have the following rights:
-            | view_meetings   |
-            | create_meetings |
-       When I am already logged in as "alice"
-        And I go to the Meetings page for the project called "dingens"
-        And I click on "New Meeting"
-       Then I should see "New Meeting"
-        And I should not see "01" within "#meeting_start_time_5i"
-        And I should not see "14" within "#meeting_start_time_5i"
-        And I should see "00" within "#meeting_start_time_5i"
-        And I should see "05" within "#meeting_start_time_5i"
 
   Scenario: Visit the new meeting page to make sure the author is selected as invited
       Given the role "user" may have the following rights:
