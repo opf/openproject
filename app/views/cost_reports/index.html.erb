@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 </h2>
 <%= render_widget Widget::Settings, @query, :cost_types => @cost_types, :selected_type_id => @unit_id %>
 
-<div id="result-table" class="autoscroll">
+<div id="result-table">
   <!-- FIXME. Progress doesn't work with Prototype < 1.7 -->
   <% if @no_progress || true %>
     <%= render_widget Widget::Table, @query %>
