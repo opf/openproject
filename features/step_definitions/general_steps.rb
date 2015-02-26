@@ -272,11 +272,11 @@ Given /^I select to see [cC]olumn(?:s)?$/ do |table|
   end
 
   result.each do |column_name|
-    within('#s2id_selected_columns_new') do
+    within('.ng-modal-inner') do
       find('input.select2-input').click
     end
 
-    s2_result = find('ul.select2-results li', text: column_name)
+    s2_result = find('ul.select2-result-single li', text: column_name)
     s2_result.click
   end
 end
