@@ -54,6 +54,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     class_eval src, __FILE__, __LINE__
   end
 
+  def label(method, text = nil, options = {}, &block)
+    options[:class] = 'form--label'
+    super
+  end
+
   def select(field, choices, options = {}, html_options = {})
     html_options[:class] = Array(html_options[:class]) + %w(form--select)
 
