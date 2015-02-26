@@ -31,7 +31,7 @@ FactoryGirl.define do
     container factory: :work_package
     author factory: :user
 
-    ignore do
+    transient do
       filename nil
     end
 
