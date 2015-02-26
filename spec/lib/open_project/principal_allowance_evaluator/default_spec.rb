@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ChiliProject::PrincipalAllowanceEvaluator::Default, type: :model do
+describe OpenProject::PrincipalAllowanceEvaluator::Default, type: :model do
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:instance) { described_class.new(user) }
 
