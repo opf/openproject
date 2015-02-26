@@ -1,0 +1,261 @@
+//- Common mixins that templates can share
+
+mixin Nav(multipage, collapsible)
+    div.col-md-3
+      ul.menu(id="op-api-menu")
+        - var menuItem = 'menu-item';
+        each resourceGroup in api.resourceGroups
+
+            - var randomGroupIndex = Math.random().toString(16).slice(2)
+            - var groupHasChildren = resourceGroup.resources.length ? menuItem + '-has-children' : ''
+            - var resourceGroupClasses = [menuItem, menuItem + '-type-post_type', menuItem + '-object-page', 'dropdown', menuItem + '-' + randomGroupIndex, groupHasChildren]
+
+            li(class=resourceGroupClasses, id=[menuItem + '-' + randomGroupIndex])
+                a.menu-item-link(href="##{slug(resourceGroup.name)}")
+                 = resourceGroup.name || 'Resource Group'
+                    if resourceGroup.resources.length
+                        a.dropdown-toggle.toggle-open-menu(href="##{slug(resourceGroup.name)}", data-toggle="dropdown")
+                            i.icon.icon-arrow-right5-2
+                            i.icon.icon-arrow-right5-3
+                        ul.dropdown-menu
+                            each resource in resourceGroup.resources
+                                - var randomResourceIndex = Math.random().toString(16).slice(2)
+                                - var resourceHasChildren = resource.length ? menuItem + '-has-children' : ''
+                                - var resourceClasses = [menuItem, menuItem + '-type-post_type', menuItem + '-object-page', 'dropdown', menuItem + '-' + randomResourceIndex, resourceHasChildren]
+                                li(class=resourceClasses, id=[menuItem + '-' + randomResourceIndex])
+                                  a.menu-item-link(href="##{slug(resourceGroup.name)}-#{slug(resource.name)}")
+                                    = resource.name || 'Resource'
+                                    if (resource.actions.length != 1)
+                                            a.dropdown-toggle.toggle-open-menu(href="##{slug(resourceGroup.name)}-#{slug(resource.name)}", data-toggle="dropdown")
+                                                i.icon.icon-arrow-right5-2
+                                                i.icon.icon-arrow-right5-3
+                                            ul.dropdown-menu
+                                                each action in resource.actions
+                                                    - var randomActionIndex = Math.random().toString(16).slice(2)
+                                                    - var resourceActionClasses = [menuItem, menuItem + '-type-post_type', menuItem + '-object-page', 'dropdown', menuItem + '-' +  randomActionIndex]
+                                                    li(class=resourceActionClasses, id=[menuItem + '-' + randomActionIndex])
+                                                      a.menu-item-link(href="##{slug(resourceGroup.name)}-#{slug(resource.name)}-#{slug(action.method)}")
+                                                        = action.name || action.method + ' ' + resource.uriTemplate
+                                    else
+            each meta in api.metadata
+                if meta.name == 'HOST'
+                    p(style="text-align: center; word-wrap: break-word;")
+                        a(href=meta.value)= meta.value
+
+mixin Parameters(params)
+    ul.list-group
+        li.list-group-item.bg-default: strong Parameters
+        li.list-group-item
+            dl.dl-horizontal
+                each param in params
+                    dt= param.name
+                    dd
+                        code= param.type
+                        | &nbsp;
+                        if param.required
+                            span.required (required)
+                        else
+                            span (optional)
+                        | &nbsp;
+                        if param.default
+                            span.text-info.default
+                                strong Default:&nbsp;
+                                span= param.default
+                            | &nbsp;
+                        if param.example
+                            span.text-muted.example
+                                strong Example:&nbsp;
+                                span= param.example
+                        != markdown(param.description)
+                        if param.values.length
+                            p
+                                strong Choices:&nbsp;
+                                each value in param.values
+                                    code= value.value
+                                    = ' '
+
+mixin RequestResponse(title, request, resourceGroup, resource, action)
+    - var id = hash(resourceGroup.name.toString() + resource.name.toString() + action.name.toString() + action.method.toString() + title.toString() + request.name.toString() + request.headers.toString() + request.body.toString() + request.schema.toString())
+    - var content = request.description || Object.keys(request.headers).length || request.body || request.schema
+    li.list-group-item
+        strong
+            = title
+            if request.name
+                | &nbsp;&nbsp;
+                code= request.name
+        if content
+            a.pull-right.collapsed(data-toggle="collapse", data-target="##{id}")
+                span.closed Show
+                span.open Hide
+    if content
+        li.list-group-item.panel-collapse.collapse(id=id)
+            if request.description
+                .description!= markdown(request.description)
+
+            if Object.keys(request.headers).length
+                h5 Headers
+                pre
+                    code
+                        each item in request.headers
+                            != highlight(item.name + ': ' + item.value, 'http')
+                            br
+            if request.body
+                h5 Body
+                pre
+                    code!= highlight(request.body)
+            if request.schema
+                h5 Schema
+                pre
+                    code!= highlight(request.schema)
+
+
+mixin Examples(resourceGroup, resource, action)
+    ul.list-group
+        each example in action.examples
+            each request in example.requests
+                +RequestResponse('Request', request, resourceGroup, resource, action)
+            each response in example.responses
+                +RequestResponse('Response', response, resourceGroup, resource, action)
+
+mixin ResourceGroup(resourceGroup, getButtonClass, multipage)
+    .panel.panel-default
+        .panel-heading
+            h3(id="#{slug(resourceGroup.name)}")
+                = resourceGroup.name || 'Resource Group'
+                | &nbsp;
+                a(href="##{multipage ? 'page:' : ''}#{slug(resourceGroup.name)}")
+                    i.fa.fa-link
+        .panel-body
+            if resourceGroup.description
+                != markdown(resourceGroup.description)
+            each resource in resourceGroup.resources
+                h4(id="#{slug(resourceGroup.name)}-#{slug(resource.name)}")
+                    = resource.name || 'Resources'
+                    | &nbsp;
+                    a(href="##{(multipage ? 'page:' + slug(resourceGroup.name) + ',header:' : '')}#{slug(resourceGroup.name)}-#{slug(resource.name)}")
+                        i.fa.fa-link
+                if resource.description
+                    != markdown(resource.description)
+                each action in resource.actions
+                    case action.method
+                        when 'POST': - var panelClass = 'panel-success'
+                        when 'GET': - var panelClass = 'panel-info'
+                        when 'PUT': - var panelClass = 'panel-warning'
+                        when 'PATCH': - var panelClass = 'panel-warning'
+                        when 'DELETE': - var panelClass = 'panel-danger'
+                        default: - var panelClass = 'panel-default'
+                    section.panel(class=panelClass, id="#{slug(resourceGroup.name)}-#{slug(resource.name)}-#{slug(action.method)}")
+                        .panel-heading
+                            if action.name
+                                div(style="float:right")
+                                    span(style="text-transform: lowercase")= action.name
+                            case action.method
+                                when 'POST': - var btnClass = 'btn-success'
+                                when 'GET': - var btnClass = 'btn-' + getButtonClass
+                                when 'PUT': - var btnClass = 'btn-warning'
+                                when 'PATCH': - var btnClass = 'btn-warning'
+                                when 'DELETE': - var btnClass = 'btn-danger'
+                                default: - var btnClass = 'btn-default'
+                            div(style="float:left")
+                                a.btn.btn-xs(class=btnClass, href="##{(multipage ? 'page:' + slug(resourceGroup.name) + ',header:' : '')}#{slug(resourceGroup.name)}-#{slug(resource.name)}-#{slug(action.method)}")= action.method
+                            div(style="overflow:hidden" class="panel-heading-code")
+                                code= resource.uriTemplate
+                        if action.description
+                            .panel-body!= markdown(action.description)
+
+                        - var params = action.parameters.length ? action.parameters : resource.parameters
+                        if params.length
+                            +Parameters(params)
+                        if action.examples
+                            +Examples(resourceGroup, resource, action)
+
+mixin Paginate(resourceGroups, index)
+    if index < resourceGroups.length - 1
+        a.btn.btn-default.pull-right(href="#page:#{slug(resourceGroups[index + 1].name)}")
+            | Next&nbsp;
+            i.fa.fa-arrow-circle-right
+
+    if index > 0
+        a.btn.btn-default(href="#page:#{slug(resourceGroups[index - 1].name)}")
+            i.fa.fa-arrow-circle-left
+            |  Previous
+    else
+        a.btn.btn-default(href="#")
+            i.fa.fa-arrow-circle-left
+            |  Previous
+    .clearfix
+    hr
+
+mixin Icon(method)
+    case method
+        when 'GET'
+            span.badge.alert-info
+                i.fa.fa-arrow-down
+        when 'POST'
+            span.badge.alert-success
+                i.fa.fa-plus
+        when 'PUT'
+            span.badge.alert-warning
+                i.fa.fa-pencil
+        when 'PATCH'
+            span.badge.alert-warning
+                i.fa.fa-pencil
+        when 'DELETE'
+            span.badge.alert-danger
+                i.fa.fa-times
+        default
+            span.badge
+                i.fa.fa-dot-circle-o
+
+mixin Content(getButtonClass, multipage)
+    div(data-bind=multipage ? "visible: page() == 'home'" : undefined)
+        header
+            .page-header
+                h1#top= api.name || 'API Documentation'
+
+        .description!= markdown(api.description)
+
+        if multipage
+            a.btn.btn-default.pull-right(href="#page:#{slug(api.resourceGroups[0].name)}")
+                | Next&nbsp;
+                i.fa.fa-arrow-circle-right
+            .clearfix
+            hr
+
+    each resourceGroup, index in api.resourceGroups
+        div(data-bind=multipage ? "visible: page() == '#{slug(resourceGroup.name)}', style: {marginTop: page() == '#{slug(resourceGroup.name)}' ? '38px' : ''}" : undefined)
+            +ResourceGroup(resourceGroup, getButtonClass, multipage)
+
+            if multipage
+                +Paginate(api.resourceGroups, index)
+
+mixin Multipage()
+    //- Multi-page support through Knockout.js
+    script(src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.0.0/knockout-min.js")
+    script
+        :coffee
+            class App
+                constructor: ->
+                    @page = ko.observable 'home'
+
+            window.app = new App()
+
+            window.onhashchange = ->
+                vars = {}
+                for v in location.hash.substr(1).split(',')
+                    parts = v.split ':'
+                    vars[parts[0]] = parts[1]
+
+                # Set the page
+                window.app.page vars.page or 'home'
+
+                # Scroll to a header if Set
+                if vars.header
+                    $("##{vars.header}")[0].scrollIntoView true
+                else
+                    window.scrollTo 0, 0
+
+            ko.applyBindings window.app
+
+            # Load the correct page
+            window.onhashchange()
