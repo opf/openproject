@@ -26,11 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($window, $stateParams, PathHelper) {
+module.exports = function($window, $rootScope, $timeout, PathHelper) {
 
   // modalHelperInstance
   // Mousetrap
   // TODO: move them as dependencies so that express also works
+  // TODO: update help with button 8 and d w p
+
+  var accessKeys = {
+    preview: 1,
+    newWorkPackage: 2,
+    edit: 3,
+    quickSearch: 4,
+    projectSearch: 5,
+    help: 6,
+    moreMenu: 7,
+    details: 8
+  }
 
   var shortcuts = {
     '?': showHelpModal,
@@ -38,30 +50,85 @@ module.exports = function($window, $stateParams, PathHelper) {
     'g o': projectScoped('staticProjectPath'),
     'g w p': projectScoped('staticProjectWorkPackagesPath'),
     'g w i': projectScoped('staticProjectWikiPath'),
+    'g a': projectScoped('activityFromPath'),
+    'g c': projectScoped('staticProjectCalendarPath'),
+    'g n': projectScoped('staticProjectNewsPath'),
+    'g t': projectScoped('staticProjectTimelinesPath'),
+    'n w p': projectScoped('staticWorkPackageNewWithParametersPath'),
 
+    'g e': accessKey('edit'),
+    'g p': accessKey('preview'),
+    'd w p': accessKey('details'),
+    'm': accessKey('moreMenu'),
+    'p': accessKey('projectSearch'),
+    's': accessKey('quickSearch'),
+    'k': focusPrevItem,
+    'j': focusNextItem
   };
+
+  function accessKey(keyName) {
+    var key = accessKeys[keyName];
+    return function() {
+      var elem = angular.element('[accesskey=' + key + ']:first');
+      if (elem.is('input')) {
+        // timeout with delay so that the key is not
+        // triggered on the input
+        $timeout(function() {
+          elem.focus();
+        });
+      } else {
+        elem.click();
+      }
+    }
+  }
 
   function projectScoped(action) {
     return function() {
-      if ($stateParams.projectPath) {
-        // TODO: refactor this together with wp controller extraction
-        var projectIdentifier = $stateParams.projectPath.replace(PathHelper.staticBase + '/projects/', '');
+      var projectIdentifier = $rootScope.projectIdentifier;
+      if (projectIdentifier) {
         var url = PathHelper[action](projectIdentifier);
         $window.location.href = url;
       }
     };
   }
 
-  function goToAction(action) {
-
-  }
-
   function showHelpModal() {
-    modalHelperInstance.createModal(PathHelper.keyboardShortcutsHelpPath());
+    modalHelperInstance.createModal(PathHelper.staticKeyboardShortcutsHelpPath());
   }
+
+  var accessibleListSelector = "table.list, table.keyboard-accessible-list";
+  var accessibleRowSelector = "table.list tr, table.keyboard-accessible-list tr";
+
+  function findListInPage() {
+    var domLists, focusElements;
+    focusElements = [];
+    domLists = angular.element(accessibleListSelector);
+    domLists.find('tbody tr').each(function(index, tr){
+      var firstLink = angular.element(tr).find('a:visible:not(.toggle-all)')[0];
+      if ( firstLink !== undefined ) { focusElements.push(firstLink); }
+    });
+    return focusElements;
+  };
+
+  function focusItemOffset(offset) {
+    var list, index;
+    list = findListInPage();
+    if (list === null) { return; }
+    index = list.indexOf(angular.element(document.activeElement).parents(accessibleRowSelector).find('a:visible')[0]);
+    angular.element(list[(index+offset+list.length) % list.length]).focus();
+  };
+
+  function focusNextItem() {
+    focusItemOffset(1);
+  };
+
+  function focusPrevItem() {
+    focusItemOffset(-1);
+  };
 
   var KeyboardShortcutService = {
     activate: function() {
+
       _.forEach(shortcuts, function(action, key) {
         if (_.isFunction(action)) {
           Mousetrap.bind(key, action);

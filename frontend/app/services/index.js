@@ -36,7 +36,8 @@ angular.module('openproject.services')
   .service('HookService', require('./hook-service'))
   .service('KeyboardShortcutService', [
     '$window',
-    '$stateParams',
+    '$rootScope',
+    '$timeout',
     'PathHelper',
     require('./keyboard-shortcut-service')])
   .service('OverviewTabInplaceEditorConfig', require('./overview-tab-inplace-editor-config'))
