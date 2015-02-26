@@ -81,6 +81,13 @@ module TimelinesHelper
     s
   end
 
+  def options_for_timeunits(selected = nil)
+    options_for_select([[l('timelines.filter.time_relative.days'), 0],
+                        [l('timelines.filter.time_relative.weeks'), '1'],
+                        [l('timelines.filter.time_relative.months'), '2']],
+                       selected)
+  end
+
   def options_for_project_types
     ProjectType.all.map { |t| [t.name, t.id] }
   end
@@ -192,7 +199,6 @@ module TimelinesHelper
           margin-left: 1em;
           line-height: 2em;
         }
-        .timelines-color-properties label,
         .timelines-pet-properties label,
         .timelines-pt-properties label {
           display: inline-block;
@@ -214,11 +220,16 @@ module TimelinesHelper
 
       <script>
         jQuery(function () {
-          preview = jQuery('.timelines-x-update-color').each(function () {
-            var preview, input, func;
+          jQuery('.timelines-x-update-color').each(function(idx, element) {
+            var preview, input, func, target;
 
             preview = jQuery(this);
-            input   = preview.next('input');
+            target  = preview.data('target')
+            if(target) {
+              input = jQuery(target);
+            } else {
+              input = preview.next('input');
+            }
 
             if (input.length == 0) {
               return;
@@ -315,5 +326,9 @@ module TimelinesHelper
 
     gon.timeline_options ||= {}
     gon.timeline_options[timeline.id] = timeline.options.reverse_merge(project_id: project_id)
+  end
+
+  def timeline_options
+    OpenStruct.new @timeline.options
   end
 end

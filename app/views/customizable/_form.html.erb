@@ -27,6 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% extend TimelinesHelper %>
-<%= render :partial => "projects/form/attributes/project_type_id", :locals => { :form => form } %>
-<%= render :partial => "projects/form/attributes/responsible_id", :locals => { :form => form, :project => project } %>
+<%# locals: form %>
+
+<% form.object.custom_field_values.each do |value| %>
+  <%= form.fields_for_custom_fields :custom_field_values, value do |value_form| %>
+    <% required = value.custom_field.is_required? %>
+    <div class="form--field <%= required ? '-required' : '' %>">
+      <%= value_form.custom_field %>
+    </div>
+  <% end %>
+<% end %>

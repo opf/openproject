@@ -66,7 +66,6 @@ $ng-modal-image-width:   $ng-modal-image-height
   margin: auto
   max-height: 95%
   position: relative
-  overflow: auto
   width: 95%
   padding: $ng-modal-padding / 2
   margin-top: .6em
@@ -79,6 +78,11 @@ $ng-modal-image-width:   $ng-modal-image-height
   //+media($large-screen)
   width: 40%
   margin-top: 10em
+  .ui-select-container
+    .select2-display-none
+      display: none
+    ul
+      margin-left: 0
 
   .modal-header
     padding: 0
@@ -86,29 +90,15 @@ $ng-modal-image-width:   $ng-modal-image-height
       float: right
       cursor: pointer
 
-  label
-    padding: 0 50px 0 0
-
-    & > input
-      margin-left: 50px
-
-  input
-    width: 230px
-    height: 30px
-    line-height: 30px
-    padding: 0 5px
-    background: #ffffff
-    border: 1px solid #cacaca
-    color: #222222
-    border-radius: 2px
-  button
-    margin: 30px 7px 0 0
   .select2-container
     margin: 0 0 10px 0
 
 
   #modal-sorting
+    min-height: 120px
     .select2-container
+      float: left
+      margin-right: 20px
       @media(max-width: 1800px)
         width: 280px
       @media(max-width: 1400px)
@@ -117,6 +107,15 @@ $ng-modal-image-width:   $ng-modal-image-height
         width: 160px
       @media(max-width: 800px)
         width: 120px
+    label.option-label
+      float: left
+      margin-right: 20px
+
+  .columns-modal-content
+    margin-bottom: 15px
+    label
+      display: inline
+      padding-right: 30px
 
 ul.export-options
   margin: 0

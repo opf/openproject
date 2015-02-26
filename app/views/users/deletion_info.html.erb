@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <h2><%=l('account.deletion_info.heading', :name => @user.name) %></h2>
-<%= form_for :user, :url => user_path(@user), :html => { :method => :delete, :class => 'confirm_required' } do |form| %>
+<%= labelled_tabular_form_for :user, :url => user_path(@user), :html => { :method => :delete, :class => 'confirm_required' } do |form| %>
 
   <div class='wiki'>
     <p>

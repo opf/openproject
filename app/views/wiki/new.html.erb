@@ -37,43 +37,34 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </h2>
 
-<%= form_for @content, :as => :content, :url => wiki_create_path(:project_id => @project), :html => {:method => :post, :multipart => true, :id => 'wiki_form'} do |f| %>
+<%= labelled_tabular_form_for @content, :as => :content, :url => wiki_create_path(:project_id => @project), :html => {:method => :post, :multipart => true, :id => 'wiki_form'} do |f| %>
 
   <%= error_messages_for 'page' %>
 
-  <div class="box">
-    <%= fields_for :page, @page do |page_fields| %>
-      <%= page_fields.hidden_field :parent_id %>
-      <p>
-        <%= page_fields.label :title%>
-        <br />
+    <div class="form--field -required">
+      <%= f.fields_for :page, @page do |page_fields| %>
+        <%= page_fields.hidden_field :parent_id %>
         <%= page_fields.text_field :title, :size => 120 %>
-      </p>
-    <% end %>
-
-    <p>
+      <% end %>
+    </div>
+    <div class="form--field -required">
       <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
                       :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
                       :'ng-non-bindable' => '' %>
-    </p>
+    </div>
 
-    <p>
-      <%= f.label :comments %>
-      <br />
+    <div class="form--field -required">
       <%= f.text_field :comments, :size => 120 %>
-    </p>
+    </div>
 
-    <p>
+    <div class="form--field">
       <label><%= l(:label_attachment_plural) %></label>
-      <br />
       <%= render :partial => 'attachments/form', :f => f %>
-    </p>
-  </div>
+    </div>
 
-  <p>
-    <%= submit_tag l(:button_save), class: 'button -highlight' %>
-    <%= preview_link preview_wiki_path(@project), 'wiki_form-preview', class: 'button' %>
-  </p>
+  <hr>
+  <%= f.submit l(:button_save), class: 'button -highlight' %>
+  <%= preview_link preview_wiki_path(@project), 'wiki_form-preview', class: 'button' %>
 
   <%= wikitoolbar_for 'content_text' %>
 <% end %>

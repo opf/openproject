@@ -28,10 +28,10 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <h2><%= l(:label_settings) %>: <%=h @plugin.name %></h2>
 <div id="settings">
-  <%= form_tag({:action => 'plugin'}) do %>
-    <div class="box tabular">
+  <%= styled_form_tag({:action => 'plugin'}) do %>
+    <div class="box">
       <%= render :partial => @partial, :locals => {:settings => @settings}%>
     </div>
-    <%= submit_tag l(:button_apply), class: 'button -highlight' %>
+    <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
   <% end %>
 </div>

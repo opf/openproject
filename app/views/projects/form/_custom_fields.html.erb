@@ -34,16 +34,19 @@ See doc/COPYRIGHT.rdoc for more details.
       (<%= check_all_links 'project_issue_custom_fields' %>)
     </span>
   </div>
-  <% issue_custom_fields.each do |custom_field| %>
-    <label class="floating">
-      <%= check_box_tag 'project[work_package_custom_field_ids][]',
-                        custom_field.id,
-                        @project.all_work_package_custom_fields.include?(custom_field),
-                        custom_field.is_for_all? ? {:disabled => "disabled"} : {} %>
-      <span lang="<%= custom_field.name_locale %>">
-        <%= h(custom_field.name) %>
-      </span>
-    </label>
+  <% work_package_custom_fields.each do |custom_field| %>
+    <div class="form--field">
+
+      <%
+        css_classes = custom_field.is_for_all? ? { disabled:  "disabled" } : {}
+        css_classes[:lang] = custom_field.name_locale
+      %>
+
+      <%= form.collection_check_box :work_package_custom_field_ids,
+                                    custom_field.id,
+                                    @project.all_work_package_custom_fields.include?(custom_field),
+                                    custom_field.name,
+                                    css_classes %>
+    </div>
   <% end %>
-  <%= hidden_field_tag 'project[work_package_custom_field_ids][]', '' %>
 </fieldset>

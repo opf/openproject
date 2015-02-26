@@ -268,14 +268,17 @@ describe WorkPackagesHelper, type: :helper do
       expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).attribute).to eq(:category)
     end
 
-    it "should render a select with the project's issue category" do
-      select = double('select')
+    it "should render a select with the project's work package categories" do
+      select = 'category html'
 
       expect(form).to receive(:select).with(:category_id,
                                             [[stub_category.name, stub_category.id]],
                                             include_blank: true).and_return(select)
 
-      expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).field).to eq(select)
+      expect(helper.work_package_form_category_attribute(form,
+                                                         stub_work_package,
+                                                         project: stub_project).field)
+        .to eq("<div class=\"form--field \">category html</div>")
     end
 
     it 'should add an additional remote link to create new categories if allowed' do
@@ -426,12 +429,15 @@ describe WorkPackagesHelper, type: :helper do
 
   describe :work_package_form_custom_values_attribute do
     let(:stub_custom_value) { FactoryGirl.build_stubbed(:work_package_custom_value) }
-    let(:expected) { 'field contents' }
+    let(:field_content) { 'field contents' }
+    let(:expected) { "<div class=\"form--field \">#{field_content}</div>" }
 
     before do
       allow(stub_work_package).to receive(:custom_field_values).and_return([stub_custom_value])
+      cf_form = double('custom_value_form_double').as_null_object
+      allow(form).to receive(:fields_for_custom_fields).and_yield(cf_form)
 
-      expect(helper).to receive(:custom_field_tag_with_label).with(:work_package, stub_custom_value).and_return(expected)
+      expect(cf_form).to receive(:custom_field).and_return(field_content)
     end
 
     it 'should return an array for an element for every value' do

@@ -118,7 +118,6 @@ en:
       time_entry:
         activity: "Activity"
         hours: "Hours"
-        work_package: "Work Package"
         spent_on: "Date"
         type: "Type"
       type:
@@ -303,6 +302,7 @@ en:
     base: "General Error:"
     blocks_ids: "Blocks"
     category: "Category"
+    comment: "Comment"
     comments: "Comment"
     content: "Content"
     created_at: "Created on"
@@ -321,6 +321,8 @@ en:
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
+    # kept for backwards compatibility
+    issue: "Work package"
     lastname: "Last name"
     login: "Login"
     mail: "Email"
@@ -1482,7 +1484,8 @@ en:
         absolute: "Absolute"
         none: "None"
         relative: "Relative"
-        compare_relative: "Compare current planning to %{timespan} ago"
+        compare_relative_prefix: "Compare current planning to"
+        compare_relative_suffix: "ago"
         compare_absolute: "Compare current planning to %{date}"
       time_relative:
         days: "days"
@@ -1510,8 +1513,7 @@ en:
       status: "Show status"
 
       project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_absolute_timeframe: "Absolute timeframe"
-      project_time_filter_relative_timeframe: "Relative timeframe"
+      project_time_filter_timeframe: "Timeframe"
       project_time_filter_historical_from: "from"
       project_time_filter_historical_to: "to"
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"

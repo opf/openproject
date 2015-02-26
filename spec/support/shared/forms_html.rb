@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,12 +27,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-shared_context 'select2 helpers' do
-  def select2_select_option(select2_element, option_name)
-    select2_element.find('.select2-choice').click
+shared_examples_for 'labelled' do
+  it { is_expected.to have_selector 'label.form--label' }
+end
 
-    within('.select2-drop') do
-      find('.select2-result-selectable', text: option_name).click
-    end
+shared_examples_for 'not labelled' do
+  it { is_expected.not_to have_selector 'label.form--label' }
+end
+
+shared_examples_for 'labelled by default' do
+  context 'by default' do
+    it_behaves_like 'labelled'
+  end
+
+  context 'with no_label option' do
+    let(:options) { { no_label: true, label: false } }
+
+    it_behaves_like 'not labelled'
+  end
+end
+
+shared_examples_for 'wrapped in container' do |container = 'field-container'|
+  it { is_expected.to have_selector "span.form--#{container}", count: 1 }
+end
+
+shared_examples_for 'not wrapped in container' do |container = 'field-container'|
+  it { is_expected.not_to have_selector "span.form--#{container}" }
+end
+
+shared_examples_for 'wrapped in field-container by default' do
+  context 'by default' do
+    it_behaves_like 'wrapped in container'
+  end
+
+  context 'with no_label option' do
+    let(:options) { { no_label: true, label: false } }
+
+    it_behaves_like 'not wrapped in container'
   end
 end

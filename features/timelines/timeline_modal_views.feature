@@ -84,7 +84,7 @@ Feature: Timeline View Tests
     And I wait for timeline to load table
     And I click on the Planning Element with name "January"
     And I click on the first anchor matching "Update" in the modal
-    And I fill in "work_package_notes" with "A new comment" in the modal
+    And I fill in "work_package_journal_notes" with "A new comment" in the modal
     And I click on the div "ui-dialog-closer"
     And I confirm the JS confirm dialog
    Then I should not see a modal window

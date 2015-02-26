@@ -358,7 +358,7 @@ describe 'Custom field accessibility', type: :feature do
         end
 
         shared_examples_for 'attribute value lang' do
-          let(:element) { find("#attributes label[for='work_package_custom_field_values_#{custom_field.id}'] + span") }
+          let(:element) { find("#work_package_custom_field_values_#{custom_field.id}") }
 
           it_behaves_like 'Element has lang tag'
         end

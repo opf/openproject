@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= l('timelines.new_reporting').tap { |t| html_title t } %></h2>
 
-<%= form_for :reporting,
+<%= labelled_tabular_form_for :reporting,
             :url  => project_reportings_path(@project),
             :html => {:method => 'post'} do |f| %>
 
@@ -69,11 +69,9 @@ See doc/COPYRIGHT.rdoc for more details.
     </span>
   </fieldset>
 
-  <br/>
-  <p>
-    <%= f.submit l(:button_create), :name => nil, class: 'button -highlight' %>
-    <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
-  </p>
+  <hr>
+  <%= f.submit l(:button_create), :name => nil, class: 'button -highlight' %>
+  <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
 <% end %>
 
 <% content_for :header_tags do %>

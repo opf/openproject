@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="vertical grid-block">
       <div class="grid-block">
         <div class="grid-content">
-          <label for='status'><%=  User.human_attribute_name(:status) %>:</label>
+          <label for='status'><%= User.human_attribute_name(:status) %>:</label>
           <%= select_tag 'status', users_status_options_for_select(@status), :class => "form--select -small", :onchange => "this.form.submit(); return false;"  %>
         </div>
         <% if @groups.present? %>

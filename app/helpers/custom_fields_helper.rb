@@ -91,7 +91,8 @@ module CustomFieldsHelper
   def blank_custom_field_label_tag(name, custom_field)
     content_tag 'label', h(custom_field.name) +
       (custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),
-                for: "#{name}_custom_field_values_#{custom_field.id}"
+                for: "#{name}_custom_field_values_#{custom_field.id}",
+                class: 'form--label'
   end
 
   # Return custom field tag with its label tag
@@ -105,18 +106,18 @@ module CustomFieldsHelper
     field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
       when 'date'
-        text_field_tag(field_name, '', id: field_id, size: 10) +
+        styled_text_field_tag(field_name, '', id: field_id, size: 10) +
           calendar_for(field_id)
       when 'text'
-        text_area_tag(field_name, '', id: field_id, rows: 3, style: 'width:90%')
+        styled_text_area_tag(field_name, '', id: field_id, rows: 3)
       when 'bool'
-        select_tag(field_name, options_for_select([[l(:label_no_change_option), ''],
+        styled_select_tag(field_name, options_for_select([[l(:label_no_change_option), ''],
                                                    [l(:general_text_yes), '1'],
                                                    [l(:general_text_no), '0']]), id: field_id)
       when 'list'
-        select_tag(field_name, options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values_options), id: field_id)
+        styled_select_tag(field_name, options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values_options), id: field_id)
       else
-        text_field_tag(field_name, '', id: field_id)
+        styled_text_field_tag(field_name, '', id: field_id)
     end
   end
 

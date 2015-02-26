@@ -26,12 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<label for="project_association_description">
-  <%= ProjectAssociation.human_attribute_name(:description)%>:
-</label>
-
-<%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10,
-                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
-                :'ng-non-bindable' => '') %>
+<div class="form--field -required">
+  <%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10,
+                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+                  :'ng-non-bindable' => '') %>
+</div>
 <%= wikitoolbar_for 'project_association_description' %>
