@@ -65,7 +65,7 @@ The main development branch for upcoming releases is `dev`. For identifying the 
 - If in doubt, create your pull request against `dev`. All new features, gem updates and bugfixes for the upcoming release should go into the `dev` branch.
 - Hotfixes should be created against the appropiate `release/*` branch. Backports for fixes also go against their specific `release/*` branch.
 
-If you push to your branch in quick sucession, please consider stopping the assoicated Travis builds, as travis will run for each commit. This is especially true if you force push to the branch.
+If you push to your branch in quick sucession, please consider stopping the assoicated Travis builds, as Travis will run for each commit. This is especially true if you force push to the branch.
 
 ### Inactive pull requests
 
