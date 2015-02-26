@@ -29,17 +29,10 @@
 
 class CustomValue::FormatStrategy
   attr_reader :custom_value
+  delegate :custom_field, :value, to: :custom_value
 
   def initialize(custom_value)
     @custom_value = custom_value
-  end
-
-  def custom_field
-    custom_value.custom_field
-  end
-
-  def value
-    custom_value.value
   end
 
   # Returns the value of the CustomValue in a typed fashion (i.e. not as the string
