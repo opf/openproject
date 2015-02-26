@@ -64,9 +64,6 @@ When(/^I switch the modal window into edit mode$/) do
   within("#content > .action_menu_specific") do
     click_link("Update")
   end
-  within("fieldset.tabular") do
-    click_link("More")
-  end
   safeguard_backlogs_modal_in_edit_mode
 end
 
