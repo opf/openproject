@@ -40,18 +40,9 @@ module API
 
           class << self
             def create_class(work_package)
-              klass = Class.new(WorkPackagePayloadRepresenter)
               injector_class = ::API::V3::Utilities::CustomFieldInjector
-              property_fields = work_package.available_custom_fields.select do |cf|
-                injector_class.property_field?(cf)
-              end
-
-              injector = injector_class.new(klass)
-              property_fields.each do |custom_field|
-                injector.inject_value(custom_field)
-              end
-
-              klass
+              injector_class.create_value_representer_for_property_patching(work_package,
+                                                                            WorkPackagePayloadRepresenter)
             end
 
             def create(work_package, options = {})

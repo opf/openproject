@@ -41,13 +41,9 @@ module API
             end
 
             def create_class(work_package_schema)
-              klass = Class.new(WorkPackageSchemaRepresenter)
-              injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
-              work_package_schema.available_custom_fields.each do |custom_field|
-                injector.inject_schema(custom_field, wp_schema: work_package_schema)
-              end
-
-              klass
+              injector_class = ::API::V3::Utilities::CustomFieldInjector
+              injector_class.create_schema_representer(work_package_schema,
+                                                       WorkPackageSchemaRepresenter)
             end
 
             def create(work_package_schema, context)

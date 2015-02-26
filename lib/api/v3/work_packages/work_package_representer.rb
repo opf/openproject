@@ -36,13 +36,9 @@ module API
       class WorkPackageRepresenter < ::API::Decorators::Single
         class << self
           def create_class(work_package)
-            klass = Class.new(WorkPackageRepresenter)
-            injector = ::API::V3::Utilities::CustomFieldInjector.new(klass)
-            work_package.available_custom_fields.each do |custom_field|
-              injector.inject_value(custom_field)
-            end
-
-            klass
+            injector_class = ::API::V3::Utilities::CustomFieldInjector
+            injector_class.create_value_representer(work_package,
+                                                    WorkPackageRepresenter)
           end
 
           def create(work_package, context = {})

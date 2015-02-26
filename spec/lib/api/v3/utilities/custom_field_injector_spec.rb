@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe ::API::V3::Utilities::CustomFieldInjector do
   let(:cf_path) { "customField#{custom_field.id}" }
-  let(:injector) { described_class.new(modified_class) }
   let(:field_format) { 'bool' }
   let(:custom_field) {
     FactoryGirl.build(:custom_field,
@@ -48,13 +47,18 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   end
 
   describe '#inject_schema' do
-    let(:modified_class) { Class.new(::API::Decorators::Schema) }
-    let(:schema) { nil }
-    subject { modified_class.new(schema).to_json }
+    let(:base_class) { Class.new(::API::Decorators::Schema) }
+    let(:modified_class) { described_class.create_schema_representer(schema, base_class) }
+    let(:schema) {
+      double('WorkPackageSchema',
+             project: double(id: 42),
+             defines_assignable_values?: true,
+             available_custom_fields: [custom_field],
+             assignable_versions: versions)
+    }
+    let(:versions) { [] }
 
-    before do
-      injector.inject_schema(custom_field, wp_schema: schema)
-    end
+    subject { modified_class.new(schema).to_json }
 
     describe 'basic custom field' do
       it_behaves_like 'has basic schema properties' do
@@ -75,17 +79,12 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     describe 'version custom field' do
-      let(:schema) {
-        double('WorkPackageSchema',
-               defines_assignable_values?: true,
-               assignable_versions: versions)
-      }
       let(:custom_field) {
         FactoryGirl.build(:custom_field,
                           field_format: 'version',
                           is_required: true)
       }
-      let(:versions) { FactoryGirl.build_list(:version, 3) }
+      let(:assignable_versions) { FactoryGirl.build_list(:version, 3) }
 
       before do
         allow(::API::V3::Versions::VersionRepresenter).to receive(:new).and_return(double)
@@ -112,10 +111,6 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     describe 'list custom field' do
-      let(:schema) {
-        double('WorkPackageSchema',
-               defines_assignable_values?: true)
-      }
       let(:custom_field) {
         FactoryGirl.build(:custom_field,
                           field_format: 'list',
@@ -139,11 +134,6 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     describe 'user custom field' do
-      let(:schema) {
-        double('WorkPackageSchema',
-               defines_assignable_values?: true,
-               project: double(id: 42))
-      }
       let(:custom_field) {
         FactoryGirl.build(:custom_field,
                           field_format: 'user',
@@ -178,18 +168,16 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
+    let(:base_class) { Class.new(::API::Decorators::Single) }
+    let(:modified_class) { described_class.create_value_representer(represented, base_class) }
     let(:represented) {
       double('represented',
+             available_custom_fields: [custom_field],
              custom_value_for: double('custom_value',
                                       typed_value: custom_value))
     }
     let(:custom_value) { '' }
-    let(:modified_class) { Class.new(::API::Decorators::Single) }
     subject { modified_class.new(represented).to_json }
-
-    before do
-      injector.inject_value(custom_field)
-    end
 
     context 'link custom field' do
       let(:custom_value) { FactoryGirl.build(:user, id: 2) }
@@ -201,7 +189,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
 
       context 'value is nil' do
-        let(:represented) { double('represented', custom_value_for: nil) }
+        let(:represented) {
+          double('represented',
+                 available_custom_fields: [custom_field],
+                 custom_value_for: nil)
+        }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }
@@ -271,18 +263,16 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   end
 
   describe '#inject_patchable_link_value' do
+    let(:base_class) { Class.new(::API::Decorators::Single) }
+    let(:modified_class) { described_class.create_value_representer_for_link_patching(represented, base_class) }
     let(:represented) {
       double('represented',
+             available_custom_fields: [custom_field],
              custom_value_for: double('custom_value',
                                       typed_value: custom_value))
     }
     let(:custom_value) { '' }
-    let(:modified_class) { Class.new(::API::Decorators::Single) }
     subject { "{ \"_links\": #{modified_class.new(represented).to_json} }" }
-
-    before do
-      injector.inject_patchable_link_value(custom_field)
-    end
 
     context 'reading' do
       let(:custom_value) { FactoryGirl.build(:user, id: 2) }
@@ -294,7 +284,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
 
       context 'value is nil' do
-        let(:represented) { double('represented', custom_value_for: nil) }
+        let(:represented) {
+          double('represented',
+                 available_custom_fields: [custom_field],
+                 custom_value_for: nil)
+        }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }

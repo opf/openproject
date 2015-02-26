@@ -58,6 +58,50 @@ module API
         }
 
         class << self
+          def create_value_representer(customizable, representer)
+            injector = CustomFieldInjector.new(representer)
+            customizable.available_custom_fields.each do |custom_field|
+              injector.inject_value(custom_field)
+            end
+
+            injector.modified_representer_class
+          end
+
+          def create_schema_representer(customizable, representer)
+            injector = CustomFieldInjector.new(representer)
+            customizable.available_custom_fields.each do |custom_field|
+              injector.inject_schema(custom_field, wp_schema: customizable)
+            end
+
+            injector.modified_representer_class
+          end
+
+          def create_value_representer_for_property_patching(customizable, representer)
+            property_fields = customizable.available_custom_fields.select do |cf|
+              property_field?(cf)
+            end
+
+            injector = CustomFieldInjector.new(representer)
+            property_fields.each do |custom_field|
+              injector.inject_value(custom_field)
+            end
+
+            injector.modified_representer_class
+          end
+
+          def create_value_representer_for_link_patching(customizable, representer)
+            linked_fields = customizable.available_custom_fields.select do |cf|
+              linked_field?(cf)
+            end
+
+            injector = CustomFieldInjector.new(representer)
+            linked_fields.each do |custom_field|
+              injector.inject_patchable_link_value(custom_field)
+            end
+
+            injector.modified_representer_class
+          end
+
           def linked_field?(custom_field)
             LINK_FORMATS.include?(custom_field.field_format)
           end
@@ -68,7 +112,11 @@ module API
         end
 
         def initialize(representer_class)
-          @class = representer_class
+          @class = Class.new(representer_class)
+        end
+
+        def modified_representer_class
+          @class
         end
 
         # N.B. accepting a wp_schema here is not too great, but seems like the best way

@@ -40,19 +40,14 @@ module API
           include API::V3::Utilities::PathHelper
 
           class << self
-            def create(work_package)
-              klass = Class.new(WorkPackageAttributeLinksRepresenter)
+            def create_class(work_package)
               injector_class = ::API::V3::Utilities::CustomFieldInjector
-              linked_fields = work_package.available_custom_fields.select do |cf|
-                injector_class.linked_field?(cf)
-              end
+              injector_class.create_value_representer_for_link_patching(work_package,
+                                                                        WorkPackageAttributeLinksRepresenter)
+            end
 
-              injector = injector_class.new(klass)
-              linked_fields.each do |custom_field|
-                injector.inject_patchable_link_value(custom_field)
-              end
-
-              klass.new(work_package)
+            def create(work_package)
+              create_class(work_package).new(work_package)
             end
           end
 
