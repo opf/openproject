@@ -62,11 +62,6 @@ class CustomValue < ActiveRecord::Base
     strategy.typed_value
   end
 
-  # Returns true if the boolean custom value is true
-  def true?
-    self.value == '1'
-  end
-
   def editable?
     custom_field.editable?
   end
