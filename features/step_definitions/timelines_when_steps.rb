@@ -106,12 +106,13 @@ When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*
 end
 
 When (/^I enable the hide other group option$/) do
+  # it is not possible to use the label for the hide group other field
+  # because of the " in the label
   steps %{
     When I edit the settings of the current timeline
+    And I check "timeline_options_hide_other_group"
+    And I click on "Save"
   }
-
-  page.execute_script("jQuery('#timeline_options_hide_other_group').prop('checked', true)")
-  steps %{When I click on "Save"}
 end
 
 When (/^I show only work packages which have the responsible "(.*?)"$/) do |responsible|
