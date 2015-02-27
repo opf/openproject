@@ -26,42 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-var chai = require('chai');
-var chaiAsPromised = require('chai-as-promised');
-
-chai.use(chaiAsPromised);
-var expect = chai.expect;
-
-
-var WorkPackageDetailsPane = require('../../pages/work-package-details-pane.js');
+var expect = require('../../../spec_helper.js').expect, 
+    detailsPaneHelper = require('./work-package-details-pane-helper.js');
 
 /*jshint expr: true*/
-
-describe('OpenProject', function() {
-  function loadPane(workPackageId) {
-    var page = new WorkPackageDetailsPane(workPackageId, 'overview');
-    page.get();
-    browser.waitForAngular();
-  }
-
-  describe('pane itself', function() {
-    beforeEach(function() {
-      loadPane(819);
-    });
-
-    it('should be visible', function() {
-      expect($('.work-packages--details').isPresent()).to.eventually.be.true;
-    });
-  });
-
+describe('OpenProject', function(){
   describe('editable', function() {
-
     function behaveLikeEmbeddedDropdown(name, correctValue) {
       context('behaviour', function() {
         var editor = $('[ined-attribute=\'' + name + '\'] .inplace-editor');
 
         beforeEach(function() {
-          loadPane(819);
+          detailsPaneHelper.loadPane(819, 'overview');
         });
 
         describe('read state', function() {
@@ -105,7 +81,7 @@ describe('OpenProject', function() {
 
       context('work package with updateImmediately link', function() {
         beforeEach(function() {
-          loadPane(819);
+          detailsPaneHelper.loadPane(819, 'overview');
         });
 
         it('should render an editable subject', function() {
@@ -115,7 +91,7 @@ describe('OpenProject', function() {
 
       context('work package without updateImmediately link', function() {
         beforeEach(function() {
-          loadPane(820);
+          detailsPaneHelper.loadPane(820, 'overview');
         });
 
         it('should not render an editable subject', function() {
@@ -125,7 +101,7 @@ describe('OpenProject', function() {
 
       context('work package with a wrong version', function() {
         beforeEach(function() {
-          loadPane(821);
+          detailsPaneHelper.loadPane(821, 'overview');
           subjectEditor.$('.ined-read-value').click();
           subjectEditor.$('.ined-edit-save a').click();
         });
@@ -144,7 +120,7 @@ describe('OpenProject', function() {
       var descriptionEditor = $('.inplace-editor.attribute-description');
 
       beforeEach(function() {
-        loadPane(819);
+        detailsPaneHelper.loadPane(819, 'overview');
       });
 
       describe('read state', function() {
@@ -166,6 +142,7 @@ describe('OpenProject', function() {
           expect(descriptionEditor.$('textarea').isPresent()).to.eventually.be.false;
         });
       });
+
       describe('preview', function() {
         var previewButton = descriptionEditor.$('.btn-preview');
 
@@ -201,7 +178,7 @@ describe('OpenProject', function() {
 
       context('when work package version link is present', function() {
         beforeEach(function() {
-          loadPane(819);
+          detailsPaneHelper.loadPane(819, 'overview');
         });
 
         it('should render a link to the version', function() {
@@ -221,7 +198,7 @@ describe('OpenProject', function() {
 
       context('when work package link is missing', function() {
         beforeEach(function() {
-          loadPane(822);
+          detailsPaneHelper.loadPane(822, 'overview');
         });
 
         it('should not render an anchor', function() {
@@ -235,11 +212,10 @@ describe('OpenProject', function() {
     });
     context('user field', function() {
       var assigneeEditor = $('[ined-attribute=\'assignee\'] .inplace-editor'),
-          responsibleEditor = $('[ined-attribute=\'responsible\'] .inplace-editor')
-          ;
+          responsibleEditor = $('[ined-attribute=\'responsible\'] .inplace-editor');
 
       beforeEach(function() {
-        loadPane(822);
+        detailsPaneHelper.loadPane(822, 'overview');
       });
 
       context('read state', function() {
@@ -288,34 +264,6 @@ describe('OpenProject', function() {
             ).to.eventually.equal('OpenProject Admin');
           });
         });
-      });
-    });
-  });
-
-  describe('activities', function() {
-    describe('overview tab', function() {
-      before(function() {
-        loadPane(819);
-      });
-
-      it('should render the last 3 activites', function() {
-        expect(
-          $('ul li:nth-child(1) div.comments-number').getText()
-        ).to.eventually.equal('#59');
-
-        expect(
-          $('ul li:nth-child(2) div.comments-number').getText()
-        ).to.eventually.equal('#58');
-
-        expect(
-          $('ul li:nth-child(3) div.comments-number').getText()
-        ).to.eventually.equal('#57');
-      });
-
-      it('should contain the activities details', function() {
-        expect(
-          $('ul.work-package-details-activities-messages li:nth-child(1) .message').getText()
-        ).to.eventually.equal('Status changed from tested to rejected');
       });
     });
   });
