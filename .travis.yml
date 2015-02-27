@@ -31,12 +31,6 @@ rvm:
   - 2.1
 sudo: false
 cache: bundler
-branches:
-  only:
-    - dev
-    - stable
-    - release/3.0
-    - release/4.0
 env:
   # Frontend
   - "TEST_SUITE=karma"
