@@ -31,16 +31,16 @@ require 'spec_helper'
 describe 'rendering the login buttons for all providers' do
   let(:providers) do
     [
-      {name: 'mock_auth'},
-      {name: 'test_auth', display_name: 'Test'},
-      {name: 'foob_auth', icon: 'foobar.png'}
+      { name: 'mock_auth' },
+      { name: 'test_auth', display_name: 'Test' },
+      { name: 'foob_auth', icon: 'foobar.png' }
     ]
   end
 
   before do
     allow(OpenProject::Plugins::AuthPlugin).to receive(:providers).and_return(providers)
 
-    render :partial => 'hooks/login/providers', :handlers => [:erb], :formats => [:html]
+    render partial: 'hooks/login/providers', handlers: [:erb], formats: [:html]
   end
 
   it 'should show the mock_auth button with the name as its label' do

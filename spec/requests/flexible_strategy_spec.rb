@@ -38,16 +38,16 @@ describe OmniAuth::FlexibleStrategy do
     end
   end
 
-  def env_for(url, opts={})
+  def env_for(url, opts = {})
     Rack::MockRequest.env_for(url, opts).tap do |env|
       env['rack.session'] = {}
     end
   end
 
-  let(:app)        { ->(env) { [200, env, "ok"] } }
+  let(:app)        { ->(env) { [200, env, 'ok'] } }
   let(:middleware) { MockStrategy.new(app) }
-  let(:provider_a) { {name: 'provider_a', identifier: 'a'} }
-  let(:provider_b) { {name: 'provider_b', identifier: 'b'} }
+  let(:provider_a) { { name: 'provider_a', identifier: 'a' } }
+  let(:provider_b) { { name: 'provider_b', identifier: 'b' } }
 
   before do
     allow(OpenProject::Plugins::AuthPlugin).to receive(:providers_for).with(MockStrategy) {
@@ -67,7 +67,7 @@ describe OmniAuth::FlexibleStrategy do
     end
 
     it 'should not match other paths' do
-      code, env = middleware.call env_for("http://www.example.com/auth/other_provider")
+      code, env = middleware.call env_for('http://www.example.com/auth/other_provider')
 
       expect(env).not_to include 'omniauth.strategy' # no hit
     end
@@ -87,7 +87,7 @@ describe OmniAuth::FlexibleStrategy do
     end
 
     it 'should not match other paths' do
-      code, env = middleware.call env_for("http://www.example.com/auth/other_provider/callback")
+      code, env = middleware.call env_for('http://www.example.com/auth/other_provider/callback')
 
       expect(code).to eq 200
       expect(env).not_to include 'omniauth.strategy' # no hit
@@ -116,16 +116,16 @@ describe OmniAuth::FlexibleStrategy do
 
     context 'with a mapping set' do
       it 'returns an attribute hash' do
-        middleware.call env_for("http://www.example.com/auth/provider_with_mapping")
+        middleware.call env_for('http://www.example.com/auth/provider_with_mapping')
 
         attribute_map = middleware.omniauth_hash_to_user_attributes(auth_hash)
-        expect(attribute_map).to eq({ uid: 'foo', mail: 'foo@example.com' })
+        expect(attribute_map).to eq(uid: 'foo', mail: 'foo@example.com')
       end
     end
 
     context 'without a mapping set' do
       it 'returns an empty hash' do
-        middleware.call env_for("http://www.example.com/auth/provider_a")
+        middleware.call env_for('http://www.example.com/auth/provider_a')
 
         attribute_map = middleware.omniauth_hash_to_user_attributes(auth_hash)
         expect(attribute_map).to eq({})
