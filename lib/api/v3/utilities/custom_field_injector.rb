@@ -143,7 +143,8 @@ module API
         def inject_value(custom_field, embed_links: false)
           case custom_field.field_format
           when *LINK_FORMATS
-            inject_link_value(custom_field, embed: embed_links)
+            inject_link_value(custom_field)
+            inject_embedded_link_value(custom_field) if embed_links
           else
             inject_property_value(custom_field)
           end
@@ -227,24 +228,10 @@ module API
           PATH_METHOD_MAP[custom_field.field_format]
         end
 
-        def inject_link_value(custom_field, embed:)
-          name = property_name(custom_field.id)
+        def inject_link_value(custom_field)
           getter = link_value_getter_for(custom_field, path_method_for(custom_field))
-          @class.link name do
+          @class.link property_name(custom_field.id) do
             instance_exec(&getter)
-          end
-
-          if embed
-            @class.property name,
-                            embedded: true,
-                            exec_context: :decorator,
-                            getter: -> (*) {
-                              custom_value = represented.custom_value_for(custom_field)
-                              value = custom_value.typed_value if custom_value
-                              representer_class = REPRESENTER_MAP[custom_field.field_format]
-
-                              representer_class.new(value, current_user: current_user) if value
-                            }
           end
         end
 
@@ -274,6 +261,19 @@ module API
 
             represented.custom_field_values = { custom_field.id => value }
           }
+        end
+
+        def inject_embedded_link_value(custom_field)
+          @class.property property_name(custom_field.id),
+                          embedded: true,
+                          exec_context: :decorator,
+                          getter: -> (*) {
+                            custom_value = represented.custom_value_for(custom_field)
+                            value = custom_value.typed_value if custom_value
+                            representer_class = REPRESENTER_MAP[custom_field.field_format]
+
+                            representer_class.new(value, current_user: current_user) if value
+                          }
         end
 
         def inject_property_value(custom_field)
