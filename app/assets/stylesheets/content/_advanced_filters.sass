@@ -103,10 +103,14 @@ $advanced-filters--border-color: $gray !default
 .advanced-filters--remove-filter
   @include grid-content($size: shrink)
   padding: 0
+  // cancel out foundations overflow-y: auto
+  overflow-y: visible
 
 .advanced-filters--remove-filter-icon
   @extend .icon-close, .icon4
   @include grid-content(1)
+  // cancel out foundations overflow-y: auto
+  overflow-y: visible
 
 .advanced-filters--add-filter
   @include advanced-filters--sizing
