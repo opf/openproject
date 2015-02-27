@@ -29,24 +29,30 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'action_menu' %>
 <h2><%= Workflow.model_name.human %></h2>
 <%= render :partial => 'layouts/action_menu_specific' %>
-<p><%=l(:text_workflow_edit)%>:</p>
-<%= styled_form_tag({}, :method => 'get') do %>
-  <div class="form--field">
-    <%= styled_label_tag :role_id, Role.model_name.human %>
-    <%= styled_select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %></label>
-  </div>
-  <div class="form--field">
-    <%= styled_label_tag :type_id, Type.model_name.human %>
-    <%= styled_select_tag 'type_id', options_from_collection_for_select(@types, "id", "name", @type && @type.id) %>
-  </div>
-  <div class="form--field">
-    <%= styled_label_tag :used_statuses_only, l(:label_display_used_statuses_only) %>
-    <%= styled_check_box_tag 'used_statuses_only', '1', @used_statuses_only %> <%=%>
-  </div>
-  <%= hidden_field_tag 'used_statuses_only', '0' %>
-  <hr class="form--separator">
-   <%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button' %>
-
+<%= form_tag({}, :method => 'get') do %>
+  <fieldset class="simple-filters--container">
+    <legend>
+      <%=l(:text_workflow_edit)%>:
+    </legend>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+        <%= label_tag :role_id, Role.model_name.human %>
+        <%= select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %>
+      </li>
+      <li class="simple-filters--filter">
+        <%= label_tag :type_id, Type.model_name.human %>
+        <%= select_tag 'type_id', options_from_collection_for_select(@types, "id", "name", @type && @type.id) %>
+      </li>
+      <li class="simple-filters--filter">
+        <%= hidden_field_tag 'used_statuses_only', '0', id: 'used_statuses_only_hidden' %>
+        <%= check_box_tag 'used_statuses_only', '1', @used_statuses_only %>
+        <%= label_tag :used_statuses_only, l(:label_display_used_statuses_only) %>
+      </li>
+    </ul>
+    <div class="simple-filters--controls">
+      <%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button -highlight -small' %>
+    </div>
+  </fieldset>
 <% end %>
 <% if @type && @role && @statuses.any? %>
   <%= form_tag({}, :id => 'workflow_form' ) do %>

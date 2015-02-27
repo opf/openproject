@@ -1,0 +1,47 @@
+.simple-filters--container
+  border:   1px solid $advanced-filters--border-color
+  padding:  10px
+  margin: 0 1.2em 1rem 0.6em
+
+.simple-filters--filters
+  @extend .advanced-filters--filters
+  @include grid-block
+  @include grid-layout(1)
+
+  @include breakpoint(large)
+    @include grid-layout(2)
+
+  // Cancel out foundations padding which breaks in IE. IE seems to calculate
+  // the padding on top of the flex-basis size. That means when the flex-basis
+  // is 50% and two elements should be within a row and padding is anything but
+  // 0. The elements will in sum take up more than 100% and thus the second
+  // element will move to the next row.
+  .simple-filters--filter,
+    @include breakpoint(large)
+      flex-basis: 47%
+
+.simple-filters--filters.-columns-3
+  @include breakpoint(large)
+    @include grid-layout(3)
+
+  // Cancel out foundations padding which breaks in IE. IE seems to calculate
+  // the padding on top of the flex-basis size. That means when the flex-basis
+  // is 50% and two elements should be within a row and padding is anything but
+  // 0. The elements will in sum take up more than 100% and thus the second
+  // element will move to the next row.
+  .simple-filters--filter,
+    @include breakpoint(large)
+      flex-basis: 30%
+
+@mixin simple-filters--sizing()
+  @include grid-content
+
+.simple-filters--filter
+  @include simple-filters--sizing
+  flex-basis: 48%
+
+.simple-filters--filter-value
+  margin-right: 1rem
+
+.simple-filters--controls
+  margin: 0 1rem
