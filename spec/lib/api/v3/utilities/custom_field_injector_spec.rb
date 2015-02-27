@@ -177,15 +177,75 @@ describe ::API::V3::Utilities::CustomFieldInjector do
                                       typed_value: custom_value))
     }
     let(:custom_value) { '' }
-    subject { modified_class.new(represented).to_json }
+    let(:current_user) { FactoryGirl.build(:user) }
+    subject { modified_class.new(represented, current_user: current_user).to_json }
 
-    context 'link custom field' do
+    context 'user custom field' do
       let(:custom_value) { FactoryGirl.build(:user, id: 2) }
       let(:field_format) { 'user' }
 
       it_behaves_like 'has an untitled link' do
         let(:link) { cf_path }
         let(:href) { '/api/v3/users/2' }
+      end
+
+      it 'has the user embedded' do
+        is_expected.to be_json_eql('User'.to_json).at_path("_embedded/#{cf_path}/_type")
+        is_expected.to be_json_eql(custom_value.name.to_json).at_path("_embedded/#{cf_path}/name")
+      end
+
+      context 'value is nil' do
+        let(:represented) {
+          double('represented',
+                 available_custom_fields: [custom_field],
+                 custom_value_for: nil)
+        }
+
+        it_behaves_like 'has an empty link' do
+          let(:link) { cf_path }
+        end
+      end
+    end
+
+    context 'version custom field' do
+      let(:custom_value) { FactoryGirl.build(:version, id: 2) }
+      let(:field_format) { 'version' }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { cf_path }
+        let(:href) { '/api/v3/versions/2' }
+      end
+
+      it 'has the version embedded' do
+        is_expected.to be_json_eql('Version'.to_json).at_path("_embedded/#{cf_path}/_type")
+        is_expected.to be_json_eql(custom_value.name.to_json).at_path("_embedded/#{cf_path}/name")
+      end
+
+      context 'value is nil' do
+        let(:represented) {
+          double('represented',
+                 available_custom_fields: [custom_field],
+                 custom_value_for: nil)
+        }
+
+        it_behaves_like 'has an empty link' do
+          let(:link) { cf_path }
+        end
+      end
+    end
+
+    context 'list custom field' do
+      let(:custom_value) { 'Foobar' }
+      let(:field_format) { 'list' }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { cf_path }
+        let(:href) { '/api/v3/string_objects/Foobar' }
+      end
+
+      it 'has the string object embedded' do
+        is_expected.to be_json_eql('StringObject'.to_json).at_path("_embedded/#{cf_path}/_type")
+        is_expected.to be_json_eql(custom_value.to_json).at_path("_embedded/#{cf_path}/value")
       end
 
       context 'value is nil' do
