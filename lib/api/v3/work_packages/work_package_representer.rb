@@ -257,24 +257,20 @@ module API
         property :author,
                  embedded: true,
                  class: ::User,
-                 decorator: ::API::V3::Users::UserRepresenter,
-                 if: -> (*) { !author.nil? }
+                 decorator: ::API::V3::Users::UserRepresenter
         property :responsible,
                  embedded: true,
                  class: ::User,
-                 decorator: ::API::V3::Users::UserRepresenter,
-                 if: -> (*) { !responsible.nil? }
+                 decorator: ::API::V3::Users::UserRepresenter
         property :assigned_to,
                  as: :assignee,
                  embedded: true,
                  class: ::User,
-                 decorator: ::API::V3::Users::UserRepresenter,
-                 if: -> (*) { !assigned_to.nil? }
+                 decorator: ::API::V3::Users::UserRepresenter
         property :category,
                  embedded: true,
                  class: ::Category,
-                 decorator: ::API::V3::Categories::CategoryRepresenter,
-                 if: -> (*) { !category.nil? }
+                 decorator: ::API::V3::Categories::CategoryRepresenter
         property :priority,
                  embedded: true,
                  class: ::IssuePriority,
@@ -284,8 +280,7 @@ module API
 
         property :version,
                  embedded: true,
-                 exec_context: :decorator,
-                 if: ->(*) { represented.fixed_version.present? }
+                 exec_context: :decorator
         property :project,
                  embedded: true,
                  class: ::Project,
@@ -335,7 +330,9 @@ module API
         end
 
         def version
-          Versions::VersionRepresenter.new(represented.fixed_version, current_user: current_user)
+          if represented.fixed_version.present?
+            Versions::VersionRepresenter.new(represented.fixed_version, current_user: current_user)
+          end
         end
 
         def custom_properties
