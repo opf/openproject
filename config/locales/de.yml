@@ -1426,6 +1426,11 @@ de:
       time: "%H:%M"
     pm: "nachmittags"
 
+  timeframe:
+    show: "Zeitausschnitt bestimmen"
+    end: "bis"
+    start: "von"
+
   timelines:
     admin_menu:
       color: "Farbe"
