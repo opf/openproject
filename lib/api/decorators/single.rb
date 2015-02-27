@@ -77,6 +77,12 @@ module API
         end
       end
 
+      protected
+
+      def current_user
+        context[:current_user]
+      end
+
       private
 
       def datetime_formatter

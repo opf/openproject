@@ -362,10 +362,6 @@ module API
 
         private
 
-        def current_user
-          context[:current_user]
-        end
-
         def version_policy
           @version_policy ||= ::VersionPolicy.new(current_user)
         end

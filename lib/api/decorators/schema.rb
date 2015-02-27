@@ -120,9 +120,6 @@ module API
           property_name.to_s.camelize
         end
       end
-
-      def current_user
-      end
     end
   end
 end

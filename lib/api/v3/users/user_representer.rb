@@ -104,10 +104,6 @@ module API
 
         private
 
-        def current_user
-          context[:current_user]
-        end
-
         def work_package
           context[:work_package]
         end
