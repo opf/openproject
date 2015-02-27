@@ -32,6 +32,7 @@ module.exports = {
       { test: /[\/]angular\.js$/,         loader: 'exports?angular' },
       { test: /[\/]jquery\.js$/,          loader: 'expose?jQuery' },
       { test: /[\/]moment\.js$/,          loader: 'expose?moment' },
+      { test: /[\/]mousetrap\.js$/,       loader: 'expose?Mousetrap' },
       { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
       { test: /\.css$/,                   loader: 'style-loader!css-loader' },
       { test: /\.png$/,                   loader: 'url-loader?limit=100000&mimetype=image/png' },
@@ -64,6 +65,7 @@ module.exports = {
       'angular-truncate': 'angular-truncate/src/truncate',
       'angular-feature-flags': 'angular-feature-flags/dist/featureFlags.js',
       'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
+      'mousetrap': 'mousetrap/mousetrap.js',
       'hyperagent': 'hyperagent/dist/hyperagent',
       'openproject-ui_components': 'openproject-ui_components/app/assets/javascripts/angular/ui-components-app'
     }, pluginAliases)

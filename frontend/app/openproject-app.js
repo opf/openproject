@@ -63,6 +63,7 @@ require('ui-select/dist/select');
 require('ui-select/dist/select.css');
 
 require('angular-context-menu');
+require('mousetrap');
 
 // global
 angular.module('openproject.uiComponents', ['ui.select2', 'ui.select', 'ngSanitize'])

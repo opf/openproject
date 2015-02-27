@@ -31,7 +31,6 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
   // modalHelperInstance
   // Mousetrap
   // TODO: move them as dependencies so that express also works
-  // TODO: update help with button 8 and d w p
 
   var accessKeys = {
     preview: 1,
@@ -46,6 +45,7 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
 
   var shortcuts = {
     '?': showHelpModal,
+    'up up down down left right left right b a enter': showHelpModal,
     'g m': 'staticMyPagePath',
     'g o': projectScoped('staticProjectPath'),
     'g w p': projectScoped('staticProjectWorkPackagesPath'),
