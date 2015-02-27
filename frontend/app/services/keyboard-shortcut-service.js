@@ -30,7 +30,7 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
 
   // modalHelperInstance
   // Mousetrap
-  // TODO: move them as dependencies so that express also works
+  // TODO: globals, should be wrapped in .constant
 
   var accessKeys = {
     preview: 1,
@@ -41,8 +41,9 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
     help: 6,
     moreMenu: 7,
     details: 8
-  }
+  };
 
+  // maybe move it to a .constant
   var shortcuts = {
     '?': showHelpModal,
     'up up down down left right left right b a enter': showHelpModal,
@@ -79,7 +80,7 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
       } else {
         elem.click();
       }
-    }
+    };
   }
 
   function projectScoped(action) {
@@ -96,8 +97,9 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
     modalHelperInstance.createModal(PathHelper.staticKeyboardShortcutsHelpPath());
   }
 
-  var accessibleListSelector = "table.list, table.keyboard-accessible-list";
-  var accessibleRowSelector = "table.list tr, table.keyboard-accessible-list tr";
+  // this could be extracted into a separate component if it grows
+  var accessibleListSelector = 'table.list, table.keyboard-accessible-list';
+  var accessibleRowSelector = 'table.list tr, table.keyboard-accessible-list tr';
 
   function findListInPage() {
     var domLists, focusElements;
@@ -108,23 +110,28 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
       if ( firstLink !== undefined ) { focusElements.push(firstLink); }
     });
     return focusElements;
-  };
+  }
 
   function focusItemOffset(offset) {
     var list, index;
     list = findListInPage();
     if (list === null) { return; }
-    index = list.indexOf(angular.element(document.activeElement).parents(accessibleRowSelector).find('a:visible')[0]);
+    index = list.indexOf(
+      angular
+        .element(document.activeElement)
+        .parents(accessibleRowSelector)
+        .find('a:visible')[0]
+    );
     angular.element(list[(index+offset+list.length) % list.length]).focus();
-  };
+  }
 
   function focusNextItem() {
     focusItemOffset(1);
-  };
+  }
 
   function focusPrevItem() {
     focusItemOffset(-1);
-  };
+  }
 
   var KeyboardShortcutService = {
     activate: function() {
