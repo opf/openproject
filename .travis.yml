@@ -39,13 +39,6 @@ cache:
     - frontend/node_modules
     - frontend/bower_components
 
-branches:
-  only:
-    - dev
-    - stable
-    - release/3.0
-    - release/4.0
-
 env:
   global:
     - CI=true
