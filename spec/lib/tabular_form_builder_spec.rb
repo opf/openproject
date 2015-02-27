@@ -438,4 +438,20 @@ JJ Abrams</textarea>
       expect(output).to eq %{<button name="button" type="submit">Create User</button>}
     end
   end
+
+  describe '#label' do
+    subject(:output) { builder.label :name }
+
+    it 'should output element' do
+      expect(output).to eq %{<label class="form--label" for="user_name">Name</label>}
+    end
+
+    describe 'with existing attributes' do
+      subject(:output) { builder.label :name, 'Fear', class: 'sharknado' }
+
+      it 'should keep associated classes' do
+        expect(output).to eq %{<label class="sharknado form--label" for="user_name">Fear</label>}
+      end
+    end
+  end
 end
