@@ -73,39 +73,22 @@ end
 
 module ActiveModel
   class Errors
-    def full_messages
-      full_messages = []
+    def full_message(attribute, message)
+      return message if attribute == :base
 
-      @messages.each_key do |attribute|
-        @messages[attribute].each do |message|
-          next unless message
-
-          if attribute == :base
-            full_messages << message
-          elsif attribute == :custom_values
-            # Replace the generic "custom values is invalid"
-            # with the errors on custom values
-            @base.custom_values.each do |value|
-              full_messages += value.errors.map do |_, message|
-                I18n.t(:"errors.format",
-                       default:   '%{attribute} %{message}',
-                       attribute: value.custom_field.name,
-                       message:   message
-                )
-              end
-            end
-          else
-            attr_name = attribute.to_s.gsub('.', '_').humanize
-            attr_name = @base.class.human_attribute_name(attribute, default: attr_name)
-            full_messages << I18n.t(:"errors.format",
-                                    default:   '%{attribute} %{message}',
-                                    attribute: attr_name,
-                                    message:   message
-            )
-          end
-        end
+      attr_name_override = nil
+      match = /\Acustom_field_(?<id>\d+)\z/.match(attribute)
+      if match
+        attr_name_override = CustomField.find_by_id(match[:id]).name
       end
-      full_messages
+
+      attr_name = attribute.to_s.gsub('.', '_').humanize
+      attr_name = @base.class.human_attribute_name(attribute, :default => attr_name)
+      I18n.t(:"errors.format", {
+                               :default   => "%{attribute} %{message}",
+                               :attribute => attr_name_override || attr_name,
+                               :message   => message
+                             })
     end
   end
 end

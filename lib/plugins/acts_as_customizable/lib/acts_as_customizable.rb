@@ -44,8 +44,8 @@ module Redmine
                                    dependent: :delete_all
           before_validation { |customized| customized.custom_field_values if customized.new_record? }
           # Trigger validation only if custom values were changed
-          validates_associated :custom_values, on: :update,
-                                               if: -> (customized) { customized.custom_field_values_changed? }
+          validate :validate_custom_values, on: :update,
+                                            if: -> (customized) { customized.custom_field_values_changed? }
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
           after_save :save_custom_field_values
@@ -114,6 +114,16 @@ module Redmine
           @custom_field_values_changed = true
           values = custom_values.inject({}) { |h, v| h[v.custom_field_id] = v.value; h }
           custom_values.each { |cv| cv.destroy unless custom_field_values.include?(cv) }
+        end
+
+        def validate_custom_values
+          custom_values.each do |custom_value|
+            unless custom_value.valid?
+              custom_value.errors.each do |_, message|
+                errors.add("custom_field_#{custom_value.custom_field.id}".to_sym, message)
+              end
+            end
+          end
         end
 
         module ClassMethods

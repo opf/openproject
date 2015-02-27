@@ -47,7 +47,7 @@ module API
             end
           end
 
-          hash[attribute] = ::API::Errors::Validation.new(messages)
+          hash[attribute.to_s.camelize(:lower)] = ::API::Errors::Validation.new(messages)
         end
       end
 
