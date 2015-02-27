@@ -48,6 +48,8 @@ module API
             priority_id
             category_id
             fixed_version_id
+            done_ratio
+            estimated_hours
           )
         end
 
@@ -65,6 +67,7 @@ module API
         validate :readonly_attributes_unchanged
         validate :assignee_visible
         validate :responsible_visible
+        validate :estimated_hours_valid
 
         extend Reform::Form::ActiveModel::ModelValidations
         copy_validations_from WorkPackage
@@ -107,6 +110,36 @@ module API
 
         def responsible_visible
           people_visible :responsible, 'responsible_id', model.project.possible_responsible_members
+        end
+
+        def estimated_hours_valid
+          if !model.leaf?
+            if model.estimated_hours != estimated_hours_of_children(model)
+              errors.add :error_readonly, I18n.t('api_v3.errors.validation.estimated_hours')
+            end
+          end
+        end
+
+        def estimated_hours_of_children(work_package)
+          work_package.children.map(&:estimated_hours).map(&:to_f).inject(:+)
+        end
+
+        def done_ratios_valid
+          if (done_ratio_status_valid? ^ done_ratio_field_valid?) && !model.done_ratio_disabled?
+            errors.add :error_readonly, I18n.t('api_v3.errors.validation.done_ratio')
+          end
+        end
+
+        def done_ratio_status_valid?
+          model.use_status_for_done_ratio? && model.done_ratio == model.status.default_done_ratio
+        end
+
+        def done_ratio_field_valid?
+          if model.use_field_for_done_ratio? && !model.leaf?
+            sum = model.children.inject(0.0) { |sum, child| sum + child.done_ratio }
+            average = sum / model.children.size
+            model.done_ratio != average
+          end
         end
 
         def people_visible(attribute, id_attribute, list)

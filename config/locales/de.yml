@@ -1699,5 +1699,6 @@ de:
       validation:
         invalid_user_assigned_to_work_package:
           "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
+        estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden. Desweiteren muss der geschätzte Aufwand für Eltern-Arbeitspakete stets die Summe des Aufwands ihrer jeweiligen Kinder entsprechen."
     resources:
       schema: 'Schema'
