@@ -27,7 +27,7 @@
 //++
 
 var expect = require('../../../spec_helper.js').expect, 
-    detailsPaneHelper = require('./work-package-details-pane-helper.js');
+    detailsPaneHelper = require('./details-pane-helper.js');
 
 /*jshint expr: true*/
 
