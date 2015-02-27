@@ -8,9 +8,9 @@ module OpenProject::OpenIDConnect
     extend OpenProject::Plugins::AuthPlugin
 
     register 'openproject-openid_connect',
-             :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.1.0pre1',
-             :settings => { 'default' => { 'providers' => {} } }
+             author_url: 'http://finn.de',
+             requires_openproject: '>= 3.1.0pre1',
+             settings: { 'default' => { 'providers' => {} } }
 
     assets %w(
       openid_connect/auth_provider-google.png
@@ -51,7 +51,7 @@ module OpenProject::OpenIDConnect
       secure_cookie = Rails.env.production?
 
       # register an #after_login callback which sets a cookie containing the access token
-      OpenProject::OmniAuth::Authorization.after_login do |user, auth_hash, context|
+      OpenProject::OmniAuth::Authorization.after_login do |_user, auth_hash, context|
         # check the configuration
         if store_access_token?
           # fetch the access token if it's present
@@ -73,6 +73,5 @@ module OpenProject::OpenIDConnect
         true
       end
     end
-
   end
 end

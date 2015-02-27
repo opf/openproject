@@ -2,7 +2,7 @@ module OpenIDConnectSpecHelpers
   def redirect_from_provider(name = 'heroku')
     # Emulate the provider's redirect with a nonsense code.
     get "/auth/#{name}/callback",
-      :code => "foobar",
+      :code => 'foobar',
       :redirect_uri => "http://localhost:3000/auth/#{name}/callack"
   end
 
