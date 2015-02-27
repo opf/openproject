@@ -38,22 +38,21 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2><%=l(:label_project_plural)%></h2>
 <%= render :partial => 'layouts/action_menu_specific' %>
 <%= form_tag({}, :method => :get) do %>
-  <fieldset><legend><%= l(:label_filter_plural) %></legend>
-    <div class="vertical grid-block">
-      <div class="grid-block">
-        <div class="grid-content">
+  <fieldset class="simple-filters--container">
+    <legend><%= l(:label_filter_plural) %></legend>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
           <label for='status'><%= Project.human_attribute_name(:status) %> :</label>
-          <%= select_tag 'status', project_status_options_for_select(@status), :class => "form--select -small", :onchange => "this.form.submit(); return false;"  %>
-        </div>
-        <div class="grid-content">
+          <%= select_tag 'status', project_status_options_for_select(@status), :onchange => "this.form.submit(); return false;"  %>
+      </li>
+      <li class="simple-filters--filter">
           <label for='name'><%= Project.model_name.human %>:</label>
-          <%= text_field_tag 'name', params[:name], :size => 30, class: 'form--select -small' %>
-        </div>
-      </div>
-      <div class="grid-content">
-        <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
-        <%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'button -small icon icon-undo' %>
-      </div>
+          <%= text_field_tag 'name', params[:name] %>
+      </li>
+    </ul>
+    <div class="simple-filters--controls">
+      <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
+      <%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'button -small icon icon-undo' %>
     </div>
   </fieldset>
 <% end %>
