@@ -4,7 +4,7 @@ function loadPane(workPackageId, paneName) {
   var page = new WorkPackageDetailsPane(workPackageId, paneName);
   page.get();
   browser.waitForAngular();
-};
+}
 
 module.exports = {
   loadPane: loadPane
