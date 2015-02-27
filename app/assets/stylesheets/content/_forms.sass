@@ -210,6 +210,8 @@ fieldset.form--fieldset
   @include grid-block($wrap: true)
   align-items: center
   margin-bottom: 0.4rem
+  // cancel out foundations overflow-y: auto
+  overflow: visible
 
   &.-vertical,
   .form.-vertical &
@@ -248,6 +250,8 @@ fieldset.form--fieldset
   @include grid-content(10)
   padding: 0
   display: flex
+  // cancel out foundations overflow-y: auto
+  overflow-y: visible
 
   &.-vertical
     display: block
