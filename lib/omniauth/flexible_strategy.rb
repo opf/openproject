@@ -40,14 +40,14 @@ module OmniAuth
 
   module FlexibleStrategy
     def on_auth_path?
-      (match_provider! || false) && super
+      possible_auth_path? && (match_provider! || false) && super
     end
 
     ##
     # Tries to match the request path of the current request with one of the registered providers.
     # If a match is found the strategy is intialised with that provider to handle the request.
     def match_provider!
-      return false unless @providers
+      return false unless providers
 
       @provider = providers.find do |p|
         (current_path =~ /#{path_for_provider(p.to_hash[:name])}/) == 0
@@ -72,6 +72,13 @@ module OmniAuth
       "#{path_prefix}/#{name}"
     end
 
+    ##
+    # Returns true if the current path could be an authentication request,
+    # false otherwise (e.g. for resources).
+    def possible_auth_path?
+      current_path =~ /\A#{path_prefix}/
+    end
+
     def providers
       @providers ||= OpenProject::Plugins::AuthPlugin.providers_for(self.class)
     end
@@ -87,7 +94,6 @@ module OmniAuth
     def dup
       super.tap do |s|
         s.extend FlexibleStrategy
-        s.providers = providers
       end
     end
   end
