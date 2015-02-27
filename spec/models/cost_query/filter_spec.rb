@@ -236,7 +236,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "filters category" do
-        category = create_matching_object_with_time_entries(:category, :category, 3)
+        category = FactoryGirl.create(:category, project: project)
+        create_work_packages_and_time_entries(3, category: category)
         @query.filter :category_id, operator: '=', value: category.id
         expect(@query.result.count).to eq(3)
       end
