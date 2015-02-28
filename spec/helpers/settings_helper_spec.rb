@@ -119,10 +119,10 @@ describe SettingsHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field"
           id="settings_field" name="settings[field]" type="text" value="important value" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -140,10 +140,10 @@ describe SettingsHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'text-area-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <textarea class="custom-class form--text-area" id="settings_field" name="settings[field]">
 important text</textarea>
-      }.strip
+      }).at_path('textarea')
     end
   end
 
