@@ -43,6 +43,8 @@
                 actual
               end
 
+    raise "Path specified is missing (#{path.inspect})" if path && @actual.empty?
+
     EquivalentXml.equivalent?(self.actual, expected, {})
   end
 
