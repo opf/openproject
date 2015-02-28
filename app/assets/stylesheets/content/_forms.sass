@@ -250,6 +250,7 @@ fieldset.form--fieldset
   display: flex
   // cancel out foundations overflow-y: auto
   overflow-y: visible
+  align-items: stretch
 
   &.-vertical
     display: block
@@ -427,3 +428,20 @@ fieldset.form--fieldset
   & > .form--check-box-container
     display: block
     float:   left
+
+.form--field-affix
+  flex:           0 0 auto
+  display:        flex
+  font-size:      0.9rem
+  background:     $inlinelabel-background
+  color:          $inlinelabel-color
+  border:         $content-form-input-border
+  // OR $inlinelabel-border
+  border-radius:  2px
+  padding:        0 $form-padding
+  margin-bottom:  0.5rem
+  align-items:    center
+
+  %form--field-element-container + &
+    margin-left:  -1rem
+    border-left:  0
