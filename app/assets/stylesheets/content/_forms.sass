@@ -214,7 +214,8 @@ fieldset.form--fieldset
   .form.-vertical &
     @include grid-orient(vertical)
 
-  .grid-block:nth-last-of-type(n+2) > &
+  .grid-block:nth-last-of-type(n+2) > &,
+  .form--grouping-row > &:nth-last-of-type(n+2)
     padding-right: 1rem
 
 .form--label
