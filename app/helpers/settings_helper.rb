@@ -75,22 +75,22 @@ module SettingsHelper
   end
 
   def settings_multiselect(settings, choices, options = {})
-    ('<table>' +
+    ('<table class="form--table">' +
       '<thead>' +
-        '<tr>' +
-          '<th>' + I18n.t(options[:label_choices] || :label_choices) + '</th>' +
+        '<tr class="form--table-header-row">' +
+          '<th class="form--table-header-row-cell">' + I18n.t(options[:label_choices] || :label_choices) + '</th>' +
           settings.map do |setting|
-            '<th>' + hidden_field_tag("settings[#{setting}][]", '') + I18n.t('setting_' + setting.to_s) + '</th>'
+            '<th class="form--table-header-row-cell">' + hidden_field_tag("settings[#{setting}][]", '') + I18n.t('setting_' + setting.to_s) + '</th>'
           end.join +
         '</tr>' +
       '</thead>' +
       '<tbody>' +
         choices.map do |choice|
           text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
-          '<tr>' +
-            '<td>' + h(text) + '</td>' +
+          '<tr class="form--table-row">' +
+            '<td class="form--table-row-cell">' + h(text) + '</td>' +
             settings.map do |setting|
-              '<td align="center">' +
+              '<td class="form--table-checkbox-cell">' +
                 styled_check_box_tag("settings[#{setting}][]", value,
                                      Setting.send(setting).include?(value),
                                      id: "#{setting}_#{value}", class: 'form--check-box') + '</td>'
