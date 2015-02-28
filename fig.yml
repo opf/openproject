@@ -25,7 +25,7 @@ web:
 
 worker:
   build: .
-  command: bundle exec rake jobs:work
+  command: foreman start worker
   environment:
     RAILS_ENV: production
     DATABASE_URL: postgres://openproject:openproject@db:5432/openproject
