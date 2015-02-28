@@ -318,8 +318,14 @@ fieldset.form--fieldset
 .form--text-field
   @include input-style
 
+.form--text-field,
+#{$text-input-selectors}
+  line-height: 1.5
+
 .form--select
   @include input-style
+  line-height: 1.5
+
   // TODO: remove padding property once upstream PR merged:
   // https://github.com/zurb/foundation-apps/pull/416
   padding-right: $form-padding + rem-calc(18px)
