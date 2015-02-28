@@ -123,7 +123,8 @@ describe TabularFormBuilder do
 
     it 'should output element' do
       expect(output).to be_html_eql(%{
-        <textarea class="custom-class form--text-area" cols="40" id="user_name" name="user[name]" rows="20" title="Name">
+        <textarea class="custom-class form--text-area" cols="40" id="user_name"
+          name="user[name]" rows="20" title="Name">
 JJ Abrams</textarea>
       }).at_path('textarea')
     end
@@ -452,7 +453,9 @@ JJ Abrams</textarea>
       subject(:output) { builder.label :name, 'Fear', class: 'sharknado' }
 
       it 'should keep associated classes' do
-        expect(output).to be_html_eql %{<label class="sharknado form--label" for="user_name">Fear</label>}
+        expect(output).to be_html_eql %{
+          <label class="sharknado form--label" for="user_name">Fear</label>
+        }
       end
     end
   end
