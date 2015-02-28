@@ -880,3 +880,52 @@ _with no classes applied (uses default Foundation form styling)_
   <option>three</option>
 </select>
 ```
+
+# Forms: Tables
+
+```
+<table class="form--table">
+  <thead>
+    <tr class="form--table-header-row">
+      <th class="form--table-header-row-cell">Attribute name</th>
+      <th class="form--table-header-row-cell">User access</th>
+      <th class="form--table-header-row-cell">Admin access</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="form--table-row">
+      <td class="form--table-row-cell">
+        Project
+      </td>
+      <td class="form--table-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="attributes_project" name="settings[attributes][]" type="checkbox" value="project"></span>
+      </td>
+      <td class="form--table-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="admin_attributes_project" name="settings[admin_attributes][]" type="checkbox" value="project"></span>
+      </td>
+    </tr>
+    <tr class="form--table-row">
+      <td class="form--table-row-cell">
+        Type
+      </td>
+      <td class="form--table-checkbox-cell">
+        <span class="form--check-box-container"><input checked="checked" class="form--check-box form--check-box" id="attributes_type" name="settings[attributes][]" type="checkbox" value="type"></span>
+      </td>
+      <td class="form--table-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="admin_attributes_type" name="settings[admin_attributes][]" type="checkbox" value="type"></span>
+      </td>
+    </tr>
+    <tr class="form--table-row">
+      <td class="form--table-row-cell">
+        Parent
+      </td>
+      <td class="form--table-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="attributes_parent" name="settings[attributes][]" type="checkbox" value="parent"></span>
+      </td>
+      <td class="form--table-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="admin_attributes_parent" name="settings[admin_attributes][]" type="checkbox" value="parent"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+```
