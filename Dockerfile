@@ -126,6 +126,9 @@ RUN apt-get install -y ruby2.1 ruby2.1-dev
 # install our beloved bundler
 RUN gem install bundler
 
+# install foreman to run our app server at the end
+RUN gem install foreman
+
 # add openproject's source to the container
 COPY . /usr/src/openproject
 
@@ -170,4 +173,4 @@ RUN RAILS_ENV=production SECRET_TOKEN=foobar DATABASE_URL=sqlite3://db/ignore_me
 EXPOSE 3000
 
 # launch the rails server unless another command is given
-CMD bundle exec rails s -p 3000 -b 0.0.0.0
+CMD HOST=0.0.0.0 PORT=3000 foreman start web
