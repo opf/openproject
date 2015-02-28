@@ -257,6 +257,9 @@ fieldset.form--fieldset
   .form--field.-no-label &
     @include grid-offset(2)
 
+  .form--field.-full-width &
+    @include grid-size(12)
+
   .form.-wide-labels &,
   .form--field.-wide-label &
     @include grid-size(8)
@@ -276,6 +279,10 @@ fieldset.form--fieldset
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
   color:        $form-label-color
+
+  .form--field.-full-width &
+    @include grid-size(12)
+    @include grid-offset(0)
 
   .form.-wide-labels &,
   .form--field.-wide-label &

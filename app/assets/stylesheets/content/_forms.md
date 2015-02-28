@@ -99,6 +99,16 @@
         This field has no label, which means you really can write what you like.
       </div>
     </div>
+    <div class="form--field -required -full-width">
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        This field also has no label, but takes up the full width.
+      </div>
+    </div>
   </section>
 </form>
 ```
