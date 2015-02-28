@@ -63,14 +63,14 @@ describe CustomFieldFormBuilder do
       it_behaves_like 'wrapped in container', 'check-box-container'
 
       it 'should output element' do
-        expect(output).to include %{
+        expect(output).to be_html_eql(%{
           <input class="custom-class form--check-box"
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  type="checkbox"
                  value="1" />
-        }.squish
+        }).at_path('input:nth-of-type(2)')
       end
     end
 
@@ -86,7 +86,7 @@ describe CustomFieldFormBuilder do
       it_behaves_like 'wrapped in container', 'text-field-container'
 
       it 'should output element' do
-        expect(output).to include %{
+        expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
@@ -94,7 +94,7 @@ describe CustomFieldFormBuilder do
                  size="30"
                  type="text"
                  value="" />
-        }.squish
+        }).at_path('input')
       end
     end
 
@@ -106,7 +106,7 @@ describe CustomFieldFormBuilder do
       it_behaves_like 'wrapped in container', 'text-area-container'
 
       it 'should output element' do
-        expect(output.squish).to include %{
+        expect(output).to be_html_eql(%{
           <textarea class="custom-class form--text-area"
                     cols="40"
                     id="user#{resource.custom_field_id}"
@@ -114,7 +114,7 @@ describe CustomFieldFormBuilder do
                     name="user[#{resource.custom_field_id}]"
                     rows="3">
           </textarea>
-        }.squish
+        }).at_path('textarea')
       end
     end
 
@@ -126,7 +126,7 @@ describe CustomFieldFormBuilder do
       it_behaves_like 'wrapped in container', 'text-field-container'
 
       it 'should output element' do
-        expect(output.squish).to include %{
+        expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
@@ -134,7 +134,7 @@ describe CustomFieldFormBuilder do
                  size="30"
                  type="text"
                  value="" />
-        }.squish
+        }).at_path('input')
       end
     end
 
@@ -146,7 +146,7 @@ describe CustomFieldFormBuilder do
       it_behaves_like 'wrapped in container', 'text-field-container'
 
       it 'should output element' do
-        expect(output.squish).to include %{
+        expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
@@ -154,7 +154,7 @@ describe CustomFieldFormBuilder do
                  size="30"
                  type="text"
                  value="" />
-        }.squish
+        }).at_path('input')
       end
     end
 
@@ -166,7 +166,7 @@ describe CustomFieldFormBuilder do
       it_behaves_like 'wrapped in container', 'text-field-container'
 
       it 'should output element' do
-        expect(output.squish).to include %{
+        expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
@@ -174,7 +174,7 @@ describe CustomFieldFormBuilder do
                  size="30"
                  type="text"
                  value="" />
-        }.squish
+        }).at_path('input')
       end
     end
 
@@ -187,7 +187,7 @@ describe CustomFieldFormBuilder do
       it_behaves_like 'wrapped in container', 'select-container'
 
       it 'should output element' do
-        expect(output.squish).to include %{
+        expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{resource.custom_field_id}"
                   lang=\"en\"
@@ -195,7 +195,7 @@ describe CustomFieldFormBuilder do
                   no_label="true"><option
                   value=\"\"></option>
                   <option value=\"my_option\">my_option</option></select>
-        }.squish
+        }).at_path('select')
       end
 
       context 'which is required and has no default value' do
@@ -204,7 +204,7 @@ describe CustomFieldFormBuilder do
         end
 
         it 'should output element' do
-          expect(output.squish).to include %{
+          expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
                     lang=\"en\"
@@ -212,7 +212,7 @@ describe CustomFieldFormBuilder do
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
                     <option value=\"my_option\">my_option</option></select>
-          }.squish
+          }).at_path('select')
         end
       end
 
@@ -223,14 +223,14 @@ describe CustomFieldFormBuilder do
         end
 
         it 'should output element' do
-          expect(output.squish).to include %{
+          expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
                     lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option
                     value=\"my_option\">my_option</option></select>
-          }.squish
+          }).at_path('select')
         end
       end
     end
@@ -243,14 +243,14 @@ describe CustomFieldFormBuilder do
       it_behaves_like 'wrapped in container', 'select-container'
 
       it 'should output element' do
-        expect(output.squish).to include %{
+        expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{resource.custom_field_id}"
                   lang=\"en\"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true"><option value=\"\"></option>
           </select>
-        }.squish
+        }).at_path('select')
       end
 
       context 'which is required and has no default value' do
@@ -259,7 +259,7 @@ describe CustomFieldFormBuilder do
         end
 
         it 'should output element' do
-          expect(output.squish).to include %{
+          expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
                     lang=\"en\"
@@ -267,7 +267,7 @@ describe CustomFieldFormBuilder do
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
             </select>
-          }.squish
+          }).at_path('select')
         end
       end
     end
@@ -280,14 +280,14 @@ describe CustomFieldFormBuilder do
       it_behaves_like 'wrapped in container', 'select-container'
 
       it 'should output element' do
-        expect(output.squish).to include %{
+        expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{resource.custom_field_id}"
                   lang=\"en\"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true"><option value=\"\"></option>
           </select>
-        }.squish
+        }).at_path('select')
       end
 
       context 'which is required and has no default value' do
@@ -296,7 +296,7 @@ describe CustomFieldFormBuilder do
         end
 
         it 'should output element' do
-          expect(output.squish).to include %{
+          expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
                     lang=\"en\"
@@ -304,7 +304,7 @@ describe CustomFieldFormBuilder do
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
             </select>
-          }.squish
+          }).at_path('select')
         end
       end
     end
