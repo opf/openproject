@@ -38,10 +38,10 @@
 
   match do |actual|
     @actual = if path
-      html(actual).css(path)
-    else
-      actual
-    end
+                html(actual).css(path)
+              else
+                actual
+              end
 
     EquivalentXml.equivalent?(self.actual, expected, {})
   end
