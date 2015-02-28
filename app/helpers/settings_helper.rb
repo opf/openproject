@@ -107,7 +107,7 @@ module SettingsHelper
     setting_label(setting, options) +
       wrap_field_outer(options) do
         styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options) +
-          (unit ? content_tag(:span, unit, class: 'form-label') : '')
+          (unit ? content_tag(:span, unit, class: 'form--field-affix') : '')
       end
   end
 
