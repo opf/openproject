@@ -38,9 +38,6 @@ $form--field-types: (text-field, text-area, select, check-box, range-field, sear
 
   vertical-align: middle
 
-@mixin select-style
-  @include input-style
-
 @mixin label-style
   text-align: left
   font-weight: normal
@@ -313,7 +310,7 @@ fieldset.form--fieldset
   @include input-style
 
 .form--select
-  @include select-style
+  @include input-style
   // TODO: remove padding property once upstream PR merged:
   // https://github.com/zurb/foundation-apps/pull/416
   padding-right: $form-padding + rem-calc(18px)
