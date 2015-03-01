@@ -141,11 +141,12 @@ describe TabularFormBuilder do
       end
 
       context 'with both prefix and suffix' do
-        let(:options) { {
-          title: 'Name',
-          prefix: %{<span style="color:yellow">PREFIX</span>},
-          suffix: %{<span style="color:green">SUFFIX</span>}
-        } }
+        let(:options) {
+          {
+            title: 'Name',
+            prefix: %{<span style="color:yellow">PREFIX</span>},
+            suffix: %{<span style="color:green">SUFFIX</span>}
+          } }
 
         it 'should output elements' do
           expect(output).to be_html_eql(%{
