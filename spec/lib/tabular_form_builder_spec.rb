@@ -121,7 +121,7 @@ describe TabularFormBuilder do
                 id="user_name" name="user[name]" size="30" title="Name" type="text"
                 value="JJ Abrams" />
             </span>
-          }).at_path('span.form--field-container > *')
+          }).within_path('span.form--field-container')
         end
       end
 
@@ -136,7 +136,7 @@ describe TabularFormBuilder do
                 value="JJ Abrams" />
             </span>
             <span class="form--field-affix"><span style="color:blue">Suffix</span></span>
-          }).at_path('span.form--field-container > *')
+          }).within_path('span.form--field-container')
         end
       end
 
@@ -157,7 +157,7 @@ describe TabularFormBuilder do
                 value="JJ Abrams" />
             </span>
             <span class="form--field-affix"><span style="color:green">SUFFIX</span></span>
-          }).at_path('span.form--field-container > *')
+          }).within_path('span.form--field-container')
         end
       end
     end

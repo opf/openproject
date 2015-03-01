@@ -52,6 +52,10 @@
     @path = path
   end
 
+  chain :within_path do |path|
+    @path = path + ' > *'
+  end
+
   should_message = -> (actual) do
     ['expected:', expected.to_s, 'got:', actual.to_s].join("\n")
   end
