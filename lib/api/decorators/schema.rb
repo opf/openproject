@@ -37,15 +37,17 @@ module API
                    required: true,
                    writable: true,
                    min_length: nil,
-                   max_length: nil)
+                   max_length: nil,
+                   regular_expression: nil)
           raise ArgumentError if property.nil?
 
           schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
                                                                     name: title,
                                                                     required: required,
                                                                     writable: writable)
-          schema.min_length = min_length if min_length
-          schema.max_length = max_length if max_length
+          schema.min_length = min_length
+          schema.max_length = max_length
+          schema.regular_expression = regular_expression
 
           property property,
                    getter: -> (*) { schema },

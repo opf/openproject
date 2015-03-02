@@ -47,7 +47,8 @@ module API
                     :required,
                     :writable,
                     :min_length,
-                    :max_length
+                    :max_length,
+                    :regular_expression
 
       property :type, exec_context: :decorator
       property :name, exec_context: :decorator
@@ -55,6 +56,7 @@ module API
       property :writable, exec_context: :decorator
       property :min_length, exec_context: :decorator
       property :max_length, exec_context: :decorator
+      property :regular_expression, exec_context: :decorator
     end
   end
 end

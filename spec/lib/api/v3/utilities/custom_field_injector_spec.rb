@@ -69,11 +69,47 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:writable) { true }
       end
 
-      context 'when the custom field is not required' do
+      it 'indicates no regular expression' do
+        is_expected.to_not have_json_path("#{cf_path}/regularExpression")
+      end
+
+      it 'indicates no minimum size' do
+        is_expected.to_not have_json_path("#{cf_path}/minLength")
+      end
+
+      it 'indicates no maximum size' do
+        is_expected.to_not have_json_path("#{cf_path}/maxLength")
+      end
+
+      context 'custom field is not required' do
         let(:custom_field) { FactoryGirl.build(:custom_field, is_required: false) }
 
         it 'marks the field as not required' do
           is_expected.to be_json_eql(false.to_json).at_path("#{cf_path}/required")
+        end
+      end
+
+      context 'custom field has regex' do
+        let(:custom_field) { FactoryGirl.build(:custom_field, regexp: 'Foo+bar') }
+
+        it 'renders the regular expression' do
+          is_expected.to be_json_eql('Foo+bar'.to_json).at_path("#{cf_path}/regularExpression")
+        end
+      end
+
+      context 'custom field has minimum length' do
+        let(:custom_field) { FactoryGirl.build(:custom_field, min_length: 5) }
+
+        it 'renders the minimum length' do
+          is_expected.to be_json_eql(5.to_json).at_path("#{cf_path}/minLength")
+        end
+      end
+
+      context 'custom field has maximum length' do
+        let(:custom_field) { FactoryGirl.build(:custom_field, max_length: 5) }
+
+        it 'renders the maximum length' do
+          is_expected.to be_json_eql(5.to_json).at_path("#{cf_path}/maxLength")
         end
       end
     end

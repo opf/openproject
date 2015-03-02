@@ -221,7 +221,10 @@ module API
                         type: TYPE_MAP[custom_field.field_format],
                         title: custom_field.name,
                         required: custom_field.is_required,
-                        writable: true
+                        writable: true,
+                        min_length: (custom_field.min_length if custom_field.min_length > 0),
+                        max_length: (custom_field.max_length if custom_field.max_length > 0),
+                        regular_expression: (custom_field.regexp unless custom_field.regexp.blank?)
         end
 
         def path_method_for(custom_field)
