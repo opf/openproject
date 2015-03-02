@@ -175,16 +175,10 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
     end
 
     describe 'custom fields' do
-      let(:custom_field) { FactoryGirl.build(:custom_field) }
-      let(:injector) { double('injector') }
-
-      before do
-        allow(work_package).to receive(:available_custom_fields).and_return([custom_field])
-        allow(::API::V3::Utilities::CustomFieldInjector).to receive(:new).and_return(injector)
-      end
-
-      it 'contains the custom field' do
-        expect(injector).to receive(:inject_value).with(custom_field)
+      it 'uses a CustomFieldInjector' do
+        expected_method = :create_value_representer_for_property_patching
+        expect(::API::V3::Utilities::CustomFieldInjector).to receive(expected_method)
+          .and_call_original
         representer.to_json
       end
     end

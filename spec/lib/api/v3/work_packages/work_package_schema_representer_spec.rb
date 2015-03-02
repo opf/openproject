@@ -409,15 +409,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'custom fields' do
-      let(:injector) { double('injector') }
-
-      before do
-        allow(schema).to receive(:available_custom_fields).and_return([custom_field])
-        allow(::API::V3::Utilities::CustomFieldInjector).to receive(:new).and_return(injector)
-      end
-
-      it 'uses a custom field injector' do
-        expect(injector).to receive(:inject_schema).with(custom_field, wp_schema: schema)
+      it 'uses a CustomFieldInjector' do
+        expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
+          .and_call_original
         representer.to_json
       end
     end
