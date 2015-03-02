@@ -62,11 +62,11 @@ describe TabularFormBuilder do
       it_behaves_like 'wrapped in container', 'text-field-container'
 
       it 'should output element' do
-        expect(output).to include %{
+        expect(output).to be_html_eql(%{
           <input class="form--text-field"
             id="user_translations_attributes_0_name"
             name="user[translations_attributes][0][name]" size="30" type="text" />
-        }.squish
+        }).at_path('input:first-child')
       end
     end
 
@@ -78,11 +78,11 @@ describe TabularFormBuilder do
       it_behaves_like 'wrapped in container', 'text-field-container'
 
       it 'should output element' do
-        expect(output).to include %{
+        expect(output).to be_html_eql(%{
           <input class="form--text-field"
             id="user_translations_attributes_0_name"
             name="user[translations_attributes][0][name]" size="30" type="text" />
-        }.squish
+        }).at_path('input:first-child')
       end
 
       it 'should output select' do
@@ -90,7 +90,9 @@ describe TabularFormBuilder do
       end
 
       it 'should have a link to add a locale' do
-        expect(output).to include %{<a class="form--field-extra-actions add_locale" href="#">Add</a>}
+        expect(output).to be_html_eql(%{
+          <a class="form--field-extra-actions add_locale" href="#">Add</a>
+        }).at_path('body > a')
       end
     end
 
@@ -99,11 +101,11 @@ describe TabularFormBuilder do
       it_behaves_like 'wrapped in container', 'text-field-container'
 
       it 'should output element' do
-        expect(output).to include %{
+        expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
             id="user_name" name="user[name]" size="30" title="Name" type="text"
             value="JJ Abrams" />
-        }.squish
+        }).at_path('input')
       end
     end
   end
@@ -120,10 +122,11 @@ describe TabularFormBuilder do
     it_behaves_like 'wrapped in container', 'text-area-container'
 
     it 'should output element' do
-      expect(output).to include %{
-        <textarea class="custom-class form--text-area" cols="40" id="user_name" name="user[name]" rows="20" title="Name">
+      expect(output).to be_html_eql(%{
+        <textarea class="custom-class form--text-area" cols="40" id="user_name"
+          name="user[name]" rows="20" title="Name">
 JJ Abrams</textarea>
-      }.strip
+      }).at_path('textarea')
     end
   end
 
@@ -140,10 +143,10 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'select-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <select class="custom-class form--select"
           id="user_name" name="user[name]"><option value="33">FUN</option></select>
-      }.squish
+      }).at_path('select')
     end
   end
 
@@ -199,11 +202,11 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'check-box-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--check-box"
           id="user_first_login" name="user[first_login]" title="Name" type="checkbox"
           value="1" />
-      }.squish
+      }).at_path('input:nth-of-type(2)')
     end
   end
 
@@ -223,14 +226,14 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'check-box-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input checked="checked"
                class="form--check-box"
                id="user_enabled_module_names_repositories"
                name="user[enabled_module_names][]"
                type="checkbox"
                value="repositories" />
-      }.squish
+      }).at_path('input:nth-of-type(2)')
     end
   end
 
@@ -246,9 +249,9 @@ JJ Abrams</textarea>
     it_behaves_like 'not wrapped in container', 'radio-button-container'
 
     it 'should output element' do
-      expect(output).to eq %{
+      expect(output).to be_html_eql %{
         <input id="user_name_john" name="user[name]" type="radio" value="John" />
-      }.strip
+      }
     end
   end
 
@@ -264,11 +267,11 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -number"
           id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
           type="number" value="45" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -284,11 +287,11 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'range-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--range-field"
           id="user_failed_login_count" name="user[failed_login_count]" title="Bad logins"
           type="range" value="45" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -304,11 +307,11 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'search-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--search-field" id="user_name"
           name="user[name]" size="30" title="Search name" type="search"
           value="JJ Abrams" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -324,11 +327,11 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -email"
           id="user_mail" name="user[mail]" size="30" title="Email" type="email"
           value="jj@lost-mail.com" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -344,11 +347,11 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -telephone"
           id="user_mail" name="user[mail]" size="30" title="Not really email"
           type="tel" value="jj@lost-mail.com" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -364,11 +367,11 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -password"
           id="user_login" name="user[login]" size="30" title="Not really password"
           type="password" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -384,10 +387,10 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'file-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--file-field"
           id="user_name" name="user[name]" title="Not really file" type="file" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -403,11 +406,11 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -url"
           id="user_name" name="user[name]" size="30" title="Not really file"
           type="url" value="JJ Abrams" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -421,7 +424,7 @@ JJ Abrams</textarea>
     it_behaves_like 'not wrapped in container', 'submit-container'
 
     it 'should output element' do
-      expect(output).to eq %{<input name="commit" type="submit" value="Create User" />}
+      expect(output).to be_html_eql %{<input name="commit" type="submit" value="Create User" />}
     end
   end
 
@@ -435,7 +438,7 @@ JJ Abrams</textarea>
     it_behaves_like 'not wrapped in container', 'button-container'
 
     it 'should output element' do
-      expect(output).to eq %{<button name="button" type="submit">Create User</button>}
+      expect(output).to be_html_eql %{<button name="button" type="submit">Create User</button>}
     end
   end
 
@@ -443,14 +446,16 @@ JJ Abrams</textarea>
     subject(:output) { builder.label :name }
 
     it 'should output element' do
-      expect(output).to eq %{<label class="form--label" for="user_name">Name</label>}
+      expect(output).to be_html_eql %{<label class="form--label" for="user_name">Name</label>}
     end
 
     describe 'with existing attributes' do
       subject(:output) { builder.label :name, 'Fear', class: 'sharknado' }
 
       it 'should keep associated classes' do
-        expect(output).to eq %{<label class="sharknado form--label" for="user_name">Fear</label>}
+        expect(output).to be_html_eql %{
+          <label class="sharknado form--label" for="user_name">Fear</label>
+        }
       end
     end
   end

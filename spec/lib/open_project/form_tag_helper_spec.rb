@@ -42,11 +42,11 @@ describe OpenProject::FormTagHelper, type: :helper do
     it_behaves_like 'not wrapped in container', 'form-container'
 
     it 'should output element' do
-      expect(output).to eq %{
+      expect(output).to be_html_eql(%{
         <form accept-charset="UTF-8" action="/feedback" class="form"
           method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8"
           type="hidden" value="&#x2713;" /></div><p>Form content</p></form>
-      }.squish
+      })
     end
   end
 
@@ -58,10 +58,10 @@ describe OpenProject::FormTagHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'select-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <select class="form--select"
           id="field" name="field"><option value="33">FUN</option></select>
-      }.squish
+      }).at_path('select')
     end
   end
 
@@ -75,10 +75,10 @@ describe OpenProject::FormTagHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--text-field"
           id="field" name="field" type="text" value="Something to be seen" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -92,9 +92,9 @@ describe OpenProject::FormTagHelper, type: :helper do
     it_behaves_like 'not wrapped in container', 'label-container'
 
     it 'should output element' do
-      expect(output).to eq %{
+      expect(output).to be_html_eql(%{
         <label class="form--label" for="field">Label content</label>
-      }.squish
+      })
     end
   end
 
@@ -106,10 +106,10 @@ describe OpenProject::FormTagHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'file-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--file-field"
           id="file_field" name="file_field" type="file" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -121,10 +121,10 @@ describe OpenProject::FormTagHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--text-field -password"
           id="password" name="password" type="password" value="nopE3king!" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -136,10 +136,10 @@ describe OpenProject::FormTagHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'text-area-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <textarea class="form--text-area" id="field" name="field">
 Words are important</textarea>
-      }.strip
+      }).at_path('textarea')
     end
   end
 
@@ -151,10 +151,10 @@ Words are important</textarea>
     it_behaves_like 'wrapped in container', 'check-box-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--check-box"
           id="field" name="field" type="checkbox" value="1" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -168,10 +168,10 @@ Words are important</textarea>
     it_behaves_like 'wrapped in container', 'radio-button-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--radio-button"
           id="field_good_choice" name="field" type="radio" value="good choice" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -183,9 +183,9 @@ Words are important</textarea>
     it_behaves_like 'not wrapped in container', 'submit-container'
 
     it 'should output element' do
-      expect(output).to eq %{
+      expect(output).to be_html_eql %{
         <input class="button" name="commit" type="submit" value="Save it!" />
-      }.squish
+      }
     end
   end
 
@@ -199,9 +199,9 @@ Words are important</textarea>
     it_behaves_like 'not wrapped in container', 'button-container'
 
     it 'should output element' do
-      expect(output).to eq %{
+      expect(output).to be_html_eql %{
         <button class="button">Don&#x27;t save!</button>
-      }.squish
+      }
     end
   end
 
@@ -215,10 +215,11 @@ Words are important</textarea>
     it_behaves_like 'not wrapped in container', 'fieldset-container'
 
     it 'should output element' do
-      expect(output).to eq %{
+      expect(output).to be_html_eql %{
         <fieldset
-          class="form--fieldset"><legend>Fieldset Legend</legend><p>Fieldset content</p></fieldset>
-      }.squish
+          class="form--fieldset"><legend>Fieldset Legend</legend>
+            <p>Fieldset content</p></fieldset>
+      }
     end
   end
 
@@ -232,10 +233,10 @@ Words are important</textarea>
     it_behaves_like 'wrapped in container', 'search-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--search-field"
           id="field" name="field" type="search" value="Find me" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -249,10 +250,10 @@ Words are important</textarea>
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--text-field -telephone"
           id="field" name="field" type="tel" value="+49 555 111 999" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -266,10 +267,10 @@ Words are important</textarea>
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--text-field -url"
           id="field" name="field" type="url" value="https://blogger.org/" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -283,10 +284,10 @@ Words are important</textarea>
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--text-field -email"
           id="field" name="field" type="email" value="joe@blogger.com" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -300,9 +301,9 @@ Words are important</textarea>
     it_behaves_like 'wrapped in container', 'text-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--text-field -number" id="field" name="field" type="number" value="2" />
-      }.squish
+      }).at_path('input')
     end
   end
 
@@ -316,9 +317,9 @@ Words are important</textarea>
     it_behaves_like 'wrapped in container', 'range-field-container'
 
     it 'should output element' do
-      expect(output).to include %{
+      expect(output).to be_html_eql(%{
         <input class="form--range-field" id="field" name="field" type="range" value="2" />
-      }.squish
+      }).at_path('input')
     end
   end
 end
