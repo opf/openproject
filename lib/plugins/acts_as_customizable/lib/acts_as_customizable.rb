@@ -38,14 +38,16 @@ module Redmine
           return if included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
           cattr_accessor :customizable_options
           self.customizable_options = options
+
+          # we are validating custom_values manually in :validate_custom_values
+          # N.B. the default for validate should be false, however specs seem to think differently
           has_many :custom_values, as: :customized,
                                    include: :custom_field,
                                    order: "#{CustomField.table_name}.position",
-                                   dependent: :delete_all
+                                   dependent: :delete_all,
+                                   validate: false
           before_validation { |customized| customized.custom_field_values if customized.new_record? }
-          # Trigger validation only if custom values were changed
-          validate :validate_custom_values, on: :update,
-                                            if: -> (customized) { customized.custom_field_values_changed? }
+          validate :validate_custom_values, if: -> (customized) { customized.custom_field_values_changed? }
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
           after_save :save_custom_field_values
