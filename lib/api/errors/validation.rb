@@ -34,16 +34,16 @@ module API
         merge_error_properties(errors)
 
         errors.keys.each_with_object({}) do |attribute, hash|
-          messages = errors[attribute].each_with_object([]) do |message, messages|
+          messages = errors[attribute].each_with_object([]) do |message, message_list|
             # Let's assume that standard validation errors never end with a
             # punctuation mark. Then it should be fair enough to assume that we
             # don't need to prepend the error key if the error ends with a
             # punctuation mark. Let's hope that this is true for the languages
             # we'll support in OpenProject.
             if message =~ /(\.|\?|\!)\z/
-              messages << message
+              message_list << message
             else
-              messages << errors.full_message(attribute, message) + '.'
+              message_list << errors.full_message(attribute, message) + '.'
             end
           end
 
