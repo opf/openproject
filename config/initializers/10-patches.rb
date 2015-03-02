@@ -76,6 +76,9 @@ module ActiveModel
     def full_message(attribute, message)
       return message if attribute == :base
 
+      # if a model acts_as_customizable it will inject attributes like 'custom_field_1' into itself
+      # using attr_name_override we resolve names of such attributes.
+      # The rest of the method should reflect the original method implementation of ActiveModel
       attr_name_override = nil
       match = /\Acustom_field_(?<id>\d+)\z/.match(attribute)
       if match
