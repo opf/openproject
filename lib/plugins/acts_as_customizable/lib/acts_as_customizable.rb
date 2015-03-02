@@ -119,7 +119,7 @@ module Redmine
         end
 
         def validate_custom_values
-          custom_values.each do |custom_value|
+          custom_values.reject { |cv| cv.marked_for_destruction? }.each do |custom_value|
             unless custom_value.valid?
               custom_value.errors.each do |_, message|
                 errors.add("custom_field_#{custom_value.custom_field.id}".to_sym, message)
