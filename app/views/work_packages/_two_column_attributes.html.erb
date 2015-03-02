@@ -29,12 +29,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <% left_attributes, right_attributes = attributes.in_groups(2, false) %>
 
 <div class="grid-block">
-  <div class="grid-block vertical">
+  <div class="form--column">
     <% left_attributes.each do |attribute| %>
       <%= attribute.field %>
     <% end %>
   </div>
-  <div class="grid-block vertical">
+  <div class="form--column">
     <% right_attributes.each do |attribute| %>
       <%= attribute.field %>
     <% end %>

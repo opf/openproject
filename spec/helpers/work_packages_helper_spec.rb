@@ -32,7 +32,12 @@ describe WorkPackagesHelper, type: :helper do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:stub_type) { FactoryGirl.build_stubbed(:type) }
-  let(:form) { double('form', select: '').as_null_object }
+  let(:label_placeholder) { '<label>blubs</label>'.html_safe }
+  let(:form) do
+    double('form',
+           select: '',
+           label: label_placeholder).as_null_object
+  end
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
 
   def inside_form(&_block)
@@ -273,12 +278,15 @@ describe WorkPackagesHelper, type: :helper do
 
       expect(form).to receive(:select).with(:category_id,
                                             [[stub_category.name, stub_category.id]],
-                                            include_blank: true).and_return(select)
+                                            include_blank: true,
+                                            no_label: true).and_return(select)
 
       expect(helper.work_package_form_category_attribute(form,
                                                          stub_work_package,
                                                          project: stub_project).field)
-        .to eq("<div class=\"form--field \">category html</div>")
+        .to be_html_eql("<div class=\"form--field \">#{label_placeholder}
+                         <span class=\"form--field-container\">category html</span>
+                         </div>")
     end
 
     it 'should add an additional remote link to create new categories if allowed' do

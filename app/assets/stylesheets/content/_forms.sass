@@ -274,6 +274,11 @@ fieldset.form--fieldset
     @include grid-size(shrink)
     max-width: none
 
+.form--field-inline-action
+  @include grid-content(shrink)
+  padding: 0 0 0 0.2rem
+  line-height: 2rem
+
 %form--field-after-container
   @include grid-content(10, 2)
   padding:      0
@@ -412,6 +417,16 @@ fieldset.form--fieldset
 .form--table-checkbox-cell
   width:        1rem
   text-align:   center
+
+.form--column
+  @include grid-block
+  @include grid-orient(vertical)
+
+  &:nth-last-of-type(n+2)
+    padding-right: $block-padding
+
+  .form--field
+    flex-basis: auto
 
 .inline-label
   > .form-label.-transparent
