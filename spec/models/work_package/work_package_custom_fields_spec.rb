@@ -56,7 +56,7 @@ describe WorkPackage, type: :model do
 
     before do
       def self.change_custom_field_value(work_package, value)
-        work_package.custom_field_values = { custom_field.id => value } unless value.nil?
+        work_package.custom_field_values = { custom_field.id => value }
         work_package.save
       end
     end
@@ -75,45 +75,49 @@ describe WorkPackage, type: :model do
       describe 'invalid custom field values' do
         context 'short error message' do
           shared_examples_for 'custom field with invalid value' do
-            let(:modified_work_package_subject) { 'Should not be saved' }
-
             before do
-              work_package.subject = modified_work_package_subject
-
               change_custom_field_value(work_package, custom_field_value)
             end
 
             describe 'error message' do
               before { work_package.save }
 
-              subject { work_package.errors[:custom_values] }
+              subject { work_package.errors["custom_field_#{custom_field.id}"] }
 
-              it { is_expected.to include(I18n.translate('activerecord.errors.messages.invalid')) }
+              it {
+                is_expected.to include(I18n.translate("activerecord.errors.messages.#{error_key}"))
+              }
             end
 
             describe 'work package attribute update' do
               subject { work_package.save }
 
-              it { is_expected.to be_falsey }
+              it { is_expected.to be_false }
             end
           end
 
           context 'no value given' do
             let(:custom_field_value) { nil }
 
-            it_behaves_like 'custom field with invalid value'
+            it_behaves_like 'custom field with invalid value' do
+              let(:error_key) { 'blank' }
+            end
           end
 
           context 'empty value given' do
             let(:custom_field_value) { '' }
 
-            it_behaves_like 'custom field with invalid value'
+            it_behaves_like 'custom field with invalid value' do
+              let(:error_key) { 'blank' }
+            end
           end
 
           context 'invalid value given' do
             let(:custom_field_value) { 'SQLServer' }
 
-            it_behaves_like 'custom field with invalid value'
+            it_behaves_like 'custom field with invalid value' do
+              let(:error_key) { 'inclusion' }
+            end
           end
         end
 
@@ -256,7 +260,7 @@ describe WorkPackage, type: :model do
           change_custom_field_value(work_package, value)
         end
 
-        subject { work_package.journals.first.customizable_journals.first.value }
+        subject { work_package.journals.last.customizable_journals.first.value }
 
         it { expect(subject).to eq(value) }
       end
