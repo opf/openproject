@@ -80,8 +80,20 @@ We want to keep the Pull request list as cleaned up as possible - we will aim cl
 
 We use OpenProject for development coordination - please have a look at [the work packages list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22type%22,%22status%22,%22subject%22,%22assigned_to%22%5D,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22status_id%22,%22o%22:%22!%22,%22t%22:%22list_status%22,%22v%22:%5B%2217%22,%2223%22,%223%22,%2214%22,%226%22%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D) for upcoming features and reported bugs.
 
-### Etiquette and communication
+### Contributor Code of Conduct
 
-Lastly, be nice and respectful to each other. We are working hard to make OpenProject the best project management software there is and we are grateful for each contribution. 
+As contributors and maintainers of this project, we pledge to respect all people who contribute through reporting issues, posting feature requests, updating documentation, submitting pull requests or patches, and other activities.
+
+We are committed to making participation in this project a harassment-free experience for everyone, regardless of level of experience, gender, gender identity and expression, sexual orientation, disability, personal appearance, body size, race, age, or religion.
+
+Examples of unacceptable behavior by participants include the use of sexual language or imagery, derogatory comments or personal attacks, trolling, public or private harassment, insults, or other unprofessional conduct.
+
+Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct. Project maintainers who do not follow the Code of Conduct may be removed from the project team.
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by opening an issue or contacting one or more of the project maintainers.
+
+This Code of Conduct is adapted from the [Contributor Covenant](http:contributor-covenant.org), version 1.0.0, available at [http://contributor-covenant.org/version/1/0/0/](http://contributor-covenant.org/version/1/0/0/)
+
+### Get in touch
 
 If you want to get in touch with us, there is also a [Gitter channel](https://gitter.im/opf/openproject) to talk to us directly.
