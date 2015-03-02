@@ -377,6 +377,55 @@
 </form>
 ```
 
+# Forms: Attachment fieldsets
+
+```
+<fieldset id="attachments" class="header_collapsible collapsible">
+  <legend title="Show/Hide attachments" ,="" onclick="toggleFieldset(this);">
+    <a href="javascript:">Files<span class="fieldset-toggle-state-label hidden-for-sighted">expanded</span></a>
+  </legend>
+  <div style="">
+    <div id="attachments_fields">
+      <div class="grid-block" id="attachment_template">
+        <div class="form--field">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <input class="attachment_choose_file" name="attachments[1][file]" size="15" type="file">            </div>
+          </div>
+        </div>
+        <div class="form--field">
+          <label class="form-label">
+            Description
+          </label>
+          <div class="form--text-field-container">
+            <input name="attachments[1][description]" size="38" type="text" value="">
+          </div>
+        </div>
+      </div>
+    <div class="grid-block" id="">
+        <div class="form--field">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <input class="attachment_choose_file" name="attachments[2][file]" size="15" type="file">            </div>
+          </div>
+        </div>
+        <div class="form--field">
+          <label class="form-label">
+            Description
+          </label>
+          <div class="form--text-field-container">
+            <input name="attachments[2][description]" size="38" type="text" value="">
+          </div>
+        </div>
+      </div></div>
+    <span class="add_another_file">
+      <a href="#" onclick="addFileField(); return false;">Add another file</a>
+      (Maximum size: 5 MB)
+    </span>
+  </div>
+</fieldset>
+```
+
 # Forms: Text fields
 
 ## Default text fields
