@@ -291,20 +291,20 @@ JJ Abrams</textarea>
   end
 
   describe '#radio_button' do
-    let(:options) { { title: 'Name' } }
+    let(:options) { { title: 'Name', class: 'custom-class' } }
 
     subject(:output) {
-      builder.radio_button :name, 'John'
+      builder.radio_button :name, 'John', options
     }
 
-    it_behaves_like 'not labelled'
-    it_behaves_like 'not wrapped in container'
-    it_behaves_like 'not wrapped in container', 'radio-button-container'
+    it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container'
+    it_behaves_like 'wrapped in container', 'radio-button-container'
 
     it 'should output element' do
       expect(output).to be_html_eql %{
-        <input id="user_name_john" name="user[name]" type="radio" value="John" />
-      }
+        <input class="custom-class form--radio-button" id="user_name_john" name="user[name]" title="Name" type="radio" value="John" />
+      }.strip
     end
   end
 

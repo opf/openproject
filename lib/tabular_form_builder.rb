@@ -59,6 +59,18 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
+  def radio_button(field, value, options = {}, *args)
+    options[:class] = Array(options[:class]) + %w(form--radio-button)
+    label_options = options.dup
+    input_options = options.dup.except(:for, :label, :no_label)
+
+    label_options[:for] = "#{object_name}_#{field}_#{value.downcase}"
+    label = label_for_field(field, label_options)
+    input = super(field, value, input_options, *args)
+
+    (label + container_wrap_field(input, 'radio-button', options)).html_safe
+  end
+
   def select(field, choices, options = {}, html_options = {})
     html_options[:class] = Array(html_options[:class]) + %w(form--select)
 
