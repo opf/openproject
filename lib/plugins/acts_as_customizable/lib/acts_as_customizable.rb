@@ -47,7 +47,7 @@ module Redmine
                                    dependent: :delete_all,
                                    validate: false
           before_validation { |customized| customized.custom_field_values if customized.new_record? }
-          validate :validate_custom_values, if: -> (customized) { customized.custom_field_values_changed? }
+          validate :validate_custom_values
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
           after_save :save_custom_field_values
