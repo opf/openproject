@@ -303,8 +303,13 @@ JJ Abrams</textarea>
 
     it 'should output element' do
       expect(output).to be_html_eql %{
-        <input class="custom-class form--radio-button" id="user_name_john" name="user[name]" title="Name" type="radio" value="John" />
-      }.strip
+        <input class="custom-class form--radio-button"
+               id="user_name_john"
+               name="user[name]"
+               title="Name"
+               type="radio"
+               value="John" />
+      }.squish
     end
   end
 
