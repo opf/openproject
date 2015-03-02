@@ -34,6 +34,7 @@
 
           <th sort-header ng-repeat="column in columns"
                           has-dropdown-menu
+                          position-relative-to=".sort-header-outer"
                           target="ColumnContextMenu"
                           locals="columns, column"
                           locale="column.custom_field && columns.custom_field.name_locale || I18n.locale"
