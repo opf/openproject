@@ -56,18 +56,21 @@ To ensure a smooth workflow for everyone, please take note of the following:
 
 Please add tests to your code to verify functionality, especially if it is a new feature. 
 
-Pull requests will be verified by TravisCI as well, but please run them locally as well and make sure there are green before creating your pull request. We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
+Pull requests will be verified by TravisCI as well, but please run them locally as well and make sure they are green before creating your pull request. We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
 
 ### Branching model
 
-The main development branch for upcoming releases is `dev`. For identifying the branch to create a pull request against, please refer to these rules:
+The main development branch for upcoming releases is `dev`. If in doubt, create your pull request against `dev`. All new features, gem updates and bugfixes for the upcoming release should go into the `dev` branch.
 
-- If in doubt, create your pull request against `dev`. All new features, gem updates and bugfixes for the upcoming release should go into the `dev` branch.
-- Hotfixes should be created against the appropiate `release/*` branch. Backports for fixes also go against their specific `release/*` branch.
+#### Bugs and hotfixes
+
+Bugfixes for one of the actively supported versions of OpenProject should be issued against the respective branch. A fix for the current version (called "Hotfix" and the branch ideally being named `hotfix/XYZ`) should target `release/*` and a fix for the former version (called "Backport" and the branch ideally being named `backport/XYZ`) should target `backport/*`. We will try to merge hotfixes into dev branch but if that is no trivial task, we might ask you to create another PR for that.
+
+#### Travis CI
 
 If you push to your branch in quick sucession, please consider stopping the associated Travis builds, as Travis will run for each commit. This is especially true if you force push to the branch.
 
-Please also use `[ci skip]` in your commit message to suppress builds which are not necessary (e.g. after fixing a typo in the README).
+Please also use `[ci skip]` in your commit message to suppress builds which are not necessary (e.g. after fixing a typo in the `README`).
 
 ### Inactive pull requests
 
