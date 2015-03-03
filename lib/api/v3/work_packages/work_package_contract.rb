@@ -68,6 +68,7 @@ module API
         validate :assignee_visible
         validate :responsible_visible
         validate :estimated_hours_valid
+        validate :done_ratio_valid
 
         extend Reform::Form::ActiveModel::ModelValidations
         copy_validations_from WorkPackage
@@ -114,7 +115,7 @@ module API
 
         def estimated_hours_valid
           if !model.leaf?
-            if model.estimated_hours != estimated_hours_of_children(model)
+            if model.estimated_hours != model.inherit_estimated_hours_from_leaves
               errors.add :error_readonly, I18n.t('api_v3.errors.validation.estimated_hours')
             end
           end
@@ -124,22 +125,20 @@ module API
           work_package.children.map(&:estimated_hours).map(&:to_f).inject(:+)
         end
 
-        def done_ratios_valid
+        def done_ratio_valid
           if (done_ratio_status_valid? ^ done_ratio_field_valid?) && !model.done_ratio_disabled?
             errors.add :error_readonly, I18n.t('api_v3.errors.validation.done_ratio')
           end
         end
 
         def done_ratio_status_valid?
-          model.use_status_for_done_ratio? && model.done_ratio == model.status.default_done_ratio
+          setting_matches = Setting.work_package_done_ratio == 'status'
+          value_matches = model.done_ratio == model.status.default_done_ratio
+          setting_matches && value_matches
         end
 
         def done_ratio_field_valid?
-          if model.use_field_for_done_ratio? && !model.leaf?
-            sum = model.children.inject(0.0) { |sum, child| sum + child.done_ratio }
-            average = sum / model.children.size
-            model.done_ratio != average
-          end
+          model.done_ratio == model.inherit_done_ratio_from_leaves
         end
 
         def people_visible(attribute, id_attribute, list)
