@@ -76,7 +76,7 @@ module API
           def create_schema_representer(customizable, representer)
             injector = CustomFieldInjector.new(representer)
             customizable.available_custom_fields.each do |custom_field|
-              injector.inject_schema(custom_field, wp_schema: customizable)
+              injector.inject_schema(custom_field, customized: customizable)
             end
 
             injector.modified_representer_class
@@ -125,14 +125,12 @@ module API
           @class
         end
 
-        # N.B. accepting a wp_schema here is not too great, but seems like the best way
-        # to obtain available versions and users for WP custom fields
-        def inject_schema(custom_field, wp_schema: nil)
+        def inject_schema(custom_field, customized: nil)
           case custom_field.field_format
           when 'version'
-            inject_version_schema(custom_field, wp_schema)
+            inject_version_schema(custom_field, customized)
           when 'user'
-            inject_user_schema(custom_field, wp_schema)
+            inject_user_schema(custom_field, customized)
           when 'list'
             inject_list_schema(custom_field)
           else
@@ -167,14 +165,17 @@ module API
           "customField#{id}".to_sym
         end
 
-        def inject_version_schema(custom_field, wp_schema)
-          raise ArgumentError unless wp_schema
+        def inject_version_schema(custom_field, customized)
+          raise ArgumentError unless customized
 
           @class.schema_with_allowed_collection property_name(custom_field.id),
                                                 type: 'Version',
                                                 title: custom_field.name,
                                                 values_callback: -> (*) {
-                                                  wp_schema.assignable_versions
+                                                  # for now we ASSUME that every customized will
+                                                  # understand define that method if it has
+                                                  # version custom fields
+                                                  customized.assignable_versions
                                                 },
                                                 value_representer: Versions::VersionRepresenter,
                                                 link_factory: -> (version) {
@@ -186,15 +187,17 @@ module API
                                                 required: custom_field.is_required
         end
 
-        def inject_user_schema(custom_field, wp_schema)
-          raise ArgumentError unless wp_schema
+        def inject_user_schema(custom_field, customized)
+          raise ArgumentError unless customized
 
           @class.schema_with_allowed_link property_name(custom_field.id),
                                           type: 'User',
                                           title: custom_field.name,
                                           required: custom_field.is_required,
                                           href_callback: -> (*) {
-                                            api_v3_paths.available_assignees(wp_schema.project.id)
+                                            # for now we ASSUME that every customized that has a
+                                            # user custom field, will also define a project...
+                                            api_v3_paths.available_assignees(customized.project.id)
                                           }
         end
 
