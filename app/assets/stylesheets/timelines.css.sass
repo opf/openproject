@@ -110,6 +110,11 @@ li.select2-result.select2-visible-selected-parent
     float: left
     margin-left: 6px
 
+  // ensure that the following div is always placed below the floating
+  // toolbar
+  & + div
+    clear: both
+
 /* IE9 interprets this as baseline from inherited css, although it must
  *not be applied in anything that is not display:table-cell
 
