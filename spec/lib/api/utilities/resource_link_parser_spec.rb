@@ -142,5 +142,12 @@ describe ::API::Utilities::ResourceLinkParser do
         subject.parse_id('/api/v3/types/14', property: 'foo', expected_namespace: 'statuses')
       }.to raise_error(::API::Errors::Form::InvalidResourceLink)
     end
+
+    it 'contains the property name in exception messages' do
+      property_name = 'My Property Name'
+      expect {
+        subject.parse_id('/api/v4/statuses/14', property: property_name, expected_version: '3')
+      }.to raise_error(Regexp.compile(property_name))
+    end
   end
 end
