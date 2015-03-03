@@ -31,11 +31,24 @@ angular.module('openproject')
 .config([
   '$stateProvider',
   '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+  '$urlMatcherFactoryProvider',
+  function($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
+
+  (function() {
+    function valToString(val) { return val !== null ? val.toString() : val; }
+    function valFromString(val) { return val !== null ? val.toString() : val; }
+    function regexpMatches(val) { /*jshint validthis:true */ return this.pattern.test(val); }
+    $urlMatcherFactoryProvider.type('projectPathType', {
+        encode: valToString,
+        decode: valFromString,
+        is: regexpMatches,
+        pattern: /.*/
+      });
+  })();
 
   $stateProvider
     .state('work-packages', {
-      url: '{projectPath:.*}/work_packages?query_id',
+      url: '{projectPath:projectPathType}/work_packages?query_id',
       abstract: true,
       templateUrl: "/templates/work_packages.html",
       controller: 'WorkPackagesController',
