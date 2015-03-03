@@ -2615,7 +2615,7 @@ the human readable name of custom fields.*
 * `startDate` is the earliest start date from its children
 * `dueDate` is the latest due date from its children
 * `estimatedTime` is the sum of estimated times from its children
-* `percentageDone` is the average of the sum of its children percentages done. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
+* `percentageDone` is the weighted average of the sum of its children percentages done. The weight is given by the average of its children estimatedHours. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
 
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
