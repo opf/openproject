@@ -94,8 +94,10 @@ See doc/COPYRIGHT.rdoc for more details.
                         :'data-selected' => filter_select(timeline.selected_planning_element_assignee, :name, :id).to_json %>
         <% end %>
       </div>
-
     <% end %>
-    <%= render :partial => "timelines/custom_fields", :locals => {:timeline => @timeline, :custom_fields => timeline.get_custom_fields } %>
+
+    <%= render partial: "timelines/custom_fields",
+               locals: { timeline: @timeline,
+                         custom_fields: timeline.get_custom_fields } %>
   </div>
 </fieldset>
