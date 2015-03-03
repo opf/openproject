@@ -40,9 +40,19 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
     },
 
     focus: function(element) {
-      var focusable = FocusHelper.getFocusableElement(element);
+      var focusable = angular.element(FocusHelper.getFocusableElement(element)),
+          $focusable = angular.element(focusable),
+          isDisabled = $focusable.is('[disabled]');
+
+      if(isDisabled) {
+        $focusable.removeProp('disabled');
+      }
 
       focusable.focus();
+
+      if(isDisabled) {
+        $focusable.prop('disabled');
+      }
     },
 
     focusElement: function(element) {
