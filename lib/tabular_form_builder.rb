@@ -43,11 +43,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
         label_options = options.dup
         input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix)
+        input_options, label_options = extract_from options
 
         label = label_for_field(field, label_options)
         input = super(field, input_options, *args)
 
-        (label + container_wrap_field(input, '#{selector}', options)).html_safe
+        (label + container_wrap_field(input, '#{selector}', options))
       end
     end
     END_SRC
@@ -60,15 +61,15 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def radio_button(field, value, options = {}, *args)
-    options[:class] = Array(options[:class]) + %w(form--radio-button)
-    label_options = options.dup
-    input_options = options.dup.except(:for, :label, :no_label)
+    options[:class]     = Array(options[:class]) + %w(form--radio-button)
 
+    input_options, label_options = extract_from options
     label_options[:for] = "#{object_name}_#{field}_#{value.downcase}"
+
     label = label_for_field(field, label_options)
     input = super(field, value, input_options, *args)
 
-    (label + container_wrap_field(input, 'radio-button', options)).html_safe
+    (label + container_wrap_field(input, 'radio-button', options))
   end
 
   def select(field, choices, options = {}, html_options = {})
@@ -280,5 +281,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     User.current.language.present? ?
       User.current.language.to_sym :
       Setting.default_language.to_sym
+  end
+
+  def extract_from(options)
+    label_options = options.dup
+    input_options = options.dup.except(:for, :label, :no_label)
+
+    [input_options, label_options]
   end
 end

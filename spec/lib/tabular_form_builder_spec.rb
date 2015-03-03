@@ -302,7 +302,7 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'radio-button-container'
 
     it 'should output element' do
-      expect(output).to be_html_eql %{
+      expect(output).to include %{
         <input class="custom-class form--radio-button"
                id="user_name_john"
                name="user[name]"
