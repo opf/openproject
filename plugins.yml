@@ -1,0 +1,41 @@
+---
+openproject-meeting:
+  :url: https://github.com/finnlabs/openproject-meeting.git
+  :branch: stable
+openproject-pdf_export:
+  :url: https://github.com/finnlabs/openproject-pdf_export.git
+  :branch: stable
+  :dependencies:
+    - openproject-backlogs
+    - pdf-inspector
+openproject-backlogs:
+  :url: https://github.com/finnlabs/openproject-backlogs.git
+  :branch: stable
+  :dependencies:
+    - openproject-pdf_export
+openproject-costs:
+  :url: https://github.com/finnlabs/openproject-costs.git
+  :branch: stable
+openproject-global_roles:
+  :url:  https://github.com/finnlabs/openproject-global_roles.git
+  :branch: stable
+openproject-help_link:
+  :url: https://github.com/finnlabs/openproject-help_link.git
+  :branch: stable
+openproject-my_project_page:
+  :url: https://github.com/finnlabs/openproject-my_project_page.git
+  :branch: stable
+openproject-documents:
+  :url: https://github.com/opf/openproject-documents.git
+  :branch: stable
+reporting_engine:
+  :url: https://github.com/finnlabs/reporting_engine.git
+  :branch: stable
+  :dependencies:
+    - openproject-costs
+openproject-translations:
+  :url: https://github.com/opf/openproject-translations.git
+  :branch: stable
+openproject-emoji:
+  :url: https://github.com/tessi/openproject-emoji.git
+  :branch: stable
