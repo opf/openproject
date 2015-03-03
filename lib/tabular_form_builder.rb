@@ -61,7 +61,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def radio_button(field, value, options = {}, *args)
-    options[:class]     = Array(options[:class]) + %w(form--radio-button)
+    options[:class] = Array(options[:class]) + %w(form--radio-button)
 
     input_options, label_options = extract_from options
     label_options[:for] = "#{object_name}_#{field}_#{value.downcase}"
