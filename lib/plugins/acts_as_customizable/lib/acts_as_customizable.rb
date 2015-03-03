@@ -51,6 +51,7 @@ module Redmine
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
           after_save :save_custom_field_values
+          after_initialize :add_custom_field_accessors
         end
       end
 
@@ -122,10 +123,35 @@ module Redmine
           custom_values.reject { |cv| cv.marked_for_destruction? }.each do |custom_value|
             unless custom_value.valid?
               custom_value.errors.each do |_, message|
-                errors.add("custom_field_#{custom_value.custom_field.id}".to_sym, message)
+                errors.add(custom_field_accessor_name(custom_value.custom_field).to_sym, message)
               end
             end
           end
+        end
+
+        def add_custom_field_accessors
+          available_custom_fields.each do |custom_field|
+            getter_name = custom_field_accessor_name(custom_field)
+            setter_name = "#{getter_name}="
+
+            define_singleton_method getter_name do
+              custom_value = custom_value_for(custom_field)
+              custom_value ? custom_value.typed_value : nil
+            end
+
+            define_singleton_method setter_name do |value|
+              # N.B. we do no strict type checking here, it would be possible to assign a user
+              # to an integer custom field...
+              value = value.id if value.respond_to?(:id)
+              self.custom_field_values = { custom_field.id => value }
+            end
+          end
+        end
+
+        private
+
+        def custom_field_accessor_name(custom_field)
+          "custom_field_#{custom_field.id}"
         end
 
         module ClassMethods
