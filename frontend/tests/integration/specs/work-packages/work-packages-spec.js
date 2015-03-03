@@ -26,13 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-var chai = require('chai');
-var chaiAsPromised = require('chai-as-promised');
-
-chai.use(chaiAsPromised);
-var expect = chai.expect;
-
-var WorkPackagesPage = require('./pages/work-packages-page.js');
+var expect = require('../../spec_helper.js').expect,
+    WorkPackagesPage = require('../../pages/work-packages-page.js');
 
 describe('OpenProject', function() {
   var page = new WorkPackagesPage();

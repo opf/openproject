@@ -38,9 +38,8 @@ exports.config = {
   directConnect: true,
 
   specs: [
-    'work-packages-spec.js',
-    'work-package-details-spec.js',
-    'work-package-details-relations-spec.js'
+    'specs/*spec.js',
+    'specs/**/*spec.js'
   ],
 
   allScriptsTimeout: 500000,
