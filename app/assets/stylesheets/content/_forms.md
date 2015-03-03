@@ -143,14 +143,20 @@
       </div>
     </div>
     <div class="form--field -required">
-      <label class="form--label">Number:</label>
+      <label class="form--label">Amount:</label>
       <div class="form--field-container">
+        <div class="form--field-affix">
+          <strong>€</strong>
+        </div>
         <div class="form--text-field-container">
           <input type="number" class="form--text-field">
         </div>
+        <div class="form--field-affix">
+          per item
+        </div>
       </div>
       <div class="form--field-instructions">
-        Any number from 1 to 10!
+        The more, the better
       </div>
     </div>
     <div class="form--field -required">
@@ -247,6 +253,29 @@
         One never lies about one's age.
       </div>
     </div>
+    <div class="form--field">
+      <label class="form--label">Benzinverbrauch:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="number" class="form--text-field" value="9">
+        </div>
+        <div class="form--field-affix">Liter</div>
+        <div class="form--field-affix">pro</div>
+        <div class="form--select-container">
+          <select class="form--select">
+            <option selected>km</option>
+            <option>Meile</option>
+          </select>
+        </div>
+        <div class="form--field-affix">auf</div>
+        <div class="form--select-container">
+          <select class="form--select">
+            <option selected>der Autobahn</option>
+            <option>der Stadt</option>
+          </select>
+        </div>
+      </div>
+    </div>
     <div class="form--grouping" role="group" aria-labelledby="form-grouping-label">
       <div id="form-grouping-label" class="form--grouping-label">Colors:</div>
       <div class="form--grouping-row">
@@ -325,6 +354,9 @@
         <div class="form--field-container">
           <div class="form--text-field-container">
             <input type="number" class="form--text-field">
+          </div>
+          <div class="form--field-affix">
+            unit
           </div>
         </div>
         <div class="form--field-instructions">

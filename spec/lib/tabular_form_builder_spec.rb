@@ -108,6 +108,59 @@ describe TabularFormBuilder do
         }).at_path('input')
       end
     end
+
+    context 'with affixes' do
+      context 'with a prefix' do
+        let(:options) { { title: 'Name', prefix: %{<span style="color:red">Prefix</span>} } }
+
+        it 'should output elements' do
+          expect(output).to be_html_eql(%{
+            <span class="form--field-affix"><span style="color:red">Prefix</span></span>
+            <span class="form--text-field-container">
+              <input class="form--text-field"
+                id="user_name" name="user[name]" size="30" title="Name" type="text"
+                value="JJ Abrams" />
+            </span>
+          }).within_path('span.form--field-container')
+        end
+      end
+
+      context 'with a suffix' do
+        let(:options) { { title: 'Name', suffix: %{<span style="color:blue">Suffix</span>} } }
+
+        it 'should output elements' do
+          expect(output).to be_html_eql(%{
+            <span class="form--text-field-container">
+              <input class="form--text-field"
+                id="user_name" name="user[name]" size="30" title="Name" type="text"
+                value="JJ Abrams" />
+            </span>
+            <span class="form--field-affix"><span style="color:blue">Suffix</span></span>
+          }).within_path('span.form--field-container')
+        end
+      end
+
+      context 'with both prefix and suffix' do
+        let(:options) {
+          {
+            title: 'Name',
+            prefix: %{<span style="color:yellow">PREFIX</span>},
+            suffix: %{<span style="color:green">SUFFIX</span>}
+          } }
+
+        it 'should output elements' do
+          expect(output).to be_html_eql(%{
+            <span class="form--field-affix"><span style="color:yellow">PREFIX</span></span>
+            <span class="form--text-field-container">
+              <input class="form--text-field"
+                id="user_name" name="user[name]" size="30" title="Name" type="text"
+                value="JJ Abrams" />
+            </span>
+            <span class="form--field-affix"><span style="color:green">SUFFIX</span></span>
+          }).within_path('span.form--field-container')
+        end
+      end
+    end
   end
 
   describe '#text_area' do

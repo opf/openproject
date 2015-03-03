@@ -42,7 +42,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
         options[:class] = Array(options[:class]) + [ field_css_class('#{selector}') ]
 
         label_options = options.dup
-        input_options = options.dup.except(:for, :label, :no_label)
+        input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix)
 
         label = label_for_field(field, label_options)
         input = super(field, input_options, *args)
@@ -103,6 +103,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def container_wrap_field(field_html, selector, options = {})
     ret = content_tag(:span, field_html, class: field_container_css_class(selector))
+
+    prefix, suffix = options.values_at(:prefix, :suffix)
+
+    # TODO (Rails 4): switch to SafeBuffer#prepend
+    ret = content_tag(:span, prefix.html_safe, class: 'form--field-affix').concat(ret) if prefix
+    ret.concat content_tag(:span, suffix.html_safe, class: 'form--field-affix') if suffix
 
     field_container_wrap_field(ret, options)
   end
