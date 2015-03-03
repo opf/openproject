@@ -123,7 +123,7 @@ module Redmine
           custom_values.reject { |cv| cv.marked_for_destruction? }.each do |custom_value|
             unless custom_value.valid?
               custom_value.errors.each do |_, message|
-                errors.add(custom_field_accessor_name(custom_value.custom_field).to_sym, message)
+                errors.add(custom_value.custom_field.accessor_name.to_sym, message)
               end
             end
           end
@@ -131,7 +131,7 @@ module Redmine
 
         def add_custom_field_accessors
           available_custom_fields.each do |custom_field|
-            getter_name = custom_field_accessor_name(custom_field)
+            getter_name = custom_field.accessor_name
             setter_name = "#{getter_name}="
 
             define_singleton_method getter_name do
@@ -146,12 +146,6 @@ module Redmine
               self.custom_field_values = { custom_field.id => value }
             end
           end
-        end
-
-        private
-
-        def custom_field_accessor_name(custom_field)
-          "custom_field_#{custom_field.id}"
         end
 
         module ClassMethods

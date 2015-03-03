@@ -399,4 +399,17 @@ describe CustomField, type: :model do
       it { expect(field).not_to be_valid }
     end
   end
+
+  describe :accessor_name do
+    # create the custom field to force assignment of an id
+    let(:field)  { FactoryGirl.create :custom_field }
+
+    it 'is formatted as expected' do
+      expect(field.accessor_name).to eql("custom_field_#{field.id}")
+    end
+
+    it 'returns a string' do
+      expect(field.accessor_name).to be_a(String)
+    end
+  end
 end

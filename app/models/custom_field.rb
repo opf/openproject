@@ -248,6 +248,10 @@ class CustomField < ActiveRecord::Base
     find :all, options
   end
 
+  def accessor_name
+    "custom_field_#{id}"
+  end
+
   def type_name
     nil
   end

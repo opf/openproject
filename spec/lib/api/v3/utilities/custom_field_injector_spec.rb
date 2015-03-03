@@ -209,8 +209,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     let(:represented) {
       double('represented',
              available_custom_fields: [custom_field],
-             custom_value_for: double('custom_value',
-                                      typed_value: custom_value))
+             custom_field.accessor_name => custom_value)
     }
     let(:custom_value) { '' }
     let(:current_user) { FactoryGirl.build(:user) }
@@ -234,7 +233,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:represented) {
           double('represented',
                  available_custom_fields: [custom_field],
-                 custom_value_for: nil)
+                 custom_field.accessor_name => nil)
         }
 
         it_behaves_like 'has an empty link' do
@@ -261,7 +260,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:represented) {
           double('represented',
                  available_custom_fields: [custom_field],
-                 custom_value_for: nil)
+                 custom_field.accessor_name => nil)
         }
 
         it_behaves_like 'has an empty link' do
@@ -288,7 +287,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:represented) {
           double('represented',
                  available_custom_fields: [custom_field],
-                 custom_value_for: nil)
+                 custom_field.accessor_name => nil)
         }
 
         it_behaves_like 'has an empty link' do
@@ -360,12 +359,13 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
   describe '#inject_patchable_link_value' do
     let(:base_class) { Class.new(::API::Decorators::Single) }
-    let(:modified_class) { described_class.create_value_representer_for_link_patching(represented, base_class) }
+    let(:modified_class) {
+      described_class.create_value_representer_for_link_patching(represented, base_class)
+    }
     let(:represented) {
       double('represented',
              available_custom_fields: [custom_field],
-             custom_value_for: double('custom_value',
-                                      typed_value: custom_value))
+             custom_field.accessor_name => custom_value)
     }
     let(:custom_value) { '' }
     subject { "{ \"_links\": #{modified_class.new(represented).to_json} }" }
@@ -383,7 +383,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:represented) {
           double('represented',
                  available_custom_fields: [custom_field],
-                 custom_value_for: nil)
+                 custom_field.accessor_name => nil)
         }
 
         it_behaves_like 'has an empty link' do

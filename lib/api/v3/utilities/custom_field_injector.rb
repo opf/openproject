@@ -240,8 +240,7 @@ module API
 
         def link_value_getter_for(custom_field, path_method)
           -> (*) {
-            custom_value = represented.custom_value_for(custom_field)
-            value = custom_value.typed_value if custom_value
+            value = represented.send custom_field.accessor_name
             path = api_v3_paths.send(path_method, value.is_a?(String) ? value : value.id) if value
 
             { href: path }
@@ -271,8 +270,7 @@ module API
                           embedded: true,
                           exec_context: :decorator,
                           getter: -> (*) {
-                            custom_value = represented.custom_value_for(custom_field)
-                            value = custom_value.typed_value if custom_value
+                            value = represented.send custom_field.accessor_name
                             representer_class = REPRESENTER_MAP[custom_field.field_format]
 
                             representer_class.new(value, current_user: current_user) if value
@@ -288,8 +286,7 @@ module API
 
         def property_value_getter_for(custom_field)
           -> (*) {
-            custom_value = custom_value_for(custom_field)
-            value = custom_value.typed_value if custom_value
+            value = send custom_field.accessor_name
 
             if custom_field.field_format == 'text'
               ::API::Decorators::Formattable.new(value, format: 'plain')
