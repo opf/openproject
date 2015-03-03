@@ -1055,6 +1055,7 @@ de:
   label_keyboard_shortcut_go_news: "Gehe zu den Projekt News"
   label_keyboard_shortcut_go_timelines: "Gehe zur Zeitpläne Seite"
   label_keyboard_shortcut_new_work_package: "Erstelle neues Arbeitspaket"
+  label_keyboard_shortcut_details_package: "Arbeitspaketdetails anzeigen"
   label_keyboard_shortcut_go_edit: "Gehe zur Bearbeiten-Ansicht (nur auf Detailseiten)"
   label_keyboard_shortcut_open_more_menu: "Öffne 'Weitere-Aktionen' Menü (nur auf Detailseiten)"
   label_keyboard_shortcut_go_preview: "Gehe zur Vorschau (nur auf Editieren-Seiten)"

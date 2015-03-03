@@ -49,6 +49,7 @@
               {{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}
             </label>
             <button id="work-packages-details-view-button"
+                    accesskey="8"
                     class="button"
                     title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
                     ng-class="{ active: isDetailsViewActive() }"

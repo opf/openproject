@@ -63,6 +63,7 @@ require('ui-select/dist/select');
 require('ui-select/dist/select.css');
 
 require('angular-context-menu');
+require('mousetrap');
 
 // global
 angular.module('openproject.uiComponents', ['ui.select2', 'ui.select', 'ngSanitize'])
@@ -228,7 +229,8 @@ openprojectApp
     '$window',
     'featureFlags',
     'TimezoneService',
-    function($http, $rootScope, $window, flags, TimezoneService) {
+    'KeyboardShortcutService',
+    function($http, $rootScope, $window, flags, TimezoneService, KeyboardShortcutService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
       $rootScope.showNavigation =
@@ -237,6 +239,8 @@ openprojectApp
 
       flags.set($http.get('/javascripts/feature-flags.json'));
       TimezoneService.setupLocale();
+      KeyboardShortcutService.activate();
+
     }
   ]);
 

@@ -287,6 +287,24 @@ module.exports = function() {
     staticWorkPackageAutoCompletePath: function(projectId, workPackageId) {
       return PathHelper.staticBase
         + PathHelper.workPackageAutoCompletePath(projectId, workPackageId);
+    },
+    staticProjectWikiPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/wiki';
+    },
+    staticProjectCalendarPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/calendar';
+    },
+    staticProjectNewsPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/news';
+    },
+    staticProjectTimelinesPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/timelines';
+    },
+    staticMyPagePath: function() {
+      return PathHelper.staticBase + '/my/page';
+    },
+    staticKeyboardShortcutsHelpPath: function() {
+      return PathHelper.staticBase + '/help/keyboard_shortcuts';
     }
   };
 
