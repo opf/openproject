@@ -565,22 +565,29 @@ module WorkPackagesHelper
     return if locals[:project].categories.empty?
 
     category_field = work_package_form_field do
-      field = form.select(:category_id,
-                          (locals[:project].categories.map { |c| [c.name, c.id] }),
-                          include_blank: true)
+      label = form.label(:category_id)
 
-      if authorize_for('categories', 'new')
+      field = content_tag(:span, class: 'form--field-container') do
+        field = form.select(:category_id,
+                            (locals[:project].categories.map { |c| [c.name, c.id] }),
+                            include_blank: true,
+                            no_label: true)
 
-        field += prompt_to_remote(icon_wrapper('icon icon-add icon4',
-                                               I18n.t(:label_work_package_category_new)),
-                                  I18n.t(:label_work_package_category_new),
-                                  'category[name]',
-                                  project_categories_path(locals[:project]),
-                                  class: 'no-decoration-on-hover grid-block',
-                                  title: I18n.t(:label_work_package_category_new))
+        if authorize_for('categories', 'new')
+
+          field += prompt_to_remote(icon_wrapper('icon icon-add icon4',
+                                                 I18n.t(:label_work_package_category_new)),
+                                    I18n.t(:label_work_package_category_new),
+                                    'category[name]',
+                                    project_categories_path(locals[:project]),
+                                    class: 'no-decoration-on-hover form--field-inline-action',
+                                    title: I18n.t(:label_work_package_category_new))
+        end
+
+        field
       end
 
-      field
+      label + field
     end
 
     WorkPackageAttribute.new(:category, category_field)
@@ -590,22 +597,29 @@ module WorkPackagesHelper
     return if work_package.assignable_versions.empty?
 
     version_field = work_package_form_field do
-      field = form.select(:fixed_version_id,
-                          version_options_for_select(work_package.assignable_versions,
-                                                     work_package.fixed_version),
-                          include_blank: true)
+      label = form.label(:fixed_version_id)
 
-      if authorize_for('versions', 'new')
-        field += prompt_to_remote(icon_wrapper('icon icon-add icon4',
-                                               I18n.t(:label_version_new)),
-                                  l(:label_version_new),
-                                  'version[name]',
-                                  project_versions_path(locals[:project]),
-                                  class: 'no-decoration-on-hover grid-block',
-                                  title: l(:label_version_new))
+      field = content_tag(:span, class: 'form--field-container') do
+        field = form.select(:fixed_version_id,
+                            version_options_for_select(work_package.assignable_versions,
+                                                       work_package.fixed_version),
+                            include_blank: true,
+                            no_label: true)
+
+        if authorize_for('versions', 'new')
+          field += prompt_to_remote(icon_wrapper('icon icon-add icon4',
+                                                 I18n.t(:label_version_new)),
+                                    l(:label_version_new),
+                                    'version[name]',
+                                    project_versions_path(locals[:project]),
+                                    class: 'no-decoration-on-hover form--field-inline-action',
+                                    title: l(:label_version_new))
+        end
+
+        field
       end
 
-      field
+      label + field
     end
 
     WorkPackageAttribute.new(:fixed_version, version_field)
