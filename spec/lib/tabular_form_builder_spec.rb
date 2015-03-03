@@ -126,7 +126,7 @@ describe TabularFormBuilder do
       end
 
       context 'with a suffix' do
-        let(:options) { { title: 'Name', prefix: %{<span style="color:blue">Suffix</span>} } }
+        let(:options) { { title: 'Name', suffix: %{<span style="color:blue">Suffix</span>} } }
 
         it 'should output elements' do
           expect(output).to be_html_eql(%{
