@@ -169,7 +169,7 @@ GEM
     equivalent-xml (0.5.1)
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
-    eventmachine (1.0.3)
+    eventmachine (1.0.7)
     excon (0.42.1)
     execjs (1.4.0)
       multi_json (~> 1.0)
