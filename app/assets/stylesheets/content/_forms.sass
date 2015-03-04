@@ -226,6 +226,18 @@ fieldset.form--fieldset
   .form--grouping-row > &:nth-last-of-type(n+2)
     padding-right: 1rem
 
+  &.-trailing-label
+    .form--label
+      @include grid-order(2)
+      @include grid-size(expand)
+      // override max-width set by including grid-content
+      max-width: 100%
+      padding-left: 0.5rem
+
+    .form--field-container
+      @include grid-order(1)
+      @include grid-size(shrink)
+
 .form--label
   @include grid-content(2)
   @include label-style
@@ -474,3 +486,17 @@ fieldset.form--fieldset
   %form--field-element-container + &
     margin-left:  -1rem
     border-left:  0
+
+.form--list
+  display: flex
+  margin: 0
+  @include grid-layout(3)
+
+  @include breakpoint(large)
+    @include grid-layout(4)
+
+  @include breakpoint(xlarge)
+    @include grid-layout(6)
+
+  li, div
+    padding: 0
