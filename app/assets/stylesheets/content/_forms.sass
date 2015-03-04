@@ -73,6 +73,11 @@ $form--field-types: (text-field, text-area, select, check-box, range-field, sear
 .form--space
   padding-top: 10px
 
+.form--row
+  @include grid-block
+  // cancel out foundations overflow-y: auto
+  overflow: visible
+
 fieldset
   legend:after
     @include icon-common
@@ -217,6 +222,7 @@ fieldset.form--fieldset
     @include grid-orient(vertical)
 
   .grid-block:nth-last-of-type(n+2) > &,
+  .form--row:nth-last-of-type(n+2) > &,
   .form--grouping-row > &:nth-last-of-type(n+2)
     padding-right: 1rem
 
