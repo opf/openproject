@@ -62,6 +62,10 @@ module API
             status_origin.new_statuses_allowed_to(user)
           end
 
+          def assignable_types
+            @work_package.assignable_types if defines_assignable_values?
+          end
+
           def assignable_versions
             @work_package.assignable_versions if defines_assignable_values?
           end

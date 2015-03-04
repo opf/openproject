@@ -111,10 +111,6 @@ module API
                  type: 'Project',
                  writable: false
 
-          schema :type,
-                 type: 'Type',
-                 writable: false
-
           schema_with_allowed_link :assignee,
                                    type: 'User',
                                    required: false,
@@ -128,6 +124,19 @@ module API
                                    href_callback: -> (*) {
                                      api_v3_paths.available_responsibles(represented.project.id)
                                    }
+
+          schema_with_allowed_collection :type,
+                                         type: 'Type',
+                                         values_callback: -> (*) {
+                                           represented.assignable_types
+                                         },
+                                         value_representer: Types::TypeRepresenter,
+                                         link_factory: -> (type) {
+                                           {
+                                             href: api_v3_paths.type(type.id),
+                                             title: type.name
+                                           }
+                                         }
 
           schema_with_allowed_collection :status,
                                          type: 'Status',

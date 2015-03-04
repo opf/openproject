@@ -42,6 +42,36 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
+    shared_examples_for 'has a collection of allowed values' do
+      context 'when no values are allowed' do
+        before { allow(schema).to receive(allowed_values_method).and_return([]) }
+
+        it_behaves_like 'links to and embeds allowed values directly' do
+          let(:path) { json_path }
+          let(:hrefs) { [] }
+        end
+      end
+
+      context 'when values are allowed' do
+        let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
+
+        before { allow(schema).to receive(allowed_values_method).and_return(values) }
+
+        it_behaves_like 'links to and embeds allowed values directly' do
+          let(:path) { json_path }
+          let(:hrefs) { values.map { |value| "/api/v3/#{href_path}/#{value.id}" } }
+        end
+      end
+
+      context 'when allowed values are not defined' do
+        include_context 'no allowed values'
+
+        it_behaves_like 'does not link to allowed values' do
+          let(:path) { json_path }
+        end
+      end
+    end
+
     shared_context 'no allowed values' do
       before do
         allow(schema).to receive(:defines_assignable_values?).and_return(false)
@@ -202,7 +232,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Type' }
         let(:name) { I18n.t('activerecord.attributes.work_package.type') }
         let(:required) { true }
-        let(:writable) { false }
+        let(:writable) { true }
+      end
+
+      it_behaves_like 'has a collection of allowed values' do
+        let(:json_path) { 'type' }
+        let(:href_path) { 'types' }
+        let(:factory) { :type }
+        let(:allowed_values_method) { :assignable_types }
       end
     end
 
@@ -215,32 +252,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'w/o allowed statuses' do
-        before { allow(schema).to receive(:assignable_statuses_for).and_return([]) }
-
-        it_behaves_like 'links to and embeds allowed values directly' do
-          let(:path) { 'status' }
-          let(:hrefs) { [] }
-        end
-      end
-
-      context 'with allowed statuses' do
-        let(:statuses) { FactoryGirl.build_list(:status, 3) }
-
-        before { allow(schema).to receive(:assignable_statuses_for).and_return(statuses) }
-
-        it_behaves_like 'links to and embeds allowed values directly' do
-          let(:path) { 'status' }
-          let(:hrefs) { statuses.map { |status| "/api/v3/statuses/#{status.id}" } }
-        end
-      end
-
-      context 'when allowed values are not defined' do
-        include_context 'no allowed values'
-
-        it_behaves_like 'does not link to allowed values' do
-          let(:path) { 'status' }
-        end
+      it_behaves_like 'has a collection of allowed values' do
+        let(:json_path) { 'status' }
+        let(:href_path) { 'statuses' }
+        let(:factory) { :status }
+        let(:allowed_values_method) { :assignable_statuses_for }
       end
     end
 
@@ -253,32 +269,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'w/o allowed categories' do
-        before { allow(schema).to receive(:assignable_categories).and_return([]) }
-
-        it_behaves_like 'links to allowed values directly' do
-          let(:path) { 'category' }
-          let(:hrefs) { [] }
-        end
-      end
-
-      context 'with allowed categories' do
-        let(:categories) { FactoryGirl.build_stubbed_list(:category, 3) }
-
-        before { allow(schema).to receive(:assignable_categories).and_return(categories) }
-
-        it_behaves_like 'links to allowed values directly' do
-          let(:path) { 'category' }
-          let(:hrefs) { categories.map { |category| "/api/v3/categories/#{category.id}" } }
-        end
-      end
-
-      context 'when allowed values are not defined' do
-        include_context 'no allowed values'
-
-        it_behaves_like 'does not link to allowed values' do
-          let(:path) { 'category' }
-        end
+      it_behaves_like 'has a collection of allowed values' do
+        let(:json_path) { 'category' }
+        let(:href_path) { 'categories' }
+        let(:factory) { :category }
+        let(:allowed_values_method) { :assignable_categories }
       end
     end
 
@@ -291,32 +286,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'w/o allowed versions' do
-        before { allow(schema).to receive(:assignable_versions).and_return([]) }
-
-        it_behaves_like 'links to and embeds allowed values directly' do
-          let(:path) { 'version' }
-          let(:hrefs) { [] }
-        end
-      end
-
-      context 'with allowed versions' do
-        let(:versions) { FactoryGirl.build_stubbed_list(:version, 3) }
-
-        before { allow(schema).to receive(:assignable_versions).and_return(versions) }
-
-        it_behaves_like 'links to and embeds allowed values directly' do
-          let(:path) { 'version' }
-          let(:hrefs) { versions.map { |version| "/api/v3/versions/#{version.id}" } }
-        end
-      end
-
-      context 'when allowed values are not defined' do
-        include_context 'no allowed values'
-
-        it_behaves_like 'does not link to allowed values' do
-          let(:path) { 'version' }
-        end
+      it_behaves_like 'has a collection of allowed values' do
+        let(:json_path) { 'version' }
+        let(:href_path) { 'versions' }
+        let(:factory) { :version }
+        let(:allowed_values_method) { :assignable_versions }
       end
     end
 
@@ -329,32 +303,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:writable) { true }
       end
 
-      context 'w/o allowed priorities' do
-        before { allow(schema).to receive(:assignable_priorities).and_return([]) }
-
-        it_behaves_like 'links to and embeds allowed values directly' do
-          let(:path) { 'priority' }
-          let(:hrefs) { [] }
-        end
-      end
-
-      context 'with allowed priorities' do
-        let(:priorities) { FactoryGirl.build_stubbed_list(:priority, 3) }
-
-        before { allow(schema).to receive(:assignable_priorities).and_return(priorities) }
-
-        it_behaves_like 'links to and embeds allowed values directly' do
-          let(:path) { 'priority' }
-          let(:hrefs) { priorities.map { |priority| "/api/v3/priorities/#{priority.id}" } }
-        end
-      end
-
-      context 'when allowed values are not defined' do
-        include_context 'no allowed values'
-
-        it_behaves_like 'does not link to allowed values' do
-          let(:path) { 'priority' }
-        end
+      it_behaves_like 'has a collection of allowed values' do
+        let(:json_path) { 'priority' }
+        let(:href_path) { 'priorities' }
+        let(:factory) { :priority }
+        let(:allowed_values_method) { :assignable_priorities }
       end
     end
 

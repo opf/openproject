@@ -98,6 +98,15 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
       end
     end
 
+    describe '#assignable_types' do
+      let(:result) { double }
+
+      it 'calls through to the work package' do
+        expect(work_package).to receive(:assignable_types).and_return(result)
+        expect(subject.assignable_types).to eql(result)
+      end
+    end
+
     describe '#assignable_versions' do
       let(:result) { double }
 
