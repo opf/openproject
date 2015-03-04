@@ -256,13 +256,16 @@ describe WorkPackage, type: :model do
       it_behaves_like 'work package with required custom field'
 
       describe 'value' do
+        let(:relevant_journal) {
+          work_package.journals.select { |j| j.customizable_journals.size > 0 }.first
+        }
+        subject { relevant_journal.customizable_journals.first.value }
+
         before do
           change_custom_field_value(work_package, value)
         end
 
-        subject { work_package.journals.last.customizable_journals.first.value }
-
-        it { expect(subject).to eq(value) }
+        it { is_expected.to eq(value) }
       end
     end
   end
