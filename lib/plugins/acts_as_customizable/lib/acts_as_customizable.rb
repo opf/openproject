@@ -51,7 +51,6 @@ module Redmine
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
           after_save :save_custom_field_values
-          after_initialize :add_custom_field_accessors
         end
       end
 
@@ -129,22 +128,51 @@ module Redmine
           end
         end
 
-        def add_custom_field_accessors
-          available_custom_fields.each do |custom_field|
-            getter_name = custom_field.accessor_name
-            setter_name = "#{getter_name}="
+        def method_missing(method, *args)
+          for_custom_field_accessor(method) do |custom_field|
+            add_custom_field_accessors(custom_field)
+            return send method, *args
+          end
 
-            define_singleton_method getter_name do
-              custom_value = custom_value_for(custom_field)
-              custom_value ? custom_value.typed_value : nil
-            end
+          super
+        end
 
-            define_singleton_method setter_name do |value|
-              # N.B. we do no strict type checking here, it would be possible to assign a user
-              # to an integer custom field...
-              value = value.id if value.respond_to?(:id)
-              self.custom_field_values = { custom_field.id => value }
+        def respond_to?(method, include_private = false)
+          for_custom_field_accessor(method) do |custom_field|
+            # pro-actively add the accessors, the method will probably be called next
+            add_custom_field_accessors(custom_field)
+            return true
+          end
+
+          super
+        end
+
+        private
+
+        def for_custom_field_accessor(method_symbol)
+          match = /\Acustom_field_(?<id>\d+)=?\z/.match(method_symbol.to_s)
+          if match
+            custom_field = CustomField.find_by_id(match[:id])
+            if custom_field
+              yield custom_field
             end
+          end
+        end
+
+        def add_custom_field_accessors(custom_field)
+          getter_name = custom_field.accessor_name
+          setter_name = "#{getter_name}="
+
+          define_singleton_method getter_name do
+            custom_value = custom_value_for(custom_field)
+            custom_value ? custom_value.typed_value : nil
+          end
+
+          define_singleton_method setter_name do |value|
+            # N.B. we do no strict type checking here, it would be possible to assign a user
+            # to an integer custom field...
+            value = value.id if value.respond_to?(:id)
+            self.custom_field_values = { custom_field.id => value }
           end
         end
 
