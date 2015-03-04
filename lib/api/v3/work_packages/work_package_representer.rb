@@ -102,6 +102,7 @@ module API
           } if current_user_allowed_to(:move_work_packages)
         end
 
+        linked_property :type
         linked_property :status
 
         linked_property :author, path: :user
@@ -211,7 +212,6 @@ module API
         property :id, render_nil: true
         property :lock_version
         property :subject, render_nil: true
-        property :type, getter: -> (*) { type.try(:name) }, render_nil: true
         property :description,
                  exec_context: :decorator,
                  getter: -> (*) {
