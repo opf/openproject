@@ -73,12 +73,26 @@ module API
                        representer.required = required
                        representer.writable = writable
 
-                       if represented.defines_assignable_values?
+                       if @form_embedded && represented.defines_assignable_values?
                          representer.allowed_values_href = instance_eval(&href_callback)
                        end
 
                        representer
                      }
+          end
+
+          def initialize(represented, context = {})
+            @form_embedded = context[:form_embedded]
+
+            super
+          end
+
+          link :self do
+            path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
+
+            unless @form_embedded
+              { href: path }
+            end
           end
 
           schema :_type,
@@ -175,7 +189,7 @@ module API
                          }
                        })
 
-                     if represented.defines_assignable_values?
+                     if @form_embedded && represented.defines_assignable_values?
                        representer.allowed_values = assignable_statuses
                      end
 
@@ -198,7 +212,7 @@ module API
 
                      representer.required = false
 
-                     if represented.defines_assignable_values?
+                     if @form_embedded && represented.defines_assignable_values?
                        representer.allowed_values = represented.assignable_categories
                      end
 
@@ -222,7 +236,7 @@ module API
 
                      representer.required = false
 
-                     if represented.defines_assignable_values?
+                     if @form_embedded && represented.defines_assignable_values?
                        representer.allowed_values = represented.assignable_versions
                      end
 
@@ -244,7 +258,7 @@ module API
                          }
                        })
 
-                     if represented.defines_assignable_values?
+                     if @form_embedded && represented.defines_assignable_values?
                        representer.allowed_values = represented.assignable_priorities
                      end
 

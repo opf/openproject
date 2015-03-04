@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
+  include API::V3::Utilities::PathHelper
+
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
@@ -40,6 +42,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
   context 'generation' do
     subject(:generated) { representer.to_json }
+
+    shared_context 'embedded in form' do
+      let(:representer) { described_class.new(schema, form_embedded: true, current_user: current_user) }
+    end
 
     shared_context 'no allowed values' do
       before do
@@ -110,6 +116,23 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       it 'does not embed allowed values' do
         is_expected.to_not have_json_path("#{path}/_embedded/allowedValues")
+      end
+    end
+
+    describe '_links' do
+      it 'should link to self' do
+        path = api_v3_paths.work_package_schema(work_package.project.id, work_package.type.id)
+
+        is_expected.to be_json_eql(path.to_json).at_path('_links/self/href')
+      end
+
+      context 'when the schema is embedded in a form' do
+        include_context 'embedded in form'
+
+        it 'should not link to self' do
+
+          is_expected.to_not have_json_path('_links/self')
+        end
       end
     end
 
@@ -272,6 +295,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'status' do
+      include_context 'embedded in form'
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'status' }
         let(:type) { 'Status' }
@@ -310,6 +335,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'categories' do
+      include_context 'embedded in form'
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'category' }
         let(:type) { 'Category' }
@@ -348,6 +375,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'versions' do
+      include_context 'embedded in form'
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'version' }
         let(:type) { 'Version' }
@@ -386,6 +415,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'priorities' do
+      include_context 'embedded in form'
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'priority' }
         let(:type) { 'Priority' }
@@ -424,6 +455,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'responsible and assignee' do
+      include_context 'embedded in form'
+
       let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
 
       describe 'assignee' do

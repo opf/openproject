@@ -35,7 +35,7 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchema
-          attr_reader :project
+          attr_reader :project, :type
 
           def initialize(work_package: nil, project: nil, type: nil)
             raise ArgumentError unless work_package || (project && type)
