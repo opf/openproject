@@ -92,7 +92,7 @@ describe WorkPackage, type: :model do
             describe 'work package attribute update' do
               subject { work_package.save }
 
-              it { is_expected.to be_false }
+              it { is_expected.to be_falsey }
             end
           end
 
