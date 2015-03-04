@@ -76,8 +76,8 @@ module API
 
           property :lock_version
           property :subject, render_nil: true
-          property :done_ratio, writable: true
-          property :estimated_hours, writable: true
+          property :done_ratio, render_nil: true, writable: true
+          property :estimated_hours, render_nil: true, writable: true
           property :description,
                    exec_context: :decorator,
                    getter: -> (*) {
