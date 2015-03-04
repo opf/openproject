@@ -27,11 +27,10 @@
   Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer
         </span>
       </span>
-      <span class="editing-link-wrapper ng-scope">
-        <accessible-by-keyboard execute="startediting()"
-                                class="ng-isolate-scope">
+      <span class="editing-link-wrapper">
+        <accessible-by-keyboard>
           <a href="" tabindex="0">
-            <span ng-transclude="">
+            <span >
               <span class="icon-context icon-button icon-edit "
                     title="description: edit"
                     icon-name="edit"
@@ -54,10 +53,10 @@
 
 ```
 
-<div class="attributes-group ng-scope">
+<div class="attributes-group">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text ng-binding">
+      <h3 class="attributes-group--header-text ">
         Description
       </h3>
     </div>
@@ -65,10 +64,10 @@
   <div class="single-attribute wiki">
     <span>
       <div class="inplace-editor type-wiki_textarea attribute-description editable">
-        <div class="ined-edit ng-scope" ng-if="isEditing">
+        <div class="ined-edit" >
           <form name="editForm">
             <div class="ined-input-wrapper">
-              <div class="ined-input-wrapper-inner ng-scope" ng-include="" src="getTemplateUrl()">
+              <div class="ined-input-wrapper-inner">
                 <div class="jstElements">
                   <button type="button" class="jstb_strong" title="Strong">
                     <span>Strong</span>
@@ -150,7 +149,7 @@
                              title="Description: Save"
                              icon-name="yes"
                              icon-title="Description: Save">
-                         <span class="hidden-for-sighted ng-binding">
+                         <span class="hidden-for-sighted ">
                            Description: Save
                          </span>
                        </span>
@@ -169,11 +168,11 @@
                  </accessible-by-keyboard>
                  <accessible-by-keyboard class="ined-edit-close">
                    <a href="" tabindex="0">
-                     <span ng-transclude="">
+                     <span >
                        <span class="icon-context icon-button icon-close "
                              title="Description: Cancel"
                              icon-name="close" icon-title="Description: Cancel">
-                         <span class="hidden-for-sighted ng-binding">
+                         <span class="hidden-for-sighted ">
                            Description: Cancel
                          </span>
                        </span>
@@ -217,10 +216,10 @@
                 New
               </span>
             </span>
-            <span ng-if="isEditable" class="editing-link-wrapper">
+            <span class="editing-link-wrapper">
               <accessible-by-keyboard execute="startEditing()">
                 <a href="" tabindex="0">
-                  <span ng-transclude="">
+                  <span >
                     <span class="icon-context icon-button icon-edit "
                           title="Status: Edit"
                           icon-name="edit"
@@ -255,46 +254,46 @@
   </div>
 
   <dl class="attributes-key-value">
-    <dt class="attributes-key-value--key ng-binding ng-scope">Status</dt>
-    <dd class="attributes-key-value--value-container ng-scope" >
-      <div class="ng-scope attributes-key-value--value -status">
+    <dt class="attributes-key-value--key ">Status</dt>
+    <dd class="attributes-key-value--value-container" >
+      <div class="attributes-key-value--value -status">
         <div inplace-editor="">
           <div class="inplace-editor type-select2 attribute-status.name editable" aria-busy="false" aria-disabled="false">
             <div class="ined-edit" >
-              <form name="editForm" class="ng-valid">
+              <form name="editForm">
                 <div class="ined-input-wrapper">
                   <div class="ined-input-wrapper-inner"  >
-                    <input type="text" aria-label="Status: Edit focus" aria-haspopup="true" role="button" aria-disabled="false">
+                    <input type="text" aria-label="Status: Edit focus" aria-haspopup="true" role="button" aria-disabled="false" value="New">
                   </div>
                 </div>
                 <div class="ined-dashboard">
-                  <div class="ined-errors ng-binding ng-hide" role="alert" aria-live="polite" >
+                  <div class="ined-errors  " role="alert" aria-live="polite" >
                   </div>
                   <div class="ined-controls"  >
-                    <accessible-by-keyboard  class="ined-edit-save ng-isolate-scope">
+                    <accessible-by-keyboard  class="ined-edit-save ">
                       <a default-event-handling="defaultEventHandling"  href="" class="" tabindex="0">
                         <span>
                           <span class="icon-context icon-button icon-yes " title="Status: Save" icon-name="yes" icon-title="Status: Save">
-                            <span class="hidden-for-sighted ng-binding">
+                            <span class="hidden-for-sighted ">
                               Status: Save
                             </span>
                           </span>
                         </span>
                       </a>
                     </accessible-by-keyboard>
-                    <accessible-by-keyboard class="ined-edit-save-send ng-isolate-scope">
+                    <accessible-by-keyboard class="ined-edit-save-send ">
                       <a href="" class="" tabindex="0">
                         <span >
-                          <span title="Status: Save and send email" class="ng-scope">
+                          <span title="Status: Save and send email">
                             <i class="icon-yes"></i>
                             <i class="icon-mail"></i>
                           </span>
                         </span>
                       </a>
                     </accessible-by-keyboard>
-                    <accessible-by-keyboard  class="ined-edit-close ng-isolate-scope"><a  default-event-handling="defaultEventHandling"  href="" class="" tabindex="0"><span >
+                    <accessible-by-keyboard  class="ined-edit-close "><a  default-event-handling="defaultEventHandling"  href="" class="" tabindex="0"><span >
                       <span class="icon-context icon-button icon-close " title="Status: Cancel" icon-name="close" icon-title="Status: Cancel">
-            <span class="hidden-for-sighted ng-binding">Status: Cancel</span>
+            <span class="hidden-for-sighted ">Status: Cancel</span>
           </span>
                     </span></a></accessible-by-keyboard>
                   </div>
