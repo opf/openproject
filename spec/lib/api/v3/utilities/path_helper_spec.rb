@@ -254,6 +254,24 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'types paths' do
+    describe '#types' do
+      subject { helper.types }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to eql('/api/v3/types') }
+    end
+
+    describe '#type' do
+      subject { helper.type 1 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to eql('/api/v3/types/1') }
+    end
+  end
+
   describe '#user' do
     subject { helper.user 1 }
 
