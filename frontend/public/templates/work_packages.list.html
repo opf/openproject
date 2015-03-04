@@ -8,7 +8,7 @@
 
     <ul id="toolbar-items">
       <li class="toolbar-item">
-        <button class="button_highlight"
+        <button class="button -highlight"
                 has-dropdown-menu
                 target="TasksDropdownMenu"
                 locals="availableTypes,projectIdentifier"
@@ -49,6 +49,7 @@
               {{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}
             </label>
             <button id="work-packages-details-view-button"
+                    accesskey="8"
                     class="button"
                     title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
                     ng-class="{ active: isDetailsViewActive() }"
@@ -85,8 +86,8 @@
 <back-url></back-url>
 
 
-<div class="work-packages--split-view">
-  <div class="work-packages--list" cg-busy="[settingUpPage,refreshWorkPackages]">
+<div class="work-packages--split-view" cg-busy="[settingUpPage,refreshWorkPackages]">
+  <div class="work-packages--list">
     <div class="work-packages--list-table-area">
       <work-packages-table ng-if="rows && columns"
                            project-identifier="projectIdentifier"

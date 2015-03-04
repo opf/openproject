@@ -26,13 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <ul>
-<% if @work_packages.any? -%>
-  <% @work_packages.each do |work_package| -%>
-    <%= content_tag 'li', h(work_package.to_s), id: work_package.id %>
+  <% if @work_packages.any? -%>
+    <% @work_packages.each do |work_package| -%>
+      <%= content_tag 'li', h(work_package.to_s), id: work_package.id %>
+    <% end -%>
+  <% else -%>
+    <%= content_tag("li", l(:label_none), style: 'display:none') %>
   <% end -%>
-<% else -%>
-  <%= content_tag("li", l(:label_none), style: 'display:none') %>
-<% end -%>
 </ul>

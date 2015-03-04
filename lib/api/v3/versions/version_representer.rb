@@ -34,19 +34,13 @@ module API
   module V3
     module Versions
       class VersionRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.version(represented.id),
-            title: "#{represented.name}"
-          }
-        end
 
-        link :definingProject do
-          {
-            href: api_v3_paths.project(represented.project.id),
-            title: represented.project.name
-          } if represented.project.visible?(current_user)
-        end
+        self_link
+
+        linked_property :definingProject,
+                        path: :project,
+                        association: :project,
+                        show_if: -> (*) { represented.project.visible?(current_user) }
 
         link :availableInProjects do
           {
@@ -60,18 +54,34 @@ module API
         property :description,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   {
-                     format: 'plain',
-                     raw: represented.description,
-                   }
+                   ::API::Decorators::Formattable.new(represented.description,
+                                                     object: represented,
+                                                     format: 'plain')
                  },
                  render_nil: true
 
-        property :start_date, render_nil: true
-        property :due_date, as: 'endDate', render_nil: true
+        property :start_date,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   datetime_formatter.format_date(represented.start_date, allow_nil: true)
+                 },
+                 render_nil: true
+        property :due_date,
+                 as: 'endDate',
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
+                 },
+                 render_nil: true
         property :status, render_nil: true
-        property :created_on, as: 'createdAt', render_nil: true
-        property :updated_on, as: 'updatedAt', render_nil: true
+        property :created_on,
+                 as: 'createdAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+        property :updated_on,
+                 as: 'updatedAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
 
         def _type
           'Version'

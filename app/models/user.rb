@@ -31,6 +31,7 @@ require 'digest/sha1'
 
 class User < Principal
   include ActiveModel::ForbiddenAttributesProtection
+  include User::Authorization
 
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
@@ -144,7 +145,7 @@ class User < Principal
   validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
   validates_uniqueness_of :mail, allow_blank: true, case_sensitive: false
   # Login must contain letters, numbers, underscores only
-  validates_format_of :login, with: /\A[a-z0-9_\-@\.]*\z/i
+  validates_format_of :login, with: /\A[a-z0-9_\-@\.+]*\z/i
   validates_length_of :login, maximum: 256
   validates_length_of :firstname, :lastname, maximum: 30
   validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
@@ -229,7 +230,7 @@ class User < Principal
     end
   end
 
-  register_allowance_evaluator ChiliProject::PrincipalAllowanceEvaluator::Default
+  register_allowance_evaluator OpenProject::PrincipalAllowanceEvaluator::Default
 
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password)
@@ -486,7 +487,7 @@ class User < Principal
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
     # force string comparison to be case sensitive on MySQL
-    type_cast = (ChiliProject::Database.mysql?) ? 'BINARY' : ''
+    type_cast = (OpenProject::Database.mysql?) ? 'BINARY' : ''
     # First look for an exact match
     user = first(conditions: ["#{type_cast} login = ?", login])
     # Fail over to case-insensitive if none was found

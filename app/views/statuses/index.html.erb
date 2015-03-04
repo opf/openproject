@@ -31,40 +31,37 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= link_to l(:label_work_package_status_new), new_status_path, :class => 'icon icon-add' %>
   <%= link_to(l(:label_update_work_package_done_ratios), update_work_package_done_ratio_statuses_path, :class => 'icon icon-reload2', :method => 'post', :confirm => l(:text_are_you_sure)) if WorkPackage.use_status_for_done_ratio? %>
 <% end %>
-
 <% html_title l(:label_administration), l(:label_work_package_status_plural) -%>
-
 <h2><%=l(:label_work_package_status_plural)%></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
 <table class="list">
-  <thead><tr>
-  <th><%= Status.model_name.human %></th>
-  <% if WorkPackage.use_status_for_done_ratio? %>
-    <th><%= WorkPackage.human_attribute_name(:done_ratio) %></th>
-  <% end %>
-  <th><%= Status.human_attribute_name(:is_default) %></th>
-  <th><%= Status.human_attribute_name(:is_closed) %></th>
-  <th><%=l(:button_sort)%></th>
-  <th></th>
-  </tr></thead>
+  <thead>
+    <tr>
+      <th><%= Status.model_name.human %></th>
+      <% if WorkPackage.use_status_for_done_ratio? %>
+        <th><%= WorkPackage.human_attribute_name(:done_ratio) %></th>
+      <% end %>
+      <th><%= Status.human_attribute_name(:is_default) %></th>
+      <th><%= Status.human_attribute_name(:is_closed) %></th>
+      <th><%=l(:button_sort)%></th>
+      <th></th>
+    </tr>
+  </thead>
   <tbody>
-<% for status in @statuses %>
-  <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to h(status.name), edit_status_path(status) %></td>
-  <% if WorkPackage.use_status_for_done_ratio? %>
-    <td align="center"><%= h status.default_done_ratio %></td>
-  <% end %>
-  <td align="center"><%= checked_image status.is_default? %></td>
-  <td align="center"><%= checked_image status.is_closed? %></td>
-  <td align="center" style="width:15%;">
-    <%= reorder_links('status', {:action => 'update', :id => status}, :method => :put) %>
-  </td>
-  <td class="buttons"><%= delete_link status_path(status) %></td>
-  </tr>
-<% end %>
+    <% for status in @statuses %>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td><%= link_to h(status.name), edit_status_path(status) %></td>
+        <% if WorkPackage.use_status_for_done_ratio? %>
+          <td align="center"><%= h status.default_done_ratio %></td>
+        <% end %>
+        <td align="center"><%= checked_image status.is_default? %></td>
+        <td align="center"><%= checked_image status.is_closed? %></td>
+        <td align="center" style="width:15%;">
+          <%= reorder_links('status', {:action => 'update', :id => status}, :method => :put) %>
+        </td>
+        <td class="buttons"><%= delete_link status_path(status) %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
-
 <%= pagination_links_full @statuses %>

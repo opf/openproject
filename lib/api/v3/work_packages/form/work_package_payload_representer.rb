@@ -67,11 +67,7 @@ module API
           property :description,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     {
-                       format: 'textile',
-                       raw: represented.description,
-                       html: description_renderer.to_html
-                     }
+                     API::Decorators::Formattable.new(represented.description, object: represented)
                    },
                    setter: -> (value, *) { represented.description = value['raw'] },
                    render_nil: true
@@ -80,12 +76,29 @@ module API
           property :project_id,
                    getter: -> (*) { nil },
                    render_nil: false
+
           property :start_date,
-                   getter: -> (*) { nil },
-                   render_nil: false
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     datetime_formatter.format_date(represented.start_date, allow_nil: true)
+                   },
+                   setter: -> (value, *) {
+                     represented.start_date = datetime_formatter.parse_date(value,
+                                                                            'startDate',
+                                                                            allow_nil: true)
+                   },
+                   render_nil: true
           property :due_date,
-                   getter: -> (*) { nil },
-                   render_nil: false
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     datetime_formatter.format_date(represented.due_date, allow_nil: true)
+                   },
+                   setter: -> (value, *) {
+                     represented.due_date = datetime_formatter.parse_date(value,
+                                                                          'dueDate',
+                                                                          allow_nil: true)
+                   },
+                   render_nil: true
           property :version_id,
                    getter: -> (*) { nil },
                    setter: -> (value, *) { self.fixed_version_id = value },
@@ -101,12 +114,12 @@ module API
 
           private
 
-          def work_package_attribute_links_representer(represented)
-            ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.new represented
+          def datetime_formatter
+            API::V3::Utilities::DateTimeFormatter
           end
 
-          def description_renderer
-            ::API::Utilities::Renderer::TextileRenderer.new(represented.description, represented)
+          def work_package_attribute_links_representer(represented)
+            ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.new represented
           end
         end
       end

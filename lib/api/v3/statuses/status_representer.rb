@@ -31,12 +31,8 @@ module API
   module V3
     module Statuses
       class StatusRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.status(represented.id),
-            title: "#{represented.name}"
-          }
-        end
+
+        self_link
 
         property :id, render_nil: true
         property :name

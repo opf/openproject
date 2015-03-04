@@ -26,8 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<div style="display:inline-block;">
-  <div class="principals splitcontentleft">
+<div class="grid-block">
+  <div class="principals grid-content">
     <% if principals.size > 20 %>
       <p><%= simple_format(l('notice_to_many_principals_to_display'))%></p>
   </div>
@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </fieldset>
   </div>
 
-  <div class="roles splitcontentright">
+  <div class="roles grid-content">
     <fieldset>
       <legend><%= l(:label_role_plural) %></legend>
       <% roles.each do |role| %>
@@ -54,5 +54,5 @@ See doc/COPYRIGHT.rdoc for more details.
     </fieldset>
   </div>
 </div>
-  <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
+  <p><%= submit_tag l(:button_add), :id => 'member-add-submit', class: 'button -highlight' %></p>
 <% end %>

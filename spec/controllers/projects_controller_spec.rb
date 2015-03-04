@@ -77,7 +77,7 @@ describe ProjectsController, type: :controller do
       it 'renders main menu without wiki menu item' do
         get 'show', @params
 
-        assert_select '#main-menu a.Wiki', false # assert_no_select
+        assert_select '#main-menu a.Wiki-menu-item', false # assert_no_select
       end
     end
 
@@ -98,7 +98,7 @@ describe ProjectsController, type: :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          assert_select '#main-menu a.Wiki', 'Wiki'
+          assert_select '#main-menu a.Wiki-menu-item', 'Wiki'
         end
       end
 
@@ -117,13 +117,13 @@ describe ProjectsController, type: :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          assert_select '#main-menu a.Example', 'Example'
+          assert_select '#main-menu a.Example-menu-item', 'Example'
         end
 
         it 'renders main menu with sub wiki menu item' do
           get 'show', @params
 
-          assert_select '#main-menu a.Sub', 'Sub'
+          assert_select '#main-menu a.Sub-menu-item', 'Sub'
         end
       end
     end
@@ -142,7 +142,7 @@ describe ProjectsController, type: :controller do
 
       it 'renders main menu with activity tab' do
         get 'show', @params
-        assert_select '#main-menu a.activity'
+        assert_select '#main-menu a.activity-menu-item'
       end
     end
 
@@ -160,104 +160,23 @@ describe ProjectsController, type: :controller do
 
       it 'renders main menu without activity tab' do
         get 'show', @params
-        expect(response.body).not_to have_selector '#main-menu a.activity'
+        expect(response.body).not_to have_selector '#main-menu a.activity-menu-item'
       end
     end
   end
 
   describe 'new' do
-    render_views
 
-    before(:all) do
-      @previous_projects_modules = Setting.default_projects_modules
+    it "renders 'new'" do
+      get 'new', @params
+      expect(response).to be_success
+      expect(response).to render_template 'new'
     end
 
-    after(:all) do
-      Setting.default_projects_modules = @previous_projects_modules
-    end
-
-    describe 'with activity in Setting.default_projects_modules' do
-      before do
-        Setting.default_projects_modules = %w[activity wiki]
-      end
-
-      it "renders 'new'" do
-        get 'new', @params
-        expect(response).to be_success
-        expect(response).to render_template 'new'
-      end
-
-      it 'renders available modules list with activity being selected' do
-        get 'new', @params
-
-        expect(response.body).to have_selector "input[@name='project[enabled_module_names][]'][@value='activity'][@checked='checked']"
-        expect(response.body).to have_selector "input[@name='project[enabled_module_names][]'][@value='wiki'][@checked='checked']"
-      end
-    end
-
-    describe 'without activated activity module' do
-      before do
-        Setting.default_projects_modules = %w[wiki]
-      end
-
-      it "renders 'new'" do
-        get 'new', @params
-        expect(response).to be_success
-        expect(response).to render_template 'new'
-      end
-
-      it 'renders available modules list without activity being selected' do
-        get 'new', @params
-
-        expect(response.body).to have_selector "input[@name='project[enabled_module_names][]'][@value='wiki'][@checked='checked']"
-        expect(response.body).to have_selector "input[@name='project[enabled_module_names][]'][@value='activity']"
-        expect(response.body).not_to have_selector "input[@name='project[enabled_module_names][]'][@value='activity'][@checked='checked']"
-      end
-    end
   end
 
   describe 'settings' do
     render_views
-
-    describe 'with activity in Setting.default_projects_modules' do
-      before do
-        @project = FactoryGirl.create(:project, enabled_module_names: %w[activity wiki])
-        @params[:id] = @project.id
-      end
-
-      it 'renders settings/modules' do
-        get 'settings', @params.merge(tab: 'modules')
-        expect(response).to be_success
-        expect(response).to render_template 'settings'
-      end
-
-      it 'renders available modules list with activity being selected' do
-        get 'settings', @params.merge(tab: 'modules')
-        expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity'][@checked='checked']"
-        expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='wiki'][@checked='checked']"
-      end
-    end
-
-    describe 'without activated activity module' do
-      before do
-        @project = FactoryGirl.create(:project, enabled_module_names: %w[wiki])
-        @params[:id] = @project.id
-      end
-
-      it 'renders settings/modules' do
-        get 'settings', @params.merge(tab: 'modules')
-        expect(response).to be_success
-        expect(response).to render_template 'settings'
-      end
-
-      it 'renders available modules list without activity being selected' do
-        get 'settings', @params.merge(tab: 'modules')
-
-        expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='wiki'][@checked='checked']"
-        expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity']"
-        expect(response.body).not_to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity'][@checked='checked']"
-      end
-    end
 
     describe :type do
       let(:user) { FactoryGirl.create(:admin) }

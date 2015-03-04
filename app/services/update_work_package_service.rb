@@ -56,8 +56,8 @@ class UpdateWorkPackageService
   def effective_params
     effective_params = HashWithIndifferentAccess.new
 
-    if permitted_params[:notes]
-      notes = { notes: permitted_params.delete(:notes) }
+    if permitted_params[:journal_notes]
+      notes = { notes: permitted_params.delete(:journal_notes) }
 
       effective_params.merge!(notes) if user.allowed_to?(:add_work_package_notes, work_package.project)
     end

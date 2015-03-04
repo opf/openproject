@@ -45,7 +45,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <th class="timelines-pet-name">
         <%= Type.human_attribute_name(:name) %>
       </th>
-      <th></th> <!-- Missing workflow warning -->
+      <th></th>
+       <!-- Missing workflow warning -->
       <th class="timelines-pet-color">
         <%= Type.human_attribute_name(:color) %>
       </th>
@@ -60,29 +61,28 @@ See doc/COPYRIGHT.rdoc for more details.
       </th>
       <th><%=l(:button_sort)%></th>
       <th></th>
-  </tr>
+    </tr>
   </thead>
   <tbody>
-<% for type in @types %>
-  <tr class="<%= cycle("odd", "even") %>">
-    <td class="timelines-pet-name"><%= link_to type.name, edit_type_path(type) %></td>
-    <td align="center"><% if type.workflows.empty? %><span class="icon-context icon-warning"><%= l(:text_type_no_workflow) %> (<%= link_to l(:button_edit), {:controller => '/workflows', :action => 'edit', :type_id => type} %>)</span><% end %></td>
-    <td class="timelines-pet-color"><%= icon_for_type type %></td>
-    <td class="timelines-pet-is_default"><%= checked_image(type.is_default) %></td>
-    <td class="timelines-pet-in_aggregation"><%= checked_image(type.in_aggregation) %></td>
-    <td class="timelines-pet-is_milestone"><%= checked_image(type.is_milestone) %></td>
-    <td class="timelines-pet-reorder"><%= reorder_links('type', {:action => 'move', :id => type}) %></td>
-    <td class="buttons">
-      <% if !type.is_standard? %>
-        <%= link_to type, :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
-          <%= t(:button_delete) %>
-          <span class="hidden-for-sighted"><%=h type.name %></span>
-        <% end %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
+    <% for type in @types %>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td class="timelines-pet-name"><%= link_to type.name, edit_type_path(type) %></td>
+        <td align="center"><% if type.workflows.empty? %><span class="icon-context icon-warning"><%= l(:text_type_no_workflow) %> (<%= link_to l(:button_edit), {:controller => '/workflows', :action => 'edit', :type_id => type} %>)</span><% end %></td>
+        <td class="timelines-pet-color"><%= icon_for_type type %></td>
+        <td class="timelines-pet-is_default"><%= checked_image(type.is_default) %></td>
+        <td class="timelines-pet-in_aggregation"><%= checked_image(type.in_aggregation) %></td>
+        <td class="timelines-pet-is_milestone"><%= checked_image(type.is_milestone) %></td>
+        <td class="timelines-pet-reorder"><%= reorder_links('type', {:action => 'move', :id => type}) %></td>
+        <td class="buttons">
+          <% if !type.is_standard? %>
+            <%= link_to type, :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
+              <%= t(:button_delete) %>
+              <span class="hidden-for-sighted"><%=h type.name %></span>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
-
 <%= pagination_links_full @types %>

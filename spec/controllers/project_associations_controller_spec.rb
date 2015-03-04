@@ -60,8 +60,7 @@ describe ProjectAssociationsController, type: :controller do
     let(:project_b) { FactoryGirl.create(:project, is_public: true) }
     def fetch
       post 'create', project_id: project.identifier,
-                     project_association: {},
-                     project_association_select: { project_b_id: project_b.id }
+                     project_association: { project_b_id: project_b.id }
     end
     let(:permission) { :edit_project_associations }
     def expect_redirect_to

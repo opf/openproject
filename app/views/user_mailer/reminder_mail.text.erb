@@ -26,11 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= t(:mail_body_reminder, :count => @issues.size, :days => @days) %>
-
 <% @issues.each do |issue| -%>
-* <%= "#{issue.project} - #{issue.type} ##{issue.id}: #{issue.subject}" %>
+  * <%= "#{issue.project} - #{issue.type} ##{issue.id}: #{issue.subject}" %>
 <% end -%>
-
 <%= @assigned_issues_url %>

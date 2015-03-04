@@ -26,17 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <h2><%=l(:label_member_plural)%></h2>
-
-<% if @members.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
-
+<% if @members.empty? %>
+  <p><i><%= l(:label_no_data) %></i></p>
+<% end %>
 <% members = @members.group_by {|m| m.role } %>
 <% members.keys.sort{|x,y| x.position <=> y.position}.each do |role| %>
-<h3><%= h(role.name) %></h3>
-<ul>
-<% members[role].each do |m| %>
-<li><%= link_to_user m.user %> (<%= format_date m.created_on %>)</li>
-<% end %>
-</ul>
+  <h3><%= h(role.name) %></h3>
+  <ul>
+    <% members[role].each do |m| %>
+      <li><%= link_to_user m.user %> (<%= format_date m.created_on %>)</li>
+    <% end %>
+  </ul>
 <% end %>

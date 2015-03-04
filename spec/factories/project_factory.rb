@@ -29,12 +29,14 @@
 
 FactoryGirl.define do
   factory :project do
-    ignore do
+    transient do
       no_types false
     end
 
     sequence(:name) { |n| "My Project No. #{n}" }
     sequence(:identifier) { |n| "myproject_no_#{n}" }
+    created_on { Time.now }
+    updated_on { Time.now }
     enabled_module_names Redmine::AccessControl.available_project_modules
 
     callback(:before_create) do |project, evaluator|

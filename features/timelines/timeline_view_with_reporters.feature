@@ -167,7 +167,6 @@ Feature: Timeline View Tests with reporters
 
       And I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I wait for timeline to load table
-
      Then I should not see the project "ecookbook_empty"
       And I should see the project "ecookbook_q3"
       And I should see the project "ecookbook13"

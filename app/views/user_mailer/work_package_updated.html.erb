@@ -26,15 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= t(:text_work_package_updated, :id => "##{@issue.id}", :author => @journal.user) %>
-
 <ul>
-<% @journal.details.each do |detail| %>
-  <li><%= @journal.render_detail(detail, :only_path => false) %></li>
-<% end %>
+  <% @journal.details.each do |detail| %>
+    <li><%= @journal.render_detail(detail, :only_path => false) %></li>
+  <% end %>
 </ul>
-
 <%= format_text(@journal.notes, :only_path => false) %>
 <hr />
 <%= render :partial => 'issue_details', :locals => { :issue => @issue } %>

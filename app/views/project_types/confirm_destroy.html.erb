@@ -29,12 +29,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= header_tags %>
 
-<%= form_for(:project_type,
+<%= labelled_tabular_form_for(@project_type,
             :url  => project_type_path(@project_type),
             :html => {:method => 'delete'}) do |f| %>
 
   <div class='flash warning'>
     <%= l('timelines.really_delete_project_type') %>
+    <i class="icon-close close-handler"></i>
   </div>
 
   <h2>
@@ -43,29 +44,21 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <fieldset class="timelines-pt-properties">
     <legend><%= l('timelines.properties') %></legend>
-
-    <p>
-      <label for="project_type_allows_association">
-        <%= ProjectType.human_attribute_name(:allows_association) %>
-      </label>
-      <%= f.check_box :allows_association, :disabled => 'disabled' %>
-    </p>
-
-    <p>
-      <label>
-        <%= ProjectType.human_attribute_name(:reported_project_statuses) %>
-      </label>
-
-      <span class="timelines-value">
+    <div class="form--field">
+      <%= f.check_box :allows_association, disabled: true %>
+    </div>
+    <div class="form--field">
+      <label for="" class="form--label"><%= ProjectType.human_attribute_name(:reported_project_statuses) %></label>
+      <div class="form--field-container">
         <% if @project_type.reported_project_statuses.present? %>
           <%=h @project_type.reported_project_statuses.map(&:name).join(', ') %>
         <% else %>
           -
         <% end %>
-      </span>
-    </p>
+      </div>
+    </div>
   </fieldset>
 
-  <%= submit_tag l(:button_delete) %>
-  <%= link_to l(:button_cancel), project_types_path %>
+  <%= submit_tag l(:button_delete), class: 'button -highlight' %>
+  <%= link_to l(:button_cancel), project_types_path, class: 'button' %>
 <% end %>

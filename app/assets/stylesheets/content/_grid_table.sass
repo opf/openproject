@@ -30,12 +30,12 @@
   width: 100% / 12 * $columns
 
 .grid-items-lines
-  $grid-items-background: $base-body-color
-  $grid-item-background: $base-body-color
-  $grid-item-border: 1px solid transparentize($global_font_color, 0.8)
+  $grid-items-background: $body-background
+  $grid-item-background: $body-background
+  $grid-item-border: 1px solid transparentize($body-font-color, 0.8)
   $grid-item-columns: 4
   $grid-item-big-columns: 8
-  $grid-item-color: $global_font_color
+  $grid-item-color: $body-font-color
   $grid-item-height: 14em
   +clearfix
   position: relative
@@ -81,13 +81,13 @@
   // this, below, might not be the most beautiful solution but it removes the outer borders by using the background color.
   .bottom-cover
     position: absolute
-    bottom: 0px
+    bottom: 0
     width: 100%
     height: 3px
     background: $grid-items-background
   .right-cover
     position: absolute
-    right: 0px
+    right: 0
     height: 100%
     width: 4px
     background: $grid-items-background

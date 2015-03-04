@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper) {
+module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope) {
 
   // Setup
   $scope.$state = $state;
@@ -56,4 +56,5 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
   $scope.getActivationActionLabel = function(activate) {
     return (activate) ? I18n.t('js.label_activate') : '';
   };
+  $rootScope.$broadcast('openproject.layout.activateMenuItem');
 };

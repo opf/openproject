@@ -29,18 +29,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= call_hook(:view_work_packages_form_details_top, { :issue => work_package, :form => f }) %>
 
-<div id="work_package_descr_fields"<% unless work_package.new_record? || work_package.errors.any? %> style="display:none;"<% end %>>
+<% work_package_form_top_attributes(f, work_package,
+                                       :priorities => priorities,
+                                       :project => project).each do |attribute| %>
+  <%= attribute.field %>
 
-  <% work_package_form_top_attributes(f, work_package,
-                                         :priorities => priorities,
-                                         :project => project).each do |attribute| %>
-    <div class="attribute_wrapper">
-      <%= attribute.field %>
-    </div>
-
-  <% end %>
-
-</div>
+<% end %>
 
 <div id="attributes" class="attributes">
   <%= render :partial => 'attributes', :locals => { :f => f,
@@ -51,22 +45,36 @@ See doc/COPYRIGHT.rdoc for more details.
                                                   } %>
 </div>
 
-<% if work_package.new_record? %>
-  <hr class="form_separator" />
-  <div class="handle_attachments">
-    <%= label_tag('attachments[1][file]', l(:label_attachment_plural))%>
-    <%= render :partial => 'attachments/form' %>
-  </div>
-<% end %>
 
 <% if work_package.new_record? && User.current.allowed_to?(:add_work_package_watchers, project) -%>
-  <hr class="form_separator" />
-  <div id="watchers_form">
-    <label class="watcher_label"><%= l(:label_work_package_watchers) %></label>
-    <% work_package.possible_watcher_users.sort.each do |user| -%>
-      <label class="floating"><%= check_box_tag 'work_package[watcher_user_ids][]', user.id, work_package.watched_by?(user) && work_package.visible?(user) %> <%=h user %></label>
-    <% end -%>
-  </div>
+  <% watcher_blocks = work_package.possible_watcher_users.sort.in_groups(3, false) %>
+
+  <fieldset id="timelog" class="header_collapsible collapsible">
+    <legend title="<%=l(:label_work_package_watchers)%>", onclick="toggleFieldset(this);">
+      <a href="javascript:"><%=l(:label_work_package_watchers)%></a>
+    </legend>
+    <div id="watchers_form" class="grid-block">
+      <% watcher_blocks.each do |block| %>
+        <div class="grid-content">
+          <% block.each do |user| %>
+            <div class="form--field -wide-label">
+              <%= f.collection_check_box(:watcher_user_ids,
+                                                     user.id,
+                                                     work_package.watched_by?(user) && work_package.visible?(user),
+                                                     user.name) %>
+            </div>
+          <% end %>
+        </div>
+      <% end -%>
+    </div>
+  </fieldset>
+
+<% end %>
+
+<% if work_package.new_record? %>
+  <hr class="form--separator -invisible">
+
+  <%= render :partial => 'attachments/nested_form' %>
 <% end %>
 
 <%= call_hook(:view_work_packages_form_details_bottom, { :issue => work_package, :form => f }) %>

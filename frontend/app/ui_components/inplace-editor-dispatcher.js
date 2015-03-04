@@ -73,16 +73,10 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   }
 
   function setOptions($scope) {
-    if ($scope.attribute == 'version.name') {
-      $scope.hasEmptyOption = true;
-    }
-    var href = $scope
-      .entity.form.embedded.schema
-      .props[getAttribute($scope)]._links.allowedValues.href;
-    if (href) {
-      setLinkedOptions($scope);
+    if ($scope.embedded) {
+      $scope.$broadcast('focusSelect2');
     } else {
-      setEmbeddedOptions($scope)
+      setLinkedOptions($scope);
     }
   }
 
@@ -102,8 +96,8 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       } else {
         $scope.options = options;
       }
-      $scope.$broadcast('focusSelect2');
     } else {
+      $scope.isEditing = false;
       $scope.isEditable = false;
     }
   }
@@ -147,6 +141,19 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
     text: {
       link: function(scope, element) {
         enableAutoCompletion(element);
+        scope.$on('startEditing', function() {
+          $timeout(function() {
+            var typeWidth = element
+                .closest('.work-packages--details-content')
+                .find('.select-type:first').width();
+            element.find('.ined-dashboard').css({
+              'margin-left': typeWidth
+            });
+            element.find('input[type=text]').css({
+              'width': element.find('.ined-dashboard').width()
+            });
+          }, 0, false);
+        });
       }
     },
 
@@ -174,11 +181,12 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
           }
           $scope.isBusy = true;
           TextileService
-            .renderWithWorkPackageContext($scope.entity.props.id, $scope.dataObject.value)
+            .renderWithWorkPackageContext($scope.entity.form, $scope.dataObject.value)
             .then(function(r) {
               $scope.onFinally();
               $scope.previewHtml = $sce.trustAsHtml(r.data);
           }, function(e) {
+            disablePreview($scope);
             $scope.onFinally();
             $scope.onFail(e);
           });
@@ -192,26 +200,29 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         scope.$on('focusSelect2', function() {
           $timeout(function() {
             element.find('.select2-choice').trigger('click');
-          }, 0, false);
+          });
         });
       },
       startEditing: setOptions,
       submit: function($scope, data) {
-        data._links = { };
+        data._links = data._links || { };
         data._links[getAttribute($scope)] = { href: $scope.dataObject.value || null };
       },
       setReadValue: function($scope) {
+        if ($scope.attribute == 'version.name') {
+          $scope.hasEmptyOption = true;
+        }
         if ($scope.embedded) {
-          $scope.isUserLink = false;
           $scope.readValue = getReadAttributeValue($scope);
+          setEmbeddedOptions($scope);
         } else {
-          $scope.isUserLink = !!$scope.entity.embedded[$scope.attribute];
           $scope.readValue = $scope.entity.embedded[$scope.attribute];
         }
       },
       setWriteValue: function($scope) {
+        var link = $scope.entity.form.embedded.payload.links[getAttribute($scope)];
         $scope.dataObject = {
-          value: $scope.entity.form.embedded.payload.links[getAttribute($scope)].href
+          value: link ? link.href : null
         };
       }
     }

@@ -29,6 +29,8 @@
 require 'spec_helper'
 require File.expand_path('../../support/shared/become_member', __FILE__)
 
+require 'support/shared/acts_as_watchable'
+
 describe News, type: :model do
   include BecomeMember
 
@@ -39,6 +41,12 @@ describe News, type: :model do
   }
 
   let!(:news) { FactoryGirl.create(:news, project: project) }
+
+  it_behaves_like 'acts_as_watchable included' do
+    let(:model_instance) { FactoryGirl.create(:news) }
+    let(:watch_permission) { :view_news }
+    let(:project) { model_instance.project }
+  end
 
   describe '.latest' do
     it 'includes news elements from projects where news module is enabled' do

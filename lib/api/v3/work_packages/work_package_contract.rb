@@ -39,9 +39,13 @@ module API
           'subject',
           'parent_id',
           'description',
+          'start_date',
+          'due_date',
           'status_id',
           'assigned_to_id',
           'responsible_id',
+          'priority_id',
+          'category_id',
           'fixed_version_id'
         ].freeze
 
@@ -67,8 +71,7 @@ module API
 
         def user_allowed_to_access
           unless ::WorkPackage.visible(@user).exists?(model)
-            message = not_found_error_message('WorkPackage', model.id)
-            errors.add :error_not_found, message
+            errors.add :error_not_found, I18n.t('api_v3.errors.code_404')
           end
         end
 
@@ -118,10 +121,6 @@ module API
 
         def principal_visible?(id, list)
           list.exists?(user_id: id)
-        end
-
-        def not_found_error_message(object_type, id)
-          "Couldn't find #{object_type} with id=#{id}"
         end
       end
     end

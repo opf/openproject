@@ -68,9 +68,16 @@ h4. things we like
 {{timeline(#{timeline.id})}}
   }}
 
-  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines, :edit_work_packages]) }
-  let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
+  let(:project) do
+    FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
+  end
+  let(:role) do
+    FactoryGirl.create(:role,
+                       permissions: [:view_work_packages, :view_timelines, :edit_work_packages])
+  end
+  let(:current_user) do
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  end
   let(:watcher) do
     FactoryGirl
       .create(:user,  member_in_project: project, member_through_role: role)
@@ -100,7 +107,8 @@ h4. things we like
         'priority' => work_package.priority.name,
         'startDate' => work_package.start_date,
         'dueDate' => work_package.due_date,
-        'estimatedTime' => JSON.parse({ units: 'hours', value: work_package.estimated_hours }.to_json),
+        'estimatedTime' =>
+          JSON.parse({ units: 'hours', value: work_package.estimated_hours }.to_json),
         'percentageDone' => work_package.done_ratio,
         'versionId' => work_package.fixed_version_id,
         'versionName' => work_package.fixed_version.try(:name),
@@ -123,7 +131,6 @@ h4. things we like
     end
 
     context 'when acting as a user with permission to view work package' do
-
       before(:each) do
         allow(User).to receive(:current).and_return current_user
         get get_path
@@ -160,17 +167,15 @@ h4. things we like
         end
 
         it 'should not resolve/show complex macros' do
-          expect(parsed_response['description']).to have_text('Macro timeline cannot be displayed.')
+          expect(parsed_response['description'])
+            .to have_text('Macro timeline cannot be displayed.')
         end
       end
 
       context 'requesting nonexistent work package' do
         let(:get_path) { '/api/v3/work_packages/909090' }
 
-        it_behaves_like 'not found' do
-          let(:id) { 909090 }
-          let(:type) { 'WorkPackage' }
-        end
+        it_behaves_like 'not found'
       end
     end
 
@@ -191,7 +196,6 @@ h4. things we like
 
       it_behaves_like 'unauthorized access'
     end
-
   end
 
   # disabled the its below because the implementation was temporarily disabled
@@ -221,10 +225,7 @@ h4. things we like
 
         include_context 'patch request'
 
-        it_behaves_like 'not found' do
-          let(:id) { work_package.id }
-          let(:type) { 'WorkPackage' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'no permission to edit the work package' do
@@ -288,7 +289,9 @@ h4. things we like
         let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
         let(:params) { valid_params.merge(parentId: parent.id) }
 
-        before { allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true) }
+        before do
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
+        end
 
         context 'w/o permission' do
           include_context 'patch request'
@@ -383,6 +386,36 @@ h4. things we like
         end
       end
 
+      context 'start date' do
+        let(:dateString) { Date.today.to_date.iso8601 }
+        let(:params) { valid_params.merge(startDate: dateString) }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should respond with updated start date' do
+          expect(subject.body).to be_json_eql(dateString.to_json).at_path('startDate')
+        end
+
+        it_behaves_like 'lock version updated'
+      end
+
+      context 'due date' do
+        let(:dateString) { Date.today.to_date.iso8601 }
+        let(:params) { valid_params.merge(dueDate: dateString) }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should respond with updated due date' do
+          expect(subject.body).to be_json_eql(dateString.to_json).at_path('dueDate')
+        end
+
+        it_behaves_like 'lock version updated'
+      end
+
       context 'status' do
         let(:target_status) { FactoryGirl.create(:status) }
         let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
@@ -464,6 +497,7 @@ h4. things we like
 
         shared_examples_for 'handling people' do |property|
           let(:user_parameter) { { _links: { property => { href: user_href } } } }
+          let(:href_path) { "_links/#{property}/href" }
 
           describe 'nil' do
             let(:user_href) { nil }
@@ -472,14 +506,14 @@ h4. things we like
 
             it { expect(response.status).to eq(200) }
 
-            it { expect(response.body).not_to have_json_path("_links/#{property}") }
+            it { expect(response.body).to be_json_eql(nil.to_json).at_path(href_path) }
 
             it_behaves_like 'lock version updated'
           end
 
           describe 'valid' do
             shared_examples_for 'valid user assignment' do
-              let(:title) { "#{assigned_user.name} - #{assigned_user.login}".to_json }
+              let(:title) { "#{assigned_user.name}".to_json }
 
               it { expect(response.status).to eq(200) }
 
@@ -592,24 +626,52 @@ h4. things we like
         end
       end
 
+      context 'category' do
+        let(:target_category) { FactoryGirl.create(:category, project: project) }
+        let(:category_link) { "/api/v3/categories/#{target_category.id}" }
+        let(:category_parameter) { { _links: { category: { href: category_link } } } }
+        let(:params) { valid_params.merge(category_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid' do
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with the work package assigned to the category' do
+            expect(subject.body).to be_json_eql(target_category.name.to_json)
+              .at_path('_embedded/category/name')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+      end
+
+      context 'priority' do
+        let(:target_priority) { FactoryGirl.create(:priority) }
+        let(:priority_link) { "/api/v3/priorities/#{target_priority.id}" }
+        let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
+        let(:params) { valid_params.merge(priority_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid' do
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with the work package assigned to the priority' do
+            expect(subject.body).to be_json_eql(target_priority.name.to_json)
+              .at_path('_embedded/priority/name')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+      end
+
       describe 'update with read-only attributes' do
         describe 'single read-only violation' do
-          context 'start date' do
-            let(:params) { valid_params.merge(startDate: DateTime.now.utc.iso8601) }
-
-            include_context 'patch request'
-
-            it_behaves_like 'read-only violation', 'startDate'
-          end
-
-          context 'due date' do
-            let(:params) { valid_params.merge(dueDate: DateTime.now.utc.iso8601) }
-
-            include_context 'patch request'
-
-            it_behaves_like 'read-only violation', 'dueDate'
-          end
-
           context 'created and updated' do
             let(:tomorrow) { (DateTime.now + 1.day).utc.iso8601 }
             include_context 'patch request'
@@ -647,7 +709,7 @@ h4. things we like
 
         context 'multiple read-only attributes' do
           let(:params) do
-            valid_params.merge(startDate: DateTime.now.utc.iso8601, dueDate: DateTime.now.utc.iso8601)
+            valid_params.merge(createdAt: Date.today.iso8601, updatedAt: Date.today.iso8601)
           end
 
           include_context 'patch request'
@@ -658,7 +720,7 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type with details',
                           'attribute',
-                          'attribute' => ['startDate', 'dueDate']
+                          'attribute' => ['createdAt', 'updatedAt']
         end
       end
 

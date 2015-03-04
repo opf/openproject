@@ -4,16 +4,20 @@
 
     <h3>{{ I18n.t('js.label_save_as') }}</h3>
 
-    <form name="modalSaveForm">
-      <div>
-        <label>
-          Name:
-          <span class="required"> *</span>
-          <input class="short" type="text" name="query_name" ng-model="queryName" focus required></input>
+    <form name="modalSaveForm" class="form">
+      <div class="form--field -required">
+        <label class="form--label">
+          {{ I18n.t('js.modals.label_name') }}
         </label>
+        <div class="form--field-container">
+          <div class="form--text-field-container">
+            <input class="form--text-field" type="text" name="query_name"
+              ng-model="queryName" focus required></input>
+          </div>
+        </div>
       </div>
-      <div>
-        <button class="button_highlight"
+      <div class="form--space">
+        <button class="button -highlight"
           ng-click="saveQueryAs(queryName)"
           ng-disabled="modalSaveForm.$invalid">
           {{ I18n.t('js.modals.button_save') }}

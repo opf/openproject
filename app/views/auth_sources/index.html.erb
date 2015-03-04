@@ -30,39 +30,36 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :action_menu_specific do %>
   <%= link_to l(:label_auth_source_new), { :action => 'new' }, :class => 'icon icon-add' %>
 <% end %>
-
 <% html_title l(:label_administration), l(:label_auth_source_plural) %>
-
 <h2><%=l(:label_auth_source_plural)%></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
 <table class="list">
-  <thead><tr>
-    <th><%= AuthSource.human_attribute_name(:name) %></th>
-    <th><%= AuthSource.human_attribute_name(:type) %></th>
-    <th><%= AuthSource.human_attribute_name(:host) %></th>
-    <th><%= l(:label_user_plural)%></th>
-    <th></th>
-  </tr></thead>
+  <thead>
+    <tr>
+      <th><%= AuthSource.human_attribute_name(:name) %></th>
+      <th><%= AuthSource.human_attribute_name(:type) %></th>
+      <th><%= AuthSource.human_attribute_name(:host) %></th>
+      <th><%= l(:label_user_plural)%></th>
+      <th></th>
+    </tr>
+  </thead>
   <tbody>
-<% for source in @auth_sources %>
-  <tr class="<%= cycle("odd", "even") %>">
-    <td><%= link_to source.name, :action => 'edit', :id => source %></td>
-    <td align="center"><%= source.auth_method_name %></td>
-    <td align="center"><%= source.host %></td>
-    <td align="center"><%= source.users.count %></td>
-    <td class="buttons">
-      <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
-      <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
+    <% for source in @auth_sources %>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td><%= link_to source.name, :action => 'edit', :id => source %></td>
+        <td align="center"><%= source.auth_method_name %></td>
+        <td align="center"><%= source.host %></td>
+        <td align="center"><%= source.users.count %></td>
+        <td class="buttons">
+          <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
+          <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
                                      :method => :delete,
                                      :confirm => l(:text_are_you_sure),
                                      :class => 'icon icon-delete',
                                      :disabled => source.users.any? %>
-    </td>
-  </tr>
-<% end %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
-
 <%= pagination_links_full @auth_sources %>

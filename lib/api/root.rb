@@ -67,13 +67,34 @@ module API
       end
 
       def authenticate
-        raise API::Errors::Unauthenticated if current_user.nil? || current_user.anonymous? if Setting.login_required?
+        if Setting.login_required? && (current_user.nil? || current_user.anonymous?)
+          raise API::Errors::Unauthenticated
+        end
       end
 
-      def authorize(permission, context: nil, global: false, user: current_user, allow: true)
-        is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
-        raise API::Errors::Unauthorized unless is_authorized && allow
-        is_authorized
+      def authorize(permission, context: nil, global: false, user: current_user, &block)
+        is_authorized = AuthorizationService.new(permission,
+                                                 context: context,
+                                                 global: global,
+                                                 user: user).call
+
+        return true if is_authorized
+
+        if block_given?
+          yield block
+        else
+          raise API::Errors::Unauthorized
+        end
+
+        false
+      end
+
+      def authorize_by_with_raise(&_block)
+        if yield
+          true
+        else
+          raise API::Errors::Unauthorized
+        end
       end
 
       def running_in_test_env?
@@ -98,8 +119,8 @@ module API
       end
     end
 
-    rescue_from ActiveRecord::RecordNotFound do |e|
-      api_error = ::API::Errors::NotFound.new(e.message)
+    rescue_from ActiveRecord::RecordNotFound do
+      api_error = ::API::Errors::NotFound.new
       representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
       error_response(status: api_error.code, message: representer.to_json)
     end

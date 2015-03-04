@@ -26,36 +26,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <% if @project.boards.any? %>
-<table class="list">
-  <thead><tr>
-    <th><%= Board.model_name.human %></th>
-    <th><%= Board.human_attribute_name(:description) %></th>
-    <th></th>
-    <th></th>
-  </tr></thead>
-  <tbody>
-<% @project.boards.each do |board|
+  <table class="list">
+    <thead>
+      <tr>
+        <th><%= Board.model_name.human %></th>
+        <th><%= Board.human_attribute_name(:description) %></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @project.boards.each do |board|
   next if board.new_record? %>
-  <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%=h board.name %></td>
-    <td><%=h board.description %></td>
-    <td class="small-icons" align="center">
-    <% if authorize_for("boards", "edit") %>
-      <%= reorder_links('board', {:controller => '/boards', :action => 'move', :project_id => @project, :id => board}) %>
-    <% end %>
-    </td>
-    <td class="buttons">
-      <%= link_to_if_authorized l(:button_edit), {:controller => '/boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
-      <%= link_to_if_authorized l(:button_delete), {:controller => '/boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
-    </td>
-  </tr>
-<% end %>
-  </tbody>
-</table>
+        <tr class="<%= cycle 'odd', 'even' %>">
+          <td><%=h board.name %></td>
+          <td><%=h board.description %></td>
+          <td class="small-icons" align="center">
+            <% if authorize_for("boards", "edit") %>
+              <%= reorder_links('board', {:controller => '/boards', :action => 'move', :project_id => @project, :id => board}) %>
+            <% end %>
+          </td>
+          <td class="buttons">
+            <%= link_to_if_authorized l(:button_edit), {:controller => '/boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
+            <%= link_to_if_authorized l(:button_delete), {:controller => '/boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-
 <p><%= link_to_if_authorized l(:label_board_new), {:controller => '/boards', :action => 'new', :project_id => @project} %></p>

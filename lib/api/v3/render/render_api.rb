@@ -42,12 +42,21 @@ module API
             def check_content_type
               actual = request.content_type
 
-              unless actual.starts_with? SUPPORTED_MEDIA_TYPE
+              unless actual && actual.starts_with?(SUPPORTED_MEDIA_TYPE)
+                bad_type = actual || I18n.t('api_v3.errors.missing_content_type')
                 message = I18n.t('api_v3.errors.invalid_content_type',
                                  content_type: SUPPORTED_MEDIA_TYPE,
-                                 actual: actual)
+                                 actual: bad_type)
 
-                fail API::Errors::InvalidRequestBody, message
+                fail API::Errors::UnsupportedMediaType, message
+              end
+            end
+
+            def check_format(format)
+              supported_formats = ['plain']
+              supported_formats += Array(Redmine::WikiFormatting.format_names)
+              unless supported_formats.include?(format)
+                fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
               end
             end
 
@@ -94,36 +103,22 @@ module API
                 context
               end
             end
-
-            def renderer(type)
-              case type
-              when :textile
-                ::API::Utilities::Renderer::TextileRenderer.new(request_body, context_object)
-              when :plain
-                ::API::Utilities::Renderer::PlainRenderer.new(request_body)
-              end
-            end
-
-            def render(type)
-              renderer(type).to_html
-            end
           end
 
-          resources :textile do
+          route_param :render_format do
+            before do
+              @format = params[:render_format]
+            end
+
             post do
+              check_format(@format)
               check_content_type
               setup_response
 
-              render :textile
-            end
-          end
-
-          resources :plain do
-            post do
-              check_content_type
-              setup_response
-
-              render :plain
+              renderer = ::API::Utilities::TextRenderer.new(request_body,
+                                                            object: context_object,
+                                                            format: @format)
+              renderer.to_html
             end
           end
         end

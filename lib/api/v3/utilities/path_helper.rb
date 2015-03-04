@@ -62,12 +62,16 @@ module API
             "#{project(project_id)}/categories"
           end
 
-          def self.preview_textile(link)
-            preview_markup(:textile, link)
+          def self.category(id)
+            "#{root}/categories/#{id}"
           end
 
           def self.priorities
             "#{root}/priorities"
+          end
+
+          def self.priority(id)
+            "#{priorities}/#{id}"
           end
 
           def self.projects
@@ -86,12 +90,30 @@ module API
             "#{root}/relations/#{id}"
           end
 
+          def self.render_markup(format: nil, link: nil)
+            format = format || Setting.text_formatting
+            format = 'plain' if format == '' # Setting will return '' for plain
+
+            path = "#{root}/render/#{format}"
+            path += "?#{link}" if link
+
+            path
+          end
+
+          def self.render_textile(link)
+            render_markup(format: :textile, link: link)
+          end
+
           def self.statuses
             "#{root}/statuses"
           end
 
           def self.status(id)
             "#{statuses}/#{id}"
+          end
+
+          def self.string_object(value)
+            "#{root}/string_objects/#{::ERB::Util::url_encode(value)}"
           end
 
           def self.users
@@ -134,6 +156,10 @@ module API
             "#{work_package(id)}/activities"
           end
 
+          def self.work_package_form(id)
+            "#{work_package(id)}/form"
+          end
+
           def self.work_package_relations(id)
             "#{work_package(id)}/relations"
           end
@@ -142,8 +168,8 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
-          def self.work_package_form(id)
-            "#{work_package(id)}/form"
+          def self.work_package_schema(project_id, type_id)
+            "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
 
           def self.work_package_watchers(id)
@@ -154,14 +180,6 @@ module API
             @@root_path ||= Class.new.tap do |c|
               c.extend(::API::V3::Utilities::PathHelper)
             end.root_path
-          end
-
-          def self.preview_markup(method, link)
-            path = "#{root}/render/#{method}"
-
-            path += "?#{link}" unless link.nil?
-
-            path
           end
         end
 

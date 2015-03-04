@@ -101,48 +101,4 @@ describe('sortingModal', function() {
       expect(scope.availableColumnsData).to.not.contain({id: 'author', label: 'Author', other: 'Author'});
     });
   });
-
-  describe('when a sort element has been selected', function() {
-    var selectableColumns;
-
-    beforeEach(function() {
-      scope.sortElements = [
-        [
-          { id: 'parent', label: 'Parent', other: 'Parent' },
-          { id: 'desc', label: 'Descending' }
-        ]
-      ];
-      buildController();
-
-      selectableColumns = scope.getAvailableColumnsData(undefined, angular.identity);
-    });
-
-    it('subtracts the sort elements from the selectable sort options', function() {
-      expect(selectableColumns).to.have.length(3);
-      expect(selectableColumns).to.not.contain(scope.availableColumnsData[1]);
-    });
-  });
-
-  describe('when the blank option is selected', function() {
-    var parentColumnData = [
-      { id: 'parent', label: 'Parent', other: 'Parent' },
-      { id: 'desc', label: 'Descending' }
-    ];
-
-    beforeEach(function() {
-      buildController();
-
-      scope.sortElements = [
-        [{ id: null, label: ' ', other: null }, { id: null, label: null }],
-        parentColumnData
-      ];
-
-      scope.$digest();
-    });
-
-    it('removes blank data from the sort elements', function() {
-      expect(scope.sortElements[0]).to.deep.equal(parentColumnData);
-    });
-  });
-
 });

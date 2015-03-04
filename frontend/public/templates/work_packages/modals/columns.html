@@ -4,20 +4,20 @@
 
     <h3>{{ I18n.t('js.label_columns') }}</h3>
 
-    <div>
+    <div cg-busy="vm.promise" class="columns-modal-content">
       <label for="selected_columns">{{ I18n.t('js.description_selected_columns') }}</label>
-      <input id="selected_columns_new"
-             type="hidden"
-             ui-select2-sortable="select2Options"
-             simple-query="getObjectsData"
-             ng-model="selectedColumnsData"
-             multiple
-             sortable
-             focus></input>
+      <ui-select multiple ng-model="vm.selectedColumns" theme="select2" id="selected_columns">
+        <ui-select-match>
+          {{$item.title}}
+        </ui-select-match>
+        <ui-select-choices repeat="column in vm.availableColumns | filter: { title: $select.search }">
+          <div ng-bind-html="column.title | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
     </div>
 
     <div>
-      <button class="button_highlight" ng-click="updateSelectedColumns()">
+      <button class="button -highlight" ng-click="updateSelectedColumns()">
         {{ I18n.t('js.modals.button_apply') }}
       </button>
       <button class="button" ng-click="modal.closeMe()">

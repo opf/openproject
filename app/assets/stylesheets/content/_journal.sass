@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/all
-
 #content #history
   padding-bottom: 11px
 
@@ -35,7 +33,7 @@
   width: 700px
   margin:
     top: 1em
-    bottom: 0px
+    bottom: 0
   h3
     margin-bottom: 20px
   .journal
@@ -63,12 +61,12 @@
       right: 4px
   h4
     padding-right: 5px
-    font-size: $global_font_size
+    font-size: 1rem
     font-weight: normal
     position: relative
     z-index: 5
     border: 0
-    margin-bottom: 0px
+    margin-bottom: 0
     .history-id
       float: right
       color: #999
@@ -90,7 +88,7 @@
 
 .journal-attributes
   color: #333333
-  font-size: $journal_attribute_font_size
+  font-size: $journal-attribute-font-size
 
 ul.journal-attributes
   list-style-type: disc

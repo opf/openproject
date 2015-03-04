@@ -28,8 +28,8 @@
 #++
 
 class News < ActiveRecord::Base
-  generator_for :title, :method => :next_title
-  generator_for :description, :method => :next_description
+  generator_for :title, method: :next_title
+  generator_for :description, method: :next_description
 
   def self.next_title
     @last_title ||= 'A New Item'

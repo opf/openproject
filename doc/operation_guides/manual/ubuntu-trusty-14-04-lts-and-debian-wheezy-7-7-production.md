@@ -416,7 +416,7 @@ Your OpenProject installation is ready to run. However, there are some things to
 This step is optional.
 
 OpenProject can be extended by various plug-ins, which extend OpenProject's capabilities.
-For general information and a list of all plug-ins known to us, refer to to the [plug-in page](https://www.openproject.org/projects/openproject/wiki/OpenProject_Plug-Ins).
+For general information and a list of all plug-ins known to us, refer to to the [plug-in page](https://community.openproject.org/projects/openproject/wiki/OpenProject_Plug-Ins).
 
 OpenProject plug-ins are separated in ruby gems. You can install them by listing them in a file called `Gemfile.plugin`. An example `Gemfile.plugin` file looks like this:
 

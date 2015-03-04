@@ -70,8 +70,8 @@ describe('toggledMultiselect Directive', function() {
       });
 
       describe('element', function() {
-        it('should render a div', function() {
-          expect(element.prop('tagName')).to.equal('DIV');
+        it('should render a span', function() {
+          expect(element.prop('tagName')).to.equal('SPAN');
         });
 
         it('should render only one select', function() {

@@ -26,41 +26,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <% breadcrumb_paths(l(:label_my_page)) %>
 <% content_for :action_menu_specific do %>
-    <%= link_to l(:label_personalize_page), action: 'page_layout', accesskey: accesskey(:edit) %>
+  <%= link_to l(:label_personalize_page), action: 'page_layout', accesskey: accesskey(:edit) %>
 <% end %>
-
 <h2><%=l(:label_my_page)%></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
-<div id="list-top">
-  <% @blocks['top'].each do |b|
-     next unless MyController.available_blocks.keys.include? b  %>
-  <div class="mypage-box">
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+<div class="grid-block">
+  <div id="list-top" class="grid-content">
+    <% @blocks['top'].each do |b|
+       next unless MyController.available_blocks.keys.include? b  %>
+      <div class="mypage-box">
+        <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+      </div>
+    <% end if @blocks['top'] %>
   </div>
-  <% end if @blocks['top'] %>
 </div>
-
-<div id="list-left" class="splitcontentleft">
-  <% @blocks['left'].each do |b|
-     next unless MyController.available_blocks.keys.include? b %>
-  <div class="mypage-box">
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+<div class="grid-block">
+  <div id="list-left" class="grid-content">
+    <% @blocks['left'].each do |b|
+       next unless MyController.available_blocks.keys.include? b %>
+      <div class="mypage-box">
+        <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+      </div>
+    <% end if @blocks['left'] %>
   </div>
-  <% end if @blocks['left'] %>
-</div>
-
-<div id="list-right" class="splitcontentright">
-  <% @blocks['right'].each do |b|
-     next unless MyController.available_blocks.keys.include? b %>
-  <div class="mypage-box">
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+  <div id="list-right" class="grid-content">
+    <% @blocks['right'].each do |b|
+       next unless MyController.available_blocks.keys.include? b %>
+      <div class="mypage-box">
+        <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+      </div>
+    <% end if @blocks['right'] %>
   </div>
-  <% end if @blocks['right'] %>
 </div>
-
 <% html_title(l(:label_my_page)) -%>

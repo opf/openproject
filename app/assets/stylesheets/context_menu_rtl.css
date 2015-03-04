@@ -36,5 +36,5 @@ See doc/COPYRIGHT.rdoc for more details.
 #context-menu a {
    background-position: 100% 40%;
    padding-right: 20px;
-   padding-left: 0px;
+   padding-left: 0;
 }

@@ -32,6 +32,12 @@ describe Wiki, type: :model do
   let(:project) { FactoryGirl.create(:project, :without_wiki) }
   let(:start_page) { 'The wiki start page' }
 
+  it_behaves_like 'acts_as_watchable included' do
+    let(:model_instance) { FactoryGirl.create(:wiki) }
+    let(:watch_permission) { :view_wiki_pages }
+    let(:project) { model_instance.project }
+  end
+
   describe '#create' do
     let(:wiki) { project.create_wiki start_page: start_page }
 

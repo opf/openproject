@@ -94,7 +94,7 @@ describe TimelogController, type: :controller do
         describe :view do
           render_views
 
-          it { expect(response.body).to match(/Work Package is invalid/) }
+          it { expect(response.body).to match(/Work package is invalid/) }
         end
       end
     end

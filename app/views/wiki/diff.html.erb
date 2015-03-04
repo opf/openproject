@@ -30,19 +30,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :action_menu_specific do %>
   <%= link_to(l(:label_history), {:action => 'history', :id => @page}, :class => 'icon icon-wiki') %>
 <% end %>
-
 <h2><%= h(@page.pretty_title) %></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
 <p>
-<%= Version.model_name.human %> <%= link_to @diff.content_from.version, :action => 'show', :id => @page, :project_id => @page.project, :version => @diff.content_from.version %>/<%= @page.content.version %>
-<em>(<%= @diff.content_from.user ? link_to_user(@diff.content_from.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_from.created_at) %>)</em>
-&#8594;
-<%= Version.model_name.human %> <%= link_to @diff.content_to.version, :action => 'show', :id => @page, :project_id => @page.project, :version => @diff.content_to.version %>/<%= @page.content.version %>
-<em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_to.created_at) %>)</em>
+  <%= Version.model_name.human %> <%= link_to @diff.content_from.version, :action => 'show', :id => @page, :project_id => @page.project, :version => @diff.content_from.version %>/<%= @page.content.version %>
+  <em>(<%= @diff.content_from.user ? link_to_user(@diff.content_from.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_from.created_at) %>)</em>
+  &#8594;
+  <%= Version.model_name.human %> <%= link_to @diff.content_to.version, :action => 'show', :id => @page, :project_id => @page.project, :version => @diff.content_to.version %>/<%= @page.content.version %>
+  <em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : l(:label_user_anonymous) %>, <%= format_time(@diff.content_to.created_at) %>)</em>
 </p>
-
 <div class="text-diff">
   <%= nl2br @html_diff %>
 </div>

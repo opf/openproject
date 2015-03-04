@@ -57,8 +57,8 @@ class TypesControllerTest < ActionController::TestCase
   end
 
   def test_post_create
-    post :create, :type => { :name => 'New type', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
-    assert_redirected_to :action => 'index'
+    post :create, type: { name: 'New type', project_ids: ['1', '', ''], custom_field_ids: ['1', '6', ''] }
+    assert_redirected_to action: 'index'
     type = Type.find_by_name('New type')
     assert_equal [1], type.project_ids.sort
     assert_equal [1, 6], type.custom_field_ids
@@ -66,8 +66,8 @@ class TypesControllerTest < ActionController::TestCase
   end
 
   def test_post_create_with_workflow_copy
-    post :create, :type => { :name => 'New type' }, :copy_workflow_from => 1
-    assert_redirected_to :action => 'index'
+    post :create, type: { name: 'New type' }, copy_workflow_from: 1
+    assert_redirected_to action: 'index'
     type = Type.find_by_name('New type')
     assert_equal 0, type.projects.count
     assert_equal Type.find(1).workflows.count, type.workflows.count
@@ -76,57 +76,57 @@ class TypesControllerTest < ActionController::TestCase
   def test_get_edit
     Type.find(1).project_ids = [1, 3]
 
-    get :edit, :id => 1
+    get :edit, id: 1
     assert_response :success
     assert_template 'edit'
 
-    assert_tag :input, :attributes => { :name => 'type[project_ids][]',
-                                        :value => '1',
-                                        :checked => 'checked' }
+    assert_tag :input, attributes: { name: 'type[project_ids][]',
+                                     value: '1',
+                                     checked: 'checked' }
 
-    assert_tag :input, :attributes => { :name => 'type[project_ids][]',
-                                        :value => '2',
-                                        :checked => nil }
+    assert_tag :input, attributes: { name: 'type[project_ids][]',
+                                     value: '2',
+                                     checked: nil }
 
-    assert_tag :input, :attributes => { :name => 'type[project_ids][]',
-                                        :value => '',
-                                        :type => 'hidden'}
+    assert_tag :input, attributes: { name: 'type[project_ids][]',
+                                     value: '',
+                                     type: 'hidden' }
   end
 
   def test_post_update
-    post :update, :id => 1, :type => { :name => 'Renamed',
-                                       :project_ids => ['1', '2', ''] }
-    assert_redirected_to :action => 'index'
+    post :update, id: 1, type: { name: 'Renamed',
+                                 project_ids: ['1', '2', ''] }
+    assert_redirected_to action: 'index'
     assert_equal [1, 2], Type.find(1).project_ids.sort
   end
 
   def test_post_update_without_projects
-    post :update, :id => 1, :type => { :name => 'Renamed',
-                                        :project_ids => [''] }
-    assert_redirected_to :action => 'index'
+    post :update, id: 1, type: { name: 'Renamed',
+                                 project_ids: [''] }
+    assert_redirected_to action: 'index'
     assert Type.find(1).project_ids.empty?
   end
 
   def test_move_lower
-   type = Type.find_by_position(1)
-   post :move, :id => 1, :type => { :move_to => 'lower' }
-   assert_equal 2, type.reload.position
+    type = Type.find_by_position(1)
+    post :move, id: 1, type: { move_to: 'lower' }
+    assert_equal 2, type.reload.position
   end
 
   def test_destroy
-    type = Type.create!(:name => 'Destroyable')
+    type = Type.create!(name: 'Destroyable')
     assert_difference 'Type.count', -1 do
-      post :destroy, :id => type.id
+      post :destroy, id: type.id
     end
-    assert_redirected_to :action => 'index'
+    assert_redirected_to action: 'index'
     assert_nil flash[:error]
   end
 
   def test_destroy_type_in_use
     assert_no_difference 'Type.count' do
-      post :destroy, :id => 1
+      post :destroy, id: 1
     end
-    assert_redirected_to :action => 'index'
+    assert_redirected_to action: 'index'
     assert_not_nil flash[:error]
   end
 end

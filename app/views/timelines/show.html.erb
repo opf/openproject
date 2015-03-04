@@ -60,8 +60,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div id="timeline">
   <%= form_tag '', {:id => "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
-    <%= label_tag 'timeline_select', l("timelines.timeline") %>
-    <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {ui_select2: 'ui-select2', id: 'timeline_select', ng_model: 'currentTimelineId', ng_change: 'switchTimeline()'}) %>
+    <span class="inline-label">
+      <%= label_tag 'timeline_select', l("timelines.timeline"), class: "form-label -transparent" %>
+      <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {ui_select2: 'ui-select2', id: 'timeline_select', ng_model: 'currentTimelineId', ng_change: 'switchTimeline()'}) %>
+    </span>
   <% end %>
 
   <% push_visible_timeline_paths @visible_timelines %>

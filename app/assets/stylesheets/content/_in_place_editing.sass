@@ -1,5 +1,10 @@
+.select2-container
+  position: relative!important
 .inplace-editor
+  ul
+    margin-left: auto
   display: inline
+  font-size: medium
   .ined-input-wrapper-inner
     display: inline
   &.busy
@@ -9,8 +14,10 @@
     *
       cursor: wait!important
   &.preview
-    button, .help
+    button
       visibility: hidden
+    .help
+      display: none!important
     .btn-preview
       visibility: visible
     &.type-wiki_textarea .ined-controls
@@ -38,12 +45,12 @@
 
   .ined-input-wrapper
     display: inline
-    input, textarea
-      width: 370px
-    textarea
-      min-height: 200px
+    input
+      width: 90%
+      margin-bottom: -1px
   .ined-read-value
     display: inline
+    position: relative
     &.default
       span
         font-style: italic
@@ -57,34 +64,41 @@
     display: inline
     .ng-invalid
       background: lightpink!important
-  .ined-errors
-    position: absolute
-    font-size: 13px
-    line-height: 1.2em
-    width: 251px
-    padding: 5px
-    left: 0px
-    bottom: -49px
-    background: white
-    border: 1px solid #cacaca
-    height: 42px
-  .ined-controls
-    position: absolute
-    bottom: -35px
-    right: 0px
-    width: 120px
-    font-size: 13px
-    background: white
-    border: 1px solid #cacaca
-    text-align: center
-    a
-      width: 36px
+  .ined-dashboard
+    min-height: 42px
+    .ined-errors
+      line-height: 1.2em
+      width: 100%
+      padding: 5px
+      left: 251px
+      bottom: -11px
+      background: white
+      border: 1px solid #cacaca
+      min-height: 42px
+    .ined-controls
+      float: left
       display: inline-block
+      bottom: 17px
+      left: 29px
+      width: 120px
+      background: white
+      border: 1px solid #cacaca
       text-align: center
-      text-decoration: none
-      &:hover
-        background: #f0f0f0
+      a
+        width: 36px
+        display: inline-block
+        text-align: center
+        text-decoration: none
+        &:hover
+          background: #f0f0f0
+  &.type-text
+    .ined-dashboard
+      width: 90%
   &.type-wiki_textarea
+    textarea
+      min-height: 200px
+      width: 100%
+      margin-bottom: -1px
     .ined-input-wrapper-inner
       display: block!important
     form
@@ -93,16 +107,18 @@
       display: block
     .read-value-wrapper
       display: inline-block
-      width: 400px
+      width: 100%
     .editing-link-wrapper
-      position: relative
-      display: inline-block
-      float: right
-    .ined-controls
-      bottom: -6px
-    .ined-errors
-      bottom: -26px
-      width: 307px
+      top: 5px
+      right: 0px
+    .ined-dashboard
+      padding-left: 0px
+      width: 100%
+      .ined-controls
+        left: 0px
+        z-index: 1
+    .jstHandle
+      display: none
     .jstElements
       display: inline
       bottom: -31px
@@ -111,7 +127,6 @@
         display: none
         &.btn-preview
           float: right
-          font-size: 12px
           height: 32px
           width: auto
           display: inline
@@ -123,35 +138,23 @@
         top: -4px
         left: -12px
         a
-          padding-left: 0px
+          width: 29px
+          display: inline-block
+          height: 25px
+          overflow: hidden
+          padding-top: 7px
+          margin-bottom: -2px
+          padding-left: 0
       .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
         display: inline
-  &.type-select
-    .ined-controls
-      right: auto
-      left: 0px
-      bottom: -23px
-    .ined-errors
-      bottom: -44px
-      left: 119px
   &.type-select2
-    display: inline-block
-    width: 344px
     .select2-display-none
       display: none
-    .ui-select-choices
-      max-height: 100px
     input[type='text']
       width: 100%
-    .ined-errors
-      bottom: -41px
-      left: 119px
-      width: 225px
+    .ined-dashboard
+      padding-left: 0px
     .ined-controls
-      bottom: -27px
-      left: 0
-    .ined-edit
-      height: 175px
     .ined-read-value
       position: relative
       display: block
@@ -160,8 +163,15 @@
         outline: 1px solid #cacaca
     .editing-link-wrapper
       position: absolute
-      right: -13px
+      right: -3px
       top: 1px
       width: 30px
       .icon-context:before
         padding: 0 1px 1px 0
+@include breakpoint(xlarge)
+  .inplace-editor .jstElements .help a
+    width: auto!important
+    display: inline!important
+    height: auto!important
+    padding-top: auto!important
+    margin-bottom: auto!important

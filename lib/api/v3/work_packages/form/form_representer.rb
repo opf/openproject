@@ -64,7 +64,7 @@ module API
 
           link :previewMarkup do
             {
-              href: api_v3_paths.preview_textile(api_v3_paths.work_package(represented.id)),
+              href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),
               method: :post
             }
           end
@@ -87,7 +87,8 @@ module API
                    embedded: true,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     Form::WorkPackageSchemaRepresenter.new(represented,
+                     schema = Schema::WorkPackageSchema.new(work_package: represented)
+                     Schema::WorkPackageSchemaRepresenter.new(schema,
                                                             current_user: @current_user)
                    }
           property :validation_errors, embedded: true, exec_context: :decorator

@@ -71,6 +71,10 @@
       "href": "/api/v3/work_packages/819/activities",
       "method": "post",
       "title": "Add comment"
+    },
+    "project": {
+      "href": "/api/v3/projects/2",
+      "title": "Seeded Project"
     }
   },
   "id": 819,
@@ -89,10 +93,6 @@
     "value": null
   },
   "percentageDone": 0,
-  "versionId": null,
-  "versionName": null,
-  "projectId": 2,
-  "projectName": "Seeded Project",
   "createdAt": "2014-03-10T16:20:23Z",
   "updatedAt": "2014-03-10T16:20:23Z",
   "customProperties": [
@@ -195,6 +195,29 @@
         "createdAt": "2014-03-10T16:20:23Z"
       }
     ],
+    "project": {
+      "_type": "Project",
+      "_links": {
+        "self": {
+        "href": "/api/v3/projects/2",
+        "title": "Seeded Project"
+      },
+      "categories": {
+        "href": "/api/v3/projects/2/categories"
+      },
+      "versions": {
+        "href": "/api/v3/projects/2/versions"
+      }
+      },
+      "id": 1,
+      "identifier": "seeded-project",
+      "name": "Seeded Project",
+      "description": "",
+      "homepage": "",
+      "createdAt": "2013-04-30T15:02:51+00:00",
+      "updatedAt": "2013-04-30T16:28:51+00:00",
+      "type": null
+    },
     "watchers": [
       {
         "_type": "User",

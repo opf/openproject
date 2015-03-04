@@ -26,36 +26,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
-
 <%= render :partial => 'navigation' %>
-
 <h2><%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
-
 <%= render :partial => 'layouts/action_menu_specific' %>
-
 <p><%= render :partial => 'link_to_functions' %></p>
-
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
-
 <div class="autoscroll">
-<table class="filecontent annotate CodeRay">
-  <tbody>
-    <% line_num = 1 %>
-    <% syntax_highlight(@path, to_utf8_for_repositories(@annotate.content)).each_line do |line| %>
-    <% revision = @annotate.revisions[line_num-1] %>
-    <tr class="bloc-<%= revision.nil? ? 0 : colors[revision.identifier || revision.revision] %>">
-      <th class="line-num" id="L<%= line_num %>"><a href="#L<%= line_num %>"><%= line_num %></a></th>
-      <td class="revision">
-      <%= (revision.identifier ? link_to_revision(revision, @project) : format_revision(revision)) if revision %></td>
-      <td class="author"><%= h(revision.author.to_s.split('<').first) if revision %></td>
-      <td class="line-code"><pre><%= line %></pre></td>
-    </tr>
-    <% line_num += 1 %>
-    <% end %>
-  </tbody>
-</table>
+  <table class="filecontent annotate CodeRay">
+    <tbody>
+      <% line_num = 1 %>
+      <% syntax_highlight(@path, to_utf8_for_repositories(@annotate.content)).each_line do |line| %>
+        <% revision = @annotate.revisions[line_num-1] %>
+        <tr class="bloc-<%= revision.nil? ? 0 : colors[revision.identifier || revision.revision] %>">
+          <th class="line-num" id="L<%= line_num %>"><a href="#L<%= line_num %>"><%= line_num %></a></th>
+          <td class="revision">
+            <%= (revision.identifier ? link_to_revision(revision, @project) : format_revision(revision)) if revision %></td>
+          <td class="author"><%= h(revision.author.to_s.split('<').first) if revision %></td>
+          <td class="line-code">
+            <pre><%= line %></pre>
+          </td>
+        </tr>
+        <% line_num += 1 %>
+      <% end %>
+    </tbody>
+  </table>
 </div>
-
 <% html_title(l(:button_annotate)) -%>

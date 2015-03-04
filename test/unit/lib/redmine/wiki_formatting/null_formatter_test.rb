@@ -30,14 +30,13 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::WikiFormatting::NullFormatterTest < HelperTestCase
-
   def setup
     super
     @formatter = Redmine::WikiFormatting::NullFormatter::Formatter
   end
 
   def test_plain_text
-    assert_html_output("This is some input" => "This is some input")
+    assert_html_output('This is some input' => 'This is some input')
   end
 
   def test_escaping
@@ -46,11 +45,11 @@ class Redmine::WikiFormatting::NullFormatterTest < HelperTestCase
     )
   end
 
-private
+  private
 
   def assert_html_output(to_test, expect_paragraph = true)
     to_test.each do |text, expected|
-      assert_equal(( expect_paragraph ? "<p>#{expected}</p>" : expected ), @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n")
+      assert_equal((expect_paragraph ? "<p>#{expected}</p>" : expected), @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n")
     end
   end
 

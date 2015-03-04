@@ -69,14 +69,26 @@ describe ReportingsController, type: :controller do
     let(:project)   { FactoryGirl.create(:project) }
     def fetch
       post 'create', project_id: project.identifier,
-                     reporting:  FactoryGirl.build(:reporting,
-                                                   project_id: project.id).attributes
+                     reporting: FactoryGirl.build(:reporting,
+                                                  project_id: project.id).attributes
     end
     let(:permission) { :edit_reportings }
     def expect_redirect_to
       project_reportings_path(project)
     end
     it_should_behave_like 'a controller action which needs project permissions'
+
+    it 'should not create a reporting w/o a reporting project' do
+      post :create,
+           project_id: project.identifier,
+           reporting: FactoryGirl.build(
+             :reporting,
+             project_id: project.id,
+             reporting_to_project_id: nil
+           ).attributes
+
+      expect(response).to render_template(:new)
+    end
   end
 
   describe 'edit.html' do
@@ -85,7 +97,7 @@ describe ReportingsController, type: :controller do
 
     def fetch
       get 'edit', project_id: project.identifier,
-                  id:         reporting.id
+                  id: reporting.id
     end
     let(:permission) { :edit_reportings }
     it_should_behave_like 'a controller action which needs project permissions'
@@ -97,7 +109,7 @@ describe ReportingsController, type: :controller do
 
     def fetch
       post 'update', project_id: project.identifier,
-                     id:         reporting.id,
+                     id: reporting.id,
                      reporting: {}
     end
     let(:permission) { :edit_reportings }
@@ -113,7 +125,7 @@ describe ReportingsController, type: :controller do
 
     def fetch
       get 'confirm_destroy', project_id: project.identifier,
-                             id:         reporting.id
+                             id: reporting.id
     end
     let(:permission) { :delete_reportings }
     it_should_behave_like 'a controller action which needs project permissions'
@@ -125,7 +137,7 @@ describe ReportingsController, type: :controller do
 
     def fetch
       post 'destroy', project_id: project.identifier,
-                      id:         reporting.id
+                      id: reporting.id
     end
     let(:permission) { :delete_reportings }
     def expect_redirect_to

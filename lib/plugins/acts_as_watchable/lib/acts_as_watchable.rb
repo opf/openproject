@@ -91,7 +91,19 @@ module Redmine
           #       correctly. So we only search for users in the project scope.
           #       This implementation is so wrong, it makes me sad.
           watchers = project.users
-          watchers = watchers.select { |w| visible?(w) } if respond_to?(:visible?)
+
+          watchers = if respond_to?(:visible?)
+                       # Intentionally splitting this up into two requests as
+                       # doing it in one will be way to slow in scenarios where
+                       # the project's users have a lot of memberships.
+                       possible_watcher_ids = watchers.pluck(:id)
+
+                       User.where(id: possible_watcher_ids)
+                           .authorize_within(project) do |scope|
+                             scope.select { |user| visible?(user) }
+                           end
+                     end
+
           watchers
         end
 

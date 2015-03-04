@@ -96,7 +96,7 @@ de:
     label_format_pdf_with_descriptions: "PDF mit Beschreibungen"
     label_greater_or_equal: ">="
     label_group_by: "Gruppierung"
-    label_hide_attributes: "Leere Attribute ausblenden"
+    label_hide_attributes: "Leere ausblenden"
     label_hide_column: "Spalte ausblenden"
     label_in: "an"
     label_in_less_than: "in weniger als"
@@ -129,7 +129,7 @@ de:
     label_select_watcher: "Wählen Sie einen Beobachter..."
     label_selected_filter_list: "Ausgewählte Filter"
     label_share: "Sichtbarkeit"
-    label_show_attributes: "Alle Attribute anzeigen"
+    label_show_attributes: "Alle anzeigen"
     label_show_in_menu: "Seite in Projektnavigation anzeigen"
     label_sort_by: "Sortiere nach"
     label_sorted_by: "sortiert nach"
@@ -149,8 +149,8 @@ de:
     label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
-    label_global_queries: "Öffentliche Filter"
-    label_custom_queries: "Benutzerdefinierte Filter"
+    label_global_queries: "Gemeinsame Filter"
+    label_custom_queries: "Meine Filter"
     label_columns: "Spalten"
     label_click_to_enter_description: "Klicken um die Beschreibung einzugeben..."
 
@@ -187,7 +187,7 @@ de:
     relation_labels:
       parent: "Übergeordnetes Arbeitspaket"
       children: "Untergeordnetes Arbeitspaket"
-      relatedTo: "Beziehung mit"
+      relates: "Beziehung mit"
       duplicates: "Dupliziert"
       duplicated: "Dupliziert durch"
       blocks: "Blockiert"
@@ -205,6 +205,8 @@ de:
       add_blocked_by: "Blockiert durch hinzufügen"
       add_precedes: "Vorgänger von hinzufügen"
       add_follows: "Folgt hinzufügen"
+
+    field_value_enter_prompt: "Einen Wert für '%{field}' eingeben"
 
     select2:
       input_too_short:
@@ -295,7 +297,8 @@ de:
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
       description_options_show: "Optionen einblenden"
-      label_enable_multi_select: "Mehrfachauswahl umschalten"
+      label_enable_multi_select: "Mehrfachauswahl aktivieren"
+      label_disable_multi_select: "Mehrfachauswahl deaktivieren"
       label_filter_add: "Filter hinzufügen"
       label_options: "Optionen"
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
@@ -330,6 +333,7 @@ de:
         type: "Typ"
         updatedAt: "Aktualisiert"
         versionName: "Version"
+        version: "Version"
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
@@ -365,12 +369,12 @@ de:
         save_as: "Speichern unter ..."
         export: "Exportieren ..."
         share: "Sichtbarkeit ..."
-        page_settings: "Konfiguration ..."
+        page_settings: "Filter umbenennen ..."
         delete: "Löschen"
       filter: "Filter"
       unselected_title: "Arbeitspakete"
     modals:
-      label_settings: "Konfiguration"
+      label_settings: "Filter umbenennen"
       label_name: "Name"
       label_delete_page: "Aktuelle Seite löschen"
       button_apply: "Anwenden"
@@ -386,12 +390,13 @@ de:
       delete: Beziehung löschen
     inplace:
       button_edit: "%{attribute} bearbeiten"
-      button_save: "Speichern"
-      button_save_and_send: "Speichern mit E-Mail-Benachrichtigung"
-      button_cancel: "Abbrechen"
+      button_save: "%{attribute}: Speichern"
+      button_save_and_send: "%{attribute} Speichern mit E-Mail-Benachrichtigung"
+      button_cancel: "%{attribute} Abbrechen"
       link_formatting_help: "Textformatierung"
       btn_preview_enable: "Vorschau"
       btn_preview_disable: "Vorschau deaktivieren"
+      null_value_label: "Kein Wert"
 
     error_could_not_resolve_version_name: "Versionsbezeichner konnte nicht aufgelöst werden"
     error_could_not_resolve_user_name: "Benutzername konnte nicht aufgelöst werden"

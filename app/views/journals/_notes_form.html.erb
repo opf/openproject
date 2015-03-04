@@ -42,19 +42,20 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= call_hook(:view_journals_notes_form_after_notes, { :journal => @journal}) %>
 
   <p>
-    <%= submit_tag l(:button_save) %>
+    <%= submit_tag l(:button_save), class: 'button -highlight' %>
     <%= link_to_remote l(:label_preview),
                        { :url => preview_journal_path(@journal),
                          :method => 'get',
                          :update => "journal_#{@journal.id}_preview",
                          :with => "Form.serialize('journal-#{@journal.id}-form')",
                          :complete => "Element.scrollTo('journal_#{@journal.id}_preview')"
-                       }, :accesskey => accesskey(:preview) %>
+                       }, :accesskey => accesskey(:preview), class: 'button' %>
     |
     <%= link_to l(:button_cancel), '#',
                                    :onclick => "Element.remove('journal-#{@journal.id}-form'); " +
                                                "Element.show('journal-#{@journal.id}-notes'); " +
-                                               "return false;" %>
+                                               "return false;",
+                                   class: 'button' %>
   </p>
 
   <div id="journal_<%= @journal.id %>_preview" class="wiki">

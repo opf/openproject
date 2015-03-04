@@ -30,8 +30,6 @@
 class SearchController < ApplicationController
   before_filter :find_optional_project
 
-  include MessagesHelper
-
   def index
     @question = params[:q] || ''
     @question.strip!

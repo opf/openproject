@@ -26,14 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/all
+$icon-font-file-formats: eot woff ttf
 
-@font-face
-  font-family: "openproject-icon-font"
-  src: font-url('openproject_icon/openproject-icon-font.eot')
-  src: font-url('openproject_icon/openproject-icon-font.eot?#iefix') format("embedded-opentype"), font-url('openproject_icon/openproject-icon-font.ttf') format("truetype"), font-url('openproject_icon/openproject-icon-font.svg#untitled-font-1') format("svg"), font-url('openproject_icon/openproject-icon-font.woff') format("woff")
-  font-weight: normal
-  font-style: normal
++font-face('openproject-icon-font', 'openproject_icon/openproject-icon-font', $file-formats: $icon-font-file-formats)
 
 @mixin icon-common
   font-family: "openproject-icon-font" !important
@@ -48,7 +43,7 @@
 
 @mixin icon-rules
   padding: 0 5px 0 10px
-  color: $content_icon_color
+  color: $content-icon-color
 
 @mixin icon2-rules
   padding: 0 20px 0 7px
@@ -81,10 +76,10 @@
 
 @mixin icon-context-rules
   @include icon-context-padding
-  color: $content_icon_color
+  color: $content-icon-color
 
 @mixin icon-table-rules
-  padding: 0 0 0 0
+  padding: 0
 
 @mixin icon-action-menu-rules
   padding: 0 10px 0 0
@@ -93,14 +88,14 @@
   vertical-align: -40%
 
 @mixin icon-sub-menu-rules
-  padding: 0 0 0 0
+  padding: 0
   float: right
   font-size: 15px
   line-height: 5px
   vertical-align: -40%
 
 @mixin icon-big-rules
-  padding: 0 0 0 0
+  padding: 0
   font-size: 50px
 
 @mixin icon-context-padding
@@ -215,9 +210,9 @@
   @include icon-rules
   float: left
 
-.button_highlight.icon-context:before
+.button.-highlight.icon-context:before
   @include icon-context-padding
-  color: $button_highlight_font_color
+  color: $button-highlight-font-color
 
 // used for icons in the content area, which appear in context (menus)
 .action-menu .icon:before,

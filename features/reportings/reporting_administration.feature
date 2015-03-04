@@ -81,8 +81,8 @@ Feature: General Reporting administration
       And I should see "Hallo Junge"
 
      When I follow link "Edit" for report "World Domination"
-     Then I should see "Status comment:"
-      And I should see "Project status:"
+     Then I should see "Status comment"
+      And I should see "Project status"
 
      When I fill in "So'n Feuerball" for "Status comment"
       And I click on "Save"

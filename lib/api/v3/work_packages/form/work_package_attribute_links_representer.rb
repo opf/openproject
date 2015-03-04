@@ -75,10 +75,20 @@ module API
                           method: :responsible_id,
                           path: :user)
 
+          linked_property(property_name: :category,
+                          namespace: :categories,
+                          method: :category_id,
+                          path: :category)
+
           linked_property(property_name: :version,
                           namespace: :versions,
                           method: :fixed_version_id,
                           path: :version)
+
+          linked_property(property_name: :priority,
+                          namespace: :priorities,
+                          method: :priority_id,
+                          path: :priority)
 
           private
 
@@ -108,7 +118,6 @@ module API
 
             resource ? resource[:id] : nil
           end
-
         end
       end
     end

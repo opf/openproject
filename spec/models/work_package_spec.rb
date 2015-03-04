@@ -179,7 +179,9 @@ describe WorkPackage, type: :model do
     let(:user) { FactoryGirl.build_stubbed(:user) }
 
     context 'single user' do
-      before { allow(stub_work_package.project).to receive(:possible_assignees).and_return([user]) }
+      before do
+        allow(stub_work_package.project).to receive(:possible_assignees).and_return([user])
+      end
 
       subject { stub_work_package.assignable_assignees }
 
@@ -217,7 +219,10 @@ describe WorkPackage, type: :model do
     context 'multiple users' do
       let(:user_2) { FactoryGirl.build_stubbed(:user) }
 
-      before { allow(stub_work_package.project).to receive(:assignable_assignees).and_return([user, user_2]) }
+      before do
+        allow(stub_work_package.project)
+          .to receive(:assignable_assignees).and_return([user, user_2])
+      end
 
       subject { stub_work_package.assignable_assignees.uniq }
 
@@ -278,6 +283,35 @@ describe WorkPackage, type: :model do
       # 'work_package_group_assignment?'). But neither assingee nor responsible
       # are validated (checked against the aforementioned setting).
       xit { is_expected.to be_falsy }
+    end
+  end
+
+  describe :assignable_priorities do
+    let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+    let(:active_priority) { FactoryGirl.build(:priority, active: true) }
+    let(:inactive_priority) { FactoryGirl.build(:priority, active: false) }
+
+    before do
+      active_priority.save!
+      inactive_priority.save!
+    end
+
+    it 'returns active priorities' do
+      expect(work_package.assignable_priorities).to match_array([active_priority])
+    end
+  end
+
+  describe :assignable_categories do
+    let(:work_package) { FactoryGirl.create(:work_package, project: project1) }
+    let(:same_project_category) { FactoryGirl.create(:category, project: work_package.project) }
+    let (:project1) { FactoryGirl.create(:project) }
+
+    before do
+      same_project_category.save!
+    end
+
+    it 'returns all categories within the same project' do
+      expect(work_package.assignable_categories).to match_array([same_project_category])
     end
   end
 
@@ -1084,7 +1118,6 @@ describe WorkPackage, type: :model do
   end
 
   describe :new_statuses_allowed_to do
-
     let(:role) { FactoryGirl.create(:role) }
     let(:type) { FactoryGirl.create(:type) }
     let(:user) { FactoryGirl.create(:user) }
@@ -1131,26 +1164,34 @@ describe WorkPackage, type: :model do
 
     it 'should respect workflows w/o author and w/o assignee' do
       workflows
-      expect(status.new_statuses_allowed_to([role], type, false, false)).to match_array([statuses[1]])
-      expect(status.find_new_statuses_allowed_to([role], type, false, false)).to match_array([statuses[1]])
+      expect(status.new_statuses_allowed_to([role], type, false, false))
+        .to match_array([statuses[1]])
+      expect(status.find_new_statuses_allowed_to([role], type, false, false))
+        .to match_array([statuses[1]])
     end
 
     it 'should respect workflows w/ author and w/o assignee' do
       workflows
-      expect(status.new_statuses_allowed_to([role], type, true, false)).to match_array([statuses[1], statuses[2]])
-      expect(status.find_new_statuses_allowed_to([role], type, true, false)).to match_array([statuses[1], statuses[2]])
+      expect(status.new_statuses_allowed_to([role], type, true, false))
+        .to match_array([statuses[1], statuses[2]])
+      expect(status.find_new_statuses_allowed_to([role], type, true, false))
+        .to match_array([statuses[1], statuses[2]])
     end
 
     it 'should respect workflows w/o author and w/ assignee' do
       workflows
-      expect(status.new_statuses_allowed_to([role], type, false, true)).to match_array([statuses[1], statuses[3]])
-      expect(status.find_new_statuses_allowed_to([role], type, false, true)).to match_array([statuses[1], statuses[3]])
+      expect(status.new_statuses_allowed_to([role], type, false, true))
+        .to match_array([statuses[1], statuses[3]])
+      expect(status.find_new_statuses_allowed_to([role], type, false, true))
+        .to match_array([statuses[1], statuses[3]])
     end
 
     it 'should respect workflows w/ author and w/ assignee' do
       workflows
-      expect(status.new_statuses_allowed_to([role], type, true, true)).to match_array([statuses[1], statuses[2], statuses[3], statuses[4]])
-      expect(status.find_new_statuses_allowed_to([role], type, true, true)).to match_array([statuses[1], statuses[2], statuses[3], statuses[4]])
+      expect(status.new_statuses_allowed_to([role], type, true, true))
+        .to match_array([statuses[1], statuses[2], statuses[3], statuses[4]])
+      expect(status.find_new_statuses_allowed_to([role], type, true, true))
+        .to match_array([statuses[1], statuses[2], statuses[3], statuses[4]])
     end
 
     it 'should respect workflows w/o author and w/o assignee on work packages' do
@@ -1169,7 +1210,8 @@ describe WorkPackage, type: :model do
                                         priority: priority,
                                         project: project,
                                         author: user)
-      expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1], statuses[2]])
+      expect(work_package.new_statuses_allowed_to(user))
+        .to match_array([statuses[0], statuses[1], statuses[2]])
     end
 
     it 'should respect workflows w/o author and w/ assignee on work packages' do
@@ -1181,7 +1223,8 @@ describe WorkPackage, type: :model do
                                         project: project,
                                         assigned_to: user,
                                         author: other_user)
-      expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1], statuses[3]])
+      expect(work_package.new_statuses_allowed_to(user))
+        .to match_array([statuses[0], statuses[1], statuses[3]])
     end
 
     it 'should respect workflows w/ author and w/ assignee on work packages' do
@@ -1193,9 +1236,9 @@ describe WorkPackage, type: :model do
                                         project: project,
                                         author: user,
                                         assigned_to: user)
-      expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]])
+      expect(work_package.new_statuses_allowed_to(user))
+        .to match_array([statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]])
     end
-
   end
 
   describe :add_time_entry do
@@ -1338,7 +1381,6 @@ describe WorkPackage, type: :model do
   describe :duration do
     # TODO remove once only WP exists
     [:work_package].each do |subclass|
-
       describe "for #{subclass}" do
         let(:instance) { send(subclass) }
 
@@ -1401,7 +1443,6 @@ describe WorkPackage, type: :model do
             expect(instance.error_on(:due_date).size).to eq(1)
           end
         end
-
       end
     end
   end
@@ -1439,7 +1480,11 @@ describe WorkPackage, type: :model do
 
       @user2 = FactoryGirl.create(:user, login: 'user2', mail: 'user2@users.com')
 
-      @issue ||= FactoryGirl.create(:work_package, project: @project, status: @status_open, type: @type, author: @current)
+      @issue ||= FactoryGirl.create(:work_package,
+                                    project: @project,
+                                    status: @status_open,
+                                    type: @type,
+                                    author: @current)
     end
 
     describe 'ignore blank to blank transitions' do
@@ -1550,7 +1595,9 @@ describe WorkPackage, type: :model do
   describe 'parent work package' do
     describe 'with parent_id for a not existing work package' do
       let(:project) { FactoryGirl.create(:project) }
-      let(:invalid_work_package) { FactoryGirl.build(:work_package, project: project, parent_id: 1) }
+      let(:invalid_work_package) do
+        FactoryGirl.build(:work_package, project: project, parent_id: 1)
+      end
 
       it 'should raise an error' do
         expect(invalid_work_package).not_to be_valid
@@ -1570,7 +1617,8 @@ describe WorkPackage, type: :model do
 
       # set that custom field with a value, should be fine
       work_package.custom_field_values = { cf1.id => 'test' }
-      work_package.save!; work_package.reload
+      work_package.save!
+      work_package.reload
 
       # is it fine?
       expect(work_package).to be_valid
@@ -1634,8 +1682,6 @@ describe WorkPackage, type: :model do
     }
 
     shared_examples_for 'returns spent hours' do |hours|
-      before { allow(User).to receive(:current).and_return(user) }
-
       subject { work_package.spent_hours }
 
       it { expect(subject).to eql(hours) }
@@ -1649,6 +1695,10 @@ describe WorkPackage, type: :model do
                            member_in_project: project,
                            member_through_role: role)
       }
+
+      before do
+        allow(User).to receive(:current).and_return(user)
+      end
 
       it_behaves_like 'returns spent hours', 44.0
 

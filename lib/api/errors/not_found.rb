@@ -30,8 +30,8 @@
 module API
   module Errors
     class NotFound < ErrorBase
-      def initialize(message)
-        super 404, message + '.'
+      def initialize(message = I18n.t('api_v3.errors.code_404'))
+        super 404, message
       end
     end
   end

@@ -26,87 +26,94 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <script language="JavaScript">
-//<![CDATA[
-function recreateSortables() {
-    Sortable.destroy('list-top');
-    Sortable.destroy('list-left');
-    Sortable.destroy('list-right');
+  //<![CDATA[
+  function recreateSortables() {
+      Sortable.destroy('list-top');
+      Sortable.destroy('list-left');
+      Sortable.destroy('list-right');
 
-  Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'top') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
-  Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'left') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
-  Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'right') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
-}
+    Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'top') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
+    Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'left') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
+    Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => '/my', :action => 'order_blocks', :group => 'right') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
+  }
 
-function updateSelect() {
-    s = $('block-select')
-    for (var i = 0; i < s.options.length; i++) {
-        var block = $('block_' + s.options[i].value);
-        if (block && block.visible()) {
-            s.options[i].disabled = true;
-        } else {
-            if (block) { block.remove(); }
-            s.options[i].disabled = false;
-        }
-    }
-    s.options[0].selected = true;
-}
+  function updateSelect() {
+      s = $('block-select')
+      for (var i = 0; i < s.options.length; i++) {
+          var block = $('block_' + s.options[i].value);
+          if (block && block.visible()) {
+              s.options[i].disabled = true;
+          } else {
+              if (block) { block.remove(); }
+              s.options[i].disabled = false;
+          }
+      }
+      s.options[0].selected = true;
+  }
 
-function afterAddBlock() {
-    recreateSortables();
-    updateSelect();
-}
+  function afterAddBlock() {
+      recreateSortables();
+      updateSelect();
+  }
 
-function removeBlock(block) {
-    Effect.DropOut(block,{ 'afterFinish':function(){
-        updateSelect();
-    }});
-}
-//]]>
+  function removeBlock(block) {
+      Effect.DropOut(block,{ 'afterFinish':function(){
+          updateSelect();
+      }});
+  }
+  //]]>
 </script>
-
 <% content_for :action_menu_specific do %>
-  <%= form_tag({:action => "add_block"}, :id => "block-form") do %>
-  <%= label_tag('block-select', l(:label_my_page_block)) %>:
-  <%= select_tag 'block', "<option></option>".html_safe + options_for_select(@block_options), :id => "block-select" %>
-  <%= link_to_remote l(:button_add),
-             {:url => { :action => "add_block" },
-              :with => "Form.serialize('block-form')",
-              :update => "list-top",
-              :position => :top,
-              :complete => "afterAddBlock();"
-             }, :class => 'icon icon-add'
-               %>
-  <% end %>
-  <%= link_to l(:button_back), {:action => 'page'}, :class => 'icon icon-cancel' %>
+  <li>
+    <%= form_tag({:action => "add_block"}, :id => "block-form") do %>
+      <span class="legacy-actions--inline-label">
+        <%= label_tag('block-select', "#{l(:label_my_page_block)}:", class: 'form-label -transparent') %>
+        <%= select_tag 'block', "<option></option>".html_safe + options_for_select(@block_options),
+              :id => "block-select",
+              class: 'form--select -small' %>
+        <span>
+          <%= link_to_remote l(:button_add),
+                     {:url => { :action => "add_block" },
+                      :with => "Form.serialize('block-form')",
+                      :update => "list-top",
+                      :position => :top,
+                      :complete => "afterAddBlock();"
+                     }, :class => 'icon icon-add'
+                       %>
+        </span>
+      </span>
+    <% end %>
+  </li>
+  <li><%= link_to l(:button_back), {:action => 'page'}, :class => 'icon icon-cancel' %></li>
 <% end %>
 
 <h2><%=l(:label_my_page)%></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
-<div id="list-top" class="block-receiver">
-  <% @blocks['top'].each do |b|
-     next unless MyController.available_blocks.keys.include? b %>
-  <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-  <% end if @blocks['top'] %>
+<div class="grid-block">
+  <div id="list-top" class="grid-content block-receiver">
+    <% @blocks['top'].each do |b|
+       next unless MyController.available_blocks.keys.include? b %>
+      <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+    <% end if @blocks['top'] %>
+  </div>
 </div>
-
-<div id="list-left" class="splitcontentleft block-receiver">
-  <% @blocks['left'].each do |b|
-     next unless MyController.available_blocks.keys.include? b %>
-  <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-  <% end if @blocks['left'] %>
+<div class="grid-block">
+  <div id="list-left" class="grid-content block-receiver">
+    <% @blocks['left'].each do |b|
+       next unless MyController.available_blocks.keys.include? b %>
+      <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+    <% end if @blocks['left'] %>
+  </div>
+  <div id="list-right" class="grid-content block-receiver">
+    <% @blocks['right'].each do |b|
+       next unless MyController.available_blocks.keys.include? b %>
+      <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+    <% end if @blocks['right'] %>
+  </div>
 </div>
-
-<div id="list-right" class="splitcontentright block-receiver">
-  <% @blocks['right'].each do |b|
-     next unless MyController.available_blocks.keys.include? b %>
-  <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-  <% end if @blocks['right'] %>
-</div>
-
 <%= sortable_element 'list-top',
       :tag => 'div',
       :only => 'mypage-box',

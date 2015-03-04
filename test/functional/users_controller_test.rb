@@ -59,11 +59,11 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:users)
     # active users only
-    assert_nil assigns(:users).detect {|u| !u.active?}
+    assert_nil assigns(:users).detect { |u| !u.active? }
   end
 
   def test_index_with_name_filter
-    get :index, :name => 'john'
+    get :index, name: 'john'
     assert_response :success
     assert_template 'index'
     users = assigns(:users)
@@ -73,7 +73,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_index_with_group_filter
-    get :index, :group_id => '10'
+    get :index, group_id: '10'
     assert_response :success
     assert_template 'index'
     users = assigns(:users)
@@ -84,63 +84,63 @@ class UsersControllerTest < ActionController::TestCase
   def test_show_should_not_display_hidden_custom_fields
     @request.session[:user_id] = nil
     UserCustomField.find_by_name('Phone number').update_attribute :visible, false
-    get :show, :id => 2
+    get :show, id: 2
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:user)
 
-    assert_no_tag 'li', :content => /Phone number/
+    assert_no_tag 'li', content: /Phone number/
   end
 
   def test_show_should_not_fail_when_custom_values_are_nil
     user = User.find(2)
 
     # Create a custom field to illustrate the issue
-    custom_field = CustomField.create!(:name => 'Testing', :field_format => 'text')
-    custom_value = user.custom_values.build(:custom_field => custom_field).save!
+    custom_field = CustomField.create!(name: 'Testing', field_format: 'text')
+    custom_value = user.custom_values.build(custom_field: custom_field).save!
 
-    get :show, :id => 2
+    get :show, id: 2
     assert_response :success
   end
 
   def test_show_inactive
     @request.session[:user_id] = nil
-    get :show, :id => 5
+    get :show, id: 5
     assert_response 404
   end
 
   def test_show_should_not_reveal_users_with_no_visible_activity_or_project
     @request.session[:user_id] = nil
-    get :show, :id => 9
+    get :show, id: 9
     assert_response 404
   end
 
   def test_show_inactive_by_admin
     @request.session[:user_id] = 1
-    get :show, :id => 5
+    get :show, id: 5
     assert_response 200
     assert_not_nil assigns(:user)
   end
 
   def test_show_displays_memberships_based_on_project_visibility
     @request.session[:user_id] = 1
-    get :show, :id => 2
+    get :show, id: 2
     assert_response :success
     memberships = assigns(:memberships)
     assert_not_nil memberships
     project_ids = memberships.map(&:project_id)
-    assert project_ids.include?(2) #private project admin can see
+    assert project_ids.include?(2) # private project admin can see
   end
 
   def test_show_current_should_require_authentication
     @request.session[:user_id] = nil
-    get :show, :id => 'current'
+    get :show, id: 'current'
     assert_response 302
   end
 
   def test_show_current
     @request.session[:user_id] = 2
-    get :show, :id => 'current'
+    get :show, id: 'current'
     assert_response :success
     assert_template 'show'
     assert_equal User.find(2), assigns(:user)
@@ -160,20 +160,20 @@ class UsersControllerTest < ActionController::TestCase
     assert_difference 'User.count' do
       assert_difference 'ActionMailer::Base.deliveries.size' do
         post :create,
-          :user => {
-            :firstname => 'John',
-            :lastname => 'Doe',
-            :login => 'jdoe',
-            :password => 'adminADMIN!',
-            :password_confirmation => 'adminADMIN!',
-            :mail => 'jdoe@gmail.com',
-            :mail_notification => 'none'
-          },
-          :send_information => '1'
+             user: {
+               firstname: 'John',
+               lastname: 'Doe',
+               login: 'jdoe',
+               password: 'adminADMIN!',
+               password_confirmation: 'adminADMIN!',
+               mail: 'jdoe@gmail.com',
+               mail_notification: 'none'
+             },
+             send_information: '1'
       end
     end
 
-    user = User.first(:order => 'id DESC')
+    user = User.first(order: 'id DESC')
     assert_redirected_to edit_user_path(user)
 
     assert_equal 'John', user.firstname
@@ -194,7 +194,7 @@ class UsersControllerTest < ActionController::TestCase
       # Provide at least one user  field, otherwise strong_parameters regards the user parameter
       # as non-existent and raises ActionController::ParameterMissing, which in turn
       # results in a 400.
-      post :create, :user => { :login => 'jdoe' }
+      post :create, user: { login: 'jdoe' }
     end
 
     assert_response :success
@@ -202,7 +202,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    get :edit, :id => 2
+    get :edit, id: 2
 
     assert_response :success
     assert_template 'edit'
@@ -211,7 +211,7 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_update_with_failure
     assert_no_difference 'User.count' do
-      put :update, :id => 2, :user => {:firstname => ''}
+      put :update, id: 2, user: { firstname: '' }
     end
 
     assert_response :success
@@ -219,7 +219,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_update_with_group_ids_should_assign_groups
-    put :update, :id => 2, :user => {:group_ids => ['10']}
+    put :update, id: 2, user: { group_ids: ['10'] }
 
     user = User.find(2)
     assert_equal [10], user.group_ids
@@ -229,7 +229,7 @@ class UsersControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
 
-    put :update, :id => 2, :user => {:password => 'newpassPASS!', :password_confirmation => 'newpassPASS!'}, :send_information => '1'
+    put :update, id: 2, user: { password: 'newpassPASS!', password_confirmation: 'newpassPASS!' }, send_information: '1'
     u = User.find(2)
     assert u.check_password?('newpassPASS!')
 
@@ -240,15 +240,15 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_edit_membership
-    post :edit_membership, :id => 2, :membership_id => 1,
-                           :membership => { :role_ids => [2]}
-    assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
+    post :edit_membership, id: 2, membership_id: 1,
+                           membership: { role_ids: [2] }
+    assert_redirected_to action: 'edit', id: '2', tab: 'memberships'
     assert_equal [2], Member.find(1).role_ids
   end
 
   def test_destroy_membership
-    post :destroy_membership, :id => 2, :membership_id => 1
-    assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
+    post :destroy_membership, id: 2, membership_id: 1
+    assert_redirected_to action: 'edit', id: '2', tab: 'memberships'
     assert_nil Member.find_by_id(1)
   end
 end

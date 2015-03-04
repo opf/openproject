@@ -42,9 +42,9 @@ angular.module('openproject.uiComponents')
   .directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', require(
     './authoring-directive')])
   .directive('backUrl', [require('./back-url-directive')])
-  .directive('date', ['TimezoneService', require('./date/date-directive')])
-  .directive('time', ['TimezoneService', require('./date/time-directive')])
-  .directive('dateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
+  .directive('opDate', ['TimezoneService', require('./date/date-directive')])
+  .directive('opTime', ['TimezoneService', require('./date/time-directive')])
+  .directive('opDateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
   .directive('executeOnEnter', ['ENTER_KEY', require(
@@ -67,6 +67,9 @@ angular.module('openproject.uiComponents')
     'FocusHelper',
     require('./has-dropdown-menu-directive')
   ])
+  .directive('hasPreview', [
+    require('./has-preview-directive')
+  ])
   .service('I18n', [require('./i18n')])
   .directive('iconWrapper', [require('./icon-wrapper-directive')])
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
@@ -75,6 +78,7 @@ angular.module('openproject.uiComponents')
       'FocusHelper',
       'PathHelper',
       'InplaceEditorDispatcher',
+      'OverviewTabInplaceEditorConfig',
       require('./inplace-editor-directive')
   ])
   .service('InplaceEditorDispatcher', require('./inplace-editor-dispatcher'))

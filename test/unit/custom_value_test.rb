@@ -30,8 +30,8 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class CustomValueTest < ActiveSupport::TestCase
   def test_string_field_validation_with_blank_value
-    f = CustomField.new(:field_format => 'string')
-    v = CustomValue.new(:custom_field => f)
+    f = CustomField.new(field_format: 'string')
+    v = CustomValue.new(custom_field: f)
 
     v.value = nil
     assert v.valid?
@@ -46,8 +46,8 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_string_field_validation_with_min_and_max_lengths
-    f = CustomField.new(:field_format => 'string', :min_length => 2, :max_length => 5)
-    v = CustomValue.new(:custom_field => f, :value => '')
+    f = CustomField.new(field_format: 'string', min_length: 2, max_length: 5)
+    v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
     v.value = 'a'
     assert !v.valid?
@@ -58,8 +58,8 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_string_field_validation_with_regexp
-    f = CustomField.new(:field_format => 'string', :regexp => '^[A-Z0-9]*$')
-    v = CustomValue.new(:custom_field => f, :value => '')
+    f = CustomField.new(field_format: 'string', regexp: '^[A-Z0-9]*$')
+    v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
     v.value = 'abc'
     assert !v.valid?
@@ -68,8 +68,8 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_date_field_validation
-    f = CustomField.new(:field_format => 'date')
-    v = CustomValue.new(:custom_field => f, :value => '')
+    f = CustomField.new(field_format: 'date')
+    v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
     v.value = 'abc'
     assert !v.valid?
@@ -78,8 +78,8 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_list_field_validation
-    f = CustomField.new(:field_format => 'list', :possible_values => ['value1', 'value2'])
-    v = CustomValue.new(:custom_field => f, :value => '')
+    f = CustomField.new(field_format: 'list', possible_values: ['value1', 'value2'])
+    v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
     v.value = 'abc'
     assert !v.valid?
@@ -88,8 +88,8 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_int_field_validation
-    f = CustomField.new(:field_format => 'int')
-    v = CustomValue.new(:custom_field => f, :value => '')
+    f = CustomField.new(field_format: 'int')
+    v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
     v.value = 'abc'
     assert !v.valid?
@@ -102,13 +102,12 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_float_field_validation
-
     user = FactoryGirl.create :user
     # There are cases, where the custom-value-table is not cleared completely,
     # therefore making double sure, that we have a clean slate before we start
     CustomField.destroy_all
-    FactoryGirl.create :float_user_custom_field, :name => "Money"
-    v = CustomValue.new(:customized => user, :custom_field => UserCustomField.find_by_name('Money'))
+    FactoryGirl.create :float_user_custom_field, name: 'Money'
+    v = CustomValue.new(customized: user, custom_field: UserCustomField.find_by_name('Money'))
     v.value = '11.2'
     assert v.save
     v.value = ''
@@ -121,27 +120,27 @@ class CustomValueTest < ActiveSupport::TestCase
 
   def test_default_value
     custom_field = FactoryGirl.create :issue_custom_field,
-      :field_format => 'string',
-      :default_value => "Some Default String"
+                                      field_format: 'string',
+                                      default_value: 'Some Default String'
 
     field = CustomField.find_by_default_value('Some Default String')
     assert_equal field, custom_field
 
-    v = CustomValue.new(:custom_field => field)
+    v = CustomValue.new(custom_field: field)
     assert_equal 'Some Default String', v.value
 
-    v = CustomValue.new(:custom_field => field, :value => 'Not empty')
+    v = CustomValue.new(custom_field: field, value: 'Not empty')
     assert_equal 'Not empty', v.value
   end
 
   def test_sti_polymorphic_association
     # Rails uses top level sti class for polymorphic association. See #3978.
     user = FactoryGirl.create :user
-    custom_field = FactoryGirl.create :user_custom_field, :field_format => 'string'
+    custom_field = FactoryGirl.create :user_custom_field, field_format: 'string'
     custom_value = FactoryGirl.create :principal_custom_value,
-      :custom_field => custom_field,
-      :customized => user,
-      :value => '01 23 45 67 89'
+                                      custom_field: custom_field,
+                                      customized: user,
+                                      value: '01 23 45 67 89'
     user.reload
 
     assert !user.custom_values.empty?

@@ -29,13 +29,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% user_allowed_to_add_watchers = User.current.allowed_to?(:add_work_package_watchers, @project) %>
 
-<strong><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</strong>
-<% if user_allowed_to_add_watchers %>
-  <%= toggle_link icon_wrapper('icon icon-add', l(:button_add_watcher)),
-                  'new-watcher-form',
-                  { focus: 'watcher_user_id' },
-                  { :class => 'no-decoration-on-hover', :title => l(:button_add_watcher) } %>
-<% end %>
+<p>
+  <strong><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</strong>
+  <% if user_allowed_to_add_watchers %>
+    <%= toggle_link icon_wrapper('icon icon-add', l(:button_add_watcher)),
+                    'new-watcher-form',
+                    { focus: 'watcher_user_id' },
+                    { :class => 'no-decoration-on-hover', :title => l(:button_add_watcher) } %>
+  <% end %>
+</p>
 
 <%= form_for(:watcher,
              url: watchers_path(watched.class.name.underscore.pluralize, watched),
@@ -43,12 +45,16 @@ See doc/COPYRIGHT.rdoc for more details.
              remote: true,
              complete: "Form.Element.focus('watcher_user_id');",
              html: { id: 'new-watcher-form', style: (@watcher ? '' : 'display:none;') }) do |f| %>
-  <p>
-    <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}.sort_by{|name, id | name}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
+  <div class="grid-block">
+    <div class="grid-content small-6">
+      <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}.sort_by{|name, id | name}),
+            { :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" },
+            class: 'form--select' %>
 
-    <%= submit_tag l(:button_add) %>
-    <%= toggle_link l(:button_cancel), 'new-watcher-form' %>
-  </p>
+      <%= submit_tag l(:button_add), class: 'button -highlight' %>
+      <%= toggle_link l(:button_cancel), 'new-watcher-form', {}, class: 'button' %>
+    </div>
+  </div>
 <% end %>
 
 <%= watchers_list(watched) %>
