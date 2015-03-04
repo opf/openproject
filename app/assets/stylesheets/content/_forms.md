@@ -38,6 +38,42 @@
 </form>
 ```
 
+## Forms: Errors
+
+```
+<form action="" class="form">
+  <div class="form--field -required">
+    <label for="text-field-42" class="form--label">Name</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input id="text-field-42" type="text" class="form--text-field -error" value="Deathstroke">
+      </div>
+    </div>
+  </div>
+  <div class="form--field -required">
+    <label for="select-field-42" class="form--label">Favorite superhero</label>
+    <div class="form--field-container">
+      <div class="form--select-field-container">
+        <select id="select-field-42" class="form--select -error">
+          <option value="catwoman">Catwoman</option>
+          <option value="superman">Superman</option>
+          <option value="auqaman" selected="selected">Aquaman</option>
+          <option value="flash">The Flash</option>
+          <option value="green_arrow">Green Arrow</option>
+        </select></div>
+    </div>
+  </div>
+  <div class="form--field">
+    <label for="poison-ivy-bio" class="form--label">Biography</label>
+    <div class="form--field-container">
+      <div class="form--text-area-container">
+        <textarea id="poison-ivy-bio" rows="10" class="form--text-area -error">Poison Ivy is an enemy of Batman. She is depicted as one of the world's most prominent eco-terrorists. She is obsessed with plants, botany, and environmentalism.</textarea>
+      </div>
+    </div>
+  </div>
+</form>
+```
+
 ## Forms: Standard layout
 
 ```
