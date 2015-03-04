@@ -44,7 +44,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     subject(:generated) { representer.to_json }
 
     shared_context 'embedded in form' do
-      let(:representer) { described_class.new(schema, form_embedded: true, current_user: current_user) }
+      let(:representer) {
+        described_class.new(schema,
+                            form_embedded: true,
+                            current_user: current_user)
+      }
     end
 
     shared_context 'no allowed values' do
@@ -130,7 +134,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         include_context 'embedded in form'
 
         it 'should not link to self' do
-
           is_expected.to_not have_json_path('_links/self')
         end
       end
