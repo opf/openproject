@@ -52,6 +52,10 @@ module.exports = function(ConfigurationService, I18n) {
     formattedTime: function(date) {
       var format = ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
       return TimezoneService.parseDate(date).format(format);
+    },
+
+    formattedISODate: function(date) {
+      return TimezoneService.parseDate(date).toISOString().split('T')[0];
     }
   };
 

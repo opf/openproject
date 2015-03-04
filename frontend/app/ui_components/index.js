@@ -46,6 +46,7 @@ angular.module('openproject.uiComponents')
   .directive('opTime', ['TimezoneService', require('./date/time-directive')])
   .directive('opDateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
   .directive('emptyElement', [require('./empty-element-directive')])
+  .directive('opDateRange', ['TimezoneService', '$timeout', require('./date/date-range-directive')])
   .constant('ENTER_KEY', 13)
   .directive('executeOnEnter', ['ENTER_KEY', require(
     './execute-on-enter-directive')])
