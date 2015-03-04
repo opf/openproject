@@ -35,23 +35,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <div style="display:none;">
     <%= f.fields_for :options, timeline_options do |ff| %>
       <div class="form--field">
-        <%= ff.label :comparison, l('timelines.filter.comparison.none'),
-                     for: :timeline_options_comparison_none,
-                     class: "form--label" %>
-        <div class="form--field-container">
-          <div class="form--radio-button-container">
-            <%= ff.radio_button :comparison, "none", no_label: true %>
-          </div>
-        </div>
+        <%= ff.radio_button :comparison, "none", label:  l('timelines.filter.comparison.none') %>
       </div>
 
       <div class="form--field">
-        <%= ff.label :comparison, l('timelines.filter.comparison.relative'),
-                     for: :timeline_options_comparison_relative,
-                     class: "form--label" %>
-        <div class="form--field-container">
-          <%= ff.radio_button :comparison, "relative" %>
-        </div>
+          <%= ff.radio_button :comparison, "relative", label:  l('timelines.filter.comparison.relative') %>
       </div>
       <div class="form--grouping">
         <div id="timeline--form--project-filter-timeframe"
@@ -77,13 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
 
       <div class="form--field">
-        <%= ff.label :comparison,
-                     l('timelines.filter.comparison.absolute'),
-                     for: :timeline_options_comparison_absolute,
-                     class: "form--label" %>
-        <div class="form--field-container">
-          <%= ff.radio_button :comparison, "absolute" %>
-        </div>
+        <%= ff.radio_button :comparison, "absolute", label: l('timelines.filter.comparison.absolute') %>
       </div>
 
       <div class="form--grouping">
