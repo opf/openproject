@@ -114,13 +114,14 @@ module API
         end
 
         def estimated_hours_valid
-          unless model.leaf?
+          if !model.leaf? && model.changed.include?('estimated_hours')
             errors.add :error_readonly, I18n.t('api_v3.errors.validation.estimated_hours')
           end
         end
 
         def done_ratio_valid
-          unless model.leaf? && Setting.work_package_done_ratio == 'field'
+          field_changed = model.changed.include?('done_ratio')
+          if !model.leaf? && Setting.work_package_done_ratio == 'field' && field_changed
             errors.add :error_readonly, I18n.t('api_v3.errors.validation.done_ratio')
           end
         end
