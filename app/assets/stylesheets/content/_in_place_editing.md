@@ -138,7 +138,7 @@
              <div class="ined-dashboard">
                <div class="ined-errors"
                     role="alert"
-                    ng-bind="error"
+
                     aria-live="polite"
                     aria-hidden="true">
                </div>
@@ -193,6 +193,8 @@
 
 ## In place editing: Single line of text
 
+### Read mode
+
 ```
 <div class="attributes-group">
   <div class="attributes-group--header">
@@ -211,7 +213,7 @@
         <div class="inplace-editor type-select2 attribute-status.name editable">
           <div class="ined-read-value editable" >
             <span class="read-value-wrapper">
-              <span ng-bind="readValue">
+              <span >
                 New
               </span>
             </span>
@@ -231,6 +233,74 @@
                 </a>
               </accessible-by-keyboard>
             </span>
+          </div>
+        </div>
+      </div>
+    </dd>
+  </dl>
+</div>
+```
+
+### Edit mode
+
+```
+<div class="attributes-group">
+
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text ng-binding">
+        Details
+      </h3>
+    </div>
+  </div>
+
+  <dl class="attributes-key-value">
+    <dt class="attributes-key-value--key ng-binding ng-scope">Status</dt>
+    <dd class="attributes-key-value--value-container ng-scope" >
+      <div class="ng-scope attributes-key-value--value -status">
+        <div inplace-editor="">
+          <div class="inplace-editor type-select2 attribute-status.name editable" aria-busy="false" aria-disabled="false">
+            <div class="ined-edit" >
+              <form name="editForm" class="ng-valid">
+                <div class="ined-input-wrapper">
+                  <div class="ined-input-wrapper-inner"  >
+                    <input type="text" aria-label="Status: Edit focus" aria-haspopup="true" role="button" aria-disabled="false">
+                  </div>
+                </div>
+                <div class="ined-dashboard">
+                  <div class="ined-errors ng-binding ng-hide" role="alert" aria-live="polite" >
+                  </div>
+                  <div class="ined-controls"  >
+                    <accessible-by-keyboard  class="ined-edit-save ng-isolate-scope">
+                      <a default-event-handling="defaultEventHandling"  href="" class="" tabindex="0">
+                        <span>
+                          <span class="icon-context icon-button icon-yes " title="Status: Save" icon-name="yes" icon-title="Status: Save">
+                            <span class="hidden-for-sighted ng-binding">
+                              Status: Save
+                            </span>
+                          </span>
+                        </span>
+                      </a>
+                    </accessible-by-keyboard>
+                    <accessible-by-keyboard class="ined-edit-save-send ng-isolate-scope">
+                      <a href="" class="" tabindex="0">
+                        <span >
+                          <span title="Status: Save and send email" class="ng-scope">
+                            <i class="icon-yes"></i>
+                            <i class="icon-mail"></i>
+                          </span>
+                        </span>
+                      </a>
+                    </accessible-by-keyboard>
+                    <accessible-by-keyboard  class="ined-edit-close ng-isolate-scope"><a  default-event-handling="defaultEventHandling"  href="" class="" tabindex="0"><span >
+                      <span class="icon-context icon-button icon-close " title="Status: Cancel" icon-name="close" icon-title="Status: Cancel">
+            <span class="hidden-for-sighted ng-binding">Status: Cancel</span>
+          </span>
+                    </span></a></accessible-by-keyboard>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
