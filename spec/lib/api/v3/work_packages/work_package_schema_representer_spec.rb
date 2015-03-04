@@ -216,7 +216,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'w/o allowed statuses' do
-        before { allow(work_package).to receive(:new_statuses_allowed_to).and_return([]) }
+        before { allow(schema).to receive(:assignable_statuses_for).and_return([]) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'status' }
@@ -227,7 +227,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'with allowed statuses' do
         let(:statuses) { FactoryGirl.build_list(:status, 3) }
 
-        before { allow(work_package).to receive(:new_statuses_allowed_to).and_return(statuses) }
+        before { allow(schema).to receive(:assignable_statuses_for).and_return(statuses) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'status' }
@@ -254,7 +254,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'w/o allowed categories' do
-        before { allow(work_package).to receive(:assignable_categories).and_return([]) }
+        before { allow(schema).to receive(:assignable_categories).and_return([]) }
 
         it_behaves_like 'links to allowed values directly' do
           let(:path) { 'category' }
@@ -265,7 +265,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'with allowed categories' do
         let(:categories) { FactoryGirl.build_stubbed_list(:category, 3) }
 
-        before { allow(work_package).to receive(:assignable_categories).and_return(categories) }
+        before { allow(schema).to receive(:assignable_categories).and_return(categories) }
 
         it_behaves_like 'links to allowed values directly' do
           let(:path) { 'category' }
@@ -292,7 +292,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'w/o allowed versions' do
-        before { allow(work_package).to receive(:assignable_versions).and_return([]) }
+        before { allow(schema).to receive(:assignable_versions).and_return([]) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'version' }
@@ -303,7 +303,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'with allowed versions' do
         let(:versions) { FactoryGirl.build_stubbed_list(:version, 3) }
 
-        before { allow(work_package).to receive(:assignable_versions).and_return(versions) }
+        before { allow(schema).to receive(:assignable_versions).and_return(versions) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'version' }
@@ -330,7 +330,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'w/o allowed priorities' do
-        before { allow(work_package).to receive(:assignable_priorities).and_return([]) }
+        before { allow(schema).to receive(:assignable_priorities).and_return([]) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'priority' }
@@ -341,7 +341,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'with allowed priorities' do
         let(:priorities) { FactoryGirl.build_stubbed_list(:priority, 3) }
 
-        before { allow(work_package).to receive(:assignable_priorities).and_return(priorities) }
+        before { allow(schema).to receive(:assignable_priorities).and_return(priorities) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'priority' }
