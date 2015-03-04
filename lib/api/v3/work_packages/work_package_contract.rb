@@ -42,6 +42,7 @@ module API
           'start_date',
           'due_date',
           'status_id',
+          'type_id',
           'assigned_to_id',
           'responsible_id',
           'priority_id',
