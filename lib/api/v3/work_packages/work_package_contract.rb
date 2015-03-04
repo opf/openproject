@@ -114,31 +114,15 @@ module API
         end
 
         def estimated_hours_valid
-          if !model.leaf?
-            if model.estimated_hours != model.inherit_estimated_hours_from_leaves
-              errors.add :error_readonly, I18n.t('api_v3.errors.validation.estimated_hours')
-            end
+          unless model.leaf?
+            errors.add :error_readonly, I18n.t('api_v3.errors.validation.estimated_hours')
           end
-        end
-
-        def estimated_hours_of_children(work_package)
-          work_package.children.map(&:estimated_hours).map(&:to_f).inject(:+)
         end
 
         def done_ratio_valid
-          if (done_ratio_status_valid? ^ done_ratio_field_valid?) && !model.done_ratio_disabled?
+          unless model.leaf? && Setting.work_package_done_ratio == 'field'
             errors.add :error_readonly, I18n.t('api_v3.errors.validation.done_ratio')
           end
-        end
-
-        def done_ratio_status_valid?
-          setting_matches = Setting.work_package_done_ratio == 'status'
-          value_matches = model.done_ratio == model.status.default_done_ratio
-          setting_matches && value_matches
-        end
-
-        def done_ratio_field_valid?
-          model.done_ratio == model.inherit_done_ratio_from_leaves
         end
 
         def people_visible(attribute, id_attribute, list)

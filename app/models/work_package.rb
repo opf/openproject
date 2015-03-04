@@ -757,32 +757,6 @@ class WorkPackage < ActiveRecord::Base
     allowed
   end
 
-  def inherit_done_ratio_from_leaves
-    return if WorkPackage.done_ratio_disabled?
-
-    # done ratio = weighted average ratio of leaves
-    unless WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
-      leaves_count = leaves.count
-      if leaves_count > 0
-        average = leaves.average(:estimated_hours).to_f
-        if average == 0
-          average = 1
-        end
-        done = leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
-        progress = done / (average * leaves_count)
-
-        self.done_ratio = progress.round
-      end
-    end
-  end
-
-  def inherit_estimated_hours_from_leaves
-    # estimate = sum of leaves estimates
-    self.estimated_hours = leaves.sum(:estimated_hours).to_f
-    self.estimated_hours = nil if estimated_hours == 0.0
-    return self.estimated_hours
-  end
-
   protected
 
   def recalculate_attributes_for(work_package_id)
@@ -829,6 +803,31 @@ class WorkPackage < ActiveRecord::Base
       self.start_date = [children.minimum(:start_date), children.minimum(:due_date)].compact.min
       self.due_date   = [children.maximum(:start_date), children.maximum(:due_date)].compact.max
     end
+  end
+
+  def inherit_done_ratio_from_leaves
+    return if WorkPackage.done_ratio_disabled?
+
+    # done ratio = weighted average ratio of leaves
+    unless WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
+      leaves_count = leaves.count
+      if leaves_count > 0
+        average = leaves.average(:estimated_hours).to_f
+        if average == 0
+          average = 1
+        end
+        done = leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+        progress = done / (average * leaves_count)
+
+        self.done_ratio = progress.round
+      end
+    end
+  end
+
+  def inherit_estimated_hours_from_leaves
+    # estimate = sum of leaves estimates
+    self.estimated_hours = leaves.sum(:estimated_hours).to_f
+    self.estimated_hours = nil if estimated_hours == 0.0
   end
 
   def store_former_parent_id
