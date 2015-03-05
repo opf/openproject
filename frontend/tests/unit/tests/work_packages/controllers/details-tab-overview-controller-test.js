@@ -48,17 +48,30 @@ describe('DetailsTabOverviewController', function() {
         formatCustomFieldValue: angular.identity
       },
       workPackage = {
+        schema: {
+          props: {
+            customField1: {
+              type: "Formattable",
+              name: "color",
+              required: false,
+              writable: true
+            },
+            customField2: {
+              type: "Formattable",
+              name: "aut mollitia",
+              required: false,
+              writable: true
+            }
+          }
+        },
         props: {
+          customField1: {format: 'plain', raw: 'red', html: '<p>red</p>'},
+          customField2: {format: 'plain', raw: '', html: '<p></p>'},
           versionName: null,
           percentageDone: 0,
           estimatedTime: 'PT0S',
           spentTime: 'PT0S',
-          id: '0815',
-          customProperties: [
-            { format: 'text', name: 'color', value: 'red' },
-            { format: 'text', name: 'Width', value: '' },
-            { format: 'text', name: 'height', value: '' },
-          ]
+          id: '0815'
         },
         embedded: {
           status: {
@@ -461,13 +474,13 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('formats values using the custom field helper', function() {
-          expect(CustomFieldHelper.formatCustomFieldValue.calledWith('red', 'text')).to.be.true;
+          expect(CustomFieldHelper.formatCustomFieldValue.calledWith('red', 'plain')).to.be.true;
         });
       });
 
       describe('when the property does not have a value', function() {
         beforeEach(function() {
-          workPackage.props.customProperties[0].value = null;
+          workPackage.props.customField1.raw = null;
           buildController();
         });
 
@@ -485,10 +498,22 @@ describe('DetailsTabOverviewController', function() {
         var getUserStub;
 
         before(function() {
-          workPackage.props.customProperties[0].value = userId;
-          workPackage.props.customProperties[0].name = userCFName;
-          workPackage.props.customProperties[0].format = 'user';
+          workPackage.schema.props.customField3 = {
+            type: 'User',
+            name: userCFName
+          };
+          workPackage.embedded = {
+            'customField3': {
+              props: {
+                id: userId,
+                name: userName
+              }
+            }
+          };
+        });
 
+        after(function() {
+          delete workPackage.schema.props.customField3;
         });
 
         describe('with an existing user', function() {
@@ -565,16 +590,32 @@ describe('DetailsTabOverviewController', function() {
         var errorMessage = 'my error message';
         var tStub;
 
+
         before(function() {
-          workPackage.props.customProperties[0].name = customVersionName;
-          workPackage.props.customProperties[0].value = versionId;
-          workPackage.props.customProperties[0].format = 'version';
+          workPackage.schema.props.customField3 = {
+            type: 'Version',
+            name: customVersionName
+          };
+          workPackage.embedded = {
+            project: {
+              props: {
+                id: '1'
+              }
+            },
+            'customField3': {
+              props: {
+                id: versionId,
+                name: versionName
+              }
+            }
+          };
 
           tStub = sinon.stub(I18n, 't');
           tStub.withArgs('js.error_could_not_resolve_version_name').returns(errorMessage);
         });
 
         after(function() {
+          delete workPackage.schema.props.customField3;
           tStub.restore();
         });
 
@@ -603,7 +644,7 @@ describe('DetailsTabOverviewController', function() {
 
           before(function() {
             getVersionsStub = sinon.stub(VersionService, 'getVersions');
-
+            getVersionsStub.withArgs('1');
             getVersionsStub.returns([{ id: versionId, name: versionName }]);
 
             buildController();
@@ -631,7 +672,7 @@ describe('DetailsTabOverviewController', function() {
             var reject = $q.reject('For test reasons!');
 
             getVersionsStub = sinon.stub(VersionService, 'getVersions');
-
+            getVersionsStub.withArgs('1');
             getVersionsStub.returns(reject);
 
             buildController();

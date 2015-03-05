@@ -67,7 +67,12 @@ angular.module('openproject')
         workPackage: function(WorkPackageService, $stateParams) {
           return WorkPackageService.getWorkPackage($stateParams.workPackageId).then(function(wp) {
             return WorkPackageService.loadWorkPackageForm(wp).then(function() {
-              return wp;
+              // TODO: refactor to $q.all since schema and form do not
+              // depend on each other
+              return wp.links.schema.fetch().then(function(response) {
+                wp.schema = response;
+                return wp;
+              });
             });
           });
         }
