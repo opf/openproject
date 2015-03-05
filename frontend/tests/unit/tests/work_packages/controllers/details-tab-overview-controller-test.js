@@ -57,8 +57,8 @@ describe('DetailsTabOverviewController', function() {
               writable: true
             },
             customField2: {
-              type: "Formattable",
-              name: "aut mollitia",
+              type: 'Formattable',
+              name: 'aut mollitia',
               required: false,
               writable: true
             }
@@ -121,7 +121,7 @@ describe('DetailsTabOverviewController', function() {
       scope = $rootScope.$new();
       scope.workPackage = angular.copy(workPackage);
 
-      ctrl = $controller("DetailsTabOverviewController", {
+      ctrl = $controller('DetailsTabOverviewController', {
         $scope:  scope,
         I18n: I18n,
         UserService: UserService,
@@ -696,7 +696,7 @@ describe('DetailsTabOverviewController', function() {
       var directiveName = 'my-plugin-property-directive';
 
       before(function() {
-        var workPackageOverviewAttributesStub = sinon.stub(HookService, "call");
+        var workPackageOverviewAttributesStub = sinon.stub(HookService, 'call');
 
         workPackageOverviewAttributesStub.withArgs('workPackageOverviewAttributes',
                                                    { type: propertyName,
