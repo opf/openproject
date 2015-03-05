@@ -46,7 +46,6 @@ module Redmine
                                    order: "#{CustomField.table_name}.position",
                                    dependent: :delete_all,
                                    validate: false
-          before_validation { |customized| customized.custom_field_values if customized.new_record? }
           validate :validate_custom_values
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
@@ -119,7 +118,7 @@ module Redmine
         end
 
         def validate_custom_values
-          custom_values.reject(&:marked_for_destruction?).select(&:invalid?).each do |custom_value|
+          custom_field_values.reject(&:marked_for_destruction?).select(&:invalid?).each do |custom_value|
             custom_value.errors.each do |_, message|
               errors.add(custom_value.custom_field.accessor_name.to_sym, message)
             end
