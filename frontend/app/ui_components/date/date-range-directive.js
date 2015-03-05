@@ -27,6 +27,11 @@
 //++
 
 module.exports = function(TimezoneService, $timeout) {
+  var datePattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/i,
+      parseDate = TimezoneService.parseDate,
+      formattedDate = TimezoneService.formattedDate,
+      formattedISODate = TimezoneService.formattedISODate;
+
   return {
     restrict: 'EA',
     replace: true,
@@ -34,36 +39,54 @@ module.exports = function(TimezoneService, $timeout) {
       startDate: '=', 
       endDate: '=' 
     },
-    template: '<div class="daterange"><input /><div></div></div>',
+    template: '<div class="daterange"><input ng-model="daterange" ng-change="change(this)" /><div></div></div>',
     link: function(scope, element) {
-      var previous = -1,
-          current = -1,
+      var previous,
+          current,
           div = element.find('div'),
-          input = element.find('input');
+          input = element.find('input'),
+          setDate = function(date) {
+            div.datepicker('setDate', parseDate(date).toDate());
+            div.find('.ui-datepicker-current-day').click();
+          };
+
+      scope.change = function(scope) {
+        var range = scope.daterange.split(/\s+?-\s+?/i),
+            isMatching = range.every(function(date) {
+              return datePattern.test(date)
+            });
+
+        if(isMatching) {
+          range.forEach(function(date) {
+            setDate(date);
+          });
+        }
+      };
 
       div.datepicker({
         onSelect: function(dateText, inst) {
-          previous = +current;
-          current = inst.selectedDay;
+          previous = current;
+          current = parseDate(new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay));
           if(previous == -1 || previous == current) {
             previous = current;
-            input.val(dateText);
+            input.val(formattedDate(current));
           } else {
-            var start = new Date(inst.selectedYear, inst.selectedMonth, Math.min(previous,current)),
-                end = new Date(inst.selectedYear, inst.selectedMonth, Math.max(previous,current));
-            $timeout(function(){
-              scope.startDate = TimezoneService.formattedISODate(start);
-              scope.endDate = TimezoneService.formattedISODate(end);
+            var start = minDate(current, previous),
+                end = maxDate(current, previous);
 
-              input.val(TimezoneService.formattedDate(start) + ' - ' + 
-                        TimezoneService.formattedDate(end));
+            $timeout(function(){
+              scope.startDate = formattedISODate(start);
+              scope.endDate = formattedISODate(end);
+
+              input.val(formattedDate(start) + ' - ' + 
+                        formattedDate(end));
             });
           }
         },
         beforeShowDay: function(selectedDay) {
-          var isSelected = selectedDay.getDate() >= Math.min(previous, current) && 
-                           selectedDay.getDate() <= Math.max(previous, current);
-          return [true, (isSelected ? 'date-range-selected' : '')];
+          var isSelected = parseDate(selectedDay) >= minDate(current, previous) && 
+                           parseDate(selectedDay) <= maxDate(current, previous);
+          return [true, isSelected ? 'date-range-selected' : ''];
         }
       })
       .position({
@@ -72,11 +95,24 @@ module.exports = function(TimezoneService, $timeout) {
         of: '.daterange input'
       });
 
-      div.datepicker('setDate', TimezoneService.parseDate(scope.startDate).toDate());
-      div.find('.ui-datepicker-current-day').click();
-
-      div.datepicker('setDate', TimezoneService.parseDate(scope.endDate).toDate());
-      div.find('.ui-datepicker-current-day').click();
+      setDate(scope.startDate);
+      setDate(scope.endDate);
     }
   };
+
+  function minDate(firstDate, secondDate) {
+    if(secondDate && firstDate && firstDate.isAfter(secondDate)) {
+      return secondDate;
+    }
+
+    return firstDate;
+  }
+
+  function maxDate(firstDate, secondDate) {
+    if(secondDate && firstDate && !firstDate.isAfter(secondDate)) {
+      return secondDate;
+    }
+
+    return firstDate;
+  }
 };
