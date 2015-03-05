@@ -55,7 +55,7 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     formattedISODate: function(date) {
-      return TimezoneService.parseDate(date).toISOString().split('T')[0];
+      return TimezoneService.parseDate(date).format('YYYY-MM-DD');
     }
   };
 

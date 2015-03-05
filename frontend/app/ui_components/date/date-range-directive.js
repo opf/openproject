@@ -39,7 +39,9 @@ module.exports = function(TimezoneService, $timeout) {
       var previous = -1,
           current = -1,
           div = element.find('div'),
-          input = element.find('input');
+          input = element.find('input'),
+          startDate = '',
+          endDate = '';
 
       div.datepicker({
         onSelect: function(dateText, inst) {
@@ -49,11 +51,14 @@ module.exports = function(TimezoneService, $timeout) {
             previous = current;
             input.val(dateText);
           } else {
+            var start = new Date(inst.selectedYear, inst.selectedMonth, Math.min(previous,current)),
+                end = new Date(inst.selectedYear, inst.selectedMonth, Math.max(previous,current));
             $timeout(function(){
-              scope.startDate = TimezoneService.formattedDate(new Date(inst.selectedYear, inst.selectedMonth, Math.min(previous,current)));
-              scope.endDate = TimezoneService.formattedDate(new Date(inst.selectedYear, inst.selectedMonth, Math.max(previous,current)));
+              scope.startDate = TimezoneService.formattedISODate(start);
+              scope.endDate = TimezoneService.formattedISODate(end);
+              console.log(scope.startDate, scope.endDate);
 
-              input.val(scope.startDate + ' - ' + scope.endDate);
+              input.val(TimezoneService.formattedDate(start) + ' - ' + TimezoneService.formattedDate(end));
             });
           }
         },
