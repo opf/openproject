@@ -54,9 +54,12 @@ module API
 
             status_origin = @work_package
 
-            # do not allow to skip statuses without intermediate saving
+            # do not allow to skip statuses without intermediately saving the work package
+            # we therefore take the original status of the work_package, while preserving all
+            # other changes to it (e.g. type, assignee, etc.)
             if @work_package.persisted? && @work_package.status_id_changed?
-              status_origin = @work_package.class.find(@work_package.id)
+              status_origin = @work_package.clone
+              status_origin.status = WorkPackage.find(@work_package.id).status
             end
 
             status_origin.new_statuses_allowed_to(user)
