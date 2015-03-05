@@ -154,15 +154,17 @@ module.exports = function($scope,
     }
 
     function getCustomProperties(workPackage) {
-      return _.compact(_.map(workPackage.schema.props, function(prop, propName) {
-        if (propName.match(/^customField/)) {
-          return {
-            name: prop.name,
-            format: getFormat(workPackage, prop, propName),
-            value: getValue(workPackage, propName)
-          };
-        }
-        return false;
+      return _.compact(_.map(
+          workPackage.schema.props,
+          function(prop, propName) {
+            if (propName.match(/^customField/)) {
+              return {
+                name: prop.name,
+                format: getFormat(workPackage, prop, propName),
+                value: getValue(workPackage, propName)
+              };
+            }
+            return false;
       }));
     }
 

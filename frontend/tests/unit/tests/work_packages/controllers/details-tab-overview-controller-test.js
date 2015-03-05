@@ -474,7 +474,11 @@ describe('DetailsTabOverviewController', function() {
         });
 
         it('formats values using the custom field helper', function() {
-          expect(CustomFieldHelper.formatCustomFieldValue.calledWith('red', 'plain')).to.be.true;
+          expect(
+            CustomFieldHelper
+              .formatCustomFieldValue
+              .calledWith('red', 'plain')
+          ).to.be.true;
         });
       });
 
