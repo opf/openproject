@@ -51,8 +51,8 @@ describe('DetailsTabOverviewController', function() {
         schema: {
           props: {
             customField1: {
-              type: "Formattable",
-              name: "color",
+              type: 'Formattable',
+              name: 'color',
               required: false,
               writable: true
             },

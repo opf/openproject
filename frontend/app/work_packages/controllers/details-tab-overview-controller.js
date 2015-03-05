@@ -166,9 +166,11 @@ module.exports = function($scope,
       }));
     }
 
-    angular.forEach(getCustomProperties($scope.workPackage), function(customProperty) {
-      this.push(customProperty);
-    }, otherAttributes);
+    angular.forEach(
+      getCustomProperties($scope.workPackage),
+      function(customProperty) {
+        this.push(customProperty);
+      }, otherAttributes);
 
     angular.forEach($scope.groupedAttributes, function(group) {
       var attributesWithValues = [];
