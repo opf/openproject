@@ -143,12 +143,19 @@ module.exports = function($scope,
               prop.type.toLowerCase();
     }
 
-    function getValue(workPackage, propName) {
+    function getValue(workPackage, prop, propName) {
       if (workPackage.props[propName]) {
         return workPackage.props[propName].raw;
       }
       if (workPackage.embedded[propName]) {
-        return workPackage.embedded[propName].props.id;
+        // this is here for compatibility with other code
+        // TODO: rewrite all this file when custom fields
+        // are editable
+        if (prop.type == 'User' || prop.type == 'Version') {
+          return workPackage.embedded[propName].props.id;
+        } else {
+          return workPackage.embedded[propName].props.value;
+        }
       }
       return null;
     }
@@ -161,7 +168,7 @@ module.exports = function($scope,
               return {
                 name: prop.name,
                 format: getFormat(workPackage, prop, propName),
-                value: getValue(workPackage, propName)
+                value: getValue(workPackage, prop, propName)
               };
             }
             return false;
