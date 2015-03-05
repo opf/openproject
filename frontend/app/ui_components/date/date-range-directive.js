@@ -35,13 +35,11 @@ module.exports = function(TimezoneService, $timeout) {
       endDate: '=' 
     },
     template: '<div class="daterange"><input /><div></div></div>',
-    link: function(scope, element, attrs) {
+    link: function(scope, element) {
       var previous = -1,
           current = -1,
           div = element.find('div'),
-          input = element.find('input'),
-          startDate = '',
-          endDate = '';
+          input = element.find('input');
 
       div.datepicker({
         onSelect: function(dateText, inst) {
@@ -56,14 +54,16 @@ module.exports = function(TimezoneService, $timeout) {
             $timeout(function(){
               scope.startDate = TimezoneService.formattedISODate(start);
               scope.endDate = TimezoneService.formattedISODate(end);
-              console.log(scope.startDate, scope.endDate);
 
-              input.val(TimezoneService.formattedDate(start) + ' - ' + TimezoneService.formattedDate(end));
+              input.val(TimezoneService.formattedDate(start) + ' - ' + 
+                        TimezoneService.formattedDate(end));
             });
           }
         },
         beforeShowDay: function(selectedDay) {
-          return [true, ((selectedDay.getDate() >= Math.min(previous, current) && selectedDay.getDate() <= Math.max(previous, current)) ? 'date-range-selected' : '')]
+          var isSelected = selectedDay.getDate() >= Math.min(previous, current) && 
+                           selectedDay.getDate() <= Math.max(previous, current);
+          return [true, (isSelected ? 'date-range-selected' : '')];
         }
       })
       .position({
@@ -73,10 +73,10 @@ module.exports = function(TimezoneService, $timeout) {
       });
 
       div.datepicker('setDate', TimezoneService.parseDate(scope.startDate).toDate());
-      angular.element('.ui-datepicker-current-day').click();
+      div.find('.ui-datepicker-current-day').click();
 
       div.datepicker('setDate', TimezoneService.parseDate(scope.endDate).toDate());
-      angular.element('.ui-datepicker-current-day').click();
+      div.find('.ui-datepicker-current-day').click();
     }
   };
 };
