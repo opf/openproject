@@ -53,7 +53,7 @@ module.exports = function(TimezoneService, $timeout) {
       scope.change = function(scope) {
         var range = scope.daterange.split(/\s+?-\s+?/i),
             isMatching = range.every(function(date) {
-              return datePattern.test(date)
+              return datePattern.test(date);
             });
 
         if(isMatching) {
