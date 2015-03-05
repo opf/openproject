@@ -1,3 +1,5 @@
+$inplace-edit--border-color: #ddd
+
 .select2-container
   position: relative!important
 .inplace-editor
@@ -35,13 +37,6 @@
     width: auto
     height: auto
     float: inherit
-  .editing-link-wrapper
-    position: absolute
-    margin-left: 4px
-    a
-      @extend .hidden-but-focusable
-      &:focus
-        @extend .visible-on-focus
 
   .ined-input-wrapper
     display: inline
@@ -49,16 +44,12 @@
       width: 90%
       margin-bottom: -1px
   .ined-read-value
-    display: inline
-    position: relative
     &.default
       span
         font-style: italic
     &.editable:hover
-      outline: 1px solid #cacaca
       cursor: pointer
-      .editing-link-wrapper a
-        @extend .visible-on-focus
+
   form
     position: relative
     display: inline
@@ -103,14 +94,6 @@
       display: block!important
     form
       display: block
-    .ined-read-value
-      display: block
-    .read-value-wrapper
-      display: inline-block
-      width: 100%
-    .editing-link-wrapper
-      top: 5px
-      right: 0px
     .ined-dashboard
       padding-left: 0px
       width: 100%
@@ -161,13 +144,55 @@
       margin: 3px
       &.editable:hover
         outline: 1px solid #cacaca
+
+.inplace-editor
+  @extend .form--field.-full-width
+
+.ined-read-value
+  @extend .form--field-container
+
+.read-value-wrapper
+  @include grid-block
+  padding: 0.375rem
+
+.editing-link-wrapper
+  @include grid-block(shrink)
+  text-align: center
+  width: 33px
+  background: $gray-light
+  border-left: 1px solid $inplace-edit--border-color
+  align-items: center
+  justify-content: center
+  // hide the element until hover
+  // but keep focusability
+  opacity: 0
+
+  .icon-edit::before
+    // HACK: overriding default padding here
+    padding-right: 0
+
+  a
+    color: $body-font-color
+
+  a:hover
+    color: $body-font-color
+    text-decoration: none
+
+.ined-read-value
+  border-color: #fff
+  border-style: solid
+  border-radius: 2px
+  border-width: 1px
+
+  &:hover
+    border-color: $inplace-edit--border-color
+
+    .read-value-wrapper
+      border-color: $inplace-edit--border-color
+
     .editing-link-wrapper
-      position: absolute
-      right: -3px
-      top: 1px
-      width: 30px
-      .icon-context:before
-        padding: 0 1px 1px 0
+      opacity: 1
+
 @include breakpoint(xlarge)
   .inplace-editor .jstElements .help a
     width: auto!important
