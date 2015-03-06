@@ -1,13 +1,15 @@
 class PluginManager
+
+  GEMFILE_PLUGINS_PATH = 'Gemfile.plugins'
+
   def initialize(environment)
     @environment = environment
     @gemfile_plugins = _gemfile_plugins || ''
   end
 
   def _gemfile_plugins
-    gemfile_plugins_path = 'Gemfile.plugins'
-    if File.exists?(gemfile_plugins_path)
-      File.read(gemfile_plugins_path)
+    if File.exists?(GEMFILE_PLUGINS_PATH)
+      File.read(GEMFILE_PLUGINS_PATH)
     end
   end
 
@@ -61,8 +63,7 @@ class PluginManager
   end
 
   def _write_to_gemfile_plugins_file
-    gemfile_plugins_path = 'Gemfile.plugins'
-    File.open(gemfile_plugins_path, 'w') do |f|
+    File.open(GEMFILE_PLUGINS_PATH, 'w') do |f|
       f.write @gemfile_plugins
     end
   end
@@ -104,14 +105,14 @@ class PluginManager
 
   def _remove_plugin_from_gemfile_plugins(plugin)
     gemfile_plugins_new = ''
-    plugins = [plugin].concat _dependencies_only_for(plugin)
+    plugins = [plugin].concat _dependencies_only_required_by(plugin)
     @gemfile_plugins.each_line do |line|
       gemfile_plugins_new << line if _line_contains_no_plugin?(line, plugins)
     end
     @gemfile_plugins = gemfile_plugins_new
   end
 
-  def _dependencies_only_for(plugin)
+  def _dependencies_only_required_by(plugin)
     # todo this needs to be addressed
     dependencies = plugin.dependencies
     dependencies.select { |dependency| true }#todo dependency._not_needed_by_any_other_than?(plugin) }
@@ -126,12 +127,7 @@ class PluginManager
   end
 
   def _remove_gemfile_plugins_if_empty
-    _remove_gemfile_plugins_file if @gemfile_plugins == ''
-  end
-
-  def _remove_gemfile_plugins_file
-    gemfile_plugins_path = 'Gemfile.plugins'
-    FileUtils.rm(gemfile_plugins_path)
+    FileUtils.rm(GEMFILE_PLUGINS_PATH) if @gemfile_plugins == ''
   end
 end
 
@@ -167,6 +163,7 @@ class Plugin
 
   def _not_needed_by_any_other_than?(plugin)
     # todo
+    require 'pry';binding.pry;exit
     true
   end
 
