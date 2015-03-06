@@ -76,8 +76,13 @@ module API
 
           property :lock_version
           property :subject, render_nil: true
-          property :done_ratio, render_nil: true, writable: true
-          property :estimated_hours, render_nil: true, writable: true
+          property :done_ratio,
+                   as: :percentageDone,
+                   getter: -> (*) { done_ratio if Setting.work_package_done_ratio != 'disabled' },
+                   render_nil: false
+          property :estimated_hours,
+                   as: :estimated_time,
+                   render_nil: true
           property :description,
                    exec_context: :decorator,
                    getter: -> (*) {
