@@ -32,7 +32,7 @@ module API
     module Categories
       class CategoriesAPI < Grape::API
         resources :categories do
-          namespace ':id' do
+          route_param :id do
             before do
               @category = Category.find(params[:id])
               authorize(:view_project, context: @category.project) do

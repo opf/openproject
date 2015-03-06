@@ -35,7 +35,7 @@ module API
           params do
             requires :id, desc: 'Activity id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @activity = Journal.find(params[:id])

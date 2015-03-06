@@ -33,7 +33,7 @@ module API
       class VersionsAPI < Grape::API
         resources :versions do
 
-          namespace ':id' do
+          route_param :id do
 
             before do
               @version = Version.find(params[:id])

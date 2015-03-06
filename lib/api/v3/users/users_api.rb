@@ -49,7 +49,7 @@ module API
           params do
             requires :id, desc: 'User\'s id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @user  = User.find(params[:id])

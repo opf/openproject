@@ -35,7 +35,7 @@ module API
             requires :id, desc: 'Project id'
           end
 
-          namespace ':id' do
+          route_param :id do
             before do
               @project = Project.find(params[:id])
 

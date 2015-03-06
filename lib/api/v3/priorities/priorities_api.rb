@@ -44,7 +44,7 @@ module API
                                               api_v3_paths.priorities)
           end
 
-          namespace ':id' do
+          route_param :id do
             before do
               @priority = IssuePriority.find(params[:id])
             end
