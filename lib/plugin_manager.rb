@@ -11,8 +11,9 @@ class PluginManager
     end
   end
 
-  def add(plugin)
-    if _already_installed?(plugin)
+  def add(name)
+    plugin = Plugin.new(name)
+    if plugin.included_in?(@gemfile_plugins)
       puts 'Plugin already installed, abort'
       exit
     end
@@ -27,8 +28,9 @@ class PluginManager
     end
   end
 
-  def remove(plugin)
-    unless _already_installed?(plugin)
+  def remove(name)
+    plugin = Plugin.new(name)
+    unless plugin.included_in?(@gemfile_plugins)
       puts 'Plugin not installed, abort!'
       exit
     end
@@ -41,10 +43,6 @@ class PluginManager
     end
   end
 
-  def _already_installed?(plugin)
-    @gemfile_plugins.include?(plugin)
-  end
-
   def _write_plugin_to_gemfile_plugins_file(plugin)
     _add_plugin_to_gemfile_plugins(plugin)
     _sort_gemfile_plugins
@@ -52,49 +50,8 @@ class PluginManager
   end
 
   def _add_plugin_to_gemfile_plugins(plugin)
-    unless _available_plugins[plugin]
-      puts 'Could not find plugin, abort!'
-      exit
-    end
-    @gemfile_plugins << _gemfile_plugins_line(plugin)
-    @gemfile_plugins << _gemfile_plugins_lines_for_dependencies(plugin)
-  end
-
-  def _available_plugins
-    @available_plugins || _load_available_plugins
-  end
-
-  def _load_available_plugins
-    @available_plugins = YAML.load_file('plugins.yml')
-  end
-
-  def _gemfile_plugins_line(plugin)
-    # todo this needs to be more general, i.e. without if 'pdf-inspector'
-    # and with different ref types (commit, tag)
-    if plugin == 'pdf-inspector'
-      "gem \"pdf-inspector\", \"~>1.0.0\"\n"
-    else
-      url = _available_plugins[plugin][:url]
-      branch = _available_plugins[plugin][:branch]
-      "gem \"#{plugin}\", git: \"#{url}\", branch: \"#{branch}\"\n"
-    end
-  end
-
-  def _gemfile_plugins_lines_for_dependencies(plugin)
-    # todo don't add dependencies twice
-    result = ''
-    _dependencies(plugin).each do |dependency|
-      result << _gemfile_plugins_line(dependency)
-    end
-    result
-  end
-
-  def _dependencies(plugin)
-    result = _available_plugins[plugin][:dependencies] || []
-    # todo we have to solve dependencies of dependencies
-    # this is just a workaround to make backlogs work for now
-    result << 'pdf-inspector' if result == ['openproject-pdf_export']
-    result
+    @gemfile_plugins << plugin.gemfile_plugins_line
+    @gemfile_plugins << plugin.gemfile_plugins_lines_for_dependencies
   end
 
   def _sort_gemfile_plugins
@@ -123,7 +80,7 @@ class PluginManager
 
   def _revert_migrations(plugin)
     # todo should we migrate for all envs?
-    migration_path = OpenProject::Application.config.paths['db/migrate'].select { |path| path.include?(plugin) }
+    migration_path = OpenProject::Application.config.paths['db/migrate'].select { |path| path.include?(plugin.name) }
     ActiveRecord::Migrator.migrate migration_path, 0
   end
 
@@ -156,19 +113,14 @@ class PluginManager
 
   def _dependencies_only_for(plugin)
     # todo this needs to be addressed
-    dependencies = _dependencies(plugin)
+    dependencies = plugin.dependencies
     dependencies.select { |dependency| true }#todo dependency._not_needed_by_any_other_than?(plugin) }
-  end
-
-  def _not_needed_by_any_other_than?(plugin)
-    # todo
-    true
   end
 
   def _line_contains_no_plugin?(line, plugins)
     result = true
     plugins.each do |plugin|
-      result = false if line.include?(plugin)
+      result = false if plugin.included_in?(line)
     end
     result
   end
@@ -180,5 +132,74 @@ class PluginManager
   def _remove_gemfile_plugins_file
     gemfile_plugins_path = 'Gemfile.plugins'
     FileUtils.rm(gemfile_plugins_path)
+  end
+end
+
+class Plugin
+  def self._available?(name)
+    _available_plugins[name]
+  end
+
+  def self._available_plugins
+    @available_plugins || _load_available_plugins
+  end
+
+  def self._load_available_plugins
+    # todo check, if file exists
+    @available_plugins = YAML.load_file('plugins.yml')
+  end
+
+  attr_reader :name
+
+  def initialize(name)
+    if name == 'pdf-inspector'
+      @name = 'pdf-inspector'
+    else
+      unless Plugin._available?(name)
+        puts 'Could not find plugin, abort!'
+        exit
+      end
+      @name = name
+      @url = Plugin._available_plugins[name][:url]
+      @branch = Plugin._available_plugins[name][:branch]
+    end
+  end
+
+  def _not_needed_by_any_other_than?(plugin)
+    # todo
+    true
+  end
+
+  def included_in?(str)
+    # todo check for commented gems?
+    str.include?(@name)
+  end
+
+  def gemfile_plugins_line
+    # todo this needs to be more general, i.e. with different ref types (commit, tag)
+    # and maybe without if 'pdf-inspector'
+    if @name == 'pdf-inspector'
+      "gem \"pdf-inspector\", \"~>1.0.0\"\n"
+    else
+      "gem \"#{@name}\", git: \"#{@url}\", branch: \"#{@branch}\"\n"
+    end
+  end
+
+  def gemfile_plugins_lines_for_dependencies
+    # todo don't add dependencies twice
+    result = ''
+    dependencies.each do |dependency|
+      result << dependency.gemfile_plugins_line
+    end
+    result
+  end
+
+  def dependencies
+    available_plugins_names = Plugin._available_plugins[name][:dependencies] || []
+    result = available_plugins_names.inject([]) { |plugins, name| plugins << Plugin.new(name) }
+    # todo we have to solve dependencies of dependencies
+    # this is just a workaround to make backlogs work for now
+    result << Plugin.new('pdf-inspector') if result.first.name == 'openproject-pdf_export'
+    result
   end
 end
