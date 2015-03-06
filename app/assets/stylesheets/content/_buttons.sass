@@ -66,6 +66,12 @@ a.button,
       +icon-button-rules
       content: "\e0c8 \e073"
 
+  &.-preview
+    &:before
+      +icon-common
+      +icon-button-rules
+      @extend .icon-not-watch:before
+
   &.-loading, &.-saving
     &:before
       +icon-common

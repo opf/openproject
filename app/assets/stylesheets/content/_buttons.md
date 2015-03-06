@@ -15,6 +15,7 @@
 <button class="button -highlight -yes">Yes</button>
 <button class="button -yes-send">Yes (and notify others)</button>
 <button class="button -no">No</button>
+<button class="button -preview">Preview</button>
 ```
 
 ## Loading (Inflight request)
@@ -68,11 +69,4 @@ Save and send:
 ```
 <button class="button -expand">Expanded button</button>
 <a href="#" class="button -expand">Expanded button as link</a>
-```
-
-## Rounded buttons
-
-```
-<button class="button -round">Expanded button</button>
-<a href="#" class="button -round">Expanded button as link</a>
 ```
