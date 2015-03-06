@@ -264,6 +264,10 @@ module API
                  embedded: true,
                  class: ::Status,
                  decorator: ::API::V3::Statuses::StatusRepresenter
+        property :type,
+                 embedded: true,
+                 class: ::Type,
+                 decorator: ::API::V3::Types::TypeRepresenter
         property :author,
                  embedded: true,
                  class: ::User,
