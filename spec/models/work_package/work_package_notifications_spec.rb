@@ -27,30 +27,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWorkPackageUpdatedJob
-  include MailNotificationJob
+require 'spec_helper'
 
-  def initialize(user_id, journal_id, current_user_id)
-    @user_id         = user_id
-    @journal_id      = journal_id
-    @current_user_id = current_user_id
-  end
+##
+# Tests that email notifications will be sent upon creating or changing a work package.
+describe WorkPackage, type: :model do
+  describe 'email notifications' do
+    let(:user) { FactoryGirl.create :admin }
+    let!(:work_package) do
+      FactoryGirl.create :work_package,
+                         author: user,
+                         subject: 'I can see you'
+    end
 
-  private
+    context 'after creation' do
+      it "are sent to the work package's author" do
+        mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'I can see you' }
 
-  def notification_mail
-    @notification_mail ||= UserMailer.work_package_updated(user, journal, current_user)
-  end
+        expect(mail).to be_present
+      end
+    end
 
-  def user
-    @user ||= Principal.find(@user_id)
-  end
+    describe 'after update' do
+      before do
+        work_package.update_attributes subject: 'the wind of change'
+      end
 
-  def journal
-    @journal ||= Journal.find(@journal_id)
-  end
+      it "are sent to the work package's author" do
+        mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'the wind of change' }
 
-  def current_user
-    @current_user ||= Principal.find(@current_user_id)
+        expect(mail).to be_present
+      end
+    end
   end
 end
