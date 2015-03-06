@@ -28,11 +28,10 @@
 #++
 
 require 'spec_helper'
-require 'support/shared/previews'
 
 describe WorkPackagesController, type: :controller do
-  let(:user)         { FactoryGirl.create :user, admin: true }
-  let(:project)      { FactoryGirl.create :project, is_public: true }
+  let(:user)    { FactoryGirl.create :admin }
+  let(:project) { FactoryGirl.create :public_project }
 
   before do
     allow(User).to receive(:current).and_return user
@@ -40,20 +39,19 @@ describe WorkPackagesController, type: :controller do
   end
 
   around(:each) do |example|
-    delay = Delayed::Worker.delay_jobs
     begin
       Delayed::Worker.delay_jobs = true
       example.run
     ensure
-      Delayed::Worker.delay_jobs = delay
+      Delayed::Worker.delay_jobs = false
     end
   end
 
   describe 'create' do
-    let(:create)       { post 'create', params }
     let(:work_package) { WorkPackage.find_by_subject 'genesis' }
-    let(:status)       { FactoryGirl.create :status }
     let(:priority)     { FactoryGirl.create :priority }
+    let(:response)     { post 'create', params }
+    let(:status)       { FactoryGirl.create :status }
 
     let(:params) do
       {
@@ -67,14 +65,16 @@ describe WorkPackagesController, type: :controller do
     end
 
     let(:job) do
-      Delayed::Job.all.find do |job|
-        (job.payload_object.send(:work_package) rescue nil) == work_package
+      Delayed::Job.all.map(&:payload_object).detect do |job|
+        if job.is_a? DeliverWorkPackageCreatedJob
+          job.send(:work_package) == work_package
+        end
       end
     end
 
     describe 'with working email configuration' do
       before do
-        create
+        response
       end
 
       it 'should redirect to the created work package' do
@@ -95,7 +95,7 @@ describe WorkPackagesController, type: :controller do
       before do
         allow_any_instance_of(Mail::Message).to receive(:deliver).and_raise(SocketError)
 
-        create
+        response
       end
 
       it 'should not result in an internal server error' do
@@ -103,7 +103,7 @@ describe WorkPackagesController, type: :controller do
       end
 
       it 'should redirect to show' do
-        redirect_to(work_package_path(work_package))
+        expect(response).to redirect_to(work_package_path(work_package))
       end
 
       describe 'notification job' do
@@ -112,7 +112,7 @@ describe WorkPackagesController, type: :controller do
         end
 
         it 'fails' do
-          expect{job.payload_object.perform}.to raise_error(SocketError)
+          expect { job.perform }.to raise_error(SocketError)
         end
       end
     end

@@ -33,7 +33,7 @@ require 'spec_helper'
 # Tests that email notifications will be sent upon creating or changing a work package.
 describe WorkPackage, type: :model do
   describe 'email notifications' do
-    let(:user) { FactoryGirl.create :user, mail: 'lauter@lump.en', admin: true }
+    let(:user) { FactoryGirl.create :admin }
     let!(:work_package) do
       FactoryGirl.create :work_package,
                          author: user,
@@ -42,7 +42,7 @@ describe WorkPackage, type: :model do
 
     context 'after creation' do
       it "are sent to the work package's author" do
-        mail = ActionMailer::Base.deliveries.find { |m| m.subject.include? 'I can see you' }
+        mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'I can see you' }
 
         expect(mail).to be_present
       end
@@ -54,7 +54,7 @@ describe WorkPackage, type: :model do
       end
 
       it "are sent to the work package's author" do
-        mail = ActionMailer::Base.deliveries.find { |m| m.subject.include? 'the wind of change' }
+        mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'the wind of change' }
 
         expect(mail).to be_present
       end

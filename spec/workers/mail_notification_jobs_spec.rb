@@ -50,7 +50,7 @@ describe 'mail notification jobs', type: :model do
       end
 
       it 'sends an email' do
-        mail = ActionMailer::Base.deliveries.find { |m| m.subject.include? mail_subject }
+        mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? mail_subject }
 
         expect(mail).to be_present
       end
@@ -59,7 +59,7 @@ describe 'mail notification jobs', type: :model do
     shared_examples 'job cannot find record' do
       it 'does not send an email' do
         job.perform
-        mail = ActionMailer::Base.deliveries.find { |m| m.subject.include? mail_subject }
+        mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? mail_subject }
 
         expect(mail).not_to be_present
       end
