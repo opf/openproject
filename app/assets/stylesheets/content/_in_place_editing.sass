@@ -1,4 +1,6 @@
 $inplace-edit--border-color: #ddd
+$inplace-edit--dark-background: #f8f8f8
+$inplace-edit--color--very-dark: #cacaca
 
 .select2-container
   position: relative!important
@@ -66,22 +68,6 @@ $inplace-edit--border-color: #ddd
       background: white
       border: 1px solid #cacaca
       min-height: 42px
-    .ined-controls
-      float: left
-      display: inline-block
-      bottom: 17px
-      left: 29px
-      width: 120px
-      background: white
-      border: 1px solid #cacaca
-      text-align: center
-      a
-        width: 36px
-        display: inline-block
-        text-align: center
-        text-decoration: none
-        &:hover
-          background: #f0f0f0
   &.type-text
     .ined-dashboard
       width: 90%
@@ -98,7 +84,6 @@ $inplace-edit--border-color: #ddd
       padding-left: 0px
       width: 100%
       .ined-controls
-        left: 0px
         z-index: 1
     .jstHandle
       display: none
@@ -137,7 +122,21 @@ $inplace-edit--border-color: #ddd
       width: 100%
     .ined-dashboard
       padding-left: 0px
-    .ined-controls
+
+.ined-dashboard
+  position: absolute
+  width: 100%
+
+.ined-controls, .inplace-edit--controls
+  display: inline-block
+  width: 114px
+  height: 35px
+  background: #f8f8f8
+  border: 1px solid $inplace-edit--color--very-dark
+  box-shadow: 1px 1px 2px $inplace-edit--border-color
+  text-align: center
+  float: right
+  padding: 5px
 
 .inplace-editor
   @extend .form--field.-full-width
@@ -186,6 +185,27 @@ $inplace-edit--border-color: #ddd
 
     .editing-link-wrapper
       opacity: 1
+
+.inplace-edit--control
+  background: $inplace-edit--color--very-dark
+  width: 23px
+  height: 23px
+  border: 1px solid $inplace-edit--dark-background
+  display: inline-block
+  border-radius: 12px
+  font-size: 12px
+
+  &.-icons-2
+    width: 46px
+
+  a
+    color: $body-font-color
+    text-decoration: none
+    &:hover
+      //background: #f0f0f0
+
+    .icon-context::before
+      padding: 0
 
 @include breakpoint(xlarge)
   .inplace-editor .jstElements .help a

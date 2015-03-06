@@ -21,20 +21,26 @@
       <div class="ined-dashboard">
         <div class="ined-errors" ng-show="error" role="alert" ng-bind="error" aria-live="polite"></div>
         <div class="ined-controls" ng-hide="isBusy">
-          <accessible-by-keyboard execute="editForm.$valid && submit(false)" class="ined-edit-save">
-            <icon-wrapper icon-name="yes" icon-title="{{ saveTitle }}">
-            </icon-wrapper>
-          </accessible-by-keyboard>
-          <accessible-by-keyboard execute="editForm.$valid && submit(true)" class="ined-edit-save-send">
-            <span title="{{ saveAndSendTitle }}">
-              <i class="icon-yes"></i>
-              <i class="icon-mail"></i>
-            </span>
-          </accessible-by-keyboard>
-          <accessible-by-keyboard execute="discardEditing()" class="ined-edit-close">
-            <icon-wrapper icon-name="close" icon-title="{{ cancelTitle }}">
-            </icon-wrapper>
-          </accessible-by-keyboard>
+          <div class="inplace-edit--control">
+            <accessible-by-keyboard execute="editForm.$valid && submit(false)">
+              <icon-wrapper icon-name="yes" icon-title="{{ saveTitle }}">
+              </icon-wrapper>
+            </accessible-by-keyboard>
+          </div>
+          <div class="inplace-edit--control -icons-2">
+            <accessible-by-keyboard execute="editForm.$valid && submit(true)">
+              <span title="{{ saveAndSendTitle }}">
+                <i class="icon-yes"></i>
+                <i class="icon-mail"></i>
+              </span>
+            </accessible-by-keyboard>
+          </div>
+          <div class="inplace-edit--control">
+            <accessible-by-keyboard execute="discardEditing()">
+              <icon-wrapper icon-name="close" icon-title="{{ cancelTitle }}" css-class="icon4">
+              </icon-wrapper>
+            </accessible-by-keyboard>
+          </div>
         </div>
       </div>
     </form>

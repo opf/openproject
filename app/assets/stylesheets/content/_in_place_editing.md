@@ -141,44 +141,50 @@
                     aria-live="polite"
                     aria-hidden="true">
                </div>
-               <div class="ined-controls">
-                 <accessible-by-keyboard class="ined-edit-save">
-                   <a href="" tabindex="0">
-                     <span>
-                       <span class="icon-context icon-button icon-yes "
-                             title="Description: Save"
-                             icon-name="yes"
-                             icon-title="Description: Save">
-                         <span class="hidden-for-sighted ">
-                           Description: Save
+               <div class="ined-controls inplace-edit--controls">
+                 <div class="inplace-edit--control">
+                   <accessible-by-keyboard class="ined-edit-save">
+                     <a href="" tabindex="0">
+                       <span>
+                         <span class="icon-context icon-button icon-yes "
+                               title="Description: Save"
+                               icon-name="yes"
+                               icon-title="Description: Save">
+                           <span class="hidden-for-sighted ">
+                             Description: Save
+                           </span>
                          </span>
                        </span>
-                     </span>
-                   </a>
-                 </accessible-by-keyboard>
-                 <accessible-by-keyboard class="ined-edit-save-send">
-                   <a href="" tabindex="0">
-                     <span>
-                       <span title="Description: Save and send email">
-                         <i class="icon-yes"></i>
-                         <i class="icon-mail"></i>
-                       </span>
-                     </span>
-                   </a>
-                 </accessible-by-keyboard>
-                 <accessible-by-keyboard class="ined-edit-close">
-                   <a href="" tabindex="0">
-                     <span >
-                       <span class="icon-context icon-button icon-close "
-                             title="Description: Cancel"
-                             icon-name="close" icon-title="Description: Cancel">
-                         <span class="hidden-for-sighted ">
-                           Description: Cancel
+                     </a>
+                   </accessible-by-keyboard>
+                 </div>
+                 <div class="inplace-edit--control -icons-2">
+                   <accessible-by-keyboard class="ined-edit-save-send">
+                     <a href="" tabindex="0">
+                       <span>
+                         <span title="Description: Save and send email">
+                           <i class="icon-yes"></i>
+                           <i class="icon-mail"></i>
                          </span>
                        </span>
-                     </span>
-                   </a>
-                 </accessible-by-keyboard>
+                     </a>
+                   </accessible-by-keyboard>
+                 </div>
+                 <div class="inplace-edit--control">
+                   <accessible-by-keyboard class="ined-edit-close">
+                     <a href="" tabindex="0">
+                       <span >
+                         <span class="icon-context icon-button icon-close2"
+                               title="Description: Cancel"
+                               icon-name="close" icon-title="Description: Cancel">
+                           <span class="hidden-for-sighted ">
+                             Description: Cancel
+                           </span>
+                         </span>
+                       </span>
+                     </a>
+                   </accessible-by-keyboard>
+                  </div>
               </div>
             </div>
           </form>
@@ -186,6 +192,9 @@
       </div>
     </span>
   </div>
+</div>
+
+<div style="height: 50px;">
 </div>
 
 ```
@@ -270,32 +279,44 @@
                   <div class="ined-errors  " role="alert" aria-live="polite" >
                   </div>
                   <div class="ined-controls"  >
-                    <accessible-by-keyboard  class="ined-edit-save ">
-                      <a default-event-handling="defaultEventHandling"  href="" class="" tabindex="0">
-                        <span>
-                          <span class="icon-context icon-button icon-yes " title="Status: Save" icon-name="yes" icon-title="Status: Save">
+                    <div class="inplace-edit--control">
+                      <accessible-by-keyboard  class="ined-edit-save ">
+                        <a default-event-handling="defaultEventHandling"  href="" class="" tabindex="0">
+                          <span>
+                            <span class="icon-context icon-button icon-yes " title="Status: Save" icon-name="yes" icon-title="Status: Save">
+                              <span class="hidden-for-sighted ">
+                                Status: Save
+                              </span>
+                            </span>
+                          </span>
+                        </a>
+                      </accessible-by-keyboard>
+                    </div>
+                    <div class="inplace-edit--control -icons-2">
+                      <accessible-by-keyboard class="ined-edit-save-send ">
+                        <a href="" class="" tabindex="0">
+                          <span >
+                            <span title="Status: Save and send email">
+                              <i class="icon-yes"></i>
+                              <i class="icon-mail"></i>
+                            </span>
+                          </span>
+                        </a>
+                      </accessible-by-keyboard>
+                    </div>
+                    <div class="inplace-edit--control">
+                    <accessible-by-keyboard  class="ined-edit-close ">
+                      <a href="" class="" tabindex="0">
+                        <span >
+                          <span class="icon-context icon-button icon-close2 " title="Status: Cancel" icon-name="close" icon-title="Status: Cancel">
                             <span class="hidden-for-sighted ">
-                              Status: Save
+                              Status: Cancel
                             </span>
                           </span>
                         </span>
                       </a>
+                    </div>
                     </accessible-by-keyboard>
-                    <accessible-by-keyboard class="ined-edit-save-send ">
-                      <a href="" class="" tabindex="0">
-                        <span >
-                          <span title="Status: Save and send email">
-                            <i class="icon-yes"></i>
-                            <i class="icon-mail"></i>
-                          </span>
-                        </span>
-                      </a>
-                    </accessible-by-keyboard>
-                    <accessible-by-keyboard  class="ined-edit-close "><a  default-event-handling="defaultEventHandling"  href="" class="" tabindex="0"><span >
-                      <span class="icon-context icon-button icon-close " title="Status: Cancel" icon-name="close" icon-title="Status: Cancel">
-            <span class="hidden-for-sighted ">Status: Cancel</span>
-          </span>
-                    </span></a></accessible-by-keyboard>
                   </div>
                 </div>
               </form>
@@ -305,5 +326,8 @@
       </div>
     </dd>
   </dl>
+</div>
+
+<div style="height: 50px;">
 </div>
 ```
