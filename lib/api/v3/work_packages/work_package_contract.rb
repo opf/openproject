@@ -124,8 +124,14 @@ module API
 
         def done_ratio_valid
           if model.changed.include?('done_ratio')
-            unless Setting.work_package_done_ratio == 'field' && model.leaf?
-              errors.add :done_ratio, I18n.t('api_v3.errors.validation.done_ratio')
+            if !model.leaf?
+              errors.add :done_ratio, I18n.t('api_v3.errors.validation.done_ratio_readonly_parent')
+            end
+            if Setting.work_package_done_ratio == 'status'
+              errors.add :done_ratio, I18n.t('api_v3.errors.validation.done_ratio_readonly_status')
+            end
+            if Setting.work_package_done_ratio == 'disabled'
+              errors.add :done_ratio, I18n.t('api_v3.errors.validation.done_ratio_disabled')
             end
           end
         end
