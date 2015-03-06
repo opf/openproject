@@ -81,7 +81,7 @@ module API
                    getter: -> (*) { done_ratio if Setting.work_package_done_ratio != 'disabled' },
                    render_nil: false
           property :estimated_hours,
-                   as: :estimated_time,
+                   as: :estimatedTime,
                    render_nil: true
           property :description,
                    exec_context: :decorator,
