@@ -80,18 +80,18 @@ module API
 
           def percentage_done_writable?
             if Setting.work_package_done_ratio == 'status' ||
-              Setting.work_package_done_ratio == 'disabled'
+               Setting.work_package_done_ratio == 'disabled'
               return false
             end
-            work_package_present_and_parent?
+            is_leaf_or_nil?(@work_package)
           end
 
           def estimated_time_writable?
-            work_package_present_and_parent?
+            is_leaf_or_nil?(@work_package)
           end
 
-          def work_package_present_and_parent?
-            @work_package.nil? ? true : @work_package.children.count < 1
+          def is_leaf_or_nil?(work_package)
+            work_package.nil? ? true : work_package.children.empty?
           end
         end
       end
