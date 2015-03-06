@@ -102,7 +102,10 @@ module API
         def readonly_attributes_unchanged
           changed_attributes = model.changed - self.class.writable_attributes
 
-          errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
+          changed_attributes.each do |attribute|
+            errors.add attribute.to_sym, I18n.t('api_v3.errors.writing_read_only_attributes')
+          end unless changed_attributes.empty?
+          # errors.add :error_readonly, changed_attributes
         end
 
         def assignee_visible
@@ -115,14 +118,14 @@ module API
 
         def estimated_hours_valid
           if !model.leaf? && model.changed.include?('estimated_hours')
-            errors.add :error_readonly, I18n.t('api_v3.errors.validation.estimated_hours')
+            errors.add :estimated_time, I18n.t('api_v3.errors.validation.estimated_hours')
           end
         end
 
         def done_ratio_valid
           if model.changed.include?('done_ratio')
             unless Setting.work_package_done_ratio == 'field' && model.leaf?
-              errors.add :error_readonly, I18n.t('api_v3.errors.validation.done_ratio')
+              errors.add :done_ratio, I18n.t('api_v3.errors.validation.done_ratio')
             end
           end
         end

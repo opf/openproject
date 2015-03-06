@@ -43,7 +43,7 @@ module API
             when :error_conflict
               return ::API::Errors::Conflict
             when :error_readonly
-              return ::API::Errors::UnwritableProperty.new(errors[key].flatten)
+              return ::API::Errors::UnwritableProperty.new(errors[key])
             end
           end
         end

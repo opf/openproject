@@ -43,9 +43,13 @@ module API
 
         super 422, message
 
+        evaluate_attributes(attributes, invalid_attributes)
+      end
+
+      def evaluate_attributes(attributes, invalid_attributes)
         if attributes.length > 1
-          invalid_attributes.each do |attribute|
-            @errors << UnwritableProperty.new(attribute)
+          invalid_attributes.each do |error|
+            @errors << UnwritableProperty.new(error)
           end
         else
           @details = { attribute: attributes[0].to_s.camelize(:lower) }
