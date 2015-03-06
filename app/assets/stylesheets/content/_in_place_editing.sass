@@ -2,134 +2,93 @@ $inplace-edit--border-color: #ddd
 $inplace-edit--dark-background: #f8f8f8
 $inplace-edit--color--very-dark: #cacaca
 
-.select2-container
-  position: relative!important
-.inplace-editor
-  ul
-    margin-left: auto
-  display: inline
-  font-size: medium
-  .ined-input-wrapper-inner
-    display: inline
-  &.busy
-    opacity: 0.5
-    .jstElements button
-      opacity: 0.5
-    *
-      cursor: wait!important
-  &.preview
+.inplace-edit
+  @extend .form--field.-full-width
+
+  &.-preview
     button
       visibility: hidden
     .help
       display: none!important
     .btn-preview
       visibility: visible
-    &.type-wiki_textarea .ined-controls
-      bottom: -34px
-  .hidden-but-focusable
-    position: absolute
-    left: -10000px
-    top: auto
-    width: 1px
-    height: 1px
-    overflow: hidden
-  .visible-on-focus
-    left: 0
-    position: inherit
-    width: auto
-    height: auto
-    float: inherit
 
-  .ined-input-wrapper
-    display: inline
-    input
-      width: 90%
-      margin-bottom: -1px
-  .ined-read-value
-    &.default
-      span
-        font-style: italic
-    &.editable:hover
-      cursor: pointer
+  &.-busy
+    opacity: 0.5
+    .jstElements button
+      opacity: 0.5
+    *
+      cursor: wait!important
 
-  form
-    position: relative
+.inplace-edit--form
+  display: block
+  position: relative
+
+  //todo: Move to something more specific
+  .jstHandle
+    display: none
+  .jstElements
     display: inline
-    .ng-invalid
-      background: lightpink!important
-  .ined-dashboard
-    min-height: 42px
-    .ined-errors
-      line-height: 1.2em
-      width: 100%
-      padding: 5px
-      left: 251px
-      bottom: -11px
-      background: white
-      border: 1px solid #cacaca
-      min-height: 42px
-  &.type-text
-    .ined-dashboard
-      width: 90%
-  &.type-wiki_textarea
-    textarea
-      min-height: 200px
-      width: 100%
-      margin-bottom: -1px
-    .ined-input-wrapper-inner
-      display: block!important
-    form
-      display: block
-    .ined-dashboard
-      padding-left: 0px
-      width: 100%
-      .ined-controls
-        z-index: 1
-    .jstHandle
+    bottom: -31px
+    width: 307px
+    button
       display: none
-    .jstElements
+      &.btn-preview
+        float: right
+        display: inline
+        margin-right: 0
+    .help
       display: inline
-      bottom: -31px
-      width: 307px
-      button
-        display: none
-        &.btn-preview
-          float: right
-          height: 32px
-          width: auto
-          display: inline
-          margin-right: 0
-      .help
-        display: inline
-        float: none
-        position: relative
-        top: -4px
-        left: -12px
-        a
-          width: 29px
-          display: inline-block
-          height: 25px
-          overflow: hidden
-          padding-top: 7px
-          margin-bottom: -2px
-          padding-left: 0
-      .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
-        display: inline
-  &.type-select2
-    .select2-display-none
-      display: none
-    input[type='text']
-      width: 100%
-    .ined-dashboard
-      padding-left: 0px
+      float: none
+      position: relative
+      top: -4px
+      left: -12px
+      a
+        width: 29px
+        display: inline-block
+        height: 25px
+        overflow: hidden
+        padding-top: 7px
+        margin-bottom: -2px
+        padding-left: 0
+    .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
+      display: inline
 
-.ined-dashboard
+.inplace-edit--select
+  .select2-display-none
+    display: none
+
+.inplace-edit--textarea
+  min-height: 200px
+  width: 100%
+  margin-bottom: -1px
+
+.inplace-edit--text-field
+  margin-bottom: 0
+  padding: 0.375rem
+  font-size: inherit
+  line-height: inherit
+
+.inplace-edit--dashboard
   position: absolute
   width: 100%
+  z-index: 100
+  min-height: 42px
+  font-size: 0.875rem
 
-.ined-controls, .inplace-edit--controls
+.inplace-edit--errors
+  line-height: 1.2em
+  width: 100%
+  padding: 5px
+  left: 251px
+  bottom: -11px
+  background: white
+  border: 1px solid #cacaca
+  min-height: 42px
+
+.inplace-edit--controls
   display: inline-block
-  width: 114px
+  width: 115px
   height: 35px
   background: #f8f8f8
   border: 1px solid $inplace-edit--color--very-dark
@@ -137,18 +96,20 @@ $inplace-edit--color--very-dark: #cacaca
   text-align: center
   float: right
   padding: 5px
+  line-height: 1.6rem
+  margin-top: -1px
 
-.inplace-editor
-  @extend .form--field.-full-width
-
-.ined-read-value
+.inplace-edit--read
   @extend .form--field-container
 
-.read-value-wrapper
+.inplace-edit--read-value
   @include grid-block
   padding: 0.375rem
 
-.editing-link-wrapper
+  &.-default
+    font-style: italic
+
+.inplace-edit--icon-wrapper
   @include grid-block(shrink)
   text-align: center
   width: 33px
@@ -156,9 +117,7 @@ $inplace-edit--color--very-dark: #cacaca
   border-left: 1px solid $inplace-edit--border-color
   align-items: center
   justify-content: center
-  // hide the element until hover
-  // but keep focusability
-  opacity: 0
+  visibility: hidden
 
   .icon-edit::before
     // HACK: overriding default padding here
@@ -171,44 +130,59 @@ $inplace-edit--color--very-dark: #cacaca
     color: $body-font-color
     text-decoration: none
 
-.ined-read-value
+.inplace-editing--trigger-container
+  @include grid-block
+
+// need to specify the a explicitly as otherwise
+// the default class will win
+a.inplace-editing--trigger-link,
+.inplace-editing--trigger-link
+  @include grid-block
+  color: $body-font-color
+  font-weight: inherit
+
+  &:hover,
+  &:focus,
+    text-decoration: none
+    color: $body-font-color
+
+    .inplace-editing--container
+      border-color: $inplace-edit--border-color
+    .inplace-edit--icon-wrapper
+      visibility: visible
+
+.inplace-editing--container
+  @include grid-block
   border-color: #fff
   border-style: solid
   border-radius: 2px
   border-width: 1px
 
-  &:hover
-    border-color: $inplace-edit--border-color
-
-    .read-value-wrapper
-      border-color: $inplace-edit--border-color
-
-    .editing-link-wrapper
-      opacity: 1
+.inplace-edit--read
+  @include grid-block
 
 .inplace-edit--control
   background: $inplace-edit--color--very-dark
-  width: 23px
-  height: 23px
+  width: 1.4375rem
+  height: 1.4375rem
   border: 1px solid $inplace-edit--dark-background
   display: inline-block
-  border-radius: 12px
-  font-size: 12px
+  border-radius: 0.75rem
+  font-size: 0.75rem
 
   &.-icons-2
-    width: 46px
+    width: 2.875rem
 
   a
     color: $body-font-color
     text-decoration: none
     &:hover
-      //background: #f0f0f0
 
     .icon-context::before
       padding: 0
 
 @include breakpoint(xlarge)
-  .inplace-editor .jstElements .help a
+  .inplace-edit .jstElements .help a
     width: auto!important
     display: inline!important
     height: auto!important

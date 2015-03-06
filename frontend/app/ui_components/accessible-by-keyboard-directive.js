@@ -32,11 +32,12 @@ module.exports = function() {
     transclude: true,
     scope: {
       execute: '&',
-      linkClass: '@'
+      linkClass: '@',
+      spanClass: '@',
     },
     template: "<a execute-on-enter='execute()' default-event-handling='defaultEventHandling'" +
       " ng-click='execute()' href='' class='{{ linkClass }}'>" +
-      "<span ng-transclude></span>" +
+      "<span ng-transclude class='{{ spanClass }}'></span>" +
       "</a>",
     link: function(scope, element, attrs) {
       scope.defaultEventHandling = !attrs.execute;

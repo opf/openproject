@@ -31,9 +31,10 @@ module.exports = function() {
       PREVIEW_ENABLE_TEXT = I18n.t('js.inplace.btn_preview_enable'),
       PREVIEW_DISABLE_TEXT = I18n.t('js.inplace.btn_preview_disable'),
       PREVIEW_BUTTON_ATTRIBUTES = {
-        "class": 'btn-preview',
+        "class": 'btn-preview icon-issue-watched',
         type: 'button',
-        text: PREVIEW_ENABLE_TEXT
+        title: PREVIEW_ENABLE_TEXT,
+        text: ''
       };
 
   function link(scope, element) {
@@ -47,7 +48,12 @@ module.exports = function() {
       scope.$apply(function() {
         scope.isPreview = !scope.isPreview;
         scope.previewToggle();
-        element.closest('.ined-input-wrapper').find('.btn-preview').text(scope.isPreview ? PREVIEW_DISABLE_TEXT : PREVIEW_ENABLE_TEXT);
+
+        var title = scope.isPreview ? PREVIEW_DISABLE_TEXT : PREVIEW_ENABLE_TEXT;
+
+        element.closest('.ined-input-wrapper')
+               .find('.btn-preview').attr('title', title)
+                                    .toggleClass('icon-issue-watched icon-ticket-edit');
       });
     };
 

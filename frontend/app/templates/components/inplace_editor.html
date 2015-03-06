@@ -1,15 +1,21 @@
-<div class="inplace-editor type-{{type}} attribute-{{attribute}}" ng-class="{busy: isBusy, preview: isPreview, editable: isEditable}" aria-busy="{{ isBusy }}" ng-disabled="!isEditable">
-  <div class="ined-read-value" ng-class="{ default: placeholderSet, editable: isEditable }" ng-hide="isEditing" ng-switch="type">
-    <span class="read-value-wrapper" ng-include src="getDisplayTemplateUrl()"></span>
-    <span ng-if="isEditable" class="editing-link-wrapper">
-      <accessible-by-keyboard execute="startEditing()">
+<div class="inplace-edit type-{{type}} attribute-{{attribute}}" ng-class="{'-busy': isBusy, '-preview': isPreview}" aria-busy="{{ isBusy }}" ng-if="isEditable">
+
+  <div class="inplace-edit--read" ng-hide="isEditing" ng-switch="type">
+    <accessible-by-keyboard execute="startEditing()"
+                            link-class="inplace-editing--trigger-link"
+                            span-class="inplace-editing--container"
+                            class="inplace-editing--trigger-container">
+      <span class="inplace-edit--read-value" ng-class="{ '-default': placeholderSet }" ng-include src="getDisplayTemplateUrl()">
+      </span>
+      <span class="inplace-edit--icon-wrapper">
         <icon-wrapper icon-name="edit" icon-title="{{ editTitle }}">
         </icon-wrapper>
-      </accessible-by-keyboard>
-    </span>
+      </span>
+    </accessible-by-keyboard>
   </div>
-  <div class="ined-edit" ng-if="isEditing">
-    <form name="editForm" ng-submit="submit(false)" novalidate>
+
+  <div class="inplace-edit--write" ng-if="isEditing">
+    <form class="inplace-edit--form" name="editForm" ng-submit="submit(false)" novalidate>
       <div class="ined-input-wrapper">
         <div class="ined-input-wrapper-inner"
              ng-include src="getTemplateUrl()">
@@ -18,16 +24,16 @@
           <span ng-bind-html="previewHtml"></span>
         </div>
       </div>
-      <div class="ined-dashboard">
-        <div class="ined-errors" ng-show="error" role="alert" ng-bind="error" aria-live="polite"></div>
-        <div class="ined-controls" ng-hide="isBusy">
-          <div class="inplace-edit--control">
+      <div class="inplace-edit--dashboard">
+        <div class="inplace-edit--errors" ng-show="error" role="alert" ng-bind="error" aria-live="polite"></div>
+        <div class="inplace-edit--controls" ng-hide="isBusy">
+          <div class="inplace-edit--control inplace-edit--control--save">
             <accessible-by-keyboard execute="editForm.$valid && submit(false)">
               <icon-wrapper icon-name="yes" icon-title="{{ saveTitle }}">
               </icon-wrapper>
             </accessible-by-keyboard>
           </div>
-          <div class="inplace-edit--control -icons-2">
+          <div class="inplace-edit--control -icons-2 inplace-edit--control--send">
             <accessible-by-keyboard execute="editForm.$valid && submit(true)">
               <span title="{{ saveAndSendTitle }}">
                 <i class="icon-yes"></i>
@@ -35,9 +41,9 @@
               </span>
             </accessible-by-keyboard>
           </div>
-          <div class="inplace-edit--control">
+          <div class="inplace-edit--control inplace-edit--control--cancel">
             <accessible-by-keyboard execute="discardEditing()">
-              <icon-wrapper icon-name="close" icon-title="{{ cancelTitle }}" css-class="icon4">
+              <icon-wrapper icon-name="close2" icon-title="{{ cancelTitle }}">
               </icon-wrapper>
             </accessible-by-keyboard>
           </div>
@@ -46,3 +52,10 @@
     </form>
   </div>
 </div>
+
+<div ng-if="!isEditable" class="attribute-{{attribute}}">
+  <div class="inplace-edit--read" ng-class="{ '-default': placeholderSet }" ng-switch="type">
+    <span class="inplace-edit--read-value" ng-include src="getDisplayTemplateUrl()"></span>
+  </div>
+</div>
+
