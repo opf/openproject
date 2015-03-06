@@ -39,6 +39,11 @@ describe WorkPackagesController, type: :controller do
   end
 
   around(:each) do |example|
+    ##
+    # In production mode jobs are naturally delayed.
+    # They are not in test mode, however.
+    # Since this is supposed to test actual production behaviour we
+    # enable delayed jobs for this suite. Further comments below.
     begin
       Delayed::Worker.delay_jobs = true
       example.run
@@ -65,6 +70,8 @@ describe WorkPackagesController, type: :controller do
     end
 
     let(:job) do
+      # Find the enqueued job responsible for sending the notification
+      # for the creation of the work package.
       Delayed::Job.all.map(&:payload_object).detect do |job|
         if job.is_a? DeliverWorkPackageCreatedJob
           job.send(:work_package) == work_package
@@ -91,6 +98,13 @@ describe WorkPackagesController, type: :controller do
     #
     # Checks that work package creation does not lead to 500 responses
     # when the email configuration is broken as it did previously.
+    # For this test to work delayed job has to actually delay the jobs
+    # otherwise it will fail due to the exception raised in the job.
+    #
+    # Which is precisely the error that was fixed. Sending emails
+    # after work package creation was performed in the context of the request.
+    # This lead to an internal server error when sending the emails failed.
+    # The fix moved that into a delayed job which can fail and which can be rescheduled.
     describe 'with broken email configuration' do
       before do
         allow_any_instance_of(Mail::Message).to receive(:deliver).and_raise(SocketError)
