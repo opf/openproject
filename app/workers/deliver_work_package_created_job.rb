@@ -28,17 +28,11 @@
 #++
 
 class DeliverWorkPackageCreatedJob
+  include MailNotificationJob
+
   def initialize(user_id, work_package_id)
     @user_id         = user_id
     @work_package_id = work_package_id
-  end
-
-  def perform
-    notification_mail.deliver
-  end
-
-  def error(_job, e)
-    Rails.logger.error "notification of #{user.mail} failed (work package created): #{e}"
   end
 
   private
@@ -52,6 +46,6 @@ class DeliverWorkPackageCreatedJob
   end
 
   def work_package
-    @journal ||= WorkPackage.find(@work_package_id)
+    @work_package ||= WorkPackage.find(@work_package_id)
   end
 end

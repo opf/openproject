@@ -27,30 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWorkPackageUpdatedJob
-  include MailNotificationJob
-
-  def initialize(user_id, journal_id, current_user_id)
-    @user_id         = user_id
-    @journal_id      = journal_id
-    @current_user_id = current_user_id
+##
+# Requires including class to implement #notification_mail.
+module MailNotificationJob
+  def perform
+    notify
   end
 
-  private
-
-  def notification_mail
-    @notification_mail ||= UserMailer.work_package_updated(user, journal, current_user)
+  def notify
+    notification_mail.deliver
+  rescue ActiveRecord::RecordNotFound => e
+    # Since we cannot recover from this error we catch it and move on.
+    Rails.logger.error "Cannot deliver notification (#{self.inspect})
+                        as required record was not found: #{e}".squish
   end
 
-  def user
-    @user ||= Principal.find(@user_id)
-  end
-
-  def journal
-    @journal ||= Journal.find(@journal_id)
-  end
-
-  def current_user
-    @current_user ||= Principal.find(@current_user_id)
+  def error(_job, e)
+    Rails.logger.error "notification failed (#{self.inspect}): #{e}"
   end
 end
