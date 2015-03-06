@@ -137,15 +137,13 @@ module.exports = function($scope,
   (function setupWorkPackageProperties() {
     var otherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', $scope.groupedAttributes);
 
-    function getFormat(workPackage, prop, propName) {
-      return workPackage.props[propName] ?
-              workPackage.props[propName].format :
-              prop.type.toLowerCase();
-    }
 
     function getValue(workPackage, prop, propName) {
       if (workPackage.props[propName]) {
-        return workPackage.props[propName].raw;
+        if (!_.isUndefined(workPackage.props[propName].raw)) {
+          return workPackage.props[propName].raw;
+        }
+        return workPackage.props[propName];
       }
       if (workPackage.embedded[propName]) {
         // this is here for compatibility with other code
@@ -167,7 +165,7 @@ module.exports = function($scope,
             if (propName.match(/^customField/)) {
               return {
                 name: prop.name,
-                format: getFormat(workPackage, prop, propName),
+                format: prop.type.toLowerCase(),
                 value: getValue(workPackage, prop, propName)
               };
             }
