@@ -14,8 +14,9 @@
   </div>
 
   <hr class="form--separator">
-  <button class="button -highlight">Save</button>
-  <button class="button">Cancel</button>
+  <button class="button -highlight -yes">Save</button>
+  <button class="button -yes-send">Save</button>
+  <button class="button -no">Cancel</button>
 </form>
 ```
 
