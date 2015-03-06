@@ -120,9 +120,10 @@ module API
         end
 
         def done_ratio_valid
-          unless model.changed.include?('done_ratio') &&
-            (Setting.work_package_done_ratio == 'field' && model.leaf?)
-            errors.add :error_readonly, I18n.t('api_v3.errors.validation.done_ratio')
+          if model.changed.include?('done_ratio')
+            unless Setting.work_package_done_ratio == 'field' && model.leaf?
+              errors.add :error_readonly, I18n.t('api_v3.errors.validation.done_ratio')
+            end
           end
         end
 
