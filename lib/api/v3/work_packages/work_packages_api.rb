@@ -34,7 +34,7 @@ module API
           params do
             requires :id, desc: 'Work package id'
           end
-          namespace ':id' do
+          route_param :id do
             helpers do
               attr_reader :work_package
 
