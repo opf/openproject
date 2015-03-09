@@ -38,7 +38,8 @@ module API
                    writable: true,
                    min_length: nil,
                    max_length: nil,
-                   regular_expression: nil)
+                   regular_expression: nil,
+                   show_if: true)
           raise ArgumentError if property.nil?
 
           property property,
@@ -55,7 +56,8 @@ module API
 
                      schema
                    },
-                   writeable: false
+                   writeable: false,
+                   if: show_if
         end
 
         def schema_with_allowed_link(property,
