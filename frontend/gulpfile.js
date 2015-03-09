@@ -110,6 +110,7 @@ gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express']
 });
 
 gulp.task('default', ['webpack', 'sass', 'express']);
+gulp.task('dev', ['default', 'watch']);
 gulp.task('watch', function() {
   gulp.watch('app/**/*.js', ['webpack']);
   gulp.watch('config/locales/js-*.yml', ['webpack']);
