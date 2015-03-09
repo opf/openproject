@@ -488,6 +488,10 @@ describe('DetailsTabOverviewController', function() {
           buildController();
         });
 
+        afterEach(function() {
+          workPackage.props.customField1.raw = 'red';
+        });
+
         it('adds the custom property to empty properties', function() {
           expect(fetchEmptyPropertiesWithName(customPropertyName)).not.to.be.empty;
         });
