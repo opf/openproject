@@ -133,6 +133,7 @@ module OpenProject::Backlogs
 
     extend_api_response(:v3, :work_packages, :work_package) do
       property :story_points,
+               render_nil: true,
                if: -> (*) { backlogs_enabled? }
 
       property :remaining_time,
