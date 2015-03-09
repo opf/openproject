@@ -74,7 +74,7 @@
   .swimlane
     min-width: 105px
     /* width + (2*margin) + (2*padding) + (2*border) of .work_package
-    padding: 5px
+    padding: 5px 0 0 5px
     width: 105px
     /* Must be the same as min-width
   #board_header
@@ -89,10 +89,12 @@
       font-weight: bold
       text-align: center
       vertical-align: middle
+      padding-top: 0
+      padding-bottom: 0
+      line-height: 30px
       &:first-child
-        min-width: 231px
-        padding: 6px 10px 6px 10px
-        width: 231px
+        min-width: 241px
+        width: 241px
       &:last-child
         border-right: none
   .board
@@ -140,12 +142,12 @@
     width: 190px
   .story
     .subject
-      height: 52px
+      height: 42px
       line-height: 13px
       margin-top: 0
       overflow: hidden
       padding: 2px
-      width: 186px
+      width: 180px
     &.closed .subject
       text-decoration: line-through
   .work_package, .placeholder
@@ -308,7 +310,7 @@
   .story-bar
     @include story-header
     text-align: right
-    width: 187px
+    width: 180px
     clear: both
     .id
       float: right
@@ -323,7 +325,7 @@
   .id
     @include story-header
     text-align: right
-    width: 82px
+    width: 75px
     a
       opacity: 1.0
       filter: alpha(opacity = 100)
@@ -331,7 +333,7 @@
     background-color: transparent
   .subject.editable
     font-size: 1rem - rem-calc(3px)
-    height: 52px
+    height: 42px
     line-height: 13px
     margin-top: 0
     overflow: hidden
