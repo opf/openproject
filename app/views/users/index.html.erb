@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </li>
       <% end %>
       <li class="simple-filters--filter">
-        <label for='name'><%= Project.model_name.human %>:</label>
+        <label for='name'><%= User.human_attribute_name :name %>:</label>
         <%= text_field_tag 'name', params[:name] %>
       </li>
     </ul>
