@@ -1,6 +1,7 @@
 class PluginManager
 
   GEMFILE_PLUGINS_PATH = 'Gemfile.plugins'
+  PLUGINS_YML_PATH = 'plugins.yml'
 
   def initialize(environment)
     @environment = environment
@@ -115,7 +116,7 @@ class PluginManager
   def _dependencies_only_required_by(plugin)
     # todo this needs to be addressed
     dependencies = plugin.dependencies
-    dependencies.select { |dependency| true }#todo dependency._not_needed_by_any_other_than?(plugin) }
+    dependencies.select { |dependency| dependency._not_needed_by_any_other_than?(plugin) }
   end
 
   def _line_contains_no_plugin?(line, plugins)
@@ -141,8 +142,11 @@ class Plugin
   end
 
   def self._load_available_plugins
-    # todo check, if file exists
-    @available_plugins = YAML.load_file('plugins.yml')
+    unless File.exists?(PLUGINS_YML_PATH)
+      puts 'Could not find plugin list, abort!'
+      exit
+    end
+    @available_plugins = YAML.load_file(PLUGINS_YML_PATH)
   end
 
   attr_reader :name
@@ -162,9 +166,16 @@ class Plugin
   end
 
   def _not_needed_by_any_other_than?(plugin)
-    # todo
-    require 'pry';binding.pry;exit
-    true
+    all_other_plugin_names = Plugin._available_plugins.inject([]) do |result, (other_name, _)|
+      plugin.name == other_name ? result : result << other_name
+    end
+    all_other_plugins = all_other_plugin_names.inject([]) do
+      |result, name| result << Plugin.new(name)
+    end
+    all_dependencies_from_other_plugins = all_other_plugins.inject([]) do |result, other_plugin|
+      result.concat other_plugin.dependencies
+    end
+    all_dependencies_from_other_plugins.any?{|dependency| dependency.name == name}
   end
 
   def included_in?(str)
@@ -196,7 +207,7 @@ class Plugin
     result = available_plugins_names.inject([]) { |plugins, name| plugins << Plugin.new(name) }
     # todo we have to solve dependencies of dependencies
     # this is just a workaround to make backlogs work for now
-    result << Plugin.new('pdf-inspector') if result.first.name == 'openproject-pdf_export'
+    result << Plugin.new('pdf-inspector') if result.first && result.first.name == 'openproject-pdf_export'
     result
   end
 end
