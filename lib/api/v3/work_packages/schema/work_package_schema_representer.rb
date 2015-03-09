@@ -104,7 +104,8 @@ module API
                                         name: WorkPackage.human_attribute_name(:percentage_done))
                      representer.writable = represented.percentage_done_writable?
                      representer
-                   end
+                   end,
+                   if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
 
           schema :created_at,
                  type: 'DateTime',
