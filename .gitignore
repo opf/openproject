@@ -1,3 +1,6 @@
+# RubyMine files
+.idea/
+
 # Ignore any accidental remnants from gh-pages branch
 _site
 _posts
