@@ -448,9 +448,12 @@ h4. things we like
         context 'invalid status' do
           include_context 'patch request'
 
-          it_behaves_like 'constraint violation',
-                          'Status ' + I18n.t('activerecord.errors.models.' \
+          it_behaves_like 'constraint violation' do
+            let(:message) {
+              'Status ' + I18n.t('activerecord.errors.models.' \
                           'work_package.attributes.status_id.status_transition_invalid')
+            }
+          end
         end
 
         context 'wrong resource' do
@@ -458,11 +461,14 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'constraint violation',
-                          I18n.t('api_v3.errors.invalid_resource',
-                                 property: 'Status',
-                                 expected: 'Status',
-                                 actual: 'User')
+          it_behaves_like 'constraint violation' do
+            let(:message) {
+              I18n.t('api_v3.errors.invalid_resource',
+                     property: 'status',
+                     expected: '/api/v3/statuses/:id',
+                     actual: status_link)
+            }
+          end
         end
       end
 
@@ -553,20 +559,25 @@ h4. things we like
             context 'user doesn\'t exist' do
               let(:user_href) { '/api/v3/users/909090' }
 
-              it_behaves_like 'constraint violation',
-                              I18n.t('api_v3.errors.validation.' \
+              it_behaves_like 'constraint violation' do
+                let(:message) {
+                  I18n.t('api_v3.errors.validation.' \
                                      'invalid_user_assigned_to_work_package',
-                                     property: property.capitalize)
+                         property: property.capitalize)
+                }
+              end
             end
 
             context 'user is not visible' do
               let(:invalid_user) { FactoryGirl.create(:user) }
               let(:user_href) { "/api/v3/users/#{invalid_user.id}" }
 
-              it_behaves_like 'constraint violation',
-                              I18n.t('api_v3.errors.validation.' \
-                                     'invalid_user_assigned_to_work_package',
-                                     property: property.capitalize)
+              it_behaves_like 'constraint violation' do
+                let(:message) {
+                  I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
+                         property: property.capitalize)
+                }
+              end
             end
 
             context 'wrong resource' do
@@ -574,11 +585,14 @@ h4. things we like
 
               include_context 'patch request'
 
-              it_behaves_like 'constraint violation',
-                              I18n.t('api_v3.errors.invalid_resource',
-                                     property: "#{property.capitalize}",
-                                     expected: 'User',
-                                     actual: 'Status')
+              it_behaves_like 'constraint violation' do
+                let(:message) {
+                  I18n.t('api_v3.errors.invalid_resource',
+                         property: property,
+                         expected: '/api/v3/users/:id',
+                         actual: user_href)
+                }
+              end
             end
 
             context 'group assignement disabled' do
@@ -587,10 +601,12 @@ h4. things we like
               include_context 'setup group membership', false
               include_context 'patch request'
 
-              it_behaves_like 'constraint violation',
-                              I18n.t('api_v3.errors.validation.' \
-                                     'invalid_user_assigned_to_work_package',
-                                     property: "#{property.capitalize}")
+              it_behaves_like 'constraint violation' do
+                let(:message) {
+                  I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
+                         property: "#{property.capitalize}")
+                }
+              end
             end
           end
         end
@@ -724,24 +740,15 @@ h4. things we like
         end
       end
 
-      context 'valid update' do
-        xit 'should respond with updated work package priority' do
-          expect(subject.body).to be_json_eql(params[:priority].to_json).at_path('priority')
-        end
-
-        xit 'should update the dates in iso8601 format' do
-          expect(subject.body).to be_json_eql(params[:startDate].to_json).at_path('startDate')
-          expect(subject.body).to be_json_eql(params[:dueDate].to_json).at_path('dueDate')
-        end
-      end
-
       context 'invalid update' do
         context 'single invalid attribute' do
           let(:params) { valid_params.tap { |h| h[:subject] = '' } }
 
           include_context 'patch request'
 
-          it_behaves_like 'constraint violation', "Subject can't be blank"
+          it_behaves_like 'constraint violation' do
+            let(:message) { "Subject can't be blank" }
+          end
         end
 
         context 'multiple invalid attributes' do

@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
+  let(:custom_field) { FactoryGirl.build(:custom_field) }
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
@@ -36,7 +37,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:schema) {
     ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
   }
-  let(:representer) { described_class.new(schema, current_user: current_user) }
+  let(:representer) { described_class.create(schema, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -44,72 +45,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     shared_context 'no allowed values' do
       before do
         allow(schema).to receive(:defines_assignable_values?).and_return(false)
-      end
-    end
-
-    shared_examples_for 'has basic schema properties' do
-      it 'exists' do
-        is_expected.to have_json_path(path)
-      end
-
-      it 'has a type' do
-        is_expected.to be_json_eql(type.to_json).at_path("#{path}/type")
-      end
-
-      it 'has a name' do
-        is_expected.to be_json_eql(name.to_json).at_path("#{path}/name")
-      end
-
-      it 'indicates if it is required' do
-        is_expected.to be_json_eql(required.to_json).at_path("#{path}/required")
-      end
-
-      it 'indicates if it is writable' do
-        is_expected.to be_json_eql(writable.to_json).at_path("#{path}/writable")
-      end
-    end
-
-    shared_examples_for 'links to allowed values directly' do
-      it 'has the expected number of links' do
-        is_expected.to have_json_size(hrefs.size).at_path("#{path}/_links/allowedValues")
-      end
-
-      it 'contains links to the allowed values' do
-        index = 0
-        hrefs.each do |href|
-          href_path = "#{path}/_links/allowedValues/#{index}/href"
-          is_expected.to be_json_eql(href.to_json).at_path(href_path)
-          index += 1
-        end
-      end
-
-      it 'has the expected number of embedded values' do
-        is_expected.to have_json_size(hrefs.size).at_path("#{path}/_embedded/allowedValues")
-      end
-
-      it 'embeds the allowed values' do
-        index = 0
-        hrefs.each do |href|
-          href_path = "#{path}/_embedded/allowedValues/#{index}/_links/self/href"
-          is_expected.to be_json_eql(href.to_json).at_path(href_path)
-          index += 1
-        end
-      end
-    end
-
-    shared_examples_for 'links to allowed values via collection link' do
-      it 'contains the link to the allowed values' do
-        is_expected.to be_json_eql(href.to_json).at_path("#{path}/_links/allowedValues/href")
-      end
-    end
-
-    shared_examples_for 'does not link to allowed values' do
-      it 'contains no link to the allowed values' do
-        is_expected.to_not have_json_path("#{path}/_links/allowedValues")
-      end
-
-      it 'does not embed allowed values' do
-        is_expected.to_not have_json_path("#{path}/_embedded/allowedValues")
       end
     end
 
@@ -283,7 +218,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'w/o allowed statuses' do
         before { allow(work_package).to receive(:new_statuses_allowed_to).and_return([]) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'status' }
           let(:hrefs) { [] }
         end
@@ -294,7 +229,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         before { allow(work_package).to receive(:new_statuses_allowed_to).and_return(statuses) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'status' }
           let(:hrefs) { statuses.map { |status| "/api/v3/statuses/#{status.id}" } }
         end
@@ -359,7 +294,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'w/o allowed versions' do
         before { allow(work_package).to receive(:assignable_versions).and_return([]) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'version' }
           let(:hrefs) { [] }
         end
@@ -370,7 +305,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         before { allow(work_package).to receive(:assignable_versions).and_return(versions) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'version' }
           let(:hrefs) { versions.map { |version| "/api/v3/versions/#{version.id}" } }
         end
@@ -397,7 +332,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'w/o allowed priorities' do
         before { allow(work_package).to receive(:assignable_priorities).and_return([]) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'priority' }
           let(:hrefs) { [] }
         end
@@ -408,7 +343,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         before { allow(work_package).to receive(:assignable_priorities).and_return(priorities) }
 
-        it_behaves_like 'links to allowed values directly' do
+        it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'priority' }
           let(:hrefs) { priorities.map { |priority| "/api/v3/priorities/#{priority.id}" } }
         end
@@ -470,6 +405,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
             let(:path) { 'responsible' }
           end
         end
+      end
+    end
+
+    describe 'custom fields' do
+      it 'uses a CustomFieldInjector' do
+        expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
+          .and_call_original
+        representer.to_json
       end
     end
   end

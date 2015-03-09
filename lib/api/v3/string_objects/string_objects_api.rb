@@ -38,6 +38,11 @@ module API
               StringObjectRepresenter.new(params[:value])
             end
           end
+
+          # answer requests for empty strings too
+          get do
+            StringObjectRepresenter.new('')
+          end
         end
       end
     end

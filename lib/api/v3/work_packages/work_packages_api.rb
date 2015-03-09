@@ -40,7 +40,7 @@ module API
 
               def write_work_package_attributes
                 if request_body
-                  payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter.new(
+                  payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter.create(
                     @work_package,
                     enforce_lock_version_validation: true)
 
@@ -78,8 +78,8 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              @representer = WorkPackages::WorkPackageRepresenter.new(work_package,
-                                                                      current_user: current_user)
+              @representer = WorkPackages::WorkPackageRepresenter.create(work_package,
+                                                                         current_user: current_user)
             end
 
             get do

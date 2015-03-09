@@ -38,6 +38,18 @@ module API
           include Roar::JSON::HAL
           include Roar::Hypermedia
 
+          class << self
+            def create_class(work_package)
+              injector_class = ::API::V3::Utilities::CustomFieldInjector
+              injector_class.create_value_representer_for_property_patching(work_package,
+                                                                            WorkPackagePayloadRepresenter)
+            end
+
+            def create(work_package, options = {})
+              create_class(work_package).new(work_package, options)
+            end
+          end
+
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
           def initialize(represented, options = {})
@@ -119,7 +131,7 @@ module API
           end
 
           def work_package_attribute_links_representer(represented)
-            ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.new represented
+            ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.create represented
           end
         end
       end

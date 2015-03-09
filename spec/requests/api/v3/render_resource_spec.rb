@@ -102,8 +102,14 @@ describe 'API v3 Render resource' do
                               I18n.t('api_v3.errors.render.context_not_found')
             end
 
-            describe 'unsupported context found' do
+            describe 'unsupported context resource found' do
               let(:post_path) { "#{path}?context=/api/v3/activities/2" }
+
+              it_behaves_like 'invalid render context', 'Unsupported context found.'
+            end
+
+            describe 'unsupported context version found' do
+              let(:post_path) { "#{path}?context=/api/v4/work_packages/2" }
 
               it_behaves_like 'invalid render context', 'Unsupported context found.'
             end

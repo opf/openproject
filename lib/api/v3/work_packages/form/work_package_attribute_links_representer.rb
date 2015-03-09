@@ -39,6 +39,18 @@ module API
           include Roar::Hypermedia
           include API::V3::Utilities::PathHelper
 
+          class << self
+            def create_class(work_package)
+              injector_class = ::API::V3::Utilities::CustomFieldInjector
+              injector_class.create_value_representer_for_link_patching(work_package,
+                                                                        WorkPackageAttributeLinksRepresenter)
+            end
+
+            def create(work_package)
+              create_class(work_package).new(work_package)
+            end
+          end
+
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
           def self.linked_property(property_name: nil,
@@ -108,15 +120,10 @@ module API
           def parse_resource(property, ns, href)
             return nil unless href
 
-            resource = ::API::Utilities::ResourceLinkParser.parse href
-
-            if resource.nil? || resource[:ns] != ns.to_s
-              actual_ns = resource ? resource[:ns] : nil
-
-              fail ::API::Errors::Form::InvalidResourceLink.new(property, ns, actual_ns)
-            end
-
-            resource ? resource[:id] : nil
+            ::API::Utilities::ResourceLinkParser.parse_id href,
+                                                          property: property,
+                                                          expected_version: '3',
+                                                          expected_namespace: ns
           end
         end
       end

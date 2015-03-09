@@ -137,9 +137,47 @@ module.exports = function($scope,
   (function setupWorkPackageProperties() {
     var otherAttributes = WorkPackagesOverviewService.getGroupAttributesForGroupedAttributes('other', $scope.groupedAttributes);
 
-    angular.forEach($scope.workPackage.props.customProperties, function(customProperty) {
-      this.push(customProperty);
-    }, otherAttributes);
+
+    function getValue(workPackage, prop, propName) {
+      if (workPackage.props[propName]) {
+        if (!_.isUndefined(workPackage.props[propName].raw)) {
+          return workPackage.props[propName].raw;
+        }
+        return workPackage.props[propName];
+      }
+      if (workPackage.embedded[propName]) {
+        // this is here for compatibility with other code
+        // TODO: rewrite all this file when custom fields
+        // are editable
+        if (prop.type == 'User' || prop.type == 'Version') {
+          return workPackage.embedded[propName].props.id;
+        } else {
+          return workPackage.embedded[propName].props.value;
+        }
+      }
+      return null;
+    }
+
+    function getCustomProperties(workPackage) {
+      return _.compact(_.map(
+          workPackage.schema.props,
+          function(prop, propName) {
+            if (propName.match(/^customField/)) {
+              return {
+                name: prop.name,
+                format: prop.type.toLowerCase(),
+                value: getValue(workPackage, prop, propName)
+              };
+            }
+            return false;
+      }));
+    }
+
+    angular.forEach(
+      getCustomProperties($scope.workPackage),
+      function(customProperty) {
+        this.push(customProperty);
+      }, otherAttributes);
 
     angular.forEach($scope.groupedAttributes, function(group) {
       var attributesWithValues = [];
@@ -241,13 +279,15 @@ module.exports = function($scope,
   function getCustomPropertyVersionValue(property) {
     var versionHref = PathHelper.staticBase + PathHelper.versionPath(property.value);
     var versionTitle = I18n.t('js.error_could_not_resolve_version_name');
-    var projectId = $scope.workPackage.props.projectId;
+    var projectId = $scope.workPackage.embedded.project.props.id;
     var versions = VersionService.getVersions(projectId);
 
     var promise = $q.when(versions).then(function(value) {
 
       var version = _.find(value, function(version) {
-        return version.id.toString() == property.value;
+        if (version.id) {
+          return version.id.toString() == property.value;
+        }
       });
 
       if (version) {
