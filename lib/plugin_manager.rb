@@ -1,5 +1,4 @@
 class PluginManager
-
   GEMFILE_PLUGINS_PATH = 'Gemfile.plugins'
   PLUGINS_YML_PATH = 'plugins.yml'
 
@@ -169,13 +168,13 @@ class Plugin
     all_other_plugin_names = Plugin._available_plugins.inject([]) do |result, (other_name, _)|
       plugin.name == other_name ? result : result << other_name
     end
-    all_other_plugins = all_other_plugin_names.inject([]) do
-      |result, name| result << Plugin.new(name)
+    all_other_plugins = all_other_plugin_names.inject([]) do |result, name|
+      result << Plugin.new(name)
     end
     all_dependencies_from_other_plugins = all_other_plugins.inject([]) do |result, other_plugin|
       result.concat other_plugin.dependencies
     end
-    all_dependencies_from_other_plugins.any?{|dependency| dependency.name == name}
+    all_dependencies_from_other_plugins.any? { |dependency| dependency.name == name }
   end
 
   def included_in?(str)
