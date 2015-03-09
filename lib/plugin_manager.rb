@@ -75,12 +75,10 @@ class PluginManager
   end
 
   def _migrate
-    # todo should we migrate for all envs?
     system "RAILS_ENV='#{@environment}' rake db:migrate"
   end
 
   def _revert_migrations(plugin)
-    # todo should we migrate for all envs?
     migration_path = OpenProject::Application.config.paths['db/migrate'].select { |path| path.include?(plugin.name) }
     ActiveRecord::Migrator.migrate migration_path, 0
   end
@@ -113,7 +111,6 @@ class PluginManager
   end
 
   def _dependencies_only_required_by(plugin)
-    # todo this needs to be addressed
     dependencies = plugin.dependencies
     dependencies.select { |dependency| dependency._not_needed_by_any_other_than?(plugin) }
   end
