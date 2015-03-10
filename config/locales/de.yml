@@ -744,6 +744,7 @@ de:
   label_generate_key: "Generieren"
   label_git_path: "Pfad zum .git-Verzeichnis"
   label_greater_or_equal: ">="
+  label_group_by: "Gruppiert nach"
   label_group_new: "Neue Gruppe"
   label_group_plural: "Gruppen"
   label_help: "Hilfe"
@@ -780,7 +781,6 @@ de:
   label_work_package_view_all_responsible_for: "Alle von mir verantworteten Arbeitspakete anzeigen"
   label_work_package_view_all_watched: "Alle beobachteten Arbeitspakete anzeigen"
   label_work_package_watchers: "Beobachter"
-  label_work_packages_by: "Arbeitspakete von %{value}"
   label_journal_diff: "Beschreibungsvergleich"
   label_jump_to_a_project: "Zu einem Projekt springen..."
   label_language_based: "Sprachabhängig"
@@ -1686,8 +1686,7 @@ de:
       invalid_content_type:
         "Es wird der CONTENT-TYPE '%{content_type}' erwartet, es wurde aber der CONTENT-TYP '%{actual}' gesandt."
       invalid_user_status_transition: "Für diesen Nutzeraccount ist die angeforderte Statusänderung nicht zulässig."
-      invalid_resource:
-        "Für die Eigenschaft '%{property}' wird eine Ressource vom Typ '%{expected}' erwartet. Gesandt wurde der Typ '%{actual}'."
+      invalid_resource: "Für die Eigenschaft '%{property}' wird ein Link wie '%{expected}' erwartet. Gesandt wurde '%{actual}'."
       missing_content_type: "nicht angegeben"
       multiple_errors: "Die Integrität mehrerer Eigenschaften wurde verletzt."
       parse_error: "Die Abfrage enthielt kein valides JSON."

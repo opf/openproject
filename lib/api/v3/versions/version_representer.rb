@@ -86,12 +86,6 @@ module API
         def _type
           'Version'
         end
-
-        private
-
-        def current_user
-          context[:current_user]
-        end
       end
     end
   end

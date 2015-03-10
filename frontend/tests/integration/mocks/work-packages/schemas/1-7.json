@@ -1,0 +1,211 @@
+{
+  "_type":{
+    "type":"MetaType",
+    "name":"Resource Type",
+    "required":true,
+    "writable":false
+  },
+  "lockVersion":{
+    "type":"Integer",
+    "name":"Lock Version",
+    "required":true,
+    "writable":false
+  },
+  "id":{
+    "type":"Integer",
+    "name":"ID",
+    "required":true,
+    "writable":false
+  },
+  "subject":{
+    "type":"String",
+    "name":"Subject",
+    "required":true,
+    "writable":true,
+    "minLength":1,
+    "maxLength":255
+  },
+  "description":{
+    "type":"Formattable",
+    "name":"Description",
+    "required":true,
+    "writable":true
+  },
+  "startDate":{
+    "type":"Date",
+    "name":"Start date",
+    "required":false,
+    "writable":true
+  },
+  "dueDate":{
+    "type":"Date",
+    "name":"Due date",
+    "required":false,
+    "writable":true
+  },
+  "estimatedTime":{
+    "type":"Duration",
+    "name":"Estimated time",
+    "required":false,
+    "writable":false
+  },
+  "spentTime":{
+    "type":"Duration",
+    "name":"Spent time",
+    "required":true,
+    "writable":false
+  },
+  "percentageDone":{
+    "type":"Integer",
+    "name":"% done",
+    "required":true,
+    "writable":false
+  },
+  "createdAt":{
+    "type":"DateTime",
+    "name":"Created on",
+    "required":true,
+    "writable":false
+  },
+  "updatedAt":{
+    "type":"DateTime",
+    "name":"Updated on",
+    "required":true,
+    "writable":false
+  },
+  "author":{
+    "type":"User",
+    "name":"Author",
+    "required":true,
+    "writable":false
+  },
+  "project":{
+    "type":"Project",
+    "name":"Project",
+    "required":true,
+    "writable":false
+  },
+  "type":{
+    "type":"Type",
+    "name":"Type",
+    "required":true,
+    "writable":false
+  },
+  "assignee":{
+    "type":"User",
+    "name":"Assignee",
+    "required":false,
+    "writable":true,
+    "_links":{
+
+    }
+  },
+  "responsible":{
+    "type":"User",
+    "name":"Responsible",
+    "required":false,
+    "writable":true,
+    "_links":{
+
+    }
+  },
+  "status":{
+    "type":"Status",
+    "name":"Status",
+    "required":true,
+    "writable":true,
+    "_links":{
+
+    },
+    "_embedded":{
+
+    }
+  },
+  "category":{
+    "type":"Category",
+    "name":"Category",
+    "required":false,
+    "writable":true,
+    "_links":{
+
+    },
+    "_embedded":{
+
+    }
+  },
+  "version":{
+    "type":"Version",
+    "name":"Version",
+    "required":false,
+    "writable":true,
+    "_links":{
+
+    },
+    "_embedded":{
+
+    }
+  },
+  "priority":{
+    "type":"Priority",
+    "name":"Priority",
+    "required":true,
+    "writable":true,
+    "_links":{
+
+    },
+    "_embedded":{
+
+    }
+  },
+  "customField1":{
+    "type":"Formattable",
+    "name":"dolorum quidem",
+    "required":false,
+    "writable":true
+  },
+  "customField2":{
+    "type":"Formattable",
+    "name":"aut mollitia",
+    "required":false,
+    "writable":true
+  },
+  "customField3":{
+    "type":"Formattable",
+    "name":"est exercitationem",
+    "required":false,
+    "writable":true
+  },
+  "customField5":{
+    "type":"Version",
+    "name":"version cf1",
+    "required":false,
+    "writable":true,
+    "_links":{
+
+    },
+    "_embedded":{
+
+    }
+  },
+  "customField6":{
+    "type":"User",
+    "name":"person to blame",
+    "required":false,
+    "writable":true,
+    "_links":{
+
+    }
+  },
+  "customField7":{
+    "type":"StringObject",
+    "name":"uselessness level",
+    "required":false,
+    "writable":true,
+    "_links":{
+
+    },
+    "_embedded":{
+
+    }
+  }
+}

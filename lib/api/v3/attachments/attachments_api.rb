@@ -35,7 +35,7 @@ module API
           params do
             requires :id, desc: 'Attachment id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @attachment = Attachment.find(params[:id])
@@ -48,7 +48,6 @@ module API
             end
 
           end
-
         end
       end
     end

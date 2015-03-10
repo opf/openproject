@@ -52,7 +52,9 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   shared_examples_for 'invalid activity request' do |message|
     before { allow(User).to receive(:current).and_return(admin) }
 
-    it_behaves_like 'constraint violation', message
+    it_behaves_like 'constraint violation' do
+      let(:message) { message }
+    end
   end
 
   describe 'PATCH /api/v3/activities/:activityId' do

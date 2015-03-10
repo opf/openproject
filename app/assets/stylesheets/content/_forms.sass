@@ -73,6 +73,11 @@ $form--field-types: (text-field, text-area, select, check-box, range-field, sear
 .form--space
   padding-top: 10px
 
+.form--row
+  @include grid-block
+  // cancel out foundations overflow-y: auto
+  overflow: visible
+
 fieldset
   legend:after
     @include icon-common
@@ -217,8 +222,21 @@ fieldset.form--fieldset
     @include grid-orient(vertical)
 
   .grid-block:nth-last-of-type(n+2) > &,
+  .form--row:nth-last-of-type(n+2) > &,
   .form--grouping-row > &:nth-last-of-type(n+2)
     padding-right: 1rem
+
+  &.-trailing-label
+    .form--label
+      @include grid-order(2)
+      @include grid-size(expand)
+      // override max-width set by including grid-content
+      max-width: 100%
+      padding-left: 0.5rem
+
+    .form--field-container
+      @include grid-order(1)
+      @include grid-size(shrink)
 
 .form--label
   @include grid-content(2)
@@ -468,3 +486,17 @@ fieldset.form--fieldset
   %form--field-element-container + &
     margin-left:  -1rem
     border-left:  0
+
+.form--list
+  display: flex
+  margin: 0
+  @include grid-layout(3)
+
+  @include breakpoint(large)
+    @include grid-layout(4)
+
+  @include breakpoint(xlarge)
+    @include grid-layout(6)
+
+  li, div
+    padding: 0

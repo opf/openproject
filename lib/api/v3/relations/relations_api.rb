@@ -26,7 +26,7 @@ module API
             end
           end
 
-          namespace ':relation_id' do
+          route_param :relation_id do
             delete do
               authorize(:manage_work_package_relations, context: @work_package.project)
               Relation.destroy(params[:relation_id])

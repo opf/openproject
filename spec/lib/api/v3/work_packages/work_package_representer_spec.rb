@@ -34,7 +34,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:current_user) { member }
 
-  let(:representer)  { described_class.new(work_package, current_user: current_user) }
+  let(:representer) { described_class.create(work_package, current_user: current_user) }
 
   let(:work_package) {
     FactoryGirl.build(:work_package,
@@ -221,6 +221,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           it { expect(parse_json(subject)['percentageDone']).to be_nil }
         end
+      end
+    end
+
+    describe 'custom fields' do
+      it 'uses a CustomFieldInjector' do
+        expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
+          .and_call_original
+        representer.to_json
       end
     end
 

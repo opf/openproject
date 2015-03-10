@@ -37,9 +37,19 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= f.text_field :name, required: true %>
     </div>
     <%= f.fields_for :options, timeline_options do |ff| %>
+      <%= ff.hidden_field :exist %>
       <div class="form--field">
-        <%= ff.hidden_field :exist %>
-        <%= ff.check_box :hide_chart, { label: l('timelines.filter.hide_chart') }, "yes", "no" %>
+        <%= styled_label_tag :timeline_options_hide_chart,
+                       l('timelines.filter.hide_chart') %>
+
+        <span class="form--field-container">
+          <%# need to use check_box_tag as form.check_box would create
+              a hidden field to send the value when the check box is not set.
+              The backend is written so that it expects no value when the checkbox is disabled %>
+          <%= styled_check_box_tag ff.object_name + "[hide_chart]",
+                                   :yes,
+                                   ff.object.hide_chart.present? %>
+        </span>
       </div>
 
       <div class="form--field">

@@ -55,7 +55,9 @@ module CustomFieldsHelper
     when 'text'
       text_area_tag(field_name, custom_value.value, id: field_id, rows: 3, style: 'width:90%')
     when 'bool'
-      hidden_field_tag(field_name, '0') + check_box_tag(field_name, '1', custom_value.true?, id: field_id)
+      hidden_tag = hidden_field_tag(field_name, '0')
+      checkbox_tag = check_box_tag(field_name, '1', custom_value.typed_value, id: field_id)
+      hidden_tag + checkbox_tag
     when 'list'
       blank_option = if custom_field.is_required? && custom_field.default_value.blank?
                        "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>"

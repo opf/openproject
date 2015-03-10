@@ -36,7 +36,7 @@ module API
           params do
             requires :id, desc: 'Query id'
           end
-          namespace ':id' do
+          route_param :id do
             before do
               @query = Query.find(params[:id])
               @representer =  ::API::V3::Queries::QueryRepresenter.new(@query)

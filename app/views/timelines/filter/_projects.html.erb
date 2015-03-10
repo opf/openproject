@@ -157,14 +157,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
         <div class="form--grouping-row">
           <div class="form--field">
-            <%= ff.label :planning_element_time_absolute,
-              l('timelines.filter.comparison.absolute'),
-              class: "form--label" %>
-            <div class="form--field-container">
-              <div class="form--radio-button-container">
-                <%= ff.radio_button :planning_element_time, 'absolute' %>
-              </div>
-            </div>
+            <%= ff.radio_button :planning_element_time, 'absolute', label:  l('timelines.filter.comparison.absolute') %>
           </div>
         </div>
 
@@ -185,14 +178,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
         <div class="form--grouping-row">
           <div class="form--field">
-            <%= ff.label :planning_element_time_relative,
-                         l('timelines.filter.comparison.relative'),
-                         class: "form--label" %>
-            <div class="form--field-container">
-              <div class="form--radio-button-container">
-                <%= ff.radio_button :planning_element_time, 'relative' %>
-              </div>
-            </div>
+            <%= ff.radio_button :planning_element_time, 'relative', label: l('timelines.filter.comparison.relative') %>
           </div>
         </div>
 

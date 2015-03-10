@@ -44,7 +44,7 @@ module API
                                             api_v3_paths.statuses)
           end
 
-          namespace ':id' do
+          route_param :id do
             before do
               status = Status.find(params[:id])
               @representer = ::API::V3::Statuses::StatusRepresenter.new(status)

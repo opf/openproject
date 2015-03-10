@@ -40,11 +40,17 @@ module API
                      name:,
                      value_representer:,
                      link_factory:,
+                     required: true,
+                     writable: true,
                      current_user: nil)
         @value_representer = value_representer
         @link_factory = link_factory
 
-        super(type: type, name: name, current_user: current_user)
+        super(type: type,
+              name: name,
+              required: required,
+              writable: writable,
+              current_user: current_user)
       end
 
       links :allowedValues do

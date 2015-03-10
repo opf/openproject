@@ -36,7 +36,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
                       created_at: DateTime.now,
                       updated_at: DateTime.now)
   }
-  let(:representer)  { described_class.new(work_package) }
+  let(:representer) { described_class.create(work_package) }
 
   before { allow(work_package).to receive(:lock_version).and_return(1) }
 
@@ -171,6 +171,15 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
           let(:property) { 'priority' }
           let(:link) { "/api/v3/priorities/#{priority.id}" }
         end
+      end
+    end
+
+    describe 'custom fields' do
+      it 'uses a CustomFieldInjector' do
+        expected_method = :create_value_representer_for_property_patching
+        expect(::API::V3::Utilities::CustomFieldInjector).to receive(expected_method)
+          .and_call_original
+        representer.to_json
       end
     end
   end
