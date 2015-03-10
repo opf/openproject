@@ -88,11 +88,6 @@ module.exports = function(TimezoneService, $timeout) {
                            parseDate(selectedDay) <= maxDate(current, previous);
           return [true, isSelected ? 'date-range-selected' : ''];
         }
-      })
-      .position({
-        my: 'left top',
-        at: 'left bottom',
-        of: '.daterange input'
       });
 
       setDate(scope.startDate);
