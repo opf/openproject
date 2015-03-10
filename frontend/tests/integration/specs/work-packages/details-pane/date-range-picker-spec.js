@@ -93,9 +93,10 @@ describe('details pane', function() {
 
         it('doesn\'t change start date month by clicking on calendar', function() {
           element.all(by.css('.ui-datepicker-next')).then(function(elem) {
-            elem[0].click();
-            dateRangePicker.$("[ng-model='daterange']").getText(function(text) {
-              expect(text).to.equal("09/23/2014 - 12/17/2015");
+            elem[0].click().then(function() {
+              dateRangePicker.$("[ng-model='daterange']").getText(function(text) {
+                expect(text).to.equal("09/23/2014 - 12/17/2015");
+              });
             });
           });
         });
