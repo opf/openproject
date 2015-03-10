@@ -63,27 +63,29 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
       end
 
       describe 'estimated hours' do
-        it { is_expected.to have_json_path('estimatedHours') }
+        it { is_expected.to have_json_path('estimatedTime') }
         it do
           is_expected.to be_json_eql(work_package.estimated_hours.to_json)
-            .at_path('estimatedHours')
+            .at_path('estimatedTime')
         end
 
         context 'not set' do
-          it { is_expected.to have_json_type(NilClass).at_path('estimatedHours') }
+          it { is_expected.to have_json_type(NilClass).at_path('estimatedTime') }
         end
 
         context 'set' do
           let(:work_package) { FactoryGirl.build(:work_package, estimated_hours: 0) }
 
-          it { is_expected.to have_json_type(Float).at_path('estimatedHours') }
+          it { is_expected.to have_json_type(Float).at_path('estimatedTime') }
         end
       end
 
       describe 'percentage done' do
-        it { is_expected.to have_json_path('doneRatio') }
-        it { is_expected.to have_json_type(Integer).at_path('doneRatio') }
-        it { is_expected.to be_json_eql(work_package.done_ratio.to_json).at_path('doneRatio') }
+        it { is_expected.to have_json_path('percentageDone') }
+        it { is_expected.to have_json_type(Integer).at_path('percentageDone') }
+        it do
+          is_expected.to be_json_eql(work_package.done_ratio.to_json).at_path('percentageDone')
+        end
       end
 
       describe 'startDate' do
