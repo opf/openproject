@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomValue::BoolStrategy do
+describe CustomValue::FormatStrategy do
   let(:custom_value) {
     double('CustomValue',
            value: value)
@@ -48,60 +48,13 @@ describe CustomValue::BoolStrategy do
     end
 
     context 'value is present string' do
-      let(:value) { '1' }
+      let(:value) { 'foo' }
       it { is_expected.to eql(true) }
     end
 
-    context 'value is true' do
-      let(:value) { true }
+    context 'value is present integer' do
+      let(:value) { 42 }
       it { is_expected.to eql(true) }
-    end
-
-    context 'value is false' do
-      let(:value) { false }
-      it { is_expected.to eql(true) }
-    end
-  end
-
-  describe '#typed_value' do
-    subject { described_class.new(custom_value).typed_value }
-
-    context 'value corresponds to true' do
-      let(:value) { '1' }
-      it { is_expected.to eql(true) }
-    end
-
-    context 'value corresponds to false' do
-      let(:value) { '0' }
-      it { is_expected.to eql(false) }
-    end
-
-    context 'value is blank' do
-      let(:value) { '' }
-      it { is_expected.to be_nil }
-    end
-
-    context 'value is nil' do
-      let(:value) { nil }
-      it { is_expected.to be_nil }
-    end
-  end
-
-  describe '#validate_type_of_value' do
-    subject { described_class.new(custom_value).validate_type_of_value }
-
-    context 'value corresponds to true' do
-      let(:value) { '1' }
-      it 'accepts' do
-        is_expected.to be_nil
-      end
-    end
-
-    context 'value corresponds to false' do
-      let(:value) { '0' }
-      it 'accepts' do
-        is_expected.to be_nil
-      end
     end
   end
 end

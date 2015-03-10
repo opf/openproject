@@ -81,7 +81,7 @@ class CustomValue < ActiveRecord::Base
   protected
 
   def validate_presence_of_required_value
-    errors.add(:value, :blank) if custom_field.is_required? && value.blank?
+    errors.add(:value, :blank) if custom_field.is_required? && !strategy.value_present?
   end
 
   def validate_format_of_value
