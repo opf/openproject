@@ -61,12 +61,12 @@ module API
 
           schema :_type,
                  type: 'MetaType',
-                 title: I18n.t('api_v3.attributes._type'),
+                 name_source: -> (*) { I18n.t('api_v3.attributes._type') },
                  writable: false
 
           schema :lock_version,
                  type: 'Integer',
-                 title: I18n.t('api_v3.attributes.lock_version'),
+                 name_source: -> (*) { I18n.t('api_v3.attributes.lock_version') },
                  writable: false
 
           schema :id,
@@ -100,7 +100,7 @@ module API
 
           schema :percentage_done,
                  type: 'Integer',
-                 title: WorkPackage.human_attribute_name(:done_ratio),
+                 name_source: :done_ratio,
                  writable: false
 
           schema :created_at,
