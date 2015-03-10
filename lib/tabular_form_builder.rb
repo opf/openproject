@@ -55,6 +55,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def label(method, text = nil, options = {}, &block)
     options[:class] = Array(options[:class]) + %w(form--label)
+    options[:title] = options[:title] || object.class.human_attribute_name(method)
     super
   end
 
