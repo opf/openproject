@@ -504,11 +504,17 @@ JJ Abrams</textarea>
     subject(:output) { builder.label :name }
 
     it 'should output element' do
-      expect(output).to be_html_eql %{<label class="form--label" for="user_name" title="Name">Name</label>}
+      expect(output).to be_html_eql %{
+        <label class="form--label"
+               for="user_name"
+               title="Name">
+               Name
+        </label>
+      }.squish
     end
 
     describe 'with existing attributes' do
-      subject(:output) { builder.label :name, 'Fear', class: 'sharknado', title: "Fear" }
+      subject(:output) { builder.label :name, 'Fear', class: 'sharknado', title: 'Fear' }
 
       it 'should keep associated classes' do
         expect(output).to be_html_eql %{
