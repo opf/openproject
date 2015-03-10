@@ -214,7 +214,9 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         }
         if ($scope.embedded) {
           $scope.readValue = getReadAttributeValue($scope);
-          setEmbeddedOptions($scope);
+          if ($scope.isEditable) {
+            setEmbeddedOptions($scope);
+          }
         } else {
           $scope.readValue = $scope.entity.embedded[$scope.attribute];
         }
