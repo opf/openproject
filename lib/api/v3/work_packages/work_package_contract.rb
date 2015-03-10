@@ -34,20 +34,22 @@ module API
   module V3
     module WorkPackages
       class WorkPackageContract < Reform::Contract
-        WRITEABLE_ATTRIBUTES = [
-          'lock_version',
-          'subject',
-          'parent_id',
-          'description',
-          'start_date',
-          'due_date',
-          'status_id',
-          'assigned_to_id',
-          'responsible_id',
-          'priority_id',
-          'category_id',
-          'fixed_version_id'
-        ].freeze
+        def self.writable_attributes
+          @writable_attributes ||= [
+              'lock_version',
+              'subject',
+              'parent_id',
+              'description',
+              'start_date',
+              'due_date',
+              'status_id',
+              'assigned_to_id',
+              'responsible_id',
+              'priority_id',
+              'category_id',
+              'fixed_version_id'
+            ]
+        end
 
         def initialize(object, user)
           super(object)
@@ -94,7 +96,7 @@ module API
         end
 
         def readonly_attributes_unchanged
-          changed_attributes = model.changed - WRITEABLE_ATTRIBUTES
+          changed_attributes = model.changed - self.class.writable_attributes
 
           errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
         end
