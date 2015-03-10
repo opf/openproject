@@ -80,6 +80,19 @@ module API
           Duration.new(hours_and_minutes(hours)).iso8601
         end
 
+        def self.parse_duration_to_hours(duration, property_name, allow_nil: false)
+          return nil if duration.nil? && allow_nil
+
+          begin
+            iso_duration = ISO8601::Duration.new(duration.to_s)
+            iso_duration.to_seconds / 3600.0
+          rescue ISO8601::Errors::UnknownPattern
+            raise API::Errors::PropertyFormatError.new(property_name,
+                                                       'ISO 8601 duration',
+                                                       duration)
+          end
+        end
+
         def self.hours_and_minutes(hours)
           hours = hours.to_f
           minutes = (hours - hours.to_i) * 60
