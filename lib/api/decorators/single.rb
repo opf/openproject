@@ -103,8 +103,6 @@ module API
 
       private
 
-
-
       def datetime_formatter
         API::V3::Utilities::DateTimeFormatter
       end

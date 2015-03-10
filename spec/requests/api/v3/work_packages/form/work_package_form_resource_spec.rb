@@ -647,9 +647,9 @@ describe 'API v3 Work package form resource', type: :request do
 
                 it 'should list the types' do
                   expect(subject.body).to be_json_eql(type_link.to_json)
-                                            .at_path("#{links_path}/allowedValues/1/href")
+                    .at_path("#{links_path}/allowedValues/1/href")
                   expect(subject.body).to be_json_eql(other_type_link.to_json)
-                                            .at_path("#{links_path}/allowedValues/0/href")
+                    .at_path("#{links_path}/allowedValues/0/href")
                 end
               end
 

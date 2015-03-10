@@ -82,12 +82,21 @@ module Redmine
           @custom_field_values_changed = true
           values = values.stringify_keys
           custom_field_values.each do |custom_value|
-            custom_value.value = values[custom_value.custom_field_id.to_s] if values.has_key?(custom_value.custom_field_id.to_s)
+            if values.has_key?(custom_value.custom_field_id.to_s)
+              custom_value.value = values[custom_value.custom_field_id.to_s]
+            end
           end if values.is_a?(Hash)
         end
 
         def custom_field_values
-          @custom_field_values ||= available_custom_fields.map { |x| custom_values.detect { |v| v.custom_field == x } || custom_values.build(customized: self, custom_field: x, value: nil) }
+          @custom_field_values ||= available_custom_fields.map do |custom_field|
+            existing_cv = custom_values.detect { |v| v.custom_field == custom_field }
+            if existing_cv
+              existing_cv
+            else
+              custom_values.build(customized: self, custom_field: custom_field, value: nil)
+            end
+          end
         end
 
         def visible_custom_field_values
@@ -113,14 +122,17 @@ module Redmine
         def reset_custom_values!
           @custom_field_values = nil
           @custom_field_values_changed = true
-          values = custom_values.inject({}) { |h, v| h[v.custom_field_id] = v.value; h }
+          values = custom_values.inject({}) do |hash, custom_value|
+            hash[custom_value.custom_field_id] = custom_value.value
+            hash
+          end
           custom_values.each { |cv| cv.destroy unless custom_field_values.include?(cv) }
         end
 
         def validate_custom_values
-          custom_field_values.reject(&:marked_for_destruction?).select(&:invalid?).each do |custom_value|
-            custom_value.errors.each do |_, message|
-              errors.add(custom_value.custom_field.accessor_name.to_sym, message)
+          custom_field_values.reject(&:marked_for_destruction?).select(&:invalid?).each do |cv|
+            cv.errors.each do |_, message|
+              errors.add(cv.custom_field.accessor_name.to_sym, message)
             end
           end
         end

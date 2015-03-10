@@ -31,7 +31,6 @@ module API
   module V3
     module Types
       class TypeRepresenter < ::API::Decorators::Single
-
         self_link
 
         property :id
