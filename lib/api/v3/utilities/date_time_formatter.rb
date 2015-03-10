@@ -84,7 +84,7 @@ module API
           return nil if duration.nil? && allow_nil
 
           begin
-            iso_duration = ISO8601::Duration.new(duration)
+            iso_duration = ISO8601::Duration.new(duration.to_s)
             iso_duration.to_seconds / 3600.0
           rescue ISO8601::Errors::UnknownPattern
             raise API::Errors::PropertyFormatError.new(property_name,

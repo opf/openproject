@@ -181,6 +181,12 @@ describe :DateTimeFormatter do
       }.to raise_error(API::Errors::PropertyFormatError)
     end
 
+    it 'rejects parsing pure numbers' do
+      expect {
+        subject.parse_duration_to_hours(5, 'prop')
+      }.to raise_error(API::Errors::PropertyFormatError)
+    end
+
     it_behaves_like 'can parse nil' do
       let(:method) { :parse_duration_to_hours }
       let(:input) { 'PT5H' }
