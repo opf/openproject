@@ -33,30 +33,36 @@ module API
       class << self
         def schema(property,
                    type:,
-                   title: make_title(property),
+                   name_source: property,
                    required: true,
                    writable: true,
                    min_length: nil,
                    max_length: nil,
-                   regular_expression: nil)
+                   regular_expression: nil,
+                   show_if: true)
           raise ArgumentError if property.nil?
 
-          schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
-                                                                    name: title,
-                                                                    required: required,
-                                                                    writable: writable)
-          schema.min_length = min_length
-          schema.max_length = max_length
-          schema.regular_expression = regular_expression
-
           property property,
-                   getter: -> (*) { schema },
-                   writeable: false
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     name = call_or_translate(name_source)
+                     schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
+                                                                               name: name,
+                                                                               required: required,
+                                                                               writable: writable)
+                     schema.min_length = min_length
+                     schema.max_length = max_length
+                     schema.regular_expression = regular_expression
+
+                     schema
+                   },
+                   writeable: false,
+                   if: show_if
         end
 
         def schema_with_allowed_link(property,
                                      type: make_type(property),
-                                     title: make_title(property),
+                                     name_source: property,
                                      href_callback:,
                                      required: true,
                                      writable: true)
@@ -67,7 +73,7 @@ module API
                    getter: -> (*) {
                      representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
                        type: type,
-                       name: title,
+                       name: call_or_translate(name_source),
                        required: required,
                        writable: writable)
 
@@ -81,7 +87,7 @@ module API
 
         def schema_with_allowed_collection(property,
                                            type: make_type(property),
-                                           title: make_title(property),
+                                           name_source: property,
                                            values_callback:,
                                            value_representer:,
                                            link_factory:,
@@ -94,7 +100,7 @@ module API
                    getter: -> (*) {
                      representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
                        type: type,
-                       name: title,
+                       name: call_or_translate(name_source),
                        current_user: current_user,
                        value_representer: value_representer,
                        link_factory: -> (value) { instance_exec(value, &link_factory) },
@@ -114,12 +120,18 @@ module API
 
         private
 
-        def make_title(property_name)
-          represented_class.human_attribute_name(property_name)
-        end
-
         def make_type(property_name)
           property_name.to_s.camelize
+        end
+      end
+
+      private
+
+      def call_or_translate(object)
+        if object.respond_to? :call
+          object.call
+        else
+          self.class.represented_class.human_attribute_name(object)
         end
       end
     end

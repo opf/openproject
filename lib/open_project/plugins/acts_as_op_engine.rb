@@ -139,6 +139,15 @@ module OpenProject::Plugins
         end
       end
 
+      base.send(:define_method, :allow_attribute_update) do |model, attribute|
+        config.to_prepare do
+          model_name = model.to_s.camelize
+          namespace = model_name.pluralize
+          contract_class = "::API::V3::#{namespace}::#{model_name}Contract".constantize
+          contract_class.writable_attributes << attribute.to_s
+        end
+      end
+
       base.class_eval do
         config.autoload_paths += Dir["#{config.root}/lib/"]
 
