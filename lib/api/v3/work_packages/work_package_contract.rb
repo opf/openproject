@@ -105,7 +105,6 @@ module API
           changed_attributes.each do |attribute|
             errors.add attribute.to_sym, I18n.t('api_v3.errors.writing_read_only_attributes')
           end unless changed_attributes.empty?
-          # errors.add :error_readonly, changed_attributes
         end
 
         def assignee_visible

@@ -85,8 +85,8 @@ module API
                    exec_context: :decorator,
                    getter: -> (*) do
                      representer = ::API::Decorators::PropertySchemaRepresenter
-                       .new(type: 'Duration',
-                            name: WorkPackage.human_attribute_name(:estimated_time))
+                                   .new(type: 'Duration',
+                                        name: WorkPackage.human_attribute_name(:estimated_time))
                      representer.writable = represented.estimated_time_writable?
                      representer.required = false
                      representer
@@ -101,7 +101,7 @@ module API
                    getter: -> (*) do
                      representer = ::API::Decorators::PropertySchemaRepresenter
                                    .new(type: 'Integer',
-                                        name: WorkPackage.human_attribute_name(:percentage_done))
+                                        name: WorkPackage.human_attribute_name(:done_ratio))
                      representer.writable = represented.percentage_done_writable?
                      representer
                    end,
