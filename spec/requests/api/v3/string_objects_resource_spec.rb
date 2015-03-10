@@ -48,5 +48,30 @@ describe 'API v3 String Objects resource' do
     it 'returns the value' do
       expect(subject.body).to be_json_eql('foo bar'.to_json).at_path('value')
     end
+
+    context 'empty string' do
+      let(:path) { '/api/v3/string_objects/' }
+
+      it 'is successful' do
+        expect(subject.status).to eql(200)
+      end
+
+      it 'returns the value' do
+        expect(subject.body).to be_json_eql(''.to_json).at_path('value')
+      end
+    end
+
+    # values starting with a dot is a known limitation of grapes default route matching
+    context 'beginning with .' do
+      let(:path) { '/api/v3/string_objects/.foo' }
+
+      it 'is successful' do
+        expect(subject.status).to eql(200)
+      end
+
+      it 'returns the value' do
+        expect(subject.body).to be_json_eql('.foo'.to_json).at_path('value')
+      end
+    end
   end
 end

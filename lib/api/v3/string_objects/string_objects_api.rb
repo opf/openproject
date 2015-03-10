@@ -33,13 +33,19 @@ module API
       class StringObjectsAPI < Grape::API
         resources :string_objects do
 
-          namespace ':value' do
+          params do
+            requires :value, type: String
+          end
+
+          # N.B. we are specifying our own requirements to allow arbitrary strings as value
+          # as of today values like '.foo' or 'foo.' would not be possible otherwise
+          route_param :value, requirements: { value: /.+/ } do
             get do
               StringObjectRepresenter.new(params[:value])
             end
           end
 
-          # answer requests for empty strings too
+          # we need to explicitly cover the empty case because of the way route matching works
           get do
             StringObjectRepresenter.new('')
           end
