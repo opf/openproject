@@ -102,9 +102,7 @@ module API
         def readonly_attributes_unchanged
           changed_attributes = model.changed - self.class.writable_attributes
 
-          changed_attributes.each do |attribute|
-            errors.add attribute.to_sym, I18n.t('api_v3.errors.writing_read_only_attributes')
-          end unless changed_attributes.empty?
+          errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
         end
 
         def assignee_visible
@@ -117,20 +115,19 @@ module API
 
         def estimated_hours_valid
           if !model.leaf? && model.changed.include?('estimated_hours')
-            errors.add :estimated_time, I18n.t('api_v3.errors.validation.estimated_hours')
+            errors.add :error_readonly, 'estimated_hours'
           end
         end
 
         def done_ratio_valid
           if model.changed.include?('done_ratio')
+            # TODO Allow multiple errors as soon as they have separate messages
             if !model.leaf?
-              errors.add :done_ratio, I18n.t('api_v3.errors.validation.done_ratio_readonly_parent')
-            end
-            if Setting.work_package_done_ratio == 'status'
-              errors.add :done_ratio, I18n.t('api_v3.errors.validation.done_ratio_readonly_status')
-            end
-            if Setting.work_package_done_ratio == 'disabled'
-              errors.add :done_ratio, I18n.t('api_v3.errors.validation.done_ratio_disabled')
+              errors.add :error_readonly, 'done_ratio'
+            elsif Setting.work_package_done_ratio == 'status'
+              errors.add :error_readonly, 'done_ratio'
+            elsif Setting.work_package_done_ratio == 'disabled'
+              errors.add :error_readonly, 'done_ratio'
             end
           end
         end

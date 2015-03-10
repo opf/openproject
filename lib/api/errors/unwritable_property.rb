@@ -36,7 +36,14 @@ module API
         fail ArgumentError, 'UnwritableProperty error must contain at least one invalid attribute!' if attributes.empty?
 
         if attributes.length == 1
-          message = I18n.t('api_v3.errors.writing_read_only_attributes')
+          message = case attributes.first
+                    when 'estimated_hours'
+                      I18n.t('api_v3.errors.validation.estimated_hours')
+                    when 'done_ratio'
+                      I18n.t('api_v3.errors.validation.done_ratio')
+                    else
+                      I18n.t('api_v3.errors.writing_read_only_attributes')
+                    end
         else
           message = I18n.t('api_v3.errors.multiple_errors')
         end
@@ -48,8 +55,8 @@ module API
 
       def evaluate_attributes(attributes, invalid_attributes)
         if attributes.length > 1
-          invalid_attributes.each do |error|
-            @errors << UnwritableProperty.new(error)
+          invalid_attributes.each do |attribute|
+            @errors << UnwritableProperty.new(attribute)
           end
         else
           @details = { attribute: attributes[0].to_s.camelize(:lower) }

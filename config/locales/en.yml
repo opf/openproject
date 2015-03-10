@@ -1690,8 +1690,6 @@ en:
         invalid_user_assigned_to_work_package:
           "The chosen user is not allowed to be '%{property}' for this work package."
         estimated_hours: "Estimated hours cannot be set on parent work packages."
-        done_ratio_readonly_parent: "Done ratio cannot be set on parent work packages."
-        done_ratio_readonly_status: "Done ratio cannot be set when it is inferred by status."
-        done_ratio_disabled: "Done ratio cannot be set when it is disabled."
+        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
     resources:
       schema: 'Schema'
