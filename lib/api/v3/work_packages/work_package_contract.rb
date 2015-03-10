@@ -35,20 +35,20 @@ module API
     module WorkPackages
       class WorkPackageContract < Reform::Contract
         def self.writable_attributes
-          @writable_attributes ||= [
-              'lock_version',
-              'subject',
-              'parent_id',
-              'description',
-              'start_date',
-              'due_date',
-              'status_id',
-              'assigned_to_id',
-              'responsible_id',
-              'priority_id',
-              'category_id',
-              'fixed_version_id'
-            ]
+          @writable_attributes ||= %w(
+            lock_version
+            subject
+            parent_id
+            description
+            start_date
+            due_date
+            status_id
+            assigned_to_id
+            responsible_id
+            priority_id
+            category_id
+            fixed_version_id
+          )
         end
 
         def initialize(object, user)
