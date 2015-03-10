@@ -143,7 +143,28 @@ module OpenProject::Backlogs
                                                                allow_nil: true)
                },
                render_nil: true,
+               if: -> (*) { represented.backlogs_enabled? }
+    end
+
+    extend_api_response(:v3, :work_packages, :form, :work_package_payload) do
+      property :story_points,
+               render_nil: true,
                if: -> (*) { backlogs_enabled? }
+
+      property :remaining_time,
+               exec_context: :decorator,
+               getter: -> (*) {
+                 datetime_formatter.format_duration_from_hours(represented.remaining_hours,
+                                                               allow_nil: true)
+               },
+               setter: -> (value, *) {
+                 remaining = datetime_formatter.parse_duration_to_hours(value,
+                                                                        'remainingTime',
+                                                                        allow_nil: true)
+                 represented.remaining_hours =  remaining
+               },
+               render_nil: true,
+               if: -> (*) { represented.backlogs_enabled? }
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
@@ -158,6 +179,9 @@ module OpenProject::Backlogs
              required: false,
              show_if: -> (*) { represented.project.backlogs_enabled? }
     end
+
+    allow_attribute_update(:work_package, :story_points)
+    allow_attribute_update(:work_package, :remaining_hours)
 
     config.to_prepare do
       if WorkPackage.const_defined? "SAFE_ATTRIBUTES"

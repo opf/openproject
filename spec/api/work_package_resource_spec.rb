@@ -40,18 +40,19 @@ describe 'API v3 Work package resource' do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:current_user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package,
                                           project: project,
                                           story_points: 8,
                                           remaining_hours: 5) }
+  let(:wp_path) { "/api/v3/work_packages/#{work_package.id}" }
 
   describe '#get' do
     shared_context 'query work package' do
       before do
-        allow(User).to receive(:current).and_return(admin)
-        get "/api/v3/work_packages/#{work_package.id}"
+        allow(User).to receive(:current).and_return(current_user)
+        get wp_path
       end
 
       subject(:parsed_response) { JSON.parse(last_response.body) }
@@ -62,7 +63,7 @@ describe 'API v3 Work package resource' do
 
       it { expect(parsed_response['storyPoints']).to eq(work_package.story_points) }
 
-      it { expect(parsed_response['remainingHours']).to eq(work_package.remaining_hours) }
+      it { expect(parsed_response['remainingTime']).to eq('PT5H') }
     end
 
     context 'backlogs deactivated' do
@@ -74,6 +75,36 @@ describe 'API v3 Work package resource' do
       it { expect(parsed_response['storyPoints']).to be_nil }
 
       it { expect(parsed_response['remainingHours']).to be_nil }
+    end
+  end
+
+  describe '#patch' do
+    let(:valid_params) do
+      {
+          _type: 'WorkPackage',
+          lockVersion: work_package.lock_version
+      }
+    end
+
+    subject { last_response }
+
+    before do
+      allow(User).to receive(:current).and_return current_user
+      patch wp_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+    end
+
+    describe 'storyPoints' do
+      let(:params) { valid_params.merge(storyPoints: 12) }
+
+      it { expect(subject.status).to eq(200) }
+      it { expect(subject.body).to be_json_eql(12.to_json).at_path('storyPoints') }
+    end
+
+    describe 'remainingTime' do
+      let(:params) { valid_params.merge(remainingTime: 'PT12H30M') }
+
+      it { expect(subject.status).to eq(200) }
+      it { expect(subject.body).to be_json_eql('PT12H30M'.to_json).at_path('remainingTime') }
     end
   end
 end
