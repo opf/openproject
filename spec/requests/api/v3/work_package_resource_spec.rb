@@ -763,7 +763,7 @@ h4. things we like
 
           it_behaves_like 'multiple errors', 422
 
-          it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
+          it_behaves_like 'multiple errors of the same type', 2, 'PropertyIsReadOnly'
 
           it_behaves_like 'multiple errors of the same type with messages' do
             let(:message) { ['Subject can\'t be blank.', 'Parent does not exist.'] }
@@ -811,7 +811,7 @@ h4. things we like
 
           it_behaves_like 'multiple errors', 422, 'Multiple fields violated their constraints.'
 
-          it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
+          it_behaves_like 'multiple errors of the same type', 2, 'PropertyIsReadOnly'
 
           it_behaves_like 'multiple errors of the same type with messages' do
             let(:message) {
