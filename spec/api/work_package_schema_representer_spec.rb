@@ -39,6 +39,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   }
   let(:representer) { described_class.create(schema, current_user: current_user) }
 
+  before do
+    allow(schema.project).to receive(:backlogs_enabled?).and_return(true)
+    allow(work_package.type).to receive(:backlogs_type?).and_return(true)
+  end
+
   describe 'storyPoints' do
     subject { representer.to_json }
 
@@ -53,6 +58,16 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     context 'backlogs disabled' do
       before do
         allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
+      end
+
+      it 'does not show story points' do
+        is_expected.to_not have_json_path('storyPoints')
+      end
+    end
+
+    context 'not a backlogs type' do
+      before do
+        allow(schema.type).to receive(:backlogs_type?).and_return(false)
       end
 
       it 'does not show story points' do
@@ -75,6 +90,16 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     context 'backlogs disabled' do
       before do
         allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
+      end
+
+      it 'does not show the remaining time' do
+        is_expected.to_not have_json_path('remainingTime')
+      end
+    end
+
+    context 'not a backlogs type' do
+      before do
+        allow(schema.type).to receive(:backlogs_type?).and_return(false)
       end
 
       it 'does not show the remaining time' do

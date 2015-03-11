@@ -38,6 +38,10 @@ describe 'API v3 Work package form resource', type: :request do
   let(:authorized_user) { FactoryGirl.create(:user, member_in_project: project) }
   let(:unauthorized_user) { FactoryGirl.create(:user) }
 
+  before do
+    allow(Story).to receive(:types).and_return([work_package.type_id])
+  end
+
   describe '#post' do
     shared_examples_for 'valid payload' do
       subject { response.body }
@@ -70,13 +74,17 @@ describe 'API v3 Work package form resource', type: :request do
       it { expect(subject.body).to have_json_path("_embedded/validationErrors/#{property}") }
 
       describe 'error body' do
-        let(:error_id) { 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation' }
+        let(:error_path) { "_embedded/validationErrors/#{property}" }
+        let(:error_id) { 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json }
 
         let(:error_body) {
           parse_json(subject.body)['_embedded']['validationErrors'][property]
         }
 
-        it { expect(error_body['errorIdentifier']).to eq(error_id) }
+        it { expect(subject.body).to have_json_path(error_path) }
+        it {
+          expect(subject.body).to be_json_eql(error_id).at_path("#{error_path}/errorIdentifier")
+        }
       end
     end
 

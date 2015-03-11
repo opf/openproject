@@ -128,13 +128,13 @@ module OpenProject::Backlogs
       backlogs/burndown.js
     )
 
-    patches [:PermittedParams, :WorkPackage, :Status, :MyController, :Project,
+    patches [:PermittedParams, :WorkPackage, :Status, :Type, :MyController, :Project,
       :ProjectsController, :ProjectsHelper, :Query, :User, :VersionsController, :Version]
 
     extend_api_response(:v3, :work_packages, :work_package) do
       property :story_points,
                render_nil: true,
-               if: -> (*) { backlogs_enabled? }
+               if: -> (*) { backlogs_enabled? && type.backlogs_type? }
 
       property :remaining_time,
                exec_context: :decorator,
@@ -143,13 +143,15 @@ module OpenProject::Backlogs
                                                                allow_nil: true)
                },
                render_nil: true,
-               if: -> (*) { represented.backlogs_enabled? }
+               if: -> (*) {
+                 represented.backlogs_enabled? && represented.type.backlogs_type?
+               }
     end
 
     extend_api_response(:v3, :work_packages, :form, :work_package_payload) do
       property :story_points,
                render_nil: true,
-               if: -> (*) { backlogs_enabled? }
+               if: -> (*) { backlogs_enabled? && type.backlogs_type? }
 
       property :remaining_time,
                exec_context: :decorator,
@@ -164,20 +166,26 @@ module OpenProject::Backlogs
                  represented.remaining_hours = remaining
                },
                render_nil: true,
-               if: -> (*) { represented.backlogs_enabled? }
+               if: -> (*) {
+                 represented.backlogs_enabled? && represented.type.backlogs_type?
+               }
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
       schema :story_points,
              type: 'Integer',
              required: false,
-             show_if: -> (*) { represented.project.backlogs_enabled? }
+             show_if: -> (*) {
+               represented.project.backlogs_enabled? && represented.type.backlogs_type?
+             }
 
       schema :remaining_time,
              type: 'Duration',
              name_source: :remaining_hours,
              required: false,
-             show_if: -> (*) { represented.project.backlogs_enabled? }
+             show_if: -> (*) {
+               represented.project.backlogs_enabled? && represented.type.backlogs_type?
+             }
     end
 
     allow_attribute_update(:work_package, :story_points)

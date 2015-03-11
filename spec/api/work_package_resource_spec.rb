@@ -48,6 +48,10 @@ describe 'API v3 Work package resource' do
                                           remaining_hours: 5) }
   let(:wp_path) { "/api/v3/work_packages/#{work_package.id}" }
 
+  before do
+    allow(Story).to receive(:types).and_return([work_package.type_id])
+  end
+
   describe '#get' do
     shared_context 'query work package' do
       before do
