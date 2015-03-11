@@ -148,6 +148,8 @@ class Plugin
   attr_reader :name
 
   def initialize(name)
+    # This is necessary because we have some strange dependencies in openproject-pdf_export.
+    # When we delete those, we can delete this if.
     if name == 'pdf-inspector'
       @name = 'pdf-inspector'
     else
@@ -181,7 +183,7 @@ class Plugin
 
   def gemfile_plugins_line
     # todo this needs to be more general, i.e. with different ref types (commit, tag)
-    # and maybe without if 'pdf-inspector'
+    # See the comment in Plugin#initialize for the if.
     if @name == 'pdf-inspector'
       "gem \"pdf-inspector\", \"~>1.0.0\"\n"
     else
