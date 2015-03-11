@@ -75,7 +75,7 @@ class PluginManager
   end
 
   def _migrate
-    system "RAILS_ENV='#{@environment}' rake db:migrate"
+    system "RAILS_ENV='#{@environment}' bundle exec rake db:migrate"
   end
 
   def _revert_migrations(plugin)
@@ -84,15 +84,15 @@ class PluginManager
   end
 
   def _assets_precompile
-    system "RAILS_ENV='production' rake assets:precompile"
+    system "RAILS_ENV='production' bundle exec rake assets:precompile"
   end
 
   def _assets_webpack
-    system "RAILS_ENV='production' rake assets:webpack"
+    system "RAILS_ENV='production' bundle exec rake assets:webpack"
   end
 
   def _assets_clobber
-    system "RAILS_ENV='production' rake assets:clobber"
+    system "RAILS_ENV='production' bundle exec rake assets:clobber"
   end
 
   def _remove_plugin_from_gemfile_plugins_file(plugin)
