@@ -161,7 +161,7 @@ module OpenProject::Backlogs
                  remaining = datetime_formatter.parse_duration_to_hours(value,
                                                                         'remainingTime',
                                                                         allow_nil: true)
-                 represented.remaining_hours =  remaining
+                 represented.remaining_hours = remaining
                },
                render_nil: true,
                if: -> (*) { represented.backlogs_enabled? }
