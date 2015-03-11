@@ -62,5 +62,3 @@ module OpenProject::Backlogs::Patches::TypePatch
     end
   end
 end
-
-Type.send(:include, OpenProject::Backlogs::Patches::TypePatch)
