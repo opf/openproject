@@ -48,8 +48,8 @@ module API
                      name = call_or_translate(name_source)
                      schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
                                                                                name: name,
-                                                                               required: required,
-                                                                               writable: writable)
+                                                                               required: call_or_use(required),
+                                                                               writable: call_or_use(writable))
                      schema.min_length = min_length
                      schema.max_length = max_length
                      schema.regular_expression = regular_expression
@@ -74,8 +74,8 @@ module API
                      representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
                        type: type,
                        name: call_or_translate(name_source),
-                       required: required,
-                       writable: writable)
+                       required: call_or_use(required),
+                       writable: call_or_use(writable))
 
                      if represented.defines_assignable_values?
                        representer.allowed_values_href = instance_eval(&href_callback)
@@ -104,8 +104,8 @@ module API
                        current_user: current_user,
                        value_representer: value_representer,
                        link_factory: -> (value) { instance_exec(value, &link_factory) },
-                       required: required,
-                       writable: writable)
+                       required: call_or_use(required),
+                       writable: call_or_use(writable))
 
                      if represented.defines_assignable_values?
                        representer.allowed_values = instance_exec(&values_callback)
@@ -127,9 +127,17 @@ module API
 
       private
 
+      def call_or_use(object)
+        if object.respond_to? :call
+          instance_exec(&object)
+        else
+          object
+        end
+      end
+
       def call_or_translate(object)
         if object.respond_to? :call
-          object.call
+          instance_exec(&object)
         else
           self.class.represented_class.human_attribute_name(object)
         end
