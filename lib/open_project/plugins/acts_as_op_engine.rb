@@ -151,12 +151,12 @@ module OpenProject::Plugins
         end
       end
 
-      base.send(:define_method, :allow_attribute_update) do |model, attribute|
+      base.send(:define_method, :allow_attribute_update) do |model, attribute, &block|
         config.to_prepare do
           model_name = model.to_s.camelize
           namespace = model_name.pluralize
           contract_class = "::API::V3::#{namespace}::#{model_name}Contract".constantize
-          contract_class.writable_attributes << attribute.to_s
+          contract_class.writable_attribute attribute, &block
         end
       end
 
