@@ -1,4 +1,4 @@
-#-- encoding: UTF-8
+  #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -59,7 +59,9 @@ module OpenProject
         block_given? && content_or_options.is_a?(Hash) ? content_or_options : (options ||= {}),
         'form--label'
       )
-      options[:title] = strip_tags(options[:title] || capture(&block))
+      if block_given?
+        options[:title] = options[:title] || strip_tags(capture(&block))
+      end
       label_tag(name, content_or_options, options, &block)
     end
 
