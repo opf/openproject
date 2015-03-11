@@ -73,7 +73,7 @@ describe WorkPackage, type: :model do
       end
 
       it 'is not created' do
-        expect { work_package.save! }.to_not change { work_package.journals.length }.by(1)
+        expect { work_package.save! }.to_not change { work_package.journals.length }
       end
     end
 
