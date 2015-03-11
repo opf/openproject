@@ -33,14 +33,13 @@ module API
       class TypesAPI < Grape::API
         resources :types do
           before do
-            authorize(:view_work_packages, global: true)
-
-            @types = Type.all
+            authorize_any([:view_work_packages, :manage_types], projects: Project.all)
           end
 
           get do
-            TypeCollectionRepresenter.new(@types,
-                                          @types.count,
+            types = Type.all
+            TypeCollectionRepresenter.new(types,
+                                          types.count,
                                           api_v3_paths.types)
           end
 

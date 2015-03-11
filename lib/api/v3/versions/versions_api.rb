@@ -47,7 +47,7 @@ module API
 
                 permissions = [:view_work_packages, :manage_versions]
 
-                authorize_any(permissions, projects, user: current_user)
+                authorize_any(permissions, projects: projects, user: current_user)
               end
 
               def context

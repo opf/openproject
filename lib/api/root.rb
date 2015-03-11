@@ -104,14 +104,19 @@ module API
       # checks whether the user has
       # any of the provided permission in any of the provided
       # projects
-      def authorize_any(permissions, projects, user: current_user)
+      def authorize_any(permissions, projects: nil, global: false, user: current_user)
+        raise ArgumentError if projects.nil? && !global
         projects = Array(projects)
 
         authorized = permissions.any? do |permission|
           allowed_condition = Project.allowed_to_condition(user, permission)
           allowed_projects = Project.where(allowed_condition)
 
-          !(allowed_projects & projects).empty?
+          if global
+            allowed_projects.any?
+          else
+            !(allowed_projects & projects).empty?
+          end
         end
 
         raise API::Errors::Unauthorized unless authorized
