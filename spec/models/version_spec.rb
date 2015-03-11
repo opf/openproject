@@ -39,7 +39,7 @@ describe Version, type: :model do
     version.effective_date = '2012-01-01'
 
     expect(version).not_to be_valid
-    expect(version.errors_on(:effective_date).size).to eq(1)
+    expect(version.errors[:effective_date].size).to eq(1)
   end
 
   context '#to_s_for_project' do

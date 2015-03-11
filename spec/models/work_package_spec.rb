@@ -1437,10 +1437,11 @@ describe WorkPackage, type: :model do
           before do
             instance.start_date = nil
             instance.due_date = '856742858941748214577'
+            instance.valid?
           end
 
           it 'should have a validation error' do
-            expect(instance.error_on(:due_date).size).to eq(1)
+            expect(instance.errors[:due_date].size).to eq(1)
           end
         end
       end
@@ -1633,7 +1634,7 @@ describe WorkPackage, type: :model do
 
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
-      expect(work_package.errors_on("custom_field_#{cf2.id}").size).to eq 1
+      expect(work_package.errors["custom_field_#{cf2.id}"].size).to eq 1
     end
   end
 
