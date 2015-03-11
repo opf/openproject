@@ -128,8 +128,9 @@ module OpenProject::Backlogs
       backlogs/burndown.js
     )
 
-    patches [:PermittedParams, :WorkPackage, :Status, :Type, :MyController, :Project,
-      :ProjectsController, :ProjectsHelper, :Query, :User, :VersionsController, :Version]
+    patches [:PermittedParams, :WorkPackage, :Status, :Type, :MyController,
+      :Project, :ProjectsController, :ProjectsHelper, :Query, :User, :VersionsController, :Version]
+    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
 
     extend_api_response(:v3, :work_packages, :work_package) do
       property :story_points,
@@ -183,6 +184,7 @@ module OpenProject::Backlogs
              type: 'Duration',
              name_source: :remaining_hours,
              required: false,
+             writable: -> (*) { represented.remaining_time_writable? },
              show_if: -> (*) {
                represented.project.backlogs_enabled? && represented.type.backlogs_type?
              }

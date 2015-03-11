@@ -106,5 +106,19 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         is_expected.to_not have_json_path('remainingTime')
       end
     end
+
+    context 'remainingTime not writable' do
+      before do
+        allow(schema).to receive(:remaining_time_writable?).and_return(false)
+      end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'remainingTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.remaining_hours') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
   end
 end
