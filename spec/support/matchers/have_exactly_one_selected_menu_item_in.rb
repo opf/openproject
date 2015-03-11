@@ -28,11 +28,11 @@
 
 RSpec::Matchers.define :have_exactly_one_selected_menu_item_in do |menu|
   match do |actual|
-    failure_message(menu, actual) == nil
+    build_failure_message(menu, actual) == nil
   end
 
   failure_message do |actual|
-    failure_message(menu, actual)
+    build_failure_message(menu, actual)
   end
 
   description do
@@ -43,7 +43,7 @@ RSpec::Matchers.define :have_exactly_one_selected_menu_item_in do |menu|
     raise 'You should not use this matcher for should_not matches'
   end
 
-  def failure_message(menu, actual)
+  def build_failure_message(menu, actual)
     menu_selector = HTML::Selector.new(selector_for_menu(menu))
     menu_item_selector = HTML::Selector.new('a.selected')
 
