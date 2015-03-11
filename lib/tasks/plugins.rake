@@ -90,13 +90,13 @@ namespace :redmine do
 end
 
 namespace :plugins do
-desc 'Adds Meeting plugin for now'
+  desc 'Adds a plugin'
   task :add, [:plugin] => :environment do |t, args|
     plugin_manager = PluginManager.new Rails.env
     plugin_manager.add args[:plugin]
   end
 
-  desc 'Removes Meeting plugin for now'
+  desc 'Removes a plugin'
   task :remove, [:plugin] => :environment do |t, args|
     plugin_manager = PluginManager.new Rails.env
     plugin_manager.remove args[:plugin]
