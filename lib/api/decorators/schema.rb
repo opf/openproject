@@ -46,10 +46,11 @@ module API
                    exec_context: :decorator,
                    getter: -> (*) {
                      name = call_or_translate(name_source)
-                     schema = ::API::Decorators::PropertySchemaRepresenter.new(type: type,
-                                                                               name: name,
-                                                                               required: call_or_use(required),
-                                                                               writable: call_or_use(writable))
+                     schema = ::API::Decorators::PropertySchemaRepresenter.new(
+                       type: type,
+                       name: name,
+                       required: call_or_use(required),
+                       writable: call_or_use(writable))
                      schema.min_length = min_length
                      schema.max_length = max_length
                      schema.regular_expression = regular_expression
