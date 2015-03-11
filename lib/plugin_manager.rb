@@ -1,6 +1,5 @@
 class PluginManager
   GEMFILE_PLUGINS_PATH = 'Gemfile.plugins'
-  PLUGINS_YML_PATH = 'plugins.yml'
 
   def initialize(environment)
     @environment = environment
@@ -129,6 +128,8 @@ class PluginManager
 end
 
 class Plugin
+  PLUGINS_YML_PATH = 'plugins.yml'
+
   def self._available?(name)
     available_plugins[name]
   end
