@@ -142,7 +142,7 @@ class Plugin
       puts 'Could not find plugin list, abort!'
       exit
     end
-    @available_plugins = YAML.load_file(PLUGINS_YML_PATH)
+    YAML.load_file(PLUGINS_YML_PATH)
   end
 
   attr_reader :name
