@@ -36,13 +36,14 @@ module API
         fail ArgumentError, 'UnwritableProperty error must contain at least one invalid attribute!' if attributes.empty?
 
         if attributes.length == 1
-          message = case attributes.first
-                    when 'estimated_hours'
-                      I18n.t('api_v3.errors.validation.estimated_hours')
-                    when 'done_ratio'
-                      I18n.t('api_v3.errors.validation.done_ratio')
+          message = if attributes.length == 1
+                      begin
+                        I18n.t("api_v3.errors.validation.#{attributes.first}", raise: true)
+                      rescue I18n::MissingTranslationData
+                        I18n.t('api_v3.errors.writing_read_only_attributes')
+                      end
                     else
-                      I18n.t('api_v3.errors.writing_read_only_attributes')
+                      I18n.t('api_v3.errors.multiple_errors')
                     end
         else
           message = I18n.t('api_v3.errors.multiple_errors')
