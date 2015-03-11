@@ -286,35 +286,6 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :assignable_priorities do
-    let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
-    let(:active_priority) { FactoryGirl.build(:priority, active: true) }
-    let(:inactive_priority) { FactoryGirl.build(:priority, active: false) }
-
-    before do
-      active_priority.save!
-      inactive_priority.save!
-    end
-
-    it 'returns active priorities' do
-      expect(work_package.assignable_priorities).to match_array([active_priority])
-    end
-  end
-
-  describe :assignable_categories do
-    let(:work_package) { FactoryGirl.create(:work_package, project: project1) }
-    let(:same_project_category) { FactoryGirl.create(:category, project: work_package.project) }
-    let (:project1) { FactoryGirl.create(:project) }
-
-    before do
-      same_project_category.save!
-    end
-
-    it 'returns all categories within the same project' do
-      expect(work_package.assignable_categories).to match_array([same_project_category])
-    end
-  end
-
   describe :assignable_versions do
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []

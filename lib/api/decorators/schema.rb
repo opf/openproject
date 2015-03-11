@@ -77,7 +77,7 @@ module API
                        required: required,
                        writable: writable)
 
-                     if @form_embedded && represented.defines_assignable_values?
+                     if form_embedded
                        representer.allowed_values_href = instance_eval(&href_callback)
                      end
 
@@ -107,7 +107,7 @@ module API
                        required: required,
                        writable: writable)
 
-                     if @form_embedded && represented.defines_assignable_values?
+                     if form_embedded
                        representer.allowed_values = instance_exec(&values_callback)
                      end
 
@@ -124,6 +124,8 @@ module API
           property_name.to_s.camelize
         end
       end
+
+      attr_reader :form_embedded
 
       def initialize(represented, context = {})
         @form_embedded = context[:form_embedded]

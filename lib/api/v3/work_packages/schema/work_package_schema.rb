@@ -45,10 +45,6 @@ module API
             @work_package = work_package
           end
 
-          def defines_assignable_values?
-            @work_package.present?
-          end
-
           def assignable_statuses_for(user)
             return nil if @work_package.nil?
 
@@ -63,19 +59,19 @@ module API
           end
 
           def assignable_versions
-            @work_package.assignable_versions if defines_assignable_values?
+            @work_package.assignable_versions unless @work_package.nil?
           end
 
           def assignable_priorities
-            @work_package.assignable_priorities if defines_assignable_values?
+            IssuePriority.where(active: true)
           end
 
           def assignable_categories
-            @work_package.assignable_categories if defines_assignable_values?
+            project.categories
           end
 
           def available_custom_fields
-            @project.all_work_package_custom_fields & @type.custom_fields.all
+            project.all_work_package_custom_fields & type.custom_fields.all
           end
         end
       end

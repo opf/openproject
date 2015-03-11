@@ -39,24 +39,15 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:schema) {
     ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
   }
-  let(:representer) { described_class.create(schema, current_user: current_user) }
+  let(:embedded) { false }
+  let(:representer) {
+    described_class.create(schema,
+                           form_embedded: embedded,
+                           current_user: current_user)
+  }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
-
-    shared_context 'embedded in form' do
-      let(:representer) {
-        described_class.new(schema,
-                            form_embedded: true,
-                            current_user: current_user)
-      }
-    end
-
-    shared_context 'no allowed values' do
-      before do
-        allow(schema).to receive(:defines_assignable_values?).and_return(false)
-      end
-    end
 
     describe '_type' do
       it_behaves_like 'has basic schema properties' do
@@ -217,7 +208,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'status' do
-      include_context 'embedded in form'
+      let(:embedded) { true }
 
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'status' }
@@ -228,7 +219,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'w/o allowed statuses' do
-        before { allow(work_package).to receive(:new_statuses_allowed_to).and_return([]) }
+        before { allow(schema).to receive(:new_statuses_allowed_to).and_return([]) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'status' }
@@ -239,7 +230,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'with allowed statuses' do
         let(:statuses) { FactoryGirl.build_list(:status, 3) }
 
-        before { allow(work_package).to receive(:new_statuses_allowed_to).and_return(statuses) }
+        before { allow(schema).to receive(:assignable_statuses_for).and_return(statuses) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'status' }
@@ -247,8 +238,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'when allowed values are not defined' do
-        include_context 'no allowed values'
+      context 'when not embedded' do
+        let(:embedded) { false }
 
         it_behaves_like 'does not link to allowed values' do
           let(:path) { 'status' }
@@ -257,7 +248,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'categories' do
-      include_context 'embedded in form'
+      let(:embedded) { true }
 
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'category' }
@@ -268,7 +259,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'w/o allowed categories' do
-        before { allow(work_package).to receive(:assignable_categories).and_return([]) }
+        before { allow(schema).to receive(:assignable_categories).and_return([]) }
 
         it_behaves_like 'links to allowed values directly' do
           let(:path) { 'category' }
@@ -279,7 +270,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'with allowed categories' do
         let(:categories) { FactoryGirl.build_stubbed_list(:category, 3) }
 
-        before { allow(work_package).to receive(:assignable_categories).and_return(categories) }
+        before { allow(schema).to receive(:assignable_categories).and_return(categories) }
 
         it_behaves_like 'links to allowed values directly' do
           let(:path) { 'category' }
@@ -287,8 +278,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'when allowed values are not defined' do
-        include_context 'no allowed values'
+      context 'when not embedded' do
+        let(:embedded) { false }
 
         it_behaves_like 'does not link to allowed values' do
           let(:path) { 'category' }
@@ -297,7 +288,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'versions' do
-      include_context 'embedded in form'
+      let(:embedded) { true }
 
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'version' }
@@ -308,7 +299,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'w/o allowed versions' do
-        before { allow(work_package).to receive(:assignable_versions).and_return([]) }
+        before { allow(schema).to receive(:assignable_versions).and_return([]) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'version' }
@@ -319,7 +310,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'with allowed versions' do
         let(:versions) { FactoryGirl.build_stubbed_list(:version, 3) }
 
-        before { allow(work_package).to receive(:assignable_versions).and_return(versions) }
+        before { allow(schema).to receive(:assignable_versions).and_return(versions) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'version' }
@@ -327,8 +318,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'when allowed values are not defined' do
-        include_context 'no allowed values'
+      context 'when not embedded' do
+        let(:embedded) { false }
 
         it_behaves_like 'does not link to allowed values' do
           let(:path) { 'version' }
@@ -337,7 +328,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'priorities' do
-      include_context 'embedded in form'
+      let(:embedded) { true }
 
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'priority' }
@@ -348,7 +339,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'w/o allowed priorities' do
-        before { allow(work_package).to receive(:assignable_priorities).and_return([]) }
+        before { allow(schema).to receive(:assignable_priorities).and_return([]) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'priority' }
@@ -359,7 +350,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'with allowed priorities' do
         let(:priorities) { FactoryGirl.build_stubbed_list(:priority, 3) }
 
-        before { allow(work_package).to receive(:assignable_priorities).and_return(priorities) }
+        before { allow(schema).to receive(:assignable_priorities).and_return(priorities) }
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { 'priority' }
@@ -367,8 +358,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'when allowed values are not defined' do
-        include_context 'no allowed values'
+      context 'when not embedded' do
+        let(:embedded) { false }
 
         it_behaves_like 'does not link to allowed values' do
           let(:path) { 'priority' }
@@ -377,7 +368,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'responsible and assignee' do
-      include_context 'embedded in form'
+      let(:embedded) { true }
 
       let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
 
@@ -395,8 +386,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:href) { "#{base_href}/available_assignees" }
         end
 
-        context 'when allowed values are not defined' do
-          include_context 'no allowed values'
+        context 'when not embedded' do
+          let(:embedded) { false }
 
           it_behaves_like 'does not link to allowed values' do
             let(:path) { 'assignee' }
@@ -418,8 +409,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:href) { "#{base_href}/available_responsibles" }
         end
 
-        context 'when allowed values are not defined' do
-          include_context 'no allowed values'
+        context 'when not embedded' do
+          let(:embedded) { false }
 
           it_behaves_like 'does not link to allowed values' do
             let(:path) { 'responsible' }

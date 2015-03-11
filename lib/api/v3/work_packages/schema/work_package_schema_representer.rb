@@ -54,7 +54,7 @@ module API
           link :self do
             path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
 
-            unless @form_embedded
+            unless form_embedded
               { href: path }
             end
           end

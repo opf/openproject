@@ -37,28 +37,15 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
                       type: type)
   }
 
-  shared_examples_for 'WorkPackageSchema#available_custom_fields' do
-    let(:cf1) { double }
-    let(:cf2) { double }
-    let(:cf3) { double }
-
-    before do
-      scope_double = double
-      allow(scope_double).to receive(:all).and_return([cf1, cf2])
-      allow(type).to receive(:custom_fields).and_return(scope_double)
-      allow(project).to receive(:all_work_package_custom_fields).and_return([cf2, cf3])
-    end
-
-    it 'is expected to return custom fields available in project AND type' do
-      expect(subject.available_custom_fields).to eql([cf2])
-    end
-  end
-
   context 'created from work package' do
     subject { described_class.new(work_package: work_package) }
 
-    it 'defines assignable values' do
-      expect(subject.defines_assignable_values?).to be_true
+    it 'has the project set' do
+      expect(subject.project).to eql(project)
+    end
+
+    it 'has the type set' do
+      expect(subject.type).to eql(type)
     end
 
     describe '#assignable_statuses_for' do
@@ -92,9 +79,22 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
           expect(subject.assignable_statuses_for(user)).to eql(status_result)
         end
       end
+    end
 
-      describe '#available_custom_fields' do
-        it_behaves_like 'WorkPackageSchema#available_custom_fields'
+    describe '#available_custom_fields' do
+      let(:cf1) { double }
+      let(:cf2) { double }
+      let(:cf3) { double }
+
+      before do
+        scope_double = double
+        allow(scope_double).to receive(:all).and_return([cf1, cf2])
+        allow(type).to receive(:custom_fields).and_return(scope_double)
+        allow(project).to receive(:all_work_package_custom_fields).and_return([cf2, cf3])
+      end
+
+      it 'is expected to return custom fields available in project AND type' do
+        expect(subject.available_custom_fields).to eql([cf2])
       end
     end
 
@@ -108,24 +108,53 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
     end
 
     describe '#assignable_priorities' do
-      let(:result) { double }
+      let(:active_priority) { FactoryGirl.build(:priority, active: true) }
+      let(:inactive_priority) { FactoryGirl.build(:priority, active: false) }
 
-      it 'calls through to the work package' do
-        expect(work_package).to receive(:assignable_priorities).and_return(result)
-        expect(subject.assignable_priorities).to eql(result)
+      before do
+        active_priority.save!
+        inactive_priority.save!
+      end
+
+      it 'returns only active priorities' do
+        expect(subject.assignable_priorities.size).to be >= 1
+        subject.assignable_priorities.each do |priority|
+          expect(priority.active).to be_truthy
+        end
+      end
+    end
+
+    describe '#assignable_categories' do
+      let(:category) { double('category') }
+
+      before do
+        allow(project).to receive(:categories).and_return([category])
+      end
+
+      it 'returns all categories of the project' do
+        expect(subject.assignable_categories).to match_array([category])
       end
     end
   end
 
   context 'created from project and type' do
+    let(:user) { double }
     subject { described_class.new(project: project, type: type) }
 
-    it 'does not define assignable values' do
-      expect(subject.defines_assignable_values?).to be_false
+    it 'has the project set' do
+      expect(subject.project).to eql(project)
     end
 
-    describe '#available_custom_fields' do
-      it_behaves_like 'WorkPackageSchema#available_custom_fields'
+    it 'has the type set' do
+      expect(subject.type).to eql(type)
+    end
+
+    it 'does not know assignable statuses' do
+      expect(subject.assignable_statuses_for(user)).to eql(nil)
+    end
+
+    it 'does not know assignable versions' do
+      expect(subject.assignable_versions).to eql(nil)
     end
   end
 end
