@@ -91,7 +91,7 @@ module API
           end
 
           def leaf_or_nil?(work_package)
-            work_package.nil? ? true : work_package.children.empty?
+            work_package.leaf? || work_package.nil?
           end
         end
       end
