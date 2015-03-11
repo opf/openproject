@@ -247,12 +247,12 @@ end
 
 Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label |
   field_checked = find_field(label, visible: hidden.nil?)['checked']
-  field_checked.should be_true
+  field_checked.should be_truthy
 end
 
 Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label |
   field_checked = find_field(label, visible: hidden.nil?)['checked']
-  field_checked.should be_false
+  field_checked.should be_falsey
 end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
