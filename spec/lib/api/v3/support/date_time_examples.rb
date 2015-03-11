@@ -40,7 +40,7 @@ shared_examples_for 'has ISO 8601 date only' do
     end.at_least(:once)
 
     subject # we need to resolve the subject for calls to occur
-    expect(called_with_expected).to be_true
+    expect(called_with_expected).to be_truthy
   end
 end
 
@@ -57,6 +57,6 @@ shared_examples_for 'has UTC ISO 8601 date and time' do
     end.at_least(:once)
 
     subject # we need to resolve the subject for calls to occur
-    expect(called_with_expected).to be_true
+    expect(called_with_expected).to be_truthy
   end
 end

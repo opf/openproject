@@ -32,7 +32,7 @@ feature 'Admin menu items' do
   let(:user) { FactoryGirl.create :admin }
 
   before do
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   after do

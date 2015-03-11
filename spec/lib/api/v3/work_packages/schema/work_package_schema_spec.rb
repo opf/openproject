@@ -58,7 +58,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
     subject { described_class.new(work_package: work_package) }
 
     it 'defines assignable values' do
-      expect(subject.defines_assignable_values?).to be_true
+      expect(subject.defines_assignable_values?).to be_truthy
     end
 
     describe '#assignable_statuses_for' do
@@ -121,7 +121,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
     subject { described_class.new(project: project, type: type) }
 
     it 'does not define assignable values' do
-      expect(subject.defines_assignable_values?).to be_false
+      expect(subject.defines_assignable_values?).to be_falsey
     end
 
     describe '#available_custom_fields' do
