@@ -91,11 +91,9 @@ module Redmine
         def custom_field_values
           @custom_field_values ||= available_custom_fields.map do |custom_field|
             existing_cv = custom_values.detect { |v| v.custom_field == custom_field }
-            if existing_cv
-              existing_cv
-            else
-              custom_values.build(customized: self, custom_field: custom_field, value: nil)
-            end
+            existing_cv || custom_values.build(customized: self,
+                                               custom_field: custom_field,
+                                               value: nil)
           end
         end
 
