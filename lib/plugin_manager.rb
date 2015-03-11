@@ -48,6 +48,7 @@ class PluginManager
     _add_plugin_to_gemfile_plugins(plugin)
     _sort_gemfile_plugins
     _delete_empty_lines_from_gemfile_plugins
+    _remove_duplicated_plugins
     _write_to_gemfile_plugins_file
   end
 
@@ -72,6 +73,10 @@ class PluginManager
 
   def _delete_empty_lines_from_gemfile_plugins
     @gemfile_plugins.gsub!(/^$\n/, '')
+  end
+
+  def _remove_duplicated_plugins
+    # todo
   end
 
   def _write_to_gemfile_plugins_file
@@ -206,7 +211,6 @@ class Plugin
   end
 
   def gemfile_plugins_lines_for_dependencies
-    # todo don't add dependencies twice
     result = ''
     dependencies.each do |dependency|
       result << dependency.gemfile_plugins_line
