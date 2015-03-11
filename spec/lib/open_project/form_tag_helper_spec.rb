@@ -93,7 +93,30 @@ describe OpenProject::FormTagHelper, type: :helper do
 
     it 'should output element' do
       expect(output).to be_html_eql(%{
-        <label class="form--label" for="field">Label content</label>
+        <label class="form--label" for="field" title="Label content">Label content</label>
+      })
+    end
+
+    it 'should use the title from the options if given' do
+      label =  helper.styled_label_tag 'field', 'Lautrec', title: 'Carim'
+      expect(label).to be_html_eql(%{
+        <label for="field" class="form--label" title="Carim">Lautrec</label>
+      })
+    end
+
+    it 'should prefer the title given in the options over the content' do
+      label =  helper.styled_label_tag('field', nil, title: 'Carim') { 'Lordvessel' }
+      expect(label).to be_html_eql(%{
+        <label for="field" class="form--label" title="Carim">Lordvessel</label>
+      })
+    end
+
+    it 'should strip any given inline HTML from the title tag' do
+      label =  helper.styled_label_tag('field') do
+        helper.content_tag :span, 'Sif'
+      end
+      expect(label).to be_html_eql(%{
+        <label for="field" class="form--label" title="Sif"><span>Sif</span></label>
       })
     end
   end
