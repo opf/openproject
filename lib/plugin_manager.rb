@@ -47,6 +47,7 @@ class PluginManager
   def _write_plugin_to_gemfile_plugins_file(plugin)
     _add_plugin_to_gemfile_plugins(plugin)
     _sort_gemfile_plugins
+    _delete_empty_lines_from_gemfile_plugins
     _write_to_gemfile_plugins_file
   end
 
@@ -56,9 +57,21 @@ class PluginManager
   end
 
   def _sort_gemfile_plugins
-    # todo we have to take of the order..
-    # e.g. global roles first and
-    # reporting engine before costs/reporting
+    # Unfortunately, the order of the calls is important.
+    # Reporting engine needs to be above openproject-reporting/costs
+    _move_plugin_on_top('reporting_engine')
+    # Global Roles needs to be on top because it changes the permission model.
+    _move_plugin_on_top('openproject-global_roles')
+  end
+
+  def _move_plugin_on_top(plugin_name)
+    @gemfile_plugins = @gemfile_plugins.split("\n").inject('') do |result, line|
+      line.include?(plugin_name) ? line + "\n" + result : result + "\n" + line
+    end
+  end
+
+  def _delete_empty_lines_from_gemfile_plugins
+    @gemfile_plugins.gsub!(/^$\n/, '')
   end
 
   def _write_to_gemfile_plugins_file
