@@ -190,8 +190,12 @@ module OpenProject::Backlogs
              }
     end
 
-    allow_attribute_update(:work_package, :story_points)
-    allow_attribute_update(:work_package, :remaining_hours)
+    allow_attribute_update :work_package, :story_points
+    allow_attribute_update :work_package, :remaining_hours do
+      if !model.leaf? && model.changed.include?('remaining_hours')
+        errors.add :error_readonly, 'remaining_hours'
+      end
+    end
 
     config.to_prepare do
       if WorkPackage.const_defined? "SAFE_ATTRIBUTES"
