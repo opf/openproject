@@ -510,7 +510,7 @@ JJ Abrams</textarea>
                title="Name">
                Name
         </label>
-      }.squish
+      }
     end
 
     describe 'with existing attributes' do
