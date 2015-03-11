@@ -122,10 +122,6 @@ module Redmine
         def reset_custom_values!
           @custom_field_values = nil
           @custom_field_values_changed = true
-          values = custom_values.inject({}) do |hash, custom_value|
-            hash[custom_value.custom_field_id] = custom_value.value
-            hash
-          end
           custom_values.each { |cv| cv.destroy unless custom_field_values.include?(cv) }
         end
 
