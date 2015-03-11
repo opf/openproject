@@ -522,5 +522,15 @@ JJ Abrams</textarea>
         }
       end
     end
+
+    describe 'when using it without ActiveModel' do
+      let(:resource) { OpenStruct.new name: 'Deadpool' }
+
+      it 'should fall back to the method name' do
+        expect(output).to be_html_eql %{
+          <label class="form--label" for="user_name" title="Name">Name</label>
+        }
+      end
+    end
   end
 end

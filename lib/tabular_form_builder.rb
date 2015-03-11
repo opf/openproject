@@ -55,7 +55,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def label(method, text = nil, options = {}, &block)
     options[:class] = Array(options[:class]) + %w(form--label)
-    options[:title] = options[:title] || object.class.human_attribute_name(method)
+    options[:title] = options[:title] || title_from_context(method)
     super
   end
 
@@ -291,5 +291,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def sanitized_object_name
     object_name.to_s.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/_$/, '')
+  end
+
+  def title_from_context(method)
+    if object.class.respond_to? :human_attribute_name
+      object.class.human_attribute_name method
+    else
+      method.to_s.camelize
+    end
   end
 end
