@@ -939,7 +939,7 @@ describe PermittedParams, type: :model do
       end
 
       it 'permitted attributes should not include the key and the rails logger should receive a warning' do
-        expect(PermittedParams.permitted_attributes.keys).to_not include(:unknown_key)
+        expect(PermittedParams.permitted_attributes.keys).not_to include(:unknown_key)
       end
     end
 

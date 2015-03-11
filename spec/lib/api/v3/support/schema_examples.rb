@@ -90,10 +90,10 @@ end
 
 shared_examples_for 'does not link to allowed values' do
   it 'contains no link to the allowed values' do
-    is_expected.to_not have_json_path("#{path}/_links/allowedValues")
+    is_expected.not_to have_json_path("#{path}/_links/allowedValues")
   end
 
   it 'does not embed allowed values' do
-    is_expected.to_not have_json_path("#{path}/_embedded/allowedValues")
+    is_expected.not_to have_json_path("#{path}/_embedded/allowedValues")
   end
 end

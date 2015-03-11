@@ -86,7 +86,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
         end
 
         it 'calls through to the stored work package' do
-          expect(work_package).to_not receive(:new_statuses_allowed_to)
+          expect(work_package).not_to receive(:new_statuses_allowed_to)
           expect(stored_wp).to receive(:new_statuses_allowed_to).with(user)
             .and_return(status_result)
           expect(subject.assignable_statuses_for(user)).to eql(status_result)

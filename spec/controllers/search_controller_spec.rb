@@ -132,8 +132,8 @@ describe SearchController, type: :controller do
           subject { note_2.send :predecessor }
 
           it { is_expected.to eq note_1 }
-          it { expect(note_1.data).to_not be nil }
-          it { expect(subject.data).to_not be nil }
+          it { expect(note_1.data).not_to be nil }
+          it { expect(subject.data).not_to be nil }
         end
 
         before { get :index, q: 'note', issues: 1 }

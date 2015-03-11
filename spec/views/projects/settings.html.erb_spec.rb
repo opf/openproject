@@ -27,7 +27,7 @@ describe 'projects/settings', type: :view do
       end
 
       it 'the copy link should not be visible' do
-        expect(rendered).to_not have_selector 'a.copy'
+        expect(rendered).not_to have_selector 'a.copy'
       end
     end
   end

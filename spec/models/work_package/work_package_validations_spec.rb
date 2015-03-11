@@ -150,7 +150,7 @@ describe WorkPackage, type: :model do
 
     it 'validates, that inexistent ids are erroneous' do
       wp.fixed_version_id = 0
-      expect(wp).to_not be_valid
+      expect(wp).not_to be_valid
     end
 
     describe 'validations of enabled types' do

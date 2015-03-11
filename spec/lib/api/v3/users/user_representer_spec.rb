@@ -79,8 +79,8 @@ describe ::API::V3::Users::UserRepresenter do
 
       context 'when regular current_user' do
         it 'should have no lock-related links' do
-          expect(subject).to_not have_json_path('_links/lock/href')
-          expect(subject).to_not have_json_path('_links/unlock/href')
+          expect(subject).not_to have_json_path('_links/lock/href')
+          expect(subject).not_to have_json_path('_links/unlock/href')
         end
       end
 
@@ -119,7 +119,7 @@ describe ::API::V3::Users::UserRepresenter do
         end
 
         it 'should not link to delete' do
-          expect(subject).to_not have_json_path('_links/delete/href')
+          expect(subject).not_to have_json_path('_links/delete/href')
         end
       end
     end

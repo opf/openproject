@@ -1630,7 +1630,7 @@ describe WorkPackage, type: :model do
       work_package.custom_field_values # #custom_field_values needs to be touched
 
       # that should not be valid
-      expect(work_package).to_not be_valid
+      expect(work_package).not_to be_valid
 
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1

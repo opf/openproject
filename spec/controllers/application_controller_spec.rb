@@ -128,7 +128,7 @@ describe ApplicationController, type: :controller do
       it_behaves_like 'handle_unverified_request resets session'
 
       it 'should not render an error' do
-        expect(@controller).to_not receive(:render_error)
+        expect(@controller).not_to receive(:render_error)
 
         @controller.send :handle_unverified_request
       end

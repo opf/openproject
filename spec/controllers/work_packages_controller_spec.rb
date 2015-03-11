@@ -296,7 +296,7 @@ describe WorkPackagesController, type: :controller do
 
       expect {
         get :index, format: 'csv'
-      }.to_not raise_error
+      }.not_to raise_error
 
       data = CSV.parse(response.body)
 

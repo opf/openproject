@@ -216,7 +216,7 @@ describe MembersController, type: :controller do
     it 'should destroy a member' do
       expect { action }.to change { Member.count }.by(-1)
       expect(response).to redirect_to(settings_project_path(project) + '/members')
-      expect(user).to_not be_member_of(project)
+      expect(user).not_to be_member_of(project)
     end
   end
 
@@ -229,7 +229,7 @@ describe MembersController, type: :controller do
     end
 
     it 'should update the member' do
-      expect { action }.to_not change { Member.count }
+      expect { action }.not_to change { Member.count }
       expect(response).to redirect_to(settings_project_path(project) + '/members')
     end
   end

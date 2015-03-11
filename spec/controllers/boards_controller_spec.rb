@@ -225,7 +225,7 @@ describe BoardsController, type: :controller do
         it 'it should not be displayed as sticky message' do
 
           expect(sticked_message1.sticked_on).to be_nil
-          expect(assigns[:topics][0].id).to_not eq(sticked_message1.id)
+          expect(assigns[:topics][0].id).not_to eq(sticked_message1.id)
         end
       end
 

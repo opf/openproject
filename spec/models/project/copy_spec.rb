@@ -363,7 +363,7 @@ describe Project::Copy, type: :model do
 
         it 'should copy topics without replies' do
           expect(copy.boards.first.topics.count).to eq(project.boards.first.topics.count)
-          expect(copy.boards.first.messages.count).to_not eq(project.boards.first.messages.count)
+          expect(copy.boards.first.messages.count).not_to eq(project.boards.first.messages.count)
         end
       end
     end
