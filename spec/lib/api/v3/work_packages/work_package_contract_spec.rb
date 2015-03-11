@@ -89,7 +89,7 @@ describe ::API::V3::WorkPackages::WorkPackageContract do
         it('is valid') { expect(contract.errors.empty?).to be true }
       end
 
-      context 'it has changed' do
+      context 'has changed' do
         let(:changed_values) { ['estimated_hours'] }
 
         it('is invalid') do
