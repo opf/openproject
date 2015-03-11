@@ -58,7 +58,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     }
     let(:versions) { [] }
 
-    subject { modified_class.new(schema).to_json }
+    subject { modified_class.new(schema, form_embedded: true).to_json }
 
     describe 'basic custom field' do
       it_behaves_like 'has basic schema properties' do
