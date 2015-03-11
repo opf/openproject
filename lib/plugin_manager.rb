@@ -130,10 +130,10 @@ end
 
 class Plugin
   def self._available?(name)
-    _available_plugins[name]
+    available_plugins[name]
   end
 
-  def self._available_plugins
+  def self.available_plugins
     @available_plugins || _load_available_plugins
   end
 
@@ -158,13 +158,13 @@ class Plugin
         exit
       end
       @name = name
-      @url = Plugin._available_plugins[name][:url]
-      @branch = Plugin._available_plugins[name][:branch]
+      @url = Plugin.available_plugins[name][:url]
+      @branch = Plugin.available_plugins[name][:branch]
     end
   end
 
   def _not_needed_by_any_other_than?(plugin)
-    all_other_plugin_names = Plugin._available_plugins.inject([]) do |result, (other_name, _)|
+    all_other_plugin_names = Plugin.available_plugins.inject([]) do |result, (other_name, _)|
       plugin.name == other_name ? result : result << other_name
     end
     all_other_plugins = all_other_plugin_names.inject([]) do |result, name|
@@ -201,7 +201,7 @@ class Plugin
   end
 
   def dependencies
-    available_plugins_names = Plugin._available_plugins[name][:dependencies] || []
+    available_plugins_names = Plugin.available_plugins[name][:dependencies] || []
     result = available_plugins_names.inject([]) { |plugins, name| plugins << Plugin.new(name) }
     # todo we have to solve dependencies of dependencies
     # this is just a workaround to make backlogs work for now
