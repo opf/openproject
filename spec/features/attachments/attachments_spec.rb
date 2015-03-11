@@ -47,7 +47,6 @@ describe 'attachments', type: :feature do
       fill_in 'Subject', with: 'attachment test'
 
       # open attachment fieldset and attach file
-      find('#attachments legend').click()
       attach_file 'attachments[1][file]', file.path
 
       click_button 'Create'
