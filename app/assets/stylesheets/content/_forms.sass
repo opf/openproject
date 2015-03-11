@@ -238,6 +238,11 @@ fieldset.form--fieldset
       @include grid-order(1)
       @include grid-size(shrink)
 
+      // FIXME: this will break anything in regards to flex layouting within the container,
+      // e.g. using form--field-inline-action inside -trailing-label
+    .form--label + span.form--field-container
+      display: block
+
 .form--label
   @include grid-content(2)
   @include label-style
