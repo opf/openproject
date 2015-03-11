@@ -68,6 +68,18 @@ module OpenProject::Plugins
         end
       end
 
+      base.send(:define_method, :patch_with_namespace) do |*args|
+        plugin_name = engine_name
+        base.config.to_prepare do
+          klass_name = args.last
+          plugin_module = plugin_name.sub(/^openproject_/, '').camelcase
+          patch = "OpenProject::#{plugin_module}::Patches::#{klass_name}Patch".constantize
+          qualified_class_name = args.map { |arg| arg.to_s }.join('::')
+          klass = qualified_class_name.to_s.constantize
+          klass.send(:include, patch) unless klass.included_modules.include?(patch)
+        end
+      end
+
       # Define assets provided by the plugin
       base.send(:define_method, :assets) do |assets|
         base.initializer "#{engine_name}.precompile_assets" do |app|
