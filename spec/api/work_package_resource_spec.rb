@@ -42,10 +42,12 @@ describe 'API v3 Work package resource' do
 
   let(:current_user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package,
-                                          project: project,
-                                          story_points: 8,
-                                          remaining_hours: 5) }
+  let(:work_package) {
+    FactoryGirl.create(:work_package,
+                       project: project,
+                       story_points: 8,
+                       remaining_hours: 5)
+  }
   let(:wp_path) { "/api/v3/work_packages/#{work_package.id}" }
 
   before do
@@ -71,8 +73,10 @@ describe 'API v3 Work package resource' do
     end
 
     context 'backlogs deactivated' do
-      let(:project) { FactoryGirl.create(:project,
-                                         enabled_module_names: []) }
+      let(:project) {
+        FactoryGirl.create(:project,
+                           enabled_module_names: [])
+      }
 
       include_context 'query work package'
 
@@ -85,8 +89,8 @@ describe 'API v3 Work package resource' do
   describe '#patch' do
     let(:valid_params) do
       {
-          _type: 'WorkPackage',
-          lockVersion: work_package.lock_version
+        _type: 'WorkPackage',
+        lockVersion: work_package.lock_version
       }
     end
 

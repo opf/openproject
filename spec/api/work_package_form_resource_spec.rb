@@ -65,8 +65,7 @@ describe 'API v3 Work package form resource', type: :request do
 
     shared_examples_for 'having no errors' do
       it {
-        expect(subject.body).to be_json_eql({}.to_json)
-                                    .at_path('_embedded/validationErrors')
+        expect(subject.body).to be_json_eql({}.to_json).at_path('_embedded/validationErrors')
       }
     end
 
@@ -91,8 +90,8 @@ describe 'API v3 Work package form resource', type: :request do
     let(:post_path) { "/api/v3/work_packages/#{work_package.id}/form" }
     let(:valid_params) do
       {
-          _type: 'WorkPackage',
-          lockVersion: work_package.lock_version
+        _type: 'WorkPackage',
+        lockVersion: work_package.lock_version
       }
     end
 
@@ -110,8 +109,8 @@ describe 'API v3 Work package form resource', type: :request do
 
     let(:valid_params) do
       {
-          _type: 'WorkPackage',
-          lockVersion: work_package.lock_version
+        _type: 'WorkPackage',
+        lockVersion: work_package.lock_version
       }
     end
 
@@ -126,8 +125,7 @@ describe 'API v3 Work package form resource', type: :request do
         it_behaves_like 'having no errors'
 
         it 'should respond with updated story points' do
-          expect(subject.body).to be_json_eql(42.to_json)
-                                      .at_path('_embedded/payload/storyPoints')
+          expect(subject.body).to be_json_eql(42.to_json).at_path('_embedded/payload/storyPoints')
         end
       end
 
@@ -152,7 +150,7 @@ describe 'API v3 Work package form resource', type: :request do
 
         it 'should respond with updated story points' do
           expect(subject.body).to be_json_eql('PT2H45M'.to_json)
-                                      .at_path('_embedded/payload/remainingTime')
+            .at_path('_embedded/payload/remainingTime')
         end
       end
 

@@ -40,13 +40,13 @@ describe ::API::V3::WorkPackages::WorkPackageContract do
   let(:current_user) { member }
   let(:permissions) {
     [
-        :view_work_packages,
-        :view_work_package_watchers,
-        :edit_work_packages,
-        :add_work_package_watchers,
-        :delete_work_package_watchers,
-        :manage_work_package_relations,
-        :add_work_package_notes
+      :view_work_packages,
+      :view_work_package_watchers,
+      :edit_work_packages,
+      :add_work_package_watchers,
+      :delete_work_package_watchers,
+      :manage_work_package_relations,
+      :add_work_package_notes
     ]
   }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
