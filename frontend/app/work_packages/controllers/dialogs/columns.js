@@ -34,12 +34,14 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
   $scope.vm = vm = {};
   vm.selectedColumns = [];
   vm.oldSelectedColumns = [];
+  vm.availableColumns = [];
 
   var selectedColumns = QueryService.getSelectedColumns();
 
   // Available selectable Columns
   vm.promise = QueryService.loadAvailableColumns()
     .then(function(availableColumns){
+      vm.availableColumns = availableColumns;
       var availableColumnNames = getColumnNames(availableColumns);
       selectedColumns.forEach(function(column) {
         if (_.contains(availableColumnNames, column.name)) {
