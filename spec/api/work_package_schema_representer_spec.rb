@@ -79,6 +79,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   describe 'remainingTime' do
     subject { representer.to_json }
 
+    before do
+      allow(schema).to receive(:remaining_time_writable?).and_return(true)
+    end
+
     it_behaves_like 'has basic schema properties' do
       let(:path) { 'remainingTime' }
       let(:type) { 'Duration' }
