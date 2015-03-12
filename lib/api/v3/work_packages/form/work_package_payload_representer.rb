@@ -120,10 +120,6 @@ module API
           property :updated_at,
                    getter: -> (*) { nil }, render_nil: false
 
-          def _type
-            'WorkPackage'
-          end
-
           private
 
           def datetime_formatter

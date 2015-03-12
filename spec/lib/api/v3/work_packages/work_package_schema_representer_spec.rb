@@ -50,12 +50,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     subject(:generated) { representer.to_json }
 
     describe '_type' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { '_type' }
-        let(:type) { 'MetaType' }
-        let(:name) { I18n.t('api_v3.attributes._type') }
-        let(:required) { true }
-        let(:writable) { false }
+      it 'is indicated as Schema' do
+        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 

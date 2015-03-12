@@ -767,7 +767,7 @@ contain a default value for that property. Nevertheless the client will also rec
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
 A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
-It is only necessary to include the properties that you want to change, as well as the `_type` and a `lockVersion` if one is present.
+It is only necessary to include the properties that you want to change, as well as the `lockVersion` if one is present.
 However you *may* include all the properties sent in the `payload` section.
 
 ### Schema
@@ -828,10 +828,6 @@ That is because the main purpose of a form is helping the client to sort out val
 
                         "lockVersion": {
                             "type": "Integer",
-                            "writable": false
-                        },
-                        "_type": {
-                            "type": "MetaType",
                             "writable": false
                         },
                         "subject": {
@@ -1608,6 +1604,7 @@ Note that regular expressions used in the API follow the rules of [Ruby Regular 
     + Body
 
             {
+                "_type": "Schema",
                 "_links": {
                     "self": { "href": "/api/v3/example/schema" }
                 },
@@ -1615,11 +1612,6 @@ Note that regular expressions used in the API follow the rules of [Ruby Regular 
                 "lockVersion": {
                     "name": "Resource Version",
                     "type": "Integer",
-                    "writable": false
-                },
-                "_type": {
-                    "name": "Resource Type",
-                    "type": "MetaType",
                     "writable": false
                 },
                 "subject": {
@@ -2767,10 +2759,8 @@ the human readable name of custom fields.*
 When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
 Note that it is only allowed to provide properties or links supporting the **write** operation.
 
-Additionally to the fields the client wants to change, it is mandatory to provide:
-
-* The `_type` which should as of now always be `WorkPackage`
-* The value of `lockVersion` which was received by the `GET` request this change originates from
+Additionally to the fields the client wants to change, it is mandatory to provide the value of `lockVersion` which was received
+by the `GET` request this change originates from.
 
 The value of `lockVersion` is used to implement [optimistic locking](http://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
@@ -2784,7 +2774,6 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 + Request (application/json)
 
         {
-            "_type": "WorkPackage",
             "lockVersion": 13,
             "subject": "Lorem"
             "parentId": "42"

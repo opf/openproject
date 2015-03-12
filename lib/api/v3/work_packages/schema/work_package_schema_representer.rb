@@ -59,11 +59,6 @@ module API
             end
           end
 
-          schema :_type,
-                 type: 'MetaType',
-                 name_source: -> (*) { I18n.t('api_v3.attributes._type') },
-                 writable: false
-
           schema :lock_version,
                  type: 'Integer',
                  name_source: -> (*) { I18n.t('api_v3.attributes.lock_version') },
@@ -193,10 +188,6 @@ module API
 
           def current_user
             context[:current_user]
-          end
-
-          def _type
-            'MetaType'
           end
         end
       end

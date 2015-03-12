@@ -142,6 +142,10 @@ module API
           self.class.represented_class.human_attribute_name(object)
         end
       end
+
+      def _type
+        'Schema'
+      end
     end
   end
 end

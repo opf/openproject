@@ -1667,7 +1667,6 @@ en:
 
   api_v3:
     attributes:
-      _type: "Resource Type"
       lock_version: "Lock Version"
     errors:
       code_401: "You need to be authenticated to access this resource."
