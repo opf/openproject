@@ -490,7 +490,7 @@ h4. things we like
 
           it 'should respond with updated work package type' do
             expect(subject.body).to be_json_eql(target_type.name.to_json)
-                                      .at_path('_embedded/type/name')
+              .at_path('_embedded/type/name')
           end
 
           it_behaves_like 'lock version updated'
