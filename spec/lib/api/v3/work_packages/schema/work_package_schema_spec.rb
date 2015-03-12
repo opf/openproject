@@ -118,7 +118,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
 
     describe 'utility methods' do
       it 'detects leaf' do
-        expect(subject.leaf_or_nil? work_package).to be true
+        expect(subject.nil_or_leaf? work_package).to be true
       end
 
       context 'parent' do
@@ -128,7 +128,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
         end
 
         it 'detects parent' do
-          expect(subject.leaf_or_nil? parent).to be false
+          expect(subject.nil_or_leaf? parent).to be false
         end
       end
 
@@ -161,7 +161,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
 
     describe 'leaf or nil' do
       it 'evaluates nil work package as nil' do
-        expect(subject.leaf_or_nil? nil).to be_true
+        expect(subject.nil_or_leaf? nil).to be_true
       end
     end
   end

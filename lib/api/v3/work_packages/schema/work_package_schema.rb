@@ -83,15 +83,15 @@ module API
                Setting.work_package_done_ratio == 'disabled'
               return false
             end
-            leaf_or_nil?(@work_package)
+            nil_or_leaf?(@work_package)
           end
 
           def estimated_time_writable?
-            leaf_or_nil?(@work_package)
+            nil_or_leaf?(@work_package)
           end
 
-          def leaf_or_nil?(work_package)
-            work_package.leaf? || work_package.nil?
+          def nil_or_leaf?(work_package)
+            work_package.nil? || work_package.leaf?
           end
         end
       end
