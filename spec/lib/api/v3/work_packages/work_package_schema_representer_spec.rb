@@ -132,7 +132,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Duration' }
         let(:name) { I18n.t('attributes.estimated_time') }
         let(:required) { false }
-        let(:writable) { false }
+        let(:writable) { schema.estimated_time_writable? }
       end
     end
 
@@ -152,7 +152,13 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Integer' }
         let(:name) { I18n.t('activerecord.attributes.work_package.done_ratio') }
         let(:required) { true }
-        let(:writable) { false }
+        let(:writable) { schema.percentage_done_writable? }
+      end
+
+      it 'is hidden when disabled' do
+        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
+
+        is_expected.to_not have_json_path('percentageDone')
       end
     end
 

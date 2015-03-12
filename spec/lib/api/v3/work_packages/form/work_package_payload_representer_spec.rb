@@ -62,6 +62,32 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
       end
 
+      describe 'estimated hours' do
+        it { is_expected.to have_json_path('estimatedTime') }
+        it do
+          is_expected.to be_json_eql(work_package.estimated_hours.to_json)
+            .at_path('estimatedTime')
+        end
+
+        context 'not set' do
+          it { is_expected.to have_json_type(NilClass).at_path('estimatedTime') }
+        end
+
+        context 'set' do
+          let(:work_package) { FactoryGirl.build(:work_package, estimated_hours: 0) }
+
+          it { is_expected.to have_json_type(String).at_path('estimatedTime') }
+        end
+      end
+
+      describe 'percentage done' do
+        it { is_expected.to have_json_path('percentageDone') }
+        it { is_expected.to have_json_type(Integer).at_path('percentageDone') }
+        it do
+          is_expected.to be_json_eql(work_package.done_ratio.to_json).at_path('percentageDone')
+        end
+      end
+
       describe 'startDate' do
         it_behaves_like 'has ISO 8601 date only' do
           let(:date) { work_package.start_date }

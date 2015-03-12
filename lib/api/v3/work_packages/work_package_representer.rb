@@ -247,11 +247,11 @@ module API
                  end,
                  writeable: false,
                  if: -> (_) { current_user_allowed_to(:view_time_entries) }
-        property :percentage_done,
+        property :done_ratio,
+                 as: :percentageDone,
                  render_nil: true,
-                 exec_context: :decorator,
-                 setter: -> (value, *) { self.done_ratio = value },
-                 writeable: false
+                 writeable: false,
+                 if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
         property :parent_id, writeable: true
         property :created_at,
                  exec_context: :decorator,
@@ -351,10 +351,6 @@ module API
 
         def visible_children
           @visible_children ||= represented.children.select(&:visible?)
-        end
-
-        def percentage_done
-          represented.done_ratio unless Setting.work_package_done_ratio == 'disabled'
         end
 
         private

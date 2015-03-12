@@ -76,6 +76,26 @@ module API
 
           property :lock_version
           property :subject, render_nil: true
+          property :done_ratio,
+                   as: :percentageDone,
+                   getter: -> (*) { done_ratio if Setting.work_package_done_ratio != 'disabled' },
+                   render_nil: false
+
+          property :estimated_hours,
+                   as: :estimatedTime,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     datetime_formatter.format_duration_from_hours(represented.estimated_hours,
+                                                                   allow_nil: true)
+                   },
+                   setter: -> (value, *) {
+                     represented.estimated_hours = datetime_formatter.parse_duration_to_hours(
+                       value,
+                       'estimated_hours',
+                       allow_nil: true)
+                   },
+                   render_nil: true
+
           property :description,
                    exec_context: :decorator,
                    getter: -> (*) {
