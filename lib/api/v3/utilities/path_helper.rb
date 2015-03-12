@@ -120,6 +120,10 @@ module API
             "#{root}/types"
           end
 
+          def self.types_by_project(project_id)
+            "#{project(project_id)}/types"
+          end
+
           def self.type(id)
             "#{types}/#{id}"
           end

@@ -263,6 +263,14 @@ describe ::API::V3::Utilities::PathHelper do
       it { is_expected.to eql('/api/v3/types') }
     end
 
+    describe '#types_by_project' do
+      subject { helper.types_by_project 12 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to eql('/api/v3/projects/12/types') }
+    end
+
     describe '#type' do
       subject { helper.type 1 }
 

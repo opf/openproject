@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,31 +29,19 @@
 
 module API
   module V3
-    module Projects
-      class ProjectsAPI < Grape::API
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
+    module Types
+      class TypesByProjectAPI < Grape::API
+        resources :types do
+          before do
+            authorize_any [:view_work_packages, :manage_types], projects: @project
           end
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
-
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
-
-            get do
-              ProjectRepresenter.new(@project)
-            end
-
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::ProjectsVersionsAPI
-            mount API::V3::Types::TypesByProjectAPI
+          get do
+            types = @project.types
+            TypeCollectionRepresenter.new(types,
+                                          types.count,
+                                          api_v3_paths.types_by_project(@project.id),
+                                          context: { current_user: current_user })
           end
         end
       end
