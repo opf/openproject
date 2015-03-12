@@ -33,7 +33,7 @@ module API
       class TypesAPI < Grape::API
         resources :types do
           before do
-            authorize_any([:view_work_packages, :manage_types], projects: Project.all)
+            authorize_any([:view_work_packages, :manage_types], global: true)
           end
 
           get do
