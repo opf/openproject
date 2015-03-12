@@ -41,8 +41,8 @@ module API
         @attribute_validations ||= []
       end
 
-      def self.writable_attribute(attribute, &block)
-        writable_attributes << attribute.to_s
+      def self.attribute(*attributes, &block)
+        writable_attributes.concat attributes.map(&:to_s)
         if block
           attribute_validations << block
         end

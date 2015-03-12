@@ -156,7 +156,7 @@ module OpenProject::Plugins
           model_name = model.to_s.camelize
           namespace = model_name.pluralize
           contract_class = "::API::V3::#{namespace}::#{model_name}Contract".constantize
-          contract_class.writable_attribute attribute, &block
+          contract_class.attribute attribute, &block
         end
       end
 

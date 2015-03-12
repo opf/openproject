@@ -31,32 +31,31 @@ module API
   module V3
     module WorkPackages
       class WorkPackageContract < ::API::Contracts::ModelContract
-        writable_attribute :subject
-        writable_attribute :description
-        writable_attribute :start_date
-        writable_attribute :due_date
-        writable_attribute :status_id
-        writable_attribute :priority_id
-        writable_attribute :category_id
-        writable_attribute :fixed_version_id
+        attribute :subject
+        attribute :description
+        attribute :start_date, :due_date
+        attribute :status_id
+        attribute :priority_id
+        attribute :category_id
+        attribute :fixed_version_id
 
-        writable_attribute :lock_version do
+        attribute :lock_version do
           errors.add :error_conflict, '' if model.lock_version.nil? || model.lock_version_changed?
         end
 
-        writable_attribute :parent_id do
+        attribute :parent_id do
           if model.changed.include? 'parent_id'
             errors.add :error_unauthorized, '' unless @can.allowed?(model, :manage_subtasks)
           end
         end
 
-        writable_attribute :assigned_to_id do
+        attribute :assigned_to_id do
           validate_people_visible :assignee,
                                   'assigned_to_id',
                                   model.project.possible_assignee_members
         end
 
-        writable_attribute :responsible_id do
+        attribute :responsible_id do
           validate_people_visible :responsible,
                                   'responsible_id',
                                   model.project.possible_responsible_members
