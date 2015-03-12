@@ -160,7 +160,7 @@ end
 class Plugin
   PLUGINS_YML_PATH = 'plugins.yml'
 
-  def self._available?(name)
+  def self.available?(name)
     available_plugins[name]
   end
 
@@ -179,8 +179,8 @@ class Plugin
   attr_reader :name
 
   def initialize(name)
-    unless Plugin._available?(name)
       puts 'Could not find plugin, abort!'
+    unless Plugin.available?(name)
       exit
     end
     @name = name
