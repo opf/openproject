@@ -76,8 +76,8 @@ module SettingsHelper
 
   def settings_matrix(settings, choices, options = {})
     content_tag(:table, class: 'form--matrix') do
-      build_settings_matrix_head(settings, options) +
-        build_settings_matrix_body(settings, choices)
+      content_tag(:thead, build_settings_matrix_head(settings, options)) +
+        content_tag(:tbody, build_settings_matrix_body(settings, choices))
     end
   end
 
@@ -134,37 +134,31 @@ module SettingsHelper
   end
 
   def build_settings_matrix_head(settings, options = {})
-    content_tag(:thead) do
-      content_tag(:tr, class: 'form--matrix-header-row') do
-        content_tag(:th, I18n.t(options[:label_choices] || :label_choices),
-                    class: 'form--matrix-header-cell') +
-          settings.map do |setting|
-            content_tag(:th, class: 'form--matrix-header-cell') do
-              hidden_field_tag("settings[#{setting}][]", '') +
-                I18n.t("setting_#{setting}")
-            end
-          end.join.html_safe
-      end
+    content_tag(:tr, class: 'form--matrix-header-row') do
+      content_tag(:th, I18n.t(options[:label_choices] || :label_choices),
+                  class: 'form--matrix-header-cell') +
+        settings.map do |setting|
+          content_tag(:th, class: 'form--matrix-header-cell') do
+            hidden_field_tag("settings[#{setting}][]", '') +
+              I18n.t("setting_#{setting}")
+          end
+        end.join.html_safe
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def build_settings_matrix_body(settings, choices)
-    content_tag(:tbody) do
-      choices.map do |choice|
-        text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
-        content_tag(:tr, class: 'form--matrix-row') do
-          content_tag(:td, text, class: 'form--matrix-cell') +
-            settings.map do |setting|
-              content_tag(:td, class: 'form--matrix-checkbox-cell') do
-                styled_check_box_tag("settings[#{setting}][]", value,
-                                     Setting.send(setting).include?(value),
-                                     id: "#{setting}_#{value}")
-              end
-            end.join.html_safe
-        end
-      end.join.html_safe
-    end
+    choices.map do |choice|
+      text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
+      content_tag(:tr, class: 'form--matrix-row') do
+        content_tag(:td, text, class: 'form--matrix-cell') +
+          settings.map do |setting|
+            content_tag(:td, class: 'form--matrix-checkbox-cell') do
+              styled_check_box_tag("settings[#{setting}][]", value,
+                                   Setting.send(setting).include?(value),
+                                   id: "#{setting}_#{value}")
+            end
+          end.join.html_safe
+      end
+    end.join.html_safe
   end
-  # rubocop:enable Metrics/AbcSize
 end
