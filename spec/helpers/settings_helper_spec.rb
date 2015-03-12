@@ -78,14 +78,14 @@ describe SettingsHelper, type: :helper do
     end
   end
 
-  describe '#settings_multiselect' do
+  describe '#settings_matrix' do
     before do
       expect(Setting).to receive(:field_a).at_least(:once).and_return('2')
       expect(Setting).to receive(:field_b).at_least(:once).and_return('3')
     end
 
     subject(:output) {
-      helper.settings_multiselect [:field_a, :field_b], [
+      helper.settings_matrix [:field_a, :field_b], [
         ['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3'], 'Quarkspeise'
       ]
     }

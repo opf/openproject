@@ -74,7 +74,7 @@ module SettingsHelper
       end
   end
 
-  def settings_multiselect(settings, choices, options = {})
+  def settings_matrix(settings, choices, options = {})
     content_tag(:table, class: 'form--matrix') do
       content_tag(:thead) do
         content_tag(:tr, class: 'form--matrix-header-row') do
