@@ -165,7 +165,7 @@ class Plugin
   end
 
   def self.available_plugins
-    @available_plugins || _load_available_plugins
+    @available_plugins ||= _load_available_plugins
   end
 
   def self._load_available_plugins
