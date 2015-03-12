@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe Changeset, :type => :model do
   let(:email) { "bob@bobbit.org" }
-  let(:repo) { FactoryGirl.create(:repository) }
-  let(:changeset) { FactoryGirl.build(:changeset,
-                                      repository: repo,
-                                      revision: '1',
-                                      committer: email,
-                                      comments: "Initial commit") }
 
-  before { allow(Setting).to receive(:enabled_scm).and_return(['Filesystem']) }
+  with_created_filesystem_repository do
+    let(:changeset) { FactoryGirl.build(:changeset,
+                                        repository: repository,
+                                        revision: '1',
+                                        committer: email,
+                                        comments: "Initial commit") }
+  end
 
   shared_examples_for 'valid changeset' do
     it { expect(changeset.revision).to eq('1') }

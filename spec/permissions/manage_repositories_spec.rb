@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,21 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Given(/^the project "(.*?)" has a repository$/) do |project_name|
+require File.expand_path('../../spec_helper', __FILE__)
+require File.expand_path('../../support/permission_specs', __FILE__)
 
-  project = Project.find(project_name)
+describe RepositoriesController, "manage_repository permission", type: :controller do
+  include PermissionSpecs
 
-  repo_path = Rails.root.join 'tmp/filesystem_repository'
-
-  FileUtils.mkdir_p repo_path
-
-  OpenProject::Configuration['scm_filesystem_path_whitelist'] = [repo_path]
-
-  repo = FactoryGirl.build(:repository,
-                           url: repo_path,
-                           project: project)
-
-  Setting.enabled_scm = Setting.enabled_scm << repo.scm_name
-
-  repo.save!
+  check_permission_required_for('repositories#edit', :manage_repository)
 end
