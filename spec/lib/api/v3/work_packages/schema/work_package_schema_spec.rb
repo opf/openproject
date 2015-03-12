@@ -117,8 +117,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
     end
 
     describe 'utility methods' do
-      it 'detects leaf' do
-        expect(subject.nil_or_leaf? work_package).to be true
+      context 'leaf' do
+        let(:work_package) { FactoryGirl.create(:work_package) }
+
+        it 'detects leaf' do
+          expect(subject.nil_or_leaf? work_package).to be true
+        end
       end
 
       context 'parent' do
@@ -161,7 +165,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
 
     describe 'leaf or nil' do
       it 'evaluates nil work package as nil' do
-        expect(subject.nil_or_leaf? nil).to be_true
+        expect(subject.nil_or_leaf? nil).to be true
       end
     end
   end
