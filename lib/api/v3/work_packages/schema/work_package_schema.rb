@@ -63,7 +63,7 @@ module API
           end
 
           def assignable_priorities
-            IssuePriority.where(active: true)
+            IssuePriority.active
           end
 
           def assignable_categories
