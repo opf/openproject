@@ -114,7 +114,7 @@ describe SettingsHelper, type: :helper do
       expect(output).to be_html_eql(%{
         <td class="form--table-checkbox-cell">
           <span class="form--check-box-container">
-            <input class="form--check-box form--check-box" id="field_a_1"
+            <input class="form--check-box" id="field_a_1"
               name="settings[field_a][]" type="checkbox" value="1">
           </span>
         </td>
@@ -123,7 +123,7 @@ describe SettingsHelper, type: :helper do
       expect(output).to be_html_eql(%{
         <td class="form--table-checkbox-cell">
           <span class="form--check-box-container">
-            <input class="form--check-box form--check-box" id="field_a_Quarkspeise"
+            <input class="form--check-box" id="field_a_Quarkspeise"
               name="settings[field_a][]" type="checkbox" value="Quarkspeise">
           </span>
         </td>

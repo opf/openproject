@@ -75,30 +75,35 @@ module SettingsHelper
   end
 
   def settings_multiselect(settings, choices, options = {})
-    ('<table class="form--table">' +
-      '<thead>' +
-        '<tr class="form--table-header-row">' +
-          '<th class="form--table-header-row-cell">' + I18n.t(options[:label_choices] || :label_choices) + '</th>' +
-          settings.map do |setting|
-            '<th class="form--table-header-row-cell">' + hidden_field_tag("settings[#{setting}][]", '') + I18n.t('setting_' + setting.to_s) + '</th>'
-          end.join +
-        '</tr>' +
-      '</thead>' +
-      '<tbody>' +
-        choices.map do |choice|
-          text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
-          '<tr class="form--table-row">' +
-            '<td class="form--table-row-cell">' + h(text) + '</td>' +
+    content_tag(:table, class: 'form--table') do
+      content_tag(:thead) do
+        content_tag(:tr, class: 'form--table-header-row') do
+          content_tag(:th, I18n.t(options[:label_choices] || :label_choices),
+                      class: 'form--table-header-row-cell') +
             settings.map do |setting|
-              '<td class="form--table-checkbox-cell">' +
-                styled_check_box_tag("settings[#{setting}][]", value,
-                                     Setting.send(setting).include?(value),
-                                     id: "#{setting}_#{value}", class: 'form--check-box') + '</td>'
-            end.join +
-          '</tr>'
-        end.join +
-      '</tbody>' +
-    '</table>').html_safe
+              content_tag(:th, class: 'form--table-header-row-cell') do
+                hidden_field_tag("settings[#{setting}][]", '') +
+                  I18n.t("setting_#{setting}")
+              end
+            end.join.html_safe
+        end
+      end +
+        content_tag(:tbody) do
+          choices.map do |choice|
+            text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
+            content_tag(:tr, class: 'form--table-row') do
+              content_tag(:td, text, class: 'form--table-row-cell') +
+                settings.map do |setting|
+                  content_tag(:td, class: 'form--table-checkbox-cell') do
+                    styled_check_box_tag("settings[#{setting}][]", value,
+                                         Setting.send(setting).include?(value),
+                                         id: "#{setting}_#{value}")
+                  end
+                end.join.html_safe
+            end
+          end.join.html_safe
+        end
+    end
   end
 
   def setting_text_field(setting, options = {})
