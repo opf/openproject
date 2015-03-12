@@ -179,19 +179,11 @@ class Plugin
   attr_reader :name
 
   def initialize(name)
-    # This is necessary because we have some strange dependencies in openproject-pdf_export.
-    # When we delete those, we can delete this if.
-    if name == 'pdf-inspector'
-      @name = 'pdf-inspector'
-    else
-      unless Plugin._available?(name)
-        puts 'Could not find plugin, abort!'
-        exit
-      end
-      @name = name
-      @url = Plugin.available_plugins[name][:url]
-      @branch = Plugin.available_plugins[name][:branch]
+    unless Plugin._available?(name)
+      puts 'Could not find plugin, abort!'
+      exit
     end
+    @name = name
   end
 
   def _not_needed_by_any_other_than?(plugin)
@@ -212,13 +204,28 @@ class Plugin
   end
 
   def gemfile_plugins_line
-    # todo this needs to be more general, i.e. with different ref types (commit, tag)
-    # See the comment in Plugin#initialize for the reason of this if.
-    if @name == 'pdf-inspector'
-      "gem \"pdf-inspector\", \"~>1.0.0\"\n"
+    options = Plugin.available_plugins[@name]
+    result = "gem \"#{@name}\", "
+    result << _specs_for_gemfile_plugins_line(options)
+    result << "\n"
+  end
+
+  def _specs_for_gemfile_plugins_line(options)
+    # todo what about tags or commits?
+    # Right now we only support gems from rubygems and from git
+    # If the plugin has a key :url git will be used.
+    # Else a version should be available.
+    if options[:url]
+      url = options[:url]
+      if options[:branch]
+        branch = options[:branch]
+        ref = "branch: \"#{branch}\""
+      end
+      "git: \"#{url}\", #{ref}"
     else
-      "gem \"#{@name}\", git: \"#{@url}\", branch: \"#{@branch}\"\n"
+      options[:version]
     end
+
   end
 
   def gemfile_plugins_lines_for_dependencies
@@ -232,9 +239,6 @@ class Plugin
   def dependencies
     # We might have to solve dependencies of dependencies.
     available_plugins_names = Plugin.available_plugins[name][:dependencies] || []
-    result = available_plugins_names.inject([]) { |plugins, name| plugins << Plugin.new(name) }
-    # This is just a workaround to make backlogs work for now.
-    result << Plugin.new('pdf-inspector') if result.first && result.first.name == 'openproject-pdf_export'
-    result
+    available_plugins_names.inject([]) { |plugins, name| plugins << Plugin.new(name) }
   end
 end

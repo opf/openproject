@@ -13,6 +13,7 @@ openproject-backlogs:
   :branch: stable
   :dependencies:
     - openproject-pdf_export
+    - pdf-inspector # This should actually be a dependency only of pdf_export.
 openproject-costs:
   :url: https://github.com/finnlabs/openproject-costs.git
   :branch: stable
@@ -43,3 +44,5 @@ openproject-reporting:
 openproject-emoji:
   :url: https://github.com/tessi/openproject-emoji.git
   :branch: stable
+pdf-inspector:
+  :version: ~>1.0.0
