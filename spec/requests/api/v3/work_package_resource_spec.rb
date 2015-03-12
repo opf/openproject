@@ -198,7 +198,6 @@ h4. things we like
     end
   end
 
-  # disabled the its below because the implementation was temporarily disabled
   describe '#patch' do
     let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
     let(:valid_params) do
@@ -467,6 +466,71 @@ h4. things we like
                      property: 'status',
                      expected: '/api/v3/statuses/:id',
                      actual: status_link)
+            }
+          end
+        end
+      end
+
+      context 'type' do
+        let(:target_type) { FactoryGirl.create(:type) }
+        let(:type_link) { "/api/v3/types/#{target_type.id}" }
+        let(:type_parameter) { { _links: { type: { href: type_link } } } }
+        let(:params) { valid_params.merge(type_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid type' do
+          before do
+            project.types << target_type
+          end
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with updated work package type' do
+            expect(subject.body).to be_json_eql(target_type.name.to_json)
+                                      .at_path('_embedded/type/name')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+
+        context 'valid type changing custom fields' do
+          let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+
+          before do
+            project.types << target_type
+            project.work_package_custom_fields << custom_field
+            target_type.custom_fields << custom_field
+          end
+
+          include_context 'patch request'
+
+          it 'responds with the new custom field added' do
+            expect(subject.body).to have_json_path("customField#{custom_field.id}")
+          end
+        end
+
+        context 'invalid type' do
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation' do
+            let(:message) { "Type #{I18n.t('activerecord.errors.messages.inclusion')}" }
+          end
+        end
+
+        context 'wrong resource' do
+          let(:type_link) { "/api/v3/users/#{current_user.id}" }
+
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation' do
+            let(:message) {
+              I18n.t('api_v3.errors.invalid_resource',
+                     property: 'type',
+                     expected: '/api/v3/types/:id',
+                     actual: type_link)
             }
           end
         end

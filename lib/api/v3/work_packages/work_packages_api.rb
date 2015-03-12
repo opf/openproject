@@ -108,8 +108,11 @@ module API
                                                             send_notifications)
 
               if write_request_valid? && update_service.save
-                @representer.represented.reload
-                @representer
+                work_package = @representer.represented
+                work_package.reload
+                @representer = WorkPackages::WorkPackageRepresenter.create(
+                  work_package,
+                  current_user: current_user)
               else
                 fail ::API::Errors::ErrorBase.create(@representer.represented.errors.dup)
               end
