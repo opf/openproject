@@ -159,7 +159,9 @@ describe VersionsController, type: :controller do
       it 'returns updated select box with new version' do
         version = Version.find_by_name('test_add_version_from_issue_form')
 
-        select_substring = "select id=\\\"work_package_fixed_version_id\\\" name=\\\"work_package[fixed_version_id]\\\""
+        select_substring = "select class=\\\"form--select\\\"
+          id=\\\"work_package_fixed_version_id\\\"
+          name=\\\"work_package[fixed_version_id]\\\"".squish
         # selected option tag for the new version
         option_substring = "option value=\\\"#{version.id}\\\" selected=\\\"selected\\\""
 

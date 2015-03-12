@@ -96,7 +96,10 @@ class VersionsController < ApplicationController
             # IE doesn't support the replace_html rjs method for select box options
             render(:update) {|page|
               page.replace 'work_package_fixed_version_id',
-                           content_tag('select', '<option></option>'.html_safe + version_options_for_select(@project.shared_versions.open, @version).html_safe, id: 'work_package_fixed_version_id', name: 'work_package[fixed_version_id]')
+                           content_tag('select', '<option></option>'.html_safe + version_options_for_select(@project.shared_versions.open, @version).html_safe,
+                                       id: 'work_package_fixed_version_id',
+                                       name: 'work_package[fixed_version_id]',
+                                       class: 'form--select')
             }
           end
         end
