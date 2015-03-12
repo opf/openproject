@@ -48,14 +48,14 @@ describe 'OpenID Connect' do
   before do
     # The redirect will include an authorisation code.
     # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
-    OpenIDConnect::Client.any_instance.stub(:access_token!) do
+    allow_any_instance_of(OpenIDConnect::Client).to receive(:access_token!) do
       OpenIDConnect::AccessToken.new client: self, access_token: 'foo bar baz'
     end
 
     # Using the granted AccessToken the client then performs another request to the OpenID Connect
     # provider to retrieve user information such as name and email address.
     # Since the test is not supposed to make an actual call it is be stubbed too.
-    OpenIDConnect::AccessToken.any_instance.stub(:userinfo!).and_return(
+    allow_any_instance_of(OpenIDConnect::AccessToken).to receive(:userinfo!).and_return(
       OpenIDConnect::ResponseObject::UserInfo.new(user_info))
 
     # enable storing the access token in a cookie
@@ -64,7 +64,7 @@ describe 'OpenID Connect' do
 
   describe 'sign-up and login' do
     before do
-      Setting.stub(:plugin_openproject_openid_connect).and_return(
+      allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
 
           'providers' => {
             'heroku' => {
@@ -150,7 +150,7 @@ describe 'OpenID Connect' do
     end
 
     it 'should make providers that have been configured through settings available without requiring a restart' do
-      Setting.stub(:plugin_openproject_openid_connect).and_return(
+      allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
 
           'providers' => {
             'google' => {
