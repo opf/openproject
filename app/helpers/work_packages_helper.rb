@@ -308,15 +308,6 @@ module WorkPackagesHelper
     ].flatten.compact
   end
 
-  def work_package_form_top_attributes(form, work_package, locals = {})
-    [
-      work_package_form_type_attribute(form, work_package, locals),
-      work_package_form_subject_attribute(form, work_package, locals),
-      work_package_form_parent_attribute(form, work_package, locals),
-      work_package_form_description_attribute(form, work_package, locals)
-    ].compact
-  end
-
   def work_package_show_attribute_list(work_package)
     main_attributes = work_package_show_main_attributes(work_package)
     custom_field_attributes = work_package_show_custom_fields(work_package)
@@ -448,66 +439,24 @@ module WorkPackagesHelper
     end
   end
 
-  def work_package_form_type_attribute(form, work_package, locals = {})
-    selectable_types = locals[:project].types.map { |t| [((t.is_standard) ? '' : t.name), t.id] }
-
-    field = work_package_form_field do
-      form.select :type_id, selectable_types
-    end
-
-    url = work_package.new_record? ?
-           new_type_project_work_packages_path(locals[:project]) :
-           new_type_work_package_path(work_package)
-
-    field += observe_field :work_package_type_id, url: url,
-                                                  update: :attributes,
-                                                  method: :get,
-                                                  with: "Form.serialize('work_package-form')"
-
-    WorkPackageAttribute.new(:type, field)
+  def work_package_form_type_selectable_types(project)
+    project.types.map { |t| [((t.is_standard) ? '' : t.name), t.id] }
   end
 
-  def work_package_form_subject_attribute(form, _work_package, _locals = {})
-    field = work_package_form_field do
-      form.text_field(:subject, required: true)
+  def work_package_form_type_observable_url(work_package, project)
+    if work_package.new_record?
+      new_type_project_work_packages_path(project)
+    else
+      new_type_work_package_path(work_package)
     end
-
-    WorkPackageAttribute.new :subject, field
   end
 
-  def work_package_form_parent_attribute(form, work_package, locals = {})
-    return unless User.current.allowed_to?(:manage_subtasks, locals[:project])
-
-    parent_field = work_package_form_field do
-      form.text_field :parent_id,
-                      size: 10,
-                      title: l(:description_autocomplete),
-                      class: 'short'
-    end
-
-    parent_field += '<div id="parent_issue_candidates" class="autocomplete"></div>'.html_safe
-
-    autocomplete_path = work_packages_auto_complete_path(id: work_package,
-                                                         project_id: locals[:project],
-                                                         escape: false)
-
-    parent_field += javascript_tag "observeWorkPackageParentField('#{autocomplete_path}')"
-
-    WorkPackageAttribute.new(:parent_issue, parent_field)
+  def user_can_manage_subtasks?(project)
+    User.current.allowed_to?(:manage_subtasks, project)
   end
 
-  def work_package_form_description_attribute(form, work_package, _locals = {})
-    field = work_package_form_field classes: '-vertical' do
-      form.text_area :description,
-                     cols: 60,
-                     rows: (work_package.description.blank? ? 10 : [[10, work_package.description.length / 50].max, 100].min),
-                     accesskey: accesskey(:edit),
-                     class: 'wiki-edit',
-                     :'ng-non-bindable' => '',
-                     :'data-wp_autocomplete_url' => work_packages_auto_complete_path(project_id: work_package.project, format: :json)
-    end
-
-    WorkPackageAttribute.new(:description, field)
+  def work_package_form_parent_autocomplete_path(work_package, project)
+    work_packages_auto_complete_path(id: work_package, project_id: project, escape: false)
   end
 
   def work_package_form_status_attribute(form, work_package, locals = {})
