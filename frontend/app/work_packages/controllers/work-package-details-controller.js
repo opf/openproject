@@ -70,7 +70,6 @@ module.exports = function($scope,
               callback(workPackage);
             }
           });
-
         });
       });
   }

@@ -58,6 +58,9 @@ angular.module('openproject.workPackages.directives')
     'UserService',
     require('./work-package-column-directive')
   ])
+  .directive('workPackageField', ['WorkPackageFieldService',
+    require('./work-package-field-directive')
+  ])
   .constant('PERMITTED_MORE_MENU_ACTIONS', ['log_time', 'duplicate', 'move',
     'delete'
   ])

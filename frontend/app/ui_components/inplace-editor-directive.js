@@ -38,7 +38,7 @@ module.exports = function(
       displayStrategy: '@?inedDisplayStrategy',
       entity: '=inedEntity',
       attribute: '@inedAttribute',
-      attributeTitle: '@inedAttributeTitle',
+      attributeTitle: '@?inedAttributeTitle',
       embedded: '=inedAttributeEmbedded',
       placeholder: '@',
       autocompletePath: '@'

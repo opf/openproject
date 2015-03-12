@@ -37,25 +37,8 @@ angular.module('openproject.workPackages.controllers')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
   .controller('DetailsTabOverviewController', [
     '$scope',
-    'I18n',
     'WorkPackagesOverviewService',
-    'TEXT_TYPE',
-    'STATUS_TYPE',
-    'VERSION_TYPE',
-    'CATEGORY_TYPE',
-    'PRIORITY_TYPE',
-    'USER_TYPE',
-    'TIME_ENTRY_TYPE',
-    'USER_FIELDS',
-    'CustomFieldHelper',
-    'WorkPackagesHelper',
-    'AuthorisationService',
-    'PathHelper',
-    'UserService',
-    'VersionService',
-    'HookService',
-    'OverviewTabInplaceEditorConfig',
-    '$q',
+    'WorkPackageFieldService',
     require('./details-tab-overview-controller')
   ])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)

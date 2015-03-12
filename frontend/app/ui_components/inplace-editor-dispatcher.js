@@ -38,11 +38,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   }
 
   function getAttribute($scope) {
-    if ($scope.embedded) {
-      return $scope.attribute.split('.')[0];
-    } else {
-      return $scope.attribute;
-    }
+    return $scope.attribute;
   }
 
   function getReadAttributeValue($scope) {
@@ -55,8 +51,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
 
   function getAttributeValue($scope, entity, isReadValue) {
     if ($scope.embedded) {
-      var path = $scope.attribute.split('.');
-      return entity.embedded[path[0]] ? entity.embedded[path[0]].props[path[1]] : null;
+      return entity.embedded[$scope.attribute].props.name;
     } else {
       var attribute = entity.props[getAttribute($scope)];
 
@@ -72,8 +67,14 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
     return _.intersection(_.keys(attribute), ['format', 'raw', 'html']).length === 3;
   }
 
+  function isOptionListEmbedded($scope) {
+    return _.isArray($scope
+      .entity.form.embedded.schema
+      .props[getAttribute($scope)]._links.allowedValues);
+  }
+
   function setOptions($scope) {
-    if ($scope.embedded) {
+    if (isOptionListEmbedded($scope)) {
       $scope.$broadcast('focusSelect2');
     } else {
       setLinkedOptions($scope);
@@ -196,14 +197,16 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         data._links[getAttribute($scope)] = { href: $scope.dataObject.value || null };
       },
       setReadValue: function($scope) {
-        if ($scope.attribute == 'version.name') {
+        if ($scope
+            .entity.form.embedded.schema
+            .props[getAttribute($scope)].required === false) {
           $scope.hasEmptyOption = true;
+        }
+        if ($scope.isEditable && isOptionListEmbedded($scope)) {
+          this._setEmbeddedOptions($scope);
         }
         if ($scope.embedded) {
           $scope.readValue = this._getReadAttributeValue($scope);
-          if ($scope.isEditable) {
-            this._setEmbeddedOptions($scope);
-          }
         } else {
           $scope.readValue = $scope.entity.embedded[$scope.attribute];
         }

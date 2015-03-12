@@ -1,4 +1,4 @@
- //-- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -26,35 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $state, $stateParams, QueryService, PathHelper, $rootScope) {
+module.exports = function(WorkPackageFieldService) {
 
-  // Setup
-  $scope.$state = $state;
-  $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
+  function workPackageFieldDirectiveController() {
+    var vm = this;
 
-  if ($stateParams.projectPath.indexOf(PathHelper.staticBase + '/projects') === 0) {
-    $scope.projectIdentifier = $stateParams.projectPath.replace(PathHelper.staticBase + '/projects/', '');
+    vm.isEditable = WorkPackageFieldService.isEditable(vm.workPackage, vm.field);
+    vm.isEmpty = WorkPackageFieldService.isEmpty(vm.workPackage, vm.field);
+    vm.label = WorkPackageFieldService.getLabel(vm.workPackage, vm.field);
+    if (vm.isEditable) {
+      vm.isEmbedded = WorkPackageFieldService.isEmbedded(vm.workPackage, vm.field);
+      vm.inplaceType = WorkPackageFieldService.getInplaceType(vm.workPackage, vm.field);
+      vm.inplaceDisplayStrategy = WorkPackageFieldService.getInplaceDisplayStrategy(vm.workPackage, vm.field);
+
+    } else {
+      vm.value = WorkPackageFieldService.getValue(vm.workPackage, vm.field);
+
+    }
   }
 
-  $scope.query_id = $stateParams.query_id;
-
-  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
-    if (availableQueries) {
-      $scope.groups = [{ name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
-                       { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}];
-    }
-  });
-
-  $scope.isDetailsViewActive = function() {
-    return $state.includes('work-packages.list.details');
+  return {
+    restrict: 'E',
+    replace: true,
+    controllerAs: 'vm',
+    bindToController: true,
+    templateUrl: '/templates/work_packages/field.html',
+    scope: {
+      workPackage: '=',
+      field: '='
+    },
+    controller: workPackageFieldDirectiveController
   };
-
-  $scope.getToggleActionLabel = function(active) {
-    return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
-  };
-
-  $scope.getActivationActionLabel = function(activate) {
-    return (activate) ? I18n.t('js.label_activate') : '';
-  };
-  $rootScope.$broadcast('openproject.layout.activateMenuItem');
 };

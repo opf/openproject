@@ -95,6 +95,7 @@ angular.module('openproject')
       url: "/overview",
       controller: 'DetailsTabOverviewController',
       templateUrl: "/templates/work_packages/tabs/overview.html",
+      controllerAs: 'vm'
     })
     .state('work-packages.list.details.activity', {
       url: "/activity",

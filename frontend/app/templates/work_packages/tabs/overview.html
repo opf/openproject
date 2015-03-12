@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<div ng-repeat="group in groupedAttributes" ng-hide="isGroupEmpty(group) && toggleStates.hideAllAttributes" class="attributes-group">
+<div ng-repeat="group in vm.groupedFields" ng-hide="isGroupEmpty(group.groupName)" class="attributes-group">
 
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
@@ -29,15 +29,22 @@
         ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
     </div>
     <div class="attributes-group--header-toggle">
-      <panel-expander ng-if="anyEmptyWorkPackageValue() && $first"
-        collapsed="toggleStates.hideAllAttributes"
+      <panel-expander ng-if="vm.showToggleButton() && $first"
+        collapsed="vm.hideEmptyFields"
         expand-text="{{ I18n.t('js.label_show_attributes') }}"
         collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
       </panel-expander>
     </div>
   </div>
 
-  <dl class="attributes-key-value">
+  <dl class="attributes-key-value" ng-repeat="field in group.attributes">
+    <dt class="attributes-key-value--key" ng-bind="vm.getLabel(field)"></dt>
+    <dd class="attributes-key-value--value-container">
+      <work-package-field work-package="vm.workPackage" field="field"></work-package-field>
+    </dd>
+  </dl>
+
+  <dl class="attributes-key-value" ng-if="false">
     <dt ng-repeat-start="propertyData in group.attributes"
         ng-show="!(isPropertyEmpty(propertyData.value) && toggleStates.hideAllAttributes)"
         ng-bind="propertyData.label"
