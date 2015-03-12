@@ -59,6 +59,9 @@ module OpenProject
         block_given? && content_or_options.is_a?(Hash) ? content_or_options : (options ||= {}),
         'form--label'
       )
+      if block_given?
+        options[:title] = options[:title] || strip_tags(capture(&block))
+      end
       label_tag(name, content_or_options, options, &block)
     end
 

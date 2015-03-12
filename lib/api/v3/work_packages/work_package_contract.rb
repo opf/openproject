@@ -61,6 +61,25 @@ module API
                                   model.project.possible_responsible_members
         end
 
+        attribute :done_ratio do
+          if model.changed.include?('done_ratio')
+            # TODO Allow multiple errors as soon as they have separate messages
+            if !model.leaf?
+              errors.add :error_readonly, 'done_ratio'
+            elsif Setting.work_package_done_ratio == 'status'
+              errors.add :error_readonly, 'done_ratio'
+            elsif Setting.work_package_done_ratio == 'disabled'
+              errors.add :error_readonly, 'done_ratio'
+            end
+          end
+        end
+
+        attribute :estimated_hours do
+          if !model.leaf? && model.changed.include?('estimated_hours')
+            errors.add :error_readonly, 'estimated_hours'
+          end
+        end
+
         def initialize(object, user)
           super(object)
 

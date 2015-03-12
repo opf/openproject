@@ -81,19 +81,31 @@ module API
                  type: 'Date',
                  required: false
 
-          schema :estimated_time,
-                 type: 'Duration',
-                 required: false,
-                 writable: false
+          property :estimated_time,
+                   exec_context: :decorator,
+                   getter: -> (*) do
+                     representer = ::API::Decorators::PropertySchemaRepresenter
+                                   .new(type: 'Duration',
+                                        name: WorkPackage.human_attribute_name(:estimated_time))
+                     representer.writable = represented.estimated_time_writable?
+                     representer.required = false
+                     representer
+                   end
 
           schema :spent_time,
                  type: 'Duration',
                  writable: false
 
-          schema :percentage_done,
-                 type: 'Integer',
-                 name_source: :done_ratio,
-                 writable: false
+          property :percentage_done,
+                   exec_context: :decorator,
+                   getter: -> (*) do
+                     representer = ::API::Decorators::PropertySchemaRepresenter
+                                   .new(type: 'Integer',
+                                        name: WorkPackage.human_attribute_name(:done_ratio))
+                     representer.writable = represented.percentage_done_writable?
+                     representer
+                   end,
+                   if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
 
           schema :created_at,
                  type: 'DateTime',

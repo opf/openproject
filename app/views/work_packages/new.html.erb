@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
                               :url => project_work_packages_path(project),
                               :html => { :multipart => true,
                                          :id => 'work_package-form',
-                                         :class => 'new-work_package-form form -bordered' } do |f| %>
+                                         :class => 'new-work_package-form form' } do |f| %>
 
   <%= error_messages_for :object => work_package %>
 

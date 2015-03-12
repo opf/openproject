@@ -77,6 +77,22 @@ module API
           def available_custom_fields
             @project.all_work_package_custom_fields & @type.custom_fields.all
           end
+
+          def percentage_done_writable?
+            if Setting.work_package_done_ratio == 'status' ||
+               Setting.work_package_done_ratio == 'disabled'
+              return false
+            end
+            nil_or_leaf?(@work_package)
+          end
+
+          def estimated_time_writable?
+            nil_or_leaf?(@work_package)
+          end
+
+          def nil_or_leaf?(work_package)
+            work_package.nil? || work_package.leaf?
+          end
         end
       end
     end

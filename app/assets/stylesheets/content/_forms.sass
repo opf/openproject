@@ -44,6 +44,7 @@ $form--field-types: (text-field, text-area, select, check-box, range-field, sear
   vertical-align: middle
   text-overflow: ellipsis
   overflow: hidden
+  white-space:  nowrap
 
 // A general CSS class to be applied to forms using the above defined form style.
 // We can't define this on form itself as this would break a lot of existing forms.
@@ -237,6 +238,11 @@ fieldset.form--fieldset
     .form--field-container
       @include grid-order(1)
       @include grid-size(shrink)
+
+      // FIXME: this will break anything in regards to flex layouting within the container,
+      // e.g. using form--field-inline-action inside -trailing-label
+    .form--label + span.form--field-container
+      display: block
 
 .form--label
   @include grid-content(2)
