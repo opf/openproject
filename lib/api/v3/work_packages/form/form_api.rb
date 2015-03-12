@@ -36,11 +36,11 @@ module API
               write_work_package_attributes
               write_request_valid?
 
-              error = ::API::Errors::ErrorBase.create(@representer.represented.errors)
+              error = ::API::Errors::ErrorBase.create(@work_package.errors)
 
               if error.is_a? ::API::Errors::Validation
                 status 200
-                FormRepresenter.new(@representer.represented, current_user: current_user)
+                FormRepresenter.new(@work_package, current_user: current_user)
               else
                 fail error
               end
