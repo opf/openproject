@@ -59,7 +59,7 @@ module API
           end
 
           def assignable_versions
-            @work_package.assignable_versions unless @work_package.nil?
+            @work_package.try(:assignable_versions)
           end
 
           def assignable_priorities
