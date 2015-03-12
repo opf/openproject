@@ -38,6 +38,11 @@ module API
             helpers do
               attr_reader :work_package
 
+              def work_package_representer
+                WorkPackages::WorkPackageRepresenter.create(@work_package,
+                                                            current_user: current_user)
+              end
+
               def write_work_package_attributes
                 if request_body
                   begin
@@ -67,10 +72,10 @@ module API
               end
 
               def write_request_valid?
-                contract = WorkPackageContract.new(@representer.represented, current_user)
+                contract = WorkPackageContract.new(@work_package, current_user)
 
                 contract_valid = contract.validate
-                represented_valid = @representer.represented.valid?
+                represented_valid = @work_package.valid?
 
                 return true if contract_valid && represented_valid
 
@@ -78,7 +83,7 @@ module API
                 # order to have them available at one place.
                 contract.errors.keys.each do |key|
                   contract.errors[key].each do |message|
-                    @representer.represented.errors.add(key, message)
+                    @work_package.errors.add(key, message)
                   end
                 end
 
@@ -88,14 +93,12 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              @representer = WorkPackages::WorkPackageRepresenter.create(work_package,
-                                                                         current_user: current_user)
             end
 
             get do
               authorize({ controller: :work_packages_api, action: :get },
                         context: @work_package.project)
-              @representer
+              work_package_representer
             end
 
             patch do
@@ -103,18 +106,16 @@ module API
 
               send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
               update_service = UpdateWorkPackageService.new(current_user,
-                                                            @representer.represented,
+                                                            @work_package,
                                                             nil,
                                                             send_notifications)
 
               if write_request_valid? && update_service.save
-                work_package = @representer.represented
-                work_package.reload
-                @representer = WorkPackages::WorkPackageRepresenter.create(
-                  work_package,
-                  current_user: current_user)
+                @work_package.reload
+
+                work_package_representer
               else
-                fail ::API::Errors::ErrorBase.create(@representer.represented.errors.dup)
+                fail ::API::Errors::ErrorBase.create(@work_package.errors.dup)
               end
             end
 
