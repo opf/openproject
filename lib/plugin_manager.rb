@@ -49,6 +49,7 @@ class PluginManager
     _sort_gemfile_plugins
     _delete_empty_lines_from_gemfile_plugins
     _remove_duplicated_lines_from_gemfile_plugins
+    _check_for_duplicated_plugins
     _write_to_gemfile_plugins_file
   end
 
@@ -78,6 +79,16 @@ class PluginManager
   def _remove_duplicated_lines_from_gemfile_plugins
     gemfile_plugins_lines = @gemfile_plugins.split("\n")
     @gemfile_plugins = gemfile_plugins_lines.uniq.join("\n")
+  end
+
+  def _check_for_duplicated_plugins
+    Plugin.available_plugins.each do |plugin_name, _|
+      occurences = @gemfile_plugins.scan(/#{plugin_name}.*/).count
+      if occurences > 1
+        puts "#{plugin_name} occurs more than once in your Gemfile.plugins, abort!"
+        exit
+      end
+    end
   end
 
   def _write_to_gemfile_plugins_file
