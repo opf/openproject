@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if work_package.new_record? %>
   <hr class="form--separator -invisible">
 
-  <%= render :partial => 'attachments/nested_form' %>
+  <%= render :partial => 'attachments/nested_form', locals: { open: true } %>
 <% end %>
 
 <%= call_hook(:view_work_packages_form_details_bottom, { :issue => work_package, :form => f }) %>

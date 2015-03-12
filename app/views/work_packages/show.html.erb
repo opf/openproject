@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial: 'show_attributes', locals: { work_package: work_package } %>
 
   <% if work_package.description? %>
-    <hr />
+    <hr>
     <div class="description work_package_part">
       <div class="contextual">
         <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
@@ -62,6 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= format_text work_package, :description, :attachments => work_package.attachments %>
       </div>
     </div>
+    <hr>
   <% end %>
 
   <% if work_package.attachments.any? -%>
@@ -69,7 +70,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end -%>
 
   <%= call_hook(:view_work_packages_show_description_bottom, :issue => work_package) %>
-
 
   <%= render :partial => 'subwork_packages_paragraph', :locals => { :work_package => work_package,
                                                                     :ancestors => ancestors,
