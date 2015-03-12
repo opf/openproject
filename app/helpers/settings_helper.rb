@@ -148,6 +148,7 @@ module SettingsHelper
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def build_settings_matrix_body(settings, choices)
     content_tag(:tbody) do
       choices.map do |choice|
@@ -165,4 +166,5 @@ module SettingsHelper
       end.join.html_safe
     end
   end
+  # rubocop:enable Metrics/AbcSize
 end
