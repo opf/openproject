@@ -82,6 +82,9 @@ module API
           end
 
           def available_custom_fields
+            # we might have received a (currently) invalid work package
+            return [] if @project.nil? || @type.nil?
+
             @project.all_work_package_custom_fields & @type.custom_fields.all
           end
         end

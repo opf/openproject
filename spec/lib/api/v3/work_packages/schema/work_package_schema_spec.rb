@@ -108,6 +108,20 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
 
       describe '#available_custom_fields' do
         it_behaves_like 'WorkPackageSchema#available_custom_fields'
+
+        context 'type missing' do
+          let(:type) { nil }
+          it 'returns an empty list' do
+            expect(subject.available_custom_fields).to eql([])
+          end
+        end
+
+        context 'project missing' do
+          let(:project) { nil }
+          it 'returns an empty list' do
+            expect(subject.available_custom_fields).to eql([])
+          end
+        end
       end
     end
 
