@@ -93,41 +93,41 @@ describe SettingsHelper, type: :helper do
     it_behaves_like 'not wrapped in container'
 
     it 'is structured as a table' do
-      expect(output).to have_selector 'table.form--table'
+      expect(output).to have_selector 'table.form--matrix'
     end
 
     it 'has table headers' do
-      expect(output).to have_selector 'thead th.form--table-header-row-cell', count: 3
+      expect(output).to have_selector 'thead th.form--matrix-header-cell', count: 3
     end
 
     it 'has three table rows' do
-      expect(output).to have_selector 'tbody > tr.form--table-row', count: 4
+      expect(output).to have_selector 'tbody > tr.form--matrix-row', count: 4
     end
 
     it 'has cells with text labels' do
       expect(output).to be_html_eql(%{
-        <td class="form--table-row-cell">Popsickle</td>
+        <td class="form--matrix-cell">Popsickle</td>
       }).at_path('tr:first-child > td:first-child')
     end
 
     it 'has cells with styled checkboxes' do
       expect(output).to be_html_eql(%{
-        <td class="form--table-checkbox-cell">
+        <td class="form--matrix-checkbox-cell">
           <span class="form--check-box-container">
             <input class="form--check-box" id="field_a_1"
               name="settings[field_a][]" type="checkbox" value="1">
           </span>
         </td>
-      }).at_path('tr.form--table-row:first-child > td:nth-of-type(2)')
+      }).at_path('tr.form--matrix-row:first-child > td:nth-of-type(2)')
 
       expect(output).to be_html_eql(%{
-        <td class="form--table-checkbox-cell">
+        <td class="form--matrix-checkbox-cell">
           <span class="form--check-box-container">
             <input class="form--check-box" id="field_a_Quarkspeise"
               name="settings[field_a][]" type="checkbox" value="Quarkspeise">
           </span>
         </td>
-      }).at_path('tr.form--table-row:last-child > td:nth-of-type(2)')
+      }).at_path('tr.form--matrix-row:last-child > td:nth-of-type(2)')
     end
 
     it 'has the correct fields checked' do

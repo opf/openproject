@@ -881,49 +881,49 @@ _with no classes applied (uses default Foundation form styling)_
 </select>
 ```
 
-# Forms: Tables
+# Forms: Checkbox Matrices
 
 ```
-<table class="form--table">
+<table class="form--matrix">
   <thead>
-    <tr class="form--table-header-row">
-      <th class="form--table-header-row-cell">Attribute name</th>
-      <th class="form--table-header-row-cell">User access</th>
-      <th class="form--table-header-row-cell">Admin access</th>
+    <tr class="form--matrix-header-row">
+      <th class="form--matrix-header-cell">Attribute name</th>
+      <th class="form--matrix-header-cell">User access</th>
+      <th class="form--matrix-header-cell">Admin access</th>
     </tr>
   </thead>
   <tbody>
-    <tr class="form--table-row">
-      <td class="form--table-row-cell">
+    <tr class="form--matrix-row">
+      <td class="form--matrix-cell">
         Project
       </td>
-      <td class="form--table-checkbox-cell">
-        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="attributes_project" name="settings[attributes][]" type="checkbox" value="project"></span>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="attributes_project" name="settings[attributes][]" type="checkbox" value="project"></span>
       </td>
-      <td class="form--table-checkbox-cell">
-        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="admin_attributes_project" name="settings[admin_attributes][]" type="checkbox" value="project"></span>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="admin_attributes_project" name="settings[admin_attributes][]" type="checkbox" value="project"></span>
       </td>
     </tr>
-    <tr class="form--table-row">
-      <td class="form--table-row-cell">
+    <tr class="form--matrix-row">
+      <td class="form--matrix-cell">
         Type
       </td>
-      <td class="form--table-checkbox-cell">
-        <span class="form--check-box-container"><input checked="checked" class="form--check-box form--check-box" id="attributes_type" name="settings[attributes][]" type="checkbox" value="type"></span>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input checked="checked" class="form--check-box" id="attributes_type" name="settings[attributes][]" type="checkbox" value="type"></span>
       </td>
-      <td class="form--table-checkbox-cell">
-        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="admin_attributes_type" name="settings[admin_attributes][]" type="checkbox" value="type"></span>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="admin_attributes_type" name="settings[admin_attributes][]" type="checkbox" value="type"></span>
       </td>
     </tr>
-    <tr class="form--table-row">
-      <td class="form--table-row-cell">
+    <tr class="form--matrix-row">
+      <td class="form--matrix-cell">
         Parent
       </td>
-      <td class="form--table-checkbox-cell">
-        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="attributes_parent" name="settings[attributes][]" type="checkbox" value="parent"></span>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="attributes_parent" name="settings[attributes][]" type="checkbox" value="parent"></span>
       </td>
-      <td class="form--table-checkbox-cell">
-        <span class="form--check-box-container"><input class="form--check-box form--check-box" id="admin_attributes_parent" name="settings[admin_attributes][]" type="checkbox" value="parent"></span>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="admin_attributes_parent" name="settings[admin_attributes][]" type="checkbox" value="parent"></span>
       </td>
     </tr>
   </tbody>
