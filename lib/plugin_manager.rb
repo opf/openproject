@@ -179,8 +179,8 @@ class Plugin
   attr_reader :name
 
   def initialize(name)
-      puts 'Could not find plugin, abort!'
     unless Plugin.available?(name)
+      puts "Could not find plugin #{name}, abort!"
       exit
     end
     @name = name
