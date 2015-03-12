@@ -59,7 +59,7 @@ module API
             # other changes to it (e.g. type, assignee, etc.)
             if @work_package.persisted? && @work_package.status_id_changed?
               status_origin = @work_package.clone
-              status_origin.status = WorkPackage.find(@work_package.id).status
+              status_origin.status = Status.find_by_id(@work_package.status_id_was)
             end
 
             status_origin.new_statuses_allowed_to(user)

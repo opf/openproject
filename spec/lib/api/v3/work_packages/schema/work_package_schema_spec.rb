@@ -88,19 +88,19 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
           double('cloned work package',
                  new_statuses_allowed_to: status_result)
         }
-        let(:stored_wp) {
-          double('cloned work package',
-                 status: double('good status'))
+        let(:stored_status) {
+          double('good status')
         }
 
         before do
           allow(work_package).to receive(:persisted?).and_return(true)
           allow(work_package).to receive(:status_id_changed?).and_return(true)
-          allow(WorkPackage).to receive(:find).with(work_package.id).and_return(stored_wp)
+          allow(Status).to receive(:find_by_id)
+            .with(work_package.status_id_was).and_return(stored_status)
         end
 
         it 'calls through to the cloned work package' do
-          expect(cloned_wp).to receive(:status=).with(stored_wp.status)
+          expect(cloned_wp).to receive(:status=).with(stored_status)
           expect(cloned_wp).to receive(:new_statuses_allowed_to).with(user)
           expect(subject.assignable_statuses_for(user)).to eql(status_result)
         end
