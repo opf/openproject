@@ -196,13 +196,12 @@ class Plugin
   end
 
   def included_in?(str)
-    # todo check for commented gems?
     str.include?(@name)
   end
 
   def gemfile_plugins_line
     # todo this needs to be more general, i.e. with different ref types (commit, tag)
-    # See the comment in Plugin#initialize for the if.
+    # See the comment in Plugin#initialize for the reason of this if.
     if @name == 'pdf-inspector'
       "gem \"pdf-inspector\", \"~>1.0.0\"\n"
     else
@@ -219,10 +218,10 @@ class Plugin
   end
 
   def dependencies
+    # We might have to solve dependencies of dependencies.
     available_plugins_names = Plugin.available_plugins[name][:dependencies] || []
     result = available_plugins_names.inject([]) { |plugins, name| plugins << Plugin.new(name) }
-    # todo we have to solve dependencies of dependencies
-    # this is just a workaround to make backlogs work for now
+    # This is just a workaround to make backlogs work for now.
     result << Plugin.new('pdf-inspector') if result.first && result.first.name == 'openproject-pdf_export'
     result
   end
