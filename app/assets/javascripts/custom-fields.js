@@ -120,15 +120,10 @@
   $(function() {
     var localeSelectors = $('.locale_selector');
 
-    localeSelectors.each(function (_, element) {
-      var select = $(element);
-      select.children('option:selected').each(function(_, option) {
-        var span = $(option).parents('span.translation');
-        if (typeof span.attr('lang') === 'string') {
-          span.removeAttr('lang');
-        }
-        span.attr('lang', option.value);
-      });
+    localeSelectors.change(function () {
+      var lang = $(this).val(),
+          span = $(this).closest('.translation');
+      span.attr('lang', lang);
     }).trigger('change');
   });
 }(jQuery));
