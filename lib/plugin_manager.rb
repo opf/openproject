@@ -48,7 +48,7 @@ class PluginManager
     _add_plugin_to_gemfile_plugins(plugin)
     _sort_gemfile_plugins
     _delete_empty_lines_from_gemfile_plugins
-    _remove_duplicated_plugins
+    _remove_duplicated_lines_from_gemfile_plugins
     _write_to_gemfile_plugins_file
   end
 
@@ -75,8 +75,9 @@ class PluginManager
     @gemfile_plugins.gsub!(/^$\n/, '')
   end
 
-  def _remove_duplicated_plugins
-    # todo
+  def _remove_duplicated_lines_from_gemfile_plugins
+    gemfile_plugins_lines = @gemfile_plugins.split("\n")
+    @gemfile_plugins = gemfile_plugins_lines.uniq.join("\n")
   end
 
   def _write_to_gemfile_plugins_file
