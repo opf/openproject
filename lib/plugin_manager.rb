@@ -15,7 +15,7 @@ class PluginManager
   def add(name)
     plugin = Plugin.new(name)
     if plugin.included_in?(@gemfile_plugins)
-      puts 'Plugin already installed, abort'
+      puts 'Plugin #{name} already installed, abort'
       exit
     end
     _write_plugin_to_gemfile_plugins_file(plugin)
@@ -32,7 +32,7 @@ class PluginManager
   def remove(name)
     plugin = Plugin.new(name)
     unless plugin.included_in?(@gemfile_plugins)
-      puts 'Plugin not installed, abort!'
+      puts 'Plugin #{name} not installed, abort!'
       exit
     end
     _revert_migrations(plugin)
