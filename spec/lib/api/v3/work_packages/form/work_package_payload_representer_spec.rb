@@ -76,7 +76,7 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         context 'set' do
           let(:work_package) { FactoryGirl.build(:work_package, estimated_hours: 0) }
 
-          it { is_expected.to have_json_type(Duration).at_path('estimatedTime') }
+          it { is_expected.to have_json_type(String).at_path('estimatedTime') }
         end
       end
 
