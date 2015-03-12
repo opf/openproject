@@ -54,6 +54,10 @@ namespace :ci do
           'adapter'  => 'mysql2',
           'username' => 'root'
         },
+        'mariadb-10.0' => {
+          'adapter'  => 'mysql2',
+          'username' => 'root'
+        },
         'postgres' => {
           'adapter'  => 'postgresql',
           'username' => 'postgres'
