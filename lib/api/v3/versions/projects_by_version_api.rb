@@ -30,19 +30,19 @@
 module API
   module V3
     module Versions
-      class ProjectsVersionsAPI < Grape::API
-        resources :versions do
+      class ProjectsByVersionAPI < Grape::API
+        resources :projects do
           before do
-            @versions = @project.shared_versions.all
+            @projects = @version.projects.visible(current_user).all
 
-            authorize_any [:view_work_packages, :manage_versions], projects: @project
+            # Authorization for accessing the version is done in the versions
+            # endpoint into which this endpoint is embedded.
           end
 
           get do
-            VersionCollectionRepresenter.new(@versions,
-                                             @versions.count,
-                                             api_v3_paths.versions(@project.id),
-                                             context: { current_user: current_user })
+            Projects::ProjectCollectionRepresenter.new(@projects,
+                                                       @projects.count,
+                                                       api_v3_paths.versions_projects(@version.id))
           end
         end
       end

@@ -59,7 +59,7 @@ module API
               VersionRepresenter.new(@version, context)
             end
 
-            mount API::V3::Versions::VersionsProjectsAPI
+            mount API::V3::Versions::ProjectsByVersionAPI
           end
         end
       end
