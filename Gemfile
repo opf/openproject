@@ -102,6 +102,7 @@ gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
 gem 'sass',             '~> 3.4.12'
 gem 'autoprefixer-rails'
+gem 'execjs',           '~> 1.3'
 gem 'bourbon',          '~> 4.2.0'
 gem 'uglifier',         '>= 1.0.3', require: false
 gem 'livingstyleguide', '~> 1.2.2'

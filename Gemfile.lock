@@ -477,6 +477,7 @@ DEPENDENCIES
   date_validator (~> 0.7.1)
   delayed_job_active_record (= 0.3.3)
   equivalent-xml (~> 0.5.1)
+  execjs (~> 1.3)
   factory_girl_rails (~> 4.5)
   faker
   fog (~> 1.23.0)
