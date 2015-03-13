@@ -69,6 +69,7 @@ gulp.task('fonts', function() {
 gulp.task('sass', function() {
   return gulp.src('../app/assets/stylesheets/default.css.sass')
     .pipe(sass({
+      'sourcemap=none': true,
       bundleExec: true,
       loadPath: [
         './bower_components/foundation-apps/scss',
