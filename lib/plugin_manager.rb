@@ -145,7 +145,10 @@ class PluginManager
 
   def _dependencies_only_required_by(plugin)
     dependencies = plugin.dependencies
-    dependencies.reject { |dependency| dependency._needed_by_any_other_than?(plugin) }
+    result = dependencies.reject { |dependency| dependency._needed_by_any_other_than?(plugin) }
+    # Do not remove plugins that could have been there before
+    # the installation of the plugin.
+    result.select { |dependency| dependency.dependent_from(plugin) }
   end
 
   def _line_contains_no_plugin?(line, plugins)
@@ -199,6 +202,10 @@ class Plugin
       result.concat other_plugin.dependencies
     end
     all_dependencies_from_other_plugins.any? { |dependency| dependency.name == name }
+  end
+
+  def dependent_from(plugin)
+    dependencies.any? { |dependency| dependency.name == plugin.name }
   end
 
   def included_in?(str)

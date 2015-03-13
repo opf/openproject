@@ -97,12 +97,15 @@ describe PluginManager do
       let(:dependency_to_delete) { 'dependency_to_delete' }
       let(:shared_dependency) { 'shared_dependency' }
       let(:other_plugin) { 'other_plugin' }
+      let(:independent_plugin) { 'independent_plugin' }
       let(:plugin_specs) {
         {
           plugin_to_delete => {
             url: '',
             branch: '',
-            dependencies: [dependency_to_delete, shared_dependency]
+            dependencies: [dependency_to_delete,
+                           shared_dependency,
+                           other_plugin]
           },
           dependency_to_delete => {
             url: '',
@@ -117,11 +120,17 @@ describe PluginManager do
             url: '',
             branch: '',
             dependencies: [shared_dependency]
+          },
+          independent_plugin => {
+            url: '',
+            branch: '',
+            dependencies: [shared_dependency]
           }
         }
       }
       let(:gemfile_plugins) {
-        "#{plugin_to_delete}\n#{dependency_to_delete}\n#{shared_dependency}\n#{other_plugin}"
+        "#{plugin_to_delete}\n#{dependency_to_delete}\n#{shared_dependency}\
+        \n#{other_plugin}\n#{independent_plugin}"
       }
 
       before do
@@ -140,6 +149,10 @@ describe PluginManager do
       end
 
       it 'does not remove independent plugins' do
+        expect(gemfile_plugins_new).to include(independent_plugin)
+      end
+
+      it 'does not remove plugins that could have been installed before' do
         expect(gemfile_plugins_new).to include(other_plugin)
       end
 
