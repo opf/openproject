@@ -13,30 +13,36 @@ describe PluginManager do
     end
 
     context 'with a plugin that is already installed' do
+      let(:plugin) { 'test' }
       before do
-        plugin_manager.instance_variable_set(:@gemfile_plugins, 'test')
+        plugin_manager.instance_variable_set(:@gemfile_plugins, plugin)
       end
 
       it 'exits' do
-        expect{plugin_manager.add('test')}.to raise_error SystemExit
+        expect{plugin_manager.add(plugin)}.to raise_error SystemExit
       end
     end
 
     context 'with a plugin that is not already installed' do
-      subject(:count_of_test) {
-        plugin_manager.instance_variable_get(:@gemfile_plugins).scan(/test.*/).count
+      let(:count_of_plugin) {
+        plugin_manager.instance_variable_get(:@gemfile_plugins).scan(/#{plugin_to_add}.*/).count
       }
+      let(:gemfile_plugins) { plugin_manager.instance_variable_get(:@gemfile_plugins) }
+      let(:plugin_to_add) { 'test' }
+      let(:url) { 'test-url' }
+      let(:branch) { 'test-branch' }
+      let(:dependency) { 'dependency' }
       let(:plugin_specs) {
         {
-          'test' => {
-            url: 'test-url',
-            branch: 'test-branch',
-            dependencies: ['dependency']
+          plugin_to_add => {
+            url: url,
+            branch: branch,
+            dependencies: [dependency]
           },
-          'dependency' => {
-            url: 'dependency-url',
-            branch: 'dependency-branch',
-            dependencies: ['test']
+          dependency => {
+            url: '',
+            branch: '',
+            dependencies: [plugin_to_add]
           }
         }
       }
@@ -48,12 +54,25 @@ describe PluginManager do
         allow(plugin_manager).to receive(:_migrate)
         allow(plugin_manager).to receive(:_assets_webpack)
         allow(plugin_manager).to receive(:_write_to_gemfile_plugins_file)
+        plugin_manager.add(plugin_to_add)
+      end
+
+      it 'adds the dependencies of the plugin' do
+        expect(gemfile_plugins).to include(dependency)
       end
 
       it 'does not add a plugin twice' do
-        plugin_manager.add('test')
-        expect(count_of_test).to eql(1)
+        expect(count_of_plugin).to eql(1)
       end
+
+      it 'contains the url of the plugin' do
+        expect(gemfile_plugins).to include(url)
+      end
+
+      it 'contains the url of the plugin' do
+        expect(gemfile_plugins).to include(branch)
+      end
+
     end
   end
 
@@ -139,7 +158,8 @@ end
 
 describe Plugin do
   describe '.available?' do
-    subject { described_class.available?('test') }
+    subject { described_class.available?(plugin) }
+    let(:plugin) { 'test' }
 
     context 'with a non-existent plugin' do
       it 'returns false' do
@@ -150,7 +170,7 @@ describe Plugin do
 
     context 'with an existent plugin' do
       it 'returns true' do
-        allow(described_class).to receive(:available_plugins).and_return({'test' => :test})
+        allow(described_class).to receive(:available_plugins).and_return({plugin => :test})
         is_expected.to be_truthy
       end
     end
@@ -158,6 +178,8 @@ describe Plugin do
 
   describe '.available_plugins'do
     context 'with nullified instance variable' do
+      let(:test_string) { 'test-string' }
+
       before(:each) do
         described_class.instance_variable_set(:@available_plugins, nil)
       end
@@ -168,9 +190,9 @@ describe Plugin do
       end
 
       it 'sets the instance variable to the correct value' do
-        allow(YAML).to receive(:load_file).and_return('test-string')
+        allow(YAML).to receive(:load_file).and_return(test_string)
         described_class.available_plugins
-        expect(described_class.instance_variable_get(:@available_plugins)).to eql('test-string')
+        expect(described_class.instance_variable_get(:@available_plugins)).to eql(test_string)
       end
     end
   end
@@ -187,14 +209,15 @@ describe Plugin do
     end
 
     context 'with an available plugin' do
-      subject {described_class.new('test').name}
+      subject {described_class.new(plugin).name}
+      let(:plugin) { 'test' }
 
       before do
         allow(described_class).to receive(:available?).and_return(true)
       end
 
       it 'saves the name' do
-        is_expected.to eql('test')
+        is_expected.to eql(plugin)
       end
     end
   end
@@ -226,7 +249,8 @@ describe Plugin do
 
   describe '#gemfile_plugins_line' do
     subject { plugin.gemfile_plugins_line }
-    let(:plugin) { described_class.new('test') }
+    let(:plugin) { described_class.new(plugin_name) }
+    let(:plugin_name) { 'test' }
 
     before do
       allow(described_class).to receive(:available?).and_return(true)
@@ -238,7 +262,7 @@ describe Plugin do
       let(:branch) { 'test-branch' }
       let(:plugin_specs) {
         {
-          'test' =>
+          plugin_name =>
           {
             url: url,
             branch: branch
@@ -247,7 +271,7 @@ describe Plugin do
       }
 
       it 'contains the name of the plugin' do
-        is_expected.to include("gem \"test\"")
+        is_expected.to include("gem \"#{plugin_name}\"")
       end
 
       it 'contains the url identifier' do
@@ -259,9 +283,9 @@ describe Plugin do
       end
     end
 
-    context 'with a plugin with url and branch key' do
+    context 'with a plugin with version key' do
       let(:version) { 'test-version' }
-      let(:plugin_specs) { { 'test' => { version: version } } }
+      let(:plugin_specs) { { plugin_name => { version: version } } }
 
       it 'contains the version' do
         is_expected.to include(version)
@@ -296,15 +320,20 @@ describe Plugin do
       end
     end
 
+    it 'contains the version of the plugin' do
+      is_expected.to include(version)
+    end
+
   end
 
   describe '#dependencies' do
     subject { plugin.dependencies.map(&:name) }
     let(:plugin) { described_class.new('test') }
+    let(:dependencies) { ['dep1', 'dep2'] }
     let(:available_plugins) {
       {
         'test' => {
-          dependencies: ['dep1', 'dep2']
+          dependencies: dependencies
         }
       }
     }
@@ -315,7 +344,7 @@ describe Plugin do
     end
 
     it 'contains the correct dependencies' do
-      is_expected.to eql(['dep1', 'dep2'])
+      is_expected.to eql(dependencies)
     end
   end
 end
