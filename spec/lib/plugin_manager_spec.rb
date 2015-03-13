@@ -19,7 +19,7 @@ describe PluginManager do
       end
 
       it 'exits' do
-        expect{plugin_manager.add(plugin)}.to raise_error SystemExit
+        expect { plugin_manager.add(plugin) }.to raise_error SystemExit
       end
     end
 
@@ -72,7 +72,6 @@ describe PluginManager do
       it 'contains the url of the plugin' do
         expect(gemfile_plugins).to include(branch)
       end
-
     end
   end
 
@@ -85,7 +84,7 @@ describe PluginManager do
       end
 
       it 'exits' do
-        expect{plugin_manager.remove('test')}.to raise_error SystemExit
+        expect { plugin_manager.remove('test') }.to raise_error SystemExit
       end
     end
 
@@ -146,7 +145,6 @@ describe PluginManager do
 
       it 'removes dependencies that are only required by this plugin' do
         expect(gemfile_plugins_new).not_to include(dependency_to_delete)
-
       end
 
       it 'removes the plugin' do
@@ -170,7 +168,7 @@ describe Plugin do
 
     context 'with an existent plugin' do
       it 'returns true' do
-        allow(described_class).to receive(:available_plugins).and_return({plugin => :test})
+        allow(described_class).to receive(:available_plugins).and_return(plugin => :test)
         is_expected.to be_truthy
       end
     end
@@ -204,12 +202,12 @@ describe Plugin do
       end
 
       it 'exits' do
-        expect{described_class.new('test')}.to raise_error SystemExit
+        expect { described_class.new('test') }.to raise_error SystemExit
       end
     end
 
     context 'with an available plugin' do
-      subject {described_class.new(plugin).name}
+      subject { described_class.new(plugin).name }
       let(:plugin) { 'test' }
 
       before do
@@ -294,7 +292,7 @@ describe Plugin do
   end
 
   describe '#gemfile_plugins_lines_for_dependencies' do
-    subject {plugin.gemfile_plugins_lines_for_dependencies}
+    subject { plugin.gemfile_plugins_lines_for_dependencies }
     let(:plugin) { described_class.new('test') }
     let(:dep1) { described_class.new('dep1') }
     let(:dep2) { described_class.new('dep2') }
@@ -323,7 +321,6 @@ describe Plugin do
     it 'contains the version of the plugin' do
       is_expected.to include(version)
     end
-
   end
 
   describe '#dependencies' do

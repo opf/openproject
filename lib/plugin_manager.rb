@@ -108,7 +108,9 @@ class PluginManager
   end
 
   def _revert_migrations(plugin)
-    migration_path = OpenProject::Application.config.paths['db/migrate'].select { |path| path.include?(plugin.name) }
+    migration_path = OpenProject::Application.config.paths['db/migrate'].select {
+      |path| path.include?(plugin.name)
+    }
     ActiveRecord::Migrator.migrate migration_path, 0
   end
 
@@ -223,7 +225,6 @@ class Plugin
     else
       options[:version]
     end
-
   end
 
   def gemfile_plugins_lines_for_dependencies
