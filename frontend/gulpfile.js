@@ -35,6 +35,7 @@ var sass = require('gulp-ruby-sass');
 var watch = require('gulp-watch');
 var autoprefixer = require('gulp-autoprefixer');
 var livingstyleguide = require('gulp-livingstyleguide');
+var gulpFilter = require('gulp-filter');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -92,10 +93,17 @@ gulp.task('styleguide', function () {
     './bower_components/bourbon/app/assets/stylesheets'
   ].join(':');
 
+  var cssFilter = gulpFilter('**/*.css');
+
   gulp.src('../app/assets/stylesheets/styleguide.html.lsg')
-      .pipe(livingstyleguide({template: 'app/assets/styleguide.jade'}))
-      .pipe(gulp.dest('public/assets/css'));
-});
+    .pipe(livingstyleguide({template: 'app/assets/styleguide.jade'}))
+    .pipe(cssFilter)
+    .pipe(autoprefixer({
+      cascade: false
+    }))
+    .pipe(cssFilter.restore())
+    .pipe(gulp.dest('public/assets/css'));
+  });
 
 gulp.task('express', function(done) {
   var expressApp = require('./server');
