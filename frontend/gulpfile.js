@@ -134,7 +134,7 @@ gulp.task('dev', ['default', 'watch']);
 gulp.task('watch', function() {
   gulp.watch('app/**/*.js', ['webpack']);
   gulp.watch('config/locales/js-*.yml', ['webpack']);
-  gulp.watch('public/templates/**/*.html', ['webpack']);
+  gulp.watch('app/templates/**/*.html', ['webpack']);
 
   gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass', 'styleguide']);
   gulp.watch('../app/assets/stylesheets/**/*.md',   ['styleguide']);

@@ -260,7 +260,7 @@ require('./timelines');
 require('./ui_components');
 require('./work_packages');
 
-var requireTemplate = require.context('../public/templates', true, /\.html$/);
+var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);
 
 require('angular-busy/angular-busy.html');
