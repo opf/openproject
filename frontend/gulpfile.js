@@ -33,6 +33,7 @@ var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var sass = require('gulp-ruby-sass');
 var watch = require('gulp-watch');
+var autoprefixer = require('gulp-autoprefixer');
 var livingstyleguide = require('gulp-livingstyleguide');
 
 var protractor = require('gulp-protractor').protractor,
@@ -73,6 +74,9 @@ gulp.task('sass', function() {
         './bower_components/foundation-apps/scss',
         './bower_components/bourbon/app/assets/stylesheets'
       ]
+    }))
+    .pipe(autoprefixer({
+      cascade: false
     }))
     .on('error', function(err) {
       console.log(err.message);
