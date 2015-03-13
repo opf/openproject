@@ -58,11 +58,16 @@ class RepositoriesController < ApplicationController
       @repository.attributes = params[:repository]
       @repository.save
     end
-    render(:update) do |page|
-      page.replace_html "tab-content-repository", :partial => 'projects/settings/repository'
-      if @repository && !@project.repository
-        @project.reload #needed to reload association
-        page.replace_html "main-menu", render_main_menu(@project)
+
+    menu_reload_required = if @repository.persisted? && !@project.repository
+                             @project.reload # needed to reload association
+                           end
+
+    respond_to do |format|
+      format.js do
+        render template: '/projects/settings/repository',
+               locals: { project: @project,
+                         reload_menu: menu_reload_required }
       end
     end
   end

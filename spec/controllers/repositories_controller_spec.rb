@@ -43,7 +43,7 @@ describe RepositoriesController, :type => :controller do
   let(:repository) do
     allow(Setting).to receive(:enabled_scm).and_return(['Filesystem'])
     repo = FactoryGirl.build_stubbed(:repository,
-                                     :project => project)
+                                     project: project)
     allow(repo).to receive(:default_branch).and_return('master')
     allow(repo).to receive(:branches).and_return(['master'])
 
@@ -56,7 +56,7 @@ describe RepositoriesController, :type => :controller do
   end
 
   describe '#edit' do
-    let(:role) { FactoryGirl.create(:role, :permissions => [:manage_repository]) }
+    let(:role) { FactoryGirl.create(:role, permissions: [:manage_repository]) }
 
     before do
       # authorization checked in spec/permissions/manage_repositories_spec.rb
