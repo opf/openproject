@@ -213,7 +213,6 @@ class Plugin
   end
 
   def _specs_for_gemfile_plugins_line(options)
-    # todo what about tags or commits?
     # Right now we only support gems from rubygems and from git
     # If the plugin has a key :url git will be used.
     # Else a version should be available.
@@ -222,6 +221,12 @@ class Plugin
       if options[:branch]
         branch = options[:branch]
         ref = "branch: \"#{branch}\""
+      elsif options[:tag]
+        tag = options[:tag]
+        "tag: \"#{tag}\""
+      elsif options[:commit]
+        commit = options[:commit]
+        "commit: \"#{commit}\""
       end
       "git: \"#{url}\", #{ref}"
     else
