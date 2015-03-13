@@ -138,20 +138,20 @@ class PluginManager
     gemfile_plugins_new = ''
     plugins = [plugin].concat _dependencies_only_required_by(plugin)
     @gemfile_plugins.each_line do |line|
-      gemfile_plugins_new << line if _line_contains_no_plugin?(line, plugins)
+      gemfile_plugins_new << line if line_contains_no_plugin?(line, plugins)
     end
     @gemfile_plugins = gemfile_plugins_new
   end
 
   def _dependencies_only_required_by(plugin)
     dependencies = plugin.dependencies
-    result = dependencies.reject { |dependency| dependency._needed_by_any_other_than?(plugin) }
+    result = dependencies.reject { |dependency| dependency.needed_by_any_other_than?(plugin) }
     # Do not remove plugins that could have been there before
     # the installation of the plugin.
     result.select { |dependency| dependency.dependent_from(plugin) }
   end
 
-  def _line_contains_no_plugin?(line, plugins)
+  def line_contains_no_plugin?(line, plugins)
     result = true
     plugins.each do |plugin|
       result = false if plugin.included_in?(line)
@@ -193,7 +193,7 @@ class Plugin
     @name = name
   end
 
-  def _needed_by_any_other_than?(plugin)
+  def needed_by_any_other_than?(plugin)
     all_other_plugin_names = Plugin.available_plugins.inject([]) do |result, (other_name, _)|
       plugin.name == other_name ? result : result << other_name
     end
