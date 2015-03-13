@@ -85,7 +85,7 @@ gulp.task('styleguide', function () {
     '../app/assets/stylesheets',
     './bower_components/foundation-apps/scss',
     './bower_components/bourbon/app/assets/stylesheets'
-  ].join(':')
+  ].join(':');
 
   gulp.src('../app/assets/stylesheets/styleguide.html.lsg')
       .pipe(livingstyleguide())
