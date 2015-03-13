@@ -129,7 +129,7 @@ gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express']
     });
 });
 
-gulp.task('default', ['webpack', 'sass', 'express']);
+gulp.task('default', ['webpack', 'fonts', 'styleguide', 'sass', 'express']);
 gulp.task('dev', ['default', 'watch']);
 gulp.task('watch', function() {
   gulp.watch('app/**/*.js', ['webpack']);
