@@ -190,9 +190,7 @@ class Plugin
     all_other_plugin_names = Plugin.available_plugins.inject([]) do |result, (other_name, _)|
       plugin.name == other_name ? result : result << other_name
     end
-    all_other_plugins = all_other_plugin_names.inject([]) do |result, name|
-      result << Plugin.new(name)
-    end
+    all_other_plugins = _names_to_plugins(all_other_plugin_names)
     all_dependencies_from_other_plugins = all_other_plugins.inject([]) do |result, other_plugin|
       result.concat other_plugin.dependencies
     end
@@ -238,7 +236,11 @@ class Plugin
 
   def dependencies
     # We might have to solve dependencies of dependencies.
-    available_plugins_names = Plugin.available_plugins[name][:dependencies] || []
-    available_plugins_names.inject([]) { |plugins, name| plugins << Plugin.new(name) }
+    names_of_dependencies = Plugin.available_plugins[name][:dependencies] || []
+    _names_to_plugins(names_of_dependencies)
+  end
+
+  def _names_to_plugins(names)
+    names.inject([]) { |plugins, name| plugins << Plugin.new(name) }
   end
 end
