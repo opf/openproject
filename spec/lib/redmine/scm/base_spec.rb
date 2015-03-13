@@ -27,33 +27,43 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
-  module Scm
-    class Base
-      class << self
+require 'spec_helper'
 
-        def all
-          @scms
-        end
+describe Redmine::Scm::Base do
+  describe '.configured' do
+    subject { described_class.configured }
 
-        def configured
-          @scms.select do |scm_name|
-            klass = Repository.const_get(scm_name)
+    let(:test_scm_class) do
+      Class.new
+    end
 
-            klass.configured?
-          end
-        end
+    before do
+      Repository.const_set('TestScm', test_scm_class)
+      Redmine::Scm::Base.add 'TestScm'
+    end
 
-        # Add a new SCM adapter and repository
-        def add(scm_name)
-          @scms ||= []
-          @scms << scm_name
-        end
+    after do
+      Repository.send(:remove_const, :TestScm)
+      Redmine::Scm::Base.delete 'TestScm'
+    end
 
-        # Remove a SCM adapter from Redmine's list of supported scms
-        def delete(scm_name)
-          @scms.delete(scm_name)
-        end
+    context 'scm is configured' do
+      before do
+        allow(test_scm_class).to receive(:configured?).and_return(true)
+      end
+
+      it 'is included' do
+        is_expected.to include('TestScm')
+      end
+    end
+
+    context 'scm is not configured' do
+      before do
+        allow(test_scm_class).to receive(:configured?).and_return(false)
+      end
+
+      it 'is included' do
+        is_expected.to_not include('TestScm')
       end
     end
   end

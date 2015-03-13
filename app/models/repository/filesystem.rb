@@ -51,6 +51,10 @@ class Repository::Filesystem < Repository
     'Filesystem'
   end
 
+  def self.configured?
+    !whitelisted_paths.empty?
+  end
+
   def supports_all_revisions?
     false
   end
@@ -64,6 +68,10 @@ class Repository::Filesystem < Repository
   end
 
   private
+
+  def self.whitelisted_paths
+    OpenProject::Configuration['scm_filesystem_path_whitelist']
+  end
 
   # validates that the url is a directory
   def validate_url_is_dir
@@ -83,7 +91,7 @@ class Repository::Filesystem < Repository
       return
     end
 
-    globbed_whitelisted = Dir.glob(OpenProject::Configuration["scm_filesystem_path_whitelist"])
+    globbed_whitelisted = Dir.glob(self.class.whitelisted_paths)
 
     unless globbed_whitelisted.include?(globbed_url)
       errors.add :url, :not_whitelisted

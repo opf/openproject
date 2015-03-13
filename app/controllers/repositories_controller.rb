@@ -98,9 +98,14 @@ class RepositoriesController < ApplicationController
     @entries = @repository.entries(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
     if request.xhr?
-      @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
+      if @entries && @repository.valid?
+        render(partial: 'dir_list_content')
+      else
+        render(nothing: true)
+      end
+    elsif @entries.nil? && @repository.invalid?
+      show_error_not_found
     else
-      (show_error_not_found; return) unless @entries
       @changesets = @repository.latest_changesets(@path, @rev)
       @properties = @repository.properties(@path, @rev)
       render :action => 'show'

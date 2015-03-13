@@ -35,12 +35,42 @@ describe Repository::Filesystem, type: :model do
 
   let(:instance) { described_class.new }
 
-  describe '#valid?' do
-    def mock_dirs_exist(input, output)
-      allow(Dir).to receive(:glob).with(input).and_return(output)
-      allow(Dir).to receive(:exists?).with(input).and_return(true)
+  def mock_dirs_exist(input, output)
+    allow(Dir).to receive(:glob).with(input).and_return(output)
+    allow(Dir).to receive(:exists?).with(input).and_return(true)
+  end
+
+  describe '.configured?' do
+    subject { described_class.configured? }
+
+    context 'configuration contains directories' do
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:[])
+          .with('scm_filesystem_path_whitelist')
+          .and_return(['/dir'])
+      end
+
+      it 'is true' do
+        is_expected.to be_truthy
+      end
     end
 
+    context 'configuration does not contain directories' do
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:[])
+          .with('scm_filesystem_path_whitelist')
+          .and_return([])
+      end
+
+      it 'is false' do
+        is_expected.to be_falsey
+      end
+    end
+  end
+
+  describe '#valid?' do
     let(:desired_url) { 'something' }
     let(:whitelisted_urls) { 'another_thing' }
 
