@@ -29,7 +29,7 @@
 var fs = require('fs');
 var globSync = require('glob').sync;
 var bodyParser = require('body-parser');
-var mocks = globSync('./test/integration/mocks/**/*.js', {
+var mocks = globSync('./tests/integration/mocks/**/*.js', {
   cwd: __dirname
 }).map(require);
 
