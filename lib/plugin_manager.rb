@@ -60,6 +60,8 @@ class PluginManager
 
   def _sort_gemfile_plugins
     # Unfortunately, the order of the calls is important.
+    # OpenProject-Costs needs to be above OpenProject-Reporting.
+    _move_plugin_on_top('openproject-costs')
     # Reporting engine needs to be above openproject-reporting/costs
     _move_plugin_on_top('reporting_engine')
     # Global Roles needs to be on top because it changes the permission model.
