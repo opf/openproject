@@ -96,6 +96,14 @@ module API
             nil_or_leaf?(@work_package)
           end
 
+          def start_date_writable?
+            nil_or_leaf?(@work_package)
+          end
+
+          def due_date_writable?
+            nil_or_leaf?(@work_package)
+          end
+
           def nil_or_leaf?(work_package)
             work_package.nil? || work_package.leaf?
           end

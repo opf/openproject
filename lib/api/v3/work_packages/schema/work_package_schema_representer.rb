@@ -76,13 +76,27 @@ module API
           schema :description,
                  type: 'Formattable'
 
-          schema :start_date,
-                 type: 'Date',
-                 required: false
+          property :start_date,
+                   exec_context: :decorator,
+                   getter: -> (*) do
+                     representer = ::API::Decorators::PropertySchemaRepresenter
+                                   .new(type: 'Date',
+                                        name: WorkPackage.human_attribute_name(:start_date))
+                     representer.writable = represented.due_date_writable?
+                     representer.required = false
+                     representer
+                   end
 
-          schema :due_date,
-                 type: 'Date',
-                 required: false
+          property :due_date,
+                   exec_context: :decorator,
+                   getter: -> (*) do
+                     representer = ::API::Decorators::PropertySchemaRepresenter
+                                   .new(type: 'Date',
+                                        name: WorkPackage.human_attribute_name(:due_date))
+                     representer.writable = represented.due_date_writable?
+                     representer.required = false
+                     representer
+                   end
 
           property :estimated_time,
                    exec_context: :decorator,
