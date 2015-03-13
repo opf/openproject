@@ -58,7 +58,7 @@ describe ::API::V3::WorkPackages::WorkPackageContract do
     allow(work_package).to receive(:changed).and_return(changed_values)
   end
 
-  describe 'estimated hours' do
+  shared_examples 'a parent unwritable property' do |attribute|
     context 'is no parent' do
       before do
         contract.validate
@@ -69,7 +69,7 @@ describe ::API::V3::WorkPackages::WorkPackageContract do
       end
 
       context 'has changed' do
-        let(:changed_values) { ['estimated_hours'] }
+        let(:changed_values) { [attribute] }
 
         it('is valid') { expect(contract.errors.empty?).to be true }
       end
@@ -90,13 +90,25 @@ describe ::API::V3::WorkPackages::WorkPackageContract do
       end
 
       context 'has changed' do
-        let(:changed_values) { ['estimated_hours'] }
+        let(:changed_values) { [attribute] }
 
         it('is invalid') do
           expect(contract.errors[:error_readonly]).to match_array(changed_values)
         end
       end
     end
+  end
+
+  describe 'estimated hours' do
+    it_behaves_like 'a parent unwritable property', 'estimated_hours'
+  end
+
+  describe 'start date' do
+    it_behaves_like 'a parent unwritable property', 'start_date'
+  end
+
+  describe 'due date' do
+    it_behaves_like 'a parent unwritable property', 'due_date'
   end
 
   describe 'percentage done' do
