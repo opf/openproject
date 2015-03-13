@@ -3,6 +3,7 @@
 /coverage
 /node_modules
 /npm-debug.log
-/public/styleguide.*
+/public/**/*
+!/public/templates
 /tests/unit/reports
 /tmp

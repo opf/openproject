@@ -45,7 +45,8 @@ var paths = {
   scripts: [
     'app/**/*.js',
     '!app/vendor/**/*.js'
-  ]
+  ],
+  fonts: '../app/assets/fonts/**/*'
 };
 
 gulp.task('lint', function() {
@@ -58,6 +59,10 @@ gulp.task('webpack', function() {
   return gulp.src('app/openproject-app.js')
     .pipe(gulpWebpack(config))
     .pipe(gulp.dest('../app/assets/javascripts/bundles'));
+});
+
+gulp.task('fonts', function() {
+  return gulp.src(paths.fonts).pipe(gulp.dest('./public'));
 });
 
 gulp.task('sass', function() {
