@@ -1692,5 +1692,7 @@ en:
           "The chosen user is not allowed to be '%{property}' for this work package."
         estimated_hours: "Estimated hours cannot be set on parent work packages."
         done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        start_date: "Start date cannot be set on parent work packages."
+        due_date: "Due date cannot be set on parent work packages."
     resources:
       schema: 'Schema'

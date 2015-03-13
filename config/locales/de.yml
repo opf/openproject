@@ -1702,5 +1702,7 @@ de:
           "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
         estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden."
         done_ratio: "Der Fortschritt kann nicht gesetzt werden falls es sich um ein Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn er komplett deaktiviert wurde."
+        start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
+        due_date: "Das Enddatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
     resources:
       schema: 'Schema'
