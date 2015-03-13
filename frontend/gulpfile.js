@@ -88,7 +88,7 @@ gulp.task('styleguide', function () {
 });
 
 gulp.task('express', function(done) {
-  var expressApp = require('./tests/integration/server');
+  var expressApp = require('./server');
   var port = process.env.PORT || 8080;
 
   (function startServer(port) {
