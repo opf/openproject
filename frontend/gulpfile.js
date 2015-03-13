@@ -136,5 +136,6 @@ gulp.task('watch', function() {
   gulp.watch('config/locales/js-*.yml', ['webpack']);
   gulp.watch('public/templates/**/*.html', ['webpack']);
 
-  gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass']);
+  gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass', 'styleguide']);
+  gulp.watch('../app/assets/stylesheets/**/*.md',   ['styleguide']);
 });
