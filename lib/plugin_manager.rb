@@ -141,7 +141,7 @@ class PluginManager
 
   def _dependencies_only_required_by(plugin)
     dependencies = plugin.dependencies
-    dependencies.select { |dependency| dependency._not_needed_by_any_other_than?(plugin) }
+    dependencies.reject { |dependency| dependency._needed_by_any_other_than?(plugin) }
   end
 
   def _line_contains_no_plugin?(line, plugins)
@@ -186,7 +186,7 @@ class Plugin
     @name = name
   end
 
-  def _not_needed_by_any_other_than?(plugin)
+  def _needed_by_any_other_than?(plugin)
     all_other_plugin_names = Plugin.available_plugins.inject([]) do |result, (other_name, _)|
       plugin.name == other_name ? result : result << other_name
     end
