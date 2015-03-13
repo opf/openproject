@@ -223,7 +223,7 @@ class Plugin
       end
       "git: \"#{url}\", #{ref}"
     else
-      options[:version]
+      "\"#{options[:version]}\""
     end
   end
 
