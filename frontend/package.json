@@ -9,6 +9,7 @@
     "express": "^4.9.7",
     "glob": "^4.0.6",
     "gulp": "^3.8.9",
+    "gulp-autoprefixer": "^2.1.0",
     "gulp-jshint": "^1.8.5",
     "gulp-livingstyleguide": "~0.1.4",
     "gulp-protractor": "0.0.11",
