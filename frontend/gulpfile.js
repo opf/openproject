@@ -62,7 +62,7 @@ gulp.task('webpack', function() {
 });
 
 gulp.task('fonts', function() {
-  return gulp.src(paths.fonts).pipe(gulp.dest('./public'));
+  return gulp.src(paths.fonts).pipe(gulp.dest('./public/assets/css'));
 });
 
 gulp.task('sass', function() {
@@ -77,7 +77,7 @@ gulp.task('sass', function() {
     .on('error', function(err) {
       console.log(err.message);
     })
-    .pipe(gulp.dest('tmp/stylesheets'));
+    .pipe(gulp.dest('public/assets/css'));
 });
 
 gulp.task('styleguide', function () {
@@ -89,7 +89,7 @@ gulp.task('styleguide', function () {
 
   gulp.src('../app/assets/stylesheets/styleguide.html.lsg')
       .pipe(livingstyleguide())
-      .pipe(gulp.dest('public'));
+      .pipe(gulp.dest('public/assets/css'));
 });
 
 gulp.task('express', function(done) {
