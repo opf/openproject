@@ -54,8 +54,8 @@ class PluginManager
   end
 
   def _add_plugin_to_gemfile_plugins(plugin)
-    @gemfile_plugins << plugin.gemfile_plugins_line
-    @gemfile_plugins << plugin.gemfile_plugins_lines_for_dependencies
+    @gemfile_plugins << "\n" + plugin.gemfile_plugins_line
+    @gemfile_plugins << "\n" + plugin.gemfile_plugins_lines_for_dependencies
   end
 
   def _sort_gemfile_plugins
