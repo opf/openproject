@@ -88,7 +88,7 @@ gulp.task('styleguide', function () {
   ].join(':');
 
   gulp.src('../app/assets/stylesheets/styleguide.html.lsg')
-      .pipe(livingstyleguide())
+      .pipe(livingstyleguide({template: 'app/assets/styleguide.jade'}))
       .pipe(gulp.dest('public/assets/css'));
 });
 
