@@ -101,7 +101,7 @@ gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', 
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
 gem 'sass',             '~> 3.4.12'
-gem 'autoprefixer-rails', require: false
+gem 'autoprefixer-rails'
 gem 'bourbon',          '~> 4.2.0'
 gem 'uglifier',         '>= 1.0.3', require: false
 gem 'livingstyleguide', '~> 1.2.2'
