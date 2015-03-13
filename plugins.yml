@@ -7,7 +7,6 @@ openproject-pdf_export:
   :branch: stable
   :dependencies:
     - openproject-backlogs
-    - pdf-inspector
 openproject-backlogs:
   :url: https://github.com/finnlabs/openproject-backlogs.git
   :branch: stable
