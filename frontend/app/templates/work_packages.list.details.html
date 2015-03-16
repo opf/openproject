@@ -43,11 +43,14 @@
   ></div>
 
   <span class="subtitle">
-    <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()" class="star">
-      <icon-wrapper icon-name="{{ 'star1' + (isWatched ? ' active' : '') }}"
-                    icon-title="{{ isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package') }}"
-                    css-class="star">
-      </icon-wrapper>
+    <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()"
+      link-class="starrable {{isWatched ? '-active' : ''}}">
+      <span class="starrable--star"
+        title="{{isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package')}}">
+        <span class="hidden-for-sighted"
+          ng-bind="isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package')">
+        </span>
+      </span>
     </accessible-by-keyboard>
     <a href="{{ showStaticPagePath }}">#{{ workPackage.props.id }}</a>
     <span ng-bind="I18n.t('js.label_added_by')"/>
