@@ -127,7 +127,7 @@ module OpenProject::Costs
                embedded: true,
                exec_context: :decorator,
                class: ::CostObject,
-               decorator: ::API::V3::CostObjects::CostObjectRepresenter,
+               decorator: ::API::V3::Budgets::BudgetRepresenter,
                if: -> (*) { costs_enabled && !represented.cost_object.nil? }
 
       property :overall_costs,

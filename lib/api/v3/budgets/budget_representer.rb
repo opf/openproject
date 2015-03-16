@@ -22,8 +22,8 @@ require 'roar/json/hal'
 
 module API
   module V3
-    module CostObjects
-      class CostObjectRepresenter < Roar::Decorator
+    module Budgets
+      class BudgetRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
@@ -51,7 +51,7 @@ module API
         property :author, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
 
         def _type
-          'CostObject'
+          'Budget'
         end
       end
     end

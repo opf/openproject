@@ -19,7 +19,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::CostObjects::CostObjectRepresenter do
+describe ::API::V3::Budgets::BudgetRepresenter do
   let(:project) { FactoryGirl.build(:project, id: 999) }
   let(:user) { FactoryGirl.build(:user,
                                  member_in_project: project,
@@ -36,7 +36,7 @@ describe ::API::V3::CostObjects::CostObjectRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('CostObject'.to_json).at_path('_type') }
+    it { should include_json('Budget'.to_json).at_path('_type') }
 
     describe 'cost_object' do
       it { should have_json_path('id') }
