@@ -155,30 +155,6 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
       }
     },
 
-    formatWorkPackageProperty: function(value, propertyName) {
-      var mappings = {
-        dueDate: 'date',
-        startDate: 'date',
-        createdAt: 'datetime',
-        updatedAt: 'datetime'
-      };
-
-      // spentTime, remainingTime, estimatedTime
-      // totally not a hack
-      // to be switched to schema in an upcoming PR
-      if (/(.+)Time$/.test(propertyName)) {
-        if (value === null) {
-          return null;
-        }
-
-        var hours = moment.duration(value).asHours();
-
-        return I18n.t('js.units.hour', { count: hours.toFixed(2) });
-      } else {
-        return this.formatValue(value, mappings[propertyName]);
-      }
-    },
-
     parseDateTime: function(value) {
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
     },

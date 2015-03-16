@@ -46,7 +46,12 @@ module.exports = function(
 
   function activate() {
     vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
-    //setupFields();
+    var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
+    _.forEach(vm.workPackage.schema.props, function(prop, propName) {
+      if (propName.match(/^customField/)) {
+        otherGroup.attributes.push(propName);
+      }
+    });
   }
 
   function isGroupEmpty(groupName) {

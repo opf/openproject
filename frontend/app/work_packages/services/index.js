@@ -61,5 +61,6 @@ angular.module('openproject.workPackages.services')
   .service('WorkPackageFieldService', [
     'I18n',
     'WORK_PACKAGE_REGULAR_EDITABLE_FIELD',
+    'WorkPackagesHelper',
     require('./work-package-field-service')
   ]);

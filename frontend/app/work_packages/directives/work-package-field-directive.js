@@ -38,10 +38,8 @@ module.exports = function(WorkPackageFieldService) {
       vm.isEmbedded = WorkPackageFieldService.isEmbedded(vm.workPackage, vm.field);
       vm.inplaceType = WorkPackageFieldService.getInplaceType(vm.workPackage, vm.field);
       vm.inplaceDisplayStrategy = WorkPackageFieldService.getInplaceDisplayStrategy(vm.workPackage, vm.field);
-
     } else {
-      vm.value = WorkPackageFieldService.getValue(vm.workPackage, vm.field);
-
+      vm.value = WorkPackageFieldService.format(vm.workPackage, vm.field);
     }
   }
 

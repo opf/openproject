@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD) {
+module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackagesHelper) {
 
   function isEditable(workPackage, field) {
     // TODO: extract to strategy if new cases arise
@@ -70,7 +70,6 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD) {
     } else {
       fieldType = workPackage.form.embedded.schema.props[field].type;
     }
-    console.log(fieldType, 'fieldType');
     switch(fieldType) {
       case 'Formattable':
         inplaceType = 'wiki_textarea';
@@ -89,7 +88,48 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD) {
   }
 
   function getInplaceDisplayStrategy(workPackage, field) {
+    var fieldType = null,
+      displayStrategy = 'default';
+    if (field === 'date') {
+      fieldType = 'DateRange';
+    } else {
+      fieldType = workPackage.form.embedded.schema.props[field].type;
+    }
+    switch(fieldType) {
+      case 'Formattable':
+        displayStrategy = 'wiki_textarea';
+        break;
+      case 'Version':
+        displayStrategy = 'version';
+        break;
+      case 'User':
+        displayStrategy = 'user';
+        break;
+    }
 
+    return displayStrategy;
+  }
+
+  function format(workPackage, field) {
+    var value = workPackage.props[field];
+    var mappings = {
+      dueDate: 'date',
+      startDate: 'date',
+      createdAt: 'datetime',
+      updatedAt: 'datetime'
+    };
+
+    if (field === 'estimatedTime' || field === 'spentTime') {
+      if (value === null) {
+        return null;
+      }
+
+      var hours = moment.duration(value).asHours();
+
+      return I18n.t('js.units.hour', { count: hours.toFixed(2) });
+    } else {
+      return WorkPackagesHelper.formatValue(value, mappings[field]);
+    }
   }
 
   var WorkPackageFieldService = {
@@ -98,9 +138,9 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD) {
     isEmbedded: isEmbedded,
     getValue: getValue,
     getLabel: getLabel,
+    format: format,
     getInplaceType: getInplaceType,
     getInplaceDisplayStrategy: getInplaceDisplayStrategy
-
   };
 
   return WorkPackageFieldService;

@@ -42,29 +42,23 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   }
 
   function getReadAttributeValue($scope) {
-    return getAttributeValue($scope, $scope.entity, true);
+    return getAttributeValue($scope, $scope.entity);
   }
 
   function getWriteAttributeValue($scope) {
-    return getAttributeValue($scope, $scope.entity.form.embedded.payload, false);
+    return getAttributeValue($scope, $scope.entity.form.embedded.payload);
   }
 
-  function getAttributeValue($scope, entity, isReadValue) {
+  function getAttributeValue($scope, entity) {
     if ($scope.embedded) {
-      return entity.embedded[$scope.attribute].props.name;
+      return entity.embedded[$scope.attribute] ? entity.embedded[$scope.attribute].props.name : null;
     } else {
-      var attribute = entity.props[getAttribute($scope)];
-
-      if (isAttributeFormattable(attribute)) {
-        return isReadValue ? $sce.trustAsHtml(attribute.html) : attribute.raw;
-      } else {
-        return attribute;
-      }
+      return entity.props[getAttribute($scope)];
     }
   }
 
   function isAttributeFormattable(attribute) {
-    return _.intersection(_.keys(attribute), ['format', 'raw', 'html']).length === 3;
+    return attribute && (attribute.format === 'textile');
   }
 
   function isOptionListEmbedded($scope) {
@@ -110,11 +104,15 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       .props[getAttribute($scope)]._links.allowedValues.href;
     $scope.isBusy = true;
     $http.get(href).then(function(r) {
-      var arrayWithEmptyOption = [{ href: null }];
       var options = _.map(r.data._embedded.elements, function(item) {
         return angular.extend({}, item._links.self, { name: item.name });
       });
-      $scope.options = arrayWithEmptyOption.concat(options);
+      if ($scope.hasEmptyOption) {
+        var arrayWithEmptyOption = [{ href: null }];
+        $scope.options = arrayWithEmptyOption.concat(options);
+      } else {
+        $scope.options = options;
+      }
       $scope.isBusy = false;
       $scope.$broadcast('focusSelect2');
     });
@@ -123,11 +121,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   var hooks = {
     _fallback: {
       submit: function($scope, data) {
-        if (isAttributeFormattable(data[getAttribute($scope)])) {
-          data[getAttribute($scope)].raw = $scope.dataObject.value;
-        } else {
-          data[getAttribute($scope)] = $scope.dataObject.value;
-        }
+        data[getAttribute($scope)] = $scope.dataObject.value;
       },
       setWriteValue: function($scope) {
         $scope.dataObject = {
@@ -158,6 +152,21 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       },
       startEditing: function($scope) {
         disablePreview($scope);
+      },
+      setReadValue: function($scope) {
+        var attribute = getReadAttributeValue($scope);
+        $scope.readValue = $sce.trustAsHtml(attribute.html);
+      },
+      setWriteValue: function($scope) {
+        var attribute = getWriteAttributeValue($scope);
+        $scope.dataObject = {
+          value: attribute.raw
+        };
+        $scope.isFormattable = isAttributeFormattable(attribute);
+
+      },
+      submit: function($scope, data) {
+        data[getAttribute($scope)].raw = $scope.dataObject.value;
       },
       activate: function($scope) {
         disablePreview($scope);
@@ -205,11 +214,12 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         if ($scope.isEditable && isOptionListEmbedded($scope)) {
           this._setEmbeddedOptions($scope);
         }
-        if ($scope.embedded) {
-          $scope.readValue = this._getReadAttributeValue($scope);
-        } else {
+        if ($scope.displayStrategy == 'user' || $scope.displayStrategy == 'version') {
           $scope.readValue = $scope.entity.embedded[$scope.attribute];
+        } else {
+          $scope.readValue = this._getReadAttributeValue($scope);
         }
+
       },
       setWriteValue: function($scope) {
         var link = $scope.entity.form.embedded.payload.links[getAttribute($scope)];
