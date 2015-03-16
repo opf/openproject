@@ -3,6 +3,8 @@ var webpack  = require('webpack'),
   _          = require('lodash'),
   pathConfig = require('./rails-plugins.conf');
 
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function(entries, path, name) {
   entries[name.replace(/^openproject\-/, '')] = name;
   return entries;
@@ -34,7 +36,10 @@ module.exports = {
       { test: /[\/]moment\.js$/,          loader: 'expose?moment' },
       { test: /[\/]mousetrap\.js$/,       loader: 'expose?Mousetrap' },
       { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
-      { test: /\.css$/,                   loader: 'style-loader!css-loader' },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+      },
       { test: /\.png$/,                   loader: 'url-loader?limit=100000&mimetype=image/png' },
       { test: /\.gif$/,                   loader: 'file-loader' },
       { test: /\.jpg$/,                   loader: 'file-loader' },
@@ -76,6 +81,7 @@ module.exports = {
   },
 
   plugins: [
+    new ExtractTextPlugin('openproject-[name].css'),
     new webpack.ProvidePlugin({
       '_':            'lodash',
       'URI':          'URIjs',

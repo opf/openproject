@@ -1272,6 +1272,33 @@
         }
       }
     },
+    "extract-text-webpack-plugin": {
+      "version": "0.3.8",
+      "dependencies": {
+        "async": {
+          "version": "0.2.10"
+        },
+        "source-map": {
+          "version": "0.1.43",
+          "dependencies": {
+            "amdefine": {
+              "version": "0.1.0"
+            }
+          }
+        },
+        "loader-utils": {
+          "version": "0.2.6",
+          "dependencies": {
+            "json5": {
+              "version": "0.1.0"
+            },
+            "big.js": {
+              "version": "2.5.1"
+            }
+          }
+        }
+      }
+    },
     "file-loader": {
       "version": "0.8.1",
       "dependencies": {
