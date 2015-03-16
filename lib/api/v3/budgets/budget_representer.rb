@@ -23,21 +23,7 @@ require 'roar/json/hal'
 module API
   module V3
     module Budgets
-      class BudgetRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {}, *expand)
-          @expand = expand
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator
-
+      class BudgetRepresenter < ::API::Decorators::Single
         property :id, render_nil: true
         property :project_id
         property :project_name, getter: -> (*) { project.try(:name) }
@@ -49,6 +35,8 @@ module API
         property :updated_at, getter: -> (*) { updated_on.utc.iso8601 }, render_nil: true
 
         property :author, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
+
+        private
 
         def _type
           'Budget'
