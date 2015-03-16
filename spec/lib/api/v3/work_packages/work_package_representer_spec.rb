@@ -125,7 +125,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       it { is_expected.to have_json_path('subject') }
-      it { is_expected.to have_json_path('type') }
 
       describe 'lock version' do
         it { is_expected.to have_json_path('lockVersion') }
@@ -269,6 +268,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { 'status' }
           let(:href) { "/api/v3/statuses/#{work_package.status_id}" }
           let(:title) { work_package.status.name }
+        end
+      end
+
+      describe 'type' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'type' }
+          let(:href) { "/api/v3/types/#{work_package.type_id}" }
+          let(:title) { work_package.type.name }
         end
       end
 

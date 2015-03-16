@@ -51,7 +51,8 @@ module API
             mount API::V3::Projects::AvailableAssigneesAPI
             mount API::V3::Projects::AvailableResponsiblesAPI
             mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::ProjectsVersionsAPI
+            mount API::V3::Versions::VersionsByProjectAPI
+            mount API::V3::Types::TypesByProjectAPI
           end
         end
       end
