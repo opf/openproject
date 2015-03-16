@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,25 +27,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'reform'
+require 'reform/form/active_model/model_validations'
+
 module API
-  module V3
-    module WorkPackages
-      module Form
-        class FormAPI < Grape::API
-          post '/form' do
-            write_work_package_attributes
-            write_request_valid?
+  module Contracts
+    class ModelContract < Reform::Contract
+      def self.writable_attributes
+        @writable_attributes ||= []
+      end
 
-            error = ::API::Errors::ErrorBase.create(@work_package.errors)
+      def self.attribute_validations
+        @attribute_validations ||= []
+      end
 
-            if error.is_a? ::API::Errors::Validation
-              status 200
-              FormRepresenter.new(@work_package, current_user: current_user)
-            else
-              fail error
-            end
-          end
+      def self.attribute(*attributes, &block)
+        writable_attributes.concat attributes.map(&:to_s)
+        if block
+          attribute_validations << block
         end
+      end
+
+      validate :readonly_attributes_unchanged
+      validate :run_attribute_validations
+
+      private
+
+      def readonly_attributes_unchanged
+        changed_attributes = model.changed - self.class.writable_attributes
+
+        errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
+      end
+
+      def run_attribute_validations
+        self.class.attribute_validations.each { |validation| instance_exec(&validation) }
       end
     end
   end

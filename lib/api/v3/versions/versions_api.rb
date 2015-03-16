@@ -47,7 +47,7 @@ module API
 
                 permissions = [:view_work_packages, :manage_versions]
 
-                authorize_any(permissions, projects, user: current_user)
+                authorize_any(permissions, projects: projects, user: current_user)
               end
 
               def context
@@ -59,7 +59,7 @@ module API
               VersionRepresenter.new(@version, context)
             end
 
-            mount API::V3::Versions::VersionsProjectsAPI
+            mount API::V3::Versions::ProjectsByVersionAPI
           end
         end
       end

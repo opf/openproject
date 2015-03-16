@@ -35,7 +35,7 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchema
-          attr_reader :project
+          attr_reader :project, :type
 
           def initialize(work_package: nil, project: nil, type: nil)
             raise ArgumentError unless work_package || (project && type)
@@ -54,12 +54,19 @@ module API
 
             status_origin = @work_package
 
-            # do not allow to skip statuses without intermediate saving
+            # do not allow to skip statuses without intermediately saving the work package
+            # we therefore take the original status of the work_package, while preserving all
+            # other changes to it (e.g. type, assignee, etc.)
             if @work_package.persisted? && @work_package.status_id_changed?
-              status_origin = @work_package.class.find(@work_package.id)
+              status_origin = @work_package.clone
+              status_origin.status = Status.find_by_id(@work_package.status_id_was)
             end
 
             status_origin.new_statuses_allowed_to(user)
+          end
+
+          def assignable_types
+            @work_package.assignable_types if defines_assignable_values?
           end
 
           def assignable_versions
@@ -75,6 +82,9 @@ module API
           end
 
           def available_custom_fields
+            # we might have received a (currently) invalid work package
+            return [] if @project.nil? || @type.nil?
+
             @project.all_work_package_custom_fields & @type.custom_fields.all
           end
 

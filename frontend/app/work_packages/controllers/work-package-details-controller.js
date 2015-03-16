@@ -115,6 +115,9 @@ module.exports = function($scope,
 
     $scope.showStaticPagePath = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
 
+    // Type
+    $scope.type = workPackage.embedded.type;
+
     // Author
     $scope.author = workPackage.embedded.author;
     $scope.authorPath = PathHelper.staticUserPath($scope.author.props.id);
@@ -151,9 +154,6 @@ module.exports = function($scope,
         relationTypeIterator(key);
       }
     }
-
-    // Author
-    $scope.author = workPackage.embedded.author;
   }
 
   $scope.toggleWatch = function() {

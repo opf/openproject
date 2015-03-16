@@ -185,4 +185,19 @@ describe('WorkPackageDetailsController', function() {
       expect(scope.showStaticPagePath).to.eql('/work_packages/99');
     });
   });
+
+  describe('type', function() {
+    var type = { 'type': 'Type',
+                 'name': 'type0815' };
+
+    beforeEach(function() {
+      workPackage.embedded.type = type;
+
+      buildController();
+    });
+
+    it('is the embedded type', function() {
+      expect(scope.type).to.eql(type);
+    });
+  });
 });
