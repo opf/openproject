@@ -26,10 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(TimezoneService, $timeout) {
+module.exports = function(TimezoneService, ConfigurationService, $timeout) {
   var datePattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/i,
       parseDate = TimezoneService.parseDate,
-      formattedDate = TimezoneService.formattedDate,
+      formattedDate = function(date) {
+        return TimezoneService.parseDate(date).format('L');
+      },
       formattedISODate = TimezoneService.formattedISODate;
 
   return {
@@ -43,44 +45,87 @@ module.exports = function(TimezoneService, $timeout) {
     link: function(scope, element) {
       var previous,
           current,
+          timerId,
           div = element.find('div'),
           input = element.find('input'),
           setDate = function(date) {
-            div.datepicker('setDate', parseDate(date).toDate());
-            div.find('.ui-datepicker-current-day').click();
+            if(date) {
+              div.datepicker('setDate', parseDate(date).toDate());
+              div.find('.ui-datepicker-current-day').click();
+            }
+          },
+          clearDate = function(inst) {
+            previous = current = null;
+            var onSelect = jQuery.datepicker._get(inst, "onSelect");
+            if (onSelect) {
+              onSelect.apply(input, inst);  // trigger custom callback
+            }
+          },
+          addClearButton = function (inp, inst) {
+            setTimeout(function() {
+              var buttonPane = jQuery(inp)
+                  .find(".ui-datepicker-buttonpane");
+
+              jQuery( "<button>", {
+                  text: "Clear",
+                  click: function() {
+                    clearDate(inst);
+                  }
+              })
+              .appendTo(buttonPane)
+              .addClass("ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all");
+            }, 1);
           };
 
       scope.change = function(scope) {
-        var range = scope.daterange.split(/\s+?-\s+?/i),
-            isMatching = range.every(function(date) {
-              return datePattern.test(date);
-            });
+        $timeout.cancel(timerId);
+        timerId = $timeout(function() {
+          var range = scope.daterange.split(/\s+?-\s+?/i),
+              isMatching = range.every(function(date) {
+                return TimezoneService.isValid(date);
+              });
 
-        if(isMatching) {
-          range.forEach(function(date) {
-            setDate(date);
-          });
-        }
+          if(isMatching) {
+            range.forEach(function(date) {
+              setDate(date);
+            });
+          }
+        }, 500);
       };
 
       div.datepicker({
+        minDate: null,
+        maxDate: null,
+        firstDay: ConfigurationService.startOfWeek(),
+        showWeeks: true,
         onSelect: function(dateText, inst) {
-          previous = current;
-          current = parseDate(new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay));
-          if(previous == -1 || previous == current) {
-            previous = current;
-            input.val(formattedDate(current));
-          } else {
-            var start = minDate(current, previous),
-                end = maxDate(current, previous);
-
-            $timeout(function(){
-              scope.startDate = formattedISODate(start);
-              scope.endDate = formattedISODate(end);
-
-              input.val(formattedDate(start) + ' - ' + 
-                        formattedDate(end));
+          if(!inst) {
+            input.val('No start date set - No end date set');
+            $timeout(function() {
+              scope.startDate = scope.endDate = null;
             });
+          } else {
+            previous = current;
+            current = parseDate(new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay));
+            if(!previous || previous.isSame(current)) {
+              previous = current;
+              $timeout(function() {
+                scope.startDate = formattedISODate(previous);
+                scope.endDate = null;
+              });
+
+              input.val(formattedDate(previous));
+            } else {
+              var start = minDate(current, previous),
+                  end = maxDate(current, previous);
+
+              $timeout(function(){
+                scope.startDate = formattedISODate(start);
+                scope.endDate = formattedISODate(end);
+
+                input.val(formattedDate(start) + ' - ' + formattedDate(end));
+              });
+            }
           }
         },
         beforeShowDay: function(selectedDay) {
@@ -111,3 +156,25 @@ module.exports = function(TimezoneService, $timeout) {
     return firstDate;
   }
 };
+
+
+(function ($) {
+  $.extend($.datepicker, {
+
+    // Reference the orignal function so we can override it and call it later
+    _inlineDatepicker2: $.datepicker._inlineDatepicker,
+
+    // Override the _inlineDatepicker method
+    _inlineDatepicker: function (target, inst) {
+
+    // Call the original
+    this._inlineDatepicker2(target, inst);
+
+      var beforeShow = $.datepicker._get(inst, 'beforeShow');
+
+      if (beforeShow) {
+        beforeShow.apply(target, [target, inst]);
+      }
+    }
+  });
+}(jQuery));

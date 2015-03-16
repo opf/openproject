@@ -34,8 +34,8 @@ module.exports = function(TimezoneService) {
     template: '<span title="{{ dateTitle }}">{{date}}</span>',
     link: function(scope, element, attrs) {
       scope.date = TimezoneService.formattedDate(scope.dateValue);
-      scope.$watch('dateValue', function(newVal){
-        scope.date = TimezoneService.formattedDate(newVal);
+      scope.$watch('dateValue', function(newVal) {
+        scope.date = newVal ? TimezoneService.formattedDate(newVal) : '';
       });
       if (!scope.hideTitle) {
         scope.dateTitle = scope.date;
