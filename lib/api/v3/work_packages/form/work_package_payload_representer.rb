@@ -61,8 +61,6 @@ module API
             super(represented)
           end
 
-          property :_type, exec_context: :decorator, writeable: false
-
           property :linked_resources,
                    as: :_links,
                    exec_context: :decorator,
