@@ -154,9 +154,6 @@ module.exports = function($scope,
         relationTypeIterator(key);
       }
     }
-
-    // Author
-    $scope.author = workPackage.embedded.author;
   }
 
   $scope.toggleWatch = function() {
