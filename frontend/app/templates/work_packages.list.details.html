@@ -44,8 +44,8 @@
 
   <span class="subtitle">
     <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()"
-      link-class="starrable {{isWatched ? '-active' : ''}}">
-      <span class="starrable--star"
+      link-class="icon-control {{isWatched ? '-active' : ''}}">
+      <span class="icon-control--icon icon-star1"
         title="{{isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package')}}">
         <span class="hidden-for-sighted"
           ng-bind="isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package')">
