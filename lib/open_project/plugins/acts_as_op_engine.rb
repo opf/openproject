@@ -57,14 +57,24 @@ module OpenProject::Plugins
       # This looks for OpenProject::XlsExport::Patches::IssuesControllerPatch
       #  in openproject/xls_export/patches/issues_controller_patch.rb
       base.send(:define_method, :patches) do |patched_classes|
-        plugin_name = engine_name
+        plugin_module = self.class.to_s.deconstantize
         base.config.to_prepare do
           patched_classes.each do |klass_name|
-            plugin_module = plugin_name.sub(/^openproject_/, '').camelcase
-            patch = "OpenProject::#{plugin_module}::Patches::#{klass_name}Patch".constantize
+            patch = "#{plugin_module}::Patches::#{klass_name}Patch".constantize
             klass = klass_name.to_s.constantize
             klass.send(:include, patch) unless klass.included_modules.include?(patch)
           end
+        end
+      end
+
+      base.send(:define_method, :patch_with_namespace) do |*args|
+        plugin_module = self.class.to_s.deconstantize
+        base.config.to_prepare do
+          klass_name = args.last
+          patch = "#{plugin_module}::Patches::#{klass_name}Patch".constantize
+          qualified_class_name = args.map(&:to_s).join('::')
+          klass = qualified_class_name.to_s.constantize
+          klass.send(:include, patch) unless klass.included_modules.include?(patch)
         end
       end
 
@@ -139,12 +149,12 @@ module OpenProject::Plugins
         end
       end
 
-      base.send(:define_method, :allow_attribute_update) do |model, attribute|
+      base.send(:define_method, :allow_attribute_update) do |model, attribute, &block|
         config.to_prepare do
           model_name = model.to_s.camelize
           namespace = model_name.pluralize
           contract_class = "::API::V3::#{namespace}::#{model_name}Contract".constantize
-          contract_class.writable_attributes << attribute.to_s
+          contract_class.attribute attribute, &block
         end
       end
 
