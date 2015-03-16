@@ -1,4 +1,5 @@
 var webpack  = require('webpack'),
+  fs         = require('fs'),
   path       = require('path'),
   _          = require('lodash'),
   pathConfig = require('./rails-plugins.conf');
@@ -14,6 +15,11 @@ var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function(entries, plug
   entries[name] = path.basename(pluginPath);
   return entries;
 }, {});
+
+var browsersListConfig = fs.readFileSync(path.join(__dirname, '..', 'browserslist'), 'utf8');
+var browsersList = JSON.stringify(_.filter(browsersListConfig.split('\n'), function(entry) {
+  return entry && entry.charAt(0) !== '#';
+}));
 
 module.exports = {
   context: __dirname + '/app',
@@ -40,7 +46,7 @@ module.exports = {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader!autoprefixer-loader?cascade=false'
+          'css-loader!autoprefixer-loader?{browsers:' + browsersList + ',cascade:false}'
         )
       },
       { test: /\.png$/,                   loader: 'url-loader?limit=100000&mimetype=image/png' },
