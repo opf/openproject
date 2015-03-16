@@ -78,28 +78,59 @@ describe SettingsHelper, type: :helper do
     end
   end
 
-  describe '#settings_multiselect' do
+  describe '#settings_matrix' do
     before do
       expect(Setting).to receive(:field_a).at_least(:once).and_return('2')
       expect(Setting).to receive(:field_b).at_least(:once).and_return('3')
     end
 
     subject(:output) {
-      helper.settings_multiselect [:field_a, :field_b], [
-        ['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']
+      helper.settings_matrix [:field_a, :field_b], [
+        ['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3'], 'Quarkspeise'
       ]
     }
 
     it_behaves_like 'not wrapped in container'
 
-    it 'should have checkboxes wrapped in checkbox-container' do
-      expect(output).to have_selector 'span.form--check-box-container', count: 6
+    it 'is structured as a table' do
+      expect(output).to have_selector 'table.form--matrix'
     end
 
-    it 'should output element' do
-      expect(output).to have_selector 'table'
-      expect(output).to have_selector 'input[type="checkbox"].form--check-box'
+    it 'has table headers' do
+      expect(output).to have_selector 'thead th.form--matrix-header-cell', count: 3
+    end
 
+    it 'has three table rows' do
+      expect(output).to have_selector 'tbody > tr.form--matrix-row', count: 4
+    end
+
+    it 'has cells with text labels' do
+      expect(output).to be_html_eql(%{
+        <td class="form--matrix-cell">Popsickle</td>
+      }).at_path('tr:first-child > td:first-child')
+    end
+
+    it 'has cells with styled checkboxes' do
+      expect(output).to be_html_eql(%{
+        <td class="form--matrix-checkbox-cell">
+          <span class="form--check-box-container">
+            <input class="form--check-box" id="field_a_1"
+              name="settings[field_a][]" type="checkbox" value="1">
+          </span>
+        </td>
+      }).at_path('tr.form--matrix-row:first-child > td:nth-of-type(2)')
+
+      expect(output).to be_html_eql(%{
+        <td class="form--matrix-checkbox-cell">
+          <span class="form--check-box-container">
+            <input class="form--check-box" id="field_a_Quarkspeise"
+              name="settings[field_a][]" type="checkbox" value="Quarkspeise">
+          </span>
+        </td>
+      }).at_path('tr.form--matrix-row:last-child > td:nth-of-type(2)')
+    end
+
+    it 'has the correct fields checked' do
       expect(output).to have_checked_field 'field_a_2'
       expect(output).to have_checked_field 'field_b_3'
     end
