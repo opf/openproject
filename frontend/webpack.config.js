@@ -38,7 +38,10 @@ module.exports = {
       { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'css-loader!autoprefixer-loader?cascade=false'
+        )
       },
       { test: /\.png$/,                   loader: 'url-loader?limit=100000&mimetype=image/png' },
       { test: /\.gif$/,                   loader: 'file-loader' },
