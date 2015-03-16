@@ -65,16 +65,34 @@ module API
                                path: property,
                                association: property,
                                title_getter: -> (*) { represented.send(association).name },
-                               show_if: -> (*) { true })
+                               show_if: -> (*) { true },
+                               embed_as: nil)
         link property do
           next unless instance_eval(&show_if)
 
           value = represented.send(association)
-          link_object = { href: (api_v3_paths.send(path, value.id) if value) }
-          link_object[:title] = instance_eval(&title_getter) if value
-
-          link_object
+          if value
+            {
+              href: api_v3_paths.send(path, value.id),
+              title: instance_eval(&title_getter)
+            }
+          else
+            { href: nil }
+          end
         end
+
+        if embed_as
+          embed_property property,
+                         association: association,
+                         decorator: embed_as
+        end
+      end
+
+      def self.embed_property(property, association: property, decorator:)
+        property association,
+                 as: property.to_s.camelize(:lower),
+                 embedded: true,
+                 decorator: decorator
       end
 
       protected

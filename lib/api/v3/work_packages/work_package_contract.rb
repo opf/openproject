@@ -35,6 +35,7 @@ module API
         attribute :description
         attribute :start_date, :due_date
         attribute :status_id
+        attribute :type_id
         attribute :priority_id
         attribute :category_id
         attribute :fixed_version_id

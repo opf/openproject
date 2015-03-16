@@ -116,6 +116,18 @@ module API
             "#{root}/string_objects/#{::ERB::Util::url_encode(value)}"
           end
 
+          def self.types
+            "#{root}/types"
+          end
+
+          def self.types_by_project(project_id)
+            "#{project(project_id)}/types"
+          end
+
+          def self.type(id)
+            "#{types}/#{id}"
+          end
+
           def self.users
             "#{root}/users"
           end

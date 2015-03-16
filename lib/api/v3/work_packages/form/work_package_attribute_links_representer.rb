@@ -72,6 +72,11 @@ module API
                      }
           end
 
+          linked_property(property_name: :type,
+                          namespace: :types,
+                          method: :type_id,
+                          path: :type)
+
           linked_property(property_name: :status,
                           namespace: :statuses,
                           method: :status_id,

@@ -35,15 +35,24 @@ var WorkPackage = WorkPackage || {};
   var init;
 
   // TODO: remove this, once the issue edit view is completely angular based
+  var bodyInjector = function() { return angular.element('body').injector(); };
+
   var manuallyCompile = function(button) {
     if (!window.angular || button.length < 1) {
       return;
     }
-    angular.element('body').injector().invoke(['$compile', function($compile) {
+    bodyInjector().invoke(['$compile', function($compile) {
       var scope = angular.element(button).scope();
       $compile(button)(scope);
     }])
   };
+
+  var initializeAtWho = function(section) {
+    var textareas = section.find('textarea');
+    bodyInjector().invoke(['AutoCompleteHelper', function(AutoCompleteHelper) {
+      AutoCompleteHelper.enableTextareaAutoCompletion(textareas);
+    }]);
+  }
 
   init = function () {
 
@@ -68,6 +77,7 @@ var WorkPackage = WorkPackage || {};
                 // TODO: see last todo
                 var previewButton = update.find(".preview.button")
                 manuallyCompile(previewButton);
+                initializeAtWho(update);
       }
     });
 

@@ -624,6 +624,48 @@ describe 'API v3 Work package form resource', type: :request do
               end
             end
 
+            describe 'type' do
+              let(:path) { '_embedded/payload/_links/type/href' }
+              let(:links_path) { '_embedded/schema/type/_links' }
+              let(:target_type) { FactoryGirl.create(:type) }
+              let(:other_type) { work_package.type }
+              let(:type_link) { "/api/v3/types/#{target_type.id}" }
+              let(:other_type_link) { "/api/v3/types/#{other_type.id}" }
+              let(:type_parameter) { { _links: { type: { href: type_link } } } }
+              let(:params) { valid_params.merge(type_parameter) }
+
+              before do
+                project.types << target_type # make sure we have a valid transition
+              end
+
+              describe 'allowed values' do
+                before do
+                  other_type
+                end
+
+                include_context 'post request'
+
+                it 'should list the types' do
+                  expect(subject.body).to be_json_eql(type_link.to_json)
+                    .at_path("#{links_path}/allowedValues/1/href")
+                  expect(subject.body).to be_json_eql(other_type_link.to_json)
+                    .at_path("#{links_path}/allowedValues/0/href")
+                end
+              end
+
+              context 'valid type' do
+                include_context 'post request'
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package type' do
+                  expect(subject.body).to be_json_eql(type_link.to_json).at_path(path)
+                end
+              end
+            end
+
             describe 'multiple errors' do
               let(:user_link) { '/api/v3/users/42' }
               let(:status_link) { '/api/v3/statuses/-1' }
