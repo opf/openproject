@@ -38,6 +38,28 @@ describe('inplaceEditor Dispatcher', function() {
     dispatcher = InplaceEditorDispatcher;
   }));
 
+  describe('setReadValue', function() {
+    context('when type is select2', function() {
+      beforeEach(function() {
+        scope.attribute = 'status.name';
+        scope.type = 'select2';
+        scope.embedded = true;
+      });
+      context('when element is editable', function() {
+        beforeEach(function() {
+          scope.isEditable = false;
+          sinon.spy(dispatcher, '_setEmbeddedOptions');
+          sinon.stub(dispatcher, '_getReadAttributeValue');
+          dispatcher.dispatchHook(scope, 'setReadValue', {});
+        });
+
+        it('sets not the embedded options eagerly', function() {
+          expect(dispatcher._setEmbeddedOptions).to.not.have.been.called;
+        });
+      });
+    });
+  });
+
   describe('formattable', function() {
     var text = 'Raw text for my formattable!';
     var data = {

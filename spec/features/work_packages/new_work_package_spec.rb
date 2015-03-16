@@ -46,8 +46,8 @@ describe 'New work package', type: :feature do
 
         work_packages_page.visit_new
 
-        input = page.find('#work_package_start_date')
-        input.click
+        # Fill in the date, a sa simple click does not seem to trigger the datepicker here
+        fill_in 'Start date', with: DateTime.now.strftime('%Y-%m-%d')
 
         expect(page).to have_selector(datepicker_selector)
       end

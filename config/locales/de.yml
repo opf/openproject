@@ -237,6 +237,8 @@ de:
               only_same_project_categories_allowed:
                 "Ein Arbeitpaket und seine Kategorie müssen im selben Projekt sein."
               does_not_exist: "Die angegebene Kategorie existiert nicht."
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: "Der geschätzte Aufwand muss >= 0 sein."
         project_association:
           identical_projects: "kann nicht von einem Projekt auf sich selbst erstellt werden"
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
@@ -1698,5 +1700,7 @@ de:
       validation:
         invalid_user_assigned_to_work_package:
           "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
+        estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden."
+        done_ratio: "Der Fortschritt kann nicht gesetzt werden falls es sich um ein Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn er komplett deaktiviert wurde."
     resources:
       schema: 'Schema'

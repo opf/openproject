@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,22 +29,27 @@
 
 module API
   module V3
-    module WorkPackages
-      module Form
-        class FormAPI < Grape::API
-          post '/form' do
-            write_work_package_attributes
-            write_request_valid?
+    module Types
+      class TypeRepresenter < ::API::Decorators::Single
+        self_link
 
-            error = ::API::Errors::ErrorBase.create(@work_package.errors)
+        property :id
+        property :name
+        property :color,
+                 getter: -> (*) { color.hexcode if color },
+                 render_nil: true
+        property :position
+        property :is_default
+        property :is_milestone
+        property :created_at,
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_at) }
+        property :updated_at,
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
 
-            if error.is_a? ::API::Errors::Validation
-              status 200
-              FormRepresenter.new(@work_package, current_user: current_user)
-            else
-              fail error
-            end
-          end
+        def _type
+          'Type'
         end
       end
     end

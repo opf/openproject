@@ -29,12 +29,37 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= call_hook(:view_work_packages_form_details_top, { :issue => work_package, :form => f }) %>
 
-<% work_package_form_top_attributes(f, work_package,
-                                       :priorities => priorities,
-                                       :project => project).each do |attribute| %>
-  <%= attribute.field %>
-
+<div class="grid-block">
+  <div class="form--column">
+    <div class="form--field">
+      <%= f.select :type_id, work_package_form_type_selectable_types(project) %>
+      <%= observe_field :work_package_type_id, url: work_package_form_type_observable_url(work_package, project),
+                                                  update: :attributes,
+                                                  method: :get,
+                                                  with: "Form.serialize('work_package-form')" %>
+    </div>
+  </div>
+  <% if user_can_manage_subtasks?(project) %>
+    <div class="form--column">
+      <div class="form--field">
+        <%= f.text_field :parent_id, title: l(:description_autocomplete) %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<% if user_can_manage_subtasks?(project) %>
+  <div id="parent_issue_candidates" class="autocomplete"></div>
+  <script>
+    observeWorkPackageParentField('<%= work_package_form_parent_autocomplete_path(work_package, project) %>')
+  </script>
 <% end %>
+<div class="form--field -vertical">
+  <%= f.text_field :subject, required: true %>
+</div>
+<div class="form--field -vertical">
+  <%= f.text_area :description, accesskey: accesskey(:edit),  class: 'wiki-edit',:'ng-non-bindable' => '',
+                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(project_id: work_package.project, format: :json) %>
+</div>
 
 <div id="attributes" class="attributes">
   <%= render :partial => 'attributes', :locals => { :f => f,
@@ -74,7 +99,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if work_package.new_record? %>
   <hr class="form--separator -invisible">
 
-  <%= render :partial => 'attachments/nested_form' %>
+  <%= render :partial => 'attachments/nested_form', locals: { open: true } %>
 <% end %>
 
 <%= call_hook(:view_work_packages_form_details_bottom, { :issue => work_package, :form => f }) %>

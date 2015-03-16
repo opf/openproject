@@ -45,8 +45,8 @@ Feature: Localized boolean custom fields can be created
   Scenario: Available fields
     When I select "Boolean" from "custom_field_field_format"
     Then there should be the following localizations:
-      | locale  | name    | default_value | possible_values |
-      | en      |         | 0             |                 |
+      | locale  | name    | default_value |
+      | en      |         | 0             |
     And there should be a "custom_field_type_ids_1" field visible
     And I should see "Bug"
     And there should be a "custom_field_type_ids_2" field visible

@@ -43,11 +43,14 @@ module API
             start_date
             due_date
             status_id
+            type_id
             assigned_to_id
             responsible_id
             priority_id
             category_id
             fixed_version_id
+            done_ratio
+            estimated_hours
           )
         end
 
@@ -65,6 +68,8 @@ module API
         validate :readonly_attributes_unchanged
         validate :assignee_visible
         validate :responsible_visible
+        validate :estimated_hours_valid
+        validate :done_ratio_valid
 
         extend Reform::Form::ActiveModel::ModelValidations
         copy_validations_from WorkPackage
@@ -107,6 +112,25 @@ module API
 
         def responsible_visible
           people_visible :responsible, 'responsible_id', model.project.possible_responsible_members
+        end
+
+        def estimated_hours_valid
+          if !model.leaf? && model.changed.include?('estimated_hours')
+            errors.add :error_readonly, 'estimated_hours'
+          end
+        end
+
+        def done_ratio_valid
+          if model.changed.include?('done_ratio')
+            # TODO Allow multiple errors as soon as they have separate messages
+            if !model.leaf?
+              errors.add :error_readonly, 'done_ratio'
+            elsif Setting.work_package_done_ratio == 'status'
+              errors.add :error_readonly, 'done_ratio'
+            elsif Setting.work_package_done_ratio == 'disabled'
+              errors.add :error_readonly, 'done_ratio'
+            end
+          end
         end
 
         def people_visible(attribute, id_attribute, list)

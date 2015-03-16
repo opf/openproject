@@ -49,11 +49,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
     end
 
     describe '#assignable_statuses_for' do
-      let(:user) { double }
-      let(:status_result) { double }
+      let(:user) { double('current user') }
+      let(:status_result) { double('status result') }
 
       before do
-        allow(work_package).to receive(:is_persisted?).and_return(false)
+        allow(work_package).to receive(:persisted?).and_return(false)
         allow(work_package).to receive(:status_id_changed?).and_return(false)
       end
 
@@ -64,18 +64,31 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
       end
 
       context 'changed work package' do
-        let(:work_package) { FactoryGirl.create(:work_package) }
-        let(:stored_wp) { FactoryGirl.build(:work_package, id: work_package.id) }
+        let(:work_package) {
+          double('original work package',
+                 id: double,
+                 clone: cloned_wp,
+                 status: double('wrong status'),
+                 persisted?: true).as_null_object
+        }
+        let(:cloned_wp) {
+          double('cloned work package',
+                 new_statuses_allowed_to: status_result)
+        }
+        let(:stored_status) {
+          double('good status')
+        }
 
         before do
+          allow(work_package).to receive(:persisted?).and_return(true)
           allow(work_package).to receive(:status_id_changed?).and_return(true)
-          allow(WorkPackage).to receive(:find).with(work_package.id).and_return(stored_wp)
+          allow(Status).to receive(:find_by_id)
+            .with(work_package.status_id_was).and_return(stored_status)
         end
 
-        it 'calls through to the stored work package' do
-          expect(work_package).to_not receive(:new_statuses_allowed_to)
-          expect(stored_wp).to receive(:new_statuses_allowed_to).with(user)
-            .and_return(status_result)
+        it 'calls through to the cloned work package' do
+          expect(cloned_wp).to receive(:status=).with(stored_status)
+          expect(cloned_wp).to receive(:new_statuses_allowed_to).with(user)
           expect(subject.assignable_statuses_for(user)).to eql(status_result)
         end
       end
@@ -95,6 +108,29 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
 
       it 'is expected to return custom fields available in project AND type' do
         expect(subject.available_custom_fields).to eql([cf2])
+      end
+
+      context 'type missing' do
+        let(:type) { nil }
+        it 'returns an empty list' do
+          expect(subject.available_custom_fields).to eql([])
+        end
+      end
+
+      context 'project missing' do
+        let(:project) { nil }
+        it 'returns an empty list' do
+          expect(subject.available_custom_fields).to eql([])
+        end
+      end
+    end
+
+    describe '#assignable_types' do
+      let(:result) { double }
+
+      it 'calls through to the project' do
+        expect(project).to receive(:types).and_return(result)
+        expect(subject.assignable_types).to eql(result)
       end
     end
 
@@ -135,6 +171,41 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
         expect(subject.assignable_categories).to match_array([category])
       end
     end
+
+    describe 'utility methods' do
+      context 'leaf' do
+        let(:work_package) { FactoryGirl.create(:work_package) }
+
+        it 'detects leaf' do
+          expect(subject.nil_or_leaf? work_package).to be true
+        end
+      end
+
+      context 'parent' do
+        let(:child) { FactoryGirl.build(:work_package, project: project, type: type) }
+        let(:parent) do
+          FactoryGirl.build(:work_package, project: project, type: type, children: [child])
+        end
+
+        it 'detects parent' do
+          expect(subject.nil_or_leaf? parent).to be false
+        end
+      end
+
+      context 'percentage done' do
+        it 'is not writable when inferred by status' do
+          allow(Setting).to receive(:work_package_done_ratio).and_return('status')
+
+          expect(subject.percentage_done_writable?).to be false
+        end
+
+        it 'is not writable when disabled' do
+          allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
+
+          expect(subject.percentage_done_writable?).to be false
+        end
+      end
+    end
   end
 
   context 'created from project and type' do
@@ -155,6 +226,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
 
     it 'does not know assignable versions' do
       expect(subject.assignable_versions).to eql(nil)
+    end
+
+    describe 'leaf or nil' do
+      it 'evaluates nil work package as nil' do
+        expect(subject.nil_or_leaf? nil).to be true
+      end
     end
   end
 end

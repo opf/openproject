@@ -29,52 +29,58 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Project resource' do
+describe '/api/v3/projects/:id/types' do
   include Rack::Test::Methods
 
-  let(:current_user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:role) { FactoryGirl.create(:role) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryGirl.create(:project, no_types: true, is_public: false) }
+  let(:requested_project) { project }
+  let(:current_user) do
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
+  end
+
+  let!(:irrelevant_types) { FactoryGirl.create_list(:type, 4) }
+  let!(:expected_types) { FactoryGirl.create_list(:type, 4) }
 
   describe '#get' do
-    let(:get_path) { "/api/v3/projects/#{project.id}" }
+    let(:get_path) { "/api/v3/projects/#{requested_project.id}/types" }
     subject(:response) { last_response }
+
+    before do
+      project.types << expected_types
+    end
 
     context 'logged in user' do
       before do
         allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
+
         get get_path
       end
 
-      it 'should respond with 200' do
-        expect(subject.status).to eq(200)
+      it_behaves_like 'API V3 collection response', 4, 4, 'Type'
+
+      it 'only contains expected types' do
+        actual_types = JSON.parse(subject.body)['_embedded']['elements']
+        actual_type_ids = actual_types.map { |hash| hash['id'] }
+        expected_type_ids = expected_types.map(&:id)
+
+        expect(actual_type_ids).to match_array expected_type_ids
       end
 
-      it 'should respond with correct project' do
-        expect(subject.body).to include_json('Project'.to_json).at_path('_type')
-        expect(subject.body).to be_json_eql(project.identifier.to_json).at_path('identifier')
-      end
-
-      context 'requesting nonexistent project' do
-        let(:get_path) { '/api/v3/projects/9999' }
-
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'Project' }
+      # N.B. this test depends on order, while this is not strictly neccessary
+      it 'only contains expected types' do
+        (0..3).each do |i|
+          expected_id = expected_types[i].id.to_json
+          expect(subject.body).to be_json_eql(expected_id).at_path("_embedded/elements/#{i}/id")
         end
       end
 
-      context 'requesting project without sufficient permissions' do
-        let(:another_project) { FactoryGirl.create(:project, is_public: false) }
-        let(:get_path) { "/api/v3/projects/#{another_project.id}" }
+      context 'in a foreign project' do
+        let(:requested_project) { FactoryGirl.create(:project, is_public: false) }
 
-        it_behaves_like 'not found' do
-          let(:id) { "#{another_project.id}" }
-          let(:type) { 'Project' }
-        end
+        it_behaves_like 'not found'
       end
     end
 

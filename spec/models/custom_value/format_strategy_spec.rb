@@ -26,26 +26,35 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module Form
-        class FormAPI < Grape::API
-          post '/form' do
-            write_work_package_attributes
-            write_request_valid?
+require 'spec_helper'
 
-            error = ::API::Errors::ErrorBase.create(@work_package.errors)
+describe CustomValue::FormatStrategy do
+  let(:custom_value) {
+    double('CustomValue',
+           value: value)
+  }
 
-            if error.is_a? ::API::Errors::Validation
-              status 200
-              FormRepresenter.new(@work_package, current_user: current_user)
-            else
-              fail error
-            end
-          end
-        end
-      end
+  describe '#value_present?' do
+    subject { described_class.new(custom_value).value_present? }
+
+    context 'value is nil' do
+      let(:value) { nil }
+      it { is_expected.to eql(false) }
+    end
+
+    context 'value is empty string' do
+      let(:value) { '' }
+      it { is_expected.to eql(false) }
+    end
+
+    context 'value is present string' do
+      let(:value) { 'foo' }
+      it { is_expected.to eql(true) }
+    end
+
+    context 'value is present integer' do
+      let(:value) { 42 }
+      it { is_expected.to eql(true) }
     end
   end
 end

@@ -34,6 +34,35 @@ describe CustomValue::BoolStrategy do
            value: value)
   }
 
+  describe '#value_present?' do
+    subject { described_class.new(custom_value).value_present? }
+
+    context 'value is nil' do
+      let(:value) { nil }
+      it { is_expected.to eql(false) }
+    end
+
+    context 'value is empty string' do
+      let(:value) { '' }
+      it { is_expected.to eql(false) }
+    end
+
+    context 'value is present string' do
+      let(:value) { '1' }
+      it { is_expected.to eql(true) }
+    end
+
+    context 'value is true' do
+      let(:value) { true }
+      it { is_expected.to eql(true) }
+    end
+
+    context 'value is false' do
+      let(:value) { false }
+      it { is_expected.to eql(true) }
+    end
+  end
+
   describe '#typed_value' do
     subject { described_class.new(custom_value).typed_value }
 

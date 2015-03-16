@@ -1591,9 +1591,6 @@ describe WorkPackage, type: :model do
       work_package.save!
       work_package.reload
 
-      # is it fine?
-      expect(work_package).to be_valid
-
       # now give the work_package another required custom field, but don't assign a value
       work_package.project.work_package_custom_fields << cf2
       work_package.type.custom_fields << cf2
