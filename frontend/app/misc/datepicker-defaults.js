@@ -26,39 +26,46 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// 'Global' dependencies
-//
-// dependencies required by classic (Rails) and Angular application.
+window.CS = window.CS || {};
 
-// NOTE: currently needed for PhantomJS to support Webpack's style-loader.
-// See: https://github.com/webpack/style-loader/issues/31
-require('polyfill-function-prototype-bind');
+jQuery(function($) {
+  var regions = $.datepicker.regional;
+  var regional = regions[CS.lang] || regions[""];
+  $.datepicker.setDefaults(regional);
 
-require('jquery');
-require('jquery-migrate/jquery-migrate');
-require('jquery-ujs');
-require('jquery-ui/ui/jquery-ui.js');
-require('jquery-ui/ui/i18n/jquery.ui.datepicker-en-GB.js');
-require('jquery-ui/ui/i18n/jquery.ui.datepicker-de.js');
-require('./misc/datepicker-defaults');
+  var gotoToday = $.datepicker._gotoToday;
 
-require('jquery-ui/themes/base/jquery.ui.core.css');
-require('jquery-ui/themes/base/jquery.ui.datepicker.css');
-// TODO: move require to backlogs plugin
-require('jquery-ui/themes/base/jquery.ui.dialog.css');
+  $.datepicker._gotoToday = function (id) {
+    gotoToday.call(this, id);
+    var target = $(id),
+      inst = this._getInst(target[0]),
+      dateStr = $.datepicker._formatDate(inst);
+    target.val(dateStr);
+    target.blur();
+    $.datepicker._hideDatepicker();
+  };
 
-require('momentjs');
-require('momentjs/lang/en-gb.js');
-require('momentjs/lang/de.js');
+  var defaults = {
+    showWeek: true,
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "c-100:c+10",
+    dateFormat: 'yy-mm-dd',
+    showButtonPanel: true,
+    calculateWeek: function (day) {
+      var dayOfWeek = new Date(+day);
 
-require('moment-timezone/moment-timezone.js');
-require('moment-timezone/moment-timezone-data.js');
+      if (day.getDay() != 1) {
+        dayOfWeek.setDate(day.getDate() - day.getDay() + 1);
+      }
 
-require('jquery.atwho/dist/js/jquery.atwho.js');
-require('jquery.atwho/dist/css/jquery.atwho.css');
+      return $.datepicker.iso8601Week(dayOfWeek);
+    }
+  };
 
-require('Caret.js/src/jquery.caret.js');
+  if (CS.firstWeekDay && CS.firstWeekDay !== "") {
+    defaults.firstDay = parseInt(CS.firstWeekDay, 10);
+  }
 
-require('select2/select2.js');
-require('select2/select2.css');
-require('select2_customizing.css');
+  $.datepicker.setDefaults(defaults);
+});
