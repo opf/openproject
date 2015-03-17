@@ -217,15 +217,21 @@ fieldset.form--fieldset
   margin-bottom: 0.4rem
   // cancel out foundations overflow-y: auto
   overflow: visible
+  padding-right: 1rem
 
   &.-vertical,
   .form.-vertical &
     @include grid-orient(vertical)
 
-  .grid-block:nth-last-of-type(n+2) > &,
-  .form--row:nth-last-of-type(n+2) > &,
-  .form--grouping-row > &:nth-last-of-type(n+2)
-    padding-right: 1rem
+  // .grid-block:nth-last-of-type(n+2) > &,
+  // .form--row:nth-last-of-type(n+2) > &,
+  // .form--grouping-row > &:nth-last-of-type(n+2)
+  //   padding-right: 1rem
+
+  .grid-block > &:last-child,
+  .form--row > &:last-child,
+  .form--grouping-row > &:last-child
+    padding-right: 0
 
   &.-trailing-label
     .form--label
