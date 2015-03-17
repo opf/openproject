@@ -34,27 +34,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% end -%>
 
 <%= labelled_tabular_form_for @user, :url => {:action => 'update', :project_id => @project}, :method => :put do |f| %>
-<%= back_url_hidden_field_tag %>
-<%= error_messages_for 'user' %>
-<%- @rates.each do |rate| -%>
-  <%- @rate = rate -%>
-  <%= error_messages_for 'rate' %>
-<%- end -%>
-<table class="list" style="width:auto">
-  <thead><tr>
-    <th><%= Rate.human_attribute_name(:valid_from) %></th>
-    <th class="currency"><%= Rate.model_name.human %></th>
-    <th></th>
-  </tr></thead>
-  <tbody id="rates_body">
-    <%- @rates.each_with_index do |rate, index| -%>
-      <%= render :partial => 'rate', :object => rate, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
-    <%- end -%>
-  </tbody>
-</table>
-<div>
-  <label class="hidden-for-sighted", for="add_rate_date" %>"><%= l(:description_date_for_new_rate) %></label>
-  <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "button icon icon-add"} %>
-</div>
-<div><%= submit_tag l(:button_save), class: 'button -highlight' %></div>
+  <%= back_url_hidden_field_tag %>
+  <%= error_messages_for 'user' %>
+  <%- @rates.each do |rate| -%>
+    <%- @rate = rate -%>
+    <%= error_messages_for 'rate' %>
+  <%- end -%>
+  <table class="list" style="width:auto">
+    <thead><tr>
+      <th><%= Rate.human_attribute_name(:valid_from) %></th>
+      <th class="currency"><%= Rate.model_name.human %></th>
+      <th></th>
+    </tr></thead>
+    <tbody id="rates_body">
+      <%- @rates.each_with_index do |rate, index| -%>
+        <%= render :partial => 'rate', :object => rate, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
+      <%- end -%>
+    </tbody>
+  </table>
+  <div>
+    <label class="hidden-for-sighted", for="add_rate_date" %>"><%= l(:description_date_for_new_rate) %></label>
+    <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "button icon icon-add"} %>
+  </div>
+  <div><%= submit_tag l(:button_save), class: 'button -highlight' %></div>
 <% end %>
