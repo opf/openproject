@@ -141,6 +141,24 @@ module OpenProject::Plugins
         end
       end
 
+      base.send(:define_method, :add_api_path) do |path_name, &block|
+        config.to_prepare do
+          ::API::V3::Utilities::PathHelper::ApiV3Path.class_eval do
+            metaclass = class << self; self; end
+            metaclass.instance_eval do
+              define_method path_name, &block
+            end
+          end
+        end
+      end
+
+      base.send(:define_method, :add_api_endpoint) do |base_endpoint, new_endpoint|
+        config.to_prepare do
+          # FIXME: expecting strings is awful... this has to work better
+          base_endpoint.constantize.mount new_endpoint.constantize
+        end
+      end
+
       base.send(:define_method, :extend_api_response) do |*args, &block|
         config.to_prepare do
           representer_namespace = args.map { |arg| arg.to_s.camelize }.join('::')
