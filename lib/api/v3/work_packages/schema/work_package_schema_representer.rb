@@ -82,7 +82,7 @@ module API
                      representer = ::API::Decorators::PropertySchemaRepresenter
                                    .new(type: 'Date',
                                         name: WorkPackage.human_attribute_name(:start_date))
-                     representer.writable = represented.due_date_writable?
+                     representer.writable = represented.start_date_writable?
                      representer.required = false
                      representer
                    end
