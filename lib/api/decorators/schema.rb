@@ -78,7 +78,7 @@ module API
                        required: call_or_use(required),
                        writable: call_or_use(writable))
 
-                     if represented.defines_assignable_values?
+                     if form_embedded
                        representer.allowed_values_href = instance_eval(&href_callback)
                      end
 
@@ -108,7 +108,7 @@ module API
                        required: call_or_use(required),
                        writable: call_or_use(writable))
 
-                     if represented.defines_assignable_values?
+                     if form_embedded
                        representer.allowed_values = instance_exec(&values_callback)
                      end
 
@@ -124,6 +124,14 @@ module API
         def make_type(property_name)
           property_name.to_s.camelize
         end
+      end
+
+      attr_reader :form_embedded
+
+      def initialize(represented, context = {})
+        @form_embedded = context[:form_embedded]
+
+        super
       end
 
       private
@@ -142,6 +150,10 @@ module API
         else
           self.class.represented_class.human_attribute_name(object)
         end
+      end
+
+      def _type
+        'Schema'
       end
     end
   end

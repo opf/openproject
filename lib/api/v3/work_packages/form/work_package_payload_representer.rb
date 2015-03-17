@@ -61,8 +61,6 @@ module API
             super(represented)
           end
 
-          property :_type, exec_context: :decorator, writeable: false
-
           property :linked_resources,
                    as: :_links,
                    exec_context: :decorator,
@@ -139,10 +137,6 @@ module API
                    getter: -> (*) { nil }, render_nil: false
           property :updated_at,
                    getter: -> (*) { nil }, render_nil: false
-
-          def _type
-            'WorkPackage'
-          end
 
           private
 

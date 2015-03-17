@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
+  include API::V3::Utilities::PathHelper
+
   let(:custom_field) { FactoryGirl.build(:custom_field) }
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:current_user) {
@@ -37,12 +39,19 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:schema) {
     ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
   }
-  let(:representer) { described_class.create(schema, current_user: current_user) }
+  let(:embedded) { false }
+  let(:representer) {
+    described_class.create(schema,
+                           form_embedded: embedded,
+                           current_user: current_user)
+  }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
 
     shared_examples_for 'has a collection of allowed values' do
+      let(:embedded) { true }
+
       context 'when no values are allowed' do
         before { allow(schema).to receive(allowed_values_method).and_return([]) }
 
@@ -63,8 +72,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'when allowed values are not defined' do
-        include_context 'no allowed values'
+      context 'when not embedded' do
+        let(:embedded) { false }
 
         it_behaves_like 'does not link to allowed values' do
           let(:path) { json_path }
@@ -72,19 +81,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    shared_context 'no allowed values' do
-      before do
-        allow(schema).to receive(:defines_assignable_values?).and_return(false)
-      end
-    end
-
     describe '_type' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { '_type' }
-        let(:type) { 'MetaType' }
-        let(:name) { I18n.t('api_v3.attributes._type') }
-        let(:required) { true }
-        let(:writable) { false }
+      it 'is indicated as Schema' do
+        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -318,6 +317,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'responsible and assignee' do
+      let(:embedded) { true }
+
       let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
 
       describe 'assignee' do
@@ -334,8 +335,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:href) { "#{base_href}/available_assignees" }
         end
 
-        context 'when allowed values are not defined' do
-          include_context 'no allowed values'
+        context 'when not embedded' do
+          let(:embedded) { false }
 
           it_behaves_like 'does not link to allowed values' do
             let(:path) { 'assignee' }
@@ -357,8 +358,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:href) { "#{base_href}/available_responsibles" }
         end
 
-        context 'when allowed values are not defined' do
-          include_context 'no allowed values'
+        context 'when not embedded' do
+          let(:embedded) { false }
 
           it_behaves_like 'does not link to allowed values' do
             let(:path) { 'responsible' }

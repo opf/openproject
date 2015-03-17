@@ -43,8 +43,6 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { is_expected.to include_json('WorkPackage'.to_json).at_path('_type') }
-
     describe 'work_package' do
       it { is_expected.to have_json_path('subject') }
 

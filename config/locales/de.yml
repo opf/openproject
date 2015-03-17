@@ -1678,7 +1678,6 @@ de:
 
   api_v3:
     attributes:
-        _type: "Ressourcenart"
         lock_version: "Sperrversion"
     errors:
       code_401: "Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können."

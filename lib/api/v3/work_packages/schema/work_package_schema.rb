@@ -45,10 +45,6 @@ module API
             @work_package = work_package
           end
 
-          def defines_assignable_values?
-            @work_package.present?
-          end
-
           def assignable_statuses_for(user)
             return nil if @work_package.nil?
 
@@ -66,26 +62,26 @@ module API
           end
 
           def assignable_types
-            @work_package.assignable_types if defines_assignable_values?
+            project.try(:types)
           end
 
           def assignable_versions
-            @work_package.assignable_versions if defines_assignable_values?
+            @work_package.try(:assignable_versions)
           end
 
           def assignable_priorities
-            @work_package.assignable_priorities if defines_assignable_values?
+            IssuePriority.active
           end
 
           def assignable_categories
-            @work_package.assignable_categories if defines_assignable_values?
+            project.categories
           end
 
           def available_custom_fields
             # we might have received a (currently) invalid work package
             return [] if @project.nil? || @type.nil?
 
-            @project.all_work_package_custom_fields & @type.custom_fields.all
+            project.all_work_package_custom_fields & type.custom_fields.all
           end
 
           def percentage_done_writable?

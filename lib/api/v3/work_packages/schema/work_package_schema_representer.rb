@@ -51,10 +51,13 @@ module API
             end
           end
 
-          schema :_type,
-                 type: 'MetaType',
-                 name_source: -> (*) { I18n.t('api_v3.attributes._type') },
-                 writable: false
+          link :self do
+            path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
+
+            unless form_embedded
+              { href: path }
+            end
+          end
 
           schema :lock_version,
                  type: 'Integer',
@@ -206,10 +209,6 @@ module API
 
           def current_user
             context[:current_user]
-          end
-
-          def _type
-            'MetaType'
           end
         end
       end

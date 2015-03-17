@@ -404,14 +404,6 @@ class WorkPackage < ActiveRecord::Base
     project.possible_responsibles
   end
 
-  def assignable_categories
-    project.categories
-  end
-
-  def assignable_types
-    project.types
-  end
-
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
   #   * any open, shared version of the project the wp belongs to
@@ -419,10 +411,6 @@ class WorkPackage < ActiveRecord::Base
   #     (to make sure, that you can still update closed tickets)
   def assignable_versions
     @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
-  end
-
-  def assignable_priorities
-    IssuePriority.where(active: true)
   end
 
   def kind
