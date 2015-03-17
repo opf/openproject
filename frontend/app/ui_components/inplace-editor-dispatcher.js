@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileService) {
+module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileService, VersionService) {
 
   function enableAutoCompletion(element) {
     var textarea = element.find('.inplace-edit--write-value input, .inplace-edit--write-value textarea');
@@ -214,8 +214,13 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         if ($scope.isEditable && isOptionListEmbedded($scope)) {
           this._setEmbeddedOptions($scope);
         }
-        if ($scope.displayStrategy == 'user' || $scope.displayStrategy == 'version') {
+        if ($scope.displayStrategy === 'user' || $scope.displayStrategy === 'version') {
           $scope.readValue = $scope.entity.embedded[$scope.attribute];
+          if ($scope.displayStrategy === 'version') {
+            VersionService.isVersionFieldViewable($scope.entity, getAttribute($scope)).then(function(isViewable) {
+              $scope.isVersionFieldViewable = isViewable;
+            });
+          }
         } else {
           $scope.readValue = this._getReadAttributeValue($scope);
         }

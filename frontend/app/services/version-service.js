@@ -29,6 +29,8 @@
 module.exports = function($http, PathHelper) {
 
   var VersionService = {
+
+    // TODO: check if code invoked anywere
     getVersions: function(projectIdentifier) {
       var url;
 
@@ -46,6 +48,12 @@ module.exports = function($http, PathHelper) {
         .then(function(response){
           return _.sortBy(response.data.versions, 'name');
         });
+    },
+
+    isVersionFieldViewable: function (workPackage, fieldName) {
+      return workPackage.links[fieldName].fetch().then(function(response) {
+        return response.links.definingProject && response.links.definingProject.href;
+      });
     }
   };
 

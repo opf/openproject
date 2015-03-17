@@ -1,8 +1,9 @@
-<span ng-if="entity.links.version.href">
-  <a href="{{pathHelper.versionPath(entity.embedded.version.props.id)}}">
-    {{entity.links.version.props.title}}
+<span ng-if="!readValue.props">{{ readValue }}</span>
+<span ng-if="readValue.props && isVersionFieldViewable">
+  <a href="{{pathHelper.versionPath(readValue.props.id)}}">
+    {{readValue.props.name}}
   </a>
 </span>
-<span ng-if="!entity.links.version.href">
-  {{readValue}}
+<span ng-if="readValue.props && !isVersionFieldViewable">
+  {{readValue.props.name}}
 </span>
