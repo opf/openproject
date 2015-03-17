@@ -30,18 +30,17 @@
 module API
   module V3
     module Budgets
-      class BudgetsAPI < ::API::OpenProjectAPI
+      class BudgetsByProjectAPI < ::API::OpenProjectAPI
         resources :budgets do
-          route_param :id do
-            before do
-              @budget = CostObject.find(params[:id])
+          before do
+            authorize_any([:view_work_packages, :view_budgets], projects: @project)
+            @budgets = @project.cost_objects
+          end
 
-              authorize(:view_work_packages, context: @budget.project)
-            end
-
-            get do
-              BudgetRepresenter.new(@budget, current_user: current_user)
-            end
+          get do
+            BudgetCollectionRepresenter.new(@budgets,
+                                            @budgets.count,
+                                            api_v3_paths.budgets_by_project(@project.id))
           end
         end
       end

@@ -107,8 +107,17 @@ module OpenProject::Costs
       "#{root}/budgets/#{id}"
     end
 
-    # FIXME: those strings are awful... this has to work better
-    add_api_endpoint '::API::V3::Root', '::API::V3::Budgets::BudgetsAPI'
+    add_api_path :budgets_by_project do |project_id|
+      "#{project(project_id)}/budgets"
+    end
+
+    add_api_endpoint 'API::V3::Root' do
+      mount ::API::V3::Budgets::BudgetsAPI
+    end
+
+    add_api_endpoint 'API::V3::Projects::ProjectsAPI', :id do
+      mount ::API::V3::Budgets::BudgetsByProjectAPI
+    end
 
     extend_api_response(:v3, :work_packages, :work_package) do
       include Redmine::I18n
