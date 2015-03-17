@@ -52,6 +52,9 @@ module.exports = function(
         otherGroup.attributes.push(propName);
       }
     });
+    otherGroup.attributes.sort(function(a, b) {
+      return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
+    });
   }
 
   function isGroupEmpty(groupName) {
