@@ -33,6 +33,7 @@ var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var sass = require('gulp-ruby-sass');
 var watch = require('gulp-watch');
+var livingstyleguide = require('gulp-livingstyleguide');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -44,7 +45,8 @@ var paths = {
   scripts: [
     'app/**/*.js',
     '!app/vendor/**/*.js'
-  ]
+  ],
+  fonts: '../app/assets/fonts/**/*'
 };
 
 gulp.task('lint', function() {
@@ -59,21 +61,39 @@ gulp.task('webpack', function() {
     .pipe(gulp.dest('../app/assets/javascripts/bundles'));
 });
 
+gulp.task('fonts', function() {
+  return gulp.src(paths.fonts).pipe(gulp.dest('./public/assets/css'));
+});
+
 gulp.task('sass', function() {
   return gulp.src('../app/assets/stylesheets/default.css.sass')
     .pipe(sass({
       bundleExec: true,
-      require: 'bourbon',
-      loadPath: ['./bower_components/foundation-apps/scss']
+      loadPath: [
+        './bower_components/foundation-apps/scss',
+        './bower_components/bourbon/app/assets/stylesheets'
+      ]
     }))
     .on('error', function(err) {
       console.log(err.message);
     })
-    .pipe(gulp.dest('tmp/stylesheets'));
+    .pipe(gulp.dest('public/assets/css'));
+});
+
+gulp.task('styleguide', function () {
+  process.env.SASS_PATH = [
+    '../app/assets/stylesheets',
+    './bower_components/foundation-apps/scss',
+    './bower_components/bourbon/app/assets/stylesheets'
+  ].join(':');
+
+  gulp.src('../app/assets/stylesheets/styleguide.html.lsg')
+      .pipe(livingstyleguide({template: 'app/assets/styleguide.jade'}))
+      .pipe(gulp.dest('public/assets/css'));
 });
 
 gulp.task('express', function(done) {
-  var expressApp = require('./tests/integration/server');
+  var expressApp = require('./server');
   var port = process.env.PORT || 8080;
 
   (function startServer(port) {
@@ -109,12 +129,13 @@ gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express']
     });
 });
 
-gulp.task('default', ['webpack', 'sass', 'express']);
+gulp.task('default', ['webpack', 'fonts', 'styleguide', 'sass', 'express']);
 gulp.task('dev', ['default', 'watch']);
 gulp.task('watch', function() {
   gulp.watch('app/**/*.js', ['webpack']);
   gulp.watch('config/locales/js-*.yml', ['webpack']);
-  gulp.watch('public/templates/**/*.html', ['webpack']);
+  gulp.watch('app/templates/**/*.html', ['webpack']);
 
-  gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass']);
+  gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass', 'styleguide']);
+  gulp.watch('../app/assets/stylesheets/**/*.md',   ['styleguide']);
 });

@@ -29,13 +29,13 @@
 var fs = require('fs');
 var globSync = require('glob').sync;
 var bodyParser = require('body-parser');
-var mocks = globSync('./mocks/**/*.js', {
+var mocks = globSync('./tests/integration/mocks/**/*.js', {
   cwd: __dirname
 }).map(require);
 
 var express = require('express');
-var railsRoot = __dirname + '/../../..';
-var appRoot   = __dirname + '/../..';
+var railsRoot = __dirname + '/..';
+var appRoot   = __dirname;
 var app = express();
 
 app.use(bodyParser.json());
@@ -47,18 +47,15 @@ mocks.forEach(function(route) {
   route(app);
 });
 
-app.use(express.static(__dirname));
+app.use(express.static(appRoot + '/public'));
 app.use('/assets', express.static(railsRoot + '/app/assets/javascripts'));
 app.use('/assets', express.static(railsRoot + '/app/assets/images'));
-app.use('/assets', express.static(railsRoot + '/app/assets/stylesheets'));
 app.use('/javascripts', express.static(railsRoot + '/public/javascripts'));
 
-app.use('/stylesheets', express.static(appRoot + '/tmp/stylesheets'));
 app.use('/bower_components', express.static(appRoot + '/bower_components'));
 
 app.get('/work_packages*', function(req, res) {
-  fs.readFile(__dirname + '/index.html', 'utf8', function(err,
-    text) {
+  fs.readFile(appRoot + '/public/index.html', 'utf8', function(err, text) {
     res.send(text);
   });
 });

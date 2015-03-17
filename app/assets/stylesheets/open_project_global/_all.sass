@@ -28,7 +28,7 @@
 
 // Enable asset pipeline for Bourbon mixins (e.g. +font-face)
 // @see http://bourbon.io/docs/#asset-pipeline
-$asset-pipeline: true
+$asset-pipeline: function-exists(font-url)
 
 @import bourbon
 @import open_project_global/accessibility
