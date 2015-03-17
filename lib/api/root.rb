@@ -152,6 +152,8 @@ module API
       authenticate
     end
 
-    mount API::V3::Root
+    version 'v3', using: :path do
+      mount API::V3::Root
+    end
   end
 end

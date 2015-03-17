@@ -30,7 +30,7 @@
 module API
   module V3
     module StringObjects
-      class StringObjectsAPI < Grape::API
+      class StringObjectsAPI < ::API::OpenProjectAPI
         resources :string_objects do
 
           params do

@@ -152,10 +152,13 @@ module OpenProject::Plugins
         end
       end
 
-      base.send(:define_method, :add_api_endpoint) do |base_endpoint, new_endpoint|
+      base.send(:define_method, :add_api_endpoint) do |base_endpoint, path = nil, &block|
         config.to_prepare do
-          # FIXME: expecting strings is awful... this has to work better
-          base_endpoint.constantize.mount new_endpoint.constantize
+          # we are expecting the base_endpoint as string for two reasons:
+          # 1. it does not seem possible to pass it as constant (auto loader not ready yet)
+          # 2. we can't constantize it here, because that would evaluate
+          #    the API before it can be patched
+          ::API::APIPatchRegistry.add_patch base_endpoint, path, &block
         end
       end
 

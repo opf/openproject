@@ -30,7 +30,7 @@
 module API
   module V3
     module Versions
-      class VersionsByProjectAPI < Grape::API
+      class VersionsByProjectAPI < ::API::OpenProjectAPI
         resources :versions do
           before do
             @versions = @project.shared_versions.all

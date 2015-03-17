@@ -30,7 +30,7 @@
 module API
   module V3
     module Versions
-      class VersionsAPI < Grape::API
+      class VersionsAPI < ::API::OpenProjectAPI
         resources :versions do
 
           route_param :id do

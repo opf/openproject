@@ -29,7 +29,7 @@
 module API
   module V3
     module Attachments
-      class AttachmentsAPI < Grape::API
+      class AttachmentsAPI < ::API::OpenProjectAPI
         resources :attachments do
 
           params do

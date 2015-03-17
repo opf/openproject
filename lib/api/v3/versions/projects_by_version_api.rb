@@ -30,7 +30,7 @@
 module API
   module V3
     module Versions
-      class ProjectsByVersionAPI < Grape::API
+      class ProjectsByVersionAPI < ::API::OpenProjectAPI
         resources :projects do
           before do
             @projects = @version.projects.visible(current_user).all

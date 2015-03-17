@@ -1,7 +1,7 @@
 module API
   module V3
     module Relations
-      class RelationsAPI < Grape::API
+      class RelationsAPI < ::API::OpenProjectAPI
         resources :relations do
           params do
             optional :to_id, desc: 'Id of related work package'
