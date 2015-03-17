@@ -88,6 +88,7 @@ angular.module('openproject.uiComponents')
     'AutoCompleteHelper',
     'TextileService',
     'VersionService',
+    'I18n',
     require('./inplace-editor-dispatcher')])
   .directive('modal', [require('./modal-directive')])
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])

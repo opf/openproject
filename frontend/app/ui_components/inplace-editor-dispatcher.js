@@ -26,11 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileService, VersionService) {
+module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileService, VersionService, I18n) {
 
   function enableAutoCompletion(element) {
     var textarea = element.find('.inplace-edit--write-value input, .inplace-edit--write-value textarea');
     AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
+  }
+
+  var id = 0;
+  function generateId() {
+    return id++;
   }
 
   function disablePreview($scope) {
@@ -190,6 +195,21 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         };
       },
       onFail: disablePreview
+    },
+
+    boolean: {
+      activate: function($scope) {
+        $scope.checkboxId = 'checkbox_' + generateId();
+      },
+      setReadValue: function($scope) {
+        var attribute = getReadAttributeValue($scope);
+        if (attribute === true) {
+          $scope.readValue = I18n.t('js.general_text_yes');
+        }
+        if (attribute === false) {
+          $scope.readValue = I18n.t('js.general_text_no');
+        }
+      }
     },
 
     select2: {

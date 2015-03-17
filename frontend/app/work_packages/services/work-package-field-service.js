@@ -71,6 +71,9 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       fieldType = workPackage.form.embedded.schema.props[field].type;
     }
     switch(fieldType) {
+      case 'Boolean':
+        inplaceType = 'boolean';
+        break;
       case 'Formattable':
         inplaceType = 'wiki_textarea';
         break;
@@ -96,6 +99,9 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       fieldType = workPackage.form.embedded.schema.props[field].type;
     }
     switch(fieldType) {
+      case 'Boolean':
+        displayStrategy = 'boolean';
+        break;
       case 'Formattable':
         displayStrategy = 'wiki_textarea';
         break;

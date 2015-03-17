@@ -208,7 +208,7 @@ module.exports = function(
     }
 
     function isReadValueEmpty() {
-      return !$scope.readValue;
+      return _.isUndefined($scope.readValue) || _.isNull($scope.readValue);
     }
 
     function getTemplateUrl() {
