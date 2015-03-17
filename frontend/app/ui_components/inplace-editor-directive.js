@@ -199,6 +199,7 @@ module.exports = function(
 
     function setReadValue() {
       InplaceEditorDispatcher.dispatchHook($scope, 'setReadValue');
+      console.log(isReadValueEmpty(), $scope.readValue);
       if ($scope.isEditable && isReadValueEmpty() && $scope.placeholder) {
         $scope.readValue = $scope.placeholder;
         $scope.placeholderSet = true;

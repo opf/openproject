@@ -71,6 +71,9 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       fieldType = workPackage.form.embedded.schema.props[field].type;
     }
     switch(fieldType) {
+      case 'Integer':
+        inplaceType = 'integer';
+        break;
       case 'Boolean':
         inplaceType = 'boolean';
         break;

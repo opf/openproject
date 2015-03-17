@@ -135,9 +135,19 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       },
       setReadValue: function($scope) {
         $scope.readValue = getReadAttributeValue($scope);
+        console.log($scope.readValue, 'readValue');
       }
     },
 
+    integer: {
+      submit: function($scope, data) {
+        var value = $scope.dataObject.value;
+        if ($scope.dataObject.value === '') {
+          value = null;
+        }
+        data[getAttribute($scope)] = value;
+      }
+    },
     text: {
       link: function(scope, element) {
         enableAutoCompletion(element);
