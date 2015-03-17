@@ -3436,6 +3436,55 @@
         }
       }
     },
+    "gulp-replace": {
+      "version": "0.5.3",
+      "dependencies": {
+        "istextorbinary": {
+          "version": "1.0.2",
+          "dependencies": {
+            "textextensions": {
+              "version": "1.0.1"
+            },
+            "binaryextensions": {
+              "version": "1.0.0"
+            }
+          }
+        },
+        "replacestream": {
+          "version": "2.0.0",
+          "dependencies": {
+            "through": {
+              "version": "2.3.6"
+            }
+          }
+        },
+        "through2": {
+          "version": "0.6.3",
+          "dependencies": {
+            "readable-stream": {
+              "version": "1.0.33",
+              "dependencies": {
+                "core-util-is": {
+                  "version": "1.0.1"
+                },
+                "isarray": {
+                  "version": "0.0.1"
+                },
+                "string_decoder": {
+                  "version": "0.10.31"
+                },
+                "inherits": {
+                  "version": "2.0.1"
+                }
+              }
+            },
+            "xtend": {
+              "version": "4.0.0"
+            }
+          }
+        }
+      }
+    },
     "gulp-ruby-sass": {
       "version": "0.7.1",
       "dependencies": {

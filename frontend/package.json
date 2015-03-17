@@ -14,6 +14,7 @@
     "gulp-jshint": "^1.8.5",
     "gulp-livingstyleguide": "~0.1.4",
     "gulp-protractor": "0.0.11",
+    "gulp-replace": "^0.5.3",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-watch": "^1.1.0",
     "gulp-webpack": "^1.0.0",
