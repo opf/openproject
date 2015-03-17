@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="grid-block">
   <div class="form--column">
     <div class="form--field">
-      <%= f.select :type_id, work_package_form_type_selectable_types(project) %>
+      <%= f.select :type_id, work_package_form_type_selectable_types(project), {}, class: '-narrow' %>
       <%= observe_field :work_package_type_id, url: work_package_form_type_observable_url(work_package, project),
                                                   update: :attributes,
                                                   method: :get,
