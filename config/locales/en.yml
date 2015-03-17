@@ -718,6 +718,7 @@ en:
   label_downloads_abbr: "D/L"
   label_duplicated_by: "duplicated by"
   label_duplicates: "duplicates"
+  label_edit: "Edit"
   label_enable_multi_select: "Toggle multiselect"
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"

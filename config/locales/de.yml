@@ -720,6 +720,7 @@ de:
   label_downloads_abbr: "D/L"
   label_duplicated_by: "Dupliziert durch"
   label_duplicates: "Duplikat von"
+  label_edit: "Bearbeiten von"
   label_enable_multi_select: "Mehrfachauswahl umschalten"
   label_end_to_end: "Ende - Ende"
   label_end_to_start: "Ende - Anfang"
