@@ -67,13 +67,20 @@ describe OpenProject::TextFormatting do
     end
 
     context "Changeset links" do
-      let(:repository) { FactoryGirl.create :repository, :project => project }
-      let(:changeset1) { FactoryGirl.create :changeset,
-                                            :repository => repository,
-                                            :comments => 'My very first commit' }
-      let(:changeset2) { FactoryGirl.create :changeset,
-                                            :repository => repository,
-                                            :comments => 'This commit fixes #1, #2 and references #1 & #3' }
+      let(:repository) do
+        FactoryGirl.build_stubbed :repository,
+                                  project: project
+      end
+      let(:changeset1) do
+        FactoryGirl.build_stubbed :changeset,
+                                  repository: repository,
+                                  comments: 'My very first commit'
+      end
+      let(:changeset2) do
+        FactoryGirl.build_stubbed :changeset,
+                                  repository: repository,
+                                  comments: 'This commit fixes #1, #2 and references #1 & #3'
+      end
       let(:changeset_link) { link_to("r#{changeset1.revision}",
                                      {:controller => 'repositories', :action => 'revision', :project_id => identifier, :rev => changeset1.revision},
                                      :class => 'changeset', :title => 'My very first commit') }
@@ -82,7 +89,18 @@ describe OpenProject::TextFormatting do
                                       :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3') }
 
       before do
-        project.repository = repository
+        allow(project).to receive(:repository).and_return(repository)
+
+        changesets = [changeset1, changeset2]
+
+        allow(Changeset).to receive(:visible).and_return(changesets)
+
+        changesets.each do |changeset|
+          allow(changesets)
+            .to receive(:find_by_repository_id_and_revision)
+            .with(project.repository.id, changeset.revision)
+            .and_return(changeset)
+        end
       end
 
       context "Single link" do
@@ -393,12 +411,12 @@ describe OpenProject::TextFormatting do
     end
 
     context "Redmine links" do
-      let(:repository) { FactoryGirl.create :repository, :project => project }
+      let(:repository) { FactoryGirl.build_stubbed :repository, :project => project }
       let(:source_url) { {:controller => 'repositories', :action => 'entry', :project_id => identifier, :path => 'some/file'} }
       let(:source_url_with_ext) { {:controller => 'repositories', :action => 'entry', :project_id => identifier, :path => 'some/file.ext'} }
 
       before do
-        project.repository = repository
+        allow(project).to receive(:repository).and_return(repository)
 
         @to_test = {
           # source

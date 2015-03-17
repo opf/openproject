@@ -27,21 +27,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Given(/^the project "(.*?)" has a repository$/) do |project_name|
+require 'spec_helper'
 
-  project = Project.find(project_name)
+describe Redmine::Scm::Base do
+  describe '.configured' do
+    subject { described_class.configured }
 
-  repo_path = Rails.root.join 'tmp/filesystem_repository'
+    let(:test_scm_class) do
+      Class.new
+    end
 
-  FileUtils.mkdir_p repo_path
+    before do
+      Repository.const_set('TestScm', test_scm_class)
+      Redmine::Scm::Base.add 'TestScm'
+    end
 
-  OpenProject::Configuration['scm_filesystem_path_whitelist'] = [repo_path]
+    after do
+      Repository.send(:remove_const, :TestScm)
+      Redmine::Scm::Base.delete 'TestScm'
+    end
 
-  repo = FactoryGirl.build(:repository,
-                           url: repo_path,
-                           project: project)
+    context 'scm is configured' do
+      before do
+        allow(test_scm_class).to receive(:configured?).and_return(true)
+      end
 
-  Setting.enabled_scm = Setting.enabled_scm << repo.scm_name
+      it 'is included' do
+        is_expected.to include('TestScm')
+      end
+    end
 
-  repo.save!
+    context 'scm is not configured' do
+      before do
+        allow(test_scm_class).to receive(:configured?).and_return(false)
+      end
+
+      it 'is included' do
+        is_expected.to_not include('TestScm')
+      end
+    end
+  end
 end
