@@ -39,13 +39,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <section class="form--section">
     <% if @user.auth_source_id.nil? %>
-      <div class="form--field -required">
+      <div class="form--field">
         <%= f.text_field :login, :size => 25, :required => true %>
       </div>
     <% end %>
 
     <% if @user.change_password_allowed? %>
-      <div class="form--field -required">
+      <div class="form--field">
         <%= f.password_field :password,
                              :required => true,
                              :size => 25,
@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= password_complexity_requirements %>
         </div>
       </div>
-      <div class="form--field -required">
+      <div class="form--field">
         <%= f.password_field :password_confirmation,
                              :required => true,
                              :size => 25,
@@ -62,15 +62,15 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
 
-    <div class="form--field -required">
+    <div class="form--field">
       <%= f.text_field :firstname, :required => true %>
     </div>
 
-    <div class="form--field -required">
+    <div class="form--field">
       <%= f.text_field :lastname,  :required => true %>
     </div>
 
-    <div class="form--field -required">
+    <div class="form--field">
       <%= f.text_field :mail,      :required => true %>
     </div>
 
