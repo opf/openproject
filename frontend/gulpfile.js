@@ -36,6 +36,7 @@ var watch = require('gulp-watch');
 var autoprefixer = require('gulp-autoprefixer');
 var livingstyleguide = require('gulp-livingstyleguide');
 var gulpFilter = require('gulp-filter');
+var replace = require('gulp-replace');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -77,6 +78,8 @@ gulp.task('sass', function() {
         './bower_components/bourbon/app/assets/stylesheets'
       ]
     }))
+    // HACK: remove asset helper that is only available with asset pipeline
+    .pipe(replace(/image\-url\(\"/g, 'url("/assets/'))
     .pipe(autoprefixer({
       cascade: false
     }))
@@ -98,6 +101,7 @@ gulp.task('styleguide', function () {
   gulp.src('../app/assets/stylesheets/styleguide.html.lsg')
     .pipe(livingstyleguide({template: 'app/assets/styleguide.jade'}))
     .pipe(cssFilter)
+    .pipe(replace(/image\-url\(\"/g, 'url("/assets/'))
     .pipe(autoprefixer({
       cascade: false
     }))
