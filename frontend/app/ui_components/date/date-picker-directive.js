@@ -26,9 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(TimezoneService, ConfigurationService, $timeout) {
-  var datePattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/i,
-      parseDate = TimezoneService.parseDate,
+module.exports = function(TimezoneService, ConfigurationService, I18n, $timeout) {
+  var parseDate = TimezoneService.parseDate,
       formattedDate = function(date) {
         return TimezoneService.parseDate(date).format('L');
       },
@@ -38,13 +37,12 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
     restrict: 'EA',
     replace: true,
     scope: { 
-      startDate: '=', 
-      endDate: '=' 
+      date: '=',
+      noDateText: '='
     },
-    template: '<div class="daterange"><input ng-model="daterange" ng-change="change(this)" /><div></div></div>',
+    templateUrl: '/templates/components/inplace_editor/date/date_picker.html',
     link: function(scope, element) {
-      var previous,
-          current,
+      var selectedDate,
           timerId,
           div = element.find('div'),
           input = element.find('input'),
@@ -52,24 +50,25 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
             if(date) {
               div.datepicker('setDate', parseDate(date).toDate());
               div.find('.ui-datepicker-current-day').click();
+            } else {
+              div.datepicker('setDate', null);
+              scope.editableDate = scope.noDateText;
+              scope.date = null;
             }
           },
-          clearDate = function(inst) {
-            previous = current = null;
-            var onSelect = jQuery.datepicker._get(inst, "onSelect");
-            if (onSelect) {
-              onSelect.apply(input, inst);  // trigger custom callback
-            }
-          },
-          addClearButton = function (inp, inst) {
+          addClearButton = function (inp) {
             setTimeout(function() {
+              if(div.find('.ui-datepicker-clear').length > 0) {
+                return;
+              }
+
               var buttonPane = jQuery(inp)
                   .find(".ui-datepicker-buttonpane");
 
               jQuery( "<button>", {
                   text: "Clear",
                   click: function() {
-                    clearDate(inst);
+                    setDate(null);
                   }
               })
               .appendTo(buttonPane)
@@ -79,84 +78,43 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
 
       scope.change = function(scope) {
         $timeout.cancel(timerId);
-        timerId = $timeout(function() {
-          var range = scope.daterange.split(/\s+?-\s+?/i),
-              isMatching = range.every(function(date) {
-                return TimezoneService.isValid(date);
-              });
+          timerId = $timeout(function() {
+          var isMatching = TimezoneService.isValid(scope.date);;
 
           if(isMatching) {
-            range.forEach(function(date) {
-              setDate(date);
-            });
+            setDate(scope.date);
           }
         }, 500);
       };
 
+      scope.click = function(scope) {
+        div.toggle();
+      };
+
       div.datepicker({
-        minDate: null,
-        maxDate: null,
         firstDay: ConfigurationService.startOfWeek(),
         showWeeks: true,
-        onSelect: function(dateText, inst) {
-          if(!inst) {
-            input.val('No start date set - No end date set');
-            $timeout(function() {
-              scope.startDate = scope.endDate = null;
-            });
-          } else {
-            previous = current;
-            current = parseDate(new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay));
-            if(!previous || previous.isSame(current)) {
-              previous = current;
-              $timeout(function() {
-                scope.startDate = formattedISODate(previous);
-                scope.endDate = null;
-              });
-
-              input.val(formattedDate(previous));
-            } else {
-              var start = minDate(current, previous),
-                  end = maxDate(current, previous);
-
-              $timeout(function(){
-                scope.startDate = formattedISODate(start);
-                scope.endDate = formattedISODate(end);
-
-                input.val(formattedDate(start) + ' - ' + formattedDate(end));
-              });
-            }
-          }
+        showButtonPanel: true,
+        beforeShow: function(inp) {
+          addClearButton(inp);
         },
-        beforeShowDay: function(selectedDay) {
-          var isSelected = parseDate(selectedDay) >= minDate(current, previous) && 
-                           parseDate(selectedDay) <= maxDate(current, previous);
-          return [true, isSelected ? 'date-range-selected' : ''];
+        onChangeMonthYear: function(year, month, inst) {
+          addClearButton(inst.input);
+        },
+        onSelect: function(dateText, inst) {
+          selectedDate = parseDate(new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay));
+          $timeout(function() {
+            scope.date = formattedISODate(selectedDate);
+          });
+
+          scope.editableDate = formattedDate(selectedDate);
         }
       });
-
-      setDate(scope.startDate);
-      setDate(scope.endDate);
+      setDate(scope.date);
+      div.toggle();
     }
   };
-
-  function minDate(firstDate, secondDate) {
-    if(secondDate && firstDate && firstDate.isAfter(secondDate)) {
-      return secondDate;
-    }
-
-    return firstDate;
-  }
-
-  function maxDate(firstDate, secondDate) {
-    if(secondDate && firstDate && !firstDate.isAfter(secondDate)) {
-      return secondDate;
-    }
-
-    return firstDate;
-  }
 };
-
 
 (function ($) {
   $.extend($.datepicker, {
@@ -167,8 +125,8 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
     // Override the _inlineDatepicker method
     _inlineDatepicker: function (target, inst) {
 
-    // Call the original
-    this._inlineDatepicker2(target, inst);
+      // Call the original
+      this._inlineDatepicker2(target, inst);
 
       var beforeShow = $.datepicker._get(inst, 'beforeShow');
 
