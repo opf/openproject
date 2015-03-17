@@ -24,17 +24,9 @@ module API
   module V3
     module Budgets
       class BudgetRepresenter < ::API::Decorators::Single
+        self_link title_getter: -> (*) { represented.subject }
         property :id, render_nil: true
-        property :project_id
-        property :project_name, getter: -> (*) { project.try(:name) }
         property :subject, render_nil: true
-        property :description, render_nil: true
-        property :type, render_nil: true
-        property :fixed_date, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
-        property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
-        property :updated_at, getter: -> (*) { updated_on.utc.iso8601 }, render_nil: true
-
-        property :author, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
 
         private
 

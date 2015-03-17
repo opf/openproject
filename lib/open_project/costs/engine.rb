@@ -103,6 +103,13 @@ module OpenProject::Costs
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper]
 
+    add_api_path :budget do |id|
+      "#{root}/budgets/#{id}"
+    end
+
+    # FIXME: those strings are awful... this has to work better
+    add_api_endpoint '::API::V3::Root', '::API::V3::Budgets::BudgetsAPI'
+
     extend_api_response(:v3, :work_packages, :work_package) do
       include Redmine::I18n
       include ActionView::Helpers::NumberHelper
@@ -112,7 +119,7 @@ module OpenProject::Costs
           href: new_work_packages_cost_entry_path(represented),
           type: 'text/html',
           title: "Log costs on #{represented.subject}"
-        } if costs_enabled && current_user_allowed_to(:log_costs)
+        } if represented.costs_enabled? && current_user_allowed_to(:log_costs)
       end
 
       link :timeEntries do
@@ -123,21 +130,24 @@ module OpenProject::Costs
         } if user_has_time_entry_permissions?
       end
 
-      property :cost_object,
-               embedded: true,
-               exec_context: :decorator,
-               class: ::CostObject,
-               decorator: ::API::V3::Budgets::BudgetRepresenter,
-               if: -> (*) { costs_enabled && !represented.cost_object.nil? }
+      linked_property :budget,
+                      association: :cost_object,
+                      title_getter: -> (*) { represented.cost_object.subject },
+                      embed_as: ::API::V3::Budgets::BudgetRepresenter,
+                      show_if: -> (*) {
+                        represented.costs_enabled? && !represented.cost_object.nil?
+                      }
 
       property :overall_costs,
                exec_context: :decorator,
-               if: -> (*) { costs_enabled }
+               if: -> (*) { represented.costs_enabled? }
 
       property :summarized_cost_entries,
                embedded: true,
                exec_context: :decorator,
-               if: -> (*) { costs_enabled && current_user_allowed_to_view_summarized_cost_entries }
+               if: -> (*) {
+                 represented.costs_enabled? && current_user_allowed_to_view_summarized_cost_entries
+               }
 
       property :spent_time,
                getter: -> (*) do
@@ -172,17 +182,13 @@ module OpenProject::Costs
         @attributes_helper ||= OpenProject::Costs::AttributesHelper.new(represented)
       end
 
-      send(:define_method, :costs_enabled) do
-        represented.project && represented.project.module_enabled?(:costs_module)
-      end
-
       send(:define_method, :cost_object) do
         represented.cost_object
       end
 
       send(:define_method, :user_has_time_entry_permissions?) do
         current_user_allowed_to(:view_time_entries) ||
-          (current_user_allowed_to(:view_own_time_entries) && costs_enabled)
+          (current_user_allowed_to(:view_own_time_entries) && represented.costs_enabled?)
       end
     end
 

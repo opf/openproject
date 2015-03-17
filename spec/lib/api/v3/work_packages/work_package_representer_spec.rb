@@ -75,13 +75,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       it { should have_json_path('overallCosts') }
 
-      describe 'embedded' do
-        it { should have_json_path('_embedded/costObject') }
+      describe 'budget' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'budget' }
+          let(:href) { "/api/v3/budgets/#{cost_object.id}" }
+          let(:title) { cost_object.subject }
+        end
 
+        it 'has the budget embedded' do
+          is_expected.to be_json_eql(cost_object.subject.to_json)
+            .at_path('_embedded/budget/subject')
+        end
+      end
+
+      describe 'embedded' do
         it { should have_json_path('_embedded/summarizedCostEntries') }
       end
 
-      describe 'spentHours' do
+      describe 'spentTime' do
         context 'time entry with single hour' do
           let(:time_entry) {
             FactoryGirl.create(:time_entry,

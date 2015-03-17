@@ -94,6 +94,10 @@ module OpenProject::Costs::Patches::WorkPackagePatch
   end
 
   module InstanceMethods
+    def costs_enabled?
+      project && project.module_enabled?(:costs_module)
+    end
+
     def validate_cost_object
       if cost_object && cost_object.changed?
         unless (cost_object.blank? || project.cost_object_ids.include?(cost_object.id))
