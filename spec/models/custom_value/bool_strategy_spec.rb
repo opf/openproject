@@ -85,6 +85,16 @@ describe CustomValue::BoolStrategy do
       let(:value) { nil }
       it { is_expected.to be_nil }
     end
+
+    context 'value is true' do
+      let(:value) { true }
+      it { is_expected.to eql(true) }
+    end
+
+    context 'value is false' do
+      let(:value) { false }
+      it { is_expected.to eql(false) }
+    end
   end
 
   describe '#validate_type_of_value' do

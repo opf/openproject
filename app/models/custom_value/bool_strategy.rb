@@ -37,7 +37,7 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
   def typed_value
     return nil unless value_present?
 
-    value == '1'
+    value == '1' || value == true
   end
 
   def validate_type_of_value
