@@ -49,9 +49,8 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       @repository = Repository::Filesystem.create(project: Project.find(PRJ_ID),
                                                   url:     repo_path,
                                                   path_encoding: nil)
+      assert @repository
     end
-
-    assert @repository
   end
 
   def teardown
