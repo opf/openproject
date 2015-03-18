@@ -141,7 +141,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Date' }
         let(:name) { I18n.t('attributes.start_date') }
         let(:required) { false }
-        let(:writable) { true }
+        let(:writable) { schema.start_date_writable? }
       end
     end
 
@@ -151,7 +151,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Date' }
         let(:name) { I18n.t('attributes.due_date') }
         let(:required) { false }
-        let(:writable) { true }
+        let(:writable) { schema.due_date_writable? }
       end
     end
 
