@@ -36,7 +36,7 @@ module API
             before do
               @budget = CostObject.find(params[:id])
 
-              authorize(:view_work_packages, context: @budget.project)
+              authorize_any([:view_work_packages, :view_budgets], projects: @budget.project)
             end
 
             get do
