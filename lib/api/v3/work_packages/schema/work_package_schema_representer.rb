@@ -216,8 +216,8 @@ module API
                                            }
                                          }
 
-          def current_user
-            context[:current_user]
+          def current_user_allowed_to(permission)
+            current_user && current_user.allowed_to?(permission, represented.project)
           end
         end
       end
