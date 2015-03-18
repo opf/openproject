@@ -44,7 +44,7 @@
 
 /* Indirectly styling size of result list */
 .select2-container {
-  position: static;
+  position: relative;
   max-width: 350px;
   width:100%;
 }
@@ -112,4 +112,17 @@
 
 .select2-drop-mask {
   z-index: 30000;
+}
+
+.select2-display-none {
+  display: none;
+}
+
+.ui-select-container {
+  // HACK. TODO: Remove ul overrides in various places.
+  // See: https://community.openproject.org/work_packages/18330
+
+  ul {
+    margin-left: 0;
+  }
 }
