@@ -61,3 +61,9 @@ require('Caret.js/src/jquery.caret.js');
 
 require('select2/select2.js');
 require('select2/select2.css');
+
+require('angular');
+require('angular-sanitize');
+
+require('ui-select/dist/select');
+require('ui-select/dist/select.css');
