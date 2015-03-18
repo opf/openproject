@@ -95,7 +95,7 @@ module OpenProject::Costs::Patches::WorkPackagePatch
 
   module InstanceMethods
     def costs_enabled?
-      project && project.module_enabled?(:costs_module)
+      project && project.costs_enabled?
     end
 
     def validate_cost_object

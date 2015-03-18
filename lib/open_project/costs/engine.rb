@@ -102,6 +102,7 @@ module OpenProject::Costs
 
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper]
+    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
 
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
@@ -199,6 +200,25 @@ module OpenProject::Costs
         current_user_allowed_to(:view_time_entries) ||
           (current_user_allowed_to(:view_own_time_entries) && represented.costs_enabled?)
       end
+    end
+
+    extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      schema_with_allowed_collection :budget,
+                                     name_source: :cost_object,
+                                     required: false,
+                                     values_callback: -> (*) {
+                                       represented.assignable_cost_objects
+                                     },
+                                     value_representer: ::API::V3::Budgets::BudgetRepresenter,
+                                     link_factory: -> (budget) {
+                                       {
+                                           href: api_v3_paths.budget(budget.id),
+                                           title: budget.subject
+                                       }
+                                     },
+                                     show_if: -> (*) {
+                                       represented.project.costs_enabled?
+                                     }
     end
 
     assets %w(costs/costs.css

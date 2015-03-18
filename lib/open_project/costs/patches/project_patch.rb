@@ -19,7 +19,9 @@
 
 module OpenProject::Costs::Patches::ProjectPatch
   def self.included(base) # :nodoc:
-    # Same as typing in the class
+    base.extend(ClassMethods)
+    base.include(InstanceMethods)
+
     base.class_eval do
       unloadable
 
@@ -27,10 +29,18 @@ module OpenProject::Costs::Patches::ProjectPatch
       has_many :rates, :class_name => 'HourlyRate'
 
       has_many :member_groups, :class_name => 'Member',
-                               :include => :principal,
-                               :conditions => "#{Principal.table_name}.type='Group'"
+               :include => :principal,
+               :conditions => "#{Principal.table_name}.type='Group'"
       has_many :groups, :through => :member_groups, :source => :principal
     end
+  end
 
+  module ClassMethods
+  end
+
+  module InstanceMethods
+    def costs_enabled?
+      module_enabled?(:costs_module)
+    end
   end
 end
