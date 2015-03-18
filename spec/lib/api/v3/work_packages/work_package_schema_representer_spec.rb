@@ -40,6 +40,72 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:representer) { described_class.create(schema, current_user: current_user) }
   subject { representer.to_json }
 
+  describe 'spentTime' do
+    shared_examples_for 'spentTime visible' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'spentTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
+
+    shared_examples_for 'spentTime not visible' do
+      it { is_expected.not_to have_json_path('spentTime') }
+    end
+
+    let(:can_view_time_entries) { false }
+    let(:can_view_own_time_entries) { false }
+
+    before do
+      allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
+        .and_return can_view_time_entries
+      allow(current_user).to receive(:allowed_to?).with(:view_own_time_entries, work_package.project)
+        .and_return can_view_own_time_entries
+    end
+
+    context 'costs enabled' do
+      before do
+        allow(schema.project).to receive(:costs_enabled?).and_return true
+      end
+
+      context 'with no time entry permissions' do
+        it_behaves_like 'spentTime not visible'
+      end
+
+      context 'with :view_time_entries permission' do
+        let(:can_view_time_entries) { true }
+        it_behaves_like 'spentTime visible'
+      end
+
+      context 'with :view_own_time_entries permission' do
+        let(:can_view_own_time_entries) { true }
+        it_behaves_like 'spentTime visible'
+      end
+    end
+
+    context 'costs disabled' do
+      before do
+        allow(schema.project).to receive(:costs_enabled?).and_return false
+      end
+
+      context 'with no time entry permissions' do
+        it_behaves_like 'spentTime not visible'
+      end
+
+      context 'with :view_time_entries permission' do
+        let(:can_view_time_entries) { true }
+        it_behaves_like 'spentTime visible'
+      end
+
+      context 'with :view_own_time_entries permission' do
+        let(:can_view_own_time_entries) { true }
+        it_behaves_like 'spentTime not visible'
+      end
+    end
+  end
+
   describe 'budget' do
     it_behaves_like 'has basic schema properties' do
       let(:path) { 'budget' }

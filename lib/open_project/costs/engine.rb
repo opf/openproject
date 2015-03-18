@@ -203,6 +203,15 @@ module OpenProject::Costs
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      schema :spent_time,
+             type: 'Duration',
+             writable: false,
+             show_if: -> (*) {
+               current_user_allowed_to(:view_time_entries) ||
+                 (current_user_allowed_to(:view_own_time_entries) &&
+                     represented.project.costs_enabled?)
+             }
+
       schema_with_allowed_collection :budget,
                                      name_source: :cost_object,
                                      required: false,
