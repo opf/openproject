@@ -147,6 +147,15 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         data[getAttribute($scope)] = value;
       }
     },
+    float: {
+      submit: function($scope, data) {
+        var value = $scope.dataObject.value;
+        if ($scope.dataObject.value === '') {
+          value = null;
+        }
+        data[getAttribute($scope)] = value;
+      }
+    },
     text: {
       link: function(scope, element) {
         enableAutoCompletion(element);
