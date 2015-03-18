@@ -56,7 +56,8 @@ module API
           def self.linked_property(property,
                                    namespace: property.to_s.pluralize,
                                    association: "#{property}_id",
-                                   path: property)
+                                   path: property,
+                                   show_if: true)
 
             property property,
                      exec_context: :decorator,
@@ -69,7 +70,8 @@ module API
                                   namespace: namespace,
                                   value: value,
                                   setter_method: :"#{association}=")
-                     }
+                     },
+                     if: show_if
           end
 
           linked_property :type
