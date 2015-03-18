@@ -53,7 +53,7 @@ module CustomFieldsHelper
       styled_text_field_tag(field_name, custom_value.value, id: field_id, size: 10) +
       calendar_for(field_id)
     when 'text'
-      styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3, style: 'width:90%')
+      styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3)
     when 'bool'
       hidden_tag = hidden_field_tag(field_name, '0')
       checkbox_tag = styled_check_box_tag(field_name, '1', custom_value.typed_value, id: field_id)
