@@ -155,7 +155,6 @@ module API
                                    }
 
           schema_with_allowed_collection :type,
-                                         type: 'Type',
                                          values_callback: -> (*) {
                                            represented.assignable_types
                                          },
@@ -168,7 +167,6 @@ module API
                                          }
 
           schema_with_allowed_collection :status,
-                                         type: 'Status',
                                          values_callback: -> (*) {
                                            represented.assignable_statuses_for(current_user)
                                          },
@@ -181,7 +179,6 @@ module API
                                          }
 
           schema_with_allowed_collection :category,
-                                         type: 'Category',
                                          values_callback: -> (*) {
                                            represented.assignable_categories
                                          },
@@ -195,7 +192,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :version,
-                                         type: 'Version',
                                          values_callback: -> (*) {
                                            represented.assignable_versions
                                          },
@@ -209,7 +205,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :priority,
-                                         type: 'Priority',
                                          values_callback: -> (*) {
                                            represented.assignable_priorities
                                          },
