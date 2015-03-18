@@ -107,13 +107,15 @@ class UserMailerTest < ActionMailer::TestCase
                     "My related Ticket (#{related_issue.status})",
                     text: "##{related_issue.id}"
       # link to a changeset
-      assert_select 'a[href=?][title=?]',
-                    url_for(controller: 'repositories',
-                            action: 'revision',
-                            project_id: project,
-                            rev: changeset.revision),
-                    'This commit fixes #1, #2 and references #1 and #3',
-                    text: "r#{changeset.revision}"
+      if changeset
+        assert_select 'a[href=?][title=?]',
+                      url_for(controller: 'repositories',
+                              action: 'revision',
+                              project_id: project,
+                              rev: changeset.revision),
+                      'This commit fixes #1, #2 and references #1 and #3',
+                      text: "r#{changeset.revision}"
+      end
       # link to an attachment
       assert_select 'a[href=?]',
                     "https://mydomain.foo/attachments/#{attachment.id}/download",
@@ -148,13 +150,15 @@ class UserMailerTest < ActionMailer::TestCase
                     "My related Ticket (#{related_issue.status})",
                     text: "##{related_issue.id}"
       # link to a changeset
-      assert_select 'a[href=?][title=?]',
-                    url_for(controller: 'repositories',
-                            action: 'revision',
-                            project_id: project,
-                            rev: changeset.revision),
-                    'This commit fixes #1, #2 and references #1 and #3',
-                    text: "r#{changeset.revision}"
+      if changeset
+        assert_select 'a[href=?][title=?]',
+                      url_for(controller: 'repositories',
+                              action: 'revision',
+                              project_id: project,
+                              rev: changeset.revision),
+                      'This commit fixes #1, #2 and references #1 and #3',
+                      text: "r#{changeset.revision}"
+      end
       # link to an attachment
       assert_select 'a[href=?]',
                     "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
@@ -192,13 +196,15 @@ class UserMailerTest < ActionMailer::TestCase
                     "My related Ticket (#{related_issue.status})",
                     text: "##{related_issue.id}"
       # link to a changeset
-      assert_select 'a[href=?][title=?]',
-                    url_for(controller: 'repositories',
-                            action: 'revision',
-                            project_id: project,
-                            rev: changeset.revision),
-                    'This commit fixes #1, #2 and references #1 and #3',
-                    text: "r#{changeset.revision}"
+      if changeset
+        assert_select 'a[href=?][title=?]',
+                      url_for(controller: 'repositories',
+                              action: 'revision',
+                              project_id: project,
+                              rev: changeset.revision),
+                      'This commit fixes #1, #2 and references #1 and #3',
+                      text: "r#{changeset.revision}"
+      end
       # link to an attachment
       assert_select 'a[href=?]',
                     "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
@@ -533,15 +539,28 @@ class UserMailerTest < ActionMailer::TestCase
                                  description: 'nothing here yet')
 
     # now change the issue, to get a nice journal
-    # we create a Filesystem repository for our changeset, so we have to enable it
-    Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
-    changeset = FactoryGirl.create :changeset,
-                                   repository: FactoryGirl.create(:repository, project: project),
-                                   comments: 'This commit fixes #1, #2 and references #1 and #3'
+    issue.description = "This is related to issue ##{related_issue.id}\n"
+
+    changeset = with_existing_filesystem_scm do |repo_url|
+      repository = FactoryGirl.build(:repository,
+                                     url: repo_url,
+                                     project: project)
+
+      repository.save!
+
+      FactoryGirl.create :changeset,
+                         repository: repository,
+                         comments: 'This commit fixes #1, #2 and references #1 and #3'
+    end
+
+    issue.description += " A reference to a changeset r#{changeset.revision}\n" if changeset
+
     attachment = FactoryGirl.create(:attachment,
                                     container: issue,
                                     author: issue.author)
-    issue.description = "This is related to issue ##{related_issue.id}\n A reference to a changeset r#{changeset.revision}\n A reference to an attachment attachment:#{attachment.filename}"
+
+    issue.description += " A reference to an attachment attachment:#{attachment.filename}"
+
     assert issue.save
     issue.reload
     journal = issue.journals.last

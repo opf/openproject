@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,41 +25,12 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoryFilesystemTest < ActiveSupport::TestCase
-  fixtures :all
+require File.expand_path('../../spec_helper', __FILE__)
+require File.expand_path('../../support/permission_specs', __FILE__)
 
-  def setup
-    super
-    @project = Project.find(3)
+describe RepositoriesController, "manage_repository permission", type: :controller do
+  include PermissionSpecs
 
-    with_existing_filesystem_scm do |repo_path|
-      assert @repository = Repository::Filesystem.create(project: @project,
-                                                         url: repo_path)
-    end
-  end
-
-  def test_fetch_changesets
-    with_existing_filesystem_scm do
-      @repository.fetch_changesets
-      @repository.reload
-
-      assert_equal 0, @repository.changesets.count
-      assert_equal 0, @repository.changes.count
-    end
-  end
-
-  def test_entries
-    with_existing_filesystem_scm do
-      assert_equal 3, @repository.entries('', 2).size
-      assert_equal 2, @repository.entries('dir', 3).size
-    end
-  end
-
-  def test_cat
-    with_existing_filesystem_scm do
-      assert_equal "TEST CAT\n", @repository.scm.cat('test')
-    end
-  end
+  check_permission_required_for('repositories#edit', :manage_repository)
 end

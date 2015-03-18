@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,41 +26,26 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoryFilesystemTest < ActiveSupport::TestCase
-  fixtures :all
+def with_created_filesystem_repository(&block)
+  let(:repository) do
+    repo = FactoryGirl.build(:repository)
 
-  def setup
-    super
-    @project = Project.find(3)
-
-    with_existing_filesystem_scm do |repo_path|
-      assert @repository = Repository::Filesystem.create(project: @project,
-                                                         url: repo_path)
+    # ignoring the bugs on url as those are expected:
+    # 1) directory is not existing
+    # 2) configuration is not whitelisting the directory
+    if repo.valid? || (repo.errors.keys - [:url]).empty?
+      repo.save(validate: false)
+    else
+      repo.save!
     end
+
+    repo
   end
 
-  def test_fetch_changesets
-    with_existing_filesystem_scm do
-      @repository.fetch_changesets
-      @repository.reload
-
-      assert_equal 0, @repository.changesets.count
-      assert_equal 0, @repository.changes.count
-    end
+  before do
+    allow(Setting).to receive(:enabled_scm).and_return(["Filesystem"])
   end
 
-  def test_entries
-    with_existing_filesystem_scm do
-      assert_equal 3, @repository.entries('', 2).size
-      assert_equal 2, @repository.entries('dir', 3).size
-    end
-  end
-
-  def test_cat
-    with_existing_filesystem_scm do
-      assert_equal "TEST CAT\n", @repository.scm.cat('test')
-    end
-  end
+  block.call
 end

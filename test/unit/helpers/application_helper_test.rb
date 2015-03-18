@@ -194,41 +194,57 @@ RAW
     version = FactoryGirl.create :version,
                                  name: '1.0',
                                  project: @project
-    Setting.enabled_scm = Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include? 'Filesystem'
-    repository = FactoryGirl.create :repository,
-                                    project: @project
-    changeset = FactoryGirl.create :changeset,
-                                   repository: repository,
-                                   comments: 'This commit fixes #1, #2 and references #1 & #3'
-    identifier = @project.identifier
-
-    source_link = link_to("#{identifier}:source:/some/file", { controller: 'repositories',
-                                                               action: 'entry',
-                                                               project_id: identifier,
-                                                               path: 'some/file' },
-                          class: 'source')
-    changeset_link = link_to("#{identifier}:r#{changeset.revision}",
-                             { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset.revision },
-                             class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3')
-
-    # format_text "sees" the text is parses from the_other_project (and not @project)
-    the_other_project = FactoryGirl.create :valid_project
 
     to_test = {
       # versions
       'version:"1.0"'                         => 'version:"1.0"',
-      "#{identifier}:version:\"1.0\""         => "<a href=\"/versions/#{version.id}\" class=\"version\">1.0</a>",
-      'invalid:version:"1.0"'                 => 'invalid:version:"1.0"',
-      # changeset
-      "r#{changeset.revision}"                => "r#{changeset.revision}",
-      "#{identifier}:r#{changeset.revision}"  => changeset_link,
-      "invalid:r#{changeset.revision}"        => "invalid:r#{changeset.revision}",
-      # source
-      'source:/some/file'                     => 'source:/some/file',
-      "#{identifier}:source:/some/file"       => source_link,
-      'invalid:source:/some/file'             => 'invalid:source:/some/file',
+      "#{@project.identifier}:version:\"1.0\"" => "<a href=\"/versions/#{version.id}\" " +
+                                                  "class=\"version\">1.0</a>",
+      'invalid:version:"1.0"'                 => 'invalid:version:"1.0"'
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, project: the_other_project), "#{text} failed" }
+
+    with_existing_filesystem_scm do |repo_path|
+      repository = FactoryGirl.create :repository,
+                                      url: repo_path,
+                                      project: @project
+      changeset = FactoryGirl.create :changeset,
+                                     repository: repository,
+                                     comments: 'This commit fixes #1, #2 and references #1 & #3'
+      identifier = @project.identifier
+
+      source_link = link_to("#{identifier}:source:/some/file",
+                            { controller: 'repositories',
+                              action: 'entry',
+                              project_id: identifier,
+                              path: 'some/file' },
+                            class: 'source')
+      changeset_link = link_to("#{identifier}:r#{changeset.revision}",
+                               { controller: 'repositories',
+                                 action: 'revision',
+                                 project_id: identifier,
+                                 rev: changeset.revision },
+                               class: 'changeset',
+                               title: 'This commit fixes #1, #2 and references #1 & #3')
+
+      to_test.merge!(
+        # changeset
+        "r#{changeset.revision}"                => "r#{changeset.revision}",
+        "#{@project.identifier}:r#{changeset.revision}"  => changeset_link,
+        "invalid:r#{changeset.revision}"        => "invalid:r#{changeset.revision}",
+        # source
+        'source:/some/file'                     => 'source:/some/file',
+        "#{@project.identifier}:source:/some/file"       => source_link,
+        'invalid:source:/some/file'             => 'invalid:source:/some/file',
+      )
+    end
+
+    # format_text "sees" the text is parses from the_other_project (and not @project)
+    the_other_project = FactoryGirl.create :valid_project
+
+    to_test.each do |text, result|
+      assert_equal "<p>#{result}</p>",
+                   format_text(text, project: the_other_project), "#{text} failed"
+    end
   end
 
   def test_redmine_links_git_commit
