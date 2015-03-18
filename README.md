@@ -83,7 +83,7 @@ possible without their original contribution. Those contributors are:
 
 * Marnen Laibow-Koser
 * Sandro Munda
-* friflaj
+* Emiliano Heyns (friflaj)
 * Maxime Guilbot
 * Andrew Vit
 * Joakim Kolsjö
@@ -91,7 +91,6 @@ possible without their original contribution. Those contributors are:
 * Daniel Passos
 * Jason Vasquez
 * jpic
-* Emiliano Heyns
 * Mark Maglana
 * Joe Heck
 * Nate Lowrie
@@ -105,8 +104,8 @@ Licence
 
 Copyright (C)2013-2014 the OpenProject Foundation (OPF)<br />
 Copyright (C)2011 Marnen Laibow-Koser, Sandro Munda<br />
-Copyright (C)2010-2011 friflaj<br />
-Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns<br />
+Copyright (C)2010-2011 Emiliano Heyns (friflaj)<br />
+Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic<br />
 Copyright (C)2009-2010 Mark Maglana<br />
 Copyright (C)2009 Joe Heck, Nate Lowrie
 
