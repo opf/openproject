@@ -64,9 +64,13 @@ module.exports = function($scope,
       .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
         WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
-          if (callback) {
-            callback(workPackage);
-          }
+          return workPackage.links.schema.fetch().then(function(response) {
+            workPackage.schema = response;
+            if (callback) {
+              callback(workPackage);
+            }
+          });
+
         });
       });
   }
