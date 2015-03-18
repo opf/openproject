@@ -40,7 +40,7 @@ module API
         subclass.send(:execute_patches_for, nil)
       end
 
-      def namespace(name, *args,  &block)
+      def namespace(name, *args, &block)
         super(name, *args) do
           instance_eval(&block)
           execute_patches_for(name)
