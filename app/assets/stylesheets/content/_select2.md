@@ -36,6 +36,22 @@ jQuery(function($) {
 </div>
 ```
 
+## ui-select (Angular): multiple
+
+```
+<div ng-controller="UiSelectExample" style="min-height: 100px">
+  <ui-select multiple ng-model="selectedPeople" theme="select2" ng-disabled="disabled" style="min-width: 300px;">
+    <ui-select-match placeholder="Select a person in the list or search their name">{{$item.name}}</ui-select-match>
+    <ui-select-choices repeat="person in people | filter: $select.search">
+      <div ng-bind-html="person.name | highlight: $select.search"></div>
+      <small>
+        email: {{person.email}}
+      </small>
+    </ui-select-choices>
+  </ui-select>
+</div>
+```
+
 ```
 @javascript
 
@@ -61,5 +77,6 @@ angular.module('openproject-style-guide').controller('UiSelectExample', ['$scope
     { name: 'Nicole',    email: 'nicole@email.com'    },
     { name: 'Adrian',    email: 'adrian@email.com'    }
   ];
+  $scope.selectedPeople = [$scope.people[5], $scope.people[4]];
 }]);
 ```
