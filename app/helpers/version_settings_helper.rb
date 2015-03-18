@@ -39,17 +39,22 @@ module VersionSettingsHelper
   def version_settings_fields(version, project)
     setting = version_setting_for_project(version, project)
 
-    ret = "<p>"
-    ret += label_tag name_for_setting_attributes("display"), l(:label_column_in_backlog)
-    ret += select_tag name_for_setting_attributes("display"), options_for_select(position_display_options, setting.display)
-    ret += hidden_field_tag name_for_setting_attributes("id"), setting.id if setting.id
-    ret += hidden_field_tag "project_id", project.id
-    ret += "</p>"
-
-    ret.html_safe
+    content_tag :div, class: 'form--field' do
+      [
+        styled_label_tag(name_for_setting_attributes('display'), l(:label_column_in_backlog)),
+        styled_select_tag(name_for_setting_attributes('display'), options_for_select(position_display_options, setting.display)),
+        version_hidden_id_field(setting),
+        hidden_field_tag('project_id', project.id)
+      ].join.html_safe
+    end
   end
 
   private
+
+  def version_hidden_id_field(setting)
+    return '' unless setting.id
+    hidden_field_tag(name_for_setting_attributes("id"), setting.id)
+  end
 
   def version_setting_for_project(version, project)
     setting = version.version_settings.detect { |vs| vs.project_id == project.id || vs.project_id.nil? }
