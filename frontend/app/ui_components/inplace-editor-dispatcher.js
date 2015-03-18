@@ -126,7 +126,11 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   var hooks = {
     _fallback: {
       submit: function($scope, data) {
-        data[getAttribute($scope)] = $scope.dataObject.value;
+        var value = $scope.dataObject.value;
+        if ($scope.dataObject.value === '') {
+          value = null;
+        }
+        data[getAttribute($scope)] = value;
       },
       setWriteValue: function($scope) {
         $scope.dataObject = {
@@ -135,25 +139,9 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       },
       setReadValue: function($scope) {
         $scope.readValue = getReadAttributeValue($scope);
-      }
-    },
-
-    integer: {
-      submit: function($scope, data) {
-        var value = $scope.dataObject.value;
-        if ($scope.dataObject.value === '') {
-          value = null;
+        if ($scope.readValue === '') {
+          $scope.readValue = null;
         }
-        data[getAttribute($scope)] = value;
-      }
-    },
-    float: {
-      submit: function($scope, data) {
-        var value = $scope.dataObject.value;
-        if ($scope.dataObject.value === '') {
-          value = null;
-        }
-        data[getAttribute($scope)] = value;
       }
     },
     text: {
@@ -279,7 +267,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
   this._getReadAttributeValue = getReadAttributeValue;
 
   this.dispatchHook = function($scope, action, data) {
-    var actionFunction = hooks[$scope.type][action] || hooks._fallback[action] || angular.noop;
+    var actionFunction = hooks[$scope.type] ? (hooks[$scope.type][action] || hooks._fallback[action] || angular.noop) : hooks._fallback[action] || angular.noop;
     return actionFunction.call(this, $scope, data);
   };
 };
