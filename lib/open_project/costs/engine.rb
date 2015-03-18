@@ -104,6 +104,8 @@ module OpenProject::Costs
              :ProjectsController, :ApplicationHelper, :UsersHelper]
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
 
+    allow_attribute_update :work_package, :cost_object_id
+
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
     end
@@ -144,9 +146,7 @@ module OpenProject::Costs
                       association: :cost_object,
                       title_getter: -> (*) { represented.cost_object.subject },
                       embed_as: ::API::V3::Budgets::BudgetRepresenter,
-                      show_if: -> (*) {
-                        represented.costs_enabled? && !represented.cost_object.nil?
-                      }
+                      show_if: -> (*) { represented.costs_enabled? }
 
       property :overall_costs,
                exec_context: :decorator,
@@ -200,6 +200,12 @@ module OpenProject::Costs
         current_user_allowed_to(:view_time_entries) ||
           (current_user_allowed_to(:view_own_time_entries) && represented.costs_enabled?)
       end
+    end
+
+    extend_api_response(:v3, :work_packages, :form, :work_package_attribute_links) do
+      linked_property :budget,
+                      association: :cost_object_id,
+                      show_if: -> (*) { represented.costs_enabled? }
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
