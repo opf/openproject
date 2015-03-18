@@ -37,8 +37,45 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:schema) {
     ::API::V3::WorkPackages::Schema::WorkPackageSchema.new(work_package: work_package)
   }
-  let(:representer) { described_class.create(schema, current_user: current_user) }
+  let(:embedded) { false }
+  let(:representer) {
+    described_class.create(schema,
+                           form_embedded: embedded,
+                           current_user: current_user)
+  }
   subject { representer.to_json }
+
+  shared_examples_for 'has a collection of allowed values' do
+    let(:embedded) { true }
+
+    context 'when no values are allowed' do
+      before { allow(schema).to receive(allowed_values_method).and_return([]) }
+
+      it_behaves_like 'links to and embeds allowed values directly' do
+        let(:path) { json_path }
+        let(:hrefs) { [] }
+      end
+    end
+
+    context 'when values are allowed' do
+      let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
+
+      before { allow(schema).to receive(allowed_values_method).and_return(values) }
+
+      it_behaves_like 'links to and embeds allowed values directly' do
+        let(:path) { json_path }
+        let(:hrefs) { values.map { |value| "/api/v3/#{href_path}/#{value.id}" } }
+      end
+    end
+
+    context 'when not embedded' do
+      let(:embedded) { false }
+
+      it_behaves_like 'does not link to allowed values' do
+        let(:path) { json_path }
+      end
+    end
+  end
 
   describe 'spentTime' do
     shared_examples_for 'spentTime visible' do
