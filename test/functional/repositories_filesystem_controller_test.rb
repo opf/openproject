@@ -50,9 +50,9 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
           :url     => repo_path,
           :path_encoding => nil
           )
-    end
 
-    assert @repository
+      assert @repository
+    end
   end
 
   def test_browse_root
