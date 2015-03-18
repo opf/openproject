@@ -113,7 +113,7 @@ module API
           end
 
           def self.string_object(value)
-            "#{root}/string_objects/#{::ERB::Util::url_encode(value)}"
+            "#{root}/string_objects?value=#{::ERB::Util::url_encode(value)}"
           end
 
           def self.types
