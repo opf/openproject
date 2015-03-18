@@ -242,6 +242,8 @@ de:
         project_association:
           identical_projects: "kann nicht von einem Projekt auf sich selbst erstellt werden"
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
+        repository:
+          not_whitelisted: "wird durch die Konfiguration nicht erlaubt"
         user:
           attributes:
             password:

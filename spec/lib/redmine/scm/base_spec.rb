@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,41 +26,45 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoryFilesystemTest < ActiveSupport::TestCase
-  fixtures :all
+require 'spec_helper'
 
-  def setup
-    super
-    @project = Project.find(3)
+describe Redmine::Scm::Base do
+  describe '.configured' do
+    subject { described_class.configured }
 
-    with_existing_filesystem_scm do |repo_path|
-      assert @repository = Repository::Filesystem.create(project: @project,
-                                                         url: repo_path)
+    let(:test_scm_class) do
+      Class.new
     end
-  end
 
-  def test_fetch_changesets
-    with_existing_filesystem_scm do
-      @repository.fetch_changesets
-      @repository.reload
-
-      assert_equal 0, @repository.changesets.count
-      assert_equal 0, @repository.changes.count
+    before do
+      Repository.const_set('TestScm', test_scm_class)
+      Redmine::Scm::Base.add 'TestScm'
     end
-  end
 
-  def test_entries
-    with_existing_filesystem_scm do
-      assert_equal 3, @repository.entries('', 2).size
-      assert_equal 2, @repository.entries('dir', 3).size
+    after do
+      Repository.send(:remove_const, :TestScm)
+      Redmine::Scm::Base.delete 'TestScm'
     end
-  end
 
-  def test_cat
-    with_existing_filesystem_scm do
-      assert_equal "TEST CAT\n", @repository.scm.cat('test')
+    context 'scm is configured' do
+      before do
+        allow(test_scm_class).to receive(:configured?).and_return(true)
+      end
+
+      it 'is included' do
+        is_expected.to include('TestScm')
+      end
+    end
+
+    context 'scm is not configured' do
+      before do
+        allow(test_scm_class).to receive(:configured?).and_return(false)
+      end
+
+      it 'is included' do
+        is_expected.to_not include('TestScm')
+      end
     end
   end
 end

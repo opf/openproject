@@ -397,34 +397,33 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created a changeset' do
-    let(:repository) { FactoryGirl.create(:repository) }
-    let(:associated_instance) {
-      FactoryGirl.build(:changeset, repository_id: repository.id,
-                                    committer: user.login)
-    }
+    with_created_filesystem_repository do
+      let(:associated_instance) do
+        FactoryGirl.build(:changeset,
+                          repository_id: repository.id,
+                          committer: user.login)
+      end
 
-    let(:associated_class) { Changeset }
-    let(:associations) { [:user] }
-
-    before do
-      Setting.enabled_scm = Setting.enabled_scm << 'Filesystem'
+      let(:associated_class) { Changeset }
+      let(:associations) { [:user] }
     end
 
     it_should_behave_like 'created journalized associated object'
   end
 
   describe 'WHEN the user has updated a changeset' do
-    let(:repository) { FactoryGirl.create(:repository) }
-    let(:associated_instance) {
-      FactoryGirl.build(:changeset, repository_id: repository.id,
-                                    committer: user2.login)
-    }
+    with_created_filesystem_repository do
+      let(:associated_instance) do
+        FactoryGirl.build(:changeset,
+                          repository_id: repository.id,
+                          committer: user2.login)
+      end
+    end
 
     let(:associated_class) { Changeset }
     let(:associations) { [:user] }
 
     before do
-      Setting.enabled_scm = Setting.enabled_scm << 'Filesystem'
       allow(User).to receive(:current).and_return user2
       associated_instance.user = user2
       associated_instance.save!
