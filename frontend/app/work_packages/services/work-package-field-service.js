@@ -31,7 +31,14 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
   function isEditable(workPackage, field) {
     // TODO: extract to strategy if new cases arise
     if (field === 'date') {
-      return workPackage.schema.props.startDate.writable && workPackage.schema.props.dueDate.writable;
+      return false;
+      //return workPackage.schema.props.startDate.writable && workPackage.schema.props.dueDate.writable;
+    }
+    if (field == 'estimatedTime') {
+      return false;
+    }
+    if(workPackage.schema.props[field].type == 'Date') {
+      return false;
     }
     return workPackage.schema.props[field].writable;
   }
@@ -59,7 +66,8 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
   }
 
   function isEmpty(workPackage, field) {
-    return WorkPackageFieldService.getValue(workPackage, field) === null;
+    var value = WorkPackageFieldService.getValue(workPackage, field);
+    return  value === null || value === '';
   }
 
   function getInplaceType(workPackage, field) {
@@ -135,9 +143,7 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       if (value === null) {
         return null;
       }
-
       var hours = moment.duration(value).asHours();
-
       return I18n.t('js.units.hour', { count: hours.toFixed(2) });
     } else {
       return WorkPackagesHelper.formatValue(value, mappings[field]);
