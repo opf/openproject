@@ -135,7 +135,6 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
       },
       setReadValue: function($scope) {
         $scope.readValue = getReadAttributeValue($scope);
-        console.log($scope.readValue, 'readValue');
       }
     },
 
