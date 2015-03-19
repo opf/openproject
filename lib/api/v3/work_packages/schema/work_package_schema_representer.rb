@@ -111,7 +111,8 @@ module API
 
           schema :spent_time,
                  type: 'Duration',
-                 writable: false
+                 writable: false,
+                 show_if: -> (_) { current_user_allowed_to(:view_time_entries) }
 
           property :percentage_done,
                    exec_context: :decorator,
