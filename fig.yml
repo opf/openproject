@@ -18,6 +18,7 @@ web:
     RAILS_ENV: production
     DATABASE_URL: postgres://openproject:openproject@db:5432/openproject
     SECRET_TOKEN: foobar
+    SESSION_STORE: active_record_store
   ports:
     - "3000:3000"
   links:
@@ -38,3 +39,10 @@ db:
   environment:
     POSTGRES_USER: openproject
     POSTGRES_PASSWORD: openproject
+  volumes_from:
+    - data
+
+data:
+  image: busybox:latest
+  volumes:
+    - /var/lib/postgresql/data
