@@ -42,7 +42,7 @@ module API
         end
 
         link 'versions' do
-          { href: api_v3_paths.versions(represented.id) }
+          { href: api_v3_paths.versions_by_project(represented.id) }
         end
 
         property :id, render_nil: true

@@ -286,16 +286,16 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/versions\/42/) }
   end
 
-  describe '#versions' do
-    subject { helper.versions 42 }
+  describe '#versions_by_project' do
+    subject { helper.versions_by_project 42 }
 
     it_behaves_like 'api v3 path'
 
     it { is_expected.to match(/^\/api\/v3\/projects\/42\/versions/) }
   end
 
-  describe '#versions_projects' do
-    subject { helper.versions_projects 42 }
+  describe '#projects_by_version' do
+    subject { helper.projects_by_version 42 }
 
     it_behaves_like 'api v3 path'
 

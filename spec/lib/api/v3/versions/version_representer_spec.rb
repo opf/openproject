@@ -80,7 +80,7 @@ describe ::API::V3::Versions::VersionRepresenter do
       describe 'to available projects' do
         it_behaves_like 'has an untitled link' do
           let(:link) { 'availableInProjects' }
-          let(:href) { api_v3_paths.versions_projects(version.id) }
+          let(:href) { api_v3_paths.projects_by_version(version.id) }
         end
       end
     end

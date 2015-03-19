@@ -140,11 +140,11 @@ module API
             "#{root}/versions/#{version_id}"
           end
 
-          def self.versions(project_id)
+          def self.versions_by_project(project_id)
             "#{project(project_id)}/versions"
           end
 
-          def self.versions_projects(version_id)
+          def self.projects_by_version(version_id)
             "#{version(version_id)}/projects"
           end
 

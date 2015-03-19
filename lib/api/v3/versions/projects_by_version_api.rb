@@ -42,7 +42,7 @@ module API
           get do
             Projects::ProjectCollectionRepresenter.new(@projects,
                                                        @projects.count,
-                                                       api_v3_paths.versions_projects(@version.id))
+                                                       api_v3_paths.projects_by_version(@version.id))
           end
         end
       end
