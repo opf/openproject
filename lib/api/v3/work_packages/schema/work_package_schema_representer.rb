@@ -76,53 +76,30 @@ module API
           schema :description,
                  type: 'Formattable'
 
-          property :start_date,
-                   exec_context: :decorator,
-                   getter: -> (*) do
-                     representer = ::API::Decorators::PropertySchemaRepresenter
-                                   .new(type: 'Date',
-                                        name: WorkPackage.human_attribute_name(:start_date))
-                     representer.writable = represented.start_date_writable?
-                     representer.required = false
-                     representer
-                   end
+          schema :start_date,
+                 type: 'Date',
+                 required: false,
+                 writable: -> { represented.start_date_writable? }
 
-          property :due_date,
-                   exec_context: :decorator,
-                   getter: -> (*) do
-                     representer = ::API::Decorators::PropertySchemaRepresenter
-                                   .new(type: 'Date',
-                                        name: WorkPackage.human_attribute_name(:due_date))
-                     representer.writable = represented.due_date_writable?
-                     representer.required = false
-                     representer
-                   end
+          schema :due_date,
+                 type: 'Date',
+                 required: false,
+                 writable: -> { represented.due_date_writable? }
 
-          property :estimated_time,
-                   exec_context: :decorator,
-                   getter: -> (*) do
-                     representer = ::API::Decorators::PropertySchemaRepresenter
-                                   .new(type: 'Duration',
-                                        name: WorkPackage.human_attribute_name(:estimated_time))
-                     representer.writable = represented.estimated_time_writable?
-                     representer.required = false
-                     representer
-                   end
+          schema :estimated_time,
+                 type: 'Duration',
+                 required: false,
+                 writable: -> { represented.estimated_time_writable? }
 
           schema :spent_time,
                  type: 'Duration',
                  writable: false
 
-          property :percentage_done,
-                   exec_context: :decorator,
-                   getter: -> (*) do
-                     representer = ::API::Decorators::PropertySchemaRepresenter
-                                   .new(type: 'Integer',
-                                        name: WorkPackage.human_attribute_name(:done_ratio))
-                     representer.writable = represented.percentage_done_writable?
-                     representer
-                   end,
-                   if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
+          schema :percentage_done,
+                 type: 'Integer',
+                 name_source: :done_ratio,
+                 writable: -> { represented.percentage_done_writable? },
+                 show_if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
 
           schema :created_at,
                  type: 'DateTime',
