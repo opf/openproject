@@ -181,7 +181,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not allowed to view time entries' do
         before do
-          allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
+          allow(current_user).to receive(:allowed_to?).with(:view_time_entries,
+                                                            work_package.project)
             .and_return false
         end
 
