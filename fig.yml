@@ -4,15 +4,26 @@
 # $ fig build
 #
 # migrate the database
-# $ fig run web bundle exec rake db:migrate
+# $ fig run app bundle exec rake db:migrate
 #
 # seed the database
-# $ fig run web bundle exec rake db:seed
+# $ fig run app bundle exec rake db:seed
 #
 # run database, openproject, and worker process
 # $ fig up -d
 
 web:
+  image: nginx:1.7
+  ports:
+    - "80:80"
+  links:
+    - app
+  volumes:
+    - ./config/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  volumes_from:
+    - app
+
+app:
   build: .
   environment:
     RAILS_ENV: production
@@ -23,6 +34,8 @@ web:
     - "3000:3000"
   links:
     - db
+  volumes:
+    - /usr/src/openproject/public
 
 worker:
   build: .
