@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="grid-block">
   <div class="form--column">
     <div class="form--field">
-      <%= f.select :type_id, work_package_form_type_selectable_types(project) %>
+      <%= f.select :type_id, work_package_form_type_selectable_types(project), {}, class: '-narrow' %>
       <%= observe_field :work_package_type_id, url: work_package_form_type_observable_url(work_package, project),
                                                   update: :attributes,
                                                   method: :get,
@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= f.text_field :subject, required: true %>
 </div>
 <div class="form--field -vertical">
-  <%= f.text_area :description, accesskey: accesskey(:edit),  class: 'wiki-edit',:'ng-non-bindable' => '',
+  <%= f.text_area :description, accesskey: accesskey(:edit), class: 'wiki-edit', rows: 10, :'ng-non-bindable' => '',
                   :'data-wp_autocomplete_url' => work_packages_auto_complete_path(project_id: work_package.project, format: :json) %>
 </div>
 
