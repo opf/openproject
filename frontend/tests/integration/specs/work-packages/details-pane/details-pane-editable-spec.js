@@ -158,7 +158,7 @@ describe('OpenProject', function(){
           previewButton.click();
           expect(
             descriptionEditor
-              .$('.preview-wrapper')
+              .$('.inplace-edit--preview')
               .isDisplayed()
           ).to.eventually.be.true;
         });

@@ -66,7 +66,7 @@
 
   <div class="inplace-edit--write " >
     <form class="inplace-edit--form " name="editForm"  novalidate="">
-      <div class="ined-input-wrapper">
+      <div class="inplace-edit--write-value">
         <div class="ined-input-wrapper-inner "  src="getTemplateUrl()">
           <div class="jstElements">
             <button type="button" class="jstb_strong" title="Strong">
@@ -256,7 +256,7 @@
           <div class="inplace-edit type-select2 attribute-status.name" aria-busy="false" aria-disabled="false">
             <div class="inplace-edit--write" >
               <form name="editForm" class="inplace-edit--form">
-                <div class="ined-input-wrapper">
+                <div class="inplace-edit--write-value">
                   <div class="ined-input-wrapper-inner"  >
                     <input type="text" class="focus-input inplace-edit--text-field" aria-label="Status: Edit focus" aria-haspopup="true" role="button" aria-disabled="false" value="New">
                   </div>

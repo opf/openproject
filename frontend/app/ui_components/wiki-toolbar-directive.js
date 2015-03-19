@@ -53,14 +53,14 @@ module.exports = function() {
         var title = scope.isPreview ? PREVIEW_DISABLE_TEXT : PREVIEW_ENABLE_TEXT;
         var toggledClasses = 'icon-issue-watched icon-ticket-edit -active';
 
-        element.closest('.ined-input-wrapper')
+        element.closest('.inplace-edit--write-value')
                .find('.' + PREVIEW_BUTTON_CLASS).attr('title', title)
                                                 .toggleClass(toggledClasses);
       });
     };
 
     element
-      .closest('.ined-input-wrapper')
+      .closest('.inplace-edit--write-value')
       .find('.jstb_help')
       .after(jQuery('<button>', previewButtonAttributes));
     // changes are made by jQuery, we trigger input event so that

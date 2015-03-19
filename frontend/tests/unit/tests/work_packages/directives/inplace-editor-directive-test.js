@@ -146,7 +146,7 @@ describe('inplaceEditor Directive', function() {
             scope.$digest();
           });
           it('should render a text input', function() {
-            expect(element.find('.ined-input-wrapper input[type="text"]').length).to.eq(1);
+            expect(element.find('.inplace-edit--write-value input[type="text"]').length).to.eq(1);
           });
         });
         context('wiki_textarea', function() {
@@ -192,17 +192,17 @@ describe('inplaceEditor Directive', function() {
             scope.$digest();
           });
           it('should render a textarea', function() {
-            expect(element.find('.ined-input-wrapper textarea').length).to.eq(1);
+            expect(element.find('.inplace-edit--write-value textarea').length).to.eq(1);
           });
           it('should render the js toolbar', function() {
-            expect(element.find('.ined-input-wrapper .jstElements').length).to.eq(1);
+            expect(element.find('.inplace-edit--write-value .jstElements').length).to.eq(1);
           });
           it('should render a text formatting help link', function() {
-            expect(element.find('.ined-input-wrapper .jstb_help').length).to.eq(1);
+            expect(element.find('.inplace-edit--write-value .jstb_help').length).to.eq(1);
           });
           it('should set textaria\'s row count according to the content\'s row length', function() {
             $timeout.flush();
-            expect(element.find('.ined-input-wrapper textarea').attr('rows')).to.eq('4');
+            expect(element.find('.inplace-edit--write-value textarea').attr('rows')).to.eq('4');
           });
         });
       });
@@ -237,7 +237,7 @@ describe('inplaceEditor Directive', function() {
             scope.$digest();
           });
           it('should disable the input', function() {
-            expect(element.find('.ined-input-wrapper input').prop('disabled')).to.eq(true);
+            expect(element.find('.inplace-edit--write-value input').prop('disabled')).to.eq(true);
           });
         });
       });
@@ -516,12 +516,12 @@ describe('inplaceEditor Directive', function() {
       });
       context('input', function() {
         it('should be focused', function() {
-          expect(element.find('.ined-input-wrapper input').get(0)).to.eq(document.activeElement);
+          expect(element.find('.inplace-edit--write-value input').get(0)).to.eq(document.activeElement);
         });
         it('should call submit on RETURN pressed', function() {
           submitStub = sinon.stub(elementScope, 'submit').returns(false);
           // pressing enter triggers form submit (default browser behaviour)
-          element.find('.ined-input-wrapper').closest('form').triggerHandler('submit');
+          element.find('.inplace-edit--write-value').closest('form').triggerHandler('submit');
           submitStub.should.have.been.calledWith(false);
           submitStub.restore();
         });

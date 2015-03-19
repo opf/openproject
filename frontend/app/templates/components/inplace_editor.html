@@ -16,11 +16,11 @@
 
   <div class="inplace-edit--write" ng-if="isEditing">
     <form class="inplace-edit--form" name="editForm" ng-submit="submit(false)" novalidate>
-      <div class="ined-input-wrapper">
+      <div class="inplace-edit--write-value">
         <div class="ined-input-wrapper-inner"
              ng-include src="getTemplateUrl()">
         </div>
-        <div class="preview-wrapper" ng-if="isPreview && !isBusy">
+        <div class="inplace-edit--preview" ng-if="isPreview && !isBusy">
           <span ng-bind-html="previewHtml"></span>
         </div>
       </div>
