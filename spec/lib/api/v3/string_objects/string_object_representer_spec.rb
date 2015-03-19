@@ -53,6 +53,14 @@ describe ::API::V3::StringObjects::StringObjectRepresenter do
       it 'should have a value' do
         is_expected.to be_json_eql(value.to_json).at_path('value')
       end
+
+      context 'value is nil' do
+        let(:value) { nil }
+
+        it 'should be the empty string' do
+          is_expected.to be_json_eql(''.to_json).at_path('value')
+        end
+      end
     end
   end
 end

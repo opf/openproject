@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Utilities::CustomFieldInjector do
+  include API::V3::Utilities::PathHelper
+
   let(:cf_path) { "customField#{custom_field.id}" }
   let(:field_format) { 'bool' }
   let(:custom_field) {
@@ -136,7 +138,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'links to allowed values directly' do
         let(:path) { cf_path }
-        let(:hrefs) { versions.map { |version| "/api/v3/versions/#{version.id}" } }
+        let(:hrefs) { versions.map { |version| api_v3_paths.version version.id } }
       end
 
       it 'embeds allowed values' do
@@ -165,7 +167,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'links to and embeds allowed values directly' do
         let(:path) { cf_path }
-        let(:hrefs) { values.map { |value| "/api/v3/string_objects/#{value}" } }
+        let(:hrefs) { values.map { |value| api_v3_paths.string_object(value) } }
       end
     end
 
@@ -186,7 +188,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'links to allowed values via collection link' do
         let(:path) { cf_path }
-        let(:href) { '/api/v3/projects/42/available_assignees' }
+        let(:href) { api_v3_paths.available_assignees 42 }
       end
     end
   end
@@ -221,7 +223,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'has an untitled link' do
         let(:link) { cf_path }
-        let(:href) { '/api/v3/users/2' }
+        let(:href) { api_v3_paths.user 2 }
       end
 
       it 'has the user embedded' do
@@ -248,7 +250,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'has an untitled link' do
         let(:link) { cf_path }
-        let(:href) { '/api/v3/versions/2' }
+        let(:href) { api_v3_paths.version 2 }
       end
 
       it 'has the version embedded' do
@@ -275,7 +277,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'has an untitled link' do
         let(:link) { cf_path }
-        let(:href) { '/api/v3/string_objects/Foobar' }
+        let(:href) { api_v3_paths.string_object 'Foobar' }
       end
 
       it 'has the string object embedded' do
@@ -376,7 +378,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'has an untitled link' do
         let(:link) { cf_path }
-        let(:href) { '/api/v3/users/2' }
+        let(:href) { api_v3_paths.user 2 }
       end
 
       context 'value is nil' do
@@ -397,7 +399,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       let(:field_format) { 'user' }
 
       it 'accepts a valid link' do
-        json = { cf_path => { href: '/api/v3/users/2' } }.to_json
+        json = { cf_path => { href: (api_v3_paths.user 2) } }.to_json
         expected = { custom_field.id => '2' }
 
         expect(represented).to receive(:custom_field_values=).with(expected)

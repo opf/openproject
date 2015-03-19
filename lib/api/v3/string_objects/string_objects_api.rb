@@ -37,17 +37,8 @@ module API
             requires :value, type: String
           end
 
-          # N.B. we are specifying our own requirements to allow arbitrary strings as value
-          # as of today values like '.foo' or 'foo.' would not be possible otherwise
-          route_param :value, requirements: { value: /.+/ } do
-            get do
-              StringObjectRepresenter.new(params[:value])
-            end
-          end
-
-          # we need to explicitly cover the empty case because of the way route matching works
           get do
-            StringObjectRepresenter.new('')
+            StringObjectRepresenter.new(params[:value])
           end
         end
       end
