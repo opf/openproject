@@ -144,7 +144,7 @@ describe('OpenProject', function(){
       });
 
       describe('preview', function() {
-        var previewButton = descriptionEditor.$('.btn-preview');
+        var previewButton = descriptionEditor.$('.jstb_preview');
 
         beforeEach(function() {
           descriptionEditor.$('.inplace-editing--trigger-link').click();

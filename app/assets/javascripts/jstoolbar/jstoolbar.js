@@ -207,7 +207,7 @@ jsToolBar.prototype = {
     this.toolNodes = {}; // vide les raccourcis DOM/**/
 
     var h = document.createElement('div');
-    h.className = 'help';
+    h.className = 'jstb_help';
     h.innerHTML = this.help_link;
 
     // Draw toolbar elements

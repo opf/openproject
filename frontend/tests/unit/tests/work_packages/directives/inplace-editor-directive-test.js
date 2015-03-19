@@ -198,7 +198,7 @@ describe('inplaceEditor Directive', function() {
             expect(element.find('.ined-input-wrapper .jstElements').length).to.eq(1);
           });
           it('should render a text formatting help link', function() {
-            expect(element.find('.ined-input-wrapper .help').length).to.eq(1);
+            expect(element.find('.ined-input-wrapper .jstb_help').length).to.eq(1);
           });
           it('should set textaria\'s row count according to the content\'s row length', function() {
             $timeout.flush();

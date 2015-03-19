@@ -111,10 +111,14 @@
             <button type="button" class="jstb_img" title="Image">
               <span>Image</span>
             </button>
-            <div class="help">
-              <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">Text formatting</a>
+            <div class="jstb_help">
+              <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">
+                <span class="hidden-for-sighted">
+                  Text formatting
+                </span>
+              </a>
             </div>
-            <button class="btn-preview icon-issue-watched" type="button" title="Preview">
+            <button class="jstb_preview icon-issue-watched" type="button" title="Preview">
             </button>
           </div>
 

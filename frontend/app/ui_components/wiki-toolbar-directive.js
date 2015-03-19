@@ -27,11 +27,12 @@
 //++
 
 module.exports = function() {
-  var HELP_LINK_HTML = '<a href="/help/wiki_syntax" title="' + I18n.t('js.inplace.link_formatting_help') + '" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">' + I18n.t('js.inplace.link_formatting_help') + '</a>',
+  var HELP_LINK_HTML = '<a href="/help/wiki_syntax" title="' + I18n.t('js.inplace.link_formatting_help') + '" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;"><span class="hidden-for-sighted">' + I18n.t('js.inplace.link_formatting_help') + '</span></a>',
       PREVIEW_ENABLE_TEXT = I18n.t('js.inplace.btn_preview_enable'),
       PREVIEW_DISABLE_TEXT = I18n.t('js.inplace.btn_preview_disable'),
+      PREVIEW_BUTTON_CLASS = 'jstb_preview',
       PREVIEW_BUTTON_ATTRIBUTES = {
-        "class": 'btn-preview icon-issue-watched',
+        "class": PREVIEW_BUTTON_CLASS + ' icon-issue-watched',
         type: 'button',
         title: PREVIEW_ENABLE_TEXT,
         text: ''
@@ -50,16 +51,17 @@ module.exports = function() {
         scope.previewToggle();
 
         var title = scope.isPreview ? PREVIEW_DISABLE_TEXT : PREVIEW_ENABLE_TEXT;
+        var toggledClasses = 'icon-issue-watched icon-ticket-edit -active';
 
         element.closest('.ined-input-wrapper')
-               .find('.btn-preview').attr('title', title)
-                                    .toggleClass('icon-issue-watched icon-ticket-edit');
+               .find('.' + PREVIEW_BUTTON_CLASS).attr('title', title)
+                                                .toggleClass(toggledClasses);
       });
     };
 
     element
       .closest('.ined-input-wrapper')
-      .find('.help')
+      .find('.jstb_help')
       .after(jQuery('<button>', previewButtonAttributes));
     // changes are made by jQuery, we trigger input event so that
     // ng-model knows that the value changed

@@ -6,11 +6,9 @@ $inplace-edit--color--very-dark: #cacaca
   @extend .form--field.-full-width
 
   &.-preview
-    button
+    button, .jstb_help
       visibility: hidden
-    .help
-      display: none!important
-    .btn-preview
+    .jstb_preview
       visibility: visible
 
   &.-busy
@@ -25,34 +23,19 @@ $inplace-edit--color--very-dark: #cacaca
   position: relative
 
   //todo: Move to something more specific
-  .jstHandle
+  .jstHandle, .jstSpacer
     display: none
   .jstElements
-    display: inline
-    bottom: -31px
-    width: 307px
     button
       display: none
-      &.btn-preview
-        float: right
-        display: inline
-        margin-right: 0
-    .help
-      display: inline
-      float: none
-      position: relative
-      top: -4px
-      left: -12px
-      a
-        width: 29px
-        display: inline-block
-        height: 25px
-        overflow: hidden
-        padding-top: 7px
-        margin-bottom: -2px
-        padding-left: 0
-    .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
-      display: inline
+    .jstb_strong,
+    .jstb_em,
+    .jstb_ins,
+    .jstb_del,
+    .jstb_ul,
+    .jstb_ol,
+    .jstb_preview
+      display: flex
 
 .inplace-edit--select
   .select2-display-none
@@ -90,7 +73,7 @@ $inplace-edit--color--very-dark: #cacaca
   display: inline-block
   width: 115px
   height: 35px
-  background: #f8f8f8
+  background: $inplace-edit--dark-background
   border: 1px solid $inplace-edit--color--very-dark
   box-shadow: 1px 1px 2px $inplace-edit--border-color
   text-align: center
@@ -180,11 +163,3 @@ a.inplace-editing--trigger-link,
 
     .icon-context::before
       padding: 0
-
-@include breakpoint(xlarge)
-  .inplace-edit .jstElements .help a
-    width: auto!important
-    display: inline!important
-    height: auto!important
-    padding-top: auto!important
-    margin-bottom: auto!important
