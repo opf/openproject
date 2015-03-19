@@ -65,7 +65,7 @@ module.exports = function(
     });
     scope.$on('startEditing', function() {
       $timeout(function() {
-        var inputElement = element.find('.ined-input-wrapper-inner .focus-input');
+        var inputElement = element.find('.inplace-edit--write-value .focus-input');
         if (inputElement.length) {
           FocusHelper.focus(inputElement);
           inputElement.triggerHandler('keyup');

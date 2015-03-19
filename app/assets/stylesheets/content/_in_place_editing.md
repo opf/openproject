@@ -67,68 +67,66 @@
   <div class="inplace-edit--write " >
     <form class="inplace-edit--form " name="editForm"  novalidate="">
       <div class="inplace-edit--write-value">
-        <div class="ined-input-wrapper-inner "  src="getTemplateUrl()">
-          <div class="jstElements">
-            <button type="button" class="jstb_strong" title="Strong">
-              <span>Strong</span>
-            </button>
-            <button type="button" class="jstb_em" title="Italic">
-              <span>Italic</span>
-            </button>
-            <button type="button" class="jstb_ins" title="Underline">
-              <span>Underline</span>
-            </button>
-            <button type="button" class="jstb_del" title="Deleted">
-              <span>Deleted</span></button><button type="button" class="jstb_code" title="Inline Code">
-              <span>Inline Code</span></button><span id="space1" class="jstSpacer">&nbsp;</span>
-            <button type="button" class="jstb_h1" title="Heading 1">
-              <span>Heading 1</span>
-            </button>
-            <button type="button" class="jstb_h2" title="Heading 2">
-              <span>Heading 2</span>
-            </button>
-            <button type="button" class="jstb_h3" title="Heading 3">
-              <span>Heading 3</span>
-            </button>
-            <span id="space2" class="jstSpacer">&nbsp;</span>
-            <button type="button" class="jstb_ul" title="Unordered List">
-              <span>Unordered List</span>
-            </button>
-            <button type="button" class="jstb_ol" title="Ordered List">
-              <span>Ordered List</span>
-            </button>
-            <span id="space3" class="jstSpacer">&nbsp;</span>
-            <button type="button" class="jstb_bq" title="Quote">
-              <span>Quote</span></button>
-            <button type="button" class="jstb_unbq" title="Unquote">
-              <span>Unquote</span>
-            </button>
-            <button type="button" class="jstb_pre" title="Preformatted Text">
-              <span>Preformatted Text</span></button><span id="space4" class="jstSpacer">&nbsp;</span>
-            <button type="button" class="jstb_link" title="Link to a Wiki page">
-              <span>Link to a Wiki page</span>
-            </button>
-            <button type="button" class="jstb_img" title="Image">
-              <span>Image</span>
-            </button>
-            <div class="jstb_help">
-              <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">
-                <span class="hidden-for-sighted">
-                  Text formatting
-                </span>
-              </a>
-            </div>
-            <button class="jstb_preview icon-issue-watched" type="button" title="Preview">
-            </button>
+        <div class="jstElements">
+          <button type="button" class="jstb_strong" title="Strong">
+            <span>Strong</span>
+          </button>
+          <button type="button" class="jstb_em" title="Italic">
+            <span>Italic</span>
+          </button>
+          <button type="button" class="jstb_ins" title="Underline">
+            <span>Underline</span>
+          </button>
+          <button type="button" class="jstb_del" title="Deleted">
+            <span>Deleted</span></button><button type="button" class="jstb_code" title="Inline Code">
+            <span>Inline Code</span></button><span id="space1" class="jstSpacer">&nbsp;</span>
+          <button type="button" class="jstb_h1" title="Heading 1">
+            <span>Heading 1</span>
+          </button>
+          <button type="button" class="jstb_h2" title="Heading 2">
+            <span>Heading 2</span>
+          </button>
+          <button type="button" class="jstb_h3" title="Heading 3">
+            <span>Heading 3</span>
+          </button>
+          <span id="space2" class="jstSpacer">&nbsp;</span>
+          <button type="button" class="jstb_ul" title="Unordered List">
+            <span>Unordered List</span>
+          </button>
+          <button type="button" class="jstb_ol" title="Ordered List">
+            <span>Ordered List</span>
+          </button>
+          <span id="space3" class="jstSpacer">&nbsp;</span>
+          <button type="button" class="jstb_bq" title="Quote">
+            <span>Quote</span></button>
+          <button type="button" class="jstb_unbq" title="Unquote">
+            <span>Unquote</span>
+          </button>
+          <button type="button" class="jstb_pre" title="Preformatted Text">
+            <span>Preformatted Text</span></button><span id="space4" class="jstSpacer">&nbsp;</span>
+          <button type="button" class="jstb_link" title="Link to a Wiki page">
+            <span>Link to a Wiki page</span>
+          </button>
+          <button type="button" class="jstb_img" title="Image">
+            <span>Image</span>
+          </button>
+          <div class="jstb_help">
+            <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">
+              <span class="hidden-for-sighted">
+                Text formatting
+              </span>
+            </a>
           </div>
-
-          <div class="jstEditor">
-            <textarea wiki-toolbar="" class="focus-input inplace-edit--textarea "  preview-toggle="togglePreview()" name="value"   title="Description: Edit" data-wp_autocomplete_url="/work_packages/auto_complete.json?project_id=undefined" aria-multiline="true" tabindex="0" aria-hidden="false" aria-disabled="false" aria-invalid="false" rows="5">
-            </textarea>
-          </div>
-
-          <div class="jstHandle"></div>
+          <button class="jstb_preview icon-issue-watched" type="button" title="Preview">
+          </button>
         </div>
+
+        <div class="jstEditor">
+          <textarea wiki-toolbar="" class="focus-input inplace-edit--textarea "  preview-toggle="togglePreview()" name="value"   title="Description: Edit" data-wp_autocomplete_url="/work_packages/auto_complete.json?project_id=undefined" aria-multiline="true" tabindex="0" aria-hidden="false" aria-disabled="false" aria-invalid="false" rows="5">
+          </textarea>
+        </div>
+
+        <div class="jstHandle"></div>
       </div>
       <div class="inplace-edit--dashboard">
         <div class="inplace-edit--errors "  role="alert"  aria-live="polite" aria-hidden="true">
@@ -257,9 +255,7 @@
             <div class="inplace-edit--write" >
               <form name="editForm" class="inplace-edit--form">
                 <div class="inplace-edit--write-value">
-                  <div class="ined-input-wrapper-inner"  >
-                    <input type="text" class="focus-input inplace-edit--text-field" aria-label="Status: Edit focus" aria-haspopup="true" role="button" aria-disabled="false" value="New">
-                  </div>
+                  <input type="text" class="focus-input inplace-edit--text-field" aria-label="Status: Edit focus" aria-haspopup="true" role="button" aria-disabled="false" value="New">
                 </div>
                 <div class="inplace-edit--dashboard">
                   <div class="inplace-edit--errors "  role="alert"  aria-live="polite" aria-hidden="true">
