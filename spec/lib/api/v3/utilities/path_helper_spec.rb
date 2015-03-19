@@ -106,7 +106,7 @@ describe ::API::V3::Utilities::PathHelper do
 
     it_behaves_like 'api v3 path'
 
-    it { is_expected.to eql('/api/v3/render/super_fancy?link-ish') }
+    it { is_expected.to eql('/api/v3/render/super_fancy?context=link-ish') }
 
     context 'no link given' do
       subject { helper.render_markup(format: 'super_fancy') }
@@ -129,16 +129,6 @@ describe ::API::V3::Utilities::PathHelper do
         it { is_expected.to eql('/api/v3/render/plain') }
       end
     end
-  end
-
-  describe '#render_textile' do
-    subject { helper.render_textile '/api/v3/work_packages/42' }
-
-    it_behaves_like 'api v3 path'
-
-    it { is_expected.to match(/^\/api\/v3\/render\/textile/) }
-
-    it { is_expected.to match(/\?\/api\/v3\/work_packages\/42$/) }
   end
 
   describe 'priorities paths' do

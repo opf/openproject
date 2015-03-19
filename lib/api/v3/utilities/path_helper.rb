@@ -95,13 +95,9 @@ module API
             format = 'plain' if format == '' # Setting will return '' for plain
 
             path = "#{root}/render/#{format}"
-            path += "?#{link}" if link
+            path += "?context=#{link}" if link
 
             path
-          end
-
-          def self.render_textile(link)
-            render_markup(format: :textile, link: link)
           end
 
           def self.statuses
