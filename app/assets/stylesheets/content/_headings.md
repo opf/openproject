@@ -1,8 +1,6 @@
-# User Interface
+# Headings
 
-TODO: Add more elements for UI
-
-## Headings
+Headings throught the application, apart from user generated content (See wiki styles)
 
 ```
 <h1>Headline H1</h1>
