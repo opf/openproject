@@ -64,7 +64,6 @@ de:
   label_version: "Version"
 
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
-  notice_notification_with_errors: "Benachrichtigung gesendet. Folgende Empfänger konnten nicht benachrichtigt werden: "
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
 
   permission_create_meetings: "Besprechungen erstellen"

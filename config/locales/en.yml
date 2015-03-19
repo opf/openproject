@@ -64,7 +64,6 @@ en:
   label_version: "Version"
 
   notice_successful_notification: "Notification sent successfully"
-  notice_notification_with_errors: "Notification sent. The following recipients could not be notified: "
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
 
   permission_create_meetings: "Create meetings"
