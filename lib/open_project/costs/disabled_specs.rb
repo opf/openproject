@@ -5,9 +5,5 @@ if Rails.env.test?
   RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::WorkPackageRepresenter generation spentTime content no time entry', 'plugin openproject-costs changes behavior')
   RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::WorkPackageRepresenter generation spentTime content time entry with single hour', 'plugin openproject-costs changes behavior')
 
-  RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter generation spentTime behaves like has basic schema properties indicates if it is required', 'plugin openproject-costs changes behavior')
-  RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter generation spentTime behaves like has basic schema properties has a type', 'plugin openproject-costs changes behavior')
-  RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter generation spentTime behaves like has basic schema properties has a name', 'plugin openproject-costs changes behavior')
-  RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter generation spentTime behaves like has basic schema properties exists', 'plugin openproject-costs changes behavior')
-  RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter generation spentTime behaves like has basic schema properties indicates if it is writable', 'plugin openproject-costs changes behavior')
+  RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter generation spentTime not allowed to view time entries does not show spentTime', 'plugin openproject-costs causes unexpected message')
 end
