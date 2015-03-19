@@ -66,7 +66,7 @@ $inplace-edit--color--very-dark: #cacaca
   left: 251px
   bottom: -11px
   background: white
-  border: 1px solid #cacaca
+  border: 1px solid $inplace-edit--color--very-dark
   min-height: 42px
 
 .inplace-edit--controls
@@ -91,6 +91,10 @@ $inplace-edit--color--very-dark: #cacaca
 
   &.-default
     font-style: italic
+
+.inplace-edit--preview
+  border: 1px solid $inplace-edit--border-color
+  padding: 0.375rem
 
 .inplace-edit--icon-wrapper
   @include grid-block(shrink)
