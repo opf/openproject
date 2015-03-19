@@ -30,12 +30,20 @@ module.exports = function(TimezoneService) {
   return {
     restrict: 'EA',
     replace: true,
-    scope: { dateValue: '=', hideTitle: '@' },
+    scope: { dateValue: '=', hideTitle: '@', noDateText: '=' },
     template: '<span title="{{ dateTitle }}">{{date}}</span>',
     link: function(scope, element, attrs) {
-      scope.date = TimezoneService.formattedDate(scope.dateValue);
+      function setDate(date) {
+        if(date){
+          scope.date = TimezoneService.formattedDate(date);
+        } else {
+          scope.date = scope.noDateText;
+        }
+      }
+      
+      setDate(scope.dateValue);
       scope.$watch('dateValue', function(newVal) {
-        scope.date = newVal ? TimezoneService.formattedDate(newVal) : '';
+        setDate(newVal);
       });
       if (!scope.hideTitle) {
         scope.dateTitle = scope.date;

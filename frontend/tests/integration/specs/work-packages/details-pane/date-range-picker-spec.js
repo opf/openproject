@@ -26,77 +26,295 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/* jshint expr: true */
+
 var expect = require('../../../spec_helper.js').expect, 
     detailsPaneHelper = require('./details-pane-helper.js');
 
 
 describe('details pane', function() {
-  var dateRangePicker;
-
-  beforeEach(function() {
-    detailsPaneHelper.loadPane(819, 'overview');
-    dateRangePicker = $('.inplace-editor.type-daterange');
-  });
-  
+  var dateRangePicker;  
   describe('date range picker', function() {
+    beforeEach(function() {
+      detailsPaneHelper.loadPane(819, 'overview');
+      dateRangePicker = element(by.css('.inplace-edit.type-daterange'));
+    });
+
     context('read value', function() {
       it('should be present on page', function(){
-        expect(dateRangePicker.isPresent()).to.eventually.be.true;
+        expect(dateRangePicker.isDisplayed()).to.eventually.be.true;
       });
 
       it('shows date range', function() {
-        expect(dateRangePicker.getText()).to.eventually.equal("10/23/2014 - 12/27/2014");
+        expect(dateRangePicker.getText()).to.eventually.equal('10/23/2014\n-\n12/27/2014');
       });
     });
 
     context('write value', function() {
+      var startDate, endDate;
+
       beforeEach(function() {
-        dateRangePicker.$('.ined-read-value').click();
+        startDate = dateRangePicker.$('input.start');
+        endDate = dateRangePicker.$('input.end');
+      });
+
+      beforeEach(function() {
+        dateRangePicker.$('.inplace-edit--read-value').click();
       });
 
       it('opens calendar on click', function() {
-        expect(dateRangePicker.$('.ui-datepicker').isDisplayed()).to.eventually.be.true;
+        startDate.click();
+        expect($('.ui-datepicker').isDisplayed()).to.eventually.be.true;
       });
 
       it('shows date range in input', function() {
-        dateRangePicker.$("[ng-model='daterange']").getText(function(text) {
-          expect(text).to.equal("10/23/2014 - 12/27/2014");
+        startDate.getText(function(text) {
+          expect(text).to.equal('10/23/2014');
+        });
+        endDate.getText(function(text) {
+          expect(text).to.equal('12/27/2014');
+        });
+      });
+
+      describe('validation', function() {
+        it('validates valid start date', function() {
+          startDate.clear();
+          startDate.sendKeys('10/24/2014');
+          startDate.getText(function(text) {
+            expect(text).to.equal('10/24/2014');
+          });
+        });
+
+        it('validates valid end date', function() {
+          endDate.clear();
+          endDate.sendKeys('11/27/2014');
+          endDate.getText(function(text) {
+            expect(text).to.equal('11/27/2014');
+          });
+        });
+
+        it('doesn\'t validate invalid start date', function() {
+          startDate.clear();
+          startDate.sendKeys('13/24/2014');
+          startDate.getText(function(text) {
+            expect(text).to.equal('10/23/2014');
+          });
+        });
+
+        it('doesn\'t validate invalid end date', function() {
+          endDate.clear();
+          endDate.sendKeys('11/40/2014');
+          endDate.getText(function(text) {
+            expect(text).to.equal('12/27/2014');
+          });
+        });
+
+        it('validates empty start date', function() {
+          startDate.clear();
+          startDate.getText(function(text) {
+            expect(text).to.equal('no start date');
+          });
+        });
+
+        it('validates empty end date', function() {
+          endDate.clear();
+          endDate.getText(function(text) {
+            expect(text).to.equal('no end date');
+          });
         });
       });
 
       describe('range selection', function() {
         it('changes start date by clicking on calendar', function() {
-          element.all(by.css("a.ui-state-default")).filter(function(elem, index){
+          startDate.click();
+          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
             return elem.getText().then(function(text) {
               return text.indexOf('9') !== -1;
             });
           }).then(function(filteredElements) {
             filteredElements[0].click();
-            dateRangePicker.$("[ng-model='daterange']").getText(function(text) {
-              expect(text).to.equal("12/09/2014 - 12/27/2014");
+            startDate.getText(function(text) {
+              expect(text).to.equal('12/09/2014');
+            });
+            endDate.getText(function(text) {
+              expect(text).to.equal('12/17/2014');
             });
           });
         });
 
         it('changes end date by clicking on calendar', function() {
-          element.all(by.css("a.ui-state-default")).filter(function(elem, index){
+          endDate.click();
+          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
             return elem.getText().then(function(text) {
               return text.indexOf('17') !== -1;
             });
           }).then(function(filteredElements) {
             filteredElements[0].click();
-            dateRangePicker.$("[ng-model='daterange']").getText(function(text) {
-              expect(text).to.equal("09/23/2014 - 12/17/2014");
+            startDate.getText(function(text) {
+              expect(text).to.equal('09/23/2014');
+            });
+            endDate.getText(function(text) {
+              expect(text).to.equal('12/17/2014');
+            });
+          });
+        });
+      });
+    });
+  });
+
+  describe('date range picker with start null date', function() {
+    beforeEach(function() {
+      detailsPaneHelper.loadPane(823, 'overview');
+      dateRangePicker = element(by.css('.inplace-edit.type-daterange'));
+    });
+
+    context('read value', function() {
+      it('should be present on page', function(){
+        expect(dateRangePicker.isDisplayed()).to.eventually.be.true;
+      });
+
+      it('shows date range', function() {
+        expect(dateRangePicker.getText()).to.eventually.equal('no start date\n-\n12/27/2014');
+      });
+    });
+
+    context('write value', function() {
+      var startDate, endDate;
+
+      beforeEach(function() {
+        startDate = dateRangePicker.$('input.start');
+        endDate = dateRangePicker.$('input.end');
+      });
+
+      beforeEach(function() {
+        dateRangePicker.$('.inplace-edit--read-value').click();
+      });
+
+      it('opens calendar on click', function() {
+        startDate.click();
+        expect($('.ui-datepicker').isDisplayed()).to.eventually.be.true;
+      });
+
+      it('shows date range in input', function() {
+        startDate.getText(function(text) {
+          expect(text).to.equal('no start date');
+        });
+        endDate.getText(function(text) {
+          expect(text).to.equal('12/27/2014');
+        });
+      });
+
+      describe('range selection', function() {
+        it('changes start date by clicking on calendar', function() {
+          startDate.click();
+          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+            return elem.getText().then(function(text) {
+              return text.indexOf('9') !== -1;
+            });
+          }).then(function(filteredElements) {
+            filteredElements[0].click();
+            startDate.getText(function(text) {
+              expect(text).to.equal('12/09/2014');
+            });
+            endDate.getText(function(text) {
+              expect(text).to.equal('12/17/2014');
             });
           });
         });
 
-        it('doesn\'t change start date month by clicking on calendar', function() {
-          element.all(by.css('.ui-datepicker-next')).then(function(elem) {
-            elem[0].click().then(function() {
-              dateRangePicker.$("[ng-model='daterange']").getText(function(text) {
-                expect(text).to.equal("09/23/2014 - 12/17/2015");
-              });
+        it('changes end date by clicking on calendar', function() {
+          endDate.click();
+          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+            return elem.getText().then(function(text) {
+              return text.indexOf('17') !== -1;
+            });
+          }).then(function(filteredElements) {
+            filteredElements[0].click();
+            startDate.getText(function(text) {
+              expect(text).to.equal('09/23/2014');
+            });
+            endDate.getText(function(text) {
+              expect(text).to.equal('12/17/2014');
+            });
+          });
+        });
+      });
+    });
+  });
+
+  describe('date range picker with due null date', function() {
+    beforeEach(function() {
+      detailsPaneHelper.loadPane(824, 'overview');
+      dateRangePicker = element(by.css('.inplace-edit.type-daterange'));
+    });
+
+    context('read value', function() {
+      it('should be present on page', function(){
+        expect(dateRangePicker.isDisplayed()).to.eventually.be.true;
+      });
+
+      it('shows date range', function() {
+        expect(dateRangePicker.getText()).to.eventually.equal('10/23/2014\n-\nno end date');
+      });
+    });
+
+    context('write value', function() {
+      var startDate, endDate;
+
+      beforeEach(function() {
+        startDate = dateRangePicker.$('input.start');
+        endDate = dateRangePicker.$('input.end');
+      });
+
+      beforeEach(function() {
+        dateRangePicker.$('.inplace-edit--read-value').click();
+      });
+
+      it('opens calendar on click', function() {
+        startDate.click();
+        expect($('.ui-datepicker').isDisplayed()).to.eventually.be.true;
+      });
+
+      it('shows date range in input', function() {
+        startDate.getText(function(text) {
+          expect(text).to.equal('10/23/2014');
+        });
+        endDate.getText(function(text) {
+          expect(text).to.equal('no end date');
+        });
+      });
+
+      describe('range selection', function() {
+        it('changes start date by clicking on calendar', function() {
+          startDate.click();
+          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+            return elem.getText().then(function(text) {
+              return text.indexOf('9') !== -1;
+            });
+          }).then(function(filteredElements) {
+            filteredElements[0].click();
+            startDate.getText(function(text) {
+              expect(text).to.equal('12/09/2014');
+            });
+            endDate.getText(function(text) {
+              expect(text).to.equal('12/17/2014');
+            });
+          });
+        });
+
+        it('changes end date by clicking on calendar', function() {
+          endDate.click();
+          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+            return elem.getText().then(function(text) {
+              return text.indexOf('17') !== -1;
+            });
+          }).then(function(filteredElements) {
+            filteredElements[0].click();
+            endDate.getText(function(text) {
+              expect(text).to.equal('09/23/2014');
+            });
+            endDate.getText(function(text) {
+              expect(text).to.equal('12/17/2014');
             });
           });
         });
