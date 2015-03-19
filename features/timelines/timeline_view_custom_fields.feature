@@ -75,9 +75,9 @@ Feature: Timeline View Tests
     Given I am working in the timeline "Testline" of the project called "ecookbook"
     When there is a timeline "Testline" for project "ecookbook"
       And I set the columns shown in the timeline to:
-        | start_date |
-        | cf_1       |
-        | due_date   |
+        | start_date     |
+        | custom_field_1 |
+        | due_date       |
       Then I should see the column "Start date" before the column "End date" in the timelines table
         And I should see the column "Start date" before the column "cfBool" in the timelines table
         And I should see the column "cfBool" before the column "End date" in the timelines table
@@ -87,9 +87,9 @@ Feature: Timeline View Tests
     Given I am working in the timeline "Testline" of the project called "ecookbook"
     When there is a timeline "Testline" for project "ecookbook"
       And I set the columns shown in the timeline to:
-        | start_date |
-        | cf_4       |
-        | due_date   |
+        | start_date     |
+        | custom_field_4 |
+        | due_date       |
       And the custom field "cfLocal" is disabled for the project "ecookbook"
       Then I should see the column "Start date" immediately before the column "End date" in the timelines table
 
@@ -106,9 +106,9 @@ Feature: Timeline View Tests
       And the work package "booleanFalse" has the custom field "cfBool" set to "0"
     When there is a timeline "Testline" for project "ecookbook"
       And I set the columns shown in the timeline to:
-        | start_date |
-        | cf_1       |
-        | due_date   |
+        | start_date     |
+        | custom_field_1 |
+        | due_date       |
       And I wait for timeline to load table
     Then I should see "Yes" in the row of the work package "booleanTrue"
       And I should see "No" in the row of the work package "booleanFalse"
@@ -126,8 +126,8 @@ Feature: Timeline View Tests
       And the work package "user" has the custom user field "cfUser" set to "manager"
     When there is a timeline "Testline" for project "ecookbook"
       And I set the columns shown in the timeline to:
-        | start_date |
-        | cf_3       |
-        | due_date   |
+        | start_date     |
+        | custom_field_3 |
+        | due_date       |
       And I wait for timeline to load table
     Then I should see "Bob Bobbit" in the row of the work package "user"
