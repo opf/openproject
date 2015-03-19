@@ -175,6 +175,22 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/queries\/1/) }
   end
 
+  describe '#query_star' do
+    subject { helper.query_star 1 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to eql('/api/v3/queries/1/star') }
+  end
+
+  describe '#query_unstar' do
+    subject { helper.query_unstar 1 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to eql('/api/v3/queries/1/unstar') }
+  end
+
   describe 'relations paths' do
     describe '#relation' do
       subject { helper.relation 1 }

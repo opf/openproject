@@ -86,6 +86,14 @@ module API
             "#{root}/queries/#{id}"
           end
 
+          def self.query_star(id)
+            "#{query(id)}/star"
+          end
+
+          def self.query_unstar(id)
+            "#{query(id)}/unstar"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end
