@@ -30,6 +30,8 @@ require 'spec_helper'
 require 'rack/test'
 
 describe API::V3::Projects::ProjectsAPI do
+  include API::V3::Utilities::PathHelper
+
   let(:admin) { FactoryGirl.create(:admin) }
 
   describe 'available responsibles' do
@@ -38,7 +40,7 @@ describe API::V3::Projects::ProjectsAPI do
     before { allow(Project).to receive(:find).and_return(project) }
 
     shared_context 'request available responsibles' do
-      before { get "/api/v3/projects/#{project.id}/available_responsibles" }
+      before { get api_v3_paths.available_responsibles project.id }
     end
 
     it_behaves_like 'safeguarded API' do

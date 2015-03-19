@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe 'API v3 Priority resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -45,7 +46,7 @@ describe 'API v3 Priority resource' do
   describe 'priorities' do
     subject(:response) { last_response }
 
-    let(:get_path) { '/api/v3/priorities' }
+    let(:get_path) { api_v3_paths.priorities }
 
     context 'logged in user' do
       before do
@@ -72,7 +73,7 @@ describe 'API v3 Priority resource' do
   describe 'priorities/:id' do
     subject(:response) { last_response }
 
-    let(:get_path) { "/api/v3/priorities/#{priorities.first.id}" }
+    let(:get_path) { api_v3_paths.priority priorities.first.id }
 
     context 'logged in user' do
       before do
@@ -88,7 +89,7 @@ describe 'API v3 Priority resource' do
       end
 
       context 'invalid priority id' do
-        let(:get_path) { '/api/v3/priorities/bogus' }
+        let(:get_path) { api_v3_paths.priority 'bogus' }
 
         it_behaves_like 'not found' do
           let(:id) { 'bogus' }

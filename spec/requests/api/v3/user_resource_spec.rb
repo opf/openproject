@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe 'API v3 User resource', type: :request do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryGirl.create(:user) }
   let(:user) { FactoryGirl.create(:user) }
@@ -41,7 +42,7 @@ describe 'API v3 User resource', type: :request do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { "/api/v3/users/#{user.id}" }
+      let(:get_path) { api_v3_paths.user user.id }
       before do
         allow(User).to receive(:current).and_return current_user
         get get_path
@@ -56,7 +57,7 @@ describe 'API v3 User resource', type: :request do
       end
 
       context 'requesting nonexistent user' do
-        let(:get_path) { '/api/v3/users/9999' }
+        let(:get_path) { api_v3_paths.user 9999 }
 
         it_behaves_like 'not found' do
           let(:id) { 9999 }
@@ -71,7 +72,7 @@ describe 'API v3 User resource', type: :request do
   end
 
   describe '#delete' do
-    let(:path) { "/api/v3/users/#{user.id}" }
+    let(:path) { api_v3_paths.user user.id }
     let(:admin_delete) { true }
     let(:self_delete) { true }
 
@@ -96,7 +97,7 @@ describe 'API v3 User resource', type: :request do
       end
 
       context 'with a non-existent user' do
-        let(:path) { '/api/v3/users/1337' }
+        let(:path) { api_v3_paths.user 1337 }
 
         it_behaves_like 'not found' do
           let(:id) { 1337 }

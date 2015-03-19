@@ -31,11 +31,12 @@ require 'rack/test'
 
 describe 'API v3 String Objects resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   describe 'string_objects' do
     subject(:response) { last_response }
 
-    let(:path) { '/api/v3/string_objects?value=foo%20bar' }
+    let(:path) { api_v3_paths.string_object 'foo bar' }
 
     before do
       get path
@@ -50,7 +51,7 @@ describe 'API v3 String Objects resource' do
     end
 
     context 'empty string' do
-      let(:path) { '/api/v3/string_objects?value=' }
+      let(:path) { api_v3_paths.string_object '' }
 
       it 'is successful' do
         expect(subject.status).to eql(200)

@@ -40,9 +40,10 @@ module API
           end
 
           get do
+            path = api_v3_paths.projects_by_version @version.id
             Projects::ProjectCollectionRepresenter.new(@projects,
                                                        @projects.count,
-                                                       api_v3_paths.projects_by_version(@version.id))
+                                                       path)
           end
         end
       end
