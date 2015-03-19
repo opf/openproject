@@ -76,7 +76,9 @@ module API
         property :downloads, render_nil: true
         property :created_on,
                  as: 'createdAt',
-                 getter: -> (*) { DateTimeFormatter::format_datetime(created_on) }
+                 getter: -> (*) {
+                   ::API::V3::Utilities::DateTimeFormatter::format_datetime(created_on)
+                 }
 
         def _type
           'Attachment'
