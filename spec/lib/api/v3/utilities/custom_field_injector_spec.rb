@@ -211,14 +211,22 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     let(:represented) {
       double('represented',
              available_custom_fields: [custom_field],
-             custom_field.accessor_name => custom_value)
+             custom_field.accessor_name => value)
     }
-    let(:custom_value) { '' }
+    let(:custom_value) { double('CustomValue', value: raw_value) }
+    let(:raw_value) { nil }
+    let(:value) { '' }
     let(:current_user) { FactoryGirl.build(:user) }
     subject { modified_class.new(represented, current_user: current_user).to_json }
 
+    before do
+      # should only be called when building links
+      allow(represented).to receive(:custom_value_for).with(custom_field).and_return(custom_value)
+    end
+
     context 'user custom field' do
-      let(:custom_value) { FactoryGirl.build(:user, id: 2) }
+      let(:value) { FactoryGirl.build(:user, id: 2) }
+      let(:raw_value) { value.id.to_s }
       let(:field_format) { 'user' }
 
       it_behaves_like 'has an untitled link' do
@@ -228,15 +236,12 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it 'has the user embedded' do
         is_expected.to be_json_eql('User'.to_json).at_path("_embedded/#{cf_path}/_type")
-        is_expected.to be_json_eql(custom_value.name.to_json).at_path("_embedded/#{cf_path}/name")
+        is_expected.to be_json_eql(value.name.to_json).at_path("_embedded/#{cf_path}/name")
       end
 
       context 'value is nil' do
-        let(:represented) {
-          double('represented',
-                 available_custom_fields: [custom_field],
-                 custom_field.accessor_name => nil)
-        }
+        let(:value) { nil }
+        let(:raw_value) { nil }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }
@@ -245,7 +250,8 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     context 'version custom field' do
-      let(:custom_value) { FactoryGirl.build(:version, id: 2) }
+      let(:value) { FactoryGirl.build(:version, id: 2) }
+      let(:raw_value) { value.id.to_s }
       let(:field_format) { 'version' }
 
       it_behaves_like 'has an untitled link' do
@@ -255,15 +261,12 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it 'has the version embedded' do
         is_expected.to be_json_eql('Version'.to_json).at_path("_embedded/#{cf_path}/_type")
-        is_expected.to be_json_eql(custom_value.name.to_json).at_path("_embedded/#{cf_path}/name")
+        is_expected.to be_json_eql(value.name.to_json).at_path("_embedded/#{cf_path}/name")
       end
 
       context 'value is nil' do
-        let(:represented) {
-          double('represented',
-                 available_custom_fields: [custom_field],
-                 custom_field.accessor_name => nil)
-        }
+        let(:value) { nil }
+        let(:raw_value) { nil }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }
@@ -272,7 +275,8 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     context 'list custom field' do
-      let(:custom_value) { 'Foobar' }
+      let(:value) { 'Foobar' }
+      let(:raw_value) { value }
       let(:field_format) { 'list' }
 
       it_behaves_like 'has an untitled link' do
@@ -282,15 +286,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it 'has the string object embedded' do
         is_expected.to be_json_eql('StringObject'.to_json).at_path("_embedded/#{cf_path}/_type")
-        is_expected.to be_json_eql(custom_value.to_json).at_path("_embedded/#{cf_path}/value")
+        is_expected.to be_json_eql(value.to_json).at_path("_embedded/#{cf_path}/value")
       end
 
       context 'value is nil' do
-        let(:represented) {
-          double('represented',
-                 available_custom_fields: [custom_field],
-                 custom_field.accessor_name => nil)
-        }
+        let(:value) { nil }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }
@@ -301,7 +301,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'string custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'string' }
-        let(:custom_value) { 'Foobar' }
+        let(:value) { 'Foobar' }
         let(:json_value) { 'Foobar' }
         let(:expected_setter) { json_value }
       end
@@ -310,7 +310,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'int custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'int' }
-        let(:custom_value) { 42 }
+        let(:value) { 42 }
         let(:json_value) { 42 }
         let(:expected_setter) { json_value }
       end
@@ -319,7 +319,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'float custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'float' }
-        let(:custom_value) { 3.14 }
+        let(:value) { 3.14 }
         let(:json_value) { 3.14 }
         let(:expected_setter) { json_value }
       end
@@ -328,7 +328,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'bool custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'bool' }
-        let(:custom_value) { true }
+        let(:value) { true }
         let(:json_value) { true }
         let(:expected_setter) { json_value }
       end
@@ -337,8 +337,8 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'date custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'date' }
-        let(:custom_value) { Date.today.to_date }
-        let(:json_value) { custom_value.to_date.iso8601 }
+        let(:value) { Date.today.to_date }
+        let(:json_value) { value.to_date.iso8601 }
         let(:expected_setter) { json_value }
       end
     end
@@ -346,15 +346,15 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'text custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'text' }
-        let(:custom_value) { 'Foobar' }
+        let(:value) { 'Foobar' }
         let(:json_value) do
           {
             format: 'plain',
-            raw: custom_value,
-            html: "<p>#{custom_value}</p>"
+            raw: value,
+            html: "<p>#{value}</p>"
           }
         end
-        let(:expected_setter) { custom_value }
+        let(:expected_setter) { value }
       end
     end
   end
@@ -366,14 +366,18 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     }
     let(:represented) {
       double('represented',
-             available_custom_fields: [custom_field],
-             custom_field.accessor_name => custom_value)
+             available_custom_fields: [custom_field])
     }
-    let(:custom_value) { '' }
+    let(:custom_value) { double('CustomValue', value: value) }
+    let(:value) { '' }
     subject { "{ \"_links\": #{modified_class.new(represented).to_json} }" }
 
+    before do
+      allow(represented).to receive(:custom_value_for).with(custom_field).and_return(custom_value)
+    end
+
     context 'reading' do
-      let(:custom_value) { FactoryGirl.build(:user, id: 2) }
+      let(:value) { '2' }
       let(:field_format) { 'user' }
 
       it_behaves_like 'has an untitled link' do
@@ -382,11 +386,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
 
       context 'value is nil' do
-        let(:represented) {
-          double('represented',
-                 available_custom_fields: [custom_field],
-                 custom_field.accessor_name => nil)
-        }
+        let(:value) { nil }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }
@@ -395,7 +395,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     context 'writing' do
-      let(:custom_value) { nil }
+      let(:value) { nil }
       let(:field_format) { 'user' }
 
       it 'accepts a valid link' do
