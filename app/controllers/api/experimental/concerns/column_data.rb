@@ -239,7 +239,7 @@ module Api::Experimental::Concerns::ColumnData
   end
 
   def custom_field_id_in(name)
-    groups = name.to_s.scan(/cf_(\d+)/).flatten
+    groups = name.to_s.scan(/custom_field_(\d+)/).flatten
 
     if groups
       groups[0]

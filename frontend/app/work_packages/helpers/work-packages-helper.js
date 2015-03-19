@@ -90,7 +90,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
     },
 
     getColumnDataId: function(object, column) {
-      var custom_field_id = column.name.match(/^cf_(\d+)$/);
+      var custom_field_id = column.name.match(/^custom_field_(\d+)$/);
 
       if (custom_field_id) {
         custom_field_id = parseInt(custom_field_id[1], 10);

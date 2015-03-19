@@ -121,9 +121,9 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
     end
 
     it 'should render custom field values' do
-      expect(response.body).to be_json_eql('MySQL'.to_json).at_path("planning_elements/0/cf_#{custom_field.id}")
+      expect(response.body).to be_json_eql('MySQL'.to_json).at_path("planning_elements/0/custom_field_#{custom_field.id}")
       expect(response.body).to have_json_path('planning_elements/1')
-      expect(response.body).not_to have_json_path("planning_elements/1/cf_#{custom_field.id}")
+      expect(response.body).not_to have_json_path("planning_elements/1/custom_field_#{custom_field.id}")
     end
   end
 end

@@ -353,7 +353,7 @@ class Query < ActiveRecord::Base
       end
 
       sql = ''
-      if field =~ /\Acf_(\d+)\z/
+      if field =~ /\Acustom_field_(\d+)\z/
         # custom field
         db_table = CustomValue.table_name
         db_field = 'value'
@@ -468,7 +468,7 @@ class Query < ActiveRecord::Base
   private
 
   def custom_field_id(filter)
-    matchdata = /cf\_(?<id>\d+)/.match(filter.field.to_s)
+    matchdata = /custom\_field\_(?<id>\d+)/.match(filter.field.to_s)
 
     matchdata.nil? ? nil : matchdata[:id]
   end

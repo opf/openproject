@@ -801,7 +801,7 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
           }
 
           if (value && value !== "" && value.length > 0) {
-            hash["cf_" + field_id] = value;
+            hash["custom_field_" + field_id] = value;
           }
         }
       }
@@ -984,7 +984,7 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
     var i, userFields = [], cf = this.data.custom_fields;
     for (var attr in cf) {
       if (cf.hasOwnProperty(attr) && cf[attr].field_format === "user") {
-          userFields.push("cf_" + cf[attr].id);
+          userFields.push("custom_field_" + cf[attr].id);
       }
     }
 

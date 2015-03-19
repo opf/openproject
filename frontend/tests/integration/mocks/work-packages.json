@@ -242,7 +242,7 @@
                         "display": false
                     }
                 },
-                "name": "cf_1",
+                "name": "custom_field_1",
                 "sortable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=1 LIMIT 1), '')",
                 "title": "Module"
             },
@@ -258,7 +258,7 @@
                         "display": false
                     }
                 },
-                "name": "cf_5",
+                "name": "custom_field_5",
                 "sortable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=5 LIMIT 1), '')",
                 "title": "Bug found in Version"
             },
@@ -274,7 +274,7 @@
                         "display": false
                     }
                 },
-                "name": "cf_7",
+                "name": "custom_field_7",
                 "sortable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=7 LIMIT 1), '')",
                 "title": "Non Functional Aspects"
             },
@@ -290,7 +290,7 @@
                         "display": false
                     }
                 },
-                "name": "cf_11",
+                "name": "custom_field_11",
                 "sortable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=11 LIMIT 1), '')",
                 "title": "Accessibilty report"
             }

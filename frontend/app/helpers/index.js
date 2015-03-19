@@ -27,7 +27,7 @@
 //++
 
 angular.module('openproject.helpers')
-  .constant('CUSTOM_FIELD_PREFIX', 'cf_')
+  .constant('CUSTOM_FIELD_PREFIX', 'custom_field_')
   .service('AutoCompleteHelper', ['$http', require('./auto-complete-helper')])
   .service('CustomFieldHelper', ['CUSTOM_FIELD_PREFIX', 'I18n', require(
     './custom-field-helper')])
