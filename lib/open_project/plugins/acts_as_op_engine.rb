@@ -144,8 +144,7 @@ module OpenProject::Plugins
       base.send(:define_method, :add_api_path) do |path_name, &block|
         config.to_prepare do
           ::API::V3::Utilities::PathHelper::ApiV3Path.class_eval do
-            metaclass = class << self; self; end
-            metaclass.instance_eval do
+            singleton_class.instance_eval do
               define_method path_name, &block
             end
           end
