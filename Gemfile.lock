@@ -463,7 +463,7 @@ DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.3.0)
-  airbrake
+  airbrake (~> 4.1.0)
   autoprefixer-rails
   awesome_nested_set
   bourbon (~> 4.2.0)
