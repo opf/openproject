@@ -83,13 +83,14 @@ class MeetingContentsController < ApplicationController
 
   def notify
     unless @content.new_record?
-      recipients = @content.meeting.participants.collect{ |p| p.mail }
-      recipients.reject!{ |r| r == @content.meeting.author.mail } if @content.meeting.author.preference[:no_self_notified]
-      recipients_with_errors = []
+      author_mail = @content.meeting.author.mail
+      do_not_notify_author = @content.meeting.author.preference[:no_self_notified]
 
-      recipients.each do |recipient|
+      recipients_with_errors = []
+      @content.meeting.participants.each do |recipient|
         begin
-          MeetingMailer.content_for_review(@content, @content_type, recipient).deliver
+          next if recipient.mail == author_mail and do_not_notify_author
+          MeetingMailer.content_for_review(@content, @content_type, recipient.mail).deliver
         rescue
           recipients_with_errors << recipient
         end
@@ -97,7 +98,7 @@ class MeetingContentsController < ApplicationController
       if recipients_with_errors == []
         flash[:notice] = l(:notice_successful_notification)
       else
-        flash[:error] = l(:error_notification_with_errors) + recipients_with_errors.join(", ")
+        flash[:error] = l(:error_notification_with_errors) + recipients_with_errors.map(&:name).join("; ")
       end
     end
     redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
