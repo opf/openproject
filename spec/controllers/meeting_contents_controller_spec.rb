@@ -86,7 +86,7 @@ describe MeetingContentsController do
         it 'produces a flash message containing the mail addresses raising the error' do
           put 'notify', meeting_id: meeting.id
           meeting.participants.each do |participant|
-            expect(flash[:error]).to include(participant.mail)
+            expect(flash[:error]).to include(participant.name)
           end
         end
       end

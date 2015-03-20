@@ -84,14 +84,14 @@ class MeetingContentsController < ApplicationController
 
   def notify
     unless @content.new_record?
-      recipients = @content.meeting.participants.collect{ |p| p.mail }
-      recipients.reject!{ |r| r == @content.meeting.author.mail } if @content.meeting.author.preference[:no_self_notified]
+      recipients = @content.meeting.participants
+      recipients.reject!{ |r| r.mail == @content.meeting.author.mail } if @content.meeting.author.preference[:no_self_notified]
       recipients_with_errors = []
       recipients.each do |recipient|
         begin
-          MeetingMailer.content_for_review(@content, @content_type, recipient).deliver
+          MeetingMailer.content_for_review(@content, @content_type, recipient.mail).deliver
         rescue
-          recipients_with_errors << recipient
+          recipients_with_errors << recipient.name
         end
       end
       if recipients_with_errors == []
