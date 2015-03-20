@@ -82,13 +82,41 @@ module OpenProject::Backlogs::Hooks
 
       params = context[:controller].params
       if work_package.is_story? && params[:copy_from]
-        snippet << "<p><label for='link_to_original'>#{l(:rb_label_link_to_original)}</label>"
-        snippet << "#{check_box_tag('link_to_original', params[:copy_from], true)}</p>"
+        snippet << "<div class=\"form--field\">"
+        snippet << "<label class=\"form--label\"
+                           for='link_to_original'>#{l(:rb_label_link_to_original)}</label>"
+        snippet << "<span class=\"form--field-container\">"
+        snippet << "<span class=\"form--check-box-container\">"
+        snippet << check_box_tag('link_to_original', params[:copy_from], true, class: 'form--check-box')
+        snippet << "</span></span></div>"
 
-        snippet << "<p><label>#{l(:rb_label_copy_tasks)}</label>"
-        snippet << "#{radio_button_tag('copy_tasks', 'open:' + params[:copy_from], true, { id: 'copy_tasks_open'})} #{l(:rb_label_copy_tasks_open)}<br />"
-        snippet << "#{radio_button_tag('copy_tasks', 'none', false, {id: 'copy_tasks_none'})} #{l(:rb_label_copy_tasks_none)}<br />"
-        snippet << "#{radio_button_tag('copy_tasks', 'all:' + params[:copy_from], false, {id: 'copy_tasks_all'})} #{l(:rb_label_copy_tasks_all)}</p>"
+        snippet << "<div class=\"form--field\">"
+        snippet << "<label class=\"form--label\">#{l(:rb_label_copy_tasks)}</label>"
+        snippet << "<span class=\"form--field-container -vertical\">"
+        snippet << "<span class=\"form--radio-button-container\">"
+        snippet << "#{radio_button_tag('copy_tasks',
+                                       'open:' + params[:copy_from],
+                                       true,
+                                       { id: 'copy_tasks_open' })}
+                    #{l(:rb_label_copy_tasks_open)}"
+        snippet << "</span>"
+        snippet << "<span class=\"form--radio-button-container\">"
+        snippet << "#{radio_button_tag('copy_tasks',
+                                       'none',
+                                       false,
+                                       { id: 'copy_tasks_none' })}
+                    #{l(:rb_label_copy_tasks_none)}"
+        snippet << "</span>"
+        snippet << "<span class=\"form--radio-button-container\">"
+        snippet << "#{radio_button_tag('copy_tasks',
+                                       'all:' + params[:copy_from],
+                                       false,
+                                       { id: 'copy_tasks_all' })}
+                    #{l(:rb_label_copy_tasks_all)}"
+
+        snippet << "</span>"
+
+        snippet << "</span></div>"
       end
 
       snippet << %(</div>)
