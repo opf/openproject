@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,6 @@
 #++
 
 module TypesHelper
-
   def icon_for_type(type)
     return unless type
 
@@ -40,11 +39,11 @@ module TypesHelper
     if type.color.present?
       color = type.color.hexcode
     else
-      color = "#CCC"
+      color = '#CCC'
     end
 
-    content_tag(:span, " ",
-                :class => css_class,
-                :style => "background-color: #{color}")
+    content_tag(:span, ' ',
+                class: css_class,
+                style: "background-color: #{color}")
   end
 end

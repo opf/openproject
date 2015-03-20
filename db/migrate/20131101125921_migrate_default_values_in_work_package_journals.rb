@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +33,11 @@ class MigrateDefaultValuesInWorkPackageJournals < ActiveRecord::Migration
   include Migration::Utils
 
   def up
-
-    raise "This migration does not support your database!" unless (postgres? || mysql?)
+    raise 'This migration does not support your database!' unless postgres? || mysql?
 
     journal_fields.each do |field|
       migrate_field field
     end
-
   end
 
   def down

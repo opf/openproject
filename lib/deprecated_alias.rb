@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-  module DeprecatedAlias
-    def deprecated_alias(old_method, new_method)
-      define_method(old_method) do |*args, &block|
-        ActiveSupport::Deprecation.warn "#{old_method} is deprecated and will be removed in a future OpenProject version. Please use #{new_method} instead.", caller
-        send(new_method, *args, &block)
-      end
+module DeprecatedAlias
+  def deprecated_alias(old_method, new_method)
+    define_method(old_method) do |*args, &block|
+      ActiveSupport::Deprecation.warn "#{old_method} is deprecated and will be removed in a future OpenProject version. Please use #{new_method} instead.", caller
+      send(new_method, *args, &block)
     end
   end
+end

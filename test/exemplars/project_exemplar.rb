@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 #++
 
 class Project < ActiveRecord::Base
-  generator_for :name, :method => :next_name
-  generator_for :identifier, :method => :next_identifier_from_object_daddy
-  generator_for :enabled_modules, :method => :all_modules
-  generator_for :types, :method => :next_type
+  generator_for :name, method: :next_name
+  generator_for :identifier, method: :next_identifier_from_object_daddy
+  generator_for :enabled_modules, method: :all_modules
+  generator_for :types, method: :next_type
 
   def self.next_name
     @last_name ||= 'Project 0'
@@ -49,7 +49,7 @@ class Project < ActiveRecord::Base
   def self.all_modules
     [].tap do |modules|
       Redmine::AccessControl.available_project_modules.each do |name|
-        modules << EnabledModule.new(:name => name.to_s)
+        modules << EnabledModule.new(name: name.to_s)
       end
     end
   end

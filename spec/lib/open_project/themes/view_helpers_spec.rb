@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ module OpenProject
       end
 
       describe '#current_theme' do
-        it "returns whatever the Themes class returns" do
+        it 'returns whatever the Themes class returns' do
           theme = Themes.new_theme
           allow(Themes).to receive(:current_theme).and_return theme
           expect(helpers.current_theme).to eq theme
@@ -47,7 +47,7 @@ module OpenProject
       end
 
       describe '#favicon_link_tag' do
-        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
+        let(:theme) { Theme.new_theme { |t| t.identifier = :new_theme } }
 
         before do
           # set a list of overridden images
@@ -75,7 +75,7 @@ module OpenProject
       end
 
       describe '#image_tag' do
-        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
+        let(:theme) { Theme.new_theme { |t| t.identifier = :new_theme } }
 
         before do
           # set a list of overridden images

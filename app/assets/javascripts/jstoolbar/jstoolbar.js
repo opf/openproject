@@ -209,7 +209,6 @@ jsToolBar.prototype = {
     var h = document.createElement('div');
     h.className = 'help';
     h.innerHTML = this.help_link;
-    this.toolbar.appendChild(h);
 
     // Draw toolbar elements
     var b, tool, newTool;
@@ -231,6 +230,7 @@ jsToolBar.prototype = {
         }
       }
     }
+    this.toolbar.appendChild(h);
   },
 
   singleTag: function(stag,etag) {

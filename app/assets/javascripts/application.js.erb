@@ -10,32 +10,17 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery-migrate/jquery-migrate
-//= require jquery-ujs
-//= require jquery-ui
-//= require jquery-ui/ui/i18n/jquery.ui.datepicker-en-GB.js
-//= require jquery-ui/ui/i18n/jquery.ui.datepicker-de.js
-//= require momentjs
-//= require momentjs/lang/en-gb.js
-//= require momentjs/lang/de.js
-//= require moment-timezone/moment-timezone.js
-//= require moment-timezone/moment-timezone-data.js
 
-//= require jquery.atwho/dist/js/jquery.atwho.js
-//= require Caret.js/src/jquery.caret.js
-//= require jquery_noconflict
+//= require ./bundles/openproject-global
+
+//# require jquery_noconflict
 //= require prototype
 //= require effects
 //= require dragdrop
 //= require controls
-//= require i18n
-//= require i18n/translations
 
 //= require lib/jquery.colorcontrast
 //= require lib/jquery.trap
-
-//= require select2
 
 //= require top_menu
 //= require action_menu
@@ -46,7 +31,6 @@
 //= require ajaxappender
 //= require settings
 //= require modal
-//= require keyboard_shortcuts
 //= require tab_handling
 //= require top-shelf
 //= require unsupported-browsers
@@ -54,30 +38,12 @@
 //= require warn_leaving_unsaved
 //= require openproject_plugins
 //= require versions
-//= require uri.js/src/URI
-//= require uri.js/src/URITemplate
-//= require hyperagent/dist/hyperagent
 //= require_tree ./specific
 
-//= require angular
-//= require angular-animate
-//= require angular-modal
-//= require angular-ui-router
-//= require angular-ui-select2
-//= require angular-ui-select2-sortable
-//= require angular-ui-date/src/date
-//= require angular-sanitize
-//= require angular-truncate
-//= require angular-feature-flags/dist/featureFlags.js
-//= require angular-busy
+//= require ./bundles/openproject-core-app
+//= require_tree ./bundles
 
-//= require angular-context-menu
-
-//= require openproject-ui_components/app/assets/javascripts/angular/ui-components-app
-//= require ./angular/openproject-app
-//= require_tree ./angular
-
-
+//= require custom-fields
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
@@ -847,42 +813,42 @@ var I18nForms = (function ($) {
         update_interaction_elements,
         update_locale_availability;
 
-    active_locale_selectors = function (localized_p) {
-      return localized_p.find('.locale_selector');
+    active_locale_selectors = function (localizedField) {
+      return localizedField.find('.locale_selector');
     };
 
-    add_locale_fields = function (localized_p) {
-      var backup = localized_p.find('.translation').first(),
-          add_link = localized_p.find('.add_locale'),
+    add_locale_fields = function (localizedField) {
+      var backup = localizedField.find('.translation').first(),
+          add_link = localizedField.find('.add_locale'),
           new_items = backup.clone();
 
       new_items.find('input, textarea').val("");
       new_items.insertBefore(add_link);
 
-      select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localized_p));
-      update_interaction_elements(localized_p);
+      select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localizedField));
+      update_interaction_elements(localizedField);
 
-      new_items.find('.destroy_locale').click(function () {
-        destroy_locale($(this));
-      });
+      observe_destroy_locale_links(new_items.find('.destroy_locale'));
     };
 
     destroy_locale = function (element) {
-      var localized_p = element.closest('p');
+      var localizedField = element.closest('.form--field');
 
       element.closest('.translation').remove();
 
-      update_interaction_elements(localized_p);
+      update_interaction_elements(localizedField);
     };
 
-    observe_add_locale_link = function () {
-      $('.add_locale').click(function () {
-        add_locale_fields($(this).closest('p'));
+    observe_add_locale_link = function (selector) {
+      $(selector).click(function (event) {
+        event.preventDefault();
+        add_locale_fields($(this).closest('.form--field'));
       });
     };
 
-    observe_destroy_locale_links = function () {
-      $('.destroy_locale').click(function () {
+    observe_destroy_locale_links = function (selector) {
+      $(selector).click(function (event) {
+        event.preventDefault();
         destroy_locale($(this));
       });
     };
@@ -904,12 +870,12 @@ var I18nForms = (function ($) {
       select.val(available.pop());
     };
 
-    update_add_link_status = function (localized_p) {
-      var indicator_selector = active_locale_selectors(localized_p),
+    update_add_link_status = function (localizedField) {
+      var indicator_selector = active_locale_selectors(localizedField),
           taken = taken_options(indicator_selector),
           all_options,
           available,
-          add_link = localized_p.find('.add_locale');
+          add_link = localizedField.find('.add_locale');
 
       available = indicator_selector.first().find('option').map(function (index, element) {
         element = $(element);
@@ -922,20 +888,20 @@ var I18nForms = (function ($) {
       add_link.toggle(available.size() > 0);
     };
 
-    update_destroy_link_status = function (localized_p) {
-      var active_selectors = active_locale_selectors(localized_p);
+    update_destroy_link_status = function (localizedField) {
+      var active_selectors = active_locale_selectors(localizedField);
 
-      localized_p.find('.destroy_locale').toggle(active_selectors.size() > 1);
+      localizedField.find('.destroy_locale').toggle(active_selectors.size() > 1);
     };
 
-    update_interaction_elements = function (localized_p) {
-      update_locale_availability(localized_p);
-      update_add_link_status(localized_p);
-      update_destroy_link_status(localized_p);
+    update_interaction_elements = function (localizedField) {
+      update_locale_availability(localizedField);
+      update_add_link_status(localizedField);
+      update_destroy_link_status(localizedField);
     };
 
-    update_locale_availability = function (localized_p) {
-      var active_selectors = active_locale_selectors(localized_p),
+    update_locale_availability = function (localizedField) {
+      var active_selectors = active_locale_selectors(localizedField),
           active_locales = taken_options(active_selectors);
 
       active_selectors.each(function (index, element) {
@@ -959,10 +925,10 @@ var I18nForms = (function ($) {
     };
 
     init = function () {
-      observe_add_locale_link();
-      observe_destroy_locale_links();
+      observe_add_locale_link($('.add_locale'));
+      observe_destroy_locale_links($('.destroy_locale'));
 
-      $('form .translation').closest('p').each(function (i, element) {
+      $('form .translation').closest('.form--field').each(function (i, element) {
         element = $(element);
         update_interaction_elements(element);
       });
@@ -1166,13 +1132,13 @@ var I18nForms = (function ($) {
   })();
 
   init = function () {
-    var translated_paragraph = $('form .translation').closest('p');
+    var translatedField = $('form .translation').closest('.form--field');
 
-    if (translated_paragraph.size() > 0) {
+    if (translatedField.size() > 0) {
       memorize_ids();
       event_handler.init();
 
-      translated_paragraph.closest('form').submit(function () {
+      translatedField.closest('form').submit(function () {
         submit_preparer.prepare($(this));
         // allow default behaviour
       });
@@ -1247,24 +1213,4 @@ var SubmitConfirm = (function($) {
   return {
     init: init
   };
-})(jQuery);
-
-var Preview = (function ($) {
-  $('document').ready(function() {
-      $('html').on('click','a.preview', function() {
-        $.ajax({
-          url: $(this).attr('href'),
-          type: 'POST',
-          data: $("#" + $(this).attr('id').replace(/-preview/, "")).serialize().replace('_method=put&', ''),
-          success: function(data) { $('#preview').html(data);
-                                    $('html, body').animate({
-                                        scrollTop: $('#preview').offset().top
-                                      },
-                                      'slow');
-                                  }
-        });
-
-        return false;
-      });
-    });
 })(jQuery);

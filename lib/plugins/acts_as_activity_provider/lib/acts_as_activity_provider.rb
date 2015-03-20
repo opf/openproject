@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ module Redmine
 
       module ClassMethods
         def acts_as_activity_provider(options = {})
-          unless self.included_modules.include?(Redmine::Acts::ActivityProvider::InstanceMethods)
+          unless included_modules.include?(Redmine::Acts::ActivityProvider::InstanceMethods)
             cattr_accessor :activity_provider_options
             send :include, Redmine::Acts::ActivityProvider::InstanceMethods
           end
@@ -45,10 +45,10 @@ module Redmine
 
           # One model can provide different event types
           # We store these options in activity_provider_options hash
-          event_type = options.delete(:type) || self.name.underscore.pluralize
+          event_type = options.delete(:type) || name.underscore.pluralize
 
           options[:activities] = options.delete(:activities) || [:activity]
-          options[:permission] = "view_#{self.name.underscore.pluralize}".to_sym unless options.has_key?(:permission)
+          options[:permission] = "view_#{name.underscore.pluralize}".to_sym unless options.has_key?(:permission)
           self.activity_provider_options[event_type] = options
         end
       end
@@ -86,14 +86,14 @@ module Redmine
         module ClassMethods
           # Returns events of type event_type visible by user that occured between from and to
           def find_events(event_type, user, from, to, options)
-            raise "#{self.name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
+            raise "#{name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
 
             result = []
 
             provider_options = activity_provider_options[event_type].dup
 
             provider_options[:activities].each do |activity|
-              result << find_events_for_class(self.new, activity, provider_options, user, from, to, options)
+              result << find_events_for_class(new, activity, provider_options, user, from, to, options)
             end
 
             result.flatten!
@@ -116,7 +116,6 @@ module Redmine
 
             query = query.where(journals_table[:user_id].eq(options[:author].id)) if options[:author]
 
-
             provider.extend_event_query(query, activity) if provider.respond_to?(:extend_event_query)
 
             query = join_with_projects_table(query, provider.projects_reference_table(activity))
@@ -131,7 +130,8 @@ module Redmine
                                     query: query,
                                     user: user)
 
-            query = query.order(journals_table[:id]).take(options[:limit]) if options[:limit]
+            query = query.order(journals_table[:id].desc)
+            query = query.take(options[:limit]) if options[:limit]
 
             projection = Redmine::Acts::ActivityProvider.event_projection(journals_table)
             projection << provider.event_query_projection(activity) if provider.respond_to?(:event_query_projection)
@@ -170,7 +170,7 @@ module Redmine
             if perm && perm.project_module
               m = Arel::Table.new(:enabled_modules)
               subquery = m.where(m[:name].eq(perm.project_module))
-                          .project(m[:project_id])
+                         .project(m[:project_id])
 
               query = query.where(projects_table[:id].in(subquery))
             end
@@ -191,7 +191,7 @@ module Redmine
               allowed_projects = []
 
               user.projects_by_role.each do |role, projects|
-                allowed_projects << projects.collect(&:id) if role.allowed_to?(perm.name)
+                allowed_projects << projects.map(&:id) if role.allowed_to?(perm.name)
               end
 
               stmt = projects_table[:id].in(allowed_projects.uniq)

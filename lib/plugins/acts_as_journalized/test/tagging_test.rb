@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 class TaggingTest < Test::Unit::TestCase
   context 'Tagging a journal' do
     setup do
-      @user = User.create(:name => 'Steve Richert')
+      @user = User.create(name: 'Steve Richert')
       @user.update_attribute(:last_name, 'Jobs')
     end
 
@@ -54,7 +54,7 @@ class TaggingTest < Test::Unit::TestCase
 
   context 'A tagged journal' do
     setup do
-      user = User.create(:name => 'Steve Richert')
+      user = User.create(name: 'Steve Richert')
       user.update_attribute(:last_name, 'Jobs')
       user.tag_journal('TAG')
       @journal = user.journals.last

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/support/toggable_fieldsets'
 require 'features/work_packages/work_packages_page'
 
-describe 'Work package calendar index', :type => :feature do
+describe 'Work package calendar index', type: :feature do
   describe 'Toggable fieldset', js: true do
     include_context 'Toggable fieldset examples'
 

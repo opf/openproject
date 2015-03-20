@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 class ReloadTest < Test::Unit::TestCase
   context 'Reloading a reverted model' do
     setup do
-      @user = User.create(:name => 'Steve Richert')
+      @user = User.create(name: 'Steve Richert')
       first_version = @user.version
       @user.update_attribute(:last_name, 'Jobs')
       @last_version = @user.version

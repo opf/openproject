@@ -80,6 +80,7 @@
 <i class="icon-duplicate"></i>
 <i class="icon-edit"></i>
 <i class="icon-error"></i>
+<i class="icon-faq"></i>
 <i class="icon-filter"></i>
 <i class="icon-filter-big"></i>
 <i class="icon-fire"></i>
@@ -133,6 +134,7 @@
 <i class="icon-minus2"></i>
 <i class="icon-mobile1"></i>
 <i class="icon-mobile2"></i>
+<i class="icon-more"></i>
 <i class="icon-move"></i>
 <i class="icon-movie1"></i>
 <i class="icon-music"></i>
@@ -191,6 +193,7 @@
 <i class="icon-settings2"></i>
 <i class="icon-settings3"></i>
 <i class="icon-settings4"></i>
+<i class="icon-shortcuts"></i>
 <i class="icon-sort-ascending"></i>
 <i class="icon-sort-descending"></i>
 <i class="icon-sort-by"></i>
@@ -204,6 +207,7 @@
 <i class="icon-stats3"></i>
 <i class="icon-stats4"></i>
 <i class="icon-status"></i>
+<i class="icon-status-reporting"></i>
 <i class="icon-table-view"></i>
 <i class="icon-table-detail-view"></i>
 <i class="icon-timeline-view"></i>
@@ -229,6 +233,8 @@
 <i class="icon-unit"></i>
 <i class="icon-unit2"></i>
 <i class="icon-unlocked"></i>
+<i class="icon-user-guide-admin"></i>
+<i class="icon-user-guide-user"></i>
 <i class="icon-user-minus"></i>
 <i class="icon-user-plus"></i>
 <i class="icon-user1"></i>

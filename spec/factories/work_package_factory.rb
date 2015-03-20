@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,16 +28,18 @@
 
 FactoryGirl.define do
   factory :work_package do
-    ignore do
+    transient do
       custom_values nil
     end
 
     priority
-    project :factory => :project_with_types
-    status :factory => :status
+    project factory: :project_with_types
+    status factory: :status
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
-    author :factory => :user
+    author factory: :user
+    created_at Time.now
+    updated_at Time.now
 
     callback(:after_build) do |work_package, evaluator|
       work_package.type = work_package.project.types.first unless work_package.type

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require_relative 'migration_utils/legacy_journal_migrator'
 
 class LegacyChangesetJournalData < ActiveRecord::Migration
   def up
-    add_index "changeset_journals", ["journal_id"]
+    add_index 'changeset_journals', ['journal_id']
 
     migrator.run
   end
@@ -39,12 +39,12 @@ class LegacyChangesetJournalData < ActiveRecord::Migration
   def down
     migrator.remove_journals_derived_from_legacy_journals
 
-    remove_index "changeset_journals", ["journal_id"]
+    remove_index 'changeset_journals', ['journal_id']
   end
 
   private
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new("ChangesetJournal", "changeset_journals")
+    @migrator ||= Migration::LegacyJournalMigrator.new('ChangesetJournal', 'changeset_journals')
   end
 end

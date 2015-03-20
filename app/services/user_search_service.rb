@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,7 @@ class UserSearchService
   def ids_search(scope)
     ids = params[:ids].split(',')
 
-    scope.where(:id => ids)
+    scope.where(id: ids)
   end
 
   def query_search(scope)
@@ -67,21 +67,20 @@ class UserSearchService
     else
       @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
       scope = scope.not_blocked if @status == User::STATUSES[:active]
-      c << ["status = ?", @status]
+      c << ['status = ?', @status]
     end
 
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"
-      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
+      c << ['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?', name, name, name, name]
     end
 
     scope.where(c.conditions)
-                # currently, the sort/paging-helpers are highly dependent on being included in a controller
-                # and having access to things like the session or the params: this makes it harder
-                # to test outside a controller and especially hard to re-use this functionality
-                #.page(page_param)
-                #.per_page(per_page_param)
-                # .order(sort_clause)
+    # currently, the sort/paging-helpers are highly dependent on being included in a controller
+    # and having access to things like the session or the params: this makes it harder
+    # to test outside a controller and especially hard to re-use this functionality
+    # .page(page_param)
+    # .per_page(per_page_param)
+    # .order(sort_clause)
   end
-
 end

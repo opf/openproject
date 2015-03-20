@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'my routes', :type => :routing do
+describe 'my routes', type: :routing do
   it '/my/add_block POST routes to my#add_block' do
     expect(post('/my/add_block')).to route_to('my#add_block')
   end

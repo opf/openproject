@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,14 +33,14 @@ class Journal::BaseJournal < ActiveRecord::Base
   belongs_to :journal
 
   def journaled_attributes
-    attributes.symbolize_keys.select{|k,_| self.class.journaled_attributes.include? k}
+    attributes.symbolize_keys.select { |k, _| self.class.journaled_attributes.include? k }
   end
 
   def self.journaled_attributes
-    @journaled_attributes ||= column_names.map{ |n| n.to_sym} - excluded_attributes
+    @journaled_attributes ||= column_names.map(&:to_sym) - excluded_attributes
   end
 
-private
+  private
 
   def self.column_names
     db_columns(table_name).map(&:name)
@@ -53,5 +53,4 @@ private
   def self.db_columns(table_name)
     ActiveRecord::Base.connection.columns table_name
   end
-
 end

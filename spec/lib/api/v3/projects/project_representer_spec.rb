@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Projects::ProjectRepresenter do
   let(:project) { FactoryGirl.build(:project) }
-  let(:model) { ::API::V3::Projects::ProjectModel.new(project) }
-  let(:representer) { described_class.new(model) }
+  let(:representer) { described_class.new(project) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -43,8 +42,17 @@ describe ::API::V3::Projects::ProjectRepresenter do
       it { should have_json_path('identifier') }
       it { should have_json_path('name') }
       it { should have_json_path('description') }
-      it { should have_json_path('createdOn') }
-      it { should have_json_path('updatedOn') }
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { project.created_on }
+        let(:json_path) { 'createdAt' }
+      end
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { project.updated_on }
+        let(:json_path) { 'updatedAt' }
+      end
+
       it { should have_json_path('type') }
     end
 
@@ -52,6 +60,9 @@ describe ::API::V3::Projects::ProjectRepresenter do
       it { should have_json_type(Object).at_path('_links') }
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')
+      end
+      it 'should have a title for link to self' do
+        expect(subject).to have_json_path('_links/self/title')
       end
 
       describe 'categories' do

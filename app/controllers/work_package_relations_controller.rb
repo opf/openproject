@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,8 +41,10 @@ class WorkPackageRelationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to work_package_path(@work_package) }
-      format.js { render :action => 'create', :locals => { :work_package => work_package,
-                                                            :relation => @relation } }
+      format.js {
+        render action: 'create', locals: { work_package: work_package,
+                                           relation: @relation }
+      }
     end
   end
 
@@ -61,7 +63,8 @@ class WorkPackageRelationsController < ApplicationController
     @work_package
   end
 
-private
+  private
+
   def find_work_package
     @work_package = @object = WorkPackage.find(params[:work_package_id])
   rescue ActiveRecord::RecordNotFound

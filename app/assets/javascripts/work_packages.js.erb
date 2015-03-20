@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,26 @@ var WorkPackage = WorkPackage || {};
 (function($) {
   var init;
 
+  // TODO: remove this, once the issue edit view is completely angular based
+  var bodyInjector = function() { return angular.element('body').injector(); };
+
+  var manuallyCompile = function(button) {
+    if (!window.angular || button.length < 1) {
+      return;
+    }
+    bodyInjector().invoke(['$compile', function($compile) {
+      var scope = angular.element(button).scope();
+      $compile(button)(scope);
+    }])
+  };
+
+  var initializeAtWho = function(section) {
+    var textareas = section.find('textarea');
+    bodyInjector().invoke(['AutoCompleteHelper', function(AutoCompleteHelper) {
+      AutoCompleteHelper.enableTextareaAutoCompletion(textareas);
+    }]);
+  }
+
   init = function () {
 
     $.ajaxAppend({
@@ -53,6 +73,11 @@ var WorkPackage = WorkPackage || {};
                 }, 200);
                 enable_textarea_auto_completion($("#work_package_notes"));
                 $("#work_package_notes").focus();
+
+                // TODO: see last todo
+                var previewButton = update.find(".preview.button")
+                manuallyCompile(previewButton);
+                initializeAtWho(update);
       }
     });
 

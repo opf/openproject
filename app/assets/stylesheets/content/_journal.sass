@@ -1,0 +1,97 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+#content #history
+  padding-bottom: 11px
+
+#history
+  width: 700px
+  margin:
+    top: 1em
+    bottom: 0
+  h3
+    margin-bottom: 20px
+  .journal
+    min-height: 40px
+    margin:
+      bottom: 20px
+      left: 3px
+    clear: left
+
+.journal
+  width: 700px
+  clear: left
+  position: relative
+  z-index: 11
+  top: -8px
+  padding-top: 8px
+  margin-bottom: 8px
+  .profile-wrap
+    float: left
+    position: relative
+    left: 0
+    top: 0
+    padding:
+      left: 4px
+      right: 4px
+  h4
+    padding-right: 5px
+    font-size: 1rem
+    font-weight: normal
+    position: relative
+    z-index: 5
+    border: 0
+    margin-bottom: 0
+    .history-id
+      float: right
+      color: #999
+  .wiki
+    padding: 0
+    overflow: visible
+    margin-left: 50px
+  .contextual
+    float: right
+    a
+      float: left
+      display: block
+      margin-left: 5px
+      height: 16px
+      width: 16px
+      background:
+        repeat: no-repeat
+        position: center center
+
+.journal-attributes
+  color: #333333
+  font-size: $journal-attribute-font-size
+
+ul.journal-attributes
+  list-style-type: disc
+  margin:
+    bottom: 10px
+    left: 75px

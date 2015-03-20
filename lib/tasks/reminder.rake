@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ Example:
 END_DESC
 
 namespace :redmine do
-  task :send_reminders => :environment do
+  task send_reminders: :environment do
     reminder = DueIssuesReminder.new(ENV['days'], ENV['project'], ENV['type'], ENV['users'].to_s.split(',').map(&:to_i))
     reminder.remind_users
   end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration
   def self.up
     Wiki.all.each do |wiki|
 
-      page = wiki.find_page(wiki.start_page, :with_redirects => true)
+      page = wiki.find_page(wiki.start_page, with_redirects: true)
 
       current_title = page.present? ?
                         page.title :
@@ -49,6 +49,6 @@ class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration
   end
 
   def self.down
-    puts "You cannot safely undo this migration!"
+    puts 'You cannot safely undo this migration!'
   end
 end

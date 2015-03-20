@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ module AvatarHelper
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(user, options = { })
+  def avatar(user, options = {})
     avatar = with_default_avatar_options(user, options) do |email, opts|
       tag_options = merge_image_options(user, opts)
 

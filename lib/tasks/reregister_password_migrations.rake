@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ namespace :migrations do
     end
 
     desc "Prepares database schema changed by the plug-in 'Strong Passwords' for follow-up migrations"
-    task :reregister => :environment do |task|
+    task reregister: :environment do |_task|
       if strong_passwords_changed_schema
         puts "Adapt 'Strong Passwords' schema changes..."
         rename_strong_password_columns
@@ -64,10 +64,10 @@ namespace :migrations do
     end
 
     def schema_name
-      ActiveRecord::Base.connection.quote_table_name "schema_migrations"
+      ActiveRecord::Base.connection.quote_table_name 'schema_migrations'
     end
 
-    def quote_value name
+    def quote_value(name)
       ActiveRecord::Base.connection.quote name
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,6 @@ Feature: Deleting work packages
     When I go to the page of the work package "wp1"
     And I select "Delete" from the action menu
     And I confirm popups
-
     Then I should be on the bulk destroy page of work packages
 
     When I choose "Reassign"

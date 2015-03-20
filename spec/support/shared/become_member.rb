@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +36,9 @@ module BecomeMember
     def become_member_with_permissions(project, user, permissions = [])
       permissions = Array(permissions)
 
-      role = FactoryGirl.create(:role, :permissions => permissions)
+      role = FactoryGirl.create(:role, permissions: permissions)
 
-      member = FactoryGirl.build(:member, :principal => user, :project => project)
+      member = FactoryGirl.build(:member, principal: user, project: project)
       member.roles = [role]
       member.save!
     end

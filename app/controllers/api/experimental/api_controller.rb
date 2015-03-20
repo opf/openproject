@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,23 +28,13 @@
 
 module Api
   module Experimental
-
     module ApiController
-
-      include ::Api::V2::ApiController
-      extend ::Api::V2::ApiController::ClassMethods
-
-      def api_version
-        /api\/experimental\//
+      def self.included(base)
+        base.class_eval do
+          skip_before_filter :disable_api
+          prepend_before_filter :disable_everything_except_api
+        end
       end
-
-      permeate_permissions :authorize,
-                           :apply_at_timestamp,
-                           :determine_base,
-                           :find_all_projects_by_project_id,
-                           :find_project_by_project_id,
-                           :jump_to_project_menu_item,
-                           :find_optional_project_and_raise_error
     end
   end
 end

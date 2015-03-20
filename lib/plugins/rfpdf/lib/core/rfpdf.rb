@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 module Core::RFPDF
   COLOR_PALETTE = {
-      :black => [0x00, 0x00, 0x00],
-      :white => [0xff, 0xff, 0xff],
+      black: [0x00, 0x00, 0x00],
+      white: [0xff, 0xff, 0xff],
   }.freeze
 
   # Draw a circle at (<tt>mid_x, mid_y</tt>) with <tt>radius</tt>.

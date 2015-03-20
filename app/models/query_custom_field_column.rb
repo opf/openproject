@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,6 @@
 #++
 
 class QueryCustomFieldColumn < QueryColumn
-
   def initialize(custom_field)
     self.name = "cf_#{custom_field.id}".to_sym
     self.sortable = custom_field.order_statement || false
@@ -48,7 +47,7 @@ class QueryCustomFieldColumn < QueryColumn
   end
 
   def value(issue)
-    cv = issue.custom_values.detect {|v| v.custom_field_id == @cf.id}
+    cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
     cv && @cf.cast_value(cv.value)
   end
 end

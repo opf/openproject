@@ -1,40 +1,46 @@
 # OpenProject
-
 [<img src="https://travis-ci.org/opf/openproject.svg?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
 [<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />](https://gemnasium.com/opf/openproject)
-[![Code Climate](https://codeclimate.com/repos/528f351813d637200e02ef84/badges/5ef239a5b086f9e52e52/gpa.svg)](https://codeclimate.com/repos/528f351813d637200e02ef84/feed)
+[![Code Climate](https://codeclimate.com/github/opf/openproject/badges/gpa.svg)](https://codeclimate.com/github/opf/openproject)
 [![Inline docs](http://inch-ci.org/github/opf/openproject.png?branch=dev)](http://inch-ci.org/github/opf/openproject)
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/opf/openproject?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 OpenProject is a web-based project management software. Its key features are:
 
-* [Work Package Tracking](https://www.openproject.org/projects/openproject/wiki/Work_packages)
-* [Project Timelines](https://www.openproject.org/projects/openproject/wiki/Timelines)
-* [Wikis](https://www.openproject.org/projects/openproject/wiki/Wiki)
-* [Forums](https://www.openproject.org/projects/openproject/wiki/Forums)
+* [Work Package Tracking](https://openproject.org/features/work-packages/)
+* [Project Timelines](https://openproject.org/features/timelines/)
+* [Wikis](https://openproject.org/features/wiki/)
+* [Forums](https://openproject.org/features/more/)
 
 Via plugins, it also supports:
 
-* [Meeting Management](https://www.openproject.org/projects/openproject/wiki/Meetings)
-* [Scrum Process Support](https://www.openproject.org/projects/openproject/wiki/Agile_teams)
-* [Time and Cost Reporting](https://www.openproject.org/projects/openproject/wiki/Time_and_Cost)
-* and [others](https://www.openproject.org/projects/openproject/wiki/OpenProject_Plug-Ins).
+* [Meeting Management](https://openproject.org/features/more/)
+* [Scrum Process Support](https://openproject.org/features/agile-scrum/)
+* [Time and Cost Reporting](https://openproject.org/features/time-and-costs/)
+* and [others](https://openproject.org/download/install-plugins/).
 
 More information and screenshots can be found on [openproject.org](https://www.openproject.org).
 
 ## Installation
 
-There is an [installation guide](https://www.openproject.org/projects/openproject/wiki/Installation) and a [reference of configuration options](doc/CONFIGURATION.md).
+If you want to run an instance of OpenProject in production (or for evaluation), refer to our
+in-depth [installation guides](https://openproject.org/download/).
+
+If you're a developer wanting to set-up a local environment for contributing to OpenProject or
+developing plugins, you should refer instead to our [Quick Start for Developers](doc/QUICK_START.md).
+
+Our [developer documentation](doc/README.md) also includes a [reference of configuration options](doc/CONFIGURATION.md).
 
 ## Contact
 
 OpenProject is supported by its community members, both companies and individuals.
 
-Please find ways to contact us on the OpenProject [support page](https://www.openproject.org/support).
+Please find ways to contact us on the OpenProject [help page](https://www.openproject.org/help).
 
 ## Community
 
 OpenProject is driven by an active group of open source enthusiasts: software engineers, project managers, creatives, and consultants. OpenProject is supported by companies as well as individuals. We share the vision to build great open source project collaboration software.
-The [OpenProject Foundation (OPF)](https://www.openproject.org/projects/openproject/wiki/OpenProject_Foundation) will give official guidance to the project and the community and oversees contributions and decisions.
+The [OpenProject Foundation (OPF)](https://community.openproject.org/projects/openproject/wiki/OpenProject_Foundation) will give official guidance to the project and the community and oversees contributions and decisions.
 
 ## Repository
 
@@ -70,4 +76,3 @@ OpenProject Icon Font by the OpenProject Foundation (OPF) is licensed under Crea
 and Free for both personal and commercial use. You can copy, adapt, remix, distribute or transmit it.
 
 Under this condition: provide a mention of the "OpenProject Foundation" and a link back to OpenProject www.openproject.org.
-

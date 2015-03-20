@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,20 +29,19 @@
 
 module Redmine
   module Activity
-
     mattr_accessor :available_event_types, :default_event_types, :providers
 
     @@available_event_types = []
     @@default_event_types = []
-    @@providers = Hash.new {|h,k| h[k]=[] }
+    @@providers = Hash.new { |h, k| h[k] = [] }
 
     class << self
-      def map(&block)
+      def map(&_block)
         yield self
       end
 
       # Registers an activity provider
-      def register(event_type, options={})
+      def register(event_type, options = {})
         options.assert_valid_keys(:class_name, :default)
 
         event_type = event_type.to_s

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,11 +33,13 @@ describe OpenProject::Configuration do
     let(:config) { Hash.new }
 
     before do
-      expect(YAML).to receive(:load_file).and_return({
-        'default' => {},
-        'test' => { 'somesetting' => 'foo' }
-      })
-      expect(File).to receive(:file?).with('file').and_return(true)
+      File.should_receive(:file?).with('file').and_return(true)
+      File.should_receive(:read).and_return("
+        default:
+
+        test:
+          somesetting: foo
+      ")
 
       OpenProject::Configuration.send(:load_config_from_file, 'file', 'test', config)
     end
@@ -49,11 +51,12 @@ describe OpenProject::Configuration do
 
   describe '.load_env_from_config' do
     describe 'with a default setting' do
-      let(:config) { OpenProject::Configuration.send(:load_env_from_config, {
-          'default' => { 'somesetting' => 'foo' },
-          'test' => {},
-          'someother' => { 'somesetting' => 'bar'}
-        }, 'test')}
+      let(:config) {
+        OpenProject::Configuration.send(:load_env_from_config, {
+                                          'default' => { 'somesetting' => 'foo' },
+                                          'test' => {},
+                                          'someother' => { 'somesetting' => 'bar' }
+                                        }, 'test')}
 
       it 'should load a default setting' do
         expect(config['somesetting']).to eq('foo')
@@ -61,10 +64,11 @@ describe OpenProject::Configuration do
     end
 
     describe 'with an environment-specific setting' do
-      let(:config) { OpenProject::Configuration.send(:load_env_from_config, {
-          'default' => {},
-          'test' => { 'somesetting' => 'foo' }
-        }, 'test')}
+      let(:config) {
+        OpenProject::Configuration.send(:load_env_from_config, {
+                                          'default' => {},
+                                          'test' => { 'somesetting' => 'foo' }
+                                        }, 'test')}
 
       it 'should load a setting' do
         expect(config['somesetting']).to eq('foo')
@@ -72,10 +76,11 @@ describe OpenProject::Configuration do
     end
 
     describe 'with a default and an overriding environment-specific setting' do
-      let(:config) { OpenProject::Configuration.send(:load_env_from_config, {
-          'default' => { 'somesetting' => 'foo'},
-          'test' => { 'somesetting' => 'bar' }
-        }, 'test')}
+      let(:config) {
+        OpenProject::Configuration.send(:load_env_from_config, {
+                                          'default' => { 'somesetting' => 'foo' },
+                                          'test' => { 'somesetting' => 'bar' }
+                                        }, 'test')}
 
       it 'should load the overriding value' do
         expect(config['somesetting']).to eq('bar')
@@ -84,28 +89,51 @@ describe OpenProject::Configuration do
   end
 
   describe '.load_overrides_from_environment_variables' do
-    let(:config) { {'somesetting' => 'foo'} }
+    let(:config) {
+      {
+        'somesetting' => 'foo',
+        'nested' => {
+          'key' => 'value',
+          'deeply_nested' => {
+            'key' => nil
+          }
+        }
+      }
+    }
+
+    let(:env_vars) {
+      {
+        'SOMESETTING' => 'bar',
+        'OPTEST_NESTED_KEY' => 'baz',
+        'OPTEST_NESTED_DEEPLY__NESTED_KEY' => '42'
+      }
+    }
 
     before do
-      ENV['SOMESETTING'] = 'bar'
-      OpenProject::Configuration.send(:load_overrides_from_environment_variables, config)
+      stub_const('OpenProject::Configuration::ENV_PREFIX', 'OPTEST')
+
+      OpenProject::Configuration.send :override_config!, config, env_vars
     end
 
     it 'should override the previous setting value' do
       expect(config['somesetting']).to eq('bar')
     end
 
-    after do
-      ENV.delete 'SOMESETTING'
+    it 'should override a nested value' do
+      expect(config['nested']['key']).to eq('baz')
+    end
+
+    it 'should override values nested several levels deep' do
+      expect(config['nested']['deeply_nested']['key']).to eq('42')
     end
   end
 
   describe '.with' do
     before do
-      expect(OpenProject::Configuration).to receive(:load_config_from_file) do |filename, env, config|
-        config.merge!({ 'somesetting' => 'foo' })
+      expect(OpenProject::Configuration).to receive(:load_config_from_file) do |_filename, _env, config|
+        config.merge!('somesetting' => 'foo')
       end
-      OpenProject::Configuration.load(:env => 'test')
+      OpenProject::Configuration.load(env: 'test')
     end
 
     it 'should return the overriden the setting within the block' do
@@ -120,21 +148,22 @@ describe OpenProject::Configuration do
   end
 
   describe '.convert_old_email_settings' do
-    let(:settings) { {
-      "email_delivery" => {
-        "delivery_method" => :smtp,
-        "perform_deliveries" => true,
-        "smtp_settings" => {
-          "address"=>"smtp.example.net",
-          "port" => 25,
-          "domain" => "example.net"
-      }}}
+    let(:settings) {
+      {
+        'email_delivery' => {
+          'delivery_method' => :smtp,
+          'perform_deliveries' => true,
+          'smtp_settings' => {
+            'address' => 'smtp.example.net',
+            'port' => 25,
+            'domain' => 'example.net'
+          } } }
     }
 
     context 'with delivery_method' do
       before do
         OpenProject::Configuration.send(:convert_old_email_settings, settings,
-                                        :disable_deprecation_message => true)
+                                        disable_deprecation_message: true)
       end
 
       it 'should adopt the delivery method' do
@@ -152,7 +181,7 @@ describe OpenProject::Configuration do
       before do
         settings['email_delivery'].delete('delivery_method')
         OpenProject::Configuration.send(:convert_old_email_settings, settings,
-                                        :disable_deprecation_message => true)
+                                        disable_deprecation_message: true)
       end
 
       it 'should convert smtp settings' do
@@ -166,9 +195,9 @@ describe OpenProject::Configuration do
   describe '.configure_action_mailer' do
     let(:action_mailer) { double('ActionMailer::Base') }
     let(:config) {
-      {'email_delivery_method' => 'smtp',
-       'smtp_address' => 'smtp.example.net',
-       'smtp_port' => '25'}
+      { 'email_delivery_method' => 'smtp',
+        'smtp_address' => 'smtp.example.net',
+        'smtp_port' => '25' }
     }
 
     before do
@@ -178,8 +207,8 @@ describe OpenProject::Configuration do
     it 'should enable deliveries and configure ActionMailer smtp delivery' do
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
-      expect(action_mailer).to receive(:smtp_settings=).with({:address => 'smtp.example.net',
-                                                          :port => '25'})
+      expect(action_mailer).to receive(:smtp_settings=).with(address: 'smtp.example.net',
+                                                             port: '25')
       OpenProject::Configuration.send(:configure_action_mailer, config)
     end
   end

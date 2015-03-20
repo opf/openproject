@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,11 +38,11 @@ class WikiPageTest < ActiveSupport::TestCase
   end
 
   def test_create
-    page = WikiPage.new(:wiki => @wiki)
+    page = WikiPage.new(wiki: @wiki)
     assert !page.save
     assert_equal 1, page.errors.count
 
-    page.title = "Page"
+    page.title = 'Page'
     assert page.save
     page.reload
     assert !page.protected?
@@ -58,11 +58,11 @@ class WikiPageTest < ActiveSupport::TestCase
   end
 
   def test_find_or_new_page
-    page = @wiki.find_or_new_page("CookBook documentation")
+    page = @wiki.find_or_new_page('CookBook documentation')
     assert_kind_of WikiPage, page
     assert !page.new_record?
 
-    page = @wiki.find_or_new_page("Non existing page")
+    page = @wiki.find_or_new_page('Non existing page')
     assert_kind_of WikiPage, page
     assert page.new_record?
   end

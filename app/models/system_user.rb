@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ class SystemUser < User
 
   include DisableCustomizable
 
-  validate :validate_unique_system_user, :on => :create
+  validate :validate_unique_system_user, on: :create
 
   # There should be only one SystemUser in the database
   def validate_unique_system_user
@@ -67,10 +67,15 @@ class SystemUser < User
 
   # Overrides a few properties
   def logged?; false end
-  def name(*args); "System" end
+
+  def name(*_args); 'System' end
+
   def mail; nil end
+
   def time_zone; nil end
+
   def rss_key; nil end
+
   def destroy; false end
 
   def grant_privileges
@@ -83,7 +88,7 @@ class SystemUser < User
     self.status = STATUSES[:locked]
   end
 
-  def run_given(&block)
+  def run_given(&_block)
     if block_given?
       grant_privileges
       old_user = User.current

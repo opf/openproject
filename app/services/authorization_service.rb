@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ class AuthorizationService
   #   context - single project or array of projects - default nil
   #   global - global - default false
   #   user - user - default current user
-  def initialize(permission, context: nil , global: false, user: User.current)
+  def initialize(permission, context: nil, global: false, user: User.current)
     @permission = permission
     @context = context
     @global = global
@@ -45,6 +45,6 @@ class AuthorizationService
   end
 
   def call
-    @user.allowed_to?(@permission, @context, :global => @global)
+    @user.allowed_to?(@permission, @context, global: @global)
   end
 end

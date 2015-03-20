@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ class JournalFormatter::Fraction < JournalFormatter::Attribute
     values.map do |v|
       v.nil? ?
         nil :
-        "%0.02f" % v.to_f
+        '%0.02f' % v.to_f
     end
   end
 end

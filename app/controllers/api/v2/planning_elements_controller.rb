@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,21 +29,21 @@
 
 module Api
   module V2
-
     class PlanningElementsController < ApplicationController
       unloadable
       helper :timelines, :planning_elements
 
       include ::Api::V2::ApiController
+      include ::Api::V2::Concerns::MultipleProjects
       include ExtendedHTTP
 
       before_filter :find_project_by_project_id,
-                    :authorize, :except => [:index]
+                    :authorize, except: [:index]
       before_filter :parse_changed_since, only: [:index]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
       #            before filters !!!
-      before_filter :find_all_projects_by_project_id, :only => :index
+      before_filter :find_all_projects_by_project_id, only: :index
 
       helper :timelines
 
@@ -58,7 +58,7 @@ module Api
 
       def create
         @planning_element = @project.work_packages.build
-        @planning_element.update_attributes(permitted_params.planning_element({:project => @project}).except :note)
+        @planning_element.update_attributes(permitted_params.planning_element(project: @project).except :note)
 
         @planning_element.attach_files(params[:attachments])
 
@@ -73,7 +73,7 @@ module Api
               redirect_url = api_v2_project_planning_element_url(
                 @project, @planning_element,
                 # TODO this probably should be (params[:format] ||'xml'), however, client code currently anticipates xml responses.
-                :format => 'xml'
+                format: 'xml'
               )
               see_other(redirect_url)
             else
@@ -85,7 +85,7 @@ module Api
 
       def show
         @planning_element = @project.work_packages.find params[:id],
-          :include => [{:custom_values => [{:custom_field => :translations}]}]
+                                                        include: [{ custom_values: [{ custom_field: :translations }] }]
 
         respond_to do |format|
           format.api
@@ -94,9 +94,9 @@ module Api
 
       def update
         @planning_element = WorkPackage.find(params[:id])
-        @planning_element.attributes = permitted_params.planning_element({:project => @project}).except :note
+        @planning_element.attributes = permitted_params.planning_element(project: @project).except :note
 
-        @planning_element.add_journal(User.current, permitted_params.planning_element({:project => @project})[:note])
+        @planning_element.add_journal(User.current, permitted_params.planning_element(project: @project)[:note])
 
         successfully_updated = @planning_element.save
 
@@ -122,26 +122,10 @@ module Api
 
       protected
 
-      def filter_authorized_projects
-        # authorize
-        # Ignoring projects, where user has no view_work_packages permission.
-        permission = params[:controller].sub api_version, ''
-        @projects = @projects.select do |project|
-          User.current.allowed_to?({:controller => permission,
-                                    :action     => params[:action]},
-                                    project)
-        end
-      end
-
       def load_multiple_projects(ids, identifiers)
         @projects = []
-        @projects |= Project.all(:conditions => {:id => ids}) unless ids.empty?
-        @projects |= Project.all(:conditions => {:identifier => identifiers}) unless identifiers.empty?
-      end
-
-      def projects_contain_certain_ids_and_identifiers(ids, identifiers)
-        (@projects.map(&:id) & ids).size == ids.size &&
-        (@projects.map(&:identifier) & identifiers).size == identifiers.size
+        @projects |= Project.all(conditions: { id: ids }) unless ids.empty?
+        @projects |= Project.all(conditions: { identifier: identifiers }) unless identifiers.empty?
       end
 
       def find_single_project
@@ -176,7 +160,9 @@ module Api
 
       # Filters
       def find_all_projects_by_project_id
-        if !params[:project_id] and params[:ids] then
+        if !params[:project_id] and params[:ids]
+          # WTF. Why do we completely skip rewiring in this case and always provide parent_ids?
+          # This is totally inconistent.
           identifiers = params[:ids].split(/,/).map(&:strip)
           @planning_elements = WorkPackage.visible(User.current).find_all_by_id(identifiers)
         elsif params[:project_id] !~ /,/
@@ -190,20 +176,27 @@ module Api
       # The method optimises for speed and replaces the AR with structs, that make
       # sure that there are no callbacks to the db (producing nasty n+1 errors)
       def assign_planning_elements(projects = (@projects || [@project]))
-
         if planning_comparison?
           @planning_elements = convert_to_struct(historical_work_packages(projects))
         else
           @planning_elements = convert_to_struct(current_work_packages(projects))
           # only for current work_packages, the array of child-ids must be reconstructed
           # for historical packages, the re-wiring is not needed
-          rewire_ancestors
-        end
 
+          # Allow disabling rewiring - this exposes parent IDs of work packages invisible
+          # to the user.
+          # When requesting single work packages via IDs, the rewiring fails as it assumes
+          # that all visible work packages are loaded, which they might not be. For a work
+          # package with a parent visible to the user, but not included in the requested IDs,
+          # the parent_id would thus be nil.
+          # Disabling rewiring allows fetching work packages with their parent_ids
+          # even when the parents are not included in the list of requested work packages.
+          rewire_ancestors unless params[:rewire_parents] == 'false'
+        end
       end
 
-      Struct.new("WorkPackage", *[WorkPackage.column_names.map(&:to_sym), :custom_values, :child_ids].flatten)
-      Struct.new("CustomValue", *CustomValue.column_names.map(&:to_sym))
+      Struct.new('WorkPackage', *[WorkPackage.column_names.map(&:to_sym), :custom_values, :child_ids].flatten)
+      Struct.new('CustomValue', *CustomValue.column_names.map(&:to_sym))
 
       def convert_wp_to_struct(work_package)
         struct = Struct::WorkPackage.new
@@ -227,7 +220,7 @@ module Api
 
       def convert_wp_object_to_struct(model)
         result = convert_wp_to_struct(model)
-        result.custom_values = model.custom_values.select{|cv| cv.value != ""}.map do |model|
+        result.custom_values = model.custom_values.select { |cv| cv.value != '' }.map do |model|
           convert_custom_value_to_struct(model)
         end
         result
@@ -244,12 +237,12 @@ module Api
       end
 
       def timeline_to_project(timeline_id)
-        if timeline_id then
+        if timeline_id
           project = Timeline.find_by_id(params[:timeline]).project
-          user_has_access = User.current.allowed_to?({:controller => "planning_elements",
-                                                      :action     => "index"},
-                                                      project)
-          if user_has_access then
+          user_has_access = User.current.allowed_to?({ controller: 'planning_elements',
+                                                       action:     'index' },
+                                                     project)
+          if user_has_access
             return project
           end
         end
@@ -257,20 +250,20 @@ module Api
 
       def current_work_packages(projects)
         work_packages = WorkPackage.for_projects(projects)
-                                   .changed_since(@since)
-                                   .includes(:status, :project, :type, :custom_values)
+                        .changed_since(@since)
+                        .includes(:status, :project, :type, :custom_values)
 
         wp_ids = parse_work_package_ids
         work_packages = work_packages.where(id: wp_ids) if wp_ids
 
         if params[:f]
-          #we need a project to make project-specific custom fields work
+          # we need a project to make project-specific custom fields work
           project = timeline_to_project(params[:timeline])
-          query = Query.new(:project => project, :name => '_')
+          query = Query.new(project: project, name: '_')
 
           query.add_filters(params[:f], params[:op], params[:v])
 
-          #if we do not remove the project, the filter will only add wps from this project
+          # if we do not remove the project, the filter will only add wps from this project
           query.project = nil
 
           work_packages = work_packages.with_query query
@@ -281,7 +274,7 @@ module Api
 
       def historical_work_packages(projects)
         at_time = Time.at(params[:at_time].to_i).to_datetime
-        filter = params[:f] ? {f: params[:f], op: params[:op], v: params[:v]}: {}
+        filter = params[:f] ? { f: params[:f], op: params[:op], v: params[:v] } : {}
         historical = PlanningComparisonService.compare(projects, at_time, filter)
       end
 
@@ -289,15 +282,18 @@ module Api
       helper_method :include_journals?
 
       def include_journals?
-        params[:include].tap { |i| i.present? && i.include?("journals") }
+        # .tap and the following block here were useless as the block's return value is ignored.
+        # Keeping this code to show its original intention, but not fixing it to not
+        # break things for clients that might not properly use the parameter.
+        params[:include]  # .tap { |i| i.present? && i.include?("journals") }
       end
 
       # Actual protected methods
       def render_errors(errors)
-        options = {:status => :bad_request, :layout => false}
+        options = { status: :bad_request, layout: false }
         options.merge!(case params[:format]
-          when 'xml';  {:xml => errors}
-          when 'json'; {:json => {'errors' => errors}}
+          when 'xml';  { xml: errors }
+          when 'json'; { json: { 'errors' => errors } }
           else
             raise "Unknown format #{params[:format]} in #render_validation_errors"
           end
@@ -317,7 +313,6 @@ module Api
       # to see the respective cases that need to be handled properly by this rewiring,
       # @see features/planning_elements/filter.feature
       def rewire_ancestors
-
         filtered_ids = @planning_elements.map(&:id)
 
         @planning_elements.each do |pe|
@@ -325,19 +320,17 @@ module Api
           # re-wire the parent of this pe to the first ancestor found in the filtered set
           # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
           if pe.parent_id && !filtered_ids.include?(pe.parent_id)
-            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt && candidate.root_id == pe.root_id }
+            ancestors = @planning_elements.select { |candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt && candidate.root_id == pe.root_id }
             # the greatest lower boundary is the first ancestor not filtered
-            pe.parent_id = ancestors.empty? ? nil : ancestors.sort_by{|ancestor| ancestor.lft }.last.id
+            pe.parent_id = ancestors.empty? ? nil : ancestors.sort_by(&:lft).last.id
           end
         end
 
         # we explicitly need to re-construct the array of child-ids
         @planning_elements.each do |pe|
-          pe.child_ids = @planning_elements.select {|child| child.parent_id == pe.id}
-                                              .map(&:id)
+          pe.child_ids = @planning_elements.select { |child| child.parent_id == pe.id }
+            .map(&:id)
         end
-
-
       end
 
       private

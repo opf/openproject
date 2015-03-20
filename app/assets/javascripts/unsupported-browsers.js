@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,8 @@
   $(function() {
 
     var agent = navigator.userAgent;
-
-    if (agent.match(/MSIE [789]\.0/) === null) {
+    if (agent.match(/MSIE [789]\.0/) === null &&                // IE 7-9
+        agent.match(/Firefox\/(([1-2][0-9]|30)\.)/) === null) { // Firefox 10-30
       return;
     }
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,14 +33,14 @@ module TimelinesHelper
   def icon_for_color(color, options = {})
     return unless color
 
-    options = options.merge(:class => "timelines-phase " + options[:class].to_s,
-                            :style => "background-color: #{color.hexcode};" + options[:style].to_s)
+    options = options.merge(class: 'timelines-phase ' + options[:class].to_s,
+                            style: "background-color: #{color.hexcode};" + options[:style].to_s)
 
-    content_tag(:span, " ", options)
+    content_tag(:span, ' ', options)
   end
 
   def parent_id_select_tag(form, planning_element)
-    available_parents = planning_element.project.planning_elements.find(:all, :order => "COALESCE(parent_id, id), parent_id")
+    available_parents = planning_element.project.planning_elements.find(:all, order: 'COALESCE(parent_id, id), parent_id')
     available_parents -= [planning_element]
 
     available_options = available_parents.map do |pe|
@@ -48,13 +48,13 @@ module TimelinesHelper
       [texts.join(right_pointing_arrow), pe.id]
     end
 
-    available_options.unshift(['',''])
+    available_options.unshift(['', ''])
 
     form.select :parent_id, available_options
   end
 
   def right_pointing_arrow
-    " ▸ "
+    ' ▸ '
   end
 
   def format_date(date, options = nil)
@@ -81,6 +81,13 @@ module TimelinesHelper
     s
   end
 
+  def options_for_timeunits(selected = nil)
+    options_for_select([[l('timelines.filter.time_relative.days'), 0],
+                        [l('timelines.filter.time_relative.weeks'), '1'],
+                        [l('timelines.filter.time_relative.months'), '2']],
+                       selected)
+  end
+
   def options_for_project_types
     ProjectType.all.map { |t| [t.name, t.id] }
   end
@@ -97,7 +104,7 @@ module TimelinesHelper
 
   # TODO Refactoring
   def header_tags
-    %Q{
+    %{
       <style type='text/css'>
         #content table.issues td.center,
         #content table th.center {
@@ -125,10 +132,7 @@ module TimelinesHelper
           margin-right: 5px;
         }
         .timelines-milestone {
-          -webkit-transform: rotate(45deg);
-             -moz-transform: rotate(45deg);
-               -o-transform: rotate(45deg);
-                  transform: rotate(45deg);
+          transform: rotate(45deg);
         }
         .timelines-phase {
           border-radius: 4px;
@@ -195,7 +199,6 @@ module TimelinesHelper
           margin-left: 1em;
           line-height: 2em;
         }
-        .timelines-color-properties label,
         .timelines-pet-properties label,
         .timelines-pt-properties label {
           display: inline-block;
@@ -217,11 +220,16 @@ module TimelinesHelper
 
       <script>
         jQuery(function () {
-          preview = jQuery('.timelines-x-update-color').each(function () {
-            var preview, input, func;
+          jQuery('.timelines-x-update-color').each(function(idx, element) {
+            var preview, input, func, target;
 
             preview = jQuery(this);
-            input   = preview.next('input');
+            target  = preview.data('target')
+            if(target) {
+              input = jQuery(target);
+            } else {
+              input = preview.next('input');
+            }
 
             if (input.length == 0) {
               return;
@@ -244,7 +252,7 @@ module TimelinesHelper
   end
 
   def filter_select_i18n_array_with_index_and_none(array, i18n_prefix)
-    result = self.none_option
+    result = none_option
     index = -1
     result += array.map do |t|
       index += 1
@@ -253,7 +261,7 @@ module TimelinesHelper
   end
 
   def filter_select_with_none(collection, text, value)
-    result = self.none_option
+    result = none_option
     result += filter_select(collection, text, value)
   end
 
@@ -263,35 +271,35 @@ module TimelinesHelper
     end
   end
 
-  def resolve_with_none_option(const, collection)
+  def resolve_with_none_option(_const, collection)
     collection
   end
 
   def list_to_select_object_with_none(collection)
     collection = collection.map do |t|
       {
-        :name => t,
-        :id => t
+        name: t,
+        id: t
       }
     end
-    collection.unshift({
-      :name => l("timelines.filter.noneElement"),
-      :id => -1
-    })
+    collection.unshift(
+      name: l('timelines.filter.noneElement'),
+      id: -1
+    )
   end
 
   def internationalized_columns_select_object(collection)
     collection.map do |t|
       {
-        :name => l("timelines.filter.column." + t),
-        :id => t
+        name: l('timelines.filter.column.' + t),
+        id: t
       }
     end
   end
 
   def internationalized_columns_select(collection)
     collection.map do |t|
-      [l("timelines.filter.column." + t), t]
+      [l('timelines.filter.column.' + t), t]
     end
   end
 
@@ -299,9 +307,9 @@ module TimelinesHelper
 
   include Gon::GonHelpers
 
-  def visible_timeline_paths(visible_timelines=[])
+  def visible_timeline_paths(_visible_timelines = [])
     @visible_timelines.inject({}) do |timeline_paths, timeline|
-      timeline_paths.merge(timeline.id => {path: project_timeline_path(@project, timeline)})
+      timeline_paths.merge(timeline.id => { path: project_timeline_path(@project, timeline) })
     end
   end
 
@@ -314,10 +322,13 @@ module TimelinesHelper
   end
 
   def push_timeline_options(timeline)
-    gon.timeline_options = timeline.options.reverse_merge(
-      timeline_id: timeline.id,
-      project_id: timeline.project.identifier,
-      url_prefix: OpenProject::Configuration.rails_relative_url_root || ''
-    )
+    project_id = timeline.project.identifier
+
+    gon.timeline_options ||= {}
+    gon.timeline_options[timeline.id] = timeline.options.reverse_merge(project_id: project_id)
+  end
+
+  def timeline_options
+    OpenStruct.new @timeline.options
   end
 end

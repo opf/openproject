@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,4 +28,23 @@
 #++
 
 module ChiliProject
+  VERSION = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
+    'ChiliProject::VERSION', 'OpenProject::VERSION'
+  )
+
+  Database = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
+    'ChiliProject::Database', 'OpenProject::Database'
+  )
+
+  module PrincipalAllowanceEvaluator
+    Base = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
+      'ChiliProject::PrincipalAllowanceEvaluator::Base',
+      'OpenProject::PrincipalAllowanceEvaluator::Base'
+    )
+
+    Default = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
+      'ChiliProject::PrincipalAllowanceEvaluator::Default',
+      'OpenProject::PrincipalAllowanceEvaluator::Default'
+    )
+  end
 end

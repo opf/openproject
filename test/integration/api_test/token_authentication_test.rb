@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,13 +44,13 @@ class ApiTest::TokenAuthenticationTest < ActionDispatch::IntegrationTest
     Setting.login_required = '0'
   end
 
-  context "get /api/v2/projects" do
-    context "in :xml format" do
-      should_allow_key_based_auth(:get, "/api/v2/projects.xml")
+  context 'get /api/v2/projects' do
+    context 'in :xml format' do
+      should_allow_key_based_auth(:get, '/api/v2/projects.xml')
     end
 
-    context "in :json format" do
-      should_allow_key_based_auth(:get, "/api/v2/projects.json")
+    context 'in :json format' do
+      should_allow_key_based_auth(:get, '/api/v2/projects.json')
     end
   end
 end

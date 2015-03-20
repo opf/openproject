@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,10 @@ module Migration
 
     def migrate_yaml(table, column, source_yamler, target_yamler)
       current_yamler = YAML::ENGINE.yamler
-      fetch_data(table,column).each do | data |
+      fetch_data(table, column).each do | data |
         db_execute <<-SQL
           UPDATE #{quoted_table_name(table)}
-          SET #{db_column(column)} = #{quote_value(yaml_to_yaml(data[column],source_yamler, target_yamler))}
+          SET #{db_column(column)} = #{quote_value(yaml_to_yaml(data[column], source_yamler, target_yamler))}
           WHERE id = #{data['id']};
         SQL
       end

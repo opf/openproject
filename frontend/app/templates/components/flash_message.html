@@ -1,0 +1,8 @@
+<div ng-show="message !== undefined"
+     style="display: block;"
+     class="flash"
+     ng-class="['icon', 'icon-'+flashType, flashType]"
+     id="{{flashId}}"
+     role="alert"
+     ng-bind="message.text">
+</div>

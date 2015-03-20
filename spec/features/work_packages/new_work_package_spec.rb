@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'New work package', :type => :feature do
+describe 'New work package', type: :feature do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -46,8 +46,8 @@ describe 'New work package', :type => :feature do
 
         work_packages_page.visit_new
 
-        input = page.find('#work_package_start_date')
-        input.click
+        # Fill in the date, a sa simple click does not seem to trigger the datepicker here
+        fill_in 'Start date', with: DateTime.now.strftime('%Y-%m-%d')
 
         expect(page).to have_selector(datepicker_selector)
       end

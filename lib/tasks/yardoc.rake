@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ begin
 
   YARD::Rake::YardocTask.new do |t|
     files = ['lib/**/*.rb', 'app/**/*.rb']
-    files << Dir['vendor/plugins/**/*.rb'].reject {|f| f.match(/test/) } # Exclude test files
+    files << Dir['vendor/plugins/**/*.rb'].reject { |f| f.match(/test/) } # Exclude test files
     t.files = files
 
     static_files = ['doc/CHANGELOG.rdoc',

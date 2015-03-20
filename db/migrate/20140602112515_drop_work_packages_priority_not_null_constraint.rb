@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,6 @@
 
 class DropWorkPackagesPriorityNotNullConstraint < ActiveRecord::Migration
   def change
-    change_column :work_packages, :priority_id, :integer, :null => true
+    change_column :work_packages, :priority_id, :integer, null: true
   end
 end

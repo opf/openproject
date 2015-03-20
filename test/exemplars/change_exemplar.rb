@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 #++
 
 class Change < ActiveRecord::Base
-  generator_for :action => 'A'
-  generator_for :path, :method => :next_path
-  generator_for :changeset, :method => :generate_changeset
+  generator_for action: 'A'
+  generator_for :path, method: :next_path
+  generator_for :changeset, method: :generate_changeset
 
   def self.next_path
     @last_path ||= 'test/dir/aaa0001'

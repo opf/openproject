@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,17 +29,19 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Query selection', :type => :feature do
+describe 'Query selection', type: :feature do
   let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }
-  let(:role) { FactoryGirl.create :role, :permissions => [:view_work_packages] }
-  let(:current_user) { FactoryGirl.create :user, member_in_project: project,
-                                                 member_through_role: role }
+  let(:role) { FactoryGirl.create :role, permissions: [:view_work_packages] }
+  let(:current_user) {
+    FactoryGirl.create :user, member_in_project: project,
+                              member_through_role: role
+  }
 
   let(:filter_name) { 'done_ratio' }
-  let(:i18n_filter_name) { WorkPackage.human_attribute_name(filter_name).to_sym }
+  let(:i18n_filter_name) { WorkPackage.human_attribute_name(filter_name.to_sym) }
   let!(:query) do
     query = FactoryGirl.build(:query, project: project, is_public: true)
-    query.filters = [Queries::WorkPackages::Filter.new(filter_name, operator: ">=", values: [10]) ]
+    query.filters = [Queries::WorkPackages::Filter.new(filter_name, operator: '>=', values: [10])]
     query.save and return query
   end
 
@@ -51,11 +53,14 @@ describe 'Query selection', :type => :feature do
 
   context 'when a query is selected' do
     before do
-      work_packages_page.visit_index
       work_packages_page.select_query query
+      # ensure the page is loaded before expecting anything
+      find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
+                                                       visible: false)
     end
 
     it 'should show the filter', js: true do
+      find('#work-packages-filter-toggle-button').click
       expect(work_packages_page.selected_filter(filter_name)).to have_content(i18n_filter_name)
     end
   end

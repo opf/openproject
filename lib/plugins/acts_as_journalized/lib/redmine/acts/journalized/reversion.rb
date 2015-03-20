@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -133,19 +133,20 @@ module Redmine::Acts::Journalized
       end
 
       private
-        # Returns the number of the last created journal in the object's journal history.
-        #
-        # If no associated journals exist, the object is considered at version 0.
-        def last_version
-          @last_version ||= journals.maximum(:version) || 0
-        end
 
-        # Clears the cached version number instance variables so that they can be recalculated.
-        # Useful after a new version is created.
-        def reset_journal(version = nil)
-          @last_version = nil if version.nil?
-          @version = version
-        end
+      # Returns the number of the last created journal in the object's journal history.
+      #
+      # If no associated journals exist, the object is considered at version 0.
+      def last_version
+        @last_version ||= journals.maximum(:version) || 0
+      end
+
+      # Clears the cached version number instance variables so that they can be recalculated.
+      # Useful after a new version is created.
+      def reset_journal(version = nil)
+        @last_version = nil if version.nil?
+        @version = version
+      end
     end
   end
 end

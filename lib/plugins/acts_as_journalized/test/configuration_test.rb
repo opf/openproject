@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,8 +36,8 @@ class ConfigurationTest < Test::Unit::TestCase
 
       @options = {
         'class_name' => 'CustomVersion',
-        :extend => Extension,
-        :as => :parent
+        extend: Extension,
+        as: :parent
       }
 
       VestalVersions.configure do |config|
@@ -54,7 +54,7 @@ class ConfigurationTest < Test::Unit::TestCase
     end
 
     should 'have symbol keys' do
-      assert @configuration.keys.all?{|k| k.is_a?(Symbol) }
+      assert @configuration.keys.all? { |k| k.is_a?(Symbol) }
     end
 
     should 'store values identical to those given' do

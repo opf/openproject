@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_type_colors/index.api.rabl', :type => :view do
+describe 'api/v2/planning_element_type_colors/index.api.rabl', type: :view do
 
   before do
     params[:format] = 'json'
@@ -39,7 +39,7 @@ describe 'api/v2/planning_element_type_colors/index.api.rabl', :type => :view do
       assign(:colors, [])
       render
 
-      expect(response).to have_json_size(0).at_path("colors")
+      expect(response).to have_json_size(0).at_path('colors')
     end
   end
 
@@ -58,7 +58,7 @@ describe 'api/v2/planning_element_type_colors/index.api.rabl', :type => :view do
     end
 
     it 'renders a colors document with the size 3 of array' do
-      expect(response).to have_json_size(3).at_path("colors")
+      expect(response).to have_json_size(3).at_path('colors')
     end
 
   end

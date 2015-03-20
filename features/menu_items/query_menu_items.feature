@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,20 +53,24 @@ Feature: Query menu items
       | Features | Feature    |
     And I am already logged in as "bob"
 
-    @wip @javascript
+  @javascript
   Scenario: Create a query menu item
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
-    And I click on "More functions"
-    And I click on "Add menu item"
-    Then I should see "Bugs" within "#main-menu"
-    And I should see "Successful creation."
+    And I click on "Settings"
+    And I click on "Share ..."
+    And I check "Show page in menu"
+    And I click "Save"
+    And I click "Work packages" within "#main-menu"
+   Then I should see "Bugs" within "#main-menu"
 
-    @wip @javascript
+  @javascript
   Scenario: Delete a query menu item
     Given the user "bob" has the following query menu items in the project "Awesome Project":
       | name       | title      | navigatable |
       | bugs_query | Bugs Query | Bugs        |
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
-    And I click on "More functions"
-    And I click on "Delete menu item"
+    And I click on "Settings"
+    And I click on "Share ..."
+    And I uncheck "Show page in menu"
+    And I click "Save"
     Then I should not see "Bugs Query" within "#main-menu"

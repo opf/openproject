@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@
 #
 module Rabl
   class Engine
-    def to_hash_with_hack(options={})
+    def to_hash_with_hack(options = {})
       if is_collection?(@_data_object)
         options[:building_collection] = true
       end
@@ -45,7 +45,7 @@ module Rabl
   end
 
   class Builder
-    def compile_hash_with_hack(options={})
+    def compile_hash_with_hack(options = {})
       if options[:building_collection] && !options[:child_root]
         options[:root_name] = false
       end

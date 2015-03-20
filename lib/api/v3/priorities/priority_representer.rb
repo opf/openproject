@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,22 +28,20 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module V3
     module Priorities
-      class PriorityRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include Roar::Representer::Feature::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+      class PriorityRepresenter < ::API::Decorators::Single
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+        self_link
 
-        property :_type, exec_context: :decorator
-
-        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :id, render_nil: true
         property :name
+        property :position
+        property :is_default
+        property :active, as: :isActive
 
         def _type
           'Priority'

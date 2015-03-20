@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,6 @@
 #++
 
 class Activity::MessageActivityProvider < Activity::BaseActivityProvider
-
   acts_as_activity_provider type: 'messages',
                             permission: :view_messages
 
@@ -47,29 +46,29 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
-  def projects_reference_table(activity)
+  def projects_reference_table(_activity)
     boards_table
   end
 
   protected
 
-  def event_title(event, activity)
+  def event_title(event, _activity)
     "#{event['board_name']}: #{event['message_subject']}"
   end
 
-  def event_description(event, activity)
+  def event_description(event, _activity)
     event['message_content']
   end
 
-  def event_type(event, activity)
+  def event_type(event, _activity)
     event['parent_id'].blank? ? 'message' : 'reply'
   end
 
-  def event_path(event, activity)
+  def event_path(event, _activity)
     url_helpers.topic_path(*url_helper_parameter(event))
   end
 
-  def event_url(event, activity)
+  def event_url(event, _activity)
     url_helpers.topic_url(*url_helper_parameter(event))
   end
 
@@ -85,7 +84,7 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
     if is_reply
       { id: event['parent_id'], r: event['journable_id'], anchor: "message-#{event['journable_id']}" }
     else
-      [ event['journable_id'] ]
+      [event['journable_id']]
     end
   end
 end

@@ -1,0 +1,6 @@
+{
+"_type": "Error",
+"errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
+"message": "Couldn't update the resource because of conflicting modifications.",
+"_embedded": {}
+}

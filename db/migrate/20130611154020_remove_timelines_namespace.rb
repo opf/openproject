@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 
 class RemoveTimelinesNamespace < ActiveRecord::Migration
   def self.up
-
     # rename all tables.
     # this changes everything. again.
 
@@ -50,11 +49,9 @@ class RemoveTimelinesNamespace < ActiveRecord::Migration
 
     rename_column('projects', 'timelines_project_type_id', 'project_type_id')
     rename_column('projects', 'timelines_responsible_id',  'responsible_id')
-
   end
 
   def down
-
     # rename all tables
 
     rename_table('alternate_dates',                'timelines_alternate_dates')

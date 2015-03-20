@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
   private
 
   def format_details(key, values)
-    custom_field = CustomField.find_by_id(key.to_s.sub("custom_fields_", "").to_i)
+    custom_field = CustomField.find_by_id(key.to_s.sub('custom_fields_', '').to_i)
 
     if custom_field
       label = custom_field.name
@@ -48,5 +48,4 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
 
     [label, old_value, value]
   end
-
 end

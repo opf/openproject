@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,11 +35,11 @@ module OpenProject
       # if no block is given, raise an error
       raise ArgumentError, 'please provide a block as a callback' unless block_given?
 
-      ActiveSupport::Notifications.subscribe(name.to_s) do |name, start, finish, id, payload|
+      ActiveSupport::Notifications.subscribe(name.to_s) do |_name, _start, _finish, _id, payload|
         block.call(payload)
       end
       # Don't return a subscription object as it's an implementation detail.
-      return nil
+      nil
     end
 
     # Send a notification
@@ -49,6 +49,5 @@ module OpenProject
     def self.send(name, payload)
       ActiveSupport::Notifications.instrument(name, payload)
     end
-
   end
 end

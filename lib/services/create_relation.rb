@@ -7,7 +7,7 @@ class Services::CreateRelation
     end
   end
 
-  def run(success = -> {}, failure = -> {})
+  def run(success = -> {}, _failure = -> {})
     if @relation.save
       success.(created: true)
     else

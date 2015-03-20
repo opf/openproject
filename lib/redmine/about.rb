@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,10 +33,10 @@ module Redmine
       plugins = Redmine::Plugin.registered_plugins
 
       if !plugins.empty?
-        column_with = plugins.map {|internal_name, plugin| plugin.name.length}.max
+        column_with = plugins.map { |_internal_name, plugin| plugin.name.length }.max
         puts "\nAbout your Redmine plugins"
 
-        plugins.each do |internal_name, plugin|
+        plugins.each do |_internal_name, plugin|
           puts sprintf("%-#{column_with}s   %s", plugin.name, plugin.version)
         end
       end

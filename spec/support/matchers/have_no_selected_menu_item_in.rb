@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,8 +39,8 @@ RSpec::Matchers.define :have_no_selected_menu_item_in do |menu|
     "have no selected menu item in #{menu}"
   end
 
-  failure_message_for_should_not do |actual|
-    raise "You should not use this matcher for should_not matches"
+  failure_message_for_should_not do |_actual|
+    raise 'You should not use this matcher for should_not matches'
   end
 
   def failure_message(menu, actual)

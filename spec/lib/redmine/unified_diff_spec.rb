@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,16 +43,16 @@ module Redmine
       )
     end
 
-    it "should have 1 modified file" do
+    it 'should have 1 modified file' do
       expect(@diff.size).to eq(1)
     end
 
-    it "should have 3 diff items" do
+    it 'should have 3 diff items' do
       expect(@diff.first.size).to eq(3)
     end
 
-    it "should parse the HTML entities correctly" do
-      expect(@diff.first.first.line_right).to eq("<script>someMethod();</script>")
+    it 'should parse the HTML entities correctly' do
+      expect(@diff.first.first.line_right).to eq('<script>someMethod();</script>')
     end
   end
 end

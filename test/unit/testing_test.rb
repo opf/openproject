@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,20 +38,19 @@ class TestingTest < ActiveSupport::TestCase
     assert true
   end
 
-  test "Generating with object_daddy" do
-    assert_difference "Status.count" do
+  test 'Generating with object_daddy' do
+    assert_difference 'Status.count' do
       Status.generate!
     end
   end
 
-  should "work with shoulda" do
+  should 'work with shoulda' do
     assert true
   end
 
-  context "works with a context" do
-    should "work" do
+  context 'works with a context' do
+    should 'work' do
       assert true
     end
   end
-
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 
 # TODO: check if this step can be removed as it is plugin specific
 Given /^there is a standard project named "([^\"]*)"$/ do |name|
-  steps %Q{
+  steps %{
     Given there is 1 project with the following:
       | Name | #{name} |
     And there is a role "Manager"
@@ -81,7 +81,7 @@ Given /^there is a standard project named "([^\"]*)"$/ do |name|
 end
 
 Then /^[iI] should (not )?see "([^\"]*)" in the overall sum(?:s)?$/ do |negative, sum|
-  step %Q{I should #{negative}see "#{sum}" within "tr.sum.all"}
+  step %{I should #{negative}see "#{sum}" within "tr.sum.all"}
 end
 
 Then /^[iI] should see "([^\"]*)" in the grouped sum(?:s)?$/ do |sum|

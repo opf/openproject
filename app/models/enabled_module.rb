@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ class EnabledModule < ActiveRecord::Base
   attr_protected :project_id
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :project_id
+  validates_uniqueness_of :name, scope: :project_id
 
   after_create :module_enabled
 
@@ -45,7 +45,7 @@ class EnabledModule < ActiveRecord::Base
     when 'wiki'
       # Create a wiki with a default start page
       if project && project.wiki.nil?
-        Wiki.create(:project => project, :start_page => 'Wiki')
+        Wiki.create(project: project, start_page: 'Wiki')
       end
     end
   end

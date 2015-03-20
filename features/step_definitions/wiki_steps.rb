@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,8 +32,8 @@ Given /^the [Pp]roject "([^\"]*)" has 1 [wW]iki(?: )?[pP]age with the following:
 
   p.wiki = Wiki.create unless p.wiki
 
-  page = FactoryGirl.create(:wiki_page, :wiki => p.wiki)
-  content = FactoryGirl.create(:wiki_content, :page => page)
+  page = FactoryGirl.create(:wiki_page, wiki: p.wiki)
+  content = FactoryGirl.create(:wiki_content, page: page)
 
   send_table_to_object(page, table)
 end
@@ -51,11 +51,11 @@ end
 
 Given /^the project "(.*?)" has a child wiki page of "(.*?)" with the following:$/ do |project_name, parent_page_title, table|
   wiki = Project.find_by_name(project_name).wiki
-  wikipage = FactoryGirl.build(:wiki_page, :wiki => wiki)
+  wikipage = FactoryGirl.build(:wiki_page, wiki: wiki)
 
   send_table_to_object(wikipage, table)
 
-  FactoryGirl.create(:wiki_content, :page => wikipage)
+  FactoryGirl.create(:wiki_content, page: wikipage)
 
   parent_page = WikiPage.find_by_wiki_id_and_title(wiki.id, parent_page_title)
   wikipage.parent_id = parent_page.id
@@ -65,13 +65,13 @@ end
 Then /^the table of contents wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
   parent_item = MenuItems::WikiMenuItem.find_by_title(parent_item_name)
 
-  page.should have_css(".#{parent_item.item_class}-toc.selected")
+  page.should have_css(".#{parent_item.item_class}-toc-menu-item.selected")
 end
 
 Then /^the child page wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
   parent_item = MenuItems::WikiMenuItem.find_by_title(parent_item_name)
 
-  page.should have_css(".#{parent_item.item_class}-new-page.selected")
+  page.should have_css(".#{parent_item.item_class}-new-page-menu-item.selected")
 end
 
 Given /^the wiki page "([^"]*)" of the project "([^"]*)" has the following contents:$/ do |page, project, table|

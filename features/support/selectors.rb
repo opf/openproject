@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,8 +42,8 @@ module HtmlSelectorsHelpers
   def selector_for(locator)
     case locator
 
-    when "the page"
-      "html > body"
+    when 'the page'
+      'html > body'
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
@@ -62,8 +62,8 @@ module HtmlSelectorsHelpers
     # web steps:
     when /^"(.+)"$/
       $1
-    #added second when case as changing the above regexp to
-    #/^"?(.+)"?$/ did not work for some reason
+    # added second when case as changing the above regexp to
+    # /^"?(.+)"?$/ did not work for some reason
     when /^(.+)$/
       $1
 

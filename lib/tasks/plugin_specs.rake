@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 #  Run all core and plugins specs via
-#  rake spec_all 
+#  rake spec_all
 #
 #  Run plugins specs via
 #  rake spec_plugins
@@ -43,28 +43,28 @@
 #
 
 begin
-  require "rspec/core/rake_task"
+  require 'rspec/core/rake_task'
 
   namespace :spec do
-    desc "Run core and plugin specs"
-    RSpec::Core::RakeTask.new(:all => :environment) do |t|
+    desc 'Run core and plugin specs'
+    RSpec::Core::RakeTask.new(all: [:environment, 'assets:webpack']) do |t|
       pattern = []
       dirs = get_plugins_to_test
       dirs << File.join(Rails.root).to_s
       dirs.each do |dir|
-        if File.directory?( dir )
-          pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
+        if File.directory?(dir)
+          pattern << File.join(dir, 'spec', '**', '*_spec.rb').to_s
         end
       end
       t.pattern = pattern
     end
 
-    desc "Run plugin specs"
-    RSpec::Core::RakeTask.new(:plugins => :environment) do |t|
+    desc 'Run plugin specs'
+    RSpec::Core::RakeTask.new(plugins: [:environment, 'assets:webpack']) do |t|
       pattern = []
       get_plugins_to_test.each do |dir|
-        if File.directory?( dir )
-          pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
+        if File.directory?(dir)
+          pattern << File.join(dir, 'spec', '**', '*_spec.rb').to_s
         end
       end
       t.pattern = pattern
@@ -76,7 +76,7 @@ end
 def get_plugins_to_test
   plugin_paths = []
   Rails.application.config.plugins_to_test_paths.each do |dir|
-    if File.directory?( dir )
+    if File.directory?(dir)
       plugin_paths << File.join(dir).to_s
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,6 +97,60 @@
 # See following page:
 #
 # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
+#
+# Disable default module:
+#
+# By default user may choose which modules can be disabled,
+# they should be listed as an array in yml format more information
+# regarding yml format you can find here:
+# http://symfony.com/doc/current/components/yaml/yaml_format.html
+#
+# disabled_modules:
+#   - module_name_1
+#   - module_name_2
+#
+# Hide menu items:
+#
+# By default user may choose which menu items can be disabled,
+# they should be listed as an array in yml format more information
+# regarding yml format you can find here:
+# http://symfony.com/doc/current/components/yaml/yaml_format.html
+#
+# production:
+#   hidden_menu_items:
+#     admin_menu:
+#       - roles
+#       - types
+#       - statuses
+#       - workflows
+#       - enumerations
+#       - settings
+#       - ldap_authentication
+#       - colors
+#       - project_types
+#       - export_card_configurations
+#       - plugins
+#       - info
+#
+# Also there is a posibility to specify which routes are forbidden,
+# they should be listed as an array in yml format more information
+# regarding yml format you can find here:
+# http://symfony.com/doc/current/components/yaml/yaml_format.html
+# You can also use wildcards (*) in your url
+#
+# production:
+#   blacklisted_routes:
+#     - 'admin/info'
+#     - 'admin/plugins'
+#     - 'export_card_configurations'
+#     - 'project_types'
+#     - 'colors'
+#     - 'settings'
+#     - 'admin/enumerations'
+#     - 'workflows/*'
+#     - 'statuses'
+#     - 'types'
+#     - 'admin/roles'
 
 
 # default configuration options for all environments
@@ -120,6 +174,9 @@ default:
   # rails_relative_url_root: "/open_project"
   #
   # rails_relative_url_root: ""
+
+  # whether to force ssl in production
+  rails_force_ssl: false
 
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your OpenProject instance.
@@ -156,6 +213,24 @@ default:
   # scm_git_command:        /usr/local/bin/git                        # (default: git)
   # scm_subversion_command:
   # scm_git_command:
+  #
+  # Enable filesystem base SCM by specifying the directories that are available
+  # to serve as an SCM directory. The format in which the available directories
+  # can be specified is close to a shell glob.  Please see
+  # http://ruby-doc.org/core-2.2.0/Dir.html#method-c-glob for details.
+  #
+  # Multiple patterns can be configured.
+  #
+  # If no directory is specified, there will be no option to configure a
+  # filesystem based SCM within OpenProject.
+  #
+  # Please note that this allows users to browse the filesystem which could
+  # lead to sensitive information (e.g. db credentials) being made accessible
+  # to them.
+  #
+  # scm_filesystem_path_whitelist:
+  #   - "/opt/app/openproject/repositories/*"
+  #   - "/tmp/**/*"
 
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.
@@ -188,6 +263,12 @@ default:
   # omniauth_direct_login_provider: developer
   #
   # disable_password_login: true
+
+  # If enabled a user's password cannot be set to an arbitrary value.
+  # The respective form elements will be removed from the user edit view.
+  # Instead, if the password needs to be changed, a random, temporary password can be
+  # generated and sent to the user who then has to change their password upon login.
+  disable_password_choice: false
 
 # specific configuration options for production environment
 # that overrides the default ones

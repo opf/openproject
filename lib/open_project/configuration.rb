@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,18 +33,22 @@ module OpenProject
   module Configuration
     extend Helpers
 
+    ENV_PREFIX = 'OPENPROJECT_'
+
     # Configuration default values
     @defaults = {
+      'attachments_storage'     => 'file',
       'attachments_storage_path' => nil,
       'autologin_cookie_name'   => 'autologin',
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
+      'scm_filesystem_path_whitelist' => [],
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
-      'rails_cache_store'       => nil,
+      'rails_cache_store'       => :file_store,
       'cache_expires_in_seconds' => nil,
       'cache_namespace' => nil,
       # use dalli defaults for memcache
@@ -52,7 +56,8 @@ module OpenProject
       # where to store session data
       'session_store'           => :cache_store,
       # url-path prefix
-      'rails_relative_url_root' => "",
+      'rails_relative_url_root' => '',
+      'rails_force_ssl' => false,
 
       # email configuration
       'email_delivery_method' => nil,
@@ -68,7 +73,13 @@ module OpenProject
       'sendmail_arguments' => '-i',
 
       'disable_password_login' => false,
-      'omniauth_direct_login_provider' => nil
+      'omniauth_direct_login_provider' => nil,
+
+      'disable_password_choice' => false,
+
+      'disabled_modules' => [], # allow to disable default modules
+      'hidden_menu_items' => {},
+      'blacklisted_routes' => []
     }
 
     @config = nil
@@ -78,7 +89,7 @@ module OpenProject
       # Valid options:
       # * <tt>:file</tt>: the configuration file to load (default: config/configuration.yml)
       # * <tt>:env</tt>: the environment to load the configuration for (default: Rails.env)
-      def load(options={})
+      def load(options = {})
         filename = options[:file] || File.join(Rails.root, 'config', 'configuration.yml')
         env = options[:env] || Rails.env
 
@@ -88,7 +99,7 @@ module OpenProject
 
         convert_old_email_settings(@config)
 
-        load_overrides_from_environment_variables(@config)
+        override_config!(@config)
 
         if @config['email_delivery_method']
           configure_action_mailer(@config)
@@ -101,10 +112,58 @@ module OpenProject
 
       # Replace config values for which an environment variable with the same key in upper case
       # exists
-      def load_overrides_from_environment_variables(config)
+      def override_config!(config, source = ENV)
         config.each do |key, value|
-          config[key] = ENV.fetch(key.upcase, value)
+          config[key] = source.fetch(key.upcase, value)
         end
+
+        config.deep_merge! merge_config(config, source)
+      end
+
+      def merge_config(config, source, prefix: ENV_PREFIX)
+        new_config = config.dup.with_indifferent_access
+
+        source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, value|
+          path = self.path prefix, k
+
+          path_config = path_to_hash(*path, value)
+
+          new_config.deep_merge! path_config
+        end
+
+        new_config
+      end
+
+      def path(prefix, env_var_name)
+        path = []
+        env_var_name = env_var_name.sub /^#{prefix}/, ''
+
+        env_var_name.gsub(/([a-zA-Z0-9]|(__))+/) do |seg|
+          path << unescape_underscores(seg.downcase).to_sym
+        end
+
+        path
+      end
+
+      # takes the path provided and transforms it into a deeply nested hash
+      # where the last parameter becomes the value.
+      #
+      # e.g. path_to_hash(:a, :b, :c, :d) => { a: { b: { c: :d } } }
+
+      def path_to_hash(*path)
+        value = path.pop
+
+        path.reverse.inject(value) do |path_hash, key|
+          { key => path_hash }
+        end
+      end
+
+      def get_value(value)
+        value
+      end
+
+      def unescape_underscores(path_segment)
+        path_segment.gsub '__', '_'
       end
 
       # Returns a configuration setting
@@ -123,7 +182,7 @@ module OpenProject
       def with(settings)
         settings.stringify_keys!
         load unless @config
-        was = settings.keys.inject({}) {|h,v| h[v] = @config[v]; h}
+        was = settings.keys.inject({}) { |h, v| h[v] = @config[v]; h }
         @config.merge! settings
         yield if block_given?
         @config.merge! was
@@ -138,6 +197,8 @@ module OpenProject
           cache_config = [:dalli_store]
           cache_config << @config['cache_memcache_server'] \
             if @config['cache_memcache_server']
+        elsif cache_store == :file_store
+          cache_config = [:file_store, Rails.root.join('tmp/cache')]
         else
           cache_config = [cache_store]
         end
@@ -150,8 +211,8 @@ module OpenProject
 
       def load_config_from_file(filename, env, config)
         if File.file?(filename)
-          file_config = YAML::load_file(filename)
-          unless file_config.kind_of? Hash
+          file_config = YAML::load(ERB.new(File.read(filename)).result)
+          unless file_config.is_a? Hash
             warn "#{filename} is not a valid OpenProject configuration file, ignoring."
           else
             config.merge!(load_env_from_config(file_config, env))
@@ -191,13 +252,13 @@ module OpenProject
       # mail_delivery.smtp_settings.<key> is converted to smtp_<key>
       # options:
       # disable_deprecation_message - used by testing
-      def convert_old_email_settings(config, options={})
+      def convert_old_email_settings(config, options = {})
         if config['email_delivery']
           unless options[:disable_deprecation_message]
             ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
-                                            'update them in config/configuration.yml or use ' +
-                                            'environment variables. See doc/CONFIGURATION.md for ' +
-                                            'more information.'
+              'update them in config/configuration.yml or use ' +
+              'environment variables. See doc/CONFIGURATION.md for ' +
+              'more information.'
           end
 
           config['email_delivery_method'] = config['email_delivery']['delivery_method'] || :smtp
@@ -246,7 +307,7 @@ module OpenProject
             define_method setting do
               self[setting]
             end
-          end
+          end unless respond_to? setting
         end
       end
     end

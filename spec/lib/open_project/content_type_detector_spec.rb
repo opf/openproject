@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,40 +59,40 @@ require 'spec_helper'
 
 describe OpenProject::ContentTypeDetector do
   it 'gives a sensible default when the name is empty' do
-    assert_equal "application/binary", OpenProject::ContentTypeDetector.new("").detect
+    assert_equal 'application/binary', OpenProject::ContentTypeDetector.new('').detect
   end
 
   it 'returns the empty content type when the file is empty' do
-    tempfile = Tempfile.new("empty")
-    assert_equal "inode/x-empty", OpenProject::ContentTypeDetector.new(tempfile.path).detect
+    tempfile = Tempfile.new('empty')
+    assert_equal 'inode/x-empty', OpenProject::ContentTypeDetector.new(tempfile.path).detect
     tempfile.close
   end
 
   it 'returns content type of file if it is an acceptable type' do
     allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'), MIME::Type.new('audio/mp4')])
-    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_return("video/mp4")
-    @filename = "my_file.mp4"
-    assert_equal "video/mp4", OpenProject::ContentTypeDetector.new(@filename).detect
+    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_return('video/mp4')
+    @filename = 'my_file.mp4'
+    assert_equal 'video/mp4', OpenProject::ContentTypeDetector.new(@filename).detect
   end
 
   it 'finds the right type in the list via the file command' do
     @filename = "#{Dir.tmpdir}/something.hahalolnotreal"
-    File.open(@filename, "w+") do |file|
-      file.puts "This is a text file."
+    File.open(@filename, 'w+') do |file|
+      file.puts 'This is a text file.'
       file.rewind
-      assert_equal "text/plain", OpenProject::ContentTypeDetector.new(file.path).detect
+      assert_equal 'text/plain', OpenProject::ContentTypeDetector.new(file.path).detect
     end
     FileUtils.rm @filename
   end
 
   it 'returns a sensible default if something is wrong, like the file is gone' do
-    @filename = "/path/to/nothing"
-    assert_equal "application/binary", OpenProject::ContentTypeDetector.new(@filename).detect
+    @filename = '/path/to/nothing'
+    assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
   end
 
   it 'returns a sensible default when the file command is missing' do
     allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_raise(Cocaine::CommandLineError.new)
-    @filename = "/path/to/something"
-    assert_equal "application/binary", OpenProject::ContentTypeDetector.new(@filename).detect
+    @filename = '/path/to/something'
+    assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
   end
 end

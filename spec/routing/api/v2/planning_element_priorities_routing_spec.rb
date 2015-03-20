@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,13 @@
 
 require 'spec_helper'
 
-describe Api::V2::PlanningElementPrioritiesController, :type => :routing do
+describe Api::V2::PlanningElementPrioritiesController, type: :routing do
 
-  describe "index" do
-    it { expect(get("/api/v2/planning_element_priorities")).to route_to(controller: 'api/v2/planning_element_priorities',
-                                                                        action: 'index')}
+  describe 'index' do
+    it {
+      expect(get('/api/v2/planning_element_priorities')).to route_to(controller: 'api/v2/planning_element_priorities',
+                                                                     action: 'index')
+    }
   end
 
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,9 +33,12 @@ class Repository::Filesystem < Repository
   attr_protected :root_url
   validates_presence_of :url
 
+  validate :validate_whitelisted_url,
+           :validate_url_is_dir
+
   ATTRIBUTE_KEY_NAMES = {
-      "url"          => "Root directory",
-    }
+    'url'          => 'Root directory',
+  }
   def self.human_attribute_name(attribute_key_name, options = {})
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
   end
@@ -48,11 +51,15 @@ class Repository::Filesystem < Repository
     'Filesystem'
   end
 
+  def self.configured?
+    !whitelisted_paths.empty?
+  end
+
   def supports_all_revisions?
     false
   end
 
-  def entries(path=nil, identifier=nil)
+  def entries(path = nil, identifier = nil)
     scm.entries(path, identifier)
   end
 
@@ -60,4 +67,34 @@ class Repository::Filesystem < Repository
     nil
   end
 
+  private
+
+  def self.whitelisted_paths
+    OpenProject::Configuration['scm_filesystem_path_whitelist']
+  end
+
+  # validates that the url is a directory
+  def validate_url_is_dir
+    errors.add :url, :no_directory unless Dir.exists?(url)
+  end
+
+  # validate url against whitelisted urls as provided by the
+  # scm_filesystem_path_whitelist configuration parameter.
+  #
+  # The url needs to exist and needs to match one of the directories
+  # returned when globbing the configuration setting.
+  def validate_whitelisted_url
+    globbed_url = Dir.glob(url).first
+
+    unless globbed_url
+      errors.add :url, :not_whitelisted
+      return
+    end
+
+    globbed_whitelisted = Dir.glob(self.class.whitelisted_paths)
+
+    unless globbed_whitelisted.include?(globbed_url)
+      errors.add :url, :not_whitelisted
+    end
+  end
 end

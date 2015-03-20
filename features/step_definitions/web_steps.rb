@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 
 require 'uri'
 require 'cgi'
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'paths'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'selectors'))
 
 module WithinHelpers
   def press_key_on_element(key, element)
@@ -50,24 +50,24 @@ module WithinHelpers
   def ctrl_click(elements)
     builder = page.driver.browser.action
 
-    #Hold control key down
+    # Hold control key down
     builder.key_down(:control)
 
-    #Note that you can retrieve the elements using capybara's
+    # Note that you can retrieve the elements using capybara's
     #  standard methods. When passing them to the builder
     #  make sure to do .native
     Array(elements).each do |e|
       builder.click(e.native)
     end
 
-    #Release control key
+    # Release control key
     builder.key_up(:control)
 
-    #Do the action setup
+    # Do the action setup
     builder.perform
   end
 
-  def with_scope(locator, options={})
+  def with_scope(locator, options = {})
     locator ? within(*selector_for(locator), options) { yield } : yield
   end
 end
@@ -83,8 +83,8 @@ When /^(.*) \[i18n\]$/ do |actual_step|
 end
 
 When(/^I ctrl\-click on "([^\"]+)"$/) do |text|
-  #Click all elements that you want, in this case we click all as
-  elements = page.all('a', :text => text)
+  # Click all elements that you want, in this case we click all as
+  elements = page.all('a', text: text)
   ctrl_click(elements)
 end
 
@@ -115,11 +115,11 @@ When /^(?:|I )follow "([^"]*)"$/ do |link|
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-  fill_in(field, :with => value)
+  fill_in(field, with: value)
 end
 
 When /^(?:|I )fill in "([^"]*)" for "([^"]*)"$/ do |value, field|
-  fill_in(field, :with => value)
+  fill_in(field, with: value)
 end
 
 # Use this to fill in an entire form with data from a table. Example:
@@ -137,7 +137,7 @@ When /^(?:|I )fill in the following:$/ do |fields|
   fields.rows_hash.each do |name, value|
     field = find_field(name)
 
-    if field.tag_name == "select"
+    if field.tag_name == 'select'
       step(%{I select "#{value}" from "#{name}"})
     else
       step(%{I fill in "#{name}" with "#{value}"})
@@ -146,15 +146,24 @@ When /^(?:|I )fill in the following:$/ do |fields|
 end
 
 When (/^I do some ajax$/) do
-  click_link("Apply")
+  click_link('Apply')
 end
 
 When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
   begin
-    select(value, :from => field)
+    select(value, from: field)
   rescue Capybara::ElementNotFound
-    container = find(:xpath, "//label[contains(., '#{field}')]/parent::*/*[contains(@class, 'select2-container')]")
-    container.find(".select2-choice").click
+    # find the label, get the parent and from there find the appropriate
+    # select2 container. There are currently two dom structures in which
+    # this can happen.
+    xpath_selector = "//label[contains(., '#{field}')]/" +
+                     "parent::*/*[contains(@class, 'select2-container')] | " +
+                     "//label[contains(., '#{field}')]/" +
+                     "..//*[contains(@class, 'select2-container')]"
+
+    container = find(:xpath, xpath_selector)
+
+    container.find('.select2-choice').click
     find(:xpath, "//*[@id='select2-drop']/descendant::li[contains(., '#{value}')]").click
   end
 end
@@ -237,12 +246,12 @@ Then /^the "([^"]*)" field should have no error$/ do |field|
 end
 
 Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label |
-  field_checked = find_field(label, :visible => hidden.nil?)['checked']
+  field_checked = find_field(label, visible: hidden.nil?)['checked']
   field_checked.should be_true
 end
 
 Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label |
-  field_checked = find_field(label, :visible => hidden.nil?)['checked']
+  field_checked = find_field(label, visible: hidden.nil?)['checked']
   field_checked.should be_false
 end
 
@@ -255,7 +264,7 @@ Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   query = URI.parse(current_url).query
   actual_params = query ? CGI.parse(query) : {}
   expected_params = {}
-  expected_pairs.rows_hash.each_pair{|k,v| expected_params[k] = v.split(',')}
+  expected_pairs.rows_hash.each_pair { |k, v| expected_params[k] = v.split(',') }
 
   actual_params.should == expected_params
 end
@@ -269,8 +278,8 @@ end
 When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: to finish)?)?$/ do |timeout|
   ajax_done = lambda do
     is_done = false
-    while (!is_done) do
-      is_done = page.evaluate_script(%Q{
+    while !is_done
+      is_done = page.evaluate_script(%{
         (function (){
           var done = true;
 
@@ -295,7 +304,7 @@ When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: t
               timeout.to_f :
               5.0
 
-  wait_until(timeout, :i_know_im_immoral => true) do
+  wait_until(timeout, i_know_im_immoral: true) do
     ajax_done.call
   end
 end
@@ -303,14 +312,14 @@ end
 Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?$/ do |disabled, fieldname, visible|
   # Checking for a disabled field will only work for field with labels where the label
   # has a correctly filled "for" attribute
-  visibility = visible && visible.include?("invisible") ? false : true
+  visibility = visible && visible.include?('invisible') ? false : true
 
   if disabled
     # disabled fields can not be found via find_field
-    field_id = find('label', :text => fieldname)["for"]
-    should have_css("##{field_id}", :visible => visibility)
+    field_id = find('label', text: fieldname)['for']
+    should have_css("##{field_id}", visible: visibility)
   else
-    should have_field(fieldname, :visible => visibility)
+    should have_field(fieldname, visible: visibility)
   end
 end
 
@@ -328,24 +337,24 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
   with_scope(selector) do
 
     field = find_field(field)
-    options_actual = field.all('option').collect(&:text)
+    options_actual = field.all('option').map(&:text)
     options_actual.should =~ options_expected
   end
 end
 
 Then /^there should be the disabled "(.+)" element$/ do |element|
-  page.find(element)[:disabled].should == "true"
+  page.find(element)[:disabled].should == 'true'
 end
 
 # This needs an active js driver to work properly
 Given /^I (accept|dismiss) the alert dialog$/ do |method|
-  if Capybara.current_driver.to_s.include?("selenium")
+  if Capybara.current_driver.to_s.include?('selenium')
     page.driver.browser.switch_to.alert.send(method.to_s)
   end
 end
 
 Then(/^(.*) in the new window$/) do |step|
-  new_window=page.driver.browser.window_handles.last
+  new_window = page.driver.browser.window_handles.last
   page.within_window new_window do
     step(step)
   end
@@ -359,11 +368,11 @@ Then /^(.*) in the iframe "([^\"]+)"$/ do |step, iframe_name|
 end
 
 When /^(?:|I )click the toolbar button named "(.*?)"$/ do |action_name|
-  find(".toolbar-container").click_button action_name
+  find('.toolbar-container').click_button action_name
 end
 
 When /^(?:|I )choose "(.*?)" from the toolbar "(.*?)" dropdown$/ do |action_name, dropdown_id|
-  find("button[dropdown-id=#{dropdown_id}Dropdown]").click
+  find("button[has-dropdown-menu][target=#{dropdown_id}DropdownMenu]").click
   find("##{dropdown_id}Dropdown").click_link action_name
 end
 
@@ -380,14 +389,14 @@ When /^(?:|I )click on the first anchor matching "([^"]*)"$/ do |anchor|
   find(:xpath, "(//a[text()='#{anchor}'])[1]").click
 end
 
-def find_lowest_containing_element text, selector
+def find_lowest_containing_element(text, selector)
   elements = []
 
   node_criteria = "[contains(normalize-space(.), \"#{text}\") and not(self::script) and not(child::*[contains(normalize-space(.), \"#{text}\")])]"
 
   if selector
     search_string = Nokogiri::CSS.xpath_for(selector).first + "//*#{node_criteria}"
-    search_string += " | " + Nokogiri::CSS.xpath_for(selector).first + "#{node_criteria}"
+    search_string += ' | ' + Nokogiri::CSS.xpath_for(selector).first + "#{node_criteria}"
   else
     search_string = "//*#{node_criteria}"
   end
@@ -418,7 +427,7 @@ end
 # Needs Selenium!
 Then(/^I should( not )?see a(?:n) alert dialog$/) do |negative|
   negative = !!negative
-  if Capybara.current_driver.to_s.include?("selenium")
+  if Capybara.current_driver.to_s.include?('selenium')
     begin
       page.driver.browser.switch_to.alert
       expect(negative).to eq(false)
@@ -429,7 +438,7 @@ Then(/^I should( not )?see a(?:n) alert dialog$/) do |negative|
 end
 
 Then(/^I should see a confirm dialog$/) do
-  page.should have_selector("#confirm_dialog")
+  page.should have_selector('#confirm_dialog')
 end
 
 Then /^I confirm the JS confirm dialog$/ do

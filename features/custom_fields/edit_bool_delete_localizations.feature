@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,7 @@ Feature: Name localizations of bool custom fields can be deleted
       | de            | Mein Benutzerdefiniertes Feld |
     When I go to the custom fields page
 
+  @wip
   @javascript
   Scenario: Deleting a localized name
     When I follow "My Custom Field"
@@ -52,6 +53,7 @@ Feature: Name localizations of bool custom fields can be deleted
       | locale | name            | default_value |
       | en     | My Custom Field | 0             |
 
+  @wip
   @javascript
   Scenario: Deleting a name localization and adding another of same locale in same action
     When I follow "My Custom Field"
@@ -64,6 +66,7 @@ Feature: Name localizations of bool custom fields can be deleted
       | en     | My Custom Field  | 0             |
       | de     | Neuer Name       | nil           |
 
+  @wip
   @javascript
   Scenario: Deleting a name localization frees the locale to be used by other translation field
     When I follow "My Custom Field"
@@ -75,6 +78,7 @@ Feature: Name localizations of bool custom fields can be deleted
       | locale | name                          | default_value |
       | en     | Mein Benutzerdefiniertes Feld | 0             |
 
+  @wip
   @javascript
   Scenario: Deleting a newly added localization
     When I follow "My Custom Field"
@@ -89,6 +93,7 @@ Feature: Name localizations of bool custom fields can be deleted
       | locale | name                          | default_value |
       | en     | My Custom Field               | 0             |
 
+  @wip
   @javascript
   Scenario: Deletion link is hidden when only one localization exists
     When I follow "My Custom Field"

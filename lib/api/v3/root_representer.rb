@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,30 +28,34 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module V3
     class RootRepresenter < Roar::Decorator
-      include Roar::Representer::JSON::HAL
-      include Roar::Representer::Feature::Hypermedia
-      include OpenProject::StaticRouting::UrlHelpers
+      include Roar::JSON::HAL
+      include Roar::Hypermedia
+      include API::V3::Utilities::PathHelper
 
       self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
       link 'priorities' do
-        "#{root_path}api/v3/priorities"
+        {
+          href: api_v3_paths.priorities
+        }
       end
 
       link 'project' do
         {
-          href: "#{root_path}api/v3/project/{project_id}",
+          href: api_v3_paths.project('{project_id}'),
           templated: true
         }
       end
 
       link 'statuses' do
-        "#{root_path}api/v3/statuses"
+        {
+          href: api_v3_paths.statuses
+        }
       end
     end
   end

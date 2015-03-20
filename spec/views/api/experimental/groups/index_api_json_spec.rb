@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/groups/index.api.rabl', :type => :view do
+describe 'api/experimental/groups/index.api.rabl', type: :view do
   before do
     params[:format] = 'json'
 
@@ -46,9 +46,11 @@ describe 'api/experimental/groups/index.api.rabl', :type => :view do
   end
 
   describe 'with 2 groups available' do
-    let(:groups) { [
-      FactoryGirl.build(:group), FactoryGirl.build(:group)
-    ] }
+    let(:groups) {
+      [
+        FactoryGirl.build(:group), FactoryGirl.build(:group)
+      ]
+    }
 
     it { is_expected.to have_json_path('groups') }
     it { is_expected.to have_json_size(2).at_path('groups') }

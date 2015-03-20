@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -130,12 +130,12 @@ class SearchTest < ActiveSupport::TestCase
   def test_search_issue_with_multiple_hits_in_journals
     i = WorkPackage.find(1)
     Journal.delete_all journable_id: i.id
-    i.add_journal User.current, "Journal notes"
+    i.add_journal User.current, 'Journal notes'
     i.save!
-    i.add_journal User.current, "Some notes with Redmine links: #2, r2."
+    i.add_journal User.current, 'Some notes with Redmine links: #2, r2.'
     i.save!
 
-    assert_equal 2, i.journals.count(:all, :conditions => "notes LIKE '%notes%'")
+    assert_equal 2, i.journals.count(:all, conditions: "notes LIKE '%notes%'")
 
     r = WorkPackage.search('%notes%').first
     assert_equal 1, r.size
@@ -145,7 +145,7 @@ class SearchTest < ActiveSupport::TestCase
   private
 
   def remove_permission(role, permission)
-    role.permissions = role.permissions - [ permission ]
+    role.permissions = role.permissions - [permission]
     role.save
   end
 end

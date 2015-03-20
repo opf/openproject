@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,45 +39,114 @@ module OpenProject
     end
 
     describe 'with user time zone' do
-      before { allow(User.current).to receive(:time_zone).and_return(ActiveSupport::TimeZone['Athens'])}
+      before { allow(User.current).to receive(:time_zone).and_return(ActiveSupport::TimeZone['Athens']) }
       it 'returns a date in the user timezone for a utc timestamp' do
         Time.zone = 'UTC'
         time = Time.zone.local(2013, 06, 30, 23, 59)
-        expect(format_time_as_date(time,format)).to eq '01/07/2013'
+        expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
 
       it 'returns a date in the user timezone for a non-utc timestamp' do
         Time.zone = 'Berlin'
         time = Time.zone.local(2013, 06, 30, 23, 59)
-        expect(format_time_as_date(time,format)).to eq '01/07/2013'
+        expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
     end
 
     describe 'without user time zone' do
-      before { allow(User.current).to receive(:time_zone).and_return(nil)}
+      before { allow(User.current).to receive(:time_zone).and_return(nil) }
 
       it 'returns a date in the local system timezone for a utc timestamp' do
         Time.zone = 'UTC'
         time = Time.zone.local(2013, 06, 30, 23, 59)
         allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone['Athens'].local(2013, 07, 01, 01, 59))
-        expect(format_time_as_date(time,format)).to eq '01/07/2013'
+        expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
 
       it 'returns a date in the original timezone for a non-utc timestamp' do
         Time.zone = 'Berlin'
         time = Time.zone.local(2013, 06, 30, 23, 59)
-        expect(format_time_as_date(time,format)).to eq '30/06/2013'
+        expect(format_time_as_date(time, format)).to eq '30/06/2013'
       end
     end
 
-    describe :all_languages do
-      it 'should at least return en' do
-        # using this to ensure that the files are evaluated
+    describe 'all_languages' do
+
+      # Those are the two languages we support
+      it 'includes en' do
         expect(all_languages).to include(:en)
+      end
+      it 'includes de' do
+        expect(all_languages).to include(:de)
       end
 
       it 'should return no js language as they are duplicates of the rest of the other language' do
-        expect(all_languages.any?{ |l| /\Ajs-/.match(l.to_s) }).to be_false
+        expect(all_languages.any? { |l| /\Ajs-/.match(l.to_s) }).to be_falsey
+      end
+
+      # it is OK if more languages exist
+      it 'has a language for every language file' do
+        lang_files_count = Dir.glob(Rails.root.join('config/locales/*.yml'))
+                              .map { |f| File.basename(f) }
+                              .reject { |b| b.starts_with? 'js' }
+                              .size
+
+        expect(all_languages.size).to eql lang_files_count
+      end
+    end
+
+    describe 'valid_languages' do
+      it 'allows only languages that are available' do
+        allow(Setting).to receive(:available_languages).and_return([:en])
+
+        expect(valid_languages).to eql [:en]
+      end
+
+      it 'allows only languages that exist' do
+        allow(Setting).to receive(:available_languages).and_return([:'123'])
+
+        expect(valid_languages).to be_empty
+      end
+    end
+
+    describe 'set_language_if_valid' do
+      before do
+        allow(Setting).to receive(:available_languages).and_return(Setting.all_languages)
+      end
+
+      Setting.all_languages.each do |lang|
+        it "should set I18n.locale to #{lang}" do
+          allow(I18n).to receive(:locale=)
+          expect(I18n).to receive(:locale=).with(lang)
+
+          set_language_if_valid(lang)
+        end
+      end
+
+      it 'should not set I18n.locale to an invalid language' do
+        allow(Setting).to receive(:available_languages).and_return([:en])
+
+        expect(I18n).to_not receive(:locale=).with(:de)
+      end
+    end
+
+    describe 'find_language' do
+      it 'is nil if language is not active' do
+        allow(Setting).to receive(:available_languages).and_return([:de])
+
+        expect(find_language(:en)).to be_nil
+      end
+
+      it 'is the language if it is active' do
+        allow(Setting).to receive(:available_languages).and_return([:de])
+
+        expect(find_language(:de)).to eql :de
+      end
+
+      it 'can be found by uppercase if it is active' do
+        allow(Setting).to receive(:available_languages).and_return([:de])
+
+        expect(find_language(:DE)).to eql :de
       end
     end
   end

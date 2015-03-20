@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +31,16 @@ module Redmine
   module Scm
     class Base
       class << self
-
         def all
           @scms
+        end
+
+        def configured
+          @scms.select do |scm_name|
+            klass = Repository.const_get(scm_name)
+
+            klass.configured?
+          end
         end
 
         # Add a new SCM adapter and repository

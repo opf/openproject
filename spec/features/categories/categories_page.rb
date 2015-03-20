@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,11 @@ class CategoriesPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
 
-  def initialize(project=nil)
+  def initialize(project = nil)
     @project = project
   end
 
   def visit_settings
-    visit(settings_project_path(@project) + "/categories")
+    visit(settings_project_path(@project) + '/categories')
   end
 end

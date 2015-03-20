@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@
 
 class ClearIdentityUrlsOnUsers < ActiveRecord::Migration
   def up
-    create_table "legacy_user_identity_urls" do |t|
-      t.string   "login", :limit => 256, :default => "",    :null => false
-      t.string   "identity_url"
+    create_table 'legacy_user_identity_urls' do |t|
+      t.string 'login', limit: 256, default: '',    null: false
+      t.string 'identity_url'
     end
 
     execute "INSERT INTO legacy_user_identity_urls(id, login, identity_url)
              SELECT id, login, identity_url FROM users"
 
-    execute "UPDATE users SET identity_url = NULL"
+    execute 'UPDATE users SET identity_url = NULL'
   end
 
   def down
@@ -54,17 +54,17 @@ class ClearIdentityUrlsOnUsers < ActiveRecord::Migration
                WHERE users.id = lu.id"
 
     else
-      raise "The down part of this migration only supports MySQL and PostgreSQL."
+      raise 'The down part of this migration only supports MySQL and PostgreSQL.'
     end
 
     drop_table :legacy_user_identity_urls
   end
 
   def postgres?
-    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+    ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
   end
 
   def mysql?
-    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
+    ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'mysql2'
   end
 end

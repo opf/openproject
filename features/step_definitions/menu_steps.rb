@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,11 +36,11 @@ When /^I toggle the "([^"]+)" submenu$/ do |menu_name|
 end
 
 Then /^there should be no menu item selected$/ do
-  page.should_not have_css("#main-menu .selected")
+  page.should_not have_css('#main-menu .selected')
 end
 
 Then /^there should not be a main menu$/ do
-  page.should_not have_css("#main-menu")
+  page.should_not have_css('#main-menu')
 end
 
 # opens a menu item in the main menu
@@ -56,11 +56,11 @@ end
 
 When /^I select "(.+?)" from the action menu$/ do |entry_name|
   within(action_menu_selector) do
-    if !find_link(entry_name, :visible => false).visible?
+    if !find_link(entry_name, visible: false).visible?
       click_link(I18n.t(:more_actions))
     end
 
-    click_link(entry_name, :visible => false)
+    click_link(entry_name, visible: false)
   end
 end
 
@@ -75,13 +75,13 @@ def action_menu_selector
   # please note that using this with the old .contextual selector takes longer
   # as capybara waits for the new .action_menu_main selector to appear
 
-  if has_css?(".action_menu_main")
-    all(".action_menu_main").first
-  elsif has_css?(".action_menu_specific")
-    all(".action_menu_specific").first
-  elsif has_css?(".contextual")
-    all(".contextual").first
+  if has_css?('.action_menu_main')
+    all('.action_menu_main').first
+  elsif has_css?('.action_menu_specific')
+    all('.action_menu_specific').first
+  elsif has_css?('.contextual')
+    all('.contextual').first
   else
-    raise "No action menu on the current page"
+    raise 'No action menu on the current page'
   end
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,25 +59,25 @@ require 'spec_helper'
 
 describe OpenProject::FileCommandContentTypeDetector do
   it 'returns a content type based on the content of the file' do
-    tempfile = Tempfile.new("something")
-    tempfile.write("This is a file.")
+    tempfile = Tempfile.new('something')
+    tempfile.write('This is a file.')
     tempfile.rewind
 
-    assert_equal "text/plain", OpenProject::FileCommandContentTypeDetector.new(tempfile.path).detect
+    assert_equal 'text/plain', OpenProject::FileCommandContentTypeDetector.new(tempfile.path).detect
 
     tempfile.close
   end
 
   it 'returns a sensible default when the file command is missing' do
     allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_raise(Cocaine::CommandLineError.new)
-    @filename = "/path/to/something"
-    assert_equal "application/binary",
-      OpenProject::FileCommandContentTypeDetector.new(@filename).detect
+    @filename = '/path/to/something'
+    assert_equal 'application/binary',
+                 OpenProject::FileCommandContentTypeDetector.new(@filename).detect
   end
 
   it 'returns a sensible default on the odd chance that run returns nil' do
     allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_return(nil)
-    assert_equal "application/binary",
-      OpenProject::FileCommandContentTypeDetector.new("windows").detect
+    assert_equal 'application/binary',
+                 OpenProject::FileCommandContentTypeDetector.new('windows').detect
   end
 end

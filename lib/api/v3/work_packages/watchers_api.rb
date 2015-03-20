@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,17 @@
 module API
   module V3
     module WorkPackages
-      class WatchersAPI < Grape::API
-
+      class WatchersAPI < ::API::OpenProjectAPI
         get '/available_watchers' do
+          authorize(:add_work_package_watchers, context: @work_package.project)
+
           available_watchers = @work_package.possible_watcher_users
-          build_representer(
-            available_watchers,
-            ::API::V3::Users::UserModel,
-            ::API::V3::Users::UserCollectionRepresenter,
-            as: :available_watchers
-          )
+          total = available_watchers.count
+          self_link = api_v3_paths.available_watchers(@work_package.id)
+
+          ::API::V3::Users::UserCollectionRepresenter.new(available_watchers,
+                                                          total,
+                                                          self_link)
         end
 
         resources :watchers do
@@ -56,11 +57,11 @@ module API
             user = User.find params[:user_id]
 
             Services::CreateWatcher.new(@work_package, user).run(
-              -> (result) { status(200) unless result[:created]},
+              -> (result) { status(200) unless result[:created] },
               -> (watcher) { raise ::API::Errors::Validation.new(watcher) }
             )
 
-            build_representer(user, ::API::V3::Users::UserModel, ::API::V3::Users::UserRepresenter)
+            ::API::V3::Users::UserRepresenter.new(user)
           end
 
           namespace ':user_id' do

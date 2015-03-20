@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ class PlanningElementTypeColorsController < ApplicationController
 
   def show
     @color = PlanningElementTypeColor.find(params[:id])
-    respond_to do |format|
+    respond_to do |_format|
     end
   end
 
@@ -67,7 +67,7 @@ class PlanningElementTypeColorsController < ApplicationController
       redirect_to colors_path
     else
       flash.now[:error] = l('timelines.color_could_not_be_saved')
-      render :action => "new"
+      render action: 'new'
     end
   end
 
@@ -86,7 +86,7 @@ class PlanningElementTypeColorsController < ApplicationController
       redirect_to colors_path
     else
       flash.now[:error] = l('timelines.color_could_not_be_saved')
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -96,7 +96,7 @@ class PlanningElementTypeColorsController < ApplicationController
     if @color.update_attributes(permitted_params.color_move)
       flash[:notice] = l(:notice_successful_update)
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
     redirect_to colors_path
   end

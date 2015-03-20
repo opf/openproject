@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 
 class Setting
   module Callbacks
-
     # register a callback for a setting named #name
     def register_callback(name, &callback)
       # register the block with the underlying notifications system
@@ -43,7 +42,7 @@ class Setting
       notifier.send(notification_event_for(name), event_payload_for(setting, old_setting))
     end
 
-  private
+    private
 
     # encapsulates the event name broadcast to all subscribers
     def notification_event_for(name)
@@ -59,6 +58,5 @@ class Setting
     def notifier
       OpenProject::Notifications
     end
-
   end
 end

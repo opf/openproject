@@ -1,0 +1,10 @@
+<span ng-switch="displayType">
+  <progress-bar ng-switch-when="progress_bar"
+                progress="displayText"
+                width="80px">
+  </progress-bar>
+
+  <a ng-switch-when="link" href="{{ url }}" title="{{ displayText }}">{{ displayText }}</a>
+
+  <span ng-switch-default title="{{ displayText }}">{{ displayText }}</span>
+</span>

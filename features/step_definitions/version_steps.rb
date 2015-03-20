@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@
 InstanceFinder.register(Version, Proc.new { |name| Version.find_by_name(name) })
 
 Given /^the [Pp]roject (.+) has 1 version with(?: the following)?:$/ do |project, table|
-  project.gsub!("\"", "")
+  project.gsub!("\"", '')
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
 
   as_admin do

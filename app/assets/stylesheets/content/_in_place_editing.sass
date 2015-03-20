@@ -1,0 +1,177 @@
+.select2-container
+  position: relative!important
+.inplace-editor
+  ul
+    margin-left: auto
+  display: inline
+  font-size: medium
+  .ined-input-wrapper-inner
+    display: inline
+  &.busy
+    opacity: 0.5
+    .jstElements button
+      opacity: 0.5
+    *
+      cursor: wait!important
+  &.preview
+    button
+      visibility: hidden
+    .help
+      display: none!important
+    .btn-preview
+      visibility: visible
+    &.type-wiki_textarea .ined-controls
+      bottom: -34px
+  .hidden-but-focusable
+    position: absolute
+    left: -10000px
+    top: auto
+    width: 1px
+    height: 1px
+    overflow: hidden
+  .visible-on-focus
+    left: 0
+    position: inherit
+    width: auto
+    height: auto
+    float: inherit
+  .editing-link-wrapper
+    position: absolute
+    margin-left: 4px
+    a
+      @extend .hidden-but-focusable
+      &:focus
+        @extend .visible-on-focus
+
+  .ined-input-wrapper
+    display: inline
+    input
+      width: 90%
+      margin-bottom: -1px
+  .ined-read-value
+    display: inline
+    position: relative
+    &.default
+      span
+        font-style: italic
+    &.editable:hover
+      outline: 1px solid #cacaca
+      cursor: pointer
+      .editing-link-wrapper a
+        @extend .visible-on-focus
+  form
+    position: relative
+    display: inline
+    .ng-invalid
+      background: lightpink!important
+  .ined-dashboard
+    min-height: 42px
+    .ined-errors
+      line-height: 1.2em
+      width: 100%
+      padding: 5px
+      left: 251px
+      bottom: -11px
+      background: white
+      border: 1px solid #cacaca
+      min-height: 42px
+    .ined-controls
+      float: left
+      display: inline-block
+      bottom: 17px
+      left: 29px
+      width: 120px
+      background: white
+      border: 1px solid #cacaca
+      text-align: center
+      a
+        width: 36px
+        display: inline-block
+        text-align: center
+        text-decoration: none
+        &:hover
+          background: #f0f0f0
+  &.type-text
+    .ined-dashboard
+      width: 90%
+  &.type-wiki_textarea
+    textarea
+      min-height: 200px
+      width: 100%
+      margin-bottom: -1px
+    .ined-input-wrapper-inner
+      display: block!important
+    form
+      display: block
+    .ined-read-value
+      display: block
+    .read-value-wrapper
+      display: inline-block
+      width: 100%
+    .editing-link-wrapper
+      top: 5px
+      right: 0px
+    .ined-dashboard
+      padding-left: 0px
+      width: 100%
+      .ined-controls
+        left: 0px
+        z-index: 1
+    .jstHandle
+      display: none
+    .jstElements
+      display: inline
+      bottom: -31px
+      width: 307px
+      button
+        display: none
+        &.btn-preview
+          float: right
+          height: 32px
+          width: auto
+          display: inline
+          margin-right: 0
+      .help
+        display: inline
+        float: none
+        position: relative
+        top: -4px
+        left: -12px
+        a
+          width: 29px
+          display: inline-block
+          height: 25px
+          overflow: hidden
+          padding-top: 7px
+          margin-bottom: -2px
+          padding-left: 0
+      .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
+        display: inline
+  &.type-select2
+    .select2-display-none
+      display: none
+    input[type='text']
+      width: 100%
+    .ined-dashboard
+      padding-left: 0px
+    .ined-controls
+    .ined-read-value
+      position: relative
+      display: block
+      margin: 3px
+      &.editable:hover
+        outline: 1px solid #cacaca
+    .editing-link-wrapper
+      position: absolute
+      right: -3px
+      top: 1px
+      width: 30px
+      .icon-context:before
+        padding: 0 1px 1px 0
+@include breakpoint(xlarge)
+  .inplace-editor .jstElements .help a
+    width: auto!important
+    display: inline!important
+    height: auto!important
+    padding-top: auto!important
+    margin-bottom: auto!important

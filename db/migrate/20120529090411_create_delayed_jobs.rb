@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,19 +29,19 @@
 
 class CreateDelayedJobs < ActiveRecord::Migration
   def self.up
-    create_table :delayed_jobs, :force => true do |table|
-      table.integer  :priority, :default => 0      # Allows some jobs to jump to the front of the queue
-      table.integer  :attempts, :default => 0      # Provides for retries, but still fail eventually.
-      table.text     :handler                      # YAML-encoded string of the object that will do work
-      table.text     :last_error                   # reason for last failure (See Note below)
+    create_table :delayed_jobs, force: true do |table|
+      table.integer :priority, default: 0      # Allows some jobs to jump to the front of the queue
+      table.integer :attempts, default: 0      # Provides for retries, but still fail eventually.
+      table.text :handler                      # YAML-encoded string of the object that will do work
+      table.text :last_error                   # reason for last failure (See Note below)
       table.datetime :run_at                       # When to run. Could be Time.zone.now for immediately, or sometime in the future.
       table.datetime :locked_at                    # Set when a client is working on this object
       table.datetime :failed_at                    # Set when all retries have failed (actually, by default, the record is deleted instead)
-      table.string   :locked_by                    # Who is working on this object (if locked)
+      table.string :locked_by                    # Who is working on this object (if locked)
       table.timestamps
     end
 
-    add_index :delayed_jobs, [:priority, :run_at], :name => 'delayed_jobs_priority'
+    add_index :delayed_jobs, [:priority, :run_at], name: 'delayed_jobs_priority'
   end
 
   def self.down

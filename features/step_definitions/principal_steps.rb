@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ Given /^the principal "(.+)" is a "(.+)" in the project "(.+)"$/ do |principal_n
   project.add_member!(principal, role)
 end
 
-InstanceFinder.register(Principal, Proc.new{ |name|
-  princ = Principal.first(:conditions => ["lastname = ? OR login = ?", name, name])
+InstanceFinder.register(Principal, Proc.new { |name|
+  princ = Principal.first(conditions: ['lastname = ? OR login = ?', name, name])
   princ || Principal.find { |principal| principal.name == name }
 })

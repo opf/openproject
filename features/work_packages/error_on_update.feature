@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,11 +50,10 @@ Feature: Error messages are displayed
     And I am already logged in as "manager"
 
   @javascript
-  Scenario: Inserting a blank subject results in an error beeing shown
+  Scenario: Inserting a too long subject results in an error beeing shown
     When I go to the edit page of the work package called "pe1"
-     And I follow "More"
      And I fill in the following:
-       | Subject | |
+       | Subject |  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. mollit anim id est laborum.|
      And I submit the form by the "Submit" button
 
-    Then I should see an error explanation stating "Subject can't be blank"
+    Then I should see an error explanation stating "Subject is too long (maximum is 255 characters)"

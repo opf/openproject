@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +56,7 @@ class MemberRole < ActiveRecord::Base
   def destroy(*args)
     unless caller.first =~ /has_many_association\.rb:[0-9]+:in `[^`]+delete_records'/
       raise 'MemberRole.destroy called from method other than HasManyAssociation.delete_records' +
-            "\n  on #{inspect}\n from #{caller.first} / #{caller[3]}"
+        "\n  on #{inspect}\n from #{caller.first} / #{caller[3]}"
     else
       super
     end
@@ -89,10 +89,10 @@ class MemberRole < ActiveRecord::Base
   end
 
   def remove_role_from_group_users
-    MemberRole.all(:conditions => { :inherited_from => id }).group_by(&:member).each do |member, member_roles|
+    MemberRole.all(conditions: { inherited_from: id }).group_by(&:member).each do |member, member_roles|
       member_roles.each { |mr| member.remove_member_role_and_destroy_member_if_last(mr) }
       if member && member.user
-        Watcher.prune(:user => member.user, :project => member.project)
+        Watcher.prune(user: member.user, project: member.project)
       end
     end
   end

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenProject Testing</title>
+
+  <meta name="description" content="OpenProject" />
+  <meta name="keywords" content="issue,bug,type" />
+  <meta name="app_base_path" content="" />
+  <meta name="current_menu_item" content="work_packages" />
+  <meta name="accessibility-mode" content="false" />
+  <meta content="authenticity_token" name="csrf-param" />
+  <meta content="" name="csrf-token" />
+  <base href="/" />
+
+  <link href="/assets/css/default.css.css" media="all" rel="stylesheet" />
+
+  <script>
+  window.gon = {};
+  gon.settings = {};
+  </script>
+
+  <script src="/assets/bundles/openproject-global.js"></script>
+
+  <script src="/assets/lib/jquery.trap.js"></script>
+  <script src="/assets/autocompleter.js"></script>
+  <script src="/assets/members_select_boxes.js"></script>
+  <script src="/assets/openproject.js"></script>
+  <script src="/assets/timelines_select_boxes.js"></script>
+  <script src="/assets/date-en-US.js"></script>
+
+  <script src="/assets/jstoolbar/jstoolbar.js"></script>
+  <script src="/assets/jstoolbar/translations.js"></script>
+  <script src="/assets/jstoolbar/textile.js"></script>
+  <script src="/assets/jstoolbar.js"></script>
+
+  <!-- Webpack-bundled assets -->
+  <script src="/assets/bundles/openproject-core-app.js"></script>
+
+  <script type="text/javascript">
+  window.openProject = new OpenProject({
+    urlRoot : '',
+    loginUrl: '/login?layout=false'
+  });
+  I18n.defaultLocale = "en";
+  I18n.locale = "en";
+  </script>
+</head>
+<body class="theme-default controller-work_packages action-index" ng-app="openproject" data-relative_url_root="/">
+  <div id="wrapper" class="nomenus"
+    ng-class="{ 'hidden-navigation': !showNavigation }">
+
+    <div id="main" class="nomenus">
+      <div class="nomenus" id="content"
+        ng-class="{ 'hidden-navigation': !showNavigation }">
+
+        <h1 class="hidden-for-sighted">Content</h1>
+
+        <flash-message></flash-message>
+        <div ui-view></div>
+
+        <div style="clear:both;">&nbsp;</div>
+      </div>
+    </div>
+
+    <div id="ajax-indicator" style="display:none;"><span>Loading...</span></div>
+  </div>
+</body>
+</html>

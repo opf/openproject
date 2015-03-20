@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,7 @@ Feature: Text custom fields can be created
     When I go to the custom fields page
     When I follow "New custom field" within "#tab-content-WorkPackageCustomField"
 
+  @wip
   @javascript
   Scenario: Creating a text custom field with multiple name and default_value localizations
     When I select "Text" from "custom_field_field_format"

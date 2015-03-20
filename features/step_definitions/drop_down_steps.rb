@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ Given /^the "(.+)" drop-down should( not)? have the following options:$/ do |id,
 end
 
 Then /^the "(.+)" drop-down should have the following options (enabled|disabled):$/ do |id, state, table|
-  state = state == "disabled" ? "" : "not"
+  state = state == 'disabled' ? '' : 'not'
   table.raw.each do | option |
     page.should have_xpath "//select[@id = '#{id}']//option[@value = '#{option[0]}' and #{state}(@disabled)]"
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,8 @@ describe DeprecatedAlias do
   subject(:object) { clazz.new }
 
   let(:deprecation_warning) {
-    "special_key is deprecated and will be removed in a future OpenProject version. " +
-    "Please use secret_key instead."
+    'special_key is deprecated and will be removed in a future OpenProject version. ' +
+      'Please use secret_key instead.'
   }
 
   before do

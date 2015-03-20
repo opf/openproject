@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,17 +32,17 @@ module OpenProject
       class TimelinesWikiMacro
         unloadable
 
-        def apply(content, args, options={})
+        def apply(_content, args, options = {})
           timeline = Timeline.find_by_id(args[0])
 
-          raise I18n.t('timelines.no_timeline_for_id', :id => args[0].to_s) if timeline.nil?
+          raise I18n.t('timelines.no_timeline_for_id', id: args[0].to_s) if timeline.nil?
           raise I18n.t('timelines.no_right_to_view_timeline') unless User.current.allowed_to?(:view_timelines, timeline.project)
 
           view = options[:view]
 
           if view.respond_to?(:render)
-            view.render :partial => '/timelines/timeline',
-                        :locals => {:timeline => timeline}
+            view.render partial: '/timelines/timeline',
+                        locals: { timeline: timeline }
           else
             raise NotImplementedError, 'Timeline rendering is not supported'
           end

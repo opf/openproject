@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -112,11 +112,10 @@ class FixWatcherWorkPackageAssociations < ActiveRecord::Migration
   end
 
   def postgres?
-    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+    ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
   end
 
   def mysql?
-    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
+    ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'mysql2'
   end
-
 end

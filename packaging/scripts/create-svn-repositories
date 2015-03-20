@@ -1,0 +1,24 @@
+#!/bin/bash
+
+APP_NAME="_APP_NAME_"
+CLI="${APP_NAME}"
+APP_HOME="$(${CLI} config:get APP_HOME)"
+SVN_REPOSITORIES="$(${CLI} config:get SVN_REPOSITORIES)"
+PORT=$(${CLI} config:get PORT)
+SYS_API_KEY="$(${CLI} config:get SYS_API_KEY)"
+APP_GROUP="$(${CLI} config:get APP_GROUP)"
+SERVER_USER="$(${CLI} config:get SERVER_USER)"
+SERVER_HOSTNAME="$(${CLI} config:get SERVER_HOSTNAME)"
+SERVER_PROTOCOL="$(${CLI} config:get SERVER_PROTOCOL)"
+
+${APP_HOME}/bin/ruby ${APP_HOME}/extra/svn/reposman.rb \
+  --openproject-host "http://127.0.0.1:${PORT}" \
+  --owner "${SERVER_USER}" \
+  --group "${APP_GROUP}" \
+  --public-mode '2750' \
+  --private-mode '2750' \
+  --svn-dir "${SVN_REPOSITORIES}" \
+  --url "file://${SVN_REPOSITORIES}" \
+  --key "${SYS_API_KEY}" \
+  --scm Subversion \
+  --verbose

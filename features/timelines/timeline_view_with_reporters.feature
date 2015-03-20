@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -167,7 +167,6 @@ Feature: Timeline View Tests with reporters
 
       And I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I wait for timeline to load table
-
      Then I should not see the project "ecookbook_empty"
       And I should see the project "ecookbook_q3"
       And I should see the project "ecookbook13"

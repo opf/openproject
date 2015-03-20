@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,26 +29,22 @@
 
 module Api
   module Experimental
-
     class VersionsController < ApplicationController
-      before_filter :find_project
+      before_filter :find_optional_project
 
       include ::Api::Experimental::ApiController
 
       def index
-        @versions = @project.shared_versions.all
+        @versions = if @project
+                      @project.shared_versions.all
+                    else
+                      Version.visible.systemwide
+                    end
 
         respond_to do |format|
           format.api
         end
       end
-
-      private
-
-      def find_project
-        @project = Project.find(params[:project_id])
-      end
-
     end
   end
 end

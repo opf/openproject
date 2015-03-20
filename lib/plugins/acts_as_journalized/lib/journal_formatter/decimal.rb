@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,6 @@ class JournalFormatter::Decimal < JournalFormatter::Attribute
   # unloadable
 
   def format_values(values)
-    values.map{ |v| v.to_i.to_s }
+    values.map { |v| v.to_i.to_s }
   end
 end

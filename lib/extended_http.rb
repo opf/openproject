@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +36,9 @@ module ExtendedHTTP
   # This is especially useful for successful create actions.
   def see_other(options = {})
     if options.is_a?(Hash)
-      redirect_to options.merge(:status=>:see_other)
+      redirect_to options.merge(status: :see_other)
     else
-      redirect_to options, :status=>:see_other
+      redirect_to options, status: :see_other
     end
   end
 
@@ -47,6 +47,6 @@ module ExtendedHTTP
   #
   # This is especially useful for successful update actions.
   def no_content
-    render :text => '', :status => :no_content
+    render text: '', status: :no_content
   end
 end

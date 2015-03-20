@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,49 +28,33 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module V3
     module WorkPackages
-      class RelationRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include Roar::Representer::Feature::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {}, *expand)
-          @current_user = options[:current_user]
-          @work_package = options[:work_package]
-          @expand = expand
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator
-
+      class RelationRepresenter < ::API::Decorators::Single
         link :self do
-         { href: "#{root_path}api/v3/relations/#{represented.model.id}" }
+          { href: api_v3_paths.relation(represented.id) }
         end
 
         link :relatedFrom do
-          { href: "#{root_path}api/v3/work_packages/#{represented.model.from_id}" }
+          { href: api_v3_paths.work_package(represented.from_id) }
         end
 
         link :relatedTo do
-          { href: "#{root_path}api/v3/work_packages/#{represented.model.to_id}" }
+          { href: api_v3_paths.work_package(represented.to_id) }
         end
 
         link :remove do
           {
-            href: "#{root_path}api/v3/work_packages/#{represented.model.from.id}/relations/#{represented.model.id}",
+            href: api_v3_paths.work_package_relation(represented.id, represented.from.id),
             method: :delete,
-            title: "Remove relation"
+            title: 'Remove relation'
           } if current_user_allowed_to(:manage_work_package_relations)
         end
 
-        property :delay, getter: -> (*) { model.delay }, render_nil: true, if: -> (*) { model.relation_type == 'precedes' }
+        property :delay, render_nil: true, if: -> (*) { relation_type == 'precedes' }
 
         def _type
           "Relation::#{relation_type}"
@@ -79,12 +63,19 @@ module API
         private
 
         def current_user_allowed_to(permission)
-          @current_user && @current_user.allowed_to?(permission, represented.model.from.project)
+          current_user && current_user.allowed_to?(permission, represented.from.project)
         end
 
         def relation_type
-          relation = represented.model
-          relation.relation_type_for(@work_package).camelize
+          represented.relation_type_for(work_package).camelize
+        end
+
+        def work_package
+          context[:work_package]
+        end
+
+        def current_user
+          context[:current_user]
         end
       end
     end

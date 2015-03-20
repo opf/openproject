@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 
 module Redmine
   module MimeType
-
     MIME_TYPES = {
       'text/plain' => 'txt,tpl,properties,patch,diff,ini,readme,install,upgrade',
       'text/css' => 'css',
@@ -83,7 +82,7 @@ module Redmine
     }.freeze
 
     EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
-      exts.split(',').each {|ext| map[ext.strip] = type}
+      exts.split(',').each { |ext| map[ext.strip] = type }
       map
     end
 
@@ -116,6 +115,5 @@ module Redmine
     def self.narrow_type(name, content_type)
       (content_type.split('/').first == main_mimetype_of(name)) ? of(name) : content_type
     end
-
   end
 end

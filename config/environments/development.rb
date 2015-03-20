@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,5 +69,4 @@ OpenProject::Application.configure do
 
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
-  config.action_controller.default_url_options = { host: 'localhost', port: 3000 }
 end

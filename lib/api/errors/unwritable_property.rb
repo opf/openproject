@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,23 +29,39 @@
 
 module API
   module Errors
-    class UnwritableProperty < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+    class UnwritableProperty < ErrorBase
+      def initialize(invalid_attributes)
+        attributes = Array(invalid_attributes)
 
-      def initialize(property, args = { })
-        @property = property
-        @code = args[:code] || 422
-        @title = args[:title] || 'unwriteable_property_error'
-        @description = args[:description] || 'You tried to write read-only property.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
+        fail ArgumentError, 'UnwritableProperty error must contain at least one invalid attribute!' if attributes.empty?
+
+        if attributes.length == 1
+          message = if attributes.length == 1
+                      begin
+                        I18n.t("api_v3.errors.validation.#{attributes.first}", raise: true)
+                      rescue I18n::MissingTranslationData
+                        I18n.t('api_v3.errors.writing_read_only_attributes')
+                      end
+                    else
+                      I18n.t('api_v3.errors.multiple_errors')
+                    end
+        else
+          message = I18n.t('api_v3.errors.multiple_errors')
+        end
+
+        super 422, message
+
+        evaluate_attributes(attributes, invalid_attributes)
       end
 
-      def errors
-        [{ key: @property, messages: ['is read-only'] }]
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+      def evaluate_attributes(attributes, invalid_attributes)
+        if attributes.length > 1
+          invalid_attributes.each do |attribute|
+            @errors << UnwritableProperty.new(attribute)
+          end
+        else
+          @details = { attribute: attributes[0].to_s.camelize(:lower) }
+        end
       end
     end
   end

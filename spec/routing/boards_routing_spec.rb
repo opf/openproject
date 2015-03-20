@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,18 +28,18 @@
 
 require 'spec_helper'
 
-describe BoardsController, :type => :routing do
-  it "should connect GET /projects/:project/boards/:board/move to boards#move" do
-    expect(get("/projects/1/boards/1/move")).to route_to(controller: 'boards',
-                                                     action: 'move',
-                                                     project_id: '1',
-                                                     id: '1')
+describe BoardsController, type: :routing do
+  it 'should connect GET /projects/:project/boards/:board/move to boards#move' do
+    expect(get('/projects/1/boards/1/move')).to route_to(controller: 'boards',
+                                                         action: 'move',
+                                                         project_id: '1',
+                                                         id: '1')
   end
 
-  it "should connect POST /projects/:project/boards/:board/move to boards#move" do
-    expect(post("/projects/1/boards/1/move")).to route_to(controller: 'boards',
-                                                      action: 'move',
-                                                      project_id: '1',
-                                                      id: '1')
+  it 'should connect POST /projects/:project/boards/:board/move to boards#move' do
+    expect(post('/projects/1/boards/1/move')).to route_to(controller: 'boards',
+                                                          action: 'move',
+                                                          project_id: '1',
+                                                          id: '1')
   end
 end

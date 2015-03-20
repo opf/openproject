@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,7 @@ module Redmine::Acts::Journalized
       # <tt>:dependent</tt> option given to the +journaled+ method. See the +journaled+ method
       # documentation for more details.
       def reset_to!(value)
-        if saved = skip_journal{ revert_to!(value) }
+        if saved = skip_journal { revert_to!(value) }
           journals.send(:delete_records, journals.after(value))
           reset_journal
         end

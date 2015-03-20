@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,7 +55,11 @@ describe OpenProject::Plugins::ActsAsOpEngine do
   end
 
   describe '#extend_api_response' do
-    it 'should lookup and extend an existing Decorator' do
+    xit 'should lookup and extend an existing Decorator' do
+      # This test does not work as intended...
+      # The actual work done by :extend_api_response is not performed unless the engine is started
+      # However, it would be green because all attributes of the represented are magically added
+      # to the representer...
       module API
         module VTest
           module WorkPackages

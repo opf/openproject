@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,7 +65,6 @@ Feature: Fields editable on work package edit
       | pe1      | pe1 description | 2013-01-01 | 2013-12-31 | 30         | Phase | manager     | manager     | prio1    | parentpe | 5               | version1      |
 
     When I go to the edit page of the work package called "pe1"
-    And I follow "More"
 
     Then I should see the following fields:
       | Type            | Phase            |
@@ -74,7 +73,7 @@ Feature: Fields editable on work package edit
       | Priority        | prio1            |
       | Assignee        | the manager      |
       | Responsible     | the manager      |
-      | Target version  | version1         |
+      | Version         | version1         |
       | Start date      | 2013-01-01       |
       | Due date        | 2013-12-31       |
       | Estimated time  | 5.00             |

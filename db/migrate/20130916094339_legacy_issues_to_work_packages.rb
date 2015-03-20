@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
     SQL
 
     if existing_work_packages.size > 0
-      raise ExistingWorkPackagesError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+      raise ExistingWorkPackagesError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
         There are already entries in the work_packages table.
         This migration assumes that there are none.
       MESSAGE
@@ -127,7 +127,6 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
         rgt
       FROM legacy_issues
     SQL
-
   end
 
   def raise_on_existing_legacy_issue_entries
@@ -137,7 +136,7 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
     SQL
 
     if existing_legacy_issues.size > 0
-      raise ExistingLegacyIssuesError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
+      raise ExistingLegacyIssuesError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
         There are already entries in the legacy_issues table.
         This migration assumes that there are none.
       MESSAGE
@@ -196,6 +195,5 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
         rgt
       FROM work_packages
     SQL
-
   end
 end

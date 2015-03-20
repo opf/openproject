@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,7 @@
 class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
   # unloadable
 
-  def render(key, values, options = { :no_html => false })
-
+  def render(key, values, options = { no_html: false })
     label, old_value, value = format_details(key, values, options)
 
     unless options[:no_html]
@@ -51,7 +50,7 @@ class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
   end
 
   def format_values(values, key, options)
-    field = key.to_s.gsub(/\_id\z/, "").to_sym
+    field = key.to_s.gsub(/\_id\z/, '').to_sym
     klass = class_from_field(field)
 
     values.map do |value|

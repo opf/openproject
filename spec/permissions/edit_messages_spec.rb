@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'support/permission_specs'
 
-describe MessagesController, "edit_messages permission", type: :controller do
+describe MessagesController, 'edit_messages permission', type: :controller do
   include PermissionSpecs
 
   check_permission_required_for('messages#preview', :edit_messages)

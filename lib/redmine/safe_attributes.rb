@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,11 +61,11 @@ module Redmine
     # Example:
     #   book.safe_attributes # => ['title', 'pages']
     #   book.safe_attributes(book.author) # => ['title', 'pages', 'isbn']
-    def safe_attribute_names(user=User.current)
+    def safe_attribute_names(user = User.current)
       names = []
-      self.class.safe_attributes.collect do |attrs, options|
+      self.class.safe_attributes.map do |attrs, options|
         if options[:if].nil? || options[:if].call(self, user)
-          names += attrs.collect(&:to_s)
+          names += attrs.map(&:to_s)
         end
       end
       names.uniq
@@ -77,14 +77,14 @@ module Redmine
     # Example:
     #   book.delete_unsafe_attributes({'title' => 'My book', 'foo' => 'bar'})
     #   # => {'title' => 'My book'}
-    def delete_unsafe_attributes(attrs, user=User.current)
+    def delete_unsafe_attributes(attrs, user = User.current)
       safe = safe_attribute_names(user)
-      attrs.dup.delete_if {|k,v| !safe.include?(k.to_s)}
+      attrs.dup.delete_if { |k, _v| !safe.include?(k.to_s) }
     end
 
     # Sets attributes from attrs that are safe
     # attrs is a Hash with string keys
-    def safe_attributes=(attrs, user=User.current)
+    def safe_attributes=(attrs, user = User.current)
       return unless attrs.is_a?(Hash)
       self.attributes = delete_unsafe_attributes(attrs, user)
     end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ class WikisControllerTest < ActionController::TestCase
   def test_create
     @request.session[:user_id] = 1
     assert_nil Project.find(3).wiki
-    post :edit, :id => 3, :wiki => { :start_page => 'Start page' }
+    post :edit, id: 3, wiki: { start_page: 'Start page' }
     assert_response :success
     wiki = Project.find(3).wiki
     assert_not_nil wiki
@@ -55,14 +55,14 @@ class WikisControllerTest < ActionController::TestCase
 
   def test_destroy
     @request.session[:user_id] = 1
-    post :destroy, :id => 1, :confirm => 1
-    assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'ecookbook', :tab => 'wiki'
+    post :destroy, id: 1, confirm: 1
+    assert_redirected_to controller: 'projects', action: 'settings', id: 'ecookbook', tab: 'wiki'
     assert_nil Project.find(1).wiki
   end
 
   def test_not_found
     @request.session[:user_id] = 1
-    post :destroy, :id => 999, :confirm => 1
+    post :destroy, id: 999, confirm: 1
     assert_response 404
   end
 end

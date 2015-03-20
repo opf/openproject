@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,7 +55,7 @@ Feature: Membership
     Given we paginate after 2 items
     When I go to the members tab of the settings page of the project "project1"
      And I add the principal "peter" as "Manager"
-    When I follow "2" within ".pagination"
+    When I follow "2" within ".legacy-pagination"
     Then I should see "Peter Pan"
 
   @javascript
@@ -65,7 +65,7 @@ Feature: Membership
     When I go to the members tab of the settings page of the project "project1"
      And I delete the "Alice Alison" membership
     Then I should see "Bob Bobbit"
-    When I follow "2" within ".pagination"
+    When I follow "2" within ".legacy-pagination"
     Then I should see "Peter Pan"
 
  @javascript
@@ -75,5 +75,5 @@ Feature: Membership
     And I click on "Edit"
     And I check "Manager"
     And I click "Change"
-    And I follow "2" within ".pagination"
+    And I follow "2" within ".legacy-pagination"
    Then I should see "Bob Bobbit"

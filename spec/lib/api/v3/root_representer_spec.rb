@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +46,12 @@ describe ::API::V3::RootRepresenter do
         it { should have_json_path('_links/project') }
         it { should have_json_path('_links/project/href') }
         it { should have_json_path('_links/project/templated') }
+
+        it {
+          should be_json_eql('/api/v3/projects/{project_id}'.to_json)
+            .at_path('_links/project/href')
+        }
+        it { should be_json_eql(true.to_json).at_path('_links/project/templated') }
       end
 
       describe 'statuses' do

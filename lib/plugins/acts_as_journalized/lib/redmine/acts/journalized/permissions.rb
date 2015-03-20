@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,12 +56,12 @@ module Redmine::Acts::Journalized
         editable_by? user
       else
         permission = if respond_to? :journal_permission
-          journal_permission
-        else
-          :"edit_#{self.class.to_s.pluralize.underscore}"
+                       journal_permission
+                     else
+                       :"edit_#{self.class.to_s.pluralize.underscore}"
         end
         p = @project || (project if respond_to? :project)
-        options = { :global => p.present? }
+        options = { global: p.present? }
         user.allowed_to? permission, p, options
       end
     end

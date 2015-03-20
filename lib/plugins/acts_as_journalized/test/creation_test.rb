@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ class CreationTest < Test::Unit::TestCase
   context 'The number of journals' do
     setup do
       @name = 'Steve Richert'
-      @user = User.create(:name => @name)
+      @user = User.create(name: @name)
       @count = @user.journals.count
     end
 
@@ -75,7 +75,7 @@ class CreationTest < Test::Unit::TestCase
 
   context "A created journal's changes" do
     setup do
-      @user = User.create(:name => 'Steve Richert')
+      @user = User.create(name: 'Steve Richert')
       @user.update_attribute(:last_name, 'Jobs')
     end
 
@@ -88,7 +88,7 @@ class CreationTest < Test::Unit::TestCase
     context '(with :only options)' do
       setup do
         @only = %w(first_name)
-        User.prepare_journaled_options(:only => @only)
+        User.prepare_journaled_options(only: @only)
         @user.update_attribute(:name, 'Steven Tyler')
       end
 
@@ -97,14 +97,14 @@ class CreationTest < Test::Unit::TestCase
       end
 
       teardown do
-        User.prepare_journaled_options(:only => nil)
+        User.prepare_journaled_options(only: nil)
       end
     end
 
     context '(with :except options)' do
       setup do
         @except = %w(first_name)
-        User.prepare_journaled_options(:except => @except)
+        User.prepare_journaled_options(except: @except)
         @user.update_attribute(:name, 'Steven Tyler')
       end
 
@@ -115,7 +115,7 @@ class CreationTest < Test::Unit::TestCase
       end
 
       teardown do
-        User.prepare_journaled_options(:except => nil)
+        User.prepare_journaled_options(except: nil)
       end
     end
 
@@ -123,7 +123,7 @@ class CreationTest < Test::Unit::TestCase
       setup do
         @only = %w(first_name)
         @except = @only
-        User.prepare_journaled_options(:only => @only, :except => @except)
+        User.prepare_journaled_options(only: @only, except: @except)
         @user.update_attribute(:name, 'Steven Tyler')
       end
 
@@ -132,7 +132,7 @@ class CreationTest < Test::Unit::TestCase
       end
 
       teardown do
-        User.prepare_journaled_options(:only => nil, :except => nil)
+        User.prepare_journaled_options(only: nil, except: nil)
       end
     end
   end

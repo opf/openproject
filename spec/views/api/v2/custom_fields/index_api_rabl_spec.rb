@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,23 +28,23 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/custom_fields/index.api.rabl', :type => :view do
+describe 'api/v2/custom_fields/index.api.rabl', type: :view do
   before do
     params[:format] = 'xml'
   end
 
   let(:custom_field_1) do
     FactoryGirl.create :issue_custom_field,
-      :name => "Brot",
-      :field_format => "text",
-      :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
+                       name: 'Brot',
+                       field_format: 'text',
+                       types: [(Type.find_by_name('None') || FactoryGirl.create(:type_standard))]
   end
 
   let(:custom_field_2) do
     FactoryGirl.create :issue_custom_field,
-      :name => "Belag",
-      :field_format => "text",
-      :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
+                       name: 'Belag',
+                       field_format: 'text',
+                       types: [(Type.find_by_name('None') || FactoryGirl.create(:type_standard))]
   end
 
   describe 'with two custom fields' do
@@ -56,11 +56,11 @@ describe 'api/v2/custom_fields/index.api.rabl', :type => :view do
     subject { Nokogiri.XML(response.body) }
 
     it 'renders those custom fields\' attributes' do
-      names = subject.xpath("//custom_fields/custom_field/name/text()")
-      formats = subject.xpath("//custom_fields/custom_field/field_format/text()")
+      names = subject.xpath('//custom_fields/custom_field/name/text()')
+      formats = subject.xpath('//custom_fields/custom_field/field_format/text()')
 
-      expect(names.map(&:to_s)).to eq(["Brot", "Belag"])
-      expect(formats.map(&:to_s)).to eq(["text", "text"])
+      expect(names.map(&:to_s)).to eq(['Brot', 'Belag'])
+      expect(formats.map(&:to_s)).to eq(['text', 'text'])
     end
   end
 end

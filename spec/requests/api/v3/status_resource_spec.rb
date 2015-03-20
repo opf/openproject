@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,35 +31,83 @@ require 'rack/test'
 
 describe 'API v3 Status resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role, permissions: []) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:statuses) { FactoryGirl.create_list(:status, 4) }
+  let(:current_user) do
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
+  end
 
-  describe '#get' do
-    subject(:response) { last_response }
+  let!(:statuses) { FactoryGirl.create_list(:status, 4) }
 
-    context 'logged in user' do
-      let(:get_path) { "/api/v3/statuses" }
-      before do
-        allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
+  describe 'statuses' do
+    describe '#get' do
+      let(:get_path) { api_v3_paths.statuses }
+      subject(:response) { last_response }
 
-        statuses
+      context 'logged in user' do
+        before do
+          allow(User).to receive(:current).and_return current_user
 
-        get get_path
+          get get_path
+        end
+
+        it_behaves_like 'API V3 collection response', 4, 4, 'Status'
       end
 
-      it 'should respond with 200' do
-        expect(subject.status).to eq(200)
+      context 'not logged in user' do
+        before do
+          get get_path
+        end
+
+        it_behaves_like 'error response',
+                        403,
+                        'MissingPermission',
+                        I18n.t('api_v3.errors.code_403')
+      end
+    end
+  end
+
+  describe 'statuses/:id' do
+    describe '#get' do
+      let(:status) { statuses.first }
+      let(:get_path) { api_v3_paths.status status.id }
+
+      subject(:response) { last_response }
+
+      context 'logged in user' do
+        before do
+          allow(User).to receive(:current).and_return(current_user)
+
+          get get_path
+        end
+
+        context 'valid status id' do
+          it { expect(response.status).to eq(200) }
+        end
+
+        context 'invalid status id' do
+          let(:get_path) { api_v3_paths.status 'bogus' }
+
+          it_behaves_like 'not found' do
+            let(:id) { 'bogus' }
+            let(:type) { 'Status' }
+          end
+        end
       end
 
-      it 'should respond with statuses, scoped to project' do
-        expect(subject.body).to include_json('Statuses'.to_json).at_path('_type')
-        expect(subject.body).to have_json_size(4).at_path('_embedded/statuses')
+      context 'not logged in user' do
+        before do
+          get get_path
+        end
+
+        it_behaves_like 'error response',
+                        403,
+                        'MissingPermission',
+                        I18n.t('api_v3.errors.code_403')
       end
     end
   end

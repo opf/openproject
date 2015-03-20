@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,44 +26,46 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'securerandom'
+
 module API
   module V3
     module Queries
-      class QueriesAPI < Grape::API
-
+      class QueriesAPI < ::API::OpenProjectAPI
         resources :queries do
-
           params do
             requires :id, desc: 'Query id'
           end
-          namespace ':id' do
-
+          route_param :id do
             before do
               @query = Query.find(params[:id])
-              model = ::API::V3::Queries::QueryModel.new(@query)
-              @representer =  ::API::V3::Queries::QueryRepresenter.new(model)
+              @representer =  ::API::V3::Queries::QueryRepresenter.new(@query)
             end
 
             helpers do
-              def allowed_to_manage_stars?
-                (@query.is_public? && current_user.allowed_to?(:manage_public_queries, @query.project)) ||
-                  (!@query.is_public?  && (current_user.admin? ||
-                    (current_user.allowed_to?(:save_queries, @query.project) && @query.user_id == current_user.id)))
+              def authorize_by_policy(action)
+                authorize_by_with_raise do
+                  QueryPolicy.new(current_user).allowed?(@query, action)
+                end
               end
             end
 
             patch :star do
-              authorize({ controller: :queries, action: :star }, context: @query.project, allow: allowed_to_manage_stars?)
-              normalized_query_name = @query.name.parameterize.underscore
-              query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id(
-                normalized_query_name, @query.id, title: @query.name
+              authorize_by_policy(:star)
+
+              # Query name is not user-visible, but apparently used as CSS class. WTF.
+              # Normalizing the query name can result in conflicts and empty names in case all
+              # characters are filtered out. A random name doesn't have these problems.
+              query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_navigatable_id(
+                @query.id, name: SecureRandom.uuid, title: @query.name
               )
               query_menu_item.save!
               @representer
             end
 
             patch :unstar do
-              authorize({ controller: :queries, action: :unstar }, context: @query.project, allow: allowed_to_manage_stars?)
+              authorize_by_policy(:unstar)
+
               query_menu_item = @query.query_menu_item
               return @representer if @query.query_menu_item.nil?
               query_menu_item.destroy
@@ -71,9 +73,7 @@ module API
               @representer
             end
           end
-
         end
-
       end
     end
   end

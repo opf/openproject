@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,12 +32,11 @@
 # statuses that can be reached by the workflows of the project
 module Api
   module V2
-
     class StatusesController < ApplicationController
       include PaginationHelper
 
       include ::Api::V2::ApiController
-      rescue_from ActiveRecord::RecordNotFound, with: lambda{render_404}
+      rescue_from ActiveRecord::RecordNotFound, with: lambda { render_404 }
 
       unloadable
 
@@ -61,10 +60,10 @@ module Api
       end
 
       protected
-        def resolve_project
-          @project = Project.find(params[:project_id]) if params[:project_id]
-        end
+
+      def resolve_project
+        @project = Project.find(params[:project_id]) if params[:project_id]
+      end
     end
   end
-
 end

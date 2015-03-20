@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
-describe AccountController, :type => :controller do
+describe AccountController, type: :controller do
   after do
     User.current = nil
   end
@@ -74,7 +74,65 @@ describe AccountController, :type => :controller do
 
         it 'redirects to the first login page with a back_url' do
           expect(response).to redirect_to(
-            my_first_login_path(:back_url => 'https://example.net/some_back_url'))
+            my_first_login_path(back_url: 'https://example.net/some_back_url'))
+        end
+      end
+
+      describe 'strategy attribute mapping override' do
+        let(:omniauth_strategy) { double('Google Strategy') }
+        let(:omniauth_hash) do
+          OmniAuth::AuthHash.new(
+            provider: 'google',
+            uid: 'foo',
+            info: { email: 'whattheheck@example.com',
+                    first_name: 'what',
+                    last_name: 'theheck'
+            },
+            extra: { raw_info: {
+              real_uid: 'bar@example.org',
+              first_name: 'foo',
+              last_name: 'bar'
+            } }
+          )
+        end
+
+        before do
+          request.env['omniauth.auth'] = omniauth_hash
+          request.env['omniauth.strategy'] = omniauth_strategy
+        end
+
+        context 'available' do
+          it 'merges the strategy mapping' do
+            allow(omniauth_strategy).to receive(:omniauth_hash_to_user_attributes) do |auth|
+              raw_info = auth[:extra][:raw_info]
+              {
+                login: raw_info[:real_uid],
+                firstname: raw_info[:first_name],
+                lastname: raw_info[:last_name]
+              }
+            end
+
+            expect(omniauth_strategy).to receive(:omniauth_hash_to_user_attributes)
+
+            post :omniauth_login
+
+            user = User.find_by_login('bar@example.org')
+            expect(user).to be_an_instance_of(User)
+            expect(user.firstname).to eql('foo')
+            expect(user.lastname).to eql('bar')
+          end
+        end
+
+        context 'unavailable' do
+          it 'keeps the default mapping' do
+
+            post :omniauth_login
+
+            user = User.find_by_login('whattheheck@example.com')
+            expect(user).to be_an_instance_of(User)
+            expect(user.firstname).to eql('what')
+            expect(user.lastname).to eql('theheck')
+          end
         end
       end
 
@@ -84,7 +142,7 @@ describe AccountController, :type => :controller do
             provider: 'google',
             uid: '123545',
             info: { name: 'foo', email: 'foo@bar.com' }
-            # first_name and last_name not set
+          # first_name and last_name not set
           )
         end
 
@@ -106,10 +164,10 @@ describe AccountController, :type => :controller do
             omniauth: true,
             timestamp: Time.new)
           session[:auth_source_registration] = auth_source_registration
-          post :register, :user => { :login => 'login@bar.com',
-                                     :firstname => 'Foo',
-                                     :lastname => 'Smith',
-                                     :mail => 'foo@bar.com' }
+          post :register, user: { login: 'login@bar.com',
+                                  firstname: 'Foo',
+                                  lastname: 'Smith',
+                                  mail: 'foo@bar.com' }
           expect(response).to redirect_to my_first_login_path
 
           user = User.find_by_login('login@bar.com')
@@ -128,9 +186,9 @@ describe AccountController, :type => :controller do
           end
 
           it 'does not register the user when providing all the missing fields' do
-            post :register, :user => { firstname: 'Foo',
-                                       lastname: 'Smith',
-                                       mail: 'foo@bar.com' }
+            post :register, user: { firstname: 'Foo',
+                                    lastname: 'Smith',
+                                    mail: 'foo@bar.com' }
 
             expect(response).to redirect_to signin_path
             expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
@@ -138,9 +196,9 @@ describe AccountController, :type => :controller do
           end
 
           it 'does not register the user when providing all the missing fields' do
-            post :register, :user => { firstname: 'Foo',
-                                       # lastname intentionally not provided
-                                       mail: 'foo@bar.com' }
+            post :register, user: { firstname: 'Foo',
+                                    # lastname intentionally not provided
+                                    mail: 'foo@bar.com' }
 
             expect(response).to redirect_to signin_path
             expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
