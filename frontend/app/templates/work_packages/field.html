@@ -1,17 +1,21 @@
 <div class="work-package-field">
-  <div class="editable-branch" ng-if="vm.isEditable">
-    <div inplace-editor
-         ined-type="{{ vm.inplaceType }}"
-         ined-display-strategy="{{ vm.inplaceDisplayStrategy }}"
-         ined-entity="vm.workPackage"
-         ined-attribute="{{ vm.field }}"
-         ined-attribute-embedded="vm.isEmbedded"
-         ined-attribute-title="{{ vm.label }}"
-         placeholder="-">
-    </div>
+  <div class="editable-branch" ng-if="fieldController.isEditable">
+    <inplace-editor-main-pane>
+      <inplace-editor-display-pane>
+        <div ng-bind="fieldController.readValue"></div>
+      </inplace-editor-display-pane>
+      <inplace-editor-edit-pane>
+        <input class="focus-input"
+               name="value"
+               type="text"
+               ng-disabled="fieldController.isBusy"
+               title="{{ fieldController.editTitle }}"
+               ng-model="fieldController.writeValue" />
+      </inplace-editor-edit-pane>
+    </inplace-editor-main-pane>
   </div>
-  <div class="static-branch" ng-if="!vm.isEditable">
-    <empty-element ng-if="vm.isEmpty"></empty-element>
-    <div class="field-value" ng-if="!vm.isEmpty" ng-bind="vm.value"></div>
+  <div class="static-branch" ng-if="!fieldController.isEditable">
+    <empty-element ng-if="fieldController.isEmpty"></empty-element>
+    <div class="field-value" ng-if="!fieldController.isEmpty" ng-bind="vm.value"></div>
   </div>
 </div>

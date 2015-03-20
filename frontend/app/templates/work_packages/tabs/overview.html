@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <div class="single-attribute wiki">
+  <div ng-if="false" class="single-attribute wiki">
     <span inplace-editor
           ined-type="wiki_textarea"
           ined-display-strategy="wiki_textarea"
@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<div ng-repeat="group in vm.groupedFields" ng-hide="isGroupEmpty(group.groupName)" class="attributes-group">
+<div ng-if="false" ng-repeat="group in vm.groupedFields" ng-hide="isGroupEmpty(group.groupName)" class="attributes-group">
 
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">

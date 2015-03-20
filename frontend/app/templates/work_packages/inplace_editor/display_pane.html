@@ -1,0 +1,9 @@
+<div class="ined-read-value editable" ng-hide="fieldController.isEditing" ng-click="displayPaneController.startEditing()">
+  <div ng-transclude></div>
+  <span class="editing-link-wrapper">
+    <accessible-by-keyboard execute="displayPaneController.startEditing()">
+      <icon-wrapper icon-name="edit" icon-title="{{ fieldController.editTitle }}">
+      </icon-wrapper>
+    </accessible-by-keyboard>
+  </span>
+</div>

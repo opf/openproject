@@ -158,7 +158,8 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
     getLabel: getLabel,
     format: format,
     getInplaceType: getInplaceType,
-    getInplaceDisplayStrategy: getInplaceDisplayStrategy
+    getInplaceDisplayStrategy: getInplaceDisplayStrategy,
+    defaultPlaceholder: '-'
   };
 
   return WorkPackageFieldService;

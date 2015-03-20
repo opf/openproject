@@ -26,27 +26,39 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService) {
+module.exports = function(WorkPackageFieldService, ApiHelper) {
 
   function workPackageFieldDirectiveController() {
-    var vm = this;
+    this.isEditable = WorkPackageFieldService.isEditable(this.workPackage, this.field);
+    this.isEmpty = WorkPackageFieldService.isEmpty(this.workPackage, this.field);
+    this.label = WorkPackageFieldService.getLabel(this.workPackage, this.field);
+    if (this.isEditable) {
+      this.type = 'text';
+      this.isBusy = false;
+      this.isEditing = false;
+      this.readValue = WorkPackageFieldService.getValue(this.workPackage, this.field);
+      this.writeValue = WorkPackageFieldService.getValue(this.workPackage, this.field);
+      this.placeholder = WorkPackageFieldService.defaultPlaceholder;
+      this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.field });
 
-    vm.isEditable = WorkPackageFieldService.isEditable(vm.workPackage, vm.field);
-    vm.isEmpty = WorkPackageFieldService.isEmpty(vm.workPackage, vm.field);
-    vm.label = WorkPackageFieldService.getLabel(vm.workPackage, vm.field);
-    if (vm.isEditable) {
-      vm.isEmbedded = WorkPackageFieldService.isEmbedded(vm.workPackage, vm.field);
-      vm.inplaceType = WorkPackageFieldService.getInplaceType(vm.workPackage, vm.field);
-      vm.inplaceDisplayStrategy = WorkPackageFieldService.getInplaceDisplayStrategy(vm.workPackage, vm.field);
+      this.onSuccess = function(wp) {
+        console.log(this.workPackage, wp, this.workPackage === wp);
+        this.readValue = WorkPackageFieldService.getValue(this.workPackage, this.field);
+        this.isEditing = false;
+      };
+
+      this.onFail = function(e) {
+        this.error = ApiHelper.getErrorMessage(e);
+      }
     } else {
-      vm.value = WorkPackageFieldService.format(vm.workPackage, vm.field);
+      this.value = WorkPackageFieldService.format(this.workPackage, this.field);
     }
   }
 
   return {
     restrict: 'E',
     replace: true,
-    controllerAs: 'vm',
+    controllerAs: 'fieldController',
     bindToController: true,
     templateUrl: '/templates/work_packages/field.html',
     scope: {

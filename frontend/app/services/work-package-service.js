@@ -162,7 +162,8 @@ module.exports = function($http,
       return AuthorisationService.can(modelName, action);
     },
 
-    updateWorkPackage: function(workPackage, data, notify) {
+    updateWorkPackage: function(workPackage, notify) {
+      var data = workPackage.form.pendingChanges;
       var options = { ajax: {
         method: 'PATCH',
         url: URI(workPackage.links.updateImmediately.href).addSearch('notify', notify).toString(),
@@ -172,8 +173,22 @@ module.exports = function($http,
         data: JSON.stringify(data),
         contentType: 'application/json; charset=utf-8'
       }, force: true};
-      return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
-        return workPackage;
+      return workPackage.links.updateImmediately.fetch(options).then(function() {
+        console.log('1');
+        return workPackage.links.self
+          .fetch({force: true})
+          .then(function(workPackage) {
+            console.log('2');
+            return WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
+              return workPackage.links.schema.fetch().then(function(response) {
+                console.log('3');
+                workPackage.schema = response;
+                workPackage.form.pendingChanges = {};
+                console.log('4');
+                return workPackage;
+              });
+            });
+          });
       });
     },
 

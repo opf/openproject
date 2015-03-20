@@ -1,0 +1,27 @@
+<div class="ined-edit" ng-show="fieldController.isEditing">
+  <form name="editPaneController.editForm" ng-submit="editPaneController.submit(false)" novalidate>
+    <div class="ined-input-wrapper">
+      <div class="ined-input-wrapper-inner" ng-transclude>
+      </div>
+    </div>
+    <div class="ined-dashboard">
+      <div class="ined-errors" ng-show="fieldController.error" role="alert" ng-bind="fieldController.error" aria-live="polite"></div>
+      <div class="ined-controls" ng-hide="fieldController.isBusy">
+        <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(false)" class="ined-edit-save">
+          <icon-wrapper icon-name="yes" icon-title="{{ editPaneController.saveTitle }}">
+          </icon-wrapper>
+        </accessible-by-keyboard>
+        <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(true)" class="ined-edit-save-send">
+            <span title="{{ editPaneController.saveAndSendTitle }}">
+              <i class="icon-yes"></i>
+              <i class="icon-mail"></i>
+            </span>
+        </accessible-by-keyboard>
+        <accessible-by-keyboard execute="editPaneController.discardEditing()" class="ined-edit-close">
+          <icon-wrapper icon-name="close" icon-title="{{ editPaneController.cancelTitle }}">
+          </icon-wrapper>
+        </accessible-by-keyboard>
+      </div>
+    </div>
+  </form>
+</div>
