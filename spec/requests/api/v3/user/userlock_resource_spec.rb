@@ -31,12 +31,13 @@ require 'rack/test'
 
 describe 'API v3 UserLock resource', type: :request do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryGirl.build_stubbed(:user) }
   let(:user) { FactoryGirl.create(:user, status: User::STATUSES[:active]) }
   let(:model) { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
-  let(:lock_path) { "/api/v3/users/#{user.id}/lock" }
+  let(:lock_path) { api_v3_paths.user_lock user.id }
   subject(:response) { last_response }
 
   describe '#post' do
@@ -72,7 +73,7 @@ describe 'API v3 UserLock resource', type: :request do
     end
 
     context 'requesting nonexistent user' do
-      let(:lock_path) { '/api/v3/users/9999/lock' }
+      let(:lock_path) { api_v3_paths.user_lock 9999 }
       it_behaves_like 'not found' do
         let(:id) { 9999 }
         let(:type) { 'User' }

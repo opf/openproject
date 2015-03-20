@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe '/api/v3/projects/:id/types' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, no_types: true, is_public: false) }
@@ -45,7 +46,7 @@ describe '/api/v3/projects/:id/types' do
   let!(:expected_types) { FactoryGirl.create_list(:type, 4) }
 
   describe '#get' do
-    let(:get_path) { "/api/v3/projects/#{requested_project.id}/types" }
+    let(:get_path) { api_v3_paths.types_by_project requested_project.id }
     subject(:response) { last_response }
 
     before do
