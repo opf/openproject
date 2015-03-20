@@ -30,7 +30,7 @@
 module API
   module V3
     module Render
-      class RenderAPI < Grape::API
+      class RenderAPI < ::API::OpenProjectAPI
         format :txt
         parser :txt, ::API::V3::Formatter::TxtCharset
 

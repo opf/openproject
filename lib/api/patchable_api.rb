@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,32 +27,44 @@
 #++
 
 module API
-  module V3
-    module Priorities
-      class PrioritiesAPI < ::API::OpenProjectAPI
-        resources :priorities do
-          before do
-            authorize(:view_work_packages, global: true)
+  module PatchableAPI
+    def self.included(base)
+      base.extend ClassMethods
+    end
 
-            @priorities = IssuePriority.all
-          end
+    module ClassMethods
+      def inherited(subclass)
+        super
 
-          get do
-            PriorityCollectionRepresenter.new(@priorities,
-                                              @priorities.count,
-                                              api_v3_paths.priorities)
-          end
+        # run unscoped patches (i.e. patches that are on the class root, not in a namespace)
+        subclass.send(:execute_patches_for, nil)
+      end
 
-          route_param :id do
-            before do
-              @priority = IssuePriority.find(params[:id])
-            end
+      def namespace(name, *args, &block)
+        super(name, *args) do
+          instance_eval(&block)
+          execute_patches_for(name)
+        end
+      end
 
-            get do
-              PriorityRepresenter.new(@priority, current_user: current_user)
-            end
+      # we need to repeat all the aliases for them to work properly...
+      alias_method :group, :namespace
+      alias_method :resource, :namespace
+      alias_method :resources, :namespace
+      alias_method :segment, :namespace
+
+      private
+
+      def execute_patches_for(path)
+        if patches[path]
+          patches[path].each do |patch|
+            instance_eval(&patch)
           end
         end
+      end
+
+      def patches
+        ::API::APIPatchRegistry.patches_for(self)
       end
     end
   end

@@ -220,12 +220,29 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'spentTime' do
+      before do
+        allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
+          .and_return true
+      end
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'spentTime' }
         let(:type) { 'Duration' }
         let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
         let(:required) { true }
         let(:writable) { false }
+      end
+
+      context 'not allowed to view time entries' do
+        before do
+          allow(current_user).to receive(:allowed_to?).with(:view_time_entries,
+                                                            work_package.project)
+            .and_return false
+        end
+
+        it 'does not show spentTime' do
+          is_expected.not_to have_json_path('spentTime')
+        end
       end
     end
 

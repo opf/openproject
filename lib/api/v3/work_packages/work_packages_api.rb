@@ -29,7 +29,7 @@
 module API
   module V3
     module WorkPackages
-      class WorkPackagesAPI < Grape::API
+      class WorkPackagesAPI < ::API::OpenProjectAPI
         resources :work_packages do
           params do
             requires :id, desc: 'Work package id'

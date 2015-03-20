@@ -30,7 +30,7 @@
 module API
   module V3
     module Types
-      class TypesAPI < Grape::API
+      class TypesAPI < ::API::OpenProjectAPI
         resources :types do
           before do
             authorize_any([:view_work_packages, :manage_types], global: true)

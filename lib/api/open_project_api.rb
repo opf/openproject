@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,33 +27,7 @@
 #++
 
 module API
-  module V3
-    module Priorities
-      class PrioritiesAPI < ::API::OpenProjectAPI
-        resources :priorities do
-          before do
-            authorize(:view_work_packages, global: true)
-
-            @priorities = IssuePriority.all
-          end
-
-          get do
-            PriorityCollectionRepresenter.new(@priorities,
-                                              @priorities.count,
-                                              api_v3_paths.priorities)
-          end
-
-          route_param :id do
-            before do
-              @priority = IssuePriority.find(params[:id])
-            end
-
-            get do
-              PriorityRepresenter.new(@priority, current_user: current_user)
-            end
-          end
-        end
-      end
-    end
+  class OpenProjectAPI < Grape::API
+    include ::API::PatchableAPI
   end
 end

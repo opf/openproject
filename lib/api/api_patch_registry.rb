@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,32 +27,25 @@
 #++
 
 module API
-  module V3
-    module Priorities
-      class PrioritiesAPI < ::API::OpenProjectAPI
-        resources :priorities do
-          before do
-            authorize(:view_work_packages, global: true)
+  class APIPatchRegistry
+    class << self
+      def add_patch(class_name, path, &block)
+        patch_maps_by_class[class_name] = {} unless patch_maps_by_class[class_name]
+        patch_map = patch_maps_by_class[class_name]
 
-            @priorities = IssuePriority.all
-          end
+        path = ":#{path}" if path.is_a?(Symbol)
+        patch_map[path] = [] unless patch_map[path]
+        patch_map[path] << block
+      end
 
-          get do
-            PriorityCollectionRepresenter.new(@priorities,
-                                              @priorities.count,
-                                              api_v3_paths.priorities)
-          end
+      def patches_for(klass)
+        patch_maps_by_class[klass.to_s] || {}
+      end
 
-          route_param :id do
-            before do
-              @priority = IssuePriority.find(params[:id])
-            end
+      private
 
-            get do
-              PriorityRepresenter.new(@priority, current_user: current_user)
-            end
-          end
-        end
+      def patch_maps_by_class
+        @patch_maps_by_class ||= {}
       end
     end
   end

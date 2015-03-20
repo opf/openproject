@@ -30,7 +30,7 @@ module API
   module V3
     module WorkPackages
       module Form
-        class FormAPI < Grape::API
+        class FormAPI < ::API::OpenProjectAPI
           post '/form' do
             write_work_package_attributes
             write_request_valid?
