@@ -33,7 +33,9 @@ var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var sass = require('gulp-ruby-sass');
 var watch = require('gulp-watch');
+var autoprefixer = require('gulp-autoprefixer');
 var livingstyleguide = require('gulp-livingstyleguide');
+var gulpFilter = require('gulp-filter');
 
 var protractor = require('gulp-protractor').protractor,
   webdriverStandalone = require('gulp-protractor').webdriver_standalone,
@@ -68,11 +70,15 @@ gulp.task('fonts', function() {
 gulp.task('sass', function() {
   return gulp.src('../app/assets/stylesheets/default.css.sass')
     .pipe(sass({
+      'sourcemap=none': true,
       bundleExec: true,
       loadPath: [
         './bower_components/foundation-apps/scss',
         './bower_components/bourbon/app/assets/stylesheets'
       ]
+    }))
+    .pipe(autoprefixer({
+      cascade: false
     }))
     .on('error', function(err) {
       console.log(err.message);
@@ -87,10 +93,17 @@ gulp.task('styleguide', function () {
     './bower_components/bourbon/app/assets/stylesheets'
   ].join(':');
 
+  var cssFilter = gulpFilter('**/*.css');
+
   gulp.src('../app/assets/stylesheets/styleguide.html.lsg')
-      .pipe(livingstyleguide({template: 'app/assets/styleguide.jade'}))
-      .pipe(gulp.dest('public/assets/css'));
-});
+    .pipe(livingstyleguide({template: 'app/assets/styleguide.jade'}))
+    .pipe(cssFilter)
+    .pipe(autoprefixer({
+      cascade: false
+    }))
+    .pipe(cssFilter.restore())
+    .pipe(gulp.dest('public/assets/css'));
+  });
 
 gulp.task('express', function(done) {
   var expressApp = require('./server');
