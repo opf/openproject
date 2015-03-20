@@ -80,31 +80,6 @@ module OpenProject::Backlogs::Hooks
 
       snippet << %(<div id="backlogs-attributes" class="attributes">)
 
-      if work_package.is_story?
-        snippet << '<div class="attribute_wrapper">'
-        snippet << context[:form].text_field(:story_points, :size => 3, :class => 'short')
-        snippet << '</div>'
-
-        if work_package.descendants.length != 0
-
-          snippet << javascript_tag(<<-JS)
-            (function($) {
-              $(document).ready(function() {
-                $('#issue_estimated_hours').attr('disabled', 'disabled');
-                $('#issue_remaining_hours').attr('disabled', 'disabled');
-                $('#issue_done_ratio').attr('disabled', 'disabled');
-                $('#issue_start_date').parent().hide();
-                $('#issue_due_date').parent().hide();
-              });
-            }(jQuery))
-          JS
-        end
-      end
-
-      snippet << '<div class="attribute_wrapper">'
-      snippet << context[:form].text_field(:remaining_hours, :size => 3, :class => 'short', :placeholder => l(:label_hours))
-      snippet << '</div>'
-
       params = context[:controller].params
       if work_package.is_story? && params[:copy_from]
         snippet << "<p><label for='link_to_original'>#{l(:rb_label_link_to_original)}</label>"
