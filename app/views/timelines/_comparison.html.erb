@@ -50,15 +50,16 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
 
         <div class="form--grouping-row">
-          <div class="form--field">
+          <div class="form--field -wide-label">
             <%= ff.text_field :compare_to_relative, label: l('timelines.filter.comparison.compare_relative_prefix') %>
           </div>
-          <div class="form--field">
-            <div class="form--field-container inline-label">
+          <div class="form--field -full-width">
+            <div class="form--field-container">
               <%= ff.select :compare_to_relative_unit,
                             options_for_timeunits(nil),
-                            no_label: true %>
-              <span class="form-label -transparent"><%=l('timelines.filter.comparison.compare_relative_suffix')%></span>
+              <span class="form--field-affix -transparent">
+                <%=l('timelines.filter.comparison.compare_relative_suffix')%>
+              </span>
             </div>
           </div>
         </div>

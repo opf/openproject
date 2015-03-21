@@ -405,6 +405,15 @@ fieldset.form--fieldset
   .form &
     margin-bottom: 0.5rem
 
+.form--radio-button-container
+  //prevent radio-buttons from being cut at the border
+  padding: 0 1px
+
+.form--radio-button
+  // Be on par with Foundation's margin-bottom on labels.
+  .form &
+    margin-bottom: 0.5rem
+
 .form--grouping
   @include grid-block($wrap: true)
   align-items: center
@@ -493,6 +502,10 @@ fieldset.form--fieldset
   %form--field-element-container + &
     margin-left:  -1rem
     border-left:  0
+
+  &.-transparent
+    background: none
+    border: none
 
 .form--list
   display: flex
