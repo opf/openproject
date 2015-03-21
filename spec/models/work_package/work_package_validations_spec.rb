@@ -246,5 +246,28 @@ describe WorkPackage, type: :model do
         expect(invalid_work_package.errors[:category].size).to eq(1)
       end
     end
+
+    describe 'validations of estimated hours' do
+      wp_regular = FactoryGirl.build(:work_package, estimated_hours: 1)
+      wp_zero_hours = FactoryGirl.build(:work_package, estimated_hours: 0)
+      wp_nil = FactoryGirl.build(:work_package, estimated_hours: nil)
+      wp_invalid = FactoryGirl.build(:work_package, estimated_hours: -1)
+
+      it 'should not raise for values > 0' do
+        expect(wp_regular).to be_valid
+      end
+
+      it 'should not raise for zero hours' do
+        expect(wp_zero_hours).to be_valid
+      end
+
+      it 'should not raise for nil' do
+        expect(wp_nil).to be_valid
+      end
+
+      it 'should raise for values < 0' do
+        expect(wp_invalid).not_to be_valid
+      end
+    end
   end
 end

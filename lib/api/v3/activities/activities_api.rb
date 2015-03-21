@@ -29,7 +29,7 @@
 module API
   module V3
     module Activities
-      class ActivitiesAPI < Grape::API
+      class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
 
           params do

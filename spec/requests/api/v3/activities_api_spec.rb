@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe API::V3::Activities::ActivitiesAPI, type: :request do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:admin) { FactoryGirl.create(:admin) }
   let(:comment) { 'This is a test comment!' }
@@ -68,7 +69,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
 
     shared_context 'edit activity' do
       before {
-        patch "/api/v3/activities/#{journal.id}",
+        patch api_v3_paths.activity(journal.id),
               { comment: comment }.to_json,  'CONTENT_TYPE' => 'application/json'
       }
     end

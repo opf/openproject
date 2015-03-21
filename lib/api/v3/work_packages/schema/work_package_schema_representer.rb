@@ -51,14 +51,17 @@ module API
             end
           end
 
-          schema :_type,
-                 type: 'MetaType',
-                 title: I18n.t('api_v3.attributes._type'),
-                 writable: false
+          link :self do
+            path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
+
+            unless form_embedded
+              { href: path }
+            end
+          end
 
           schema :lock_version,
                  type: 'Integer',
-                 title: I18n.t('api_v3.attributes.lock_version'),
+                 name_source: -> (*) { I18n.t('api_v3.attributes.lock_version') },
                  writable: false
 
           schema :id,
@@ -75,25 +78,29 @@ module API
 
           schema :start_date,
                  type: 'Date',
-                 required: false
+                 required: false,
+                 writable: -> { represented.start_date_writable? }
 
           schema :due_date,
                  type: 'Date',
-                 required: false
+                 required: false,
+                 writable: -> { represented.due_date_writable? }
 
           schema :estimated_time,
                  type: 'Duration',
                  required: false,
-                 writable: false
+                 writable: -> { represented.estimated_time_writable? }
 
           schema :spent_time,
                  type: 'Duration',
-                 writable: false
+                 writable: false,
+                 show_if: -> (_) { current_user_allowed_to(:view_time_entries) }
 
           schema :percentage_done,
                  type: 'Integer',
-                 title: WorkPackage.human_attribute_name(:done_ratio),
-                 writable: false
+                 name_source: :done_ratio,
+                 writable: -> { represented.percentage_done_writable? },
+                 show_if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
 
           schema :created_at,
                  type: 'DateTime',
@@ -111,10 +118,6 @@ module API
                  type: 'Project',
                  writable: false
 
-          schema :type,
-                 type: 'Type',
-                 writable: false
-
           schema_with_allowed_link :assignee,
                                    type: 'User',
                                    required: false,
@@ -129,8 +132,19 @@ module API
                                      api_v3_paths.available_responsibles(represented.project.id)
                                    }
 
+          schema_with_allowed_collection :type,
+                                         values_callback: -> (*) {
+                                           represented.assignable_types
+                                         },
+                                         value_representer: Types::TypeRepresenter,
+                                         link_factory: -> (type) {
+                                           {
+                                             href: api_v3_paths.type(type.id),
+                                             title: type.name
+                                           }
+                                         }
+
           schema_with_allowed_collection :status,
-                                         type: 'Status',
                                          values_callback: -> (*) {
                                            represented.assignable_statuses_for(current_user)
                                          },
@@ -143,7 +157,6 @@ module API
                                          }
 
           schema_with_allowed_collection :category,
-                                         type: 'Category',
                                          values_callback: -> (*) {
                                            represented.assignable_categories
                                          },
@@ -157,7 +170,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :version,
-                                         type: 'Version',
                                          values_callback: -> (*) {
                                            represented.assignable_versions
                                          },
@@ -171,7 +183,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :priority,
-                                         type: 'Priority',
                                          values_callback: -> (*) {
                                            represented.assignable_priorities
                                          },
@@ -183,12 +194,8 @@ module API
                                            }
                                          }
 
-          def current_user
-            context[:current_user]
-          end
-
-          def _type
-            'MetaType'
+          def current_user_allowed_to(permission)
+            current_user && current_user.allowed_to?(permission, represented.project)
           end
         end
       end

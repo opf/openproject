@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,23 +27,44 @@
 #++
 
 module API
-  module V3
-    module Versions
-      class VersionsProjectsAPI < Grape::API
-        resources :projects do
-          before do
-            @projects = @version.projects.visible(current_user).all
+  module PatchableAPI
+    def self.included(base)
+      base.extend ClassMethods
+    end
 
-            # Authorization for accessing the version is done in the versions
-            # endpoint into which this endpoint is embedded.
-          end
+    module ClassMethods
+      def inherited(subclass)
+        super
 
-          get do
-            Projects::ProjectCollectionRepresenter.new(@projects,
-                                                       @projects.count,
-                                                       api_v3_paths.versions_projects(@version.id))
+        # run unscoped patches (i.e. patches that are on the class root, not in a namespace)
+        subclass.send(:execute_patches_for, nil)
+      end
+
+      def namespace(name, *args, &block)
+        super(name, *args) do
+          instance_eval(&block)
+          execute_patches_for(name)
+        end
+      end
+
+      # we need to repeat all the aliases for them to work properly...
+      alias_method :group, :namespace
+      alias_method :resource, :namespace
+      alias_method :resources, :namespace
+      alias_method :segment, :namespace
+
+      private
+
+      def execute_patches_for(path)
+        if patches[path]
+          patches[path].each do |patch|
+            instance_eval(&patch)
           end
         end
+      end
+
+      def patches
+        ::API::APIPatchRegistry.patches_for(self)
       end
     end
   end

@@ -64,9 +64,13 @@ module.exports = function($scope,
       .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
         WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
-          if (callback) {
-            callback(workPackage);
-          }
+          return workPackage.links.schema.fetch().then(function(response) {
+            workPackage.schema = response;
+            if (callback) {
+              callback(workPackage);
+            }
+          });
+
         });
       });
   }
@@ -115,6 +119,9 @@ module.exports = function($scope,
 
     $scope.showStaticPagePath = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
 
+    // Type
+    $scope.type = workPackage.embedded.type;
+
     // Author
     $scope.author = workPackage.embedded.author;
     $scope.authorPath = PathHelper.staticUserPath($scope.author.props.id);
@@ -151,9 +158,6 @@ module.exports = function($scope,
         relationTypeIterator(key);
       }
     }
-
-    // Author
-    $scope.author = workPackage.embedded.author;
   }
 
   $scope.toggleWatch = function() {

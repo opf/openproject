@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Form::FormRepresenter do
+  include API::V3::Utilities::PathHelper
+
   let(:work_package) {
     FactoryGirl.build(:work_package,
                       id: 42,
@@ -63,10 +65,11 @@ describe ::API::V3::WorkPackages::Form::FormRepresenter do
 
         it 'contains link to work package' do
           body = parse_json(subject)
-          preview_markup_wp_link = body['_links']['previewMarkup']['href'].split('?')[1]
-          wp_self_link = body['_links']['commit']['href']
+          actual_preview_link = body['_links']['previewMarkup']['href']
+          expected_preview_link = api_v3_paths.render_markup format: 'textile',
+                                                             link: body['_links']['commit']['href']
 
-          expect(preview_markup_wp_link).to eq(wp_self_link)
+          expect(actual_preview_link).to eq(expected_preview_link)
         end
       end
 

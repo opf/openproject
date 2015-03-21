@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe 'API v3 Version resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:current_user) do
     user = FactoryGirl.create(:user,
@@ -53,7 +54,7 @@ describe 'API v3 Version resource' do
   subject(:response) { last_response }
 
   describe '#get (:id)' do
-    let(:get_path) { "/api/v3/versions/#{version_in_project.id}" }
+    let(:get_path) { api_v3_paths.version version_in_project.id }
 
     shared_examples_for 'successful response' do
       it 'responds with 200' do
@@ -80,7 +81,7 @@ describe 'API v3 Version resource' do
     end
 
     context 'logged in user with permission on project a version is shared with' do
-      let(:get_path) { "/api/v3/versions/#{version_in_other_project.id}" }
+      let(:get_path) { api_v3_paths.version version_in_other_project.id }
 
       before do
         version_in_other_project.save!

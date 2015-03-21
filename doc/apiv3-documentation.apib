@@ -767,7 +767,7 @@ contain a default value for that property. Nevertheless the client will also rec
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
 A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
-It is only necessary to include the properties that you want to change, as well as the `_type` and a `lockVersion` if one is present.
+It is only necessary to include the properties that you want to change, as well as the `lockVersion` if one is present.
 However you *may* include all the properties sent in the `payload` section.
 
 ### Schema
@@ -828,10 +828,6 @@ That is because the main purpose of a form is helping the client to sort out val
 
                         "lockVersion": {
                             "type": "Integer",
-                            "writable": false
-                        },
-                        "_type": {
-                            "type": "MetaType",
                             "writable": false
                         },
                         "subject": {
@@ -1618,11 +1614,6 @@ Note that regular expressions used in the API follow the rules of [Ruby Regular 
                     "type": "Integer",
                     "writable": false
                 },
-                "_type": {
-                    "name": "Resource Type",
-                    "type": "MetaType",
-                    "writable": false
-                },
                 "subject": {
                     "name": "Subject",
                     "type": "String",
@@ -1895,14 +1886,14 @@ This is an example of how a schema might look like. Note that this endpoint does
 String objects are a linkable representation of strings. They merely serve the purpose of making links to strings possible,
 e.g. to be able to provide `allowedValues` for a string typed property.
 
-## String Object [/api/v3/string_objects/{value}]
+## String Object [/api/v3/string_objects?value={value}]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/string_objects/Foo" }
+                    "self": { "href": "/api/v3/string_objects?value=Foo" }
                 },
                 "_type": "StringObject",
                 "value": "Foo"
@@ -2585,21 +2576,21 @@ Note that due to sharing this might be more than the versions *defined* by that 
 
 ## Properties:
 
-| Property         | Description                                            | Type        | Constraints                                                                  | Supported operations | Condition                        |
-| :--------------: | ------------------------------------------------------ | ----------- | ---------------------------------------------------------------------------- | -------------------- | -------------------------------- |
-| id               | Work package id                                        | Integer     | x > 0                                                                        | READ                 |                                  |
-| lockVersion      | The version of the item as used for optimistic locking | Integer     |                                                                              | READ                 |                                  |
-| subject          | Work package subject                                   | String      | not null; 1 <= length <= 255                                                 | READ / WRITE         |                                  |
-| type             | Name of the work package's type                        | String      | not null                                                                     | READ                 |                                  |
-| description      | The work package description                           | Formattable |                                                                              | READ / WRITE         |                                  |
-| parentId         | Parent work package id                                 | Integer     | Must be an id of an existing and visible (for the current user) work package | READ / WRITE         |                                  |
-| startDate        |                                                        | Date        | must be equal or greater than the soonest possible start date                | READ / WRITE         |                                  |
-| dueDate          |                                                        | Date        | must be greater than or equal to the start date                              | READ / WRITE         |                                  |
-| estimatedTime    |                                                        | Duration    |                                                                              | READ                 |                                  |
-| spentTime        |                                                        | Duration    |                                                                              | READ                 | **Permission** view time entries |
-| percentageDone   |                                                        | Integer     | 0 <= x <= 100                                                                | READ                 |                                  |
-| createdAt        | Time of creation                                       | DateTime    |                                                                              | READ                 |                                  |
-| updatedAt        | Time of the most recent change to the work package     | DateTime    |                                                                              | READ                 |                                  |
+| Property         | Description                                            | Type        | Constraints                                                                                            | Supported operations | Condition                        |
+| :--------------: | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------ | -------------------- | -------------------------------- |
+| id               | Work package id                                        | Integer     | x > 0                                                                                                  | READ                 |                                  |
+| lockVersion      | The version of the item as used for optimistic locking | Integer     |                                                                                                        | READ                 |                                  |
+| subject          | Work package subject                                   | String      | not null; 1 <= length <= 255                                                                           | READ / WRITE         |                                  |
+| type             | Name of the work package's type                        | String      | not null                                                                                               | READ                 |                                  |
+| description      | The work package description                           | Formattable |                                                                                                        | READ / WRITE         |                                  |
+| parentId         | Parent work package id                                 | Integer     | Must be an id of an existing and visible (for the current user) work package                           | READ / WRITE         |                                  |
+| startDate        | Scheduled beginning of a work package                  | Date        | Cannot be set for parent work packages; must be equal or greater than the earliest possible start date | READ / WRITE         |                                  |
+| dueDate          | Scheduled end of a work package                        | Date        | Cannot be set for parent work packages; must be greater than or equal to the start date                | READ / WRITE         |                                  |
+| estimatedTime    | Time a work package likely needs to be completed       | Duration    | Cannot be set for parent work packages                                                                 | READ / WRITE         |                                  |
+| spentTime        |                                                        | Duration    |                                                                                                        | READ                 | **Permission** view time entries |
+| percentageDone   | Amount of total completion for a work package          | Integer     | 0 <= x <= 100; Cannot be set for parent work packages                                                  | READ / WRITE         |                                  |
+| createdAt        | Time of creation                                       | DateTime    |                                                                                                        | READ                 |                                  |
+| updatedAt        | Time of the most recent change to the work package     | DateTime    |                                                                                                        | READ                 |                                  |
 
 *Note that the properties listed here only cover the built-in properties of the OpenProject Core.
 Using plug-ins and custom fields a work package might contain various additional properties.
@@ -2609,6 +2600,15 @@ all properties of the linking work package, including properties added by plug-i
 *Custom fields are identified by a key in the form of `customFieldN`, where `N` is an integer. Depending on their type,
 they can occur as properties or as linked properties. A client has to consult the schema to resolve
 the human readable name of custom fields.*
+
+*Properties that cannot be set directly on parent work packages are inferred from their children instead:*
+
+* `startDate` is the earliest start date from its children
+* `dueDate` is the latest due date from its children
+* `estimatedTime` is the sum of estimated times from its children
+* `percentageDone` is the weighted average of the sum of its children percentages done. The weight is given by the average of its children estimatedHours. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
+
+*Start date can also not be earlier than a due date of any predecessor.*
 
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
@@ -2768,10 +2768,8 @@ the human readable name of custom fields.*
 When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
 Note that it is only allowed to provide properties or links supporting the **write** operation.
 
-Additionally to the fields the client wants to change, it is mandatory to provide:
-
-* The `_type` which should as of now always be `WorkPackage`
-* The value of `lockVersion` which was received by the `GET` request this change originates from
+Additionally to the fields the client wants to change, it is mandatory to provide the value of `lockVersion` which was received
+by the `GET` request this change originates from.
 
 The value of `lockVersion` is used to implement [optimistic locking](http://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
@@ -2785,7 +2783,6 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 + Request (application/json)
 
         {
-            "_type": "WorkPackage",
             "lockVersion": 13,
             "subject": "Lorem"
             "parentId": "42"

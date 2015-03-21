@@ -213,8 +213,10 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
           $scope.hasEmptyOption = true;
         }
         if ($scope.embedded) {
-          $scope.readValue = getReadAttributeValue($scope);
-          setEmbeddedOptions($scope);
+          $scope.readValue = this._getReadAttributeValue($scope);
+          if ($scope.isEditable) {
+            this._setEmbeddedOptions($scope);
+          }
         } else {
           $scope.readValue = $scope.entity.embedded[$scope.attribute];
         }
@@ -228,8 +230,13 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
     }
   };
 
+  // when you need to expose inner functions like that for test
+  // it's a sign that it should be in a service
+  this._setEmbeddedOptions = setEmbeddedOptions;
+  this._getReadAttributeValue = getReadAttributeValue;
+
   this.dispatchHook = function($scope, action, data) {
     var actionFunction = hooks[$scope.type][action] || hooks._fallback[action] || angular.noop;
-    return actionFunction($scope, data);
+    return actionFunction.call(this, $scope, data);
   };
 };

@@ -30,7 +30,7 @@
 module API
   module V3
     module Categories
-      class CategoriesByProjectAPI < Grape::API
+      class CategoriesByProjectAPI < ::API::OpenProjectAPI
         resources :categories do
           before do
             @categories = @project.categories

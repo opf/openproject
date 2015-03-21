@@ -35,6 +35,10 @@ class CustomValue::FormatStrategy
     @custom_value = custom_value
   end
 
+  def value_present?
+    !value.blank?
+  end
+
   # Returns the value of the CustomValue in a typed fashion (i.e. not as the string
   # that is used for representation in the database)
   def typed_value

@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_text_field :work_packages_export_limit, :size => 6 %></div>
   </section>
   <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:setting_column_options) %></legend>
-    <%= settings_multiselect([:work_package_list_default_columns, :work_package_list_summable_columns],
+    <%= settings_matrix([:work_package_list_default_columns, :work_package_list_summable_columns],
   Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label_choices => :setting_work_package_properties) %>
   </fieldset>
   <%= styled_submit_tag l(:button_save), class: '-highlight' %>

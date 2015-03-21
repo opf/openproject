@@ -29,7 +29,7 @@
 module API
   module V3
     module Projects
-      class AvailableAssigneesAPI < Grape::API
+      class AvailableAssigneesAPI < ::API::OpenProjectAPI
         resource :available_assignees do
           get do
             authorize(:view_project, context: @project)

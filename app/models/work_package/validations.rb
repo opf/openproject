@@ -60,6 +60,8 @@ module WorkPackage::Validations
     validate :validate_category
 
     validate :validate_children
+
+    validate :validate_estimated_hours
   end
 
   def validate_start_date_before_soonest_start_date
@@ -126,6 +128,12 @@ module WorkPackage::Validations
       child.errors.each do |_, value|
         errors.add(:"##{child.id}", value)
       end
+    end
+  end
+
+  def validate_estimated_hours
+    if !estimated_hours.nil? && estimated_hours < 0
+      errors.add :estimated_hours, :only_values_greater_or_equal_zeroes_allowed
     end
   end
 

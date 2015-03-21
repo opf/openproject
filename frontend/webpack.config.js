@@ -42,7 +42,7 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
-                  path.resolve(__dirname, './public') + '!html'
+                  path.resolve(__dirname, './app') + '!html'
       },
     ]
   },

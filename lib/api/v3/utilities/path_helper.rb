@@ -86,6 +86,14 @@ module API
             "#{root}/queries/#{id}"
           end
 
+          def self.query_star(id)
+            "#{query(id)}/star"
+          end
+
+          def self.query_unstar(id)
+            "#{query(id)}/unstar"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end
@@ -95,13 +103,9 @@ module API
             format = 'plain' if format == '' # Setting will return '' for plain
 
             path = "#{root}/render/#{format}"
-            path += "?#{link}" if link
+            path += "?context=#{link}" if link
 
             path
-          end
-
-          def self.render_textile(link)
-            render_markup(format: :textile, link: link)
           end
 
           def self.statuses
@@ -113,7 +117,19 @@ module API
           end
 
           def self.string_object(value)
-            "#{root}/string_objects/#{::ERB::Util::url_encode(value)}"
+            "#{root}/string_objects?value=#{::ERB::Util::url_encode(value)}"
+          end
+
+          def self.types
+            "#{root}/types"
+          end
+
+          def self.types_by_project(project_id)
+            "#{project(project_id)}/types"
+          end
+
+          def self.type(id)
+            "#{types}/#{id}"
           end
 
           def self.users
@@ -132,11 +148,11 @@ module API
             "#{root}/versions/#{version_id}"
           end
 
-          def self.versions(project_id)
+          def self.versions_by_project(project_id)
             "#{project(project_id)}/versions"
           end
 
-          def self.versions_projects(version_id)
+          def self.projects_by_version(version_id)
             "#{version(version_id)}/projects"
           end
 

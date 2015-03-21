@@ -126,7 +126,7 @@ describe WorkPackage, type: :model do
 
           subject { work_package.errors.full_messages.first }
 
-          it { is_expected.to eq('Database is not included in the list') }
+          it { is_expected.to eq("Database #{I18n.t('activerecord.errors.messages.inclusion')}") }
         end
       end
 

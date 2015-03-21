@@ -53,54 +53,41 @@ module API
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-          def self.linked_property(property_name: nil,
-                                   namespace: nil,
-                                   method: nil,
-                                   path: nil)
+          def self.linked_property(property,
+                                   namespace: property.to_s.pluralize,
+                                   association: "#{property}_id",
+                                   path: property,
+                                   show_if: true)
 
-            property property_name,
+            property property,
                      exec_context: :decorator,
                      getter: -> (*) {
-                       get_path(get_method: method,
+                       get_path(get_method: association,
                                 path: path)
                      },
                      setter: -> (value, *) {
-                       parse_link(property: property_name,
+                       parse_link(property: property,
                                   namespace: namespace,
                                   value: value,
-                                  setter_method: :"#{method}=")
-                     }
+                                  setter_method: :"#{association}=")
+                     },
+                     if: show_if
           end
 
-          linked_property(property_name: :status,
-                          namespace: :statuses,
-                          method: :status_id,
-                          path: :status)
-
-          linked_property(property_name: :assignee,
+          linked_property :type
+          linked_property :status
+          linked_property :assignee,
                           namespace: :users,
-                          method: :assigned_to_id,
-                          path: :user)
-
-          linked_property(property_name: :responsible,
+                          association: :assigned_to_id,
+                          path: :user
+          linked_property :responsible,
                           namespace: :users,
-                          method: :responsible_id,
-                          path: :user)
-
-          linked_property(property_name: :category,
-                          namespace: :categories,
-                          method: :category_id,
-                          path: :category)
-
-          linked_property(property_name: :version,
-                          namespace: :versions,
-                          method: :fixed_version_id,
-                          path: :version)
-
-          linked_property(property_name: :priority,
-                          namespace: :priorities,
-                          method: :priority_id,
-                          path: :priority)
+                          association: :responsible_id,
+                          path: :user
+          linked_property :category
+          linked_property :version,
+                          association: :fixed_version_id
+          linked_property :priority
 
           private
 

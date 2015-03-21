@@ -170,7 +170,7 @@ module API
 
           @class.schema_with_allowed_collection property_name(custom_field.id),
                                                 type: 'Version',
-                                                title: custom_field.name,
+                                                name_source: -> (*) { custom_field.name },
                                                 values_callback: -> (*) {
                                                   # for now we ASSUME that every customized will
                                                   # understand define that method if it has
@@ -192,7 +192,7 @@ module API
 
           @class.schema_with_allowed_link property_name(custom_field.id),
                                           type: 'User',
-                                          title: custom_field.name,
+                                          name_source: -> (*) { custom_field.name },
                                           required: custom_field.is_required,
                                           href_callback: -> (*) {
                                             # for now we ASSUME that every customized that has a
@@ -205,7 +205,7 @@ module API
           representer = StringObjects::StringObjectRepresenter
           @class.schema_with_allowed_collection property_name(custom_field.id),
                                                 type: 'StringObject',
-                                                title: custom_field.name,
+                                                name_source: -> (*) { custom_field.name },
                                                 values_callback: -> (*) {
                                                   custom_field.possible_values
                                                 },
@@ -222,7 +222,7 @@ module API
         def inject_basic_schema(custom_field)
           @class.schema property_name(custom_field.id),
                         type: TYPE_MAP[custom_field.field_format],
-                        title: custom_field.name,
+                        name_source: -> (*) { custom_field.name },
                         required: custom_field.is_required,
                         writable: true,
                         min_length: (custom_field.min_length if custom_field.min_length > 0),
@@ -243,8 +243,12 @@ module API
 
         def link_value_getter_for(custom_field, path_method)
           -> (*) {
-            value = represented.send custom_field.accessor_name
-            path = api_v3_paths.send(path_method, value.is_a?(String) ? value : value.id) if value
+            # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
+            # because we need to generate a link even if the id does not belong to an existing
+            # object (that behaviour is only required for form payloads)
+            custom_value = represented.custom_value_for(custom_field)
+            value = custom_value ? custom_value.value : nil
+            path = api_v3_paths.send(path_method, value) if value
 
             { href: path }
           }

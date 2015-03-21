@@ -44,7 +44,7 @@ module API
 
         link :availableInProjects do
           {
-            href: api_v3_paths.versions_projects(represented.id)
+            href: api_v3_paths.projects_by_version(represented.id)
           }
         end
 

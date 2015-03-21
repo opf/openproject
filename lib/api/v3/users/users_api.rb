@@ -29,7 +29,7 @@
 module API
   module V3
     module Users
-      class UsersAPI < Grape::API
+      class UsersAPI < ::API::OpenProjectAPI
         helpers do
           def user_transition(allowed)
             if allowed

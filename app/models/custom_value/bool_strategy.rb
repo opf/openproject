@@ -28,10 +28,16 @@
 #++
 
 class CustomValue::BoolStrategy < CustomValue::FormatStrategy
+  def value_present?
+    # can't use :blank? safely, because false.blank? == true
+    # can't use :present? safely, because false.present? == false
+    !value.nil? && value != ''
+  end
+
   def typed_value
-    unless value.blank?
-      value == '1'
-    end
+    return nil unless value_present?
+
+    value == '1' || value == true
   end
 
   def validate_type_of_value

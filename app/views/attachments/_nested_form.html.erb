@@ -39,11 +39,13 @@ an attachments_attributes= and not every model supports this we build a nested f
             end
 %>
 
-<fieldset id="attachments" class="header_collapsible collapsible collapsed">
+<% open ||= false %>
+
+<fieldset id="attachments" class="header_collapsible collapsible<%= open ? '' : ' collapsed' %>">
   <legend title="<%=l(:description_attachment_toggle)%>", onclick="toggleFieldset(this);">
     <a href="javascript:"><%=l(:label_attachment_plural)%></a>
   </legend>
-  <div style="display: none;">
+  <div <%= 'style="display: none;"' unless open %>>
     <div id="attachments_fields">
       <div class="grid-block" id="attachment_template">
         <div class="form--field">

@@ -74,31 +74,11 @@ module SettingsHelper
       end
   end
 
-  def settings_multiselect(settings, choices, options = {})
-    ('<table>' +
-      '<thead>' +
-        '<tr>' +
-          '<th>' + I18n.t(options[:label_choices] || :label_choices) + '</th>' +
-          settings.map do |setting|
-            '<th>' + hidden_field_tag("settings[#{setting}][]", '') + I18n.t('setting_' + setting.to_s) + '</th>'
-          end.join +
-        '</tr>' +
-      '</thead>' +
-      '<tbody>' +
-        choices.map do |choice|
-          text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
-          '<tr>' +
-            '<td>' + h(text) + '</td>' +
-            settings.map do |setting|
-              '<td align="center">' +
-                styled_check_box_tag("settings[#{setting}][]", value,
-                                     Setting.send(setting).include?(value),
-                                     id: "#{setting}_#{value}", class: 'form--check-box') + '</td>'
-            end.join +
-          '</tr>'
-        end.join +
-      '</tbody>' +
-    '</table>').html_safe
+  def settings_matrix(settings, choices, options = {})
+    content_tag(:table, class: 'form--matrix') do
+      content_tag(:thead, build_settings_matrix_head(settings, options)) +
+        content_tag(:tbody, build_settings_matrix_body(settings, choices))
+    end
   end
 
   def setting_text_field(setting, options = {})
@@ -151,5 +131,34 @@ module SettingsHelper
     else
       block.call
     end
+  end
+
+  def build_settings_matrix_head(settings, options = {})
+    content_tag(:tr, class: 'form--matrix-header-row') do
+      content_tag(:th, I18n.t(options[:label_choices] || :label_choices),
+                  class: 'form--matrix-header-cell') +
+        settings.map do |setting|
+          content_tag(:th, class: 'form--matrix-header-cell') do
+            hidden_field_tag("settings[#{setting}][]", '') +
+              I18n.t("setting_#{setting}")
+          end
+        end.join.html_safe
+    end
+  end
+
+  def build_settings_matrix_body(settings, choices)
+    choices.map do |choice|
+      text, value = (choice.is_a?(Array)) ? choice : [choice, choice]
+      content_tag(:tr, class: 'form--matrix-row') do
+        content_tag(:td, text, class: 'form--matrix-cell') +
+          settings.map do |setting|
+            content_tag(:td, class: 'form--matrix-checkbox-cell') do
+              styled_check_box_tag("settings[#{setting}][]", value,
+                                   Setting.send(setting).include?(value),
+                                   id: "#{setting}_#{value}")
+            end
+          end.join.html_safe
+      end
+    end.join.html_safe
   end
 end

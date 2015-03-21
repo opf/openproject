@@ -27,25 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Versions
-      class ProjectsVersionsAPI < Grape::API
-        resources :versions do
-          before do
-            @versions = @project.shared_versions.all
+def with_created_filesystem_repository(&block)
+  let(:repository) do
+    repo = FactoryGirl.build(:repository)
 
-            authorize_any [:view_work_packages, :manage_versions], @project
-          end
-
-          get do
-            VersionCollectionRepresenter.new(@versions,
-                                             @versions.count,
-                                             api_v3_paths.versions(@project.identifier),
-                                             context: { current_user: current_user })
-          end
-        end
-      end
+    # ignoring the bugs on url as those are expected:
+    # 1) directory is not existing
+    # 2) configuration is not whitelisting the directory
+    if repo.valid? || (repo.errors.keys - [:url]).empty?
+      repo.save(validate: false)
+    else
+      repo.save!
     end
+
+    repo
   end
+
+  before do
+    allow(Setting).to receive(:enabled_scm).and_return(["Filesystem"])
+  end
+
+  block.call
 end

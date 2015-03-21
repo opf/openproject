@@ -32,6 +32,7 @@ require 'rack/test'
 describe 'API v3 Work package resource', type: :request do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
+  include API::V3::Utilities::PathHelper
 
   let(:closed_status) { FactoryGirl.create(:closed_status) }
 
@@ -89,7 +90,7 @@ h4. things we like
   let(:type) { FactoryGirl.create(:type) }
 
   describe '#get' do
-    let(:get_path) { "/api/v3/work_packages/#{work_package.id}" }
+    let(:get_path) { api_v3_paths.work_package work_package.id }
     let(:expected_response) do
       {
         '_type' => 'WorkPackage',
@@ -173,7 +174,7 @@ h4. things we like
       end
 
       context 'requesting nonexistent work package' do
-        let(:get_path) { '/api/v3/work_packages/909090' }
+        let(:get_path) { api_v3_paths.work_package 909090 }
 
         it_behaves_like 'not found'
       end
@@ -198,9 +199,8 @@ h4. things we like
     end
   end
 
-  # disabled the its below because the implementation was temporarily disabled
   describe '#patch' do
-    let(:patch_path) { "/api/v3/work_packages/#{work_package.id}" }
+    let(:patch_path) { api_v3_paths.work_package work_package.id }
     let(:valid_params) do
       {
         _type: 'WorkPackage',
@@ -271,14 +271,14 @@ h4. things we like
         end
 
         context 'disabled' do
-          let(:patch_path) { "/api/v3/work_packages/#{work_package.id}?notify=false" }
+          let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=false" }
           let(:params) { update_params }
 
           it { expect(subject).to be_empty }
         end
 
         context 'enabled' do
-          let(:patch_path) { "/api/v3/work_packages/#{work_package.id}?notify=Something" }
+          let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=Something" }
           let(:params) { update_params }
 
           it { expect(subject.count).to eq(1) }
@@ -418,7 +418,7 @@ h4. things we like
 
       context 'status' do
         let(:target_status) { FactoryGirl.create(:status) }
-        let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
+        let(:status_link) { api_v3_paths.status target_status.id }
         let(:status_parameter) { { _links: { status: { href: status_link } } } }
         let(:params) { valid_params.merge(status_parameter) }
 
@@ -457,7 +457,7 @@ h4. things we like
         end
 
         context 'wrong resource' do
-          let(:status_link) { "/api/v3/users/#{current_user.id}" }
+          let(:status_link) { api_v3_paths.user current_user.id }
 
           include_context 'patch request'
 
@@ -467,6 +467,71 @@ h4. things we like
                      property: 'status',
                      expected: '/api/v3/statuses/:id',
                      actual: status_link)
+            }
+          end
+        end
+      end
+
+      context 'type' do
+        let(:target_type) { FactoryGirl.create(:type) }
+        let(:type_link) { api_v3_paths.type target_type.id }
+        let(:type_parameter) { { _links: { type: { href: type_link } } } }
+        let(:params) { valid_params.merge(type_parameter) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context 'valid type' do
+          before do
+            project.types << target_type
+          end
+
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with updated work package type' do
+            expect(subject.body).to be_json_eql(target_type.name.to_json)
+              .at_path('_embedded/type/name')
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+
+        context 'valid type changing custom fields' do
+          let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+
+          before do
+            project.types << target_type
+            project.work_package_custom_fields << custom_field
+            target_type.custom_fields << custom_field
+          end
+
+          include_context 'patch request'
+
+          it 'responds with the new custom field added' do
+            expect(subject.body).to have_json_path("customField#{custom_field.id}")
+          end
+        end
+
+        context 'invalid type' do
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation' do
+            let(:message) { "Type #{I18n.t('activerecord.errors.messages.inclusion')}" }
+          end
+        end
+
+        context 'wrong resource' do
+          let(:type_link) { api_v3_paths.user current_user.id }
+
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation' do
+            let(:message) {
+              I18n.t('api_v3.errors.invalid_resource',
+                     property: 'type',
+                     expected: '/api/v3/types/:id',
+                     actual: type_link)
             }
           end
         end
@@ -532,7 +597,7 @@ h4. things we like
             end
 
             context 'user' do
-              let(:user_href) { "/api/v3/users/#{user.id}" }
+              let(:user_href) { api_v3_paths.user user.id }
 
               include_context 'patch request'
 
@@ -542,7 +607,7 @@ h4. things we like
             end
 
             context 'group' do
-              let(:user_href) { "/api/v3/users/#{group.id}" }
+              let(:user_href) { api_v3_paths.user group.id }
 
               include_context 'setup group membership', true
               include_context 'patch request'
@@ -557,7 +622,7 @@ h4. things we like
             include_context 'patch request'
 
             context 'user doesn\'t exist' do
-              let(:user_href) { '/api/v3/users/909090' }
+              let(:user_href) { api_v3_paths.user 909090 }
 
               it_behaves_like 'constraint violation' do
                 let(:message) {
@@ -570,7 +635,7 @@ h4. things we like
 
             context 'user is not visible' do
               let(:invalid_user) { FactoryGirl.create(:user) }
-              let(:user_href) { "/api/v3/users/#{invalid_user.id}" }
+              let(:user_href) { api_v3_paths.user invalid_user.id }
 
               it_behaves_like 'constraint violation' do
                 let(:message) {
@@ -581,7 +646,7 @@ h4. things we like
             end
 
             context 'wrong resource' do
-              let(:user_href) { "/api/v3/statuses/#{work_package.status.id}" }
+              let(:user_href) { api_v3_paths.status work_package.status.id }
 
               include_context 'patch request'
 
@@ -595,8 +660,8 @@ h4. things we like
               end
             end
 
-            context 'group assignement disabled' do
-              let(:user_href) { "/api/v3/users/#{group.id}" }
+            context 'group assignment disabled' do
+              let(:user_href) { api_v3_paths.user group.id }
 
               include_context 'setup group membership', false
               include_context 'patch request'
@@ -622,7 +687,7 @@ h4. things we like
 
       context 'version' do
         let(:target_version) { FactoryGirl.create(:version, project: project) }
-        let(:version_link) { "/api/v3/versions/#{target_version.id}" }
+        let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
         let(:params) { valid_params.merge(version_parameter) }
 
@@ -644,7 +709,7 @@ h4. things we like
 
       context 'category' do
         let(:target_category) { FactoryGirl.create(:category, project: project) }
-        let(:category_link) { "/api/v3/categories/#{target_category.id}" }
+        let(:category_link) { api_v3_paths.category target_category.id }
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
         let(:params) { valid_params.merge(category_parameter) }
 
@@ -666,7 +731,7 @@ h4. things we like
 
       context 'priority' do
         let(:target_priority) { FactoryGirl.create(:priority) }
-        let(:priority_link) { "/api/v3/priorities/#{target_priority.id}" }
+        let(:priority_link) { api_v3_paths.priority target_priority.id }
         let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
         let(:params) { valid_params.merge(priority_parameter) }
 

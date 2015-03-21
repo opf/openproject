@@ -296,6 +296,10 @@ class Repository < ActiveRecord::Base
     ret
   end
 
+  def self.configured?
+    true
+  end
+
   private
 
   # Strips url and root_url
