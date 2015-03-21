@@ -30,17 +30,18 @@
   <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel">
   </span>
 
-  <div class="select-type">{{ type.props.name }}:&nbsp;</div>
+  <div class="work-packages--details--title">
+    <div class="work-packages--details--type">{{ type.props.name }}:</div>
 
-  <div
-    class="wp-subject"
-    inplace-editor
-    ined-type="text"
-    ined-entity="workPackage"
-    ined-attribute="subject"
-    ined-attribute-title="{{ I18n.t('js.work_packages.properties.subject') }}"
-    title="{{ workPackage.props.subject }}"
-  ></div>
+    <div class="work-packages--details--subject"
+         inplace-editor
+         ined-type="text"
+         ined-entity="workPackage"
+         ined-attribute="subject"
+         ined-attribute-title="{{ I18n.t('js.work_packages.properties.subject') }}"
+         title="{{ workPackage.props.subject }}">
+    </div>
+  </div>
 
   <span class="subtitle">
     <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()"
