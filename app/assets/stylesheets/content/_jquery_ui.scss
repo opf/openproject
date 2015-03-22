@@ -167,18 +167,13 @@
 .ui-widget-content .ui-priority-secondary,
 .ui-widget-header .ui-priority-secondary {
   opacity: .7;
-  filter:Alpha(Opacity=70);
   font-weight: normal;
 }
 .ui-state-disabled,
 .ui-widget-content .ui-state-disabled,
 .ui-widget-header .ui-state-disabled {
   opacity: .35;
-  filter:Alpha(Opacity=35);
   background-image: none;
-}
-.ui-state-disabled .ui-icon {
-  filter:Alpha(Opacity=35); /* For IE8 - See #6059 */
 }
 
 /* Icons
@@ -426,13 +421,11 @@
 .ui-widget-overlay {
   background: #aaaaaa/*{bgColorOverlay}*/;
   opacity: .3/*{opacityOverlay}*/;
-  filter: Alpha(Opacity=30)/*{opacityFilterOverlay}*/;
 }
 .ui-widget-shadow {
   margin: -8px/*{offsetTopShadow}*/ 0 0 -8px/*{offsetLeftShadow}*/;
   padding: 8px/*{thicknessShadow}*/;
   background: #aaaaaa/*{bgColorShadow}*/;
   opacity: .3/*{opacityShadow}*/;
-  filter: Alpha(Opacity=30)/*{opacityFilterShadow}*/;
   border-radius: 8px/*{cornerRadiusShadow}*/;
 }
