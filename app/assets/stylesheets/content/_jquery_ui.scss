@@ -43,8 +43,8 @@
 /* Component containers
 ----------------------------------*/
 .ui-widget {
-  font-family: Verdana,Arial,sans-serif/*{ffDefault}*/;
-  font-size: 1.1em/*{fsDefault}*/;
+  font-family: $body-font-family;
+  font-size: rem-calc(15px);
 }
 .ui-widget .ui-widget {
   font-size: 1em;
@@ -53,7 +53,7 @@
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
-  font-family: Verdana,Arial,sans-serif/*{ffDefault}*/;
+  font-family: $body-font-family;
   font-size: 1em;
 }
 .ui-widget-content {
