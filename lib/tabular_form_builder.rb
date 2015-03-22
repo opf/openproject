@@ -114,7 +114,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   ].freeze
 
   def container_wrap_field(field_html, selector, options = {})
-    ret = content_tag(:span, field_html, class: field_container_css_class(selector))
+    ret = content_tag(:span, field_html, class: field_container_css_class(selector, options))
 
     prefix, suffix = options.values_at(:prefix, :suffix)
 
@@ -155,12 +155,16 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     ret
   end
 
-  def field_container_css_class(selector)
-    if TEXT_LIKE_FIELDS.include?(selector)
-      'form--text-field-container'
-    else
-      "form--#{selector.tr('_', '-')}-container"
-    end
+  def field_container_css_class(selector, options)
+    classes = if TEXT_LIKE_FIELDS.include?(selector)
+                'form--text-field-container'
+              else
+                "form--#{selector.tr('_', '-')}-container"
+              end
+
+    classes << ' ' + options.fetch(:container_class, '')
+
+    classes.strip
   end
 
   def field_css_class(selector)

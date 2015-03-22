@@ -42,14 +42,14 @@ module OpenProject
 
     def styled_select_tag(name, styled_option_tags = nil, options = {})
       apply_css_class_to_options(options, 'form--select')
-      wrap_field 'select' do
+      wrap_field 'select', options do
         select_tag(name, styled_option_tags, options)
       end
     end
 
     def styled_text_field_tag(name, value = nil, options = {})
       apply_css_class_to_options(options, 'form--text-field')
-      wrap_field 'text-field' do
+      wrap_field 'text-field', options do
         text_field_tag(name, value, options)
       end
     end
@@ -67,28 +67,28 @@ module OpenProject
 
     def styled_file_field_tag(name, options = {})
       apply_css_class_to_options(options, 'form--file-field')
-      wrap_field 'file-field' do
+      wrap_field 'file-field', options do
         file_field_tag(name, options)
       end
     end
 
     def styled_text_area_tag(name, content = nil, options = {})
       apply_css_class_to_options(options, 'form--text-area')
-      wrap_field 'text-area' do
+      wrap_field 'text-area', options do
         text_area_tag(name, content, options)
       end
     end
 
     def styled_check_box_tag(name, value = '1', checked = false, options = {})
       apply_css_class_to_options(options, 'form--check-box')
-      wrap_field 'check-box' do
+      wrap_field 'check-box', options do
         check_box_tag(name, value, checked, options)
       end
     end
 
     def styled_radio_button_tag(name, value, checked = false, options = {})
       apply_css_class_to_options(options, 'form--radio-button')
-      wrap_field 'radio-button' do
+      wrap_field 'radio-button', options do
         radio_button_tag(name, value, checked, options)
       end
     end
@@ -113,7 +113,7 @@ module OpenProject
 
     def styled_search_field_tag(name, value = nil, options = {})
       apply_css_class_to_options(options, 'form--search-field')
-      wrap_field 'search-field' do
+      wrap_field 'search-field', options do
         search_field_tag(name, value, options)
       end
     end
@@ -121,7 +121,7 @@ module OpenProject
     TEXT_LIKE_FIELDS.each do |field|
       define_method :"styled_#{field}_tag" do |name, value = nil, options = {}|
         apply_css_class_to_options(options, "form--text-field -#{field.gsub(/_field$/, '')}")
-        wrap_field field do
+        wrap_field field, options do
           __send__(:"#{field}_tag", name, value, options)
         end
       end
@@ -129,27 +129,31 @@ module OpenProject
 
     def styled_range_field_tag(name, value = nil, options = {})
       apply_css_class_to_options(options, 'form--range-field')
-      wrap_field 'range-field' do
+      wrap_field 'range-field', options do
         range_field_tag(name, value, options)
       end
     end
 
     private
 
-    def wrap_field(name, &block)
-      content_tag(:span, class: field_container_css_class(name), &block)
+    def wrap_field(name, options, &block)
+      content_tag(:span, class: field_container_css_class(name, options), &block)
     end
 
     def apply_css_class_to_options(options, css_class)
       options[:class] = Array(options[:class]) + Array(css_class)
     end
 
-    def field_container_css_class(selector)
-      if TEXT_LIKE_FIELDS.include?(selector)
-        'form--text-field-container'
-      else
-        "form--#{selector.tr('_', '-')}-container"
-      end
+    def field_container_css_class(selector, options)
+      classes = if TEXT_LIKE_FIELDS.include?(selector)
+                  'form--text-field-container'
+                else
+                  "form--#{selector.tr('_', '-')}-container"
+                end
+
+      classes << ' ' + options.fetch(:container_class, '')
+
+      classes.strip
     end
   end
 end
