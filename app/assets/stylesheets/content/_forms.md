@@ -494,6 +494,226 @@
 </form>
 ```
 
+## Forms: Width categories
+
+The modifier classes **-middle**, **-wide**, ... can be applied to the form-[input type]-container to limit the width of the element. Please note, that this only limits the max-width of the element. The fields will become slimmer if less space is available. Also note, that the max-width is specified as an absolute value. Without a modifier, the form field will take the full width available.
+
+```
+@full-width
+
+<form class="form">
+  <section class="form--section">
+    <h3 class="form--section-title">Input type "text-field"</h3>
+    <div class="form--field -required">
+      <label class="form--label">Tiny:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container -tiny">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">XSlim:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container -xslim">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">Slim:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container -slim">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">Middle:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container -middle">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label">Wide:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container -wide">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label">XWide:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container -xwide">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label">XXWide:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container -xxwide">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="form--section">
+    <h3 class="form--section-title">Input type "text-area"</h3>
+    <div class="form--field -required">
+      <label class="form--label">Tiny:</label>
+      <div class="form--field-container">
+        <div class="form--text-area-container -tiny">
+          <textarea type="text-area" class="form--text-area">
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">XSlim:</label>
+      <div class="form--field-container">
+        <div class="form--text-area-container -xslim">
+          <textarea type="text-area" class="form--text-area">
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">Slim:</label>
+      <div class="form--field-container">
+        <div class="form--text-area-container -slim">
+          <textarea type="text-area" class="form--text-area">
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">Middle:</label>
+      <div class="form--field-container">
+        <div class="form--text-area-container -middle">
+          <textarea type="text-area" class="form--text-area">
+        </div>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label">Wide:</label>
+      <div class="form--field-container">
+        <div class="form--text-area-container -wide">
+          <textarea type="text-area" class="form--text-area">
+        </div>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label">XWide:</label>
+      <div class="form--field-container">
+        <div class="form--text-area-container -xwide">
+          <textarea type="text-area" class="form--text-area">
+        </div>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label">XXWide:</label>
+      <div class="form--field-container">
+        <div class="form--text-area-container -xxwide">
+          <textarea type="text-area" class="form--text-area">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="form--section">
+    <h3 class="form--section-title">Input type "select"</h3>
+    <div class="form--field -required">
+      <label class="form--label">Tiny:</label>
+      <div class="form--field-container">
+        <div class="form--select-container -tiny">
+          <select class="form--select">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">XSlim:</label>
+      <div class="form--field-container">
+        <div class="form--select-container -xslim">
+          <select class="form--select">
+            <option>one</option>
+            <option>two</option>
+            <option>three</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">Slim:</label>
+      <div class="form--field-container">
+        <div class="form--select-container -slim">
+          <select class="form--select">
+            <option>one</option>
+            <option>two</option>
+            <option>three</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">Middle:</label>
+      <div class="form--field-container">
+        <div class="form--select-container -middle">
+          <select class="form--select">
+            <option>one</option>
+            <option>two</option>
+            <option>three</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">Wide:</label>
+      <div class="form--field-container">
+        <div class="form--select-container -wide">
+          <select class="form--select">
+            <option>one</option>
+            <option>two</option>
+            <option>three</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">XWide:</label>
+      <div class="form--field-container">
+        <div class="form--select-container -xwide">
+          <select class="form--select">
+            <option>one</option>
+            <option>two</option>
+            <option>three</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form--field -required">
+      <label class="form--label">XXWide:</label>
+      <div class="form--field-container">
+        <div class="form--select-container -xxwide">
+          <select class="form--select">
+            <option>one</option>
+            <option>two</option>
+            <option>three</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>
+```
+
 
 # Forms: Lists of fields
 
@@ -605,7 +825,7 @@
 ```
 <label>Tiny:<input type="text" class="form--text-field -tiny" value="a tiny value"></label>
 
-<label>Small:<input type="text" class="form--text-field -small" value="a small value"></label>
+<label>Small:<input type="text" class="form--text-field -slim" value="a small value"></label>
 
 <label>Large:<input type="text" class="form--text-field -large" value="a large value"></label>
 ```
