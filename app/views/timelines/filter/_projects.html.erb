@@ -53,7 +53,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
            <%= ff.select(:project_types,
                    options_for_select([]),
-                   { label: l("timelines.filter.project_types") },
+                   { label: l("timelines.filter.project_types"),
+                     container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_project_types_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
@@ -74,7 +75,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
           <%= ff.select(:project_status,
                    options_for_select([]),
-                   { label:  l("timelines.filter.project_status") },
+                   { label:  l("timelines.filter.project_status"),
+                     container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_reported_project_statuses_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
@@ -95,7 +97,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
           <%= ff.select(:project_responsibles,
                    options_for_select([]),
-                   { label: l("timelines.filter.project_responsible") },
+                   { label: l("timelines.filter.project_responsible"),
+                     container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_users_path,
                     :multiple => true,
                     :'data-selected' => filter_select(
@@ -116,7 +119,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
           <%= ff.select(:parents,
                    options_for_select([]),
-                   { label: l("timelines.filter.parent") },
+                   { label: l("timelines.filter.parent"),
+                     container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_projects_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
@@ -138,7 +142,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
           <%= ff.select(:planning_element_time_types,
                      options_for_select([]),
-                     { label: l('timelines.filter.project_time_filter') },
+                     { label: l('timelines.filter.project_time_filter'),
+                       container_class: '-wide' },
                      { :'data-ajaxURL' => api_v2_paginate_types_path,
                        :multiple => true,
                        :'data-selected' => filter_select(

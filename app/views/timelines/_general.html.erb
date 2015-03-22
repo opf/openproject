@@ -96,11 +96,13 @@ See doc/COPYRIGHT.rdoc for more details.
                        for: "timeline_options_columns_",
                        class: "form--label" %>
           <div class="form--field-container">
-            <%= ff.hidden_field :columns,
-                                name: "timeline[options][columns][]",
-                                id: "timeline_options_columns_",
-                                value: timeline.selected_columns.join(","),
-                                :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).to_json %>
+            <div class="form--select-container -wide">
+              <%= ff.hidden_field :columns,
+                                  name: "timeline[options][columns][]",
+                                  id: "timeline_options_columns_",
+                                  value: timeline.selected_columns.join(","),
+                                  :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).to_json %>
+            </div>
           </div>
         <% end %>
       </div>

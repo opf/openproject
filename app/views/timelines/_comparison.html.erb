@@ -57,6 +57,8 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="form--field-container">
               <%= ff.select :compare_to_relative_unit,
                             options_for_timeunits(nil),
+                            no_label: true,
+                            container_class: '-middle' %>
               <span class="form--field-affix -transparent">
                 <%=l('timelines.filter.comparison.compare_relative_suffix')%>
               </span>
