@@ -222,6 +222,9 @@ en:
         project_association:
           identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
+        repository:
+          not_whitelisted: "is not allowed by the configuration"
+          no_directory: "is not a directory"
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:

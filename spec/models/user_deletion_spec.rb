@@ -379,54 +379,59 @@ describe User, 'deletion', :type => :model do
   end
 
   describe "WHEN the user has created a changeset" do
-    let(:repository) { FactoryGirl.create(:repository) }
-    let(:associated_instance) { FactoryGirl.build(:changeset, :repository_id => repository.id,
-                                                          :committer => user.login) }
+    with_created_filesystem_repository do
+      let(:associated_instance) do
+        FactoryGirl.build(:changeset,
+                          repository_id: repository.id,
+                          committer: user.login)
+      end
 
-    let(:associated_class) { Changeset }
-    let(:associations) { [:user] }
 
-    before do
-      Setting.enabled_scm = Setting.enabled_scm << "Filesystem"
+      let(:associated_class) { Changeset }
+      let(:associations) { [:user] }
+
+      it_should_behave_like "created journalized associated object"
     end
-
-    it_should_behave_like "created journalized associated object"
   end
 
   describe "WHEN the user has updated a changeset" do
-    let(:repository) { FactoryGirl.create(:repository) }
-    let(:associated_instance) { FactoryGirl.build(:changeset, :repository_id => repository.id,
-                                                          :committer => user2.login) }
+    with_created_filesystem_repository do
+      let(:associated_instance) do
+        FactoryGirl.build(:changeset,
+                          repository_id: repository.id,
+                          committer: user2.login)
+      end
 
-    let(:associated_class) { Changeset }
-    let(:associations) { [:user] }
+      let(:associated_class) { Changeset }
+      let(:associations) { [:user] }
 
-    before do
-      Setting.enabled_scm = Setting.enabled_scm << "Filesystem"
-      allow(User).to receive(:current).and_return user2
-      associated_instance.user = user2
-      associated_instance.save!
+      before do
+        Setting.enabled_scm = Setting.enabled_scm << "Filesystem"
+        allow(User).to receive(:current).and_return user2
+        associated_instance.user = user2
+        associated_instance.save!
 
-      allow(User).to receive(:current).and_return user # in order to have the content journal created by the user
-      associated_instance.reload
-      associated_instance.user = user
-      associated_instance.save!
+        allow(User).to receive(:current).and_return user # in order to have the content journal created by the user
+        associated_instance.reload
+        associated_instance.user = user
+        associated_instance.save!
 
-      user.destroy
-      associated_instance.reload
-    end
+        user.destroy
+        associated_instance.reload
+      end
 
-    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
-    it "should replace the user on all associations" do
-      expect(associated_instance.user).to be_nil
-    end
-    it { expect(associated_instance.journals.first.user).to eq(user2) }
-    it "should update first journal changes" do
-      expect(associated_instance.journals.first.changed_data[:user_id].last).to eq(user2.id)
-    end
-    it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
-    it "should update second journal changes" do
-      expect(associated_instance.journals.last.changed_data[:user_id].last).to eq(substitute_user.id)
+      it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
+      it "should replace the user on all associations" do
+        expect(associated_instance.user).to be_nil
+      end
+      it { expect(associated_instance.journals.first.user).to eq(user2) }
+      it "should update first journal changes" do
+        expect(associated_instance.journals.first.changed_data[:user_id].last).to eq(user2.id)
+      end
+      it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
+      it "should update second journal changes" do
+        expect(associated_instance.journals.last.changed_data[:user_id].last).to eq(substitute_user.id)
+      end
     end
   end
 

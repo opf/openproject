@@ -173,7 +173,7 @@ class UsersController < ApplicationController
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
         @user.random_password!
-      elsif params[:user][:password].present?
+      elsif set_password? params
         @user.password = params[:user][:password]
         @user.password_confirmation = params[:user][:password_confirmation]
       end
@@ -358,5 +358,9 @@ class UsersController < ApplicationController
 
   def block_if_password_login_disabled
     render_404 if OpenProject::Configuration.disable_password_login?
+  end
+
+  def set_password?(params)
+    params[:user][:password].present? && !OpenProject::Configuration.disable_password_choice?
   end
 end

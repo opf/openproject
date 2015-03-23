@@ -27,21 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Given(/^the project "(.*?)" has a repository$/) do |project_name|
+def with_created_filesystem_repository(&block)
+  let(:repository) do
+    repo = FactoryGirl.build(:repository)
 
-  project = Project.find(project_name)
+    # ignoring the bugs on url as those are expected:
+    # 1) directory is not existing
+    # 2) configuration is not whitelisting the directory
+    if repo.valid? || (repo.errors.keys - [:url]).empty?
+      repo.save(validate: false)
+    else
+      repo.save!
+    end
 
-  repo_path = Rails.root.join 'tmp/filesystem_repository'
+    repo
+  end
 
-  FileUtils.mkdir_p repo_path
+  before do
+    allow(Setting).to receive(:enabled_scm).and_return(["Filesystem"])
+  end
 
-  OpenProject::Configuration['scm_filesystem_path_whitelist'] = [repo_path]
-
-  repo = FactoryGirl.build(:repository,
-                           url: repo_path,
-                           project: project)
-
-  Setting.enabled_scm = Setting.enabled_scm << repo.scm_name
-
-  repo.save!
+  block.call
 end
