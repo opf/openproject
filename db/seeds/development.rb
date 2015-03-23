@@ -107,11 +107,30 @@ time_entry_activities = []
   time_entry_activities << time_entry_activity
 end
 
-Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
+repo_url_setting = OpenProject::Configuration['scm_filesystem_path_whitelist']
+repository = if repo_url_setting.empty?
+               puts <<-MESSAGE
 
-repository = Repository::Filesystem.create! project: project,
-                                            url: Faker::Internet.url()
+* = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + =
 
+Filesystem based repositories are not configured. No repository and no changeset will be created.
+
+In case you want those, define whitelisted repositories in your configuration.yml.
+See config/configuration.yml.example for details.
+
+* = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + =
+
+               MESSAGE
+
+               nil
+             else
+               Setting.enabled_scm = (Setting.enabled_scm.dup << 'Filesystem').uniq
+
+               repo_url = Dir.glob(repo_url_setting).first
+
+               Repository::Filesystem.create! project: project,
+                                              url: repo_url
+             end
 
 print "Creating objects for..."
 user_count.times do |count|
@@ -161,39 +180,41 @@ user_count.times do |count|
 
     ## add changesets
 
-    2.times do |changeset_count|
-      print "."
-      changeset = Changeset.create(repository: repository,
-                                   user: user,
-                                   revision: issue.id * 10 + changeset_count,
-                                   scmid: issue.id * 10 + changeset_count,
-                                   user: user,
-                                   work_packages: [issue],
-                                   committer: Faker::Name.name,
-                                   committed_on: Date.today,
-                                   comments: Faker::Lorem.words(8).join(" "))
+    if repository
+      2.times do |changeset_count|
+        print '.'
+        changeset = Changeset.create(repository: repository,
+                                     user: user,
+                                     revision: issue.id * 10 + changeset_count,
+                                     scmid: issue.id * 10 + changeset_count,
+                                     user: user,
+                                     work_packages: [issue],
+                                     committer: Faker::Name.name,
+                                     committed_on: Date.today,
+                                     comments: Faker::Lorem.words(8).join(' '))
 
-      5.times do
-        print "."
-        change = Change.create(action: Faker::Lorem.characters(1),
-                               path: Faker::Internet.url)
+        5.times do
+          print '.'
+          change = Change.create(action: Faker::Lorem.characters(1),
+                                 path: Faker::Internet.url)
 
-        changeset.changes << change
-      end
+          changeset.changes << change
+        end
 
-      repository.changesets << changeset
-
-      changeset.save!
-
-      rand(5).times do
-        print "."
-        changeset.reload
-
-        changeset.committer = Faker::Name.name if rand(99).even?
-        changeset.committed_on = Date.today + rand(999) if rand(99).even?
-        changeset.comments = Faker::Lorem.words(8).join(" ") if rand(99).even?
+        repository.changesets << changeset
 
         changeset.save!
+
+        rand(5).times do
+          print '.'
+          changeset.reload
+
+          changeset.committer = Faker::Name.name if rand(99).even?
+          changeset.committed_on = Date.today + rand(999) if rand(99).even?
+          changeset.comments = Faker::Lorem.words(8).join(' ') if rand(99).even?
+
+          changeset.save!
+        end
       end
     end
 
