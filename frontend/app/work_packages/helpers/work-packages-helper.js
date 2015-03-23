@@ -172,7 +172,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
 
         var hours = moment.duration(value).asHours();
 
-        return I18n.t('js.units.hour', { count: hours });
+        return I18n.t('js.units.hour', { count: hours.toFixed(2) });
       } else {
         return this.formatValue(value, mappings[propertyName]);
       }

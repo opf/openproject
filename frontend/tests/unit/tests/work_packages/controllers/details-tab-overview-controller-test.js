@@ -353,7 +353,7 @@ describe('DetailsTabOverviewController', function() {
 
       describe('estimated time', function() {
         context('default value', function() {
-          shouldBehaveLikeValidHourDescription('estimatedTime', 0);
+          shouldBehaveLikeValidHourDescription('estimatedTime', '0.00');
         });
 
         context('time set', function() {
@@ -361,7 +361,7 @@ describe('DetailsTabOverviewController', function() {
             workPackage.props.estimatedTime = 'P2DT4H';
           });
 
-          shouldBehaveLikeValidHourDescription('estimatedTime', 52);
+          shouldBehaveLikeValidHourDescription('estimatedTime', '52.00');
         });
       });
 
@@ -390,7 +390,7 @@ describe('DetailsTabOverviewController', function() {
               workPackage.props.spentTime = undefined;
             });
 
-            shouldBehaveLikeValidLinkedHourDescription('spentTime', 0, spentTimeLink);
+            shouldBehaveLikeValidLinkedHourDescription('spentTime', '0.00', spentTimeLink);
           });
 
           context('time set', function() {
@@ -398,7 +398,7 @@ describe('DetailsTabOverviewController', function() {
               workPackage.props.spentTime = 'P2DT4H';
             });
 
-            shouldBehaveLikeValidLinkedHourDescription('spentTime', 52, spentTimeLink);
+            shouldBehaveLikeValidLinkedHourDescription('spentTime', '52.00', spentTimeLink);
           });
         });
       });
