@@ -26,6 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/activities/activity_representer'
+require 'api/v3/work_packages/work_package_contract'
+require 'api/v3/work_packages/work_package_representer'
+require 'api/v3/work_packages/form/work_package_payload_representer'
+
 module API
   module V3
     module WorkPackages
@@ -39,8 +44,8 @@ module API
               attr_reader :work_package
 
               def work_package_representer
-                WorkPackages::WorkPackageRepresenter.create(@work_package,
-                                                            current_user: current_user)
+                WorkPackageRepresenter.create(@work_package,
+                                              current_user: current_user)
               end
 
               def write_work_package_attributes
@@ -61,7 +66,7 @@ module API
 
               # merges the given JSON representation into @work_package
               def merge_json_into_work_package!(json)
-                payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter.create(
+                payload = WorkPackagePayloadRepresenter.create(
                   @work_package,
                   enforce_lock_version_validation: true)
                 payload.from_json(json)
@@ -123,7 +128,7 @@ module API
               helpers do
                 def save_work_package(work_package)
                   if work_package.save
-                    representer = ::API::V3::Activities::ActivityRepresenter.new(
+                    representer = ActivityRepresenter.new(
                       work_package.journals.last,
                       current_user: current_user)
 
@@ -140,7 +145,7 @@ module API
               post do
                 authorize({ controller: :journals, action: :new },
                           context: @work_package.project) do
-                  raise API::Errors::NotFound.new
+                  raise ::API::Errors::NotFound.new
                 end
 
                 @work_package.journal_notes = params[:comment]

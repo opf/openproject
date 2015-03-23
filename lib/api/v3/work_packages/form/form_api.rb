@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/work_packages/form/form_representer'
+
 module API
   module V3
     module WorkPackages

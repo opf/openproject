@@ -27,6 +27,7 @@
 #++
 
 require 'securerandom'
+require 'api/v3/queries/query_representer'
 
 module API
   module V3
@@ -39,7 +40,7 @@ module API
           route_param :id do
             before do
               @query = Query.find(params[:id])
-              @representer =  ::API::V3::Queries::QueryRepresenter.new(@query)
+              @representer =  QueryRepresenter.new(@query)
             end
 
             helpers do
