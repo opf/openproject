@@ -93,7 +93,7 @@ module API
 
               if context.nil?
                 fail API::Errors::InvalidRenderContext.new(
-                  I18n.t('api_v3.errors.render.context_not_found')
+                  I18n.t('api_v3.errors.render.context_not_parsable')
                 )
               elsif !SUPPORTED_CONTEXT_NAMESPACES.include?(context[:namespace]) ||
                     context[:version] != '3'
