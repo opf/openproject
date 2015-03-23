@@ -36,6 +36,9 @@ styleguide-sass: |
   .livingstyleguide--code-block
     max-height: 300px
 
+javascript-before:
+  - "/assets/styleguide.js"
+
 header: |
   <header class="livingstyleguide--header">
     <div class="styleguide-banner">

@@ -26,19 +26,46 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.detail-panel-description-content
-  .relation
-    h3
-      cursor: pointer
-      a
-        text-decoration: none
-        color: inherit
+window.CS = window.CS || {};
 
-.add-relation
-  .select2
-    width: 350px
-  .select2-drop
-    width: 350px
-    top: auto
-    input[type='text']
-      width: 100%
+jQuery(function($) {
+  var regions = $.datepicker.regional;
+  var regional = regions[CS.lang] || regions[""];
+  $.datepicker.setDefaults(regional);
+
+  var gotoToday = $.datepicker._gotoToday;
+
+  $.datepicker._gotoToday = function (id) {
+    gotoToday.call(this, id);
+    var target = $(id),
+      inst = this._getInst(target[0]),
+      dateStr = $.datepicker._formatDate(inst);
+    target.val(dateStr);
+    target.blur();
+    $.datepicker._hideDatepicker();
+  };
+
+  var defaults = {
+    showWeek: true,
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "c-100:c+10",
+    dateFormat: 'yy-mm-dd',
+    showButtonPanel: true,
+    calculateWeek: function (day) {
+      var dayOfWeek = new Date(+day);
+
+      if (day.getDay() != 1) {
+        dayOfWeek.setDate(day.getDate() - day.getDay() + 1);
+      }
+
+      return $.datepicker.iso8601Week(dayOfWeek);
+    }
+  };
+
+  if (CS.firstWeekDay && CS.firstWeekDay !== "") {
+    defaults.firstDay = parseInt(CS.firstWeekDay, 10);
+  }
+
+  $.datepicker.setDefaults(defaults);
+});

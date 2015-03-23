@@ -1,7 +1,10 @@
 var webpack  = require('webpack'),
+  fs         = require('fs'),
   path       = require('path'),
   _          = require('lodash'),
   pathConfig = require('./rails-plugins.conf');
+
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function(entries, path, name) {
   entries[name.replace(/^openproject\-/, '')] = name;
@@ -12,6 +15,11 @@ var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function(entries, plug
   entries[name] = path.basename(pluginPath);
   return entries;
 }, {});
+
+var browsersListConfig = fs.readFileSync(path.join(__dirname, '..', 'browserslist'), 'utf8');
+var browsersList = JSON.stringify(_.filter(browsersListConfig.split('\n'), function(entry) {
+  return entry && entry.charAt(0) !== '#';
+}));
 
 module.exports = {
   context: __dirname + '/app',
@@ -34,7 +42,13 @@ module.exports = {
       { test: /[\/]moment\.js$/,          loader: 'expose?moment' },
       { test: /[\/]mousetrap\.js$/,       loader: 'expose?Mousetrap' },
       { test: /[\/]vendor[\/]i18n\.js$/,  loader: 'expose?I18n' },
-      { test: /\.css$/,                   loader: 'style-loader!css-loader' },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'css-loader!autoprefixer-loader?{browsers:' + browsersList + ',cascade:false}'
+        )
+      },
       { test: /\.png$/,                   loader: 'url-loader?limit=100000&mimetype=image/png' },
       { test: /\.gif$/,                   loader: 'file-loader' },
       { test: /\.jpg$/,                   loader: 'file-loader' },
@@ -76,6 +90,7 @@ module.exports = {
   },
 
   plugins: [
+    new ExtractTextPlugin('openproject-[name].css'),
     new webpack.ProvidePlugin({
       '_':            'lodash',
       'URI':          'URIjs',

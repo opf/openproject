@@ -3,6 +3,52 @@
     "URIjs": {
       "version": "1.14.1"
     },
+    "autoprefixer-loader": {
+      "version": "1.2.0",
+      "dependencies": {
+        "autoprefixer-core": {
+          "version": "5.1.7",
+          "dependencies": {
+            "browserslist": {
+              "version": "0.2.0"
+            },
+            "num2fraction": {
+              "version": "1.0.1"
+            },
+            "caniuse-db": {
+              "version": "1.0.30000092"
+            },
+            "postcss": {
+              "version": "4.0.6",
+              "dependencies": {
+                "source-map": {
+                  "version": "0.2.0",
+                  "dependencies": {
+                    "amdefine": {
+                      "version": "0.1.0"
+                    }
+                  }
+                },
+                "js-base64": {
+                  "version": "2.1.7"
+                }
+              }
+            }
+          }
+        },
+        "loader-utils": {
+          "version": "0.2.6",
+          "dependencies": {
+            "json5": {
+              "version": "0.1.0"
+            },
+            "big.js": {
+              "version": "2.5.1"
+            }
+          }
+        }
+      }
+    },
     "body-parser": {
       "version": "1.10.1",
       "dependencies": {
@@ -1269,6 +1315,33 @@
         },
         "utils-merge": {
           "version": "1.0.0"
+        }
+      }
+    },
+    "extract-text-webpack-plugin": {
+      "version": "0.3.8",
+      "dependencies": {
+        "async": {
+          "version": "0.2.10"
+        },
+        "source-map": {
+          "version": "0.1.43",
+          "dependencies": {
+            "amdefine": {
+              "version": "0.1.0"
+            }
+          }
+        },
+        "loader-utils": {
+          "version": "0.2.6",
+          "dependencies": {
+            "json5": {
+              "version": "0.1.0"
+            },
+            "big.js": {
+              "version": "2.5.1"
+            }
+          }
         }
       }
     },
@@ -3358,6 +3431,55 @@
                   "version": "0.0.1"
                 }
               }
+            }
+          }
+        }
+      }
+    },
+    "gulp-replace": {
+      "version": "0.5.3",
+      "dependencies": {
+        "istextorbinary": {
+          "version": "1.0.2",
+          "dependencies": {
+            "textextensions": {
+              "version": "1.0.1"
+            },
+            "binaryextensions": {
+              "version": "1.0.0"
+            }
+          }
+        },
+        "replacestream": {
+          "version": "2.0.0",
+          "dependencies": {
+            "through": {
+              "version": "2.3.6"
+            }
+          }
+        },
+        "through2": {
+          "version": "0.6.3",
+          "dependencies": {
+            "readable-stream": {
+              "version": "1.0.33",
+              "dependencies": {
+                "core-util-is": {
+                  "version": "1.0.1"
+                },
+                "isarray": {
+                  "version": "0.0.1"
+                },
+                "string_decoder": {
+                  "version": "0.10.31"
+                },
+                "inherits": {
+                  "version": "2.0.1"
+                }
+              }
+            },
+            "xtend": {
+              "version": "4.0.0"
             }
           }
         }
