@@ -291,20 +291,25 @@ JJ Abrams</textarea>
   end
 
   describe '#radio_button' do
-    let(:options) { { title: 'Name' } }
+    let(:options) { { title: 'Name', class: 'custom-class' } }
 
     subject(:output) {
-      builder.radio_button :name, 'John'
+      builder.radio_button :name, 'John', options
     }
 
-    it_behaves_like 'not labelled'
-    it_behaves_like 'not wrapped in container'
-    it_behaves_like 'not wrapped in container', 'radio-button-container'
+    it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in container'
+    it_behaves_like 'wrapped in container', 'radio-button-container'
 
     it 'should output element' do
-      expect(output).to be_html_eql %{
-        <input id="user_name_john" name="user[name]" type="radio" value="John" />
-      }
+      expect(output).to include %{
+        <input class="custom-class form--radio-button"
+               id="user_name_john"
+               name="user[name]"
+               title="Name"
+               type="radio"
+               value="John" />
+      }.squish
     end
   end
 
@@ -499,15 +504,31 @@ JJ Abrams</textarea>
     subject(:output) { builder.label :name }
 
     it 'should output element' do
-      expect(output).to be_html_eql %{<label class="form--label" for="user_name">Name</label>}
+      expect(output).to be_html_eql %{
+        <label class="form--label"
+               for="user_name"
+               title="Name">
+               Name
+        </label>
+      }
     end
 
     describe 'with existing attributes' do
-      subject(:output) { builder.label :name, 'Fear', class: 'sharknado' }
+      subject(:output) { builder.label :name, 'Fear', class: 'sharknado', title: 'Fear' }
 
       it 'should keep associated classes' do
         expect(output).to be_html_eql %{
-          <label class="sharknado form--label" for="user_name">Fear</label>
+          <label class="sharknado form--label" for="user_name" title="Fear">Fear</label>
+        }
+      end
+    end
+
+    describe 'when using it without ActiveModel' do
+      let(:resource) { OpenStruct.new name: 'Deadpool' }
+
+      it 'should fall back to the method name' do
+        expect(output).to be_html_eql %{
+          <label class="form--label" for="user_name" title="Name">Name</label>
         }
       end
     end

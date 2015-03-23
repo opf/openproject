@@ -44,7 +44,7 @@ module API
 
         link :availableInProjects do
           {
-            href: api_v3_paths.versions_projects(represented.id)
+            href: api_v3_paths.projects_by_version(represented.id)
           }
         end
 
@@ -85,12 +85,6 @@ module API
 
         def _type
           'Version'
-        end
-
-        private
-
-        def current_user
-          context[:current_user]
         end
       end
     end

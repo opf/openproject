@@ -60,7 +60,14 @@ module.exports = function(app) {
       res.send(text);
     });
   });
-
+  workPackagesRouter.get('/schemas/:name', function(req, res) {
+    fs.readFile(
+      __dirname + '/work-packages/schemas/' +
+        req.params.name +
+      '.json', 'utf8', function(err, text) {
+      res.send(text);
+    });
+  });
 
   app.use('/api/v3/work_packages', workPackagesRouter);
 

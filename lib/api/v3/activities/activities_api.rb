@@ -29,13 +29,13 @@
 module API
   module V3
     module Activities
-      class ActivitiesAPI < Grape::API
+      class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
 
           params do
             requires :id, desc: 'Activity id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @activity = Journal.find(params[:id])

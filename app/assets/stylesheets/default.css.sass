@@ -25,11 +25,15 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
-//= require jstoolbar
+//= require ../javascripts/bundles/openproject-global
+//= require ../javascripts/bundles/openproject-core-app
+//= require_tree ../javascripts/bundles
+
 //= require print
 //= require scm
 //= require top-shelf
 //= require openproject_plugins
+
 //= require_self
 
 @import open_project_global/all
@@ -45,6 +49,7 @@
 @import content/context_menu
 @import content/forms
 @import content/flash_messages
+@import content/notifications
 @import content/calendar
 @import content/wiki
 @import content/links
@@ -53,6 +58,7 @@
 @import content/my_page
 @import content/news
 @import content/buttons
+@import content/icon_control
 @import content/boxes
 @import content/tabular
 @import content/watchers
@@ -96,4 +102,8 @@
 @import content/autocomplete
 @import content/diff
 
+@import content/jquery_ui
+@import content/select2
+
 @import misc_legacy
+@import jstoolbar

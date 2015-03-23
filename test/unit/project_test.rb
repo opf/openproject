@@ -198,7 +198,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_destroying_root_projects_should_clear_data
-    Journal.delete_all
+    Journal.destroy_all
     WorkPackage.all.each(&:recreate_initial_journal!)
 
     Project.roots.each(&:destroy)
@@ -254,7 +254,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_set_parent_should_add_roots_in_alphabetical_order
-    ProjectCustomField.delete_all
+    ProjectCustomField.destroy_all
     Project.delete_all
     Project.create!(name: 'Project C', identifier: 'project-c').set_parent!(nil)
     Project.create!(name: 'Project B', identifier: 'project-b').set_parent!(nil)
@@ -266,7 +266,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_set_parent_should_add_children_in_alphabetical_order
-    ProjectCustomField.delete_all
+    ProjectCustomField.destroy_all
     parent = Project.create!(name: 'Parent', identifier: 'parent')
     Project.create!(name: 'Project C', identifier: 'project-c').set_parent!(parent)
     Project.create!(name: 'Project B', identifier: 'project-b').set_parent!(parent)
@@ -279,7 +279,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_rebuild_should_sort_children_alphabetically
-    ProjectCustomField.delete_all
+    ProjectCustomField.destroy_all
     parent = Project.create!(name: 'Parent', identifier: 'parent')
     Project.create!(name: 'Project C', identifier: 'project-c').move_to_child_of(parent)
     Project.create!(name: 'Project B', identifier: 'project-b').move_to_child_of(parent)

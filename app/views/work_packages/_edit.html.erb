@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
                               :html => {
                                         :id => 'work_package-form',
                                         :multipart => true,
-                                        :class => 'form -bordered'
+                                        :class => 'form'
                                        } do |f| %>
 
   <% if defined? back_url %>
@@ -79,7 +79,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <hr class="form--separator -invisible">
 
   <%= render :partial => 'attachments/nested_form',
-             :locals => { :f => f } %>
+             :locals => { :prefix => 'work_package' } %>
 
   <hr class="form--separator -invisible">
 

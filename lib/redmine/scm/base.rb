@@ -35,6 +35,14 @@ module Redmine
           @scms
         end
 
+        def configured
+          @scms.select do |scm_name|
+            klass = Repository.const_get(scm_name)
+
+            klass.configured?
+          end
+        end
+
         # Add a new SCM adapter and repository
         def add(scm_name)
           @scms ||= []

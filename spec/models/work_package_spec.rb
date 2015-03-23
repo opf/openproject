@@ -286,35 +286,6 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :assignable_priorities do
-    let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
-    let(:active_priority) { FactoryGirl.build(:priority, active: true) }
-    let(:inactive_priority) { FactoryGirl.build(:priority, active: false) }
-
-    before do
-      active_priority.save!
-      inactive_priority.save!
-    end
-
-    it 'returns active priorities' do
-      expect(work_package.assignable_priorities).to match_array([active_priority])
-    end
-  end
-
-  describe :assignable_categories do
-    let(:work_package) { FactoryGirl.create(:work_package, project: project1) }
-    let(:same_project_category) { FactoryGirl.create(:category, project: work_package.project) }
-    let (:project1) { FactoryGirl.create(:project) }
-
-    before do
-      same_project_category.save!
-    end
-
-    it 'returns all categories within the same project' do
-      expect(work_package.assignable_categories).to match_array([same_project_category])
-    end
-  end
-
   describe :assignable_versions do
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []
@@ -1620,9 +1591,6 @@ describe WorkPackage, type: :model do
       work_package.save!
       work_package.reload
 
-      # is it fine?
-      expect(work_package).to be_valid
-
       # now give the work_package another required custom field, but don't assign a value
       work_package.project.work_package_custom_fields << cf2
       work_package.type.custom_fields << cf2
@@ -1633,7 +1601,7 @@ describe WorkPackage, type: :model do
 
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
-      expect(work_package.errors_on(:custom_values).size).to eq 1
+      expect(work_package.errors_on("custom_field_#{cf2.id}").size).to eq 1
     end
   end
 

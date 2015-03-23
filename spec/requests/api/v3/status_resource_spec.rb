@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe 'API v3 Status resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -44,7 +45,7 @@ describe 'API v3 Status resource' do
 
   describe 'statuses' do
     describe '#get' do
-      let(:get_path) { '/api/v3/statuses' }
+      let(:get_path) { api_v3_paths.statuses }
       subject(:response) { last_response }
 
       context 'logged in user' do
@@ -73,7 +74,7 @@ describe 'API v3 Status resource' do
   describe 'statuses/:id' do
     describe '#get' do
       let(:status) { statuses.first }
-      let(:get_path) { "/api/v3/statuses/#{status.id}" }
+      let(:get_path) { api_v3_paths.status status.id }
 
       subject(:response) { last_response }
 
@@ -89,7 +90,7 @@ describe 'API v3 Status resource' do
         end
 
         context 'invalid status id' do
-          let(:get_path) { '/api/v3/statuses/bogus' }
+          let(:get_path) { api_v3_paths.status 'bogus' }
 
           it_behaves_like 'not found' do
             let(:id) { 'bogus' }

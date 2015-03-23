@@ -27,27 +27,71 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/active_model/model_validations'
-
 module API
   module V3
     module WorkPackages
-      class WorkPackageContract < Reform::Contract
-        WRITEABLE_ATTRIBUTES = [
-          'lock_version',
-          'subject',
-          'parent_id',
-          'description',
-          'start_date',
-          'due_date',
-          'status_id',
-          'assigned_to_id',
-          'responsible_id',
-          'priority_id',
-          'category_id',
-          'fixed_version_id'
-        ].freeze
+      class WorkPackageContract < ::API::Contracts::ModelContract
+        attribute :subject
+        attribute :description
+        attribute :start_date, :due_date
+        attribute :status_id
+        attribute :type_id
+        attribute :priority_id
+        attribute :category_id
+        attribute :fixed_version_id
+
+        attribute :lock_version do
+          errors.add :error_conflict, '' if model.lock_version.nil? || model.lock_version_changed?
+        end
+
+        attribute :parent_id do
+          if model.changed.include? 'parent_id'
+            errors.add :error_unauthorized, '' unless @can.allowed?(model, :manage_subtasks)
+          end
+        end
+
+        attribute :assigned_to_id do
+          validate_people_visible :assignee,
+                                  'assigned_to_id',
+                                  model.project.possible_assignee_members
+        end
+
+        attribute :responsible_id do
+          validate_people_visible :responsible,
+                                  'responsible_id',
+                                  model.project.possible_responsible_members
+        end
+
+        attribute :done_ratio do
+          if model.changed.include?('done_ratio')
+            # TODO Allow multiple errors as soon as they have separate messages
+            if !model.leaf?
+              errors.add :error_readonly, 'done_ratio'
+            elsif Setting.work_package_done_ratio == 'status'
+              errors.add :error_readonly, 'done_ratio'
+            elsif Setting.work_package_done_ratio == 'disabled'
+              errors.add :error_readonly, 'done_ratio'
+            end
+          end
+        end
+
+        attribute :estimated_hours do
+          if !model.leaf? && model.changed.include?('estimated_hours')
+            errors.add :error_readonly, 'estimated_hours'
+          end
+        end
+
+        attribute :start_date do
+          if !model.leaf? && model.changed.include?('start_date')
+            errors.add :error_readonly, 'start_date'
+          end
+        end
+
+        attribute :due_date do
+          if !model.leaf? && model.changed.include?('due_date')
+            errors.add :error_readonly, 'due_date'
+          end
+        end
 
         def initialize(object, user)
           super(object)
@@ -58,17 +102,15 @@ module API
 
         validate :user_allowed_to_access
         validate :user_allowed_to_edit
-        validate :user_allowed_to_edit_parent
-        validate :lock_version_valid
-        validate :readonly_attributes_unchanged
-        validate :assignee_visible
-        validate :responsible_visible
 
         extend Reform::Form::ActiveModel::ModelValidations
         copy_validations_from WorkPackage
 
         private
 
+        # TODO: when someone every fixes the way errors are added in the contract:
+        # find a solution to ensure that THIS validation supersedes others (i.e. show 404 if
+        # there is no access allowed)
         def user_allowed_to_access
           unless ::WorkPackage.visible(@user).exists?(model)
             errors.add :error_not_found, I18n.t('api_v3.errors.code_404')
@@ -79,35 +121,7 @@ module API
           errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
         end
 
-        def user_allowed_to_edit_parent
-          if parent_changed?
-            errors.add :error_unauthorized, '' unless @can.allowed?(model, :manage_subtasks)
-          end
-        end
-
-        def parent_changed?
-          model.changed.include? 'parent_id'
-        end
-
-        def lock_version_valid
-          errors.add :error_conflict, '' if model.lock_version.nil? || model.lock_version_changed?
-        end
-
-        def readonly_attributes_unchanged
-          changed_attributes = model.changed - WRITEABLE_ATTRIBUTES
-
-          errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
-        end
-
-        def assignee_visible
-          people_visible :assignee, 'assigned_to_id', model.project.possible_assignee_members
-        end
-
-        def responsible_visible
-          people_visible :responsible, 'responsible_id', model.project.possible_responsible_members
-        end
-
-        def people_visible(attribute, id_attribute, list)
+        def validate_people_visible(attribute, id_attribute, list)
           id = model[id_attribute]
 
           return if id.nil? || !model.changed.include?(id_attribute)

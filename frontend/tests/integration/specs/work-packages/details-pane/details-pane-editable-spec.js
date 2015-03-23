@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-var expect = require('../../../spec_helper.js').expect, 
+var expect = require('../../../spec_helper.js').expect,
     detailsPaneHelper = require('./details-pane-helper.js');
 
 /*jshint expr: true*/
@@ -34,7 +34,7 @@ describe('OpenProject', function(){
   describe('editable', function() {
     function behaveLikeEmbeddedDropdown(name, correctValue) {
       context('behaviour', function() {
-        var editor = $('[ined-attribute=\'' + name + '\'] .inplace-editor');
+        var editor = $('[ined-attribute=\'' + name + '\'] .inplace-edit');
 
         beforeEach(function() {
           detailsPaneHelper.loadPane(819, 'overview');
@@ -44,7 +44,7 @@ describe('OpenProject', function(){
           it('should render a span with value', function() {
             expect(
               editor
-                .$('.read-value-wrapper')
+                .$('.inplace-edit--read-value')
                 .getText()
             ).to.eventually.equal(correctValue);
           });
@@ -52,7 +52,7 @@ describe('OpenProject', function(){
 
         describe('edit state', function() {
           beforeEach(function() {
-            editor.$('.ined-read-value').click();
+            editor.$('.inplace-editing--trigger-link').click();
           });
 
           context('dropdown', function() {
@@ -77,7 +77,7 @@ describe('OpenProject', function(){
     }
 
     describe('subject', function() {
-      var subjectEditor = $('.wp-subject .inplace-editor');
+      var subjectEditor = $('.inplace-edit.attribute-subject');
 
       context('work package with updateImmediately link', function() {
         beforeEach(function() {
@@ -85,7 +85,7 @@ describe('OpenProject', function(){
         });
 
         it('should render an editable subject', function() {
-          expect(subjectEditor.$('.editable').isPresent()).to.eventually.be.true;
+          expect(subjectEditor.$('.inplace-editing--trigger-link').isPresent()).to.eventually.be.true;
         });
       });
 
@@ -95,21 +95,21 @@ describe('OpenProject', function(){
         });
 
         it('should not render an editable subject', function() {
-          expect(subjectEditor.$('.editable').isPresent()).to.eventually.be.false;
+          expect(subjectEditor.$('.inplace-editing--trigger-link').isPresent()).to.eventually.be.false;
         });
       });
 
       context('work package with a wrong version', function() {
         beforeEach(function() {
           detailsPaneHelper.loadPane(821, 'overview');
-          subjectEditor.$('.ined-read-value').click();
-          subjectEditor.$('.ined-edit-save a').click();
+          subjectEditor.$('.inplace-editing--trigger-link').click();
+          subjectEditor.$('.inplace-edit--control--save a').click();
         });
 
         it('should render an error', function() {
           expect(
             subjectEditor
-              .$('.ined-errors')
+              .$('.inplace-edit--errors')
               .isDisplayed()
           ).to.eventually.be.true;
         });
@@ -117,7 +117,7 @@ describe('OpenProject', function(){
     });
 
     describe('description', function() {
-      var descriptionEditor = $('.inplace-editor.attribute-description');
+      var descriptionEditor = $('.inplace-edit.attribute-description');
 
       beforeEach(function() {
         detailsPaneHelper.loadPane(819, 'overview');
@@ -127,27 +127,27 @@ describe('OpenProject', function(){
         it('should render the link to another work package', function() {
           expect(
             descriptionEditor
-              .$('.ined-read-value a.work_package')
+              .$('.inplace-edit--read a.work_package')
               .isDisplayed()
           ).to.eventually.be.true;
         });
 
         it('should render the textarea', function() {
-          descriptionEditor.$('.ined-read-value').click();
+          descriptionEditor.$('.inplace-editing--trigger-link').click();
           expect(descriptionEditor.$('textarea').isDisplayed()).to.eventually.be.true;
         });
 
         xit('should not render the textarea if click is on the link', function() {
-          descriptionEditor.$('a.work_package').click();
+          descriptionEditor.$('.inplace-editing--trigger-link').click();
           expect(descriptionEditor.$('textarea').isPresent()).to.eventually.be.false;
         });
       });
 
       describe('preview', function() {
-        var previewButton = descriptionEditor.$('.btn-preview');
+        var previewButton = descriptionEditor.$('.jstb_preview');
 
         beforeEach(function() {
-          descriptionEditor.$('.ined-read-value').click();
+          descriptionEditor.$('.inplace-editing--trigger-link').click();
         });
 
         it('should render the button', function() {
@@ -158,7 +158,7 @@ describe('OpenProject', function(){
           previewButton.click();
           expect(
             descriptionEditor
-              .$('.preview-wrapper')
+              .$('.inplace-edit--preview')
               .isDisplayed()
           ).to.eventually.be.true;
         });
@@ -172,7 +172,7 @@ describe('OpenProject', function(){
     });
     describe('version', function() {
       var name = 'version.name';
-      var editor = $('[ined-attribute=\'' + name + '\'] .inplace-editor');
+      var editor = $('[ined-attribute=\'' + name + '\'] .inplace-edit');
 
       behaveLikeEmbeddedDropdown(name, 'alpha');
 
@@ -184,13 +184,13 @@ describe('OpenProject', function(){
         it('should render a link to the version', function() {
             expect(
               editor
-              .$('span.read-value-wrapper a')
+              .$('span.inplace-edit--read-value a')
               .getText()
             ).to.eventually.equal('alpha');
 
             expect(
               editor
-              .$('span.read-value-wrapper a')
+              .$('span.inplace-edit--read-value a')
               .getAttribute('href')
             ).to.eventually.match(/\/versions\/1/);
         });
@@ -204,15 +204,15 @@ describe('OpenProject', function(){
         it('should not render an anchor', function() {
           expect(
             editor
-            .$('span.read-value-wrapper a')
+            .$('span.inplace-edit--read-value a')
             .isPresent()
           ).to.eventually.be.false;
         });
       });
     });
     context('user field', function() {
-      var assigneeEditor = $('[ined-attribute=\'assignee\'] .inplace-editor'),
-          responsibleEditor = $('[ined-attribute=\'responsible\'] .inplace-editor');
+      var assigneeEditor = $('[ined-attribute=\'assignee\'] .inplace-edit'),
+          responsibleEditor = $('[ined-attribute=\'responsible\'] .inplace-edit');
 
       beforeEach(function() {
         detailsPaneHelper.loadPane(822, 'overview');
@@ -227,7 +227,7 @@ describe('OpenProject', function(){
           it('should render a span with placeholder', function() {
             expect(
               assigneeEditor
-                .$('span.read-value-wrapper span')
+                .$('span.inplace-edit--read-value span')
                 .getText()
             ).to.eventually.equal('-');
           });
@@ -236,7 +236,7 @@ describe('OpenProject', function(){
           it('should render a link to user\'s profile', function() {
             expect(
               responsibleEditor
-              .$('span.read-value-wrapper a')
+              .$('span.inplace-edit--read-value a')
               .getText()
             ).to.eventually.equal('OpenProject Admin');
           });
@@ -245,7 +245,7 @@ describe('OpenProject', function(){
 
       describe('edit state', function() {
         beforeEach(function() {
-          responsibleEditor.$('.ined-read-value').click();
+          responsibleEditor.$('.inplace-editing--trigger-link').click();
         });
 
         context('select2', function() {

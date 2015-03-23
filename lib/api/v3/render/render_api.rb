@@ -30,7 +30,7 @@
 module API
   module V3
     module Render
-      class RenderAPI < Grape::API
+      class RenderAPI < ::API::OpenProjectAPI
         format :txt
         parser :txt, ::API::V3::Formatter::TxtCharset
 
@@ -81,7 +81,7 @@ module API
               if params[:context]
                 context = parse_context
 
-                case context[:ns]
+                case context[:namespace]
                 when 'work_packages'
                   WorkPackage.visible(current_user).find(context[:id])
                 end
@@ -95,7 +95,8 @@ module API
                 fail API::Errors::InvalidRenderContext.new(
                   I18n.t('api_v3.errors.render.context_not_found')
                 )
-              elsif !SUPPORTED_CONTEXT_NAMESPACES.include? context[:ns]
+              elsif !SUPPORTED_CONTEXT_NAMESPACES.include?(context[:namespace]) ||
+                    context[:version] != '3'
                 fail API::Errors::InvalidRenderContext.new(
                   I18n.t('api_v3.errors.render.unsupported_context')
                 )

@@ -34,6 +34,18 @@ module API
   module V3
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
+        class << self
+          def create_class(work_package)
+            injector_class = ::API::V3::Utilities::CustomFieldInjector
+            injector_class.create_value_representer(work_package,
+                                                    WorkPackageRepresenter)
+          end
+
+          def create(work_package, context = {})
+            create_class(work_package).new(work_package, context)
+          end
+        end
+
         self_link title_getter: -> (*) { represented.subject }
 
         link :update do
@@ -90,11 +102,15 @@ module API
           } if current_user_allowed_to(:move_work_packages)
         end
 
-        linked_property :status
+        linked_property :type, embed_as: ::API::V3::Types::TypeRepresenter
+        linked_property :status, embed_as: ::API::V3::Statuses::StatusRepresenter
 
-        linked_property :author, path: :user
-        linked_property :responsible, path: :user
-        linked_property :assignee, path: :user, association: :assigned_to
+        linked_property :author, path: :user, embed_as: ::API::V3::Users::UserRepresenter
+        linked_property :responsible, path: :user, embed_as: ::API::V3::Users::UserRepresenter
+        linked_property :assignee,
+                        path: :user,
+                        association: :assigned_to,
+                        embed_as: ::API::V3::Users::UserRepresenter
 
         link :availableWatchers do
           {
@@ -178,17 +194,15 @@ module API
           } if current_user_allowed_to(:view_time_entries)
         end
 
-        linked_property :category
+        linked_property :category, embed_as: ::API::V3::Categories::CategoryRepresenter
+        linked_property :priority, embed_as: ::API::V3::Priorities::PriorityRepresenter
+        linked_property :project, embed_as: ::API::V3::Projects::ProjectRepresenter
 
         linked_property :version,
                         association: :fixed_version,
                         title_getter: -> (*) {
                           represented.fixed_version.to_s_for_project(represented.project)
                         }
-
-        linked_property :project
-
-        linked_property :priority
 
         links :children do
           visible_children.map do |child|
@@ -199,7 +213,6 @@ module API
         property :id, render_nil: true
         property :lock_version
         property :subject, render_nil: true
-        property :type, getter: -> (*) { type.try(:name) }, render_nil: true
         property :description,
                  exec_context: :decorator,
                  getter: -> (*) {
@@ -235,11 +248,11 @@ module API
                  end,
                  writeable: false,
                  if: -> (_) { current_user_allowed_to(:view_time_entries) }
-        property :percentage_done,
+        property :done_ratio,
+                 as: :percentageDone,
                  render_nil: true,
-                 exec_context: :decorator,
-                 setter: -> (value, *) { self.done_ratio = value },
-                 writeable: false
+                 writeable: false,
+                 if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
         property :parent_id, writeable: true
         property :created_at,
                  exec_context: :decorator,
@@ -248,43 +261,12 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
 
-        collection :custom_properties, exec_context: :decorator, render_nil: true
-
-        property :status,
-                 embedded: true,
-                 class: ::Status,
-                 decorator: ::API::V3::Statuses::StatusRepresenter
-        property :author,
-                 embedded: true,
-                 class: ::User,
-                 decorator: ::API::V3::Users::UserRepresenter
-        property :responsible,
-                 embedded: true,
-                 class: ::User,
-                 decorator: ::API::V3::Users::UserRepresenter
-        property :assigned_to,
-                 as: :assignee,
-                 embedded: true,
-                 class: ::User,
-                 decorator: ::API::V3::Users::UserRepresenter
-        property :category,
-                 embedded: true,
-                 class: ::Category,
-                 decorator: ::API::V3::Categories::CategoryRepresenter
-        property :priority,
-                 embedded: true,
-                 class: ::IssuePriority,
-                 decorator: ::API::V3::Priorities::PriorityRepresenter
-
         property :activities, embedded: true, exec_context: :decorator
 
         property :version,
                  embedded: true,
-                 exec_context: :decorator
-        property :project,
-                 embedded: true,
-                 class: ::Project,
-                 decorator: ::API::V3::Projects::ProjectRepresenter
+                 exec_context: :decorator,
+                 if: ->(*) { represented.fixed_version.present? }
         property :watchers,
                  embedded: true,
                  exec_context: :decorator,
@@ -335,13 +317,6 @@ module API
           end
         end
 
-        def custom_properties
-          values = represented.custom_field_values
-          values.map do |v|
-            { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }
-          end
-        end
-
         def current_user_allowed_to(permission)
           current_user && current_user.allowed_to?(permission, represented.project)
         end
@@ -350,15 +325,7 @@ module API
           @visible_children ||= represented.children.select(&:visible?)
         end
 
-        def percentage_done
-          represented.done_ratio unless Setting.work_package_done_ratio == 'disabled'
-        end
-
         private
-
-        def current_user
-          context[:current_user]
-        end
 
         def version_policy
           @version_policy ||= ::VersionPolicy.new(current_user)

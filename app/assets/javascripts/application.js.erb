@@ -43,6 +43,8 @@
 //= require ./bundles/openproject-core-app
 //= require_tree ./bundles
 
+//= require custom-fields
+
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
     jQuery.fn.reverse = Array.prototype.reverse;
@@ -64,48 +66,6 @@ jQuery(document).ready(function ($) {
       }
     }
   });
-
-  if (typeof CS !== "undefined") {
-    var regions = $.datepicker.regional;
-    var regional = regions[CS.lang] || regions[""];
-    $.datepicker.setDefaults(regional);
-
-    var gotoToday = $.datepicker._gotoToday;
-
-    $.datepicker._gotoToday = function (id) {
-      gotoToday.call(this, id);
-      var target = $(id),
-        inst = this._getInst(target[0]),
-        dateStr = $.datepicker._formatDate(inst);
-      target.val(dateStr);
-      target.blur();
-      $.datepicker._hideDatepicker();
-    };
-
-    var defaults = {
-      showWeek: true,
-      changeMonth: true,
-      changeYear: true,
-      yearRange: "c-100:c+10",
-      dateFormat: 'yy-mm-dd',
-      showButtonPanel: true,
-      calculateWeek: function (day) {
-        var dayOfWeek = new Date(+day);
-
-        if (day.getDay() != 1) {
-          dayOfWeek.setDate(day.getDate() - day.getDay() + 1);
-        }
-
-        return $.datepicker.iso8601Week(dayOfWeek);
-      }
-    };
-
-    if (CS.firstWeekDay && CS.firstWeekDay !== "") {
-      defaults.firstDay = parseInt(CS.firstWeekDay, 10);
-    }
-
-    $.datepicker.setDefaults(defaults);
-  }
 
   $(document).on('click', '#show_more_wp_properties', function(el){
     $(this).find('.icon').toggleClass('icon-arrow-right6-3 icon-arrow-right6-1');

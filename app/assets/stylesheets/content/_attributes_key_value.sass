@@ -27,25 +27,25 @@
 //++
 
 .attributes-key-value
-  @include grid-block($wrap: true)
+  @include grid-block
+  @include grid-layout(2)
+  align-items: center
   overflow: visible
   overflow-y: visible
+  font-size: 0.875rem
 
 .attributes-key-value--key
-  @include grid-content(4)
-  margin-bottom: 0.4rem
-  padding: 0 1rem 0 0
-  font-size: 0.9rem
+  @extend .form--label
+  @include grid-size(4)
+  margin-bottom: 0.1875rem
+  padding: 0.375rem 0
   font-weight: bold
-  line-height: $list-line-height / 0.9
-  text-overflow: ellipsis
-  white-space: nowrap
 
 .attributes-key-value--value-container
   @include grid-content(8)
   overflow: visible
   overflow-y: visible
-  margin-bottom: 0.4rem
+  margin-bottom: 0.1875rem
   padding: 0
 
 .attributes-key-value--value

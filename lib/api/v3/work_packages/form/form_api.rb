@@ -30,26 +30,19 @@ module API
   module V3
     module WorkPackages
       module Form
-        class FormAPI < Grape::API
-          helpers do
-            def process_form_request
-              write_work_package_attributes
-              write_request_valid?
-
-              error = ::API::Errors::ErrorBase.create(@representer.represented.errors)
-
-              if error.is_a? ::API::Errors::Validation
-                status 200
-                FormRepresenter.new(@representer.represented, current_user: current_user)
-              else
-                fail error
-              end
-            end
-
-          end
-
+        class FormAPI < ::API::OpenProjectAPI
           post '/form' do
-            process_form_request
+            write_work_package_attributes
+            write_request_valid?
+
+            error = ::API::Errors::ErrorBase.create(@work_package.errors)
+
+            if error.is_a? ::API::Errors::Validation
+              status 200
+              FormRepresenter.new(@work_package, current_user: current_user)
+            else
+              fail error
+            end
           end
         end
       end

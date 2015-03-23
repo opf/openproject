@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$form--field-types: (text-field, text-area, select, check-box, range-field, search, file)
+$form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file)
 
 @mixin input-style
   border: $content-form-input-border
@@ -44,6 +44,7 @@ $form--field-types: (text-field, text-area, select, check-box, range-field, sear
   vertical-align: middle
   text-overflow: ellipsis
   overflow: hidden
+  white-space:  nowrap
 
 // A general CSS class to be applied to forms using the above defined form style.
 // We can't define this on form itself as this would break a lot of existing forms.
@@ -73,6 +74,11 @@ $form--field-types: (text-field, text-area, select, check-box, range-field, sear
 .form--space
   padding-top: 10px
 
+.form--row
+  @include grid-block
+  // cancel out foundations overflow-y: auto
+  overflow: visible
+
 fieldset
   legend:after
     @include icon-common
@@ -99,10 +105,6 @@ fieldset
     span
       padding-left: 5px
       background-color: white
-
-.ui-widget
-  font-family: $body-font-family
-  font-size: 0.9rem
 
 // TODO: Customise with proper jQuery UI theme.
 .ui-datepicker-month,
@@ -216,9 +218,27 @@ fieldset.form--fieldset
   .form.-vertical &
     @include grid-orient(vertical)
 
-  .grid-block:nth-last-of-type(n+2) > &,
+  .grid-block > &:nth-last-of-type(n+2),
+  .form--row > &:nth-last-of-type(n+2),
   .form--grouping-row > &:nth-last-of-type(n+2)
     padding-right: 1rem
+
+  &.-trailing-label
+    .form--label
+      @include grid-order(2)
+      @include grid-size(expand)
+      // override max-width set by including grid-content
+      max-width: 100%
+      padding-left: 0.5rem
+
+    .form--field-container
+      @include grid-order(1)
+      @include grid-size(shrink)
+
+      // FIXME: this will break anything in regards to flex layouting within the container,
+      // e.g. using form--field-inline-action inside -trailing-label
+    .form--label + span.form--field-container
+      display: block
 
 .form--label
   @include grid-content(2)
@@ -400,7 +420,7 @@ fieldset.form--fieldset
   color:        $form-label-color
   margin-bottom: 0.8rem
 
-.form--table
+.form--matrix
   border:       $content-form-input-border
   border-radius: 2px
   background:   none
@@ -408,23 +428,24 @@ fieldset.form--fieldset
   font-size:    0.9rem
   line-height:  1.5
 
-.form--table-header-row
+.form--matrix-header-row
   font-weight:      bold
   border-bottom:    $content-form-input-border
   background-color: $gray-light
 
-.form--table-header-row-cell
+.form--matrix-header-cell
   padding:          0 1rem
 
-.form--table-row
+.form--matrix-row
 
   &:nth-child(odd)
     background-color: $gray-light
   &:nth-child(even)
     background-color: white
 
-.form--table-checkbox-cell
-  width:        1rem
+.form--matrix-checkbox-cell
+  min-width:    1rem
+  max-width:    4rem
   text-align:   center
 
 .form--column
@@ -468,3 +489,17 @@ fieldset.form--fieldset
   %form--field-element-container + &
     margin-left:  -1rem
     border-left:  0
+
+.form--list
+  display: flex
+  margin: 0
+  @include grid-layout(3)
+
+  @include breakpoint(large)
+    @include grid-layout(4)
+
+  @include breakpoint(xlarge)
+    @include grid-layout(6)
+
+  li, div
+    padding: 0

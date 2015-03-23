@@ -31,12 +31,12 @@ require 'securerandom'
 module API
   module V3
     module Queries
-      class QueriesAPI < Grape::API
+      class QueriesAPI < ::API::OpenProjectAPI
         resources :queries do
           params do
             requires :id, desc: 'Query id'
           end
-          namespace ':id' do
+          route_param :id do
             before do
               @query = Query.find(params[:id])
               @representer =  ::API::V3::Queries::QueryRepresenter.new(@query)

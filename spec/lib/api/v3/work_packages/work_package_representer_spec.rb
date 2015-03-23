@@ -34,7 +34,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:current_user) { member }
 
-  let(:representer)  { described_class.new(work_package, current_user: current_user) }
+  let(:representer) { described_class.create(work_package, current_user: current_user) }
 
   let(:work_package) {
     FactoryGirl.build(:work_package,
@@ -125,7 +125,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       it { is_expected.to have_json_path('subject') }
-      it { is_expected.to have_json_path('type') }
 
       describe 'lock version' do
         it { is_expected.to have_json_path('lockVersion') }
@@ -224,6 +223,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe 'custom fields' do
+      it 'uses a CustomFieldInjector' do
+        expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
+          .and_call_original
+        representer.to_json
+      end
+    end
+
     describe '_links' do
       it { is_expected.to have_json_type(Object).at_path('_links') }
 
@@ -261,6 +268,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { 'status' }
           let(:href) { "/api/v3/statuses/#{work_package.status_id}" }
           let(:title) { work_package.status.name }
+        end
+      end
+
+      describe 'type' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'type' }
+          let(:href) { "/api/v3/types/#{work_package.type_id}" }
+          let(:title) { work_package.type.name }
         end
       end
 

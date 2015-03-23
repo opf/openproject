@@ -29,13 +29,13 @@
 module API
   module V3
     module Attachments
-      class AttachmentsAPI < Grape::API
+      class AttachmentsAPI < ::API::OpenProjectAPI
         resources :attachments do
 
           params do
             requires :id, desc: 'Attachment id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @attachment = Attachment.find(params[:id])
@@ -48,7 +48,6 @@ module API
             end
 
           end
-
         end
       end
     end

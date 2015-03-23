@@ -28,7 +28,8 @@
     "lodash": "~2.4.1",
     "foundation-apps": "1.0.2",
     "ui-select": "0xF013/ui-select#1a67dea0f6076e8f33354bf573bf5482539f289f",
-    "mousetrap": "git://github.com/ccampbell/mousetrap.git"
+    "mousetrap": "git://github.com/ccampbell/mousetrap.git",
+    "bourbon": "~4.2.1"
   },
   "devDependencies": {
     "mocha": "~1.14.0",

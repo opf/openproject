@@ -47,20 +47,17 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= page_fields.text_field :title, :size => 120 %>
       <% end %>
     </div>
-    <div class="form--field -required">
+    <div class="form--field -required -vertical">
       <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
                       :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
                       :'ng-non-bindable' => '' %>
     </div>
 
-    <div class="form--field -required">
+    <div class="form--field">
       <%= f.text_field :comments, :size => 120 %>
     </div>
 
-    <div class="form--field">
-      <label><%= l(:label_attachment_plural) %></label>
-      <%= render :partial => 'attachments/form', :f => f %>
-    </div>
+    <%= render :partial => 'attachments/form', :f => f %>
 
   <hr>
   <%= f.submit l(:button_save), class: 'button -highlight' %>

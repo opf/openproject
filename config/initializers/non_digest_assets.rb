@@ -27,5 +27,7 @@
 #++
 
 NonStupidDigestAssets.whitelist = [
-  'styleguide.html'
+  'styleguide.html',
+  'styleguide.css',
+  'styleguide.js'
 ]

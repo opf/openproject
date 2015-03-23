@@ -30,9 +30,8 @@ module API
   module V3
     module WorkPackages
       module Schema
-        class WorkPackageSchemasAPI < Grape::API
+        class WorkPackageSchemasAPI < ::API::OpenProjectAPI
           resources :schemas do
-
             params do
               requires :project, desc: 'Work package schema id'
               requires :type, desc: 'Work package schema id'
@@ -63,8 +62,8 @@ module API
                 end
 
                 schema = WorkPackageSchema.new(project: project, type: type)
-                @representer = WorkPackageSchemaRepresenter.new(schema,
-                                                                current_user: current_user)
+                @representer = WorkPackageSchemaRepresenter.create(schema,
+                                                                   current_user: current_user)
               end
 
               get do

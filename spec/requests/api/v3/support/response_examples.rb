@@ -110,11 +110,10 @@ shared_examples_for 'update conflict' do
                   I18n.t('api_v3.errors.code_409')
 end
 
-shared_examples_for 'constraint violation' do |message|
+shared_examples_for 'constraint violation' do
   it_behaves_like 'error response',
                   422,
-                  'PropertyConstraintViolation',
-                  message
+                  'PropertyConstraintViolation'
 end
 
 shared_examples_for 'format error' do |message|

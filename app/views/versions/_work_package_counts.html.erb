@@ -37,14 +37,15 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset>
 
     <legend>
-      <span class="inline-label">
-        <span class="form-label -transparent">
-          <%= l(:label_work_packages_by, '').html_safe %>
-        </span>
-        <%= tag_for_selection %>
-      </span>
+      <%= l(:label_work_package_plural) %>
     </legend>
 
+    <span class="inline-label">
+      <span class="form-label -transparent">
+        <%= l(:label_group_by) %>
+      </span>
+      <%= tag_for_selection %>
+    </span>
     <% if counts.empty? %>
 
       <p>

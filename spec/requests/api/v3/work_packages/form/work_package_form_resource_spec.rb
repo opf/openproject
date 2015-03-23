@@ -32,6 +32,7 @@ require 'rack/test'
 describe 'API v3 Work package form resource', type: :request do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
+  include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
@@ -39,7 +40,7 @@ describe 'API v3 Work package form resource', type: :request do
   let(:unauthorized_user) { FactoryGirl.create(:user) }
 
   describe '#post' do
-    let(:post_path) { "/api/v3/work_packages/#{work_package.id}/form" }
+    let(:post_path) { api_v3_paths.work_package_form work_package.id }
     let(:valid_params) do
       {
         _type: 'WorkPackage',
@@ -72,7 +73,7 @@ describe 'API v3 Work package form resource', type: :request do
       let(:current_user) { authorized_user }
 
       context 'non-existing work package' do
-        let(:post_path) { '/api/v3/work_packages/eeek/form' }
+        let(:post_path) { api_v3_paths.work_package_form 'eeek' }
 
         include_context 'post request'
 
@@ -311,7 +312,7 @@ describe 'API v3 Work package form resource', type: :request do
             describe 'status' do
               let(:path) { '_embedded/payload/_links/status/href' }
               let(:target_status) { FactoryGirl.create(:status) }
-              let(:status_link) { "/api/v3/statuses/#{target_status.id}" }
+              let(:status_link) { api_v3_paths.status target_status.id }
               let(:status_parameter) { { _links: { status: { href: status_link } } } }
               let(:params) { valid_params.merge(status_parameter) }
 
@@ -357,7 +358,7 @@ describe 'API v3 Work package form resource', type: :request do
                   let(:error_id) {
                     'urn:openproject-org:api:v3:errors:MultipleErrors'.to_json
                   }
-                  let(:status_link) { '/api/v3/statuses/-1' }
+                  let(:status_link) { api_v3_paths.status -1 }
 
                   include_context 'post request'
 
@@ -371,15 +372,18 @@ describe 'API v3 Work package form resource', type: :request do
                 end
 
                 context 'wrong resource' do
-                  let(:status_link) { "/api/v3/users/#{authorized_user.id}" }
+                  let(:status_link) { api_v3_paths.user authorized_user.id }
 
                   include_context 'post request'
 
-                  it_behaves_like 'constraint violation',
-                                  I18n.t('api_v3.errors.invalid_resource',
-                                         property: 'Status',
-                                         expected: 'Status',
-                                         actual: 'User')
+                  it_behaves_like 'constraint violation' do
+                    let(:message) {
+                      I18n.t('api_v3.errors.invalid_resource',
+                             property: 'status',
+                             expected: '/api/v3/statuses/:id',
+                             actual: status_link)
+                    }
+                  end
                 end
               end
             end
@@ -436,13 +440,13 @@ describe 'API v3 Work package form resource', type: :request do
                   end
 
                   context 'existing user' do
-                    let(:user_link) { "/api/v3/users/#{visible_user.id}" }
+                    let(:user_link) { api_v3_paths.user visible_user.id }
 
                     it_behaves_like 'valid user assignment'
                   end
 
                   context 'existing group' do
-                    let(:user_link) { "/api/v3/users/#{group.id}" }
+                    let(:user_link) { api_v3_paths.user group.id }
 
                     include_context 'setup group membership', true
 
@@ -452,7 +456,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                 context "invalid #{property}" do
                   context 'non-existing user' do
-                    let(:user_link) { '/api/v3/users/42' }
+                    let(:user_link) { api_v3_paths.user 4200 }
 
                     include_context 'post request'
 
@@ -464,23 +468,25 @@ describe 'API v3 Work package form resource', type: :request do
                   end
 
                   context 'wrong resource' do
-                    let(:user_link) { "/api/v3/statuses/#{work_package.status.id}" }
+                    let(:user_link) { api_v3_paths.status work_package.status.id }
 
                     include_context 'post request'
 
-                    it_behaves_like 'constraint violation',
-                                    I18n.t('api_v3.errors.invalid_resource',
-                                           property: "#{property.capitalize}",
-                                           expected: 'User',
-                                           actual: 'Status')
+                    it_behaves_like 'constraint violation' do
+                      let(:message) {
+                        I18n.t('api_v3.errors.invalid_resource',
+                               property: property,
+                               expected: '/api/v3/users/:id',
+                               actual: user_link)
+                      }
+                    end
                   end
 
                   context 'group assignement disabled' do
-                    let(:user_link) { "/api/v3/users/#{group.id}" }
+                    let(:user_link) { api_v3_paths.user group.id }
                     let(:error_message_path) { "_embedded/validationErrors/#{property}/message" }
                     let(:error_message) {
-                      I18n.t('api_v3.errors.validation.' \
-                             'invalid_user_assigned_to_work_package',
+                      I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                              property: "#{property.capitalize}").to_json
                     }
 
@@ -510,8 +516,8 @@ describe 'API v3 Work package form resource', type: :request do
               let(:path) { '_embedded/payload/_links/version/href' }
               let(:target_version) { FactoryGirl.create(:version, project: project) }
               let(:other_version) { FactoryGirl.create(:version, project: project) }
-              let(:version_link) { "/api/v3/versions/#{target_version.id}" }
-              let(:other_version_link) { "/api/v3/versions/#{other_version.id}" }
+              let(:version_link) { api_v3_paths.version target_version.id }
+              let(:other_version_link) { api_v3_paths.version other_version.id }
               let(:version_parameter) { { _links: { version: { href: version_link } } } }
               let(:params) { valid_params.merge(version_parameter) }
 
@@ -548,8 +554,8 @@ describe 'API v3 Work package form resource', type: :request do
               let(:links_path) { '_embedded/schema/category/_links' }
               let(:target_category) { FactoryGirl.create(:category, project: project) }
               let(:other_category) { FactoryGirl.create(:category, project: project) }
-              let(:category_link) { "/api/v3/categories/#{target_category.id}" }
-              let(:other_category_link) { "/api/v3/categories/#{other_category.id}" }
+              let(:category_link) { api_v3_paths.category target_category.id }
+              let(:other_category_link) { api_v3_paths.category other_category.id }
               let(:category_parameter) { { _links: { category: { href: category_link } } } }
               let(:params) { valid_params.merge(category_parameter) }
 
@@ -586,8 +592,8 @@ describe 'API v3 Work package form resource', type: :request do
               let(:links_path) { '_embedded/schema/priority/_links' }
               let(:target_priority) { FactoryGirl.create(:priority) }
               let(:other_priority) { work_package.priority }
-              let(:priority_link) { "/api/v3/priorities/#{target_priority.id}" }
-              let(:other_priority_link) { "/api/v3/priorities/#{other_priority.id}" }
+              let(:priority_link) { api_v3_paths.priority target_priority.id }
+              let(:other_priority_link) { api_v3_paths.priority other_priority.id }
               let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
               let(:params) { valid_params.merge(priority_parameter) }
 
@@ -619,9 +625,51 @@ describe 'API v3 Work package form resource', type: :request do
               end
             end
 
+            describe 'type' do
+              let(:path) { '_embedded/payload/_links/type/href' }
+              let(:links_path) { '_embedded/schema/type/_links' }
+              let(:target_type) { FactoryGirl.create(:type) }
+              let(:other_type) { work_package.type }
+              let(:type_link) { api_v3_paths.type target_type.id }
+              let(:other_type_link) { api_v3_paths.type other_type.id }
+              let(:type_parameter) { { _links: { type: { href: type_link } } } }
+              let(:params) { valid_params.merge(type_parameter) }
+
+              before do
+                project.types << target_type # make sure we have a valid transition
+              end
+
+              describe 'allowed values' do
+                before do
+                  other_type
+                end
+
+                include_context 'post request'
+
+                it 'should list the types' do
+                  expect(subject.body).to be_json_eql(type_link.to_json)
+                    .at_path("#{links_path}/allowedValues/1/href")
+                  expect(subject.body).to be_json_eql(other_type_link.to_json)
+                    .at_path("#{links_path}/allowedValues/0/href")
+                end
+              end
+
+              context 'valid type' do
+                include_context 'post request'
+
+                it_behaves_like 'valid payload'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package type' do
+                  expect(subject.body).to be_json_eql(type_link.to_json).at_path(path)
+                end
+              end
+            end
+
             describe 'multiple errors' do
-              let(:user_link) { '/api/v3/users/42' }
-              let(:status_link) { '/api/v3/statuses/-1' }
+              let(:user_link) { api_v3_paths.user 4200 }
+              let(:status_link) { api_v3_paths.status -1 }
               let(:links) {
                 {
                   _links: {

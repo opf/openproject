@@ -31,19 +31,21 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <%= f.text_field :subject, required: true %>
 </div>
-<div class="form--field">
-  <%= f.check_box :sticky, label: l(:label_board_sticky) %>
-</div>
-<div class="form--field">
-  <%= f.check_box :locked, label: l(:label_board_locked) %>
-</div>
+<% unless replying %>
+  <div class="form--field">
+    <%= f.check_box :sticky, label: l(:label_board_sticky) %>
+  </div>
+  <div class="form--field">
+    <%= f.check_box :locked, label: l(:label_board_locked) %>
+  </div>
+<% end %>
 <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
   <div class="form--field">
     <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]}, label: Board.name.humanize %>
   </div>
 <% end %>
 <div class="form--field">
-  <%= f.text_area :content, label: l(:description_message_content), data: { wp_autocomplete_url: work_packages_auto_complete_path(project_id: @project, format: :json), :'ng-non-bindable' => '' } %>
+  <%= f.text_area :content, label: l(:description_message_content), class: 'wiki-edit', data: {:'ng-non-bindable' => '' }, 'data-wp_autocomplete_url' => work_packages_auto_complete_path(project_id: @project, format: :json) %>
   <%= wikitoolbar_for 'message_content' %>
 </div>
 <%= render :partial => 'attachments/form' %>
