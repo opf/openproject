@@ -38,4 +38,4 @@ de:
     work_packages:
       properties:
         storyPoints: "Story Punkte"
-        remainingHours: "Verbleibende Stunden"
+        remainingTime: "Verbleibende Stunden"
