@@ -1,0 +1,266 @@
+AllCops:
+  Exclude:
+    - db/schema.rb
+    - lib/plugins/rfpdf/**/*
+
+AccessorMethodName:
+  Enabled: false
+
+ActionFilter:
+  Enabled: false
+
+Alias:
+  Enabled: false
+
+AndOr:
+  Enabled: false
+
+ArrayJoin:
+  Enabled: false
+
+AsciiComments:
+  Enabled: false
+
+AsciiIdentifiers:
+  Enabled: false
+
+Attr:
+  Enabled: false
+
+BlockNesting:
+  Enabled: false
+
+Blocks:
+  Enabled: false
+
+CaseEquality:
+  Enabled: false
+
+CharacterLiteral:
+  Enabled: false
+
+ClassAndModuleChildren:
+  Enabled: false
+
+ClassLength:
+  Enabled: false
+
+ClassVars:
+  Enabled: false
+
+CollectionMethods:
+  PreferredMethods:
+    find: detect
+    reduce: inject
+    collect: map
+    find_all: select
+
+ColonMethodCall:
+  Enabled: false
+
+CommentAnnotation:
+  Enabled: false
+
+CyclomaticComplexity:
+  Enabled: false
+
+Delegate:
+  Enabled: false
+
+DeprecatedHashMethods:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+DotPosition:
+  EnforcedStyle: leading
+
+DoubleNegation:
+  Enabled: false
+
+EachWithObject:
+  Enabled: false
+
+EmptyLiteral:
+  Enabled: false
+
+Encoding:
+  Enabled: false
+
+EvenOdd:
+  Enabled: false
+
+FileName:
+  Enabled: false
+
+FlipFlop:
+  Enabled: false
+
+FormatString:
+  Enabled: false
+
+GlobalVars:
+  Enabled: false
+
+GuardClause:
+  Enabled: false
+
+IfUnlessModifier:
+  Enabled: false
+
+IfWithSemicolon:
+  Enabled: false
+
+InlineComment:
+  Enabled: false
+
+Lambda:
+  Enabled: false
+
+LambdaCall:
+  Enabled: false
+
+LineEndConcatenation:
+  Enabled: false
+
+LineLength:
+  Max: 100
+
+MethodLength:
+  Enabled: false
+
+ModuleFunction:
+  Enabled: false
+
+NegatedIf:
+  Enabled: false
+
+NegatedWhile:
+  Enabled: false
+
+Next:
+  Enabled: false
+
+NilComparison:
+  Enabled: false
+
+Not:
+  Enabled: false
+
+NumericLiterals:
+  Enabled: false
+
+OneLineConditional:
+  Enabled: false
+
+OpMethod:
+  Enabled: false
+
+ParameterLists:
+  Enabled: false
+
+PercentLiteralDelimiters:
+  Enabled: false
+
+PerlBackrefs:
+  Enabled: false
+
+PredicateName:
+  NamePrefixBlacklist:
+    - is_
+
+Proc:
+  Enabled: false
+
+RaiseArgs:
+  Enabled: false
+
+RegexpLiteral:
+  Enabled: false
+
+SelfAssignment:
+  Enabled: false
+
+SingleLineBlockParams:
+  Enabled: false
+
+SingleLineMethods:
+  Enabled: false
+
+SignalException:
+  Enabled: false
+
+SpecialGlobalVars:
+  Enabled: false
+
+StringLiterals:
+  EnforcedStyle: single_quotes
+
+VariableInterpolation:
+  Enabled: false
+
+TrailingComma:
+  Enabled: false
+
+TrivialAccessors:
+  Enabled: false
+
+VariableInterpolation:
+  Enabled: false
+
+WhenThen:
+  Enabled: false
+
+WhileUntilModifier:
+  Enabled: false
+
+WordArray:
+  Enabled: false
+
+# Lint
+
+AmbiguousOperator:
+  Enabled: false
+
+AmbiguousRegexpLiteral:
+  Enabled: false
+
+AssignmentInCondition:
+  Enabled: false
+
+ConditionPosition:
+  Enabled: false
+
+DeprecatedClassMethods:
+  Enabled: false
+
+ElseLayout:
+  Enabled: false
+
+HandleExceptions:
+  Enabled: false
+
+InvalidCharacterLiteral:
+  Enabled: false
+
+LiteralInCondition:
+  Enabled: false
+
+LiteralInInterpolation:
+  Enabled: false
+
+Loop:
+  Enabled: false
+
+ParenthesesAsGroupedExpression:
+  Enabled: false
+
+RequireParentheses:
+  Enabled: false
+
+UnderscorePrefixedVariableName:
+  Enabled: false
+
+Void:
+  Enabled: false

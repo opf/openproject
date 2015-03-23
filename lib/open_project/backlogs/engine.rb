@@ -128,12 +128,73 @@ module OpenProject::Backlogs
       backlogs/burndown.js
     )
 
-    patches [:PermittedParams, :WorkPackage, :Status, :MyController, :Project,
-      :ProjectsController, :ProjectsHelper, :Query, :User, :VersionsController, :Version]
+    patches [:PermittedParams, :WorkPackage, :Status, :Type, :MyController, :Project,
+             :ProjectsController, :ProjectsHelper, :Query, :User, :VersionsController, :Version]
+    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
 
     extend_api_response(:v3, :work_packages, :work_package) do
-      property :story_points, if: -> (*) { backlogs_enabled? }
-      property :remaining_hours, if: -> (*) { backlogs_enabled? }
+      property :story_points,
+               render_nil: true,
+               if: -> (*) { backlogs_enabled? && type.backlogs_type? }
+
+      property :remaining_time,
+               exec_context: :decorator,
+               getter: -> (*) {
+                 datetime_formatter.format_duration_from_hours(represented.remaining_hours,
+                                                               allow_nil: true)
+               },
+               render_nil: true,
+               if: -> (*) {
+                 represented.backlogs_enabled? && represented.type.backlogs_type?
+               }
+    end
+
+    extend_api_response(:v3, :work_packages, :form, :work_package_payload) do
+      property :story_points,
+               render_nil: true,
+               if: -> (*) { backlogs_enabled? && type.backlogs_type? }
+
+      property :remaining_time,
+               exec_context: :decorator,
+               getter: -> (*) {
+                 datetime_formatter.format_duration_from_hours(represented.remaining_hours,
+                                                               allow_nil: true)
+               },
+               setter: -> (value, *) {
+                 remaining = datetime_formatter.parse_duration_to_hours(value,
+                                                                        'remainingTime',
+                                                                        allow_nil: true)
+                 represented.remaining_hours = remaining
+               },
+               render_nil: true,
+               if: -> (*) {
+                 represented.backlogs_enabled? && represented.type.backlogs_type?
+               }
+    end
+
+    extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      schema :story_points,
+             type: 'Integer',
+             required: false,
+             show_if: -> (*) {
+               represented.project.backlogs_enabled? && represented.type.backlogs_type?
+             }
+
+      schema :remaining_time,
+             type: 'Duration',
+             name_source: :remaining_hours,
+             required: false,
+             writable: -> (*) { represented.remaining_time_writable? },
+             show_if: -> (*) {
+               represented.project.backlogs_enabled? && represented.type.backlogs_type?
+             }
+    end
+
+    allow_attribute_update :work_package, :story_points
+    allow_attribute_update :work_package, :remaining_hours do
+      if !model.leaf? && model.changed.include?('remaining_hours')
+        errors.add :error_readonly, 'remaining_hours'
+      end
     end
 
     config.to_prepare do

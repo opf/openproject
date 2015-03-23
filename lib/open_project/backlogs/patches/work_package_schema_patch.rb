@@ -33,9 +33,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-en:
-  js:
-    work_packages:
-      properties:
-        storyPoints: "Story Points"
-        remainingTime: "Remaining Hours"
+require_dependency 'api/v3/work_packages/schema/work_package_schema'
+
+module OpenProject::Backlogs::Patches::WorkPackageSchemaPatch
+  def self.included(base)
+    base.class_eval do
+      unloadable
+
+      include InstanceMethods
+      extend ClassMethods
+    end
+  end
+
+  module ClassMethods
+  end
+
+  module InstanceMethods
+    def remaining_time_writable?
+      @work_package.nil? ? true : @work_package.leaf?
+    end
+  end
+end

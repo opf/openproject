@@ -33,9 +33,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-en:
-  js:
-    work_packages:
-      properties:
-        storyPoints: "Story Points"
-        remainingTime: "Remaining Hours"
+require_dependency 'type'
+
+module OpenProject::Backlogs::Patches::TypePatch
+  def self.included(base)
+    base.class_eval do
+      unloadable
+
+      include InstanceMethods
+      extend ClassMethods
+    end
+  end
+
+  module ClassMethods
+  end
+
+  module InstanceMethods
+    def story?
+      Story.types.include?(id)
+    end
+
+    def task?
+      Task.type.present? && id == Task.type
+    end
+
+    def backlogs_type?
+      story? || task?
+    end
+  end
+end
