@@ -76,3 +76,10 @@ end
 Then /^the minutes should contain the following text:$/ do |table|
   step %{I should see "#{table.raw.first.first}" within "#meeting_minutes-text"}
 end
+
+Then /^there should be a text edit toolbar for the "(.+)" field$/ do |field_id|
+  # second parent up
+  ancestor = find(:xpath, "//*[@id='#{field_id.gsub('#','')}']/../..")
+
+  expect(ancestor).to have_selector('.jstElements')
+end

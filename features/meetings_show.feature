@@ -74,7 +74,7 @@ Feature: Show meetings
 
        Then I should see "Agenda" within ".meeting_agenda"
         And I should not see "No data to display" within "#meeting_agenda_text"
-        And I should see "Text formatting" within ".meeting_agenda"
+        And there should be a text edit toolbar for the "#meeting_agenda_text" field
 
   @javascript
   Scenario: Navigate to a meeting page with a closed agenda and the permission to edit the minutes
@@ -88,7 +88,7 @@ Feature: Show meetings
 
        Then I should see "Minutes" within ".meeting_minutes"
         And I should not see "No data to display" within "#meeting_minutes_text"
-        And I should see "Text formatting" within ".meeting_minutes"
+        And there should be a text edit toolbar for the "#meeting_minutes_text" field
 
   @javascript
   Scenario: Navigate to a meeting page with an open agenda and the permission to edit the minutes
@@ -129,7 +129,6 @@ Feature: Show meetings
 
        Then I should see "Minutes" within ".meeting_minutes"
         And I should see "Some minutes!" within "#meeting_minutes_text"
-        And I should not see "Text formatting" within "#edit-meeting_minutes"
 
   Scenario: Navigate to a meeting page and view an older version of an agenda
       Given the role "user" may have the following rights:
