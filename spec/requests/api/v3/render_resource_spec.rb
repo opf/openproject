@@ -99,7 +99,7 @@ describe 'API v3 Render resource' do
               let(:post_path) { "#{path}?context=/api/v3/" }
 
               it_behaves_like 'invalid render context',
-                              I18n.t('api_v3.errors.render.context_not_found')
+                              I18n.t('api_v3.errors.render.context_not_parsable')
             end
 
             describe 'unsupported context resource found' do
