@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= render partial: 'members/autocomplete_for_member', locals: { principals: principals, roles: roles } %>
         </div>
       </div>
-      <div class="form--column">
+      <div class="form--column roles">
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%= l(:label_role_plural) %></legend>
           <%= labeled_check_box_tags 'member[role_ids][]', roles %>
