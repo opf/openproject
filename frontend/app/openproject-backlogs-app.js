@@ -44,7 +44,7 @@ openprojectBacklogsApp.run([ 'ConfigurationService',
                          'WorkPackagesOverviewService',
                          function(ConfigurationService, WorkPackagesOverviewService) {
   if (ConfigurationService.isModuleEnabled('backlogs')) {
-    WorkPackagesOverviewService.addAttributesToGroup('estimatesAndTime', ['storyPoints', 'remainingHours']);
+    WorkPackagesOverviewService.addAttributesToGroup('estimatesAndTime', ['storyPoints', 'remainingTime']);
   }
 }]);
 
