@@ -99,8 +99,8 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     end
 
     def validate_cost_object
-      if changed.include? 'cost_object_id'
-        unless (cost_object_id.blank? || project.cost_object_ids.include?(cost_object_id))
+      if cost_object_id_changed?
+        unless cost_object_id.blank? || project.cost_object_ids.include?(cost_object_id)
           errors.add :cost_object, :inclusion
         end
       end
