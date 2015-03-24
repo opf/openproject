@@ -101,7 +101,7 @@ module OpenProject::Costs
     end
 
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
-             :ProjectsController, :ApplicationHelper, :UsersHelper]
+             :ProjectsController, :ApplicationHelper, :UsersHelper, :WorkPackagesHelper]
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
 
     allow_attribute_update :work_package, :cost_object_id
