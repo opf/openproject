@@ -30,8 +30,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2><%= Workflow.model_name.human %></h2>
 <%= render :partial => 'layouts/action_menu_specific' %>
 <%= styled_form_tag({}, :method => 'get') do %>
-  <div class="form--section">
-    <h3 class="form--section-title"><%=l(:text_workflow_edit)%></h3>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%=l(:text_workflow_edit)%></legend>
     <div class="grid-block">
       <div class="form--column">
         <div class="form--field -vertical">
@@ -53,8 +53,9 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </div>
     </div>
+    <hr class="form--separator">
     <%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button -highlight' %>
-  </div>
+  </fieldset>
 <% end %>
 <% if @type && @role && @statuses.any? %>
   <%= form_tag({}, :id => 'workflow_form' ) do %>
