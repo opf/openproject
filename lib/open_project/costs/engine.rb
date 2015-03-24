@@ -101,7 +101,8 @@ module OpenProject::Costs
     end
 
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
-             :ProjectsController, :ApplicationHelper, :UsersHelper]
+             :ProjectsController, :ApplicationHelper, :UsersHelper,
+             :WorkPackagesHelper]
 
     extend_api_response(:v3, :work_packages, :work_package) do
       include Redmine::I18n
