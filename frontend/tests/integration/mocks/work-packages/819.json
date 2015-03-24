@@ -96,6 +96,10 @@
     },
     "schema": {
       "href": "/api/v3/work_packages/schemas/1-7"
+    },
+    "category": {
+      "href": "/api/v3/categories/1",
+      "title": "Frontend"
     }
   },
   "id": 819,
@@ -104,10 +108,11 @@
   "type": "Feature",
   "description": {
     "format": "textile",
-    "html": "<p><a href=\"\" onclick=\"return false;\" class=\"issue work_package status-4 priority-2 parent\" title=\"harum temporibus sit sit autem atque optio vitaelasd22ss2 (to be scheduled)\">#54</a></p>",
+    "html": "<p><a href=\"\" onclick=\"return false;\" class=\"issue work_package status-4 priority-2 category-1 parent\" title=\"harum temporibus sit sit autem atque optio vitaelasd22ss2 (to be scheduled)\">#54</a></p>",
     "raw": "#54"
   },
   "priority": "Normal",
+  "category": "Backend",
   "startDate": "2014-10-23T00:00:00+00:00",
   "dueDate": "2014-12-27T00:00:00+00:00",
   "estimatedTime": "PT0S",
@@ -168,6 +173,9 @@
     "priority": {
       "name": "High"
     },
+    "category": {
+      "name": "Frontend"
+    },
     "author": {
       "_type": "User",
       "_links": {
@@ -186,7 +194,8 @@
       "avatar": "",
       "createdAt": "2014-11-05T15:56:819Z",
       "updatedAt": "2014-11-05T15:56:819Z",
-      "status": 1
+      "status": 1,
+      "category": 1
     },
     "activities": [
       {

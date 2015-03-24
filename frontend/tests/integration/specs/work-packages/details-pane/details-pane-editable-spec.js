@@ -32,50 +32,6 @@ var expect = require('../../../spec_helper.js').expect,
 /*jshint expr: true*/
 describe('OpenProject', function(){
   describe('editable', function() {
-    function behaveLikeEmbeddedDropdown(name, correctValue) {
-      context('behaviour', function() {
-        var editor = $('[ined-attribute=\'' + name + '\'] .inplace-edit');
-
-        beforeEach(function() {
-          detailsPaneHelper.loadPane(819, 'overview');
-        });
-
-        describe('read state', function() {
-          it('should render a span with value', function() {
-            expect(
-              editor
-                .$('.inplace-edit--read-value')
-                .getText()
-            ).to.eventually.equal(correctValue);
-          });
-        });
-
-        describe('edit state', function() {
-          beforeEach(function() {
-            editor.$('.inplace-editing--trigger-link').click();
-          });
-
-          context('dropdown', function() {
-            it('should be rendered', function() {
-              expect(
-                editor
-                  .$('.select2-container').isDisplayed()
-                  .isDisplayed()
-              ).to.eventually.be.true;
-            });
-
-            it('should have the correct value', function() {
-              expect(
-                editor
-                  .$('.select2-choice .select2-chosen span')
-                  .getText()
-              ).to.eventually.equal(correctValue);
-            });
-          });
-        });
-      });
-    }
-
     describe('subject', function() {
       var subjectEditor = $('.inplace-edit.attribute-subject');
 
@@ -165,16 +121,19 @@ describe('OpenProject', function(){
       });
     });
     describe('status', function() {
-      behaveLikeEmbeddedDropdown('status.name', 'specified');
+      detailsPaneHelper.dropDownTest('status.name', 'specified');
     });
     describe('priority', function() {
-      behaveLikeEmbeddedDropdown('priority.name', 'High');
+      detailsPaneHelper.dropDownTest('priority.name', 'High');
+    });
+    describe('category', function() {
+      detailsPaneHelper.dropDownTest('category.name', 'Frontend');
     });
     describe('version', function() {
       var name = 'version.name';
       var editor = $('[ined-attribute=\'' + name + '\'] .inplace-edit');
 
-      behaveLikeEmbeddedDropdown(name, 'alpha');
+      detailsPaneHelper.dropDownTest(name, 'alpha');
 
       context('when work package version link is present', function() {
         beforeEach(function() {
