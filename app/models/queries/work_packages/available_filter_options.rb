@@ -69,7 +69,7 @@ module Queries::WorkPackages::AvailableFilterOptions
       else
         options = { type: :string, order: 20 }
       end
-      filters["cf_#{field.id}"] = options.merge(name: field.name)
+      filters["custom_field_#{field.id}"] = options.merge(name: field.name)
     end
     filters
   end
@@ -200,7 +200,7 @@ module Queries::WorkPackages::AvailableFilterOptions
 
   def add_custom_fields_options(custom_fields)
     available_work_package_filters # compute default available_work_package_filters
-    return available_work_package_filters if available_work_package_filters.any? { |key, _| key.starts_with? 'cf_' }
+    return available_work_package_filters if available_work_package_filters.any? { |key, _| key.starts_with? 'custom_field_' }
 
     @available_work_package_filters.merge(get_custom_field_options(custom_fields))
   end

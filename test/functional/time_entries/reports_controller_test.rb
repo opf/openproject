@@ -117,7 +117,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
   end
 
   def test_report_custom_field_criteria
-    get :show, project_id: 1, criterias: ['project', 'cf_1', 'cf_7']
+    get :show, project_id: 1, criterias: ['project', 'custom_field_1', 'custom_field_7']
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:total_hours)

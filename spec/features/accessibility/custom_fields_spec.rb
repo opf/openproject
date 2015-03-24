@@ -195,7 +195,7 @@ describe 'Custom field accessibility', type: :feature do
         shared_context 'index page with query' do
           let!(:query) do
             query = FactoryGirl.build(:query, project: project)
-            query.column_names = ["cf_#{custom_field.id}"]
+            query.column_names = ["custom_field_#{custom_field.id}"]
 
             query.save!
             query
@@ -215,7 +215,7 @@ describe 'Custom field accessibility', type: :feature do
           end
 
           it_behaves_like 'Element has lang tag' do
-            let(:element) { find("td[class='cf_#{custom_field.id}']") }
+            let(:element) { find("td[class='custom_field_#{custom_field.id}']") }
           end
         end
 

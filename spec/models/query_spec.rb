@@ -82,7 +82,7 @@ describe Query, type: :model do
       let(:query) { FactoryGirl.build(:query) }
 
       before do
-        query.filters = [Queries::WorkPackages::Filter.new('cf_' + custom_field.id.to_s, operator: '=', values: [''])]
+        query.filters = [Queries::WorkPackages::Filter.new('custom_field_' + custom_field.id.to_s, operator: '=', values: [''])]
       end
 
       it 'should have the name of the custom field in the error message' do

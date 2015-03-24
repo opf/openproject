@@ -33,8 +33,8 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_custom_fields_for_all_projects_should_be_available_in_global_queries
     query = Query.new(project: nil, name: '_')
-    assert query.work_package_filter_available?('cf_1')
-    assert !query.work_package_filter_available?('cf_3')
+    assert query.work_package_filter_available?('custom_field_1')
+    assert !query.work_package_filter_available?('custom_field_3')
   end
 
   def test_system_shared_versions_should_be_available_in_global_queries
@@ -90,7 +90,7 @@ class QueryTest < ActiveSupport::TestCase
   def test_operator_none
     query = Query.new(project: Project.find(1), name: '_')
     query.add_filter('fixed_version_id', '!*', [''])
-    query.add_filter('cf_1', '!*', [''])
+    query.add_filter('custom_field_1', '!*', [''])
     assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IS NULL")
     assert query.statement.include?("#{CustomValue.table_name}.value IS NULL OR #{CustomValue.table_name}.value = ''")
     find_issues_with_query(query)
@@ -107,7 +107,7 @@ class QueryTest < ActiveSupport::TestCase
   def test_operator_all
     query = Query.new(project: Project.find(1), name: '_')
     query.add_filter('fixed_version_id', '*', [''])
-    query.add_filter('cf_1', '*', [''])
+    query.add_filter('custom_field_1', '*', [''])
     assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IS NOT NULL")
     assert query.statement.include?("#{CustomValue.table_name}.value IS NOT NULL AND #{CustomValue.table_name}.value <> ''")
     find_issues_with_query(query)
@@ -369,7 +369,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_issue_count_by_list_custom_field_group
-    q = Query.new(name: '_', group_by: 'cf_1')
+    q = Query.new(name: '_', group_by: 'custom_field_1')
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass String), count_by_group.keys.collect { |k| k.class.name }.uniq.sort
@@ -378,7 +378,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_issue_count_by_date_custom_field_group
-    q = Query.new(name: '_', group_by: 'cf_8')
+    q = Query.new(name: '_', group_by: 'custom_field_8')
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(Date NilClass), count_by_group.keys.collect { |k| k.class.name }.uniq.sort

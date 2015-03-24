@@ -49,7 +49,7 @@ class Queries::WorkPackages::Filter < Queries::Filter
      watcher_id:       :list
   )
 
-  validates :field, inclusion: { in: Proc.new { filter_types_by_field.keys }, message: '%(value) is not a valid filter' }, unless: Proc.new { |filter| filter.field.to_s.starts_with?('cf_') }
+  validates :field, inclusion: { in: Proc.new { filter_types_by_field.keys }, message: '%(value) is not a valid filter' }, unless: Proc.new { |filter| filter.field.to_s.starts_with?('custom_field_') }
 
   def self.add_filter_type_by_field(field, filter_type)
     filter_types_by_field[field.to_sym] = filter_type.to_sym

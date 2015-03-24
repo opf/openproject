@@ -34,7 +34,7 @@ queries_001:
   name: Multiple custom fields query
   filters: |
     ---
-    cf_1:
+    custom_field_1:
       :values:
       - MySQL
       :operator: "="
@@ -42,7 +42,7 @@ queries_001:
       :values:
       - "1"
       :operator: o
-    cf_2:
+    custom_field_2:
       :values:
       - "125"
       :operator: "="
@@ -176,7 +176,7 @@ queries_009:
 
   user_id: 1
   column_names:
-  group_by: cf_1
+  group_by: custom_field_1
   sort_criteria: |
     ---
     - - priority

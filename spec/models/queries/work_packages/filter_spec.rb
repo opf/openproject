@@ -148,7 +148,7 @@ describe Queries::WorkPackages::Filter, type: :model do
         end
 
         context 'and the field is a custom field starting with "cf"' do
-          before { filter.field = :cf_any_key }
+          before { filter.field = :custom_field_any_key }
 
           it { is_expected.to be_valid }
         end

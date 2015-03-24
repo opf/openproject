@@ -91,7 +91,7 @@ describe('Work packages helper', function() {
           custom_values: [ { custom_field_id: 1, value: 'custom field string'} ]
         };
 
-        expect(getRowObjectContent(object, 'cf_1')).to.equal('custom field string');
+        expect(getRowObjectContent(object, 'custom_field_1')).to.equal('custom field string');
       });
 
       it('should return type object custom field', function() {
@@ -99,7 +99,7 @@ describe('Work packages helper', function() {
           custom_values: [ { custom_field_id: 1, value: { name: 'name1' }} ]
         };
 
-        expect(getRowObjectContent(object, 'cf_1')).to.equal('name1');
+        expect(getRowObjectContent(object, 'custom_field_1')).to.equal('name1');
       });
 
       it('should handle missing data', function() {
@@ -107,8 +107,8 @@ describe('Work packages helper', function() {
           custom_values: [ { custom_field_id: 1, value: 'whatever'} ]
         };
 
-        expect(getRowObjectContent(object, 'cf_2')).to.equal('');
-        expect(getRowObjectContent({}, 'cf_1')).to.equal('');
+        expect(getRowObjectContent(object, 'custom_field_2')).to.equal('');
+        expect(getRowObjectContent({}, 'custom_field_1')).to.equal('');
       });
 
     });

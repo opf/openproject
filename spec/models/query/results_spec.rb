@@ -146,7 +146,7 @@ describe ::Query::Results, type: :model do
 
       context 'when grouping by assignees' do
         before do
-          query.column_names = [:assigned_to, :"cf_#{custom_field.id}"]
+          query.column_names = [:assigned_to, :"custom_field_#{custom_field.id}"]
           query.group_by = 'assigned_to'
         end
 
@@ -164,7 +164,7 @@ describe ::Query::Results, type: :model do
 
       context 'when grouping by responsibles' do
         before do
-          query.column_names = [:responsible, :"cf_#{custom_field.id}"]
+          query.column_names = [:responsible, :"custom_field_#{custom_field.id}"]
           query.group_by = 'responsible'
         end
 
