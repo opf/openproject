@@ -128,8 +128,20 @@ module OpenProject::Backlogs
       backlogs/burndown.js
     )
 
-    patches [:PermittedParams, :WorkPackage, :Status, :Type, :MyController, :Project,
-             :ProjectsController, :ProjectsHelper, :Query, :User, :VersionsController, :Version]
+    patches [:PermittedParams,
+             :WorkPackage,
+             :Status,
+             :Type,
+             :MyController,
+             :Project,
+             :ProjectsController,
+             :ProjectsHelper,
+             :Query,
+             :User,
+             :VersionsController,
+             :Version,
+             :WorkPackagesHelper]
+
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
 
     extend_api_response(:v3, :work_packages, :work_package) do

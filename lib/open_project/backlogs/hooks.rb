@@ -72,54 +72,11 @@ module OpenProject::Backlogs::Hooks
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
 
-    def view_work_packages_form_details_bottom(context = {})
-      snippet = ''
-      work_package = context[:issue]
+    # TODO: there are hook implementations in here that need to be ported
+    #       to render a partial instead of returning a hand crafted snippet
 
-      return '' unless work_package.backlogs_enabled?
-
-      snippet << %(<div id="backlogs-attributes" class="attributes">)
-
-      if work_package.is_story?
-        snippet << '<div class="attribute_wrapper">'
-        snippet << context[:form].text_field(:story_points, :size => 3, :class => 'short')
-        snippet << '</div>'
-
-        if work_package.descendants.length != 0
-
-          snippet << javascript_tag(<<-JS)
-            (function($) {
-              $(document).ready(function() {
-                $('#issue_estimated_hours').attr('disabled', 'disabled');
-                $('#issue_remaining_hours').attr('disabled', 'disabled');
-                $('#issue_done_ratio').attr('disabled', 'disabled');
-                $('#issue_start_date').parent().hide();
-                $('#issue_due_date').parent().hide();
-              });
-            }(jQuery))
-          JS
-        end
-      end
-
-      snippet << '<div class="attribute_wrapper">'
-      snippet << context[:form].text_field(:remaining_hours, :size => 3, :class => 'short', :placeholder => l(:label_hours))
-      snippet << '</div>'
-
-      params = context[:controller].params
-      if work_package.is_story? && params[:copy_from]
-        snippet << "<p><label for='link_to_original'>#{l(:rb_label_link_to_original)}</label>"
-        snippet << "#{check_box_tag('link_to_original', params[:copy_from], true)}</p>"
-
-        snippet << "<p><label>#{l(:rb_label_copy_tasks)}</label>"
-        snippet << "#{radio_button_tag('copy_tasks', 'open:' + params[:copy_from], true, { id: 'copy_tasks_open'})} #{l(:rb_label_copy_tasks_open)}<br />"
-        snippet << "#{radio_button_tag('copy_tasks', 'none', false, {id: 'copy_tasks_none'})} #{l(:rb_label_copy_tasks_none)}<br />"
-        snippet << "#{radio_button_tag('copy_tasks', 'all:' + params[:copy_from], false, {id: 'copy_tasks_all'})} #{l(:rb_label_copy_tasks_all)}</p>"
-      end
-
-      snippet << %(</div>)
-
-      snippet
-    end
+    render_on :view_work_packages_form_details_bottom,
+              partial: 'hooks/backlogs/view_work_packages_form_details_bottom'
 
     def view_versions_show_bottom(context={ })
       version = context[:version]
