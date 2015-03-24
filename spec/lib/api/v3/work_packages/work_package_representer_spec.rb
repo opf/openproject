@@ -77,14 +77,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'budget' do
         it_behaves_like 'has a titled link' do
-          let(:link) { 'budget' }
+          let(:link) { 'costObject' }
           let(:href) { "/api/v3/budgets/#{cost_object.id}" }
           let(:title) { cost_object.subject }
         end
 
         it 'has the budget embedded' do
           is_expected.to be_json_eql(cost_object.subject.to_json)
-            .at_path('_embedded/budget/subject')
+            .at_path('_embedded/costObject/subject')
         end
       end
 
@@ -196,8 +196,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   describe 'costs module disabled' do
     before do
-      project.enabled_module_names = project.enabled_module_names - ['costs_module']
-      project.save!
+      allow(work_package).to receive(:costs_enabled?).and_return false
     end
 
     describe 'work_package' do

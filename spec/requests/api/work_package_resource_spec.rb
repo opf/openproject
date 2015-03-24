@@ -70,7 +70,7 @@ describe 'API v3 Work package resource', type: :request do
       context 'budget' do
         let(:target_budget) { FactoryGirl.create(:cost_object, project: project) }
         let(:budget_link) { api_v3_paths.budget target_budget.id }
-        let(:budget_parameter) { { _links: { budget: { href: budget_link } } } }
+        let(:budget_parameter) { { _links: { costObject: { href: budget_link } } } }
         let(:params) { valid_params.merge(budget_parameter) }
 
         before { allow(User).to receive(:current).and_return current_user }
@@ -82,7 +82,7 @@ describe 'API v3 Work package resource', type: :request do
 
           it 'should respond with the work package and its new budget' do
             expect(subject.body).to be_json_eql(target_budget.subject.to_json)
-                                        .at_path('_embedded/budget/subject')
+                                        .at_path('_embedded/costObject/subject')
           end
         end
 

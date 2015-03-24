@@ -145,7 +145,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
   describe 'budget' do
     it_behaves_like 'has basic schema properties' do
-      let(:path) { 'budget' }
+      let(:path) { 'costObject' }
       let(:type) { 'Budget' }
       let(:name) { I18n.t('attributes.cost_object') }
       let(:required) { false }
@@ -153,7 +153,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     it_behaves_like 'has a collection of allowed values' do
-      let(:json_path) { 'budget' }
+      let(:json_path) { 'costObject' }
       let(:href_path) { 'budgets' }
       let(:factory) { :cost_object }
       let(:allowed_values_method) { :assignable_cost_objects }
@@ -165,7 +165,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it 'has no schema for budget' do
-        is_expected.not_to have_json_path('budget')
+        is_expected.not_to have_json_path('costObject')
       end
     end
   end

@@ -142,8 +142,8 @@ module OpenProject::Costs
         } if user_has_time_entry_permissions?
       end
 
-      linked_property :budget,
-                      association: :cost_object,
+      linked_property :cost_object,
+                      path: :budget,
                       title_getter: -> (*) { represented.cost_object.subject },
                       embed_as: ::API::V3::Budgets::BudgetRepresenter,
                       show_if: -> (*) { represented.costs_enabled? }
@@ -203,8 +203,9 @@ module OpenProject::Costs
     end
 
     extend_api_response(:v3, :work_packages, :form, :work_package_attribute_links) do
-      linked_property :budget,
-                      association: :cost_object_id,
+      linked_property :cost_object,
+                      path: :budget,
+                      namespace: :budgets,
                       show_if: -> (*) { represented.costs_enabled? }
     end
 
@@ -218,8 +219,8 @@ module OpenProject::Costs
                      represented.project.costs_enabled?)
              }
 
-      schema_with_allowed_collection :budget,
-                                     name_source: :cost_object,
+      schema_with_allowed_collection :cost_object,
+                                     type: 'Budget',
                                      required: false,
                                      values_callback: -> (*) {
                                        represented.assignable_cost_objects

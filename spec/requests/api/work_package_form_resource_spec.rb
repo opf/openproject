@@ -92,13 +92,13 @@ describe 'API v3 Work package form resource', type: :request do
             end
 
             describe 'budget' do
-              let(:path) { '_embedded/payload/_links/budget/href' }
-              let(:links_path) { '_embedded/schema/budget/_links' }
+              let(:path) { '_embedded/payload/_links/costObject/href' }
+              let(:links_path) { '_embedded/schema/costObject/_links' }
               let(:target_budget) { FactoryGirl.create(:cost_object, project: project) }
               let(:other_budget) { FactoryGirl.create(:cost_object, project: project) }
               let(:budget_link) { api_v3_paths.budget target_budget.id }
               let(:other_budget_link) { api_v3_paths.budget other_budget.id }
-              let(:budget_parameter) { { _links: { budget: { href: budget_link } } } }
+              let(:budget_parameter) { { _links: { costObject: { href: budget_link } } } }
               let(:params) { valid_params.merge(budget_parameter) }
 
               describe 'allowed values' do
@@ -131,14 +131,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                 include_context 'post request'
 
-                # FIXME: the key that is really expected is budget, not costObject
-                # however I don't see how we can achieve this without repairing the whole validation
-                # and error handling in the API and the WP contract.
                 it_behaves_like 'having an error', 'costObject'
-                xit 'the error key is budget, not costObject' do
-                  # the pure purpose of this test is to mark that there is a pending assertion
-                  # as opposed to "all tests green"
-                end
 
                 it 'should respond with updated work package budget' do
                   expect(subject.body).to be_json_eql(budget_link.to_json).at_path(path)
