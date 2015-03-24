@@ -99,5 +99,6 @@ angular.module('openproject.services')
     '$window',
     '$q',
     'AuthorisationService',
+    'EditableFieldsState',
     require('./work-package-service')
   ]);

@@ -5,7 +5,7 @@
           preview-toggle="togglePreview()"
           name="value"
           ng-disabled="isBusy"
-          ng-model="dataObject.value"
+          ng-model="fieldController.writeValue.raw"
           title="{{ editTitle }}"
           data-wp_autocomplete_url="{{ autocompletePath }}">
 </textarea>
@@ -13,7 +13,7 @@
           class="focus-input inplace-edit--textarea"
           name="value"
           ng-disabled="isBusy"
-          ng-model="dataObject.value"
+          ng-model="fieldController.writeValue.raw"
           title="{{ editTitle }}"
           data-wp_autocomplete_url="{{ autocompletePath }}">
 </textarea>

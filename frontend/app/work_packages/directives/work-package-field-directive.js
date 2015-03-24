@@ -26,33 +26,52 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, ApiHelper) {
+module.exports = function(WorkPackageFieldService, ApiHelper, EditableFieldsState) {
 
   function workPackageFieldDirectiveController() {
-    this.isEditable = WorkPackageFieldService.isEditable(this.workPackage, this.field);
-    this.isEmpty = WorkPackageFieldService.isEmpty(this.workPackage, this.field);
-    this.label = WorkPackageFieldService.getLabel(this.workPackage, this.field);
+    this.isEditable = function() {
+      return WorkPackageFieldService.isEditable(EditableFieldsState.workPackage, this.field)
+    };
+
+    this.isEmpty = function() {
+      return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, this.field);
+    };
+
+    this.getLabel = function() {
+      return WorkPackageFieldService.getLabel(EditableFieldsState.workPackage, this.field);
+    };
+
+    this.getReadValue = function() {
+      return WorkPackageFieldService.format(EditableFieldsState.workPackage, this.field);
+    };
+
+    this.updateWriteValue = function() {
+      this.writeValue = WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field);
+    };
+
     if (this.isEditable) {
       this.type = 'text';
       this.isBusy = false;
       this.isEditing = false;
-      this.readValue = WorkPackageFieldService.getValue(this.workPackage, this.field);
-      this.writeValue = WorkPackageFieldService.getValue(this.workPackage, this.field);
+      this.updateWriteValue();
       this.placeholder = WorkPackageFieldService.defaultPlaceholder;
       this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.field });
-
-      this.onSuccess = function(wp) {
-        console.log(this.workPackage, wp, this.workPackage === wp);
-        this.readValue = WorkPackageFieldService.getValue(this.workPackage, this.field);
+      this.onSuccess = function() {
         this.isEditing = false;
+        this.updateWriteValue();
       };
 
       this.onFail = function(e) {
         this.error = ApiHelper.getErrorMessage(e);
       }
     } else {
-      this.value = WorkPackageFieldService.format(this.workPackage, this.field);
+      this.value = WorkPackageFieldService.format(EditableFieldsState.workPackage, this.field);
     }
+
+    this.contextEval = function(childControllerActivation) {
+      childControllerActivation.call(this);
+    };
+
   }
 
   return {
@@ -62,7 +81,6 @@ module.exports = function(WorkPackageFieldService, ApiHelper) {
     bindToController: true,
     templateUrl: '/templates/work_packages/field.html',
     scope: {
-      workPackage: '=',
       field: '='
     },
     controller: workPackageFieldDirectiveController

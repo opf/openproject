@@ -26,28 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState) {
+module.exports = function() {
   return {
-    replace: true,
-    transclude: true,
-    scope: {},
-    require: '^workPackageField',
-    templateUrl: '/templates/work_packages/inplace_editor/display_pane.html',
-    controller: function($scope) {
-      this.startEditing = function() {
-        var fieldController = $scope.fieldController;
-        fieldController.isEditing = true;
-      }
-    },
-    controllerAs: 'displayPaneController',
-    link: function(scope, elements, attrs, fieldController) {
-      scope.fieldController = fieldController;
-      scope.templateUrl = '/templates/components/inplace_editor/display/' +
-        WorkPackageFieldService.getInplaceDisplayStrategy(
-          EditableFieldsState.workPackage,
-          fieldController.field
-        ) +
-        '.html';
-    }
+    workPackage: null
   };
 }

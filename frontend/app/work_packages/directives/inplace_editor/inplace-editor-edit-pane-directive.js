@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+module.exports = function(WorkPackageFieldService, EditableFieldsState) {
   return {
     transclude: true,
     replace: true,
@@ -40,9 +40,9 @@ module.exports = function() {
         fieldController.isBusy = true;
         var pendingFormChanges = getPendingFormChanges();
         pendingFormChanges[fieldController.field] = fieldController.writeValue;
-        var result = WorkPackageService.updateWorkPackage(fieldController.workPackage, pendingFormChanges, notify);
-        result.then(function(wp) {
-          fieldController.onSuccess(wp);
+        var result = WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage, pendingFormChanges, notify);
+        result.then(function() {
+          fieldController.onSuccess();
         });
         result.catch(function(e) {
           fieldController.onFail(e);
@@ -54,18 +54,27 @@ module.exports = function() {
 
       this.discardEditing = function() {
         $scope.fieldController.isEditing = false;
-        var form = $scope.fieldController.workPackage.form;
-        getPendingFormChanges()[$scope.fieldController.field] = $scope.fieldController.workPackage.form.embedded.payload.props[$scope.fieldController.field];
+        var form = EditableFieldsState.workPackage.form;
+        getPendingFormChanges()[$scope.fieldController.field] = EditableFieldsState.workPackage.form.embedded.payload.props[$scope.fieldController.field];
+        $scope.fieldController.updateWriteValue();
       };
 
       function getPendingFormChanges() {
-        var form = $scope.fieldController.workPackage.form;
+        var form = EditableFieldsState.workPackage.form;
         form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
         return form.pendingChanges;
       }
     },
     link: function(scope, element, attrs, fieldController) {
+      console.log('link', EditableFieldsState, WorkPackageFieldService, fieldController);
       scope.fieldController = fieldController;
+      scope.templateUrl = '/templates/components/inplace_editor/editable/' +
+      WorkPackageFieldService.getInplaceEditStrategy(
+        EditableFieldsState.workPackage,
+        fieldController.field
+      ) +
+      '.html';
+      console.log('ssss', scope.templateUrl);
     }
   };
 }

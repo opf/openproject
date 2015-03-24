@@ -1,23 +1,21 @@
-<div class="ined-edit" ng-show="fieldController.isEditing">
-  <form name="editPaneController.editForm" ng-submit="editPaneController.submit(false)" novalidate>
-    <div class="ined-input-wrapper">
-      <div class="ined-input-wrapper-inner" ng-transclude>
+<div class="inplace-edit--write" ng-show="fieldController.isEditing">
+  <form class="inplace-edit--form" name="editPaneController.editForm" ng-submit="editPaneController.submit(false)" novalidate>
+      <div class="inplace-edit--write-value" ng-include="templateUrl">
       </div>
-    </div>
-    <div class="ined-dashboard">
-      <div class="ined-errors" ng-show="fieldController.error" role="alert" ng-bind="fieldController.error" aria-live="polite"></div>
-      <div class="ined-controls" ng-hide="fieldController.isBusy">
-        <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(false)" class="ined-edit-save">
+    <div class="inplace-edit--dashboard">
+      <div class="inplace-edit--errors" ng-show="fieldController.error" role="alert" ng-bind="fieldController.error" aria-live="polite"></div>
+      <div class="inplace-edit--controls" ng-hide="fieldController.isBusy">
+        <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(false)" class="inplace-edit--control inplace-edit--control--save">
           <icon-wrapper icon-name="yes" icon-title="{{ editPaneController.saveTitle }}">
           </icon-wrapper>
         </accessible-by-keyboard>
-        <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(true)" class="ined-edit-save-send">
+        <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(true)" class="inplace-edit--control -icons-2 inplace-edit--control--send">
             <span title="{{ editPaneController.saveAndSendTitle }}">
               <i class="icon-yes"></i>
               <i class="icon-mail"></i>
             </span>
         </accessible-by-keyboard>
-        <accessible-by-keyboard execute="editPaneController.discardEditing()" class="ined-edit-close">
+        <accessible-by-keyboard execute="editPaneController.discardEditing()" class="inplace-edit--control inplace-edit--control--cancel">
           <icon-wrapper icon-name="close" icon-title="{{ editPaneController.cancelTitle }}">
           </icon-wrapper>
         </accessible-by-keyboard>

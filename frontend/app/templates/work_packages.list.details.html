@@ -32,18 +32,9 @@
 
   <div class="work-packages--details--title">
     <div class="work-packages--details--type">{{ type.props.name }}:</div>
-
-    <div class="work-packages--details--subject"
-         inplace-editor
-         ined-type="text"
-         ined-entity="workPackage"
-         ined-attribute="subject"
-         ined-attribute-title="{{ I18n.t('js.work_packages.properties.subject') }}"
-         title="{{ workPackage.props.subject }}">
-    </div>
+    <work-package-field field="'subject'"></work-package-field>
   </div>
 
-  <work-package-field work-package="workPackage" field="'subject'"></work-package-text-field>
 
   <span class="subtitle">
     <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()"

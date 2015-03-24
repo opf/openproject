@@ -84,6 +84,7 @@ angular.module('openproject.workPackages.controllers')
     'CommonRelationsHandler',
     'ChildrenRelationsHandler',
     'ParentRelationsHandler',
+    'EditableFieldsState',
     require('./work-package-details-controller')
   ])
   .controller('WorkPackagesController', [

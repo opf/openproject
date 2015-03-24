@@ -70,7 +70,7 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
     return  value === null || value === '';
   }
 
-  function getInplaceType(workPackage, field) {
+  function getInplaceEditStrategy(workPackage, field) {
     var fieldType = null,
         inplaceType = 'text';
     if (field === 'date') {
@@ -139,6 +139,7 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       updatedAt: 'datetime'
     };
 
+    // TODO: switch to duration
     if (field === 'estimatedTime' || field === 'spentTime') {
       if (value === null) {
         return null;
@@ -157,7 +158,7 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
     getValue: getValue,
     getLabel: getLabel,
     format: format,
-    getInplaceType: getInplaceType,
+    getInplaceEditStrategy: getInplaceEditStrategy,
     getInplaceDisplayStrategy: getInplaceDisplayStrategy,
     defaultPlaceholder: '-'
   };

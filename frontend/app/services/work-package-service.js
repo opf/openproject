@@ -35,7 +35,8 @@ module.exports = function($http,
     $rootScope,
     $window,
     $q,
-    AuthorisationService) {
+    AuthorisationService,
+    EditableFieldsState) {
   var workPackage;
 
   var WorkPackageService = {
@@ -173,18 +174,14 @@ module.exports = function($http,
         data: JSON.stringify(data),
         contentType: 'application/json; charset=utf-8'
       }, force: true};
-      return workPackage.links.updateImmediately.fetch(options).then(function() {
-        console.log('1');
+      return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
         return workPackage.links.self
           .fetch({force: true})
           .then(function(workPackage) {
-            console.log('2');
             return WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
               return workPackage.links.schema.fetch().then(function(response) {
-                console.log('3');
                 workPackage.schema = response;
-                workPackage.form.pendingChanges = {};
-                console.log('4');
+                EditableFieldsState.workPackage = workPackage;
                 return workPackage;
               });
             });

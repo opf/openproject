@@ -63,4 +63,7 @@ angular.module('openproject.workPackages.services')
     'WORK_PACKAGE_REGULAR_EDITABLE_FIELD',
     'WorkPackagesHelper',
     require('./work-package-field-service')
-  ]);
+  ])
+  .service('EditableFieldsState',
+    require('./work-package-field-service')
+  );

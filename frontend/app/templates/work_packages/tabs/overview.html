@@ -8,16 +8,8 @@
     </div>
   </div>
 
-  <div ng-if="false" class="single-attribute wiki">
-    <span inplace-editor
-          ined-type="wiki_textarea"
-          ined-display-strategy="wiki_textarea"
-          ined-entity="workPackage"
-          ined-attribute="description"
-          ined-attribute-title="{{ I18n.t('js.work_packages.properties.description') }}"
-          placeholder="{{ I18n.t('js.label_click_to_enter_description') }}"
-          autocomplete-path="{{ autocompletePath }}">
-    </span>
+  <div class="single-attribute wiki">
+    <work-package-field field="'description'"></work-package-field>
   </div>
 </div>
 

@@ -41,7 +41,8 @@ module.exports = function($scope,
     WorkPackageService,
     CommonRelationsHandler,
     ChildrenRelationsHandler,
-    ParentRelationsHandler
+    ParentRelationsHandler,
+    EditableFieldsState
   ) {
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
@@ -66,6 +67,7 @@ module.exports = function($scope,
         WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
           return workPackage.links.schema.fetch().then(function(response) {
             workPackage.schema = response;
+            EditableFieldsState.workPackage = workPackage;
             if (callback) {
               callback(workPackage);
             }
@@ -94,7 +96,6 @@ module.exports = function($scope,
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
-
     $scope.isWatched = !!workPackage.links.unwatchChanges;
 
     if (workPackage.links.watchChanges === undefined) {
