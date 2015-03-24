@@ -1,8 +1,10 @@
-if ENV['AIRBRAKE_API_KEY']
+airbrake = OpenProject::Configuration['airbrake']
+
+if airbrake && airbrake['api_key']
   Airbrake.configure do |config|
-    config.api_key = ENV.fetch('AIRBRAKE_API_KEY')
-    config.host    = ENV['AIRBRAKE_HOST'] if ENV['AIRBRAKE_HOST']
-    config.port    = ENV.fetch('AIRBRAKE_PORT', 443)
+    config.api_key = airbrake['api_key']
+    config.host    = airbrake['host'] if airbrake['host']
+    config.port    = Integer(airbrake['port'] || 443)
     config.secure  = config.port == 443
   end
 end

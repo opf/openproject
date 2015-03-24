@@ -205,6 +205,13 @@ default:
   # possible values are :cookie_store, :cache_store, :active_record_store
   session_store: :cache_store
 
+  # define your airbrake api key. optionally provide a different host and port
+  # to connect to a different backend (e.g. a self-hosted errbit)
+  # airbrake:
+  #   api_key: <your_api_key>
+  #   host: errbit.example.org
+  #   post: 443
+
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
