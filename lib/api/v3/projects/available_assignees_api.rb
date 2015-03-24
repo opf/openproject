@@ -39,9 +39,9 @@ module API
             available_assignees = @project.possible_assignees
             total = available_assignees.count
             self_link = api_v3_paths.available_assignees(@project.id)
-            UserCollectionRepresenter.new(available_assignees,
-                                          total,
-                                          self_link)
+            Users::UserCollectionRepresenter.new(available_assignees,
+                                                 total,
+                                                 self_link)
           end
         end
       end

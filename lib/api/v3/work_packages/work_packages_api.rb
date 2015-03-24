@@ -66,7 +66,7 @@ module API
 
               # merges the given JSON representation into @work_package
               def merge_json_into_work_package!(json)
-                payload = WorkPackagePayloadRepresenter.create(
+                payload = Form::WorkPackagePayloadRepresenter.create(
                   @work_package,
                   enforce_lock_version_validation: true)
                 payload.from_json(json)
@@ -128,11 +128,8 @@ module API
               helpers do
                 def save_work_package(work_package)
                   if work_package.save
-                    representer = ActivityRepresenter.new(
-                      work_package.journals.last,
-                      current_user: current_user)
-
-                    representer
+                    Activities::ActivityRepresenter.new(work_package.journals.last,
+                                                        current_user: current_user)
                   else
                     fail ::API::Errors::Validation.new(work_package)
                   end

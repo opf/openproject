@@ -39,9 +39,9 @@ module API
             available_responsibles = @project.possible_responsibles
             total = available_responsibles.count
             self_link = api_v3_paths.available_responsibles(@project.id)
-            UserCollectionRepresenter.new(available_responsibles,
-                                          total,
-                                          self_link)
+            Users::UserCollectionRepresenter.new(available_responsibles,
+                                                 total,
+                                                 self_link)
           end
         end
       end
