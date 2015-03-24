@@ -151,7 +151,7 @@ describe Project, type: :model do
   end
 
   context 'when the wiki module is enabled' do
-    let(:project) { FactoryGirl.create(:project, :without_wiki) }
+    let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
 
     before :each do
       project.enabled_module_names = project.enabled_module_names | ['wiki']
