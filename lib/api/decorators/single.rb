@@ -67,7 +67,7 @@ module API
                                title_getter: -> (*) { represented.send(association).name },
                                show_if: -> (*) { true },
                                embed_as: nil)
-        link property do
+        link property.to_s.camelize(:lower) do
           next unless instance_eval(&show_if)
 
           value = represented.send(association)
@@ -84,15 +84,18 @@ module API
         if embed_as
           embed_property property,
                          association: association,
-                         decorator: embed_as
+                         decorator: embed_as,
+                         show_if: show_if
         end
       end
 
-      def self.embed_property(property, association: property, decorator:)
-        property association,
-                 as: property.to_s.camelize(:lower),
+      def self.embed_property(property, association: property, decorator:, show_if: true)
+        property property,
+                 exec_context: :decorator,
+                 getter: -> (*) { represented.send(association) },
                  embedded: true,
-                 decorator: decorator
+                 decorator: decorator,
+                 if: show_if
       end
 
       protected
