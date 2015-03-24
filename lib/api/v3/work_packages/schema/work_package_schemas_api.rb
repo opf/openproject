@@ -26,7 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 require 'api/v3/work_packages/schema/work_package_schema'
 require 'api/v3/work_packages/schema/work_package_schema_representer'
 

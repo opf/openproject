@@ -41,7 +41,7 @@ module API
 
             before do
               @attachment = Attachment.find(params[:id])
-              @representer =  AttachmentRepresenter.new(@attachment)
+              @representer = AttachmentRepresenter.new(@attachment)
             end
 
             get do
