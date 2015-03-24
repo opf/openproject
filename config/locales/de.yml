@@ -1697,9 +1697,9 @@ de:
       writing_read_only_attributes: "Nur-lesbare Eigeschaften dürfen nicht geschrieben werden."
       invalid_format: "Ungültiges Format für Eigenschaft '%{property}': Ein Format der Art '%{expected_format}' wurde erwartet, aber '%{actual}' wurde übergeben."
       render:
-        context_not_found: "Es wurde kein Kontext gefunden."
-        unsupported_context: "Der Kontext wird nicht unterstützt."
-        context_object_not_found: "Die im Kontext angegebene Ressource wurde nicht gefunden."
+        context_not_parsable: "Der übergebene Kontext ist kein Link zu einer Ressource."
+        unsupported_context: "Die übergebene Ressource wird nicht als Kontext unterstützt."
+        context_object_not_found: "Die als Kontext übergebene Ressource konnte nicht gefunden werden."
       validation:
         invalid_user_assigned_to_work_package:
           "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."

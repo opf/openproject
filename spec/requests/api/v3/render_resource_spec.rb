@@ -99,19 +99,21 @@ describe 'API v3 Render resource' do
               let(:context) { api_v3_paths.root }
 
               it_behaves_like 'invalid render context',
-                              I18n.t('api_v3.errors.render.context_not_found')
+                              I18n.t('api_v3.errors.render.context_not_parsable')
             end
 
             describe 'unsupported context resource found' do
               let(:context) { api_v3_paths.activity 2 }
 
-              it_behaves_like 'invalid render context', 'Unsupported context found.'
+              it_behaves_like 'invalid render context',
+                              I18n.t('api_v3.errors.render.unsupported_context')
             end
 
             describe 'unsupported context version found' do
               let(:context) { '/api/v4/work_packages/2' }
 
-              it_behaves_like 'invalid render context', 'Unsupported context found.'
+              it_behaves_like 'invalid render context',
+                              I18n.t('api_v3.errors.render.unsupported_context')
             end
           end
         end

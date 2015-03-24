@@ -33,7 +33,15 @@ shared_examples_for 'error response' do |code, id, provided_message = nil|
     provided_message || message
   }
 
-  it { expect(last_response.status).to eq(code) }
+  it 'has the expected status code' do
+    expect(last_response.status).to eq(code)
+  end
+
+  it 'has a HAL+JSON Content-Type' do
+    expected_content_type = 'application/hal+json; charset=utf-8'
+    expect(last_response.headers).to include 'Content-Type'
+    expect(last_response.headers['Content-Type'].downcase).to eql expected_content_type
+  end
 
   describe 'response body' do
     subject { JSON.parse(last_response.body) }

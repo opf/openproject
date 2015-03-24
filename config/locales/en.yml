@@ -1688,9 +1688,9 @@ en:
       writing_read_only_attributes: "You must not write a read-only attribute."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       render:
-        context_not_found: "No context found."
-        unsupported_context: "Unsupported context found."
-        context_object_not_found: "Cannot find the resource given with the context."
+        context_not_parsable: "The context provided is not a link to a resource."
+        unsupported_context: "The resource given is not supported as context."
+        context_object_not_found: "Cannot find the resource given as the context."
       validation:
         invalid_user_assigned_to_work_package:
           "The chosen user is not allowed to be '%{property}' for this work package."
