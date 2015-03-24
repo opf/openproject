@@ -61,28 +61,29 @@ describe 'API v3 Work package resource' do
         get wp_path
       end
 
-      subject(:parsed_response) { JSON.parse(last_response.body) }
+      subject { last_response.body }
     end
 
     context 'backlogs activated' do
       include_context 'query work package'
 
-      it { expect(parsed_response['storyPoints']).to eq(work_package.story_points) }
+      it { is_expected.to be_json_eql(work_package.story_points.to_json).at_path('storyPoints') }
 
-      it { expect(parsed_response['remainingTime']).to eq('PT5H') }
+      it { is_expected.to be_json_eql('PT5H'.to_json).at_path('remainingTime') }
     end
 
     context 'backlogs deactivated' do
       let(:project) {
-        FactoryGirl.create(:project,
-                           enabled_module_names: [])
+        FactoryGirl.create(:project, disable_modules: 'backlogs')
       }
 
       include_context 'query work package'
 
-      it { expect(parsed_response['storyPoints']).to be_nil }
+      it { expect(last_response.status).to eql 200 }
 
-      it { expect(parsed_response['remainingHours']).to be_nil }
+      it { is_expected.not_to have_json_path('storyPoints') }
+
+      it { is_expected.to be_json_eql('PT5H'.to_json).at_path('remainingTime') }
     end
   end
 
