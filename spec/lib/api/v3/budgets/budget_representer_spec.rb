@@ -19,38 +19,41 @@
 
 require 'spec_helper'
 
-describe ::API::V3::CostObjects::CostObjectRepresenter do
+describe ::API::V3::Budgets::BudgetRepresenter do
   let(:project) { FactoryGirl.build(:project, id: 999) }
   let(:user) { FactoryGirl.build(:user,
                                  member_in_project: project,
                                  created_on: 1.day.ago,
                                  updated_on: Date.today) }
-  let(:cost_object) { FactoryGirl.build(:cost_object,
-                                        author: user,
-                                        project: project,
-                                        created_on: 1.day.ago,
-                                        updated_on: Date.today) }
+  let(:budget) { FactoryGirl.build(:cost_object,
+                                   author: user,
+                                   project: project,
+                                   created_on: 1.day.ago,
+                                   updated_on: Date.today) }
 
-  let(:representer)  { described_class.new(cost_object) }
+  let(:representer)  { described_class.new(budget) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('CostObject'.to_json).at_path('_type') }
+    describe 'self link' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'self' }
+        let(:href) { "/api/v3/budgets/#{budget.id}" }
+        let(:title) { budget.subject }
+      end
+    end
 
-    describe 'cost_object' do
-      it { should have_json_path('id') }
+    it 'indicates its type' do
+      is_expected.to be_json_eql('Budget'.to_json).at_path('_type')
+    end
 
-      it { should have_json_path('description') }
+    it 'indicates its id' do
+      is_expected.to be_json_eql(budget.id.to_json).at_path('id')
+    end
 
-      it { should have_json_path('projectId') }
-      it { should have_json_path('projectName') }
-
-      it { should have_json_path('subject') }
-      it { should have_json_path('type') }
-
-      it { should have_json_path('createdAt') }
-      it { should have_json_path('updatedAt') }
+    it 'indicates its subject' do
+      is_expected.to be_json_eql(budget.subject.to_json).at_path('subject')
     end
   end
 end

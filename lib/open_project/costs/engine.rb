@@ -101,8 +101,26 @@ module OpenProject::Costs
     end
 
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
-             :ProjectsController, :ApplicationHelper, :UsersHelper,
-             :WorkPackagesHelper]
+             :ProjectsController, :ApplicationHelper, :UsersHelper, :WorkPackagesHelper]
+    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
+
+    allow_attribute_update :work_package, :cost_object_id
+
+    add_api_path :budget do |id|
+      "#{root}/budgets/#{id}"
+    end
+
+    add_api_path :budgets_by_project do |project_id|
+      "#{project(project_id)}/budgets"
+    end
+
+    add_api_endpoint 'API::V3::Root' do
+      mount ::API::V3::Budgets::BudgetsAPI
+    end
+
+    add_api_endpoint 'API::V3::Projects::ProjectsAPI', :id do
+      mount ::API::V3::Budgets::BudgetsByProjectAPI
+    end
 
     extend_api_response(:v3, :work_packages, :work_package) do
       include Redmine::I18n
@@ -113,7 +131,7 @@ module OpenProject::Costs
           href: new_work_packages_cost_entry_path(represented),
           type: 'text/html',
           title: "Log costs on #{represented.subject}"
-        } if costs_enabled && current_user_allowed_to(:log_costs)
+        } if represented.costs_enabled? && current_user_allowed_to(:log_costs)
       end
 
       link :timeEntries do
@@ -124,21 +142,22 @@ module OpenProject::Costs
         } if user_has_time_entry_permissions?
       end
 
-      property :cost_object,
-               embedded: true,
-               exec_context: :decorator,
-               class: ::CostObject,
-               decorator: ::API::V3::CostObjects::CostObjectRepresenter,
-               if: -> (*) { costs_enabled && !represented.cost_object.nil? }
+      linked_property :cost_object,
+                      path: :budget,
+                      title_getter: -> (*) { represented.cost_object.subject },
+                      embed_as: ::API::V3::Budgets::BudgetRepresenter,
+                      show_if: -> (*) { represented.costs_enabled? }
 
       property :overall_costs,
                exec_context: :decorator,
-               if: -> (*) { costs_enabled }
+               if: -> (*) { represented.costs_enabled? }
 
       property :summarized_cost_entries,
                embedded: true,
                exec_context: :decorator,
-               if: -> (*) { costs_enabled && current_user_allowed_to_view_summarized_cost_entries }
+               if: -> (*) {
+                 represented.costs_enabled? && current_user_allowed_to_view_summarized_cost_entries
+               }
 
       property :spent_time,
                getter: -> (*) do
@@ -173,18 +192,49 @@ module OpenProject::Costs
         @attributes_helper ||= OpenProject::Costs::AttributesHelper.new(represented)
       end
 
-      send(:define_method, :costs_enabled) do
-        represented.project && represented.project.module_enabled?(:costs_module)
-      end
-
       send(:define_method, :cost_object) do
         represented.cost_object
       end
 
       send(:define_method, :user_has_time_entry_permissions?) do
         current_user_allowed_to(:view_time_entries) ||
-          (current_user_allowed_to(:view_own_time_entries) && costs_enabled)
+          (current_user_allowed_to(:view_own_time_entries) && represented.costs_enabled?)
       end
+    end
+
+    extend_api_response(:v3, :work_packages, :form, :work_package_attribute_links) do
+      linked_property :cost_object,
+                      path: :budget,
+                      namespace: :budgets,
+                      show_if: -> (*) { represented.costs_enabled? }
+    end
+
+    extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      schema :spent_time,
+             type: 'Duration',
+             writable: false,
+             show_if: -> (*) {
+               current_user_allowed_to(:view_time_entries) ||
+                 (current_user_allowed_to(:view_own_time_entries) &&
+                     represented.project.costs_enabled?)
+             }
+
+      schema_with_allowed_collection :cost_object,
+                                     type: 'Budget',
+                                     required: false,
+                                     values_callback: -> (*) {
+                                       represented.assignable_cost_objects
+                                     },
+                                     value_representer: ::API::V3::Budgets::BudgetRepresenter,
+                                     link_factory: -> (budget) {
+                                       {
+                                           href: api_v3_paths.budget(budget.id),
+                                           title: budget.subject
+                                       }
+                                     },
+                                     show_if: -> (*) {
+                                       represented.project.costs_enabled?
+                                     }
     end
 
     assets %w(costs/costs.css

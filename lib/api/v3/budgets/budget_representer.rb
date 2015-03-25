@@ -17,31 +17,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-module OpenProject::Costs::Patches::ProjectPatch
-  def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
-    base.include(InstanceMethods)
+require 'roar/decorator'
+require 'roar/json/hal'
 
-    base.class_eval do
-      unloadable
+module API
+  module V3
+    module Budgets
+      class BudgetRepresenter < ::API::Decorators::Single
+        self_link title_getter: -> (*) { represented.subject }
+        property :id, render_nil: true
+        property :subject, render_nil: true
 
-      has_many :cost_objects, :dependent => :destroy
-      has_many :rates, :class_name => 'HourlyRate'
+        private
 
-      has_many :member_groups,
-               :class_name => 'Member',
-               :include => :principal,
-               :conditions => "#{Principal.table_name}.type='Group'"
-      has_many :groups, :through => :member_groups, :source => :principal
-    end
-  end
-
-  module ClassMethods
-  end
-
-  module InstanceMethods
-    def costs_enabled?
-      module_enabled?(:costs_module)
+        def _type
+          'Budget'
+        end
+      end
     end
   end
 end
