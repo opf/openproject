@@ -153,12 +153,25 @@ module Api::Experimental::Concerns::ColumnData
     # NOTE RS: This is basically the grouped_sums method from sums.rb but we
     # have no query to play with here
     return unless group_by
+
+    if custom_field_id_in(group_by)
+      sum_columns(column_names, work_packages) do |wp|
+        wp.custom_values.detect { |cv| cv.custom_field_id == custom_field_id_in(group_by).to_i }
+      end
+    else
+      sum_columns(column_names, work_packages) do |wp|
+        wp.send(group_by)
+      end
+    end
+  end
+
+  def sum_columns(column_names, work_packages)
     column_names.map do |column_name|
-      work_packages.map { |wp| wp.send(group_by) }
+      work_packages.map { |wp| yield wp }
         .uniq
         .inject({}) do |group_sums, current_group|
           work_packages_in_current_group = work_packages.select do |wp|
-            wp.send(group_by) == current_group
+            (yield wp) == current_group
           end
 
           group_sums.merge current_group => column_sum(column_name, work_packages_in_current_group)
