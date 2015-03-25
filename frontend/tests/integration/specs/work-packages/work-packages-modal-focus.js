@@ -33,14 +33,15 @@ describe('OpenProject', function() {
   var page = new WorkPackagesPage();
 
   beforeEach(function(){
-    page.get()
-  })
+    page.get();
+  });
 
   it('columns modal should focus', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showColumnsModal($event)"]')).click();
     browser.driver.switchTo().activeElement().getAttribute('class').then(function (classList) {
-      expect(element(by.css('.ng-modal-window .select2-input')).getAttribute('class')).to.eventually.equal(classList);
+      expect(element(by.css('.ng-modal-window .select2-input')).getAttribute('class'))
+        .to.eventually.equal(classList);
     });
   });
 
@@ -48,7 +49,8 @@ describe('OpenProject', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showSortingModal($event)"]')).click();
     browser.driver.switchTo().activeElement().getAttribute('class').then(function (classList) {
-      expect(element(by.css('.ng-modal-window .form--row:first-child .select2-choice')).getAttribute('class')).to.eventually.equal(classList);
+      expect(element(by.css('.ng-modal-window .form--row:first-child .select2-choice')).getAttribute('class'))
+        .to.eventually.equal(classList);
     });
   });
 
@@ -56,7 +58,8 @@ describe('OpenProject', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showGroupingModal($event)"]')).click();
     browser.driver.switchTo().activeElement().getAttribute('class').then(function (classList) {
-      expect(element(by.css('.ng-modal-window .select2-container')).getAttribute('class')).to.eventually.equal(classList);
+      expect(element(by.css('.ng-modal-window .select2-container')).getAttribute('class'))
+        .to.eventually.equal(classList);
     });
   });
 
