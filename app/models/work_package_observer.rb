@@ -45,7 +45,7 @@ class WorkPackageObserver < ActiveRecord::Observer
   ##
   # Notifies the user of the created work package.
   def notify(user, work_package)
-    job = DeliverWorkPackageCreatedJob.new(user.id, work_package.id)
+    job = DeliverWorkPackageCreatedJob.new(user.id, work_package.id, User.current.id)
 
     Delayed::Job.enqueue job
   end

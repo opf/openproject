@@ -47,8 +47,11 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def work_package_added(user, issue)
+  def work_package_added(user, issue, author)
     @issue = issue
+
+    # starting with the same hack we already know from #work_package_updated
+    User.current = author if User.current != author
 
     open_project_headers 'Project'        => @issue.project.identifier,
                          'Issue-Id'       => @issue.id,
@@ -427,11 +430,7 @@ end
 class RemoveSelfNotificationsInterceptor
   def self.delivering_email(mail)
     user_mail = User.current.mail
-    # This may be called within a delayed job. Within a delayed job user
-    # preferences may not be loaded. Furthermore, some users don't have
-    # persisted preferences. Thus, we only load user preferences if preferences
-    # are available.
-    user_pref = User.current.pref.reload if User.current.pref.persisted?
+    user_pref = User.current.pref
 
     if user_pref && user_pref[:no_self_notified]
       mail.to = mail.to.reject { |address| address == user_mail } if mail.to.present?

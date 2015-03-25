@@ -94,7 +94,7 @@ describe 'mail notification jobs', type: :model do
 
   describe DeliverWorkPackageCreatedJob do
     let(:work_package) { FactoryGirl.create :work_package, subject: mail_subject }
-    let(:job)          { DeliverWorkPackageCreatedJob.new user.id, work_package.id }
+    let(:job)          { DeliverWorkPackageCreatedJob.new user.id, work_package.id, user.id }
 
     it_behaves_like 'a mail notification job' do
       context 'with work package not found' do

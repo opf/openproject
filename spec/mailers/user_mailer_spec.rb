@@ -38,6 +38,8 @@ describe UserMailer, type: :mailer do
                               type: type_standard)
   }
 
+  let(:recipient) { FactoryGirl.build_stubbed(:user) }
+
   before do
     allow(work_package).to receive(:reload).and_return(work_package)
 
@@ -67,21 +69,64 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  describe '#issue_update' do
-    context 'delayed_job' do
-      before do
-        # Delayed Job does not preserve the closure, so the context of the
-        # delayed method call does not contain the user anymore, who triggered
-        # the job. Instead, the anonymous user is returned.
-        User.current = User.anonymous
+  describe '#work_package_added' do
+    before do
+      UserMailer.work_package_added(recipient, work_package, user).deliver
+    end
 
-        UserMailer.work_package_updated(user, journal, user)
+    it 'actually sends a mail' do
+      expect(ActionMailer::Base.deliveries.size).to eql(1)
+    end
+
+    context 'author disabled notification of own actions' do
+      let(:user_preference) {
+        FactoryGirl.build(:user_preference, others: { no_self_notified: true })
+      }
+      let(:user) { FactoryGirl.build_stubbed(:user, preference: user_preference) }
+
+      context 'mail is for another user' do
+        it 'delivers the mail' do
+          expect(ActionMailer::Base.deliveries.size).to eql(1)
+        end
       end
 
-      it { expect(User.current).to eq(user) }
+      context 'mail is for author' do
+        let(:recipient) { user }
 
-      after do
-        User.current = User.anonymous
+        it 'does not deliver the mail' do
+          expect(ActionMailer::Base.deliveries.size).to eql(0)
+        end
+      end
+    end
+  end
+
+  describe '#work_package_updated' do
+    before do
+      UserMailer.work_package_updated(recipient, journal, user).deliver
+    end
+
+    it 'actually sends a mail' do
+      expect(ActionMailer::Base.deliveries.size).to eql(1)
+    end
+
+    context 'author disabled notification of own actions' do
+      let(:user_preference) {
+        FactoryGirl.build(:user_preference, others: { no_self_notified: true })
+      }
+      let(:user) { FactoryGirl.build_stubbed(:user, preference: user_preference) }
+
+      context 'mail is for another user' do
+        it 'delivers the mail' do
+          expect(ActionMailer::Base.deliveries.size).to eql(1)
+        end
+      end
+
+      context 'mail is for author' do
+        let(:recipient) { user }
+
+        it 'does not deliver the mail' do
+          expect(ActionMailer::Base.deliveries.size).to eql(0)
+        end
       end
     end
   end
