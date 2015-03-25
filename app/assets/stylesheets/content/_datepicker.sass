@@ -1,0 +1,202 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@import jquery_ui
+
+//$dp- var prefix for date picker
+
+$dp-theme-color: #CCCCCC
+$dp-theme-lines-color1: #FFFFFF
+$dp-theme-lines-color2: #F8F8F8
+$dp-theme-border-color: #DDDDDD
+
+$dp-header-elements-height: 30px
+$dp-header-top: 5px
+$dp-header-padding: .2em 0
+
+$dp-hover-normalisation: 2px
+$dp-round-corners-radius: 0
+$dp-cell-corner-radius: 3px
+$dp-day-margin: 2px
+$dp-day-margin-hover: 1px
+$dp-days-text-color: #535353
+
+$dp-week-padding-top: 7px
+$dp-week-padding-bottom: 7px
+$dp-week-text-color: #CCCCCC
+
+$dp-border: 1px solid $dp-theme-border-color
+
+$dp-fon-size-rewrite: .9em
+
+$dp-number-of-columns: 8
+$dp-table-width: 100%
+
+$dp-month-year-width: 40%
+$dp-month-year-margin: 0 4.5%
+
+.noselect
+  $none: none
+  -webkit-touch-callout: $none
+  -webkit-user-select: $none
+  -khtml-user-select: $none
+  -moz-user-select: $none
+  -ms-user-select: $none
+  user-select: $none
+
+.shadow-box
+  $shadow-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1)
+  -webkit-box-shadow: $shadow-box-shadow
+  -moz-box-shadow: $shadow-box-shadow
+  box-shadow: $shadow-box-shadow
+
+.shadow-box-none
+  -webkit-box-shadow: none
+  -moz-box-shadow: none
+  box-shadow: none
+
+@mixin set-table-cells-width($table-width, $columns-number)
+  width: $table-width/$columns-number
+  table-layout: fixed
+
+@mixin set-round-corners($radius)
+  border-radius: $radius
+  -moz-border-radius: $radius
+  -webkit-border-radius: $radius
+  -khtml-border-radius: $radius
+
+.ui-datepicker
+  border: $dp-border
+  padding: 0
+  background-color: $dp-theme-lines-color2
+  @extend .shadow-box
+  &.ui-datepicker-inline
+    @extend .shadow-box-none
+  &.ui-corner-all
+    @include set-round-corners($dp-round-corners-radius)
+
+  /*this selector is not working...
+  //[class^="ui-corner"]
+  .ui-corner-tl,
+  .ui-corner-tr,
+  .ui-corner-bl,
+  .ui-corner-br,
+  .ui-corner-top,
+  .ui-corner-bottom,
+  .ui-corner-right,
+  .ui-corner-left,
+  .ui-corner-all
+    @include set-round-corners($dp-round-corners-radius)
+
+  .ui-datepicker-header
+    padding: $dp-header-padding
+    border: none
+    background-color: $dp-theme-lines-color1
+
+    .ui-icon.ui-icon-circle-triangle-w
+      background-position: -96px -16px
+      @extend .noselect
+
+    .ui-icon.ui-icon-circle-triangle-e
+      background-position: -32px -16px
+      @extend .noselect
+
+    .ui-state-hover
+      border-width: 0 !important
+      background-color: transparent
+      cursor: pointer !important
+
+    .ui-datepicker-prev-hover
+      left: $dp-hover-normalisation
+
+    .ui-datepicker-next-hover
+      right: $dp-hover-normalisation
+
+    .ui-datepicker-prev,
+    .ui-datepicker-next
+      top: $dp-header-top
+
+    .ui-datepicker-title
+      .ui-datepicker-month,
+      .ui-datepicker-year
+        width: $dp-month-year-width
+      select
+        height: $dp-header-elements-height
+        font-size: $dp-fon-size-rewrite
+        font-weight: normal
+        padding-top: 0
+        padding-bottom: 0
+        margin: $dp-month-year-margin
+        border: $dp-border
+
+  .ui-datepicker-calendar
+    margin-bottom: 0
+    border-spacing: 0
+    border-collapse: collapse
+    background-color: $dp-theme-lines-color1
+
+    th
+      background-color: $dp-theme-lines-color2
+      font-weight: normal
+      border-top: $dp-border
+      border-bottom: $dp-border
+      padding-top: $dp-week-padding-top
+      padding-bottom: $dp-week-padding-bottom
+      @include set-table-cells-width($dp-table-width, $dp-number-of-columns)
+
+    td
+      padding: 0
+      color: $dp-days-text-color
+      @include set-table-cells-width($dp-table-width, $dp-number-of-columns)
+
+      a
+        border: none
+        text-align: center
+        background-color: #FFFFFF
+        margin: $dp-day-margin
+        &.ui-state-highlight,
+        &.ui-state-active,
+        &:hover
+          margin: $dp-day-margin-hover
+          border: $dp-border
+          @include set-round-corners($dp-cell-corner-radius)
+
+    .ui-datepicker-week-col
+      color: $dp-week-text-color
+      text-align: center
+
+  .ui-datepicker-buttonpane
+    border-top: $dp-border
+    margin-top: 0
+
+    button
+      font-weight: normal
+      font-size: $dp-fon-size-rewrite
+      border: none
+      background-color: transparent
+
