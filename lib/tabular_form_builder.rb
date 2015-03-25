@@ -179,13 +179,24 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def label_for_field(field, options = {}, translation_form = nil)
     options = options.dup
     return ''.html_safe if options.delete(:no_label)
-    text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
-    text ||= @object.class.human_attribute_name(field.to_sym) if @object.is_a?(ActiveRecord::Base)
+
+    text = if options[:label].is_a?(Symbol)
+             l(options[:label])
+           elsif options[:label]
+             options[:label]
+           elsif @object.is_a?(ActiveRecord::Base)
+             @object.class.human_attribute_name(field.to_sym)
+           else
+             l(field)
+           end
+
+    label_options = { class: '',
+                      title: text }
+
     text += @template.content_tag('span', ' *', class: 'required') if options.delete(:required)
 
     id = element_id(translation_form) if translation_form
 
-    label_options = { class: '' }
     # FIXME: reenable the error handling
     label_options[:class] << 'error' if false && @object && @object.respond_to?(:errors) && @object.errors[field] # FIXME
     label_options[:class] << 'form--label'
