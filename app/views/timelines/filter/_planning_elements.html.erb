@@ -74,11 +74,13 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
       <div class="form--field">
         <% if User.current.impaired? %>
-          <%= ff.select :planning_element_responsibles, filter_select_with_none(
-                     timeline.available_planning_element_responsibles,
-                     :name, :id),
-                   { selected: timeline.selected_planning_element_responsibles.map(&:id), label: l("timelines.filter.work_package_responsible") },
-                   { multiple: true } %>
+          <%= ff.select :planning_element_responsibles,
+                        filter_select_with_none(timeline.available_responsibles,
+                                                :name,
+                                                :id),
+                        { selected: timeline.selected_planning_element_responsibles.map(&:id),
+                          label: l("timelines.filter.work_package_responsible") },
+                        { multiple: true } %>
         <% else %>
           <%= ff.select :planning_element_responsibles,
                         options_for_select([]),
@@ -92,18 +94,21 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field">
         <% if User.current.impaired? %>
           <%= ff.select :planning_element_assignee, filter_select_with_none(
-                     timeline.available_planning_element_responsibles,
-                     :name, :id),
-                   { selected: timeline.selected_planning_element_assignee.map(&:id), label: l("timelines.filter.work_package_assignee") },
-                   { multiple: true } %>
-        <% else %>
-          <%= ff.select :planning_element_assignee,
-                        options_for_select([]),
-                        { label: l("timelines.filter.work_package_assignee"),
-                          container_class: '-wide' },
-                        :'data-ajaxURL' => api_v2_paginate_users_path,
-                        multiple: true,
-                        :'data-selected' => filter_select(timeline.selected_planning_element_assignee, :name, :id).to_json %>
+                         timeline.available_responsibles,
+                         :name, :id),
+                         { selected: timeline.selected_planning_element_assignee.map(&:id),
+                           label: l("timelines.filter.work_package_assignee") },
+                         { multiple: true } %>
+          <% else %>
+            <%= ff.select :planning_element_assignee,
+                          options_for_select([]),
+                          { label: l("timelines.filter.work_package_assignee"),
+                            container_class: '-wide' },
+                          :'data-ajaxURL' => api_v2_paginate_users_path,
+                          multiple: true,
+                          :'data-selected' => filter_select(timeline.selected_planning_element_assignee,
+                                                            :name,
+                                                            :id).to_json %>
         <% end %>
       </div>
     <% end %>
