@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/* jshint expr: true */
+/* jshint ignore:start */
 
 var expect = require('../../../spec_helper.js').expect, 
     detailsPaneHelper = require('./details-pane-helper.js');
@@ -127,7 +127,7 @@ describe('details pane', function() {
       describe('range selection', function() {
         it('changes start date by clicking on calendar', function() {
           startDate.click();
-          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+          element.all(by.css('a.ui-state-default')).filter(function(elem){
             return elem.getText().then(function(text) {
               return text.indexOf('9') !== -1;
             });
@@ -144,7 +144,7 @@ describe('details pane', function() {
 
         it('changes end date by clicking on calendar', function() {
           endDate.click();
-          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+          element.all(by.css('a.ui-state-default')).filter(function(elem){
             return elem.getText().then(function(text) {
               return text.indexOf('17') !== -1;
             });
@@ -207,7 +207,7 @@ describe('details pane', function() {
       describe('range selection', function() {
         it('changes start date by clicking on calendar', function() {
           startDate.click();
-          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+          element.all(by.css('a.ui-state-default')).filter(function(elem){
             return elem.getText().then(function(text) {
               return text.indexOf('9') !== -1;
             });
@@ -224,7 +224,7 @@ describe('details pane', function() {
 
         it('changes end date by clicking on calendar', function() {
           endDate.click();
-          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+          element.all(by.css('a.ui-state-default')).filter(function(elem){
             return elem.getText().then(function(text) {
               return text.indexOf('17') !== -1;
             });
@@ -287,7 +287,7 @@ describe('details pane', function() {
       describe('range selection', function() {
         it('changes start date by clicking on calendar', function() {
           startDate.click();
-          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+          element.all(by.css('a.ui-state-default')).filter(function(elem){
             return elem.getText().then(function(text) {
               return text.indexOf('9') !== -1;
             });
@@ -304,7 +304,7 @@ describe('details pane', function() {
 
         it('changes end date by clicking on calendar', function() {
           endDate.click();
-          element.all(by.css('a.ui-state-default')).filter(function(elem, index){
+          element.all(by.css('a.ui-state-default')).filter(function(elem){
             return elem.getText().then(function(text) {
               return text.indexOf('17') !== -1;
             });
@@ -322,3 +322,4 @@ describe('details pane', function() {
     });
   });
 });
+/* jshint ignore:end */
