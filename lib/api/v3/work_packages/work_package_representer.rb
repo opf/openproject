@@ -305,9 +305,9 @@ module API
           end
 
           visible_relations.map do |relation|
-            RelationRepresenter.new(relation,
-                                    work_package: represented,
-                                    current_user: current_user)
+            Relations::RelationRepresenter.new(relation,
+                                               work_package: represented,
+                                               current_user: current_user)
           end
         end
 
