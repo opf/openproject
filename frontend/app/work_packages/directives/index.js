@@ -97,3 +97,5 @@ angular.module('openproject.workPackages.directives')
   ]);
 
   require('./inplace_editor');
+  require('./inplace_editor/custom/display');
+  require('./inplace_editor/custom/editable');

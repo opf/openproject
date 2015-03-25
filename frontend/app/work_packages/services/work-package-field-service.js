@@ -31,6 +31,7 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
   function isEditable(workPackage, field) {
     // TODO: extract to strategy if new cases arise
     if (field === 'date') {
+      // nope
       return false;
       //return workPackage.schema.props.startDate.writable && workPackage.schema.props.dueDate.writable;
     }
@@ -75,12 +76,17 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
         inplaceType = 'text';
     if (field === 'date') {
       fieldType = 'DateRange';
+    } else if (field === 'description') {
+      fieldType = 'Textile';
     } else {
       fieldType = workPackage.form.embedded.schema.props[field].type;
     }
     switch(fieldType) {
       case 'Float':
         inplaceType = 'float';
+        break;
+      case 'Textile':
+        inplaceType = 'wiki_textarea';
         break;
       case 'Integer':
         inplaceType = 'integer';
@@ -89,7 +95,7 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
         inplaceType = 'boolean';
         break;
       case 'Formattable':
-        inplaceType = 'wiki_textarea';
+        inplaceType = 'textarea';
         break;
       case 'StringObject':
       case 'Version':
@@ -97,7 +103,7 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       case 'Status':
       case 'Priority':
       case 'Category':
-        inplaceType = 'select2';
+        inplaceType = 'dropdown';
         break;
     }
 
@@ -106,13 +112,18 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
 
   function getInplaceDisplayStrategy(workPackage, field) {
     var fieldType = null,
-      displayStrategy = 'default';
+      displayStrategy = 'embedded';
     if (field === 'date') {
       fieldType = 'DateRange';
     } else {
       fieldType = workPackage.form.embedded.schema.props[field].type;
     }
     switch(fieldType) {
+      case 'String':
+      case 'Integer':
+      case 'Float':
+        displayStrategy = 'text';
+        break;
       case 'Boolean':
         displayStrategy = 'boolean';
         break;
@@ -132,6 +143,9 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
 
   function format(workPackage, field) {
     var value = workPackage.props[field];
+    if (_.isUndefined(value)) {
+      return WorkPackageFieldService.getValue(workPackage, field);
+    }
     var mappings = {
       dueDate: 'date',
       startDate: 'date',

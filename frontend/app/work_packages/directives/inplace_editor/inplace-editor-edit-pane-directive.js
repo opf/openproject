@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState) {
+module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHelper, $timeout, ApiHelper) {
   return {
     transclude: true,
     replace: true,
@@ -41,12 +41,16 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
         var pendingFormChanges = getPendingFormChanges();
         pendingFormChanges[fieldController.field] = fieldController.writeValue;
         var result = WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage, pendingFormChanges, notify);
-        result.then(function() {
-          fieldController.onSuccess();
-        });
-        result.catch(function(e) {
-          fieldController.onFail(e);
-        });
+
+        result.then(angular.bind(this, function() {
+          fieldController.isEditing = false;
+          fieldController.updateWriteValue();
+          this.error = null;
+        }));
+        result.catch(angular.bind(this, function(e) {
+          this.error = ApiHelper.getErrorMessage(e);
+          $scope.focusInput();
+        }));
         result.finally(function() {
           fieldController.isBusy = false;
         });
@@ -66,7 +70,6 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
       }
     },
     link: function(scope, element, attrs, fieldController) {
-      console.log('link', EditableFieldsState, WorkPackageFieldService, fieldController);
       scope.fieldController = fieldController;
       scope.templateUrl = '/templates/components/inplace_editor/editable/' +
       WorkPackageFieldService.getInplaceEditStrategy(
@@ -74,7 +77,29 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
         fieldController.field
       ) +
       '.html';
-      console.log('ssss', scope.templateUrl);
+
+      scope.focusInput = function() {
+        $timeout(function() {
+          var inputElement = element.find('.focus-input');
+          FocusHelper.focus(inputElement);
+          inputElement.triggerHandler('keyup');
+        });
+      }
+
+      element.bind('keydown keypress', function(e) {
+        if (e.keyCode == 27) {
+          scope.$apply(function() {
+            scope.editPaneController.discardEditing();
+          });
+        }
+      });
+
+      scope.$watch('fieldController.isEditing', function(isEditing) {
+        if (isEditing) {
+          scope.editPaneController.error = null;
+          scope.focusInput();
+        }
+      });
     }
   };
-}
+};

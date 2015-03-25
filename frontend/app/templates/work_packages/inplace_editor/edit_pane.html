@@ -1,9 +1,9 @@
 <div class="inplace-edit--write" ng-show="fieldController.isEditing">
-  <form class="inplace-edit--form" name="editPaneController.editForm" ng-submit="editPaneController.submit(false)" novalidate>
+  <form class="inplace-edit--form" ng-if="fieldController.isEditing" name="editPaneController.editForm" ng-submit="editPaneController.submit(false)" novalidate>
       <div class="inplace-edit--write-value" ng-include="templateUrl">
       </div>
     <div class="inplace-edit--dashboard">
-      <div class="inplace-edit--errors" ng-show="fieldController.error" role="alert" ng-bind="fieldController.error" aria-live="polite"></div>
+      <div class="inplace-edit--errors" ng-show="editPaneController.error" role="alert" ng-bind="editPaneController.error" aria-live="polite"></div>
       <div class="inplace-edit--controls" ng-hide="fieldController.isBusy">
         <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(false)" class="inplace-edit--control inplace-edit--control--save">
           <icon-wrapper icon-name="yes" icon-title="{{ editPaneController.saveTitle }}">

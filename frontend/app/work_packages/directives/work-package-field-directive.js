@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, ApiHelper, EditableFieldsState) {
+module.exports = function(WorkPackageFieldService, EditableFieldsState) {
 
   function workPackageFieldDirectiveController() {
     this.isEditable = function() {
@@ -41,10 +41,6 @@ module.exports = function(WorkPackageFieldService, ApiHelper, EditableFieldsStat
       return WorkPackageFieldService.getLabel(EditableFieldsState.workPackage, this.field);
     };
 
-    this.getReadValue = function() {
-      return WorkPackageFieldService.format(EditableFieldsState.workPackage, this.field);
-    };
-
     this.updateWriteValue = function() {
       this.writeValue = WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field);
     };
@@ -54,16 +50,7 @@ module.exports = function(WorkPackageFieldService, ApiHelper, EditableFieldsStat
       this.isBusy = false;
       this.isEditing = false;
       this.updateWriteValue();
-      this.placeholder = WorkPackageFieldService.defaultPlaceholder;
       this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.field });
-      this.onSuccess = function() {
-        this.isEditing = false;
-        this.updateWriteValue();
-      };
-
-      this.onFail = function(e) {
-        this.error = ApiHelper.getErrorMessage(e);
-      }
     } else {
       this.value = WorkPackageFieldService.format(EditableFieldsState.workPackage, this.field);
     }

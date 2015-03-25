@@ -26,48 +26,46 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout) {
+module.exports = function(TextileService, EditableFieldsState, $sce, AutoCompleteHelper, $timeout) {
   return {
-    replace: true,
+    restrict: 'E',
     transclude: true,
+    replace: true,
     scope: {},
     require: '^workPackageField',
-    templateUrl: '/templates/work_packages/inplace_editor/display_pane.html',
+    templateUrl: '/templates/work_packages/inplace_editor/custom/editable/wiki_textarea.html',
     controller: function($scope) {
+      this.isPreview = false;
+      this.previewHtml = '';
+      this.autocompletePath = '/work_packages/auto_complete.json?project_id=' + EditableFieldsState.workPackage.embedded.project.props.id;
 
-      this.placeholder = WorkPackageFieldService.defaultPlaceholder;
-
-      this.startEditing = function() {
-        var fieldController = $scope.fieldController;
-        fieldController.isEditing = true;
+      this.togglePreview = function() {
+        this.isPreview = !this.isPreview;
+        this.previewHtml = '';
+        // $scope.error = null;
+        if (!this.isPreview) {
+          return;
+        }
+        $scope.fieldController.isBusy = true;
+        TextileService
+          .renderWithWorkPackageContext(EditableFieldsState.workPackage.form, $scope.fieldController.writeValue.raw)
+          .then(angular.bind(this, function(r) {
+            this.previewHtml = $sce.trustAsHtml(r.data);
+            $scope.fieldController.isBusy = false;
+          }), angular.bind(this, function() {
+            this.isPreview = false;
+            $scope.fieldController.isBusy = false;
+          }));
       };
-
-      this.isReadValueEmpty = function() {
-        return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, $scope.fieldController.field);
-      };
-
-      this.getReadValue = function() {
-        return WorkPackageFieldService.format(EditableFieldsState.workPackage, $scope.fieldController.field);
-      };
-
     },
-    controllerAs: 'displayPaneController',
+    controllerAs: 'customEditorController',
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
-      scope.templateUrl = '/templates/components/inplace_editor/display/' +
-        WorkPackageFieldService.getInplaceDisplayStrategy(
-          EditableFieldsState.workPackage,
-          fieldController.field
-        ) +
-        '.html';
-
-      scope.$watch('fieldController.isEditing', function(isEditing) {
-        if (!isEditing) {
-          $timeout(function() {
-            element.find('.inplace-editing--trigger-link').focus();
-          });
-        }
+      $timeout(function() {
+        AutoCompleteHelper.enableTextareaAutoCompletion(element.find('textarea'));
+        // set as dirty for the script to show a confirm on leaving the page
+        element.find('textarea').data('changed', true);
       });
     }
   };
-}
+};

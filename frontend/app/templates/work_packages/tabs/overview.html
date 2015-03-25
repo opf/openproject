@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div ng-if="false" ng-repeat="group in vm.groupedFields" ng-hide="isGroupEmpty(group.groupName)" class="attributes-group">
+<div ng-repeat="group in vm.groupedFields" ng-hide="isGroupEmpty(group.groupName)" class="attributes-group">
 
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
@@ -32,7 +32,7 @@
   <dl class="attributes-key-value" ng-repeat="field in group.attributes">
     <dt class="attributes-key-value--key" ng-bind="vm.getLabel(field)"></dt>
     <dd class="attributes-key-value--value-container">
-      <work-package-field work-package="vm.workPackage" field="field"></work-package-field>
+      <work-package-field field="field"></work-package-field>
     </dd>
   </dl>
 
@@ -105,6 +105,7 @@
                        activity-no="activityNo"
                        input-element-id="'add-comment-text'"
                        autocomplete-path="{{ autocompletePath }}">
+        </user-activity>
       </li>
     </ul>
     <activity-comment work-package="workPackage"
