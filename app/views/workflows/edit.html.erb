@@ -30,12 +30,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2><%= Workflow.model_name.human %></h2>
 <%= render :partial => 'layouts/action_menu_specific' %>
 <%= styled_form_tag({}, :method => 'get') do %>
-  <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend"><%=l(:text_workflow_edit)%></legend>
-    <div class="grid-block">
-      <div class="form--column">
-        <div class="form--field -vertical">
-          <%= styled_label_tag :role_id, Role.model_name.human %>
+  <fieldset class="simple-filters--container">
+    <legend><%=l(:text_workflow_edit)%></legend>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters-filter">
+        <%= styled_label_tag :role_id, Role.model_name.human, class: 'simple-filters--filter-name' %>
+        <div class="simple-filters--filter-value">
           <%= styled_select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %>
         </div>
         <div class="form--field">
@@ -45,15 +45,14 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= styled_check_box_tag :used_statuses_only, '1', @used_statuses_only %> <%= l(:label_display_used_statuses_only) %>
           <% end %>
         </div>
-      </div>
-      <div class="form--column">
-        <div class="form--field -vertical">
-          <%= styled_label_tag :type_id, Type.model_name.human %>
+      </li>
+      <li class="simple-filters-filter">
+        <%= styled_label_tag :type_id, Type.model_name.human, class: 'simple-filters--filter-name' %>
+        <div class="simple-filter--filter-value">
           <%= styled_select_tag 'type_id', options_from_collection_for_select(@types, "id", "name", @type && @type.id) %>
         </div>
-      </div>
-    </div>
-    <hr class="form--separator">
+      </li>
+    </ul>
     <%= submit_tag l(:button_edit), :name => nil, :accesskey => accesskey(:edit), class: 'button -highlight' %>
   </fieldset>
 <% end %>
