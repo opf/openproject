@@ -155,10 +155,7 @@ module OpenProject::Backlogs
                  datetime_formatter.format_duration_from_hours(represented.remaining_hours,
                                                                allow_nil: true)
                },
-               render_nil: true,
-               if: -> (*) {
-                 represented.backlogs_enabled? && represented.type.backlogs_type?
-               }
+               render_nil: true
     end
 
     extend_api_response(:v3, :work_packages, :form, :work_package_payload) do
@@ -178,10 +175,7 @@ module OpenProject::Backlogs
                                                                         allow_nil: true)
                  represented.remaining_hours = remaining
                },
-               render_nil: true,
-               if: -> (*) {
-                 represented.backlogs_enabled? && represented.type.backlogs_type?
-               }
+               render_nil: true
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
@@ -196,10 +190,7 @@ module OpenProject::Backlogs
              type: 'Duration',
              name_source: :remaining_hours,
              required: false,
-             writable: -> (*) { represented.remaining_time_writable? },
-             show_if: -> (*) {
-               represented.project.backlogs_enabled? && represented.type.backlogs_type?
-             }
+             writable: -> (*) { represented.remaining_time_writable? }
     end
 
     allow_attribute_update :work_package, :story_points

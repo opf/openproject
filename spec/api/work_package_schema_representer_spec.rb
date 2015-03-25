@@ -79,26 +79,28 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   describe 'remainingTime' do
     subject { representer.to_json }
 
+    shared_examples_for 'has schema for remainingTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'remainingTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.remaining_hours') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+    end
+
     before do
       allow(schema).to receive(:remaining_time_writable?).and_return(true)
     end
 
-    it_behaves_like 'has basic schema properties' do
-      let(:path) { 'remainingTime' }
-      let(:type) { 'Duration' }
-      let(:name) { I18n.t('activerecord.attributes.work_package.remaining_hours') }
-      let(:required) { false }
-      let(:writable) { true }
-    end
+    it_behaves_like 'has schema for remainingTime'
 
     context 'backlogs disabled' do
       before do
         allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
       end
 
-      it 'does not show the remaining time' do
-        is_expected.to_not have_json_path('remainingTime')
-      end
+      it_behaves_like 'has schema for remainingTime'
     end
 
     context 'not a backlogs type' do
@@ -106,9 +108,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         allow(schema.type).to receive(:backlogs_type?).and_return(false)
       end
 
-      it 'does not show the remaining time' do
-        is_expected.to_not have_json_path('remainingTime')
-      end
+      it_behaves_like 'has schema for remainingTime'
     end
 
     context 'remainingTime not writable' do
