@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
                      :method => :post,
                      :html => {:id => "members_add_form"}) do |f| %>
   <div class="form--section">
-    <h3><%= l(:label_member_new) %></h3>
+    <h3 class="form--section-title"><%= l(:label_member_new) %></h3>
     <div class="form--field">
       <%= styled_label_tag :member_user_ids, l(:label_principal_search) %>
       <%= styled_select_tag "member[user_ids]", options_for_select([]),
@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
                        :tabIndex => 0,
                        :class => "select2-select" %>
     </div>
-    <%= f.submit l(:button_add), :id => 'member-add-submit', class: 'button' %>
+    <%= f.submit l(:button_add), :id => 'member-add-submit', class: 'button -highlight' %>
 
   </div>
 <% end %>
