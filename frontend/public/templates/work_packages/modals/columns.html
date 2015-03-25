@@ -6,7 +6,7 @@
 
     <div cg-busy="vm.promise" class="columns-modal-content">
       <label for="selected_columns">{{ I18n.t('js.description_selected_columns') }}</label>
-      <ui-select multiple ng-model="vm.selectedColumns" theme="select2" id="selected_columns">
+      <ui-select multiple ng-model="vm.selectedColumns" theme="select2" id="selected_columns"  tabindex="0" focus="1">
         <ui-select-match>
           {{$item.title}}
         </ui-select-match>
