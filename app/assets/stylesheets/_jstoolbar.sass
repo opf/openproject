@@ -53,7 +53,7 @@ $jstoolbar--icon-active-background: #eee
   margin-bottom: 0.25rem
   line-height: 1.6rem
 
-  button, .jstb_help
+  button
     @include grid-content
     padding: 0.25rem
     margin-left: 0.25rem
@@ -83,9 +83,10 @@ $jstoolbar--icon-active-background: #eee
 
   .jstb_help
     font-size: 0.8125rem
-    padding: 0.125rem
+    padding: 0.35rem
+    line-height: 1rem
 
-    a.icon-help:before
+    &:before
       color: $body-font-color
       padding: 0
 

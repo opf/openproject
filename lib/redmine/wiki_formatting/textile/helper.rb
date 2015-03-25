@@ -36,18 +36,15 @@ module Redmine
           url = url_for(controller: '/help', action: 'wiki_syntax')
           open_help = "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=600, " +
                       "height=640, menubar=no, status=no, scrollbars=yes\"); return false;"
-          help_link = link_to(url,
-                              class: 'icon icon-help',
-                              onclick: open_help,
-                              title: l(:setting_text_formatting)) do
-                                content_tag :span, class: 'hidden-for-sighted' do
-                                  l(:setting_text_formatting)
-                                end
-                              end
+          help_button = content_tag :button,
+                                    '',
+                                    class: 'jstb_help icon icon-help',
+                                    onclick: open_help,
+                                    title: l(:setting_text_formatting)
 
           javascript_tag(<<-EOF)
             var wikiToolbar = new jsToolBar($('#{field_id}'));
-            wikiToolbar.setHelpLink('#{escape_javascript help_link}');
+            wikiToolbar.setHelpLink(jQuery('#{escape_javascript help_button}')[0]);
             // initialize the toolbar later, so that i18n-js has a chance to set the translations
             // for the wiki-buttons first.
             jQuery(function(){ wikiToolbar.draw(); });

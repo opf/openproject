@@ -27,7 +27,7 @@
 //++
 
 module.exports = function() {
-  var HELP_LINK_HTML = '<a href="/help/wiki_syntax" title="' + I18n.t('js.inplace.link_formatting_help') + '" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;"><span class="hidden-for-sighted">' + I18n.t('js.inplace.link_formatting_help') + '</span></a>',
+  var HELP_LINK_HTML = jQuery('<button title="' + I18n.t('js.inplace.link_formatting_help') + '" class="jstb_help icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;"></button>')[0],
       PREVIEW_ENABLE_TEXT = I18n.t('js.inplace.btn_preview_enable'),
       PREVIEW_DISABLE_TEXT = I18n.t('js.inplace.btn_preview_disable'),
       PREVIEW_BUTTON_CLASS = 'jstb_preview',
