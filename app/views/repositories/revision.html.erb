@@ -42,9 +42,15 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end -%>
   &#187;&nbsp;
 
-  <%= form_tag({:controller => '/repositories', :action => 'revision', :project_id => @project}, :method => :get) do %>
-    <%= text_field_tag 'rev', @rev, :size => 8 %>
-    <%= submit_tag 'OK', :name => nil, class: 'button -highlight' %>
+  <%= styled_form_tag({:controller => '/repositories', :action => 'revision', :project_id => @project}, :method => :get) do %>
+    <div class="choice">
+      <div class="choice--select">
+        <%= styled_text_field_tag 'rev', @rev, :size => 8 %>
+      </div>
+      <div class="choice--button">
+        <%= submit_tag 'OK', :name => nil, class: 'button -highlight' %>
+      </div>
+    </div>
   <% end %>
 <% end %>
 <h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
