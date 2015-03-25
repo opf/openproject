@@ -38,9 +38,8 @@ exports.config = {
   directConnect: true,
 
   specs: [
-    //'specs/*spec.js',
-    //'specs/**/*spec.js'
-    'specs/work-packages/work-packages-modal-focus.js'
+    'specs/*spec.js',
+    'specs/**/*spec.js'
   ],
 
   allScriptsTimeout: 500000,
