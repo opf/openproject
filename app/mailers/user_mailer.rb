@@ -50,9 +50,6 @@ class UserMailer < ActionMailer::Base
   def work_package_added(user, issue, author)
     @issue = issue
 
-    # starting with the same hack we already know from #work_package_updated
-    User.current = author if User.current != author
-
     open_project_headers 'Project'        => @issue.project.identifier,
                          'Issue-Id'       => @issue.id,
                          'Issue-Author'   => @issue.author.login,
@@ -65,19 +62,11 @@ class UserMailer < ActionMailer::Base
       subject = "[#{@issue.project.name} - #{ @issue }]"
       subject << " (#{@issue.status.name})" if @issue.status
       subject << " #{@issue.subject}"
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
   def work_package_updated(user, journal, author = User.current)
-    # Delayed job does not preserve the closure of the job that is delayed.
-    # Thus, if the method is called within a delayed job, it does contain the
-    # default user (anonymous) and not the original user that called the method.
-    #
-    # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
-    # original user to be available. Otherwise, it cannot fulfill its duty.
-    User.current = author if User.current != author
-
     @journal = journal
     @issue   = journal.journable.reload
 
@@ -95,7 +84,7 @@ class UserMailer < ActionMailer::Base
       subject << "(#{@issue.status.name}) " if @journal.details[:status_id]
       subject << @issue.subject
 
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
@@ -360,6 +349,24 @@ class UserMailer < ActionMailer::Base
 
   private
 
+  # like #mail, but contains special author based filters
+  # currently only:
+  #  - remove_self_notifications
+  # might be refactored at a later time to be as generic as Interceptors
+  def mail_for_author(author, headers = {}, &block)
+    message = mail headers, &block
+
+    remove_self_notifications(message, author)
+
+    message
+  end
+
+  def remove_self_notifications(message, author)
+    if author.pref && author.pref[:no_self_notified]
+      message.to = message.to.reject { |address| address == author.mail } if message.to.present?
+    end
+  end
+
   def self.mail_timestamp(object)
     if object.respond_to? :created_at
       timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
@@ -424,17 +431,6 @@ class DefaultHeadersInterceptor
       'Precedence'         => 'bulk',
       'Auto-Submitted'     => 'auto-generated'
     }
-  end
-end
-
-class RemoveSelfNotificationsInterceptor
-  def self.delivering_email(mail)
-    user_mail = User.current.mail
-    user_pref = User.current.pref
-
-    if user_pref && user_pref[:no_self_notified]
-      mail.to = mail.to.reject { |address| address == user_mail } if mail.to.present?
-    end
   end
 end
 
