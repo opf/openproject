@@ -87,7 +87,8 @@ module API
                  render_nil: true
         property :email,
                  getter: -> (*) { mail },
-                 render_nil: true
+                 render_nil: true,
+                 if: -> (*) { !pref.hide_mail }
         property :avatar,
                  getter: -> (*) { avatar_url(represented) },
                  render_nil: true,
