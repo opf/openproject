@@ -367,18 +367,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert UserMailer.message_posted(user, message, user).deliver
   end
 
-  def test_wiki_content_added
-    user         = FactoryGirl.create(:user)
-    wiki_content = FactoryGirl.create(:wiki_content)
-    assert UserMailer.wiki_content_added(user, wiki_content, user).deliver
-  end
-
-  def test_wiki_content_updated
-    user         = FactoryGirl.create(:user)
-    wiki_content = FactoryGirl.create(:wiki_content)
-    assert UserMailer.wiki_content_updated(user, wiki_content, user).deliver
-  end
-
   def test_account_information
     user = FactoryGirl.create(:user)
     assert UserMailer.account_information(user, 'pAsswORd').deliver
