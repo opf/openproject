@@ -171,7 +171,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def news_comment_added(user, comment)
+  def news_comment_added(user, comment, author)
     @comment = comment
     @news    = @comment.commented
 
@@ -183,11 +183,11 @@ class UserMailer < ActionMailer::Base
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
-  def wiki_content_added(user, wiki_content)
+  def wiki_content_added(user, wiki_content, author)
     @wiki_content = wiki_content
 
     open_project_headers 'Project'      => @wiki_content.project.identifier,
@@ -198,11 +198,11 @@ class UserMailer < ActionMailer::Base
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.pretty_title)}"
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
-  def wiki_content_updated(user, wiki_content)
+  def wiki_content_updated(user, wiki_content, author)
     @wiki_content  = wiki_content
     @wiki_diff_url = url_for(controller: '/wiki',
                              action:     :diff,
@@ -219,11 +219,11 @@ class UserMailer < ActionMailer::Base
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.pretty_title)}"
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
-  def message_posted(user, message)
+  def message_posted(user, message, author)
     @message     = message
     @message_url = topic_url(@message.root, r: @message.id, anchor: "message-#{@message.id}")
 
@@ -236,7 +236,7 @@ class UserMailer < ActionMailer::Base
 
     with_locale_for(user) do
       subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id}] #{@message.subject}"
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 

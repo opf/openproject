@@ -284,7 +284,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_message_posted_message_id
     user    = FactoryGirl.create(:user)
     message = FactoryGirl.create(:message)
-    UserMailer.message_posted(user, message).deliver
+    UserMailer.message_posted(user, message, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
@@ -299,7 +299,7 @@ class UserMailerTest < ActionMailer::TestCase
     user    = FactoryGirl.create(:user)
     parent  = FactoryGirl.create(:message)
     message = FactoryGirl.create(:message, parent: parent)
-    UserMailer.message_posted(user, message).deliver
+    UserMailer.message_posted(user, message, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
@@ -358,25 +358,25 @@ class UserMailerTest < ActionMailer::TestCase
     user    = FactoryGirl.create(:user)
     news    = FactoryGirl.create(:news)
     comment = FactoryGirl.create(:comment, commented: news)
-    assert UserMailer.news_comment_added(user, comment).deliver
+    assert UserMailer.news_comment_added(user, comment, user).deliver
   end
 
   def test_message_posted
     user    = FactoryGirl.create(:user)
     message = FactoryGirl.create(:message)
-    assert UserMailer.message_posted(user, message).deliver
+    assert UserMailer.message_posted(user, message, user).deliver
   end
 
   def test_wiki_content_added
     user         = FactoryGirl.create(:user)
     wiki_content = FactoryGirl.create(:wiki_content)
-    assert UserMailer.wiki_content_added(user, wiki_content).deliver
+    assert UserMailer.wiki_content_added(user, wiki_content, user).deliver
   end
 
   def test_wiki_content_updated
     user         = FactoryGirl.create(:user)
     wiki_content = FactoryGirl.create(:wiki_content)
-    assert UserMailer.wiki_content_updated(user, wiki_content).deliver
+    assert UserMailer.wiki_content_updated(user, wiki_content, user).deliver
   end
 
   def test_account_information
