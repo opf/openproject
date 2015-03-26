@@ -58,39 +58,29 @@ $dp-table-width: 100%
 $dp-month-year-width: 40%
 $dp-month-year-margin: 0 4.5%
 
-%noselect
-  @include user-select(none)
-
-%shadow-box
-  $shadow-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1)
-  box-shadow: $shadow-box-shadow
-
-%shadow-box-none
-  box-shadow: none
+$dp-shadow-box: 1px 1px 5px 0
+$dp-shadow-box-opacity: 1
 
 @mixin set-table-cells-width($table-width, $columns-number)
   width: $table-width/$columns-number
   table-layout: fixed
 
-@mixin set-round-corners($radius)
-  border-radius: $radius
-
 .ui-datepicker
   border: $dp-border
   padding: 0
   background-color: $dp-theme-lines-color2
-  @extend %shadow-box
+  box-shadow: $dp-shadow-box rgba($dp-theme-color, $dp-shadow-box-opacity)
   &.ui-datepicker-inline
-    @extend %shadow-box-none
+    box-shadow: none
   &.ui-corner-all
-    @include set-round-corners($dp-round-corners-radius)
+    border-radius: $dp-round-corners-radius
 
   //[class^="ui-corner"] this selector is not working...
   //a list is used
   $corner-types: tl tr lf br top bottom right left all
   @each $corner-type in $corner-types
     .ui-corner-#{$corner-type}
-      @include set-round-corners($dp-round-corners-radius)
+      border-radius: $dp-round-corners-radius
 
   .ui-datepicker-header
     padding: $dp-header-padding
@@ -99,11 +89,11 @@ $dp-month-year-margin: 0 4.5%
 
     .ui-icon.ui-icon-circle-triangle-w
       background-position: -96px -16px
-      @extend %noselect
+      @include user-select(none)
 
     .ui-icon.ui-icon-circle-triangle-e
       background-position: -32px -16px
-      @extend %noselect
+      @include user-select(none)
 
     .ui-state-hover
       border-width: 0 !important
@@ -163,7 +153,7 @@ $dp-month-year-margin: 0 4.5%
         &:hover
           margin: $dp-day-margin-hover
           border: $dp-border
-          @include set-round-corners($dp-cell-corner-radius)
+          border-radius: $dp-cell-corner-radius
 
     .ui-datepicker-week-col
       color: $dp-week-text-color
