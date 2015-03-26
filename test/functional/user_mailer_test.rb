@@ -200,7 +200,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_email_headers
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue)
+    mail = UserMailer.work_package_added(user, issue, user)
     assert mail.deliver
     assert_not_nil mail
     assert_equal 'bulk', mail.header['Precedence'].to_s
@@ -211,7 +211,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    UserMailer.work_package_added(user, issue).deliver
+    UserMailer.work_package_added(user, issue, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /text\/plain/, mail.content_type
     assert_equal 0, mail.parts.size
@@ -222,7 +222,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    UserMailer.work_package_added(user, issue).deliver
+    UserMailer.work_package_added(user, issue, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /multipart\/alternative/, mail.content_type
     assert_equal 2, mail.parts.size
@@ -248,7 +248,7 @@ class UserMailerTest < ActionMailer::TestCase
     user.pref.save
     User.current = user
     ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news).deliver
+    UserMailer.news_added(user, news, user).deliver
     assert_equal 1, last_email.to.size
 
     # nobody to notify
@@ -256,14 +256,14 @@ class UserMailerTest < ActionMailer::TestCase
     user.pref.save
     User.current = user
     ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news).deliver
+    UserMailer.news_added(user, news, user).deliver
     assert ActionMailer::Base.deliveries.empty?
   end
 
   def test_issue_add_message_id
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue)
+    mail = UserMailer.work_package_added(user, issue, user)
     mail.deliver
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(issue, user), mail.message_id
@@ -311,22 +311,13 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   context('#issue_add') do
-    should 'send one email per recipient' do
-      user  = FactoryGirl.create(:user, mail: 'foo@bar.de')
-      issue = FactoryGirl.create(:work_package)
-      ActionMailer::Base.deliveries.clear
-      assert UserMailer.work_package_added(user, issue).deliver
-      assert_equal 1, ActionMailer::Base.deliveries.size
-      assert_equal ['foo@bar.de'], last_email.to
-    end
-
     should 'change mail language depending on recipient language' do
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: 'de')
       ActionMailer::Base.deliveries.clear
       with_settings available_languages: ['en', 'de'] do
         I18n.locale = 'en'
-        assert UserMailer.work_package_added(user, issue).deliver
+        assert UserMailer.work_package_added(user, issue, user).deliver
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -346,7 +337,7 @@ class UserMailerTest < ActionMailer::TestCase
       with_settings available_languages: ['en', 'de'],
                     default_language: 'de' do
         I18n.locale = 'de'
-        assert UserMailer.work_package_added(user, issue).deliver
+        assert UserMailer.work_package_added(user, issue, user).deliver
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -360,7 +351,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_news_added
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
-    assert UserMailer.news_added(user, news).deliver
+    assert UserMailer.news_added(user, news, user).deliver
   end
 
   def test_news_comment_added

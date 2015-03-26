@@ -139,7 +139,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def news_added(user, news)
+  def news_added(user, news, author)
     @news = news
 
     open_project_headers 'Type'    => 'News'
@@ -150,7 +150,7 @@ class UserMailer < ActionMailer::Base
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "[#{@news.project.name}] #{subject}" if @news.project
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
