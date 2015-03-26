@@ -86,18 +86,12 @@ $dp-month-year-margin: 0 4.5%
   &.ui-corner-all
     @include set-round-corners($dp-round-corners-radius)
 
-  /*this selector is not working...
-  //[class^="ui-corner"]
-  .ui-corner-tl,
-  .ui-corner-tr,
-  .ui-corner-bl,
-  .ui-corner-br,
-  .ui-corner-top,
-  .ui-corner-bottom,
-  .ui-corner-right,
-  .ui-corner-left,
-  .ui-corner-all
-    @include set-round-corners($dp-round-corners-radius)
+  //[class^="ui-corner"] this selector is not working...
+  //a list is used
+  $corner-types: tl tr lf br top bottom right left all
+  @each $corner-type in $corner-types
+    .ui-corner-#{$corner-type}
+      @include set-round-corners($dp-round-corners-radius)
 
   .ui-datepicker-header
     padding: $dp-header-padding
