@@ -60,22 +60,13 @@ $dp-month-year-margin: 0 4.5%
 
 .noselect
   $none: none
-  -webkit-touch-callout: $none
-  -webkit-user-select: $none
-  -khtml-user-select: $none
-  -moz-user-select: $none
-  -ms-user-select: $none
   user-select: $none
 
 .shadow-box
   $shadow-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1)
-  -webkit-box-shadow: $shadow-box-shadow
-  -moz-box-shadow: $shadow-box-shadow
   box-shadow: $shadow-box-shadow
 
 .shadow-box-none
-  -webkit-box-shadow: none
-  -moz-box-shadow: none
   box-shadow: none
 
 @mixin set-table-cells-width($table-width, $columns-number)
@@ -84,9 +75,6 @@ $dp-month-year-margin: 0 4.5%
 
 @mixin set-round-corners($radius)
   border-radius: $radius
-  -moz-border-radius: $radius
-  -webkit-border-radius: $radius
-  -khtml-border-radius: $radius
 
 .ui-datepicker
   border: $dp-border
