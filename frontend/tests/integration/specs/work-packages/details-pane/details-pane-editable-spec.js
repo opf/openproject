@@ -33,11 +33,12 @@ var expect = require('../../../spec_helper.js').expect,
 describe('OpenProject', function(){
   describe('editable', function() {
     describe('subject', function() {
-      var subjectEditor = $('.inplace-edit.attribute-subject');
+      var subjectEditor;
 
       context('work package with updateImmediately link', function() {
         beforeEach(function() {
           detailsPaneHelper.loadPane(819, 'overview');
+          subjectEditor = element(by.css('.inplace-edit.attribute-subject'));
         });
 
         it('should render an editable subject', function() {
@@ -48,6 +49,7 @@ describe('OpenProject', function(){
       context('work package without updateImmediately link', function() {
         beforeEach(function() {
           detailsPaneHelper.loadPane(820, 'overview');
+          subjectEditor = element(by.css('.inplace-edit.attribute-subject'));
         });
 
         it('should not render an editable subject', function() {
@@ -58,6 +60,7 @@ describe('OpenProject', function(){
       context('work package with a wrong version', function() {
         beforeEach(function() {
           detailsPaneHelper.loadPane(821, 'overview');
+          subjectEditor = element(by.css('.inplace-edit.attribute-subject'));
           subjectEditor.$('.inplace-editing--trigger-link').click();
           subjectEditor.$('.inplace-edit--control--save a').click();
         });
@@ -170,17 +173,19 @@ describe('OpenProject', function(){
       });
     });
     context('user field', function() {
-      var assigneeEditor = $('[ined-attribute=\'assignee\'] .inplace-edit'),
-          responsibleEditor = $('[ined-attribute=\'responsible\'] .inplace-edit');
+      var assigneeEditor,
+          responsibleEditor;
 
       beforeEach(function() {
         detailsPaneHelper.loadPane(822, 'overview');
+        assigneeEditor = element(by.css('[ined-attribute=\'assignee\'] .inplace-edit'));
+        responsibleEditor = element(by.css('[ined-attribute=\'responsible\'] .inplace-edit')); 
       });
 
       context('read state', function() {
         context('with null assignee', function() {
           beforeEach(function() {
-            $('.panel-toggler').click();
+            element(by.css('.panel-toggler')).click();
           });
 
           it('should render a span with placeholder', function() {

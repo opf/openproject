@@ -82,19 +82,22 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
 
   function setEmbeddedOptions($scope) {
     $scope.options = [];
-    var allowedValues = $scope
+    var props = $scope
       .entity.form.embedded.schema
-      .props[getAttribute($scope)]._links.allowedValues;
-    if (allowedValues.length) {
-      var options = _.map(allowedValues, function(item) {
-        return angular.extend({}, item, { name: item.title });
-      });
+      .props[getAttribute($scope)];
+    if(props){
+      var allowedValues = props._links.allowedValues;
+      if (allowedValues.length) {
+        var options = _.map(allowedValues, function(item) {
+          return angular.extend({}, item, { name: item.title });
+        });
 
-      if ($scope.hasEmptyOption) {
-        var arrayWithEmptyOption = [{ href: null }];
-        $scope.options = arrayWithEmptyOption.concat(options);
-      } else {
-        $scope.options = options;
+        if ($scope.hasEmptyOption) {
+          var arrayWithEmptyOption = [{ href: null }];
+          $scope.options = arrayWithEmptyOption.concat(options);
+        } else {
+          $scope.options = options;
+        }
       }
     } else {
       $scope.isEditing = false;

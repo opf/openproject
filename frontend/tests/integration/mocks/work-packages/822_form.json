@@ -225,7 +225,14 @@
             "href": "/api/v3/projects/1/available_assignees"
           }
         },
-        "type": "User"
+        "allowedValues": {
+          "href": "/api/v3/projects/13/available_assignees"
+        },
+        "href": "/api/v3/projects/13/available_assignees",
+        "name": "Assignee",
+        "required": false,
+        "type": "User",
+        "writable": true
       },
       "responsible": {
         "_links": {
