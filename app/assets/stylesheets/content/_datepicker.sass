@@ -58,15 +58,15 @@ $dp-table-width: 100%
 $dp-month-year-width: 40%
 $dp-month-year-margin: 0 4.5%
 
-.noselect
+%noselect
   $none: none
   user-select: $none
 
-.shadow-box
+%shadow-box
   $shadow-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1)
   box-shadow: $shadow-box-shadow
 
-.shadow-box-none
+%shadow-box-none
   box-shadow: none
 
 @mixin set-table-cells-width($table-width, $columns-number)
@@ -80,9 +80,9 @@ $dp-month-year-margin: 0 4.5%
   border: $dp-border
   padding: 0
   background-color: $dp-theme-lines-color2
-  @extend .shadow-box
+  @extend %shadow-box
   &.ui-datepicker-inline
-    @extend .shadow-box-none
+    @extend %shadow-box-none
   &.ui-corner-all
     @include set-round-corners($dp-round-corners-radius)
 
@@ -106,11 +106,11 @@ $dp-month-year-margin: 0 4.5%
 
     .ui-icon.ui-icon-circle-triangle-w
       background-position: -96px -16px
-      @extend .noselect
+      @extend %noselect
 
     .ui-icon.ui-icon-circle-triangle-e
       background-position: -32px -16px
-      @extend .noselect
+      @extend %noselect
 
     .ui-state-hover
       border-width: 0 !important
