@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackagesHelper) {
+module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackagesHelper, $q, $http) {
 
   function isEditable(workPackage, field) {
     // TODO: extract to strategy if new cases arise
@@ -35,13 +35,22 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       return false;
       //return workPackage.schema.props.startDate.writable && workPackage.schema.props.dueDate.writable;
     }
-    if (field == 'estimatedTime') {
+    if (field === 'estimatedTime') {
       return false;
     }
-    if(workPackage.schema.props[field].type == 'Date') {
+    if(workPackage.schema.props[field].type === 'Date') {
       return false;
     }
-    return workPackage.schema.props[field].writable;
+    var isWritable = workPackage.schema.props[field].writable;
+
+    // not writable if no embedded allowed values
+    if (workPackage.form.embedded.schema
+        .props[field]._links && allowedValuesEmbedded(workPackage, field)) {
+      if (getEmbeddedAllowedValues(workPackage, field).length === 0) {
+        return false;
+      }
+    }
+    return isWritable;
   }
 
   function getValue(workPackage, field) {
@@ -54,8 +63,64 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
     return null;
   }
 
+  function allowedValuesEmbedded(workPackage, field) {
+    return _.isArray(workPackage.form.embedded.schema
+      .props[field]._links.allowedValues);
+  }
+
+  function getEmbeddedAllowedValues(workPackage, field) {
+    var options = [];
+    var allowedValues = workPackage.form.embedded.schema
+      .props[field]._links.allowedValues;
+    options = _.map(allowedValues, function(item) {
+      return _.extend({}, item, { name: item.title });
+    });
+
+    if (!WorkPackageFieldService.isRequired(workPackage, field)) {
+      var arrayWithEmptyOption = [{ href: null }];
+      options = arrayWithEmptyOption.concat(options);
+    }
+
+    return options;
+  }
+
+  function getLinkedAllowedValues(workPackage, field) {
+    var href = workPackage.form.embedded.schema
+      .props[field]._links.allowedValues.href;
+    return $http.get(href).then(function(r) {
+      var options = [];
+      options = _.map(r.data._embedded.elements, function(item) {
+        return _.extend({}, item._links.self, { name: item.name });
+      });
+      if (!WorkPackageFieldService.isRequired(workPackage, field)) {
+        var arrayWithEmptyOption = [{ href: null }];
+        options = arrayWithEmptyOption.concat(options);
+      }
+      return options;
+    });
+  }
+
+  function getAllowedValues(workPackage, field) {
+    if (allowedValuesEmbedded(workPackage, field)) {
+      return $q(function(resolve) {
+        resolve(getEmbeddedAllowedValues(workPackage, field));
+      });
+    } else {
+      return getLinkedAllowedValues(workPackage, field);
+    }
+  }
+
+  function isRequired(workPackage, field) {
+    return workPackage.form.embedded.schema
+      .props[field].required;
+  }
+
   function isEmbedded(workPackage, field) {
     return !_.isUndefined(workPackage.embedded[field]);
+  }
+
+  function isSavedAsLink(workPackage, field) {
+    return _.isUndefined(workPackage.form.embedded.payload.props[field]);
   }
 
   function getLabel(workPackage, field) {
@@ -167,10 +232,13 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
 
   var WorkPackageFieldService = {
     isEditable: isEditable,
+    isRequired: isRequired,
     isEmpty: isEmpty,
     isEmbedded: isEmbedded,
+    isSavedAsLink: isSavedAsLink,
     getValue: getValue,
     getLabel: getLabel,
+    getAllowedValues: getAllowedValues,
     format: format,
     getInplaceEditStrategy: getInplaceEditStrategy,
     getInplaceDisplayStrategy: getInplaceDisplayStrategy,
@@ -178,4 +246,4 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
   };
 
   return WorkPackageFieldService;
-}
+};

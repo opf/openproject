@@ -1,0 +1,11 @@
+<div class="version-wrapper">
+    <span ng-if="!customEditorController.version">-</span>
+    <span ng-if="customEditorController.version && customEditorController.isVersionFieldViewable">
+      <a href="{{customEditorController.pathHelper.versionPath(customEditorController.version.props.id)}}">
+          {{customEditorController.version.props.name}}
+      </a>
+    </span>
+    <span ng-if="customEditorController.version && !customEditorController.isVersionFieldViewable">
+      {{customEditorController.version.props.name}}
+    </span>
+</div>

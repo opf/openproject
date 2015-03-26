@@ -26,6 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-  .directive('inplaceDisplayUser', require('./inplace-display-user-directive'))
-  .directive('inplaceDisplayVersion', require('./inplace-display-version-directive'));
+module.exports = function(PathHelper) {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    require: '^inplaceEditorDisplayPane',
+    templateUrl: '/templates/work_packages/inplace_editor/custom/display/user.html',
+    controller: function($scope) {
+      this.userPath = PathHelper.staticUserPath;
+      this.getUser = function() {
+        return $scope.inplaceEditorDisplayPane.getReadValue();
+      };
+      this.getUserName = function() {
+        var user = this.getUser();
+        if (user && user.props && (user.props.firstName || user.props.lastName)) {
+          return user.props.firstName + ' ' + user.props.lastName;
+        }
+        return null;
+      };
+    },
+    controllerAs: 'customEditorController',
+    link: function(scope, element, attrs, inplaceEditorDisplayPane) {
+      scope.inplaceEditorDisplayPane = inplaceEditorDisplayPane;
+    }
+  };
+};

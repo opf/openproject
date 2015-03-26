@@ -27,4 +27,5 @@
 //++
 
 angular.module('openproject.workPackages.directives')
-.directive('inplaceEditorWikiTextarea', require('./inplace-editor-wiki-textarea'))
+.directive('inplaceEditorWikiTextarea', require('./inplace-editor-wiki-textarea-directive'))
+.directive('inplaceEditorDropdown', require('./inplace-editor-dropdown-directive'));

@@ -1,10 +1,1 @@
-<span ng-if="!readValue.props">{{ readValue }}</span>
-<span ng-if="readValue.props && isVersionFieldViewable">
-  <a href="{{pathHelper.versionPath(readValue.props.id)}}">
-    {{readValue.props.name}}
-  </a>
-</span>
-<span ng-if="readValue.props && !isVersionFieldViewable">
-  {{readValue.props.name}}
-</span>
-version
+<inplace-display-version></inplace-display-version>

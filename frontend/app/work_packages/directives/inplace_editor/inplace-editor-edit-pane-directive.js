@@ -39,8 +39,9 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
         var fieldController = $scope.fieldController;
         fieldController.isBusy = true;
         var pendingFormChanges = getPendingFormChanges();
+        console.log(fieldController.writeValue, 'wv');
         pendingFormChanges[fieldController.field] = fieldController.writeValue;
-        var result = WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage, pendingFormChanges, notify);
+        var result = WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage, notify);
 
         result.then(angular.bind(this, function() {
           fieldController.isEditing = false;
@@ -84,7 +85,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
           FocusHelper.focus(inputElement);
           inputElement.triggerHandler('keyup');
         });
-      }
+      };
 
       element.bind('keydown keypress', function(e) {
         if (e.keyCode == 27) {

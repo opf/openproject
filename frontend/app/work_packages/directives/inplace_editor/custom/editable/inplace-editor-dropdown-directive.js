@@ -26,21 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(PathHelper) {
+module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $timeout) {
   return {
     restrict: 'E',
+    transclude: true,
     replace: true,
-    templateUrl: '/templates/work_packages/tabs/_user_field.html',
-    scope: { user: '=' },
-    link: function(scope) {
-      scope.$watch('user', function() {
-        if (scope.user && scope.user.props &&
-            (scope.user.props.firstName || scope.user.props.lastName)) {
-          scope.userName = scope.user.props.firstName + ' ' + scope.user.props.lastName;
-        }
+    scope: {},
+    require: '^workPackageField',
+    templateUrl: '/templates/work_packages/inplace_editor/custom/editable/dropdown.html',
+    controller: function($scope) {
+      this.allowedValues = [];
+      this.nullValueLabel = I18n.t('js.inplace.null_value_label');
+    },
+    controllerAs: 'customEditorController',
+    link: function(scope, element, attrs, fieldController) {
+      scope.fieldController = fieldController;
+      scope.fieldController.isBusy = true;
+      WorkPackageFieldService.getAllowedValues(EditableFieldsState.workPackage, fieldController.field).then(function(values) {
+        scope.customEditorController.allowedValues = values;
+        scope.fieldController.isBusy = false;
+        $timeout(function() {
+          element.find('.ui-select-match').trigger('click');
+        });
       });
-
-      scope.userPath = PathHelper.staticUserPath;
     }
   };
 };

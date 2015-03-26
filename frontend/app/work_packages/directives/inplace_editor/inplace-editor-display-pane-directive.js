@@ -54,6 +54,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
     controllerAs: 'displayPaneController',
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
+      scope.displayPaneController.field = scope.fieldController.field;
       scope.templateUrl = '/templates/components/inplace_editor/display/' +
         WorkPackageFieldService.getInplaceDisplayStrategy(
           EditableFieldsState.workPackage,
@@ -67,6 +68,13 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
             element.find('.inplace-editing--trigger-link').focus();
           });
         }
+      });
+
+      $timeout(function() {
+        element.find('a').on('click', function(e) {
+          console.log('a clicnk');
+          e.stopPropagation();
+        });
       });
     }
   };

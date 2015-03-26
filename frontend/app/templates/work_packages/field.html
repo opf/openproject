@@ -7,6 +7,6 @@
   </div>
   <div class="static-branch" ng-if="!fieldController.isEditable()">
     <empty-element ng-if="fieldController.isEmpty()"></empty-element>
-    <div class="field-value" ng-if="!fieldController.isEmpty()" ng-bind="fieldController.getReadValue()"></div>
+    <div class="field-value" ng-if="!fieldController.isEmpty()" ng-bind="fieldController.value"></div>
   </div>
 </div>

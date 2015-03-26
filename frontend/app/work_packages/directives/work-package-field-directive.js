@@ -42,23 +42,24 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
     };
 
     this.updateWriteValue = function() {
-      this.writeValue = WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field);
+      this.writeValue = _.cloneDeep(WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field));
     };
 
-    if (this.isEditable) {
+    if (this.isEditable()) {
       this.type = 'text';
       this.isBusy = false;
       this.isEditing = false;
       this.updateWriteValue();
       this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.field });
     } else {
-      this.value = WorkPackageFieldService.format(EditableFieldsState.workPackage, this.field);
+      var value = WorkPackageFieldService.format(EditableFieldsState.workPackage, this.field);
+      if (value) {
+        // until properties are set as non-editable when there are no available values
+        this.value = value.props ? value.props.name : value;
+      } else {
+        this.value = value;
+      }
     }
-
-    this.contextEval = function(childControllerActivation) {
-      childControllerActivation.call(this);
-    };
-
   }
 
   return {

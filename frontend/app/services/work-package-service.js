@@ -36,7 +36,9 @@ module.exports = function($http,
     $window,
     $q,
     AuthorisationService,
-    EditableFieldsState) {
+    EditableFieldsState,
+    WorkPackageFieldService
+  ) {
   var workPackage;
 
   var WorkPackageService = {
@@ -164,7 +166,17 @@ module.exports = function($http,
     },
 
     updateWorkPackage: function(workPackage, notify) {
-      var data = workPackage.form.pendingChanges;
+      console.log(workPackage.form.pendingChanges);
+      var data = {
+        _links: {}
+      };
+      _.forEach(workPackage.form.pendingChanges, function(value, field) {
+        if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
+          data._links[field] = value ? value.links.self.props : { href: null };
+        } else {
+          data[field] = value;
+        }
+      });
       var options = { ajax: {
         method: 'PATCH',
         url: URI(workPackage.links.updateImmediately.href).addSearch('notify', notify).toString(),

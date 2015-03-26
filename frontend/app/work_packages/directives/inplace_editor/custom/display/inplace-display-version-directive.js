@@ -26,6 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-  .directive('inplaceDisplayUser', require('./inplace-display-user-directive'))
-  .directive('inplaceDisplayVersion', require('./inplace-display-version-directive'));
+module.exports = function(EditableFieldsState, PathHelper, VersionService) {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    require: '^inplaceEditorDisplayPane',
+    templateUrl: '/templates/work_packages/inplace_editor/custom/display/version.html',
+    controller: function($scope) {
+      this.pathHelper = PathHelper;
+    },
+    controllerAs: 'customEditorController',
+    link: function(scope, element, attrs, displayPaneController) {
+      scope.displayPaneController = displayPaneController;
+      scope.$watch(function() {
+        return scope.displayPaneController.getReadValue()
+      }, function(version) {
+        scope.customEditorController.version = version;
+        VersionService.isVersionFieldViewable(EditableFieldsState.workPackage, displayPaneController.field).then(function(isViewable) {
+          scope.customEditorController.isVersionFieldViewable = isViewable;
+        });
+      });
+    }
+  };
+};
