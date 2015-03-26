@@ -52,6 +52,20 @@ describe UserMailer, type: :mailer do
     allow(Setting).to receive(:default_language).and_return('en')
   end
 
+  shared_examples_for 'mail is sent' do
+    it 'actually sends a mail' do
+      expect(ActionMailer::Base.deliveries.size).to eql(1)
+    end
+
+    it 'is sent to the recipient' do
+      expect(ActionMailer::Base.deliveries.first.to).to include(to_mail)
+    end
+
+    it 'is sent from the configured address' do
+      expect(ActionMailer::Base.deliveries.first.from).to include('john@doe.com')
+    end
+  end
+
   describe '#test_mail' do
     let(:test_email) { 'bob.bobbi@example.com' }
     let(:test_user) { User.new(firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
@@ -74,8 +88,12 @@ describe UserMailer, type: :mailer do
       UserMailer.work_package_added(recipient, work_package, user).deliver
     end
 
-    it 'actually sends a mail' do
-      expect(ActionMailer::Base.deliveries.size).to eql(1)
+    it_behaves_like 'mail is sent' do
+      let(:to_mail) { recipient.mail }
+    end
+
+    it 'contains the WP subject in the mail subject' do
+      expect(ActionMailer::Base.deliveries.first.subject).to include(work_package.subject)
     end
 
     context 'author disabled notification of own actions' do
@@ -105,8 +123,8 @@ describe UserMailer, type: :mailer do
       UserMailer.work_package_updated(recipient, journal, user).deliver
     end
 
-    it 'actually sends a mail' do
-      expect(ActionMailer::Base.deliveries.size).to eql(1)
+    it_behaves_like 'mail is sent' do
+      let(:to_mail) { recipient.mail }
     end
 
     context 'author disabled notification of own actions' do

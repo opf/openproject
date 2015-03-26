@@ -62,24 +62,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match /OpenProject URL/, mail.body.encoded
   end
 
-  def test_issue_add
-    user  = FactoryGirl.create(:user, mail: 'foo@bar.de')
-    issue = FactoryGirl.create(:work_package, subject: 'some issue title')
-
-    # creating an issue actually sends an email, ohoh
-    ActionMailer::Base.deliveries.clear
-
-    mail = UserMailer.work_package_added(user, issue)
-    assert mail.deliver
-
-    assert_equal 1, ActionMailer::Base.deliveries.size
-
-    assert_match /some issue title/, mail.subject
-    assert_equal ['foo@bar.de'], mail.to
-    assert_equal ['john@doe.com'], mail.from
-    assert_match /has been reported/, mail.body.encoded
-  end
-
   def test_generated_links_in_emails
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo'
@@ -373,19 +355,6 @@ class UserMailerTest < ActionMailer::TestCase
         assert_equal :de, I18n.locale
       end
     end
-  end
-
-  def test_issue_add
-    user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:work_package)
-    assert UserMailer.work_package_added(user, issue).deliver
-  end
-
-  def test_work_package_updated
-    user    = FactoryGirl.create(:user)
-    issue   = FactoryGirl.create(:work_package)
-    journal = issue.journals.first
-    assert UserMailer.work_package_updated(user, journal).deliver
   end
 
   def test_news_added
