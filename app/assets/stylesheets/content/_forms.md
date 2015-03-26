@@ -569,7 +569,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
       <label class="form--label">Tiny:</label>
       <div class="form--field-container">
         <div class="form--text-area-container -tiny">
-          <textarea type="text-area" class="form--text-area">
+          <textarea type="text-area" class="form--text-area"></textarea>
         </div>
       </div>
     </div>
@@ -577,7 +577,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
       <label class="form--label">XSlim:</label>
       <div class="form--field-container">
         <div class="form--text-area-container -xslim">
-          <textarea type="text-area" class="form--text-area">
+          <textarea type="text-area" class="form--text-area"></textarea>
         </div>
       </div>
     </div>
@@ -585,7 +585,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
       <label class="form--label">Slim:</label>
       <div class="form--field-container">
         <div class="form--text-area-container -slim">
-          <textarea type="text-area" class="form--text-area">
+          <textarea type="text-area" class="form--text-area"></textarea>
         </div>
       </div>
     </div>
@@ -593,7 +593,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
       <label class="form--label">Middle:</label>
       <div class="form--field-container">
         <div class="form--text-area-container -middle">
-          <textarea type="text-area" class="form--text-area">
+          <textarea type="text-area" class="form--text-area"></textarea>
         </div>
       </div>
     </div>
@@ -601,7 +601,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
       <label class="form--label">Wide:</label>
       <div class="form--field-container">
         <div class="form--text-area-container -wide">
-          <textarea type="text-area" class="form--text-area">
+          <textarea type="text-area" class="form--text-area"></textarea>
         </div>
       </div>
     </div>
@@ -609,7 +609,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
       <label class="form--label">XWide:</label>
       <div class="form--field-container">
         <div class="form--text-area-container -xwide">
-          <textarea type="text-area" class="form--text-area">
+          <textarea type="text-area" class="form--text-area"></textarea>
         </div>
       </div>
     </div>
@@ -617,7 +617,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
       <label class="form--label">XXWide:</label>
       <div class="form--field-container">
         <div class="form--text-area-container -xxwide">
-          <textarea type="text-area" class="form--text-area">
+          <textarea type="text-area" class="form--text-area"></textarea>
         </div>
       </div>
     </div>
