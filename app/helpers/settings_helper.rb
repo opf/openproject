@@ -67,7 +67,7 @@ module SettingsHelper
 
             content_tag(:label, class: 'form--label-with-check-box') do
               styled_check_box_tag("settings[#{setting}][]", value,
-                                   Setting.send(setting).include?(value)) +
+                                   Setting.send(setting).include?(value), options) +
                 text.to_s
             end
           end.join.html_safe
@@ -114,11 +114,12 @@ module SettingsHelper
   end
 
   # Renders a notification field for a Redmine::Notifiable option
-  def notification_field(notifiable)
+  def notification_field(notifiable, options = {})
     content_tag(:label, class: 'form--label-with-check-box' + (notifiable.parent.present? ? ' parent' : '')) do
       styled_check_box_tag('settings[notified_events][]',
                            notifiable.name,
-                           Setting.notified_events.include?(notifiable.name)) +
+                           Setting.notified_events.include?(notifiable.name),
+                           options) +
         l_or_humanize(notifiable.name, prefix: 'label_')
     end
   end

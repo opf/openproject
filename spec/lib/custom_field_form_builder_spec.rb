@@ -57,10 +57,14 @@ describe CustomFieldFormBuilder do
     }
 
     it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in field-container by default' do
+      let(:container_count) { 2 }
+    end
 
     context 'for a bool custom field' do
-      it_behaves_like 'wrapped in container', 'check-box-container'
+      it_behaves_like 'wrapped in container', 'check-box-container' do
+        let(:container_count) { 2 }
+      end
 
       it 'should output element' do
         expect(output).to be_html_eql(%{
@@ -83,7 +87,9 @@ describe CustomFieldFormBuilder do
         resource.custom_field.field_format = 'date'
       end
 
-      it_behaves_like 'wrapped in container', 'text-field-container'
+      it_behaves_like 'wrapped in container', 'text-field-container' do
+        let(:container_count) { 2 }
+      end
 
       it 'should output element' do
         expect(output).to be_html_eql(%{
@@ -103,7 +109,9 @@ describe CustomFieldFormBuilder do
         resource.custom_field.field_format = 'text'
       end
 
-      it_behaves_like 'wrapped in container', 'text-area-container'
+      it_behaves_like 'wrapped in container', 'text-area-container' do
+        let(:container_count) { 2 }
+      end
 
       it 'should output element' do
         expect(output).to be_html_eql(%{
@@ -123,7 +131,9 @@ describe CustomFieldFormBuilder do
         resource.custom_field.field_format = 'string'
       end
 
-      it_behaves_like 'wrapped in container', 'text-field-container'
+      it_behaves_like 'wrapped in container', 'text-field-container' do
+        let(:container_count) { 2 }
+      end
 
       it 'should output element' do
         expect(output).to be_html_eql(%{
@@ -143,7 +153,9 @@ describe CustomFieldFormBuilder do
         resource.custom_field.field_format = 'int'
       end
 
-      it_behaves_like 'wrapped in container', 'text-field-container'
+      it_behaves_like 'wrapped in container', 'text-field-container' do
+        let(:container_count) { 2 }
+      end
 
       it 'should output element' do
         expect(output).to be_html_eql(%{
@@ -163,7 +175,9 @@ describe CustomFieldFormBuilder do
         resource.custom_field.field_format = 'float'
       end
 
-      it_behaves_like 'wrapped in container', 'text-field-container'
+      it_behaves_like 'wrapped in container', 'text-field-container' do
+        let(:container_count) { 2 }
+      end
 
       it 'should output element' do
         expect(output).to be_html_eql(%{

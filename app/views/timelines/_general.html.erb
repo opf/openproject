@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset id="filter_general" class="header_collapsible collapsible">
+<fieldset id="filter_general" class="form--fieldset collapsible">
   <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
     <a href="javascript:"><%= l('timelines.filter.timeline') %></a>
   </legend>
@@ -85,24 +85,27 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </div>
       <div class="form--field">
-        <% if User.current.impaired? %>
-          <%= ff.select :columns, internationalized_columns_select(timeline.available_columns),
-                   {:selected => timeline.selected_columns},
-                   {:multiple => true,
-                    :size => 12} %>
-        <% else %>
-          <%= ff.label :columns,
-                       l("timelines.filter.columns"),
-                       for: "timeline_options_columns_",
-                       class: "form--label" %>
-          <div class="form--field-container">
-            <%= ff.hidden_field :columns,
-                                name: "timeline[options][columns][]",
-                                id: "timeline_options_columns_",
-                                value: timeline.selected_columns.join(","),
-                                :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).to_json %>
+        <%= ff.label :columns,
+                     l("timelines.filter.columns"),
+                     for: "timeline_options_columns_",
+                     class: "form--label" %>
+        <div class="form--field-container">
+          <div class="form--select-container -wide">
+            <% if User.current.impaired? %>
+              <%= ff.select :columns, internationalized_columns_select(timeline.available_columns),
+                            { selected: timeline.selected_columns,
+                              no_label: true },
+                            { multiple: true,
+                              size: 12 } %>
+            <% else %>
+              <%= ff.hidden_field :columns,
+                                  name: "timeline[options][columns][]",
+                                  id: "timeline_options_columns_",
+                                  value: timeline.selected_columns.join(","),
+                                  :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).to_json %>
+            <% end %>
           </div>
-        <% end %>
+        </div>
       </div>
       <div class="form--field">
         <%= ff.select  :project_sort, [[l('timelines.filter.sort.date'), 0], [l('timelines.filter.sort.alphabet'), '1']], label: l('timelines.filter.sort.project_sortation') %>

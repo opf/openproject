@@ -342,6 +342,40 @@ fieldset.form--fieldset
   .form--#{$field-type}-container
     @extend %form--field-element-container
 
+    &.-tiny
+      max-width: 50px
+
+    &.-xslim
+      max-width: 110px
+
+    &.-slim
+      max-width: 200px
+
+    &.-middle
+      max-width: 350px
+
+    &.-wide
+      max-width: 500px
+
+    &.-xwide
+      max-width: 800px
+
+    &.-xxwide
+      max-width: 1100px
+
+.form--select-container
+  &.-tiny,
+  &.-xslim,
+  &.-slim,
+  &.-middle,
+  &.-wide,
+  &.-xwide,
+  &.-xxwide
+    // overriding hack on select2 by another hack (select2_customizing.css)
+    // remove once the initial limit on the width is removed
+    .select2-container
+      max-width: initial
+
 .form--text-field
   @include input-style
 
@@ -398,6 +432,15 @@ fieldset.form--fieldset
   &:hover, &:focus
     border: $content-form-input-hover-border
 
+  .form &
+    margin-bottom: 0.5rem
+
+.form--radio-button-container
+  //prevent radio-buttons from being cut at the border
+  padding: 0 1px
+
+.form--radio-button
+  // Be on par with Foundation's margin-bottom on labels.
   .form &
     margin-bottom: 0.5rem
 
@@ -489,6 +532,10 @@ fieldset.form--fieldset
   %form--field-element-container + &
     margin-left:  -1rem
     border-left:  0
+
+  &.-transparent
+    background: none
+    border: none
 
 .form--list
   display: flex
