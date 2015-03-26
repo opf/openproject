@@ -32,13 +32,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <h2><%= l(:label_search) %></h2>
 <%= styled_form_tag(search_path(@project), :method => :get) do %>
-  <fieldset class="simple-filters--container">
+  <fieldset class="simple-filters--container" id="search-filter">
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
         <%= styled_label_tag "search-input", l(:description_search), :class => "hidden-for-sighted simple-filters--filter-name" %>
         <div class="simple-filters--filter-value">
           <%= styled_text_field_tag :q, @question, id: 'search-input' %>
-          <%= javascript_tag "Field.focus('search-input')" %>
         </div>
       </li>
       <li class="simple-filters--filter">
