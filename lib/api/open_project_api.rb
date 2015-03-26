@@ -27,7 +27,7 @@
 #++
 
 module API
-  class OpenProjectAPI < Grape::API
+  class OpenProjectAPI < ::Grape::API
     include ::API::PatchableAPI
   end
 end

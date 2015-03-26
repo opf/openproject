@@ -27,6 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/statuses/status_collection_representer'
+require 'api/v3/statuses/status_representer'
+
 module API
   module V3
     module Statuses
@@ -47,7 +50,7 @@ module API
           route_param :id do
             before do
               status = Status.find(params[:id])
-              @representer = ::API::V3::Statuses::StatusRepresenter.new(status)
+              @representer = StatusRepresenter.new(status)
             end
 
             get do

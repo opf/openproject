@@ -28,18 +28,21 @@
 #++
 
 require 'roar/decorator'
+require 'roar/hypermedia'
 require 'roar/json/hal'
+
+require 'api/v3/utilities/path_helper'
 
 module API
   module Decorators
-    class Single < Roar::Decorator
-      include Roar::JSON::HAL
-      include Roar::Hypermedia
-      include API::V3::Utilities::PathHelper
+    class Single < ::Roar::Decorator
+      include ::Roar::JSON::HAL
+      include ::Roar::Hypermedia
+      include ::API::V3::Utilities::PathHelper
 
       attr_reader :context
       class_attribute :as_strategy
-      self.as_strategy = API::Utilities::CamelCasingStrategy.new
+      self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
       def initialize(model, context = {})
         @context = context
@@ -107,7 +110,7 @@ module API
       private
 
       def datetime_formatter
-        API::V3::Utilities::DateTimeFormatter
+        ::API::V3::Utilities::DateTimeFormatter
       end
 
       def _type; end
