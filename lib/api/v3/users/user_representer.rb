@@ -88,7 +88,8 @@ module API
         property :email,
                  getter: -> (*) { mail },
                  render_nil: true,
-                 if: -> (*) { !pref.hide_mail }
+                 # FIXME: remove the "is_a?" as soon as we have a dedicated group representer
+                 if: -> (*) { self.is_a?(User) && !pref.hide_mail }
         property :avatar,
                  getter: -> (*) { avatar_url(represented) },
                  render_nil: true,

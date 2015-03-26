@@ -38,7 +38,7 @@ describe ::API::V3::Users::UserRepresenter do
 
     it { is_expected.to include_json('User'.to_json).at_path('_type') }
 
-    it { is_expected.to have_json_path('id')   }
+    it { is_expected.to have_json_path('id') }
     it { is_expected.to have_json_path('login') }
     it { is_expected.to have_json_path('firstName') }
     it { is_expected.to have_json_path('lastName') }
