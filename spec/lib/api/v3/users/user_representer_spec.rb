@@ -49,7 +49,7 @@ describe ::API::V3::Users::UserRepresenter do
       it { is_expected.to have_json_path('firstName') }
       it { is_expected.to have_json_path('lastName') }
       it { is_expected.to have_json_path('name') }
-      it { is_expected.to have_json_path('mail') }
+      it { is_expected.to have_json_path('email') }
       it { is_expected.to have_json_path('avatar') }
 
       it_behaves_like 'has UTC ISO 8601 date and time' do

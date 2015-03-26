@@ -70,16 +70,28 @@ module API
           } if work_package && current_user_allowed_to(:delete_work_package_watchers, work_package)
         end
 
-        property :id, render_nil: true
-        property :login, render_nil: true
-        property :subtype, getter: -> (*) { type }, render_nil: true
-        property :firstname, as: :firstName, render_nil: true
-        property :lastname, as: :lastName, render_nil: true
-        property :name, render_nil: true
-        property :mail, render_nil: true
-        property :avatar, getter: -> (*) { avatar_url(represented) },
-                          render_nil: true,
-                          exec_context: :decorator
+        property :id,
+                 render_nil: true
+        property :login,
+                 render_nil: true
+        property :subtype,
+                 getter: -> (*) { type },
+                 render_nil: true
+        property :firstname,
+                 as: :firstName,
+                 render_nil: true
+        property :lastname,
+                 as: :lastName,
+                 render_nil: true
+        property :name,
+                 render_nil: true
+        property :email,
+                 getter: -> (*) { mail },
+                 render_nil: true
+        property :avatar,
+                 getter: -> (*) { avatar_url(represented) },
+                 render_nil: true,
+                 exec_context: :decorator
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
@@ -88,7 +100,9 @@ module API
                  as: 'updatedAt',
                  exec_context: :decorator,
                  getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
-        property :status, getter: -> (*) { status_name }, render_nil: true
+        property :status,
+                 getter: -> (*) { status_name },
+                 render_nil: true
 
         def _type
           'User'

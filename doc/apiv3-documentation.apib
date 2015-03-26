@@ -2152,18 +2152,18 @@ This endpoint lists the types that are *available* in a given project.
 | self      | This user                                   | User          | not null              | READ                 |
 
 ## Properties:
-| Property    | Description                                               | Type     | Constraints | Supported operations |
-| :---------: | -------------                                             | ----     | ----------- | -------------------- |
-| id          | User's id                                                 | Integer  | x > 0       | READ                 |
-| login       | User's login name                                         | String   |             | READ                 |
-| firstName   | User's first name                                         | String   |             | READ                 |
-| lastName    | User's last name                                          | String   |             | READ                 |
-| name        | User's full name, formatting depends on instance settings | String   |             | READ                 |
-| mail        | User's email                                              | String   |             | READ                 |
-| avatar      | URL to user's avatar                                      | String   |             | READ                 |
-| status      | The current activation status of the user (see below)     | String   |             | READ                 |
-| createdAt   | Time of creation                                          | DateTime |             | READ                 |
-| updatedAt   | Time of the most recent change to the user                | DateTime |             | READ                 |
+| Property    | Description                                               | Type     | Constraints | Supported operations | Condition                 |
+| :---------: | -------------                                             | ----     | ----------- | -------------------- | ------------------------- |
+| id          | User's id                                                 | Integer  | x > 0       | READ                 |                           |
+| login       | User's login name                                         | String   |             | READ                 |                           |
+| firstName   | User's first name                                         | String   |             | READ                 |                           |
+| lastName    | User's last name                                          | String   |             | READ                 |                           |
+| name        | User's full name, formatting depends on instance settings | String   |             | READ                 |                           |
+| email       | User's E-Mail address                                     | String   |             | READ                 | E-Mail address not hidden |
+| avatar      | URL to user's avatar                                      | String   |             | READ                 |                           |
+| status      | The current activation status of the user (see below)     | String   |             | READ                 |                           |
+| createdAt   | Time of creation                                          | DateTime |             | READ                 |                           |
+| updatedAt   | Time of the most recent change to the user                | DateTime |             | READ                 |                           |
 
 The `status` of a user can be one of:
 
