@@ -31,23 +31,42 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= call_hook :search_index_head %>
 <% end %>
 <h2><%= l(:label_search) %></h2>
-<div class="box">
-  <%= form_tag(search_path(@project), :method => :get) do %>
-    <%= label_tag "search-input", l(:description_search), :class => "hidden-for-sighted" %>
-    <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
-      <%= javascript_tag "Field.focus('search-input')" %>
-      <%= project_select_tag %>
-      <label><%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></label>
-      <label><%= check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %></label>
-    </p>
-    <p>
-      <% @object_types.each do |t| %>
-        <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %></label>
-      <% end %>
-    </p>
-    <p><%= submit_tag l(:button_submit), :name => 'submit', class: 'button -highlight' %></p>
-  <% end %>
-</div>
+<%= styled_form_tag(search_path(@project), :method => :get) do %>
+  <fieldset class="simple-filters--container">
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+        <%= styled_label_tag "search-input", l(:description_search), :class => "hidden-for-sighted simple-filters--filter-name" %>
+        <div class="simple-filters--filter-value">
+          <%= styled_text_field_tag :q, @question, id: 'search-input' %>
+          <%= javascript_tag "Field.focus('search-input')" %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :scope, l(:description_project_scope), class: 'hidden-for-sighted simple-filters--filter-name' %>
+        <div class="simple-filters--filter-value">
+          <%= project_select_tag %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :all_words, class: 'form--label-with-check-box' do %>
+          <%= styled_check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %>
+        <% end %>
+        <%= styled_label_tag :titles_only, class: 'form--label-with-check-box' do %>
+          <%= styled_check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %>
+        <% end %>
+
+      </li>
+      <li class="simple-filters--filter">
+        <% @object_types.each do |t| %>
+          <%= styled_label_tag t, class: 'form--label-with-check-box' do %>
+            <%= styled_check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %>
+          <% end %>
+        <% end %>
+      </li>
+    </ul>
+    <%= styled_submit_tag l(:button_submit), :name => 'submit', class: 'button -highlight -small' %>
+  </fieldset>
+<% end %>
 <% if @results %>
   <div id="search-results-counts">
     <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>

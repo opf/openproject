@@ -54,7 +54,7 @@ module OpenProject
       end
     end
 
-    def styled_label_tag(name = nil, content_or_options = nil, options = nil, &block)
+    def styled_label_tag(name = nil, content_or_options = nil, options = {}, &block)
       apply_css_class_to_options(
         block_given? && content_or_options.is_a?(Hash) ? content_or_options : (options ||= {}),
         'form--label'
