@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--column">
         <div class="form--field -vertical">
           <%= styled_label_tag :member_user_ids, l(:label_principal_search) %>
-          <%= styled_select_tag "member[user_ids]", options_for_select([]),
+          <%= select_tag "member[user_ids]", options_for_select([]),
                            :title => l(:label_principal_search),
                            :multiple => true,
                            :'data-ajaxURL' => url_for(:controller => "/members", :action => "autocomplete_for_member"),
@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="form--field -vertical">
           <%= styled_label_tag :member_role_ids, l(:label_role_search) %>
           <% options = roles.collect { |obj| [obj.name, obj.id] } %>
-          <%= styled_select_tag 'member[role_ids]', options_for_select(options),
+          <%= select_tag 'member[role_ids]', options_for_select(options),
                            :multiple => true,
                             no_label: true,
                            :title => l(:label_role_search),
