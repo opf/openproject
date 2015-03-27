@@ -3,7 +3,7 @@
          class="focus-input"
          id="checkbox-switch-{{ fieldController.field }}"
          name="value"
-         ng-disabled="isBusy"
+         ng-disabled="fieldController.isBusy"
          title="{{ fieldController.editTitle }}"
          ng-model="fieldController.writeValue" />
   <label for="checkbox-switch-{{ fieldController.field }}" title="{{ fieldController.editTitle }}"></label>

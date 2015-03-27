@@ -100,15 +100,15 @@ angular.module('openproject')
     })
     .state('work-packages.list.details.activity', {
       url: "/activity",
-      templateUrl: "/templates/work_packages/tabs/activity.html",
+      templateUrl: "/templates/work_packages/tabs/activity.html"
     })
     .state('work-packages.list.details.activity.details', {
       url: "#{activity_no:[0-9]+}",
-      templateUrl: "/templates/work_packages/tabs/activity.html",
+      templateUrl: "/templates/work_packages/tabs/activity.html"
     })
     .state('work-packages.list.details.relations', {
       url: "/relations",
-      templateUrl: "/templates/work_packages/tabs/relations.html",
+      templateUrl: "/templates/work_packages/tabs/relations.html"
     })
     .state('work-packages.list.details.watchers', {
       url: "/watchers",
@@ -117,7 +117,7 @@ angular.module('openproject')
     })
     .state('work-packages.list.details.attachments', {
       url: "/attachments",
-      templateUrl: "/templates/work_packages/tabs/attachments.html",
+      templateUrl: "/templates/work_packages/tabs/attachments.html"
     });
 }])
 

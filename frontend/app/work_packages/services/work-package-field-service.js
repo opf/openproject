@@ -148,8 +148,16 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
     if (field === 'date') {
       return getValue(workPackage, 'startDate') === null && getValue(workPackage, 'dueDate') === null;
     }
-    var value = WorkPackageFieldService.getValue(workPackage, field);
-    return  value === null || value === '';
+    var value = WorkPackageFieldService.format(workPackage, field);
+    if (value === null || value === '') {
+      return true;
+    }
+
+    if (value.html === '') {
+      return true;
+    }
+
+    return false;
   }
 
   function getInplaceEditStrategy(workPackage, field) {

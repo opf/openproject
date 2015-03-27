@@ -166,7 +166,6 @@ module.exports = function($http,
     },
 
     updateWorkPackage: function(workPackage, notify) {
-      console.log(workPackage.form.pendingChanges);
       var data = {
         _links: {}
       };
@@ -186,19 +185,20 @@ module.exports = function($http,
         data: JSON.stringify(data),
         contentType: 'application/json; charset=utf-8'
       }, force: true};
-      return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
-        return workPackage.links.self
-          .fetch({force: true})
-          .then(function(workPackage) {
-            return WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
-              return workPackage.links.schema.fetch().then(function(response) {
-                workPackage.schema = response;
-                EditableFieldsState.workPackage = workPackage;
-                return workPackage;
-              });
-            });
-          });
-      });
+      return workPackage.links.updateImmediately.fetch(options);
+      //return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
+      //  return workPackage.links.self
+      //    .fetch({force: true})
+      //    .then(function(workPackage) {
+      //      return WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
+      //        return workPackage.links.schema.fetch().then(function(response) {
+      //          workPackage.schema = response;
+      //          EditableFieldsState.workPackage = workPackage;
+      //          return workPackage;
+      //        });
+      //      });
+      //    });
+      //});
     },
 
     addWorkPackageRelation: function(workPackage, toId, relationType) {

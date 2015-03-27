@@ -49,6 +49,7 @@ module.exports = function($scope,
   });
 
   $scope.$on('workPackageRefreshRequired', function(e, callback) {
+    console.log('workPackageRefreshRequired', arguments);
     refreshWorkPackage(callback);
   });
 
@@ -60,6 +61,7 @@ module.exports = function($scope,
   $scope.maxDescriptionLength = 800;
 
   function refreshWorkPackage(callback) {
+    console.log('refreshWorkPackage');
     workPackage.links.self
       .fetch({force: true})
       .then(function(workPackage) {

@@ -41,19 +41,23 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
         var pendingFormChanges = getPendingFormChanges();
         pendingFormChanges[fieldController.field] = fieldController.writeValue;
         var result = WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage, notify);
-
         result.then(angular.bind(this, function() {
-          fieldController.isEditing = false;
-          fieldController.updateWriteValue();
-          this.error = null;
+          $scope.$emit(
+            'workPackageRefreshRequired',
+            function(workPackage) {
+              fieldController.isBusy = false;
+              fieldController.isEditing = false;
+              fieldController.updateWriteValue();
+              this.error = null;
+            }
+          );
         }));
         result.catch(angular.bind(this, function(e) {
+          fieldController.isBusy = false;
           this.error = ApiHelper.getErrorMessage(e);
           $scope.focusInput();
         }));
-        result.finally(function() {
-          fieldController.isBusy = false;
-        });
+
       };
 
       this.discardEditing = function() {

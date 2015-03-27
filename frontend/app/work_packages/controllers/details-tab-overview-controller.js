@@ -39,6 +39,7 @@ module.exports = function(
   vm.workPackage = $scope.workPackage;
 
   vm.isGroupEmpty = isGroupEmpty;
+  vm.isFieldEmpty = isFieldEmpty;
   vm.getLabel = getLabel;
   vm.isSpecified = isSpecified;
   vm.showToggleButton = showToggleButton;
@@ -46,6 +47,13 @@ module.exports = function(
   activate();
 
   function activate() {
+
+    $scope.$watch('workPackage.schema', function(schema) {
+      if (schema) {
+        vm.workPackage = $scope.workPackage;
+      }
+    });
+
     vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
     var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
     _.forEach(vm.workPackage.schema.props, function(prop, propName) {
@@ -59,9 +67,12 @@ module.exports = function(
   }
 
   function isGroupEmpty(groupName) {
-    return _.every(vm.groupedFields[groupName].attributes, function(field) {
-      return WorkPackageFieldService.isEmpty(field);
-    });
+    var group = _.find(vm.groupedFields, {groupName: groupName});
+    return _.every(group.attributes, isFieldEmpty);
+  }
+
+  function isFieldEmpty(field) {
+    return WorkPackageFieldService.isEmpty(vm.workPackage, field);
   }
 
   function isSpecified(field) {
