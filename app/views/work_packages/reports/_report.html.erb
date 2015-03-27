@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </thead>
     <tbody>
       <% for row in report.rows %>
-        <tr class="<%= cycle("odd", "even") %>">
+        <tr class="list--row">
           <td>
             <%= link_to h(row.name),
                 project_report_property_path((row.is_a?(Project) ? row : @project),
@@ -85,5 +85,4 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </tbody>
   </table>
-<% end
-  reset_cycle %>
+<% end %>

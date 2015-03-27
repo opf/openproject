@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </thead>
       <tbody>
         <% @project_types.each do |type| %>
-          <tr class="<%= cycle("odd", "even") %>">
+          <tr class="list--row">
             <td class="timelines-pt-name">
               <%= link_to(h(type.name), edit_project_type_path(type)) %>
             </td>

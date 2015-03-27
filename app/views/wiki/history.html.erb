@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% show_diff = @versions.size > 1 %>
       <% line_num = 1 %>
       <% @versions.each do |ver| %>
-        <tr class="wiki-page-version <%= cycle("odd", "even") %>">
+        <tr class="wiki-page-version list--row">
           <td class="id"><%= link_to h(ver.version), :action => 'show', :id => @page, :project_id => @page.project, :version => ver.version %></td>
           <td class="checkbox">
             <% if show_diff && (line_num < @versions.size)  %>

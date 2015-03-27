@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </tr>
       </thead>
       <% enumerations.each do |enumeration| %>
-        <tr class="<%= cycle('odd', 'even') %>">
+        <tr class="list--row">
           <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
           <td class="center" style="width:15%;"><%= checked_image enumeration.is_default? %></td>
           <td class="center" style="width:15%;"><%= checked_image enumeration.active? %></td>
@@ -57,7 +57,6 @@ See doc/COPYRIGHT.rdoc for more details.
         </tr>
       <% end %>
     </table>
-    <% reset_cycle %>
   <% end %>
   <p><%= link_to l(:label_enumeration_new), { :action => 'new', :type => klass.name } %></p>
 <% end %>

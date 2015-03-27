@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% show_diff = revisions.size > 1 %>
       <% line_num = 1 %>
       <% revisions.each do |changeset| %>
-        <tr class="changeset <%= cycle 'odd', 'even' %>">
+        <tr class="changeset list--row">
           <td class="id">
             <%= link_to_revision(changeset, project) %>
           </td>
