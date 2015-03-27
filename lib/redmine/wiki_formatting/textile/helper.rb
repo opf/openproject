@@ -40,7 +40,11 @@ module Redmine
                                     '',
                                     class: 'jstb_help icon icon-help',
                                     onclick: open_help,
-                                    title: l(:setting_text_formatting)
+                                    title: l(:setting_text_formatting) do
+                                      content_tag :span, class: 'hidden-for-sighted' do
+                                        l(:setting_text_formatting)
+                                      end
+                                    end
 
           javascript_tag(<<-EOF)
             var wikiToolbar = new jsToolBar($('#{field_id}'));
