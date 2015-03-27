@@ -62,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="updated_on"><%= format_time(ver.created_at) %></td>
           <td class="author"><%= link_to_user ver.user %></td>
           <td class="comments"><%=h ver.notes %></td>
-          <td class="buttons"><%= link_to l(:button_annotate), :action => 'annotate', :id => @page, :version => ver.version %></td>
+          <td class="list--actions-cell"><%= link_to l(:button_annotate), :action => 'annotate', :id => @page, :version => ver.version %></td>
         </tr>
         <% line_num += 1 %>
       <% end %>
