@@ -71,10 +71,9 @@ See doc/COPYRIGHT.rdoc for more details.
           </tr>
         </thead>
         <tbody>
-          <% reset_cycle('rows') %>
           <% project_assocs.each do |association| %>
             <% other = association.project(@project) %>
-            <tr class="<%= cycle(:odd, :even, :name => 'rows') %>">
+            <tr class="list--row">
               <td class="timelines-pa-identifier">
                 <%= link_to(h(other.identifier), project_path(other, :jump => 'project_associations')) %>
               </td>

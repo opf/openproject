@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <tbody>
         <% @group.memberships.each do |membership| %>
           <% next if membership.new_record? %>
-            <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
+            <tr id="member-<%= membership.id %>" class="list--row class">
               <td class="project"><%=h membership.project %></td>
               <td class="roles">
                 <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
               </td>
             </tr>
           </tbody>
-        <% end; reset_cycle %>
+        <% end %>
       </table>
     <% else %>
       <p class="nodata"><%= l(:label_no_data) %></p>
