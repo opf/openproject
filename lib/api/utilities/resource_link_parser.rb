@@ -40,10 +40,7 @@ module API
         def parse(resource_link)
           # string objects have a quite different format from the usual resources (query-parameter)
           # we therefore have a specific regex to deal with them and a generic one for all others
-          result = parse_string_object resource_link
-          result = parse_resource resource_link unless result
-
-          result
+          parse_string_object(resource_link) || parse_resource(resource_link)
         end
 
         def parse_id(resource_link,
