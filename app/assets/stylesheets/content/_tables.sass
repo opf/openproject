@@ -369,15 +369,7 @@ table#time-report
         background: image-url("sort_desc.png") no-repeat right center
         padding-right: 16px
         display: block
-  tr
-    &.odd
-      background-color: white
-    &.even
-      background-color: #f6f7f8
-      &:hover
-        background-color: #FFD
-    &.odd:hover
-      background-color: #FFD
+
     &.context-menu-selection
       background-color: #FFFFB2
       &:hover
@@ -389,3 +381,16 @@ table#time-report
       cursor: context-menu
     &.updated
       width: 80px
+
+.list--row
+  &:nth-child(odd)
+    background-color: white
+
+    &:hover
+      background-color: #FFD
+
+  &:nth-child(even)
+    background-color: #f6f7f8
+
+    &:hover
+      background-color: #FFD

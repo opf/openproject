@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </thead>
   <tbody>
     <% for board in @boards %>
-      <tr class="<%= cycle 'odd', 'even' %>">
+      <tr class="list--row">
         <td>
           <%= link_to h(board.name), {:action => 'show', :id => board}, :class => "board"  %><br />
           <%=h board.description %>

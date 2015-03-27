@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </thead>
     <tbody>
       <% for version in @project.shared_versions.sort %>
-        <tr class="version <%= cycle 'odd', 'even' %>  <%= 'shared' if version.project != @project %>">
+        <tr class="version list--row  <%= 'shared' if version.project != @project %>">
           <td class="name <%=h version.status %><% ' icon-context icon-link' if version.project != @project%>"><%= link_to_version version %></td>
           <td class="date"><%= format_date(version.start_date) %></td>
           <td class="date"><%= format_date(version.effective_date) %></td>
@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <% end %>
           </td>
         </tr>
-      <% end; reset_cycle %>
+      <% end %>
     </tbody>
   </table>
 <% else %>

@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <tbody>
       <% @project.boards.each do |board|
   next if board.new_record? %>
-        <tr class="<%= cycle 'odd', 'even' %>">
+        <tr class="list--row">
           <td><%=h board.name %></td>
           <td><%=h board.description %></td>
           <td class="small-icons" align="center">

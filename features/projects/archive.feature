@@ -41,7 +41,7 @@ Feature: Navigating to reports page
     When I go to the projects admin page
     Then I should be on the projects admin page
     And I should see "Projects"
-    And I click on "Archive" within "tr.odd"
+    And I click on "Archive" within "tr:nth-child(odd)"
     And I confirm popups
     Then I should be on the projects admin page
     And I should not see "ParentProject"
@@ -52,7 +52,7 @@ Feature: Navigating to reports page
     Then I should see "403"
     When I go to the projects admin page
     When I select "all" from "status"
-    And I click on "Unarchive" within "tr.odd"
+    And I click on "Unarchive" within "tr:nth-child(odd)"
     Then I should be on the projects admin page
     And I should see "ParentProject"
     When I go to the page of the project called "ParentProject"

@@ -49,7 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </thead>
   <tbody>
     <% for status in @statuses %>
-      <tr class="<%= cycle("odd", "even") %>">
+      <tr class="list--row">
         <td><%= link_to h(status.name), edit_status_path(status) %></td>
         <% if WorkPackage.use_status_for_done_ratio? %>
           <td align="center"><%= h status.default_done_ratio %></td>
