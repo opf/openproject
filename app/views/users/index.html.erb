@@ -98,7 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= format_time(user.last_login_on) unless user.last_login_on.nil? %>
           </td>
           <td class="status"><%= full_user_status(user) %></td>
-          <td class="buttons">
+          <td class="list--actions-cell">
             <%= change_user_status_links(user) unless user.id == current_user.id %>
           </td>
         </tr>

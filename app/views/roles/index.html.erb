@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= reorder_links('role', {:action => 'update', :id => role}, :method => :put) %>
           <% end %>
         </td>
-        <td class="buttons">
+        <td class="list--actions-cell">
           <%= link_to(l(:button_delete), role_path(role),
                                    :method => :delete,
                                    :confirm => l(:text_are_you_sure),

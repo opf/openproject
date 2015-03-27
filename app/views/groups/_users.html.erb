@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% @group.users.sort.each do |user| %>
             <tr id="user-<%= user.id %>" class="list--row">
               <td class="user"><%= link_to_user user %></td>
-              <td class="buttons">
+              <td class="list--actions-cell">
                 <%= link_to l(:button_delete), member_of_group_path(@group, user),
                                            :method => :delete,
                                            :remote => :true,
