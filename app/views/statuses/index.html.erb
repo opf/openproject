@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <td align="center" style="width:15%;">
           <%= reorder_links('status', {:action => 'update', :id => status}, :method => :put) %>
         </td>
-        <td class="buttons"><%= delete_link status_path(status) %></td>
+        <td class="list--actions-cell"><%= delete_link status_path(status) %></td>
       </tr>
     <% end %>
   </tbody>

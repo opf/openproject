@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="status"><%= l("version_status_#{version.status}") %></td>
           <td class="sharing"><%=h format_version_sharing(version.sharing) %></td>
           <td><%= link_to_if_authorized(h(version.wiki_page_title), {:controller => '/wiki', :action => 'show', :project_id => version.project, :id => Wiki.titleize(version.wiki_page_title)}) || h(version.wiki_page_title) unless version.wiki_page_title.blank? || version.project.wiki.nil? %></td>
-          <td class="buttons">
+          <td class="list--actions-cell">
             <% if version.project == @project %>
               <%= link_to_if_authorized l(:button_edit),   {:controller => '/versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>
               <%= link_to_if_authorized l(:button_delete), {:controller => '/versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>

@@ -60,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
               class: 'button -small' %></p>
                 <% end %>
               </td>
-              <td class="buttons">
+              <td class="list--actions-cell">
                 <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
                 <%= link_to l(:button_delete), membership_of_group_path(@group, membership),
                                      :method => :delete,

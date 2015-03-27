@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="center" style="width:15%;"><%= checked_image enumeration.is_default? %></td>
           <td class="center" style="width:15%;"><%= checked_image enumeration.active? %></td>
           <td style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :method => :put) %></td>
-          <td class="buttons">
+          <td class="list--actions-cell">
             <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
                 :method => :delete,
                 :confirm => l(:text_are_you_sure),

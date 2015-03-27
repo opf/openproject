@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
         <% end %>
         <td align="center" style="width:15%;"><%= reorder_links('custom_field', {:action => 'update', :id => custom_field}, method: :put) %></td>
-        <td class="buttons">
+        <td class="list--actions-cell">
           <%= delete_link custom_field_path(custom_field) %>
         </td>
       </tr>
