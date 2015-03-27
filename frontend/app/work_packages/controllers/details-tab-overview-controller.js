@@ -40,6 +40,7 @@ module.exports = function(
 
   vm.isGroupEmpty = isGroupEmpty;
   vm.getLabel = getLabel;
+  vm.isSpecified = isSpecified;
   vm.showToggleButton = showToggleButton;
 
   activate();
@@ -61,6 +62,10 @@ module.exports = function(
     return _.every(vm.groupedFields[groupName].attributes, function(field) {
       return WorkPackageFieldService.isEmpty(field);
     });
+  }
+
+  function isSpecified(field) {
+    return WorkPackageFieldService.isSpecified(vm.workPackage, field);
   }
 
   function getLabel(field) {

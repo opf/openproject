@@ -29,6 +29,10 @@
 module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackagesHelper, $q, $http) {
 
   function isEditable(workPackage, field) {
+    // no form - no editing
+    if (!workPackage.form) {
+      return false;
+    }
     // TODO: extract to strategy if new cases arise
     if (field === 'date') {
       // nope
@@ -44,13 +48,22 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
     var isWritable = workPackage.schema.props[field].writable;
 
     // not writable if no embedded allowed values
-    if (workPackage.form.embedded.schema
+    if (workPackage.form && workPackage.form.embedded.schema
         .props[field]._links && allowedValuesEmbedded(workPackage, field)) {
       if (getEmbeddedAllowedValues(workPackage, field).length === 0) {
         return false;
       }
     }
     return isWritable;
+  }
+
+  function isSpecified(workPackage, field) {
+    if (field === 'date') {
+      // kind of specified
+      return true;
+    }
+    return !_.isUndefined(workPackage.schema
+      .props[field]);
   }
 
   function getValue(workPackage, field) {
@@ -132,6 +145,9 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
   }
 
   function isEmpty(workPackage, field) {
+    if (field === 'date') {
+      return getValue(workPackage, 'startDate') === null && getValue(workPackage, 'dueDate') === null;
+    }
     var value = WorkPackageFieldService.getValue(workPackage, field);
     return  value === null || value === '';
   }
@@ -180,17 +196,23 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       displayStrategy = 'embedded';
     if (field === 'date') {
       fieldType = 'DateRange';
-    } else {
-      fieldType = workPackage.form.embedded.schema.props[field].type;
+    } else if (field === 'spentTime') {
+      fieldType = 'SpentTime';
+    }  else {
+      fieldType = workPackage.schema.props[field].type;
     }
     switch(fieldType) {
       case 'String':
       case 'Integer':
       case 'Float':
+      case 'Duration':
+      case 'DateRange':
+      case 'Date':
+      case 'Boolean':
         displayStrategy = 'text';
         break;
-      case 'Boolean':
-        displayStrategy = 'boolean';
+      case 'SpentTime':
+        displayStrategy = 'spent_time';
         break;
       case 'Formattable':
         displayStrategy = 'wiki_textarea';
@@ -207,10 +229,22 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
   }
 
   function format(workPackage, field) {
+    if (field === 'date') {
+      var displayedStartDate = WorkPackagesHelper.formatValue(workPackage.props.startDate, 'startDate') || I18n.t('js.label_no_start_date'),
+        displayedEndDate   = WorkPackagesHelper.formatValue(workPackage.props.dueDate, 'dueDate') || I18n.t('js.label_no_due_date');
+      return  displayedStartDate + ' - ' + displayedEndDate;
+    }
+
     var value = workPackage.props[field];
     if (_.isUndefined(value)) {
+      // might be embedded
       return WorkPackageFieldService.getValue(workPackage, field);
     }
+
+    if (value === null) {
+      return null;
+    }
+
     var mappings = {
       dueDate: 'date',
       startDate: 'date',
@@ -218,21 +252,23 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       updatedAt: 'datetime'
     };
 
-    // TODO: switch to duration
-    if (field === 'estimatedTime' || field === 'spentTime') {
-      if (value === null) {
-        return null;
-      }
+    if (workPackage.schema.props[field].type === 'Duration') {
+
       var hours = moment.duration(value).asHours();
       return I18n.t('js.units.hour', { count: hours.toFixed(2) });
-    } else {
-      return WorkPackagesHelper.formatValue(value, mappings[field]);
     }
+
+    if (workPackage.schema.props[field].type === 'Boolean') {
+      return value ? I18n.t('js.general_text_yes') : I18n.t('js.general_text_no');
+    }
+
+    return WorkPackagesHelper.formatValue(value, mappings[field]);
   }
 
   var WorkPackageFieldService = {
     isEditable: isEditable,
     isRequired: isRequired,
+    isSpecified: isSpecified,
     isEmpty: isEmpty,
     isEmbedded: isEmbedded,
     isSavedAsLink: isSavedAsLink,

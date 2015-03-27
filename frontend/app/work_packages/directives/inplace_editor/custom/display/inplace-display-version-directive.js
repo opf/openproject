@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(EditableFieldsState, PathHelper, VersionService) {
+module.exports = function(EditableFieldsState, PathHelper, VersionService, $timeout) {
   return {
     restrict: 'E',
     transclude: true,
@@ -46,6 +46,13 @@ module.exports = function(EditableFieldsState, PathHelper, VersionService) {
         scope.customEditorController.version = version;
         VersionService.isVersionFieldViewable(EditableFieldsState.workPackage, displayPaneController.field).then(function(isViewable) {
           scope.customEditorController.isVersionFieldViewable = isViewable;
+          // need to reset the click listener due to async resolution
+          // of link visibility
+          $timeout(function() {
+            element.find('a').off('click').on('click', function(e) {
+              e.stopPropagation();
+            });
+          });
         });
       });
     }

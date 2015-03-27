@@ -1,0 +1,10 @@
+<div class="spent-time-wrapper">
+    <span ng-if="customEditorController.isLinkViewable()">
+      <a href="{{ customEditorController.getPath() }}">
+          {{ displayPaneController.getReadValue() }}
+      </a>
+    </span>
+    <span ng-if="!customEditorController.isLinkViewable()">
+      {{ displayPaneController.getReadValue() }}
+    </span>
+</div>

@@ -1,12 +1,6 @@
 <div class="work-package-field">
-  <div class="editable-branch" ng-if="fieldController.isEditable()">
     <inplace-editor-main-pane>
       <inplace-editor-display-pane></inplace-editor-display-pane>
-      <inplace-editor-edit-pane></inplace-editor-edit-pane>
+      <inplace-editor-edit-pane ng-if="fieldController.isEditable()"></inplace-editor-edit-pane>
     </inplace-editor-main-pane>
-  </div>
-  <div class="static-branch" ng-if="!fieldController.isEditable()">
-    <empty-element ng-if="fieldController.isEmpty()"></empty-element>
-    <div class="field-value" ng-if="!fieldController.isEmpty()" ng-bind="fieldController.value"></div>
-  </div>
 </div>

@@ -71,8 +71,12 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
       });
 
       $timeout(function() {
+        //element.on('click', 'a a', function(e) {
+        //  console.log(e, 'adasd');
+        //  e.stopPropagation();
+        //  return false;
+        //});
         element.find('a').on('click', function(e) {
-          console.log('a clicnk');
           e.stopPropagation();
         });
       });

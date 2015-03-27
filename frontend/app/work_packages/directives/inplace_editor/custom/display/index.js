@@ -28,4 +28,5 @@
 
 angular.module('openproject.workPackages.directives')
   .directive('inplaceDisplayUser', require('./inplace-display-user-directive'))
+  .directive('inplaceDisplaySpentTime', require('./inplace-display-spent-time-directive'))
   .directive('inplaceDisplayVersion', require('./inplace-display-version-directive'));

@@ -26,43 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState) {
-
-  function workPackageFieldDirectiveController() {
-
-    this.isEditable = function() {
-      return WorkPackageFieldService.isEditable(EditableFieldsState.workPackage, this.field);
-    };
-
-    this.isEmpty = function() {
-      return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, this.field);
-    };
-
-    this.getLabel = function() {
-      return WorkPackageFieldService.getLabel(EditableFieldsState.workPackage, this.field);
-    };
-
-    this.updateWriteValue = function() {
-      this.writeValue = _.cloneDeep(WorkPackageFieldService.getValue(EditableFieldsState.workPackage, this.field));
-    };
-
-    if (this.isEditable()) {
-      this.isBusy = false;
-      this.isEditing = false;
-      this.updateWriteValue();
-      this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.field });
-    }
-  }
-
+module.exports = function(EditableFieldsState) {
   return {
     restrict: 'E',
+    transclude: true,
     replace: true,
-    controllerAs: 'fieldController',
-    bindToController: true,
-    templateUrl: '/templates/work_packages/field.html',
-    scope: {
-      field: '='
+    scope: {},
+    require: '^inplaceEditorDisplayPane',
+    templateUrl: '/templates/work_packages/inplace_editor/custom/display/spent_time.html',
+    controller: function($scope) {
+      this.isLinkViewable = function() {
+        return EditableFieldsState.workPackage.links.timeEntries;
+      };
+
+      this.getPath = function() {
+        return EditableFieldsState.workPackage.links.timeEntries.href;
+      }
     },
-    controller: workPackageFieldDirectiveController
+    controllerAs: 'customEditorController',
+    link: function(scope, element, attrs, displayPaneController) {
+      scope.displayPaneController = displayPaneController;
+
+    }
   };
 };

@@ -39,7 +39,6 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
         var fieldController = $scope.fieldController;
         fieldController.isBusy = true;
         var pendingFormChanges = getPendingFormChanges();
-        console.log(fieldController.writeValue, 'wv');
         pendingFormChanges[fieldController.field] = fieldController.writeValue;
         var result = WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage, notify);
 
@@ -60,9 +59,11 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
       this.discardEditing = function() {
         $scope.fieldController.isEditing = false;
         var form = EditableFieldsState.workPackage.form;
-        getPendingFormChanges()[$scope.fieldController.field] = EditableFieldsState.workPackage.form.embedded.payload.props[$scope.fieldController.field];
+        delete getPendingFormChanges()[$scope.fieldController.field];
         $scope.fieldController.updateWriteValue();
       };
+
+      this.getPendingFormChanges = getPendingFormChanges;
 
       function getPendingFormChanges() {
         var form = EditableFieldsState.workPackage.form;
@@ -94,6 +95,12 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
           });
         }
       });
+
+      scope.$watch('fieldController.writeValue', function(writeValue) {
+        if (scope.fieldController.isEditing) {
+          scope.editPaneController.getPendingFormChanges()[scope.fieldController.field] = writeValue;
+        }
+      }, true);
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
         if (isEditing) {

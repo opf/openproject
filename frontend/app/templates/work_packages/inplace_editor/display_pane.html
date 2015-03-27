@@ -1,6 +1,7 @@
-<div class="inplace-edit--read" ng-hide="fieldController.isEditing" ng-click="displayPaneController.startEditing()">
-  <span class="editing-link-wrapper">
+<div class="inplace-edit--read" ng-hide="fieldController.isEditing">
     <accessible-by-keyboard
+        ng-if="fieldController.isEditable()"
+        ng-click="displayPaneController.startEditing()"
         class="inplace-editing--trigger-container"
         span-class="inplace-editing--container"
         link-class="inplace-editing--trigger-link"
@@ -11,5 +12,7 @@
             </icon-wrapper>
         </span>
     </accessible-by-keyboard>
-  </span>
+    <span ng-if="!fieldController.isEditable()">
+        <span class="inplace-edit--read-value" ng-include="templateUrl"></span>
+    </span>
 </div>
