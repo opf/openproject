@@ -28,7 +28,7 @@
 
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file)
 
-@mixin input-style
+%input-style
   border: $content-form-input-border
   border-radius: 2px
   font-size: 1rem
@@ -37,7 +37,7 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 
   vertical-align: middle
 
-@mixin label-style
+%label-style
   text-align: left
   font-weight: normal
   vertical-align: middle
@@ -241,7 +241,7 @@ fieldset.form--fieldset
 
 .form--label
   @include grid-content(2)
-  @include label-style
+  @extend %label-style
   padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
@@ -376,14 +376,14 @@ fieldset.form--fieldset
       max-width: initial
 
 .form--text-field
-  @include input-style
+  @extend %input-style
 
 .form--text-field,
 #{$text-input-selectors}
   line-height: 1.5
 
 .form--select
-  @include input-style
+  @extend %input-style
   line-height: 1.5
 
   // TODO: remove padding property once upstream PR merged:
@@ -424,7 +424,7 @@ fieldset.form--fieldset
     margin-bottom: 0.5rem
 
 .form--text-area
-  @include input-style
+  @extend %input-style
 
   .form &
     margin-bottom: 0.5rem
@@ -450,7 +450,7 @@ fieldset.form--fieldset
 
 .form--grouping-label
   @include grid-content(2)
-  @include label-style
+  @extend %label-style
   padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
