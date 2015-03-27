@@ -36,8 +36,6 @@ I18n.addTranslations = function(locale, translations) {
   I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
 };
 
-
-var angular = require('angular');
 require('angular-animate');
 require('angular-aria');
 require('angular-modal');
@@ -52,15 +50,11 @@ require('angular-ui-select2');
 require('angular-ui-select2-sortable');
 
 require('angular-ui-date');
-require('angular-sanitize');
 require('angular-truncate');
 require('angular-feature-flags');
 
 require('angular-busy/dist/angular-busy');
 require('angular-busy/dist/angular-busy.css');
-
-require('ui-select/dist/select');
-require('ui-select/dist/select.css');
 
 require('angular-context-menu');
 require('mousetrap');

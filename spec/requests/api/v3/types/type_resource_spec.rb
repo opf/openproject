@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe 'API v3 Type resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, no_types: true, is_public: false) }
@@ -44,7 +45,7 @@ describe 'API v3 Type resource' do
 
   describe 'types' do
     describe '#get' do
-      let(:get_path) { '/api/v3/types' }
+      let(:get_path) { api_v3_paths.types }
       subject(:response) { last_response }
 
       context 'logged in user' do
@@ -72,8 +73,8 @@ describe 'API v3 Type resource' do
 
   describe 'types/:id' do
     describe '#get' do
-      let(:status) { types.first }
-      let(:get_path) { "/api/v3/types/#{status.id}" }
+      let(:type) { types.first }
+      let(:get_path) { api_v3_paths.type type.id }
 
       subject(:response) { last_response }
 
@@ -89,7 +90,7 @@ describe 'API v3 Type resource' do
         end
 
         context 'invalid type id' do
-          let(:get_path) { '/api/v3/types/bogus' }
+          let(:get_path) { api_v3_paths.type 'bogus' }
 
           it_behaves_like 'not found' do
             let(:id) { 'bogus' }

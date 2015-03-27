@@ -84,6 +84,9 @@ GEM
     acts_as_list (0.3.0)
       activerecord (>= 3.0)
     addressable (2.3.4)
+    airbrake (4.1.0)
+      builder
+      multi_json
     arel (3.0.3)
     ast (2.0.0)
     astrolabe (1.3.0)
@@ -460,6 +463,7 @@ DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.3.0)
+  airbrake (~> 4.1.0)
   autoprefixer-rails
   awesome_nested_set
   bourbon (~> 4.2.0)

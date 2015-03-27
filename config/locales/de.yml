@@ -197,7 +197,7 @@ de:
         greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
         smaller_than_or_equal_to_max_length: "muss kleiner als oder gleich der maximalen Länge sein"
         greater_than_start_date: "muss größer als Anfangsdatum sein"
-        inclusion: "ist kein gültiger Wert"
+        inclusion: "ist nicht auf einen erlaubten Wert gesetzt"
         invalid: "ist nicht gültig"
         less_than: "muss kleiner als %{count} sein"
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
@@ -242,6 +242,8 @@ de:
         project_association:
           identical_projects: "kann nicht von einem Projekt auf sich selbst erstellt werden"
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
+        repository:
+          not_whitelisted: "wird durch die Konfiguration nicht erlaubt"
         user:
           attributes:
             password:
@@ -1695,13 +1697,15 @@ de:
       writing_read_only_attributes: "Nur-lesbare Eigeschaften dürfen nicht geschrieben werden."
       invalid_format: "Ungültiges Format für Eigenschaft '%{property}': Ein Format der Art '%{expected_format}' wurde erwartet, aber '%{actual}' wurde übergeben."
       render:
-        context_not_found: "Es wurde kein Kontext gefunden."
-        unsupported_context: "Der Kontext wird nicht unterstützt."
-        context_object_not_found: "Die im Kontext angegebene Ressource wurde nicht gefunden."
+        context_not_parsable: "Der übergebene Kontext ist kein Link zu einer Ressource."
+        unsupported_context: "Die übergebene Ressource wird nicht als Kontext unterstützt."
+        context_object_not_found: "Die als Kontext übergebene Ressource konnte nicht gefunden werden."
       validation:
         invalid_user_assigned_to_work_package:
           "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
         estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden."
         done_ratio: "Der Fortschritt kann nicht gesetzt werden falls es sich um ein Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn er komplett deaktiviert wurde."
+        start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
+        due_date: "Das Enddatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
     resources:
       schema: 'Schema'

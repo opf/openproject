@@ -127,17 +127,20 @@ module API
     rescue_from ActiveRecord::RecordNotFound do
       api_error = ::API::Errors::NotFound.new
       representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      env['api.format'] = 'hal+json'
       error_response(status: api_error.code, message: representer.to_json)
     end
 
     rescue_from ActiveRecord::StaleObjectError do
       api_error = ::API::Errors::Conflict.new
       representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      env['api.format'] = 'hal+json'
       error_response(status: api_error.code, message: representer.to_json)
     end
 
     rescue_from ::API::Errors::ErrorBase, rescue_subclasses: true do |e|
       representer = ::API::V3::Errors::ErrorRepresenter.new(e)
+      env['api.format'] = 'hal+json'
       error_response(status: e.code, message: representer.to_json)
     end
 
@@ -152,6 +155,8 @@ module API
       authenticate
     end
 
-    mount API::V3::Root
+    version 'v3', using: :path do
+      mount API::V3::Root
+    end
   end
 end

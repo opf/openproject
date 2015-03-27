@@ -36,11 +36,15 @@ styleguide-sass: |
   .livingstyleguide--code-block
     max-height: 300px
 
+javascript-before:
+  - "/assets/styleguide.js"
+
 header: |
   <header class="livingstyleguide--header">
     <div class="styleguide-banner">
       <h1 class="styleguide-banner--text">Living Style Guide</h1>
     </div>
+    <link rel="stylesheet" type="text/css" href="jstoolbar.css">
   </header>
 
   <nav class="styleguide-nav">

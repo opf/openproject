@@ -66,7 +66,8 @@ module API
                                      name_source: property,
                                      href_callback:,
                                      required: true,
-                                     writable: true)
+                                     writable: true,
+                                     show_if: true)
           raise ArgumentError if property.nil?
 
           property property,
@@ -83,7 +84,8 @@ module API
                      end
 
                      representer
-                   }
+                   },
+                   if: show_if
         end
 
         def schema_with_allowed_collection(property,
@@ -93,7 +95,8 @@ module API
                                            value_representer:,
                                            link_factory:,
                                            required: true,
-                                           writable: true)
+                                           writable: true,
+                                           show_if: true)
           raise ArgumentError unless property
 
           property property,
@@ -113,7 +116,8 @@ module API
                      end
 
                      representer
-                   }
+                   },
+                   if: show_if
         end
 
         def represented_class

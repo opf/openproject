@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Wiki, type: :model do
-  let(:project) { FactoryGirl.create(:project, :without_wiki) }
+  let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
   let(:start_page) { 'The wiki start page' }
 
   it_behaves_like 'acts_as_watchable included' do

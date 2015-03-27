@@ -26,10 +26,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/attachments/attachment_representer'
+
 module API
   module V3
     module Attachments
-      class AttachmentsAPI < Grape::API
+      class AttachmentsAPI < ::API::OpenProjectAPI
         resources :attachments do
 
           params do
@@ -39,7 +41,7 @@ module API
 
             before do
               @attachment = Attachment.find(params[:id])
-              @representer =  ::API::V3::Attachments::AttachmentRepresenter.new(@attachment)
+              @representer = AttachmentRepresenter.new(@attachment)
             end
 
             get do

@@ -50,13 +50,13 @@ module CustomFieldsHelper
 
     tag = case field_format.try(:edit_as)
     when 'date'
-      text_field_tag(field_name, custom_value.value, id: field_id, size: 10) +
+      styled_text_field_tag(field_name, custom_value.value, id: field_id, size: 10) +
       calendar_for(field_id)
     when 'text'
-      text_area_tag(field_name, custom_value.value, id: field_id, rows: 3, style: 'width:90%')
+      styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3)
     when 'bool'
       hidden_tag = hidden_field_tag(field_name, '0')
-      checkbox_tag = check_box_tag(field_name, '1', custom_value.typed_value, id: field_id)
+      checkbox_tag = styled_check_box_tag(field_name, '1', custom_value.typed_value, id: field_id)
       hidden_tag + checkbox_tag
     when 'list'
       blank_option = if custom_field.is_required? && custom_field.default_value.blank?
@@ -69,9 +69,9 @@ module CustomFieldsHelper
 
       options = blank_option.html_safe + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value)
 
-      select_tag(field_name, options, id: field_id)
+      styled_select_tag(field_name, options, id: field_id)
     else
-      text_field_tag(field_name, custom_value.value, id: field_id)
+      styled_text_field_tag(field_name, custom_value.value, id: field_id)
     end
 
     tag = content_tag :span, tag, lang: custom_field.name_locale
@@ -86,7 +86,7 @@ module CustomFieldsHelper
     content_tag 'label', h(custom_value.custom_field.name) +
       (custom_value.custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),
                 for: "#{name}_custom_field_values_#{custom_value.custom_field.id}",
-                class: (custom_value.errors.empty? ? nil : 'error'),
+                class: "form--label #{(custom_value.errors.empty? ? nil : 'error')}",
                 lang: custom_value.custom_field.name_locale
   end
 

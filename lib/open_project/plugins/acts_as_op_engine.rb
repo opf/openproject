@@ -141,6 +141,26 @@ module OpenProject::Plugins
         end
       end
 
+      base.send(:define_method, :add_api_path) do |path_name, &block|
+        config.to_prepare do
+          ::API::V3::Utilities::PathHelper::ApiV3Path.class_eval do
+            singleton_class.instance_eval do
+              define_method path_name, &block
+            end
+          end
+        end
+      end
+
+      base.send(:define_method, :add_api_endpoint) do |base_endpoint, path = nil, &block|
+        config.to_prepare do
+          # we are expecting the base_endpoint as string for two reasons:
+          # 1. it does not seem possible to pass it as constant (auto loader not ready yet)
+          # 2. we can't constantize it here, because that would evaluate
+          #    the API before it can be patched
+          ::API::APIPatchRegistry.add_patch base_endpoint, path, &block
+        end
+      end
+
       base.send(:define_method, :extend_api_response) do |*args, &block|
         config.to_prepare do
           representer_namespace = args.map { |arg| arg.to_s.camelize }.join('::')

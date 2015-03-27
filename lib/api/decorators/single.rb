@@ -28,18 +28,21 @@
 #++
 
 require 'roar/decorator'
+require 'roar/hypermedia'
 require 'roar/json/hal'
+
+require 'api/v3/utilities/path_helper'
 
 module API
   module Decorators
-    class Single < Roar::Decorator
-      include Roar::JSON::HAL
-      include Roar::Hypermedia
-      include API::V3::Utilities::PathHelper
+    class Single < ::Roar::Decorator
+      include ::Roar::JSON::HAL
+      include ::Roar::Hypermedia
+      include ::API::V3::Utilities::PathHelper
 
       attr_reader :context
       class_attribute :as_strategy
-      self.as_strategy = API::Utilities::CamelCasingStrategy.new
+      self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
       def initialize(model, context = {})
         @context = context
@@ -67,7 +70,7 @@ module API
                                title_getter: -> (*) { represented.send(association).name },
                                show_if: -> (*) { true },
                                embed_as: nil)
-        link property do
+        link property.to_s.camelize(:lower) do
           next unless instance_eval(&show_if)
 
           value = represented.send(association)
@@ -84,15 +87,18 @@ module API
         if embed_as
           embed_property property,
                          association: association,
-                         decorator: embed_as
+                         decorator: embed_as,
+                         show_if: show_if
         end
       end
 
-      def self.embed_property(property, association: property, decorator:)
-        property association,
-                 as: property.to_s.camelize(:lower),
+      def self.embed_property(property, association: property, decorator:, show_if: true)
+        property property,
+                 exec_context: :decorator,
+                 getter: -> (*) { represented.send(association) },
                  embedded: true,
-                 decorator: decorator
+                 decorator: decorator,
+                 if: show_if
       end
 
       protected
@@ -104,7 +110,7 @@ module API
       private
 
       def datetime_formatter
-        API::V3::Utilities::DateTimeFormatter
+        ::API::V3::Utilities::DateTimeFormatter
       end
 
       def _type; end

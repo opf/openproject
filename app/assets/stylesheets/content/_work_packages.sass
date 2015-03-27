@@ -27,47 +27,45 @@
 //++
 
 .work-packages--details-content
-  font-size:  0.8125rem
+  font-size:  0.875rem
 
-  .wp-subject
-    margin:       0
-    padding:      0 0 4px 0
-    font-size:    1.25rem
-    line-height:  26px
-    font-weight:  normal
-    border:       none
-    text-transform: none
-    color:        #333
-  h3
-    margin:       0 0 10px 0
-    padding:      0
-    font-size:    0.875rem
-    font-weight:  bold
-    border:       none
+@mixin details-pane--form-field
+  overflow: visible
+  overflow-y: visible
+  padding: 0
+
+.work-packages--details--title
+  @include grid-block
+  @include details-pane--form-field
+  align-items: center
+  font-size: 1.125rem
+  font-weight: bold
+
+.work-packages--details--type
+  @include grid-content
+  @include grid-size(shrink)
+  @include details-pane--form-field
+  color: $content-link-color
+
+.work-packages--details--subject
+  @include grid-content
+  @include grid-size(expand)
+  @include details-pane--form-field
+
+  // overriding default in place editing padding
+  // because the heigt will otherwise be too much
+  // and the change from read to write will flicker
+  .inplace-edit--text-field
+    padding: 0.15625rem 0.375rem
 
 .report-category-actions
   margin-top: -28px
   width: 100%
   text-align: right
 
-// Detail Panel Content
-
-.subtitle
-  margin: 0
-  padding: 0 0 10px 0
-  display: block
-  clear: both
-
-.select-type
-  padding-top: 3px
-  line-height: 26px
-  float: left
-  color: $content-link-color
-
 .detail-panel-description
   margin: 0
   line-height: 18px
-
 
 .comments-form
   float: left
@@ -97,22 +95,6 @@ i
   &.icon-right
     vertical-align: -2px
     padding: 0 0 0 4px
-
-accessible-by-keyboard
-  &.star
-    margin-right: -1em
-    a:hover
-      text-decoration: none
-    .star
-      padding: 0 2px 0 0
-      vertical-align: -3px
-      color: #ccc
-      margin: 0 0 0 -2px
-      cursor: pointer
-      &:hover, &.active
-        color: #f8d033
-      &.active:hover
-        color: #ccc
 
 #tabs
   position: relative

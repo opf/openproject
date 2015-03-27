@@ -243,8 +243,12 @@ module API
 
         def link_value_getter_for(custom_field, path_method)
           -> (*) {
-            value = represented.send custom_field.accessor_name
-            path = api_v3_paths.send(path_method, value.is_a?(String) ? value : value.id) if value
+            # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
+            # because we need to generate a link even if the id does not belong to an existing
+            # object (that behaviour is only required for form payloads)
+            custom_value = represented.custom_value_for(custom_field)
+            value = custom_value ? custom_value.value : nil
+            path = api_v3_paths.send(path_method, value) if value
 
             { href: path }
           }

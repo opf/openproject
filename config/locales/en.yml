@@ -197,7 +197,7 @@ en:
         greater_than_or_equal_to: "must be greater than or equal to %{count}"
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length"
         greater_than_start_date: "must be greater than start date"
-        inclusion: "is not included in the list"
+        inclusion: "is not set to one of the allowed values"
         invalid: "is invalid"
         less_than: "must be less than %{count}"
         less_than_or_equal_to: "must be less than or equal to %{count}"
@@ -221,6 +221,9 @@ en:
         project_association:
           identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
+        repository:
+          not_whitelisted: "is not allowed by the configuration"
+          no_directory: "is not a directory"
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
@@ -1685,13 +1688,15 @@ en:
       writing_read_only_attributes: "You must not write a read-only attribute."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       render:
-        context_not_found: "No context found."
-        unsupported_context: "Unsupported context found."
-        context_object_not_found: "Cannot find the resource given with the context."
+        context_not_parsable: "The context provided is not a link to a resource."
+        unsupported_context: "The resource given is not supported as context."
+        context_object_not_found: "Cannot find the resource given as the context."
       validation:
         invalid_user_assigned_to_work_package:
           "The chosen user is not allowed to be '%{property}' for this work package."
         estimated_hours: "Estimated hours cannot be set on parent work packages."
         done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        start_date: "Start date cannot be set on parent work packages."
+        due_date: "Due date cannot be set on parent work packages."
     resources:
       schema: 'Schema'

@@ -27,10 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/versions/version_collection_representer'
+
 module API
   module V3
     module Versions
-      class VersionsByProjectAPI < Grape::API
+      class VersionsByProjectAPI < ::API::OpenProjectAPI
         resources :versions do
           before do
             @versions = @project.shared_versions.all
@@ -41,7 +43,7 @@ module API
           get do
             VersionCollectionRepresenter.new(@versions,
                                              @versions.count,
-                                             api_v3_paths.versions(@project.id),
+                                             api_v3_paths.versions_by_project(@project.id),
                                              context: { current_user: current_user })
           end
         end

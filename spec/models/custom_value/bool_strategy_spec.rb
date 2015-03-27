@@ -39,27 +39,27 @@ describe CustomValue::BoolStrategy do
 
     context 'value is nil' do
       let(:value) { nil }
-      it { is_expected.to eql(false) }
+      it { is_expected.to be false }
     end
 
     context 'value is empty string' do
       let(:value) { '' }
-      it { is_expected.to eql(false) }
+      it { is_expected.to be false }
     end
 
     context 'value is present string' do
       let(:value) { '1' }
-      it { is_expected.to eql(true) }
+      it { is_expected.to be true }
     end
 
     context 'value is true' do
       let(:value) { true }
-      it { is_expected.to eql(true) }
+      it { is_expected.to be true }
     end
 
     context 'value is false' do
       let(:value) { false }
-      it { is_expected.to eql(true) }
+      it { is_expected.to be true }
     end
   end
 
@@ -68,12 +68,12 @@ describe CustomValue::BoolStrategy do
 
     context 'value corresponds to true' do
       let(:value) { '1' }
-      it { is_expected.to eql(true) }
+      it { is_expected.to be true }
     end
 
     context 'value corresponds to false' do
       let(:value) { '0' }
-      it { is_expected.to eql(false) }
+      it { is_expected.to be false }
     end
 
     context 'value is blank' do
@@ -84,6 +84,16 @@ describe CustomValue::BoolStrategy do
     context 'value is nil' do
       let(:value) { nil }
       it { is_expected.to be_nil }
+    end
+
+    context 'value is true' do
+      let(:value) { true }
+      it { is_expected.to be true }
+    end
+
+    context 'value is false' do
+      let(:value) { false }
+      it { is_expected.to be false }
     end
   end
 

@@ -27,10 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/types/type_collection_representer'
+
 module API
   module V3
     module Types
-      class TypesByProjectAPI < Grape::API
+      class TypesByProjectAPI < ::API::OpenProjectAPI
         resources :types do
           before do
             authorize_any [:view_work_packages, :manage_types], projects: @project

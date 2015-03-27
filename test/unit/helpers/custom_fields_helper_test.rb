@@ -39,12 +39,21 @@ class CustomFieldsHelperTest < HelperTestCase
     assert_equal 'No', format_value('0', 'bool')
   end
 
-  def test_unknow_field_format_should_be_edited_as_string
+  def test_unknown_field_format_should_be_edited_as_string
     field = CustomField.new(field_format: 'foo')
     value = CustomValue.new(value: 'bar', custom_field: field)
     field.id = 52
 
-    assert_match '<input id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="bar" />',
+    assert_equal %{<span lang="en">
+                      <span class="form--text-field-container">
+                        <input class="form--text-field"
+                               id="object_custom_field_values_52"
+                               name="object[custom_field_values][52]"
+                               type="text"
+                               value="bar" />
+                      </span>
+                    </span>
+                 }.gsub(/>\s+</, '><').squish,
                  custom_field_tag('object', value)
   end
 

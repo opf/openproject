@@ -40,7 +40,12 @@ require('jquery-ujs');
 require('jquery-ui/ui/jquery-ui.js');
 require('jquery-ui/ui/i18n/jquery.ui.datepicker-en-GB.js');
 require('jquery-ui/ui/i18n/jquery.ui.datepicker-de.js');
-require('jquery-ui/themes/base/jquery-ui.css');
+require('./misc/datepicker-defaults');
+
+require('jquery-ui/themes/base/jquery.ui.core.css');
+require('jquery-ui/themes/base/jquery.ui.datepicker.css');
+// TODO: move require to backlogs plugin
+require('jquery-ui/themes/base/jquery.ui.dialog.css');
 
 require('momentjs');
 require('momentjs/lang/en-gb.js');
@@ -56,4 +61,9 @@ require('Caret.js/src/jquery.caret.js');
 
 require('select2/select2.js');
 require('select2/select2.css');
-require('select2_customizing.css');
+
+require('angular');
+require('angular-sanitize');
+
+require('ui-select/dist/select');
+require('ui-select/dist/select.css');

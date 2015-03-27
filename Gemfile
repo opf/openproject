@@ -89,6 +89,9 @@ gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require =
 
 gem 'gon', '~> 4.0'
 
+# catch exceptions and send them to any airbrake compatible backend
+gem 'airbrake', '~> 4.1.0'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+

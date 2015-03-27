@@ -1886,14 +1886,14 @@ This is an example of how a schema might look like. Note that this endpoint does
 String objects are a linkable representation of strings. They merely serve the purpose of making links to strings possible,
 e.g. to be able to provide `allowedValues` for a string typed property.
 
-## String Object [/api/v3/string_objects/{value}]
+## String Object [/api/v3/string_objects?value={value}]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/string_objects/Foo" }
+                    "self": { "href": "/api/v3/string_objects?value=Foo" }
                 },
                 "_type": "StringObject",
                 "value": "Foo"
@@ -2584,8 +2584,8 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | type             | Name of the work package's type                        | String      | not null                                                                                               | READ                 |                                  |
 | description      | The work package description                           | Formattable |                                                                                                        | READ / WRITE         |                                  |
 | parentId         | Parent work package id                                 | Integer     | Must be an id of an existing and visible (for the current user) work package                           | READ / WRITE         |                                  |
-| startDate        |                                                        | Date        | Cannot be set for parent work packages; must be equal or greater than the earliest possible start date | READ / WRITE         |                                  |
-| dueDate          |                                                        | Date        | Cannot be set for parent work packages; must be greater than or equal to the start date                | READ / WRITE         |                                  |
+| startDate        | Scheduled beginning of a work package                  | Date        | Cannot be set for parent work packages; must be equal or greater than the earliest possible start date | READ / WRITE         |                                  |
+| dueDate          | Scheduled end of a work package                        | Date        | Cannot be set for parent work packages; must be greater than or equal to the start date                | READ / WRITE         |                                  |
 | estimatedTime    | Time a work package likely needs to be completed       | Duration    | Cannot be set for parent work packages                                                                 | READ / WRITE         |                                  |
 | spentTime        |                                                        | Duration    |                                                                                                        | READ                 | **Permission** view time entries |
 | percentageDone   | Amount of total completion for a work package          | Integer     | 0 <= x <= 100; Cannot be set for parent work packages                                                  | READ / WRITE         |                                  |
@@ -2607,6 +2607,8 @@ the human readable name of custom fields.*
 * `dueDate` is the latest due date from its children
 * `estimatedTime` is the sum of estimated times from its children
 * `percentageDone` is the weighted average of the sum of its children percentages done. The weight is given by the average of its children estimatedHours. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
+
+*Start date can also not be earlier than a due date of any predecessor.*
 
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 

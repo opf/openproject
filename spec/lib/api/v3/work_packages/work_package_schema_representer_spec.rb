@@ -136,6 +136,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'startDate' do
+      before do
+        allow(schema).to receive(:start_date_writable?).and_return true
+      end
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'startDate' }
         let(:type) { 'Date' }
@@ -143,9 +147,27 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
       end
+
+      context 'not writable' do
+        before do
+          allow(schema).to receive(:start_date_writable?).and_return false
+        end
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'startDate' }
+          let(:type) { 'Date' }
+          let(:name) { I18n.t('attributes.start_date') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
+      end
     end
 
     describe 'dueDate' do
+      before do
+        allow(schema).to receive(:due_date_writable?).and_return true
+      end
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'dueDate' }
         let(:type) { 'Date' }
@@ -153,19 +175,56 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
       end
+
+      context 'not writable' do
+        before do
+          allow(schema).to receive(:due_date_writable?).and_return false
+        end
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'dueDate' }
+          let(:type) { 'Date' }
+          let(:name) { I18n.t('attributes.due_date') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
+      end
     end
 
     describe 'estimatedTime' do
+      before do
+        allow(schema).to receive(:estimated_time_writable?).and_return true
+      end
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'estimatedTime' }
         let(:type) { 'Duration' }
         let(:name) { I18n.t('attributes.estimated_time') }
         let(:required) { false }
-        let(:writable) { schema.estimated_time_writable? }
+        let(:writable) { true }
+      end
+
+      context 'not writable' do
+        before do
+          allow(schema).to receive(:estimated_time_writable?).and_return false
+        end
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'estimatedTime' }
+          let(:type) { 'Duration' }
+          let(:name) { I18n.t('attributes.estimated_time') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
       end
     end
 
     describe 'spentTime' do
+      before do
+        allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
+          .and_return true
+      end
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'spentTime' }
         let(:type) { 'Duration' }
@@ -173,21 +232,55 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
+
+      context 'not allowed to view time entries' do
+        before do
+          allow(current_user).to receive(:allowed_to?).with(:view_time_entries,
+                                                            work_package.project)
+            .and_return false
+        end
+
+        it 'does not show spentTime' do
+          is_expected.not_to have_json_path('spentTime')
+        end
+      end
     end
 
     describe 'percentageDone' do
+      before do
+        allow(schema).to receive(:percentage_done_writable?).and_return true
+      end
+
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'percentageDone' }
         let(:type) { 'Integer' }
         let(:name) { I18n.t('activerecord.attributes.work_package.done_ratio') }
         let(:required) { true }
-        let(:writable) { schema.percentage_done_writable? }
+        let(:writable) { true }
       end
 
-      it 'is hidden when disabled' do
-        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
+      context 'not writable' do
+        before do
+          allow(schema).to receive(:percentage_done_writable?).and_return false
+        end
 
-        is_expected.to_not have_json_path('percentageDone')
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'percentageDone' }
+          let(:type) { 'Integer' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.done_ratio') }
+          let(:required) { true }
+          let(:writable) { false }
+        end
+      end
+
+      context 'is disabled' do
+        before do
+          allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
+        end
+
+        it 'is hidden' do
+          is_expected.to_not have_json_path('percentageDone')
+        end
       end
     end
 

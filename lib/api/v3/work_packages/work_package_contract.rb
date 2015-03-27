@@ -81,6 +81,18 @@ module API
           end
         end
 
+        attribute :start_date do
+          if !model.leaf? && model.changed.include?('start_date')
+            errors.add :error_readonly, 'start_date'
+          end
+        end
+
+        attribute :due_date do
+          if !model.leaf? && model.changed.include?('due_date')
+            errors.add :error_readonly, 'due_date'
+          end
+        end
+
         def initialize(object, user)
           super(object)
 

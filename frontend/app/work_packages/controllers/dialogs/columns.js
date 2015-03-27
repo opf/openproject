@@ -32,18 +32,19 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
   this.closeMe = columnsModal.deactivate;
   var vm;
   $scope.vm = vm = {};
-  vm.availableColumns = [];
   vm.selectedColumns = [];
   vm.oldSelectedColumns = [];
+  vm.availableColumns = [];
 
-  var selectedColumnNames = getColumnNames(QueryService.getSelectedColumns());
+  var selectedColumns = QueryService.getSelectedColumns();
 
   // Available selectable Columns
   vm.promise = QueryService.loadAvailableColumns()
     .then(function(availableColumns){
       vm.availableColumns = availableColumns;
-      vm.availableColumns.forEach(function(column) {
-        if (_.contains(selectedColumnNames, column.name)) {
+      var availableColumnNames = getColumnNames(availableColumns);
+      selectedColumns.forEach(function(column) {
+        if (_.contains(availableColumnNames, column.name)) {
           vm.selectedColumns.push(column);
           vm.oldSelectedColumns.push(column);
         }

@@ -33,6 +33,9 @@ class Repository::Filesystem < Repository
   attr_protected :root_url
   validates_presence_of :url
 
+  validate :validate_whitelisted_url,
+           :validate_url_is_dir
+
   ATTRIBUTE_KEY_NAMES = {
     'url'          => 'Root directory',
   }
@@ -48,6 +51,10 @@ class Repository::Filesystem < Repository
     'Filesystem'
   end
 
+  def self.configured?
+    !whitelisted_paths.empty?
+  end
+
   def supports_all_revisions?
     false
   end
@@ -58,5 +65,36 @@ class Repository::Filesystem < Repository
 
   def fetch_changesets
     nil
+  end
+
+  private
+
+  def self.whitelisted_paths
+    OpenProject::Configuration['scm_filesystem_path_whitelist']
+  end
+
+  # validates that the url is a directory
+  def validate_url_is_dir
+    errors.add :url, :no_directory unless Dir.exists?(url)
+  end
+
+  # validate url against whitelisted urls as provided by the
+  # scm_filesystem_path_whitelist configuration parameter.
+  #
+  # The url needs to exist and needs to match one of the directories
+  # returned when globbing the configuration setting.
+  def validate_whitelisted_url
+    globbed_url = Dir.glob(url).first
+
+    unless globbed_url
+      errors.add :url, :not_whitelisted
+      return
+    end
+
+    globbed_whitelisted = Dir.glob(self.class.whitelisted_paths)
+
+    unless globbed_whitelisted.include?(globbed_url)
+      errors.add :url, :not_whitelisted
+    end
   end
 end

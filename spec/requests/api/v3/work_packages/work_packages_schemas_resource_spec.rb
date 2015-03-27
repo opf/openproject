@@ -31,10 +31,11 @@ require 'rack/test'
 
 describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project) }
   let(:type) { FactoryGirl.create(:type) }
-  let(:schema_path) { "/api/v3/work_packages/schemas/#{project.id}-#{type.id}" }
+  let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
   let(:current_user) { FactoryGirl.build(:user, member_in_project: project) }
 
   describe 'GET /api/v3/work_packages/schemas/:id' do
@@ -52,7 +53,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
 
       context 'id is too long' do
         it_behaves_like 'not found' do
-          let(:schema_path) { "/api/v3/work_packages/schemas/#{project.id}-#{type.id}-1" }
+          let(:schema_path) { "#{api_v3_paths.work_package_schema project.id, type.id}-1" }
         end
       end
 

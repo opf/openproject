@@ -6,9 +6,13 @@ html
     meta(content="The LivingStyleGuide Gem – http://livingstyleguide.org", name="generator")
     meta(name="description", content=title)
     title= title
+    link(rel='stylesheet', type='text/css', href='/assets/bundles/openproject-global.css')
     != stylesheet
+    script(src='/assets/bundles/openproject-global.js')
+    script.
+      angular.module('openproject-style-guide', ['ui.select', 'ngSanitize'])
 
-  body.livingstyleguide
+  body.livingstyleguide(ng-app='openproject-style-guide', ng-strict-di=true)
 
     header.livingstyleguide--header
       .styleguide-banner

@@ -30,24 +30,28 @@
   <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel">
   </span>
 
-  <div class="select-type">{{ type.props.name }}:&nbsp;</div>
+  <div class="work-packages--details--title">
+    <div class="work-packages--details--type">{{ type.props.name }}:</div>
 
-  <div
-    class="wp-subject"
-    inplace-editor
-    ined-type="text"
-    ined-entity="workPackage"
-    ined-attribute="subject"
-    ined-attribute-title="{{ I18n.t('js.work_packages.properties.subject') }}"
-    title="{{ workPackage.props.subject }}"
-  ></div>
+    <div class="work-packages--details--subject"
+         inplace-editor
+         ined-type="text"
+         ined-entity="workPackage"
+         ined-attribute="subject"
+         ined-attribute-title="{{ I18n.t('js.work_packages.properties.subject') }}"
+         title="{{ workPackage.props.subject }}">
+    </div>
+  </div>
 
   <span class="subtitle">
-    <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()" class="star">
-      <icon-wrapper icon-name="{{ 'star1' + (isWatched ? ' active' : '') }}"
-                    icon-title="{{ isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package') }}"
-                    css-class="star">
-      </icon-wrapper>
+    <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()"
+      link-class="icon-control {{isWatched ? '-active' : ''}}">
+      <span class="icon-control--icon icon-star1"
+        title="{{isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package')}}">
+        <span class="hidden-for-sighted"
+          ng-bind="isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package')">
+        </span>
+      </span>
     </accessible-by-keyboard>
     <a href="{{ showStaticPagePath }}">#{{ workPackage.props.id }}</a>
     <span ng-bind="I18n.t('js.label_added_by')"/>

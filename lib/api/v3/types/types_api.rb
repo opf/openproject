@@ -27,10 +27,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/types/type_collection_representer'
+require 'api/v3/types/type_representer'
+
 module API
   module V3
     module Types
-      class TypesAPI < Grape::API
+      class TypesAPI < ::API::OpenProjectAPI
         resources :types do
           before do
             authorize_any([:view_work_packages, :manage_types], global: true)
@@ -46,7 +49,7 @@ module API
           namespace ':id' do
             before do
               type = Type.find(params[:id])
-              @representer = ::API::V3::Types::TypeRepresenter.new(type)
+              @representer = TypeRepresenter.new(type)
             end
 
             get do

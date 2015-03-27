@@ -42,7 +42,10 @@ module API
 
         property :value,
                  exec_context: :decorator,
-                 getter: -> (*) { represented }
+                 # empty values sometimes get passed as nil. Thus we make sure that we will always
+                 # display an empty string
+                 # (nil values are not supported by a string_objects URL anyway)
+                 getter: -> (*) { represented || '' }
 
         def _type
           'StringObject'

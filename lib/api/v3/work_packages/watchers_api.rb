@@ -29,7 +29,7 @@
 module API
   module V3
     module WorkPackages
-      class WatchersAPI < Grape::API
+      class WatchersAPI < ::API::OpenProjectAPI
         get '/available_watchers' do
           authorize(:add_work_package_watchers, context: @work_package.project)
 

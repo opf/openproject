@@ -78,37 +78,29 @@ module API
 
           schema :start_date,
                  type: 'Date',
-                 required: false
+                 required: false,
+                 writable: -> { represented.start_date_writable? }
 
           schema :due_date,
                  type: 'Date',
-                 required: false
+                 required: false,
+                 writable: -> { represented.due_date_writable? }
 
-          property :estimated_time,
-                   exec_context: :decorator,
-                   getter: -> (*) do
-                     representer = ::API::Decorators::PropertySchemaRepresenter
-                                   .new(type: 'Duration',
-                                        name: WorkPackage.human_attribute_name(:estimated_time))
-                     representer.writable = represented.estimated_time_writable?
-                     representer.required = false
-                     representer
-                   end
+          schema :estimated_time,
+                 type: 'Duration',
+                 required: false,
+                 writable: -> { represented.estimated_time_writable? }
 
           schema :spent_time,
                  type: 'Duration',
-                 writable: false
+                 writable: false,
+                 show_if: -> (_) { current_user_allowed_to(:view_time_entries) }
 
-          property :percentage_done,
-                   exec_context: :decorator,
-                   getter: -> (*) do
-                     representer = ::API::Decorators::PropertySchemaRepresenter
-                                   .new(type: 'Integer',
-                                        name: WorkPackage.human_attribute_name(:done_ratio))
-                     representer.writable = represented.percentage_done_writable?
-                     representer
-                   end,
-                   if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
+          schema :percentage_done,
+                 type: 'Integer',
+                 name_source: :done_ratio,
+                 writable: -> { represented.percentage_done_writable? },
+                 show_if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
 
           schema :created_at,
                  type: 'DateTime',
@@ -141,7 +133,6 @@ module API
                                    }
 
           schema_with_allowed_collection :type,
-                                         type: 'Type',
                                          values_callback: -> (*) {
                                            represented.assignable_types
                                          },
@@ -154,7 +145,6 @@ module API
                                          }
 
           schema_with_allowed_collection :status,
-                                         type: 'Status',
                                          values_callback: -> (*) {
                                            represented.assignable_statuses_for(current_user)
                                          },
@@ -167,7 +157,6 @@ module API
                                          }
 
           schema_with_allowed_collection :category,
-                                         type: 'Category',
                                          values_callback: -> (*) {
                                            represented.assignable_categories
                                          },
@@ -181,7 +170,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :version,
-                                         type: 'Version',
                                          values_callback: -> (*) {
                                            represented.assignable_versions
                                          },
@@ -195,7 +183,6 @@ module API
                                          required: false
 
           schema_with_allowed_collection :priority,
-                                         type: 'Priority',
                                          values_callback: -> (*) {
                                            represented.assignable_priorities
                                          },
@@ -207,8 +194,8 @@ module API
                                            }
                                          }
 
-          def current_user
-            context[:current_user]
+          def current_user_allowed_to(permission)
+            current_user && current_user.allowed_to?(permission, represented.project)
           end
         end
       end

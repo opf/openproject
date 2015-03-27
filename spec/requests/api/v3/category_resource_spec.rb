@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe 'API v3 Category resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:role) { FactoryGirl.create(:role, permissions: [:view_project]) }
   let(:private_project) { FactoryGirl.create(:project, is_public: false) }
@@ -55,7 +56,7 @@ describe 'API v3 Category resource' do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { "/api/v3/projects/#{private_project.id}/categories" }
+      let(:get_path) { api_v3_paths.categories private_project.id }
       before do
         allow(User).to receive(:current).and_return privileged_user
 
@@ -66,7 +67,7 @@ describe 'API v3 Category resource' do
     end
 
     context 'not logged in user' do
-      let(:get_path) { "/api/v3/projects/#{private_project.id}/categories" }
+      let(:get_path) { api_v3_paths.categories private_project.id }
       before do
         allow(User).to receive(:current).and_return anonymous_user
 
@@ -84,7 +85,7 @@ describe 'API v3 Category resource' do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { "/api/v3/categories/#{other_categories.first.id}" }
+      let(:get_path) { api_v3_paths.category other_categories.first.id }
       before do
         allow(User).to receive(:current).and_return privileged_user
 
@@ -98,7 +99,7 @@ describe 'API v3 Category resource' do
       end
 
       context 'invalid priority id' do
-        let(:get_path) { '/api/v3/categories/bogus' }
+        let(:get_path) { api_v3_paths.category 'bogus' }
         it_behaves_like 'not found' do
           let(:id) { 'bogus' }
           let(:type) { 'Category' }
@@ -107,7 +108,7 @@ describe 'API v3 Category resource' do
     end
 
     context 'not logged in user' do
-      let(:get_path) { '/api/v3/categories/bogus' }
+      let(:get_path) { api_v3_paths.category 'bogus' }
       before do
         allow(User).to receive(:current).and_return anonymous_user
 

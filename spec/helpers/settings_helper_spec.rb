@@ -60,10 +60,12 @@ describe SettingsHelper, type: :helper do
     end
 
     subject(:output) {
-      helper.setting_multiselect :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']]
+      helper.setting_multiselect :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
     }
 
-    it_behaves_like 'wrapped in container'
+    it_behaves_like 'wrapped in container' do
+      let(:container_count) { 3 }
+    end
 
     it 'should have checkboxes wrapped in checkbox-container' do
       expect(output).to have_selector 'span.form--check-box-container', count: 3
@@ -229,7 +231,7 @@ important text</textarea>
     end
 
     subject(:output) {
-      helper.notification_field(notifiable)
+      helper.notification_field(notifiable, options)
     }
 
     context 'when setting includes option' do

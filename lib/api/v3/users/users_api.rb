@@ -26,10 +26,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/users/user_representer'
+
 module API
   module V3
     module Users
-      class UsersAPI < Grape::API
+      class UsersAPI < ::API::OpenProjectAPI
         helpers do
           def user_transition(allowed)
             if allowed
@@ -37,7 +39,7 @@ module API
 
               # Show updated user
               status 200
-              Users::UserRepresenter.new(@user, current_user: current_user)
+              UserRepresenter.new(@user, current_user: current_user)
             else
               fail ::API::Errors::InvalidUserStatusTransition
             end
@@ -56,7 +58,7 @@ module API
             end
 
             get do
-              Users::UserRepresenter.new(@user, current_user: current_user)
+              UserRepresenter.new(@user, current_user: current_user)
             end
 
             delete do

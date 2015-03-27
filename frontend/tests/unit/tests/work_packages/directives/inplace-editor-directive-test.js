@@ -106,7 +106,7 @@ describe('inplaceEditor Directive', function() {
 
     describe('placeholder', function() {
       it('should not render the default text', function() {
-        var text = element.find('.ined-read-value .read-value-wrapper span:first').text().trim();
+        var text = element.find('.inplace-edit--read .inplace-edit--read-value span:first').text().trim();
         expect(text).to.eq('Some subject');
       });
 
@@ -146,7 +146,7 @@ describe('inplaceEditor Directive', function() {
             scope.$digest();
           });
           it('should render a text input', function() {
-            expect(element.find('.ined-input-wrapper input[type="text"]').length).to.eq(1);
+            expect(element.find('.inplace-edit--write-value input[type="text"]').length).to.eq(1);
           });
         });
         context('wiki_textarea', function() {
@@ -192,24 +192,24 @@ describe('inplaceEditor Directive', function() {
             scope.$digest();
           });
           it('should render a textarea', function() {
-            expect(element.find('.ined-input-wrapper textarea').length).to.eq(1);
+            expect(element.find('.inplace-edit--write-value textarea').length).to.eq(1);
           });
           it('should render the js toolbar', function() {
-            expect(element.find('.ined-input-wrapper .jstElements').length).to.eq(1);
+            expect(element.find('.inplace-edit--write-value .jstElements').length).to.eq(1);
           });
           it('should render a text formatting help link', function() {
-            expect(element.find('.ined-input-wrapper .help').length).to.eq(1);
+            expect(element.find('.inplace-edit--write-value .jstb_help').length).to.eq(1);
           });
           it('should set textaria\'s row count according to the content\'s row length', function() {
             $timeout.flush();
-            expect(element.find('.ined-input-wrapper textarea').attr('rows')).to.eq('4');
+            expect(element.find('.inplace-edit--write-value textarea').attr('rows')).to.eq('4');
           });
         });
       });
       describe('workPackage.links.updateImmediately', function() {
         context('present', function() {
           it('should render the inplace editor', function() {
-            expect(element.find('.inplace-editor').length).to.eq(1);
+            expect(element.find('.inplace-edit').length).to.eq(1);
           });
         });
         context('not present', function() {
@@ -225,7 +225,7 @@ describe('inplaceEditor Directive', function() {
             compile();
           });
           it('should render the value without editing elements', function() {
-            expect(element.find('.editing-link-wrapper').length).to.eq(0);
+            expect(element.find('.inplace-edit--icon-wrapper').length).to.eq(0);
           });
         });
       });
@@ -237,7 +237,7 @@ describe('inplaceEditor Directive', function() {
             scope.$digest();
           });
           it('should disable the input', function() {
-            expect(element.find('.ined-input-wrapper input').prop('disabled')).to.eq(true);
+            expect(element.find('.inplace-edit--write-value input').prop('disabled')).to.eq(true);
           });
         });
       });
@@ -248,18 +248,18 @@ describe('inplaceEditor Directive', function() {
             scope.$digest();
           });
           it('should render the edit block', function() {
-            expect(element.find('.ined-edit').length).to.eq(1);
+            expect(element.find('.inplace-edit--write').length).to.eq(1);
           });
           it('should hide the read block', function() {
-            expect(element.find('.ined-read-value').hasClass('ng-hide')).to.eq(true);
+            expect(element.find('.inplace-edit--read').hasClass('ng-hide')).to.eq(true);
           });
         });
         context('false', function() {
           it('should not render the edit block', function() {
-            expect(element.find('.ined-edit').length).to.eq(0);
+            expect(element.find('.inplace-edit--write').length).to.eq(0);
           });
           it('should not hide the read block', function() {
-            expect(element.find('.ined-read-value').hasClass('ng-hide')).to.eq(false);
+            expect(element.find('.inplace-edit--read').hasClass('ng-hide')).to.eq(false);
           });
         });
       });
@@ -433,36 +433,32 @@ describe('inplaceEditor Directive', function() {
     });
 
     it('should render the directive template', function() {
-      expect(element.find('.inplace-editor').length).to.eq(1);
+      expect(element.find('.inplace-edit').length).to.eq(1);
     });
 
     describe('read value block', function() {
       it('should be rendered', function() {
-        expect(element.find('.ined-read-value').length).to.eq(1);
+        expect(element.find('.inplace-edit--read').length).to.eq(1);
       });
       it('should have the value of the given attribute', function() {
         expect(element
-          .find('.ined-read-value .read-value-wrapper span:first')
+          .find('.inplace-edit--read .inplace-edit--read-value span:first')
           .text().trim())
           .to.eq('Some subject');
-      });
-      it('should trigger edit mode on click', function() {
-        element.find('.ined-read-value').click();
-        expect(elementScope.isEditing).to.eq(true);
       });
 
       context('edit link', function() {
         it('should not be hidden from the reader', function() {
-          expect(element.find('.editing-link-wrapper').length).to.eq(1);
+          expect(element.find('.inplace-edit--icon-wrapper').length).to.eq(1);
           //it's in the viewport and not hidden by angular
-          expect(element.find('.editing-link-wrapper').closest('.ng-hide').length).to.eq(0);
+          expect(element.find('.inplace-edit--icon-wrapper').closest('.ng-hide').length).to.eq(0);
         });
         it('should be accessible by tab', function() {
           // I suggest some manual test here as well for the screen reader
-          expect(element.find('.editing-link-wrapper a').attr('tabindex')).not.to.eq('-1');
+          expect(element.find('.inplace-edit--icon-wrapper a').attr('tabindex')).not.to.eq('-1');
         });
         it('should trigger the edit mode', function() {
-          element.find('.editing-link-wrapper a').click();
+          element.find('.inplace-editing--trigger-link').click();
           expect(elementScope.isEditing).to.eq(true);
         });
       });
@@ -497,7 +493,7 @@ describe('inplaceEditor Directive', function() {
 
         it('should render the default text', function() {
           var text = element
-            .find('.ined-read-value .read-value-wrapper span:first')
+            .find('.inplace-edit--read .inplace-edit--read-value span:first')
             .text().trim();
 
           expect(text).to.eq('The default text');
@@ -520,26 +516,26 @@ describe('inplaceEditor Directive', function() {
       });
       context('input', function() {
         it('should be focused', function() {
-          expect(element.find('.ined-input-wrapper input').get(0)).to.eq(document.activeElement);
+          expect(element.find('.inplace-edit--write-value input').get(0)).to.eq(document.activeElement);
         });
         it('should call submit on RETURN pressed', function() {
           submitStub = sinon.stub(elementScope, 'submit').returns(false);
           // pressing enter triggers form submit (default browser behaviour)
-          element.find('.ined-input-wrapper').closest('form').triggerHandler('submit');
+          element.find('.inplace-edit--write-value').closest('form').triggerHandler('submit');
           submitStub.should.have.been.calledWith(false);
           submitStub.restore();
         });
       });
       context('action buttons', function() {
         it('should be rendered', function() {
-          expect(element.find('.ined-edit-save').length).to.eq(1);
-          expect(element.find('.ined-edit-save-send').length).to.eq(1);
-          expect(element.find('.ined-edit-close').length).to.eq(1);
+          expect(element.find('.inplace-edit--control--save').length).to.eq(1);
+          expect(element.find('.inplace-edit--control--send').length).to.eq(1);
+          expect(element.find('.inplace-edit--control--cancel').length).to.eq(1);
         });
         describe('save', function() {
           beforeEach(function() {
             submitStub = sinon.stub(elementScope, 'submit').returns(true);
-            element.find('.ined-edit-save a').click();
+            element.find('.inplace-edit--control--save a').click();
             elementScope.submit();
           });
           afterEach(function() {
@@ -552,7 +548,7 @@ describe('inplaceEditor Directive', function() {
         describe('save and send', function() {
           beforeEach(function() {
             submitStub = sinon.stub(elementScope, 'submit').returns(false);
-            element.find('.ined-edit-save-send a').click();
+            element.find('.inplace-edit--control--send a').click();
             elementScope.submit();
           });
           afterEach(function() {
@@ -564,14 +560,14 @@ describe('inplaceEditor Directive', function() {
         });
         describe('cancel', function() {
           beforeEach(function() {
-            element.find('.ined-edit-close a').click();
+            element.find('.inplace-edit--control--cancel a').click();
           });
           it('should switch back to read mode', function() {
             expect(elementScope.isEditing).to.eq(false);
           });
           it('should focus the edit link', function() {
             $timeout.flush();
-            expect(element.find('.editing-link-wrapper a').get(0)).to.eq(document.activeElement);
+            expect(element.find('.inplace-editing--trigger-link').get(0)).to.eq(document.activeElement);
           });
         });
       });

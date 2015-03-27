@@ -29,7 +29,7 @@
 module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileService) {
 
   function enableAutoCompletion(element) {
-    var textarea = element.find('.ined-input-wrapper input, .ined-input-wrapper textarea');
+    var textarea = element.find('.inplace-edit--write-value input, .inplace-edit--write-value textarea');
     AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
   }
 
@@ -141,19 +141,6 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
     text: {
       link: function(scope, element) {
         enableAutoCompletion(element);
-        scope.$on('startEditing', function() {
-          $timeout(function() {
-            var typeWidth = element
-                .closest('.work-packages--details-content')
-                .find('.select-type:first').width();
-            element.find('.ined-dashboard').css({
-              'margin-left': typeWidth
-            });
-            element.find('input[type=text]').css({
-              'width': element.find('.ined-dashboard').width()
-            });
-          }, 0, false);
-        });
       }
     },
 
@@ -162,7 +149,7 @@ module.exports = function($sce, $http, $timeout, AutoCompleteHelper, TextileServ
         scope.$on('startEditing', function() {
           $timeout(function() {
             enableAutoCompletion(element);
-            var textarea = element.find('.ined-input-wrapper textarea'),
+            var textarea = element.find('.inplace-edit--write-value textarea'),
                 lines = textarea.val().split('\n');
             textarea.attr('rows', lines.length + 1);
           }, 0, false);

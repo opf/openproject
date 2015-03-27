@@ -1577,6 +1577,33 @@ describe WorkPackage, type: :model do
   end
 
   describe 'custom fields' do
+    let(:included_cf) { FactoryGirl.build(:work_package_custom_field) }
+    let(:other_cf) { FactoryGirl.build(:work_package_custom_field) }
+
+    before do
+      included_cf.save
+      other_cf.save
+
+      project.work_package_custom_fields << included_cf
+      type.custom_fields << included_cf
+    end
+
+    it 'says to respond to valid custom field accessors' do
+      expect(work_package.respond_to?(included_cf.accessor_name)).to be_truthy
+    end
+
+    it 'really responds to valid custom field accessors' do
+      expect(work_package.send(included_cf.accessor_name)).to eql(nil)
+    end
+
+    it 'says to not respond to foreign custom field accessors' do
+      expect(work_package.respond_to?(other_cf.accessor_name)).to be_falsey
+    end
+
+    it 'does really not respond to foreign custom field accessors' do
+      expect { work_package.send(other_cf.accessor_name) }.to raise_error(NoMethodError)
+    end
+
     it 'should not duplicate error messages when invalid' do
       cf1 = FactoryGirl.create(:work_package_custom_field, is_required: true)
       cf2 = FactoryGirl.create(:work_package_custom_field, is_required: true)

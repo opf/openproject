@@ -29,6 +29,12 @@
 @import open_project_global/all
 @import fonts/openproject_icon_font
 
+$jstoolbar--icon-background: #fff
+$jstoolbar--icon-hover-border: #ccc
+$jstoolbar--icon-border: #fff
+$jstoolbar--icon-active-border: #bbb
+$jstoolbar--icon-active-background: #eee
+
 .jstEditor
   padding-left: 0
 
@@ -41,37 +47,48 @@
   cursor: s-resize
 
 .jstElements
-  padding: 3px 3px
+  @include grid-block
+  justify-content: flex-end
+  text-align: center
+  margin-bottom: 0.25rem
+  line-height: 1.6rem
 
-  button
-    margin-right: 10px
-    width: 32px
-    height: 32px
-    padding: 6px 5px 4px 5px
-    border: $content-form-input-border
-    background: url(image-path('bg_input_file.png')) repeat-x 0 0
+  button, .jstb_help
+    @include grid-content
+    padding: 0.25rem
+    margin-left: 0.25rem
+    max-width: 1.625rem
+    height: 1.625rem
+    border: 1px solid $jstoolbar--icon-border
+    background-color: $jstoolbar--icon-background
+    color: $body-font-color
     border-radius: 2px
     &:before
       @include icon-common
 
     &:hover
-      border: $content-form-input-hover-border
+      border-color: $jstoolbar--icon-hover-border
       cursor: pointer
+
+    &.-active
+      border-color: $jstoolbar--icon-hover-border
+      box-shadow: inset 0px 0px 3px $jstoolbar--icon-active-border
+      background: $jstoolbar--icon-active-background
 
     span
       display: none
 
+  .jstb_help
+    font-size: 0.8125rem
+    padding: 0.125rem
+
+    a.icon-help:before
+      color: $body-font-color
+      padding: 0
+
   span
     display: inline
 
-  .help
-    float: right
-    margin-right: 0.5em
-    padding-top: 8px
-    font-size: 0.9em
-
-    a
-      padding: 2px 0 2px 20px
 
 .jstSpacer
   width: 0

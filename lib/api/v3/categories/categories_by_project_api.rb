@@ -27,10 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/categories/category_collection_representer'
+
 module API
   module V3
     module Categories
-      class CategoriesByProjectAPI < Grape::API
+      class CategoriesByProjectAPI < ::API::OpenProjectAPI
         resources :categories do
           before do
             @categories = @project.categories
