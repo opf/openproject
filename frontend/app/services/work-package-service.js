@@ -45,8 +45,16 @@ module.exports = function($http,
     getWorkPackage: function(id) {
       var resource = HALAPIResource.setup('work_packages/' + id);
       return resource.fetch().then(function (wp) {
-        workPackage = wp;
-        return workPackage;
+        return $q.all([
+          WorkPackageService.loadWorkPackageForm(wp),
+          wp.links.schema.fetch()
+        ]).then(function(result) {
+            wp.form = result[0];
+            wp.schema = result[1];
+            workPackage = wp;
+            EditableFieldsState.workPackage = wp;
+            return wp;
+          });
       });
     },
 

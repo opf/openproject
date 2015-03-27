@@ -77,18 +77,8 @@ angular.module('openproject')
       templateUrl: "/templates/work_packages.list.details.html",
       controller: 'WorkPackageDetailsController',
       resolve: {
-        workPackage: function(WorkPackageService, EditableFieldsState, $stateParams) {
-          return WorkPackageService.getWorkPackage($stateParams.workPackageId).then(function(wp) {
-            return WorkPackageService.loadWorkPackageForm(wp).then(function() {
-              // TODO: refactor to $q.all since schema and form do not
-              // depend on each other
-              return wp.links.schema.fetch().then(function(response) {
-                wp.schema = response;
-                EditableFieldsState.workPackage = wp;
-                return wp;
-              });
-            });
-          });
+        workPackage: function(WorkPackageService, $stateParams) {
+          return WorkPackageService.getWorkPackage($stateParams.workPackageId);
         }
       }
     })

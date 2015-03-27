@@ -49,7 +49,6 @@ module.exports = function($scope,
   });
 
   $scope.$on('workPackageRefreshRequired', function(e, callback) {
-    console.log('workPackageRefreshRequired', arguments);
     refreshWorkPackage(callback);
   });
 
@@ -61,20 +60,12 @@ module.exports = function($scope,
   $scope.maxDescriptionLength = 800;
 
   function refreshWorkPackage(callback) {
-    console.log('refreshWorkPackage');
-    workPackage.links.self
-      .fetch({force: true})
+    WorkPackageService.getWorkPackage($scope.workPackage.props.id)
       .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
-        WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
-          return workPackage.links.schema.fetch().then(function(response) {
-            workPackage.schema = response;
-            EditableFieldsState.workPackage = workPackage;
-            if (callback) {
-              callback(workPackage);
-            }
-          });
-        });
+        if (callback) {
+          callback(workPackage);
+        }
       });
   }
   $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
