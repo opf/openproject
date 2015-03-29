@@ -35,7 +35,7 @@ describe('zoomSlider Directive', function() {
   beforeEach(module('openproject.templates'));
 
   beforeEach(inject(function($rootScope, $compile, _I18n_) {
-    var html = '<div zoom-slider scales="scales" selected-scale="scale"></div>';
+    var html = '<zoom-slider scales="scales" selected-scale="scale"></zoom-slider>';
 
     element = angular.element(html);
     scope = $rootScope.$new();

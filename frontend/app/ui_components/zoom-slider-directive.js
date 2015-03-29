@@ -31,7 +31,7 @@ module.exports = function(I18n) {
   var latestId = 0;
 
   return {
-    restrict: 'A',
+    restrict: 'E',
     scope: {
       scales: '=',
       selectedScale: '='
