@@ -14,7 +14,7 @@
   <div class="tl-toolbar-container" style="width: 100px; height: 20px;">
     <div id="zoom-slider" zoom-slider
       scales="::timeline.ZOOM_SCALES"
-      selected-scale="currentScaleName"></div>
+      selected-scale="currentScale"></div>
   </div>
 
   <div class="tl-toolbar-container">
@@ -25,7 +25,7 @@
   <div class="tl-toolbar-container">
     <form>
       <label for="tl-toolbar-zooms" class="hidden-for-sighted">{{ I18n.t('js.tl_toolbar.zooms') }}</label>
-      <select id="tl-toolbar-zooms" name="zooms" ng-model="currentScaleName" ng-options="I18n.t('js.' + timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in timeline.ZOOM_SCALES">
+      <select id="tl-toolbar-zooms" name="zooms" ng-model="currentScale" ng-options="I18n.t('js.' + timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in timeline.ZOOM_SCALES">
       </select>
     </form>
   </div>

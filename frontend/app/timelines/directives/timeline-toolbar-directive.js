@@ -35,33 +35,39 @@ module.exports = function(I18n) {
     scope: { timeline: '=' },
     link: function(scope) {
       scope.I18n = I18n;
-      scope.currentScaleName = 'monthly';
+      scope.currentScale = 'monthly';
 
       scope.updateToolbar = function() {
         scope.currentOutlineLevel = scope.timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
-        scope.currentScaleName = scope.timeline.ZOOM_SCALES[scope.timeline.zoomIndex];
+        scope.currentScale = scope.timeline.ZOOM_SCALES[scope.timeline.zoomIndex];
       };
 
       scope.increaseZoom = function() {
-        if(scope.currentScaleIndex < Object.keys(scope.timeline.ZOOM_CONFIGURATIONS).length - 1) {
-          scope.currentScaleIndex++;
+        var scaleIndex = scope.timeline.ZOOM_SCALES.indexOf(scope.currentScale);
+
+        if(scaleIndex < Object.keys(scope.timeline.ZOOM_CONFIGURATIONS).length - 1) {
+          scaleIndex++;
         }
+        scope.currentScale = scope.timeline.ZOOM_SCALES[scaleIndex];
       };
       scope.decreaseZoom = function() {
-        if(scope.currentScaleIndex > 0) {
-          scope.currentScaleIndex--;
+        var scaleIndex = scope.timeline.ZOOM_SCALES.indexOf(scope.currentScale);
+
+        if(scaleIndex > 0) {
+          scaleIndex--;
         }
+        scope.currentScale = scope.timeline.ZOOM_SCALES[scaleIndex];
       };
       scope.resetOutline = function(){
         scope.timeline.expandTo(0);
         scope.currentOutlineLevel = scope.timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
       };
 
-      scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
-        if (newScaleName !== oldScaleName) {
-          scope.currentScaleIndex = scope.timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
+      scope.$watch('currentScale', function(newScale, oldScale){
+        if (newScale !== oldScale) {
+          var scaleIndex = scope.timeline.ZOOM_SCALES.indexOf(scope.currentScale);
 
-          scope.timeline.zoom(scope.currentScaleIndex); // TODO replace event-driven adaption by bindings
+          scope.timeline.zoom(scaleIndex);
         }
       });
 
