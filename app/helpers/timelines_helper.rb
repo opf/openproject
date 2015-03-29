@@ -307,25 +307,21 @@ module TimelinesHelper
 
   include Gon::GonHelpers
 
-  def visible_timeline_paths(_visible_timelines = [])
-    @visible_timelines.inject({}) do |timeline_paths, timeline|
-      timeline_paths.merge(timeline.id => { path: project_timeline_path(@project, timeline) })
-    end
+  def push_visible_timelines(visible_timelines, target = gon)
+    target.timelines = visible_timelines.map { |timeline|
+      { id: timeline.id, name: timeline.name, path: project_timeline_path(@project, timeline) }
+    }
   end
 
-  def push_visible_timeline_paths(visible_timelines)
-    gon.timelines = visible_timeline_paths visible_timelines
+  def push_current_timeline_id(id, target = gon)
+    target.current_timeline_id = id
   end
 
-  def push_current_timeline_id(id)
-    gon.current_timeline_id = id
-  end
-
-  def push_timeline_options(timeline)
+  def push_timeline_options(timeline, target = gon)
     project_id = timeline.project.identifier
 
-    gon.timeline_options ||= {}
-    gon.timeline_options[timeline.id] = timeline.options.reverse_merge(project_id: project_id)
+    target.timeline_options ||= {}
+    target.timeline_options[timeline.id] = timeline.options.reverse_merge(project_id: project_id)
   end
 
   def timeline_options
