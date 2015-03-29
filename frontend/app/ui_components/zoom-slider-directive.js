@@ -30,29 +30,31 @@ module.exports = function(I18n) {
 
   var latestId = 0;
 
-  // TODO pass options to directive and do not refer to timelines
   return {
     restrict: 'A',
+    scope: {
+      scales: '=',
+      selectedScale: '='
+    },
     templateUrl: '/templates/components/zoom_slider.html',
     link: function(scope, element, attributes) {
-      scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
       scope.minValue = 1;
-      scope.maxValue = Timeline.ZOOM_SCALES.length;
+      scope.maxValue = scope.scales.length;
       scope.sliderId = 'zoom-slider-' + latestId++;
       scope.labelText = I18n.t('js.timelines.zoom.slider');
 
       var slider = element.find('input');
       slider.on('change', function() {
-        scope.currentScaleIndex = slider.val() - 1;
+        scope.selectedScaleIndex = slider.val() - 1;
+        scope.selectedScale = scope.scales[scope.selectedScaleIndex];
         scope.$apply();
       });
 
-      scope.$watch('currentScaleIndex', function(newIndex){
-        scope.currentScaleIndex = newIndex;
+      scope.$watch('selectedScale', function(newScale) {
+        var newIndex = scope.scales.indexOf(newScale);
 
-        var newScaleName = Timeline.ZOOM_SCALES[newIndex];
-        if (scope.currentScaleName !== newScaleName) {
-          scope.currentScaleName = newScaleName;
+        if (scope.selectedScaleIndex !== newIndex) {
+          scope.selectedScaleIndex = newIndex;
         }
       });
 

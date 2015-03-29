@@ -35,10 +35,11 @@ describe('zoomSlider Directive', function() {
   beforeEach(module('openproject.templates'));
 
   beforeEach(inject(function($rootScope, $compile, _I18n_) {
-    var html = '<div zoom-slider></div>';
+    var html = '<div zoom-slider scales="scales" selected-scale="scale"></div>';
 
     element = angular.element(html);
     scope = $rootScope.$new();
+    scope.scales = ['yearly', 'quarterly', 'monthly', 'weekly', 'daily'];
 
     compile = function() {
       $compile(element)(scope);
@@ -49,15 +50,15 @@ describe('zoomSlider Directive', function() {
     sinon.stub(I18n, 't').returns('Zoom Test');
   }));
 
-  beforeEach(function() {
-    compile();
-  });
-
   afterEach(function() {
     I18n.t.restore();
   });
 
   describe('label element', function() {
+    beforeEach(function() {
+      compile();
+    });
+
     it('provides an accessible label for the slider', function() {
       var slider = element.find('input[type="range"]');
       var label = element.find('label[for=' + slider.attr('id') + ']');
@@ -70,20 +71,26 @@ describe('zoomSlider Directive', function() {
     var slider;
 
     beforeEach(function() {
+      compile();
       slider = element.find('input[type="range"]');
     });
 
-    it('has its value set based on currentScaleIndex', function() {
-      scope.currentScaleIndex = 4;
-      scope.$apply();
-      expect(slider.val()).to.eq('5');
+    it('has an initial value set', function() {
+      expect(slider.val()).to.eq('1');
     });
 
-    it('updates currentScaleName when its value changes', function() {
-      slider.val('4');
-      slider.change();
-      expect(scope.currentScaleName).to.eq('weekly');
-      expect(scope.currentScaleIndex).to.eq(3);
+    it('has its value set based on selectedScale', function() {
+      scope.scale = 'monthly';
+      scope.$apply();
+      expect(slider.val()).to.eq('3');
+    });
+
+    it('updates selectedScale when its value changes', function() {
+      slider.val('2').change();
+      expect(scope.scale).to.eq('quarterly');
+
+      slider.val('5').change();
+      expect(scope.scale).to.eq('daily');
     });
   });
 });
