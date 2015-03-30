@@ -219,6 +219,14 @@ module OpenProject::Costs
                      represented.project.costs_enabled?)
              }
 
+      # N.B. in the long term we should have a type like "Currency", but that requires a proper
+      # format and not a string like "10 EUR"
+      schema :overall_costs,
+             type: 'String',
+             required: false,
+             writable: false,
+             show_if: -> (*) { represented.project.costs_enabled? }
+
       schema_with_allowed_collection :cost_object,
                                      type: 'Budget',
                                      required: false,
