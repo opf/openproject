@@ -24,11 +24,11 @@ describe Redmine::AccessControl do
   let(:view_project_permission) { Redmine::AccessControl.permission(:view_project) }
   let(:edit_project_permission) { Redmine::AccessControl.permission(:edit_project) }
 
-  describe :view_project do
+  describe '#view_project' do
     it { expect(view_project_permission.actions).to be_include("my_projects_overviews/index") }
   end
 
-  describe :edit_project do
+  describe '#edit_project' do
     it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/page_layout") }
     it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/add_block") }
     it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/update_custom_element") }
