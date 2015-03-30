@@ -30,7 +30,7 @@ describe PrincipalRole, :type => :model do
     it {is_expected.to belong_to :role}
   end
 
-  describe :valid? do
+  describe '#valid?' do
     before(:each) do
       @principal_role = FactoryGirl.build(:principal_role)
     end

@@ -45,7 +45,7 @@ describe GlobalRole, :type => :model do
         allow(Redmine::AccessControl).to receive(:global_permissions).and_return(@permission_options)
       end
 
-      describe :setable_permissions do
+      describe '#setable_permissions' do
         it {expect(GlobalRole.setable_permissions).to eql @permission_options}
       end
     end
@@ -69,7 +69,7 @@ describe GlobalRole, :type => :model do
         @role = GlobalRole.new
       end
 
-      describe :permissions do
+      describe '#permissions' do
         subject {@role.permissions}
 
         it {is_expected.to be_an_instance_of(Array)}
@@ -78,7 +78,7 @@ describe GlobalRole, :type => :model do
         end
       end
 
-      describe :permissions= do
+      describe '#permissions=' do
         describe "WITH parameter" do
           before {expect(@role).to receive(:write_attribute).with(:permissions, [:perm1, :perm2])}
 
@@ -108,11 +108,11 @@ describe GlobalRole, :type => :model do
         end
       end
 
-      describe :has_permission? do
+      describe '#has_permission?' do
         it {expect(@role.has_permission?(:perm)).to be_falsey}
       end
 
-      describe :allowed_to? do
+      describe '#allowed_to?' do
         describe "WITH requested permission" do
           it {expect(@role.allowed_to?(:perm1)).to be_falsey}
         end
@@ -122,13 +122,13 @@ describe GlobalRole, :type => :model do
     describe "WITH set permissions" do
       before{ @role = GlobalRole.new :permissions => [:perm1, :perm2, :perm3]}
 
-      describe :has_permission? do
+      describe '#has_permission?' do
         it {expect(@role.has_permission?(:perm1)).to be_truthy}
         it {expect(@role.has_permission?("perm1")).to be_truthy}
         it {expect(@role.has_permission?(:perm5)).to be_falsey}
       end
 
-      describe :allowed_to? do
+      describe '#allowed_to?' do
         describe "WITH requested permission" do
           it {expect(@role.allowed_to?(:perm1)).to be_truthy}
           it {expect(@role.allowed_to?(:perm5)).to be_falsey}
@@ -143,7 +143,7 @@ describe GlobalRole, :type => :model do
         allow(Redmine::AccessControl).to receive(:global_permissions).and_return(@permission_options)
       end
 
-      describe :setable_permissions do
+      describe '#setable_permissions' do
         it {expect(@role.setable_permissions).to eql @permission_options}
       end
     end
@@ -151,27 +151,27 @@ describe GlobalRole, :type => :model do
     describe "WITH set name" do
       before{ @role = GlobalRole.new :name => "name"}
 
-      describe :to_s do
+      describe '#to_s' do
         it {expect(@role.to_s).to eql("name")}
       end
     end
 
-    describe :destroy do
+    describe '#destroy' do
       before {@role = GlobalRole.create :name => "global"}
 
       it {@role.destroy}
     end
 
-    describe :assignable do
+    describe '#assignable' do
       it {expect(@role.assignable).to be_falsey}
     end
 
-    describe :assignable= do
+    describe '#assignable=' do
       it {expect {@role.assignable = true}.to raise_error ArgumentError}
       it {expect {@role.assignable = false}.not_to raise_error}
     end
 
-    describe :assignable_to? do
+    describe '#assignable_to?' do
       before(:each) do
         @role = FactoryGirl.build(:global_role)
         @user = FactoryGirl.build(:user)

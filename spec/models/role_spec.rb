@@ -21,7 +21,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 describe Role, :type => :model do
   describe "class methods" do
-    describe :givable do
+    describe '#givable' do
       before (:each) do
         #this should not be necessary once Role (in a membership) and GlobalRole have
         #a common ancestor class, e.g. Role (a new one)
@@ -42,7 +42,7 @@ describe Role, :type => :model do
       @role = Role.new
     end
 
-    describe :setable_permissions do
+    describe '#setable_permissions' do
       before {mock_permissions_for_setable_permissions}
 
       it {expect(@role.setable_permissions).to eql([@perm1, @perm2])}

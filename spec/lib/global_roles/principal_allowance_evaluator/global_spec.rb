@@ -31,15 +31,15 @@ describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
   let(:role) { FactoryGirl.build(:global_role) }
   let(:project) { FactoryGirl.build(:project) }
 
-  describe :granted_for_project? do
+  describe '#granted_for_project?' do
     it { expect(filter.granted_for_project?(member, :action, project)).to be_falsey }
   end
 
-  describe :denied_for_project? do
+  describe '#denied_for_project?' do
     it { expect(filter.denied_for_project?(member, :action, project)).to be_falsey }
   end
 
-  describe :granted_for_global? do
+  describe '#granted_for_global?' do
     describe "WHEN checking a Member" do
       it { expect(filter.granted_for_global?(member, :action, {})).to be_falsey }
     end
@@ -59,15 +59,15 @@ describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
     end
   end
 
-  describe :denied_for_global? do
+  describe '#denied_for_global?' do
     it { expect(filter.denied_for_global?(principal_role, :action, {})).to be_falsey }
   end
 
-  describe :project_granting_candidates do
+  describe '#project_granting_candidates' do
     it { expect(filter.project_granting_candidates(project)).to match_array([]) }
   end
 
-  describe :global_granting_candidates do
+  describe '#global_granting_candidates' do
     describe "WHEN the user has a PrincipalRole assigned" do
       before do
         user.principal_roles = [principal_role]

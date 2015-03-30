@@ -39,14 +39,14 @@ describe PrincipalRolesController, :type => :controller do
     disable_log_requesting_user
   end
 
-  describe :post do
+  describe '#post' do
     before :each do
       @params = {"principal_role"=>{"principal_id"=>"3", "role_ids"=>["7"]}}
     end
 
     unless privacy_plugin_loaded? #tests than are defined in privacy_plugin
 
-      describe :create do
+      describe '#create' do
         before :each do
 
         end
@@ -108,12 +108,12 @@ describe PrincipalRolesController, :type => :controller do
     end
   end
 
-  describe :put do
+  describe '#put' do
     before :each do
       @params = {"principal_role"=>{"id"=>"6", "role_id" => "5"}}
     end
 
-    describe :update do
+    describe '#update' do
       before(:each) do
         allow(@principal_role).to receive(:update_attributes)
       end
@@ -153,7 +153,7 @@ describe PrincipalRolesController, :type => :controller do
     end
   end
 
-  describe :delete do
+  describe '#delete' do
     before :each do
       allow(@principal_role).to receive(:principal_id).and_return(1)
       @user = mock_model User
@@ -165,7 +165,7 @@ describe PrincipalRolesController, :type => :controller do
       @params = {"id" => "1"}
     end
 
-    describe :destroy do
+    describe '#destroy' do
       describe "SUCCESS" do
         before :each do
           response_should_render :remove, "principal_role-#{@principal_role.id}"

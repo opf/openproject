@@ -38,7 +38,7 @@ describe UsersController, :type => :controller do
       @params = {"id" => "1"}
     end
 
-    describe :edit do
+    describe '#edit' do
       before :each do
 
       end

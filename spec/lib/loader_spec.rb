@@ -21,7 +21,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Redmine::DefaultData::Loader do
 
-  describe :load do
+  describe '#load' do
     before :each do
       stash_access_control_permissions
       create_non_member_role
