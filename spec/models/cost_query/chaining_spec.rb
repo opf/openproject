@@ -24,7 +24,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
   minimal_query
 
-  describe :chain do
+  describe '#chain' do
     before do
       #FIXME: is there a better way to load all filter and groups?
       CostQuery::Filter.all && CostQuery::GroupBy.all
@@ -175,7 +175,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   end
 
   describe Report::Chainable do
-    describe :top do
+    describe '#top' do
       before { @chain = Report::Chainable.new }
 
       it "returns for an one element long chain that chain as top" do
@@ -199,7 +199,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    describe :inherited_attribute do
+    describe '#inherited_attribute' do
       before do
         @a = Class.new Report::Chainable
         @a.inherited_attribute :foo, default: 42
@@ -232,7 +232,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         expect(@a.bar).to eq(42)
       end
 
-      describe :list do
+      describe '#list' do
         it "merges lists" do
           @a.inherited_attribute :bar, list: true
           @a.bar 1; @b.bar 2; @d.bar 3, 4
@@ -267,7 +267,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    describe :display do
+    describe '#display' do
       it "should give display? == false when a filter says dont_display!" do
         class TestFilter < Report::Filter::Base
           dont_display!
@@ -292,7 +292,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    describe :selectable do
+    describe '#selectable' do
       it "should give selectable? == false when a filter says not_selectable!" do
         class TestFilter < Report::Filter::Base
           not_selectable!
