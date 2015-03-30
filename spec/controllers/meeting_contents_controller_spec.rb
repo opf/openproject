@@ -33,8 +33,8 @@ describe MeetingContentsController do
 
   before(:each) do
     ActionMailer::Base.deliveries = []
-    MeetingContentsController.any_instance.stub(:find_content)
-    controller.stub!(:authorize)
+    allow_any_instance_of(MeetingContentsController).to receive(:find_content)
+    allow(controller).to receive(:authorize)
     meeting.participants.merge([meeting.participants.build(user: watcher1, invited: true, attended: false),
                                 meeting.participants.build(user: watcher2, invited: true, attended: false)])
     meeting.save!
