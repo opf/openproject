@@ -56,7 +56,7 @@ describe OpenProject::Plugins::AuthPlugin do
       middlewares << strategy
     }
 
-    app.stub_chain(:config, :middleware, :use) { |_mw, &block|
+    allow(app).to receive_message_chain(:config, :middleware, :use) { |_mw, &block|
       omniauth_builder.instance_eval(&block)
     }
 
