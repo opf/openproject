@@ -126,3 +126,63 @@
     margin-left: 0;
   }
 }
+
+//@todo for select2 visibility in livingStyleGuide, need another solution  it will rewrite globally
+.livingstyleguide--example {
+  overflow: visible !important;
+}
+
+//$se2- select2 var prefix
+$se2-theme-selectable-color: #F8F8F8;
+//todo change to global theme color var
+$se2-theme-selectable-color-highlighted: #24B3E7; /*{bgThemeHighlight}*/
+
+$se2-element-height: 33px;
+$se2-line-height: 30px;
+$se2-button-width: 28px;
+$se2-arrow-button-width: 18px;
+$se2-results-max-height: 500px;
+
+.select2-container {
+  .select2-choice {
+    border-radius: 0;
+    height: $se2-element-height;
+    line-height: $se2-element-height;
+    box-shadow: none;
+    > span {
+      line-height: $se2-line-height;
+    }
+    div {
+      width: $se2-button-width;
+      text-align: center;
+      line-height: $se2-line-height;
+      border-radius: 0;
+      background-color: $se2-theme-selectable-color;
+      b {
+        width: $se2-arrow-button-width;
+        height: $se2-arrow-button-width;
+        display: inline-block;
+      }
+    }
+  }
+  &.select2-dropdown-open {
+    .select2-choice {
+      background-color: $se2-theme-selectable-color;
+    }
+  }
+}
+
+.select2-drop {
+  .select2-search {
+    .select2-input {
+      //possible background tweaks
+    }
+  }
+  .select2-results {
+    max-height: $se2-results-max-height;
+    overflow: auto;
+    .select2-highlighted {
+      background-color: $se2-theme-selectable-color-highlighted;
+    }
+  }
+}

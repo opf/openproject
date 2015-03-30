@@ -153,6 +153,7 @@ gulp.task('watch', function() {
   gulp.watch('config/locales/js-*.yml', ['webpack']);
   gulp.watch('app/templates/**/*.html', ['webpack']);
 
+  gulp.watch('../app/assets/stylesheets/**/*.scss', ['sass', 'styleguide']);
   gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass', 'styleguide']);
   gulp.watch('../app/assets/stylesheets/**/*.md',   ['styleguide']);
 });
