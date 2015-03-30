@@ -138,33 +138,35 @@ $se2-width: 100%;
 
 .select2-container {
   //Indirectly styling size of result list
-  position: relative;
   max-width: $se2-max-width;
+  position: relative;
   width: $se2-width;
 
   .select2-choice {
     border-radius: 0;
+    box-shadow: none;
     height: $se2-element-height;
     line-height: $se2-element-height;
-    box-shadow: none;
 
     > span {
       line-height: $se2-line-height;
     }
+
     > div {
-      width: $se2-button-width;
-      text-align: center;
-      line-height: $se2-line-height;
-      border-radius: 0;
       background-color: $se2-theme-selectable-color;
+      border-radius: 0;
+      line-height: $se2-line-height;
+      text-align: center;
+      width: $se2-button-width;
 
       > b {
-        width: $se2-arrow-button-width;
-        height: $se2-arrow-button-width;
         display: inline-block;
+        height: $se2-arrow-button-width;
+        width: $se2-arrow-button-width;
       }
     }
   }
+
   &.select2-dropdown-open {
     .select2-choice {
       background-color: $se2-theme-selectable-color;
@@ -178,6 +180,7 @@ $se2-width: 100%;
       //possible background tweaks
     }
   }
+  
   .select2-results {
     max-height: $se2-results-max-height;
     overflow: auto;
