@@ -36,25 +36,35 @@ module.exports = function(I18n) {
       scales: '=',
       selectedScale: '='
     },
+    controller: function() {
+      var vm = this;
+
+      vm.minValue = 1;
+      vm.maxValue = vm.scales.length;
+      vm.sliderId = 'zoom-slider-' + latestId++;
+
+      vm.setSelectedScaleIndex = function(index) {
+        vm.selectedScaleIndex = index;
+        vm.selectedScale = vm.scales[vm.selectedScaleIndex];
+      };
+    },
+    controllerAs: 'ctrl',
+    bindToController: true,
     templateUrl: '/templates/components/zoom_slider.html',
-    link: function(scope, element, attributes) {
-      scope.minValue = 1;
-      scope.maxValue = scope.scales.length;
-      scope.sliderId = 'zoom-slider-' + latestId++;
+    link: function(scope, element, attributes, ctrl) {
       scope.labelText = I18n.t('js.timelines.zoom.slider');
 
       var slider = element.find('input');
       slider.on('change', function() {
-        scope.selectedScaleIndex = slider.val() - 1;
-        scope.selectedScale = scope.scales[scope.selectedScaleIndex];
+        ctrl.setSelectedScaleIndex(slider.val() - 1);
         scope.$apply();
       });
 
-      scope.$watch('selectedScale', function(newScale) {
-        var newIndex = scope.scales.indexOf(newScale);
+      scope.$watch('ctrl.selectedScale', function(newScale) {
+        var newIndex = ctrl.scales.indexOf(newScale);
 
-        if (scope.selectedScaleIndex !== newIndex) {
-          scope.selectedScaleIndex = newIndex;
+        if (ctrl.selectedScaleIndex !== newIndex) {
+          ctrl.selectedScaleIndex = newIndex;
         }
       });
 
