@@ -751,6 +751,40 @@ h4. things we like
         end
       end
 
+      context 'list custom field' do
+        let(:custom_field) {
+          FactoryGirl.create(:work_package_custom_field,
+                             field_format: 'list',
+                             is_required: false,
+                             possible_values: target_value)
+        }
+        let(:target_value) { 'Low No. of specialc#aracters!' }
+        let(:value_link) { api_v3_paths.string_object target_value }
+        let(:value_parameter) {
+          { _links: { custom_field.accessor_name.camelize(:lower) => { href: value_link } } }
+        }
+        let(:params) { valid_params.merge(value_parameter) }
+
+        before do
+          allow(User).to receive(:current).and_return current_user
+          work_package.project.work_package_custom_fields << custom_field
+          work_package.type.custom_fields << custom_field
+        end
+
+        context 'valid' do
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with the work package assigned to the new value' do
+            expect(subject.body).to be_json_eql(value_link.to_json)
+              .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
+          end
+
+          it_behaves_like 'lock version updated'
+        end
+      end
+
       describe 'update with read-only attributes' do
         describe 'single read-only violation' do
           context 'created and updated' do
