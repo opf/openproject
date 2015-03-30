@@ -28,6 +28,8 @@
 
 module.exports = function() {
   return {
-    workPackage: null
+    workPackage: null,
+    error: null,
+    isBusy: false
   };
 }

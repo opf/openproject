@@ -28,7 +28,7 @@
 
 module.exports = function(WorkPackageFieldService, EditableFieldsState) {
 
-  function workPackageFieldDirectiveController() {
+  function workPackageFieldDirectiveController($scope) {
 
     this.isEditable = function() {
       return WorkPackageFieldService.isEditable(EditableFieldsState.workPackage, this.field);
@@ -52,6 +52,15 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
       this.updateWriteValue();
       this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.field });
     }
+    
+    $scope.$watch('fieldController.isBusy', function(isBusy) {
+      EditableFieldsState.isBusy = isBusy;
+    });
+    $scope.$watch(function() {
+      return EditableFieldsState.isBusy;
+    }, function(isBusy) {
+      $scope.fieldController.isBusy = isBusy;
+    });
   }
 
   return {

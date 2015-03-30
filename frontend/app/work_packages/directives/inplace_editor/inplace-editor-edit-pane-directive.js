@@ -30,7 +30,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
   return {
     transclude: true,
     replace: true,
-    scope: {},
+    scope: true,
     require: '^workPackageField',
     templateUrl: '/templates/work_packages/inplace_editor/edit_pane.html',
     controllerAs: 'editPaneController',
@@ -48,13 +48,13 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
               fieldController.isBusy = false;
               fieldController.isEditing = false;
               fieldController.updateWriteValue();
-              this.error = null;
+              EditableFieldsState.error = null;
             }
           );
         }));
         result.catch(angular.bind(this, function(e) {
           fieldController.isBusy = false;
-          this.error = ApiHelper.getErrorMessage(e);
+          EditableFieldsState.error = ApiHelper.getErrorMessage(e);
           $scope.focusInput();
         }));
 
@@ -105,10 +105,17 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
           scope.editPaneController.getPendingFormChanges()[scope.fieldController.field] = writeValue;
         }
       }, true);
+      scope.$on('workPackageRefreshed', function() {
+        scope.editPaneController.discardEditing();
+      });
+      scope.editableFieldsState = EditableFieldsState;
+      scope.$watch('editableFieldsState.error', function(error) {
+        scope.editPaneController.error = error;
+      });
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
         if (isEditing) {
-          scope.editPaneController.error = null;
+          EditableFieldsState.error = null;
           scope.focusInput();
         }
       });

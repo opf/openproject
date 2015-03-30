@@ -63,6 +63,7 @@ module.exports = function($scope,
     WorkPackageService.getWorkPackage($scope.workPackage.props.id)
       .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
+        $scope.$broadcast('workPackageRefreshed');
         if (callback) {
           callback(workPackage);
         }
