@@ -29,12 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
-  let(:user)             {
-    FactoryGirl.build_stubbed(:user,
-                              created_on: Time.now,
-                              updated_on: Time.now,
-                              status: 1)
-  }
+  let(:user) { FactoryGirl.build_stubbed(:user, status: 1) }
   let(:current_user) { FactoryGirl.build_stubbed(:user) }
   let(:representer) { described_class.new(user, current_user: current_user) }
 
@@ -43,32 +38,49 @@ describe ::API::V3::Users::UserRepresenter do
 
     it { is_expected.to include_json('User'.to_json).at_path('_type') }
 
-    describe 'user' do
-      it { is_expected.to have_json_path('id')   }
-      it { is_expected.to have_json_path('login') }
-      it { is_expected.to have_json_path('firstName') }
-      it { is_expected.to have_json_path('lastName') }
-      it { is_expected.to have_json_path('name') }
-      it { is_expected.to have_json_path('mail') }
-      it { is_expected.to have_json_path('avatar') }
+    it { is_expected.to have_json_path('id') }
+    it { is_expected.to have_json_path('login') }
+    it { is_expected.to have_json_path('firstName') }
+    it { is_expected.to have_json_path('lastName') }
+    it { is_expected.to have_json_path('name') }
 
-      it_behaves_like 'has UTC ISO 8601 date and time' do
-        let(:date) { user.created_on }
-        let(:json_path) { 'createdAt' }
+    describe 'email' do
+      it 'shows the users E-Mail address' do
+        is_expected.to be_json_eql(user.mail.to_json).at_path('email')
       end
 
-      it_behaves_like 'has UTC ISO 8601 date and time' do
-        let(:date) { user.updated_on }
-        let(:json_path) { 'updatedAt' }
+      context 'user shows his E-Mail address' do
+        let(:preference) { FactoryGirl.build(:user_preference, hide_mail: 0) }
+        let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
+
+        it 'shows the users E-Mail address' do
+          is_expected.to be_json_eql(user.mail.to_json).at_path('email')
+        end
       end
 
-      it { is_expected.to have_json_path('status') }
-      it { is_expected.to have_json_path('avatar') }
+      context 'user hides his E-Mail address' do
+        let(:preference) { FactoryGirl.build(:user_preference, hide_mail: 1) }
+        let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
+
+        it 'hides the users E-Mail address' do
+          is_expected.not_to have_json_path('email')
+        end
+      end
+    end
+
+    it_behaves_like 'has UTC ISO 8601 date and time' do
+      let(:date) { user.created_on }
+      let(:json_path) { 'createdAt' }
+    end
+
+    it_behaves_like 'has UTC ISO 8601 date and time' do
+      let(:date) { user.updated_on }
+      let(:json_path) { 'updatedAt' }
     end
 
     describe 'status' do
       it 'contains the name of the account status' do
-        expect(parse_json(subject, 'status')).to eql 'active'
+        is_expected.to be_json_eql('active'.to_json).at_path('status')
       end
     end
 
