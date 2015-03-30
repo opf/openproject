@@ -780,12 +780,14 @@ var I18nForms = (function ($) {
     add_locale_fields = function (localizedField) {
       var backup = localizedField.find('.translation').first(),
           add_link = localizedField.find('.add_locale'),
-          new_items = backup.clone();
+          new_items = backup.clone(),
+          new_language_selector = new_items.find('.locale_selector'),
+          other_language_selectors = active_locale_selectors(localizedField);
 
       new_items.find('input, textarea').val("");
       new_items.insertBefore(add_link);
 
-      select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localizedField));
+      select_first_untaken_option(new_language_selector, other_language_selectors);
       update_interaction_elements(localizedField);
 
       observe_destroy_locale_links(new_items.find('.destroy_locale'));
