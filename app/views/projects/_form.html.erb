@@ -31,13 +31,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <!--[form:project]-->
 
-<%= render partial: "projects/form/project_attributes",
-           locals: { project: project,
-                     form: f } %>
+<section class="form--section">
+  <%= render partial: "projects/form/project_attributes",
+             locals: { project: project,
+                       form: f } %>
 
-<%= call_hook(:view_projects_form,
-              project: project,
-              form: f) %>
+  <%= call_hook(:view_projects_form,
+                project: project,
+                form: f) %>
+</section>
 
 <% if project.new_record? %>
   <div class="form-space">
