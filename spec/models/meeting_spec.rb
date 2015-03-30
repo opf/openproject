@@ -136,7 +136,7 @@ describe Meeting, type: :model do
     it { expect(meeting.watchers.collect(&:user)).to match_array([user1, user2]) }
   end
 
-  describe :close_agenda_and_copy_to_minutes do
+  describe '#close_agenda_and_copy_to_minutes' do
     before do
       agenda # creating it
 
