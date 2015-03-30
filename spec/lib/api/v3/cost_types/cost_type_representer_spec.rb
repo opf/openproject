@@ -104,21 +104,21 @@ describe ::API::V3::CostTypes::CostTypeRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('CostType'.to_json).at_path('_type') }
+    it { is_expected.to include_json('CostType'.to_json).at_path('_type') }
 
     describe 'cost_type' do
-      it { should have_json_path('id') }
+      it { is_expected.to have_json_path('id') }
 
-      it { should have_json_path('name') }
+      it { is_expected.to have_json_path('name') }
 
-      it { should have_json_path('units') }
-      it { should have_json_path('unit') }
-      it { should have_json_path('unitPlural') }
+      it { is_expected.to have_json_path('units') }
+      it { is_expected.to have_json_path('unit') }
+      it { is_expected.to have_json_path('unitPlural') }
     end
 
     describe 'units' do
       it 'shows only cost entries of type cost_type1 for user1 in project project1' do
-        should be_json_eql(cost_entry11.units.to_json).at_path('units')
+        is_expected.to be_json_eql(cost_entry11.units.to_json).at_path('units')
       end
     end
   end
