@@ -42,17 +42,6 @@
   display: none;
 }
 
-/* Indirectly styling size of result list */
-.select2-container {
-  position: relative;
-  max-width: 350px;
-  width:100%;
-}
-
-/* make result list longer */
-.select2-results {
-  max-height: 500px;
-}
 
 /* Make no results a bit look like results */
 .select2-results .select2-no-results,
@@ -133,9 +122,10 @@
 }
 
 //$se2- select2 var prefix
-$se2-theme-selectable-color: #F8F8F8;
+$se2-theme-selectable-color: #f8f8f8;
 //todo change to global theme color var
-$se2-theme-selectable-color-highlighted: #24B3E7; /*{bgThemeHighlight}*/
+//{bgThemeHighlight}
+$se2-theme-selectable-color-highlighted: #24b3e7;
 
 $se2-element-height: 33px;
 $se2-line-height: 30px;
@@ -143,22 +133,32 @@ $se2-button-width: 28px;
 $se2-arrow-button-width: 18px;
 $se2-results-max-height: 500px;
 
+$se2-max-width: 350px;
+$se2-width: 100%;
+
 .select2-container {
+  //Indirectly styling size of result list
+  position: relative;
+  max-width: $se2-max-width;
+  width: $se2-width;
+
   .select2-choice {
     border-radius: 0;
     height: $se2-element-height;
     line-height: $se2-element-height;
     box-shadow: none;
+
     > span {
       line-height: $se2-line-height;
     }
-    div {
+    > div {
       width: $se2-button-width;
       text-align: center;
       line-height: $se2-line-height;
       border-radius: 0;
       background-color: $se2-theme-selectable-color;
-      b {
+
+      > b {
         width: $se2-arrow-button-width;
         height: $se2-arrow-button-width;
         display: inline-block;
@@ -181,6 +181,7 @@ $se2-results-max-height: 500px;
   .select2-results {
     max-height: $se2-results-max-height;
     overflow: auto;
+
     .select2-highlighted {
       background-color: $se2-theme-selectable-color-highlighted;
     }
