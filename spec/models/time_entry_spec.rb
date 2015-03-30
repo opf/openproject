@@ -242,7 +242,7 @@ describe TimeEntry, :type => :model do
       expect(@default_example.rate).to eq(default_hourly_one)
     end
 
-    describe :costs_visible_by? do
+    describe '#costs_visible_by?' do
       before do
         project.enabled_module_names = project.enabled_module_names << "costs_module"
       end
@@ -298,7 +298,7 @@ describe TimeEntry, :type => :model do
   end
 
   describe "class" do
-    describe :visible do
+    describe '#visible' do
       describe "WHEN having the view_time_entries permission
                 WHEN querying for a project
                 WHEN a time entry from another user is defined" do

@@ -77,7 +77,7 @@ describe CostEntry, :type => :model do
   let(:date) { Date.today }
 
   describe "class" do
-    describe :visible do
+    describe '#visible' do
       describe "WHEN having the view_cost_entries permission
                 WHEN querying for a project
                 WHEN a cost entry from another user is defined" do
@@ -129,7 +129,7 @@ describe CostEntry, :type => :model do
   end
 
   describe "instance" do
-    describe :costs do
+    describe '#costs' do
       let(:fourth_rate) { FactoryGirl.build(:cost_rate, :valid_from => 1.days.ago,
                                                     :rate => 10000.0,
                                                     :cost_type => cost_type) }
@@ -216,7 +216,7 @@ describe CostEntry, :type => :model do
       end
     end
 
-    describe :overridden_costs do
+    describe '#overridden_costs' do
       describe "WHEN overridden costs are seet" do
         let(:value) { rand(500) }
 
@@ -228,7 +228,7 @@ describe CostEntry, :type => :model do
       end
     end
 
-    describe :real_costs do
+    describe '#real_costs' do
       describe "WHEN overrridden cost are set" do
         let(:value) { rand(500) }
 
@@ -240,7 +240,7 @@ describe CostEntry, :type => :model do
       end
     end
 
-    describe :valid do
+    describe '#valid' do
       before do
         cost_entry.save!
       end
@@ -318,7 +318,7 @@ describe CostEntry, :type => :model do
       end
     end
 
-    describe :user do
+    describe '#user' do
       describe "WHEN a non existing user is provided (i.e. the user has been deleted)" do
         before do
           cost_entry.save!
@@ -333,7 +333,7 @@ describe CostEntry, :type => :model do
       end
     end
 
-    describe :editable_by? do
+    describe '#editable_by?' do
       describe "WHEN the user has the edit_cost_entries permission
                 WHEN the cost entry is not created by the user" do
         before do
@@ -388,7 +388,7 @@ describe CostEntry, :type => :model do
       end
     end
 
-    describe :creatable_by? do
+    describe '#creatable_by?' do
       describe "WHEN the user has the log costs permission
                 WHEN the cost entry is not associated to the user" do
         before do
@@ -435,7 +435,7 @@ describe CostEntry, :type => :model do
       end
     end
 
-    describe :costs_visible_by? do
+    describe '#costs_visible_by?' do
       describe "WHEN the user has the view_cost_rates permission
                 WHEN the cost entry is not associated to the user" do
         before do

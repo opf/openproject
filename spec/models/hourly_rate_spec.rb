@@ -25,7 +25,7 @@ describe HourlyRate, :type => :model do
   let(:rate) { FactoryGirl.build(:hourly_rate, :project => project,
                                            :user => user) }
 
-  describe :user do
+  describe '#user' do
     describe "WHEN an existing user is provided" do
       before do
         rate.user = user

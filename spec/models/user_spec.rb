@@ -29,13 +29,13 @@ describe User, :type => :model do
                                                               :project => project) }
   let(:default_hourly_rate) { FactoryGirl.build(:default_hourly_rate, :user => user) }
 
-  describe :allowed_to do
+  describe '#allowed_to' do
     describe "WITH querying for a non existent permission" do
       it { expect(user.allowed_to?(:bogus_permission, project)).to be_falsey }
     end
   end
 
-  describe :allowed_to_condition_with_project_id do
+  describe '#allowed_to_condition_with_project_id' do
     let(:permission) { :view_own_time_entries }
 
     before do
@@ -96,7 +96,7 @@ describe User, :type => :model do
     end
   end
 
-  describe :set_existing_rates do
+  describe '#set_existing_rates' do
     before do
       user.save
       project.save

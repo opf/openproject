@@ -32,7 +32,7 @@ describe LaborBudgetItem, :type => :model do
   let(:project) { FactoryGirl.create(:valid_project) }
   let(:project2) { FactoryGirl.create(:valid_project) }
 
-  describe :calculated_costs do
+  describe '#calculated_costs' do
     let(:default_costs) { "0.0".to_f }
 
     describe "WHEN no user is associated" do
@@ -79,7 +79,7 @@ describe LaborBudgetItem, :type => :model do
     end
   end
 
-  describe :user do
+  describe '#user' do
     describe "WHEN an existing user is provided" do
       before do
         item.save!
@@ -105,7 +105,7 @@ describe LaborBudgetItem, :type => :model do
     end
   end
 
-  describe :valid? do
+  describe '#valid?' do
     describe "WHEN hours, cost_object and user are provided" do
       it "should be valid" do
         expect(item).to be_valid
@@ -157,7 +157,7 @@ describe LaborBudgetItem, :type => :model do
     end
   end
 
-  describe :costs_visible_by? do
+  describe '#costs_visible_by?' do
     before do
       project.enabled_module_names = project.enabled_module_names << "costs_module"
     end

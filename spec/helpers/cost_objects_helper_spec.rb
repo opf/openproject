@@ -23,7 +23,7 @@ describe CostObjectsHelper, :type => :helper do
   let(:project) { FactoryGirl.build(:project) }
   let(:cost_object) { FactoryGirl.build(:cost_object, :project => project) }
 
-  describe :cost_objects_to_csv do
+  describe '#cost_objects_to_csv' do
     describe "WITH a list of one cost object" do
 
       it "should output the cost objects attributes" do

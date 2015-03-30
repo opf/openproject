@@ -22,7 +22,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 describe PermittedParams, :type => :model do
   let(:user) { FactoryGirl.build(:user) }
 
-  describe :cost_entry do
+  describe '#cost_entry' do
     it "should return comments" do
       params = ActionController::Parameters.new(:cost_entry => { "comments" => "blubs" } )
 
@@ -54,7 +54,7 @@ describe PermittedParams, :type => :model do
     end
   end
 
-  describe :cost_object do
+  describe '#cost_object' do
     it "should return comments" do
       params = ActionController::Parameters.new(:cost_object => { "subject" => "subject_test" } )
 
@@ -138,7 +138,7 @@ describe PermittedParams, :type => :model do
     end
   end
 
-  describe :cost_type do
+  describe '#cost_type' do
     it "should return name" do
       params = ActionController::Parameters.new(:cost_type => { "name" => "name_test" } )
 
@@ -182,7 +182,7 @@ describe PermittedParams, :type => :model do
     end
   end
 
-  describe :user_rates do
+  describe '#user_rates' do
     it "should return new_rate_attributes" do
       params = ActionController::Parameters.new(:user => { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
                                                                                       "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } } )
@@ -201,7 +201,7 @@ describe PermittedParams, :type => :model do
 
   end
 
-  describe :new_work_package do
+  describe '#new_work_package' do
     it "should permit cost_object_id" do
       hash = { "cost_object_id" => "1" }
 
