@@ -144,25 +144,25 @@ describe ::API::Utilities::ResourceLinkParser do
     it 'accepts on matching version' do
       expect {
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_version: '3')
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it 'accepts on matching version as integer' do
       expect {
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_version: 3)
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it 'accepts on matching namespace' do
       expect {
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_namespace: 'statuses')
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it 'accepts on matching namespace as symbol' do
       expect {
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_namespace: :statuses)
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it 'raises on version mismatch' do

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-  describe :custom_fields do
+  describe '#custom_fields' do
     let(:type) { FactoryGirl.create(:type_standard) }
     let(:project) { FactoryGirl.create(:project, types: [type]) }
     let(:work_package) {
@@ -133,13 +133,13 @@ describe WorkPackage, type: :model do
       describe 'valid value given' do
         before { change_custom_field_value(work_package, 'PostgreSQL') }
 
-        context :errors do
+        context 'errors' do
           subject { work_package.errors[:custom_values] }
 
           it { is_expected.to be_empty }
         end
 
-        context :save do
+        context 'save' do
           before do
             work_package.save!
             work_package.reload

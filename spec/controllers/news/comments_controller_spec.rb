@@ -45,7 +45,7 @@ describe News::CommentsController, type: :controller do
       expect(response).to redirect_to news_path(news)
 
       latest_comment = news.comments.reorder('created_on DESC').first
-      expect(latest_comment).to_not be_nil
+      expect(latest_comment).not_to be_nil
       expect(latest_comment.comments).to eq 'This is a test comment'
       expect(latest_comment.author).to eq user
     end
@@ -54,7 +54,7 @@ describe News::CommentsController, type: :controller do
       expect {
         post :create, news_id: news.id, comment: { comments: '' }
         expect(response).to redirect_to news_path(news)
-      }.to_not change { Comment.count }
+      }.not_to change { Comment.count }
     end
   end
 

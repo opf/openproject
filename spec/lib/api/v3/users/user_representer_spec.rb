@@ -91,8 +91,8 @@ describe ::API::V3::Users::UserRepresenter do
 
       context 'when regular current_user' do
         it 'should have no lock-related links' do
-          expect(subject).to_not have_json_path('_links/lock/href')
-          expect(subject).to_not have_json_path('_links/unlock/href')
+          expect(subject).not_to have_json_path('_links/lock/href')
+          expect(subject).not_to have_json_path('_links/unlock/href')
         end
       end
 
@@ -131,7 +131,7 @@ describe ::API::V3::Users::UserRepresenter do
         end
 
         it 'should not link to delete' do
-          expect(subject).to_not have_json_path('_links/delete/href')
+          expect(subject).not_to have_json_path('_links/delete/href')
         end
       end
     end
@@ -139,7 +139,7 @@ describe ::API::V3::Users::UserRepresenter do
     describe 'avatar' do
       before do
         user.mail = 'foo@bar.com'
-        Setting.stub(:gravatar_enabled?).and_return(true)
+        allow(Setting).to receive(:gravatar_enabled?).and_return(true)
       end
 
       it 'should have an url to gravatar if settings permit and mail is set' do
@@ -147,7 +147,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       it 'should be blank if gravatar is disabled' do
-        Setting.stub(:gravatar_enabled?).and_return(false)
+        allow(Setting).to receive(:gravatar_enabled?).and_return(false)
 
         expect(parse_json(subject, 'avatar')).to be_blank
       end

@@ -318,7 +318,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           end
 
           it 'filters out invisible work packages' do
-            expect(assigns(:planning_elements).map(&:id)).to_not include(ticket_e.id)
+            expect(assigns(:planning_elements).map(&:id)).not_to include(ticket_e.id)
           end
         end
       end

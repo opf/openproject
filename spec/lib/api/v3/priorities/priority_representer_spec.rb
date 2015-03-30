@@ -38,18 +38,18 @@ describe ::API::V3::Priorities::PriorityRepresenter do
     subject { representer.to_json }
 
     it 'should indicate its type' do
-      should include_json('Priority'.to_json).at_path('_type')
+      is_expected.to include_json('Priority'.to_json).at_path('_type')
     end
 
     describe 'links' do
-      it { should have_json_type(Object).at_path('_links') }
+      it { is_expected.to have_json_type(Object).at_path('_links') }
       it 'should link to self' do
         path = api_v3_paths.priority(priority.id)
 
-        should be_json_eql(path.to_json).at_path('_links/self/href')
+        is_expected.to be_json_eql(path.to_json).at_path('_links/self/href')
       end
       it 'should display its name as title in self' do
-        should be_json_eql(priority.name.to_json).at_path('_links/self/title')
+        is_expected.to be_json_eql(priority.name.to_json).at_path('_links/self/title')
       end
     end
 

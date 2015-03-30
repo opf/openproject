@@ -170,7 +170,7 @@ describe VersionsController, type: :controller do
         harmful = "test <script>alert('pwned');</script>"
         post :create, project_id: project.id, version: { name: harmful }, format: :js
 
-        expect(response.body).to_not include("<script>alert('pwned');</script>")
+        expect(response.body).not_to include("<script>alert('pwned');</script>")
       end
     end
   end

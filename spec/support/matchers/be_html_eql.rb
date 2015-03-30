@@ -64,6 +64,6 @@
     ['expected:', actual.to_s, 'not to be equivalent to:', expected.to_s].join("\n")
   end
 
-  failure_message_for_should &should_message
-  failure_message_for_should_not &should_not_message
+  failure_message &should_message
+  failure_message_when_negated &should_not_message
 end

@@ -128,7 +128,7 @@ describe Project, type: :model do
     end
   end
 
-  describe :find_visible do
+  describe '#find_visible' do
     it 'should find the project by id if the user is project member' do
       become_member_with_permissions(project, user, :view_work_packages)
 

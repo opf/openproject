@@ -66,7 +66,7 @@ describe Member, type: :model do
         member.save!
         member.reload
       end
-      context :roles do
+      context 'roles' do
         it { expect(member.roles).not_to include role }
         it { expect(member.roles).to include second_role }
       end
@@ -90,7 +90,7 @@ describe Member, type: :model do
         member.save!
         member.reload
       end
-      context :roles do
+      context 'roles' do
         it { expect(member.roles).not_to include role }
         it { expect(member.roles).to include second_role }
       end

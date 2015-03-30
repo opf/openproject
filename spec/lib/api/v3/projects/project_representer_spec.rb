@@ -35,13 +35,13 @@ describe ::API::V3::Projects::ProjectRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('Project'.to_json).at_path('_type') }
+    it { is_expected.to include_json('Project'.to_json).at_path('_type') }
 
     describe 'project' do
-      it { should have_json_path('id') }
-      it { should have_json_path('identifier') }
-      it { should have_json_path('name') }
-      it { should have_json_path('description') }
+      it { is_expected.to have_json_path('id') }
+      it { is_expected.to have_json_path('identifier') }
+      it { is_expected.to have_json_path('name') }
+      it { is_expected.to have_json_path('description') }
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
         let(:date) { project.created_on }
@@ -53,11 +53,11 @@ describe ::API::V3::Projects::ProjectRepresenter do
         let(:json_path) { 'updatedAt' }
       end
 
-      it { should have_json_path('type') }
+      it { is_expected.to have_json_path('type') }
     end
 
     describe '_links' do
-      it { should have_json_type(Object).at_path('_links') }
+      it { is_expected.to have_json_type(Object).at_path('_links') }
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')
       end
@@ -66,13 +66,13 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
 
       describe 'categories' do
-        it { should have_json_path('_links/categories')      }
-        it { should have_json_path('_links/categories/href') }
+        it { is_expected.to have_json_path('_links/categories')      }
+        it { is_expected.to have_json_path('_links/categories/href') }
       end
 
       describe 'versions' do
-        it { should have_json_path('_links/versions')      }
-        it { should have_json_path('_links/versions/href') }
+        it { is_expected.to have_json_path('_links/versions')      }
+        it { is_expected.to have_json_path('_links/versions/href') }
       end
     end
   end

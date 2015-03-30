@@ -53,13 +53,13 @@ describe WorkPackage, type: :model do
   }
 
   describe 'create' do
-    describe :save do
+    describe '#save' do
       subject { work_package.save }
 
       it { is_expected.to be_truthy }
     end
 
-    describe :estimated_hours do
+    describe '#estimated_hours' do
       before do
         work_package.save!
         work_package.reload
@@ -82,13 +82,13 @@ describe WorkPackage, type: :model do
         end
       }
 
-      context :save do
+      context 'save' do
         subject { work_package_minimal.save }
 
         it { is_expected.to be_truthy }
       end
 
-      context :description do
+      context 'description' do
         before do
           work_package_minimal.save!
           work_package_minimal.reload
@@ -100,8 +100,8 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe :assigned_to do
-      context :group_assignment do
+    describe '#assigned_to' do
+      context 'group_assignment' do
         let(:group) { FactoryGirl.create(:group) }
 
         before do
@@ -118,7 +118,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :type do
+  describe '#type' do
     context 'disabled type' do
       describe 'allows work package update' do
         before do
@@ -140,13 +140,13 @@ describe WorkPackage, type: :model do
           project.types.delete work_package.type
         end
 
-        context :save do
+        context 'save' do
           subject { work_package.save }
 
           it { is_expected.to be_falsey }
         end
 
-        context :errors do
+        context 'errors' do
           before { work_package.save }
 
           subject { work_package.errors[:type_id] }
@@ -157,7 +157,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :category do
+  describe '#category' do
     let(:user_2) { FactoryGirl.create(:user, member_in_project: project) }
     let(:category) {
       FactoryGirl.create(:category,
@@ -175,7 +175,7 @@ describe WorkPackage, type: :model do
     it { is_expected.to eq(category.assigned_to) }
   end
 
-  describe :assignable_assignees do
+  describe '#assignable_assignees' do
     let(:user) { FactoryGirl.build_stubbed(:user) }
 
     context 'single user' do
@@ -230,7 +230,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :assignable_responsibles do
+  describe '#assignable_responsibles' do
     let(:user) { FactoryGirl.create(:user) }
     let(:group) { FactoryGirl.create(:group) }
 
@@ -286,7 +286,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :assignable_versions do
+  describe '#assignable_versions' do
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []
 
@@ -316,7 +316,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :assignable_versions do
+  describe '#assignable_versions' do
     let(:work_package) {
       FactoryGirl.build(:work_package,
                         project: project,
@@ -338,7 +338,7 @@ describe WorkPackage, type: :model do
                          project: project)
     }
 
-    describe :assignment do
+    describe '#assignment' do
       context 'open version' do
         let(:version) { version_open }
 
@@ -481,7 +481,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :move do
+  describe '#move' do
     let(:work_package) {
       FactoryGirl.create(:work_package,
                          project: project,
@@ -495,7 +495,7 @@ describe WorkPackage, type: :model do
       it { is_expected.to eq(target_project) }
     end
 
-    describe :time_entries do
+    describe '#time_entries' do
       let(:time_entry_1) {
         FactoryGirl.create(:time_entry,
                            project: project,
@@ -533,7 +533,7 @@ describe WorkPackage, type: :model do
       it_behaves_like 'moved work package'
     end
 
-    describe :category do
+    describe '#category' do
       let(:category) {
         FactoryGirl.create(:category,
                            project: project)
@@ -581,7 +581,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe :version do
+    describe '#version' do
       let(:sharing) { 'none' }
       let(:version) {
         FactoryGirl.create(:version,
@@ -635,7 +635,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe :type do
+    describe '#type' do
       let(:target_type) { FactoryGirl.create(:type) }
       let(:target_project) {
         FactoryGirl.create(:project,
@@ -648,7 +648,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :destroy do
+  describe '#destroy' do
     let(:time_entry_1) {
       FactoryGirl.create(:time_entry,
                          project: project,
@@ -680,7 +680,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :done_ratio do
+  describe '#done_ratio' do
     let(:status_new) {
       FactoryGirl.create(:status,
                          name: 'New',
@@ -708,7 +708,7 @@ describe WorkPackage, type: :model do
 
     before { work_package_2 }
 
-    describe :value do
+    describe '#value' do
       context 'work package field' do
         before { allow(Setting).to receive(:work_package_done_ratio).and_return 'field' }
 
@@ -742,7 +742,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe :update_done_ratio_from_status do
+    describe '#update_done_ratio_from_status' do
       context 'work package field' do
         before do
           allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
@@ -773,7 +773,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :group_by do
+  describe '#group_by' do
     let(:type_2) { FactoryGirl.create(:type) }
     let(:priority_2) { FactoryGirl.create(:priority) }
     let(:project) { FactoryGirl.create(:project, types: [type, type_2]) }
@@ -824,13 +824,13 @@ describe WorkPackage, type: :model do
     end
 
     shared_examples_for 'group by' do
-      context :size do
+      context 'size' do
         subject { groups.size }
 
         it { is_expected.to eq(2) }
       end
 
-      context :total do
+      context 'total' do
         subject { groups.inject(0) { |sum, group| sum + group['total'].to_i } }
 
         it { is_expected.to eq(2) }
@@ -897,7 +897,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :recently_updated do
+  describe '#recently_updated' do
     let(:work_package_1) { FactoryGirl.create(:work_package) }
     let(:work_package_2) { FactoryGirl.create(:work_package) }
 
@@ -911,14 +911,14 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context :limit do
+    context 'limit' do
       subject { WorkPackage.recently_updated.limit(1).first }
 
       it { is_expected.to eq(work_package_2) }
     end
   end
 
-  describe :on_active_project do
+  describe '#on_active_project' do
     let(:project_archived) {
       FactoryGirl.create(:project,
                          status: Project::STATUS_ARCHIVED)
@@ -942,7 +942,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :with_author do
+  describe '#with_author' do
     let(:user) { FactoryGirl.create(:user) }
     let(:project_archived) {
       FactoryGirl.create(:project,
@@ -968,7 +968,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :recipients do
+  describe '#recipients' do
     let(:project) { FactoryGirl.create(:project) }
     let(:member) { FactoryGirl.create(:user) }
     let(:author) { FactoryGirl.create(:user) }
@@ -1062,7 +1062,7 @@ describe WorkPackage, type: :model do
         project_assignee
       end
 
-      describe :none do
+      describe '#none' do
         before { author.update_attribute(:mail_notification, :none) }
 
         let(:expected_users) { work_package.author.mail }
@@ -1070,7 +1070,7 @@ describe WorkPackage, type: :model do
         it_behaves_like 'includes not expected users'
       end
 
-      describe :only_assigned do
+      describe '#only_assigned' do
         before { author.update_attribute(:mail_notification, :only_assigned) }
 
         let(:expected_users) { work_package.author.mail }
@@ -1078,7 +1078,7 @@ describe WorkPackage, type: :model do
         it_behaves_like 'includes not expected users'
       end
 
-      describe :only_assigned do
+      describe '#only_assigned' do
         before { assignee.update_attribute(:mail_notification, :only_owner) }
 
         let(:expected_users) { work_package.assigned_to.mail }
@@ -1088,7 +1088,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :new_statuses_allowed_to do
+  describe '#new_statuses_allowed_to' do
     let(:role) { FactoryGirl.create(:role) }
     let(:type) { FactoryGirl.create(:type) }
     let(:user) { FactoryGirl.create(:user) }
@@ -1212,7 +1212,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :add_time_entry do
+  describe '#add_time_entry' do
     it 'should return a new time entry' do
       expect(stub_work_package.add_time_entry).to be_a TimeEntry
     end
@@ -1232,7 +1232,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :update_by! do
+  describe '#update_by!' do
     let(:instance) { FactoryGirl.create(:work_package) }
 
     it 'should return true' do
@@ -1349,7 +1349,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :duration do
+  describe '#duration' do
     # TODO remove once only WP exists
     [:work_package].each do |subclass|
       describe "for #{subclass}" do
@@ -1408,10 +1408,11 @@ describe WorkPackage, type: :model do
           before do
             instance.start_date = nil
             instance.due_date = '856742858941748214577'
+            instance.valid?
           end
 
           it 'should have a validation error' do
-            expect(instance.error_on(:due_date).size).to eq(1)
+            expect(instance.errors[:due_date].size).to eq(1)
           end
         end
       end
@@ -1524,7 +1525,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :inherit_done_ratio_from_leaves do
+  describe '#inherit_done_ratio_from_leaves' do
     describe 'with done ratio disabled' do
       let(:project) { FactoryGirl.create(:project) }
       let(:work_package) { FactoryGirl.create(:work_package, project: project) }
@@ -1624,11 +1625,11 @@ describe WorkPackage, type: :model do
       work_package.custom_field_values # #custom_field_values needs to be touched
 
       # that should not be valid
-      expect(work_package).to_not be_valid
+      expect(work_package).not_to be_valid
 
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
-      expect(work_package.errors_on("custom_field_#{cf2.id}").size).to eq 1
+      expect(work_package.errors["custom_field_#{cf2.id}"].size).to eq 1
     end
   end
 
@@ -1721,7 +1722,7 @@ describe WorkPackage, type: :model do
         }
 
         before do
-          Setting.stub(:cross_project_work_package_relations?).and_return(true)
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
 
           other_work_package.parent = work_package
           other_work_package.save!

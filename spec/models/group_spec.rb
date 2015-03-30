@@ -43,7 +43,7 @@ describe Group, type: :model do
                                      status: status)
   }
 
-  describe :destroy do
+  describe '#destroy' do
     describe 'work packages assigned to the group' do
       before do
         become_member_with_permissions project, group, [:view_work_packages]
@@ -70,7 +70,7 @@ describe Group, type: :model do
     end
   end
 
-  describe :create do
+  describe '#create' do
     describe 'group with empty group name' do
       let(:group) { FactoryGirl.build(:group, lastname: '') }
 

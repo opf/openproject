@@ -65,7 +65,7 @@ describe OpenProject::OmniAuth::Authorization do
     end
 
     it 'it optionally passes in a context' do
-      context = stub(:some_context)
+      context = double(:some_context)
       OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, context
       expect(collector).to include(context)
     end

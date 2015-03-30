@@ -46,7 +46,7 @@ describe WorkPackages::CalendarsController, type: :controller do
 
   before { allow(User).to receive(:current).and_return(user) }
 
-  describe :index do
+  describe '#index' do
     shared_examples_for 'calendar#index' do
       subject { response }
 
@@ -54,7 +54,7 @@ describe WorkPackages::CalendarsController, type: :controller do
 
       it { is_expected.to render_template('calendar') }
 
-      context :assigns do
+      context 'assigns' do
         subject { assigns(:calendar) }
 
         it { is_expected.to be_truthy }
@@ -67,7 +67,7 @@ describe WorkPackages::CalendarsController, type: :controller do
       it_behaves_like 'calendar#index'
     end
 
-    context :project do
+    context 'project' do
       before do
         work_package
 
@@ -99,7 +99,7 @@ describe WorkPackages::CalendarsController, type: :controller do
 
         it_behaves_like 'calendar#index'
 
-        describe :view do
+        describe '#view' do
           render_views
 
           subject { response }
@@ -127,7 +127,7 @@ describe WorkPackages::CalendarsController, type: :controller do
 
         it_behaves_like 'calendar#index'
 
-        describe :view do
+        describe '#view' do
           render_views
 
           subject { response }

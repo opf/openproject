@@ -78,7 +78,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     it { is_expected.to include(*expected_values) }
   end
 
-  describe :work_packages do
+  describe '#work_packages' do
     describe 'search is case insensitive' do
       let(:expected_values) { [work_package_1, work_package_2] }
 
@@ -148,7 +148,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
 
       it_behaves_like 'contains expected values'
 
-      context :uniq do
+      context 'uniq' do
         let(:assigned) { assigns(:work_packages) }
 
         subject { assigned.size }
@@ -181,7 +181,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
       end
     end
 
-    describe :cross_project_work_package_relations do
+    describe '#cross_project_work_package_relations' do
       let(:project_2) {
         FactoryGirl.create(:project,
                            parent: project)

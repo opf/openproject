@@ -115,7 +115,7 @@ describe WorkPackages::BulkController, type: :controller do
     allow(User).to receive(:current).and_return user
   end
 
-  describe :edit do
+  describe '#edit' do
     shared_examples_for :response do
       subject { response }
 
@@ -129,21 +129,21 @@ describe WorkPackages::BulkController, type: :controller do
 
       it_behaves_like :response
 
-      describe :view do
+      describe '#view' do
         render_views
 
         subject { response }
 
-        describe :parent do
+        describe '#parent' do
           it { assert_tag :input, attributes: { name: 'work_package[parent_id]' } }
         end
 
-        context :custom_field do
-          describe :type do
+        context 'custom_field' do
+          describe '#type' do
             it { assert_tag :input, attributes: { name: "work_package[custom_field_values][#{custom_field_1.id}]" } }
           end
 
-          describe :project do
+          describe '#project' do
             it { assert_tag :select, attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }
           end
         end
@@ -159,21 +159,21 @@ describe WorkPackages::BulkController, type: :controller do
 
       it_behaves_like :response
 
-      describe :view do
+      describe '#view' do
         render_views
 
         subject { response }
 
-        describe :parent do
+        describe '#parent' do
           it { assert_no_tag :input, attributes: { name: 'work_package[parent_id]' } }
         end
 
-        context :custom_field do
-          describe :type do
+        context 'custom_field' do
+          describe '#type' do
             it { assert_tag :input, attributes: { name: "work_package[custom_field_values][#{custom_field_1.id}]" } }
           end
 
-          describe :project do
+          describe '#project' do
             it { assert_no_tag :select, attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }
           end
         end
@@ -181,14 +181,14 @@ describe WorkPackages::BulkController, type: :controller do
     end
   end
 
-  describe :update do
+  describe '#update' do
     let(:work_package_ids) { [work_package_1.id, work_package_2.id] }
     let(:work_packages) { WorkPackage.find_all_by_id(work_package_ids) }
     let(:priority) { FactoryGirl.create(:priority_immediate) }
     let(:group_id) { '' }
     let(:responsible_id) { '' }
 
-    describe :redirect do
+    describe '#redirect' do
       context 'in host' do
         let(:url) { '/work_packages' }
 
@@ -261,7 +261,7 @@ describe WorkPackages::BulkController, type: :controller do
       end
     end
 
-    shared_context :update_request do
+    shared_context 'update_request' do
       before do
         put :update,
             ids: work_package_ids,
@@ -284,13 +284,13 @@ describe WorkPackages::BulkController, type: :controller do
       let(:delivery_size) { 2 }
 
       shared_examples_for 'updated work package' do
-        describe :priority do
+        describe '#priority' do
           subject { WorkPackage.find_all_by_priority_id(priority.id).map(&:id) }
 
           it { is_expected.to match_array(work_package_ids) }
         end
 
-        describe :custom_fields do
+        describe '#custom_fields' do
           let(:result) { [custom_field_value] }
 
           subject {
@@ -302,8 +302,8 @@ describe WorkPackages::BulkController, type: :controller do
           it { is_expected.to match_array(result) }
         end
 
-        describe :journal do
-          describe :notes do
+        describe '#journal' do
+          describe '#notes' do
             let(:result) { ['Bulk editing'] }
 
             subject {
@@ -315,7 +315,7 @@ describe WorkPackages::BulkController, type: :controller do
             it { is_expected.to match_array(result) }
           end
 
-          describe :details do
+          describe '#details' do
             let(:result) { [1] }
 
             subject {
@@ -330,7 +330,7 @@ describe WorkPackages::BulkController, type: :controller do
       end
 
       context 'single project' do
-        include_context :update_request
+        include_context 'update_request'
 
         it { expect(response.response_code).to eq(302) }
 
@@ -345,7 +345,7 @@ describe WorkPackages::BulkController, type: :controller do
         context 'with permission' do
           before { member1_p2 }
 
-          include_context :update_request
+          include_context 'update_request'
 
           it { expect(response.response_code).to eq(302) }
 
@@ -355,11 +355,11 @@ describe WorkPackages::BulkController, type: :controller do
         end
 
         context 'w/o permission' do
-          include_context :update_request
+          include_context 'update_request'
 
           it { expect(response.response_code).to eq(403) }
 
-          describe :journal do
+          describe '#journal' do
             subject { Journal.count }
 
             it { is_expected.to eq(work_package_ids.count) }
@@ -367,29 +367,29 @@ describe WorkPackages::BulkController, type: :controller do
         end
       end
 
-      describe :properties do
-        describe :groups do
+      describe '#properties' do
+        describe '#groups' do
           let(:group) { FactoryGirl.create(:group) }
           let(:group_id) { group.id }
 
-          include_context :update_request
+          include_context 'update_request'
 
           subject { work_packages.map(&:assigned_to_id).uniq }
 
           it { is_expected.to match_array [group_id] }
         end
 
-        describe :responsible do
+        describe '#responsible' do
           let(:responsible_id) { user.id }
 
-          include_context :update_request
+          include_context 'update_request'
 
           subject { work_packages.map(&:responsible_id).uniq }
 
           it { is_expected.to match_array [responsible_id] }
         end
 
-        describe :status do
+        describe '#status' do
           let(:closed_status) { FactoryGirl.create(:closed_status) }
           let(:workflow) {
             FactoryGirl.create(:workflow,
@@ -412,7 +412,7 @@ describe WorkPackages::BulkController, type: :controller do
           it { is_expected.to match_array [closed_status.id] }
         end
 
-        describe :parent do
+        describe '#parent' do
           let(:parent) {
             FactoryGirl.create(:work_package,
                                author: user,
@@ -430,7 +430,7 @@ describe WorkPackages::BulkController, type: :controller do
           it { is_expected.to match_array [parent.id] }
         end
 
-        describe :custom_fields do
+        describe '#custom_fields' do
           let(:result) { '777' }
 
           before do
@@ -447,7 +447,7 @@ describe WorkPackages::BulkController, type: :controller do
           it { is_expected.to match_array [result] }
         end
 
-        describe :unassign do
+        describe '#unassign' do
           before do
             put :update,
                 ids: work_package_ids,
@@ -459,7 +459,7 @@ describe WorkPackages::BulkController, type: :controller do
           it { is_expected.to match_array [nil] }
         end
 
-        describe :delete_responsible do
+        describe '#delete_responsible' do
           before do
             put :update,
                 ids: work_package_ids,
@@ -471,7 +471,7 @@ describe WorkPackages::BulkController, type: :controller do
           it { is_expected.to match_array [nil] }
         end
 
-        describe :version do
+        describe '#version' do
           describe 'set fixed_version_id attribute to some version' do
             let(:version) {
               FactoryGirl.create(:version,
@@ -495,14 +495,14 @@ describe WorkPackages::BulkController, type: :controller do
 
             it { is_expected.to be_redirect }
 
-            describe :work_package do
-              describe :fixed_version do
+            describe '#work_package' do
+              describe '#fixed_version' do
                 subject { work_packages.map(&:fixed_version_id).uniq }
 
                 it { is_expected.to match_array [version.id] }
               end
 
-              describe :project do
+              describe '#project' do
                 subject { work_packages.map(&:project_id).uniq }
 
                 it { is_expected.not_to match_array [subproject.id] }
@@ -517,8 +517,8 @@ describe WorkPackages::BulkController, type: :controller do
                   ids: work_package_ids,
                   work_package: { fixed_version_id: 'none' }
             end
-            describe :work_package do
-              describe :fixed_version do
+            describe '#work_package' do
+              describe '#fixed_version' do
                 subject { work_packages.map(&:fixed_version_id).uniq }
 
                 it { is_expected.to eq([nil]) }
@@ -532,8 +532,8 @@ describe WorkPackages::BulkController, type: :controller do
     context 'w/o notification' do
       let(:send_notification) { '0' }
 
-      describe :delivery do
-        include_context :update_request
+      describe '#delivery' do
+        include_context 'update_request'
 
         it { expect(response.response_code).to eq(302) }
 
@@ -544,7 +544,7 @@ describe WorkPackages::BulkController, type: :controller do
     end
   end
 
-  describe :destroy do
+  describe '#destroy' do
     let(:params) { { 'ids' => '1', 'to_do' => 'blubs' } }
 
     before do
