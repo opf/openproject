@@ -16,7 +16,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 
 describe OpenProject::Webhooks::Hook do
-  describe :relative_url do
+  describe '#relative_url' do
     let(:hook) { OpenProject::Webhooks::Hook.new('myhook')}
 
     it "should return the correct URL" do
@@ -24,7 +24,7 @@ describe OpenProject::Webhooks::Hook do
     end
   end
 
-  describe :handle do
+  describe '#handle' do
     let(:probe) { lambda{} }
     let(:hook) { OpenProject::Webhooks::Hook.new('myhook', &probe) }
 
