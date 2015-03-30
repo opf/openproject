@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </section>
 
 <% if project.new_record? %>
-  <div class="form-space">
+  <div>
     <%= render partial: "projects/form/modules",
                locals: { form: f } %>
   </div>
@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% if (project.new_record? || project.module_enabled?('work_package_tracking')) && renderTypes %>
-  <div class="form-space">
+  <div>
     <%= render partial: 'projects/form/types',
                locals: { f: f,
                          project: project } %>
