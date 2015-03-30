@@ -26,72 +26,78 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$white: #ffffff
+$black: #000000
+$button-bg-default: #f8f8f8
+$button-bg-highlight: #35c53f
+$button-border: #ddd
+$button-border-highlight: $button-bg-highlight
+
 a.button,
 .button
-  @extend %button
-  @include button-size(medium)
-  @include button-expand(false)
-  @include button-style(#eee, $button-font-color, $button-style)
-
-  transition: none
-
-  background: linear-gradient(to bottom, #fff 0%, #eee 74%, #eee 100%)
-  border: 1px solid #ccc
-
-  &:enabled
-    &:hover,
-    &:focus
-      border-color: #777
-      background: linear-gradient(to bottom, #fff 0%, #eee 40%, #ddd 100%)
-
-  &:disabled
-    @include button-disabled
-
-  &:hover
-    text-decoration: none
-
+  border-radius: 1px
+  padding: 8px
+  background: $button-bg-default
+  color: $body-font-color
+  border: 1px solid $button-border
+  font-weight: normal
+  text-decoration: none
 
   &.-highlight
-    @include button-style($button-highlight-background-color, $button-highlight-font-color, $button-style)
+    background: $button-bg-highlight
+    border-color: $button-border-highlight
+    color: $white
 
-    background: $button-highlight-background-gradient
-    border-color: $button-highlight-border-color
+  &.-yes, &.-save, &.-confirm
+    &:before
+      +icon-common
+      +icon-button-rules
+      @extend .icon-yes:before
 
-    &:enabled
-      &:hover,
-      &:focus
-        border-color: $button-highlight-background-hover-color
-        background: $button-highlight-background-hover-color
+  &.-no, &.-cancel
+    &:before
+      +icon-common
+      +icon-button-rules
+      content: "\e0f6"
 
+  &.-yes-send, &.-save-send, &.-confirm-send
+    &:before
+      +icon-common
+      +icon-button-rules
+      content: "\e0c8 \e073"
+
+  &.-preview
+    &:before
+      +icon-common
+      +icon-button-rules
+      @extend .icon-not-watch:before
+
+  &.-loading, &.-saving
+    &:before
+      +icon-common
+      +icon-button-rules
+      @extend .icon-loading2:before
+
+  &:hover
+    background: darken($button-bg-default, 10)
+    color: $body-font-color
+
+    &.-highlight
+      color: $white
+      background: darken($button-bg-highlight, 10)
+      border-color: darken($button-bg-highlight, 10)
+
+  &[disabled], &.-highlight[disabled]
+    background: darken($button-bg-default, 5)
+    color: $light-gray
+    border: 1px solid $button-border
 
   &.-active,
   &.active
-    @include button-style(#eee, $button-active-font-color, $button-style)
-
-    border-color: #ccc
-    box-shadow: 0 2px 4px #ccc inset
-
-    &:enabled
-      &:hover,
-      &:focus
-        background: #eee
-
-
-  &.-transparent
-    @include button-style($background: $button-font-color, $style: hollow)
-    border-color: transparent
-
-    &:enabled
-      &:hover,
-      &:focus
-        border-color: #ddd
-
-    &.-active
-      background: #eee
-
-      &:enabled
-        &:hover, &:focus
-          border-color: #777
+    border: 1px solid $button-border
+    box-shadow: 0 1px 2px darken($button-border, 10) inset
+    border: black
+    font-weight: bold
 
   &.-tiny
     @include button-size(tiny)
@@ -104,6 +110,3 @@ a.button,
 
   &.-expand
     @include button-expand
-
-  &.-round
-    border-radius: 2em

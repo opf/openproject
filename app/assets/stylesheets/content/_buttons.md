@@ -9,28 +9,50 @@
 
 ```
 
-## Highlight buttons
+## With symbols
 
 ```
-<input type="submit" class="button -highlight" value="Submit me"/>
-<a href="#" class="button -highlight">Click me</a>
-<input type="submit" class="button -highlight" value="Do not submit" disabled />
+<button class="button -highlight -yes">Yes</button>
+<button class="button -yes-send">Yes (and notify others)</button>
+<button class="button -no">No</button>
+<button class="button -preview">Preview</button>
+```
+
+## Loading (Inflight request)
+
+```
+<button disabled class="button -loading">Loading...</button>
+<button disabled class="button -highlight -saving">Saving...</button>
+```
+
+### Aliases
+
+Save (also confirm):
+
+```
+<button class="button -save">Save</button>
+<button class="button -highlight -confirm">Confirm</button>
+```
+
+Cancel (also abort):
+
+```
+<button class="button -cancel">Cancel</button>
+```
+
+Save and send:
+
+```
+<button class="button -confirm-send">Confirm and send</button>
+<button class="button -save-send">Save and send</button>
 ```
 
 ## Active (depressed) buttons
 
 ```
 <input type="submit" class="button -active" value="Submit me"/>
-<a href="#" class="button -active">Click me</a>
+<a href="#" class="button -active -yes">Click me</a>
 <input type="submit" class="button -active" value="Do not submit" disabled />
-```
-
-## Transparent buttons
-
-```
-<input type="submit" class="button -transparent" value="Submit me"/>
-<a href="#" class="button -transparent">Click me</a>
-<input type="submit" class="button -transparent" value="Do not submit" disabled />
 ```
 
 ## Button sizes
@@ -47,11 +69,4 @@
 ```
 <button class="button -expand">Expanded button</button>
 <a href="#" class="button -expand">Expanded button as link</a>
-```
-
-## Rounded buttons
-
-```
-<button class="button -round">Expanded button</button>
-<a href="#" class="button -round">Expanded button as link</a>
 ```
