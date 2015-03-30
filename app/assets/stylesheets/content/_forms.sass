@@ -91,19 +91,6 @@ fieldset
     &.collapsed
       > legend:after
         content: "\e0d2"
-  &.with-legend-control
-    legend
-      float: left
-      background-color: white
-      margin-top: -15px
-
-  div.legend-control
-    margin-top: -15px
-    padding-bottom: 5px
-
-    span
-      padding-left: 5px
-      background-color: white
 
 // TODO: Customise with proper jQuery UI theme.
 .ui-datepicker-month,
@@ -189,6 +176,19 @@ fieldset.form--fieldset
 .form--fieldset-legend
   @extend %form--fieldset-legend-or-section-title
   width:          100%
+
+.form--fieldset-control
+  float:          right
+  margin-top:     -2.8rem
+  text-align:     right
+  color:          lighten($body-font-color, 10)
+  font-size:      1rem
+  font-style:     italic
+  line-height:    1.8
+
+.form--fieldset-control-container
+  padding: 0 0.25rem
+  background-color: white
 
 .form--section
   @extend %form--fieldset-or-section
