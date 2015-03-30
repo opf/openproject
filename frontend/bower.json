@@ -29,7 +29,7 @@
     "foundation-apps": "1.0.2",
     "bourbon": "~4.2.1",
     "ui-select": "0xf013/ui-select#c7bef79e24cbeab977635c7a94d8f9504d4ee2e2",
-    "mousetrap": "git://github.com/ccampbell/mousetrap.git"
+    "mousetrap": "~1.4.6"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
