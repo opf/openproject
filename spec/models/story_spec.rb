@@ -84,7 +84,7 @@ describe Story, :type => :model do
   end
 
   describe "Class methods" do
-    describe :backlogs do
+    describe '#backlogs' do
 
       describe "WITH one sprint
                 WITH the sprint having 1 story" do

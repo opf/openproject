@@ -94,7 +94,7 @@ describe Impediment, :type => :model do
   end
 
   describe "class methods" do
-    describe :create_with_relationships do
+    describe '#create_with_relationships' do
       before(:each) do
         @impediment_subject = "Impediment A"
         role.permissions = [:create_impediments]
@@ -194,7 +194,7 @@ describe Impediment, :type => :model do
   end
 
   describe "instance methods" do
-    describe :update_with_relationships do
+    describe '#update_with_relationships' do
       before(:each) do
         role.permissions = [:update_impediments]
         role.save

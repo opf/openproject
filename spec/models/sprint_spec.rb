@@ -40,7 +40,7 @@ describe Sprint, :type => :model do
   let(:project) { FactoryGirl.build(:project) }
 
   describe "Class Methods" do
-    describe :displayed_left do
+    describe '#displayed_left' do
       describe "WITH display set to left" do
         before(:each) do
           sprint.version_settings = [FactoryGirl.build(:version_setting, :project => project,
@@ -77,7 +77,7 @@ describe Sprint, :type => :model do
       end
     end
 
-    describe :displayed_right do
+    describe '#displayed_right' do
       before(:each) do
         sprint.version_settings = [FactoryGirl.build(:version_setting, :project => project, :display => VersionSetting::DISPLAY_RIGHT)]
         sprint.project = project
@@ -87,7 +87,7 @@ describe Sprint, :type => :model do
       it { expect(Sprint.displayed_right(project)).to match_array [sprint] }
     end
 
-    describe :order_by_date do
+    describe '#order_by_date' do
       before(:each) do
         @sprint1 = FactoryGirl.create(:sprint, :name => "sprint1", :project => project, :start_date => Date.today + 2.days)
         @sprint2 = FactoryGirl.create(:sprint, :name => "sprint2", :project => project, :start_date => Date.today + 1.day, :effective_date => Date.today + 3.days)
@@ -99,7 +99,7 @@ describe Sprint, :type => :model do
       it { expect(Sprint.order_by_date[2]).to eql @sprint1 }
     end
 
-    describe :apply_to do
+    describe '#apply_to' do
       before(:each) do
         project.save
         @other_project = FactoryGirl.create(:project)

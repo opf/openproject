@@ -46,7 +46,7 @@ describe Backlog, :type => :model do
   end
 
   describe "Class Methods" do
-    describe :owner_backlogs do
+    describe '#owner_backlogs' do
       describe "WITH one open version defined in the project" do
         before(:each) do
           @project = project
