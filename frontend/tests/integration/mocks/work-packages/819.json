@@ -96,7 +96,8 @@
       "title": "Add comment"
     },
     "parent": {
-      "href": null
+      "href": "/api/v3/work_packages/820",
+      "title": "asd"
     },
     "timeEntries": {
       "href": "/work_packages/819/time_entries",

@@ -28,7 +28,10 @@
 
 module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper) {
   function ParentRelationsHandler(workPackage, parents, relationsId) {
-      var handler = new CommonRelationsHandler(workPackage, parents, relationsId);
+      var relations = parents.filter(function(parent) {
+            return parent.props.id !== workPackage.props.id;
+          }),
+          handler = new CommonRelationsHandler(workPackage, relations, relationsId);
 
       handler.type = "parent";
       handler.addRelation = undefined;
