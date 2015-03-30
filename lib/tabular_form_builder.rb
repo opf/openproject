@@ -34,23 +34,20 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::AssetTagHelper
 
   (field_helpers - %w(radio_button hidden_field fields_for label) + %w(date_select)).each do |selector|
-    src = <<-END_SRC
-    def #{selector}(field, options = {}, *args)
+    define_method selector do |field, options = {}, *args|
       if options[:multi_locale] || options[:single_locale]
         localize_field(field, options, __method__)
       else
-        options[:class] = Array(options[:class]) + [ field_css_class('#{selector}') ]
+        options[:class] = Array(options[:class]) + [field_css_class(selector)]
 
         input_options, label_options = extract_from options
 
         label = label_for_field(field, label_options)
         input = super(field, input_options, *args)
 
-        (label + container_wrap_field(input, '#{selector}', options))
+        (label + container_wrap_field(input, selector, options))
       end
     end
-    END_SRC
-    class_eval src, __FILE__, __LINE__
   end
 
   def label(method, text = nil, options = {}, &block)
