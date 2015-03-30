@@ -143,6 +143,26 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
+  describe 'overallCosts' do
+    it_behaves_like 'has basic schema properties' do
+      let(:path) { 'overallCosts' }
+      let(:type) { 'String' }
+      let(:name) { I18n.t('activerecord.attributes.work_package.overall_costs') }
+      let(:required) { false }
+      let(:writable) { false }
+    end
+
+    context 'costs disabled' do
+      before do
+        allow(schema.project).to receive(:costs_enabled?).and_return(false)
+      end
+
+      it 'has no schema for budget' do
+        is_expected.not_to have_json_path('overallCosts')
+      end
+    end
+  end
+
   describe 'budget' do
     it_behaves_like 'has basic schema properties' do
       let(:path) { 'costObject' }
