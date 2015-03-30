@@ -374,6 +374,9 @@ GEM
     rspec-expectations (3.2.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
+    rspec-legacy_formatters (1.0.0)
+      rspec-core (>= 3.0.0.beta2)
+      rspec-support (>= 3.0.0.beta2)
     rspec-mocks (3.2.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
@@ -531,6 +534,7 @@ DEPENDENCIES
   rspec (~> 3.2.0)
   rspec-activemodel-mocks
   rspec-example_disabler!
+  rspec-legacy_formatters
   rspec-rails (~> 3.2.0)
   rubocop (~> 0.28)
   ruby-duration (~> 3.2.0)
