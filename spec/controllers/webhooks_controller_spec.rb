@@ -39,7 +39,7 @@ describe WebhooksController, :type => :controller do
     end
 
     it 'should call the hook with a user' do
-      expect(hook).to receive(:handle).with { |env, params, user|
+      expect(hook).to receive(:handle) { |env, params, user|
         expect(user).to equal(user)
       }
 
