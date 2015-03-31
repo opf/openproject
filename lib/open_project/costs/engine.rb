@@ -106,6 +106,10 @@ module OpenProject::Costs
 
     allow_attribute_update :work_package, :cost_object_id
 
+    add_api_path :cost_type do |id|
+      "#{root}/cost_types/#{id}"
+    end
+
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
     end
@@ -116,6 +120,7 @@ module OpenProject::Costs
 
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Budgets::BudgetsAPI
+      mount ::API::V3::CostTypes::CostTypesAPI
     end
 
     add_api_endpoint 'API::V3::Projects::ProjectsAPI', :id do
@@ -178,13 +183,11 @@ module OpenProject::Costs
       end
 
       send(:define_method, :summarized_cost_entries) do
+        # FIXME: actually use a CostEntryRepresenter to represent aggregated results
+        # (and utilize the new return structure)
         self.attributes_helper.summarized_cost_entries
             .map do |c|
-              ::API::V3::CostTypes::CostTypeRepresenter
-                .new(c[0],
-                     c[1],
-                     work_package: represented,
-                     current_user: @current_user)
+              nil
             end
       end
 

@@ -21,9 +21,6 @@ already present in the core API.
 | id          | Budget id                                   | Integer     | x > 0       | READ                 |                             |
 | subject     | Budget name                                 | String      | not empty   | READ                 |                             |
 
-`spentTime` has its visibility condition changed! It is now only visible when the client is either allowed to view time entries, or if
-he is allowed to see his own time entries in projects where the costs module is enabled.
-
 *Note: Further properties of budgets might be added at a future date, however they will require the view budget permission to be displayed.*
 
 ## Budget [/api/v3/budgets/{id}]
@@ -157,6 +154,66 @@ he is allowed to see his own time entries in projects where the costs module is 
                 "message": "The specified project does not exist."
             }
 
+# Group Cost Types
+
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This cost type                              | CostType      | not null              | READ                 |
+
+## Properties
+| Property    | Description                                 | Type        | Constraints | Supported operations | Condition                   |
+| :---------: | ------------------------------------------- | ----------- | ----------- | -------------------- | --------------------------- |
+| id          | cost type id                                | Integer     | x > 0       | READ                 |                             |
+| name        | cost type name                              | String      | not empty   | READ                 |                             |
+| unit        | The unit in which the costs are measured    | String      | not empty   | READ                 |                             |
+| unitPlural  | The pluralized form of the unit             | String      | not empty   | READ                 |                             |
+| isDefault   | `true` for the default type of new entries  | Boolean     | not null    | READ                 |                             |
+
+## Cost Type [/api/v3/cost_types/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "CostType",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/cost_types/1",
+                        "title": "Energy cost"
+                    }
+                },
+                "id": 1,
+                "name": "Energy cost",
+                "unit": "kWh",
+                "unitPlural": "kWh",
+                "isDefault": true
+            }
+
+
+## view Cost Type [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Cost Type id
+
++ Response 200 (application/hal+json)
+
+    [Cost Type][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view cost entries **or** view own cost entries (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see cost types."
+            }
+
 # Group Work Packages
 
 The following properties are only added to work packages in projects where the costs module is activated.
@@ -166,3 +223,6 @@ If the costs module is not available on a given work package, there will be no a
 |  Link      | Description                                 | Type          | Constraints           | Supported operations |
 |:----------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
 | costObject | The budget associated to this work package  | Budget        |                       | READ / WRITE         |
+
+`spentTime` has its visibility condition changed! It is now only visible when the client is either allowed to view time entries, or if
+he is allowed to see his own time entries in projects where the costs module is enabled.
