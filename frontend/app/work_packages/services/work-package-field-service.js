@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackagesHelper, $q, $http) {
+module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackagesHelper, $q, $http, HookService) {
 
   function isEditable(workPackage, field) {
     // no form - no editing
@@ -39,7 +39,8 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       return false;
       //return workPackage.schema.props.startDate.writable && workPackage.schema.props.dueDate.writable;
     }
-    if (field === 'estimatedTime') {
+    // not editable until duration is specified
+    if (field === 'estimatedTime' || field === 'remainingTime') {
       return false;
     }
     if(workPackage.schema.props[field].type === 'Date') {
@@ -196,6 +197,13 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
         break;
     }
 
+    var typeFromPluginHook = HookService.call('workPackageAttributeEditableType', {
+      type: fieldType
+    }).pop();
+
+    if (typeFromPluginHook) {
+      inplaceType = typeFromPluginHook;
+    }
     return inplaceType;
   }
 
@@ -233,6 +241,15 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
         break;
     }
 
+    //workPackageOverviewAttributes
+    var pluginDirectiveName = HookService.call('workPackageOverviewAttributes', {
+      type: fieldType,
+      workPackage: workPackage
+    }).pop();
+    if (pluginDirectiveName) {
+      displayStrategy = 'dynamic';
+    }
+
     return displayStrategy;
   }
 
@@ -260,14 +277,15 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
       updatedAt: 'datetime'
     };
 
-    if (workPackage.schema.props[field].type === 'Duration') {
+    if (workPackage.schema.props[field]) {
+      if (workPackage.schema.props[field].type === 'Duration') {
+        var hours = moment.duration(value).asHours();
+        return I18n.t('js.units.hour', { count: hours.toFixed(2) });
+      }
 
-      var hours = moment.duration(value).asHours();
-      return I18n.t('js.units.hour', { count: hours.toFixed(2) });
-    }
-
-    if (workPackage.schema.props[field].type === 'Boolean') {
-      return value ? I18n.t('js.general_text_yes') : I18n.t('js.general_text_no');
+      if (workPackage.schema.props[field].type === 'Boolean') {
+        return value ? I18n.t('js.general_text_yes') : I18n.t('js.general_text_no');
+      }
     }
 
     return WorkPackagesHelper.formatValue(value, mappings[field]);

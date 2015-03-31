@@ -2,7 +2,7 @@
     <textarea
             wiki-toolbar
             class="focus-input inplace-edit--textarea"
-            ng-hide="customEditorController.isPreview"
+            ng-hide="customEditorController.isPreview && !fieldController.isBusy"
             preview-toggle="customEditorController.togglePreview()"
             name="value"
             ng-disabled="fieldController.isBusy"

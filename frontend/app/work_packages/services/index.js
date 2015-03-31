@@ -64,6 +64,7 @@ angular.module('openproject.workPackages.services')
     'WorkPackagesHelper',
     '$q',
     '$http',
+    'HookService',
     require('./work-package-field-service')
   ])
   .service('EditableFieldsState',

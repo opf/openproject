@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout) {
+module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout, HookService) {
   return {
     replace: true,
     transclude: true,
@@ -50,6 +50,19 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
         return WorkPackageFieldService.format(EditableFieldsState.workPackage, $scope.fieldController.field);
       };
 
+      // for dynamic type that is set by plugins
+      this.getDynamicDirectiveName = function() {
+        return HookService.call('workPackageOverviewAttributes', {
+          type: EditableFieldsState.workPackage.schema.props[$scope.fieldController.field].type,
+          workPackage: EditableFieldsState.workPackage
+        }).pop();
+      }
+
+      // expose work package to the dynamic directive
+      this.getWorkPackage = function() {
+        return EditableFieldsState.workPackage;
+      }
+
     },
     controllerAs: 'displayPaneController',
     link: function(scope, element, attrs, fieldController) {
@@ -71,11 +84,6 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
       });
 
       $timeout(function() {
-        //element.on('click', 'a a', function(e) {
-        //  console.log(e, 'adasd');
-        //  e.stopPropagation();
-        //  return false;
-        //});
         element.find('a').on('click', function(e) {
           e.stopPropagation();
         });

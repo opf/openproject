@@ -33,7 +33,7 @@ module.exports = function() {
     scope: {
       execute: '&',
       linkClass: '@',
-      spanClass: '@',
+      spanClass: '@'
     },
     template: "<a execute-on-enter='execute()' default-event-handling='defaultEventHandling'" +
       " ng-click='execute()' href='' class='{{ linkClass }}'>" +
