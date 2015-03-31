@@ -38,7 +38,7 @@ describe DocumentObserver do
 
   let(:mail)      do
     mock = Object.new
-    mock.stub(:deliver)
+    allow(mock).to receive(:deliver)
     mock
   end
 
@@ -46,18 +46,18 @@ describe DocumentObserver do
   it "is triggered, when a document has been created" do
     document = FactoryGirl.build(:document)
     #observers are singletons, so any_instance exactly leaves out the singleton
-    DocumentObserver.instance.should_receive(:after_create)
+    expect(DocumentObserver.instance).to receive(:after_create)
     document.save!
   end
 
   it "calls the DocumentsMailer, when a new document has been added" do
     document = FactoryGirl.build(:document)
     # make sure, that we have actually someone to notify
-    document.stub(:recipients).and_return(user.mail)
+    allow(document).to receive(:recipients).and_return(user.mail)
     # ... and notifies are actually sent out
-    Notifier.stub(:notify?).and_return(true)
+    allow(Notifier).to receive(:notify?).and_return(true)
 
-    DocumentsMailer.should_receive(:document_added).and_return(mail)
+    expect(DocumentsMailer).to receive(:document_added).and_return(mail)
 
     document.save
   end

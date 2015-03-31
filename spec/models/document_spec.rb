@@ -40,9 +40,9 @@ describe Document do
 
   context "validation" do
 
-    it { should validate_presence_of :project}
-    it { should validate_presence_of :title}
-    it { should validate_presence_of :category}
+    it { is_expected.to validate_presence_of :project}
+    it { is_expected.to validate_presence_of :title}
+    it { is_expected.to validate_presence_of :category}
 
   end
 
@@ -57,8 +57,8 @@ describe Document do
     end
 
     it "should send out email-notifications" do
-      valid_document.stub(:recipients).and_return([user.mail])
-      Notifier.stub(:notify?).with(:document_added).and_return(true)
+      allow(valid_document).to receive(:recipients).and_return([user.mail])
+      allow(Notifier).to receive(:notify?).with(:document_added).and_return(true)
 
       expect{
         valid_document.save
@@ -67,7 +67,7 @@ describe Document do
     end
 
     it "should send notifications to the recipients of the project" do
-      project.stub(:notified_users).and_return([admin])
+      allow(project).to receive(:notified_users).and_return([admin])
       document = FactoryGirl.create(:document, project: project)
 
       expect(document.recipients).not_to be_empty

@@ -44,7 +44,7 @@ describe DocumentsController do
 
 
   before do
-    User.stub(:current).and_return admin
+    allow(User).to receive(:current).and_return admin
   end
 
   describe "index" do
@@ -76,9 +76,9 @@ LOREM
 
     it "should render documents with long descriptions properly" do
 
-      response.body.should have_css('.wiki p')
-      response.body.should have_css('.wiki p', text: (document.description.split("\n").first + '...'))
-      response.body.should have_css('.wiki p', text: /EndOfLineHere.../)
+      expect(response.body).to have_css('.wiki p')
+      expect(response.body).to have_css('.wiki p', text: (document.description.split("\n").first + '...'))
+      expect(response.body).to have_css('.wiki p', text: /EndOfLineHere.../)
 
     end
 
