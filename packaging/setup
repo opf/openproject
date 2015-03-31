@@ -8,8 +8,6 @@ cp -f packaging/conf/000-establish-connection.rb config/initializers/
 
 # Specific npmrc used for packaging
 cp -f packaging/.npmrc .npmrc
-# Install dependencies from package.json
-rm -f frontend/npm-shrinkwrap.json
 
 # replace every occurrence of _APP_NAME_ with the corresponding application name we're packaging
 find packaging/ -type f -print0 | xargs -0 sed -i "s|_APP_NAME_|${APP_NAME}|"
