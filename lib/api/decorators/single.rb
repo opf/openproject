@@ -58,7 +58,8 @@ module API
         link :self do
           path = _type.underscore unless path
           link_object = { href: api_v3_paths.send(path, represented.id) }
-          link_object[:title] = instance_eval(&title_getter)
+          title = instance_eval(&title_getter)
+          link_object[:title] = title if title
 
           link_object
         end
