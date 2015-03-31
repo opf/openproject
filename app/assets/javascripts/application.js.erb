@@ -93,9 +93,18 @@ jQuery(document).ready(function ($) {
       if (beforeShow) {
         beforeShow.apply(target, [target, inst]);
       }
+    },
+    _checkOffset_original: $.datepicker._checkOffset,
+
+    _checkOffset: function(inst, offset, isFixed) {
+      var offset = $.datepicker._checkOffset_original(inst, offset, isFixed);
+      var alterOffset = this._get(inst, 'alterOffset');
+      if (alterOffset) {
+        return alterOffset.apply((inst.input ? inst.input[0] : null), [offset]);  // trigger custom callback
+      }
+      return offset;
     }
   });
-
 });
 
 function checkAll (id, checked) {

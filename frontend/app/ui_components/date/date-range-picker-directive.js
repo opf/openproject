@@ -48,6 +48,8 @@ module.exports = function(TimezoneService, ConfigurationService,
           endTimerId = 0,
           inputStart = element.find('input.start'),
           inputEnd = element.find('input.end'),
+          prevStartDate = '',
+          prevEndDate = '',
           addClearButton = function (inp) {
             setTimeout(function() {
               var buttonPane = jQuery('.ui-datepicker-buttonpane');
@@ -67,7 +69,7 @@ module.exports = function(TimezoneService, ConfigurationService,
                 .appendTo(buttonPane);
             }, 1);
           },
-          setDate = function(input, date, noDateText) {
+          setDate = function(input, date) {
             if(date) {
               input.datepicker('option', 'defaultDate', formattedDate(date));
               input.datepicker('option', 'setDate', formattedDate(date));
@@ -75,17 +77,20 @@ module.exports = function(TimezoneService, ConfigurationService,
             } else {
               input.datepicker('option', 'defaultDate', null);
               input.datepicker('option', 'setDate', null);
-              input.val(noDateText);
+              input.val('');
               date = null;
             }
           };
+
+      inputStart.attr('placeholder', noStartDate);
+      inputEnd.attr('placeholder', noEndDate);
 
       inputStart.on('change', function() {
         if(inputStart.val().replace(/^\s+|\s+$/g, '') === '') {
           $timeout(function() {
             scope.startDate = null;
           });
-          inputStart.val(noStartDate);
+          inputStart.val('');
           $timeout.cancel(startTimerId);  
           return;
         }
@@ -105,7 +110,7 @@ module.exports = function(TimezoneService, ConfigurationService,
           $timeout(function() {
             scope.endDate = null;
           });
-          inputEnd.val(noEndDate);
+          inputEnd.val('');
           $timeout.cancel(endTimerId);  
           return;
         }
@@ -119,8 +124,7 @@ module.exports = function(TimezoneService, ConfigurationService,
           }
         }, 1000);
       });
-      setDate(inputStart, scope.startDate, noStartDate);
-      setDate(inputEnd, scope.endDate, noEndDate);
+
       inputStart.datepicker({
         firstDay: ConfigurationService.startOfWeek(),
         showWeeks: true,
@@ -128,6 +132,18 @@ module.exports = function(TimezoneService, ConfigurationService,
         numberOfMonths: 2,
         showButtonPanel: true,
         dateFormat: 'dd/mm/yy',
+        inline: true,
+        alterOffset: function(offset) {
+          var wHeight = jQuery(window).height(),
+              dpHeight = jQuery('#ui-datepicker-div').height(),
+              inputTop = inputStart.offset().top,
+              inputHeight = inputStart.innerHeight();
+
+          if((inputTop + inputHeight + dpHeight) > wHeight) {
+            offset.top -= inputHeight - 4;
+          }
+          return offset;
+        },
         beforeShow: function() {
           addClearButton(inputStart);
         },
@@ -135,10 +151,11 @@ module.exports = function(TimezoneService, ConfigurationService,
           addClearButton(inputStart);
         },
         onClose: function(selectedDate) {
-          if(!selectedDate || selectedDate === noStartDate) {
+          if(!selectedDate || selectedDate === '' || selectedDate === prevStartDate) {
             return;
           }
           var parsedDate = parseDate(selectedDate, 'DD/MM/YYYY');
+          prevStartDate = parsedDate;
           $timeout(function() {
             scope.startDate = formattedISODate(parsedDate);
           });
@@ -151,6 +168,18 @@ module.exports = function(TimezoneService, ConfigurationService,
         changeMonth: true,
         numberOfMonths: 2,
         dateFormat: 'dd/mm/yy',
+        inline: true,
+        alterOffset: function(offset) {
+          var wHeight = jQuery(window).height(),
+              dpHeight = jQuery('#ui-datepicker-div').height(),
+              inputTop = inputEnd.offset().top,
+              inputHeight = inputEnd.innerHeight();
+
+          if((inputTop + inputHeight + dpHeight) > wHeight) {
+            offset.top -= inputHeight - 4;
+          }
+          return offset;
+        },
         beforeShow: function() {
           addClearButton(inputEnd);
         },
@@ -158,10 +187,11 @@ module.exports = function(TimezoneService, ConfigurationService,
           addClearButton(inputEnd);
         },
         onClose: function(selectedDate) {
-          if(!selectedDate || selectedDate === noEndDate) {
+          if(!selectedDate || selectedDate === '' || selectedDate === prevEndDate) {
             return;
           }
           var parsedDate = parseDate(selectedDate, 'DD/MM/YYYY');
+          prevEndDate = parsedDate;
           $timeout(function() {
             scope.endDate = formattedISODate(parsedDate);
           });
@@ -169,13 +199,16 @@ module.exports = function(TimezoneService, ConfigurationService,
         }
       });
       if(scope.endDate) {
+        prevEndDate = formattedDate(scope.endDate);
         inputStart.datepicker('option', 'maxDate', formattedDate(scope.endDate));
-        inputStart.change();
       }
       if(scope.startDate) {
+        prevStartDate = formattedDate(scope.startDate);
         inputEnd.datepicker('option', 'minDate', formattedDate(scope.startDate));
-        inputEnd.change();
       }
+
+      setDate(inputStart, scope.startDate);
+      setDate(inputEnd, scope.endDate);
     }
   };
 };
