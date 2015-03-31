@@ -75,14 +75,12 @@ module API
           next unless instance_eval(&show_if)
 
           value = call_or_send_to_represented(getter)
+          link_object = { href: (api_v3_paths.send(path, value.id) if value) }
           if value
-            {
-              href: api_v3_paths.send(path, value.id),
-              title: instance_eval(&title_getter)
-            }
-          else
-            { href: nil }
+            title = instance_eval(&title_getter)
+            link_object[:title] = title if title
           end
+          link_object
         end
 
         if embed_as
