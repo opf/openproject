@@ -48,13 +48,13 @@ $inplace-edit--color--very-dark: #cacaca
   margin-bottom: -1px
 
 .inplace-edit--text-field
-  margin-bottom: 0
+  margin-bottom: 0!important
   padding: 0.375rem
   font-size: inherit
   line-height: inherit
 
 .inplace-edit--dashboard
-  position: absolute
+  position: relative
   width: 100%
   z-index: 100
   font-size: 0.875rem
@@ -100,6 +100,9 @@ $inplace-edit--color--very-dark: #cacaca
 .inplace-edit--preview
   border: 1px solid $inplace-edit--border-color
   padding: 0.375rem
+
+.inplace-edit--write
+  margin-bottom: 35px
 
 .inplace-edit--icon-wrapper
   @include grid-block(shrink)
