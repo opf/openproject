@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,45 +27,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'api/v3/cost_types/cost_type_representer'
 
-describe ::API::V3::Utilities::PathHelper do
-  let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
+module API
+  module V3
+    module CostEntries
+      class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
+        before do
+          authorize_any([:view_cost_entries, :view_own_cost_entries],
+                        projects: @work_package.project)
+          @cost_helper = ::OpenProject::Costs::AttributesHelper.new(@work_package, current_user)
+        end
 
-  describe '#cost_entry' do
-    subject { helper.cost_entry 42 }
+        resources :cost_entries do
+          get do
+            path = api_v3_paths.cost_entries_by_work_package(@work_package.id)
+            cost_entries = @cost_helper.cost_entries
+            CostEntryCollectionRepresenter.new(cost_entries,
+                                               cost_entries.count,
+                                               path)
+          end
+        end
 
-    it { is_expected.to eql('/api/v3/cost_entries/42') }
-  end
-
-  describe '#cost_entries_by_work_package' do
-    subject { helper.cost_entries_by_work_package 42 }
-
-    it { is_expected.to eql('/api/v3/work_packages/42/cost_entries') }
-  end
-
-  describe '#summarized_work_package_costs_by_type' do
-    subject { helper.summarized_work_package_costs_by_type 42 }
-
-    it { is_expected.to eql('/api/v3/work_packages/42/summarized_costs_by_type') }
-  end
-
-
-  describe '#cost_type' do
-    subject { helper.cost_type 42 }
-
-    it { is_expected.to eql('/api/v3/cost_types/42') }
-  end
-
-  describe '#budget' do
-    subject { helper.budget 42 }
-
-    it { is_expected.to eql('/api/v3/budgets/42') }
-  end
-
-  describe '#budgets_by_project' do
-    subject { helper.budgets_by_project 42 }
-
-    it { is_expected.to eql('/api/v3/projects/42/budgets') }
+        resources :summarized_costs_by_type do
+          get do
+            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
+          end
+        end
+      end
+    end
   end
 end

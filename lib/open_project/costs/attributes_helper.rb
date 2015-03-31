@@ -20,8 +20,9 @@
 module OpenProject::Costs
   class AttributesHelper
 
-    def initialize(work_package)
+    def initialize(work_package, user = User.current)
       @work_package = work_package
+      @user = user
     end
 
     def overall_costs
@@ -29,7 +30,15 @@ module OpenProject::Costs
     end
 
     def summarized_cost_entries
-      @summarized_cost_entries ||= compute_summarized_cost_entries
+      @summarized_cost_entries ||= cost_entries.calculate(:sum, :units, group: :cost_type)
+    end
+
+    def time_entries
+      @work_package.time_entries.visible(@user, @work_package.project)
+    end
+
+    def cost_entries
+      @cost_entries ||= @work_package.cost_entries.visible(@user, @work_package.project)
     end
 
     private
@@ -45,31 +54,19 @@ module OpenProject::Costs
       sum_costs
     end
 
-    def compute_summarized_cost_entries
-      cost_entries.calculate(:sum, :units, group: :cost_type)
-    end
-
-    def time_entries
-      @work_package.time_entries.visible(User.current, @work_package.project)
-    end
-
     def material_costs
-      cost_entries_with_rate = cost_entries.select{|c| c.costs_visible_by?(User.current)}
+      cost_entries_with_rate = cost_entries.select{|c| c.costs_visible_by?(@user)}
       cost_entries_with_rate.blank? ? nil : cost_entries_with_rate.collect(&:real_costs).sum
     end
 
     def labor_costs
-      time_entries_with_rate = time_entries.select{|c| c.costs_visible_by?(User.current)}
+      time_entries_with_rate = time_entries.select{|c| c.costs_visible_by?(@user)}
       time_entries_with_rate.blank? ? nil : time_entries_with_rate.collect(&:real_costs).sum
-    end
-
-    def cost_entries
-      @cost_entries ||= @work_package.cost_entries.visible(User.current, @work_package.project)
     end
 
     def user_allowed_to?(*privileges)
       privileges.inject(false) do |result, privilege|
-        result || User.current.allowed_to?(privilege, @work_package.project)
+        result || @user.allowed_to?(privilege, @work_package.project)
       end
     end
   end

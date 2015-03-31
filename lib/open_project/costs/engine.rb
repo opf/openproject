@@ -110,6 +110,14 @@ module OpenProject::Costs
       "#{root}/cost_entries/#{id}"
     end
 
+    add_api_path :cost_entries_by_work_package do |id|
+      "#{work_package(id)}/cost_entries"
+    end
+
+    add_api_path :summarized_work_package_costs_by_type do |id|
+      "#{work_package(id)}/summarized_costs_by_type"
+    end
+
     add_api_path :cost_type do |id|
       "#{root}/cost_types/#{id}"
     end
@@ -130,6 +138,10 @@ module OpenProject::Costs
 
     add_api_endpoint 'API::V3::Projects::ProjectsAPI', :id do
       mount ::API::V3::Budgets::BudgetsByProjectAPI
+    end
+
+    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+      mount ::API::V3::CostEntries::CostEntriesByWorkPackageAPI
     end
 
     extend_api_response(:v3, :work_packages, :work_package) do
