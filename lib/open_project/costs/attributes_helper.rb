@@ -46,22 +46,7 @@ module OpenProject::Costs
     end
 
     def compute_summarized_cost_entries
-      return {} if cost_entries.blank? || !user_allowed_to?(:view_cost_entries, :view_own_cost_entries)
-
-      last_cost_type = ""
-
-      cost_entries.sort_by(&:id).each_with_object({}) do |entry, hash|
-        if entry.cost_type == last_cost_type
-          hash[last_cost_type][:units] += entry.units
-        else
-          last_cost_type = entry.cost_type
-
-          hash[last_cost_type] = {}
-          hash[last_cost_type][:units] = entry.units
-          hash[last_cost_type][:unit] = entry.cost_type.unit
-          hash[last_cost_type][:unit_plural] = entry.cost_type.unit_plural
-        end
-      end
+      cost_entries.calculate(:sum, :units, group: :cost_type)
     end
 
     def time_entries
