@@ -26,5 +26,7 @@ FactoryGirl.define do
     spent_on Date.today
     units 1
     comments ''
+    created_on { Time.now }
+    updated_on { Time.now }
   end
 end

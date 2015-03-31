@@ -106,6 +106,10 @@ module OpenProject::Costs
 
     allow_attribute_update :work_package, :cost_object_id
 
+    add_api_path :cost_entry do |id|
+      "#{root}/cost_entries/#{id}"
+    end
+
     add_api_path :cost_type do |id|
       "#{root}/cost_types/#{id}"
     end
@@ -120,6 +124,7 @@ module OpenProject::Costs
 
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Budgets::BudgetsAPI
+      mount ::API::V3::CostEntries::CostEntriesAPI
       mount ::API::V3::CostTypes::CostTypesAPI
     end
 

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,32 +27,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'api/v3/cost_types/cost_type_representer'
 
-describe ::API::V3::Utilities::PathHelper do
-  let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
+module API
+  module V3
+    module CostEntries
+      class CostEntriesAPI < ::API::OpenProjectAPI
+        resources :cost_entries do
+          route_param :id do
+            before do
+              @cost_entry = CostEntry.find(params[:id])
 
-  describe '#cost_entry' do
-    subject { helper.cost_entry 42 }
+              authorize(:view_cost_entries, context: @cost_entry.project) do
+                if current_user == @cost_entry.user
+                  authorize(:view_own_cost_entries, context: @cost_entry.project)
+                else
+                  raise API::Errors::Unauthorized
+                end
+              end
+            end
 
-    it { is_expected.to eql('/api/v3/cost_entries/42') }
-  end
-
-  describe '#cost_type' do
-    subject { helper.cost_type 42 }
-
-    it { is_expected.to eql('/api/v3/cost_types/42') }
-  end
-
-  describe '#budget' do
-    subject { helper.budget 42 }
-
-    it { is_expected.to eql('/api/v3/budgets/42') }
-  end
-
-  describe '#budgets_by_project' do
-    subject { helper.budgets_by_project 42 }
-
-    it { is_expected.to eql('/api/v3/projects/42/budgets') }
+            get do
+              CostEntryRepresenter.new(@cost_entry, current_user: current_user)
+            end
+          end
+        end
+      end
+    end
   end
 end

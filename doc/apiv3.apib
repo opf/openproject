@@ -154,6 +154,81 @@ already present in the core API.
                 "message": "The specified project does not exist."
             }
 
+# Group Cost Entries
+
+## Linked Properties:
+|  Link       | Description                                 | Type          | Constraints           | Supported operations |
+|:-----------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self        | This cost entry                             | CostEntry     | not null              | READ                 |
+| project     | The project in which this entry was logged  | Project       | not null              | READ                 |
+| costType    | The type of this entry                      | CostType      | not null              | READ                 |
+| user        | The user logging this entry                 | User          | not null              | READ                 |
+| workPackage | The work package that got the entry logged  | WorkPackage   | not null              | READ                 |
+
+## Properties
+| Property    | Description                                 | Type        | Constraints | Supported operations | Condition                   |
+| :---------: | ------------------------------------------- | ----------- | ----------- | -------------------- | --------------------------- |
+| id          | cost entry id                               | Integer     | x > 0       | READ                 |                             |
+| spentUnits  | The amount of units logged in this entry    | Float       |             | READ                 |                             |
+| spentOn     | The date when the units were spent          | Date        |             | READ                 |                             |
+| createdAt   | Time of creation                            | DateTime    |             | READ                 |                             |
+| updatedAt   | Time of the most recent change to the entry | DateTime    |             | READ                 |                             |
+
+## Cost Entry [/api/v3/cost_entries/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "CostEntry",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/cost_entries/1"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/1"
+                    },
+                    "costType": {
+                        "href": "/api/v3/cost_types/1"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1"
+                    },
+                    "workPackage": {
+                        "href": "/api/v3/work_packages/1"
+                    }
+                },
+                "id": 1,
+                "spentUnits": 3.14,
+                "spentOn": "2015-03-31",
+                "createdAt": "2015-03-31T08:51:20Z",
+                "updatedAt": "2015-03-31T08:51:20Z"
+            }
+
+
+## view Cost Entry [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Cost Entry id
+
++ Response 200 (application/hal+json)
+
+    [Cost Entry][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view cost entries **or** view own cost entries (on cost entry's project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this cost entry."
+            }
+
 # Group Cost Types
 
 ## Linked Properties:
