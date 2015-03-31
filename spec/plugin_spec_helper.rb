@@ -107,8 +107,7 @@ module OpenProject
         unless @page
           @page ||= double("page")
           expect(controller).to receive(:render).with(:update).and_yield(@page)
-          #fix for implicit render without parameters being called in test
-          expect(controller).to receive(:render).with
+          expect(controller).to receive(:render).with(no_args)
         end
 
         expect(@page).to receive(method).with(*params)
