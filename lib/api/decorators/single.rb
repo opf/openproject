@@ -67,14 +67,14 @@ module API
 
       def self.linked_property(property,
                                path: property,
-                               association: property,
-                               title_getter: -> (*) { represented.send(association).name },
+                               getter: property,
+                               title_getter: -> (*) { call_or_send_to_represented(getter).name },
                                show_if: -> (*) { true },
                                embed_as: nil)
         link property.to_s.camelize(:lower) do
           next unless instance_eval(&show_if)
 
-          value = represented.send(association)
+          value = call_or_send_to_represented(getter)
           if value
             {
               href: api_v3_paths.send(path, value.id),
@@ -87,16 +87,16 @@ module API
 
         if embed_as
           embed_property property,
-                         association: association,
+                         getter: getter,
                          decorator: embed_as,
                          show_if: show_if
         end
       end
 
-      def self.embed_property(property, association: property, decorator:, show_if: true)
+      def self.embed_property(property, getter: property, decorator:, show_if: true)
         property property,
                  exec_context: :decorator,
-                 getter: -> (*) { represented.send(association) },
+                 getter: -> (*) { call_or_send_to_represented(getter) },
                  embedded: true,
                  decorator: decorator,
                  if: show_if
@@ -109,6 +109,14 @@ module API
       end
 
       private
+
+      def call_or_send_to_represented(callable_or_name)
+        if callable_or_name.respond_to? :call
+          instance_exec(&callable_or_name)
+        else
+          represented.send(callable_or_name)
+        end
+      end
 
       def datetime_formatter
         ::API::V3::Utilities::DateTimeFormatter

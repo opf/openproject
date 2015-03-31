@@ -39,7 +39,7 @@ module API
 
         linked_property :definingProject,
                         path: :project,
-                        association: :project,
+                        getter: :project,
                         show_if: -> (*) { represented.project.visible?(current_user) }
 
         link :availableInProjects do
