@@ -45,12 +45,12 @@ See doc/COPYRIGHT.rdoc for more details.
   </thead>
   <tbody>
     <% for source in @auth_sources %>
-      <tr class="<%= cycle("odd", "even") %>">
+      <tr class="list--row">
         <td><%= link_to source.name, :action => 'edit', :id => source %></td>
         <td align="center"><%= source.auth_method_name %></td>
         <td align="center"><%= source.host %></td>
         <td align="center"><%= source.users.count %></td>
-        <td class="buttons">
+        <td class="list--actions-cell">
           <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
           <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
                                      :method => :delete,

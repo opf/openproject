@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <tbody>
       <% Type.all.each do |type| %>
-        <tr class="<%= cycle('odd', 'even', :name => "pet_table") %>">
+        <tr class="list--row">
           <td class='center'>
             <% type_id = "project_planning_element_type_ids_#{type.id}" %>
             <%= label_tag type_id, l('timelines.enable_type_in_project', :type => type.name), class: 'hidden-for-sighted' %>

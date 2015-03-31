@@ -38,10 +38,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <tbody>
       <% for category in @project.categories %>
         <% unless category.new_record? %>
-          <tr class="<%= cycle 'odd', 'even' %>">
+          <tr class="list--row">
             <td><%=h(category.name) %></td>
             <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
-            <td class="buttons">
+            <td class="list--actions-cell">
               <%= link_to_if_authorized l(:button_edit), { :controller => '/categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %>
               <%= link_to_if_authorized l(:button_delete),
                                 { :controller => '/categories',
