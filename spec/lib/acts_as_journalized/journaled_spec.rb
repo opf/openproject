@@ -36,7 +36,7 @@ describe "Journalized Objects" do
     @type ||= FactoryGirl.create(:type_feature)
     @project ||= FactoryGirl.create(:project_with_types)
     @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
-    User.stub(:current).and_return @current
+    allow(User).to receive(:current).and_return @current
   end
 
   it 'should work with documents' do
@@ -45,6 +45,6 @@ describe "Journalized Objects" do
     initial_journal = @document.journals.first
     recreated_journal = @document.recreate_initial_journal!
 
-    initial_journal.should be_identical(recreated_journal)
+    expect(initial_journal).to be_identical(recreated_journal)
   end
 end

@@ -52,11 +52,11 @@ describe ApplicationHelper do
 
     before do
       @project = project
-      User.stub(:current).and_return project_member
+      allow(User).to receive(:current).and_return project_member
     end
 
     after do
-      User.unstub(:current)
+      allow(User).to receive(:current).and_call_original
     end
 
     context "Simple Document links" do
@@ -67,25 +67,25 @@ describe ApplicationHelper do
       context "Plain link" do
         subject { textilizable("document##{document.id}") }
 
-        it { should eq("<p>#{document_link}</p>") }
+        it { is_expected.to eq("<p>#{document_link}</p>") }
       end
 
       context "Link with document name" do
         subject { textilizable("document##{document.id}") }
 
-        it { should eq("<p>#{document_link}</p>") }
+        it { is_expected.to eq("<p>#{document_link}</p>") }
       end
 
       context "Escaping plain link" do
         subject { textilizable("!document##{document.id}") }
 
-        it { should eq("<p>document##{document.id}</p>") }
+        it { is_expected.to eq("<p>document##{document.id}</p>") }
       end
 
       context "Escaping link with document name" do
         subject { textilizable('!document:"Test document"') }
 
-        it { should eq('<p>document:"Test document"</p>') }
+        it { is_expected.to eq('<p>document:"Test document"</p>') }
       end
     end
 
@@ -95,25 +95,25 @@ describe ApplicationHelper do
       context "By name without project" do
         subject { textilizable("document:\"#{document.title}\"", :project => the_other_project) }
 
-        it { should eq('<p>document:"Test document"</p>') }
+        it { is_expected.to eq('<p>document:"Test document"</p>') }
       end
 
       context "By id and given project" do
         subject { textilizable("#{identifier}:document##{document.id}", :project => the_other_project) }
 
-        it { should eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
       end
 
       context "By name and given project" do
         subject { textilizable("#{identifier}:document:\"#{document.title}\"", :project => the_other_project) }
 
-        it { should eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
       end
 
       context "Invalid link" do
         subject { textilizable("invalid:document:\"Test document\"", :project => the_other_project) }
 
-        it { should eq('<p>invalid:document:"Test document"</p>') }
+        it { is_expected.to eq('<p>invalid:document:"Test document"</p>') }
       end
     end
   end
