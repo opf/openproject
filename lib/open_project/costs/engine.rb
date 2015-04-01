@@ -174,12 +174,16 @@ module OpenProject::Costs
                exec_context: :decorator,
                if: -> (*) { represented.costs_enabled? }
 
-      property :summarized_cost_entries,
-               embedded: true,
-               exec_context: :decorator,
-               if: -> (*) {
-                 represented.costs_enabled? && current_user_allowed_to_view_summarized_cost_entries
-               }
+      linked_property :costs_by_type,
+                      title_getter: -> (*) { nil },
+                      getter: -> (*) { represented },
+                      path: :summarized_work_package_costs_by_type,
+                      embed_as: ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter,
+                      show_if: -> (*) {
+                        represented.costs_enabled? &&
+                          (current_user_allowed_to(:view_cost_entries) ||
+                          current_user_allowed_to(:view_own_cost_entries))
+                      }
 
       property :spent_time,
                getter: -> (*) do
@@ -190,22 +194,8 @@ module OpenProject::Costs
                exec_context: :decorator,
                if: -> (_) { user_has_time_entry_permissions? }
 
-      send(:define_method, :current_user_allowed_to_view_summarized_cost_entries) do
-        current_user_allowed_to(:view_cost_entries) ||
-          current_user_allowed_to(:view_own_cost_entries)
-      end
-
       send(:define_method, :overall_costs) do
         number_to_currency(self.attributes_helper.overall_costs)
-      end
-
-      send(:define_method, :summarized_cost_entries) do
-        # FIXME: actually use a CostEntryRepresenter to represent aggregated results
-        # (and utilize the new return structure)
-        self.attributes_helper.summarized_cost_entries
-            .map do |c|
-              nil
-            end
       end
 
       send(:define_method, :attributes_helper) do
@@ -246,6 +236,17 @@ module OpenProject::Costs
              required: false,
              writable: false,
              show_if: -> (*) { represented.project.costs_enabled? }
+
+      schema :costs_by_type,
+             type: 'Collection',
+             name_source: :spent_units,
+             required: false,
+             writable: false,
+             show_if: -> (*) {
+               represented.project.costs_enabled? &&
+                 (current_user_allowed_to(:view_cost_entries) ||
+                 current_user_allowed_to(:view_own_cost_entries))
+             }
 
       schema_with_allowed_collection :cost_object,
                                      type: 'Budget',

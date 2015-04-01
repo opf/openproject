@@ -229,6 +229,180 @@ already present in the core API.
                 "message": "You are not allowed to see this cost entry."
             }
 
+## Cost Entries by work package [/api/v3/work_packages/{id}/cost_entries]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/work_packages/1/cost_entries"
+                    }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "CostEntry",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/cost_entries/1"
+                                },
+                                "project": {
+                                    "href": "/api/v3/projects/1"
+                                },
+                                "costType": {
+                                    "href": "/api/v3/cost_types/1"
+                                },
+                                "user": {
+                                    "href": "/api/v3/users/1"
+                                },
+                                "workPackage": {
+                                    "href": "/api/v3/work_packages/1"
+                                }
+                            },
+                            "id": 1,
+                            "spentUnits": 3.14,
+                            "spentOn": "2015-03-31",
+                            "createdAt": "2015-03-31T08:51:20Z",
+                            "updatedAt": "2015-03-31T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## list Cost Entries of a work package [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... work package id
+
++ Response 200 (application/hal+json)
+
+    [Cost Entries by work package][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view cost entries **or** view own cost entries (on work package's project)
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the cost entries of this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work package
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }
+
+## Work package costs per type [/api/v3/work_packages/{id}/summarized_costs_by_type]
+
+Returns a list of `AggregatedCostEntry`, with one entry per spent cost type.
+The spent units of all cost entries visible to the current user are summed up for each entry.
+
+An `AggregatedCostEntry` is a stripped down variant of a normal `CostEntry` which only has the link to
+a `CostType` and the amount of `spentUnits`.
+
+*Note that this is a preliminary endpoint. It is subject to future changes or removal.*
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/work_packages/1/summarized_costs_by_type"
+                    }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "AggregatedCostEntry",
+                            "_links": {
+                                "costType": {
+                                    "href": "/api/v3/cost_types/1"
+                                }
+                            },
+                            "spentUnits": 31.4
+                        }
+                    ]
+                }
+            }
+
+## Show aggregated costs of a work package [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... work package id
+
++ Response 200 (application/hal+json)
+
+    [Work package costs per type][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view cost entries **or** view own cost entries (on work package's project)
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the cost entries of this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work package
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }
+
 # Group Cost Types
 
 ## Linked Properties:
@@ -295,9 +469,15 @@ The following properties are only added to work packages in projects where the c
 If the costs module is not available on a given work package, there will be no additional properties.
 
 ## Linked Properties:
-|  Link      | Description                                 | Type          | Constraints           | Supported operations |
-|:----------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
-| costObject | The budget associated to this work package  | Budget        |                       | READ / WRITE         |
+|  Link       | Description                                 | Type                              | Constraints           | Supported operations |
+|:-----------:|-------------------------------------------- | --------------------------------- | --------------------- | -------------------- |
+| costObject  | The budget associated to this work package  | Budget                            |                       | READ / WRITE         |
+| costsByType | List of accumulated costs per cost type     | Collection of AggregatedCostEntry |                       | READ / WRITE         |
+
+## Properties:
+|  Link        | Description                                                        | Type          | Constraints           | Supported operations |
+|:------------:|------------------------------------------------------------------- | ------------- | --------------------- | -------------------- |
+| overallCosts | The total amount of user visible costs logged on this work package | String        |                       | READ / WRITE         |
 
 `spentTime` has its visibility condition changed! It is now only visible when the client is either allowed to view time entries, or if
 he is allowed to see his own time entries in projects where the costs module is enabled.
