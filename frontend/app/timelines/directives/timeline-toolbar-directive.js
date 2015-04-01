@@ -33,48 +33,60 @@ module.exports = function(I18n) {
     replace: true,
     templateUrl: '/templates/timelines/toolbar.html',
     scope: { timeline: '=' },
-    link: function(scope) {
+    controller: function() {
+      var vm = this;
+
+      vm.currentScale = 'monthly';
+
+      vm.updateToolbar = function() {
+        vm.currentOutlineLevel = vm.timeline.OUTLINE_LEVELS[vm.timeline.expansionIndex];
+        vm.currentScale = vm.timeline.ZOOM_SCALES[vm.timeline.zoomIndex];
+      };
+
+      vm.increaseZoom = function() {
+        var scaleIndex = vm.timeline.ZOOM_SCALES.indexOf(vm.currentScale);
+
+        if(scaleIndex < Object.keys(vm.timeline.ZOOM_CONFIGURATIONS).length - 1) {
+          scaleIndex++;
+        }
+        vm.currentScale = vm.timeline.ZOOM_SCALES[scaleIndex];
+      };
+
+      vm.decreaseZoom = function() {
+        var scaleIndex = vm.timeline.ZOOM_SCALES.indexOf(vm.currentScale);
+
+        if(scaleIndex > 0) {
+          scaleIndex--;
+        }
+        vm.currentScale = vm.timeline.ZOOM_SCALES[scaleIndex];
+      };
+
+      vm.resetOutline = function(){
+        vm.timeline.expandTo(0);
+        vm.currentOutlineLevel = vm.timeline.OUTLINE_LEVELS[vm.timeline.expansionIndex];
+      };
+    },
+    controllerAs: 'ctrl',
+    bindToController: true,
+    link: function(scope, _element, _attributes, ctrl) {
       scope.I18n = I18n;
-      scope.currentScaleName = 'monthly';
 
-      scope.updateToolbar = function() {
-        scope.slider.slider('value', scope.timeline.zoomIndex + 1);
-        scope.currentOutlineLevel = scope.timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
-        scope.currentScaleName = scope.timeline.ZOOM_SCALES[scope.timeline.zoomIndex];
-      };
+      scope.$watch('ctrl.currentScale', function(newScale, oldScale){
+        if (newScale !== oldScale) {
+          var scaleIndex = ctrl.timeline.ZOOM_SCALES.indexOf(ctrl.currentScale);
 
-      scope.increaseZoom = function() {
-        if(scope.currentScaleIndex < Object.keys(scope.timeline.ZOOM_CONFIGURATIONS).length - 1) {
-          scope.currentScaleIndex++;
-        }
-      };
-      scope.decreaseZoom = function() {
-        if(scope.currentScaleIndex > 0) {
-          scope.currentScaleIndex--;
-        }
-      };
-      scope.resetOutline = function(){
-        scope.timeline.expandTo(0);
-        scope.currentOutlineLevel = scope.timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
-      };
-
-      scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
-        if (newScaleName !== oldScaleName) {
-          scope.currentScaleIndex = scope.timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
-          scope.slider.slider('value', scope.currentScaleIndex + 1);
-
-          scope.timeline.zoom(scope.currentScaleIndex); // TODO replace event-driven adaption by bindings
+          ctrl.timeline.zoom(scaleIndex);
         }
       });
 
-      scope.$watch('currentOutlineLevel', function(outlineLevel, formerLevel) {
+      scope.$watch('ctrl.currentOutlineLevel', function(outlineLevel, formerLevel) {
         if (outlineLevel !== formerLevel) {
-          scope.timeline.expansionIndex = scope.timeline.OUTLINE_LEVELS.indexOf(outlineLevel);
-          scope.timeline.expandToOutlineLevel(outlineLevel); // TODO replace event-driven adaption by bindings
+          ctrl.timeline.expansionIndex = ctrl.timeline.OUTLINE_LEVELS.indexOf(outlineLevel);
+          ctrl.timeline.expandToOutlineLevel(outlineLevel); // TODO replace event-driven adaption by bindings
         }
       });
 
-      scope.updateToolbar();
+      ctrl.updateToolbar();
     }
   };
 };
