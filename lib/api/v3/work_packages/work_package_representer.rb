@@ -109,7 +109,7 @@ module API
         linked_property :responsible, path: :user, embed_as: ::API::V3::Users::UserRepresenter
         linked_property :assignee,
                         path: :user,
-                        association: :assigned_to,
+                        getter: :assigned_to,
                         embed_as: ::API::V3::Users::UserRepresenter
 
         link :availableWatchers do
@@ -199,7 +199,7 @@ module API
         linked_property :project, embed_as: ::API::V3::Projects::ProjectRepresenter
 
         linked_property :version,
-                        association: :fixed_version,
+                        getter: :fixed_version,
                         title_getter: -> (*) {
                           represented.fixed_version.to_s_for_project(represented.project)
                         }
