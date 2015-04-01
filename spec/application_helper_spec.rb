@@ -38,7 +38,7 @@ describe ApplicationHelper do
   include Rails.application.routes.url_helpers
 
 
-  describe ".textilizable" do
+  describe ".format_text" do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
     let(:project_member) { FactoryGirl.create :user,
@@ -65,25 +65,25 @@ describe ApplicationHelper do
                                      :class => 'document') }
 
       context "Plain link" do
-        subject { textilizable("document##{document.id}") }
+        subject { format_text("document##{document.id}") }
 
         it { is_expected.to eq("<p>#{document_link}</p>") }
       end
 
       context "Link with document name" do
-        subject { textilizable("document##{document.id}") }
+        subject { format_text("document##{document.id}") }
 
         it { is_expected.to eq("<p>#{document_link}</p>") }
       end
 
       context "Escaping plain link" do
-        subject { textilizable("!document##{document.id}") }
+        subject { format_text("!document##{document.id}") }
 
         it { is_expected.to eq("<p>document##{document.id}</p>") }
       end
 
       context "Escaping link with document name" do
-        subject { textilizable('!document:"Test document"') }
+        subject { format_text('!document:"Test document"') }
 
         it { is_expected.to eq('<p>document:"Test document"</p>') }
       end
@@ -93,25 +93,25 @@ describe ApplicationHelper do
       let(:the_other_project) { FactoryGirl.create :valid_project }
 
       context "By name without project" do
-        subject { textilizable("document:\"#{document.title}\"", :project => the_other_project) }
+        subject { format_text("document:\"#{document.title}\"", :project => the_other_project) }
 
         it { is_expected.to eq('<p>document:"Test document"</p>') }
       end
 
       context "By id and given project" do
-        subject { textilizable("#{identifier}:document##{document.id}", :project => the_other_project) }
+        subject { format_text("#{identifier}:document##{document.id}", :project => the_other_project) }
 
         it { is_expected.to eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
       end
 
       context "By name and given project" do
-        subject { textilizable("#{identifier}:document:\"#{document.title}\"", :project => the_other_project) }
+        subject { format_text("#{identifier}:document:\"#{document.title}\"", :project => the_other_project) }
 
         it { is_expected.to eq("<p><a href=\"/documents/#{document.id}\" class=\"document\">Test document</a></p>") }
       end
 
       context "Invalid link" do
-        subject { textilizable("invalid:document:\"Test document\"", :project => the_other_project) }
+        subject { format_text("invalid:document:\"Test document\"", :project => the_other_project) }
 
         it { is_expected.to eq('<p>invalid:document:"Test document"</p>') }
       end
