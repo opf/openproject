@@ -28,6 +28,10 @@
 
 source 'https://rubygems.org'
 
+if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.7.11')
+ abort "We require Bundler 1.7.11 or higher (you're using #{Bundler::VERSION}).\nPlease update with 'gem update bundler'."
+end
+
 gem "rails", github: 'rails/rails', branch: '3-2-stable'
 
 gem "coderay", "~> 1.0.9"
