@@ -33,7 +33,7 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
   $scope.watcher = { selected: null };
   $scope.watcher.selected =  $scope.watchers;
 
-  $scope.$watch('watchers.length', fetchAvailableWatchers); fetchAvailableWatchers();
+  fetchAvailableWatchers();
   $scope.watcherListString = function() {
     return _.map($scope.watcher.selected, function(item) {
       return item.props.name;
@@ -92,7 +92,7 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
   }
 
   function addWatcher(newValue, oldValue) {
-    if (newValue) {
+    if (newValue && newValue !== oldValue) {
       var id = newValue[newValue.length -1].props.id;
 
       if (id) {
@@ -146,7 +146,6 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
     });
   }
 
-
-
+  $scope.$watch('watchers.length', fetchAvailableWatchers);
   $scope.$watch('watcher.selected', addWatcher);
 };
