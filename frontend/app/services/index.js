@@ -40,7 +40,6 @@ angular.module('openproject.services')
     '$timeout',
     'PathHelper',
     require('./keyboard-shortcut-service')])
-  .service('OverviewTabInplaceEditorConfig', require('./overview-tab-inplace-editor-config'))
   .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', require(
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(
