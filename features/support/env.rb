@@ -60,6 +60,13 @@ Capybara.configure do |config|
   config.visible_text_only = true
 end
 
+Capybara.register_driver :selenium do |app|
+  require 'selenium/webdriver'
+  Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
+    Selenium::WebDriver::Firefox::Binary.path
+  Capybara::Selenium::Driver.new(app, browser: :firefox)
+end
+
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
 # your application behaves in the production environment, where an error page will
