@@ -241,7 +241,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       context 'value is nil' do
         let(:value) { nil }
-        let(:raw_value) { nil }
+        let(:raw_value) { '' }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }
@@ -266,7 +266,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       context 'value is nil' do
         let(:value) { nil }
-        let(:raw_value) { nil }
+        let(:raw_value) { '' }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }

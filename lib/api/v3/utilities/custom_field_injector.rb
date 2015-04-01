@@ -248,7 +248,7 @@ module API
             # object (that behaviour is only required for form payloads)
             custom_value = represented.custom_value_for(custom_field)
             value = custom_value ? custom_value.value : nil
-            path = api_v3_paths.send(path_method, value) if value
+            path = api_v3_paths.send(path_method, value) if value.present?
 
             { href: path }
           }
