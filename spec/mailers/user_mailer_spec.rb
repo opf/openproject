@@ -67,7 +67,7 @@ describe UserMailer, type: :mailer do
   end
 
   shared_examples_for 'mail is not sent' do
-    it 'actually sends a mail' do
+    it 'sends no mail' do
       expect(ActionMailer::Base.deliveries.size).to eql(0)
     end
   end
