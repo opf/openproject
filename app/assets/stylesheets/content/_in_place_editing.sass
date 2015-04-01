@@ -6,7 +6,7 @@ $inplace-edit--color--very-dark: #cacaca
   @extend .form--field.-full-width
 
   &.-preview
-    button, .jstb_help
+    button
       visibility: hidden
     .jstb_preview
       visibility: visible
@@ -34,7 +34,8 @@ $inplace-edit--color--very-dark: #cacaca
     .jstb_del,
     .jstb_ul,
     .jstb_ol,
-    .jstb_preview
+    .jstb_preview,
+    .jstb_help
       display: flex
 
 .inplace-edit--select
@@ -56,7 +57,6 @@ $inplace-edit--color--very-dark: #cacaca
   position: absolute
   width: 100%
   z-index: 100
-  min-height: 42px
   font-size: 0.875rem
 
 .inplace-edit--errors
@@ -81,6 +81,11 @@ $inplace-edit--color--very-dark: #cacaca
   padding: 5px
   line-height: 1.6rem
   margin-top: -1px
+  // Having to get the element out of the normal dom flow to
+  // prevent the element overlapping and thereby blocking the click on
+  // inplace-editable elements below the current one.
+  position: absolute
+  right: 0
 
 .inplace-edit--read
   @extend .form--field-container
@@ -151,8 +156,9 @@ a.inplace-editing--trigger-link,
 
 .inplace-edit--control
   background: $inplace-edit--color--very-dark
-  width: 1.4375rem
-  height: 1.4375rem
+  width: 1.5rem
+  height: 1.5rem
+  line-height: 1.5rem
   border: 1px solid $inplace-edit--dark-background
   display: inline-block
   border-radius: 0.75rem

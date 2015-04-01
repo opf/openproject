@@ -43,7 +43,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   describe 'TYPE_MAP' do
     it 'supports all available formats' do
       Redmine::CustomFieldFormat.available_formats.each do |format|
-        expect(described_class::TYPE_MAP[format]).to_not be_nil
+        expect(described_class::TYPE_MAP[format]).not_to be_nil
       end
     end
   end
@@ -72,15 +72,15 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
 
       it 'indicates no regular expression' do
-        is_expected.to_not have_json_path("#{cf_path}/regularExpression")
+        is_expected.not_to have_json_path("#{cf_path}/regularExpression")
       end
 
       it 'indicates no minimum size' do
-        is_expected.to_not have_json_path("#{cf_path}/minLength")
+        is_expected.not_to have_json_path("#{cf_path}/minLength")
       end
 
       it 'indicates no maximum size' do
-        is_expected.to_not have_json_path("#{cf_path}/maxLength")
+        is_expected.not_to have_json_path("#{cf_path}/maxLength")
       end
 
       context 'custom field is not required' do

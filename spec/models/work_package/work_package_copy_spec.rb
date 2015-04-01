@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-  describe :copy do
+  describe '#copy' do
     let(:user) { FactoryGirl.create(:user) }
     let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
     let(:source_type) {
@@ -64,7 +64,7 @@ describe WorkPackage, type: :model do
 
       it_behaves_like 'copied work package'
 
-      context :project do
+      context 'project' do
         subject { copy.project }
 
         it { is_expected.to eq(source_project) }
@@ -81,19 +81,19 @@ describe WorkPackage, type: :model do
 
       it_behaves_like 'copied work package'
 
-      context :project do
+      context 'project' do
         subject { copy.project_id }
 
         it { is_expected.to eq(target_project.id) }
       end
 
-      context :type do
+      context 'type' do
         subject { copy.type_id }
 
         it { is_expected.to eq(target_type.id) }
       end
 
-      context :custom_fields do
+      context 'custom_fields' do
         before { custom_value }
 
         subject { copy.custom_value_for(custom_field.id) }
@@ -101,7 +101,7 @@ describe WorkPackage, type: :model do
         it { is_expected.to be_nil }
       end
 
-      describe :attributes do
+      describe '#attributes' do
         let(:copy) {
           work_package.move_to_project(target_project,
                                        target_type,
@@ -109,7 +109,7 @@ describe WorkPackage, type: :model do
                                        attributes: attributes)
         }
 
-        context :assigned_to do
+        context 'assigned_to' do
           let(:target_user) { FactoryGirl.create(:user) }
           let(:target_project_member) {
             FactoryGirl.create(:member,
@@ -128,7 +128,7 @@ describe WorkPackage, type: :model do
           it { is_expected.to eq(target_user.id) }
         end
 
-        context :status do
+        context 'status' do
           let(:target_status) { FactoryGirl.create(:status) }
           let(:attributes) { { status_id: target_status.id } }
 
@@ -139,10 +139,10 @@ describe WorkPackage, type: :model do
           it { is_expected.to eq(target_status.id) }
         end
 
-        context :date do
+        context 'date' do
           let(:target_date) { Date.today + 14 }
 
-          context :start do
+          context 'start' do
             let(:attributes) { { start_date: target_date } }
 
             it_behaves_like 'copied work package'
@@ -152,7 +152,7 @@ describe WorkPackage, type: :model do
             it { is_expected.to eq(target_date) }
           end
 
-          context :end do
+          context 'end' do
             let(:attributes) { { due_date: target_date } }
 
             it_behaves_like 'copied work package'
@@ -270,7 +270,7 @@ describe WorkPackage, type: :model do
                        is_required: true)
   }
 
-  describe :copy_from do
+  describe '#copy_from' do
     include_context 'project with required custom field'
 
     let(:source) { FactoryGirl.build(:work_package) }
@@ -282,31 +282,31 @@ describe WorkPackage, type: :model do
     end
 
     shared_examples_for 'work package copy' do
-      context :subject do
+      context 'subject' do
         subject { sink.subject }
 
         it { is_expected.to eq(source.subject) }
       end
 
-      context :type do
+      context 'type' do
         subject { sink.type }
 
         it { is_expected.to eq(source.type) }
       end
 
-      context :status do
+      context 'status' do
         subject { sink.status }
 
         it { is_expected.to eq(source.status) }
       end
 
-      context :project do
+      context 'project' do
         subject { sink.project_id }
 
         it { is_expected.to eq(project_id) }
       end
 
-      context :watchers do
+      context 'watchers' do
         subject { sink.watchers.map(&:user_id) }
 
         it do
@@ -319,7 +319,7 @@ describe WorkPackage, type: :model do
     shared_examples_for 'work package copy with custom field' do
       it_behaves_like 'work package copy'
 
-      context :custom_field do
+      context 'custom_field' do
         subject { sink.custom_value_for(custom_field.id).value }
 
         it { is_expected.to eq('MySQL') }

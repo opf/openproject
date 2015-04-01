@@ -33,7 +33,7 @@ describe QueryPolicy, type: :controller do
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:query)   { FactoryGirl.build_stubbed(:query, project: project, user: user) }
 
-  describe :allowed? do
+  describe '#allowed?' do
     let(:subject) { described_class.new(user) }
 
     before do

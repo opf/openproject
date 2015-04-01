@@ -56,7 +56,7 @@ describe CategoriesController, type: :controller do
     it { is_expected.to redirect_to("/projects/#{project.identifier}/settings/categories") }
   end
 
-  describe :new do
+  describe '#new' do
     before { get :new, project_id: project.id }
 
     subject { response }
@@ -66,7 +66,7 @@ describe CategoriesController, type: :controller do
     it { is_expected.to render_template('new') }
   end
 
-  describe :create do
+  describe '#create' do
     let(:category_name) { 'New category' }
 
     before {
@@ -76,7 +76,7 @@ describe CategoriesController, type: :controller do
                        assigned_to_id: user.id }
     }
 
-    describe :categories do
+    describe '#categories' do
       subject { Category.find_by_name(category_name) }
 
       it { expect(subject.project_id).to eq(project.id) }
@@ -87,7 +87,7 @@ describe CategoriesController, type: :controller do
     it_behaves_like :redirect
   end
 
-  describe :edit do
+  describe '#edit' do
     let(:name) { 'Testing' }
 
     context 'valid category' do
@@ -106,7 +106,7 @@ describe CategoriesController, type: :controller do
 
       it { is_expected.to eq(name) }
 
-      describe :category_count do
+      describe '#category_count' do
         subject { Category.count }
 
         it { is_expected.to eq(1) }
@@ -128,7 +128,7 @@ describe CategoriesController, type: :controller do
     end
   end
 
-  describe :destroy do
+  describe '#destroy' do
     let(:category) {
       FactoryGirl.create(:category,
                          project: project)
@@ -166,7 +166,7 @@ describe CategoriesController, type: :controller do
 
       it { is_expected.not_to be_nil }
 
-      describe :response do
+      describe '#response' do
         subject { response }
 
         it { is_expected.to be_success }
@@ -175,7 +175,7 @@ describe CategoriesController, type: :controller do
       end
     end
 
-    describe :reassign do
+    describe '#reassign' do
       let(:target) {
         FactoryGirl.create(:category,
                            project: project)
@@ -198,7 +198,7 @@ describe CategoriesController, type: :controller do
       it_behaves_like :redirect
     end
 
-    describe :nullify do
+    describe '#nullify' do
       before do
         work_package
 

@@ -48,13 +48,13 @@ module API
                                  content_type: SUPPORTED_MEDIA_TYPE,
                                  actual: bad_type)
 
-                fail API::Errors::UnsupportedMediaType, message
+                fail ::API::Errors::UnsupportedMediaType, message
               end
             end
 
             def check_format(format)
               supported_formats = ['plain']
-              supported_formats += Array(Redmine::WikiFormatting.format_names)
+              supported_formats += Array(::Redmine::WikiFormatting.format_names)
               unless supported_formats.include?(format)
                 fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
               end
@@ -72,7 +72,7 @@ module API
             def context_object
               try_context_object
             rescue ::ActiveRecord::RecordNotFound
-              fail API::Errors::InvalidRenderContext.new(
+              fail ::API::Errors::InvalidRenderContext.new(
                 I18n.t('api_v3.errors.render.context_object_not_found')
               )
             end
@@ -92,12 +92,12 @@ module API
               context = ::API::Utilities::ResourceLinkParser.parse(params[:context])
 
               if context.nil?
-                fail API::Errors::InvalidRenderContext.new(
-                  I18n.t('api_v3.errors.render.context_not_found')
+                fail ::API::Errors::InvalidRenderContext.new(
+                  I18n.t('api_v3.errors.render.context_not_parsable')
                 )
               elsif !SUPPORTED_CONTEXT_NAMESPACES.include?(context[:namespace]) ||
                     context[:version] != '3'
-                fail API::Errors::InvalidRenderContext.new(
+                fail ::API::Errors::InvalidRenderContext.new(
                   I18n.t('api_v3.errors.render.unsupported_context')
                 )
               else

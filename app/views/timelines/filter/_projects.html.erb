@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset id="project_filters" class="header_collapsible collapsible collapsed">
+<fieldset id="project_filters" class="form--fieldset collapsible collapsed">
   <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
     <a href="javascript:"><%= l('timelines.filter.project_filters') %></a>
   </legend>
@@ -53,7 +53,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
            <%= ff.select(:project_types,
                    options_for_select([]),
-                   { label: l("timelines.filter.project_types") },
+                   { label: l("timelines.filter.project_types"),
+                     container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_project_types_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
@@ -74,7 +75,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
           <%= ff.select(:project_status,
                    options_for_select([]),
-                   { label:  l("timelines.filter.project_status") },
+                   { label:  l("timelines.filter.project_status"),
+                     container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_reported_project_statuses_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
@@ -95,7 +97,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
           <%= ff.select(:project_responsibles,
                    options_for_select([]),
-                   { label: l("timelines.filter.project_responsible") },
+                   { label: l("timelines.filter.project_responsible"),
+                     container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_users_path,
                     :multiple => true,
                     :'data-selected' => filter_select(
@@ -116,7 +119,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
           <%= ff.select(:parents,
                    options_for_select([]),
-                   { label: l("timelines.filter.parent") },
+                   { label: l("timelines.filter.parent"),
+                     container_class: '-wide' },
                    { :'data-ajaxURL' => api_v2_paginate_projects_path,
                      :multiple => true,
                      :'data-selected' => filter_select(
@@ -138,7 +142,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <% else %>
           <%= ff.select(:planning_element_time_types,
                      options_for_select([]),
-                     { label: l('timelines.filter.project_time_filter') },
+                     { label: l('timelines.filter.project_time_filter'),
+                       container_class: '-wide' },
                      { :'data-ajaxURL' => api_v2_paginate_types_path,
                        :multiple => true,
                        :'data-selected' => filter_select(
@@ -156,7 +161,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
 
         <div class="form--grouping-row">
-          <div class="form--field">
+          <div class="form--field -trailing-label">
             <%= ff.radio_button :planning_element_time, 'absolute', label:  l('timelines.filter.comparison.absolute') %>
           </div>
         </div>
@@ -177,27 +182,33 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
 
         <div class="form--grouping-row">
-          <div class="form--field">
+          <div class="form--field -trailing-label">
             <%= ff.radio_button :planning_element_time, 'relative', label: l('timelines.filter.comparison.relative') %>
           </div>
         </div>
 
         <div class="form--grouping-row">
-          <div class="form--field">
+          <div class="form--field -wide-label">
             <%= ff.text_field :planning_element_time_relative_one, label: l('timelines.filter.project_time_filter_historical_from') %>
           </div>
           <div class="form--field">
             <%= ff.select :planning_element_time_relative_one_unit,
                           options_for_timeunits(timeline.options['planning_element_time_relative_one_unit']),
                           no_label: true %>
+            <span class="form--field-affix -transparent">
+              <%=l('timelines.filter.comparison.compare_relative_suffix')%>
+            </span>
           </div>
-          <div class="form--field">
+          <div class="form--field -wide-label">
             <%= ff.text_field :planning_element_time_relative_two, label: l('timelines.filter.project_time_filter_historical_to') %>
           </div>
           <div class="form--field">
             <%= ff.select :planning_element_time_relative_two_unit,
                           options_for_timeunits(timeline.options['planning_element_time_relative_two_unit']),
                           no_label: true %>
+            <span class="form--field-affix -transparent">
+              <%=l('timelines.filter.comparison.compare_relative_suffix')%>
+            </span>
           </div>
         </div>
       </div>

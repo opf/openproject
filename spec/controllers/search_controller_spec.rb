@@ -91,7 +91,7 @@ describe SearchController, type: :controller do
 
     it_behaves_like 'successful search'
 
-    describe :result do
+    describe '#result' do
 
       it { expect(assigns(:results).count).to be(2) }
 
@@ -99,7 +99,7 @@ describe SearchController, type: :controller do
 
       it { expect(assigns(:results)).to include(work_package_2) }
 
-      describe :view do
+      describe '#view' do
         render_views
 
         it 'marks closed work packages' do
@@ -118,7 +118,7 @@ describe SearchController, type: :controller do
                            version: 2
       }
 
-      before { Journal.any_instance.stub(predecessor: note_1) }
+      before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
 
       context 'and second note' do
         let!(:note_2) {
@@ -132,21 +132,21 @@ describe SearchController, type: :controller do
           subject { note_2.send :predecessor }
 
           it { is_expected.to eq note_1 }
-          it { expect(note_1.data).to_not be nil }
-          it { expect(subject.data).to_not be nil }
+          it { expect(note_1.data).not_to be nil }
+          it { expect(subject.data).not_to be nil }
         end
 
         before { get :index, q: 'note', issues: 1 }
 
         it_behaves_like 'successful search'
 
-        describe :result do
+        describe '#result' do
 
           it { expect(assigns(:results).count).to be 1 }
 
           it { expect(assigns(:results)).to include work_package_1 }
 
-          describe :view do
+          describe '#view' do
             render_views
 
             it 'highlights last note' do

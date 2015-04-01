@@ -162,14 +162,17 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
         updatedAt: 'datetime'
       };
 
-      if (propertyName === 'estimatedTime' || propertyName === 'spentTime') {
+      // spentTime, remainingTime, estimatedTime
+      // totally not a hack
+      // to be switched to schema in an upcoming PR
+      if (/(.+)Time$/.test(propertyName)) {
         if (value === null) {
           return null;
         }
 
         var hours = moment.duration(value).asHours();
 
-        return I18n.t('js.units.hour', { count: hours });
+        return I18n.t('js.units.hour', { count: hours.toFixed(2) });
       } else {
         return this.formatValue(value, mappings[propertyName]);
       }

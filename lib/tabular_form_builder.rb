@@ -34,23 +34,20 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::AssetTagHelper
 
   (field_helpers - %w(radio_button hidden_field fields_for label) + %w(date_select)).each do |selector|
-    src = <<-END_SRC
-    def #{selector}(field, options = {}, *args)
+    define_method selector do |field, options = {}, *args|
       if options[:multi_locale] || options[:single_locale]
         localize_field(field, options, __method__)
       else
-        options[:class] = Array(options[:class]) + [ field_css_class('#{selector}') ]
+        options[:class] = Array(options[:class]) + [field_css_class(selector)]
 
         input_options, label_options = extract_from options
 
         label = label_for_field(field, label_options)
         input = super(field, input_options, *args)
 
-        (label + container_wrap_field(input, '#{selector}', options))
+        (label + container_wrap_field(input, selector, options))
       end
     end
-    END_SRC
-    class_eval src, __FILE__, __LINE__
   end
 
   def label(method, text = nil, options = {}, &block)
@@ -114,7 +111,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   ].freeze
 
   def container_wrap_field(field_html, selector, options = {})
-    ret = content_tag(:span, field_html, class: field_container_css_class(selector))
+    ret = content_tag(:span, field_html, class: field_container_css_class(selector, options))
 
     prefix, suffix = options.values_at(:prefix, :suffix)
 
@@ -155,12 +152,16 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     ret
   end
 
-  def field_container_css_class(selector)
-    if TEXT_LIKE_FIELDS.include?(selector)
-      'form--text-field-container'
-    else
-      "form--#{selector.tr('_', '-')}-container"
-    end
+  def field_container_css_class(selector, options)
+    classes = if TEXT_LIKE_FIELDS.include?(selector)
+                'form--text-field-container'
+              else
+                "form--#{selector.tr('_', '-')}-container"
+              end
+
+    classes << ' ' + options.fetch(:container_class, '')
+
+    classes.strip
   end
 
   def field_css_class(selector)
@@ -175,13 +176,24 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def label_for_field(field, options = {}, translation_form = nil)
     options = options.dup
     return ''.html_safe if options.delete(:no_label)
-    text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
-    text ||= @object.class.human_attribute_name(field.to_sym) if @object.is_a?(ActiveRecord::Base)
+
+    text = if options[:label].is_a?(Symbol)
+             l(options[:label])
+           elsif options[:label]
+             options[:label]
+           elsif @object.is_a?(ActiveRecord::Base)
+             @object.class.human_attribute_name(field.to_sym)
+           else
+             l(field)
+           end
+
+    label_options = { class: '',
+                      title: text }
+
     text += @template.content_tag('span', ' *', class: 'required') if options.delete(:required)
 
     id = element_id(translation_form) if translation_form
 
-    label_options = { class: '' }
     # FIXME: reenable the error handling
     label_options[:class] << 'error' if false && @object && @object.respond_to?(:errors) && @object.errors[field] # FIXME
     label_options[:class] << 'form--label'

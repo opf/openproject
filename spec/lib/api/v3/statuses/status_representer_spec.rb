@@ -35,7 +35,7 @@ describe ::API::V3::Statuses::StatusRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('Status'.to_json).at_path('_type') }
+    it { is_expected.to include_json('Status'.to_json).at_path('_type') }
 
     describe 'status' do
       it { is_expected.to have_json_path('id') }

@@ -81,7 +81,7 @@ describe CopyProjectsController, type: :controller do
 
     it { expect(response).to render_template('copy_from_settings') }
     it 'should display error validation messages' do
-      expect(assigns(:copy_project).errors).to_not be_empty
+      expect(assigns(:copy_project).errors).not_to be_empty
     end
   end
 

@@ -29,6 +29,7 @@
 FactoryGirl.define do
   factory :user_preference do
     user
+    hide_mail 0
     others = {}
   end
 end

@@ -155,7 +155,7 @@ module Redmine
         def for_custom_field_accessor(method_symbol)
           match = /\Acustom_field_(?<id>\d+)=?\z/.match(method_symbol.to_s)
           if match
-            custom_field = CustomField.find_by_id(match[:id])
+            custom_field = available_custom_fields.find { |cf| cf.id.to_s == match[:id] }
             if custom_field
               yield custom_field
             end

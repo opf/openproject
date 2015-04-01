@@ -62,24 +62,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match /OpenProject URL/, mail.body.encoded
   end
 
-  def test_issue_add
-    user  = FactoryGirl.create(:user, mail: 'foo@bar.de')
-    issue = FactoryGirl.create(:work_package, subject: 'some issue title')
-
-    # creating an issue actually sends an email, ohoh
-    ActionMailer::Base.deliveries.clear
-
-    mail = UserMailer.work_package_added(user, issue)
-    assert mail.deliver
-
-    assert_equal 1, ActionMailer::Base.deliveries.size
-
-    assert_match /some issue title/, mail.subject
-    assert_equal ['foo@bar.de'], mail.to
-    assert_equal ['john@doe.com'], mail.from
-    assert_match /has been reported/, mail.body.encoded
-  end
-
   def test_generated_links_in_emails
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo'
@@ -218,7 +200,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_email_headers
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue)
+    mail = UserMailer.work_package_added(user, issue, user)
     assert mail.deliver
     assert_not_nil mail
     assert_equal 'bulk', mail.header['Precedence'].to_s
@@ -229,7 +211,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    UserMailer.work_package_added(user, issue).deliver
+    UserMailer.work_package_added(user, issue, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /text\/plain/, mail.content_type
     assert_equal 0, mail.parts.size
@@ -240,7 +222,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    UserMailer.work_package_added(user, issue).deliver
+    UserMailer.work_package_added(user, issue, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /multipart\/alternative/, mail.content_type
     assert_equal 2, mail.parts.size
@@ -266,7 +248,7 @@ class UserMailerTest < ActionMailer::TestCase
     user.pref.save
     User.current = user
     ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news).deliver
+    UserMailer.news_added(user, news, user).deliver
     assert_equal 1, last_email.to.size
 
     # nobody to notify
@@ -274,14 +256,14 @@ class UserMailerTest < ActionMailer::TestCase
     user.pref.save
     User.current = user
     ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news).deliver
+    UserMailer.news_added(user, news, user).deliver
     assert ActionMailer::Base.deliveries.empty?
   end
 
   def test_issue_add_message_id
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue)
+    mail = UserMailer.work_package_added(user, issue, user)
     mail.deliver
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(issue, user), mail.message_id
@@ -302,7 +284,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_message_posted_message_id
     user    = FactoryGirl.create(:user)
     message = FactoryGirl.create(:message)
-    UserMailer.message_posted(user, message).deliver
+    UserMailer.message_posted(user, message, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
@@ -317,7 +299,7 @@ class UserMailerTest < ActionMailer::TestCase
     user    = FactoryGirl.create(:user)
     parent  = FactoryGirl.create(:message)
     message = FactoryGirl.create(:message, parent: parent)
-    UserMailer.message_posted(user, message).deliver
+    UserMailer.message_posted(user, message, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(message, user), mail.message_id
@@ -329,22 +311,13 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   context('#issue_add') do
-    should 'send one email per recipient' do
-      user  = FactoryGirl.create(:user, mail: 'foo@bar.de')
-      issue = FactoryGirl.create(:work_package)
-      ActionMailer::Base.deliveries.clear
-      assert UserMailer.work_package_added(user, issue).deliver
-      assert_equal 1, ActionMailer::Base.deliveries.size
-      assert_equal ['foo@bar.de'], last_email.to
-    end
-
     should 'change mail language depending on recipient language' do
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: 'de')
       ActionMailer::Base.deliveries.clear
       with_settings available_languages: ['en', 'de'] do
         I18n.locale = 'en'
-        assert UserMailer.work_package_added(user, issue).deliver
+        assert UserMailer.work_package_added(user, issue, user).deliver
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -364,7 +337,7 @@ class UserMailerTest < ActionMailer::TestCase
       with_settings available_languages: ['en', 'de'],
                     default_language: 'de' do
         I18n.locale = 'de'
-        assert UserMailer.work_package_added(user, issue).deliver
+        assert UserMailer.work_package_added(user, issue, user).deliver
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -375,48 +348,23 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_issue_add
-    user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:work_package)
-    assert UserMailer.work_package_added(user, issue).deliver
-  end
-
-  def test_work_package_updated
-    user    = FactoryGirl.create(:user)
-    issue   = FactoryGirl.create(:work_package)
-    journal = issue.journals.first
-    assert UserMailer.work_package_updated(user, journal).deliver
-  end
-
   def test_news_added
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
-    assert UserMailer.news_added(user, news).deliver
+    assert UserMailer.news_added(user, news, user).deliver
   end
 
   def test_news_comment_added
     user    = FactoryGirl.create(:user)
     news    = FactoryGirl.create(:news)
     comment = FactoryGirl.create(:comment, commented: news)
-    assert UserMailer.news_comment_added(user, comment).deliver
+    assert UserMailer.news_comment_added(user, comment, user).deliver
   end
 
   def test_message_posted
     user    = FactoryGirl.create(:user)
     message = FactoryGirl.create(:message)
-    assert UserMailer.message_posted(user, message).deliver
-  end
-
-  def test_wiki_content_added
-    user         = FactoryGirl.create(:user)
-    wiki_content = FactoryGirl.create(:wiki_content)
-    assert UserMailer.wiki_content_added(user, wiki_content).deliver
-  end
-
-  def test_wiki_content_updated
-    user         = FactoryGirl.create(:user)
-    wiki_content = FactoryGirl.create(:wiki_content)
-    assert UserMailer.wiki_content_updated(user, wiki_content).deliver
+    assert UserMailer.message_posted(user, message, user).deliver
   end
 
   def test_account_information

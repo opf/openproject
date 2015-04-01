@@ -49,6 +49,19 @@ end
 
 shared_examples_for 'wrapped in container' do |container = 'field-container'|
   it { is_expected.to have_selector "span.form--#{container}", count: 1 }
+
+  context 'with additional class provided' do
+    let(:css_class) { 'my-additional-class' }
+    let(:expected_container_count) { defined?(container_count) ? container_count : 1 }
+
+    before do
+      options[:container_class] = css_class
+    end
+
+    it 'has the class' do
+      is_expected.to have_selector "span.#{css_class}", count: expected_container_count
+    end
+  end
 end
 
 shared_examples_for 'not wrapped in container' do |container = 'field-container'|

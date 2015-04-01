@@ -310,7 +310,7 @@ describe 'Work package index accessibility', type: :feature do
           expect(page).to have_selector('.ng-modal-window')
           find('body').native.send_keys(:escape)
           # expect it to disappear
-          expect(page).to_not have_selector('.ng-modal-window')
+          expect(page).not_to have_selector('.ng-modal-window')
           # expect the gear to be focused
           expect(page).to have_selector('#work-packages-settings-button:focus')
         end

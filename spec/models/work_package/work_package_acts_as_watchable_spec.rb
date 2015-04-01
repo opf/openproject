@@ -54,7 +54,7 @@ describe WorkPackage, type: :model do
     let(:current_user) { FactoryGirl.create :user }
 
     before do
-      UserMailer.stub_chain :work_package_updated, :deliver
+      allow(UserMailer).to receive_message_chain :work_package_updated, :deliver
 
       # Ensure notification setting to be set in a way that will trigger e-mails.
       allow(Setting).to receive(:notified_events).and_return(%w(work_package_updated))

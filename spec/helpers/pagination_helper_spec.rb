@@ -49,7 +49,7 @@ describe PaginationHelper, type: :helper do
     paginator
   end
 
-  describe :pagination_links_full do
+  describe '#pagination_links_full' do
     let(:per_page) { 10 }
     let(:total_entries) { 55 }
     let(:offset) { 1 }
@@ -151,7 +151,7 @@ describe PaginationHelper, type: :helper do
     end
   end
 
-  describe :page_param do
+  describe '#page_param' do
     it 'should return page if provided and sensible' do
       page = 2
 
@@ -197,7 +197,7 @@ describe PaginationHelper, type: :helper do
     end
   end
 
-  describe :per_page_param do
+  describe '#per_page_param' do
     it 'should return per_page if provided and one of the values stored in the settings' do
       with_settings per_page_options: '1,2,3' do
         per_page = 2

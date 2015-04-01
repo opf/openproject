@@ -51,23 +51,23 @@ describe Redmine::AccessControl do
     end
 
     it 'removes from global permissions' do
-      expect(subject.permissions).to_not include(former_repository_permissions)
+      expect(subject.permissions).not_to include(former_repository_permissions)
     end
 
     it 'removes from public permissions' do
-      expect(subject.public_permissions).to_not include(former_repository_permissions)
+      expect(subject.public_permissions).not_to include(former_repository_permissions)
     end
 
     it 'removes from members only permissions' do
-      expect(subject.members_only_permissions).to_not include(former_repository_permissions)
+      expect(subject.members_only_permissions).not_to include(former_repository_permissions)
     end
 
     it 'removes from loggedin only permissions' do
-      expect(subject.loggedin_only_permissions).to_not include(former_repository_permissions)
+      expect(subject.loggedin_only_permissions).not_to include(former_repository_permissions)
     end
 
     it 'should disable repository module' do
-      expect(subject.available_project_modules).to_not include(:repository)
+      expect(subject.available_project_modules).not_to include(:repository)
     end
   end
 end

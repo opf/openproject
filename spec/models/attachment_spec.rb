@@ -43,7 +43,7 @@ describe Attachment, type: :model do
   end
 
   describe 'create' do
-    context :save do
+    context 'save' do
       before do
         attachment.description = long_description
         attachment.valid?
@@ -80,7 +80,7 @@ describe Attachment, type: :model do
       attachment.save!
     end
 
-    context :update do
+    context 'update' do
       before do
         attachment.description = long_description
         attachment.valid?

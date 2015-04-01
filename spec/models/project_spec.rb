@@ -128,7 +128,7 @@ describe Project, type: :model do
     end
   end
 
-  describe :find_visible do
+  describe '#find_visible' do
     it 'should find the project by id if the user is project member' do
       become_member_with_permissions(project, user, :view_work_packages)
 
@@ -151,7 +151,7 @@ describe Project, type: :model do
   end
 
   context 'when the wiki module is enabled' do
-    let(:project) { FactoryGirl.create(:project, :without_wiki) }
+    let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
 
     before :each do
       project.enabled_module_names = project.enabled_module_names | ['wiki']

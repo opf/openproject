@@ -89,6 +89,18 @@ Given(/^the user "([^\"]+)" has the following query menu items in the project "(
   end
 end
 
+When /^the work package table has finished loading$/ do
+  message <<-MESSAGE
+    This is a safeguard to ensure that the work package table is loaded before performing actions
+    on UI items that have not been fully loaded.
+
+    It currently assumes that at least one filter is set, without the necessity of the filter being
+    displayed.
+  MESSAGE
+
+  expect(page).to have_selector('.advanced-filters--filter', visible: false), message
+end
+
 When /^I fill in the id of work package "(.+?)" into "(.+?)"$/ do |wp_name, field_name|
   work_package = InstanceFinder.find(WorkPackage, wp_name)
 

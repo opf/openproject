@@ -12,7 +12,7 @@
 require 'spec_helper'
 
 describe RedCloth3 do
-  describe :to_html, 'with one full heading tree starting at h1' do
+  describe '#to_html', 'with one full heading tree starting at h1' do
     before(:each) do
       @text = <<-RAW
 
@@ -55,7 +55,7 @@ describe RedCloth3 do
     end
   end
 
-  describe :to_html, 'with one heading tree starting at h2' do
+  describe '#to_html', 'with one heading tree starting at h2' do
     before(:each) do
       @text = <<-RAW
 
@@ -98,7 +98,7 @@ describe RedCloth3 do
     end
   end
 
-  describe :to_html, 'with two heading trees starting at h2' do
+  describe '#to_html', 'with two heading trees starting at h2' do
     before(:each) do
       @text = <<-RAW
 
@@ -141,7 +141,7 @@ describe RedCloth3 do
     end
   end
 
-  describe :to_html, 'with one heading tree starting at h2 and right after it one starting at h1' do
+  describe '#to_html', 'with one heading tree starting at h2 and right after it one starting at h1' do
     before(:each) do
       @text = <<-RAW
 

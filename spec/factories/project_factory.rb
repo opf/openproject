@@ -31,6 +31,7 @@ FactoryGirl.define do
   factory :project do
     transient do
       no_types false
+      disable_modules []
     end
 
     sequence(:name) { |n| "My Project No. #{n}" }
@@ -38,6 +39,11 @@ FactoryGirl.define do
     created_on { Time.now }
     updated_on { Time.now }
     enabled_module_names Redmine::AccessControl.available_project_modules
+
+    callback(:after_build) do |project, evaluator|
+      disabled_modules = Array(evaluator.disable_modules)
+      project.enabled_module_names = project.enabled_module_names - disabled_modules
+    end
 
     callback(:before_create) do |project, evaluator|
       unless evaluator.no_types ||
@@ -62,12 +68,6 @@ FactoryGirl.define do
         callback(:after_build) do |project|
           project.types << FactoryGirl.build(:type_with_workflow)
         end
-      end
-    end
-
-    trait :without_wiki do
-      callback(:after_build) do |project|
-        project.enabled_module_names = project.enabled_module_names - ['wiki']
       end
     end
   end

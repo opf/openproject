@@ -30,15 +30,16 @@
 class DeliverWorkPackageCreatedJob
   include MailNotificationJob
 
-  def initialize(user_id, work_package_id)
+  def initialize(user_id, work_package_id, current_user_id)
     @user_id         = user_id
     @work_package_id = work_package_id
+    @current_user_id = current_user_id
   end
 
   private
 
   def notification_mail
-    @notification_mail ||= UserMailer.work_package_added(user, work_package)
+    @notification_mail ||= UserMailer.work_package_added(user, work_package, current_user)
   end
 
   def user
@@ -47,5 +48,9 @@ class DeliverWorkPackageCreatedJob
 
   def work_package
     @work_package ||= WorkPackage.find(@work_package_id)
+  end
+
+  def current_user
+    @current_user ||= Principal.find(@current_user_id)
   end
 end

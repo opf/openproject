@@ -28,17 +28,16 @@
 
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file)
 
-@mixin input-style
+%input-style
   border: $content-form-input-border
   border-radius: 2px
-  font-weight: bold
   font-size: 1rem
   &:hover, &:focus
     border: $content-form-input-hover-border
 
   vertical-align: middle
 
-@mixin label-style
+%label-style
   text-align: left
   font-weight: normal
   vertical-align: middle
@@ -242,7 +241,7 @@ fieldset.form--fieldset
 
 .form--label
   @include grid-content(2)
-  @include label-style
+  @extend %label-style
   padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
@@ -342,15 +341,49 @@ fieldset.form--fieldset
   .form--#{$field-type}-container
     @extend %form--field-element-container
 
+    &.-tiny
+      max-width: 50px
+
+    &.-xslim
+      max-width: 110px
+
+    &.-slim
+      max-width: 200px
+
+    &.-middle
+      max-width: 350px
+
+    &.-wide
+      max-width: 500px
+
+    &.-xwide
+      max-width: 800px
+
+    &.-xxwide
+      max-width: 1100px
+
+.form--select-container
+  &.-tiny,
+  &.-xslim,
+  &.-slim,
+  &.-middle,
+  &.-wide,
+  &.-xwide,
+  &.-xxwide
+    // overriding hack on select2 by another hack (select2_customizing.css)
+    // remove once the initial limit on the width is removed
+    .select2-container
+      max-width: initial
+
 .form--text-field
-  @include input-style
+  @extend %input-style
 
 .form--text-field,
 #{$text-input-selectors}
   line-height: 1.5
 
 .form--select
-  @include input-style
+  @extend %input-style
   line-height: 1.5
 
   // TODO: remove padding property once upstream PR merged:
@@ -391,13 +424,17 @@ fieldset.form--fieldset
     margin-bottom: 0.5rem
 
 .form--text-area
-  font-weight: bold
-  font-size: 1rem
-  border: $content-form-input-border
+  @extend %input-style
 
-  &:hover, &:focus
-    border: $content-form-input-hover-border
+  .form &
+    margin-bottom: 0.5rem
 
+.form--radio-button-container
+  //prevent radio-buttons from being cut at the border
+  padding: 0 1px
+
+.form--radio-button
+  // Be on par with Foundation's margin-bottom on labels.
   .form &
     margin-bottom: 0.5rem
 
@@ -413,7 +450,7 @@ fieldset.form--fieldset
 
 .form--grouping-label
   @include grid-content(2)
-  @include label-style
+  @extend %label-style
   padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
@@ -451,6 +488,7 @@ fieldset.form--fieldset
 .form--column
   @include grid-block
   @include grid-orient(vertical)
+  overflow-y: hidden
 
   &:nth-last-of-type(n+2)
     padding-right: $block-padding
@@ -489,6 +527,10 @@ fieldset.form--fieldset
   %form--field-element-container + &
     margin-left:  -1rem
     border-left:  0
+
+  &.-transparent
+    background: none
+    border: none
 
 .form--list
   display: flex

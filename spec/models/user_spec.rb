@@ -77,7 +77,7 @@ describe User, type: :model do
 
   end
 
-  describe :assigned_issues do
+  describe '#assigned_issues' do
     before do
       user.save!
     end
@@ -115,7 +115,7 @@ describe User, type: :model do
     end
   end
 
-  describe :blocked do
+  describe '#blocked' do
     let!(:blocked_user) do
       FactoryGirl.create(:user,
                          failed_login_count: 3,
@@ -187,7 +187,7 @@ describe User, type: :model do
     end
   end
 
-  describe :watches do
+  describe '#watches' do
     before do
       user.save!
     end
@@ -260,7 +260,7 @@ describe User, type: :model do
     it { expect(@u.force_password_change).to be_truthy }
   end
 
-  describe :try_authentication_for_existing_user do
+  describe '#try_authentication_for_existing_user' do
     def build_user_double_with_expired_password(is_expired)
       user_double = double('User')
       allow(user_double).to receive(:check_password?) { true }

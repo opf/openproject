@@ -50,7 +50,7 @@ feature 'Query menu items' do
   end
 
   before do
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   after do
@@ -109,8 +109,9 @@ feature 'Query menu items' do
     let!(:menu_item_b) { FactoryGirl.create :query_menu_item, query: query_b }
 
     it 'can be renamed and the menu item is sorted', js: true do
-      skip('cannot be run on FF35 because of https://code.google.com/p/selenium/issues/detail?id=8387',
-           if: browser_is_ff?(35))
+
+      skip 'cannot be run on FF35 because of
+        https://code.google.com/p/selenium/issues/detail?id=8387' if browser_is_ff?(35)
 
       new_name = 'aaaaa'
 

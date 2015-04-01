@@ -32,6 +32,9 @@
   to
     opacity: 0
 
+$work-packages-table--font-size: 0.875rem
+$work-packages-table--header-font-size: 0.875rem
+
 $work-packages-table--header-height: 40px
 $work-packages-table--footer-height: 34px
 
@@ -66,6 +69,7 @@ table.workpackages-table
   border-collapse: collapse
   width:  100%
   margin: 0
+  font-size: $work-packages-table--font-size
 
   col
     &:hover,
@@ -77,6 +81,7 @@ table.workpackages-table
       &:hover
         background: none
     th
+      font-size: $work-packages-table--header-font-size
       text-transform: uppercase
       text-align: left
       line-height: 34px

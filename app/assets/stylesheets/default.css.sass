@@ -25,9 +25,8 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
-//= require ../javascripts/bundles/openproject-global
-//= require ../javascripts/bundles/openproject-core-app
-//= require_tree ../javascripts/bundles
+//= require bundles/openproject-global
+//= require bundles/openproject-core-app
 
 //= require print
 //= require scm
@@ -41,17 +40,17 @@
 @import foundation
 @import settings
 
-@import fonts/lato
-@import fonts/openproject_icon_font
+@import typography
 
 @import layout/all
 @import content/accounts
 @import content/context_menu
 @import content/forms
+@import content/choice
+@import content/ui_select
 @import content/flash_messages
 @import content/notifications
 @import content/calendar
-@import content/wiki
 @import content/links
 @import content/action_menu_main
 @import content/legacy_actions
@@ -83,7 +82,6 @@
 
 @import content/tables
 @import content/tabular
-@import content/headings
 @import content/timelines
 @import content/user_avatars
 @import content/preview
@@ -103,6 +101,8 @@
 @import content/diff
 
 @import content/jquery_ui
+@import content/datepicker
+
 @import content/select2
 
 @import misc_legacy

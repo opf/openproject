@@ -61,7 +61,7 @@ describe ::API::V3::Categories::CategoryRepresenter do
       it_behaves_like 'category has core values'
 
       it 'should not link to an assignee' do
-        expect(subject).to_not have_json_path('_links/defaultAssignee')
+        expect(subject).not_to have_json_path('_links/defaultAssignee')
       end
     end
 

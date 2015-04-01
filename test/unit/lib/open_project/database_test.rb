@@ -29,15 +29,15 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class OpenProject::DatabaseTest < ActiveSupport::TestCase
-  setup do
-    OpenProject::Database.stub(:adapter_name).and_return 'PostgresQL'
-  end
-
   should 'return the correct identifier' do
+    OpenProject::Database.stub(:adapter_name).and_return 'PostgresQL'
+
     assert_equal :postgresql, OpenProject::Database.name
   end
 
   should 'be able to use the helper methods' do
+    OpenProject::Database.stub(:adapter_name).and_return 'PostgresQL'
+
     assert_equal false, OpenProject::Database.mysql?
     assert_equal true, OpenProject::Database.postgresql?
   end

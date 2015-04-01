@@ -39,7 +39,7 @@ describe Version, type: :model do
     version.effective_date = '2012-01-01'
 
     expect(version).not_to be_valid
-    expect(version.errors_on(:effective_date).size).to eq(1)
+    expect(version.errors[:effective_date].size).to eq(1)
   end
 
   context '#to_s_for_project' do
@@ -59,7 +59,7 @@ describe Version, type: :model do
     it { is_expected.to respond_to :closed_pourcent    }
   end
 
-  describe :systemwide do
+  describe '#systemwide' do
     it 'contains the version if it is shared with all projects' do
       version.sharing = 'system'
       version.save!

@@ -56,6 +56,7 @@ Feature: Query menu items
   @javascript
   Scenario: Create a query menu item
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
+    And the work package table has finished loading
     And I click on "Settings"
     And I click on "Share ..."
     And I check "Show page in menu"
@@ -69,6 +70,7 @@ Feature: Query menu items
       | name       | title      | navigatable |
       | bugs_query | Bugs Query | Bugs        |
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
+    And the work package table has finished loading
     And I click on "Settings"
     And I click on "Share ..."
     And I uncheck "Show page in menu"

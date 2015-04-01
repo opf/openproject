@@ -150,7 +150,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     describe 'spentTime' do
       before { permissions << :view_time_entries }
 
-      describe :content do
+      describe '#content' do
         let(:wp) { FactoryGirl.create(:work_package) }
         let(:permissions) { [:view_work_packages, :view_time_entries] }
         let(:role) { FactoryGirl.create(:role, permissions: permissions) }
@@ -174,7 +174,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               .and_return(false)
           end
 
-          it { is_expected.to_not have_json_path('spentTime') }
+          it { is_expected.not_to have_json_path('spentTime') }
         end
 
         context 'no time entry' do
@@ -442,7 +442,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'should not have a link to unwatch' do
-            expect(subject).to_not have_json_path('_links/unwatchChanges/href')
+            expect(subject).not_to have_json_path('_links/unwatchChanges/href')
           end
         end
 
@@ -456,7 +456,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'should not have a link to watch' do
-            expect(subject).to_not have_json_path('_links/watchChanges/href')
+            expect(subject).not_to have_json_path('_links/watchChanges/href')
           end
         end
       end
@@ -465,11 +465,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:current_user) { FactoryGirl.create :user }
 
         it 'should not have a link to unwatch' do
-          expect(subject).to_not have_json_path('_links/unwatchChanges/href')
+          expect(subject).not_to have_json_path('_links/unwatchChanges/href')
         end
 
         it 'should not have a link to watch' do
-          expect(subject).to_not have_json_path('_links/watchChanges/href')
+          expect(subject).not_to have_json_path('_links/watchChanges/href')
         end
       end
 
@@ -485,7 +485,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'should not have a link to add comment' do
-          expect(subject).to_not have_json_path('_links/addComment/href')
+          expect(subject).not_to have_json_path('_links/addComment/href')
         end
       end
 
@@ -501,7 +501,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'should not have a link to add watcher' do
-          expect(subject).to_not have_json_path('_links/addWatcher/href')
+          expect(subject).not_to have_json_path('_links/addWatcher/href')
         end
       end
 
@@ -517,7 +517,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'should not have a link to add relation' do
-          expect(subject).to_not have_json_path('_links/addRelation/href')
+          expect(subject).not_to have_json_path('_links/addRelation/href')
         end
       end
 
@@ -535,7 +535,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           role.permissions.delete(:add_work_packages) and role.save
         end
         it 'should not have a link to add child' do
-          expect(subject).to_not have_json_path('_links/addChild/href')
+          expect(subject).not_to have_json_path('_links/addChild/href')
         end
       end
 
@@ -553,7 +553,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           role.permissions.delete(:view_time_entries) and role.save
         end
         it 'should not have a link to timeEntries' do
-          expect(subject).to_not have_json_path('_links/timeEntries/href')
+          expect(subject).not_to have_json_path('_links/timeEntries/href')
         end
       end
 
@@ -613,7 +613,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                parent_id: work_package.id)
           }
 
-          it { expect(subject).to_not have_json_path('_links/children') }
+          it { expect(subject).not_to have_json_path('_links/children') }
 
           describe 'visible and invisible children' do
             let!(:child) {

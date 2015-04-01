@@ -43,7 +43,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
   }
   let(:user) { FactoryGirl.create(:user) }
 
-  describe :search do
+  describe '#search' do
     describe "w/ the user being logged in
               w/ searching for a matching string
               w/ beeing member with the appropriate permission" do

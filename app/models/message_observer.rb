@@ -35,7 +35,7 @@ class MessageObserver < ActiveRecord::Observer
       recipients += message.board.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
-        UserMailer.message_posted(user, message).deliver
+        UserMailer.message_posted(user, message, User.current).deliver
       end
     end
   end

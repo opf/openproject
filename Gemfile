@@ -89,6 +89,9 @@ gem 'syck', '~> 1.0.4', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21,
 
 gem 'gon', '~> 4.0'
 
+# catch exceptions and send them to any airbrake compatible backend
+gem 'airbrake', '~> 4.1.0'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
@@ -144,11 +147,12 @@ group :test do
   # connection with database cleaner here but setting it to 1.2 fixes the
   # issue.
   gem 'database_cleaner', '~> 1.2.0'
-  gem 'rspec', '~> 2.99.0'
+  gem 'rspec', '~> 3.2.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem "rspec-rails", "~> 2.99.0", :group => :development
+  gem 'rspec-rails', '~> 3.2.0', group: :development
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
+  gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'selenium-webdriver', '~> 2.44.0'
@@ -170,7 +174,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'letter_opener', '~> 1.0.0'
+  gem 'letter_opener', '~> 1.3.0'
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'thin'
   gem 'faker'

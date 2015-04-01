@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/users/user_collection_representer'
+
 module API
   module V3
     module Projects
@@ -37,9 +39,9 @@ module API
             available_assignees = @project.possible_assignees
             total = available_assignees.count
             self_link = api_v3_paths.available_assignees(@project.id)
-            ::API::V3::Users::UserCollectionRepresenter.new(available_assignees,
-                                                            total,
-                                                            self_link)
+            Users::UserCollectionRepresenter.new(available_assignees,
+                                                 total,
+                                                 self_link)
           end
         end
       end

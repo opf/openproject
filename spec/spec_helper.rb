@@ -39,9 +39,15 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
-require 'rspec/autorun'
 require 'rspec/example_disabler'
 require 'capybara/rails'
+
+Capybara.register_driver :selenium do |app|
+  require 'selenium/webdriver'
+  Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
+    Selenium::WebDriver::Firefox::Binary.path
+  Capybara::Selenium::Driver.new(app, browser: :firefox)
+end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -104,7 +110,6 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
-  config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
 
   # add helpers to parse json-responses
@@ -125,7 +130,7 @@ RSpec.configure do |config|
   end
 
   # include spec/api for API request specs
-  config.include RSpec::Rails::RequestExampleGroup, type: :request, example_group: { file_path: /spec\/api/ }
+  config.include RSpec::Rails::RequestExampleGroup, type: :request
 end
 
 # load disable_specs.rbs from plugins

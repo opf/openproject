@@ -31,8 +31,8 @@ require 'spec_helper'
 describe EnumerationsController, type: :controller do
   before { allow(controller).to receive(:require_admin).and_return(true) }
 
-  describe :destroy do
-    describe :priority do
+  describe '#destroy' do
+    describe '#priority' do
       let(:enum_to_delete) { FactoryGirl.create(:priority_normal) }
 
       shared_examples_for 'successful delete' do

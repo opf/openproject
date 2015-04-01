@@ -44,13 +44,15 @@ describe WorkPackage, type: :model do
 
     it 'validates, that start-date is before end-date' do
       wp = FactoryGirl.build(:work_package, start_date: 1.day.from_now, due_date: 1.day.ago)
-      expect(wp.errors_on(:due_date).size).to eq(1)
+      wp.valid?
+      expect(wp.errors[:due_date].size).to eq(1)
     end
 
     it 'validates, that correct formats are properly parsed' do
       wp = FactoryGirl.build(:work_package, start_date: '01/01/13', due_date: '31/01/13')
-      expect(wp.errors_on(:start_date).size).to eq(0)
-      expect(wp.errors_on(:due_date).size).to eq(0)
+      wp.valid?
+      expect(wp.errors[:start_date].size).to eq(0)
+      expect(wp.errors[:due_date].size).to eq(0)
     end
 
     describe 'hierarchical work_package-validations' do
@@ -111,7 +113,7 @@ describe WorkPackage, type: :model do
       successor.start_date = '01/01/13'
 
       expect(successor).not_to be_valid
-      expect(successor.errors_on(:start_date).size).to eq(1)
+      expect(successor.errors[:start_date].size).to eq(1)
     end
   end
 
@@ -131,7 +133,7 @@ describe WorkPackage, type: :model do
       wp.fixed_version = non_assignable_version
 
       expect(wp).not_to be_valid
-      expect(wp.errors_on(:fixed_version_id).size).to eq(1)
+      expect(wp.errors[:fixed_version_id].size).to eq(1)
     end
 
     it 'validate, that closed or locked versions cannot be assigned' do
@@ -142,13 +144,13 @@ describe WorkPackage, type: :model do
 
         wp.fixed_version = non_assignable_version
         expect(wp).not_to be_valid
-        expect(wp.errors_on(:fixed_version_id).size).to eq(1)
+        expect(wp.errors[:fixed_version_id].size).to eq(1)
       end
     end
 
     it 'validates, that inexistent ids are erroneous' do
       wp.fixed_version_id = 0
-      expect(wp).to_not be_valid
+      expect(wp).not_to be_valid
     end
 
     describe 'validations of enabled types' do
@@ -168,14 +170,14 @@ describe WorkPackage, type: :model do
         work_package.type = new_type
 
         expect(work_package).not_to be_valid
-        expect(work_package.errors_on(:type_id).size).to eq(1)
+        expect(work_package.errors[:type_id].size).to eq(1)
       end
 
       it 'validate, that the selected type is enabled for the project the wp was moved into' do
         work_package.project = new_project
 
         expect(work_package).not_to be_valid
-        expect(work_package.errors_on(:type_id).size).to eq(1)
+        expect(work_package.errors[:type_id].size).to eq(1)
       end
     end
 
@@ -205,7 +207,7 @@ describe WorkPackage, type: :model do
       it 'should not validate on an inactive priority' do
         wp.priority = inactive_priority
         expect(wp).not_to be_valid
-        expect(wp.errors_on(:priority_id).size).to eq(1)
+        expect(wp.errors[:priority_id].size).to eq(1)
       end
     end
 
@@ -232,7 +234,7 @@ describe WorkPackage, type: :model do
       it 'should not validate on a missing category_id' do
         wp = FactoryGirl.build(:work_package, category: idless_category, project: project1)
         expect(wp).not_to be_valid
-        expect(wp.errors_on(:category).size).to eq(1)
+        expect(wp.errors[:category].size).to eq(1)
       end
 
       it 'should validate on matching project.id' do
@@ -241,7 +243,7 @@ describe WorkPackage, type: :model do
 
       it 'should be invalid for incorrect project.id' do
         expect(invalid_work_package).not_to be_valid
-        expect(invalid_work_package.errors_on(:category).size).to eq(1)
+        expect(invalid_work_package.errors[:category].size).to eq(1)
       end
     end
 

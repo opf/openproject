@@ -32,7 +32,7 @@ require 'roar/json/hal'
 
 module API
   module V3
-    module WorkPackages
+    module Relations
       class RelationRepresenter < ::API::Decorators::Single
         link :self do
           { href: api_v3_paths.relation(represented.id) }

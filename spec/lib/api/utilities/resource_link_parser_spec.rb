@@ -52,48 +52,82 @@ describe ::API::Utilities::ResourceLinkParser do
       end
     end
 
-    describe 'accepts a simple resource' do
-      it_behaves_like 'accepts resource link' do
-        let(:result) { subject.parse '/api/v3/statuses/12' }
-        let(:version) { '3' }
-        let(:namespace) { 'statuses' }
-        let(:id) { '12' }
+    describe 'generic resource links' do
+      describe 'accepts a simple resource' do
+        it_behaves_like 'accepts resource link' do
+          let(:result) { subject.parse '/api/v3/statuses/12' }
+          let(:version) { '3' }
+          let(:namespace) { 'statuses' }
+          let(:id) { '12' }
+        end
+      end
+
+      describe 'accepts and parses all valid segment characters as id' do
+        it_behaves_like 'accepts resource link' do
+          let(:result) { subject.parse '/api/v3/string_object/foo-2_~!$&\'()*+.,:;=@%40' }
+          let(:version) { '3' }
+          let(:namespace) { 'string_object' }
+          let(:id) { 'foo-2_~!$&\'()*+.,:;=@@' }
+        end
+      end
+
+      describe 'rejects resources with empty id segment' do
+        it_behaves_like 'rejects resource link' do
+          let(:result) { subject.parse '/api/v3/statuses/' }
+        end
+      end
+
+      describe 'rejects resource with missing id segment' do
+        it_behaves_like 'rejects resource link' do
+          let(:result) { subject.parse '/api/v3/statuses' }
+        end
+      end
+
+      describe 'rejects the api root' do
+        it_behaves_like 'rejects resource link' do
+          let(:result) { subject.parse '/api/v3/' }
+        end
+      end
+
+      describe 'rejects nested resources' do
+        it_behaves_like 'rejects resource link' do
+          let(:result) { subject.parse '/api/v3/statuses/imaginary/' }
+        end
       end
     end
 
-    describe 'accepts all valid segment characters as id' do
-      it_behaves_like 'accepts resource link' do
-        let(:result) { subject.parse '/api/v3/string_object/foo-2_~!$&\'()*+.,:;=@%Fa' }
-        let(:version) { '3' }
-        let(:namespace) { 'string_object' }
-        let(:id) { 'foo-2_~!$&\'()*+.,:;=@%Fa' }
+    describe 'string object resource' do
+      describe 'accepts a simple string' do
+        it_behaves_like 'accepts resource link' do
+          let(:result) { subject.parse '/api/v3/string_objects/foobar' }
+          let(:version) { '3' }
+          let(:namespace) { 'string_objects' }
+          let(:id) { 'foobar' }
+        end
       end
-    end
 
-    describe 'accepts resource with empty id segment' do
-      it_behaves_like 'accepts resource link' do
-        let(:result) { subject.parse '/api/v3/string_object/' }
-        let(:version) { '3' }
-        let(:namespace) { 'string_object' }
-        let(:id) { '' }
+      describe 'accepts and parses all valid segment characters as value' do
+        it_behaves_like 'accepts resource link' do
+          let(:result) { subject.parse '/api/v3/string_objects?value=foo-2_~!$&\'()*+.,:;=@%40' }
+          let(:version) { '3' }
+          let(:namespace) { 'string_objects' }
+          let(:id) { 'foo-2_~!$&\'()*+.,:;=@@' }
+        end
       end
-    end
 
-    describe 'rejects resource with missing id segment' do
-      it_behaves_like 'rejects resource link' do
-        let(:result) { subject.parse '/api/v3/string_object' }
+      describe 'accepts string objects with empty value parameter' do
+        it_behaves_like 'accepts resource link' do
+          let(:result) { subject.parse '/api/v3/string_objects?value=' }
+          let(:version) { '3' }
+          let(:namespace) { 'string_objects' }
+          let(:id) { '' }
+        end
       end
-    end
 
-    describe 'rejects the api root' do
-      it_behaves_like 'rejects resource link' do
-        let(:result) { subject.parse '/api/v3/' }
-      end
-    end
-
-    describe 'rejects nested resources' do
-      it_behaves_like 'rejects resource link' do
-        let(:result) { subject.parse '/api/v3/statuses/imaginary/' }
+      describe 'rejects resource with missing value parameter' do
+        it_behaves_like 'rejects resource link' do
+          let(:result) { subject.parse '/api/v3/string_objects' }
+        end
       end
     end
   end
@@ -103,32 +137,32 @@ describe ::API::Utilities::ResourceLinkParser do
       expect(subject.parse_id('/api/v3/statuses/14', property: 'foo')).to eql('14')
     end
 
-    it 'parses an empty id as empty string' do
-      expect(subject.parse_id('/api/v3/string_objects/', property: 'foo')).to eql('')
+    it 'parses an empty value as empty string' do
+      expect(subject.parse_id('/api/v3/string_objects?value=', property: 'foo')).to eql('')
     end
 
     it 'accepts on matching version' do
       expect {
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_version: '3')
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it 'accepts on matching version as integer' do
       expect {
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_version: 3)
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it 'accepts on matching namespace' do
       expect {
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_namespace: 'statuses')
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it 'accepts on matching namespace as symbol' do
       expect {
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_namespace: :statuses)
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it 'raises on version mismatch' do

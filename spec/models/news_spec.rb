@@ -57,7 +57,7 @@ describe News, type: :model do
       EnabledModule.delete_all(['project_id = ? AND name = ?', project.id, 'news'])
       project.reload
 
-      expect(News.latest).to_not include news
+      expect(News.latest).not_to include news
     end
 
     it 'only includes news elements from projects that are visible to the user' do
@@ -66,7 +66,7 @@ describe News, type: :model do
 
       latest_news = News.latest(User.anonymous)
       expect(latest_news).to include news
-      expect(latest_news).to_not include private_news
+      expect(latest_news).not_to include private_news
     end
 
     it 'limits the number of returned news elements' do

@@ -533,4 +533,93 @@ JJ Abrams</textarea>
       end
     end
   end
+
+  # test the label that is generated for various field types
+  describe 'labels for fields' do
+    let(:options) { {} }
+    shared_examples_for "generated label" do
+      def remove_form_field_container(string)
+        string.gsub(/<span class="form--field-container">.+<\/span>/m,'')
+      end
+
+      def expected_label_like(expected_title)
+        expect(remove_form_field_container(output)).to be_html_eql(%{
+          <label class="form--label"
+                 for="user_name"
+                 title="#{expected_title}">
+            #{expected_title}
+          </label>
+        })
+      end
+
+      context 'with a label specified as string' do
+        let(:text) { "My own label" }
+
+        before do
+          options[:label] = text
+        end
+
+        it 'uses the label' do
+          expected_label_like(text)
+        end
+      end
+
+      context 'with a label specified as symbol' do
+        let(:text) { :name }
+
+        before do
+          options[:label] = text
+        end
+
+        it 'uses the label' do
+          expected_label_like(I18n.t(text))
+        end
+      end
+
+      context 'without ActiveModel and specified label' do
+        let(:resource) { OpenStruct.new name: 'Deadpool' }
+
+        it 'falls back to the I18n name' do
+          expected_label_like(I18n.t(:name))
+        end
+      end
+
+      context 'with ActiveModel and withouth specified label' do
+        let(:resource) {
+          FactoryGirl.build_stubbed(:user,
+                                    firstname:  'JJ',
+                                    lastname:   'Abrams',
+                                    login:      'lost',
+                                    mail:       'jj@lost-mail.com',
+                                    failed_login_count: 45)
+        }
+
+        it 'uses the human attibute name' do
+          expected_label_like(User.human_attribute_name(:name))
+        end
+      end
+    end
+
+    %w{ text_field
+        text_area
+        check_box
+        password_field }.each do |input_type|
+      context "for #{input_type}" do
+        subject(:output) {
+          builder.send(input_type, :name, options)
+        }
+
+        it_behaves_like "generated label"
+      end
+    end
+
+    context "for select" do
+      subject(:output) {
+        builder.select :name, [], options
+      }
+
+      it_behaves_like "generated label"
+    end
+
+  end
 end
