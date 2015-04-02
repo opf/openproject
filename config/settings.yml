@@ -180,6 +180,7 @@ mail_handler_api_key:
 work_package_list_default_columns:
   serialized: true
   default:
+  - id
   - type
   - status
   - priority
