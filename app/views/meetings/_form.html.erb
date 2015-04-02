@@ -39,13 +39,13 @@ See doc/COPYRIGHT.md for more details.
             required: true,
             size:     10,
             no_label: true %>
+      <%= calendar_for('meeting_start_date') %>
       <%= f.text_field :start_time_hour,
             required: true,
             type:     'time',
             no_label: true,
-            step:     5.minutes %>
-      <%= calendar_for('meeting_start_date') %>
-      <span class="form-label"><%= Time.zone %></span>
+            step:     5.minutes,
+            suffix:   Time.zone.to_s %>
     </div>
   </div>
 
@@ -59,8 +59,8 @@ See doc/COPYRIGHT.md for more details.
             no_label: true,
             min:      0.00,
             step:     0.25,
-            max:      168 %>
-      <span class="form-label"><%=l :text_in_hours %></span>
+            max:      168,
+            suffix:   l(:text_in_hours) %>
     </div>
   </div>
 
