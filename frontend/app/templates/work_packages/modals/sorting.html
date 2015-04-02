@@ -9,7 +9,7 @@
         <div class="form--row" ng-repeat="element in sortElements">
           <div class="form--field -full-width">
             <div class="form--field-container">
-              <ui-select ng-model="element[0]" theme="select2">
+              <ui-select ng-model="element[0]" theme="select2" focus="!$index">
                 <ui-select-match>{{$select.selected.label}}</ui-select-match>
                 <ui-select-choices repeat="column as column in getRemainingAvailableColumnsData() | filter: { title: $select.search }">
                   <div ng-bind-html="column.label | highlight: $select.search"></div>

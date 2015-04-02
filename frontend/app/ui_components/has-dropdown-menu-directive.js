@@ -155,7 +155,7 @@ module.exports = function($rootScope, $injector, $window, $parse, FocusHelper) {
 
       function close(ignoreFocusOpener) {
         ctrl.close();
-        var disableFocus = false;
+        var disableFocus = ignoreFocusOpener;
         contextMenu.close(disableFocus).then(function() {
           if (!ignoreFocusOpener) {
             FocusHelper.focusElement(afterFocusOn ? element.find(afterFocusOn) : element);
