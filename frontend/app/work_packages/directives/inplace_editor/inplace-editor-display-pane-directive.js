@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout, HookService) {
+module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout, HookService, I18n) {
   return {
     replace: true,
     transclude: true,
@@ -74,6 +74,11 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
           fieldController.field
         ) +
         '.html';
+
+      // TODO: extract this when more placeholders come
+      if (fieldController.field === 'description') {
+        scope.displayPaneController.placeholder = I18n.t('js.label_click_to_enter_description');
+      }
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
         if (!isEditing) {
