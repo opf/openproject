@@ -63,9 +63,11 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
       <div class="form--text-field-container">
         <input type="text" class="form--text-field" placeholder="First name" id="kuchiki">
       </div>
-      <span class="tooltip-right" data-tooltip="First name of a captain">
-        <i class="icon icon-help1"></i>
-      </span>
+      <div class="form--tooltip-container">
+        <span class="tooltip-right" data-tooltip="First name of a captain">
+          <i class="icon icon-help1"></i>
+        </span>
+      </div>
     </div>
   </div>
 </form>
