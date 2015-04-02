@@ -167,6 +167,7 @@ group :test do
   gem "activerecord-tableless", "~> 1.0"
   gem "codeclimate-test-reporter", :require => nil
   gem 'equivalent-xml', '~> 0.5.1'
+  gem 'test-unit', '~> 3.0'
 end
 
 group :ldap do
