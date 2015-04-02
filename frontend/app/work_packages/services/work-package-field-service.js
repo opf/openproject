@@ -68,11 +68,15 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
   }
 
   function getValue(workPackage, field) {
-    if (!_.isUndefined(workPackage.props[field])) {
+    if (workPackage.props[field]) {
       return workPackage.props[field];
     }
     if (WorkPackageFieldService.isEmbedded(workPackage, field)) {
       return workPackage.embedded[field];
+    }
+
+    if (workPackage.links[field] && workPackage.links[field].props.href !== null) {
+      return workPackage.links[field];
     }
     return null;
   }

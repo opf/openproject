@@ -79,14 +79,11 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
         if (!isEditing) {
           $timeout(function() {
             element.find('.inplace-editing--trigger-link').focus();
+            element.find('.inplace-edit--read-value a').off('click').on('click', function(e) {
+              e.stopPropagation();
+            });
           });
         }
-      });
-
-      $timeout(function() {
-        element.find('a').on('click', function(e) {
-          e.stopPropagation();
-        });
       });
     }
   };
