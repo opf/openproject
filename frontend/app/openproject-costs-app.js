@@ -60,6 +60,14 @@ openprojectCostsApp.run(['HookService',
     setupCostsAttributes();
   }
 
+  HookService.register('workPackageAttributeEditableType', function(params) {
+    switch (params.type) {
+      case 'Budget':
+        return 'dropdown';
+    }
+    return null;
+  });
+
   HookService.register('workPackageOverviewAttributes', function(params) {
     var directive;
 
@@ -71,10 +79,8 @@ openprojectCostsApp.run(['HookService',
           directive = "summarized-cost-entries";
         }
         break;
-      case "costObject":
-        if (params.workPackage.embedded.costObject) {
-          directive = "cost-object";
-        }
+      case "Budget":
+        directive = "cost-object";
         break;
     }
 
