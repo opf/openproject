@@ -133,7 +133,9 @@ gulp.task('webdriver:standalone', ['webdriver:update'], webdriverStandalone);
 
 gulp.task('tests:protractor', ['webdriver:update', 'webpack', 'sass', 'express'], function(done) {
   var address = server.address().address;
-  if ((address === '::' || address === '::1') && server.address().family === 'IPv6') address = '[0:0:0:0:0:0:0:1]';
+  if ((address === '::' || address === '::1') && server.address().family === 'IPv6') {
+    address = '[0:0:0:0:0:0:0:1]';
+  };
   gulp.src('tests/integration/**/*_spec.js')
     .pipe(protractor({
       configFile: 'tests/integration/protractor.conf.js',
