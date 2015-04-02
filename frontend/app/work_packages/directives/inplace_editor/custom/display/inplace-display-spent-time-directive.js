@@ -34,19 +34,18 @@ module.exports = function(EditableFieldsState) {
     scope: {},
     require: '^inplaceEditorDisplayPane',
     templateUrl: '/templates/work_packages/inplace_editor/custom/display/spent_time.html',
-    controller: function($scope) {
+    controller: function() {
       this.isLinkViewable = function() {
         return EditableFieldsState.workPackage.links.timeEntries;
       };
 
       this.getPath = function() {
         return EditableFieldsState.workPackage.links.timeEntries.href;
-      }
+      };
     },
     controllerAs: 'customEditorController',
     link: function(scope, element, attrs, displayPaneController) {
       scope.displayPaneController = displayPaneController;
-
     }
   };
 };

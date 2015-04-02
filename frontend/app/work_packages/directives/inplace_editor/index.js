@@ -29,4 +29,4 @@
 angular.module('openproject.workPackages.directives')
   .directive('inplaceEditorMainPane', require('./inplace-editor-main-pane-directive'))
   .directive('inplaceEditorDisplayPane', require('./inplace-editor-display-pane-directive'))
-  .directive('inplaceEditorEditPane', require('./inplace-editor-edit-pane-directive'))
+  .directive('inplaceEditorEditPane', require('./inplace-editor-edit-pane-directive'));

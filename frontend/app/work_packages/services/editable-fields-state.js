@@ -32,4 +32,4 @@ module.exports = function() {
     error: null,
     isBusy: false
   };
-}
+};

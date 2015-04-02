@@ -34,17 +34,19 @@ module.exports = function(EditableFieldsState, PathHelper, VersionService, $time
     scope: {},
     require: '^inplaceEditorDisplayPane',
     templateUrl: '/templates/work_packages/inplace_editor/custom/display/version.html',
-    controller: function($scope) {
+    controller: function() {
       this.pathHelper = PathHelper;
     },
     controllerAs: 'customEditorController',
     link: function(scope, element, attrs, displayPaneController) {
       scope.displayPaneController = displayPaneController;
       scope.$watch(function() {
-        return scope.displayPaneController.getReadValue()
+        return scope.displayPaneController.getReadValue();
       }, function(version) {
         scope.customEditorController.version = version;
-        VersionService.isVersionFieldViewable(EditableFieldsState.workPackage, displayPaneController.field).then(function(isViewable) {
+        VersionService.isVersionFieldViewable(
+          EditableFieldsState.workPackage,
+          displayPaneController.field).then(function(isViewable) {
           scope.customEditorController.isVersionFieldViewable = isViewable;
           // need to reset the click listener due to async resolution
           // of link visibility

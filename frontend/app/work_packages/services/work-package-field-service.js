@@ -26,8 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackagesHelper, $q, $http, HookService) {
-
+module.exports = function(
+  I18n,
+  WORK_PACKAGE_REGULAR_EDITABLE_FIELD,
+  WorkPackagesHelper,
+  $q,
+  $http,
+  HookService) {
+  /* global moment */
   function isEditable(workPackage, field) {
     // no form - no editing
     if (!workPackage.form) {
@@ -37,7 +43,8 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
     if (field === 'date') {
       // nope
       return false;
-      //return workPackage.schema.props.startDate.writable && workPackage.schema.props.dueDate.writable;
+      //return workPackage.schema.props.startDate.writable
+      // && workPackage.schema.props.dueDate.writable;
     }
     // not editable until duration is specified
     if (field === 'estimatedTime' || field === 'remainingTime') {
@@ -151,7 +158,10 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
 
   function isEmpty(workPackage, field) {
     if (field === 'date') {
-      return getValue(workPackage, 'startDate') === null && getValue(workPackage, 'dueDate') === null;
+      return (
+        getValue(workPackage, 'startDate') === null &&
+        getValue(workPackage, 'dueDate') === null
+      );
     }
     var value = WorkPackageFieldService.format(workPackage, field);
     if (value === null || value === '') {
@@ -259,8 +269,12 @@ module.exports = function(I18n, WORK_PACKAGE_REGULAR_EDITABLE_FIELD, WorkPackage
 
   function format(workPackage, field) {
     if (field === 'date') {
-      var displayedStartDate = WorkPackagesHelper.formatValue(workPackage.props.startDate, 'startDate') || I18n.t('js.label_no_start_date'),
-        displayedEndDate   = WorkPackagesHelper.formatValue(workPackage.props.dueDate, 'dueDate') || I18n.t('js.label_no_due_date');
+      var displayedStartDate =
+          WorkPackagesHelper.formatValue(workPackage.props.startDate, 'startDate') ||
+          I18n.t('js.label_no_start_date'),
+        displayedEndDate =
+          WorkPackagesHelper.formatValue(workPackage.props.dueDate, 'dueDate') ||
+          I18n.t('js.label_no_due_date');
       return  displayedStartDate + ' - ' + displayedEndDate;
     }
 

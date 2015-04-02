@@ -41,8 +41,7 @@ module.exports = function($scope,
     WorkPackageService,
     CommonRelationsHandler,
     ChildrenRelationsHandler,
-    ParentRelationsHandler,
-    EditableFieldsState
+    ParentRelationsHandler
   ) {
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);

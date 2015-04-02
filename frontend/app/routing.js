@@ -50,7 +50,7 @@ angular.module('openproject')
     .state('work-packages', {
       url: '{projectPath:projectPathType}/work_packages?query_id',
       abstract: true,
-      templateUrl: "/templates/work_packages.html",
+      templateUrl: '/templates/work_packages.html',
       controller: 'WorkPackagesController',
       resolve: {
         latestTab: function($state) {
@@ -68,13 +68,13 @@ angular.module('openproject')
       }
     })
     .state('work-packages.list', {
-      url: "",
+      url: '',
       controller: 'WorkPackagesListController',
-      templateUrl: "/templates/work_packages.list.html"
+      templateUrl: '/templates/work_packages.list.html'
     })
     .state('work-packages.list.details', {
-      url: "/{workPackageId:[0-9]+}?query_props",
-      templateUrl: "/templates/work_packages.list.details.html",
+      url: '/{workPackageId:[0-9]+}?query_props',
+      templateUrl: '/templates/work_packages.list.details.html',
       controller: 'WorkPackageDetailsController',
       resolve: {
         workPackage: function(WorkPackageService, $stateParams) {
@@ -83,31 +83,31 @@ angular.module('openproject')
       }
     })
     .state('work-packages.list.details.overview', {
-      url: "/overview",
+      url: '/overview',
       controller: 'DetailsTabOverviewController',
-      templateUrl: "/templates/work_packages/tabs/overview.html",
+      templateUrl: '/templates/work_packages/tabs/overview.html',
       controllerAs: 'vm'
     })
     .state('work-packages.list.details.activity', {
-      url: "/activity",
-      templateUrl: "/templates/work_packages/tabs/activity.html"
+      url: '/activity',
+      templateUrl: '/templates/work_packages/tabs/activity.html'
     })
     .state('work-packages.list.details.activity.details', {
-      url: "#{activity_no:[0-9]+}",
-      templateUrl: "/templates/work_packages/tabs/activity.html"
+      url: '#{activity_no:[0-9]+}',
+      templateUrl: '/templates/work_packages/tabs/activity.html'
     })
     .state('work-packages.list.details.relations', {
-      url: "/relations",
-      templateUrl: "/templates/work_packages/tabs/relations.html"
+      url: '/relations',
+      templateUrl: '/templates/work_packages/tabs/relations.html'
     })
     .state('work-packages.list.details.watchers', {
-      url: "/watchers",
+      url: '/watchers',
       controller: 'DetailsTabWatchersController',
-      templateUrl: "/templates/work_packages/tabs/watchers.html"
+      templateUrl: '/templates/work_packages/tabs/watchers.html'
     })
     .state('work-packages.list.details.attachments', {
-      url: "/attachments",
-      templateUrl: "/templates/work_packages/tabs/attachments.html"
+      url: '/attachments',
+      templateUrl: '/templates/work_packages/tabs/attachments.html'
     });
 }])
 

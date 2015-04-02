@@ -26,7 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHelper, $timeout, ApiHelper) {
+module.exports = function(
+  WorkPackageFieldService,
+  EditableFieldsState,
+  FocusHelper,
+  $timeout,
+  ApiHelper) {
   return {
     transclude: true,
     replace: true,
@@ -44,7 +49,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
         result.then(angular.bind(this, function() {
           $scope.$emit(
             'workPackageRefreshRequired',
-            function(workPackage) {
+            function() {
               fieldController.isBusy = false;
               fieldController.isEditing = false;
               fieldController.updateWriteValue();
@@ -62,7 +67,6 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
 
       this.discardEditing = function() {
         $scope.fieldController.isEditing = false;
-        var form = EditableFieldsState.workPackage.form;
         delete getPendingFormChanges()[$scope.fieldController.field];
         $scope.fieldController.updateWriteValue();
       };
@@ -102,7 +106,10 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, FocusHel
 
       scope.$watch('fieldController.writeValue', function(writeValue) {
         if (scope.fieldController.isEditing) {
-          scope.editPaneController.getPendingFormChanges()[scope.fieldController.field] = writeValue;
+          var pendingChanges = scope
+            .editPaneController
+            .getPendingFormChanges();
+          pendingChanges[scope.fieldController.field] = writeValue;
         }
       }, true);
       scope.$on('workPackageRefreshed', function() {

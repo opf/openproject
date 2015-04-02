@@ -26,7 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout, HookService, I18n) {
+module.exports = function(
+  WorkPackageFieldService,
+  EditableFieldsState,
+  $timeout,
+  HookService,
+  I18n) {
   return {
     replace: true,
     transclude: true,
@@ -43,11 +48,17 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
       };
 
       this.isReadValueEmpty = function() {
-        return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, $scope.fieldController.field);
+        return WorkPackageFieldService.isEmpty(
+          EditableFieldsState.workPackage,
+          $scope.fieldController.field
+        );
       };
 
       this.getReadValue = function() {
-        return WorkPackageFieldService.format(EditableFieldsState.workPackage, $scope.fieldController.field);
+        return WorkPackageFieldService.format(
+          EditableFieldsState.workPackage,
+          $scope.fieldController.field
+        );
       };
 
       // for dynamic type that is set by plugins
@@ -56,13 +67,12 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
           type: EditableFieldsState.workPackage.schema.props[$scope.fieldController.field].type,
           workPackage: EditableFieldsState.workPackage
         }).pop();
-      }
+      };
 
       // expose work package to the dynamic directive
       this.getWorkPackage = function() {
         return EditableFieldsState.workPackage;
-      }
-
+      };
     },
     controllerAs: 'displayPaneController',
     link: function(scope, element, attrs, fieldController) {
@@ -92,4 +102,4 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, $timeout
       });
     }
   };
-}
+};

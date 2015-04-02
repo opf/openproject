@@ -34,7 +34,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $t
     scope: {},
     require: '^workPackageField',
     templateUrl: '/templates/work_packages/inplace_editor/custom/editable/dropdown.html',
-    controller: function($scope) {
+    controller: function() {
       this.allowedValues = [];
       this.nullValueLabel = I18n.t('js.inplace.null_value_label');
     },
@@ -42,7 +42,9 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $t
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
       scope.fieldController.isBusy = true;
-      WorkPackageFieldService.getAllowedValues(EditableFieldsState.workPackage, fieldController.field).then(function(values) {
+      WorkPackageFieldService.getAllowedValues(
+        EditableFieldsState.workPackage,
+        fieldController.field).then(function(values) {
         scope.customEditorController.allowedValues = values;
         scope.fieldController.isBusy = false;
         $timeout(function() {

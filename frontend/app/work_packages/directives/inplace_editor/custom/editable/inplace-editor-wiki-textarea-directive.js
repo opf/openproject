@@ -37,7 +37,8 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
     controller: function($scope) {
       this.isPreview = false;
       this.previewHtml = '';
-      this.autocompletePath = '/work_packages/auto_complete.json?project_id=' + EditableFieldsState.workPackage.embedded.project.props.id;
+      this.autocompletePath = '/work_packages/auto_complete.json?project_id=' +
+        EditableFieldsState.workPackage.embedded.project.props.id;
 
       this.togglePreview = function() {
         this.isPreview = !this.isPreview;
@@ -48,7 +49,9 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
         }
         $scope.fieldController.isBusy = true;
         TextileService
-          .renderWithWorkPackageContext(EditableFieldsState.workPackage.form, $scope.fieldController.writeValue.raw)
+          .renderWithWorkPackageContext(
+          EditableFieldsState.workPackage.form,
+          $scope.fieldController.writeValue.raw)
           .then(angular.bind(this, function(r) {
             this.previewHtml = $sce.trustAsHtml(r.data);
             $scope.fieldController.isBusy = false;
