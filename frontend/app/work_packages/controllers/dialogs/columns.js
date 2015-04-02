@@ -26,7 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $filter, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService, $rootScope) {
+module.exports = function($scope, $filter, columnsModal, QueryService, 
+                          WorkPackageService, WorkPackagesTableService, 
+                          $rootScope, $timeout) {
 
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
@@ -77,4 +79,12 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
 
     columnsModal.deactivate();
   };
+  
+  //hack to prevent dragging of close icons
+  $timeout(function(){
+    jQuery('.columns-modal-content .ui-select-match-close')
+      .on('dragstart', function(event) {
+        event.preventDefault(); 
+      });
+  });
 };
