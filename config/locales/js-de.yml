@@ -299,6 +299,7 @@ de:
       description_options_show: "Optionen einblenden"
       label_enable_multi_select: "Mehrfachauswahl aktivieren"
       label_disable_multi_select: "Mehrfachauswahl deaktivieren"
+      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       label_filter_add: "Filter hinzufügen"
       label_options: "Optionen"
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
