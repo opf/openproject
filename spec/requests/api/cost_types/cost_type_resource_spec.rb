@@ -58,6 +58,14 @@ describe 'API v3 Cost Type resource' do
         end
       end
 
+      context 'cost type deleted' do
+        let!(:cost_type) { FactoryGirl.create(:cost_type, :deleted) }
+
+        it_behaves_like 'not found' do
+          let(:id) { cost_type.id }
+        end
+      end
+
       context 'invalid id' do
         let(:get_path) { api_v3_paths.cost_type 'bogus' }
 
