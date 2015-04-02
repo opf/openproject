@@ -26,27 +26,139 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/***** Tooltips *****
+//***** Tooltips *****
 
-.tooltip
+// tooltips used for arbitrary elements
+
+$tooltipBackground: #e3f5ff
+$tooltipBorder: none
+$tooltipHeight: 22px
+$tooltipTextColor: $body-font-color
+$tooltipArrowSize: 6px
+
+%top-bottom
+  &:before, &:after
+    left: 50%
+    transform: translateX(-50%)
+
+  &:after
+    width: auto
+
+%left-right
+  &:before, &:after
+    bottom: 50%
+  &:before
+    margin-bottom: $tooltipArrowSize * -1 + 1
+  &:after
+    margin-bottom: $tooltipHeight/-1.5
+
+@mixin colorize($color:$tooltipBackground, $textColor:$tooltipTextColor)
+  @each $position in top, right, bottom, left
+    &.tooltip-#{$position}
+      &:before
+        border-#{$position}-color: $color
+      &:after
+        background-color: $tooltipBackground
+        color: $tooltipTextColor
+
+[data-tooltip]
   position: relative
-  z-index: 24
-  &.hover, &:hover
-    z-index: 25
-    color: #000
-  span.tip
-    display: none
-    text-align: left
+  display: inline-block
+  box-sizing: content-box
+  // TODO: this "fixes" the spacing issue in text, we need to find a better way for that
+  padding-right: 5px
 
-div.tooltip
-  &:hover span.tip, &.hover span.tip
-    display: block
+  &:before, &:after
     position: absolute
-    top: 12px
-    left: 24px
-    width: 270px
-    border: 1px solid #555
-    background-color: #fff
-    padding: 4px
-    font-size: 0.8em
-    color: #505050
+    visibility: hidden
+    opacity: 0
+    z-index: 99999
+    box-sizing: content-box
+    transform: translate3d(0, 0, 0)
+
+  &:before
+    content: ''
+    border: $tooltipArrowSize solid transparent
+
+  &:after
+    height: $tooltipHeight
+    padding: $tooltipHeight/2 $tooltipHeight/2 0 $tooltipHeight/2
+    font-size: 13px
+    line-height: $tooltipHeight/2
+    white-space: nowrap
+    content: attr(data-tooltip)
+    border: $tooltipBorder
+
+  &:hover, &:focus
+    background-color: transparent
+    &:before, &:after
+      opacity: 1
+      visibility: visible
+  +colorize
+
+  @each $position in left, right
+    &.tooltip-#{$position}
+      @extend %left-right
+      @if $position == 'right'
+        &:before, &:after
+          left: 100%
+        &:before
+          margin-left: -2px
+        &:after
+          margin-left: 10px
+      @else
+        &:before, &:after
+          right: 100%
+        &:before
+          margin-right: -2px
+        &:after
+          margin-right: 10px
+
+  @each $position in top, bottom
+    &.tooltip-#{$position}
+      @extend %top-bottom
+      @if $position == 'top'
+        &:before, &:after
+          bottom: 100%
+        &:before
+          margin-bottom: $tooltipArrowSize * -1 + 1
+        &:after
+          margin-bottom: 7px
+        &:hover
+          &:before, &:after
+            transform: translate(-50%, 0px)
+      @else
+        &:before, &:after
+          top: 100%
+        &:before
+          margin-top: $tooltipArrowSize * -1 + 1
+        &:after
+          margin-top: 7px
+        &:hover
+          &:before, &:after
+            transform: translate(-50%, 0)
+
+// tooltips for table content (TODO: legacy?)
+table
+  .tooltip
+    position: relative
+    z-index: 24
+    &.hover, &:hover
+      z-index: 25
+      color: #000
+    span.tip
+      display: none
+      text-align: left
+
+  div.tooltip
+    &:hover span.tip, &.hover span.tip
+      display: block
+      position: absolute
+      top: 12px
+      left: 24px
+      width: 270px
+      border: 1px solid #555
+      background-color: #fff
+      padding: 4px
+      font-size: 0.8em
+      color: #505050
