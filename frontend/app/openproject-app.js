@@ -257,4 +257,4 @@ require('./work_packages');
 var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);
 
-require('angular-busy/angular-busy.html');
+require('!ngtemplate?module=openproject.templates!html!angular-busy/angular-busy.html');
