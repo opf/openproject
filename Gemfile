@@ -136,7 +136,8 @@ gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
 
 group :test do
   gem 'rack-test', '~> 0.6.2'
-  gem 'shoulda'
+  gem 'shoulda-context', '~> 1.2'
+
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.5"
@@ -162,7 +163,7 @@ group :test do
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', '0.8.0.pre'
-  gem "shoulda-matchers", '~> 2.5.0'
+  gem "shoulda-matchers", '~> 2.8', require: nil
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
   gem "codeclimate-test-reporter", :require => nil
