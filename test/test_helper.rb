@@ -90,5 +90,7 @@ RSpec.configure do |config|
     reset_global_state!
 
     initialize_attachments
+
+    I18n.locale = 'en'
   end
 end
