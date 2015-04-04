@@ -38,9 +38,6 @@ describe JournalsController, type: :controller do
   fixtures :all
 
   before do
-    @controller = JournalsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -50,7 +47,7 @@ describe JournalsController, type: :controller do
                                  journable_id: issue.id
     identifier = "journal-#{journal.id}"
 
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     xhr :get, :edit, id: journal.id
     assert_response :success
     assert_select_rjs :insert, :after, "#{identifier}-notes" do
@@ -66,7 +63,7 @@ describe JournalsController, type: :controller do
                                  data: FactoryGirl.build(:journal_work_package_journal)
     identifier = "journal-#{journal.id}-notes"
 
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     xhr :post, :update, id: journal.id, notes: 'Updated notes'
     assert_response :success
     assert_select_rjs :replace, identifier
@@ -83,7 +80,7 @@ describe JournalsController, type: :controller do
                                  data: FactoryGirl.build(:journal_work_package_journal)
     identifier = "change-#{journal.id}"
 
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     xhr :post, :update, id: journal.id, notes: ''
     assert_response :success
     assert_select_rjs :remove, identifier
@@ -94,6 +91,6 @@ describe JournalsController, type: :controller do
     get :index, project_id: 1, format: :atom
     assert_response :success
     assert_not_nil assigns(:journals)
-    assert_equal 'application/atom+xml', @response.content_type
+    assert_equal 'application/atom+xml', response.content_type
   end
 end

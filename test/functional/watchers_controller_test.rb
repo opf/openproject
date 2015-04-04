@@ -38,26 +38,23 @@ describe WatchersController, type: :controller do
   render_views
 
   before do
-    @controller = WatchersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
   it 'watch' do
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     assert_difference('Watcher.count') do
       xhr :post, :watch, object_type: 'work_package', object_id: '1'
       assert_response :success
-      assert @response.body.include? "$$(\"#watcher\").each"
-      assert @response.body.include? 'value.replace'
+      assert response.body.include? "$$(\"#watcher\").each"
+      assert response.body.include? 'value.replace'
     end
     assert WorkPackage.find(1).watched_by?(User.find(3))
   end
 
   it 'watch_should_be_denied_without_permission' do
     Role.find(2).remove_permission! :view_work_packages
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     assert_no_difference('Watcher.count') do
       xhr :post, :watch, object_type: 'work_package', object_id: '1'
       assert_response 403
@@ -65,65 +62,65 @@ describe WatchersController, type: :controller do
   end
 
   it 'watch_with_multiple_replacements' do
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     assert_difference('Watcher.count') do
       xhr :post, :watch, object_type: 'work_package', object_id: '1', replace: ['#watch_item_1', '.watch_item_2']
       assert_response :success
-      assert @response.body.include? "$$(\"#watch_item_1\").each"
-      assert @response.body.include? "$$(\".watch_item_2\").each"
-      assert @response.body.include? 'value.replace'
+      assert response.body.include? "$$(\"#watch_item_1\").each"
+      assert response.body.include? "$$(\".watch_item_2\").each"
+      assert response.body.include? 'value.replace'
     end
   end
 
   it 'watch_with_watchers_special_logic' do
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     assert_difference('Watcher.count') do
       xhr :post, :watch, object_type: 'work_package', object_id: '1', replace: ['#watchers', '.watcher']
       assert_response :success
       assert_select_rjs :replace_html, 'watchers'
-      assert @response.body.include? "$$(\".watcher\").each"
-      assert @response.body.include? 'value.replace'
+      assert response.body.include? "$$(\".watcher\").each"
+      assert response.body.include? 'value.replace'
     end
   end
 
   it 'unwatch' do
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, object_type: 'work_package', object_id: '2'
       assert_response :success
-      assert @response.body.include? "$$(\"#watcher\").each"
-      assert @response.body.include? 'value.replace'
+      assert response.body.include? "$$(\"#watcher\").each"
+      assert response.body.include? 'value.replace'
     end
     assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
   it 'unwatch_with_multiple_replacements' do
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, object_type: 'work_package', object_id: '2', replace: ['#watch_item_1', '.watch_item_2']
       assert_response :success
-      assert @response.body.include? "$$(\"#watch_item_1\").each"
-      assert @response.body.include? "$$(\".watch_item_2\").each"
-      assert @response.body.include? 'value.replace'
+      assert response.body.include? "$$(\"#watch_item_1\").each"
+      assert response.body.include? "$$(\".watch_item_2\").each"
+      assert response.body.include? 'value.replace'
     end
     assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
   it 'unwatch_with_watchers_special_logic' do
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, object_type: 'work_package', object_id: '2', replace: ['#watchers', '.watcher']
       assert_response :success
       assert_select_rjs :replace_html, 'watchers'
-      assert @response.body.include? "$$(\".watcher\").each"
-      assert @response.body.include? 'value.replace'
+      assert response.body.include? "$$(\".watcher\").each"
+      assert response.body.include? 'value.replace'
     end
     assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
   it 'new_watcher' do
     Watcher.destroy_all
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_difference('Watcher.count') do
       xhr :post, :new, object_type: 'work_package', object_id: '2', watcher: { user_id: '3' }
       assert_response :success
@@ -133,7 +130,7 @@ describe WatchersController, type: :controller do
   end
 
   it 'remove_watcher' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
       xhr :delete, :destroy, id: Watcher.find_by_user_id_and_watchable_id(3, 2).id
       assert_response :success

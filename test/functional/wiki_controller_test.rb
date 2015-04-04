@@ -38,9 +38,6 @@ describe WikiController, type: :controller do
   fixtures :all
 
   before do
-    @controller = WikiController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -93,14 +90,14 @@ describe WikiController, type: :controller do
   end
 
   it 'should show unexistent page with edit right' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :show, project_id: 1, id: 'Unexistent page'
     assert_response :success
     assert_template 'edit'
   end
 
   it 'should create page' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     put :update, project_id: 1,
                  id: 'New page',
                  content: { comments: 'Created the page',
@@ -113,7 +110,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should create page with attachments' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_difference 'WikiPage.count' do
       assert_difference 'Attachment.count' do
         put :update, project_id: 1,
@@ -133,7 +130,7 @@ describe WikiController, type: :controller do
     page = Wiki.find(1).pages.find_by_title('Another_page')
     page.content.recreate_initial_journal!
 
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_difference 'Journal.count' do
@@ -156,7 +153,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should update page with failure' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'Journal.count' do
@@ -187,7 +184,7 @@ describe WikiController, type: :controller do
                                  version: 1,
                                  data: FactoryGirl.build(:journal_wiki_content_journal,
                                                          text: "h1. Another page\n\n\nthis is a link to ticket: #2")
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     c = Wiki.find(1).find_page('Another_page').content
     c.text = 'Previous text'
     c.save!
@@ -298,21 +295,21 @@ describe WikiController, type: :controller do
   end
 
   it 'should get rename' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :rename, project_id: 1, id: 'Another_page'
     assert_response :success
     assert_template 'rename'
   end
 
   it 'should get rename child page' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :rename, project_id: 1, id: 'Child_1'
     assert_response :success
     assert_template 'rename'
   end
 
   it 'should rename with redirect' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     put :rename, project_id: 1, id: 'Another_page',
                  page: { title: 'Another renamed page',
                          redirect_existing_links: 1 }
@@ -323,7 +320,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should rename without redirect' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     put :rename, project_id: 1, id: 'Another_page',
                  page: { title: 'Another renamed page',
                          redirect_existing_links: '0' }
@@ -333,13 +330,13 @@ describe WikiController, type: :controller do
   end
 
   it 'should destroy child' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     delete :destroy, project_id: 1, id: 'Child_1'
     assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
   end
 
   it 'should destroy parent' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_no_difference('WikiPage.count') do
       delete :destroy, project_id: 1, id: 'Another_page'
     end
@@ -348,7 +345,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should destroy parent with nullify' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_difference('WikiPage.count', -1) do
       delete :destroy, project_id: 1, id: 'Another_page', todo: 'nullify'
     end
@@ -357,7 +354,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should destroy parent with cascade' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_difference('WikiPage.count', -3) do
       delete :destroy, project_id: 1, id: 'Another_page', todo: 'destroy'
     end
@@ -367,7 +364,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should destroy parent with reassign' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_difference('WikiPage.count', -1) do
       delete :destroy, project_id: 1, id: 'Another_page', todo: 'reassign', reassign_to_id: 1
     end
@@ -404,7 +401,7 @@ describe WikiController, type: :controller do
   context 'GET :export' do
     context 'with an authorized user to export the wiki' do
       before do
-        @request.session[:user_id] = 2
+        session[:user_id] = 2
         get :export, project_id: 'ecookbook'
       end
 
@@ -451,7 +448,7 @@ describe WikiController, type: :controller do
   it 'should protect page' do
     page = WikiPage.find_by_wiki_id_and_title(1, 'Another_page')
     assert !page.protected?
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     post :protect, project_id: 1, id: page.title, protected: '1'
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_page'
     assert page.reload.protected?
@@ -460,14 +457,14 @@ describe WikiController, type: :controller do
   it 'should unprotect page' do
     page = WikiPage.find_by_wiki_id_and_title(1, 'CookBook_documentation')
     assert page.protected?
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     post :protect, project_id: 1, id: page.title, protected: '0'
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'CookBook_documentation'
     assert !page.reload.protected?
   end
 
   it 'should show page with edit link' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :show, project_id: 1
     assert_response :success
     assert_template 'show'
@@ -475,7 +472,7 @@ describe WikiController, type: :controller do
   end
 
   it 'should show page without edit link' do
-    @request.session[:user_id] = 4
+    session[:user_id] = 4
     get :show, project_id: 1
     assert_response :success
     assert_template 'show'
@@ -484,7 +481,7 @@ describe WikiController, type: :controller do
 
   it 'should edit unprotected page' do
     # Non members can edit unprotected wiki pages
-    @request.session[:user_id] = 4
+    session[:user_id] = 4
     get :edit, project_id: 1, id: 'Another_page'
     assert_response :success
     assert_template 'edit'
@@ -492,13 +489,13 @@ describe WikiController, type: :controller do
 
   it 'should edit protected page by nonmember' do
     # Non members can't edit protected wiki pages
-    @request.session[:user_id] = 4
+    session[:user_id] = 4
     get :edit, project_id: 1, id: 'CookBook_documentation'
     assert_response 403
   end
 
   it 'should edit protected page by member' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :edit, project_id: 1, id: 'CookBook_documentation'
     assert_response :success
     assert_template 'edit'

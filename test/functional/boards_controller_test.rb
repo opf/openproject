@@ -36,9 +36,6 @@ describe BoardsController, type: :controller do
   fixtures :all
 
   before do
-    @controller = BoardsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -65,7 +62,7 @@ describe BoardsController, type: :controller do
   end
 
   it 'should create' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_difference 'Board.count' do
       post :create, project_id: 1, board: { name: 'Testing', description: 'Testing board creation' }
     end
@@ -91,7 +88,7 @@ describe BoardsController, type: :controller do
   end
 
   it 'should update' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_no_difference 'Board.count' do
       put :update, project_id: 1, id: 2, board: { name: 'Testing', description: 'Testing board update' }
     end
@@ -100,7 +97,7 @@ describe BoardsController, type: :controller do
   end
 
   it 'should post destroy' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     assert_difference 'Board.count', -1 do
       post :destroy, project_id: 1, id: 2
     end

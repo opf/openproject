@@ -39,10 +39,6 @@ describe AttachmentsController, type: :controller do
   fixtures :all
 
   before do
-    @controller = AttachmentsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-
     User.current = nil
   end
 
@@ -50,7 +46,7 @@ describe AttachmentsController, type: :controller do
     get :show, id: 14 # 060719210727_changeset_utf8.diff
     assert_response :success
     assert_template 'diff'
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', response.content_type
 
     assert_tag 'th',
                attributes: { class: /filename/ },
@@ -64,7 +60,7 @@ describe AttachmentsController, type: :controller do
     get :show, id: 5 # 060719210727_changeset_iso8859-1.diff
     assert_response :success
     assert_template 'diff'
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', response.content_type
 
     assert_tag 'th',
                attributes: { class: /filename/ },
@@ -78,7 +74,7 @@ describe AttachmentsController, type: :controller do
     get :show, id: 4
     assert_response :success
     assert_template 'file'
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', response.content_type
   end
 
   it 'should show text file should send if too big' do
@@ -90,7 +86,7 @@ describe AttachmentsController, type: :controller do
 
     get :download, id: 4
     assert_response :success
-    assert_equal 'text/x-ruby', @response.content_type
+    assert_equal 'text/x-ruby', response.content_type
   end
 
   it 'should show other' do
@@ -99,13 +95,13 @@ describe AttachmentsController, type: :controller do
     assert_redirected_to 'http://test.host/attachments/6/download/archive.zip'
 
     get :download, id: 6
-    assert_equal 'application/zip', @response.content_type
+    assert_equal 'application/zip', response.content_type
   end
 
   it 'should download text file' do
     get :download, id: 4
     assert_response :success
-    assert_equal 'text/x-ruby', @response.content_type
+    assert_equal 'text/x-ruby', response.content_type
   end
 
   it 'should download missing file' do

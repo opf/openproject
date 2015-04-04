@@ -36,14 +36,11 @@ describe WikisController, type: :controller do
   fixtures :all
 
   before do
-    @controller = WikisController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
   it 'create' do
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     assert_nil Project.find(3).wiki
     post :edit, id: 3, wiki: { start_page: 'Start page' }
     assert_response :success
@@ -53,14 +50,14 @@ describe WikisController, type: :controller do
   end
 
   it 'destroy' do
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     post :destroy, id: 1, confirm: 1
     assert_redirected_to controller: 'projects', action: 'settings', id: 'ecookbook', tab: 'wiki'
     assert_nil Project.find(1).wiki
   end
 
   it 'not_found' do
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     post :destroy, id: 999, confirm: 1
     assert_response 404
   end

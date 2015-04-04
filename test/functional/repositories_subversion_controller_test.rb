@@ -42,9 +42,6 @@ describe RepositoriesController, 'Subversion', type: :controller do
   before do
     skip 'Subversion test repository NOT FOUND. Skipping functional tests !!!' unless repository_configured?('subversion')
 
-    @controller = RepositoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     Setting.default_language = 'en'
     User.current = nil
 
@@ -158,7 +155,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
       get :entry, project_id: PRJ_ID, path: 'subversion_test/helloworld.c'
       assert_response :success
       assert_template nil
-      assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
+      assert_equal 'attachment; filename="helloworld.c"', response.headers['Content-Disposition']
     end
   end
 
@@ -187,7 +184,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :entry, project_id: PRJ_ID, path: 'subversion_test/helloworld.c', format: 'raw'
     assert_response :success
     assert_template nil
-    assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
+    assert_equal 'attachment; filename="helloworld.c"', response.headers['Content-Disposition']
   end
 
   it 'should directory entry' do

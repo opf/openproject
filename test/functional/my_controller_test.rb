@@ -36,10 +36,7 @@ describe MyController, type: :controller do
   fixtures :all
 
   before do
-    @controller = MyController.new
-    @request    = ActionController::TestRequest.new
-    @request.session[:user_id] = 2
-    @response   = ActionController::TestResponse.new
+    session[:user_id] = 2
   end
 
   it 'should index' do

@@ -36,10 +36,7 @@ describe EnumerationsController, type: :controller do
   fixtures :all
 
   before do
-    @controller = EnumerationsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    @request.session[:user_id] = 1 # admin
+    session[:user_id] = 1 # admin
   end
 
   it 'should index' do

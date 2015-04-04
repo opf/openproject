@@ -39,10 +39,7 @@ describe CustomFieldsController, type: :controller do
   fixtures :all
 
   before do
-    @controller = CustomFieldsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
   end
 
   it 'should get new issue custom field' do

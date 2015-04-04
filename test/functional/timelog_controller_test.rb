@@ -38,14 +38,8 @@ describe TimelogController, type: :controller do
 
   fixtures :all
 
-  before do
-    @controller = TimelogController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
   it 'should get new' do
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     get :new, project_id: 1
     assert_response :success
     assert_template 'edit'
@@ -55,7 +49,7 @@ describe TimelogController, type: :controller do
   end
 
   it 'should get new should only show active time entry activities' do
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     get :new, project_id: 1
     assert_response :success
     assert_template 'edit'
@@ -63,7 +57,7 @@ describe TimelogController, type: :controller do
   end
 
   it 'should get edit existing time' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :edit, id: 2, project_id: nil
     assert_response :success
     assert_template 'edit'
@@ -76,7 +70,7 @@ describe TimelogController, type: :controller do
     te.activity = TimeEntryActivity.find_by_name('Inactive Activity')
     te.save!
 
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     get :edit, project_id: 1, id: 1
     assert_response :success
     assert_template 'edit'
@@ -87,7 +81,7 @@ describe TimelogController, type: :controller do
   it 'should post create' do
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     post :create, project_id: 1,
                   time_entry: { comments: 'Some work on TimelogControllerTest',
                                 # Not the default activity
@@ -110,7 +104,7 @@ describe TimelogController, type: :controller do
   it 'should post create with blank issue' do
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
-    @request.session[:user_id] = 3
+    session[:user_id] = 3
     post :create, project_id: 1,
                   time_entry: { comments: 'Some work on TimelogControllerTest',
                                 # Not the default activity
@@ -132,7 +126,7 @@ describe TimelogController, type: :controller do
     assert_equal 1, entry.work_package_id
     assert_equal 2, entry.user_id
 
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     put :update, id: 1,
                  time_entry: { work_package_id: '2',
                                hours: '8' }
@@ -145,7 +139,7 @@ describe TimelogController, type: :controller do
   end
 
   it 'should destroy' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     delete :destroy, id: 1
     assert_redirected_to action: 'index', project_id: 'ecookbook'
     assert_equal I18n.t(:notice_successful_delete), flash[:notice]
@@ -159,7 +153,7 @@ describe TimelogController, type: :controller do
       def stop_callback_chain; false; end
     end
 
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     delete :destroy, id: 1
     assert_redirected_to action: 'index', project_id: 'ecookbook'
     assert_equal I18n.t(:notice_unable_delete_time_entry), flash[:error]
@@ -252,7 +246,7 @@ describe TimelogController, type: :controller do
 
     get :index, project_id: 1, format: 'atom'
     assert_response :success
-    assert_equal 'application/atom+xml', @response.content_type
+    assert_equal 'application/atom+xml', response.content_type
     assert_not_nil assigns(:items)
     assert assigns(:items).first.is_a?(TimeEntry)
   end
@@ -261,17 +255,17 @@ describe TimelogController, type: :controller do
     Setting.date_format = '%m/%d/%Y'
     get :index, format: 'csv'
     assert_response :success
-    assert_match(/text\/csv/, @response.content_type)
-    assert @response.body.include?("Date,User,Activity,Project,Work package,Type,Subject,Hours,Comment\n")
-    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
+    assert_match(/text\/csv/, response.content_type)
+    assert response.body.include?("Date,User,Activity,Project,Work package,Type,Subject,Hours,Comment\n")
+    assert response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
 
   it 'should index csv export' do
     Setting.date_format = '%m/%d/%Y'
     get :index, project_id: 1, format: 'csv'
     assert_response :success
-    assert_match(/text\/csv/, @response.content_type)
-    assert @response.body.include?("Date,User,Activity,Project,Work package,Type,Subject,Hours,Comment\n")
-    assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
+    assert_match(/text\/csv/, response.content_type)
+    assert response.body.include?("Date,User,Activity,Project,Work package,Type,Subject,Hours,Comment\n")
+    assert response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
 end

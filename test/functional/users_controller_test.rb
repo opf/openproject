@@ -39,11 +39,8 @@ describe UsersController, type: :controller do
   fixtures :all
 
   before do
-    @controller = UsersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
-    @request.session[:user_id] = 1 # admin
+    session[:user_id] = 1 # admin
   end
 
   it 'should index' do
@@ -81,7 +78,7 @@ describe UsersController, type: :controller do
   end
 
   it 'should show should not display hidden custom fields' do
-    @request.session[:user_id] = nil
+    session[:user_id] = nil
     UserCustomField.find_by_name('Phone number').update_attribute :visible, false
     get :show, id: 2
     assert_response :success
@@ -103,26 +100,26 @@ describe UsersController, type: :controller do
   end
 
   it 'should show inactive' do
-    @request.session[:user_id] = nil
+    session[:user_id] = nil
     get :show, id: 5
     assert_response 404
   end
 
   it 'should show should not reveal users with no visible activity or project' do
-    @request.session[:user_id] = nil
+    session[:user_id] = nil
     get :show, id: 9
     assert_response 404
   end
 
   it 'should show inactive by admin' do
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     get :show, id: 5
     assert_response 200
     assert_not_nil assigns(:user)
   end
 
   it 'should show displays memberships based on project visibility' do
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
     get :show, id: 2
     assert_response :success
     memberships = assigns(:memberships)
@@ -132,13 +129,13 @@ describe UsersController, type: :controller do
   end
 
   it 'should show current should require authentication' do
-    @request.session[:user_id] = nil
+    session[:user_id] = nil
     get :show, id: 'current'
     assert_response 302
   end
 
   it 'should show current' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :show, id: 'current'
     assert_response :success
     assert_template 'show'

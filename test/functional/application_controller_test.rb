@@ -35,12 +35,6 @@ class ApplicationController; def rescue_action(e) raise e end; end
 describe ApplicationController, type: :controller do
   include Redmine::I18n
 
-  before do
-    @controller = ApplicationController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
   it 'should call hook mixed in' do
     assert @controller.respond_to?(:call_hook)
   end

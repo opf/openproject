@@ -38,11 +38,8 @@ describe TypesController, type: :controller do
   fixtures :all
 
   before do
-    @controller = TypesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
-    @request.session[:user_id] = 1 # admin
+    session[:user_id] = 1 # admin
   end
 
   it 'should index' do

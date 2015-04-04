@@ -38,9 +38,6 @@ describe MessagesController, type: :controller do
   fixtures :all
 
   before do
-    @controller = MessagesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -72,7 +69,7 @@ describe MessagesController, type: :controller do
   end
 
   it 'should show with reply permission' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :show, board_id: 1, id: 1
     assert_response :success
     assert_template 'show'
@@ -86,14 +83,14 @@ describe MessagesController, type: :controller do
   end
 
   it 'should get new' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :new, board_id: 1
     assert_response :success
     assert_template 'new'
   end
 
   it 'should post create' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = ['message_posted']
 
@@ -123,14 +120,14 @@ describe MessagesController, type: :controller do
   end
 
   it 'should get edit' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :edit, id: 1
     assert_response :success
     assert_template 'edit'
   end
 
   it 'should put update' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     put :update, id: 1,
                  message: { subject: 'New subject',
                             content: 'New body' }
@@ -141,7 +138,7 @@ describe MessagesController, type: :controller do
   end
 
   it 'should reply' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     post :reply, board_id: 1, id: 1, reply: { content: 'This is a test reply', subject: 'Test reply' }
     reply = Message.find(:first, order: 'id DESC')
     assert_redirected_to topic_path(1, r: reply)
@@ -149,14 +146,14 @@ describe MessagesController, type: :controller do
   end
 
   it 'should destroy topic' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     delete :destroy, id: 1
     assert_redirected_to project_board_path('ecookbook', 1)
     assert_nil Message.find_by_id(1)
   end
 
   it 'should quote' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     xhr :get, :quote, board_id: 1, id: 3
     assert_response :success
     assert_select_rjs :show, 'reply'

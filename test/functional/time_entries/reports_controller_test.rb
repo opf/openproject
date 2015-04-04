@@ -148,8 +148,8 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report all projects csv export' do
     get :show, columns: 'month', from: '2007-01-01', to: '2007-06-30', criterias: ['project', 'member', 'activity'], format: 'csv'
     assert_response :success
-    assert_match(/text\/csv/, @response.content_type)
-    lines = @response.body.chomp.split("\n")
+    assert_match(/text\/csv/, response.content_type)
+    lines = response.body.chomp.split("\n")
     # Headers
     assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total', lines.first
     # Total row
@@ -159,8 +159,8 @@ describe TimeEntries::ReportsController, type: :controller do
   it 'should report csv export' do
     get :show, project_id: 1, columns: 'month', from: '2007-01-01', to: '2007-06-30', criterias: ['project', 'member', 'activity'], format: 'csv'
     assert_response :success
-    assert_match(/text\/csv/, @response.content_type)
-    lines = @response.body.chomp.split("\n")
+    assert_match(/text\/csv/, response.content_type)
+    lines = response.body.chomp.split("\n")
     # Headers
     assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total', lines.first
     # Total row

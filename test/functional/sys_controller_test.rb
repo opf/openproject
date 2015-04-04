@@ -37,9 +37,6 @@ describe SysController, type: :controller do
   fixtures :all
 
   before do
-    @controller = SysController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     Setting.sys_api_enabled = '1'
     Setting.enabled_scm = %w(Subversion Git)
   end
@@ -47,7 +44,7 @@ describe SysController, type: :controller do
   it 'should projects with repository enabled' do
     get :projects
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', response.content_type
     with_options tag: 'projects' do |test|
       test.assert_tag children: { count:  Project.active.has_module(:repository).count }
     end

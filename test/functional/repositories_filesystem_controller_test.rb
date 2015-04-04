@@ -40,11 +40,7 @@ describe RepositoriesController, 'Filesystem', type: :controller do
   PRJ_ID = 3
 
   before do
-    @controller = RepositoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-
-    @request.session[:user_id] = 1 # admin
+    session[:user_id] = 1 # admin
 
     with_existing_filesystem_scm do |repo_path|
       @repository = Repository::Filesystem.create(project: Project.find(PRJ_ID),
@@ -88,7 +84,7 @@ describe RepositoriesController, 'Filesystem', type: :controller do
     with_existing_filesystem_scm do |_|
       get :entry, project_id: PRJ_ID, path: 'test', format: 'raw'
       assert_response :success
-      assert_equal 'application/octet-stream', @response.content_type
+      assert_equal 'application/octet-stream', response.content_type
     end
   end
 
@@ -127,7 +123,7 @@ describe RepositoriesController, 'Filesystem', type: :controller do
       with_settings file_max_size_displayed: 1 do
         get :entry, project_id: PRJ_ID, path: 'japanese/big-file.txt'
         assert_response :success
-        assert_equal 'text/plain', @response.content_type
+        assert_equal 'text/plain', response.content_type
       end
     end
   end

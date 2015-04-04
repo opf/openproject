@@ -38,9 +38,6 @@ describe MailHandlerController, type: :controller do
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
   before do
-    @controller = MailHandlerController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

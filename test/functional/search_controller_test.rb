@@ -39,9 +39,6 @@ describe SearchController, type: :controller do
   fixtures :all
 
   before do
-    @controller = SearchController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 

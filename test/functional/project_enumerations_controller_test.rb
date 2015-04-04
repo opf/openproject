@@ -33,12 +33,12 @@ describe ProjectEnumerationsController, type: :controller do
   fixtures :all
 
   before do
-    @request.session[:user_id] = nil
+    session[:user_id] = nil
     Setting.default_language = 'en'
   end
 
   it 'update_to_override_system_activities' do
-    @request.session[:user_id] = 2 # manager
+    session[:user_id] = 2 # manager
     billable_field = TimeEntryActivityCustomField.find_by_name('Billable')
 
     put :update, project_id: 1, enumerations: {
@@ -88,7 +88,7 @@ describe ProjectEnumerationsController, type: :controller do
   end
 
   it 'update_will_update_project_specific_activities' do
-    @request.session[:user_id] = 2 # manager
+    session[:user_id] = 2 # manager
 
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific',
@@ -131,7 +131,7 @@ describe ProjectEnumerationsController, type: :controller do
   it 'update_when_creating_new_activities_will_convert_existing_data' do
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
 
-    @request.session[:user_id] = 2 # manager
+    session[:user_id] = 2 # manager
     put :update, project_id: 1, enumerations: {
       '9' => { 'parent_id' => '9', 'custom_field_values' => { '7' => '1' }, 'active' => '0' } # Design, De-activate
     }
@@ -163,7 +163,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
     assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size
 
-    @request.session[:user_id] = 2 # manager
+    session[:user_id] = 2 # manager
 
     put :update, project_id: 1,
                  enumerations: { '9' => { 'parent_id' => parent.id,
@@ -178,7 +178,7 @@ describe ProjectEnumerationsController, type: :controller do
   end
 
   it 'destroy' do
-    @request.session[:user_id] = 2 # manager
+    session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific',
       parent: TimeEntryActivity.find(:first),
@@ -203,7 +203,7 @@ describe ProjectEnumerationsController, type: :controller do
   end
 
   it 'destroy_should_reassign_time_entries_back_to_the_system_activity' do
-    @request.session[:user_id] = 2 # manager
+    session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific Design',
       parent: TimeEntryActivity.find(9),

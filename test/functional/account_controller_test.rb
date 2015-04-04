@@ -38,9 +38,6 @@ describe AccountController, type: :controller do
   fixtures :all
 
   before do
-    @controller = AccountController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -64,22 +61,22 @@ describe AccountController, type: :controller do
   end
 
   it 'should login with logged account' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :login
     assert_redirected_to home_url
   end
 
   it 'should logout' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :logout
     assert_redirected_to '/'
-    assert_nil @request.session[:user_id]
+    assert_nil session[:user_id]
   end
 
   it 'should logout should reset session' do
     @controller.should_receive(:reset_session).once
 
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     get :logout
     assert_response 302
   end

@@ -38,9 +38,6 @@ describe WelcomeController, type: :controller do
   fixtures :all
 
   before do
-    @controller = WelcomeController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     Setting.available_languages = [:en, :de]
     User.current = nil
   end
@@ -56,21 +53,21 @@ describe WelcomeController, type: :controller do
 
   it 'should browser language' do
     Setting.default_language = 'en'
-    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
+    request.env['HTTP_ACCEPT_LANGUAGE'] = 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
     get :index
     assert_equal :de, @controller.current_language
   end
 
   it 'should browser language alternate' do
     Setting.default_language = 'en'
-    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de'
+    request.env['HTTP_ACCEPT_LANGUAGE'] = 'de'
     get :index
     assert_equal :"de", @controller.current_language
   end
 
   it 'should browser language alternate not valid' do
     Setting.default_language = 'en'
-    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de-CA'
+    request.env['HTTP_ACCEPT_LANGUAGE'] = 'de-CA'
     get :index
     assert_equal :de, @controller.current_language
   end
@@ -78,15 +75,15 @@ describe WelcomeController, type: :controller do
   it 'should robots' do
     get :robots, format: :txt
     assert_response :success
-    assert_equal 'text/plain', @response.content_type
-    assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
+    assert_equal 'text/plain', response.content_type
+    assert response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
   end
 
   it 'should warn on leaving unsaved turn on' do
     user = User.find(2)
     user.pref.warn_on_leaving_unsaved = '1'
     user.pref.save!
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
 
     get :index
     assert_tag 'script',
@@ -98,7 +95,7 @@ describe WelcomeController, type: :controller do
     user = User.find(2)
     user.pref.warn_on_leaving_unsaved = '0'
     user.pref.save!
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
 
     get :index
     assert_no_tag 'script',

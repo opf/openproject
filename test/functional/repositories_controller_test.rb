@@ -38,9 +38,6 @@ describe RepositoriesController, type: :controller do
   fixtures :all
 
   before do
-    @controller = RepositoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -79,11 +76,11 @@ describe RepositoriesController, type: :controller do
   it 'should graph commits per month' do
     get :graph, project_id: 1, graph: 'commits_per_month'
     assert_response :success
-    assert_equal 'image/svg+xml', @response.content_type
+    assert_equal 'image/svg+xml', response.content_type
   end
 
   it 'should committers' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     # add a commit with an unknown user
     Changeset.create!(
       repository: Project.find(1).repository,
@@ -111,7 +108,7 @@ describe RepositoriesController, type: :controller do
   end
 
   it 'should map committers' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     # add a commit with an unknown user
     c = Changeset.create!(
       repository: Project.find(1).repository,

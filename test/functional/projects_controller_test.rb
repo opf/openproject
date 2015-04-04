@@ -40,10 +40,7 @@ describe ProjectsController, type: :controller do
   fixtures :all
 
   before do
-    @controller = ProjectsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    @request.session[:user_id] = nil
+    session[:user_id] = nil
     Setting.default_language = 'en'
   end
 
@@ -76,7 +73,7 @@ describe ProjectsController, type: :controller do
   context '#index' do
     context 'by non-admin user with view_time_entries permission' do
       before do
-        @request.session[:user_id] = 3
+        session[:user_id] = 3
       end
       it 'should show overall spent time link' do
         get :index
@@ -90,7 +87,7 @@ describe ProjectsController, type: :controller do
         Role.find(2).remove_permission! :view_time_entries
         Role.non_member.remove_permission! :view_time_entries
         Role.anonymous.remove_permission! :view_time_entries
-        @request.session[:user_id] = 3
+        session[:user_id] = 3
       end
       it 'should not show overall spent time link' do
         get :index
@@ -103,7 +100,7 @@ describe ProjectsController, type: :controller do
   context '#new' do
     context 'by admin user' do
       before do
-        @request.session[:user_id] = 1
+        session[:user_id] = 1
       end
 
       it 'should accept get' do
@@ -116,7 +113,7 @@ describe ProjectsController, type: :controller do
     context 'by non-admin user with add_project permission' do
       before do
         Role.non_member.add_permission! :add_project
-        @request.session[:user_id] = 9
+        session[:user_id] = 9
       end
 
       it 'should accept get' do
@@ -131,7 +128,7 @@ describe ProjectsController, type: :controller do
       before do
         Role.find(1).remove_permission! :add_project
         Role.find(1).add_permission! :add_subprojects
-        @request.session[:user_id] = 2
+        session[:user_id] = 2
       end
 
       it 'should accept get' do
@@ -151,7 +148,7 @@ describe ProjectsController, type: :controller do
   context 'POST :create' do
     context 'by admin user' do
       before do
-        @request.session[:user_id] = 1
+        session[:user_id] = 1
       end
 
       it 'should create a new project' do
@@ -202,7 +199,7 @@ describe ProjectsController, type: :controller do
     context 'by non-admin user with add_project permission' do
       before do
         Role.non_member.add_permission! :add_project
-        @request.session[:user_id] = 9
+        session[:user_id] = 9
       end
 
       it 'should accept create a Project' do
@@ -250,7 +247,7 @@ describe ProjectsController, type: :controller do
       before do
         Role.find(1).remove_permission! :add_project
         Role.find(1).add_permission! :add_subprojects
-        @request.session[:user_id] = 2
+        session[:user_id] = 2
       end
 
       it 'should create a project with a parent_id' do
@@ -301,7 +298,7 @@ describe ProjectsController, type: :controller do
 
   it 'should create should preserve modules on validation failure' do
     with_settings default_projects_modules: ['work_package_tracking', 'repository'] do
-      @request.session[:user_id] = 1
+      session[:user_id] = 1
       assert_no_difference 'Project.count' do
         post :create, project: {
           name: 'blog',
@@ -370,7 +367,7 @@ describe ProjectsController, type: :controller do
   end
 
   it 'should private subprojects visible' do
-    @request.session[:user_id] = 2 # manager who is a member of the private subproject
+    session[:user_id] = 2 # manager who is a member of the private subproject
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
@@ -378,14 +375,14 @@ describe ProjectsController, type: :controller do
   end
 
   it 'should settings' do
-    @request.session[:user_id] = 2 # manager
+    session[:user_id] = 2 # manager
     get :settings, id: 1
     assert_response :success
     assert_template 'settings'
   end
 
   it 'should update' do
-    @request.session[:user_id] = 2 # manager
+    session[:user_id] = 2 # manager
     put :update, id: 1, project: { name: 'Test changed name',
                                    issue_custom_field_ids: [''] }
     assert_redirected_to '/projects/ecookbook/settings'
@@ -394,7 +391,7 @@ describe ProjectsController, type: :controller do
   end
 
   it 'should modules' do
-    @request.session[:user_id] = 2
+    session[:user_id] = 2
     Project.find(1).enabled_module_names = ['work_package_tracking', 'news']
 
     put :modules, id: 1, project: { enabled_module_names: ['work_package_tracking', 'repository'] }
@@ -403,7 +400,7 @@ describe ProjectsController, type: :controller do
   end
 
   it 'should get destroy info' do
-    @request.session[:user_id] = 1 # admin
+    session[:user_id] = 1 # admin
     get :destroy_info, id: 1
     assert_response :success
     assert_template 'destroy_info'
@@ -411,21 +408,21 @@ describe ProjectsController, type: :controller do
   end
 
   it 'should post destroy' do
-    @request.session[:user_id] = 1 # admin
+    session[:user_id] = 1 # admin
     delete :destroy, id: 1, confirm: 1
     assert_redirected_to '/admin/projects'
     assert_nil Project.find_by_id(1)
   end
 
   it 'should archive' do
-    @request.session[:user_id] = 1 # admin
+    session[:user_id] = 1 # admin
     put :archive, id: 1
     assert_redirected_to '/admin/projects'
     assert !Project.find(1).active?
   end
 
   it 'should unarchive' do
-    @request.session[:user_id] = 1 # admin
+    session[:user_id] = 1 # admin
     Project.find(1).archive
     put :unarchive, id: 1
     assert_redirected_to '/admin/projects'

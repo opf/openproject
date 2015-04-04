@@ -83,7 +83,7 @@ module LegacyAssertionsAndHelpers
   include OpenProject::Files
 
   def save_and_open_page
-    body = @response.body
+    body = response.body
 
     body.gsub!('/assets', '../../public/assets')
 
@@ -219,7 +219,7 @@ module LegacyAssertionsAndHelpers
 
   def should_respond_with_content_type(content_type)
     # it "respond with content type '#{content_type}'" do
-    assert_equal @response.content_type, content_type
+    assert_equal response.content_type, content_type
     # end
   end
 

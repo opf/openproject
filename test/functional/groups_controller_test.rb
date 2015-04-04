@@ -36,11 +36,8 @@ describe GroupsController, type: :controller do
   fixtures :all
 
   before do
-    @controller = GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
-    @request.session[:user_id] = 1
+    session[:user_id] = 1
   end
 
   it 'should index' do

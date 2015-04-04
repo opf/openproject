@@ -38,11 +38,8 @@ describe RolesController, type: :controller do
   fixtures :all
 
   before do
-    @controller = RolesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
-    @request.session[:user_id] = 1 # admin
+    session[:user_id] = 1 # admin
   end
 
   it 'should get index' do

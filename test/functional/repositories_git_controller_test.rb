@@ -47,9 +47,6 @@ describe RepositoriesController, 'Git', type: :controller do
   before do
     skip 'Git test repository NOT FOUND. Skipping functional tests !!!' unless File.directory?(git_repository_path)
 
-    @controller = RepositoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @repository = Repository::Git.create(
       project: Project.find(3),
@@ -170,7 +167,7 @@ describe RepositoriesController, 'Git', type: :controller do
     get :entry, project_id: 3, path: 'sources/watchers_controller.rb', format: 'raw'
     assert_response :success
     # File content
-    assert @response.body.include?('WITHOUT ANY WARRANTY')
+    assert response.body.include?('WITHOUT ANY WARRANTY')
   end
 
   it 'should directory entry' do
