@@ -26,6 +26,14 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+describe Redmine::Notifiable do
+  it 'should all' do
+    assert_equal 11, Redmine::Notifiable.all.length
+
+    %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated news_added news_comment_added file_added message_posted wiki_content_added wiki_content_updated).each do |notifiable|
+      assert Redmine::Notifiable.all.map(&:name).include?(notifiable), "missing #{notifiable}"
+    end
+  end
+end

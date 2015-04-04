@@ -26,6 +26,43 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+describe Redmine::DefaultData do
+  include Redmine::I18n
+
+  before do
+    delete_loaded_data!
+    assert Redmine::DefaultData::Loader::no_data?
+  end
+
+  it 'should no_data' do
+    Redmine::DefaultData::Loader::load
+    assert !Redmine::DefaultData::Loader::no_data?
+
+    delete_loaded_data!
+    assert Redmine::DefaultData::Loader::no_data?
+  end
+
+  it 'should load' do
+    valid_languages.each do |lang|
+      begin
+        delete_loaded_data!
+        assert Redmine::DefaultData::Loader::load(lang)
+        assert_not_nil IssuePriority.first
+        assert_not_nil TimeEntryActivity.first
+      rescue ActiveRecord::RecordInvalid => e
+        assert false, ":#{lang} default data is invalid (#{e.message})."
+      end
+    end
+  end
+
+  private
+
+  def delete_loaded_data!
+    Role.delete_all('builtin = 0')
+    Type.delete_all('is_standard = false')
+    Status.delete_all
+    Enumeration.delete_all
+  end
+end

@@ -26,6 +26,36 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
+require 'mail_handler_controller'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+# Re-raise errors caught by the controller.
+class MailHandlerController; def rescue_action(e) raise e end; end
+
+describe MailHandlerController, type: :controller do
+  fixtures :all
+
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures/mail_handler'
+
+  before do
+    User.current = nil
+  end
+
+  it 'should _create_issue' do
+    # Enable API and set a key
+    Setting.mail_handler_api_enabled = 1
+    Setting.mail_handler_api_key = 'secret'
+
+    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    assert_response 201
+  end
+
+  it 'should _not_allow' do
+    # Disable API
+    Setting.mail_handler_api_enabled = 0
+    Setting.mail_handler_api_key = 'secret'
+
+    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    assert_response 403
+  end
+end

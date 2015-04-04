@@ -26,6 +26,14 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+describe Redmine::MenuManager do
+  context 'MenuManager#map' do
+    it 'should be tested'
+  end
+
+  context 'MenuManager#items' do
+    it 'should be tested'
+  end
+end

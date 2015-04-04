@@ -27,5 +27,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+require 'legacy_spec_helper'
+
+describe HelpController, type: :controller do
+  render_views
+
+  specify 'renders wiki_syntax properly' do
+    get 'wiki_syntax'
+
+    assert_select 'h1', 'Wiki Syntax Quick Reference'
+  end
+
+  specify 'renders wiki_syntax_detailed properly' do
+    get 'wiki_syntax_detailed'
+
+    assert_select 'h1', 'Wiki Formatting'
+  end
+end

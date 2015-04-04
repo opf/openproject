@@ -27,5 +27,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+require 'legacy_spec_helper'
+require 'settings_controller'
+
+# Re-raise errors caught by the controller.
+class SettingsController; def rescue_action(e) raise e end; end
+
+describe SettingsController, type: :controller do
+  fixtures :all
+
+  before do
+    User.current = nil
+    session[:user_id] = 1 # admin
+  end
+
+  it 'should index' do
+    get :index
+    assert_response :success
+    assert_template 'edit'
+  end
+
+  it 'should get edit' do
+    get :edit
+    assert_response :success
+    assert_template 'edit'
+  end
+
+  it 'should post edit notifications' do
+    post :edit, settings: { mail_from: 'functional@test.foo',
+                            bcc_recipients:  '0',
+                            notified_events: %w(work_package_added work_package_updated news_added),
+                            emails_footer: 'Test footer'
+                              }
+    assert_redirected_to '/settings/edit'
+    assert_equal 'functional@test.foo', Setting.mail_from
+    assert !Setting.bcc_recipients?
+    assert_equal %w(work_package_added work_package_updated news_added), Setting.notified_events
+    assert_equal 'Test footer', Setting.emails_footer
+  end
+end

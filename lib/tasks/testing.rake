@@ -115,10 +115,9 @@ namespace :spec do
   task legacy: %w(legacy:unit legacy:functional legacy:integration)
   namespace :legacy do
     %w(unit functional integration).each do |type|
-      desc "Run the code examples in test/#{type}"
+      desc "Run the code examples in spec/legacy/#{type}"
       RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
-        t.ruby_opts = '-I test'
-        t.pattern = "test/#{type}/**/*_test.rb"
+        t.pattern = "spec/legacy/#{type}/**/*_spec.rb"
       end
     end
   end

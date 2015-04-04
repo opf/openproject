@@ -26,6 +26,16 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
+require 'application_controller'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+# Re-raise errors caught by the controller.
+class ApplicationController; def rescue_action(e) raise e end; end
+
+describe ApplicationController, type: :controller do
+  include Redmine::I18n
+
+  it 'should call hook mixed in' do
+    assert @controller.respond_to?(:call_hook)
+  end
+end

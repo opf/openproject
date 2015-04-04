@@ -26,6 +26,23 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+describe IssuePriority do
+  fixtures :all
+
+  it 'should_be_an_enumeration' do
+    assert IssuePriority.ancestors.include?(Enumeration)
+  end
+
+  it 'should objects_count' do
+    # low priority
+    assert_equal 6, IssuePriority.find(4).objects_count
+    # urgent
+    assert_equal 0, IssuePriority.find(7).objects_count
+  end
+
+  it 'should option_name' do
+    assert_equal :enumeration_work_package_priorities, IssuePriority.new.option_name
+  end
+end

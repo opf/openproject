@@ -26,6 +26,34 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+describe CustomField, type: :model do
+  it 'should create' do
+    field = UserCustomField.new(name: 'Money money money', field_format: 'float')
+    assert field.save
+  end
+
+  it 'should possible values should accept an array' do
+    field = CustomField.new
+    field.possible_values = ['One value', '']
+    assert_equal ['One value'], field.possible_values
+  end
+
+  it 'should possible values should accept a string' do
+    field = CustomField.new
+    field.possible_values = 'One value'
+    assert_equal ['One value'], field.possible_values
+  end
+
+  it 'should possible values should accept a multiline string' do
+    field = CustomField.new
+    field.possible_values = "One value\nAnd another one  \r\n \n"
+    assert_equal ['One value', 'And another one'], field.possible_values
+  end
+
+  it 'should destroy' do
+    field = FactoryGirl.create :custom_field
+    assert field.destroy
+  end
+end

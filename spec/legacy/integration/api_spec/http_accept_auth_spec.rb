@@ -27,5 +27,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+require 'legacy_spec_helper'
+
+describe 'ApiTest: HttpAcceptAuthTest', type: :request do
+  fixtures :all
+
+  before do
+    Setting.rest_api_enabled = '1'
+    Setting.login_required = '1'
+  end
+
+  after do
+    Setting.rest_api_enabled = '0'
+    Setting.login_required = '0'
+  end
+
+  context 'get /planning_elements' do
+    before do
+      project = Project.find('onlinestore')
+      EnabledModule.create(project: project, name: 'work_package_tracking')
+    end
+
+    context 'in :xml format' do
+      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, '/api/v2/projects/onlinestore/planning_elements.xml')
+    end
+
+    context 'in :json format' do
+      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, '/api/v2/projects/onlinestore/planning_elements.json')
+    end
+  end
+end

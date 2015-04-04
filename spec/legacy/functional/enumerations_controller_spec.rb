@@ -26,6 +26,44 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
+require 'enumerations_controller'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+# Re-raise errors caught by the controller.
+class EnumerationsController; def rescue_action(e) raise e end; end
+
+describe EnumerationsController, type: :controller do
+  fixtures :all
+
+  before do
+    session[:user_id] = 1 # admin
+  end
+
+  it 'should index' do
+    get :index
+    assert_response :success
+    assert_template 'index'
+  end
+
+  it 'should destroy enumeration not in use' do
+    post :destroy, id: 7
+    assert_redirected_to enumerations_path
+    assert_nil Enumeration.find_by_id(7)
+  end
+
+  it 'should destroy enumeration in use' do
+    post :destroy, id: 4
+    assert_response :success
+    assert_template 'destroy'
+    assert_not_nil Enumeration.find_by_id(4)
+  end
+
+  it 'should destroy enumeration in use with reassignment' do
+    issue = WorkPackage.find(:first, conditions: { priority_id: 4 })
+    post :destroy, id: 4, reassign_to_id: 6
+    assert_redirected_to enumerations_path
+    assert_nil Enumeration.find_by_id(4)
+    # check that the issue was reassign
+    assert_equal 6, issue.reload.priority_id
+  end
+end

@@ -27,5 +27,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+require 'legacy_spec_helper'
+
+describe 'Layout' do
+  fixtures :all
+
+  specify 'browsing to a missing page should render the base layout' do
+    get '/users/100000000'
+
+    assert_response :not_found
+
+    # UsersController uses the admin layout by default
+    assert_select '#main-menu', count: 0
+  end
+
+  it 'should top menu navigation not visible when login required' do
+    with_settings login_required: '1' do
+      get '/'
+      assert_select '#account-nav-left', 0
+    end
+  end
+
+  it 'should top menu navigation visible when login not required' do
+    with_settings login_required: '0' do
+      get '/'
+      assert_select '#account-nav-left'
+    end
+  end
+
+  specify 'page titles should be properly escaped' do
+    project = Project.generate(name: 'C&A', is_public: true)
+
+    with_settings app_title: '<3' do
+      get "/projects/#{project.to_param}"
+
+      html_node = HTML::Document.new(response.body)
+
+      assert_select html_node.root, 'title', /C&amp;A/
+      assert_select html_node.root, 'title', /&lt;3/
+    end
+  end
+end

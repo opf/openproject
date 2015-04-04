@@ -26,6 +26,30 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+describe Redmine::WikiFormatting do
+  it 'should textile formatter' do
+    assert_equal Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting.formatter_for('textile')
+    assert_equal Redmine::WikiFormatting::Textile::Helper, Redmine::WikiFormatting.helper_for('textile')
+  end
+
+  it 'should null formatter' do
+    assert_equal Redmine::WikiFormatting::NullFormatter::Formatter, Redmine::WikiFormatting.formatter_for('')
+    assert_equal Redmine::WikiFormatting::NullFormatter::Helper, Redmine::WikiFormatting.helper_for('')
+  end
+
+  it 'should link urls and email addresses' do
+    raw = <<-DIFF
+This is a sample *text* with a link: http://www.redmine.org
+and an email address foo@example.net
+DIFF
+
+    expected = <<-EXPECTED
+<p>This is a sample *text* with a link: <a href="http://www.redmine.org">http://www.redmine.org</a><br />
+and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
+  end
+end

@@ -26,6 +26,39 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
+require 'wikis_controller'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+# Re-raise errors caught by the controller.
+class WikisController; def rescue_action(e) raise e end; end
+
+describe WikisController, type: :controller do
+  fixtures :all
+
+  before do
+    User.current = nil
+  end
+
+  it 'create' do
+    session[:user_id] = 1
+    assert_nil Project.find(3).wiki
+    post :edit, id: 3, wiki: { start_page: 'Start page' }
+    assert_response :success
+    wiki = Project.find(3).wiki
+    assert_not_nil wiki
+    assert_equal 'Start page', wiki.start_page
+  end
+
+  it 'destroy' do
+    session[:user_id] = 1
+    post :destroy, id: 1, confirm: 1
+    assert_redirected_to controller: 'projects', action: 'settings', id: 'ecookbook', tab: 'wiki'
+    assert_nil Project.find(1).wiki
+  end
+
+  it 'not_found' do
+    session[:user_id] = 1
+    post :destroy, id: 999, confirm: 1
+    assert_response 404
+  end
+end

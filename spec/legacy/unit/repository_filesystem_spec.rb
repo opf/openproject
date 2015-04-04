@@ -26,6 +26,40 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+describe Repository::Filesystem, type: :model do
+  fixtures :all
+
+  before do
+    @project = Project.find(3)
+
+    with_existing_filesystem_scm do |repo_path|
+      assert @repository = Repository::Filesystem.create(project: @project,
+                                                         url: repo_path)
+    end
+  end
+
+  it 'should fetch changesets' do
+    with_existing_filesystem_scm do
+      @repository.fetch_changesets
+      @repository.reload
+
+      assert_equal 0, @repository.changesets.count
+      assert_equal 0, @repository.changes.count
+    end
+  end
+
+  it 'should entries' do
+    with_existing_filesystem_scm do
+      assert_equal 3, @repository.entries('', 2).size
+      assert_equal 2, @repository.entries('dir', 3).size
+    end
+  end
+
+  it 'should cat' do
+    with_existing_filesystem_scm do
+      assert_equal "TEST CAT\n", @repository.scm.cat('test')
+    end
+  end
+end

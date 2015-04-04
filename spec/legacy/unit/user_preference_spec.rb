@@ -26,6 +26,46 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+describe UserPreference do
+  include MiniTest::Assertions
+
+  it 'should validations' do
+    # factory valid
+    assert FactoryGirl.build(:user_preference).valid?
+
+    # user required
+    refute FactoryGirl.build(:user_preference, user: nil).valid?
+  end
+
+  it 'should create' do
+    user = FactoryGirl.create :user
+
+    assert_kind_of UserPreference, user.pref
+    assert_kind_of Hash, user.pref.others
+    assert user.pref.save
+  end
+
+  it 'should update' do
+    user = FactoryGirl.create :user
+    pref = FactoryGirl.create :user_preference, user: user, hide_mail: true
+    assert_equal true, user.pref.hide_mail
+
+    user.pref['preftest'] = 'value'
+    assert user.pref.save
+
+    user.reload
+    assert_equal 'value', user.pref['preftest']
+  end
+
+  it 'should update_with_method' do
+    user = FactoryGirl.create :user
+    assert_equal nil, user.pref.comments_sorting
+    user.pref.comments_sorting = 'value'
+    assert user.pref.save
+
+    user.reload
+    assert_equal 'value', user.pref.comments_sorting
+  end
+end

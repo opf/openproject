@@ -26,6 +26,31 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'legacy_spec_helper'
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+describe EnabledModule do
+  it 'should enabling_wiki_should_create_a_wiki' do
+    CustomField.delete_all
+    FactoryGirl.create(:type_standard)
+    project = Project.create!(name: 'Project with wiki', identifier: 'wikiproject')
+    assert_nil project.wiki
+    project.enabled_module_names = ['wiki']
+    wiki = FactoryGirl.create :wiki, project: project
+    project.reload
+    assert_not_nil project.wiki
+    assert_equal 'Wiki', project.wiki.start_page
+  end
+
+  it 'should reenabling_wiki_should_not_create_another_wiki' do
+    project = FactoryGirl.create :project
+    wiki = FactoryGirl.create :wiki, project: project
+    project.reload
+    assert_not_nil project.wiki
+    project.enabled_module_names = []
+    project.reload
+    assert_no_difference 'Wiki.count' do
+      project.enabled_module_names = ['wiki']
+    end
+    assert_not_nil project.wiki
+  end
+end

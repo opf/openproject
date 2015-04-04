@@ -27,5 +27,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+require 'legacy_spec_helper'
+
+describe 'ApiTest: TokenAuthentication', type: :request do
+  fixtures :all
+
+  before do
+    Setting.rest_api_enabled = '1'
+    Setting.login_required = '1'
+  end
+
+  after do
+    Setting.rest_api_enabled = '0'
+    Setting.login_required = '0'
+  end
+
+  context 'get /api/v2/projects' do
+    context 'in :xml format' do
+      should_allow_key_based_auth(:get, '/api/v2/projects.xml')
+    end
+
+    context 'in :json format' do
+      should_allow_key_based_auth(:get, '/api/v2/projects.json')
+    end
+  end
+end
