@@ -32,24 +32,26 @@ describe Changeset, type: :model do
   fixtures :all
 
   it 'should ref keywords any' do
-    WorkPackage.all.each(&:recreate_initial_journal!)
+    with_settings notified_events: %w(work_package_updated) do
+      WorkPackage.all.each(&:recreate_initial_journal!)
 
-    ActionMailer::Base.deliveries.clear
-    Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
-    Setting.commit_fix_done_ratio = '90'
-    Setting.commit_ref_keywords = '*'
-    Setting.commit_fix_keywords = 'fixes , closes'
+      ActionMailer::Base.deliveries.clear
+      Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
+      Setting.commit_fix_done_ratio = '90'
+      Setting.commit_ref_keywords = '*'
+      Setting.commit_fix_keywords = 'fixes , closes'
 
-    c = Changeset.new(repository: Project.find(1).repository,
-                      committed_on: Time.now,
-                      comments: 'New commit (#2). Fixes #1')
-    c.scan_comment_for_work_package_ids
+      c = Changeset.new(repository: Project.find(1).repository,
+                        committed_on: Time.now,
+                        comments: 'New commit (#2). Fixes #1')
+      c.scan_comment_for_work_package_ids
 
-    assert_equal [1, 2], c.work_package_ids.sort
-    fixed = WorkPackage.find(1)
-    assert fixed.closed?
-    assert_equal 90, fixed.done_ratio
-    assert_equal 2, ActionMailer::Base.deliveries.size
+      assert_equal [1, 2], c.work_package_ids.sort
+      fixed = WorkPackage.find(1)
+      assert fixed.closed?
+      assert_equal 90, fixed.done_ratio
+      assert_equal 2, ActionMailer::Base.deliveries.size
+    end
   end
 
   it 'should ref keywords' do
