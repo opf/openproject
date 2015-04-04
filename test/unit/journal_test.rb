@@ -31,7 +31,10 @@ require File.expand_path('../../test_helper', __FILE__)
 describe Journal, type: :model do
   fixtures :all
 
-  before do
+  around do |example|
+    with_settings notified_events: %w(work_package_updated) do
+      example.run
+    end
   end
 
   it 'should create should send email notification' do
