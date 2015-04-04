@@ -33,6 +33,12 @@ describe 'Application' do
 
   fixtures :all
 
+  around do |example|
+    with_settings login_required: '0' do
+      example.run
+    end
+  end
+
   it 'set_localization' do
     Setting.available_languages = [:de, :en]
     Setting.default_language = 'en'

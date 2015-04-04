@@ -33,6 +33,12 @@ describe 'MenuManager' do
 
   fixtures :all
 
+  around do |example|
+    with_settings login_required: '0' do
+      example.run
+    end
+  end
+
   it 'project_menu_with_specific_locale' do
     Setting.available_languages = [:de, :en]
     get 'projects/ecookbook', {}, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
