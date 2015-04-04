@@ -234,6 +234,10 @@ module LegacyAssertionsAndHelpers
     { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(login, password) }
   end
 
+  def repository_configured?(vendor)
+    self.class.repository_configured?(vendor)
+  end
+
   module ClassMethods
     def ldap_configured?
       @test_ldap = Net::LDAP.new(host: '127.0.0.1', port: 389)

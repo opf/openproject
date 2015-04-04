@@ -30,36 +30,33 @@
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
 describe Redmine::Scm::Adapters::FilesystemAdapter, type: :model do
-  REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'
+  let(:fs_repository_path) { Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository' }
 
-  if File.directory?(REPOSITORY_PATH)
-    before do
-      @adapter = Redmine::Scm::Adapters::FilesystemAdapter.new(REPOSITORY_PATH)
-    end
+  before do
+    skip 'Filesystem test repository NOT FOUND. Skipping unit tests !!! See doc/RUNNING_TESTS.' unless File.directory?(fs_repository_path)
 
-    it 'should entries' do
-      assert_equal 3, @adapter.entries.size
-      assert_equal ['dir', 'japanese', 'test'], @adapter.entries.collect(&:name)
-      assert_equal ['dir', 'japanese', 'test'], @adapter.entries(nil).collect(&:name)
-      assert_equal ['dir', 'japanese', 'test'], @adapter.entries('/').collect(&:name)
-      ['dir', '/dir', '/dir/', 'dir/'].each do |path|
-        assert_equal ['subdir', 'dirfile'], @adapter.entries(path).collect(&:name)
-      end
-      # If y try to use "..", the path is ignored
-      ['/../', 'dir/../', '..', '../', '/..', 'dir/..'].each do |path|
-        assert_equal ['dir', 'japanese', 'test'], @adapter.entries(path).collect(&:name),
-                     '.. must be ignored in path argument'
-      end
-    end
+    @adapter = Redmine::Scm::Adapters::FilesystemAdapter.new(fs_repository_path)
+  end
 
-    it 'should cat' do
-      assert_equal "TEST CAT\n", @adapter.cat('test')
-      assert_equal "TEST CAT\n", @adapter.cat('/test')
-      # Revision number is ignored
-      assert_equal "TEST CAT\n", @adapter.cat('/test', 1)
+  it 'should entries' do
+    assert_equal 3, @adapter.entries.size
+    assert_equal ['dir', 'japanese', 'test'], @adapter.entries.collect(&:name)
+    assert_equal ['dir', 'japanese', 'test'], @adapter.entries(nil).collect(&:name)
+    assert_equal ['dir', 'japanese', 'test'], @adapter.entries('/').collect(&:name)
+    ['dir', '/dir', '/dir/', 'dir/'].each do |path|
+      assert_equal ['subdir', 'dirfile'], @adapter.entries(path).collect(&:name)
     end
-  else
-    puts 'Filesystem test repository NOT FOUND. Skipping unit tests !!! See doc/RUNNING_TESTS.'
-    it 'should fake' do; assert true end
+    # If y try to use "..", the path is ignored
+    ['/../', 'dir/../', '..', '../', '/..', 'dir/..'].each do |path|
+      assert_equal ['dir', 'japanese', 'test'], @adapter.entries(path).collect(&:name),
+                   '.. must be ignored in path argument'
+    end
+  end
+
+  it 'should cat' do
+    assert_equal "TEST CAT\n", @adapter.cat('test')
+    assert_equal "TEST CAT\n", @adapter.cat('/test')
+    # Revision number is ignored
+    assert_equal "TEST CAT\n", @adapter.cat('/test', 1)
   end
 end
