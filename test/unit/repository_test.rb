@@ -35,6 +35,12 @@ describe Repository, type: :model do
     @repository = Project.find(1).repository
   end
 
+  around do |example|
+    with_settings enabled_scm: %w(Subversion) do
+      example.run
+    end
+  end
+
   it 'should create' do
     repository = Repository::Subversion.new(project: Project.find(3))
     assert !repository.save
