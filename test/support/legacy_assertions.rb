@@ -474,7 +474,7 @@ module LegacyAssertionsAndHelpers
         before do
           @user = User.generate_with_protected!(admin: true)
           @token = Token.generate!(user: @user, action: 'api')
-          send(http_method, url, parameters, 'X-OpenProject-API-Key' => @token.value.to_s)
+          send(http_method, url, {}, {'X-OpenProject-API-Key' => @token.value.to_s})
         end
         it { should respond_with success_code }
         it { should_respond_with_content_type_based_on_url(url) }
