@@ -110,7 +110,10 @@ desc 'Run all specs in spec directory (excluding plugin specs)'
 task spec: %w(spec:core spec:legacy)
 
 namespace :spec do
-  RSpec::Core::RakeTask.new(core: 'spec:prepare')
+  desc 'Run the code examples in spec, excluding legacy'
+  RSpec::Core::RakeTask.new(core: 'spec:prepare') do |t|
+    t.exclude_pattern = 'spec/legacy/**/*_spec.rb'
+  end
 
   task legacy: %w(legacy:unit legacy:functional legacy:integration)
   namespace :legacy do
