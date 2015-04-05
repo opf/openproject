@@ -104,6 +104,26 @@ namespace :test do
   end
 end
 
+task('spec').clear
+
+desc 'Run all specs in spec directory (excluding plugin specs)'
+task spec: %w(spec:core spec:legacy)
+
+namespace :spec do
+  RSpec::Core::RakeTask.new(core: 'spec:prepare')
+
+  task legacy: %w(legacy:unit legacy:functional legacy:integration)
+  namespace :legacy do
+    %w(unit functional integration).each do |type|
+      desc "Run the code examples in test/#{type}"
+      RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
+        t.ruby_opts = '-I test'
+        t.pattern = "test/#{type}/**/*_test.rb"
+      end
+    end
+  end
+end
+
 %w(test spec).each do |type|
   if Rake::Task.task_defined?("#{type}:prepare")
     Rake::Task["#{type}:prepare"].enhance(['assets:webpack'])
