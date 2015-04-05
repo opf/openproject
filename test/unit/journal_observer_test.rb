@@ -46,7 +46,7 @@ describe JournalObserver, type: :model do
     @user.members.first.roles << @workflow.role
     @user.reload
 
-    User.stub(:current).and_return(@user)
+    allow(User).to receive(:current).and_return(@user)
 
     ActionMailer::Base.deliveries.clear
   end

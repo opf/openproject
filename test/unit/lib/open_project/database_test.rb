@@ -30,30 +30,30 @@ require File.expand_path('../../../../test_helper', __FILE__)
 
 describe OpenProject::Database do
   it 'should return the correct identifier' do
-    OpenProject::Database.stub(:adapter_name).and_return 'PostgresQL'
+    allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgresQL'
 
     assert_equal :postgresql, OpenProject::Database.name
   end
 
   it 'should be able to use the helper methods' do
-    OpenProject::Database.stub(:adapter_name).and_return 'PostgresQL'
+    allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgresQL'
 
     assert_equal false, OpenProject::Database.mysql?
     assert_equal true, OpenProject::Database.postgresql?
   end
 
   it 'should return a version string for PostgreSQL' do
-    OpenProject::Database.stub(:adapter_name).and_return 'PostgreSQL'
+    allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgreSQL'
     raw_version = 'PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2'
-    ActiveRecord::Base.connection.stub(:select_value).and_return raw_version
+    allow(ActiveRecord::Base.connection).to receive(:select_value).and_return raw_version
 
     assert_equal '8.3.11', OpenProject::Database.version
     assert_equal raw_version, OpenProject::Database.version(true)
   end
 
   it 'should return a version string for MySQL' do
-    OpenProject::Database.stub(:adapter_name).and_return 'MySQL'
-    ActiveRecord::Base.connection.stub(:select_value).and_return '5.1.2'
+    allow(OpenProject::Database).to receive(:adapter_name).and_return 'MySQL'
+    allow(ActiveRecord::Base.connection).to receive(:select_value).and_return '5.1.2'
 
     assert_equal '5.1.2', OpenProject::Database.version
     assert_equal '5.1.2', OpenProject::Database.version(true)

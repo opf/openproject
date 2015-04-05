@@ -405,7 +405,7 @@ describe WikiController, type: :controller do
         get :export, project_id: 'ecookbook'
       end
 
-      it { should respond_with :success }
+      it { is_expected.to respond_with :success }
       it { should_assign_to :pages }
       it { should_respond_with_content_type 'text/html' }
       it 'should export all of the wiki pages to a single html file' do
@@ -419,8 +419,8 @@ describe WikiController, type: :controller do
       before do
         get :export, project_id: 'ecookbook'
 
-        it { should respond_with :redirect }
-        it { should redirect_to('wiki index') { { action: 'show', project_id: @project, id: nil } } }
+        it { is_expected.to respond_with :redirect }
+        it { is_expected.to redirect_to('wiki index') { { action: 'show', project_id: @project, id: nil } } }
       end
     end
   end
@@ -430,10 +430,10 @@ describe WikiController, type: :controller do
       get :date_index, project_id: 'ecookbook'
     end
 
-    it { should respond_with :success }
+    it { is_expected.to respond_with :success }
     it { should_assign_to :pages }
     it { should_assign_to :pages_by_date }
-    it { should render_template 'wiki/date_index' }
+    it { is_expected.to render_template 'wiki/date_index' }
 
     it 'should include atom link' do
       assert_tag 'a', attributes: { href: '/projects/ecookbook/activity.atom?show_wiki_edits=1' }

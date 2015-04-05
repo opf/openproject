@@ -64,13 +64,13 @@ describe SysController, type: :controller do
   end
 
   it 'should fetch changesets' do
-    Repository::Subversion.any_instance.should_receive(:fetch_changesets).and_return(true)
+    expect_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
     get :fetch_changesets
     assert_response :success
   end
 
   it 'should fetch changesets one project' do
-    Repository::Subversion.any_instance.should_receive(:fetch_changesets).and_return(true)
+    expect_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
     get :fetch_changesets, id: 'ecookbook'
     assert_response :success
   end

@@ -60,7 +60,7 @@ describe Watcher do
   end
 
   it 'should watcher_users_should_not_validate_user' do
-    @user.stub(:valid?).and_return(false)
+    allow(@user).to receive(:valid?).and_return(false)
     @issue.watcher_users << @user
     assert @issue.watched_by?(@user)
   end

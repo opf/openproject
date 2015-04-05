@@ -211,7 +211,7 @@ describe User, type: :model do
       context 'with failed connection to the LDAP server' do
         it 'should return nil' do
           @auth_source = LdapAuthSource.find(1)
-          AuthSource.any_instance.stub(:initialize_ldap_con).and_raise(Net::LDAP::LdapError, 'Cannot connect')
+          allow_any_instance_of(AuthSource).to receive(:initialize_ldap_con).and_raise(Net::LDAP::LdapError, 'Cannot connect')
 
           assert_equal nil, User.try_to_login('edavis', 'wrong')
         end
@@ -261,7 +261,7 @@ describe User, type: :model do
     assert_kind_of AnonymousUser, anon
   end
 
-  it { should have_one :rss_token }
+  it { is_expected.to have_one :rss_token }
 
   it 'should rss key' do
     assert_nil @jsmith.rss_token
@@ -272,7 +272,7 @@ describe User, type: :model do
     assert_equal key, @jsmith.rss_key
   end
 
-  it { should have_one :api_token }
+  it { is_expected.to have_one :api_token }
 
   context 'User#api_key' do
     it "should generate a new one if the user doesn't have one" do
@@ -401,7 +401,7 @@ describe User, type: :model do
     context 'with a unique project' do
       it 'should return false if project is archived' do
         project = Project.find(1)
-        Project.any_instance.stub(:status).and_return(Project::STATUS_ARCHIVED)
+        allow_any_instance_of(Project).to receive(:status).and_return(Project::STATUS_ARCHIVED)
         assert ! @admin.allowed_to?(:view_work_packages, Project.find(1))
       end
 

@@ -58,7 +58,7 @@ describe ApplicationHelper, type: :helper do
                                      container: @issue,
                                      description: 'This is a logo'
 
-    User.stub(:current).and_return(@project_member)
+    allow(User).to receive(:current).and_return(@project_member)
   end
 
   def request
@@ -247,7 +247,7 @@ RAW
   end
 
   it 'should redmine links git commit' do
-    User.stub(:current).and_return(@admin)
+    allow(User).to receive(:current).and_return(@admin)
     changeset_link = link_to('abcd',
                              {
                                controller: 'repositories',

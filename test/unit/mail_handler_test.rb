@@ -302,7 +302,7 @@ describe MailHandler, type: :model do
   it 'should ignore emails from locked users' do
     User.find(2).lock!
 
-    MailHandler.any_instance.should_receive(:dispatch).never
+    expect_any_instance_of(MailHandler).to receive(:dispatch).never
     assert_no_difference 'WorkPackage.count' do
       assert_equal false, submit_email('ticket_on_given_project.eml')
     end
@@ -316,7 +316,7 @@ describe MailHandler, type: :model do
   end
 
   it 'should ignore auto replied emails' do
-    MailHandler.any_instance.should_receive(:dispatch).never
+    expect_any_instance_of(MailHandler).to receive(:dispatch).never
     [
       'X-Auto-Response-Suppress: OOF',
       'Auto-Submitted: auto-replied',

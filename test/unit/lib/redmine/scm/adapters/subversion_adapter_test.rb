@@ -53,7 +53,7 @@ describe Redmine::Scm::Adapters::SubversionAdapter, type: :model do
     private
 
     def test_scm_version_for(scm_version, version)
-      @adapter.class.should_receive(:scm_version_from_command_line).and_return(scm_version)
+      expect(@adapter.class).to receive(:scm_version_from_command_line).and_return(scm_version)
       assert_equal version, @adapter.class.svn_binary_version
     end
 

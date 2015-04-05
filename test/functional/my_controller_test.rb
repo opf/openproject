@@ -122,8 +122,8 @@ describe MyController, type: :controller do
         assert User.find(2).rss_token
       end
 
-      it { should set_flash.to /reset/ }
-      it { should redirect_to '/my/account' }
+      it { is_expected.to set_flash.to /reset/ }
+      it { is_expected.to redirect_to '/my/account' }
     end
 
     context 'with no rss_token' do
@@ -136,8 +136,8 @@ describe MyController, type: :controller do
         assert User.find(2).rss_token
       end
 
-      it { should set_flash.to /reset/ }
-      it { should redirect_to '/my/account' }
+      it { is_expected.to set_flash.to /reset/ }
+      it { is_expected.to redirect_to '/my/account' }
     end
   end
 
@@ -156,8 +156,8 @@ describe MyController, type: :controller do
         assert User.find(2).api_token
       end
 
-      it { should set_flash.to /reset/ }
-      it { should redirect_to '/my/account' }
+      it { is_expected.to set_flash.to /reset/ }
+      it { is_expected.to redirect_to '/my/account' }
     end
 
     context 'with no api_token' do
@@ -170,8 +170,8 @@ describe MyController, type: :controller do
         assert User.find(2).api_token
       end
 
-      it { should set_flash.to /reset/ }
-      it { should redirect_to '/my/account' }
+      it { is_expected.to set_flash.to /reset/ }
+      it { is_expected.to redirect_to '/my/account' }
     end
   end
 end

@@ -54,7 +54,7 @@ describe AccountController, type: :controller do
   end
 
   it 'should login should reset session' do
-    @controller.should_receive(:reset_session).once
+    expect(@controller).to receive(:reset_session).once
 
     post :login, username: 'jsmith', password: 'jsmith'
     assert_response 302
@@ -74,7 +74,7 @@ describe AccountController, type: :controller do
   end
 
   it 'should logout should reset session' do
-    @controller.should_receive(:reset_session).once
+    expect(@controller).to receive(:reset_session).once
 
     session[:user_id] = 2
     get :logout

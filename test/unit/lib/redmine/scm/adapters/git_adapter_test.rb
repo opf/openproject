@@ -248,7 +248,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
   private
 
   def test_scm_version_for(scm_command_version, version)
-    @adapter.class.should_receive(:scm_version_from_command_line).and_return(scm_command_version)
+    expect(@adapter.class).to receive(:scm_version_from_command_line).and_return(scm_command_version)
     assert_equal version, @adapter.class.scm_command_version
   end
 end

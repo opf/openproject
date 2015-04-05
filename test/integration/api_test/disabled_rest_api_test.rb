@@ -51,7 +51,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
           get "/api/v2/projects.xml?key=#{@token.value}"
         end
 
-        it { should respond_with :unauthorized }
+        it { is_expected.to respond_with :unauthorized }
         it { should_respond_with_content_type 'application/xml' }
         it 'should not login as the user' do
           assert_equal User.anonymous, User.current
@@ -65,7 +65,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
           get '/api/v2/projects.xml', nil, authorization: @authorization
         end
 
-        it { should respond_with :unauthorized }
+        it { is_expected.to respond_with :unauthorized }
         it { should_respond_with_content_type 'application/xml' }
         it 'should not login as the user' do
           assert_equal User.anonymous, User.current
@@ -80,7 +80,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
           get '/api/v2/projects.xml', nil, authorization: @authorization
         end
 
-        it { should respond_with :unauthorized }
+        it { is_expected.to respond_with :unauthorized }
         it { should_respond_with_content_type 'application/xml' }
         it 'should not login as the user' do
           assert_equal User.anonymous, User.current
@@ -96,7 +96,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
           get "/api/v2/projects.json?key=#{@token.value}"
         end
 
-        it { should respond_with :unauthorized }
+        it { is_expected.to respond_with :unauthorized }
         it { should_respond_with_content_type 'application/json' }
         it 'should not login as the user' do
           assert_equal User.anonymous, User.current
@@ -110,7 +110,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
           get '/api/v2/projects.json', nil, authorization: @authorization
         end
 
-        it { should respond_with :unauthorized }
+        it { is_expected.to respond_with :unauthorized }
         it { should_respond_with_content_type 'application/json' }
         it 'should not login as the user' do
           assert_equal User.anonymous, User.current
@@ -125,7 +125,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
           get '/api/v2/projects.json', nil, authorization: @authorization
         end
 
-        it { should respond_with :unauthorized }
+        it { is_expected.to respond_with :unauthorized }
         it { should_respond_with_content_type 'application/json' }
         it 'should not login as the user' do
           assert_equal User.anonymous, User.current

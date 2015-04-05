@@ -38,32 +38,32 @@ describe Project, type: :model do
     User.current = nil
   end
 
-  it { should validate_presence_of :name }
-  it { should validate_presence_of :identifier }
+  it { is_expected.to validate_presence_of :name }
+  it { is_expected.to validate_presence_of :identifier }
 
-  it { should validate_uniqueness_of :identifier }
+  it { is_expected.to validate_uniqueness_of :identifier }
 
   context 'associations' do
-    it { should have_many :members                                       }
-    it { should have_many(:users).through(:members)                      }
-    it { should have_many :member_principals                             }
-    it { should have_many(:principals).through(:member_principals)       }
-    it { should have_many :enabled_modules                               }
-    it { should have_many :work_packages                                 }
-    it { should have_many(:work_package_changes).through(:work_packages) }
-    it { should have_many :versions                                      }
-    it { should have_many :time_entries                                  }
-    it { should have_many :queries                                       }
-    it { should have_many :news                                          }
-    it { should have_many :categories                                    }
-    it { should have_many :boards                                        }
-    it { should have_many(:changesets).through(:repository)              }
+    it { is_expected.to have_many :members                                       }
+    it { is_expected.to have_many(:users).through(:members)                      }
+    it { is_expected.to have_many :member_principals                             }
+    it { is_expected.to have_many(:principals).through(:member_principals)       }
+    it { is_expected.to have_many :enabled_modules                               }
+    it { is_expected.to have_many :work_packages                                 }
+    it { is_expected.to have_many(:work_package_changes).through(:work_packages) }
+    it { is_expected.to have_many :versions                                      }
+    it { is_expected.to have_many :time_entries                                  }
+    it { is_expected.to have_many :queries                                       }
+    it { is_expected.to have_many :news                                          }
+    it { is_expected.to have_many :categories                                    }
+    it { is_expected.to have_many :boards                                        }
+    it { is_expected.to have_many(:changesets).through(:repository)              }
 
-    it { should have_one :repository                                     }
-    it { should have_one :wiki                                           }
+    it { is_expected.to have_one :repository                                     }
+    it { is_expected.to have_one :wiki                                           }
 
-    it { should have_and_belong_to_many :types                           }
-    it { should have_and_belong_to_many :work_package_custom_fields      }
+    it { is_expected.to have_and_belong_to_many :types                           }
+    it { is_expected.to have_and_belong_to_many :work_package_custom_fields      }
   end
 
   it 'should truth' do
