@@ -54,14 +54,14 @@ namespace :test do
       task subversion: :create_dir do
         repo_path = 'tmp/test/subversion_repository'
         system "svnadmin create #{repo_path}"
-        system "gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
+        system "gunzip < spec/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
       end
 
       (supported_scms - [:subversion]).each do |scm|
         desc "Creates a test #{scm} repository"
         task scm => :create_dir do
-          # system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
-          system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{scm}_repository.tar.gz"
+          # system "gunzip < spec/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
+          system "tar -xvz -C tmp/test -f spec/fixtures/repositories/#{scm}_repository.tar.gz"
         end
       end
 
@@ -75,7 +75,7 @@ namespace :test do
       Dir.glob('tmp/test/*_repository').each do |dir|
         next unless File.basename(dir) =~ %r{\A(.+)_repository\z} && File.directory?(dir)
         scm = $1
-        next unless fixture = Dir.glob("test/fixtures/repositories/#{scm}_repository.*").first
+        next unless fixture = Dir.glob("spec/fixtures/repositories/#{scm}_repository.*").first
         next if File.stat(dir).ctime > File.stat(fixture).mtime
 
         FileUtils.rm_rf dir
