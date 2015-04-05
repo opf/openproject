@@ -49,7 +49,7 @@ describe 'CustomFieldFormat' do # TODO: what is this?
   it 'should possible_values_with_project_resource' do
     possible_values = @field.possible_values(@project.work_packages.first)
     assert possible_values.any?
-    assert_equal @project.users.sort.collect(&:id).map(&:to_s), possible_values
+    assert_equal @project.users.sort.map(&:id).map(&:to_s), possible_values
   end
 
   it 'should possible_values_with_nil_project_resource' do

@@ -180,7 +180,7 @@ describe TimelogController, type: :controller do
     assert_not_nil assigns(:entries)
     assert_equal 4, assigns(:entries).size
     # project and subproject
-    assert_equal [1, 3], assigns(:entries).collect(&:project_id).uniq.sort
+    assert_equal [1, 3], assigns(:entries).map(&:project_id).uniq.sort
     assert_not_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     # display all time by default

@@ -333,7 +333,7 @@ describe Project, type: :model do
   it 'should ancestors' do
     a = Project.find(6).ancestors
     assert a.first.is_a?(Project)
-    assert_equal [1, 5], a.collect(&:id)
+    assert_equal [1, 5], a.map(&:id)
   end
 
   it 'should root' do
@@ -347,13 +347,13 @@ describe Project, type: :model do
     assert c.first.is_a?(Project)
     # ignore ordering, since it depends on database collation configuration
     # and may order lowercase/uppercase chars in a different order
-    assert_equal [3, 4, 5], c.collect(&:id).sort!
+    assert_equal [3, 4, 5], c.map(&:id).sort!
   end
 
   it 'should descendants' do
     d = Project.find(1).descendants
     assert d.first.is_a?(Project)
-    assert_equal [5, 6, 3, 4], d.collect(&:id)
+    assert_equal [5, 6, 3, 4], d.map(&:id)
   end
 
   it 'should allowed parents should be empty for non member user' do
@@ -420,12 +420,12 @@ describe Project, type: :model do
     child = parent.children.find(3)
 
     assert_equal [1, 2], parent.type_ids
-    assert_equal [2, 3], child.types.collect(&:id)
+    assert_equal [2, 3], child.types.map(&:id)
 
     assert_kind_of Type, parent.rolled_up_types.first
 
-    assert_equal [999, 1, 2, 3], parent.rolled_up_types.collect(&:id)
-    assert_equal [2, 3], child.rolled_up_types.collect(&:id)
+    assert_equal [999, 1, 2, 3], parent.rolled_up_types.map(&:id)
+    assert_equal [2, 3], child.rolled_up_types.map(&:id)
   end
 
   it 'should rolled up types should ignore archived subprojects' do
@@ -435,7 +435,7 @@ describe Project, type: :model do
     child.types = Type.find([1, 3])
     parent.children.each(&:archive)
 
-    assert_equal [1, 2], parent.rolled_up_types.collect(&:id)
+    assert_equal [1, 2], parent.rolled_up_types.map(&:id)
   end
 
   context 'description' do
@@ -570,14 +570,14 @@ describe Project, type: :model do
     assert_equal [1, 2, 3], parent.version_ids.sort
     assert_equal [4], child.version_ids
     assert_equal [6], private_child.version_ids
-    assert_equal [7], Version.find_all_by_sharing('system').collect(&:id)
+    assert_equal [7], Version.find_all_by_sharing('system').map(&:id)
 
     assert_equal 6, parent.shared_versions.size
     parent.shared_versions.each do |version|
       assert_kind_of Version, version
     end
 
-    assert_equal [1, 2, 3, 4, 6, 7], parent.shared_versions.collect(&:id).sort
+    assert_equal [1, 2, 3, 4, 6, 7], parent.shared_versions.map(&:id).sort
   end
 
   it 'should shared versions should ignore archived subprojects' do
@@ -588,7 +588,7 @@ describe Project, type: :model do
 
     assert_equal [1, 2, 3], parent.version_ids.sort
     assert_equal [4], child.version_ids
-    assert !parent.shared_versions.collect(&:id).include?(4)
+    assert !parent.shared_versions.map(&:id).include?(4)
   end
 
   it 'should shared versions visible to user' do
@@ -606,7 +606,7 @@ describe Project, type: :model do
       assert_kind_of Version, version
     end
 
-    assert !versions.collect(&:id).include?(6)
+    assert !versions.map(&:id).include?(6)
   end
 
   it 'should next identifier' do
@@ -635,11 +635,11 @@ describe Project, type: :model do
     modules = project.enabled_modules.slice(0..-2)
     assert modules.any?
     assert_difference 'EnabledModule.count', -1 do
-      project.enabled_module_names = modules.collect(&:name)
+      project.enabled_module_names = modules.map(&:name)
     end
     project.reload
     # Ids should be preserved
-    assert_equal project.enabled_module_ids.sort, modules.collect(&:id).sort
+    assert_equal project.enabled_module_ids.sort, modules.map(&:id).sort
   end
 
   it 'should copy from existing project' do
@@ -756,7 +756,7 @@ describe Project, type: :model do
       @source_project = Project.find(2)
       @project = Project.new(name: 'Copy Test', identifier: 'copy-test')
       @project.types = @source_project.types
-      @project.enabled_module_names = @source_project.enabled_modules.collect(&:name)
+      @project.enabled_module_names = @source_project.enabled_modules.map(&:name)
     end
 
     it 'should copy work units' do

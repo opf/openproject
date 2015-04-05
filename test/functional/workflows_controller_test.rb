@@ -71,7 +71,7 @@ describe WorkflowsController, type: :controller do
 
     # used status only
     assert_not_nil assigns(:statuses)
-    assert_equal [2, 3, 5], assigns(:statuses).collect(&:id)
+    assert_equal [2, 3, 5], assigns(:statuses).map(&:id)
 
     # allowed transitions
     assert_tag tag: 'input', attributes: { type: 'checkbox',
@@ -191,6 +191,6 @@ describe WorkflowsController, type: :controller do
   # Returns an array of status transitions that can be compared
   def status_transitions(conditions)
     Workflow.find(:all, conditions: conditions,
-                        order: 'type_id, role_id, old_status_id, new_status_id').collect { |w| [w.old_status, w.new_status_id] }
+                        order: 'type_id, role_id, old_status_id, new_status_id').map { |w| [w.old_status, w.new_status_id] }
   end
 end

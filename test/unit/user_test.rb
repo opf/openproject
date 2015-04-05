@@ -333,8 +333,8 @@ describe User, type: :model do
     user = User.find(2)
     assert_kind_of Hash, user.projects_by_role
     assert_equal 2, user.projects_by_role.size
-    assert_equal [1, 5], user.projects_by_role[Role.find(1)].collect(&:id).sort
-    assert_equal [2], user.projects_by_role[Role.find(2)].collect(&:id).sort
+    assert_equal [1, 5], user.projects_by_role[Role.find(1)].map(&:id).sort
+    assert_equal [2], user.projects_by_role[Role.find(2)].map(&:id).sort
   end
 
   it 'should projects by role for user with no role' do

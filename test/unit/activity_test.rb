@@ -100,7 +100,7 @@ describe Activity, type: :model do
     events = Redmine::Activity::Fetcher.new(user, options).events(Date.today - 30, Date.today + 1)
     # Because events are provided by the journals, but we want to test for
     # their targets here, transform that
-    events.collect do |e|
+    events.map do |e|
       e.provider.new.activitied_type.find(e.journable_id)
     end
   end

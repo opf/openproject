@@ -112,7 +112,7 @@ describe WikiPage, type: :model do
 
   it 'should destroy' do
     page = WikiPage.find(1)
-    content_ids = WikiContent.find_all_by_page_id(1).collect(&:id)
+    content_ids = WikiContent.find_all_by_page_id(1).map(&:id)
     page.destroy
     assert_nil WikiPage.find_by_id(1)
     # make sure that page content and its history are deleted

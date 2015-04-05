@@ -137,7 +137,7 @@ describe Changeset, type: :model do
     assert WorkPackage.find(2).closed?
 
     times = TimeEntry.all(order: 'id desc', limit: 2)
-    assert_equal [1, 2], times.collect(&:work_package_id).sort
+    assert_equal [1, 2], times.map(&:work_package_id).sort
   end
 
   it 'should ref keywords any line start' do

@@ -70,16 +70,16 @@ describe Group, type: :model do
     group.save!
 
     member.role_ids = [role_ids.first]
-    assert_equal [role_ids.first], user.reload.roles_for_project(member.project).collect(&:id).sort
+    assert_equal [role_ids.first], user.reload.roles_for_project(member.project).map(&:id).sort
 
     member.role_ids = role_ids
-    assert_equal role_ids, user.reload.roles_for_project(member.project).collect(&:id).sort
+    assert_equal role_ids, user.reload.roles_for_project(member.project).map(&:id).sort
 
     member.role_ids = [role_ids.last]
-    assert_equal [role_ids.last], user.reload.roles_for_project(member.project).collect(&:id).sort
+    assert_equal [role_ids.last], user.reload.roles_for_project(member.project).map(&:id).sort
 
     member.role_ids = [role_ids.first]
-    assert_equal [role_ids.first], user.reload.roles_for_project(member.project).collect(&:id).sort
+    assert_equal [role_ids.first], user.reload.roles_for_project(member.project).map(&:id).sort
   end
 
   it 'should roles removed when removing group membership' do

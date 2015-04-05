@@ -48,7 +48,7 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
 
   class TestHook3 < TestHook
     def view_layouts_base_html_head(context)
-      "Context keys: #{context.keys.collect(&:to_s).sort.join(', ')}."
+      "Context keys: #{context.keys.map(&:to_s).sort.join(', ')}."
     end
   end
 

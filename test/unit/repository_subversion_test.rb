@@ -70,11 +70,11 @@ describe Repository::Subversion, type: :model do
 
     # with path
     changesets = @repository.latest_changesets('subversion_test/folder', nil)
-    assert_equal ['10', '9', '7', '6', '5', '2'], changesets.collect(&:revision)
+    assert_equal ['10', '9', '7', '6', '5', '2'], changesets.map(&:revision)
 
     # with path and revision
     changesets = @repository.latest_changesets('subversion_test/folder', 8)
-    assert_equal ['7', '6', '5', '2'], changesets.collect(&:revision)
+    assert_equal ['7', '6', '5', '2'], changesets.map(&:revision)
   end
 
   it 'should directory listing with square brackets in path' do

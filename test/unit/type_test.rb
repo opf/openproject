@@ -50,7 +50,7 @@ describe Type, type: :model do
 
     assert_kind_of Array, type.statuses.all
     assert_kind_of Status, type.statuses.first
-    assert_equal [2, 3, 5], Type.find(1).statuses.collect(&:id)
+    assert_equal [2, 3, 5], Type.find(1).statuses.map(&:id)
   end
 
   it 'should statuses empty' do

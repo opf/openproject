@@ -40,15 +40,15 @@ describe Redmine::Scm::Adapters::FilesystemAdapter, type: :model do
 
   it 'should entries' do
     assert_equal 3, @adapter.entries.size
-    assert_equal ['dir', 'japanese', 'test'], @adapter.entries.collect(&:name)
-    assert_equal ['dir', 'japanese', 'test'], @adapter.entries(nil).collect(&:name)
-    assert_equal ['dir', 'japanese', 'test'], @adapter.entries('/').collect(&:name)
+    assert_equal ['dir', 'japanese', 'test'], @adapter.entries.map(&:name)
+    assert_equal ['dir', 'japanese', 'test'], @adapter.entries(nil).map(&:name)
+    assert_equal ['dir', 'japanese', 'test'], @adapter.entries('/').map(&:name)
     ['dir', '/dir', '/dir/', 'dir/'].each do |path|
-      assert_equal ['subdir', 'dirfile'], @adapter.entries(path).collect(&:name)
+      assert_equal ['subdir', 'dirfile'], @adapter.entries(path).map(&:name)
     end
     # If y try to use "..", the path is ignored
     ['/../', 'dir/../', '..', '../', '/..', 'dir/..'].each do |path|
-      assert_equal ['dir', 'japanese', 'test'], @adapter.entries(path).collect(&:name),
+      assert_equal ['dir', 'japanese', 'test'], @adapter.entries(path).map(&:name),
                    '.. must be ignored in path argument'
     end
   end

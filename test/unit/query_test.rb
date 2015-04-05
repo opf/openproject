@@ -259,7 +259,7 @@ describe Query, type: :model do
   it 'should set column names' do
     q = Query.new name: '_'
     q.column_names = ['type', :subject, '', 'unknonw_column']
-    assert_equal [:type, :subject], q.columns.collect(&:name)
+    assert_equal [:type, :subject], q.columns.map(&:name)
     c = q.columns.first
     assert q.has_column?(c)
   end
@@ -319,7 +319,7 @@ describe Query, type: :model do
                               include: [:assigned_to, :status, :type, :project, :priority],
                               conditions: q.statement,
                               order: "#{c.sortable} ASC"
-    values = issues.collect { |i| i.custom_value_for(c.custom_field).to_s }
+    values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
     assert_equal values.sort, values
   end
@@ -333,7 +333,7 @@ describe Query, type: :model do
                               include: [:assigned_to, :status, :type, :project, :priority],
                               conditions: q.statement,
                               order: "#{c.sortable} DESC"
-    values = issues.collect { |i| i.custom_value_for(c.custom_field).to_s }
+    values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
     assert_equal values.sort.reverse, values
   end
@@ -347,7 +347,7 @@ describe Query, type: :model do
                               include: [:assigned_to, :status, :type, :project, :priority],
                               conditions: q.statement,
                               order: "#{c.sortable} ASC"
-    values = issues.collect { |i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end }.compact
+    values = issues.map { |i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end }.compact
     assert !values.empty?
     assert_equal values.sort, values
   end
@@ -363,8 +363,8 @@ describe Query, type: :model do
     q = Query.new(name: '_', group_by: 'assigned_to')
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
-    assert_equal %w(NilClass User), count_by_group.keys.collect { |k| k.class.name }.uniq.sort
-    assert_equal %w(Fixnum), count_by_group.values.collect { |k| k.class.name }.uniq
+    assert_equal %w(NilClass User), count_by_group.keys.map { |k| k.class.name }.uniq.sort
+    assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
     assert count_by_group.has_key?(User.find(3))
   end
 
@@ -372,8 +372,8 @@ describe Query, type: :model do
     q = Query.new(name: '_', group_by: 'cf_1')
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
-    assert_equal %w(NilClass String), count_by_group.keys.collect { |k| k.class.name }.uniq.sort
-    assert_equal %w(Fixnum), count_by_group.values.collect { |k| k.class.name }.uniq
+    assert_equal %w(NilClass String), count_by_group.keys.map { |k| k.class.name }.uniq.sort
+    assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
     assert count_by_group.has_key?('MySQL')
   end
 
@@ -381,8 +381,8 @@ describe Query, type: :model do
     q = Query.new(name: '_', group_by: 'cf_8')
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
-    assert_equal %w(Date NilClass), count_by_group.keys.collect { |k| k.class.name }.uniq.sort
-    assert_equal %w(Fixnum), count_by_group.values.collect { |k| k.class.name }.uniq
+    assert_equal %w(Date NilClass), count_by_group.keys.map { |k| k.class.name }.uniq.sort
+    assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
   end
 
   it 'should label for' do

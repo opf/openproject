@@ -124,7 +124,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:entries)
-    assert_equal ['edit.png'], assigns(:entries).collect(&:name)
+    assert_equal ['edit.png'], assigns(:entries).map(&:name)
     entry = assigns(:entries).detect { |e| e.name == 'edit.png' }
     assert_not_nil entry
     assert_equal 'file', entry.kind
@@ -140,7 +140,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:entries)
-    assert_equal ['delete.png'], assigns(:entries).collect(&:name)
+    assert_equal ['delete.png'], assigns(:entries).map(&:name)
     assert_not_nil assigns(:changesets)
     assigns(:changesets).size > 0
   end

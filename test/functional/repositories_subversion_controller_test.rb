@@ -88,7 +88,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:entries)
-    assert_equal ['[folder_with_brackets]', 'folder', '.project', 'helloworld.c', 'textfile.txt'], assigns(:entries).collect(&:name)
+    assert_equal ['[folder_with_brackets]', 'folder', '.project', 'helloworld.c', 'textfile.txt'], assigns(:entries).map(&:name)
     entry = assigns(:entries).detect { |e| e.name == 'helloworld.c' }
     assert_equal 'file', entry.kind
     assert_equal 'subversion_test/helloworld.c', entry.path
@@ -102,7 +102,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:entries)
-    assert_equal ['folder', '.project', 'helloworld.c', 'helloworld.rb', 'textfile.txt'], assigns(:entries).collect(&:name)
+    assert_equal ['folder', '.project', 'helloworld.c', 'helloworld.rb', 'textfile.txt'], assigns(:entries).map(&:name)
   end
 
   it 'should file changes' do
@@ -114,7 +114,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
 
     changesets = assigns(:changesets)
     assert_not_nil changesets
-    assert_equal %w(6 3 2), changesets.collect(&:revision)
+    assert_equal %w(6 3 2), changesets.map(&:revision)
 
     # svn properties displayed with svn >= 1.5 only
     if Redmine::Scm::Adapters::SubversionAdapter.client_version_above?([1, 5, 0])
@@ -136,7 +136,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
 
     changesets = assigns(:changesets)
     assert_not_nil changesets
-    assert_equal %w(10 9 7 6 5 2), changesets.collect(&:revision)
+    assert_equal %w(10 9 7 6 5 2), changesets.map(&:revision)
   end
 
   it 'should entry' do
