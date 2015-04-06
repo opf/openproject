@@ -49,7 +49,7 @@ describe WatchersController, type: :controller do
     assert WorkPackage.find(1).watched_by?(User.find(3))
   end
 
-  it 'watch_should_be_denied_without_permission' do
+  it 'watch should be denied without permission' do
     Role.find(2).remove_permission! :view_work_packages
     session[:user_id] = 3
     assert_no_difference('Watcher.count') do
@@ -58,7 +58,7 @@ describe WatchersController, type: :controller do
     end
   end
 
-  it 'watch_with_multiple_replacements' do
+  it 'watch with multiple replacements' do
     session[:user_id] = 3
     assert_difference('Watcher.count') do
       xhr :post, :watch, object_type: 'work_package', object_id: '1', replace: ['#watch_item_1', '.watch_item_2']
@@ -69,7 +69,7 @@ describe WatchersController, type: :controller do
     end
   end
 
-  it 'watch_with_watchers_special_logic' do
+  it 'watch with watchers special logic' do
     session[:user_id] = 3
     assert_difference('Watcher.count') do
       xhr :post, :watch, object_type: 'work_package', object_id: '1', replace: ['#watchers', '.watcher']
@@ -91,7 +91,7 @@ describe WatchersController, type: :controller do
     assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
-  it 'unwatch_with_multiple_replacements' do
+  it 'unwatch with multiple replacements' do
     session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, object_type: 'work_package', object_id: '2', replace: ['#watch_item_1', '.watch_item_2']
@@ -103,7 +103,7 @@ describe WatchersController, type: :controller do
     assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
-  it 'unwatch_with_watchers_special_logic' do
+  it 'unwatch with watchers special logic' do
     session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, object_type: 'work_package', object_id: '2', replace: ['#watchers', '.watcher']
@@ -115,7 +115,7 @@ describe WatchersController, type: :controller do
     assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
-  it 'new_watcher' do
+  it 'new watcher' do
     Watcher.destroy_all
     session[:user_id] = 2
     assert_difference('Watcher.count') do
@@ -126,7 +126,7 @@ describe WatchersController, type: :controller do
     assert WorkPackage.find(2).watched_by?(User.find(3))
   end
 
-  it 'remove_watcher' do
+  it 'remove watcher' do
     session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
       xhr :delete, :destroy, id: Watcher.find_by_user_id_and_watchable_id(3, 2).id

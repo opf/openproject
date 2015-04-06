@@ -37,7 +37,7 @@ describe ProjectEnumerationsController, type: :controller do
     Setting.default_language = 'en'
   end
 
-  it 'update_to_override_system_activities' do
+  it 'update to override system activities' do
     session[:user_id] = 2 # manager
     billable_field = TimeEntryActivityCustomField.find_by_name('Billable')
 
@@ -87,7 +87,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert_equal nil, project.time_entry_activities.find_by_name('QA'), "Custom QA activity created when it wasn't modified"
   end
 
-  it 'update_will_update_project_specific_activities' do
+  it 'update will update project specific activities' do
     session[:user_id] = 2 # manager
 
     project_activity = TimeEntryActivity.new(
@@ -128,7 +128,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert !activity_two.active?
   end
 
-  it 'update_when_creating_new_activities_will_convert_existing_data' do
+  it 'update when creating new activities will convert existing data' do
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
 
     session[:user_id] = 2 # manager
@@ -144,7 +144,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(project_specific_activity.id, 1).size, 'No Time Entries assigned to the project activity'
   end
 
-  it 'update_when_creating_new_activities_will_not_convert_existing_data_if_an_exception_is_raised' do
+  it 'update when creating new activities will not convert existing data if an exception is raised' do
     # TODO: Need to cause an exception on create but these tests
     # aren't setup for mocking.  Just create a record now so the
     # second one is a duplicate
@@ -202,7 +202,7 @@ describe ProjectEnumerationsController, type: :controller do
     assert_nil TimeEntryActivity.find_by_id(project_activity_two.id)
   end
 
-  it 'destroy_should_reassign_time_entries_back_to_the_system_activity' do
+  it 'destroy should reassign time entries back to the system activity' do
     session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific Design',

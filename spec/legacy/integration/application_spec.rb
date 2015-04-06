@@ -39,7 +39,7 @@ describe 'Application' do
     end
   end
 
-  it 'set_localization' do
+  it 'set localization' do
     Setting.available_languages = [:de, :en]
     Setting.default_language = 'en'
 
@@ -55,7 +55,7 @@ describe 'Application' do
     assert_tag tag: 'h2', content: 'Projects'
   end
 
-  it 'token_based_access_should_not_start_session' do
+  it 'token based access should not start session' do
     # work_packages of a private project
     get '/work_packages/4.atom'
     assert_response 404

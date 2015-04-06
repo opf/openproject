@@ -170,7 +170,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
   end
 
   # TODO: need to handle edge cases of non-binary content that isn't UTF-8
-  xit 'test_latin_1_path' do
+  xit 'test latin 1 path' do
     if WINDOWS_PASS
       #
     else

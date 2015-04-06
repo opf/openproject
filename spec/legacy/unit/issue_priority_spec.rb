@@ -31,7 +31,7 @@ require 'legacy_spec_helper'
 describe IssuePriority do
   fixtures :all
 
-  it 'should_be_an_enumeration' do
+  it 'should be an enumeration' do
     assert IssuePriority.ancestors.include?(Enumeration)
   end
 

@@ -42,7 +42,7 @@ describe 'Themes' do
     Setting.ui_theme = nil
   end
 
-  it 'application_css' do
+  it 'application css' do
     get '/'
 
     assert_response :success
@@ -50,7 +50,7 @@ describe 'Themes' do
                attributes: { href: '/assets/default.css' }
   end
 
-  xit 'test_without_theme_js' do
+  xit 'test without theme js' do
     get '/'
 
     assert_response :success
@@ -58,7 +58,7 @@ describe 'Themes' do
                   attributes: { src: '/assets/default.js' }
   end
 
-  xit 'test_with_theme_js' do
+  xit 'test with theme js' do
     begin
       # Simulates a theme.js
       @theme.javascripts << 'theme'
@@ -72,7 +72,7 @@ describe 'Themes' do
     end
   end
 
-  xit 'test_with_sub_uri' do
+  xit 'test with sub uri' do
     begin
       OpenProject::Configuration['rails_relative_url_root'] = '/foo'
       @theme.javascripts << 'theme'

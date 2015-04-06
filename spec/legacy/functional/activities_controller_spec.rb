@@ -34,7 +34,7 @@ describe ActivitiesController, type: :controller do
 
   render_views
 
-  it 'project_index' do
+  it 'project index' do
     Journal.delete_all
     project = Project.find(1)
     public_project = FactoryGirl.create :public_project
@@ -79,7 +79,7 @@ describe ActivitiesController, type: :controller do
                }
   end
 
-  it 'previous_project_index' do
+  it 'previous project index' do
     issue = WorkPackage.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
@@ -107,7 +107,7 @@ describe ActivitiesController, type: :controller do
                }
   end
 
-  it 'user_index' do
+  it 'user index' do
     issue = WorkPackage.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,

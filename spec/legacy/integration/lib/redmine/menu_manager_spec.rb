@@ -39,7 +39,7 @@ describe 'MenuManager' do
     end
   end
 
-  it 'project_menu_with_specific_locale' do
+  it 'project menu with specific locale' do
     Setting.available_languages = [:de, :en]
     get 'projects/ecookbook', {}, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
 
@@ -53,7 +53,7 @@ describe 'MenuManager' do
                                                                      class: 'icon2 icon-list-view2 overview-menu-item ellipsis selected' } } }
   end
 
-  it 'project_menu_with_additional_menu_items' do
+  it 'project menu with additional menu items' do
     Setting.default_language = 'en'
     assert_no_difference 'Redmine::MenuManager.items(:project_menu).size' do
       Redmine::MenuManager.map :project_menu do |menu|
@@ -86,7 +86,7 @@ describe 'MenuManager' do
     end
   end
 
-  it 'dynamic_menu' do
+  it 'dynamic menu' do
     list = []
     Redmine::MenuManager.map :some_menu do |menu|
       list.each do |item|
@@ -105,7 +105,7 @@ describe 'MenuManager' do
     assert_equal base_size + 2, Redmine::MenuManager.items(:some_menu).size
   end
 
-  it 'dynamic_menu_map_deferred' do
+  it 'dynamic menu map deferred' do
     assert_no_difference 'Redmine::MenuManager.items(:some_menu).size' do
       Redmine::MenuManager.map(:some_other_menu).push :baz, { controller: 'projects', action: 'show' }, caption: 'Baz'
       Redmine::MenuManager.map(:some_other_menu).delete :baz

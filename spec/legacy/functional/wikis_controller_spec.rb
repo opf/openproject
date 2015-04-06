@@ -53,7 +53,7 @@ describe WikisController, type: :controller do
     assert_nil Project.find(1).wiki
   end
 
-  it 'not_found' do
+  it 'not found' do
     session[:user_id] = 1
     post :destroy, id: 999, confirm: 1
     assert_response 404
