@@ -47,7 +47,6 @@ include ObjectDaddyHelpers
 
 require 'rspec/rails'
 require 'shoulda/matchers'
-require 'rspec/autorun'
 require 'rspec/example_disabler'
 
 RSpec.configure do |config|
