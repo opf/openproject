@@ -105,6 +105,7 @@ namespace :test do
 end
 
 task('spec').clear
+task('spec:legacy').clear
 
 desc 'Run all specs in spec directory (excluding plugin specs)'
 task spec: %w(spec:core spec:legacy)
@@ -115,6 +116,7 @@ namespace :spec do
     t.exclude_pattern = 'spec/legacy/**/*_spec.rb'
   end
 
+  desc 'Run the code examples in spec/legacy'
   task legacy: %w(legacy:unit legacy:functional legacy:integration)
   namespace :legacy do
     %w(unit functional integration).each do |type|
