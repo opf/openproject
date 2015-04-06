@@ -62,15 +62,10 @@ RSpec.configure do |config|
   config.include Shoulda::Context::Assertions
   # included in order to use #fixture_file_upload
   config.include ActionDispatch::TestProcess
-  # config.include RSpec::Rails::ModelExampleGroup, file_path: ''
 
-  config.include RSpec::Rails::ControllerExampleGroup, file_path: %r(spec/controllers/legacy)
-  config.include Shoulda::Matchers::ActionController, file_path: %r(spec/controllers/legacy)
-  config.extend Shoulda::Matchers::ActionController, file_path: %r(spec/controllers/legacy)
-
-  config.include RSpec::Rails::RequestExampleGroup, file_path: %r(spec/requests/legacy)
-  config.include Shoulda::Matchers::ActionController, file_path: %r(spec/requests/legacy)
-  config.extend Shoulda::Matchers::ActionController, file_path: %r(spec/requests/legacy)
+  config.include RSpec::Rails::RequestExampleGroup, file_path: %r(spec/legacy/integration)
+  config.include Shoulda::Matchers::ActionController, file_path: %r(spec/legacy/integration)
+  config.extend Shoulda::Matchers::ActionController, file_path: %r(spec/legacy/integration)
   config.include(Module.new {
     extend ActiveSupport::Concern
 
@@ -78,7 +73,7 @@ RSpec.configure do |config|
     included do
       subject { self }
     end
-  }, file_path: %r(spec/requests/legacy))
+  }, file_path: %r(spec/legacy/integration))
 
   config.before(:suite) do |example|
     Delayed::Worker.delay_jobs = false
