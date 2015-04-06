@@ -1,12 +1,13 @@
 <span class="costs costTypes" ng-if="costTypes">
   <span ng-repeat="costType in costTypes">
-    <a  ng-href="{{ linkToSummary(costType) }}" title="{{ costType.props.name }}">
-      {{ costType.props.units }}
-      <span class="unit" ng-switch="costType.props.units">
-        <span ng-switch-when="1">{{ costType.props.unit }}</span>
-        <span ng-switch-default>{{ costType.props.unitPlural }}</span>
+    <a  ng-href="{{ linkToSummary(costType.embedded.costType) }}" title="{{ costType.embedded.costType.props.name }}">
+      {{ costType.props.spentUnits }}
+      <span class="unit" ng-switch="costType.props.spentUnits">
+        <span ng-switch-when="1">{{ costType.embedded.costType.props.unit }}</span>
+        <span ng-switch-default>{{ costType.embedded.costType.props.unitPlural }}</span>
       </span>
     </a>
     <span class="separator" ng-if="!$last">,</span>
   </span>
 </span>
+<span ng-if="!costTypes">-</span>

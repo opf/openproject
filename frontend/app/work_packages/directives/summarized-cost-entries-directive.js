@@ -31,17 +31,21 @@ angular.module('openproject.workPackages.directives')
 .directive('summarizedCostEntries', ['PathHelper', function(PathHelper) {
   return {
     restrict: 'E',
+    trasclude: true,
+    require: '^inplaceEditorDisplayPane',
     templateUrl: '/assets/work_packages/summarized_cost_entries.html',
-    link: function(scope, element, attributes) {
-      if (scope.workPackage.embedded.summarizedCostEntries) {
-        scope.costTypes = scope.workPackage.embedded.summarizedCostEntries;
-      }
-
+    link: function(scope, element, attributes, displayPaneController) {
+      scope.workPackage = displayPaneController.getWorkPackage();
+      scope.costTypes = scope
+        .workPackage
+        .embedded
+        .costsByType
+        .embedded.elements;
       scope.linkToSummary = function(costType) {
         var link = PathHelper.staticWorkPackagePath(scope.workPackage.props.id);
 
         link += '/cost_entries?cost_type_id=' + costType.props.id;
-        link += '&project_id=' + scope.workPackage.props.projectId;
+        link += '&project_id=' + scope.workPackage.embedded.project.props.id;
 
         return link;
       };
