@@ -258,8 +258,9 @@ module.exports = function(
     //workPackageOverviewAttributes
     var pluginDirectiveName = HookService.call('workPackageOverviewAttributes', {
       type: fieldType,
+      field: field,
       workPackage: workPackage
-    }).pop();
+    })[0];
     if (pluginDirectiveName) {
       displayStrategy = 'dynamic';
     }

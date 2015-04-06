@@ -21,7 +21,7 @@
         ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
     </div>
     <div class="attributes-group--header-toggle">
-      <panel-expander ng-if="vm.showToggleButton() && $first"
+      <panel-expander tabindex="-1" ng-if="vm.showToggleButton() && $first"
         collapsed="vm.hideEmptyFields"
         expand-text="{{ I18n.t('js.label_show_attributes') }}"
         collapse-text="{{ I18n.t('js.label_hide_attributes') }}">

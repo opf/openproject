@@ -62,11 +62,13 @@ module.exports = function(
       };
 
       // for dynamic type that is set by plugins
+      // refactor to a service method the whole extraction
       this.getDynamicDirectiveName = function() {
         return HookService.call('workPackageOverviewAttributes', {
           type: EditableFieldsState.workPackage.schema.props[$scope.fieldController.field].type,
+          field: $scope.fieldController.field,
           workPackage: EditableFieldsState.workPackage
-        }).pop();
+        })[0];
       };
 
       // expose work package to the dynamic directive
