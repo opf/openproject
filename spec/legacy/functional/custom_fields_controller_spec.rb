@@ -30,9 +30,6 @@
 require 'legacy_spec_helper'
 require 'custom_fields_controller'
 
-# Re-raise errors caught by the controller.
-class CustomFieldsController; def rescue_action(e) raise e end; end
-
 describe CustomFieldsController, type: :controller do
   render_views
 

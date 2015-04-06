@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'enumerations_controller'
 
-# Re-raise errors caught by the controller.
-class EnumerationsController; def rescue_action(e) raise e end; end
-
 describe EnumerationsController, type: :controller do
   fixtures :all
 

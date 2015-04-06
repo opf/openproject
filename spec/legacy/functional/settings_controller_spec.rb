@@ -30,9 +30,6 @@
 require 'legacy_spec_helper'
 require 'settings_controller'
 
-# Re-raise errors caught by the controller.
-class SettingsController; def rescue_action(e) raise e end; end
-
 describe SettingsController, type: :controller do
   fixtures :all
 

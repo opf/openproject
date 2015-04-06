@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'watchers_controller'
 
-# Re-raise errors caught by the controller.
-class WatchersController; def rescue_action(e) raise e end; end
-
 describe WatchersController, type: :controller do
   fixtures :all
 

@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'application_controller'
 
-# Re-raise errors caught by the controller.
-class ApplicationController; def rescue_action(e) raise e end; end
-
 describe ApplicationController, type: :controller do
   include Redmine::I18n
 

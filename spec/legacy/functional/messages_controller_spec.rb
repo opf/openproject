@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'messages_controller'
 
-# Re-raise errors caught by the controller.
-class MessagesController; def rescue_action(e) raise e end; end
-
 describe MessagesController, type: :controller do
   render_views
 

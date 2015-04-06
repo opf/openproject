@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'mail_handler_controller'
 
-# Re-raise errors caught by the controller.
-class MailHandlerController; def rescue_action(e) raise e end; end
-
 describe MailHandlerController, type: :controller do
   fixtures :all
 

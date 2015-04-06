@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'welcome_controller'
 
-# Re-raise errors caught by the controller.
-class WelcomeController; def rescue_action(e) raise e end; end
-
 describe WelcomeController, type: :controller do
   render_views
 

@@ -30,9 +30,6 @@
 require 'legacy_spec_helper'
 require 'timelog_controller'
 
-# Re-raise errors caught by the controller.
-class TimelogController; def rescue_action(e) raise e end; end
-
 describe TimelogController, type: :controller do
   render_views
 

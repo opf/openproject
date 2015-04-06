@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'boards_controller'
 
-# Re-raise errors caught by the controller.
-class BoardsController; def rescue_action(e) raise e end; end
-
 describe BoardsController, type: :controller do
   fixtures :all
 

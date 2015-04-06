@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'repositories_controller'
 
-# Re-raise errors caught by the controller.
-class RepositoriesController; def rescue_action(e) raise e end; end
-
 describe RepositoriesController, 'Subversion', type: :controller do
   render_views
 

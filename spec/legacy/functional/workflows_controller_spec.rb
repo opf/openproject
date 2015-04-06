@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'workflows_controller'
 
-# Re-raise errors caught by the controller.
-class WorkflowsController; def rescue_action(e) raise e end; end
-
 describe WorkflowsController, type: :controller do
   render_views
 

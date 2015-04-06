@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'roles_controller'
 
-# Re-raise errors caught by the controller.
-class RolesController; def rescue_action(e) raise e end; end
-
 describe RolesController, type: :controller do
   render_views
 

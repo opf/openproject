@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'groups_controller'
 
-# Re-raise errors caught by the controller.
-class GroupsController; def rescue_action(e) raise e end; end
-
 describe GroupsController, type: :controller do
   fixtures :all
 

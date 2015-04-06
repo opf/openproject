@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'projects_controller'
 
-# Re-raise errors caught by the controller.
-class ProjectsController; def rescue_action(e) raise e end; end
-
 describe ProjectsController, type: :controller do
   include MiniTest::Assertions # refute
 

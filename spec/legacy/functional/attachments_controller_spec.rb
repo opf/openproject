@@ -30,9 +30,6 @@
 require 'legacy_spec_helper'
 require 'attachments_controller'
 
-# Re-raise errors caught by the controller.
-class AttachmentsController; def rescue_action(e) raise e end; end
-
 describe AttachmentsController, type: :controller do
   render_views
 

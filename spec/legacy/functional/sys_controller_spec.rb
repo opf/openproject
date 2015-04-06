@@ -30,9 +30,6 @@
 require 'legacy_spec_helper'
 require 'sys_controller'
 
-# Re-raise errors caught by the controller.
-class SysController; def rescue_action(e) raise e end; end
-
 describe SysController, type: :controller do
   fixtures :all
 

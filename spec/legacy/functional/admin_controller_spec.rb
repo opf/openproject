@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'admin_controller'
 
-# Re-raise errors caught by the controller.
-class AdminController; def rescue_action(e) raise e end; end
-
 describe AdminController, type: :controller do
   render_views
 

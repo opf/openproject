@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'types_controller'
 
-# Re-raise errors caught by the controller.
-class TypesController; def rescue_action(e) raise e end; end
-
 describe TypesController, type: :controller do
   render_views
 

@@ -29,9 +29,6 @@
 require 'legacy_spec_helper'
 require 'wiki_controller'
 
-# Re-raise errors caught by the controller.
-class WikiController; def rescue_action(e) raise e end; end
-
 describe WikiController, type: :controller do
   render_views
 

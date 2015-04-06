@@ -30,9 +30,6 @@
 require 'legacy_spec_helper'
 require 'search_controller'
 
-# Re-raise errors caught by the controller.
-class SearchController; def rescue_action(e) raise e end; end
-
 describe SearchController, type: :controller do
   render_views
 

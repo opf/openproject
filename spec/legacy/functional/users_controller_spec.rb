@@ -30,9 +30,6 @@
 require 'legacy_spec_helper'
 require 'users_controller'
 
-# Re-raise errors caught by the controller.
-class UsersController; def rescue_action(e) raise e end; end
-
 describe UsersController, type: :controller do
   include Redmine::I18n
 
