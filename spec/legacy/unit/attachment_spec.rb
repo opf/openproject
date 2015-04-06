@@ -40,7 +40,7 @@ describe Attachment, type: :model do
     assert_equal 57, a.filesize
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
-    assert_equal '1478adae0d4eb06d35897518540e25d6', a.digest
+    assert_equal 'f94d862ca1e4363e760431025673826c', a.digest
     assert File.exist?(a.diskfile)
   end
 
