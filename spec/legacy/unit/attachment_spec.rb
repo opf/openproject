@@ -37,7 +37,7 @@ describe Attachment, type: :model do
                        author: User.find(1))
     assert a.save
     assert_equal 'testfile.txt', a.filename
-    assert_equal 59, a.filesize
+    assert_equal 57, a.filesize
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
     assert_equal '1478adae0d4eb06d35897518540e25d6', a.digest
