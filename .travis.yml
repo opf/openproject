@@ -33,16 +33,16 @@ sudo: false
 cache: bundler
 env:
   # Frontend
-  - "TEST_SUITE=karma"
+  - "SUITE=karma"
   # mysql2
-  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "SUITE=spec     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
   # postgres
-  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-script: "if [[ $TEST_SUITE == 'karma' ]]; then npm test; else bundle exec rake $TEST_SUITE; fi"
+  - "SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+  - "SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+  - "SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+script: "if [[ $SUITE == 'karma' ]]; then npm test; else bundle exec rake $SUITE; fi"
 before_install:
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
@@ -51,9 +51,9 @@ before_install:
   - "nvm use 0.10"
   - "travis_retry npm -g install bower@~1.3.8"
   - "travis_retry bower install -F"
-  - "if [[ $TEST_SUITE == 'karma' ]]; then travis_retry npm install; fi"
+  - "if [[ $SUITE == 'karma' ]]; then travis_retry npm install; fi"
 before_script:
-  - "if [[ $TEST_SUITE != 'karma' ]]; then RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
+  - "if [[ $SUITE != 'karma' ]]; then RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
 notifications:
   email: false
   webhooks:
