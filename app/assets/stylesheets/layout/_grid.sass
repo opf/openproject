@@ -26,13 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import layout/base
-@import layout/grid
-@import layout/top_menu
-@import layout/breadcrumb
-@import layout/main_menu
-@import layout/footer
-@import layout/drop_down
-@import layout/toolbar
-@import layout/work_package
-@import layout/angular-busy
+// In Foundation 1.0.3 a change was introduced in Foundation grid, whereby a
+// `.grid-content` nested inside a `.grid-block` will no longer take up
+// an equal amount of space. Pending further investigation, the following lines
+// restore in the original behaviour.
+//
+// Commit in question:
+// https://github.com/zurb/foundation-apps/commit/fded6510da6acbd97e608f580527a08bfc5c2823
+
+.grid-block,
+.grid-content
+  flex-basis: 0%
