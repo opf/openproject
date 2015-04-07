@@ -148,6 +148,7 @@ group :test do
   # connection with database cleaner here but setting it to 1.2 fixes the
   # issue.
   gem 'database_cleaner', '~> 1.2.0'
+  gem 'minitest', '~> 4.7',  require: false
   gem 'rspec', '~> 3.2.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 3.2.0', group: :development
