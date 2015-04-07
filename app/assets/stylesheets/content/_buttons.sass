@@ -31,7 +31,7 @@ a.button,
   @extend %button
   @include button-size(medium)
   @include button-expand(false)
-  @include button-style(#eee, $button-font-color, $button-style)
+  @include button-style(#eee, $button-bg-hover-color, $button-font-color, $button-style)
 
   transition: none
 
@@ -52,7 +52,7 @@ a.button,
 
 
   &.-highlight
-    @include button-style($button-highlight-background-color, $button-highlight-font-color, $button-style)
+    @include button-style($button-highlight-background-color, $button-highlight-background-hover-color, $button-highlight-font-color, $button-style)
 
     background: $button-highlight-background-gradient
     border-color: $button-highlight-border-color
@@ -66,7 +66,7 @@ a.button,
 
   &.-active,
   &.active
-    @include button-style(#eee, $button-active-font-color, $button-style)
+    @include button-style(#eee, #eee, $button-active-font-color, $button-style)
 
     border-color: #ccc
     box-shadow: 0 2px 4px #ccc inset
