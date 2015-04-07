@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.21"
+gem "rails", github: 'rails/rails', branch: '3-2-stable'
 
 gem "coderay", "~> 1.0.9"
 gem "rubytree", "~> 0.8.3"
@@ -85,7 +85,7 @@ gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git"
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
+gem 'syck', '~> 1.0.4', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21, :ruby_22], :require => false
 
 gem 'gon', '~> 4.0'
 
@@ -136,7 +136,8 @@ gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
 
 group :test do
   gem 'rack-test', '~> 0.6.2'
-  gem 'shoulda'
+  gem 'shoulda-context', '~> 1.2'
+
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.5"
@@ -147,6 +148,8 @@ group :test do
   # connection with database cleaner here but setting it to 1.2 fixes the
   # issue.
   gem 'database_cleaner', '~> 1.2.0'
+  gem 'test-unit', '~> 3.0', require: false
+  gem 'minitest', '~> 4.7',  require: false
   gem 'rspec', '~> 3.2.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 3.2.0', group: :development
@@ -162,7 +165,7 @@ group :test do
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', '0.8.0.pre'
-  gem "shoulda-matchers", '~> 2.5.0'
+  gem "shoulda-matchers", '~> 2.8', require: nil
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
   gem "codeclimate-test-reporter", :require => nil
@@ -203,7 +206,7 @@ gem 'reform', '~> 1.2.6', require: false
 
 platforms :mri, :mingw do
   group :mysql2 do
-    gem "mysql2", "~> 0.3.11"
+    gem "mysql2", "~> 0.3.17"
   end
 
   group :postgres do

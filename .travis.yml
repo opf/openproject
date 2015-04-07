@@ -29,6 +29,7 @@
 language: ruby
 
 rvm:
+  - 2.2
   - 2.1
 
 sudo: false
@@ -49,13 +50,20 @@ env:
     - "TEST_SUITE=karma"
     - "TEST_SUITE=protractor"
     # mysql2
-    - "TEST_SUITE=cucumber DB=mysql2"
-    - "TEST_SUITE=test     DB=mysql2"
-    - "TEST_SUITE=spec     DB=mysql2"
+    - "TEST_SUITE=cucumber    DB=mysql2"
+    - "TEST_SUITE=spec:core   DB=mysql2"
+    - "TEST_SUITE=spec:legacy DB=mysql2"
     # postgres
-    - "TEST_SUITE=cucumber DB=postgres"
-    - "TEST_SUITE=test     DB=postgres"
-    - "TEST_SUITE=spec     DB=postgres"
+    - "TEST_SUITE=cucumber    DB=postgres"
+    - "TEST_SUITE=spec:core   DB=postgres"
+    - "TEST_SUITE=spec:legacy DB=postgres"
+
+matrix:
+  exclude:
+    - rvm: 2.1
+      env: "TEST_SUITE=karma"
+    - rvm: 2.1
+      env: "TEST_SUITE=protractor"
 
 before_install:
   - "echo `firefox -v`"
