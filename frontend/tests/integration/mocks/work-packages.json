@@ -15,6 +15,20 @@
         "columns": [
             {
                 "custom_field": false,
+                "groupable": false,
+                "meta_data": {
+                    "data_type": "integer",
+                    "link": {
+                        "display": true,
+                        "model_type": "work_package"
+                    }
+                },
+                "name": "id",
+                "sortable": true,
+                "title": "ID"
+            },
+            {
+                "custom_field": false,
                 "groupable": "type",
                 "meta_data": {
                     "data_type": "object",

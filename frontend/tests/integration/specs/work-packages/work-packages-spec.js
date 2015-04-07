@@ -44,7 +44,7 @@ describe('OpenProject', function() {
     page.getTableHeaders().getText().then(function(text) {
       expect(text).to.include.members([
         '',
-        '#',
+        'ID',
         'TYPE',
         'STATUS',
         'SUBJECT',

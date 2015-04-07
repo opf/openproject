@@ -22,15 +22,6 @@
               </a>
             </div>
           </th>
-          <th sort-header
-              header-name="'id'"
-              header-title="'#'"
-              has-dropdown-menu
-              target="ColumnContextMenu"
-              locals="columns, column"
-              sortable="true"
-              query="query">
-          </th>
 
           <th sort-header ng-repeat="column in columns"
                           has-dropdown-menu
@@ -127,12 +118,6 @@
                                  checkbox-value="row.object.id"
                                  checkbox-title="{{checkboxTitle}}"
                                  model="row.checked"/>
-          </td>
-
-          <td class="id">
-            <span ng-if="workPackage.parent_id" class="hidden-for-sighted" ng-bind="parentWorkPackageHiddenText">
-            </span>
-            <a ng-href="{{ workPackagePath(row.object.id) }}">{{row.object.id}}</a>
           </td>
 
           <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">
