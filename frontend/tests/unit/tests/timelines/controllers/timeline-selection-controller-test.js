@@ -38,6 +38,7 @@ describe('TimelineSelectionController', function() {
 
     win = { location: { href: '/projects/easy_project/timelines/4' } };
 
+    /*jshint camelcase: false */
     window.gon = {
       timelines: [
         { id: 1, name: 'simple',  path: '/projects/easy_project/timelines/1' },
@@ -45,6 +46,7 @@ describe('TimelineSelectionController', function() {
       ],
       current_timeline_id: 2
     };
+    /*jshint camelcase: true */
 
     ctrl = $controller('TimelineSelectionController', {
       $window: win,
