@@ -69,6 +69,11 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
           <option value="tekken">Tekken tachikaze</option>
         </select>
       </div>
+      <div class="form--tooltip-container">
+        <span class="tooltip-bottom" tabindex="0" data-tooltip="Ice-type maybe?">
+          <i class="icon icon-heart"></i>
+        </span>
+      </div>
     </div>
   </div>
   <div class="form--field">
@@ -80,6 +85,19 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
       <div class="form--tooltip-container">
         <span class="tooltip-right" tabindex="0" data-tooltip="First name of a captain">
           <i class="icon icon-help1"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="form--field">
+    <label for="traitor" class="form--label">Traitor</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input type="password" placeholder="Traitor" id="traitor">
+      </div>
+      <div class="form--tooltip-container">
+        <span class="tooltip-right -multiline" tabindex="0" data-tooltip="Well, major spoiler, so we better hide the output, right? Then again, wouldn't this be according to Keikaku anyway?">
+          <i class="icon icon-warning"></i>
         </span>
       </div>
     </div>

@@ -44,6 +44,12 @@ $tooltipArrowSize: 6px
   &:after
     width: auto
 
+  &.-multiline
+    &:before, &:after
+      transform: translateY(50%)
+      margin-bottom: 0
+      filter: blur(0px)
+
 %left-right
   &:before, &:after
     bottom: 50%
@@ -51,6 +57,12 @@ $tooltipArrowSize: 6px
     margin-bottom: $tooltipArrowSize * -1 + 1
   &:after
     margin-bottom: $tooltipHeight/-1.5
+
+  &.-multiline
+    &:before, &:after
+      transform: translateY(50%)
+      margin-bottom: 0
+      filter: blur(0px)
 
 @mixin colorize($color:$tooltipBackground, $textColor:$tooltipTextColor)
   @each $position in top, right, bottom, left
@@ -95,6 +107,16 @@ $tooltipArrowSize: 6px
       opacity: 1
       visibility: visible
   +colorize
+
+  &.-multiline
+    &:before
+    &:after
+      height: auto
+      width: 150px
+      padding: $tooltipHeight/2
+      line-height: $tooltipHeight - 3px
+      white-space: normal
+      text-align: left
 
   @each $position in left, right
     &.tooltip-#{$position}
