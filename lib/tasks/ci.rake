@@ -58,10 +58,6 @@ namespace :ci do
           'adapter'  => 'mysql2',
           'username' => 'root'
         },
-        'mysql-5.7-dmr' => {
-          'adapter'  => 'mysql2',
-          'username' => 'root'
-        },
         'postgres'=> {
           'adapter'  => 'postgresql',
           'username' => 'postgres'
