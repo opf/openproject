@@ -79,7 +79,7 @@ describe('OpenProject', function(){
     describe('subject', function() {
       var subjectEditor = $('.inplace-edit.attribute-subject');
 
-      context('work package with updateImmediately link', function() {
+      context('work package with update link', function() {
         beforeEach(function() {
           detailsPaneHelper.loadPane(819, 'overview');
         });
@@ -89,7 +89,7 @@ describe('OpenProject', function(){
         });
       });
 
-      context('work package without updateImmediately link', function() {
+      context('work package without update link', function() {
         beforeEach(function() {
           detailsPaneHelper.loadPane(820, 'overview');
         });
@@ -137,9 +137,10 @@ describe('OpenProject', function(){
           expect(descriptionEditor.$('textarea').isDisplayed()).to.eventually.be.true;
         });
 
-        xit('should not render the textarea if click is on the link', function() {
-          descriptionEditor.$('.inplace-editing--trigger-link').click();
-          expect(descriptionEditor.$('textarea').isPresent()).to.eventually.be.false;
+        it('should not render the textarea if click is on the link', function() {
+          descriptionEditor.$('.inplace-edit--read a.work_package').click();
+          browser.waitForAngular();
+          expect($('.inplace-edit.attribute-description textarea').isPresent()).to.eventually.be.false;
         });
       });
 
@@ -165,13 +166,13 @@ describe('OpenProject', function(){
       });
     });
     describe('status', function() {
-      behaveLikeEmbeddedDropdown('status.name', 'specified');
+      behaveLikeEmbeddedDropdown('status', 'specified');
     });
     describe('priority', function() {
-      behaveLikeEmbeddedDropdown('priority.name', 'High');
+      behaveLikeEmbeddedDropdown('priority', 'High');
     });
     describe('version', function() {
-      var name = 'version.name';
+      var name = 'version';
       var editor = $('[ined-attribute=\'' + name + '\'] .inplace-edit');
 
       behaveLikeEmbeddedDropdown(name, 'alpha');

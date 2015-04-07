@@ -194,19 +194,6 @@ module.exports = function($http,
         contentType: 'application/json; charset=utf-8'
       }, force: true};
       return workPackage.links.updateImmediately.fetch(options);
-      //return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
-      //  return workPackage.links.self
-      //    .fetch({force: true})
-      //    .then(function(workPackage) {
-      //      return WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
-      //        return workPackage.links.schema.fetch().then(function(response) {
-      //          workPackage.schema = response;
-      //          EditableFieldsState.workPackage = workPackage;
-      //          return workPackage;
-      //        });
-      //      });
-      //    });
-      //});
     },
 
     addWorkPackageRelation: function(workPackage, toId, relationType) {

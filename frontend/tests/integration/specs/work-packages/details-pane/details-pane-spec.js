@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-var expect = require('../../../spec_helper.js').expect, 
+var expect = require('../../../spec_helper.js').expect,
     detailsPaneHelper = require('./details-pane-helper.js');
 
 /*jshint expr: true*/
@@ -48,24 +48,46 @@ describe('OpenProject', function() {
         detailsPaneHelper.loadPane(819, 'overview');
       });
 
-      it('should render the last 3 activites', function() {
-        expect(
-          $('ul li:nth-child(1) div.comments-number').getText()
-        ).to.eventually.equal('#59');
+      describe('custom fields order', function() {
+        before(function() {
+          detailsPaneHelper.showAll();
+        });
 
-        expect(
-          $('ul li:nth-child(2) div.comments-number').getText()
-        ).to.eventually.equal('#58');
+        it('is enforced', function() {
+          var textPromises = element.all(by.css('.attributes-key-value--key')).map(function(el) {
+            return el.getText();
+          });
 
-        expect(
-          $('ul li:nth-child(3) div.comments-number').getText()
-        ).to.eventually.equal('#57');
+          textPromises.then(function(texts) {
+            var sortedTexts = texts.sort(function(a, b) {
+              return a.localeCompare(b);
+            });
+
+            expect(texts).to.eq(sortedTexts);
+          });
+        });
       });
 
-      it('should contain the activities details', function() {
-        expect(
-          $('ul.work-package-details-activities-messages li:nth-child(1) .message').getText()
-        ).to.eventually.equal('Status changed from tested to rejected');
+      describe('activities', function() {
+        it('should render the last 3 activites', function() {
+          expect(
+            $('ul li:nth-child(1) div.comments-number').getText()
+          ).to.eventually.equal('#3');
+
+          expect(
+            $('ul li:nth-child(2) div.comments-number').getText()
+          ).to.eventually.equal('#2');
+
+          expect(
+            $('ul li:nth-child(3) div.comments-number').getText()
+          ).to.eventually.equal('#1');
+        });
+
+        it('should contain the activities details', function() {
+          expect(
+            $('ul.work-package-details-activities-messages li:nth-child(1) .message').getText()
+          ).to.eventually.equal('Status changed from tested to rejected');
+        });
       });
     });
   });
