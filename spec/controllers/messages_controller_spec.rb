@@ -45,7 +45,7 @@ describe MessagesController, type: :controller do
   }
 
   let(:filename) { 'testfile.txt' }
-  let(:file) { File.open(Rails.root.join('test/fixtures/files', filename)) }
+  let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
   let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
 
   before { allow(User).to receive(:current).and_return user }

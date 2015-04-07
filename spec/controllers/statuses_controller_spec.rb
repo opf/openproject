@@ -202,7 +202,7 @@ describe StatusesController, type: :controller do
 
   describe '#update_work_package_done_ratio' do
     shared_examples_for :flash do
-      it { is_expected.to set_the_flash.to(message) }
+      it { is_expected.to set_flash.to(message) }
     end
 
     context "with 'work_package_done_ratio' using 'field'" do
