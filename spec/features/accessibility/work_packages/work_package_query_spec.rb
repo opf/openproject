@@ -157,7 +157,7 @@ describe 'Work package index accessibility', type: :feature do
     end
 
     describe 'id column' do
-      let(:link_caption) { '#' }
+      let(:link_caption) { 'ID' }
       let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(2)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 

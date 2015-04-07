@@ -66,6 +66,7 @@ module Api::Experimental::Concerns::ColumnData
 
   def static_link_meta
     {
+      id: { display: true, model_type: 'work_package' },
       subject: { display: true, model_type: 'work_package' },
       type: { display: false },
       status: { display: false },

@@ -122,6 +122,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
           return object.parent_id;
         case 'project':
           return object.project.identifier;
+        case 'id':
         case 'subject':
           return object.id;
         default:

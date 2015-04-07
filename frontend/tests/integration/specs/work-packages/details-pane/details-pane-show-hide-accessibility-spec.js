@@ -26,30 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-var expect = require('../../spec_helper.js').expect,
-    WorkPackagesPage = require('../../pages/work-packages-page.js');
+var expect = require('../../../spec_helper.js').expect,
+    detailsPaneHelper = require('./details-pane-helper.js');
 
-describe('OpenProject', function() {
-  var page = new WorkPackagesPage();
-
-  it('should show work packages title', function() {
-    page.get();
-
-    expect(page.getSelectableTitle().getText()).to.eventually.equal('WORK PACKAGES');
-  });
-
-  it('should show work packages', function() {
-    page.get();
-
-    page.getTableHeaders().getText().then(function(text) {
-      expect(text).to.include.members([
-        '',
-        'ID',
-        'TYPE',
-        'STATUS',
-        'SUBJECT',
-        'ASSIGNEE'
-      ]);
+/*jshint expr: true*/
+describe('OpenProject', function () {
+  describe('accessibility', function () {
+    beforeEach(function () {
+      detailsPaneHelper.loadPane(819, 'overview');
+    });
+    describe('...', function () {
+      beforeEach(function () {
+        $('.attributes-group.ng-scope:nth-child(1) .inplace-edit--read-value').click();
+      });
+      it('show all / hide all should be accessible in one tab', function () {
+        var editableTextarea = element(by.css('.attributes-group.ng-scope:nth-child(1) textarea'));
+        var button = element(by.css('.attributes-group.ng-scope:nth-child(2) .button[ng-click="execute()"]'));
+        editableTextarea.sendKeys(protractor.Key.ESCAPE);
+        browser.actions().sendKeys(protractor.Key.TAB).perform();
+        browser.actions().sendKeys(protractor.Key.TAB).perform();
+        browser.driver.switchTo().activeElement().getAttribute('class').then(function (elementClassList) {
+          expect(button.getAttribute('class'))
+            .to.eventually.equal(elementClassList);
+        });
+      });
     });
   });
 });
