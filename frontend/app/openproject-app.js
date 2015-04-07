@@ -46,8 +46,6 @@ if (I18n.locale === 'de') {
 }
 
 require('angular-ui-router');
-require('angular-ui-select2');
-require('angular-ui-select2-sortable');
 
 require('angular-ui-date');
 require('angular-truncate');
@@ -60,7 +58,7 @@ require('angular-context-menu');
 require('mousetrap');
 
 // global
-angular.module('openproject.uiComponents', ['ui.select2', 'ui.select', 'ngSanitize'])
+angular.module('openproject.uiComponents', ['ui.select', 'ngSanitize'])
 .run(['$rootScope', function($rootScope){
   $rootScope.I18n = I18n;
 }]);
@@ -167,8 +165,6 @@ angular.module('openproject.templates', []);
 
 // main app
 var openprojectApp = angular.module('openproject', [
-  'ui.select2',
-  'ui.select2.sortable',
   'ui.date',
   'ui.router',
   'openproject.config',
