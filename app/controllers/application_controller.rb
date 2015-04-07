@@ -468,7 +468,7 @@ class ApplicationController < ActionController::Base
         uri_local_to_host = uri.host.nil? || uri.host == request.host
 
         # do not redirect user to the login or register page
-        uri_path_allowed  = !uri.path.match(%r{/(login|account/register)})
+        uri_path_allowed  = !uri.path.match(ignored_back_url_regex)
 
         # do not redirect to another subdirectory
         uri_subdir_allowed = relative_url_root.blank? || uri.path.match(/\A#{relative_url_root}/)
@@ -487,6 +487,18 @@ class ApplicationController < ActionController::Base
     end
     redirect_to default
     false
+  end
+
+  ##
+  # URLs that match the returned regex must be ignored when they are the back url.
+  #
+  # As for logout:
+  # It is not permitted since the user would be logged out again when redirected back to it
+  # after logging in. A user can be redirected back to the logout path when
+  # logging out on an instance with login_required set and a direct login provider (OmniAuth)
+  # enabled. In that case the logout action renders a page indicating that the user was logged out.
+  def ignored_back_url_regex
+    %r{/(login|logout|account/register)}
   end
 
   def render_400(options = {})
