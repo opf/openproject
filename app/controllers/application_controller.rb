@@ -491,20 +491,18 @@ class ApplicationController < ActionController::Base
 
   ##
   # URLs that match the returned regex must be ignored when they are the back url.
-  #
-  # The login URL should not be redirected back to because this redirect is triggered
-  # as the result of a successful login. Hence redirecting back to the login page does not
-  # make any sense.
-  #
-  # As for logout:
-  # It is not permitted since the user would be logged out again when redirected back to it
-  # after logging in. A user can be redirected back to the logout path when
-  # logging out on an instance with login_required set and a direct login provider (OmniAuth)
-  # enabled. In that case the logout action renders a page indicating that the user was logged out.
-  #
-  # TODO: explain reasoning for ignoring 'account/register' as well
   def ignored_back_url_regex
-    %r{/(login|logout|account/register)}
+    %r{/(
+      # Ignore login since redirect to back url is result of successful login.
+      login |
+      # When signing out with a direct login provider enabled you will be left at the logout
+      # page with a message indicating that you were logged out. Logging in from there would
+      # normally cause you to be redirected to this page. As it is the logout page, however,
+      # this would log you right out again after a successful login.
+      logout |
+      # TODO explain reasoning for this
+      account/register
+      )}x # ignore whitespace
   end
 
   def render_400(options = {})
