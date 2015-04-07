@@ -68,6 +68,11 @@ describe AccountController, :type => :controller do
         expect(response).to redirect_to my_page_path
       end
 
+      it 'should not redirect to logout' do
+        post :login , :username => admin.login, :password => 'adminADMIN!', :back_url => '/logout'
+        expect(response).to redirect_to my_page_path
+      end
+
       it 'should create users on the fly' do
         Setting.self_registration = '0'
         allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',

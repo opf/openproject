@@ -468,7 +468,7 @@ class ApplicationController < ActionController::Base
         uri_local_to_host = uri.host.nil? || uri.host == request.host
 
         # do not redirect user to the login or register page
-        uri_path_allowed  = !uri.path.match(%r{/(login|account/register)})
+        uri_path_allowed  = !uri.path.match(ignored_back_url_regex)
 
         # do not redirect to another subdirectory
         uri_subdir_allowed = relative_url_root.blank? || uri.path.match(/\A#{relative_url_root}/)
@@ -487,6 +487,22 @@ class ApplicationController < ActionController::Base
     end
     redirect_to default
     false
+  end
+
+  ##
+  # URLs that match the returned regex must be ignored when they are the back url.
+  def ignored_back_url_regex
+    %r{/(
+      # Ignore login since redirect to back url is result of successful login.
+      login |
+      # When signing out with a direct login provider enabled you will be left at the logout
+      # page with a message indicating that you were logged out. Logging in from there would
+      # normally cause you to be redirected to this page. As it is the logout page, however,
+      # this would log you right out again after a successful login.
+      logout |
+      # TODO explain reasoning for this
+      account/register
+      )}x # ignore whitespace
   end
 
   def render_400(options = {})
