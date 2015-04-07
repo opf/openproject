@@ -5,6 +5,13 @@ GIT
   specs:
     rack-protection (1.5.2)
       rack
+GIT
+  remote: git@github.com:finnlabs/saas-stylist.git
+  revision: 4cf3a0dc52b7a900411afb5ec51c7b1e34af30b4
+  ref: dev
+  specs:
+    saas-stylist (0.0.1)
+      rails
 
 GIT
   remote: https://github.com/finnlabs/rspec-example_disabler.git
@@ -541,6 +548,7 @@ DEPENDENCIES
   ruby-prof
   ruby-progressbar
   rubytree (~> 0.8.3)
+  saas-stylist!
   sass (~> 3.4.12)
   sass-rails!
   selenium-webdriver (~> 2.44.0)
