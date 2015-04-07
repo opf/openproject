@@ -2,23 +2,6 @@
 openproject-meeting:
   :url: https://github.com/finnlabs/openproject-meeting.git
   :branch: dev
-openproject-pdf_export:
-  :url: https://github.com/finnlabs/openproject-pdf_export.git
-  :branch: dev
-  :dependencies:
-    - openproject-backlogs
-openproject-backlogs:
-  :url: https://github.com/finnlabs/openproject-backlogs.git
-  :branch: dev
-  :dependencies:
-    - openproject-pdf_export
-    - pdf-inspector # This should actually be a dependency only of pdf_export.
-openproject-costs:
-  :url: https://github.com/finnlabs/openproject-costs.git
-  :branch: dev
-openproject-global_roles:
-  :url:  https://github.com/finnlabs/openproject-global_roles.git
-  :branch: dev
 openproject-help_link:
   :url: https://github.com/finnlabs/openproject-help_link.git
   :branch: dev
@@ -28,20 +11,9 @@ openproject-my_project_page:
 openproject-documents:
   :url: https://github.com/opf/openproject-documents.git
   :branch: dev
-reporting_engine:
-  :url: https://github.com/finnlabs/reporting_engine.git
-  :branch: dev
 openproject-translations:
   :url: https://github.com/opf/openproject-translations.git
   :branch: dev
-openproject-reporting:
-  :url: https://github.com/finnlabs/openproject-reporting.git
-  :branch: dev
-  :dependencies:
-    - openproject-costs
-    - reporting_engine
 openproject-emoji:
   :url: https://github.com/tessi/openproject-emoji.git
   :branch: dev
-pdf-inspector:
-  :version: ~>1.0.0

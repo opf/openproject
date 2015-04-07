@@ -57,10 +57,6 @@ describe PluginManager do
         plugin_manager.add(plugin_to_add)
       end
 
-      it 'adds the dependencies of the plugin' do
-        expect(gemfile_plugins).to include(dependency)
-      end
-
       it 'does not add a plugin twice' do
         expect(count_of_plugin).to eql(1)
       end
@@ -94,8 +90,6 @@ describe PluginManager do
       }
       let(:plugin_manager) { described_class.new('test-environment') }
       let(:plugin_to_delete) { 'plugin_to_delete' }
-      let(:dependency_to_delete) { 'dependency_to_delete' }
-      let(:shared_dependency) { 'shared_dependency' }
       let(:other_plugin) { 'other_plugin' }
       let(:independent_plugin) { 'independent_plugin' }
       let(:plugin_specs) {
@@ -103,34 +97,19 @@ describe PluginManager do
           plugin_to_delete => {
             url: '',
             branch: '',
-            dependencies: [dependency_to_delete,
-                           shared_dependency,
-                           other_plugin]
-          },
-          dependency_to_delete => {
-            url: '',
-            branch: '',
-            dependencies: [plugin_to_delete]
-          },
-          shared_dependency => {
-            url: '',
-            branch: '',
           },
           other_plugin => {
             url: '',
             branch: '',
-            dependencies: [shared_dependency]
           },
           independent_plugin => {
             url: '',
             branch: '',
-            dependencies: [shared_dependency]
           }
         }
       }
       let(:gemfile_plugins) {
-        "#{plugin_to_delete}\n#{dependency_to_delete}\n#{shared_dependency}\
-        \n#{other_plugin}\n#{independent_plugin}"
+        "#{other_plugin}\n#{independent_plugin}"
       }
 
       before do
@@ -144,20 +123,12 @@ describe PluginManager do
         plugin_manager.remove(plugin_to_delete)
       end
 
-      it 'does not remove dependencies that are required by other plugins' do
-        expect(gemfile_plugins_new).to include(shared_dependency)
-      end
-
       it 'does not remove independent plugins' do
         expect(gemfile_plugins_new).to include(independent_plugin)
       end
 
       it 'does not remove plugins that could have been installed before' do
         expect(gemfile_plugins_new).to include(other_plugin)
-      end
-
-      it 'removes dependencies that are only required by this plugin' do
-        expect(gemfile_plugins_new).not_to include(dependency_to_delete)
       end
 
       it 'removes the plugin' do
@@ -303,58 +274,5 @@ describe Plugin do
       end
     end
   end
-
-  describe '#gemfile_plugins_lines_for_dependencies' do
-    subject { plugin.gemfile_plugins_lines_for_dependencies }
-    let(:plugin) { described_class.new('test') }
-    let(:dep1) { described_class.new('dep1') }
-    let(:dep2) { described_class.new('dep2') }
-    let(:dependencies) { [dep1, dep2] }
-    let(:version) { 'test-version' }
-    let(:plugin_specs) {
-      {
-        'test' => { version: version },
-        'dep1' => { version: version },
-        'dep2' => { version: version }
-      }
-    }
-
-    before do
-      allow(described_class).to receive(:available?).and_return(true)
-      allow(described_class).to receive(:available_plugins).and_return(plugin_specs)
-      allow(plugin).to receive(:dependencies).and_return(dependencies)
-    end
-
-    it 'contains all dependencies'do
-      dependencies.each do |dependency|
-        is_expected.to include(dependency.name)
-      end
-    end
-
-    it 'contains the version of the plugin' do
-      is_expected.to include(version)
-    end
-  end
-
-  describe '#dependencies' do
-    subject { plugin.dependencies.map(&:name) }
-    let(:plugin) { described_class.new('test') }
-    let(:dependencies) { ['dep1', 'dep2'] }
-    let(:available_plugins) {
-      {
-        'test' => {
-          dependencies: dependencies
-        }
-      }
-    }
-
-    before do
-      allow(described_class).to receive(:available?).and_return(true)
-      allow(described_class).to receive(:available_plugins).and_return(available_plugins)
-    end
-
-    it 'contains the correct dependencies' do
-      is_expected.to eql(dependencies)
-    end
-  end
 end
+

@@ -33,7 +33,7 @@ class PluginManager
     plugin = Plugin.new(name)
     unless plugin.included_in?(@gemfile_plugins)
       puts 'Plugin #{name} not installed, abort!'
-      exit
+      return
     end
     _revert_migrations(plugin)
     _remove_plugin_from_gemfile_plugins_file(plugin)
@@ -46,7 +46,6 @@ class PluginManager
 
   def _write_plugin_to_gemfile_plugins_file(plugin)
     _add_plugin_to_gemfile_plugins(plugin)
-    _sort_gemfile_plugins
     _delete_empty_lines_from_gemfile_plugins
     _remove_duplicated_lines_from_gemfile_plugins
     _check_for_duplicated_plugins
@@ -55,17 +54,6 @@ class PluginManager
 
   def _add_plugin_to_gemfile_plugins(plugin)
     @gemfile_plugins << "\n" + plugin.gemfile_plugins_line
-    @gemfile_plugins << "\n" + plugin.gemfile_plugins_lines_for_dependencies
-  end
-
-  def _sort_gemfile_plugins
-    # Unfortunately, the order of the calls is important.
-    # OpenProject-Costs needs to be above OpenProject-Reporting.
-    _move_plugin_on_top('openproject-costs')
-    # Reporting engine needs to be above openproject-reporting/costs
-    _move_plugin_on_top('reporting_engine')
-    # Global Roles needs to be on top because it changes the permission model.
-    _move_plugin_on_top('openproject-global_roles')
   end
 
   def _move_plugin_on_top(plugin_name)
@@ -136,19 +124,10 @@ class PluginManager
 
   def _remove_plugin_from_gemfile_plugins(plugin)
     gemfile_plugins_new = ''
-    plugins = [plugin].concat _dependencies_only_required_by(plugin)
     @gemfile_plugins.each_line do |line|
-      gemfile_plugins_new << line if line_contains_no_plugin?(line, plugins)
+      gemfile_plugins_new << line unless line.include?(plugin.name)
     end
     @gemfile_plugins = gemfile_plugins_new
-  end
-
-  def _dependencies_only_required_by(plugin)
-    dependencies = plugin.dependencies
-    result = dependencies.reject { |dependency| dependency.needed_by_any_other_than?(plugin) }
-    # Do not remove plugins that could have been there before
-    # the installation of the plugin.
-    result.select { |dependency| dependency.dependent_from(plugin) }
   end
 
   def line_contains_no_plugin?(line, plugins)
@@ -193,21 +172,6 @@ class Plugin
     @name = name
   end
 
-  def needed_by_any_other_than?(plugin)
-    all_other_plugin_names = Plugin.available_plugins.inject([]) do |result, (other_name, _)|
-      plugin.name == other_name ? result : result << other_name
-    end
-    all_other_plugins = _names_to_plugins(all_other_plugin_names)
-    all_dependencies_from_other_plugins = all_other_plugins.inject([]) do |result, other_plugin|
-      result.concat other_plugin.dependencies
-    end
-    all_dependencies_from_other_plugins.any? { |dependency| dependency.name == name }
-  end
-
-  def dependent_from(plugin)
-    dependencies.any? { |dependency| dependency.name == plugin.name }
-  end
-
   def included_in?(str)
     str.include?(@name)
   end
@@ -239,20 +203,6 @@ class Plugin
     else
       "\"#{options[:version]}\""
     end
-  end
-
-  def gemfile_plugins_lines_for_dependencies
-    result = ''
-    dependencies.each do |dependency|
-      result << dependency.gemfile_plugins_line
-    end
-    result
-  end
-
-  def dependencies
-    # We might have to solve dependencies of dependencies.
-    names_of_dependencies = Plugin.available_plugins[name][:dependencies] || []
-    _names_to_plugins(names_of_dependencies)
   end
 
   def _names_to_plugins(names)
