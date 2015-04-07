@@ -29,6 +29,16 @@
 require 'spec_helper'
 
 describe 'Omniauth authentication', :type => :feature do
+  let(:user) do
+    FactoryGirl.create(:user,
+                       force_password_change: false,
+                       identity_url: 'developer:omnibob@example.com',
+                       login: 'omnibob',
+                       mail: 'omnibob@example.com',
+                       firstname: 'omni',
+                       lastname: 'bob'
+                      )
+  end
 
   before do
     @omniauth_test_mode = OmniAuth.config.test_mode
@@ -53,17 +63,6 @@ describe 'Omniauth authentication', :type => :feature do
   end
 
   context 'sign in existing user' do
-    let(:user) do
-      FactoryGirl.create(:user,
-                         force_password_change: false,
-                         identity_url: 'developer:omnibob@example.com',
-                         login: 'omnibob',
-                         mail: 'omnibob@example.com',
-                         firstname: 'omni',
-                         lastname: 'bob'
-                        )
-    end
-
     it 'should redirect to back url' do
       visit account_lost_password_path
       find_link('Omniauth Developer').click
@@ -118,6 +117,21 @@ describe 'Omniauth authentication', :type => :feature do
 
       expect(page).to have_content(I18n.t(:notice_logged_out))
       expect(page).to have_content translation_substring(I18n.t(:instructions_after_logout))
+    end
+
+    it 'sign-in after previous sign-out shows my page' do
+      visit signout_path
+
+      expect(page).to have_content(I18n.t(:notice_logged_out))
+
+      click_on 'here'
+
+      fill_in('first_name', with: user.firstname)
+      fill_in('last_name', with: user.lastname)
+      fill_in('email', with: user.mail)
+      click_link_or_button 'Sign In'
+
+      expect(current_url).to eq my_page_url
     end
   end
 
