@@ -6,7 +6,7 @@
 
     <div cg-busy="vm.promise" class="columns-modal-content">
       <label for="selected_columns" class="hidden-for-sighted">{{ I18n.t('js.description_selected_columns') }}</label>
-      <ui-select multiple sortable="true" ng-model="vm.selectedColumns" theme="select2" id="selected_columns" focus>
+      <ui-select multiple sortable="true" ng-model="vm.selectedColumns" theme="select2" id="selected_columns" focus aria-describedby="column_multiselect_description">
         <ui-select-match>
           {{$item.title}}
         </ui-select-match>
@@ -17,6 +17,9 @@
       <span class="tooltip-right -multiline" tabindex="0" data-tooltip="{{ I18n.t('js.work_packages.label_column_multiselect') }}">
         <i class="icon icon-help1"></i>
       </span>
+      <div class="hidden-for-sighted" id="column_multiselect_description">
+        <p>{{ I18n.t('js.work_packages.label_column_multiselect') }}</p>
+      </div>
     </div>
 
     <div>
