@@ -1,4 +1,4 @@
-<div class="inplace-edit--write" ng-show="fieldController.isEditing">
+<div class="inplace-edit--write edit-strategy-{{ strategy }}" ng-show="fieldController.isEditing">
   <form class="inplace-edit--form" ng-if="fieldController.isEditing" name="editPaneController.editForm" ng-submit="editPaneController.submit(false)" novalidate>
       <div class="inplace-edit--write-value" ng-include="templateUrl">
       </div>

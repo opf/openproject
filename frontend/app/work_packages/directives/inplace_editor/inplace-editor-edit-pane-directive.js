@@ -81,12 +81,12 @@ module.exports = function(
     },
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
-      scope.templateUrl = '/templates/components/inplace_editor/editable/' +
-      WorkPackageFieldService.getInplaceEditStrategy(
+      scope.strategy = WorkPackageFieldService.getInplaceEditStrategy(
         EditableFieldsState.workPackage,
         fieldController.field
-      ) +
-      '.html';
+      );
+      scope.templateUrl = '/templates/components/inplace_editor/editable/' +
+        scope.strategy + '.html';
 
       scope.focusInput = function() {
         $timeout(function() {

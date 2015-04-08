@@ -174,3 +174,14 @@ a.inplace-editing--trigger-link,
 
     .icon-context::before
       padding: 0
+
+// custom hack to have the jsToolbar in the same line as the "Description" title
+
+.inplace-edit.attribute-description
+  .inplace-edit--write
+    margin-top: -48px
+    // for non-textile description we need to not overlap the 'Description' header
+    // which in textile is shown due to edit buttons on the right side
+    &.edit-strategy-textarea
+      margin-top: auto
+
