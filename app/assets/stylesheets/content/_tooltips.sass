@@ -48,7 +48,7 @@ $tooltipArrowSize: 6px
     &:before, &:after
       transform: translateY(50%)
       margin-bottom: 0
-      filter: blur(0px)
+      filter: blur(10px)
 
 %left-right
   &:before, &:after
@@ -62,7 +62,6 @@ $tooltipArrowSize: 6px
     &:before, &:after
       transform: translateY(50%)
       margin-bottom: 0
-      filter: blur(0px)
 
 @mixin colorize($color:$tooltipBackground, $textColor:$tooltipTextColor)
   @each $position in top, right, bottom, left
