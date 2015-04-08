@@ -46,10 +46,6 @@ module.exports = function(
       //return workPackage.schema.props.startDate.writable
       // && workPackage.schema.props.dueDate.writable;
     }
-    // not editable until duration is specified
-    if (field === 'estimatedTime' || field === 'remainingTime') {
-      return false;
-    }
     if(workPackage.schema.props[field].type === 'Date') {
       return false;
     }
@@ -199,6 +195,9 @@ module.exports = function(
         } else {
           inplaceType = 'textarea';
         }
+        break;
+      case 'Duration':
+        inplaceType = 'duration';
         break;
       case 'StringObject':
       case 'Version':

@@ -26,7 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-.directive('inplaceEditorWikiTextarea', require('./inplace-editor-wiki-textarea-directive'))
-.directive('inplaceEditorDuration', require('./inplace-editor-duration-directive'))
-.directive('inplaceEditorDropdown', require('./inplace-editor-dropdown-directive'));
+module.exports = function() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    require: '^workPackageField',
+    templateUrl: '/templates/work_packages/inplace_editor/custom/editable/duration.html',
+    controllerAs: 'customEditorController',
+    controller: function() {},
+    link: function(scope, element, attrs, fieldController) {
+      scope.fieldController = fieldController;
+      if (fieldController.writeValue === null) {
+        scope.customEditorController.writeValue = null;
+      } else {
+        scope.customEditorController.writeValue = Number(
+          moment
+            .duration(fieldController.writeValue)
+            .asHours()
+            .toFixed(2)
+        );
+      }
+      scope.$watch('customEditorController.writeValue', function(value) {
+        if (value === null) {
+          fieldController.writeValue = null;
+        } else {
+          // get rounded minutes so that we don't have to send 12.223000000003
+          // to the server
+          var minutes = Number(moment.duration(value, 'hours').asMinutes().toFixed(2));
+          fieldController.writeValue = moment.duration(minutes, 'minutes');
+        }
+      });
+    }
+  };
+};
