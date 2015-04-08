@@ -89,13 +89,9 @@ class JournalFormatter::Base
 
   def render_binary_detail_text(label, value, old_value)
     if value.blank?
-
       l(:text_journal_deleted, label: label, old: old_value)
-
     else
-
       l(:text_journal_added, label: label, value: value)
-
     end
   end
 end
