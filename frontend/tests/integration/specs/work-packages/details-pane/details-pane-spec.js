@@ -86,7 +86,7 @@ describe('OpenProject', function() {
         it('should contain the activities details', function() {
           expect(
             $('ul.work-package-details-activities-messages li:nth-child(1) .message').getText()
-          ).to.eventually.equal('Status changed from tested to rejected');
+          ).to.eventually.equal('Status changed from new to in progress');
         });
       });
     });

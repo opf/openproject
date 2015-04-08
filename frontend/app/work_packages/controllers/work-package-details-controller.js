@@ -100,7 +100,7 @@ module.exports = function($scope,
     $scope.watchers = workPackage.embedded.watchers;
 
     // autocomplete path
-    var projectId = workPackage.props.projectId;
+    var projectId = workPackage.embedded.project.props.id;
     $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
 
     // activities and latest activities

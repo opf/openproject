@@ -10,7 +10,7 @@
               required
               placeholder="{{ $parent.title }}"
               ng-disabled="$parent.processingComment"
-              data-wp_autocomplete_url="{{ $parent.autocompletePath }}">
+              data-wp_autocomplete_url="{{ autocompletePath }}">
     </textarea>
     <button class="button"
             ng-click="$parent.createComment()"
