@@ -180,17 +180,12 @@ module.exports = function(
         inplaceType = 'text';
     if (field === 'date') {
       fieldType = 'DateRange';
-    } else if (field === 'description') {
-      fieldType = 'Textile';
     } else {
       fieldType = workPackage.form.embedded.schema.props[field].type;
     }
     switch(fieldType) {
       case 'Float':
         inplaceType = 'float';
-        break;
-      case 'Textile':
-        inplaceType = 'wiki_textarea';
         break;
       case 'Integer':
         inplaceType = 'integer';
@@ -199,7 +194,11 @@ module.exports = function(
         inplaceType = 'boolean';
         break;
       case 'Formattable':
-        inplaceType = 'textarea';
+        if (workPackage.form.embedded.payload.props[field].format === 'textile') {
+          inplaceType = 'wiki_textarea';
+        } else {
+          inplaceType = 'textarea';
+        }
         break;
       case 'StringObject':
       case 'Version':
