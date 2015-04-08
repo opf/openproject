@@ -76,7 +76,6 @@ module API
           property :subject, render_nil: true
           property :done_ratio,
                    as: :percentageDone,
-                   getter: -> (*) { done_ratio if Setting.work_package_done_ratio != 'disabled' },
                    render_nil: true,
                    if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
 
