@@ -21,6 +21,9 @@
     "payload": {
       "_type": "WorkPackage",
       "_links": {
+        "category": {
+          "href": "/api/v3/categories/1"
+        },
         "status": {
           "href": "/api/v3/statuses/2"
         },
@@ -369,6 +372,53 @@
               "isActive":true
             }
           ]
+        }
+      },
+      "category":{
+        "_links":{
+          "allowedValues":[
+            {
+              "href":"/api/v3/categories/1",
+              "title":"Frontend"
+            },
+            {
+              "href":"/api/v3/categories/2",
+              "title":"Backend"
+            }
+          ]
+        },
+        "type": "Category",
+        "_embedded": {
+          "allowedValues":[
+            {
+              "_type":"Category",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/categories/1",
+                  "title":"Frontend"
+                }
+              },
+              "id":1,
+              "name":"Frontend",
+              "position":1,
+              "isDefault":true,
+              "isActive":true
+            },
+            {
+              "_type":"Category",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/categories/2",
+                  "title":"Backend"
+                }
+              },
+              "id":2,
+              "name":"Backend",
+              "position":2,
+              "isDefault":false,
+              "isActive":true
+            }
+          ]          
         }
       }
     },

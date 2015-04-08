@@ -106,6 +106,12 @@ module.exports = function() {
           placeholder: '-',
           attributeTitle: I18n.t('js.work_packages.properties.priority')
         },
+        category: {
+          type: 'select2',
+          attribute: 'category.name',
+          embedded: true,
+          placeholder: '-'
+        }
       };
     }
   };

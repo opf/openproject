@@ -32,56 +32,13 @@ var expect = require('../../../spec_helper.js').expect,
 /*jshint expr: true*/
 describe('OpenProject', function(){
   describe('editable', function() {
-    function behaveLikeEmbeddedDropdown(name, correctValue) {
-      context('behaviour', function() {
-        var editor = $('[ined-attribute=\'' + name + '\'] .inplace-edit');
-
-        beforeEach(function() {
-          detailsPaneHelper.loadPane(819, 'overview');
-        });
-
-        describe('read state', function() {
-          it('should render a span with value', function() {
-            expect(
-              editor
-                .$('.inplace-edit--read-value')
-                .getText()
-            ).to.eventually.equal(correctValue);
-          });
-        });
-
-        describe('edit state', function() {
-          beforeEach(function() {
-            editor.$('.inplace-editing--trigger-link').click();
-          });
-
-          context('dropdown', function() {
-            it('should be rendered', function() {
-              expect(
-                editor
-                  .$('.select2-container').isDisplayed()
-                  .isDisplayed()
-              ).to.eventually.be.true;
-            });
-
-            it('should have the correct value', function() {
-              expect(
-                editor
-                  .$('.select2-choice .select2-chosen span')
-                  .getText()
-              ).to.eventually.equal(correctValue);
-            });
-          });
-        });
-      });
-    }
-
     describe('subject', function() {
-      var subjectEditor = $('.inplace-edit.attribute-subject');
+      var subjectEditor;
 
       context('work package with updateImmediately link', function() {
         beforeEach(function() {
           detailsPaneHelper.loadPane(819, 'overview');
+          subjectEditor = element(by.css('.inplace-edit.attribute-subject'));
         });
 
         it('should render an editable subject', function() {
@@ -92,6 +49,7 @@ describe('OpenProject', function(){
       context('work package without updateImmediately link', function() {
         beforeEach(function() {
           detailsPaneHelper.loadPane(820, 'overview');
+          subjectEditor = element(by.css('.inplace-edit.attribute-subject'));
         });
 
         it('should not render an editable subject', function() {
@@ -102,6 +60,7 @@ describe('OpenProject', function(){
       context('work package with a wrong version', function() {
         beforeEach(function() {
           detailsPaneHelper.loadPane(821, 'overview');
+          subjectEditor = element(by.css('.inplace-edit.attribute-subject'));
           subjectEditor.$('.inplace-editing--trigger-link').click();
           subjectEditor.$('.inplace-edit--control--save a').click();
         });
@@ -165,16 +124,19 @@ describe('OpenProject', function(){
       });
     });
     describe('status', function() {
-      behaveLikeEmbeddedDropdown('status.name', 'specified');
+      detailsPaneHelper.dropDownTest('status.name', 'specified');
     });
     describe('priority', function() {
-      behaveLikeEmbeddedDropdown('priority.name', 'High');
+      detailsPaneHelper.dropDownTest('priority.name', 'High');
+    });
+    describe('category', function() {
+      detailsPaneHelper.dropDownTest('category.name', 'Frontend');
     });
     describe('version', function() {
       var name = 'version.name';
       var editor = $('[ined-attribute=\'' + name + '\'] .inplace-edit');
 
-      behaveLikeEmbeddedDropdown(name, 'alpha');
+      detailsPaneHelper.dropDownTest(name, 'alpha');
 
       context('when work package version link is present', function() {
         beforeEach(function() {
@@ -211,17 +173,19 @@ describe('OpenProject', function(){
       });
     });
     context('user field', function() {
-      var assigneeEditor = $('[ined-attribute=\'assignee\'] .inplace-edit'),
-          responsibleEditor = $('[ined-attribute=\'responsible\'] .inplace-edit');
+      var assigneeEditor,
+          responsibleEditor;
 
       beforeEach(function() {
         detailsPaneHelper.loadPane(822, 'overview');
+        assigneeEditor = element(by.css('[ined-attribute=\'assignee\'] .inplace-edit'));
+        responsibleEditor = element(by.css('[ined-attribute=\'responsible\'] .inplace-edit')); 
       });
 
       context('read state', function() {
         context('with null assignee', function() {
           beforeEach(function() {
-            $('.panel-toggler').click();
+            element(by.css('.panel-toggler')).click();
           });
 
           it('should render a span with placeholder', function() {

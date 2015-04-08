@@ -107,6 +107,7 @@
   "status": "specified",
   "isClosed": false,
   "priority": "Normal",
+  "category": "Backend",
   "startDate": "2014-10-23T00:00:00+00:00",
   "dueDate": "2014-12-27T00:00:00+00:00",
   "estimatedTime": "PT0S",
