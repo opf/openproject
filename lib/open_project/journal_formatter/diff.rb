@@ -56,7 +56,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     if value.blank?
       l(:text_journal_deleted_with_diff, label: label, link: link)
     else
-      unless old_value.blank?
+      if old_value.present?
         l(:text_journal_changed_with_diff, label: label, link: link)
       else
         l(:text_journal_set_with_diff, label: label, link: link)
