@@ -168,6 +168,10 @@ module.exports = function(
       return true;
     }
 
+    if (value.embedded && _.isArray(value.embedded.elements)) {
+      return value.embedded.elements.length === 0;
+    }
+
     return false;
   }
 
