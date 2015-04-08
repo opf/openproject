@@ -218,7 +218,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'setting disabled' do
           before { allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') }
 
-          it { expect(parse_json(subject)['percentageDone']).to be_nil }
+          it { is_expected.to_not have_json_path('percentageDone') }
         end
       end
     end

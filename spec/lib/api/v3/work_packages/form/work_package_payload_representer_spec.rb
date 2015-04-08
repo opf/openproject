@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.build(:work_package,
                       start_date: Date.today.to_datetime,
                       due_date: Date.today.to_datetime,
                       created_at: DateTime.now,
                       updated_at: DateTime.now)
-  }
+  end
   let(:representer) { described_class.create(work_package) }
 
   before { allow(work_package).to receive(:lock_version).and_return(1) }
@@ -79,10 +79,18 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
       end
 
       describe 'percentage done' do
-        it { is_expected.to have_json_path('percentageDone') }
-        it { is_expected.to have_json_type(Integer).at_path('percentageDone') }
-        it do
-          is_expected.to be_json_eql(work_package.done_ratio.to_json).at_path('percentageDone')
+        context 'percentage done enabled' do
+          it { is_expected.to have_json_path('percentageDone') }
+          it { is_expected.to have_json_type(Integer).at_path('percentageDone') }
+          it do
+            is_expected.to be_json_eql(work_package.done_ratio.to_json).at_path('percentageDone')
+          end
+        end
+
+        context 'percentage done disabled' do
+          before { allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') }
+
+          it { is_expected.to_not have_json_path('percentageDone') }
         end
       end
 
