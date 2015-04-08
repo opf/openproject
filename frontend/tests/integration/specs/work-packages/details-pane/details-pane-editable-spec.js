@@ -140,7 +140,7 @@ describe('OpenProject', function(){
         it('should not render the textarea if click is on the link', function() {
           descriptionEditor.$('.inplace-edit--read a.work_package').click();
           browser.waitForAngular();
-          expect($('.inplace-edit.attribute-description textarea').isPresent()).to.eventually.be.false;
+          expect(descriptionEditor.$('textarea').isPresent()).to.eventually.be.false;
         });
       });
 
