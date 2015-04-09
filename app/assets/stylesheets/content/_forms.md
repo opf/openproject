@@ -762,8 +762,8 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
 # Forms: Attachment fieldsets
 
 ```
-<fieldset id="attachments" class="header_collapsible collapsible">
-  <legend title="Show/Hide attachments" ,="" onclick="toggleFieldset(this);">
+<fieldset id="attachments" class="form--fieldset -collapsible">
+  <legend class="form--fieldset-legend" title="Show/Hide attachments" ,="" onclick="toggleFieldset(this);">
     <a href="javascript:">Files<span class="fieldset-toggle-state-label hidden-for-sighted">expanded</span></a>
   </legend>
   <div style="">
