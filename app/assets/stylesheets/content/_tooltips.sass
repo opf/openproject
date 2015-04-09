@@ -107,7 +107,6 @@ $tooltip--arrow-size: 6px
       opacity: 1
       visibility: visible
 
-
   &.-multiline
     &:after
       height: auto
@@ -117,47 +116,47 @@ $tooltip--arrow-size: 6px
       white-space: normal
       text-align: left
 
-  @each $position in left, right
-    &.tooltip--#{$position}
-      @extend %tooltip--left-right
-      @if $position == 'right'
-        &:before, &:after
-          left: 100%
-        &:before
-          margin-left: -2px
-        &:after
-          margin-left: 10px
-      @else
-        &:before, &:after
-          right: 100%
-        &:before
-          margin-right: -2px
-        &:after
-          margin-right: 10px
+  &.tooltip--right
+    @extend %tooltip--left-right
+    &:before, &:after
+      left: 100%
+    &:before
+      margin-left: -2px
+    &:after
+      margin-left: 10px
 
-  @each $position in top, bottom
-    &.tooltip--#{$position}
-      @extend %tooltip--top-bottom
-      @if $position == 'top'
-        &:before, &:after
-          bottom: 100%
-        &:before
-          margin-bottom: $tooltip--arrow-size * -1 + 1
-        &:after
-          margin-bottom: 7px
-        &:hover
-          &:before, &:after
-            transform: translate(-50%, 0px)
-      @else
-        &:before, &:after
-          top: 100%
-        &:before
-          margin-top: $tooltip--arrow-size * -1 + 1
-        &:after
-          margin-top: 7px
-        &:hover
-          &:before, &:after
-            transform: translate(-50%, 0)
+  &.tooltip--left
+    @extend %tooltip--left-right
+    &:before, &:after
+      right: 100%
+    &:before
+      margin-right: -2px
+    &:after
+      margin-right: 10px
+
+  &.tooltip--top
+    @extend %tooltip--top-bottom
+    &:before, &:after
+      bottom: 100%
+    &:before
+      margin-bottom: $tooltip--arrow-size * -1 + 1
+    &:after
+      margin-bottom: 7px
+    &:hover
+      &:before, &:after
+        transform: translate(-50%, 0px)
+
+  &.tooltip--bottom
+    @extend %tooltip--top-bottom
+    &:before, &:after
+      top: 100%
+    &:before
+      margin-top: $tooltip--arrow-size * -1 + 1
+    &:after
+      margin-top: 7px
+    &:hover
+      &:before, &:after
+        transform: translate(-50%, 0)
 
 // tooltips for table content (TODO: legacy?)
 table
