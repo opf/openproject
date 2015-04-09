@@ -5,7 +5,7 @@ $inplace-edit--color--very-dark: #cacaca
 .inplace-edit
   @extend .form--field.-full-width
 
-  &.-preview
+  .-preview
     button
       visibility: hidden
     .jstb_preview
@@ -48,13 +48,13 @@ $inplace-edit--color--very-dark: #cacaca
   margin-bottom: -1px
 
 .inplace-edit--text-field
-  margin-bottom: 0
+  margin-bottom: 0!important
   padding: 0.375rem
   font-size: inherit
   line-height: inherit
 
 .inplace-edit--dashboard
-  position: absolute
+  position: relative
   width: 100%
   z-index: 100
   font-size: 0.875rem
@@ -174,3 +174,14 @@ a.inplace-editing--trigger-link,
 
     .icon-context::before
       padding: 0
+
+// custom hack to have the jsToolbar in the same line as the "Description" title
+
+.inplace-edit.attribute-description
+  .inplace-edit--write
+    margin-top: -48px
+    // for non-textile description we need to not overlap the 'Description' header
+    // which in textile is shown due to edit buttons on the right side
+    &.edit-strategy-textarea
+      margin-top: auto
+

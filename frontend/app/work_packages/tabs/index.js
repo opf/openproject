@@ -52,7 +52,6 @@ angular.module('openproject.workPackages.tabs')
     'AutoCompleteHelper',
     require('./user-activity-directive')
   ])
-  .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('workPackageRelations', [
     'I18n',
     'WorkPackagesHelper',

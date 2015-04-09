@@ -35,15 +35,26 @@ module.exports = function($http,
     $rootScope,
     $window,
     $q,
-    AuthorisationService) {
+    AuthorisationService,
+    EditableFieldsState,
+    WorkPackageFieldService
+  ) {
   var workPackage;
 
   var WorkPackageService = {
     getWorkPackage: function(id) {
       var resource = HALAPIResource.setup('work_packages/' + id);
       return resource.fetch().then(function (wp) {
-        workPackage = wp;
-        return workPackage;
+        return $q.all([
+          WorkPackageService.loadWorkPackageForm(wp),
+          wp.links.schema.fetch()
+        ]).then(function(result) {
+            wp.form = result[0];
+            wp.schema = result[1];
+            workPackage = wp;
+            EditableFieldsState.workPackage = wp;
+            return wp;
+          });
       });
     },
 
@@ -162,7 +173,17 @@ module.exports = function($http,
       return AuthorisationService.can(modelName, action);
     },
 
-    updateWorkPackage: function(workPackage, data, notify) {
+    updateWorkPackage: function(workPackage, notify) {
+      var data = {
+        _links: {}
+      };
+      _.forEach(workPackage.form.pendingChanges, function(value, field) {
+        if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
+          data._links[field] = value ? value.links.self.props : { href: null };
+        } else {
+          data[field] = value;
+        }
+      });
       var options = { ajax: {
         method: 'PATCH',
         url: URI(workPackage.links.updateImmediately.href).addSearch('notify', notify).toString(),
@@ -172,9 +193,7 @@ module.exports = function($http,
         data: JSON.stringify(data),
         contentType: 'application/json; charset=utf-8'
       }, force: true};
-      return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
-        return workPackage;
-      });
+      return workPackage.links.updateImmediately.fetch(options);
     },
 
     addWorkPackageRelation: function(workPackage, toId, relationType) {

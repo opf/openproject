@@ -6,6 +6,11 @@ function loadPane(workPackageId, paneName) {
   browser.waitForAngular();
 }
 
+function showAll() {
+  $('.panel-toggler a').click();
+}
+
 module.exports = {
-  loadPane: loadPane
+  loadPane: loadPane,
+  showAll: showAll
 };

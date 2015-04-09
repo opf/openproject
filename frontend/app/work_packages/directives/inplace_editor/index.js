@@ -26,21 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(PathHelper) {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/templates/work_packages/tabs/_user_field.html',
-    scope: { user: '=' },
-    link: function(scope) {
-      scope.$watch('user', function() {
-        if (scope.user && scope.user.props &&
-            (scope.user.props.firstName || scope.user.props.lastName)) {
-          scope.userName = scope.user.props.firstName + ' ' + scope.user.props.lastName;
-        }
-      });
-
-      scope.userPath = PathHelper.staticUserPath;
-    }
-  };
-};
+angular.module('openproject.workPackages.directives')
+  .directive('inplaceEditorMainPane', require('./inplace-editor-main-pane-directive'))
+  .directive('inplaceEditorDisplayPane', require('./inplace-editor-display-pane-directive'))
+  .directive('inplaceEditorEditPane', require('./inplace-editor-edit-pane-directive'));

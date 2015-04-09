@@ -51,7 +51,22 @@ angular.module('openproject.workPackages.services')
       attributes: []
     }
   ])
+  .constant('WORK_PACKAGE_REGULAR_EDITABLE_FIELD', [
+    'assignee', 'responsible', 'status', 'version', 'priority'
+  ])
   .service('WorkPackagesOverviewService', [
-      'WORK_PACKAGE_ATTRIBUTES',
-      require('./work-packages-overview-service')
-  ]);
+    'WORK_PACKAGE_ATTRIBUTES',
+    require('./work-packages-overview-service')
+  ])
+  .service('WorkPackageFieldService', [
+    'I18n',
+    'WORK_PACKAGE_REGULAR_EDITABLE_FIELD',
+    'WorkPackagesHelper',
+    '$q',
+    '$http',
+    'HookService',
+    require('./work-package-field-service')
+  ])
+  .service('EditableFieldsState',
+    require('./work-package-field-service')
+  );

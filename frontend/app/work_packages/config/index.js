@@ -62,14 +62,8 @@ angular.module('openproject.workPackages.config')
   estimated_hours: { type: 'integer', order: 15, locale_name: 'estimated_hours' },
   done_ratio: { type: 'integer', order: 16, locale_name: 'done_ratio' },
   project_id: { type: 'list_model', modelName: 'project', order: 17, locale_name: 'project' },
-  subproject_id: { type: 'list_subprojects', modelName: 'sub_project', order: 18, locale_name: 'subproject' },
+  subproject_id: { type: 'list_subprojects', modelName: 'sub_project', order: 18, locale_name: 'subproject' }
 })
-
-.constant('WORK_PACKAGE_ATTRIBUTES', [
-  'status', 'assignee', 'responsible',
-  'date', 'percentageDone', 'priority',
-  'category', 'estimatedTime', 'versionName', 'spentTime'
-])
 
 .constant('DEFAULT_SORT_CRITERIA', 'parent:desc')
 
@@ -80,5 +74,5 @@ angular.module('openproject.workPackages.config')
   perPage: 10,
   perPageOptions: [10, 100, 500, 1000],
   maxVisiblePageOptions: 6,
-  optionsTruncationSize: 2,
+  optionsTruncationSize: 2
 });
