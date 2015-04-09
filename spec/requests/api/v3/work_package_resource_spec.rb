@@ -186,7 +186,7 @@ h4. things we like
         get get_path
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like 'not found'
     end
 
     context 'when acting as an anonymous user' do
@@ -195,7 +195,7 @@ h4. things we like
         get get_path
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like 'not found'
     end
   end
 
