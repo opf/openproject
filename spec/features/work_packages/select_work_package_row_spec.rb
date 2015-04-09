@@ -322,7 +322,7 @@ describe 'Select work package row', type: :feature do
         # ensure work package queried by double clicking the row is fully
         # loaded before starting the next spec.
         expect(page).to have_selector(
-          '.work-packages--details .work-packages--details--subject',
+          '.work-packages--details .work-packages--details--subject .inplace-edit--read-value',
           text: work_package_3.subject,
           visible: false
         )
