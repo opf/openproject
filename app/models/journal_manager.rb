@@ -246,7 +246,10 @@ class JournalManager
     # Consider only custom values with non-blank values. Otherwise,
     # non-existing custom values are different to custom values with an empty
     # value.
-    journable.custom_values.select { |c| !c.value.blank? }.each do |cv|
+    # Mind that false.present? == false, but we don't consider false this being "blank"...
+    # This does not matter when we use stringly typed values (as in the database),
+    # but it matters when we use real types
+    journable.custom_values.select { |c| c.value.present? || c.value == false }.each do |cv|
       journal.customizable_journals.build custom_field_id: cv.custom_field_id, value: cv.value
     end
   end
