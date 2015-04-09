@@ -57,6 +57,11 @@ describe('WorkPackageDetailsController', function() {
               status: 1
             }
           },
+          project: {
+            props: {
+              id: 1
+            }
+          },
           activities: [],
           watchers: [],
           attachments: [],
