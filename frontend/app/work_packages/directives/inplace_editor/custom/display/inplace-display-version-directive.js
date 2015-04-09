@@ -34,29 +34,16 @@ module.exports = function(EditableFieldsState, PathHelper, VersionService, $time
     scope: {},
     require: '^inplaceEditorDisplayPane',
     templateUrl: '/templates/work_packages/inplace_editor/custom/display/version.html',
-    controller: function() {
+    controller: function($scope) {
       this.pathHelper = PathHelper;
+      this.isVersionFieldViewable = function() {
+        var version = $scope.displayPaneController.getReadValue();
+        return version.links.definingProject && version.links.definingProject.href;
+      }
     },
     controllerAs: 'customEditorController',
     link: function(scope, element, attrs, displayPaneController) {
       scope.displayPaneController = displayPaneController;
-      scope.$watch(function() {
-        return scope.displayPaneController.getReadValue();
-      }, function(version) {
-        scope.customEditorController.version = version;
-        VersionService.isVersionFieldViewable(
-          EditableFieldsState.workPackage,
-          displayPaneController.field).then(function(isViewable) {
-          scope.customEditorController.isVersionFieldViewable = isViewable;
-          // need to reset the click listener due to async resolution
-          // of link visibility
-          $timeout(function() {
-            element.find('a').off('click').on('click', function(e) {
-              e.stopPropagation();
-            });
-          });
-        });
-      });
     }
   };
 };

@@ -26,30 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper) {
-
-  var VersionService = {
-
-    // TODO: check if code invoked anywere
-    getVersions: function(projectIdentifier) {
-      var url;
-
-      if(projectIdentifier) {
-        url = PathHelper.apiProjectVersionsPath(projectIdentifier);
-      } else {
-        url = PathHelper.apiVersionsPath();
-      }
-
-      return VersionService.doQuery(url);
-    },
-
-    doQuery: function(url, params) {
-      return $http.get(url, { params: params })
-        .then(function(response){
-          return _.sortBy(response.data.versions, 'name');
-        });
-    }
-  };
-
-  return VersionService;
+module.exports = function(app) {
+  var fs = require('fs');
+  var express = require('express');
+  var versionsRouter = express.Router();
+  versionsRouter.get('/', function(req, res) {
+    res.send({"versions":[]});
+  });
+  versionsRouter.get('/:id', function(req, res) {
+    fs.readFile(
+      __dirname +
+        '/versions/' +
+        req.params.id +
+      '.json', 'utf8', function(err, text) {
+      res.send(text);
+    });
+  });
+  app.use('/api/v3/versions', versionsRouter);
 };
