@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+# path to your application root.
+APP_ROOT = Pathname.new File.expand_path('../../',  __FILE__)
+
+def install_dependencies
+  puts "== Installing dependencies =="
+  system "gem install bundler --conservative"
+  system "bundle check || bundle install"
+  system "npm install"
+  system "bundle exec rake assets:webpack"
+end
+
+def copy_sample_configuration
+  return if File.exist?("config/database.yml")
+
+  puts "\n== Copying sample configuration files =="
+  puts " Please choose the adapter (press enter to skip):"
+  puts "  PostgreSQL adapter   : 1"
+  puts "  MySQL adapter        : 2"
+  print " (press enter to skip) : "
+
+  adapter_i = Integer(gets.chomp) rescue 0
+
+  adapter = case adapter_i
+    when 1
+      "postgres"
+    when 2
+      "mysql"
+    else
+     ""
+  end
+
+  if adapter.empty?
+    puts "\n Adapter not set! Skipping copying of database.yaml files."
+  else
+    system "cp config/database.yml.#{adapter}.example config/database.yml"
+  end
+  system "cp config/configuration.yml.example config/configuration.yml"
+end
+
+def prepare_database
+  puts "\n\n== Preparing database =="
+  # unfortunately we do not have db/schema.rb
+  # so we have to use this instead of db:setup
+  system "bundle exec rake db:create"
+  system "bundle exec rake db:migrate"
+  system "bundle exec rake db:seed"
+end
+
+def remove_logs_and_tempfiles
+  # puts "\n== Removing old logs and tempfiles =="
+  system "rm -f log/*"
+  system "rm -rf tmp/cache"
+end
+
+def restart_app_server
+  puts "\n== Restarting application server =="
+  system "touch tmp/restart.txt"
+end
+
+Dir.chdir APP_ROOT do
+  install_dependencies
+  copy_sample_configuration
+  remove_logs_and_tempfiles
+  # restart_app_server
+end
+
