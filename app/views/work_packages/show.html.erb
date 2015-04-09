@@ -52,17 +52,19 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial: 'show_attributes', locals: { work_package: work_package } %>
 
   <% if work_package.description? %>
-    <hr>
-    <div class="description work_package_part">
-      <div class="contextual">
-        <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
+    <div class="description attributes-group">
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text"><%= WorkPackage.human_attribute_name(:description) %></h3>
+        </div>
+        <div class="attributes-group--header-toggle">
+          <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
+        </div>
       </div>
-      <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
-      <div class="wiki wikicontent" data-user="<%= work_package.author %>" ng-non-bindable>
+      <div class="single-attribute wiki wikicontent" data-user="<%= work_package.author %>" ng-non-bindable>
         <%= format_text work_package, :description, :attachments => work_package.attachments %>
       </div>
     </div>
-    <hr>
   <% end %>
 
   <% if work_package.attachments.any? -%>
@@ -76,7 +78,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                                                     :descendants => descendants } %>
 
   <% if authorize_for('work_package_relations', 'create') || relations.present? %>
-    <div id="relations" class="work_package_part">
+    <div id="relations" class="attributes-group">
     <%= render :partial => 'relations', :locals => { :work_package => work_package,
                                                      :relations => relations } %>
     </div>
@@ -84,7 +86,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% if User.current.allowed_to?(:add_work_package_watchers, project) ||
     (work_package.watchers.present? && User.current.allowed_to?(:view_work_package_watchers, project)) %>
-    <div id="watchers" class="work_package_part">
+    <div id="watchers" class="attributes-group">
       <%= render :partial => 'watchers/watchers', :locals => {:watched => work_package} %>
     </div>
   <% end %>
