@@ -171,7 +171,7 @@ fieldset
 %form--fieldset-or-section
   padding:        1rem
   margin-bottom:  1rem
-  border:         1px solid $gray
+  border:         0
 
 %form--fieldset-legend-or-section-title
   color:          lighten($body-font-color, 10)
@@ -179,6 +179,7 @@ fieldset
   font-weight:    bold
   line-height:    1.8
   text-transform: uppercase
+  border-bottom:  1px solid $gray
 
 // HACK. TODO: Remove fieldset element rules in various places.
 .form--fieldset,
@@ -187,6 +188,7 @@ fieldset.form--fieldset
 
 .form--fieldset-legend
   @extend %form--fieldset-legend-or-section-title
+  width:          100%
 
 .form--section
   @extend %form--fieldset-or-section
@@ -199,11 +201,9 @@ fieldset.form--fieldset
   // properties to reset h3
   margin: 0
   padding: 0
-  border: 0
 
   .form--section > &,
   #content .form--section > &
-    border-bottom: 1px solid $gray
     margin-bottom: 1rem
 
 .form--field
