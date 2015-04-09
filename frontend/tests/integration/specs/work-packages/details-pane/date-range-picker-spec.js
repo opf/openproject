@@ -37,7 +37,7 @@ describe('details pane', function() {
   describe('date range picker', function() {
     beforeEach(function() {
       detailsPaneHelper.loadPane(819, 'overview');
-      dateRangePicker = element(by.css('.inplace-edit.type-daterange'));
+      dateRangePicker = element(by.css('.inplace-edit.attribute-date'));
     });
 
     context('read value', function() {
@@ -46,7 +46,7 @@ describe('details pane', function() {
       });
 
       it('shows date range', function() {
-        expect(dateRangePicker.getText()).to.eventually.equal('10/23/2014\n  -  \n12/27/2014');
+        expect(dateRangePicker.getText()).to.eventually.equal('02/17/2015\n  -  \n04/29/2015');
       });
     });
 
@@ -165,7 +165,7 @@ describe('details pane', function() {
   describe('date range picker with start null date', function() {
     beforeEach(function() {
       detailsPaneHelper.loadPane(823, 'overview');
-      dateRangePicker = element(by.css('.inplace-edit.type-daterange'));
+      dateRangePicker = element(by.css('.inplace-edit.attribute-date'));
     });
 
     context('read value', function() {
@@ -245,7 +245,7 @@ describe('details pane', function() {
   describe('date range picker with due null date', function() {
     beforeEach(function() {
       detailsPaneHelper.loadPane(824, 'overview');
-      dateRangePicker = element(by.css('.inplace-edit.type-daterange'));
+      dateRangePicker = element(by.css('.inplace-edit.attribute-date'));
     });
 
     context('read value', function() {
