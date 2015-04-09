@@ -54,7 +54,7 @@ class JournalManager
 
     # we generally ignore changes from blank to blank
     predecessor.map { |k, v| current[k.to_s] != v && (v.present? || current[k.to_s].present?) }
-      .inject(false) { |r, c| r || c }
+      .any?
   end
 
   def self.association_changed?(journable, journal_association, association, id, key, value)
@@ -83,8 +83,9 @@ class JournalManager
   # treated like non-existing associations. Thus, this prevents that
   # non-existing associations (nil) are different to blank associations ("").
   # This would lead to false change information, otherwise.
+  # We need to be careful though, because we want to accept false (and false.blank? == true)
   def self.remove_empty_associations(associations, value)
-    associations.reject { |h| h.has_key?(value) && h[value].blank? }
+    associations.reject { |h| h.has_key?(value) && h[value].blank? && h[value] != false }
   end
 
   def self.merge_reference_journals_by_id(current, predecessor, key)
@@ -246,7 +247,10 @@ class JournalManager
     # Consider only custom values with non-blank values. Otherwise,
     # non-existing custom values are different to custom values with an empty
     # value.
-    journable.custom_values.select { |c| !c.value.blank? }.each do |cv|
+    # Mind that false.present? == false, but we don't consider false this being "blank"...
+    # This does not matter when we use stringly typed values (as in the database),
+    # but it matters when we use real types
+    journable.custom_values.select { |c| c.value.present? || c.value == false }.each do |cv|
       journal.customizable_journals.build custom_field_id: cv.custom_field_id, value: cv.value
     end
   end
