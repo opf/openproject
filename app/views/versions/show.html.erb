@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div id="version-summary">
   <% if @version.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
-    <fieldset><legend><%= l(:label_time_tracking) %></legend>
+    <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:label_time_tracking) %></legend>
       <table>
         <tr>
           <td width="130px" align="right"><%= Version.human_attribute_name(:estimated_hours) %></td>
@@ -71,7 +71,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
 
   <% if @issues.present? %>
-    <fieldset class="related-issues"><legend><%= l(:label_related_work_packages) %></legend>
+    <fieldset class="form--fieldset related_issues"><legend class="form--fieldset-legend"><%= l(:label_related_work_packages) %></legend>
       <ul>
         <% @issues.each do |issue| -%>
           <li><%= link_to_work_package(issue, :project => issue.project != @version.project) %></li>
