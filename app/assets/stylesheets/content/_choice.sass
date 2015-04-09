@@ -26,10 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+//a little hack, the width will be just fine for this element
+$choice-parent-relation-select-width: 325px
+
+//resolve the problem if inside are elements with float
+.detail-panel-description-content
+  .relation
+    clear: both
+
 .choice
-  +grid-block()
   overflow: visible
   .choice--select, .choice--button
     @extend .form--field
-  *:nth-last-child(n+2)
-    padding-right: 1rem
+    float: left
+    display: block
+  .choice--select
+    overflow: visible
+    margin-top: 3px
+    margin-right: 1rem
+    width: $choice-parent-relation-select-width
+    .select2
+      width: inherit
+      .select2-drop
+        width: inherit
+  .choice--button
+    .button
+      margin: 0
