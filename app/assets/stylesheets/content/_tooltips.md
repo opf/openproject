@@ -9,7 +9,7 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
 ### Right
 
 ```
-<span class="tooltip-right" data-tooltip="The content of the tooltip">
+<span class="tooltip--right" data-tooltip="The content of the tooltip">
   <i class="icon icon-help1"></i>
 </span>
 ```
@@ -17,7 +17,7 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
 ### Bottom
 
 ```
-<span class="tooltip-bottom" data-tooltip="The content of the tooltip">
+<span class="tooltip--bottom" data-tooltip="The content of the tooltip">
   <i class="icon icon-help1"></i>
 </span>
 ```
@@ -25,7 +25,7 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
 ### Left
 
 ```
-<span class="tooltip-left" data-tooltip="The content of the tooltip">
+<span class="tooltip--left" data-tooltip="The content of the tooltip">
   <i class="icon icon-help1"></i>
 </span>
 ```
@@ -33,7 +33,7 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
 ### Top
 
 ```
-<span class="tooltip-top" data-tooltip="The content of the tooltip">
+<span class="tooltip--top" data-tooltip="The content of the tooltip">
   <i class="icon icon-help1"></i>
 </span>
 ```
@@ -51,7 +51,7 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
         <input type="text" placeholder="First name" class="form--text-field" id="kurosaki" >
       </div>
       <div class="form--tooltip-container">
-        <span class="tooltip-right" tabindex="0" data-tooltip="First name of the son">
+        <span class="tooltip--right" tabindex="0" data-tooltip="First name of the son">
           <i class="icon icon-help"></i>
         </span>
       </div>
@@ -70,7 +70,7 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
         </select>
       </div>
       <div class="form--tooltip-container">
-        <span class="tooltip-bottom" tabindex="0" data-tooltip="Ice-type maybe?">
+        <span class="tooltip--bottom" tabindex="0" data-tooltip="Ice-type maybe?">
           <i class="icon icon-heart"></i>
         </span>
       </div>
@@ -83,7 +83,7 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
         <input type="text" class="form--text-field" placeholder="First name" id="kuchiki">
       </div>
       <div class="form--tooltip-container">
-        <span class="tooltip-right" tabindex="0" data-tooltip="First name of a captain">
+        <span class="tooltip--right" tabindex="0" data-tooltip="First name of a captain">
           <i class="icon icon-help1"></i>
         </span>
       </div>
@@ -96,7 +96,7 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
         <input type="password" placeholder="Traitor" id="traitor">
       </div>
       <div class="form--tooltip-container">
-        <span class="tooltip-right -multiline" tabindex="0" data-tooltip="Well, major spoiler, so we better hide the output, right? Then again, wouldn't this be according to Keikaku anyway?">
+        <span class="tooltip--right -multiline" tabindex="0" data-tooltip="Well, major spoiler, so we better hide the output, right? Then again, wouldn't this be according to Keikaku anyway?">
           <i class="icon icon-warning"></i>
         </span>
       </div>
@@ -111,5 +111,5 @@ Note that the tabindex has to be set manually on the `<span>` and not the contai
 
 ```
 <h2>Title</h2>
-<p>Lorem <span style="text-decoration: underline;" class="tooltip-top" data-tooltip="this is actully not a real latin text">ipsum</span> dolor sit amet, consectetur adipisicing elit. Facere quibusdam sit voluptas illo error reiciendis non nisi necessitatibus architecto beatae, ea quos <span style="text-decoration: underline;" class=" tooltip-top" data-tooltip="Sounds like an endboss in a JRPG, doesn't it?">sint</span> consectetur repellat aliquid. Ducimus provident totam pariatur.</p>
+<p>Lorem <span style="text-decoration: underline;" class="tooltip--top" data-tooltip="this is actully not a real latin text">ipsum</span> dolor sit amet, consectetur adipisicing elit. Facere quibusdam sit voluptas illo error reiciendis non nisi necessitatibus architecto beatae, ea quos <span style="text-decoration: underline;" class=" tooltip--top" data-tooltip="Sounds like an endboss in a JRPG, doesn't it?">sint</span> consectetur repellat aliquid. Ducimus provident totam pariatur.</p>
 ```

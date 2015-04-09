@@ -30,13 +30,13 @@
 
 // tooltips used for arbitrary elements
 
-$tooltipBackground: #e3f5ff
-$tooltipBorder: none
-$tooltipHeight: 22px
-$tooltipTextColor: $body-font-color
-$tooltipArrowSize: 6px
+$tooltip--background-color: #e3f5ff
+$tooltip--border: none
+$tooltip--height: 22px
+$tooltip--font-color: $body-font-color
+$tooltip--arrow-size: 6px
 
-%top-bottom
+%tooltip--top-bottom
   &:before, &:after
     left: 50%
     transform: translateX(-50%)
@@ -50,27 +50,27 @@ $tooltipArrowSize: 6px
       margin-bottom: 0
       filter: blur(10px)
 
-%left-right
+%tooltip--left-right
   &:before, &:after
     bottom: 50%
   &:before
-    margin-bottom: $tooltipArrowSize * -1 + 1
+    margin-bottom: $tooltip--arrow-size * -1 + 1
   &:after
-    margin-bottom: $tooltipHeight/-1.5
+    margin-bottom: $tooltip--height/-1.5
 
   &.-multiline
     &:before, &:after
       transform: translateY(50%)
       margin-bottom: 0
 
-@mixin colorize($color:$tooltipBackground, $textColor:$tooltipTextColor)
+@mixin tooltip--colorize($color: $tooltip--background-color, $textColor:$tooltip--font-color)
   @each $position in top, right, bottom, left
-    &.tooltip-#{$position}
+    &.tooltip--#{$position}
       &:before
         border-#{$position}-color: $color
       &:after
-        background-color: $tooltipBackground
-        color: $tooltipTextColor
+        background-color: $tooltip--background-color
+        color: $tooltip--font-color
 
 [data-tooltip]
   position: relative
@@ -78,6 +78,7 @@ $tooltipArrowSize: 6px
   box-sizing: content-box
   // TODO: this "fixes" the spacing issue in text, we need to find a better way for that
   padding-right: 5px
+  +tooltip--colorize
 
   &:before, &:after
     position: absolute
@@ -89,37 +90,37 @@ $tooltipArrowSize: 6px
 
   &:before
     content: ''
-    border: $tooltipArrowSize solid transparent
+    border: $tooltip--arrow-size solid transparent
 
   &:after
-    height: $tooltipHeight
-    padding: $tooltipHeight/2 $tooltipHeight/2 0 $tooltipHeight/2
+    height: $tooltip--height
+    padding: $tooltip--height/2 $tooltip--height/2 0 $tooltip--height/2
     font-size: 13px
-    line-height: $tooltipHeight/2
+    line-height: $tooltip--height/2
     white-space: nowrap
     content: attr(data-tooltip)
-    border: $tooltipBorder
+    border: $tooltip--border
 
   &:hover, &:focus
     background-color: transparent
     &::before, &::after
       opacity: 1
       visibility: visible
-  +colorize
+
 
   &.-multiline
     &:before
     &:after
       height: auto
       width: 150px
-      padding: $tooltipHeight/2
-      line-height: $tooltipHeight - 3px
+      padding: $tooltip--height/2
+      line-height: $tooltip--height - 3px
       white-space: normal
       text-align: left
 
   @each $position in left, right
-    &.tooltip-#{$position}
-      @extend %left-right
+    &.tooltip--#{$position}
+      @extend %tooltip--left-right
       @if $position == 'right'
         &:before, &:after
           left: 100%
@@ -136,13 +137,13 @@ $tooltipArrowSize: 6px
           margin-right: 10px
 
   @each $position in top, bottom
-    &.tooltip-#{$position}
-      @extend %top-bottom
+    &.tooltip--#{$position}
+      @extend %tooltip--top-bottom
       @if $position == 'top'
         &:before, &:after
           bottom: 100%
         &:before
-          margin-bottom: $tooltipArrowSize * -1 + 1
+          margin-bottom: $tooltip--arrow-size * -1 + 1
         &:after
           margin-bottom: 7px
         &:hover
@@ -152,7 +153,7 @@ $tooltipArrowSize: 6px
         &:before, &:after
           top: 100%
         &:before
-          margin-top: $tooltipArrowSize * -1 + 1
+          margin-top: $tooltip--arrow-size * -1 + 1
         &:after
           margin-top: 7px
         &:hover
