@@ -37,12 +37,13 @@ RAILS_ENV=production bundle exec rake backup:database:restore[/path/to/backup/fi
 ```
 
 If your database dump is from an old version of OpenProject, also run
+the following command after the restore:
 
 ```bash
 RAILS_ENV=production bundle exec rake db:migrate
 ```
 
-to adapt your data to the database structure of your installed
+to migrate your data to the database structure of your installed
 OpenProject version.
 
 ### OpenProject prior Version 3.0.15
