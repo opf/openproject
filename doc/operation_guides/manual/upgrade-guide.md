@@ -25,8 +25,10 @@ available 4.0 version (currently 4.0.9), before attempting an update to 4.1.
 
 ## Update your system
 
+```bash
 [root@debian]# apt-get update
 [root@debian]# apt-get upgrade
+```
 
 ## Get the new OpenProject Source Code
 Change into the directory where OpenProject is installed and switch to the
