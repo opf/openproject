@@ -65,18 +65,18 @@ module OpenProject::Costs::Hooks
 
     def summarized_cost_entry_links(cost_entries, work_package, create_link=true)
       str_array = []
-      cost_entries.each do |k, v|
-        txt = pluralize(v[:units], v[:unit], v[:unit_plural])
+      cost_entries.each do |cost_type, units|
+        txt = pluralize(units, cost_type.unit, cost_type.unit_plural)
         if create_link
           # TODO why does this have project_id, work_package_id and cost_type_id params?
           str_array << link_to(txt, { :controller => '/costlog',
                                       :action => 'index',
                                       :project_id => work_package.project,
                                       :work_package_id => work_package,
-                                      :cost_type_id => k },
-                                      { :title => k.name })
+                                      :cost_type_id => cost_type },
+                                      { :title => cost_type.name })
         else
-          str_array << "<span title=\"#{h(k.name)}\">#{txt}</span>"
+          str_array << "<span title=\"#{h(cost_type.name)}\">#{txt}</span>"
         end
       end
       str_array.join(", ").html_safe

@@ -17,16 +17,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-FactoryGirl.define do
-  factory :cost_entry  do
-    project
-    user { FactoryGirl.create(:user, :member_in_project => project)}
-    work_package { FactoryGirl.create(:work_package, :project => project) }
-    cost_type
-    spent_on Date.today
-    units 1
-    comments ''
-    created_on { Time.now }
-    updated_on { Time.now }
+require 'spec_helper'
+
+describe ::API::V3::CostEntries::AggregatedCostEntryRepresenter do
+  include API::V3::Utilities::PathHelper
+
+  let(:cost_entry) { FactoryGirl.build(:cost_entry, id: 42) }
+  let(:representer) { described_class.new(cost_entry.cost_type, cost_entry.units) }
+
+  subject { representer.to_json }
+
+  it 'has a type' do
+    is_expected.to be_json_eql('AggregatedCostEntry'.to_json).at_path('_type')
+  end
+
+  it_behaves_like 'has a titled link' do
+    let(:link) { 'costType' }
+    let(:href) { api_v3_paths.cost_type cost_entry.cost_type.id }
+    let(:title) { cost_entry.cost_type.name }
+  end
+
+  it 'has spent units' do
+    is_expected.to be_json_eql(cost_entry.units.to_json).at_path('spentUnits')
   end
 end

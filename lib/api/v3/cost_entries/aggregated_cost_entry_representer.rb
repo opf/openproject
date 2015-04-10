@@ -19,20 +19,27 @@
 
 module API
   module V3
-    module CostTypes
-      class CostTypeRepresenter < ::API::Decorators::Single
-        self_link
-        property :id, render_nil: true
-        property :name, render_nil: true
-        property :unit,
-                 render_nil: true
-        property :unit_plural,
-                 render_nil: true
-        property :is_default,
-                 getter: -> (*) { default }
+    module CostEntries
+      # N.B. This class is currently quite specifically crafted for the aggregation of cost entries
+      # of a single work package by their type. This might be improved in the future™
+      class AggregatedCostEntryRepresenter < ::API::Decorators::Single
+        def initialize(cost_type, units)
+          @cost_type = cost_type
+          @spent_units = units
+
+          super(nil)
+        end
+
+        linked_property :cost_type,
+                        getter: -> { @cost_type },
+                        embed_as: ::API::V3::CostTypes::CostTypeRepresenter
+
+        property :spent_units,
+                 exec_context: :decorator,
+                 getter: -> (*) { @spent_units }
 
         def _type
-          'CostType'
+          'AggregatedCostEntry'
         end
       end
     end

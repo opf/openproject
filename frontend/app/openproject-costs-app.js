@@ -48,7 +48,7 @@ openprojectCostsApp.run(['HookService',
     var costsAttributes = {
       costObject: null,
       overallCosts: null,
-      summarizedCostEntries: 'spentUnits',
+      costsByType: null,
     };
 
     WorkPackagesOverviewService.addGroup('costs', position);
@@ -60,21 +60,25 @@ openprojectCostsApp.run(['HookService',
     setupCostsAttributes();
   }
 
+  HookService.register('workPackageAttributeEditableType', function(params) {
+    switch (params.type) {
+      case 'Budget':
+        return 'dropdown';
+    }
+    return null;
+  });
+
   HookService.register('workPackageOverviewAttributes', function(params) {
     var directive;
-
     switch (params.type) {
-      case "spentUnits":
-        var summarizedCostEntries = params.workPackage.embedded.summarizedCostEntries;
-
-        if (summarizedCostEntries && summarizedCostEntries.length > 0) {
-          directive = "summarized-cost-entries";
+      case "Collection":
+        if (params.field !== 'costsByType') {
+          break;
         }
+        directive = "summarized-cost-entries";
         break;
-      case "costObject":
-        if (params.workPackage.embedded.costObject) {
-          directive = "cost-object";
-        }
+      case "Budget":
+        directive = "cost-object";
         break;
     }
 

@@ -106,6 +106,22 @@ module OpenProject::Costs
 
     allow_attribute_update :work_package, :cost_object_id
 
+    add_api_path :cost_entry do |id|
+      "#{root}/cost_entries/#{id}"
+    end
+
+    add_api_path :cost_entries_by_work_package do |id|
+      "#{work_package(id)}/cost_entries"
+    end
+
+    add_api_path :summarized_work_package_costs_by_type do |id|
+      "#{work_package(id)}/summarized_costs_by_type"
+    end
+
+    add_api_path :cost_type do |id|
+      "#{root}/cost_types/#{id}"
+    end
+
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
     end
@@ -116,10 +132,16 @@ module OpenProject::Costs
 
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Budgets::BudgetsAPI
+      mount ::API::V3::CostEntries::CostEntriesAPI
+      mount ::API::V3::CostTypes::CostTypesAPI
     end
 
     add_api_endpoint 'API::V3::Projects::ProjectsAPI', :id do
       mount ::API::V3::Budgets::BudgetsByProjectAPI
+    end
+
+    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+      mount ::API::V3::CostEntries::CostEntriesByWorkPackageAPI
     end
 
     extend_api_response(:v3, :work_packages, :work_package) do
@@ -152,12 +174,16 @@ module OpenProject::Costs
                exec_context: :decorator,
                if: -> (*) { represented.costs_enabled? }
 
-      property :summarized_cost_entries,
-               embedded: true,
-               exec_context: :decorator,
-               if: -> (*) {
-                 represented.costs_enabled? && current_user_allowed_to_view_summarized_cost_entries
-               }
+      linked_property :costs_by_type,
+                      title_getter: -> (*) { nil },
+                      getter: -> (*) { represented },
+                      path: :summarized_work_package_costs_by_type,
+                      embed_as: ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter,
+                      show_if: -> (*) {
+                        represented.costs_enabled? &&
+                          (current_user_allowed_to(:view_cost_entries) ||
+                          current_user_allowed_to(:view_own_cost_entries))
+                      }
 
       property :spent_time,
                getter: -> (*) do
@@ -168,24 +194,8 @@ module OpenProject::Costs
                exec_context: :decorator,
                if: -> (_) { user_has_time_entry_permissions? }
 
-      send(:define_method, :current_user_allowed_to_view_summarized_cost_entries) do
-        current_user_allowed_to(:view_cost_entries) ||
-          current_user_allowed_to(:view_own_cost_entries)
-      end
-
       send(:define_method, :overall_costs) do
         number_to_currency(self.attributes_helper.overall_costs)
-      end
-
-      send(:define_method, :summarized_cost_entries) do
-        self.attributes_helper.summarized_cost_entries
-            .map do |c|
-              ::API::V3::CostTypes::CostTypeRepresenter
-                .new(c[0],
-                     c[1],
-                     work_package: represented,
-                     current_user: @current_user)
-            end
       end
 
       send(:define_method, :attributes_helper) do
@@ -226,6 +236,17 @@ module OpenProject::Costs
              required: false,
              writable: false,
              show_if: -> (*) { represented.project.costs_enabled? }
+
+      schema :costs_by_type,
+             type: 'Collection',
+             name_source: :spent_units,
+             required: false,
+             writable: false,
+             show_if: -> (*) {
+               represented.project.costs_enabled? &&
+                 (current_user_allowed_to(:view_cost_entries) ||
+                 current_user_allowed_to(:view_own_cost_entries))
+             }
 
       schema_with_allowed_collection :cost_object,
                                      type: 'Budget',

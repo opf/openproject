@@ -96,6 +96,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     let(:can_view_own_time_entries) { false }
 
     before do
+      allow(current_user).to receive(:allowed_to?).and_return(false)
       allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
         .and_return can_view_time_entries
       allow(current_user).to receive(:allowed_to?).with(:view_own_time_entries, work_package.project)
@@ -157,8 +158,62 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         allow(schema.project).to receive(:costs_enabled?).and_return(false)
       end
 
-      it 'has no schema for budget' do
+      it 'has no schema for overallCosts' do
         is_expected.not_to have_json_path('overallCosts')
+      end
+    end
+  end
+
+  describe 'costsByType' do
+    shared_examples_for 'costsByType visible' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'costsByType' }
+        let(:type) { 'Collection' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.spent_units') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
+
+    shared_examples_for 'costsByType not visible' do
+      it { is_expected.not_to have_json_path('costsByType') }
+    end
+
+    let(:can_view_cost_entries) { false }
+    let(:can_view_own_cost_entries) { false }
+
+    before do
+      allow(current_user).to receive(:allowed_to?).and_return(false)
+      allow(current_user).to receive(:allowed_to?).with(:view_cost_entries, work_package.project)
+        .and_return can_view_cost_entries
+      allow(current_user).to receive(:allowed_to?).with(:view_own_cost_entries, work_package.project)
+        .and_return can_view_own_cost_entries
+    end
+
+    context 'costs disabled, but all permissions' do
+      let(:can_view_cost_entries) { true }
+      let(:can_view_own_cost_entries) { true }
+
+      before do
+        allow(schema.project).to receive(:costs_enabled?).and_return(false)
+      end
+
+      it_behaves_like 'costsByType not visible'
+    end
+
+    context 'costs enabled' do
+      context 'no permissions' do
+        it_behaves_like 'costsByType not visible'
+      end
+
+      context 'can only view own cost entries' do
+        let(:can_view_own_cost_entries) { true }
+        it_behaves_like 'costsByType visible'
+      end
+
+      context 'can view all cost entries' do
+        let(:can_view_cost_entries) { true }
+        it_behaves_like 'costsByType visible'
       end
     end
   end

@@ -58,6 +58,10 @@ class CostType < ActiveRecord::Base
     return nil
   end
 
+  def visible?(user)
+    user.admin?
+  end
+
   def to_s
     name
   end
@@ -92,6 +96,4 @@ class CostType < ActiveRecord::Base
       rate.save!
     end
   end
-
-
 end

@@ -20,106 +20,40 @@
 require 'spec_helper'
 
 describe ::API::V3::CostTypes::CostTypeRepresenter do
-  let(:project1) { FactoryGirl.create(:project) }
-  let(:project2) { FactoryGirl.create(:project) }
-  let(:role) {
-    FactoryGirl.create(:role, permissions: [:view_work_package, :view_own_cost_entries])
-  }
-  let(:user1) {
-    FactoryGirl.create(:user,
-                       member_in_projects: [project1, project2],
-                       member_through_role: role,
-                       created_on: 1.day.ago,
-                       updated_on: Date.today)
-  }
-  let(:user2) {
-    FactoryGirl.create(:user,
-                       member_in_projects: [project1, project2],
-                       member_through_role: role,
-                       created_on: 1.day.ago,
-                       updated_on: Date.today)
-  }
-  let(:work_package1) { FactoryGirl.create(:work_package, project: project1) }
-  let(:work_package2) { FactoryGirl.create(:work_package, project: project2) }
-  let(:cost_type1) { FactoryGirl.create(:cost_type) }
-  let(:cost_type2) { FactoryGirl.create(:cost_type) }
-  let!(:cost_entry11) {
-    FactoryGirl.create(:cost_entry,
-                       cost_type: cost_type1,
-                       work_package: work_package1,
-                       project: project1,
-                       units: 3,
-                       spent_on: Date.today,
-                       user_id: user1.id,
-                       comments: 'Entry 1')
-  }
-  let!(:cost_entry12) {
-    FactoryGirl.create(:cost_entry,
-                       cost_type: cost_type2,
-                       work_package: work_package1,
-                       project: project1,
-                       units: 3,
-                       spent_on: Date.today,
-                       user_id: user1.id,
-                       comments: 'Entry 2')
-  }
-  let!(:cost_entry13) {
-    FactoryGirl.create(:cost_entry,
-                       cost_type: cost_type1,
-                       work_package: work_package1,
-                       project: project1,
-                       units: 3,
-                       spent_on: Date.today,
-                       user_id: user2.id,
-                       comments: 'Entry 3')
-  }
-  let!(:cost_entry21) {
-    FactoryGirl.create(:cost_entry,
-                       cost_type: cost_type1,
-                       work_package: work_package2,
-                       project: project2,
-                       units: 3,
-                       spent_on: Date.today,
-                       user: user1,
-                       comments: 'Entry 1')
-  }
-  let!(:cost_entry22) {
-    FactoryGirl.create(:cost_entry,
-                       cost_type: cost_type2,
-                       work_package: work_package2,
-                       project: project2,
-                       units: 3,
-                       spent_on: Date.today,
-                       user: user1,
-                       comments: 'Entry 2')
-  }
+  include API::V3::Utilities::PathHelper
 
-  let(:representer) do
-    described_class.new(cost_type1,
-                        { unit: 'tonne', unit_plural: 'tonnes' },
-                        work_package: work_package1,
-                        current_user: user1)
+  let(:cost_type) { FactoryGirl.build_stubbed(:cost_type) }
+  let(:representer) { described_class.new(cost_type) }
+
+  subject { representer.to_json }
+
+  it 'has a type' do
+    is_expected.to be_json_eql('CostType'.to_json).at_path('_type')
   end
 
-  context 'generation' do
-    subject(:generated) { representer.to_json }
+  it_behaves_like 'has a titled link' do
+    let(:link) { 'self' }
+    let(:href) { api_v3_paths.cost_type cost_type.id }
+    let(:title) { cost_type.name }
+  end
 
-    it { is_expected.to include_json('CostType'.to_json).at_path('_type') }
+  it 'has an id' do
+    is_expected.to be_json_eql(cost_type.id.to_json).at_path('id')
+  end
 
-    describe 'cost_type' do
-      it { is_expected.to have_json_path('id') }
+  it 'has a name' do
+    is_expected.to be_json_eql(cost_type.name.to_json).at_path('name')
+  end
 
-      it { is_expected.to have_json_path('name') }
+  it 'has a unit' do
+    is_expected.to be_json_eql(cost_type.unit.to_json).at_path('unit')
+  end
 
-      it { is_expected.to have_json_path('units') }
-      it { is_expected.to have_json_path('unit') }
-      it { is_expected.to have_json_path('unitPlural') }
-    end
+  it 'has a pluralized unit' do
+    is_expected.to be_json_eql(cost_type.unit_plural.to_json).at_path('unitPlural')
+  end
 
-    describe 'units' do
-      it 'shows only cost entries of type cost_type1 for user1 in project project1' do
-        is_expected.to be_json_eql(cost_entry11.units.to_json).at_path('units')
-      end
-    end
+  it 'indicates if it is the default' do
+    is_expected.to be_json_eql(cost_type.default.to_json).at_path('isDefault')
   end
 end

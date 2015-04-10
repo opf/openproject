@@ -28,13 +28,28 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('costObject', [function() {
+.directive('costObject', ['$timeout', function($timeout) {
   return {
     restrict: 'E',
+    trasclude: true,
+    require: '^inplaceEditorDisplayPane',
     templateUrl: '/assets/work_packages/cost_object.html',
-    link: function(scope, element, attributes) {
-      scope.costObject = scope.workPackage.embedded.costObject;
-      scope.linkToCostObject = '/cost_objects/' + scope.costObject.props.id;
+    link: function(scope, element, attributes, displayPaneController) {
+      scope.$watch(function() {
+        return displayPaneController.getWorkPackage();
+      }, function(workPackage) {
+        scope.workPackage = workPackage;
+        scope.costObject = scope.workPackage.embedded.costObject;
+        if (scope.costObject) {
+          scope.linkToCostObject = '/cost_objects/' + scope.costObject.props.id;
+        }
+        $timeout(function() {
+          element.find('a').on('click', function(e) {
+            e.stopPropagation();
+          });
+        });
+      });
+
     }
   };
 }]);

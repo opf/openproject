@@ -20,6 +20,8 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
+  include API::V3::Utilities::PathHelper
+
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_time_entries,
                                                        :view_cost_entries,
@@ -88,8 +90,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      describe 'embedded' do
-        it { is_expected.to have_json_path('_embedded/summarizedCostEntries') }
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'costsByType' }
+        let(:href) { api_v3_paths.summarized_work_package_costs_by_type work_package.id }
+      end
+
+      it 'embeds the costsByType' do
+        is_expected.to have_json_path('_embedded/costsByType')
       end
 
       describe 'spentTime' do
