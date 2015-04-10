@@ -26,26 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% content_for :toolbar do %>
-  <%= form_tag({ action: 'revision', id: @project }, { method: :get }) do %>
-    <li class="toolbar-item">
-      <%= label_tag :rev, l(:label_revision), class: 'hidden-for-sighted' %>
-      <%= text_field_tag :rev, @rev, size: 8, placeholder: l(:label_revision) %>
-    </li>
-    <li class="toolbar-item">
-      <%= submit_tag 'OK', class: 'button -highlight' %>
-    </li>
-  <% end %>
-<% end %>
-<h2><%= l(:label_revision_plural) %></h2>
-<%= render :partial => 'layouts/toolbar' %>
-<%= render :partial => 'revisions', :locals => {:project => @project, :path => '', :revisions => @changesets, :entry => nil }%>
-<%= pagination_links_full @changesets %>
-<% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
-<% end %>
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-<% end %>
 
-<% html_title(l(:label_revision_plural)) -%>
+<% if content_for?(:toolbar) %>
+  <div class="toolbar-container">
+    <div id="toolbar">
+      <ul id="toolbar-items">
+        <%= content_for :toolbar %>
+      </ul>
+    </div>
+  </div>
+<% end %>

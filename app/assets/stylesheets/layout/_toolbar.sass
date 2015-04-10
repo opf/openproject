@@ -55,13 +55,30 @@
     &.toolbar-item
       margin: 0 5px //$drop-nav-spacing // spacing between nav items
 
-  button
+  button, .button, input[type=text], input[type=number], select
     margin: 0.625rem 0 0
+    height: 40px
+    line-height: 22px
+  select
+    //extend forms select
+    @extend .form--select
+    //hack vertical text alignment for select (for all browsers)
+    padding-top: 5px
+    padding-bottom: 11px
+    //firefox hack, outline fix for select, remove to see why
+    &:-moz-focusring
+      color: transparent
+      text-shadow: 0 0 0 #000
+  button, .button
+    padding: 8px 1em 8px 1em
+    .icon
+      //icon-font align inside button
+      vertical-align: middle
+      &:before
+        padding-left: 0
 
   a.last, .last
     margin-right: 0
-
-
 
 .title-container
   h2
