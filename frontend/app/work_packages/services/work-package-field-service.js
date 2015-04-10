@@ -185,7 +185,6 @@ module.exports = function(
     var fieldType = null,
         inplaceType = 'text';
 
-    console.log(field);
     if (field === 'date') {
       fieldType = 'DateRange';
     } else {

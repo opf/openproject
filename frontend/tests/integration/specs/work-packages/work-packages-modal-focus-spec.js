@@ -48,7 +48,10 @@ describe('OpenProject', function() {
   it('sorting modal should focus', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showSortingModal($event)"]')).click();
+    //don't why, but if to do the request twice the test is green
+    browser.driver.switchTo().activeElement().getAttribute('id');
     browser.driver.switchTo().activeElement().getAttribute('id').then(function (elementId) {
+      browser.waitForAngular();
       expect(element(by.css('.ng-modal-window .form--row:first-child input.ui-select-focusser')).getAttribute('id'))
         .to.eventually.equal(elementId);
     });
@@ -58,6 +61,7 @@ describe('OpenProject', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showGroupingModal($event)"]')).click();
     browser.driver.switchTo().activeElement().getAttribute('id').then(function (elementId) {
+      console.log(browser.driver.switchTo().activeElement().getAttribute('id'))
       expect(element(by.css('.ng-modal-window .select2-container input.ui-select-focusser')).getAttribute('id'))
         .to.eventually.equal(elementId);
     });
