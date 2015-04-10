@@ -5,12 +5,18 @@
     <h3>{{ I18n.t('js.label_group_by') }}</h3>
 
     <div>
-      <ui-select ng-model="vm.selectedColumnName" theme="select2" focus id="selected_columns_new">
+      <ui-select ng-model="vm.selectedColumnName" theme="select2" focus id="selected_columns_new" aria-describedby="column_select_description">
         <ui-select-match>{{$select.selected.title}}</ui-select-match>
         <ui-select-choices repeat="column.name as column in vm.groupableColumns | filter: { title: $select.search }">
           <div ng-bind-html="column.title | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select>
+      <span class="tooltip--right -multiline" tabindex="0" data-tooltip="{{ I18n.t('js.work_packages.label_column_select') }}">
+        <i class="icon icon-help1"></i>
+      </span>
+      <div id="column_select_description" class="hidden-for-sighted">
+        <p>{{ I18n.t('js.work_packages.label_column_select') }}</p>
+      </div>
     </div>
     <div>
       <button class="button -highlight" ng-click="updateGroupBy()">
