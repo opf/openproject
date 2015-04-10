@@ -105,8 +105,6 @@ module API
             end
 
             get do
-              authorize({ controller: :work_packages_api, action: :get },
-                        context: @work_package.project)
               work_package_representer
             end
 
