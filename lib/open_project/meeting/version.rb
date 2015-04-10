@@ -20,6 +20,6 @@
 
 module OpenProject
   module Meeting
-    VERSION = "4.1.0-beta"
+    VERSION = "4.2.0-alpha"
   end
 end
