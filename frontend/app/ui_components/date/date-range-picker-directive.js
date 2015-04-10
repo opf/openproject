@@ -209,6 +209,18 @@ module.exports = function(TimezoneService, ConfigurationService,
 
       setDate(inputStart, scope.startDate);
       setDate(inputEnd, scope.endDate);
+
+      angular.element('.work-packages--details-content').scroll(function() {
+        inputStart.datepicker('hide');
+        inputEnd.datepicker('hide');
+        angular.element('#ui-datepicker-div').blur();
+      });
+
+      angular.element(window).resize(function() {
+        inputStart.datepicker('hide');
+        inputEnd.datepicker('hide');
+        angular.element('#ui-datepicker-div').blur();
+      });
     }
   };
 };

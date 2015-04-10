@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/finnlabs/openproject-meeting.git
+  revision: 4abe8ba63594b721c63c263826a4c9cf9f0329ee
+  branch: stable
+  specs:
+    openproject-meeting (4.0.9)
+      rails (~> 3.2.9)
+
+GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
@@ -509,6 +517,7 @@ DEPENDENCIES
   object-daddy (~> 1.1.0)
   oj (~> 2.11.4)
   omniauth
+  openproject-meeting!
   pg (~> 0.17.1)
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
