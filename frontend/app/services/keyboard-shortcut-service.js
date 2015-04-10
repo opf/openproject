@@ -77,6 +77,8 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
         $timeout(function() {
           elem.focus();
         });
+      } else if(elem.is('[href]')) {
+        clickLink(elem[0]);
       } else {
         elem.click();
       }
@@ -91,6 +93,26 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
         $window.location.href = url;
       }
     };
+  }
+
+  function clickLink(link) {
+    var cancelled = false;
+
+    if (document.createEvent) {
+        var event = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true
+        });
+        cancelled = !link.dispatchEvent(event);
+    }
+    else if (link.fireEvent) {
+        cancelled = !link.fireEvent('onclick');
+    }
+
+    if (!cancelled) {
+        window.location = link.href;
+    }
   }
 
   function showHelpModal() {
