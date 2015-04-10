@@ -408,7 +408,7 @@ Your OpenProject installation is ready to run. However, there are some things to
 * Regularly backup your OpenProject installation. See the [backup guide](backup-guide.md) for details.
 * Serve OpenProject via https
 * Enable Repositories for your OpenProject projects
-* Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). Information on how to perform an update can been found in the [upgrade guide](upgrade-guid.md). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
+* Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). Information on how to perform an update can been found in the [upgrade guide](upgrade-guide.md). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
 
 ## Plug-In Installation (Optional)
 
