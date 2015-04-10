@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,23 +27,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/representer/json/hal'
-
 module API
   module V3
     module Statuses
-      class StatusRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include Roar::Representer::Feature::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+      class StatusRepresenter < ::API::Decorators::Single
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+        self_link
 
-        property :_type, exec_context: :decorator
-
-        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :id, render_nil: true
         property :name
+        property :is_closed, render_nil: true
+        property :is_default, render_nil: true
+        property :default_done_ratio, render_nil: true
+        property :position, render_nil: true
 
         def _type
           'Status'

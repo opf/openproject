@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe News::CommentsController, :type => :controller do
+describe News::CommentsController, type: :controller do
   render_views
 
   let(:user) { FactoryGirl.create(:admin)   }
@@ -38,14 +38,14 @@ describe News::CommentsController, :type => :controller do
     allow(User).to receive(:current).and_return user
   end
 
-  describe "#create" do
-    it "assigns a comment to the news item and redirects to the news page" do
+  describe '#create' do
+    it 'assigns a comment to the news item and redirects to the news page' do
       post :create, news_id: news.id, comment: { comments: 'This is a test comment' }
 
       expect(response).to redirect_to news_path(news)
 
       latest_comment = news.comments.reorder('created_on DESC').first
-      expect(latest_comment).to_not be_nil
+      expect(latest_comment).not_to be_nil
       expect(latest_comment.comments).to eq 'This is a test comment'
       expect(latest_comment.author).to eq user
     end
@@ -54,12 +54,12 @@ describe News::CommentsController, :type => :controller do
       expect {
         post :create, news_id: news.id, comment: { comments: '' }
         expect(response).to redirect_to news_path(news)
-      }.to_not change { Comment.count }
+      }.not_to change { Comment.count }
     end
   end
 
-  describe "#destroy" do
-    it "deletes the comment and redirects to the news page" do
+  describe '#destroy' do
+    it 'deletes the comment and redirects to the news page' do
       comment = FactoryGirl.create :comment, commented: news
 
       expect {

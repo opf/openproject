@@ -1,0 +1,100 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+/***** Tabs ****
+
+#content .tabs
+  position: relative
+  height: 2.6em
+  margin-bottom: 1.2em
+  z-index: 1
+  overflow: hidden
+  ul
+    position: absolute
+    left: 0
+    right: 60px
+    margin: 0
+    bottom: 0
+    padding-left: 1em
+    width: 2000px
+    border-bottom: 1px solid #bbbbbb
+    overflow: hidden
+    li
+      float: left
+      list-style-type: none
+      white-space: nowrap
+      margin-right: 8px
+      background: #fff
+      margin-bottom: -1px
+      a
+        display: block
+        font-size: 0.9em
+        text-decoration: none
+        line-height: 1.3em
+        padding: 4px 6px 4px 6px
+        border: 1px solid #ccc
+        border-bottom: 1px solid #bbbbbb
+        background-color: #eeeeee
+        color: #333
+        font-weight: bold
+        &:hover
+          background-color: #ffffdd
+          text-decoration: none
+        &.selected
+          background-color: #fff
+          border: 1px solid #bbbbbb
+          border-bottom: 1px solid #fff
+          &:hover
+            background-color: #fff
+
+div.tabs-buttons
+  position: absolute
+  right: 0
+  width: 48px
+  height: 24px
+  background: white
+  bottom: 0
+  border-bottom: 1px solid #bbbbbb
+
+button
+  &.tab-left, &.tab-right
+    font-size: 0.9em
+    cursor: pointer
+    height: 24px
+    border: 1px solid #ccc
+    border-bottom: 1px solid #bbbbbb
+    position: absolute
+    padding: 4px
+    width: 20px
+    bottom: -1px
+  &.tab-left
+    right: 20px
+    background: #eeeeee image-url("bullet_arrow_left.png") no-repeat 50% 50%
+  &.tab-right
+    right: 0
+    background: #eeeeee image-url("bullet_arrow_right.png") no-repeat 50% 50%

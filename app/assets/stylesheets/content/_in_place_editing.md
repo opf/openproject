@@ -1,0 +1,310 @@
+# In place editing
+
+## In place editing: Multiple lines of text
+
+### Read mode
+
+```
+<div class="attributes-group">
+
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">
+        Description
+      </h3>
+    </div>
+  </div>
+  <div class="inplace-edit type-wiki_textarea attribute-description">
+    <accessible-by-keyboard execute="startEditing()"
+                            class="inplace-editing--trigger-container">
+      <a href=""
+         tabindex="0"
+         class="inplace-editing--trigger-link">
+        <span class="inplace-editing--container">
+          <span class="inplace-edit--read-value">
+            <span class="inplace-edit--read" >
+              <span>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+              </span>
+            </span>
+          </span>
+          <span class="inplace-edit--icon-wrapper">
+            <span class="icon-context icon-button icon-edit "
+                  title="Description: Edit"
+                  icon-name="edit"
+                  icon-title="Description: Edit">
+              <span class="hidden-for-sighted">
+                Description: Edit
+              </span>
+            </span>
+          </span>
+        </span>
+      </a>
+    </accessible-by-keyboard>
+  </div>
+</div>
+
+```
+
+### Edit mode
+
+```
+
+<div class="attributes-group ">
+
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text ">
+        Description
+      </h3>
+    </div>
+  </div>
+
+  <div class="single-attribute wiki">
+    <span inplace-editor="" placeholder="Click to enter description..." autocomplete-path="/work_packages/auto_complete.json?project_id=undefined" >
+      <div class="inplace-edit type-wiki_textarea attribute-description"  aria-busy="false" >
+
+  <div class="inplace-edit--write " >
+    <form class="inplace-edit--form " name="editForm"  novalidate="">
+      <div class="inplace-edit--write-value">
+        <div class="jstElements">
+          <button type="button" class="jstb_strong" title="Strong">
+            <span>Strong</span>
+          </button>
+          <button type="button" class="jstb_em" title="Italic">
+            <span>Italic</span>
+          </button>
+          <button type="button" class="jstb_ins" title="Underline">
+            <span>Underline</span>
+          </button>
+          <button type="button" class="jstb_del" title="Deleted">
+            <span>Deleted</span></button><button type="button" class="jstb_code" title="Inline Code">
+            <span>Inline Code</span></button><span id="space1" class="jstSpacer">&nbsp;</span>
+          <button type="button" class="jstb_h1" title="Heading 1">
+            <span>Heading 1</span>
+          </button>
+          <button type="button" class="jstb_h2" title="Heading 2">
+            <span>Heading 2</span>
+          </button>
+          <button type="button" class="jstb_h3" title="Heading 3">
+            <span>Heading 3</span>
+          </button>
+          <span id="space2" class="jstSpacer">&nbsp;</span>
+          <button type="button" class="jstb_ul" title="Unordered List">
+            <span>Unordered List</span>
+          </button>
+          <button type="button" class="jstb_ol" title="Ordered List">
+            <span>Ordered List</span>
+          </button>
+          <span id="space3" class="jstSpacer">&nbsp;</span>
+          <button type="button" class="jstb_bq" title="Quote">
+            <span>Quote</span></button>
+          <button type="button" class="jstb_unbq" title="Unquote">
+            <span>Unquote</span>
+          </button>
+          <button type="button" class="jstb_pre" title="Preformatted Text">
+            <span>Preformatted Text</span></button><span id="space4" class="jstSpacer">&nbsp;</span>
+          <button type="button" class="jstb_link" title="Link to a Wiki page">
+            <span>Link to a Wiki page</span>
+          </button>
+          <button type="button" class="jstb_img" title="Image">
+            <span>Image</span>
+          </button>
+          <div class="jstb_help">
+            <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">
+              <span class="hidden-for-sighted">
+                Text formatting
+              </span>
+            </a>
+          </div>
+          <button class="jstb_preview icon-issue-watched" type="button" title="Preview">
+          </button>
+        </div>
+
+        <div class="jstEditor">
+          <textarea wiki-toolbar="" class="focus-input inplace-edit--textarea "  preview-toggle="togglePreview()" name="value"   title="Description: Edit" data-wp_autocomplete_url="/work_packages/auto_complete.json?project_id=undefined" aria-multiline="true" tabindex="0" aria-hidden="false" aria-disabled="false" aria-invalid="false" rows="5">
+          </textarea>
+        </div>
+
+        <div class="jstHandle"></div>
+      </div>
+      <div class="inplace-edit--dashboard">
+        <div class="inplace-edit--errors "  role="alert"  aria-live="polite" aria-hidden="true">
+        </div>
+        <div class="inplace-edit--controls"  aria-hidden="false">
+          <div class="inplace-edit--control inplace-edit--control--save">
+            <accessible-by-keyboard execute="editForm.$valid &amp;&amp; submit(false)" >
+              <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
+                <span >
+                  <span class="icon-context icon-button icon-yes " title="Description: Save" icon-name="yes" icon-title="Description: Save">
+                    <span class="hidden-for-sighted ">Description: Save</span>
+                  </span>
+                </span>
+              </a></accessible-by-keyboard>
+          </div>
+          <div class="inplace-edit--control -icons-2 inplace-edit--control--send">
+            <accessible-by-keyboard execute="editForm.$valid &amp;&amp; submit(true)" >
+              <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
+                <span  >
+                  <span title="Description: Save and send email" >
+                    <i class="icon-yes"></i>
+                    <i class="icon-mail"></i>
+                  </span>
+                </span>
+              </a>
+            </accessible-by-keyboard>
+          </div>
+          <div class="inplace-edit--control inplace-edit--control--cancel">
+            <accessible-by-keyboard execute="discardEditing()" >
+              <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
+                <span  >
+                  <span class="icon-context icon-button icon-close2 " title="Description: Cancel" icon-name="close2" icon-title="Description: Cancel">
+                    <span class="hidden-for-sighted ">Description: Cancel</span>
+                  </span>
+                </span>
+              </a>
+            </accessible-by-keyboard>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+</span>
+  </div>
+</div>
+
+
+<div style="height: 100px;">
+</div>
+
+```
+
+## In place editing: Single line of text
+
+### Read mode
+
+```
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">
+        Details
+      </h3>
+    </div>
+  </div>
+  <dl class="attributes-key-value">
+    <dt class="attributes-key-value--key">
+      Status
+    </dt>
+    <dd class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -status">
+        <div class="inplace-edit type-select2 attribute-status.name">
+          <accessible-by-keyboard execute="startEditing()"
+                                  class="inplace-editing--trigger-container">
+            <a href=""
+               tabindex="0"
+               class="inplace-editing--trigger-link">
+              <span class="inplace-editing--container">
+                <span class="inplace-edit--read-value">
+                  <span class="inplace-edit--read" >
+                    <span >
+                      New
+                    </span>
+                  </span>
+                </span>
+                <span class="inplace-edit--icon-wrapper">
+                  <span class="icon-context icon-button icon-edit " title="Status: Edit" icon-name="edit" icon-title="Status: Edit">
+                    <span class="hidden-for-sighted">
+                      Status: Edit
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </a>
+          </accessible-by-keyboard>
+        </div>
+      </div>
+    </dd>
+  </dl>
+</div>
+```
+
+### Edit mode
+
+```
+<div class="attributes-group">
+
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text ">
+        Details
+      </h3>
+    </div>
+  </div>
+
+  <dl class="attributes-key-value">
+    <dt class="attributes-key-value--key ">Status</dt>
+    <dd class="attributes-key-value--value-container" >
+      <div class="attributes-key-value--value -status">
+        <div inplace-edit="">
+          <div class="inplace-edit type-select2 attribute-status.name" aria-busy="false" aria-disabled="false">
+            <div class="inplace-edit--write" >
+              <form name="editForm" class="inplace-edit--form">
+                <div class="inplace-edit--write-value">
+                  <input type="text" class="focus-input inplace-edit--text-field" aria-label="Status: Edit focus" aria-haspopup="true" role="button" aria-disabled="false" value="New">
+                </div>
+                <div class="inplace-edit--dashboard">
+                  <div class="inplace-edit--errors "  role="alert"  aria-live="polite" aria-hidden="true">
+                  </div>
+                  <div class="inplace-edit--controls"  aria-hidden="false">
+                    <div class="inplace-edit--control inplace-edit--control--save">
+                      <accessible-by-keyboard execute="editForm.$valid &amp;&amp; submit(false)" >
+                        <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
+                          <span >
+                            <span class="icon-context icon-button icon-yes " title="Description: Save" icon-name="yes" icon-title="Description: Save">
+                              <span class="hidden-for-sighted ">Description: Save</span>
+                            </span>
+                          </span>
+                        </a></accessible-by-keyboard>
+                    </div>
+                    <div class="inplace-edit--control -icons-2 inplace-edit--control--send">
+                      <accessible-by-keyboard execute="editForm.$valid &amp;&amp; submit(true)" >
+                        <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
+                          <span  >
+                            <span title="Description: Save and send email" >
+                              <i class="icon-yes"></i>
+                              <i class="icon-mail"></i>
+                            </span>
+                          </span>
+                        </a>
+                      </accessible-by-keyboard>
+                    </div>
+                    <div class="inplace-edit--control inplace-edit--control--cancel">
+                      <accessible-by-keyboard execute="discardEditing()" >
+                        <a execute-on-enter="execute()" default-event-handling="defaultEventHandling"  href=""  tabindex="0">
+                          <span  >
+                            <span class="icon-context icon-button icon-close2 " title="Description: Cancel" icon-name="close2" icon-title="Description: Cancel">
+                              <span class="hidden-for-sighted ">Description: Cancel</span>
+                            </span>
+                          </span>
+                        </a>
+                      </accessible-by-keyboard>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dd>
+  </dl>
+</div>
+
+<div style="height: 50px;">
+</div>
+```

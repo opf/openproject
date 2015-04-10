@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,36 +27,33 @@
 #++
 
 require 'securerandom'
+require 'api/v3/queries/query_representer'
 
 module API
   module V3
     module Queries
-      class QueriesAPI < Grape::API
-
+      class QueriesAPI < ::API::OpenProjectAPI
         resources :queries do
-
           params do
             requires :id, desc: 'Query id'
           end
-          namespace ':id' do
-
+          route_param :id do
             before do
               @query = Query.find(params[:id])
-              model = ::API::V3::Queries::QueryModel.new(@query)
-              @representer =  ::API::V3::Queries::QueryRepresenter.new(model)
+              @representer = QueryRepresenter.new(@query)
             end
 
             helpers do
-              def allowed_to_manage_stars?
-                # TODO: find a better way
-                action = env['api.endpoint'].options[:path].first
-                QueryPolicy.new(current_user).allowed?(@query, action)
+              def authorize_by_policy(action)
+                authorize_by_with_raise do
+                  QueryPolicy.new(current_user).allowed?(@query, action)
+                end
               end
             end
 
             patch :star do
-              # TODO Replace by QueryPolicy
-              authorize({ controller: :queries, action: :star }, context: @query.project, allow: allowed_to_manage_stars?)
+              authorize_by_policy(:star)
+
               # Query name is not user-visible, but apparently used as CSS class. WTF.
               # Normalizing the query name can result in conflicts and empty names in case all
               # characters are filtered out. A random name doesn't have these problems.
@@ -68,8 +65,8 @@ module API
             end
 
             patch :unstar do
-              # TODO Replace by QueryPolicy
-              authorize({ controller: :queries, action: :unstar }, context: @query.project, allow: allowed_to_manage_stars?)
+              authorize_by_policy(:unstar)
+
               query_menu_item = @query.query_menu_item
               return @representer if @query.query_menu_item.nil?
               query_menu_item.destroy
@@ -77,9 +74,7 @@ module API
               @representer
             end
           end
-
         end
-
       end
     end
   end

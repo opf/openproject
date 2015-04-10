@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,43 +28,57 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
 
 module API
   module V3
     module Attachments
       class AttachmentRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include Roar::Representer::Feature::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+        include Roar::JSON::HAL
+        include Roar::Hypermedia
+        include API::V3::Utilities::PathHelper
+        include API::V3::Utilities
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/attachments/#{represented.model.id}", title: "#{represented.model.filename}" }
+          {
+            href: api_v3_paths.attachment(represented.id),
+            title: "#{represented.filename}"
+          }
         end
 
         link :work_package do
-          work_package = represented.model.container
-          { href: "#{root_path}api/v3/work_packages/#{work_package.id}", title: "#{work_package.subject}" } unless work_package.nil?
+          work_package = represented.container
+          {
+            href: api_v3_paths.work_package(work_package.id),
+            title: "#{work_package.subject}"
+          } unless work_package.nil?
         end
 
         link :author do
-          author = represented.model.author
-          { href: "#{root_path}api/v3/users/#{author.id}", title: "#{author.name} - #{author.login}" } unless author.nil?
+          author = represented.author
+          {
+            href: api_v3_paths.user(author.id),
+            title: "#{author.name} - #{author.login}"
+          } unless author.nil?
         end
 
-        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :id, render_nil: true
         property :filename, as: :fileName, render_nil: true
         property :disk_filename, as: :diskFileName, render_nil: true
         property :description, render_nil: true
-        property :file_size, getter: -> (*) { model.filesize }, render_nil: true
-        property :content_type, getter: -> (*) { model.content_type }, render_nil: true
+        property :file_size, getter: -> (*) { filesize }, render_nil: true
+        property :content_type, render_nil: true
         property :digest, render_nil: true
-        property :downloads, getter: -> (*) { model.downloads }, render_nil: true
-        property :created_at, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
+        property :downloads, render_nil: true
+        property :created_on,
+                 as: 'createdAt',
+                 getter: -> (*) {
+                   ::API::V3::Utilities::DateTimeFormatter::format_datetime(created_on)
+                 }
 
         def _type
           'Attachment'

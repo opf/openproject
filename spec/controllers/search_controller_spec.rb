@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,15 @@
 
 require 'spec_helper'
 
-describe SearchController, :type => :controller do
-  let!(:project) { FactoryGirl.create(:project,
-                                      name: 'eCookbook') }
-  let(:user) { FactoryGirl.create(:user,
-                                  member_in_project: project) }
+describe SearchController, type: :controller do
+  let!(:project) {
+    FactoryGirl.create(:project,
+                       name: 'eCookbook')
+  }
+  let(:user) {
+    FactoryGirl.create(:user,
+                       member_in_project: project)
+  }
 
   shared_examples_for 'successful search' do
     it { expect(response).to be_success }
@@ -48,7 +52,7 @@ describe SearchController, :type => :controller do
     it_behaves_like 'successful search'
 
     context 'search parameter' do
-      subject { get :index, q: "cook" }
+      subject { get :index, q: 'cook' }
 
       it_behaves_like 'successful search'
 
@@ -67,23 +71,27 @@ describe SearchController, :type => :controller do
 
     it_behaves_like 'successful search'
 
-    it { expect(assigns(:project).id).to be(project.id)}
+    it { expect(assigns(:project).id).to be(project.id) }
   end
 
   describe 'work package search' do
-    let!(:work_package_1) { FactoryGirl.create(:work_package,
-                                               subject: "This is a test issue",
-                                               project: project) }
-    let!(:work_package_2) { FactoryGirl.create(:work_package,
-                                               subject: "Issue test 2",
-                                               project: project,
-                                               status: FactoryGirl.create(:closed_status)) }
+    let!(:work_package_1) {
+      FactoryGirl.create(:work_package,
+                         subject: 'This is a test issue',
+                         project: project)
+    }
+    let!(:work_package_2) {
+      FactoryGirl.create(:work_package,
+                         subject: 'Issue test 2',
+                         project: project,
+                         status: FactoryGirl.create(:closed_status))
+    }
 
-    before { get :index, q: "issue", issues: 1 }
+    before { get :index, q: 'issue', issues: 1 }
 
     it_behaves_like 'successful search'
 
-    describe :result do
+    describe '#result' do
 
       it { expect(assigns(:results).count).to be(2) }
 
@@ -91,50 +99,54 @@ describe SearchController, :type => :controller do
 
       it { expect(assigns(:results)).to include(work_package_2) }
 
-      describe :view do
+      describe '#view' do
         render_views
 
-        it "marks closed work packages" do
-          assert_select "dt.work_package-closed" do
-            assert_select "a", text: Regexp.new(work_package_2.status.name)
+        it 'marks closed work packages' do
+          assert_select 'dt.work_package-closed' do
+            assert_select 'a', text: Regexp.new(work_package_2.status.name)
           end
         end
       end
     end
 
     context 'with first note' do
-      let!(:note_1) { FactoryGirl.create :work_package_journal,
-                                         journable_id: work_package_1.id,
-                                         notes: 'Test note 1',
-                                         version: 2 }
+      let!(:note_1) {
+        FactoryGirl.create :work_package_journal,
+                           journable_id: work_package_1.id,
+                           notes: 'Test note 1',
+                           version: 2
+      }
 
-      before { Journal.any_instance.stub(predecessor: note_1) }
+      before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
 
       context 'and second note' do
-        let!(:note_2) { FactoryGirl.create :work_package_journal,
-                                           journable_id: work_package_1.id,
-                                           notes: 'Special note 2',
-                                           version: 3 }
+        let!(:note_2) {
+          FactoryGirl.create :work_package_journal,
+                             journable_id: work_package_1.id,
+                             notes: 'Special note 2',
+                             version: 3
+        }
 
         describe 'second note predecessor' do
           subject { note_2.send :predecessor }
 
           it { is_expected.to eq note_1 }
-          it { expect(note_1.data).to_not be nil }
-          it { expect(subject.data).to_not be nil }
+          it { expect(note_1.data).not_to be nil }
+          it { expect(subject.data).not_to be nil }
         end
 
         before { get :index, q: 'note', issues: 1 }
 
         it_behaves_like 'successful search'
 
-        describe :result do
+        describe '#result' do
 
           it { expect(assigns(:results).count).to be 1 }
 
           it { expect(assigns(:results)).to include work_package_1 }
 
-          describe :view do
+          describe '#view' do
             render_views
 
             it 'highlights last note' do

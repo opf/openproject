@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +29,21 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Select work package row', :type => :feature do
+describe 'Select work package row', type: :feature do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:work_package_1) { FactoryGirl.create(:work_package,
-                                            project: project) }
-  let(:work_package_2) { FactoryGirl.create(:work_package,
-                                            project: project) }
-  let(:work_package_3) { FactoryGirl.create(:work_package,
-                                            project: project) }
+  let(:work_package_1) {
+    FactoryGirl.create(:work_package,
+                       project: project)
+  }
+  let(:work_package_2) {
+    FactoryGirl.create(:work_package,
+                       project: project)
+  }
+  let(:work_package_3) {
+    FactoryGirl.create(:work_package,
+                       project: project)
+  }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   include_context 'work package table helpers'
@@ -57,7 +63,7 @@ describe 'Select work package row', :type => :feature do
   end
 
   describe 'Work package row selection', js: true do
-    def select_work_package_row(number, mouse_button_behavior=:left)
+    def select_work_package_row(number, mouse_button_behavior = :left)
       element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
       case mouse_button_behavior
       when :double
@@ -72,20 +78,20 @@ describe 'Select work package row', :type => :feature do
     def select_work_package_row_with_shift(number)
       element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
       page.driver.browser.action.key_down(:shift)
-                                .click(element.native)
-                                .key_up(:shift)
-                                .perform
+        .click(element.native)
+        .key_up(:shift)
+        .perform
     end
 
     def select_work_package_row_with_ctrl(number)
       element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
       page.driver.browser.action.key_down(:control)
-                                .click(element.native)
-                                .key_up(:control)
-                                .perform
+        .click(element.native)
+        .key_up(:control)
+        .perform
     end
 
-    def check_row_selection_state(row_index, state=true)
+    def check_row_selection_state(row_index, state = true)
       selector = ".workpackages-table tr:nth-of-type(#{row_index}).issue input[type=checkbox]:checked"
 
       expect(page).to (state ? have_selector(selector) : have_no_selector(selector))
@@ -98,7 +104,7 @@ describe 'Select work package row', :type => :feature do
         Capybara.default_selector = :css
 
         indices.each do |i|
-          check_row_selection_state(i);
+          check_row_selection_state(i)
         end
       end
     end
@@ -110,7 +116,7 @@ describe 'Select work package row', :type => :feature do
         Capybara.default_selector = :css
 
         indices.each do |i|
-          check_row_selection_state(i, false);
+          check_row_selection_state(i, false)
         end
       end
     end
@@ -137,7 +143,7 @@ describe 'Select work package row', :type => :feature do
 
         context 'select a different row' do
           before do
-            check_row_selection_state(1);
+            check_row_selection_state(1)
             select_work_package_row(2, mouse_button)
           end
 
@@ -155,7 +161,7 @@ describe 'Select work package row', :type => :feature do
         context 'clicking selected row again' do
           before do
             select_work_package_row(1, mouse_button)
-            check_row_selection_state(1);
+            check_row_selection_state(1)
             select_work_package_row(1, mouse_button)
           end
 
@@ -188,7 +194,7 @@ describe 'Select work package row', :type => :feature do
 
         context 'select following row' do
           before do
-            check_row_selection_state(1);
+            check_row_selection_state(1)
             select_work_package_row_with_shift(2)
           end
 
@@ -212,7 +218,7 @@ describe 'Select work package row', :type => :feature do
 
         context 'select first after next row' do
           before do
-            check_row_selection_state(1);
+            check_row_selection_state(1)
             select_work_package_row_with_shift(3)
           end
 
@@ -315,8 +321,12 @@ describe 'Select work package row', :type => :feature do
       after do
         # ensure work package queried by double clicking the row is fully
         # loaded before starting the next spec.
-        expect(page).to have_selector('.work-packages--details h2', text: work_package_3.subject,
-                                                                    visible: false)
+        expect(page).to have_selector(
+          '.work-packages--details .work-packages--details--subject .inplace-edit--read-value',
+          text: work_package_3.subject,
+          visible: false
+        )
+
       end
 
       it_behaves_like 'work package row selected' do

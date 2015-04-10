@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,74 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/users/user_representer'
+
 module API
   module V3
     module Users
-      class UsersAPI < Grape::API
+      class UsersAPI < ::API::OpenProjectAPI
+        helpers do
+          def user_transition(allowed)
+            if allowed
+              yield
+
+              # Show updated user
+              status 200
+              UserRepresenter.new(@user, current_user: current_user)
+            else
+              fail ::API::Errors::InvalidUserStatusTransition
+            end
+          end
+        end
 
         resources :users do
 
           params do
             requires :id, desc: 'User\'s id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @user  = User.find(params[:id])
-              @model = UserModel.new(@user)
             end
 
             get do
-              UserRepresenter.new(@model)
+              UserRepresenter.new(@user, current_user: current_user)
             end
 
+            delete do
+              if DeleteUserService.new(@user, current_user).call
+                status 202
+              else
+                fail ::API::Errors::Unauthorized
+              end
+            end
+
+            namespace :lock do
+
+              # Authenticate lock transitions
+              before do
+                unless current_user.admin?
+                  fail ::API::Errors::Unauthorized
+                end
+              end
+
+              desc 'Set lock on user account'
+              post do
+                user_transition(@user.active? || @user.locked?) do
+                  @user.lock! unless @user.locked?
+                end
+              end
+
+              desc 'Remove lock on user account'
+              delete do
+                user_transition(@user.locked? || @user.active?) do
+                  @user.activate! unless @user.active?
+                end
+              end
+            end
           end
-
         end
-
       end
     end
   end

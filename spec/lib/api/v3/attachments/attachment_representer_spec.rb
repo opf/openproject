@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,9 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Attachments::AttachmentRepresenter, :type => :request do
+describe ::API::V3::Attachments::AttachmentRepresenter, type: :request do
   let(:attachment) { FactoryGirl.create(:attachment) }
-  let(:model) { ::API::V3::Attachments::AttachmentModel.new(attachment) }
-  let(:representer) { ::API::V3::Attachments::AttachmentRepresenter.new(model) }
+  let(:representer) { ::API::V3::Attachments::AttachmentRepresenter.new(attachment) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -47,7 +46,11 @@ describe ::API::V3::Attachments::AttachmentRepresenter, :type => :request do
       it { is_expected.to have_json_path('contentType') }
       it { is_expected.to have_json_path('digest') }
       it { is_expected.to have_json_path('downloads') }
-      it { is_expected.to have_json_path('createdAt') }
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { attachment.created_on }
+        let(:json_path) { 'createdAt' }
+      end
     end
 
     describe '_links' do

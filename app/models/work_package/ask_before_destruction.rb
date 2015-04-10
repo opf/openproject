@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module WorkPackage::AskBeforeDestruction
       !associated_to_ask_before_destruction_of(work_packages).empty?
     end
 
-    def cleanup_associated_before_destructing_if_required(work_packages, user, to_do = { :action => 'destroy' })
+    def cleanup_associated_before_destructing_if_required(work_packages, user, to_do = { action: 'destroy' })
       cleanup_required = cleanup_action_required_before_destructing?(work_packages)
 
       (!cleanup_required ||
@@ -84,8 +84,8 @@ module WorkPackage::AskBeforeDestruction
     def cleanup_each_associated_class(work_packages, user, to_do)
       ret = false
 
-      self.transaction do
-        associated_to_ask_before_destruction_of(work_packages).each do |klass, method|
+      transaction do
+        associated_to_ask_before_destruction_of(work_packages).each do |_klass, method|
           ret = method.call(work_packages, user, to_do)
         end
 

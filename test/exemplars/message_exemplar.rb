@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 #++
 
 class Message < ActiveRecord::Base
-  generator_for :subject, :method => :next_subject
-  generator_for :content, :method => :next_content
-  generator_for :board, :method => :generate_board
+  generator_for :subject, method: :next_subject
+  generator_for :content, method: :next_content
+  generator_for :board, method: :generate_board
 
   def self.next_subject
     @last_subject ||= 'A Message'

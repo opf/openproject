@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,8 +61,7 @@
 
 module OpenProject
   class FileCommandContentTypeDetector
-
-    SENSIBLE_DEFAULT = "application/binary"
+    SENSIBLE_DEFAULT = 'application/binary'
 
     def initialize(filename)
       @filename = filename
@@ -77,7 +76,7 @@ module OpenProject
     def type_from_file_command
       type = begin
         # On BSDs, `file` doesn't give a result code of 1 if the file doesn't exist.
-        Cocaine::CommandLine.new("file", "-b --mime :file").run(file: @filename)
+        Cocaine::CommandLine.new('file', '-b --mime :file').run(file: @filename)
       rescue Cocaine::CommandLineError
         SENSIBLE_DEFAULT
       end
@@ -87,6 +86,5 @@ module OpenProject
       end
       type.split(/[:;\s]+/)[0]
     end
-
   end
 end

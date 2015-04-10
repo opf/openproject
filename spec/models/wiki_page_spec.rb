@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe WikiPage, :type => :model do
+describe WikiPage, type: :model do
   let(:project) { FactoryGirl.create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
-  let(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki, title: wiki.wiki_menu_items.first.title) }
+  let(:wiki_page) { FactoryGirl.create(:wiki_page, wiki: wiki, title: wiki.wiki_menu_items.first.title) }
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { FactoryGirl.create(:wiki_page) }
@@ -40,10 +40,10 @@ describe WikiPage, :type => :model do
   end
 
   describe '#nearest_parent_menu_item' do
-    let(:child_page) { FactoryGirl.create(:wiki_page, :parent => wiki_page, :wiki => wiki) }
-    let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => child_page.title, :parent => wiki_page.menu_item) }
-    let(:grand_child_page) { FactoryGirl.create(:wiki_page, :parent => child_page, :wiki => wiki) }
-    let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => grand_child_page.title) }
+    let(:child_page) { FactoryGirl.create(:wiki_page, parent: wiki_page, wiki: wiki) }
+    let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: child_page.title, parent: wiki_page.menu_item) }
+    let(:grand_child_page) { FactoryGirl.create(:wiki_page, parent: child_page, wiki: wiki) }
+    let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: grand_child_page.title) }
 
     context 'when called without options' do
       it 'returns the menu item of the parent page' do
@@ -72,7 +72,7 @@ describe WikiPage, :type => :model do
 
     context 'when one of two wiki pages is destroyed' do
       before :each do
-        another_wiki_page = FactoryGirl.create(:wiki_page, :wiki => wiki)
+        another_wiki_page = FactoryGirl.create(:wiki_page, wiki: wiki)
         wiki_page.destroy
       end
 

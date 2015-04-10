@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@
 # Differences being that it's not looking to the session and also existing
 # queries will be augmented with the params data passed with them.
 module Api::Experimental::Concerns::QueryLoading
-
   private
 
   def init_query
@@ -41,8 +40,8 @@ module Api::Experimental::Concerns::QueryLoading
         raise ActiveRecord::RecordNotFound.new
       end
     else
-      @query = Query.new({ name: "_", :project => @project },
-                         :initialize_with_default_filter => no_query_params_provided?)
+      @query = Query.new({ name: '_', project: @project },
+                         initialize_with_default_filter: no_query_params_provided?)
     end
     prepare_query
     @query
@@ -84,7 +83,7 @@ module Api::Experimental::Concerns::QueryLoading
   def prepare_sort_criteria
     # Note: There was a convention to have sortation strings in the form "type:desc,status:asc".
     # For the sake of not breaking from convention we encoding/decoding the sortation.
-    params[:sort].split(',').collect{|p| [p.split(':')[0], p.split(':')[1] || 'asc']}
+    params[:sort].split(',').map { |p| [p.split(':')[0], p.split(':')[1] || 'asc'] }
   end
 
   def no_query_params_provided?

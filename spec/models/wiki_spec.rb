@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe Wiki, :type => :model do
-  let(:project) { FactoryGirl.create(:project, :without_wiki) }
+describe Wiki, type: :model do
+  let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
   let(:start_page) { 'The wiki start page' }
 
   it_behaves_like 'acts_as_watchable included' do

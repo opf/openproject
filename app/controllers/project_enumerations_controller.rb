@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,14 +41,13 @@ class ProjectEnumerationsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
     end
 
-    redirect_to :controller => '/projects', :action => 'settings', :tab => 'activities', :id => @project
+    redirect_to controller: '/projects', action: 'settings', tab: 'activities', id: @project
   end
 
   def destroy
     TimeEntryActivity.bulk_destroy(@project.time_entry_activities)
 
     flash[:notice] = l(:notice_successful_update)
-    redirect_to :controller => '/projects', :action => 'settings', :tab => 'activities', :id => @project
+    redirect_to controller: '/projects', action: 'settings', tab: 'activities', id: @project
   end
-
 end

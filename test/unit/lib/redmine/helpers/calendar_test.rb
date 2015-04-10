@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class CalendarTest < ActiveSupport::TestCase
-
   def test_monthly
     Setting.available_languages = [:de, :en]
     c = Redmine::Helpers::Calendar.new(Date.today, :de, :month)
@@ -56,9 +55,9 @@ class CalendarTest < ActiveSupport::TestCase
 
   def test_monthly_start_day
     [1, 6, 7].each do |day|
-      with_settings :start_of_week => day do
+      with_settings start_of_week: day do
         c = Redmine::Helpers::Calendar.new(Date.today, :en, :month)
-        assert_equal day , c.startdt.cwday
+        assert_equal day, c.startdt.cwday
         assert_equal (day + 5) % 7 + 1, c.enddt.cwday
       end
     end
@@ -66,7 +65,7 @@ class CalendarTest < ActiveSupport::TestCase
 
   def test_weekly_start_day
     [1, 6, 7].each do |day|
-      with_settings :start_of_week => day do
+      with_settings start_of_week: day do
         c = Redmine::Helpers::Calendar.new(Date.today, :en, :week)
         assert_equal day, c.startdt.cwday
         assert_equal (day + 5) % 7 + 1, c.enddt.cwday

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,12 +43,11 @@ class ScenarioDisabler
   end
 
   def self.disabled?(scenario)
-    #we have to check whether the scenario actually has a feature because there can also be scenario outlines
-    #as described in https://github.com/cucumber/cucumber/wiki/Scenario-Outlines and the variables definition is
-    #also matched as a scenario
+    # we have to check whether the scenario actually has a feature because there can also be scenario outlines
+    # as described in https://github.com/cucumber/cucumber/wiki/Scenario-Outlines and the variables definition is
+    # also matched as a scenario
     @disabled_scenarios.present? && scenario.respond_to?(:feature) && @disabled_scenarios.any? do |disabled_scenario|
       disabled_scenario[:feature] == scenario.feature.name && disabled_scenario[:scenario] == scenario.name
     end
   end
-
 end

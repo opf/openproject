@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,36 +31,82 @@ require 'rack/test'
 
 describe 'API v3 Priority resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role, permissions: []) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:priorities) { FactoryGirl.create_list(:priority, 2) }
+  let(:current_user) do
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
+  end
 
-  describe '#get' do
+  let!(:priorities) { FactoryGirl.create_list(:priority, 2) }
+
+  describe 'priorities' do
     subject(:response) { last_response }
 
+    let(:get_path) { api_v3_paths.priorities }
+
     context 'logged in user' do
-      let(:get_path) { "/api/v3/priorities" }
       before do
         allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
-
-        priorities
 
         get get_path
       end
 
-      it 'should respond with 200' do
-        expect(subject.status).to eq(200)
+      it_behaves_like 'API V3 collection response', 2, 2, 'Priority'
+    end
+
+    context 'not logged in user' do
+      before do
+        get get_path
       end
 
-      it 'should respond with priorities, scoped to project' do
-        expect(subject.body).to include_json('Priorities'.to_json).at_path('_type')
-        expect(subject.body).to have_json_size(2).at_path('_embedded/priorities')
+      it_behaves_like 'error response',
+                      403,
+                      'MissingPermission',
+                      I18n.t('api_v3.errors.code_403')
+    end
+  end
+
+  describe 'priorities/:id' do
+    subject(:response) { last_response }
+
+    let(:get_path) { api_v3_paths.priority priorities.first.id }
+
+    context 'logged in user' do
+      before do
+        allow(User).to receive(:current).and_return current_user
+
+        get get_path
       end
+
+      context 'valid priority id' do
+        it 'should return HTTP 200' do
+          expect(response.status).to eql(200)
+        end
+      end
+
+      context 'invalid priority id' do
+        let(:get_path) { api_v3_paths.priority 'bogus' }
+
+        it_behaves_like 'not found' do
+          let(:id) { 'bogus' }
+          let(:type) { 'IssuePriority' }
+        end
+      end
+    end
+
+    context 'not logged in user' do
+      before do
+        get get_path
+      end
+
+      it_behaves_like 'error response',
+                      403,
+                      'MissingPermission',
+                      I18n.t('api_v3.errors.code_403')
     end
   end
 end

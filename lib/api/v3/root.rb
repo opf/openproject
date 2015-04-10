@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,16 +33,19 @@
 
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
-
+    class Root < ::API::OpenProjectAPI
       mount ::API::V3::Activities::ActivitiesAPI
       mount ::API::V3::Attachments::AttachmentsAPI
+      mount ::API::V3::Categories::CategoriesAPI
       mount ::API::V3::Priorities::PrioritiesAPI
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI
+      mount ::API::V3::Render::RenderAPI
       mount ::API::V3::Statuses::StatusesAPI
+      mount ::API::V3::StringObjects::StringObjectsAPI
+      mount ::API::V3::Types::TypesAPI
       mount ::API::V3::Users::UsersAPI
+      mount ::API::V3::Versions::VersionsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
 
       get '/' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,9 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Attachment resource', :type => :request do
+describe 'API v3 Attachment resource', type: :request do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -42,7 +43,7 @@ describe 'API v3 Attachment resource', :type => :request do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { "/api/v3/attachments/#{attachment.id}" }
+      let(:get_path) { api_v3_paths.attachment attachment.id }
       before do
         allow(User).to receive(:current).and_return current_user
         member = FactoryGirl.build(:member, user: current_user, project: project)
@@ -60,13 +61,11 @@ describe 'API v3 Attachment resource', :type => :request do
       end
 
       context 'requesting nonexistent attachment' do
-        let(:get_path) { "/api/v3/attachments/9999" }
-        it 'should respond with 404' do
-          expect(subject.status).to eq(404)
-        end
+        let(:get_path) { api_v3_paths.attachment 9999 }
 
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_found'.to_json).at_path('title')
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'Attachment' }
         end
       end
 
@@ -74,49 +73,15 @@ describe 'API v3 Attachment resource', :type => :request do
         let(:another_project) { FactoryGirl.create(:project, is_public: false) }
         let(:another_work_package) { FactoryGirl.create(:work_package, project: another_project) }
         let(:another_attachment) { FactoryGirl.create(:attachment, container: another_work_package) }
-        let(:get_path) { "/api/v3/attachments/#{another_attachment.id}" }
+        let(:get_path) { api_v3_paths.attachment another_attachment.id }
 
-        it 'should respond with 403' do
-          expect(subject.status).to eq(403)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_authorized'.to_json).at_path('title')
-        end
+        it_behaves_like 'unauthorized access'
       end
     end
 
-    context 'anonymous user' do
-      let(:get_path) { "/api/v3/attachments/#{attachment.id}" }
+    it_behaves_like 'handling anonymous user', 'Attachment', '/api/v3/attachments/%s' do
       let(:project) { FactoryGirl.create(:project, is_public: true) }
-
-      context 'when access for anonymous user is allowed' do
-        before { get get_path }
-
-        it 'should respond with 200' do
-          expect(subject.status).to eq(200)
-        end
-
-        it 'should respond with correct activity' do
-          expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
-        end
-      end
-
-      context 'when access for anonymous user is not allowed' do
-        before do
-          Setting.login_required = 1
-          get get_path
-        end
-        after { Setting.login_required = 0 }
-
-        it 'should respond with 401' do
-          expect(subject.status).to eq(401)
-        end
-
-        it 'should respond with explanatory error message' do
-          expect(subject.body).to include_json('not_authenticated'.to_json).at_path('title')
-        end
-      end
+      let(:id) { attachment.id }
     end
   end
 end

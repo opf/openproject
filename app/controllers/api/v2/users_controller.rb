@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,10 @@
 
 module Api
   module V2
-
     class UsersController < UsersController
       include ::Api::V2::ApiController
 
-      skip_filter :require_admin, :only => :index
+      skip_filter :require_admin, only: :index
 
       before_filter :check_scope_supplied
 
@@ -48,11 +47,10 @@ module Api
       private
 
       def check_scope_supplied
-        render_400 if params.select { |k,v| UserSearchService::SEARCH_SCOPES.include? k }
-                            .select { |k,v| not v.blank? }
-                            .empty?
+        render_400 if params.select { |k, _v| UserSearchService::SEARCH_SCOPES.include? k }
+                      .select { |_k, v| not v.blank? }
+                      .empty?
       end
-
     end
   end
 end

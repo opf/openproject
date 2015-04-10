@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module WorkPackage::SchedulingRules
   extend ActiveSupport::Concern
 
   included do
-    #add class-methods (validations, scope) here
+    # add class-methods (validations, scope) here
   end
 
   def reschedule_after(date)
@@ -58,7 +58,7 @@ module WorkPackage::SchedulingRules
   #   Start Date: 2/26/09, Due Date: -      ,  duration => 1
   #   Start Date: -      , Due Date: 2/26/09,  duration => 1
   def duration
-    if (start_date && due_date)
+    if start_date && due_date
       due_date - start_date + 1
     else
       1

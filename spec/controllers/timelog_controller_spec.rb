@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,37 +28,41 @@
 
 require 'spec_helper'
 
-describe TimelogController, :type => :controller do
+describe TimelogController, type: :controller do
   let!(:activity) { FactoryGirl.create(:default_activity) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:user) { FactoryGirl.create(:admin,
-                                  member_in_project: project) }
-  let(:params) { { time_entry: { work_package_id: work_package_id,
-                                 spent_on: Date.today,
-                                 hours: 5,
-                                 comments: "",
-                                 activity_id: activity.id },
-                   project_id: project_id } }
+  let(:user) {
+    FactoryGirl.create(:admin,
+                       member_in_project: project)
+  }
+  let(:params) {
+    { time_entry: { work_package_id: work_package_id,
+                    spent_on: Date.today,
+                    hours: 5,
+                    comments: '',
+                    activity_id: activity.id },
+      project_id: project_id }
+  }
   let(:project_id) { project.id }
-  let(:work_package_id) { "" }
+  let(:work_package_id) { '' }
 
   before { allow(User).to receive(:current).and_return(user) }
 
-  describe :create do
-    shared_examples_for "successful timelog creation" do
+  describe '#create' do
+    shared_examples_for 'successful timelog creation' do
       it { expect(response).to be_a_redirect }
 
       it { expect(response).to redirect_to(project_time_entries_path(project)) }
     end
 
-    context :project do
-      describe :valid do
+    context 'project' do
+      describe '#valid' do
         before { post :create, params }
 
-        it_behaves_like "successful timelog creation"
+        it_behaves_like 'successful timelog creation'
       end
 
-      describe :invalid do
+      describe '#invalid' do
         let(:project_id) { -1 }
 
         before { post :create, params }
@@ -67,28 +71,30 @@ describe TimelogController, :type => :controller do
       end
     end
 
-    context :work_package do
-      describe :valid do
-        let(:work_package) { FactoryGirl.create(:work_package,
-                                                project: project) }
+    context 'work_package' do
+      describe '#valid' do
+        let(:work_package) {
+          FactoryGirl.create(:work_package,
+                             project: project)
+        }
         let(:work_package_id) { work_package.id }
 
         before { post :create, params }
 
-        it_behaves_like "successful timelog creation"
+        it_behaves_like 'successful timelog creation'
       end
 
-      describe :invalid do
-        let(:work_package_id) { "blub" }
+      describe '#invalid' do
+        let(:work_package_id) { 'blub' }
 
         before { post :create, params }
 
         it { expect(response).to render_template(:edit) }
 
-        describe :view do
+        describe '#view' do
           render_views
 
-          it { expect(response.body).to match(/Work Package is invalid/) }
+          it { expect(response.body).to match(/Work package is invalid/) }
         end
       end
     end

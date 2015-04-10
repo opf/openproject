@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,23 +29,9 @@
 
 module API
   module Errors
-    class Unauthorized < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
-
-      def initialize(user, args = { })
-        @user = user
-        @code = args[:code] || 403
-        @title = args[:title] || 'not_authorized'
-        @description = args[:description] || 'User does not have sufficent rights to access the resource.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
-      end
-
-      def errors
-        [{ key: @title, messages: ['You are not authorize to access this resource'] }]
-      end
-
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+    class Unauthorized < ErrorBase
+      def initialize
+        super 403, I18n.t('api_v3.errors.code_403')
       end
     end
   end

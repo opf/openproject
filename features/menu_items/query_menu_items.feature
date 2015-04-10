@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,10 +56,12 @@ Feature: Query menu items
   @javascript
   Scenario: Create a query menu item
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
+    And the work package table has finished loading
     And I click on "Settings"
     And I click on "Share ..."
     And I check "Show page in menu"
     And I click "Save"
+    And I click "Work packages" within "#main-menu"
    Then I should see "Bugs" within "#main-menu"
 
   @javascript
@@ -68,6 +70,7 @@ Feature: Query menu items
       | name       | title      | navigatable |
       | bugs_query | Bugs Query | Bugs        |
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
+    And the work package table has finished loading
     And I click on "Settings"
     And I click on "Share ..."
     And I uncheck "Show page in menu"

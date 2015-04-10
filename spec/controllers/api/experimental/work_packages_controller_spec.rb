@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,18 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::WorkPackagesController, :type => :controller do
+describe Api::Experimental::WorkPackagesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:type) { FactoryGirl.create(:type_standard) }
-  let(:project_1) { FactoryGirl.create(:project,
-                                       types: [type]) }
-  let(:project_2) { FactoryGirl.create(:project,
-                                       types: [type],
-                                       is_public: false) }
+  let(:project_1) {
+    FactoryGirl.create(:project,
+                       types: [type])
+  }
+  let(:project_2) {
+    FactoryGirl.create(:project,
+                       types: [type],
+                       is_public: false)
+  }
   let(:role) do
     FactoryGirl.create(:role, permissions: [:view_work_packages,
                                             :add_work_packages,
@@ -45,21 +49,27 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
                                             :log_time])
   end
   let(:status_1) { FactoryGirl.create(:status) }
-  let(:work_package_1) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            type: type,
-                                            status: status_1,
-                                            project: project_1) }
-  let(:work_package_2) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            type: type,
-                                            status: status_1,
-                                            project: project_1) }
-  let(:work_package_3) { FactoryGirl.create(:work_package,
-                                            author: user,
-                                            type: type,
-                                            status: status_1,
-                                            project: project_2) }
+  let(:work_package_1) {
+    FactoryGirl.create(:work_package,
+                       author: user,
+                       type: type,
+                       status: status_1,
+                       project: project_1)
+  }
+  let(:work_package_2) {
+    FactoryGirl.create(:work_package,
+                       author: user,
+                       type: type,
+                       status: status_1,
+                       project: project_1)
+  }
+  let(:work_package_3) {
+    FactoryGirl.create(:work_package,
+                       author: user,
+                       type: type,
+                       status: status_1,
+                       project: project_2)
+  }
 
   let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project_1,
@@ -94,7 +104,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
         allow(Query).to receive(:new).and_call_original
         expected_query = Query.new
         expect(Query).to receive(:new).with(anything, initialize_with_default_filter: true)
-                                      .and_return(expected_query)
+          .and_return(expected_query)
 
         get 'index', format: 'json'
 
@@ -106,7 +116,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
           allow(Query).to receive(:new).and_call_original
           expected_query = Query.new
           expect(Query).to receive(:new).with(anything, initialize_with_default_filter: false)
-                                        .and_return(expected_query)
+            .and_return(expected_query)
 
           get 'index', format: 'json', filter_param => double('anything', to_i: 1).as_null_object
 
@@ -121,12 +131,12 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
       before do
         # FIXME: find a better solution does not involve reaching into the internals
         allow(controller).to receive(:retrieve_query).and_return(query)
-        query.stub_chain(:results, :work_packages, :page, :per_page, :changed_since, :all).and_return(work_packages)
-        query.stub_chain(:results, :work_package_count_by_group).and_return([])
-        query.stub_chain(:results, :column_total_sums).and_return([])
-        query.stub_chain(:results, :column_group_sums).and_return([])
-        query.stub_chain(:results, :total_sum_of).and_return(2)
-        query.stub_chain(:results, :total_entries).and_return([])
+        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :changed_since, :all).and_return(work_packages)
+        allow(query).to receive_message_chain(:results, :work_package_count_by_group).and_return([])
+        allow(query).to receive_message_chain(:results, :column_total_sums).and_return([])
+        allow(query).to receive_message_chain(:results, :column_group_sums).and_return([])
+        allow(query).to receive_message_chain(:results, :total_sum_of).and_return(2)
+        allow(query).to receive_message_chain(:results, :total_entries).and_return([])
 
         # FIXME: METADATA TOO TRICKY TO DEAL WITH
         allow(controller).to receive(:set_work_packages_meta_data)
@@ -229,7 +239,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
         allow(Setting).to receive(:work_package_list_summable_columns).and_return(
           %w(estimated_hours done_ratio)
         )
-        WorkPackage.stub_chain(:visible, :includes, :find) {
+        allow(WorkPackage).to receive_message_chain(:visible, :includes, :find) {
           FactoryGirl.create_list(:work_package, 2, estimated_hours: 5, done_ratio: 33)
         }
       end
@@ -247,7 +257,7 @@ describe Api::Experimental::WorkPackagesController, :type => :controller do
 
       it 'assigns column metadata' do
         get :column_data, format: 'json', ids: [1, 2],
-          column_names: %w(subject status estimated_hours done_ratio)
+                          column_names: %w(subject status estimated_hours done_ratio)
 
         expect(assigns(:columns_meta)).to have_key('group_sums')
         expect(assigns(:columns_meta)).to have_key('total_sums')

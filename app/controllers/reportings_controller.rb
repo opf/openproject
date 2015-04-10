@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,11 @@ class ReportingsController < ApplicationController
   before_filter :find_project_by_project_id
   before_filter :authorize
 
+  before_filter :find_reporting, only: [:show, :edit, :update, :confirm_destroy, :destroy]
+  before_filter :build_reporting, only: :create
+
+  before_filter :check_visibility, except: [:create, :index, :new, :available_projects]
+
   accept_key_auth :index, :show
 
   menu_item :reportings
@@ -47,56 +52,55 @@ class ReportingsController < ApplicationController
   end
 
   def index
+    condition_params = []
+    temp_condition = ''
+    condition = ''
 
-    condition_params = [];
-    temp_condition = ""
-    condition = ""
-
-    if (params[:project_types].present?)
+    if params[:project_types].present?
       project_types = params[:project_types].split(/,/).map(&:to_i)
       temp_condition += "#{Project.quoted_table_name}.project_type_id IN (?)"
       condition_params << project_types
-      if (project_types.include?(-1))
+      if project_types.include?(-1)
         temp_condition += " OR #{Project.quoted_table_name}.project_type_id IS NULL"
         temp_condition = "(#{temp_condition})"
       end
     end
 
     condition += temp_condition
-    temp_condition = ""
+    temp_condition = ''
 
-    if (params[:project_statuses].present?)
-      condition += " AND " unless condition.empty?
+    if params[:project_statuses].present?
+      condition += ' AND ' unless condition.empty?
 
       project_statuses = params[:project_statuses].split(/,/).map(&:to_i)
       temp_condition += "#{Reporting.quoted_table_name}.reported_project_status_id IN (?)"
       condition_params << project_statuses
-      if (project_statuses.include?(-1))
+      if project_statuses.include?(-1)
         temp_condition += " OR #{Reporting.quoted_table_name}.reported_project_status_id IS NULL"
         temp_condition = "(#{temp_condition})"
       end
     end
 
     condition += temp_condition
-    temp_condition = ""
+    temp_condition = ''
 
-    if (params[:project_responsibles].present?)
-      condition += " AND " unless condition.empty?
+    if params[:project_responsibles].present?
+      condition += ' AND ' unless condition.empty?
 
       project_responsibles = params[:project_responsibles].split(/,/).map(&:to_i)
       temp_condition += "#{Project.quoted_table_name}.responsible_id IN (?)"
       condition_params << project_responsibles
-      if (project_responsibles.include?(-1))
+      if project_responsibles.include?(-1)
         temp_condition += " OR #{Project.quoted_table_name}.responsible_id  IS NULL"
         temp_condition = "(#{temp_condition})"
       end
     end
 
     condition += temp_condition
-    temp_condition = ""
+    temp_condition = ''
 
-    if (params[:project_parents].present?)
-      condition += " AND " unless condition.empty?
+    if params[:project_parents].present?
+      condition += ' AND ' unless condition.empty?
 
       project_parents = params[:project_parents].split(/,/).map(&:to_i)
       nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each { |i| r << i }; r }
@@ -106,10 +110,10 @@ class ReportingsController < ApplicationController
     end
 
     condition += temp_condition
-    temp_condition = ""
+    temp_condition = ''
 
-    if (params[:grouping_one].present? && condition.present?)
-      condition += " OR "
+    if params[:grouping_one].present? && condition.present?
+      condition += ' OR '
 
       grouping = params[:grouping_one].split(/,/).map(&:to_i)
       temp_condition += "#{Project.quoted_table_name}.id IN (?)"
@@ -120,15 +124,15 @@ class ReportingsController < ApplicationController
     conditions = [condition] + condition_params unless condition.empty?
 
     case params[:only]
-    when "via_source"
+    when 'via_source'
       @reportings = @project.reportings_via_source.find(:all,
-          :include => :project,
-          :conditions => conditions
+                                                        include: :project,
+                                                        conditions: conditions
         )
-    when "via_target"
+    when 'via_target'
       @reportings = @project.reportings_via_target.find(:all,
-          :include => :project,
-          :conditions => conditions
+                                                        include: :project,
+                                                        conditions: conditions
         )
     else
       @reportings = @project.reportings.all
@@ -137,12 +141,12 @@ class ReportingsController < ApplicationController
     # get all reportings for which projects have ancestors.
     nested_sets_for_parents = (@reportings.inject([]) { |r, e| r << e.reporting_to_project; r << e.project }).uniq.map { |p| [p.lft, p.rgt] }
 
-    condition_params = [];
-    temp_condition = ""
-    condition = ""
+    condition_params = []
+    temp_condition = ''
+    condition = ''
 
     nested_sets_for_parents.each do |set|
-      condition += " OR " unless condition.empty?
+      condition += ' OR ' unless condition.empty?
       condition += "#{Project.quoted_table_name}.lft < ? AND #{Project.quoted_table_name}.rgt > ?"
       condition_params << set[0]
       condition_params << set[1]
@@ -151,15 +155,15 @@ class ReportingsController < ApplicationController
     conditions = [condition] + condition_params unless condition.empty?
 
     case params[:only]
-    when "via_source"
+    when 'via_source'
       @ancestor_reportings = @project.reportings_via_source.find(:all,
-          :include => :project,
-          :conditions => conditions
+                                                                 include: :project,
+                                                                 conditions: conditions
         )
-    when "via_target"
+    when 'via_target'
       @ancestor_reportings = @project.reportings_via_target.find(:all,
-          :include => :project,
-          :conditions => conditions
+                                                                 include: :project,
+                                                                 conditions: conditions
         )
     else
       @ancestor_reportings = @project.reportings.all
@@ -175,9 +179,6 @@ class ReportingsController < ApplicationController
   end
 
   def show
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
-
     respond_to do |format|
       format.html
     end
@@ -198,67 +199,53 @@ class ReportingsController < ApplicationController
   end
 
   def create
-    @reporting = @project.reportings_via_source.build
-    @reporting.reporting_to_project_id = params['reporting']['reporting_to_project_id']
-
-    if @reporting.reporting_to_project.nil?
-      flash.now[:error] = l('timelines.reporting_could_not_be_saved')
-      render action: :new, status: :unprocessable_entity
-      return
-    end
-
-    check_visibility
-
-    if @reporting.save
+    if @reporting.reporting_to_project.present? && @reporting.project.visible? && @reporting.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_reportings_path
     else
       flash.now[:error] = l('timelines.reporting_could_not_be_saved')
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
   def edit
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
-
     respond_to do |format|
       format.html
     end
   end
 
   def update
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
-
     if @reporting.update_attributes(params[:reporting])
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_reportings_path
     else
       flash.now[:error] = l('timelines.reporting_could_not_be_saved')
-      render :action => :edit
+      render action: :edit
     end
   end
 
   def confirm_destroy
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
-
     respond_to do |format|
       format.html
     end
   end
 
   def destroy
-    @reporting = @project.reportings_via_source.find(params[:id])
-    check_visibility
     @reporting.destroy
-
     flash[:notice] = l(:notice_successful_delete)
     redirect_to project_reportings_path
   end
 
   protected
+
+  def find_reporting
+    @reporting = @project.reportings_via_source.find(params[:id])
+  end
+
+  def build_reporting
+    @reporting = @project.reportings_via_source.build
+    @reporting.reporting_to_project_id = params['reporting']['reporting_to_project_id']
+  end
 
   def check_visibility
     raise ActiveRecord::RecordNotFound unless @reporting.visible?

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,13 +42,13 @@ rescue
 end
 
 OpenProject::Application.config.secret_token = if Rails.env.development? or Rails.env.test? or Rails.groups.include?('assets')
-  ('x' * 30) # meets minimum requirement of 30 chars long
-else
-  ENV['SECRET_TOKEN'] || secret_token
+                                                 ('x' * 30) # meets minimum requirement of 30 chars long
+                                               else
+                                                 ENV['SECRET_TOKEN'] || secret_token
 end
 
 if OpenProject::Application.config.secret_token.nil?
-  puts "Error: secret_token empty!"
+  puts 'Error: secret_token empty!'
   puts "Please set it with ENV variable 'SECRET_TOKEN' or "
   puts "run 'rake generate_secret_token'"
   exit 1

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 #++
 
 class Queries::WorkPackages::Filter < Queries::Filter
-  self.filter_types_by_field = self.filter_types_by_field.merge(
+  self.filter_types_by_field = filter_types_by_field.merge(
      status_id:        :list_status,
      type_id:          :list,
      priority_id:      :list,
@@ -49,9 +49,9 @@ class Queries::WorkPackages::Filter < Queries::Filter
      watcher_id:       :list
   )
 
-  validates :field, inclusion: { in: Proc.new { self.filter_types_by_field.keys }, message: "%(value) is not a valid filter" }, unless: Proc.new {|filter| filter.field.to_s.starts_with?('cf_')}
+  validates :field, inclusion: { in: Proc.new { filter_types_by_field.keys }, message: '%(value) is not a valid filter' }, unless: Proc.new { |filter| filter.field.to_s.starts_with?('cf_') }
 
   def self.add_filter_type_by_field(field, filter_type)
-    self.filter_types_by_field[field.to_sym] = filter_type.to_sym
+    filter_types_by_field[field.to_sym] = filter_type.to_sym
   end
 end

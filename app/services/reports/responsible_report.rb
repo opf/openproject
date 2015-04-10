@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,17 +28,16 @@
 #++
 
 class Reports::ResponsibleReport < Reports::Report
-
   def self.report_type
-    "responsible"
+    'responsible'
   end
 
   def field
-    @field ||= "responsible_id"
+    @field ||= 'responsible_id'
   end
 
   def rows
-    @rows ||= @project.members.collect { |m| m.user }.sort
+    @rows ||= @project.members.map(&:user).sort
   end
 
   def data
@@ -48,5 +47,4 @@ class Reports::ResponsibleReport < Reports::Report
   def title
     @title ||= WorkPackage.human_attribute_name(:responsible)
   end
-
 end

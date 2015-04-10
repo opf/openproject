@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 if Rails.env.development?
-  ActiveSupport::Dependencies.explicitly_unloadable_constants << "API"
+  ActiveSupport::Dependencies.explicitly_unloadable_constants << 'API'
 
   api_files = Dir[Rails.root.join('lib', 'api', '**', '*.rb')]
   api_reloader = ActiveSupport::FileUpdateChecker.new(api_files) do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,6 +61,7 @@ describe JournalsController, type: :controller do
 
     before do
       work_package.update_attribute :description, 'description'
+
       get :diff, params
     end
 
@@ -80,7 +81,7 @@ describe JournalsController, type: :controller do
     end
   end
 
-  describe :edit do
+  describe '#edit' do
     describe 'authorization' do
       let(:permissions) { [:edit_work_packages, :edit_own_work_package_notes] }
 

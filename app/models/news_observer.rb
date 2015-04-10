@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ class NewsObserver < ActiveRecord::Observer
     if Setting.notified_events.include?('news_added')
       users = User.find_all_by_mails(news.recipients)
       users.each do |user|
-        UserMailer.news_added(user, news).deliver
+        UserMailer.news_added(user, news, User.current).deliver
       end
     end
   end

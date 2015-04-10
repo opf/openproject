@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,8 @@ module Api::Experimental::Concerns::ColumnData
     columns.map do |column|
       { name: column.name,
         title: column.caption,
-        sortable: column.sortable,
-        groupable: column.groupable,
+        sortable: column.sortable?,
+        groupable: column.groupable?,
         custom_field: column.is_a?(QueryCustomFieldColumn) &&
           column.custom_field.as_json(only: [:id, :field_format]),
         meta_data: get_column_meta(column)
@@ -66,6 +66,7 @@ module Api::Experimental::Concerns::ColumnData
 
   def static_link_meta
     {
+      id: { display: true, model_type: 'work_package' },
       subject: { display: true, model_type: 'work_package' },
       type: { display: false },
       status: { display: false },
@@ -153,12 +154,25 @@ module Api::Experimental::Concerns::ColumnData
     # NOTE RS: This is basically the grouped_sums method from sums.rb but we
     # have no query to play with here
     return unless group_by
+
+    if custom_field_id_in(group_by)
+      sum_columns(column_names, work_packages) do |wp|
+        wp.custom_values.detect { |cv| cv.custom_field_id == custom_field_id_in(group_by).to_i }
+      end
+    else
+      sum_columns(column_names, work_packages) do |wp|
+        wp.send(group_by)
+      end
+    end
+  end
+
+  def sum_columns(column_names, work_packages)
     column_names.map do |column_name|
-      work_packages.map { |wp| wp.send(group_by) }
+      work_packages.map { |wp| yield wp }
         .uniq
         .inject({}) do |group_sums, current_group|
           work_packages_in_current_group = work_packages.select do |wp|
-            wp.send(group_by) == current_group
+            (yield wp) == current_group
           end
 
           group_sums.merge current_group => column_sum(column_name, work_packages_in_current_group)

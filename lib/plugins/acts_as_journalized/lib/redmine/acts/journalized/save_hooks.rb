@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,19 +62,19 @@ module Redmine::Acts::Journalized
 
     def save_journals
       @journal_user ||= User.current
-      @journal_notes ||= ""
+      @journal_notes ||= ''
 
       add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
 
       JournalManager.add_journal self, @journal_user, @journal_notes if add_journal
 
-      journals.select { |j| j.new_record? }.each { |j| j.save! }
+      journals.select(&:new_record?).each(&:save!)
 
       @journal_user = nil
       @journal_notes = nil
     end
 
-    def add_journal(user = User.current, notes = "")
+    def add_journal(user = User.current, notes = '')
       @journal_user ||= user
       @journal_notes ||= notes
     end

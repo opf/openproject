@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,10 +83,11 @@ module Redmine::Acts::Journalized
     # user information.
     module InstanceMethods
       private
+
         # Overrides the +journal_attributes+ method to include user information passed into the
         # parent object, by way of a +updated_by+ attr_accessor.
         def journal_attributes_with_user
-          journal_attributes_without_user.merge(:user_id => journal_user.try(:id) || updated_by.try(:id) || User.current.try(:id))
+          journal_attributes_without_user.merge(user_id: journal_user.try(:id) || updated_by.try(:id) || User.current.try(:id))
         end
     end
 

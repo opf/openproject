@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   def initialize(name, url, options)
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
     raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
-    raise ArgumentError, "Cannot set the :parent to be the same as this item" if options[:parent] == name.to_sym
+    raise ArgumentError, 'Cannot set the :parent to be the same as this item' if options[:parent] == name.to_sym
     raise ArgumentError, "Invalid option :children for menu item '#{name}'" if options[:children] && !options[:children].respond_to?(:call)
     @name = name
     @url = url
@@ -43,28 +43,30 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @caption = options[:caption]
     @html_options = options[:html] || {}
     # Adds a unique class to each menu item based on its name
-    @html_options[:class] = [@html_options[:class], @name.to_s.dasherize, 'ellipsis'].compact.join(' ')
+    @html_options[:class] = [
+      @html_options[:class], "#{@name.to_s.dasherize}-menu-item", 'ellipsis'
+    ].compact.join(' ')
     @parent = options[:parent]
     @child_menus = options[:children]
     @last = options[:last] || false
     super @name.to_sym
   end
 
-  def caption(project=nil)
+  def caption(project = nil)
     if @caption.is_a?(Proc)
       c = @caption.call(project).to_s
       c = @name.to_s.humanize if c.blank?
       c
     else
       if @caption.nil?
-        l_or_humanize(name, :prefix => 'label_')
+        l_or_humanize(name, prefix: 'label_')
       else
         @caption.is_a?(Symbol) ? l(@caption) : @caption
       end
     end
   end
 
-  def html_options(options={})
+  def html_options(options = {})
     if options[:selected]
       o = @html_options.dup
       o[:class] += ' selected'

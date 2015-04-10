@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,18 @@
 FactoryGirl.define do
   factory :role do
     permissions []
-    sequence(:name) { |n| "role_#{n}"}
+    sequence(:name) { |n| "role_#{n}" }
     assignable true
 
     factory :non_member do
-      name "Non member"
+      name 'Non member'
       builtin Role::BUILTIN_NON_MEMBER
       assignable false
       initialize_with { Role.find_or_create_by_name(name) }
     end
 
     factory :anonymous_role do
-      name "Anonymous"
+      name 'Anonymous'
       builtin Role::BUILTIN_ANONYMOUS
       assignable false
       initialize_with { Role.find_or_create_by_name(name) }

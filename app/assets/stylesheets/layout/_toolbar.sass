@@ -1,0 +1,164 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@mixin query-select-dropdown-filter-select($color)
+  text-decoration: underline
+  color: $color
+
+@mixin query-selection-link($color)
+  a
+    color: $color
+    font-weight: normal
+    text-decoration: none
+
+.toolbar-container
+  height:  $header-height
+  padding: 0
+
+#toolbar
+  ul
+    margin:  0
+    padding: 0
+    float: right
+
+  li
+    list-style-type: none
+
+#toolbar-items
+  li
+    float: left
+    &.toolbar-item
+      margin: 0 5px //$drop-nav-spacing // spacing between nav items
+
+  button
+    margin: 0.625rem 0 0
+
+  a.last, .last
+    margin-right: 0
+
+
+
+.title-container
+  h2
+    border: 0
+    padding: 12px 0 0 0
+
+  span
+    color: $content-link-color
+
+    &:hover
+      text-decoration: underline
+
+  float:   left
+  height:  $header-height
+  padding: 0
+
+  ul
+    margin:  0
+    padding: 0
+    float: left
+
+  li
+    float: none
+
+  span.filter-selection
+    @include query-select-dropdown-filter-select($main-menu-font-color)
+
+  .dropdown-scrollable
+    overflow-y: auto
+    max-height: 500px
+
+#querySelectDropdown
+  min-width: 250px
+  border: 1px solid #dddddd
+  box-shadow: 1px 1px 4px #cccccc
+  background: #ffffff
+  padding: 3px 0
+  .query-menu-container
+    float: left
+    clear: both
+    width: 100%
+    display: block
+  ul.query-menu
+    width: 100%
+    margin: 0 0 10px 0
+    float: left
+    li
+      color: $main-menu-font-color
+      display: block
+      @include query-selection-link($drop-down-unselected-font-color)
+      &.selected
+        background: $drop-down-selected-bg-color
+        @include query-selection-link($drop-down-selected-font-color)
+        &:hover
+          @include query-selection-link($drop-down-unselected-font-color)
+          span.filter-selection
+            @include query-select-dropdown-filter-select($drop-down-unselected-font-color)
+        span.filter-selection
+          @include query-select-dropdown-filter-select($drop-down-selected-font-color)
+      &:hover
+        background: #f0f0f0
+      a
+        display: block
+        width: 100%
+        height: 100%
+        padding: 4px 25px
+  .search-query-wrapper
+    padding: 15px
+  input
+    box-sizing: border-box
+    margin: 0 auto
+    width: 100%
+    min-width: 250px
+    height: 30px
+    line-height: 30px
+    background: #ffffff
+    border: 1px solid #cacaca
+    color: #222222
+    border-radius: 2px
+  .title-group-header
+    padding: 0 15px 0 15px
+    font-weight: bold
+    text-transform: uppercase
+  #magnifier
+    position: absolute
+    top:   24px
+    right: 22px
+    color: #999999
+
+  input[type="search"]::-webkit-search-cancel-button
+    display: none
+
+.text
+  cursor: pointer
+  i
+    float: right
+    color: #333333
+    padding-left: 5px
+  &:hover
+    text-decoration: none

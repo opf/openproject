@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,26 +28,25 @@
 #++
 
 class WorkPackages::ReportsController < ApplicationController
-  menu_item :summary_field, :only => [:report, :report_details]
+  menu_item :summary_field, only: [:report, :report_details]
   before_filter :find_project_by_project_id, :authorize
 
   def report
     reports_service = Reports::ReportsService.new(@project)
 
-    @type_report      = reports_service.report_for("type")
-    @priority_report  = reports_service.report_for("priority")
-    @assignee_report  = reports_service.report_for("assigned_to")
-    @responsible_report = reports_service.report_for("responsible")
-    @author_report    = reports_service.report_for("author")
-    @version_report   = reports_service.report_for("version")
-    @subproject_report= reports_service.report_for("subproject")
-    @category_report  = reports_service.report_for("category")
-
+    @type_report      = reports_service.report_for('type')
+    @priority_report  = reports_service.report_for('priority')
+    @assignee_report  = reports_service.report_for('assigned_to')
+    @responsible_report = reports_service.report_for('responsible')
+    @author_report    = reports_service.report_for('author')
+    @version_report   = reports_service.report_for('version')
+    @subproject_report = reports_service.report_for('subproject')
+    @category_report  = reports_service.report_for('category')
   end
 
   def report_details
     @report = Reports::ReportsService.new(@project)
-                                     .report_for(params[:detail])
+              .report_for(params[:detail])
 
     respond_to do |format|
       if @report
@@ -63,6 +62,4 @@ class WorkPackages::ReportsController < ApplicationController
   def default_breadcrumb
     l(:label_summary)
   end
-
-
 end

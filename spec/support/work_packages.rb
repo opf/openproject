@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ def become_non_member(&block)
     projects = block ? instance_eval(&block) : [project]
 
     projects.each do |p|
-      current_user.memberships.select {|m| m.project_id == p.id}.each(&:destroy)
+      current_user.memberships.select { |m| m.project_id == p.id }.each(&:destroy)
     end
   end
 end
@@ -46,9 +46,9 @@ def become_member_with_permissions(permissions)
   let(:current_user) { FactoryGirl.create(:user) }
 
   before do
-    role = FactoryGirl.create(:role, :permissions => permissions)
+    role = FactoryGirl.create(:role, permissions: permissions)
 
-    member = FactoryGirl.build(:member, :user => current_user, :project => project)
+    member = FactoryGirl.build(:member, user: current_user, project: project)
     member.roles = [role]
     member.save!
   end

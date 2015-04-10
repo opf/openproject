@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe "common/_validation_error", :type => :view do
-  let(:error_message) { ["Something went completely wrong!"] }
+describe 'common/_validation_error', type: :view do
+  let(:error_message) { ['Something went completely wrong!'] }
 
   before do
     view.content_for(:error_details, 'Clear this!')
 
-    render partial: "common/validation_error.html.erb",
+    render partial: 'common/validation_error.html.erb',
            locals: { error_messages: error_message,
-                     object_name: "Test" }
+                     object_name: 'Test' }
   end
 
   it { expect(view.content_for(:error_details)).not_to include('Clear this!') }

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require_relative 'migration_utils/journal_migrator_concerns'
 
 class LegacyMessageJournalData < ActiveRecord::Migration
   def up
-    add_index "message_journals", ["journal_id"]
+    add_index 'message_journals', ['journal_id']
 
     migrator.run
   end
@@ -40,19 +40,17 @@ class LegacyMessageJournalData < ActiveRecord::Migration
   def down
     migrator.remove_journals_derived_from_legacy_journals 'attachable_journals'
 
-    remove_index "message_journals", ["journal_id"]
+    remove_index 'message_journals', ['journal_id']
   end
 
   private
 
   def migrator
-    @migrator ||= Migration::LegacyJournalMigrator.new("MessageJournal", "message_journals") do
+    @migrator ||= Migration::LegacyJournalMigrator.new('MessageJournal', 'message_journals') do
       extend Migration::JournalMigratorConcerns::Attachable
 
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
-
         migrate_attachments(to_insert, legacy_journal, journal_id)
-
       end
     end
   end

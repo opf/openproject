@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,7 @@ OpenProject::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = OpenProject::Configuration['rails_force_ssl']
 
   # See everything in the log (default is :info)
   # config.log_level = :debug
@@ -98,8 +98,7 @@ OpenProject::Application.configure do
                                   timelines_select_boxes.js
                                   types_checkboxes.js
                                   work_packages.js
-                                  angular-i18n/angular-locale_de-de.js
-                                )
+                              )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

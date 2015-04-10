@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ Given(/^the work package "(.*?)" has the following changesets:$/) do |subject, t
   repo = wp.project.repository
 
   wp_changesets = table.hashes.map do |row|
-    FactoryGirl.build(:changeset, row.merge({:repository => repo}))
+    FactoryGirl.build(:changeset, row.merge(repository: repo))
   end
 
   wp.changesets = wp_changesets
@@ -50,12 +50,12 @@ Then(/^I should see the following changesets:$/) do |table|
     displayed_changesets.any? do |displayed_changeset|
       (!row[:revision] ||
        (row[:revision] &&
-        displayed_changeset.has_selector?('a', :text => I18n.t(:label_revision_id,
-                                                               :value => row[:revision])))) &&
-      (row[:comments] ||
-       (row[:comments] &&
-        displayed_changeset.has_selector?('', :text => row[:comments])))
-    end.should be_true
+        displayed_changeset.has_selector?('a', text: I18n.t(:label_revision_id,
+                                                            value: row[:revision])))) &&
+        (row[:comments] ||
+         (row[:comments] &&
+          displayed_changeset.has_selector?('', text: row[:comments])))
+    end.should be_truthy
   end
 end
 

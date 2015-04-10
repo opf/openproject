@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,22 +30,45 @@ require 'spec_helper'
 
 describe ::API::V3::Priorities::PriorityRepresenter do
   let(:priority) { FactoryGirl.build(:priority) }
-  let(:model) { ::API::V3::Priorities::PriorityModel.new(priority) }
-  let(:representer) { described_class.new(model) }
+  let(:representer) { described_class.new(priority) }
+
+  include API::V3::Utilities::PathHelper
 
   context 'generation' do
-    subject(:generated) { representer.to_json }
+    subject { representer.to_json }
 
-    it { should include_json('Priority'.to_json).at_path('_type') }
+    it 'should indicate its type' do
+      is_expected.to include_json('Priority'.to_json).at_path('_type')
+    end
 
-    xit { should have_json_type(Object).at_path('_links') }
-    xit 'should link to self' do
-      expect(subject).to have_json_path('_links/self/href')
+    describe 'links' do
+      it { is_expected.to have_json_type(Object).at_path('_links') }
+      it 'should link to self' do
+        path = api_v3_paths.priority(priority.id)
+
+        is_expected.to be_json_eql(path.to_json).at_path('_links/self/href')
+      end
+      it 'should display its name as title in self' do
+        is_expected.to be_json_eql(priority.name.to_json).at_path('_links/self/title')
+      end
     end
 
     describe 'priority' do
-      it { should have_json_path('id') }
-      it { should have_json_path('name') }
+      it 'should have an id' do
+        is_expected.to be_json_eql(priority.id.to_json).at_path('id')
+      end
+      it 'should have a name' do
+        is_expected.to be_json_eql(priority.name.to_json).at_path('name')
+      end
+      it 'should have a position' do
+        is_expected.to be_json_eql(priority.position.to_json).at_path('position')
+      end
+      it 'should have a default flag' do
+        is_expected.to be_json_eql(priority.is_default.to_json).at_path('isDefault')
+      end
+      it 'should have an active flag' do
+        is_expected.to be_json_eql(priority.active.to_json).at_path('isActive')
+      end
     end
   end
 end

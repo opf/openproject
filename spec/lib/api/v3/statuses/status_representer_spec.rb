@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,23 +29,44 @@
 require 'spec_helper'
 
 describe ::API::V3::Statuses::StatusRepresenter do
-  let(:status) { FactoryGirl.build(:status) }
-  let(:model) { ::API::V3::Statuses::StatusModel.new(status) }
-  let(:representer) { described_class.new(model) }
+  let(:status) { FactoryGirl.build(:status, id: 42) }
+  let(:representer) { described_class.new(status) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('Status'.to_json).at_path('_type') }
-
-    xit { should have_json_type(Object).at_path('_links') }
-    xit 'should link to self' do
-      expect(subject).to have_json_path('_links/self/href')
-    end
+    it { is_expected.to include_json('Status'.to_json).at_path('_type') }
 
     describe 'status' do
-      it { should have_json_path('id') }
-      it { should have_json_path('name') }
+      it { is_expected.to have_json_path('id') }
+      it { is_expected.to have_json_path('name') }
+      it { is_expected.to have_json_path('isClosed') }
+      it { is_expected.to have_json_path('isDefault') }
+      it { is_expected.to have_json_path('position') }
+      it { is_expected.to have_json_path('defaultDoneRatio') }
+
+      describe 'values' do
+        it { is_expected.to be_json_eql(status.id.to_json).at_path('id') }
+        it { is_expected.to be_json_eql(status.name.to_json).at_path('name') }
+        it { is_expected.to be_json_eql(status.is_closed.to_json).at_path('isClosed') }
+        it { is_expected.to be_json_eql(status.is_default.to_json).at_path('isDefault') }
+        it { is_expected.to be_json_eql(status.position.to_json).at_path('position') }
+        it {
+          is_expected.to be_json_eql(status.default_done_ratio.to_json).at_path('defaultDoneRatio')
+        }
+      end
+    end
+
+    describe '_links' do
+      it { is_expected.to have_json_type(Object).at_path('_links') }
+
+      describe 'self' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'self' }
+          let(:href) { "/api/v3/statuses/#{status.id}" }
+          let(:title) { status.name }
+        end
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,34 +28,34 @@
 
 require 'spec_helper'
 
-describe WikiMenuItemsController, :type => :controller do
+describe WikiMenuItemsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   # create project with wiki
   let(:project) { FactoryGirl.create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
 
-  let(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # first wiki page without child pages
-  let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :with_menu_item_options, :wiki => wiki, :title => wiki_page.title) }
+  let(:wiki_page) { FactoryGirl.create(:wiki_page, wiki: wiki) } # first wiki page without child pages
+  let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :with_menu_item_options, wiki: wiki, title: wiki_page.title) }
 
   before :each do
     # log in user
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe :edit do
+  describe '#edit' do
     # more wiki pages with menu items
-    let(:another_wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # second wiki page with two child pages
-    let!(:another_wiki_page_top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => another_wiki_page.title) }
+    let(:another_wiki_page) { FactoryGirl.create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
+    let!(:another_wiki_page_top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: another_wiki_page.title) }
 
     # child pages of another_wiki_page
-    let(:child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
-    let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => child_page.title) }
-    let(:another_child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
-    let!(:another_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => another_child_page.title, :parent => top_level_wiki_menu_item) }
+    let(:child_page) { FactoryGirl.create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
+    let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: child_page.title) }
+    let(:another_child_page) { FactoryGirl.create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
+    let!(:another_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: another_child_page.title, parent: top_level_wiki_menu_item) }
 
-    let(:grand_child_page) { FactoryGirl.create(:wiki_page, :parent => child_page, :wiki => wiki) }
-    let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => grand_child_page.title) }
+    let(:grand_child_page) { FactoryGirl.create(:wiki_page, parent: child_page, wiki: wiki) }
+    let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: grand_child_page.title) }
 
     context 'when no parent wiki menu item has been configured yet' do
       context 'and it is a child page' do
@@ -71,7 +71,7 @@ describe WikiMenuItemsController, :type => :controller do
       context 'and it is a grand child page the parent of which is not a main item' do
         before do
           # ensure the parent page of grand_child_page is not a main item
-          child_page_wiki_menu_item.tap {|page| page.parent = top_level_wiki_menu_item}.save
+          child_page_wiki_menu_item.tap { |page| page.parent = top_level_wiki_menu_item }.save
           get :edit, project_id: project.id, id: grand_child_page.title
         end
 
@@ -94,13 +94,13 @@ describe WikiMenuItemsController, :type => :controller do
   end
 
   shared_context 'when there is one more wiki page with a child page' do
-    let!(:child_page) { FactoryGirl.create(:wiki_page, :parent => wiki_page, :wiki => wiki) }
+    let!(:child_page) { FactoryGirl.create(:wiki_page, parent: wiki_page, wiki: wiki) }
 
-    let!(:another_wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # second wiki page with two child pages
-    let!(:another_child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
+    let!(:another_wiki_page) { FactoryGirl.create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
+    let!(:another_child_page) { FactoryGirl.create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
   end
 
-  describe :select_main_menu_item do
+  describe '#select_main_menu_item' do
     include_context 'when there is one more wiki page with a child page'
 
     before { get :select_main_menu_item, project_id: project, id: wiki_page.id }
@@ -114,7 +114,7 @@ describe WikiMenuItemsController, :type => :controller do
     end
   end
 
-  describe :replace_main_menu_item do
+  describe '#replace_main_menu_item' do
     include_context 'when there is one more wiki page with a child page'
 
     context 'when another wiki page is selected for replacement' do
@@ -137,7 +137,7 @@ describe WikiMenuItemsController, :type => :controller do
       end
 
       it 'transfers the menu item options to the selected wiki page' do
-        expect(new_menu_item.options).to eq({ index_page: true, new_wiki_page: true })
+        expect(new_menu_item.options).to eq(index_page: true, new_wiki_page: true)
       end
     end
 

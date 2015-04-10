@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'account/register', :type => :view do
+describe 'account/register', type: :view do
   before do
     assign(:user, user)
     render
@@ -39,7 +39,7 @@ describe 'account/register', :type => :view do
     let(:user)        { FactoryGirl.build :user, auth_source: auth_source }
 
     it 'should not show a login field' do
-      expect(response.body).to_not include('user[login]')
+      expect(response.body).not_to include('user[login]')
     end
   end
 

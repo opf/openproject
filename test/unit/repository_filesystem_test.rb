@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +36,8 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
     @project = Project.find(3)
 
     with_existing_filesystem_scm do |repo_path|
-      assert @repository = Repository::Filesystem.create(
-                              :project => @project,
-                              :url => repo_path)
+      assert @repository = Repository::Filesystem.create(project: @project,
+                                                         url: repo_path)
     end
   end
 
@@ -54,14 +53,14 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
 
   def test_entries
     with_existing_filesystem_scm do
-      assert_equal 3, @repository.entries("", 2).size
-      assert_equal 2, @repository.entries("dir", 3).size
+      assert_equal 3, @repository.entries('', 2).size
+      assert_equal 2, @repository.entries('dir', 3).size
     end
   end
 
   def test_cat
     with_existing_filesystem_scm do
-      assert_equal "TEST CAT\n", @repository.scm.cat("test")
+      assert_equal "TEST CAT\n", @repository.scm.cat('test')
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,23 +28,29 @@
 
 require 'spec_helper'
 
-describe AttachmentsController, :type => :controller do
+describe AttachmentsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role,
-                                  permissions: [:edit_work_packages,
-                                                :view_work_packages,
-                                                :delete_wiki_pages_attachments]) }
-  let!(:member) { FactoryGirl.create(:member,
-                                     project: project,
-                                     principal: user,
-                                     roles: [role]) }
+  let(:role) {
+    FactoryGirl.create(:role,
+                       permissions: [:edit_work_packages,
+                                     :view_work_packages,
+                                     :delete_wiki_pages_attachments])
+  }
+  let!(:member) {
+    FactoryGirl.create(:member,
+                       project: project,
+                       principal: user,
+                       roles: [role])
+  }
 
   before { allow(User).to receive(:current).and_return user }
 
-  describe :destroy do
-    let(:attachment) { FactoryGirl.create(:attachment,
-                                          container: container) }
+  describe '#destroy' do
+    let(:attachment) {
+      FactoryGirl.create(:attachment,
+                         container: container)
+    }
 
     shared_examples_for :deleted do
       subject { Attachment.find_by_id(attachment.id) }
@@ -60,10 +66,12 @@ describe AttachmentsController, :type => :controller do
       it { is_expected.to redirect_to(redirect_path) }
     end
 
-    context :work_package do
-      let(:container) { FactoryGirl.create(:work_package,
-                                           author: user,
-                                           project: project) }
+    context 'work_package' do
+      let(:container) {
+        FactoryGirl.create(:work_package,
+                           author: user,
+                           project: project)
+      }
       let(:redirect_path) { work_package_path(container) }
 
       before { delete :destroy, id: attachment.id }
@@ -73,9 +81,11 @@ describe AttachmentsController, :type => :controller do
       it_behaves_like :redirected
     end
 
-    context :wiki do
-      let(:container) { FactoryGirl.create(:wiki_page,
-                                           wiki: project.wiki) }
+    context 'wiki' do
+      let(:container) {
+        FactoryGirl.create(:wiki_page,
+                           wiki: project.wiki)
+      }
       let(:redirect_path) { project_wiki_path(project, project.wiki) }
 
       before do
@@ -87,6 +97,60 @@ describe AttachmentsController, :type => :controller do
       it_behaves_like :deleted
 
       it_behaves_like :redirected
+    end
+  end
+
+  describe '#show' do
+    let(:file) { OpenProject::Files.create_uploaded_file name: 'foobar.txt' }
+    let(:work_package) { FactoryGirl.create :work_package, project: project }
+    let(:uploader) { nil }
+
+    ##
+    # Stubs an attachment instance of the respective uploader.
+    # It's an anonymous subclass of Attachment and can therefore
+    # not be saved.
+    let(:attachment) do
+      clazz = Class.new Attachment
+      clazz.mount_uploader :file, uploader
+
+      ##
+      # Override to_s for carrierwave to use the correct class name in the store dir.
+      def clazz.to_s
+        'attachment'
+      end
+
+      att = clazz.new container: work_package, author: user, file: file
+      att.id = 42
+      att.file.store!
+      att.send :write_attribute, :file, file.original_filename
+      att
+    end
+
+    before do
+      expect(Attachment).to receive(:find).with(attachment.id.to_s).and_return(attachment)
+    end
+
+    subject {
+      get :show, id: attachment.id
+    }
+
+    context 'with a local file' do
+      let(:uploader) { LocalFileUploader }
+      let(:url) { "http://test.host/attachments/#{attachment.id}/download/#{attachment.filename}" }
+
+      expect_it { to redirect_to(url) }
+    end
+
+    context 'with a remote file' do
+      let(:uploader) { FogFileUploader }
+      let(:url) do
+        host = 'https://test-bucket.s3.amazonaws.com'
+        Regexp.new "#{host}/uploads/attachment/file/#{attachment.id}/#{attachment.filename}"
+      end
+
+      it 'redirects to AWS' do
+        expect(subject.location).to match(url)
+      end
     end
   end
 end

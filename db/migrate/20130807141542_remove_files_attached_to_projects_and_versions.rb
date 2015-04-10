@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 
 class RemoveFilesAttachedToProjectsAndVersions < ActiveRecord::Migration
   def up
-    if  Attachment.where(:container_type => ['Version','Project']).any?
-      raise "Error: There are still attachments attached to Versions or Projects!"\
+    if  Attachment.where(container_type: ['Version', 'Project']).any?
+      raise 'Error: There are still attachments attached to Versions or Projects!'\
             "\n\n"\
             "Consider possible solutions under the rake namespace 'migrations:attachments'."\
             "\n\n"\

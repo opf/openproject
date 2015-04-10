@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_priorities/index.api.rabl', :type => :view do
+describe 'api/v2/planning_element_priorities/index.api.rabl', type: :view do
 
   before { params[:format] = 'xml' }
 
@@ -50,11 +50,15 @@ describe 'api/v2/planning_element_priorities/index.api.rabl', :type => :view do
 
   describe 'with 3 work package priorities available' do
     let!(:priority_0) { FactoryGirl.create(:priority) }
-    let!(:priority_1) { FactoryGirl.create(:priority,
-                                           position: 1) }
-    let!(:priority_2) { FactoryGirl.create(:priority,
-                                           position: 2,
-                                           is_default: true) }
+    let!(:priority_1) {
+      FactoryGirl.create(:priority,
+                         position: 1)
+    }
+    let!(:priority_2) {
+      FactoryGirl.create(:priority,
+                         position: 2,
+                         is_default: true)
+    }
 
     before do
       assign(:priorities, [priority_0, priority_1, priority_2])

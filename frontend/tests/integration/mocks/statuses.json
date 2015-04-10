@@ -1,0 +1,148 @@
+{
+    "statuses": [
+        {
+            "default_done_ratio": null,
+            "id": 1,
+            "is_closed": false,
+            "is_default": true,
+            "name": "new",
+            "position": 1
+        },
+        {
+            "default_done_ratio": null,
+            "id": 21,
+            "is_closed": false,
+            "is_default": false,
+            "name": "in specification",
+            "position": 2
+        },
+        {
+            "default_done_ratio": null,
+            "id": 22,
+            "is_closed": false,
+            "is_default": false,
+            "name": "specified",
+            "position": 3
+        },
+        {
+            "default_done_ratio": null,
+            "id": 11,
+            "is_closed": false,
+            "is_default": false,
+            "name": "unconfirmed",
+            "position": 4
+        },
+        {
+            "default_done_ratio": null,
+            "id": 7,
+            "is_closed": false,
+            "is_default": false,
+            "name": "confirmed",
+            "position": 5
+        },
+        {
+            "default_done_ratio": null,
+            "id": 18,
+            "is_closed": false,
+            "is_default": false,
+            "name": "in evaluation",
+            "position": 6
+        },
+        {
+            "default_done_ratio": null,
+            "id": 10,
+            "is_closed": false,
+            "is_default": false,
+            "name": "ready",
+            "position": 7
+        },
+        {
+            "default_done_ratio": null,
+            "id": 12,
+            "is_closed": false,
+            "is_default": false,
+            "name": "to be scheduled",
+            "position": 8
+        },
+        {
+            "default_done_ratio": null,
+            "id": 13,
+            "is_closed": false,
+            "is_default": false,
+            "name": "scheduled",
+            "position": 9
+        },
+        {
+            "default_done_ratio": null,
+            "id": 19,
+            "is_closed": false,
+            "is_default": false,
+            "name": "in progress",
+            "position": 10
+        },
+        {
+            "default_done_ratio": null,
+            "id": 4,
+            "is_closed": false,
+            "is_default": false,
+            "name": "on hold",
+            "position": 11
+        },
+        {
+            "default_done_ratio": null,
+            "id": 2,
+            "is_closed": false,
+            "is_default": false,
+            "name": "in development",
+            "position": 12
+        },
+        {
+            "default_done_ratio": null,
+            "id": 17,
+            "is_closed": false,
+            "is_default": false,
+            "name": "in test",
+            "position": 17
+        },
+        {
+            "default_done_ratio": null,
+            "id": 23,
+            "is_closed": false,
+            "is_default": false,
+            "name": "test failed",
+            "position": 18
+        },
+        {
+            "default_done_ratio": null,
+            "id": 3,
+            "is_closed": false,
+            "is_default": false,
+            "name": "tested",
+            "position": 19
+        },
+        {
+            "default_done_ratio": null,
+            "id": 14,
+            "is_closed": false,
+            "is_default": false,
+            "name": "resolved",
+            "position": 20
+        },
+        {
+            "default_done_ratio": null,
+            "id": 5,
+            "is_closed": true,
+            "is_default": false,
+            "name": "closed",
+            "position": 21
+        },
+        {
+            "default_done_ratio": null,
+            "id": 6,
+            "is_closed": true,
+            "is_default": false,
+            "name": "rejected",
+            "position": 22
+        }
+    ]
+}

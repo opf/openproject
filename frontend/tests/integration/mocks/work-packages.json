@@ -1,0 +1,758 @@
+{
+    "_bulk_links": {
+        "copy": "/work_packages/move/new?copy=true",
+        "delete": "/work_packages/bulk?_method=delete",
+        "edit": "/work_packages/bulk/edit",
+        "move": "/work_packages/move/new"
+    },
+    "_links": {
+        "create": "/projects/openproject/work_packages/new"
+    },
+    "meta": {
+        "_links": {
+            "create": "/api/experimental/work_packages.openproject"
+        },
+        "columns": [
+            {
+                "custom_field": false,
+                "groupable": false,
+                "meta_data": {
+                    "data_type": "integer",
+                    "link": {
+                        "display": true,
+                        "model_type": "work_package"
+                    }
+                },
+                "name": "id",
+                "sortable": true,
+                "title": "ID"
+            },
+            {
+                "custom_field": false,
+                "groupable": "type",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "type",
+                "sortable": "types.position",
+                "title": "Type"
+            },
+            {
+                "custom_field": false,
+                "groupable": "status",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "status",
+                "sortable": "statuses.position",
+                "title": "Status"
+            },
+            {
+                "custom_field": false,
+                "groupable": false,
+                "meta_data": {
+                    "data_type": "string",
+                    "link": {
+                        "display": true,
+                        "model_type": "work_package"
+                    }
+                },
+                "name": "subject",
+                "sortable": "work_packages.subject",
+                "title": "Subject"
+            },
+            {
+                "custom_field": false,
+                "groupable": "assigned_to",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": true,
+                        "model_type": "user"
+                    }
+                },
+                "name": "assigned_to",
+                "sortable": [
+                    "users.lastname",
+                    "users.firstname",
+                    "users.id"
+                ],
+                "title": "Assignee"
+            }
+        ],
+        "export_formats": [
+            {
+                "format": "atom",
+                "identifier": "atom",
+                "label_locale": "label_format_atom"
+            },
+            {
+                "format": "pdf",
+                "identifier": "pdf",
+                "label_locale": "label_format_pdf"
+            },
+            {
+                "flags": [
+                    "show_descriptions"
+                ],
+                "format": "pdf",
+                "identifier": "pdf-descr",
+                "label_locale": "label_format_pdf_with_descriptions"
+            },
+            {
+                "format": "csv",
+                "identifier": "csv",
+                "label_locale": "label_format_csv"
+            },
+            {
+                "format": "xls",
+                "identifier": "xls",
+                "label_locale": "label_format_xls"
+            },
+            {
+                "flags": [
+                    "show_descriptions"
+                ],
+                "format": "xls",
+                "identifier": "xls-descr",
+                "label_locale": "label_format_xls_with_descriptions"
+            }
+        ],
+        "group_sums": null,
+        "groupable_columns": [
+            {
+                "custom_field": false,
+                "groupable": "project",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": true,
+                        "model_type": "project"
+                    }
+                },
+                "name": "project",
+                "sortable": "projects.name",
+                "title": "Project"
+            },
+            {
+                "custom_field": false,
+                "groupable": "type",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "type",
+                "sortable": "types.position",
+                "title": "Type"
+            },
+            {
+                "custom_field": false,
+                "groupable": "status",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "status",
+                "sortable": "statuses.position",
+                "title": "Status"
+            },
+            {
+                "custom_field": false,
+                "groupable": "priority",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "priority",
+                "sortable": "enumerations.position",
+                "title": "Priority"
+            },
+            {
+                "custom_field": false,
+                "groupable": "assigned_to",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": true,
+                        "model_type": "user"
+                    }
+                },
+                "name": "assigned_to",
+                "sortable": [
+                    "users.lastname",
+                    "users.firstname",
+                    "users.id"
+                ],
+                "title": "Assignee"
+            },
+            {
+                "custom_field": false,
+                "groupable": "work_packages.responsible_id",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": true,
+                        "model_type": "user"
+                    }
+                },
+                "name": "responsible",
+                "sortable": [
+                    "users.lastname",
+                    "users.firstname",
+                    "users.id"
+                ],
+                "title": "Responsible"
+            },
+            {
+                "custom_field": false,
+                "groupable": "category",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "category",
+                "sortable": "categories.name",
+                "title": "Category"
+            },
+            {
+                "custom_field": false,
+                "groupable": "fixed_version",
+                "meta_data": {
+                    "data_type": "object",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "fixed_version",
+                "sortable": [
+                    "versions.effective_date",
+                    "versions.name"
+                ],
+                "title": "Target version"
+            },
+            {
+                "custom_field": {
+                    "field_format": "list",
+                    "id": 1
+                },
+                "groupable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=1 LIMIT 1), '')",
+                "meta_data": {
+                    "data_type": "list",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "cf_1",
+                "sortable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=1 LIMIT 1), '')",
+                "title": "Module"
+            },
+            {
+                "custom_field": {
+                    "field_format": "list",
+                    "id": 5
+                },
+                "groupable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=5 LIMIT 1), '')",
+                "meta_data": {
+                    "data_type": "list",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "cf_5",
+                "sortable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=5 LIMIT 1), '')",
+                "title": "Bug found in Version"
+            },
+            {
+                "custom_field": {
+                    "field_format": "list",
+                    "id": 7
+                },
+                "groupable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=7 LIMIT 1), '')",
+                "meta_data": {
+                    "data_type": "list",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "cf_7",
+                "sortable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=7 LIMIT 1), '')",
+                "title": "Non Functional Aspects"
+            },
+            {
+                "custom_field": {
+                    "field_format": "list",
+                    "id": 11
+                },
+                "groupable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=11 LIMIT 1), '')",
+                "meta_data": {
+                    "data_type": "list",
+                    "link": {
+                        "display": false
+                    }
+                },
+                "name": "cf_11",
+                "sortable": "COALESCE((SELECT cv_sort.value FROM custom_values cv_sort WHERE cv_sort.customized_type='WorkPackage' AND cv_sort.customized_id=work_packages.id AND cv_sort.custom_field_id=11 LIMIT 1), '')",
+                "title": "Accessibilty report"
+            }
+        ],
+        "page": 1,
+        "per_page": 50,
+        "per_page_options": [
+            50,
+            100,
+            200
+        ],
+        "query": {
+            "_links": {
+                "create": "/api/experimental/queries"
+            },
+            "column_names": null,
+            "display_sums": null,
+            "filters": [
+                {
+                    "name": "status_id",
+                    "operator": "o",
+                    "values": [
+                        ""
+                    ]
+                }
+            ],
+            "group_by": null,
+            "id": null,
+            "is_public": false,
+            "name": "_",
+            "project_id": 14,
+            "sort_criteria": [],
+            "starred": false,
+            "user_id": 0
+        },
+        "sums": [
+            null,
+            null,
+            null,
+            null
+        ],
+        "total_entries": 10,
+        "work_package_count_by_group": null
+    },
+    "work_packages": [
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16923",
+                "delete": "/work_packages/bulk?ids%5B%5D=16923&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16923",
+                "edit": "/work_packages/16923/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16923"
+            },
+            "assigned_to": {
+                "firstname": "Karol",
+                "id": 9248,
+                "name": "Karol Skolar"
+            },
+            "created_at": "2014-10-22T13:25:56Z",
+            "custom_values": [],
+            "id": 16923,
+            "parent_id": null,
+            "status": {
+                "id": 1,
+                "name": "new"
+            },
+            "subject": "INSTALAR DIMMER OMAR",
+            "type": {
+                "color_id": 8,
+                "created_at": "11/13/2013/ 13:11 PM",
+                "id": 4,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": false,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "Task",
+                "position": 2,
+                "updated_at": "05/13/2014/ 12:10 PM"
+            },
+            "updated_at": "2014-10-22T13:25:56Z"
+        },
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16914",
+                "delete": "/work_packages/bulk?ids%5B%5D=16914&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16914",
+                "edit": "/work_packages/16914/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16914"
+            },
+            "assigned_to": null,
+            "created_at": "2014-10-22T09:50:40Z",
+            "custom_values": [],
+            "id": 16914,
+            "parent_id": null,
+            "status": {
+                "id": 1,
+                "name": "new"
+            },
+            "subject": "ReffoTest",
+            "type": {
+                "color_id": 22,
+                "created_at": "02/19/2014/ 11:43 AM",
+                "id": 21,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": true,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "Idea",
+                "position": 7,
+                "updated_at": "04/22/2014/ 06:56 AM"
+            },
+            "updated_at": "2014-10-22T10:08:35Z"
+        },
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16912",
+                "delete": "/work_packages/bulk?ids%5B%5D=16912&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16912",
+                "edit": "/work_packages/16912/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16912"
+            },
+            "assigned_to": null,
+            "created_at": "2014-10-22T09:29:12Z",
+            "custom_values": [],
+            "id": 16912,
+            "parent_id": null,
+            "status": {
+                "id": 1,
+                "name": "new"
+            },
+            "subject": "Tab order on 'New Work Package' page could be optimized",
+            "type": {
+                "color_id": 14,
+                "created_at": "11/13/2013/ 13:11 PM",
+                "id": 6,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": true,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "User Story",
+                "position": 5,
+                "updated_at": "05/13/2014/ 12:11 PM"
+            },
+            "updated_at": "2014-10-22T09:29:12Z"
+        },
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16905",
+                "delete": "/work_packages/bulk?ids%5B%5D=16905&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16905",
+                "edit": "/work_packages/16905/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16905"
+            },
+            "assigned_to": null,
+            "created_at": "2014-10-22T05:09:18Z",
+            "custom_values": [],
+            "id": 16905,
+            "parent_id": null,
+            "status": {
+                "id": 1,
+                "name": "new"
+            },
+            "subject": "Rubber recycling in South Africa",
+            "type": {
+                "color_id": 22,
+                "created_at": "02/19/2014/ 11:43 AM",
+                "id": 21,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": true,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "Idea",
+                "position": 7,
+                "updated_at": "04/22/2014/ 06:56 AM"
+            },
+            "updated_at": "2014-10-22T05:09:19Z"
+        },
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16904",
+                "delete": "/work_packages/bulk?ids%5B%5D=16904&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16904",
+                "edit": "/work_packages/16904/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16904"
+            },
+            "assigned_to": null,
+            "created_at": "2014-10-21T20:55:10Z",
+            "custom_values": [],
+            "id": 16904,
+            "parent_id": null,
+            "status": {
+                "id": 1,
+                "name": "new"
+            },
+            "subject": "Traject Sylvia van der Stam - Leliveld",
+            "type": {
+                "color_id": 8,
+                "created_at": "11/13/2013/ 13:11 PM",
+                "id": 4,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": false,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "Task",
+                "position": 2,
+                "updated_at": "05/13/2014/ 12:10 PM"
+            },
+            "updated_at": "2014-10-21T20:55:11Z"
+        },
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16902",
+                "delete": "/work_packages/bulk?ids%5B%5D=16902&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16902",
+                "edit": "/work_packages/16902/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16902"
+            },
+            "assigned_to": null,
+            "created_at": "2014-10-21T18:06:54Z",
+            "custom_values": [],
+            "id": 16902,
+            "parent_id": null,
+            "status": {
+                "id": 1,
+                "name": "new"
+            },
+            "subject": "Parque T\u00e9cnol\u00f3gico",
+            "type": {
+                "color_id": 8,
+                "created_at": "11/13/2013/ 13:11 PM",
+                "id": 4,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": false,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "Task",
+                "position": 2,
+                "updated_at": "05/13/2014/ 12:10 PM"
+            },
+            "updated_at": "2014-10-21T18:14:21Z"
+        },
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16899",
+                "delete": "/work_packages/bulk?ids%5B%5D=16899&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16899",
+                "edit": "/work_packages/16899/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16899"
+            },
+            "assigned_to": null,
+            "created_at": "2014-10-21T15:30:28Z",
+            "custom_values": [],
+            "id": 16899,
+            "parent_id": null,
+            "status": {
+                "id": 1,
+                "name": "new"
+            },
+            "subject": "PDF export fails if there is U+FFFD in issue data or journals",
+            "type": {
+                "color_id": 17,
+                "created_at": "11/13/2013/ 13:11 PM",
+                "id": 1,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": true,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "Bug",
+                "position": 4,
+                "updated_at": "05/13/2014/ 12:10 PM"
+            },
+            "updated_at": "2014-10-21T15:31:25Z"
+        },
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16893",
+                "delete": "/work_packages/bulk?ids%5B%5D=16893&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16893",
+                "edit": "/work_packages/16893/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16893"
+            },
+            "assigned_to": null,
+            "created_at": "2014-10-21T13:49:42Z",
+            "custom_values": [],
+            "id": 16893,
+            "parent_id": null,
+            "status": {
+                "id": 1,
+                "name": "new"
+            },
+            "subject": "A thaliana",
+            "type": {
+                "color_id": 8,
+                "created_at": "11/13/2013/ 13:11 PM",
+                "id": 4,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": false,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "Task",
+                "position": 2,
+                "updated_at": "05/13/2014/ 12:10 PM"
+            },
+            "updated_at": "2014-10-21T13:49:42Z"
+        },
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16879",
+                "delete": "/work_packages/bulk?ids%5B%5D=16879&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16879",
+                "edit": "/work_packages/16879/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16879"
+            },
+            "assigned_to": null,
+            "created_at": "2014-10-20T15:03:40Z",
+            "custom_values": [],
+            "id": 16879,
+            "parent_id": null,
+            "status": {
+                "id": 1,
+                "name": "new"
+            },
+            "subject": "500 on Workpackage update",
+            "type": {
+                "color_id": 17,
+                "created_at": "11/13/2013/ 13:11 PM",
+                "id": 1,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": true,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "Bug",
+                "position": 4,
+                "updated_at": "05/13/2014/ 12:10 PM"
+            },
+            "updated_at": "2014-10-20T15:29:06Z"
+        },
+        {
+            "_actions": [
+                "edit",
+                "move",
+                "copy",
+                "duplicate",
+                "delete"
+            ],
+            "_links": {
+                "copy": "/work_packages/move/new?copy=true&ids%5B%5D=16877",
+                "delete": "/work_packages/bulk?ids%5B%5D=16877&method=delete",
+                "duplicate": "/projects/openproject/work_packages/new?copy_from=16877",
+                "edit": "/work_packages/16877/edit",
+                "move": "/work_packages/move/new?ids%5B%5D=16877"
+            },
+            "assigned_to": null,
+            "created_at": "2014-10-20T14:33:15Z",
+            "custom_values": [],
+            "id": 16877,
+            "parent_id": null,
+            "status": {
+                "id": 7,
+                "name": "confirmed"
+            },
+            "subject": "[Emails] In work package create / update, closed work packages are not striked through",
+            "type": {
+                "color_id": 17,
+                "created_at": "11/13/2013/ 13:11 PM",
+                "id": 1,
+                "in_aggregation": true,
+                "is_default": false,
+                "is_in_roadmap": true,
+                "is_milestone": false,
+                "is_standard": false,
+                "name": "Bug",
+                "position": 4,
+                "updated_at": "05/13/2014/ 12:10 PM"
+            },
+            "updated_at": "2014-10-20T14:33:16Z"
+        }
+    ]
+}

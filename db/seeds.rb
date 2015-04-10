@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,12 +36,12 @@
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 #
 # loads environment-specific seeds. The assumed directory structure in db/ is like this:
-#|___seeds
-#| |___all.rb
-#| |___development.rb
-#| |___staging.rb
-#| |___production.rb
-#|___seeds.rb
+# |___seeds
+# | |___all.rb
+# | |___development.rb
+# | |___staging.rb
+# | |___production.rb
+# |___seeds.rb
 
 # clear some schema caches and column information.
 ActiveRecord::Base.descendants.each do |klass|

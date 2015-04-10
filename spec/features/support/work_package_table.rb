@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,15 +45,16 @@ shared_context 'work package table helpers' do
     click_button('Settings')
     click_link('Sort by ...')
 
-    # If the modal was accessible, this would be elegant.
-    first_sort_criteria = all('.select2-container')[0]
-    select2_select_option(first_sort_criteria, column_name)
+    # Ensure the modal is opened before calling the non waiting 'all' function.
+    find('.ng-modal-window', text: 'Sorting')
 
-    # If the modal was accessible, this would be elegant.
-    order_name = order == :desc ? 'Descending' : 'Ascending'
+    within '#modal-sorting' do
+      first_sort_criteria = first('.select2-container')
+      ui_select_choose(first_sort_criteria, column_name)
 
-    first_sort_order = all('.select2-container')[1]
-    select2_select_option(first_sort_order, order_name)
+      order_name = order == :desc ? 'Descending' : 'Ascending'
+      choose(order_name)
+    end
 
     click_button('Apply')
   end
@@ -82,6 +83,6 @@ shared_context 'work package table helpers' do
     # the last spec, might expect data that has already been removed as
     # preparation for the current spec.
     find('#work-packages-filter-toggle-button').click
-    expect(page).to have_selector('.filter label', text: 'Status')
+    expect(page).to have_selector('.advanced-filters--filter label', text: 'Status')
   end
 end

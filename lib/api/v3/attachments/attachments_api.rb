@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/attachments/attachment_representer'
+
 module API
   module V3
     module Attachments
-      class AttachmentsAPI < Grape::API
-
+      class AttachmentsAPI < ::API::OpenProjectAPI
         resources :attachments do
 
           params do
             requires :id, desc: 'Attachment id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @attachment = Attachment.find(params[:id])
-              model = ::API::V3::Attachments::AttachmentModel.new(@attachment)
-              @representer =  ::API::V3::Attachments::AttachmentRepresenter.new(model)
+              @representer = AttachmentRepresenter.new(@attachment)
             end
 
             get do
@@ -50,9 +50,7 @@ module API
             end
 
           end
-
         end
-
       end
     end
   end

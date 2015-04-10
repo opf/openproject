@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,26 +29,32 @@
 require 'rubygems'
 if ENV['CI'] == 'true'
   # we are running on a CI server, report coverage to code climate
-  require "codeclimate-test-reporter"
+  require 'codeclimate-test-reporter'
   CodeClimate::TestReporter.start
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
-require 'rspec/autorun'
 require 'rspec/example_disabler'
 require 'capybara/rails'
 
+Capybara.register_driver :selenium do |app|
+  require 'selenium/webdriver'
+  Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
+    Selenium::WebDriver::Firefox::Binary.path
+  Capybara::Selenium::Driver.new(app, browser: :firefox)
+end
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-Dir[Rails.root.join("spec/features/support/**/*.rb")].each {|f| require f}
-Dir[Rails.root.join("spec/lib/api/v3/support/**/*.rb")].each {|f| require f}
-Dir[Rails.root.join("spec/requests/api/v3/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/features/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/requests/api/v3/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -102,22 +108,15 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = "random"
+  config.order = 'random'
 
-  config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
 
   # add helpers to parse json-responses
   config.include JsonSpec::Helpers
 
-  config.after(:each) do |example|
-    OpenProject::RSpecLazinessWarn.warn_if_user_current_set(example)
-  end
-
   config.after(:each) do
-    # Cleanup after specs changing locale explicitly or
-    # by calling code in the app setting changing the locale.
-    I18n.locale = :en
+    OpenProject::RspecCleanup.cleanup
   end
 
   config.after(:suite) do
@@ -131,7 +130,7 @@ RSpec.configure do |config|
   end
 
   # include spec/api for API request specs
-  config.include RSpec::Rails::RequestExampleGroup, type: :request, example_group: { file_path: /spec\/api/ }
+  config.include RSpec::Rails::RequestExampleGroup, type: :request
 end
 
 # load disable_specs.rbs from plugins
@@ -143,67 +142,16 @@ Rails.application.config.plugins_to_test_paths.each do |dir|
   end
 end
 
-module OpenProject::RSpecLazinessWarn
+module OpenProject::RspecCleanup
+  def self.cleanup
+    # Cleanup after specs changing locale explicitly or
+    # by calling code in the app setting changing the locale.
+    I18n.locale = :en
 
-  def self.warn_if_user_current_set(example)
-    # Using the hacky way of getting current_user to avoid under the hood creation of AnonymousUser
-    # which might break other tests and at least leaves this user in the db after the test is run.
-    user = User.instance_variable_get(:@current_user)
-    unless user.nil? or user.is_a? AnonymousUser
-      # we only want an abbreviated_stacktrace because the logfiles
-      # might otherwise not be capable to show all the warnings.
-      # Thus we only take the callers that are part of the user code.
-      file_roots = Rails::Application::Railties.engines.map { |e| e.root.to_s } << Rails.root.to_s
-      abbreviated_stacktrace = example.metadata[:caller].select { |s| file_roots.any?{ |root| s.include?(root) } }
-
-      # we only want to show the more verbose warning once
-      if self.warned
-        warn <<-DOC
-
-              ============================================================================================
-              #{ example.full_description }
-              ============================================================================================
-              This spec also leaves User.current in an unclean state.
-              ============================================================================================
-              #{ abbreviated_stacktrace.join("\n              ") }
-              ============================================================================================
-        DOC
-      else
-        warn <<-DOC
-
-                ============================================================================================
-                #{ example.full_description }
-                ============================================================================================
-                This spec leaves User.current in an unclean state, creating a dependency to other specs.
-
-                It sets User.current to a value other than User.anonymous but does not clean up after the
-                spec is run. User.current saves this value in an instance variable of the User class.
-                This class instance variable is not removed between tests.
-
-                So please go ahead and set User.current to nil afterwards.
-                ============================================================================================
-
-                Abbreviated stacktrace:
-
-                #{ abbreviated_stacktrace.join("\n              ") }
-
-                ============================================================================================
-
-
-        DOC
-
-        self.warned = true
-      end
-
-      User.current = nil
-    end
+    # Set the class instance variable @current_user to nil
+    # to avoid having users from one spec present in the next
+    ::User.instance_variable_set(:@current_user, nil)
   end
-
-
-  protected
-
-  class << self
-    attr_accessor :warned
-  end
-
 end
+
+OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'

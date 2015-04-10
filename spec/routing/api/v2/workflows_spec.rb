@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe Api::V2::WorkflowsController, :type => :routing do
-  it "should connect GET /projects/blubs/workflows to workflows#index" do
-    expect(get("/api/v2/projects/blubs/workflows")).to route_to( controller: 'api/v2/workflows',
-                                                             project_id: 'blubs',
-                                                             action: 'index')
+describe Api::V2::WorkflowsController, type: :routing do
+  it 'should connect GET /projects/blubs/workflows to workflows#index' do
+    expect(get('/api/v2/projects/blubs/workflows')).to route_to(controller: 'api/v2/workflows',
+                                                                project_id: 'blubs',
+                                                                action: 'index')
   end
 end

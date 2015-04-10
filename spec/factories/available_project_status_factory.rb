@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 FactoryGirl.define do
-  factory(:available_project_status, :class => AvailableProjectStatus) do |d|
+  factory(:available_project_status, class: AvailableProjectStatus) do |_d|
     reported_project_status { |e| e.association :reported_project_status }
     project_type            { |e| e.association :project_type }
   end

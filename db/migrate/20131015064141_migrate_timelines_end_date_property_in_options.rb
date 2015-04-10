@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,11 +35,11 @@ class MigrateTimelinesEndDatePropertyInOptions < ActiveRecord::Migration
   COLUMN = 'options'
 
   OPTIONS = {
-    "end_date" => "due_date"
+    'end_date' => 'due_date'
   }
 
   def up
-    say_with_time_silently "Update timelines options" do
+    say_with_time_silently 'Update timelines options' do
       update_column_values('timelines',
                            [COLUMN],
                            update_options(migrate_end_date_options(OPTIONS)),
@@ -48,7 +48,7 @@ class MigrateTimelinesEndDatePropertyInOptions < ActiveRecord::Migration
   end
 
   def down
-    say_with_time_silently "Restore timelines options" do
+    say_with_time_silently 'Restore timelines options' do
       update_column_values('timelines',
                            [COLUMN],
                            update_options(migrate_end_date_options(OPTIONS.invert)),

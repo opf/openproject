@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'QueryLoading', :type => :controller do
+describe 'QueryLoading', type: :controller do
   include Api::Experimental::Concerns::QueryLoading
   include QueriesHelper
 
@@ -43,21 +43,21 @@ describe 'QueryLoading', :type => :controller do
     before do
       allow(User).to receive(:current).and_return(user)
       allow(user).to receive(:allowed_to?).and_return true
-      view_context.stub(:add_filter_from_params)
+      allow(view_context).to receive(:add_filter_from_params)
     end
 
-    context "accept_empty_query_fields is true" do
+    context 'accept_empty_query_fields is true' do
       let(:params) { { accept_empty_query_fields: true, query_id: query.id } }
       it 'should call add_filter_from_params' do
-        view_context.should_receive :add_filter_from_params
+        expect(view_context).to receive :add_filter_from_params
         init_query
       end
     end
 
-    context "accept_empty_query_fields is false or missing" do
+    context 'accept_empty_query_fields is false or missing' do
       let(:params) { { accept_empty_query_fields: false, query_id: query.id } }
       it 'should not call add_filter_from_params' do
-        view_context.should_not_receive :add_filter_from_params
+        expect(view_context).not_to receive :add_filter_from_params
         init_query
       end
     end

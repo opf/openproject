@@ -1,0 +1,12 @@
+<div class="title-container">
+  <div class="text">
+    <h2 title="{{ selectedTitle }}">
+      <span has-dropdown-menu target="QuerySelectDropdownMenu"
+        locals="selectedTitle,groups,transitionMethod">
+        <accessible-by-keyboard>
+          {{ selectedTitle | characters:50 }}<i class="icon-pulldown-arrow1 icon-button"></i>
+        </accessible-by-keyboard>
+      </span>
+    </h2>
+  </div>
+</div>

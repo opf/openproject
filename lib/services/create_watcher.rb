@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ class Services::CreateWatcher
     @watcher = Watcher.new(user: user, watchable: work_package)
   end
 
-  def run(success = -> {}, failure = -> {})
+  def run(success = -> {}, _failure = -> {})
     if @work_package.watcher_users.include?(@user)
       success.(created: false)
     else

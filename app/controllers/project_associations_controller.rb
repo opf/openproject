@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,9 +59,10 @@ class ProjectAssociationsController < ApplicationController
   end
 
   def create
+    project_b_id = params[:project_association].delete :project_b_id
     @project_association = ProjectAssociation.new(params[:project_association])
     @project_association.project_a = @project
-    @project_association.project_b_id = params[:project_association_select][:project_b_id]
+    @project_association.project_b_id = project_b_id
 
     check_visibility
 
@@ -69,7 +70,7 @@ class ProjectAssociationsController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_project_associations_path(@project)
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -79,7 +80,7 @@ class ProjectAssociationsController < ApplicationController
     @project_association = @project.project_associations.find(params[:id])
     check_visibility
 
-    respond_to do |format|
+    respond_to do |_format|
     end
   end
 
@@ -99,13 +100,13 @@ class ProjectAssociationsController < ApplicationController
     @project_association.description =  params[:project_association][:description]
 
     check_visibility # since projects may not be edited by mass-assignement,
-                     # this check should be superfluous ... but who knows?!?
+    # this check should be superfluous ... but who knows?!?
 
     if @project_association.projects.include?(@project) and @project_association.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_project_associations_path(@project)
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 

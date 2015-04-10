@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,13 @@ module OpenProject
   module Info
     class << self
       def app_name; Setting.software_name end
+
       def url; Setting.software_url end
+
       def help_url
-        "https://www.openproject.org/support"
+        'https://www.openproject.org/help'
       end
+
       def versioned_name; "#{app_name} #{Redmine::VERSION.to_semver}" end
 
       # Creates the url string to a specific Redmine issue

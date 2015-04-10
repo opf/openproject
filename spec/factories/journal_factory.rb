@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,23 +30,23 @@ FactoryGirl.define do
   factory :journal do
     user factory: :user
     created_at Time.now
-    sequence(:version) {|n| n+1 }
+    sequence(:version) { |n| n + 1 }
 
     factory :work_package_journal, class: Journal do
-      journable_type "WorkPackage"
-      activity_type "work_packages"
+      journable_type 'WorkPackage'
+      activity_type 'work_packages'
       data FactoryGirl.build(:journal_work_package_journal)
     end
 
     factory :wiki_content_journal, class: Journal do
-      journable_type "WikiContent"
-      activity_type "wiki_edits"
+      journable_type 'WikiContent'
+      activity_type 'wiki_edits'
       data FactoryGirl.build(:journal_wiki_content_journal)
     end
 
     factory :message_journal, class: Journal do
-      journable_type "Message"
-      activity_type "messages"
+      journable_type 'Message'
+      activity_type 'messages'
       data FactoryGirl.build(:journal_message_journal)
     end
   end

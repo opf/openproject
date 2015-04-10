@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,19 +33,19 @@ class RemoveOpenidEntirely < ActiveRecord::Migration
   end
 
   def down
-    create_table "open_id_authentication_associations", :force => true do |t|
-      t.integer "issued"
-      t.integer "lifetime"
-      t.string  "handle"
-      t.string  "assoc_type"
-      t.binary  "server_url"
-      t.binary  "secret"
+    create_table 'open_id_authentication_associations', force: true do |t|
+      t.integer 'issued'
+      t.integer 'lifetime'
+      t.string 'handle'
+      t.string 'assoc_type'
+      t.binary 'server_url'
+      t.binary 'secret'
     end
 
-    create_table "open_id_authentication_nonces", :force => true do |t|
-      t.integer "timestamp",  :null => false
-      t.string  "server_url"
-      t.string  "salt",       :null => false
+    create_table 'open_id_authentication_nonces', force: true do |t|
+      t.integer 'timestamp',  null: false
+      t.string 'server_url'
+      t.string 'salt',       null: false
     end
   end
 end

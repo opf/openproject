@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,9 +35,9 @@ module ReportsHelper
     data.each { |row|
       match = 1
       criteria.each { |k, v|
-        match = 0 unless (row[k].to_s == v.to_s) || (k == 'closed' && row[k] == (v == 0 ? "f" : "t"))
+        match = 0 unless (row[k].to_s == v.to_s) || (k == 'closed' && row[k] == (v == 0 ? 'f' : 't'))
       } unless criteria.nil?
-      a = a + row["total"].to_i if match == 1
+      a = a + row['total'].to_i if match == 1
     } unless data.nil?
     a
   end

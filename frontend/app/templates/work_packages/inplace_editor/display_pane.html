@@ -1,0 +1,24 @@
+<div class="inplace-edit--read" ng-hide="fieldController.isEditing">
+    <accessible-by-keyboard
+        ng-if="fieldController.isEditable()"
+        class="inplace-editing--trigger-container"
+        span-class="inplace-editing--container"
+        link-class="inplace-editing--trigger-link"
+        execute="displayPaneController.startEditing()">
+        <span
+            class="inplace-edit--read-value"
+            ng-class="{'-default': fieldController.isEmpty()}"
+            ng-include="templateUrl">
+        </span>
+        <span class="inplace-edit--icon-wrapper">
+            <icon-wrapper icon-name="edit" icon-title="{{ fieldController.editTitle }}">
+            </icon-wrapper>
+        </span>
+    </accessible-by-keyboard>
+    <span ng-if="!fieldController.isEditable()">
+        <span
+            class="inplace-edit--read-value"
+            ng-include="templateUrl">
+        </span>
+    </span>
+</div>

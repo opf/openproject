@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,6 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
 
 require File.expand_path('../boot', __FILE__)
 
@@ -77,6 +76,14 @@ module OpenProject
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    config.middleware.swap ActionDispatch::ParamsParser,
+                           'ParamsParserWithExclusion',
+                           exclude: -> (env) {
+                             env['PATH_INFO'] =~ /\/api\/v3/
+                           }
+
+    config.middleware.use Rack::Attack
+
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths << Rails.root.join('lib')
@@ -100,18 +107,13 @@ module OpenProject
     # config.i18n.default_locale = :de
 
     # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
     # Enable the asset pipeline
     config.assets.enabled = true
-
-    bower_assets_path    = Rails.root.join(*%w(vendor assets components))
-    config.assets.paths << bower_assets_path.join(*%w(select2)).to_s
-    config.assets.paths << bower_assets_path.join(*%w(jquery-ui themes base)).to_s
-    config.assets.paths << bower_assets_path.join(*%w(jquery.atwho dist)).to_s
 
     # Whitelist assets to be precompiled.
     #
@@ -128,12 +130,6 @@ module OpenProject
     config.assets.precompile.unshift -> (path) {
       (extension = File.extname(path)).present? and extension.in?(precompile_whitelist)
     }
-    config.assets.precompile += %w(
-      jquery-ui/themes/base/jquery-ui.css
-      select2/select2.css
-      angular-busy/dist/angular-busy.css
-      angular-busy/angular-busy.html
-    )
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true

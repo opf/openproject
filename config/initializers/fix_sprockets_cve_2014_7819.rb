@@ -42,7 +42,7 @@ module Sprockets
       end
 
       # Look up the asset.
-      asset = find_asset(path, :bundle => !body_only?(env))
+      asset = find_asset(path, bundle: !body_only?(env))
 
       # `find_asset` returns nil if the asset doesn't exist
       if asset.nil?

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,14 @@
 
 require 'spec_helper'
 
-describe 'users/edit', :type => :view do
+describe 'users/edit', type: :view do
   let(:current_user) { FactoryGirl.build :admin }
 
   context 'authentication provider' do
-    let(:user)  { FactoryGirl.build :user, :id => 1,  # id is required to create route to edit
-                                           :identity_url => 'test_provider:veryuniqueid' }
+    let(:user)  {
+      FactoryGirl.build :user, id: 1,  # id is required to create route to edit
+                               identity_url: 'test_provider:veryuniqueid'
+    }
 
     before do
       assign(:user, user)
@@ -78,7 +80,7 @@ describe 'users/edit', :type => :view do
       end
 
       context 'with auth sources' do
-        let(:auth_sources) { [FactoryGirl.create(:auth_source)]}
+        let(:auth_sources) { [FactoryGirl.create(:auth_source)] }
 
         before do
           assign :auth_sources, auth_sources

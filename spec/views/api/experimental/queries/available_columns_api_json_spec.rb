@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/queries/available_columns.api.rabl', :type => :view do
+describe 'api/experimental/queries/available_columns.api.rabl', type: :view do
   before do
     params[:format] = 'json'
 
@@ -49,29 +49,29 @@ describe 'api/experimental/queries/available_columns.api.rabl', :type => :view d
     let(:available_columns) {
       [
         {
-          name:     "project",
-          title:    "Project",
-          sortable: "projects.name",
-          groupable:"project",
+          name:     'project',
+          title:    'Project',
+          sortable: 'projects.name',
+          groupable: 'project',
           custom_field: false,
           meta_data: {
-            data_type: "object",
+            data_type: 'object',
             link: {
               display:    true,
-              model_type: "project"
+              model_type: 'project'
             }
           }
         }, {
-          name:     "status",
-          title:    "Status",
-          sortable: "statuses.name",
-          groupable:"status",
+          name:     'status',
+          title:    'Status',
+          sortable: 'statuses.name',
+          groupable: 'status',
           custom_field: false,
           meta_data: {
-            data_type: "object",
+            data_type: 'object',
             link: {
               display:    false,
-              model_type: "project"
+              model_type: 'project'
             }
           }
         }

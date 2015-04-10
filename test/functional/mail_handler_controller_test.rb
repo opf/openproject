@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ class MailHandlerControllerTest < ActionController::TestCase
     Setting.mail_handler_api_enabled = 1
     Setting.mail_handler_api_key = 'secret'
 
-    post :index, :key => 'secret', :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
     assert_response 201
   end
 
@@ -59,7 +59,7 @@ class MailHandlerControllerTest < ActionController::TestCase
     Setting.mail_handler_api_enabled = 0
     Setting.mail_handler_api_key = 'secret'
 
-    post :index, :key => 'secret', :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
     assert_response 403
   end
 end

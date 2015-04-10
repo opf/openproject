@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:news)
     assert_not_nil assigns(:projects)
-    assert !assigns(:projects).include?(Project.find(:first, :conditions => {:is_public => false}))
+    assert !assigns(:projects).include?(Project.find(:first, conditions: { is_public: false }))
   end
 
   def test_browser_language
@@ -75,7 +75,7 @@ class WelcomeControllerTest < ActionController::TestCase
   end
 
   def test_robots
-    get :robots, :format => :txt
+    get :robots, format: :txt
     assert_response :success
     assert_equal 'text/plain', @response.content_type
     assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 
 # add seeds specific for the production-environment here
 
-
 standard_type = Type.find_by_is_standard(true)
 
 # Adds the standard type to all existing projects
@@ -38,7 +37,7 @@ standard_type = Type.find_by_is_standard(true)
 # that do not have the default type yet.
 
 projects_without_standard_type = Project.where("NOT EXISTS (SELECT * from projects_types WHERE projects.id = projects_types.project_id AND projects_types.type_id = #{standard_type.id})")
-                                        .all
+                                 .all
 
 projects_without_standard_type.each do |project|
   project.types << standard_type
@@ -55,5 +54,5 @@ end
 # (from todays standpoint) the assignment is done covertedly.
 
 [WorkPackage, Journal::WorkPackageJournal].each do |klass|
-  klass.update_all({ :type_id => standard_type.id }, { :type_id => [0, nil] })
+  klass.update_all({ type_id: standard_type.id }, { type_id: [0, nil] })
 end

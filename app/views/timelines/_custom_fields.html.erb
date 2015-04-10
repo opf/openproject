@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,24 +31,26 @@ See doc/COPYRIGHT.rdoc for more details.
 available_filter_types = ["bool", "list"]
 
 custom_fields.each do |custom_field|
-  if available_filter_types.include?(custom_field.field_format) && custom_field.is_filter then
+  if available_filter_types.include?(custom_field.field_format) && custom_field.is_filter
 %>
-  <p>
-    <%= label_tag "timeline_options_custom_fields_#{custom_field.id}", custom_field.name %>
-    <% if custom_field.field_format == "bool" then %>
-      <%= select "timeline[options][custom_fields]", custom_field.id.to_s.to_sym,
-                  options_for_select(
-                    [
-                      ['', ''],
-                      [l('timelines.filter.noneElement'), '-1'],
-                      [l('general_text_Yes'), '1'],
-                      [l('general_text_No'), '0']
-                    ], timeline.custom_fields_filter[custom_field.id.to_s]),
-                  {},
-                  { :class => "cf_boolean_select", :multiple => false, :size => 1}
+  <div class="form--field">
+
+    <% id = "timeline_options_custom_fields_#{custom_field.id}" %>
+    <%= styled_label_tag id, custom_field.name %>
+
+    <% if custom_field.field_format == 'bool' %>
+      <%= styled_select_tag "timeline[options][custom_fields][#{custom_field.id}]",
+                            options_for_select(
+                              [
+                                ['', ''],
+                                [l('timelines.filter.noneElement'), '-1'],
+                                [l('general_text_Yes'), '1'],
+                                [l('general_text_No'), '0']
+                              ], timeline.custom_fields_filter[custom_field.id.to_s]),
+                              :class => "cf_boolean_select"
       %>
-    <% elsif custom_field.field_format == "list" then %>
-        <%= hidden_field_tag("timeline[options][custom_fields][#{custom_field.id.to_s}][]",
+    <% elsif custom_field.field_format == 'list' %>
+      <%= hidden_field_tag("timeline[options][custom_fields][#{custom_field.id.to_s}][]",
             timeline.custom_field_list_value(custom_field.id.to_s),
             {
               :"data-values" => list_to_select_object_with_none(custom_field.possible_values).to_json,
@@ -56,8 +58,8 @@ custom_fields.each do |custom_field|
             }
           ) %>
     <% end %>
-  </p>
-<%
+  </div>
+  <%
   end
 end
 %>

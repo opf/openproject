@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,5 +45,5 @@ When /^I follow the edit link of the project type "([^"]*)"$/ do |project_type_n
 
   href = Rails.application.routes.url_helpers.edit_project_type_path(type)
 
-  click_link(type.name, :href => href)
+  click_link(type.name, href: href)
 end

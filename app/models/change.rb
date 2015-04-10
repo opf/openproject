@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ class Change < ActiveRecord::Base
   validates_presence_of :changeset_id, :action, :path
   before_save :init_path
 
-  delegate :repository_encoding, :to => :changeset, :allow_nil => true, :prefix => true
+  delegate :repository_encoding, to: :changeset, allow_nil: true, prefix: true
 
   attr_protected :changeset_id
 
@@ -52,6 +52,6 @@ class Change < ActiveRecord::Base
   end
 
   def init_path
-    self.path ||= ""
+    self.path ||= ''
   end
 end

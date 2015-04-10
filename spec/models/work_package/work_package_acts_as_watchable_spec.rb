@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,10 +30,12 @@ require 'spec_helper'
 
 require 'support/shared/acts_as_watchable'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package,
-                                          project: project) }
+  let(:work_package) {
+    FactoryGirl.create(:work_package,
+                       project: project)
+  }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
 
   let(:non_member_user) { FactoryGirl.create(:user) }
@@ -49,13 +51,20 @@ describe WorkPackage, :type => :model do
   # the work package observer + journal observer
   context 'notifications' do
     let(:number_of_recipients) { (work_package.recipients | work_package.watcher_recipients).length }
+    let(:current_user) { FactoryGirl.create :user }
 
-    it 'sends one delayed mail notification for each watcher recipient' do
-      UserMailer.stub_chain :work_package_updated, :deliver
+    before do
+      allow(UserMailer).to receive_message_chain :work_package_updated, :deliver
+
       # Ensure notification setting to be set in a way that will trigger e-mails.
       allow(Setting).to receive(:notified_events).and_return(%w(work_package_updated))
       expect(UserMailer).to receive(:work_package_updated).exactly(number_of_recipients).times
-      work_package.update_attributes :description => 'Any new description'
+
+      allow(User).to receive(:current).and_return(current_user)
+    end
+
+    it 'sends one delayed mail notification for each watcher recipient' do
+      work_package.update_attributes description: 'Any new description'
     end
   end
 end

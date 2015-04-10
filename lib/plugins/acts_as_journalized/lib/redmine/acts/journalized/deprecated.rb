@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,8 +55,8 @@ module Redmine::Acts::Journalized
     def recipients
       notified = []
       notified = project.notified_users if project
-      notified.reject! {|user| !visible?(user)}
-      notified.collect(&:mail)
+      notified.reject! { |user| !visible?(user) }
+      notified.map(&:mail)
     end
 
     def current_journal
@@ -65,7 +65,7 @@ module Redmine::Acts::Journalized
 
     # FIXME: When the new API is settled, remove me
     Redmine::Acts::Event::InstanceMethods.instance_methods(false).each do |m|
-      if m.to_s.start_with? "event_"
+      if m.to_s.start_with? 'event_'
         class_eval(<<-RUBY, __FILE__, __LINE__)
           def #{m}
             if last_journal.nil?

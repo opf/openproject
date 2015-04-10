@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,26 +28,36 @@
 
 require 'spec_helper'
 
-describe WorkPackages::ReportsController, :type => :controller do
+describe WorkPackages::ReportsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role,
-                                  permissions: [:view_work_packages]) }
-  let(:member) { FactoryGirl.create(:member,
-                                    project: project,
-                                    principal: user,
-                                    roles: [role]) }
-  let(:work_package_1) { FactoryGirl.create(:work_package,
-                                            id: 21,
-                                            subject: "Can't print recipes",
-                                            project: project) }
-  let(:work_package_2) { FactoryGirl.create(:work_package,
-                                            id: 2101,
-                                            subject: "Error 281 when updating a recipe",
-                                            project: project) }
-  let(:work_package_3) { FactoryGirl.create(:work_package,
-                                            id: 2102,
-                                            project: project) }
+  let(:role) {
+    FactoryGirl.create(:role,
+                       permissions: [:view_work_packages])
+  }
+  let(:member) {
+    FactoryGirl.create(:member,
+                       project: project,
+                       principal: user,
+                       roles: [role])
+  }
+  let(:work_package_1) {
+    FactoryGirl.create(:work_package,
+                       id: 21,
+                       subject: "Can't print recipes",
+                       project: project)
+  }
+  let(:work_package_2) {
+    FactoryGirl.create(:work_package,
+                       id: 2101,
+                       subject: 'Error 281 when updating a recipe',
+                       project: project)
+  }
+  let(:work_package_3) {
+    FactoryGirl.create(:work_package,
+                       id: 2102,
+                       project: project)
+  }
 
   before do
     member
@@ -59,8 +69,8 @@ describe WorkPackages::ReportsController, :type => :controller do
     work_package_3
   end
 
-  describe :report do
-    describe "w/o details" do
+  describe '#report' do
+    describe 'w/o details' do
       before { get :report, project_id: project.id }
 
       subject { response }
@@ -84,8 +94,8 @@ describe WorkPackages::ReportsController, :type => :controller do
       it { assigns :work_packages_by_subproject }
     end
 
-    describe "with details" do
-      shared_examples_for "details view" do
+    describe 'with details' do
+      shared_examples_for 'details view' do
         before { get :report_details, project_id: project.id, detail: detail }
 
         subject { response }
@@ -103,55 +113,55 @@ describe WorkPackages::ReportsController, :type => :controller do
         it { assigns :report_title }
       end
 
-      describe :type do
+      describe '#type' do
         let(:detail) { 'type' }
 
-        it_behaves_like "details view"
+        it_behaves_like 'details view'
       end
 
-      describe :version do
+      describe '#version' do
         let(:detail) { 'version' }
 
-        it_behaves_like "details view"
+        it_behaves_like 'details view'
       end
 
-      describe :priority do
+      describe '#priority' do
         let(:detail) { 'priority' }
 
-        it_behaves_like "details view"
+        it_behaves_like 'details view'
       end
 
-      describe :category do
+      describe '#category' do
         let(:detail) { 'category' }
 
-        it_behaves_like "details view"
+        it_behaves_like 'details view'
       end
 
-      describe :assigned_to do
+      describe '#assigned_to' do
         let(:detail) { 'assigned_to' }
 
-        it_behaves_like "details view"
+        it_behaves_like 'details view'
       end
 
-      describe :responsible do
+      describe '#responsible' do
         let(:detail) { 'responsible' }
 
-        it_behaves_like "details view"
+        it_behaves_like 'details view'
       end
 
-      describe :author do
+      describe '#author' do
         let(:detail) { 'author' }
 
-        it_behaves_like "details view"
+        it_behaves_like 'details view'
       end
 
-      describe :subproject do
+      describe '#subproject' do
         let(:detail) { 'subproject' }
 
-        it_behaves_like "details view"
+        it_behaves_like 'details view'
       end
 
-      context "invalid detail" do
+      context 'invalid detail' do
         before { get :report_details, project_id: project.id, detail: 'invalid' }
 
         subject { response }

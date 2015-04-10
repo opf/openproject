@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe 'projects/settings', :type => :view do
+describe 'projects/settings', type: :view do
   let(:project) { FactoryGirl.create(:project) }
 
   describe 'project copy permission' do
     before do
       assign(:project, project)
-      view.stub(:render_tabs).and_return('')
+      allow(view).to receive(:render_tabs).and_return('')
     end
 
     context 'when project copy is allowed' do
@@ -16,7 +16,7 @@ describe 'projects/settings', :type => :view do
       end
 
       it 'the copy link should be visible' do
-        expect(rendered).to have_selector "a.copy"
+        expect(rendered).to have_selector 'a.copy'
       end
     end
 
@@ -27,7 +27,7 @@ describe 'projects/settings', :type => :view do
       end
 
       it 'the copy link should not be visible' do
-        expect(rendered).to_not have_selector "a.copy"
+        expect(rendered).not_to have_selector 'a.copy'
       end
     end
   end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration
     missing_custom_values.each do |c|
       # Use execute instead of insert as Rails' Postgres adapter's insert fails when inserting
       # into tables ending in 'values'.
-      # See https://www.openproject.org/work_packages/5033
+      # See https://community.openproject.org/work_packages/5033
       execute <<-SQL
         INSERT INTO custom_values (customized_type, customized_id, custom_field_id, value)
         VALUES ('WorkPackage',
@@ -66,7 +66,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration
     end
   end
 
-  def create_missing_custom_value(table, customized_id, custom_field_id)
+  def create_missing_custom_value(_table, _customized_id, _custom_field_id)
   end
 
   def missing_custom_values
@@ -87,7 +87,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration
 
   def custom_field_default_values
     @custom_field_default_values ||= CustomField.select { |c| !(c.default_value.blank?) }
-                                                .each_with_object({}) { |c, h| h[c.id] = c.default_value unless h[c.id] }
+                                     .each_with_object({}) { |c, h| h[c.id] = c.default_value unless h[c.id] }
   end
 
   def affected_journals

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,14 @@
 #++
 
 #-- encoding: UTF-8
-$LOAD_PATH.unshift File.expand_path("../lib/", __FILE__)
+$LOAD_PATH.unshift File.expand_path('../lib/', __FILE__)
 
-require "acts_as_journalized"
+require 'acts_as_journalized'
 ActiveRecord::Base.send(:include, Redmine::Acts::Journalized)
 
 Rails.configuration.to_prepare do
   # Model
-  require "journal"
+  require 'journal'
 
   # this is for compatibility with current trunk
   # once the plugin is part of the core, this will not be needed

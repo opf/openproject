@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,8 +36,19 @@ module API
     prefix :api
 
     class Formatter
-      def call(object, env)
+      def call(object, _env)
         object.respond_to?(:to_json) ? object.to_json : MultiJson.dump(object)
+      end
+    end
+
+    class Parser
+      def call(object, _env)
+        MultiJson.load(object)
+      rescue MultiJson::ParseError => e
+        error = ::API::Errors::ParseError.new(e.message)
+        representer = ::API::V3::Errors::ErrorRepresenter.new(error)
+
+        throw :error, status: 400, message: representer.to_json
       end
     end
 
@@ -46,48 +57,106 @@ module API
     format 'hal+json'
     formatter 'hal+json', Formatter.new
 
+    parser :json, Parser.new
+
     helpers do
       def current_user
-        return User.current if Rails.env.test?
+        return User.current if running_in_test_env?
         user_id = env['rack.session']['user_id']
         User.current = user_id ? User.find(user_id) : User.anonymous
       end
 
       def authenticate
-        raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous? if Setting.login_required?
+        if Setting.login_required? && (current_user.nil? || current_user.anonymous?)
+          raise API::Errors::Unauthenticated
+        end
       end
 
-      def authorize(permission, context: nil, global: false, user: current_user, allow: true)
-        is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
-        raise API::Errors::Unauthorized.new(current_user) unless is_authorized && allow
-        is_authorized
+      def authorize(permission, context: nil, global: false, user: current_user, &block)
+        is_authorized = AuthorizationService.new(permission,
+                                                 context: context,
+                                                 global: global,
+                                                 user: user).call
+
+        return true if is_authorized
+
+        if block_given?
+          yield block
+        else
+          raise API::Errors::Unauthorized
+        end
+
+        false
       end
 
-      def build_representer(obj, model_klass, representer_klass, options = {})
-        model = (obj.kind_of?(Array)) ? obj.map{ |o| model_klass.new(o) } : model_klass.new(obj)
-        representer_klass.new(model, options)
+      def authorize_by_with_raise(&_block)
+        if yield
+          true
+        else
+          raise API::Errors::Unauthorized
+        end
+      end
+
+      def running_in_test_env?
+        Rails.env.test? && ENV['CAPYBARA_DISABLE_TEST_AUTH_PROTECTION'] != 'true'
+      end
+
+      # checks whether the user has
+      # any of the provided permission in any of the provided
+      # projects
+      def authorize_any(permissions, projects: nil, global: false, user: current_user)
+        raise ArgumentError if projects.nil? && !global
+        projects = Array(projects)
+
+        authorized = permissions.any? do |permission|
+          allowed_condition = Project.allowed_to_condition(user, permission)
+          allowed_projects = Project.where(allowed_condition)
+
+          if global
+            allowed_projects.any?
+          else
+            !(allowed_projects & projects).empty?
+          end
+        end
+
+        raise API::Errors::Unauthorized unless authorized
+        authorized
       end
     end
 
-    rescue_from ActiveRecord::RecordInvalid do |e|
-      error = ::API::Errors::Validation.new(e.record)
-      Rack::Response.new(error.to_json, error.code, error.headers).finish
+    rescue_from ActiveRecord::RecordNotFound do
+      api_error = ::API::Errors::NotFound.new
+      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      env['api.format'] = 'hal+json'
+      error_response(status: api_error.code, message: representer.to_json)
     end
 
-    rescue_from ActiveRecord::RecordNotFound do |e|
-      error = ::API::Errors::NotFound.new(e.message)
-      Rack::Response.new(error.to_json, error.code, error.headers).finish
+    rescue_from ActiveRecord::StaleObjectError do
+      api_error = ::API::Errors::Conflict.new
+      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      env['api.format'] = 'hal+json'
+      error_response(status: api_error.code, message: representer.to_json)
     end
 
-    rescue_from ::API::Errors::Unauthorized, ::API::Errors::Unauthenticated, ::API::Errors::Validation do |e|
-      Rack::Response.new(e.to_json, e.code, e.headers).finish
+    rescue_from ::API::Errors::ErrorBase, rescue_subclasses: true do |e|
+      representer = ::API::V3::Errors::ErrorRepresenter.new(e)
+      env['api.format'] = 'hal+json'
+      error_response(status: e.code, message: representer.to_json)
     end
 
     # run authentication before each request
     before do
+      # Call current_user as it sets User.current.
+      # Not doing this might cause devs to use User.current without that value
+      # being set to the actually current user. That might result in standard
+      # users becoming admins and otherwise based on who called the ruby
+      # process last.
+      current_user
       authenticate
     end
 
-    mount API::V3::Root
+    version 'v3', using: :path do
+      mount API::V3::Root
+    end
   end
 end

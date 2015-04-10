@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,17 @@
 
 require 'spec_helper'
 
-describe 'my/page', :type => :view do
+describe 'my/page', type: :view do
   let(:project)    { FactoryGirl.create :valid_project }
-  let(:user)       { FactoryGirl.create :admin, :member_in_project => project }
-  let(:issue)      { FactoryGirl.create :work_package, :project => project, :author => user }
-  let(:time_entry) { FactoryGirl.create :time_entry,
-                                        :project => project,
-                                        :user => user,
-                                        :work_package => issue,
-                                        :hours => 1}
+  let(:user)       { FactoryGirl.create :admin, member_in_project: project }
+  let(:issue)      { FactoryGirl.create :work_package, project: project, author: user }
+  let(:time_entry) {
+    FactoryGirl.create :time_entry,
+                       project: project,
+                       user: user,
+                       work_package: issue,
+                       hours: 1
+  }
 
   describe 'timelog block' do
     before do
@@ -46,12 +48,12 @@ describe 'my/page', :type => :view do
     end
 
     it 'renders the timelog block' do
-      assign :blocks, { 'top' => ['timelog'], 'left' => [], 'right' => [] }
+      assign :blocks,  'top' => ['timelog'], 'left' => [], 'right' => []
 
       render
 
       expect(response).to have_selector("tr.time-entry td.subject a[href='#{work_package_path(issue)}']",
-                                        :text => "#{issue.type.name} ##{issue.id}")
+                                        text: "#{issue.type.name} ##{issue.id}")
     end
   end
 
@@ -68,7 +70,7 @@ describe 'my/page', :type => :view do
                          member_in_project: project,
                          member_through_role: role,
                          firstname: 'Mahboobeh')
-      .tap do |user|
+        .tap do |user|
         Watcher.create(watchable: open_wp, user: user)
         Watcher.create(watchable: closed_wp, user: user)
       end
@@ -77,7 +79,7 @@ describe 'my/page', :type => :view do
     before do
       allow(User).to receive(:current).and_return(watching_user)
       assign(:user, watching_user)
-      assign :blocks, { 'top' => [], 'left' => ['issueswatched'], 'right' => [] }
+      assign :blocks,  'top' => [], 'left' => ['issueswatched'], 'right' => []
 
       render
     end

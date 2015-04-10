@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,21 +30,30 @@
 class WorkPackageObserver < ActiveRecord::Observer
   attr_accessor :send_notification
 
-  def after_create(issue)
-    if self.send_notification
-      recipients = issue.recipients + issue.watcher_recipients
+  def after_create(work_package)
+    if send_notification
+      recipients = work_package.recipients + work_package.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
+
       users.each do |user|
-        UserMailer.work_package_added(user, issue).deliver
+        notify(user, work_package)
       end
     end
     clear_notification
   end
 
+  ##
+  # Notifies the user of the created work package.
+  def notify(user, work_package)
+    job = DeliverWorkPackageCreatedJob.new(user.id, work_package.id, User.current.id)
+
+    Delayed::Job.enqueue job
+  end
+
   # Wrap send_notification so it defaults to true, when it's nil
   def send_notification
     return true if @send_notification.nil?
-    return @send_notification
+    @send_notification
   end
 
   private

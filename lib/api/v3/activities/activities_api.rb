@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/activities/activity_representer'
+
 module API
   module V3
     module Activities
-      class ActivitiesAPI < Grape::API
-
+      class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
 
           params do
             requires :id, desc: 'Activity id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @activity = Journal.find(params[:id])
-              model = ::API::V3::Activities::ActivityModel.new(@activity)
-              @representer =  ::API::V3::Activities::ActivityRepresenter.new(model, { current_user: current_user})
+              @representer = ActivityRepresenter.new(@activity, current_user: current_user)
             end
 
             get do
@@ -52,13 +52,11 @@ module API
             helpers do
               def save_activity(activity)
                 if activity.save
-                  model = ::API::V3::Activities::ActivityModel.new(activity)
-                  representer = ::API::V3::Activities::ActivityRepresenter.new(model)
+                  representer = ActivityRepresenter.new(activity)
 
                   representer
                 else
-                  errors = activity.errors.full_messages.join(", ")
-                  fail Errors::Validation.new(activity, description: errors)
+                  fail ::API::Errors::ErrorBase.create(activity.errors.dup)
                 end
               end
 
@@ -83,7 +81,6 @@ module API
           end
 
         end
-
       end
     end
   end

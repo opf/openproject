@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,8 +40,7 @@ class JournalFormatter::Base
     @journal = journal
   end
 
-  def render(key, values, options = { :no_html => false })
-
+  def render(key, values, options = { no_html: false })
     label, old_value, value = format_details(key, values)
 
     unless options[:no_html]
@@ -53,7 +52,7 @@ class JournalFormatter::Base
 
   private
 
-  def format_details(key, values, options = {})
+  def format_details(key, values, _options = {})
     label = label(key)
 
     old_value = values.first
@@ -64,10 +63,10 @@ class JournalFormatter::Base
 
   def format_html_details(label, old_value, value)
     label = content_tag('strong', label)
-    old_value = content_tag("i", h(old_value), title: h(old_value)) if old_value && !old_value.blank?
-    old_value = content_tag("strike", old_value) if old_value and value.blank?
-    value = content_tag("i", h(value), title: h(value)) if value.present?
-    value ||= ""
+    old_value = content_tag('i', h(old_value), title: h(old_value)) if old_value && !old_value.blank?
+    old_value = content_tag('strike', old_value) if old_value and value.blank?
+    value = content_tag('i', h(value), title: h(value)) if value.present?
+    value ||= ''
 
     [label, old_value, value]
   end
@@ -77,33 +76,22 @@ class JournalFormatter::Base
   end
 
   def render_ternary_detail_text(label, value, old_value)
-    unless value.blank?
-      unless old_value.blank?
-
-        l(:text_journal_changed, :label => label, :old => old_value, :new => value)
-
-      else
-
-        l(:text_journal_set_to, :label => label, :value => value)
-
-      end
+    if value.blank?
+      l(:text_journal_deleted, label: label, old: old_value)
     else
-
-      l(:text_journal_deleted, :label => label, :old => old_value)
-
+      if old_value.blank?
+        l(:text_journal_set_to, label: label, value: value)
+      else
+        l(:text_journal_changed, label: label, old: old_value, new: value)
+      end
     end
-
   end
 
   def render_binary_detail_text(label, value, old_value)
     if value.blank?
-
-      l(:text_journal_deleted, :label => label, :old => old_value)
-
+      l(:text_journal_deleted, label: label, old: old_value)
     else
-
-      l(:text_journal_added, :label => label, :value => value)
-
+      l(:text_journal_added, label: label, value: value)
     end
   end
 end

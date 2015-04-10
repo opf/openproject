@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ Then /^I open the context menu on the work packages:$/ do |table|
   table.raw.flatten.each do |subject_or_id|
     wp = WorkPackage.find_by_subject(subject_or_id) || WorkPackage.find_by_id(subject_or_id)
     element = page.find(:xpath, "//body//div[@id='content']//tr[@id='work-package-#{wp.id}']")
-    element.find(:css, ".checkbox input").click && elements << element
+    element.find(:css, '.checkbox input').click && elements << element
   end
   right_click(elements.first)
 end

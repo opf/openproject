@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe StatusesController, :type => :controller do
+describe StatusesController, type: :controller do
   let(:user) { FactoryGirl.create(:admin) }
   let(:status) { FactoryGirl.create(:status) }
 
@@ -47,7 +47,7 @@ describe StatusesController, :type => :controller do
 
     it { is_expected.to be_redirect }
 
-    it { is_expected.to redirect_to({ action: :index }) }
+    it { is_expected.to redirect_to(action: :index) }
   end
 
   shared_examples_for :statuses do
@@ -56,7 +56,7 @@ describe StatusesController, :type => :controller do
     it { is_expected.not_to be_nil }
   end
 
-  describe :index do
+  describe '#index' do
     let(:template) { 'index' }
 
     before { get :index }
@@ -64,7 +64,7 @@ describe StatusesController, :type => :controller do
     it_behaves_like :response
   end
 
-  describe :new do
+  describe '#new' do
     let(:template) { 'new' }
 
     before { get :new }
@@ -72,7 +72,7 @@ describe StatusesController, :type => :controller do
     it_behaves_like :response
   end
 
-  describe :create do
+  describe '#create' do
     let(:name) { 'New Status' }
 
     before { post :create, status: { name: name } }
@@ -82,18 +82,20 @@ describe StatusesController, :type => :controller do
     it_behaves_like :redirect
   end
 
-  describe :edit do
+  describe '#edit' do
     let(:template) { 'edit' }
 
-    context :default do
-      let!(:status_default) { FactoryGirl.create(:status,
-                                                 is_default: true) }
+    context 'default' do
+      let!(:status_default) {
+        FactoryGirl.create(:status,
+                           is_default: true)
+      }
 
       before { get :edit, id: status_default.id }
 
       it_behaves_like :response
 
-      describe :view do
+      describe '#view' do
         render_views
 
         it do
@@ -112,11 +114,11 @@ describe StatusesController, :type => :controller do
 
       it_behaves_like :response
 
-      describe :view do
+      describe '#view' do
         render_views
 
         it do
-          assert_tag tag: 'p',
+          assert_tag tag: 'div',
                      content: Status.human_attribute_name(:is_default)
         end
       end
@@ -124,15 +126,15 @@ describe StatusesController, :type => :controller do
 
   end
 
-  describe :update do
+  describe '#update' do
     let(:name) { 'Renamed Status' }
 
     before do
       status
 
       put :update,
-           id: status.id,
-           status: { name: name }
+          id: status.id,
+          status: { name: name }
     end
 
     it_behaves_like :statuses
@@ -140,7 +142,7 @@ describe StatusesController, :type => :controller do
     it_behaves_like :redirect
   end
 
-  describe :destroy do
+  describe '#destroy' do
     let(:name) { status.name }
 
     shared_examples_for :destroyed do
@@ -149,7 +151,7 @@ describe StatusesController, :type => :controller do
       it { is_expected.to be_nil }
     end
 
-    context "unused" do
+    context 'unused' do
       before do
         status
 
@@ -161,9 +163,11 @@ describe StatusesController, :type => :controller do
       it_behaves_like :redirect
     end
 
-    context "used" do
-      let(:work_package) { FactoryGirl.create(:work_package,
-                                              status: status) }
+    context 'used' do
+      let(:work_package) {
+        FactoryGirl.create(:work_package,
+                           status: status)
+      }
 
       before do
         work_package
@@ -176,9 +180,11 @@ describe StatusesController, :type => :controller do
       it_behaves_like :redirect
     end
 
-    context "default" do
-      let!(:status_default) { FactoryGirl.create(:status,
-                                                 is_default: true) }
+    context 'default' do
+      let!(:status_default) {
+        FactoryGirl.create(:status,
+                           is_default: true)
+      }
 
       before do
         delete :destroy, id: status_default.id
@@ -188,13 +194,13 @@ describe StatusesController, :type => :controller do
 
       it_behaves_like :redirect
 
-      it "shows the right flash message" do
+      it 'shows the right flash message' do
         expect(flash[:error]).to eq(I18n.t('error_unable_delete_default_status'))
       end
     end
   end
 
-  describe :update_work_package_done_ratio do
+  describe '#update_work_package_done_ratio' do
     shared_examples_for :flash do
       it { is_expected.to set_the_flash.to(message) }
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/projects/project_representer'
+
 module API
   module V3
     module Projects
-      class ProjectsAPI < Grape::API
-
+      class ProjectsAPI < ::API::OpenProjectAPI
         resources :projects do
           params do
             requires :id, desc: 'Project id'
           end
 
-          namespace ':id' do
+          route_param :id do
             before do
               @project = Project.find(params[:id])
-              @model   = ProjectModel.new(@project)
+
+              authorize(:view_project, context: @project) do
+                raise API::Errors::NotFound.new
+              end
             end
 
             get do
-              authorize(:view_project, context: @project)
-              ProjectRepresenter.new(@model)
+              ProjectRepresenter.new(@project)
             end
 
-            mount API::V3::Categories::CategoriesAPI
-            mount API::V3::Versions::VersionsAPI
+            mount API::V3::Projects::AvailableAssigneesAPI
+            mount API::V3::Projects::AvailableResponsiblesAPI
+            mount API::V3::Categories::CategoriesByProjectAPI
+            mount API::V3::Versions::VersionsByProjectAPI
+            mount API::V3::Types::TypesByProjectAPI
           end
-
         end
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,14 +35,14 @@ module Redmine
 
       module ClassMethods
         def acts_as_event(options = {})
-          return if self.included_modules.include?(Redmine::Acts::Event::InstanceMethods)
-          default_options = { :datetime => :created_at,
-                              :title => :title,
-                              :description => :description,
-                              :author => :author,
-                              :url => {:controller => '/welcome'},
-                              :name => Proc.new { ::I18n.t(self.name.underscore, scope: 'events') },
-                              :type => self.name.underscore.dasherize }
+          return if included_modules.include?(Redmine::Acts::Event::InstanceMethods)
+          default_options = { datetime: :created_at,
+                              title: :title,
+                              description: :description,
+                              author: :author,
+                              url: { controller: '/welcome' },
+                              name: Proc.new { ::I18n.t(name.underscore, scope: 'events') },
+                              type: name.underscore.dasherize }
 
           cattr_accessor :event_options
           self.event_options = default_options.merge(options)
@@ -96,8 +96,8 @@ module Redmine
         def recipients
           notified = []
           notified = project.notified_users if project
-          notified.reject! {|user| !visible?(user)}
-          notified.collect(&:mail)
+          notified.reject! { |user| !visible?(user) }
+          notified.map(&:mail)
         end
 
         module ClassMethods

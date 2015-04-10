@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,10 @@ class AvailableProjectStatus < ActiveRecord::Base
 
   self.table_name = 'available_project_statuses'
 
-  belongs_to :project_type,            :class_name  => 'ProjectType',
-                                       :foreign_key => 'project_type_id'
-  belongs_to :reported_project_status, :class_name  => 'ReportedProjectStatus',
-                                       :foreign_key => 'reported_project_status_id'
+  belongs_to :project_type,            class_name:  'ProjectType',
+                                       foreign_key: 'project_type_id'
+  belongs_to :reported_project_status, class_name:  'ReportedProjectStatus',
+                                       foreign_key: 'reported_project_status_id'
 
   attr_accessible :reported_project_status_id
 

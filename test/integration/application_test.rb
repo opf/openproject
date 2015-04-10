@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,15 +38,15 @@ class ApplicationTest < ActionDispatch::IntegrationTest
     Setting.default_language = 'en'
 
     # a french user
-    get 'projects', { }, { 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'}
+    get 'projects', {},  'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
     assert_response :success
-    assert_tag :tag => 'h2', :content => 'Projekte'
+    assert_tag tag: 'h2', content: 'Projekte'
     assert_equal :de, current_language
 
     # not a supported language: default language should be used
-    get 'projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'zz'
+    get 'projects', {}, 'HTTP_ACCEPT_LANGUAGE' => 'zz'
     assert_response :success
-    assert_tag :tag => 'h2', :content => 'Projects'
+    assert_tag tag: 'h2', content: 'Projects'
   end
 
   def test_token_based_access_should_not_start_session

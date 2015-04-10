@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,21 +38,21 @@ namespace :test do
         task
       end
     end.compact
-    abort "Errors running #{errors.to_sentence(:locale => :en)}!" if errors.any?
+    abort "Errors running #{errors.to_sentence(locale: :en)}!" if errors.any?
   end
 
   namespace :scm do
     namespace :setup do
-      desc "Creates directory for test repositories"
+      desc 'Creates directory for test repositories'
       task :create_dir do
         FileUtils.mkdir_p Rails.root + '/tmp/test'
       end
 
       supported_scms = [:subversion, :git, :filesystem]
 
-      desc "Creates a test subversion repository"
-      task :subversion => :create_dir do
-        repo_path = "tmp/test/subversion_repository"
+      desc 'Creates a test subversion repository'
+      task subversion: :create_dir do
+        repo_path = 'tmp/test/subversion_repository'
         system "svnadmin create #{repo_path}"
         system "gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
       end
@@ -65,14 +65,14 @@ namespace :test do
         end
       end
 
-      desc "Creates all test repositories"
-      task :all => supported_scms
+      desc 'Creates all test repositories'
+      task all: supported_scms
     end
 
-    desc "Updates installed test repositories"
+    desc 'Updates installed test repositories'
     task :update do
       require 'fileutils'
-      Dir.glob("tmp/test/*_repository").each do |dir|
+      Dir.glob('tmp/test/*_repository').each do |dir|
         next unless File.basename(dir) =~ %r{\A(.+)_repository\z} && File.directory?(dir)
         scm = $1
         next unless fixture = Dir.glob("test/fixtures/repositories/#{scm}_repository.*").first
@@ -83,23 +83,29 @@ namespace :test do
       end
     end
 
-    Rake::TestTask.new(:units => "db:test:prepare") do |t|
-      t.libs << "test"
+    Rake::TestTask.new(units: 'db:test:prepare') do |t|
+      t.libs << 'test'
       t.verbose = true
       t.test_files = FileList['test/unit/repository*_test.rb'] + FileList['test/unit/lib/redmine/scm/**/*_test.rb']
     end
-    Rake::Task['test:scm:units'].comment = "Run the scm unit tests"
+    Rake::Task['test:scm:units'].comment = 'Run the scm unit tests'
 
-    Rake::TestTask.new(:functionals => "db:test:prepare") do |t|
-      t.libs << "test"
+    Rake::TestTask.new(functionals: 'db:test:prepare') do |t|
+      t.libs << 'test'
       t.verbose = true
       t.test_files = FileList['test/functional/repositories*_test.rb']
     end
-    Rake::Task['test:scm:functionals'].comment = "Run the scm functional tests"
+    Rake::Task['test:scm:functionals'].comment = 'Run the scm functional tests'
   end
 
   desc 'runs all tests'
   namespace :suite do
-    task :run => [:cucumber, :spec, :test]
+    task run: [:cucumber, :spec, :test]
+  end
+end
+
+%w(test spec).each do |type|
+  if Rake::Task.task_defined?("#{type}:prepare")
+    Rake::Task["#{type}:prepare"].enhance(['assets:webpack'])
   end
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 #++
 
 class User < Principal
-  generator_for :login, :method => :next_login
-  generator_for :mail, :method => :next_email
-  generator_for :firstname, :method => :next_firstname
-  generator_for :lastname, :method => :next_lastname
+  generator_for :login, method: :next_login
+  generator_for :mail, method: :next_email
+  generator_for :firstname, method: :next_firstname
+  generator_for :lastname, method: :next_lastname
 
   def self.next_login
     @gen_login ||= 'user1'

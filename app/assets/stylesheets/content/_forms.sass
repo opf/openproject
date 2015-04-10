@@ -1,121 +1,49 @@
-/*-- copyright
- * OpenProject is a project management system.
- * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See doc/COPYRIGHT.rdoc for more details.  ++*/
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
 
-@import global/all
-@import fonts/openproject_icon_font
+$form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file)
 
-@mixin input-style
-  width: $content_from_input_width
-  line-height: 30px
-  border: $content_form_input_border
-  padding: 0 0 0 10px
-  @include border-radius(2px)
-  font-family: $font_family_normal
-  font-weight: bold
-  font-size: $global_font_size
-  line-height: 30px
-  height: 32px
-  margin: 0
+%input-style
+  border: $content-form-input-border
+  border-radius: 2px
+  font-size: 1rem
   &:hover, &:focus
-    border: $content_form_input_hover_border
+    border: $content-form-input-hover-border
 
-  float: none
-  display: inline-block
   vertical-align: middle
 
-@mixin select-style
-  @include input-style
-  margin: 0
-  min-width: $content_from_input_width + 10
-  max-width: $content_from_input_width + 10
-  padding: 7px 10px 7px 10px
-  option
-    padding-left: 10px
-
-@mixin label-style
-  width: 155px
-  margin-left: 0
+%label-style
   text-align: left
   font-weight: normal
-  float: none
-  display: inline-block
-  padding-right: 5px
   vertical-align: middle
-
-%form-style
-  padding: 30px 20px
-  background-color: $content_form_bg_color
-  display: block
-  border: $content_form_border
-
-  div.attribute_wrapper
-    position: relative
-    padding: 0
-    margin-bottom: 10px
-    font-size: $global_font_size + 1
-    line-height: 30px
-    label
-      @include label-style
-
-    .short
-      width: 100px
-      margin-right: 200px
-
-    &.indented
-      margin-left: 160px
-
-  select
-    @include select-style
-
-  input
-    &[type=password], &[type=text]
-      @include input-style
-    &#work_package_subject, &#work_package_time_entry_comments
-      width: 50%
-  textarea
-    font-family: $font_family_normal
-    font-weight: bold
-    font-size: $global_font_size
-    border: $content_form_input_border
-    &:hover, &:focus
-      border: $content_form_input_hover_border
-
-  table
-    border: 0 none
-    background: none
-    margin: 0
-    td
-      padding: 6px
-      label
-        @include label-style
-        display: inline
-      &.label
-        vertical-align: middle
-        width: 160px
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space:  nowrap
 
 // A general CSS class to be applied to forms using the above defined form style.
 // We can't define this on form itself as this would break a lot of existing forms.
@@ -123,16 +51,32 @@
 // Using this form class allows to easily override defaults defined here with a more
 // specific definition.
 .form
-  @extend %form-style
+  display: block
 
-hr.form_separator
+  &.-inline
+    display: inline
+
+  &.-bordered
+    padding: 30px 20px
+    background-color: $content-form-bg-color
+    border: $content-form-border
+
+.form--separator
   border: 0
-  border-bottom: 1px solid $content_form_separator_color
+  border-bottom: 1px solid $content-form-separator-color
   margin: 0 0 30px
   background: none
 
-.form-space
+  &.-invisible
+    border-bottom-width: 0px
+
+.form--space
   padding-top: 10px
+
+.form--row
+  @include grid-block
+  // cancel out foundations overflow-y: auto
+  overflow: visible
 
 fieldset
   legend:after
@@ -161,16 +105,10 @@ fieldset
       padding-left: 5px
       background-color: white
 
-.ui-widget
-  font-family: $font_family_normal
-  font-size: $global_font_size - 1px
-
-#content
-  .tabular
-    label.inline-label
-      width: auto
-      margin-left: 0
-      font-weight: normal
+// TODO: Customise with proper jQuery UI theme.
+.ui-datepicker-month,
+.ui-datepicker-year
+  display: inline-block
 
 .checkbox-label
   position: relative
@@ -196,16 +134,17 @@ fieldset
   \:focus + .styled-checkbox:before
 
 .styled-checkbox
+  box-sizing: content-box
   display: inline-block
   vertical-align: top
   width: 18px
   height: 18px
   padding: 0 5px
-    user-select: none
+  user-select: none
+
   &:before
     content: ''
     position: absolute
-    box-sizing: border-box
     width: 18px
     height: 18px
     background: #ffffff
@@ -218,12 +157,391 @@ fieldset
     content: ''
     position: absolute
     margin: 5px 2px
-    /* Length of check tail
+    // Length of check tail
     width: 11px
-    /* Lenght of check foot
+    // Length of check foot
     height: 3px
     background: transparent
     border: 3px solid #666666
     border-top: none
     border-right: none
     @include transform(rotate(-50deg))
+
+
+%form--fieldset-or-section
+  padding:        1rem
+  margin-bottom:  1rem
+  border:         1px solid $gray
+
+%form--fieldset-legend-or-section-title
+  color:          lighten($body-font-color, 10)
+  font-size:      1rem
+  font-weight:    bold
+  line-height:    1.8
+  text-transform: uppercase
+
+// HACK. TODO: Remove fieldset element rules in various places.
+.form--fieldset,
+fieldset.form--fieldset
+  @extend %form--fieldset-or-section
+
+.form--fieldset-legend
+  @extend %form--fieldset-legend-or-section-title
+
+.form--section
+  @extend %form--fieldset-or-section
+
+// HACK. TODO: Remove H3 element rules in various places.
+// See: https://community.openproject.org/work_packages/18330
+.form--section-title,
+#content h3.form--section-title
+  @extend %form--fieldset-legend-or-section-title
+  // properties to reset h3
+  margin: 0
+  padding: 0
+  border: 0
+
+  .form--section > &,
+  #content .form--section > &
+    border-bottom: 1px solid $gray
+    margin-bottom: 1rem
+
+.form--field
+  @include grid-block($wrap: true)
+  align-items: center
+  margin-bottom: 0.4rem
+  // cancel out foundations overflow-y: auto
+  overflow: visible
+
+  &.-vertical,
+  .form.-vertical &
+    @include grid-orient(vertical)
+
+  .grid-block > &:nth-last-of-type(n+2),
+  .form--row > &:nth-last-of-type(n+2),
+  .form--grouping-row > &:nth-last-of-type(n+2)
+    padding-right: 1rem
+
+  &.-trailing-label
+    .form--label
+      @include grid-order(2)
+      @include grid-size(expand)
+      // override max-width set by including grid-content
+      max-width: 100%
+      padding-left: 0.5rem
+
+    .form--field-container
+      @include grid-order(1)
+      @include grid-size(shrink)
+
+      // FIXME: this will break anything in regards to flex layouting within the container,
+      // e.g. using form--field-inline-action inside -trailing-label
+    .form--label + span.form--field-container
+      display: block
+
+.form--label
+  @include grid-content(2)
+  @extend %label-style
+  padding:      0 1rem 0 0
+  font-size:    $form-label-fontsize
+  line-height:  $base-line-height
+  color:        $form-label-color
+
+  .form.-wide-labels &,
+  .form--field.-wide-label &,
+    @include grid-size(4)
+
+  .form--field.-vertical &,
+  .form.-vertical &
+    @include grid-size(shrink)
+    max-width: none
+
+  .form--field.-required > &
+    &::after
+      @include default-transition
+      content:  '*'
+      color:    #008BD0
+      padding:  0 0.325rem
+    &:hover::after
+      color:    smartscale(#008BD0, 30%)
+
+.form--field-container
+  @include grid-content(10)
+  padding: 0
+  display: flex
+  // cancel out foundations overflow-y: auto
+  overflow-y: visible
+  align-items: stretch
+
+  &.-vertical
+    display: block
+
+  &:nth-of-type(n+2),
+  .form--field.-no-label &
+    @include grid-offset(2)
+
+  .form--field.-full-width &
+    @include grid-size(12)
+
+  .form.-wide-labels &,
+  .form--field.-wide-label &
+    @include grid-size(8)
+
+  .form.-wide-labels .form--field.-no-label &,
+  .form--field.-wide-label.-no-label &
+    @include grid-offset(4)
+
+  .form--field.-vertical &,
+  .form.-vertical &
+    @include grid-size(shrink)
+    max-width: none
+
+.form--field-inline-action
+  @include grid-content(shrink)
+  padding: 0 0 0 0.2rem
+  line-height: 2rem
+
+%form--field-after-container
+  @include grid-content(10, 2)
+  padding:      0
+  font-size:    $form-label-fontsize
+  line-height:  $base-line-height
+  color:        $form-label-color
+
+  .form--field.-full-width &
+    @include grid-size(12)
+    @include grid-offset(0)
+
+  .form.-wide-labels &,
+  .form--field.-wide-label &
+    @include grid-size(8)
+    @include grid-offset(4)
+
+  .form.-vertical &
+    @include grid-size(shrink)
+    @include grid-offset(0)
+    max-width: none
+
+.form--field-instructions
+  @extend %form--field-after-container
+  font-style: italic
+
+.form--field-extra-actions
+  @extend %form--field-after-container
+  overflow-y: visible
+
+%form--field-element-container
+  display: block
+  flex: 1 1
+
+  &:nth-last-of-type(n+2)
+    padding-right: $block-padding
+
+@each $field-type in $form--field-types
+  .form--#{$field-type}-container
+    @extend %form--field-element-container
+
+    &.-tiny
+      max-width: 50px
+
+    &.-xslim
+      max-width: 110px
+
+    &.-slim
+      max-width: 200px
+
+    &.-middle
+      max-width: 350px
+
+    &.-wide
+      max-width: 500px
+
+    &.-xwide
+      max-width: 800px
+
+    &.-xxwide
+      max-width: 1100px
+
+.form--select-container
+  &.-tiny,
+  &.-xslim,
+  &.-slim,
+  &.-middle,
+  &.-wide,
+  &.-xwide,
+  &.-xxwide
+    // overriding hack on select2 by another hack (select2_customizing.css)
+    // remove once the initial limit on the width is removed
+    .select2-container
+      max-width: initial
+
+.form--text-field
+  @extend %input-style
+
+.form--text-field,
+#{$text-input-selectors}
+  line-height: 1.5
+
+.form--select
+  @extend %input-style
+  line-height: 1.5
+
+  // TODO: remove padding property once upstream PR merged:
+  // https://github.com/zurb/foundation-apps/pull/416
+  padding-right: $form-padding + rem-calc(18px)
+
+  // TODO: remove on upgrade Foundation 1.0.3
+  // https://github.com/zurb/foundation-apps/commit/43da85985770e430ce45a8c10fdd6bed29cf5096
+  $arrow-color: rgb(red($select-arrow-color), green($select-arrow-color), blue($select-arrow-color))
+  border: $input-border
+  background: $select-background url(image-triangle($arrow-color)) right 10px center no-repeat
+  background-size: 8px 8px
+
+  // TODO: fix upstream in Foundation
+  &::-ms-expand
+    display: none
+
+  &[multiple]
+    background-image: none
+    padding-right: $form-padding
+
+.form--text-field,
+.form--select
+  &.-tiny
+    font-size: 0.7rem
+
+  &.-small
+    font-size: 0.8rem
+
+  &.-large
+    font-size: 1.3rem
+
+  &.-narrow
+    width: auto
+    max-width: 100%
+
+  .form &
+    margin-bottom: 0.5rem
+
+.form--text-area
+  @extend %input-style
+
+  .form &
+    margin-bottom: 0.5rem
+
+.form--radio-button-container
+  //prevent radio-buttons from being cut at the border
+  padding: 0 1px
+
+.form--radio-button
+  // Be on par with Foundation's margin-bottom on labels.
+  .form &
+    margin-bottom: 0.5rem
+
+.form--grouping
+  @include grid-block($wrap: true)
+  align-items: center
+
+  .form--grouping-row
+    @include grid-block(10)
+
+  .form--grouping-row + .form--grouping-row
+    @include grid-offset(2)
+
+.form--grouping-label
+  @include grid-content(2)
+  @extend %label-style
+  padding:      0 1rem 0 0
+  font-size:    $form-label-fontsize
+  line-height:  $base-line-height
+  color:        $form-label-color
+  margin-bottom: 0.8rem
+
+.form--matrix
+  border:       $content-form-input-border
+  border-radius: 2px
+  background:   none
+  margin:       0
+  font-size:    0.9rem
+  line-height:  1.5
+
+.form--matrix-header-row
+  font-weight:      bold
+  border-bottom:    $content-form-input-border
+  background-color: $gray-light
+
+.form--matrix-header-cell
+  padding:          0 1rem
+
+.form--matrix-row
+
+  &:nth-child(odd)
+    background-color: $gray-light
+  &:nth-child(even)
+    background-color: white
+
+.form--matrix-checkbox-cell
+  min-width:    1rem
+  max-width:    4rem
+  text-align:   center
+
+.form--column
+  @include grid-block
+  @include grid-orient(vertical)
+  overflow-y: hidden
+
+  &:nth-last-of-type(n+2)
+    padding-right: $block-padding
+
+  .form--field
+    flex-basis: auto
+
+.inline-label
+  > .form-label.-transparent
+    margin-bottom: 0
+    font-size: 1em
+    background: none
+    border: none
+
+.form--label-with-check-box
+  display:  block
+  clear:    both
+
+  & > .form--check-box-container
+    display: block
+    float:   left
+
+.form--field-affix
+  flex:           0 0 auto
+  display:        flex
+  font-size:      0.9rem
+  background:     $inlinelabel-background
+  color:          $inlinelabel-color
+  border:         $content-form-input-border
+  // OR $inlinelabel-border
+  border-radius:  2px
+  padding:        0 $form-padding
+  margin-bottom:  0.5rem
+  align-items:    center
+
+  %form--field-element-container + &
+    margin-left:  -1rem
+    border-left:  0
+
+  &.-transparent
+    background: none
+    border: none
+
+.form--list
+  display: flex
+  margin: 0
+  @include grid-layout(3)
+
+  @include breakpoint(large)
+    @include grid-layout(4)
+
+  @include breakpoint(xlarge)
+    @include grid-layout(6)
+
+  li, div
+    padding: 0

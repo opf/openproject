@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -102,7 +102,7 @@ class VersionsTest < Test::Unit::TestCase
     end
 
     should 'be fetchable by tag' do
-      @times.keys.map{|n| [n, n.to_s] }.each do |number, tag|
+      @times.keys.map { |n| [n, n.to_s] }.each do |number, tag|
         assert_kind_of VestalVersions::Version, @user.journals.at(tag)
         assert_equal number, @user.journals.at(tag).number
       end
@@ -156,7 +156,7 @@ class VersionsTest < Test::Unit::TestCase
     end
 
     should 'provide a journal number for a valid tag' do
-      @times.keys.map{|n| [n, n.to_s] }.each do |number, tag|
+      @times.keys.map { |n| [n, n.to_s] }.each do |number, tag|
         assert_kind_of Fixnum, @user.journals.number_at(tag)
         assert_equal number, @user.journals.number_at(tag)
       end

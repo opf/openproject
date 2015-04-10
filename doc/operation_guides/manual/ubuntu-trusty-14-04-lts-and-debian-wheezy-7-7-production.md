@@ -25,14 +25,14 @@ Install tools needed to compile Ruby and run OpenProject:
 
 ```bash
 [root@debian] apt-get update
-[root@debian] apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libmysqlclient-dev libpq-dev libsqlite3-dev memcached libffi5
+[root@debian] apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libmysqlclient-dev libpq-dev memcached libffi5
 ```
 
 ### Only on Ubuntu
 
 ```bash
 [root@ubuntu] apt-get update
-[root@ubuntu] apt-get install git curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libmysqlclient-dev libpq-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties memcached libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
+[root@ubuntu] apt-get install git curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libmysqlclient-dev libpq-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties memcached libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
 ```
 
 ### Debian and Ubuntu
@@ -416,7 +416,7 @@ Your OpenProject installation is ready to run. However, there are some things to
 This step is optional.
 
 OpenProject can be extended by various plug-ins, which extend OpenProject's capabilities.
-For general information and a list of all plug-ins known to us, refer to to the [plug-in page](https://www.openproject.org/projects/openproject/wiki/OpenProject_Plug-Ins).
+For general information and a list of all plug-ins known to us, refer to to the [plug-in page](https://community.openproject.org/projects/openproject/wiki/OpenProject_Plug-Ins).
 
 OpenProject plug-ins are separated in ruby gems. You can install them by listing them in a file called `Gemfile.plugin`. An example `Gemfile.plugin` file looks like this:
 

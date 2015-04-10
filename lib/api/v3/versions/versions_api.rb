@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,19 +30,38 @@
 module API
   module V3
     module Versions
-      class VersionsAPI < Grape::API
-
+      class VersionsAPI < ::API::OpenProjectAPI
         resources :versions do
-          before do
-            @versions = @project.shared_versions.all
-            @versions.map! { |version| VersionModel.new(version) }
-          end
 
-          get do
-            VersionCollectionRepresenter.new(@versions, @project)
+          route_param :id do
+
+            before do
+              @version = Version.find(params[:id])
+
+              authorized_for_version?(@version)
+            end
+
+            helpers do
+              def authorized_for_version?(version)
+                projects = version.projects
+
+                permissions = [:view_work_packages, :manage_versions]
+
+                authorize_any(permissions, projects: projects, user: current_user)
+              end
+
+              def context
+                { current_user: current_user }
+              end
+            end
+
+            get do
+              VersionRepresenter.new(@version, context)
+            end
+
+            mount ::API::V3::Versions::ProjectsByVersionAPI
           end
         end
-
       end
     end
   end

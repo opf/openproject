@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,8 @@
 
 module Migration
   class SettingRenamer
-
-    #define all the following methods as class methods
+    # define all the following methods as class methods
     class << self
-
       def rename(source_name, target_name)
         ActiveRecord::Base.connection.execute <<-SQL
             UPDATE #{settings_table}
@@ -41,17 +39,15 @@ module Migration
           SQL
       end
 
-
-    private
+      private
 
       def settings_table
         @settings_table ||= ActiveRecord::Base.connection.quote_table_name('settings')
       end
 
-      def quote_value s
+      def quote_value(s)
         ActiveRecord::Base.connection.quote(s)
       end
-
     end
   end
 end

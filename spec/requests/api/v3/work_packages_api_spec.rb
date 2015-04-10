@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,33 +29,37 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::WorkPackages::WorkPackagesAPI, :type => :request do
+describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
+  include API::V3::Utilities::PathHelper
+
   let(:admin) { FactoryGirl.create(:admin) }
 
-  describe "activities" do
+  describe 'activities' do
     let(:work_package) { FactoryGirl.create(:work_package) }
-    let(:comment) { "This is a test comment!" }
+    let(:comment) { 'This is a test comment!' }
 
-    describe "POST /api/v3/work_packages/:id/activities" do
-      shared_context "create activity" do
-        before { post "/api/v3/work_packages/#{work_package.id}/activities",
-                      { comment: comment }.to_json, { 'CONTENT_TYPE' => 'application/json' } }
+    describe 'POST /api/v3/work_packages/:id/activities' do
+      shared_context 'create activity' do
+        before {
+          post (api_v3_paths.work_package_activities work_package.id),
+               { comment: comment }.to_json,  'CONTENT_TYPE' => 'application/json'
+        }
       end
 
-      it_behaves_like "safeguarded API" do
-        include_context "create activity"
+      it_behaves_like 'safeguarded API' do
+        include_context 'create activity'
       end
 
-      it_behaves_like "valid activity request" do
+      it_behaves_like 'valid activity request' do
         let(:status_code) { 201 }
 
-        include_context "create activity"
+        include_context 'create activity'
       end
 
-      it_behaves_like "invalid activity request" do
+      it_behaves_like 'invalid activity request' do
         before { allow_any_instance_of(WorkPackage).to receive(:save).and_return(false) }
 
-        include_context "create activity"
+        include_context 'create activity'
       end
     end
   end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +33,13 @@ See doc/COPYRIGHT.rdoc for more details.
 %>
 
 <%= error_messages_for :enumeration %>
-<div class="box">
+<section class="form--section">
   <%= f.hidden_field 'type' %>
-  <p><%= f.text_field 'name', :required => true %></p>
-  <p><%= f.check_box 'active' %></p>
-  <p><%= f.check_box 'is_default' %></p>
+  <div class="form--field"><%= f.text_field 'name', :required => true %></div>
+  <div class="form--field"><%= f.check_box 'active' %></div>
+  <div class="form--field"><%= f.check_box 'is_default' %></div>
 
   <% @enumeration.custom_field_values.each do |value| %>
-    <p><%= custom_field_tag_with_label :enumeration, value %></p>
+    <div class="form--field"><%= custom_field_tag_with_label :enumeration, value %></div>
   <% end %>
-</div>
+</section>

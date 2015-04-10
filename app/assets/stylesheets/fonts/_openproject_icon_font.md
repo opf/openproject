@@ -57,6 +57,7 @@
 <i class="icon-changeset3"></i>
 <i class="icon-clock-reminder"></i>
 <i class="icon-close"></i>
+<i class="icon-close2"></i>
 <i class="icon-code-tag"></i>
 <i class="icon-color-text"></i>
 <i class="icon-color-underline"></i>

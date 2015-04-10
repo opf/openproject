@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,24 +28,24 @@
 
 require 'spec_helper'
 
-describe 'search/index', :type => :helper do
+describe 'search/index', type: :helper do
   let(:project) { FactoryGirl.create(:project) }
-  let(:scope) { "foobar" }
+  let(:scope) { 'foobar' }
 
   before do
-    allow(helper).to receive(:params).and_return({
-      :q => "foobar",
-      :all_words => "1",
-      :scope => scope
-    })
+    allow(helper).to receive(:params).and_return(
+      q: 'foobar',
+      all_words: '1',
+      scope: scope
+    )
     assign(:project, project)
   end
 
   it 'renders correct result-by-type links' do
-    results_by_type = {"work_packages"=>1, "wiki_pages"=>1}
+    results_by_type = { 'work_packages' => 1, 'wiki_pages' => 1 }
     response = helper.render_results_by_type(results_by_type)
 
-    expect(response).to have_selector("a", :count => results_by_type.size)
+    expect(response).to have_selector('a', count: results_by_type.size)
     expect(response).to include("/projects/#{project.identifier}/search")
     expect(response).to include("scope=#{scope}")
   end

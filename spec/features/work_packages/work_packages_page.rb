@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ class WorkPackagesPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
 
-  def initialize(project=nil)
+  def initialize(project = nil)
     @project = project
   end
 
@@ -51,7 +51,7 @@ class WorkPackagesPage
   end
 
   def visit_calendar
-    visit index_path + "/calendar"
+    visit index_path + '/calendar'
   end
 
   def click_work_packages_menu_item
@@ -63,11 +63,11 @@ class WorkPackagesPage
   end
 
   def select_query(query)
-    visit query_path(query);
+    visit query_path(query)
   end
 
   def selected_filter(filter_name)
-    find(".filter-fields #tr_#{filter_name}")
+    find(".advanced-filters--filters #filter_#{filter_name}")
   end
 
   private

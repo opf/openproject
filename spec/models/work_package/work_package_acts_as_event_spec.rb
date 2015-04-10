@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe 'acts_as_event' do
     let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
 
-    describe :event_url do
+    describe '#event_url' do
       let(:expected_url) { { controller: :work_packages, action: :show, id: stub_work_package.id } }
 
       it { expect(stub_work_package.event_url).to eq(expected_url) }

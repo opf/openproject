@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +34,8 @@ module Api::Experimental::Concerns::GrapeRouting
     API::Root
     query_route = API::V3::Queries::QueriesAPI.routes.detect { |r| r.route_path.match(Regexp.new("\/#{route}")) }
 
-    query_route.route_path.gsub(":version", query_route.route_version)
-                          .gsub(":id", query.id.to_s)
-                          .gsub(/\(\.:format\)/,'')
+    query_route.route_path.gsub(':version', query_route.route_version)
+      .gsub(':id', query.id.to_s)
+      .gsub(/\(\.:format\)/, '')
   end
 end

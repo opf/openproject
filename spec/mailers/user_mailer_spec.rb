@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,16 @@
 
 require 'spec_helper'
 
-describe UserMailer, :type => :mailer do
+describe UserMailer, type: :mailer do
   let(:type_standard) { FactoryGirl.build_stubbed(:type_standard) }
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:journal) { FactoryGirl.build_stubbed(:work_package_journal) }
-  let(:work_package) { FactoryGirl.build_stubbed(:work_package,
-                                                 type: type_standard) }
+  let(:work_package) {
+    FactoryGirl.build_stubbed(:work_package,
+                              type: type_standard)
+  }
+
+  let(:recipient) { FactoryGirl.build_stubbed(:user) }
 
   before do
     allow(work_package).to receive(:reload).and_return(work_package)
@@ -48,7 +52,44 @@ describe UserMailer, :type => :mailer do
     allow(Setting).to receive(:default_language).and_return('en')
   end
 
-  describe :test_mail do
+  shared_examples_for 'mail is sent' do
+    it 'actually sends a mail' do
+      expect(ActionMailer::Base.deliveries.size).to eql(1)
+    end
+
+    it 'is sent to the recipient' do
+      expect(ActionMailer::Base.deliveries.first.to).to include(recipient.mail)
+    end
+
+    it 'is sent from the configured address' do
+      expect(ActionMailer::Base.deliveries.first.from).to include('john@doe.com')
+    end
+  end
+
+  shared_examples_for 'mail is not sent' do
+    it 'sends no mail' do
+      expect(ActionMailer::Base.deliveries.size).to eql(0)
+    end
+  end
+
+  shared_examples_for 'does only send mails to author if permitted' do
+    let(:user_preference) {
+      FactoryGirl.build(:user_preference, others: { no_self_notified: true })
+    }
+    let(:user) { FactoryGirl.build_stubbed(:user, preference: user_preference) }
+
+    context 'mail is for another user' do
+      it_behaves_like 'mail is sent'
+    end
+
+    context 'mail is for author' do
+      let(:recipient) { user }
+
+      it_behaves_like 'mail is not sent'
+    end
+  end
+
+  describe '#test_mail' do
     let(:test_email) { 'bob.bobbi@example.com' }
     let(:test_user) { User.new(firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
     let(:mail) { UserMailer.test_mail(test_user) }
@@ -60,44 +101,64 @@ describe UserMailer, :type => :mailer do
       allow(test_user).to receive(:name).and_return('Bobbi, Bob')
     end
 
-     it 'escapes the name attribute properly' do
-       expect(mail.to).to eql [test_email]
-     end
-  end
-
-  describe :issue_update do
-    context :delayed_job do
-      before do
-        # Delayed Job does not preserve the closure, so the context of the
-        # delayed method call does not contain the user anymore, who triggered
-        # the job. Instead, the anonymous user is returned.
-        User.current = User.anonymous
-
-        UserMailer.work_package_updated(user, journal, user)
-      end
-
-      it { expect(User.current).to eq(user) }
-
-      after do
-        User.current = User.anonymous
-      end
+    it 'escapes the name attribute properly' do
+      expect(mail.to).to eql [test_email]
     end
   end
 
-  describe :wiki_content_updated do
+  describe '#work_package_added' do
+    before do
+      UserMailer.work_package_added(recipient, work_package, user).deliver
+    end
+
+    it_behaves_like 'mail is sent'
+
+    it 'contains the WP subject in the mail subject' do
+      expect(ActionMailer::Base.deliveries.first.subject).to include(work_package.subject)
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#work_package_updated' do
+    before do
+      UserMailer.work_package_updated(recipient, journal, user).deliver
+    end
+
+    it_behaves_like 'mail is sent'
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe :wiki_content_added do
     let(:wiki_content) { FactoryGirl.create(:wiki_content) }
-    let!(:mail) { UserMailer.wiki_content_updated(user, wiki_content) }
 
-    it "should link to the latest version diff page" do
-      expect(mail.body.encoded).to include "diff/2"
+    before do
+      UserMailer.wiki_content_added(recipient, wiki_content, user).deliver
     end
 
-    after do
-      User.current = nil
-    end
+    it_behaves_like 'mail is sent'
+
+    it_behaves_like 'does only send mails to author if permitted'
   end
 
-  describe :message_id do
+  describe '#wiki_content_updated' do
+    let(:wiki_content) { FactoryGirl.create(:wiki_content) }
+
+    before do
+      UserMailer.wiki_content_updated(recipient, wiki_content, user).deliver
+    end
+
+    it_behaves_like 'mail is sent'
+
+    it 'should link to the latest version diff page' do
+      expect(ActionMailer::Base.deliveries.first.body.encoded).to include 'diff/2'
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#message_id' do
     describe 'same user' do
       let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }
 
@@ -148,31 +209,31 @@ describe UserMailer, :type => :mailer do
       describe 'done ration modifications' do
         context 'changed done ratio' do
           before do
-            allow(journal).to receive(:details).and_return({"done_ratio" => [40, 100]})
+            allow(journal).to receive(:details).and_return('done_ratio' => [40, 100])
           end
 
           it 'displays changed done ratio' do
-            is_expected.to match("% done changed from 40 to 100")
+            is_expected.to match('% done changed from 40 to 100')
           end
         end
 
         context 'new done ratio' do
           before do
-            allow(journal).to receive(:details).and_return({"done_ratio" => [nil, 100]})
+            allow(journal).to receive(:details).and_return('done_ratio' => [nil, 100])
           end
 
           it 'displays new done ratio' do
-            is_expected.to match("% done changed from 0 to 100")
+            is_expected.to match('% done changed from 0 to 100')
           end
         end
 
         context 'deleted done ratio' do
           before do
-            allow(journal).to receive(:details).and_return({"done_ratio" => [50, nil]})
+            allow(journal).to receive(:details).and_return('done_ratio' => [50, nil])
           end
 
           it 'displays deleted done ratio' do
-            is_expected.to match("% done changed from 50 to 0")
+            is_expected.to match('% done changed from 50 to 0')
           end
         end
       end
@@ -180,15 +241,15 @@ describe UserMailer, :type => :mailer do
       describe 'start_date attribute' do
         context 'format the start date' do
           before do
-            allow(journal).to receive(:details).and_return({"start_date" => ['2010-01-01', '2010-01-31']})
+            allow(journal).to receive(:details).and_return('start_date' => ['2010-01-01', '2010-01-31'])
           end
 
           it 'old date should be formatted' do
-            is_expected.to match("01/01/2010")
+            is_expected.to match('01/01/2010')
           end
 
           it 'new date should be formatted' do
-            is_expected.to match("01/31/2010")
+            is_expected.to match('01/31/2010')
           end
         end
       end
@@ -196,15 +257,15 @@ describe UserMailer, :type => :mailer do
       describe 'due_date attribute' do
         context 'format the end date' do
           before do
-            allow(journal).to receive(:details).and_return({"due_date" => ['2010-01-01', '2010-01-31']})
+            allow(journal).to receive(:details).and_return('due_date' => ['2010-01-01', '2010-01-31'])
           end
 
           it 'old date should be formatted' do
-            is_expected.to match("01/01/2010")
+            is_expected.to match('01/01/2010')
           end
 
           it 'new date should be formatted' do
-            is_expected.to match("01/31/2010")
+            is_expected.to match('01/31/2010')
           end
         end
       end
@@ -214,7 +275,7 @@ describe UserMailer, :type => :mailer do
         let(:project_2) { FactoryGirl.create(:project) }
 
         before do
-          allow(journal).to receive(:details).and_return({"project_id" => [project_1.id, project_2.id]})
+          allow(journal).to receive(:details).and_return('project_id' => [project_1.id, project_2.id])
         end
 
         it "shows the old project's name" do
@@ -231,7 +292,7 @@ describe UserMailer, :type => :mailer do
         let(:status_2) { FactoryGirl.create(:status) }
 
         before do
-          allow(journal).to receive(:details).and_return({"status_id" => [status_1.id, status_2.id]})
+          allow(journal).to receive(:details).and_return('status_id' => [status_1.id, status_2.id])
         end
 
         it "shows the old status' name" do
@@ -248,7 +309,7 @@ describe UserMailer, :type => :mailer do
         let(:type_2) { FactoryGirl.create(:type_bug) }
 
         before do
-          allow(journal).to receive(:details).and_return({"type_id" => [type_1.id, type_2.id]})
+          allow(journal).to receive(:details).and_return('type_id' => [type_1.id, type_2.id])
         end
 
         it "shows the old type's name" do
@@ -265,7 +326,7 @@ describe UserMailer, :type => :mailer do
         let(:assignee_2) { FactoryGirl.create(:user) }
 
         before do
-          allow(journal).to receive(:details).and_return({"assigned_to_id" => [assignee_1.id, assignee_2.id]})
+          allow(journal).to receive(:details).and_return('assigned_to_id' => [assignee_1.id, assignee_2.id])
         end
 
         it "shows the old assignee's name" do
@@ -282,7 +343,7 @@ describe UserMailer, :type => :mailer do
         let(:priority_2) { FactoryGirl.create(:priority) }
 
         before do
-          allow(journal).to receive(:details).and_return({"priority_id" => [priority_1.id, priority_2.id]})
+          allow(journal).to receive(:details).and_return('priority_id' => [priority_1.id, priority_2.id])
         end
 
         it "shows the old priority's name" do
@@ -299,7 +360,7 @@ describe UserMailer, :type => :mailer do
         let(:category_2) { FactoryGirl.create(:category) }
 
         before do
-          allow(journal).to receive(:details).and_return({"category_id" => [category_1.id, category_2.id]})
+          allow(journal).to receive(:details).and_return('category_id' => [category_1.id, category_2.id])
         end
 
         it "shows the old category's name" do
@@ -316,7 +377,7 @@ describe UserMailer, :type => :mailer do
         let(:version_2) { FactoryGirl.create(:version) }
 
         before do
-          allow(journal).to receive(:details).and_return({"fixed_version_id" => [version_1.id, version_2.id]})
+          allow(journal).to receive(:details).and_return('fixed_version_id' => [version_1.id, version_2.id])
         end
 
         it "shows the old version's name" do
@@ -333,33 +394,35 @@ describe UserMailer, :type => :mailer do
         let(:estimated_hours_2) { 35.912834 }
 
         before do
-          allow(journal).to receive(:details).and_return({"estimated_hours" => [estimated_hours_1, estimated_hours_2]})
+          allow(journal).to receive(:details).and_return('estimated_hours' => [estimated_hours_1, estimated_hours_2])
         end
 
-        it "shows the old estimated hours" do
+        it 'shows the old estimated hours' do
           is_expected.to match('%.2f' % estimated_hours_1)
         end
 
-        it "shows the new estimated hours" do
+        it 'shows the new estimated hours' do
           is_expected.to match('%.2f' % estimated_hours_2)
         end
       end
 
       describe 'custom field' do
-        let(:expected_text_1) { "original, unchanged text" }
-        let(:expected_text_2) { "modified, new text" }
-        let(:custom_field) { FactoryGirl.create :work_package_custom_field,
-                                                field_format: "text" }
+        let(:expected_text_1) { 'original, unchanged text' }
+        let(:expected_text_2) { 'modified, new text' }
+        let(:custom_field) {
+          FactoryGirl.create :work_package_custom_field,
+                             field_format: 'text'
+        }
 
         before do
-          allow(journal).to receive(:details).and_return({"custom_fields_#{custom_field.id}" => [expected_text_1, expected_text_2]})
+          allow(journal).to receive(:details).and_return("custom_fields_#{custom_field.id}" => [expected_text_1, expected_text_2])
         end
 
-        it "shows the old custom field value" do
+        it 'shows the old custom field value' do
           is_expected.to match(expected_text_1)
         end
 
-        it "shows the new custom field value" do
+        it 'shows the new custom field value' do
           is_expected.to match(expected_text_2)
         end
       end
@@ -369,7 +432,7 @@ describe UserMailer, :type => :mailer do
 
         context 'added' do
           before do
-            allow(journal).to receive(:details).and_return({"attachments_#{attachment.id}" => [nil, attachment.filename]})
+            allow(journal).to receive(:details).and_return("attachments_#{attachment.id}" => [nil, attachment.filename])
           end
 
           it "shows the attachment's filename" do
@@ -387,7 +450,7 @@ describe UserMailer, :type => :mailer do
 
         context 'removed' do
           before do
-            allow(journal).to receive(:details).and_return({"attachments_#{attachment.id}" => [attachment.filename, nil]})
+            allow(journal).to receive(:details).and_return("attachments_#{attachment.id}" => [attachment.filename, nil])
           end
 
           it "shows the attachment's filename" do
@@ -406,9 +469,11 @@ describe UserMailer, :type => :mailer do
     end
 
     describe 'html mail' do
-      let(:expected_translation) { I18n.t(:done_ratio, :scope => [:activerecord,
-                                                                  :attributes,
-                                                                  :work_package]) }
+      let(:expected_translation) {
+        I18n.t(:done_ratio, scope: [:activerecord,
+                                    :attributes,
+                                    :work_package])
+      }
       let(:expected_prefix) { "<li><strong>#{expected_translation}</strong>" }
 
       before do
@@ -419,7 +484,7 @@ describe UserMailer, :type => :mailer do
         let(:expected) { "#{expected_prefix} changed from <i title=\"40\">40</i> to <i title=\"100\">100</i>" }
 
         before do
-          allow(journal).to receive(:details).and_return({"done_ratio" => [40, 100]})
+          allow(journal).to receive(:details).and_return('done_ratio' => [40, 100])
         end
 
         it 'displays changed done ratio' do
@@ -431,7 +496,7 @@ describe UserMailer, :type => :mailer do
         let(:expected) { "#{expected_prefix} changed from <i title=\"0\">0</i> to <i title=\"100\">100</i>" }
 
         before do
-          allow(journal).to receive(:details).and_return({"done_ratio" => [nil, 100]})
+          allow(journal).to receive(:details).and_return('done_ratio' => [nil, 100])
         end
 
         it 'displays new done ratio' do
@@ -443,7 +508,7 @@ describe UserMailer, :type => :mailer do
         let(:expected) { "#{expected_prefix} changed from <i title=\"50\">50</i> to <i title=\"0\">0</i>" }
 
         before do
-          allow(journal).to receive(:details).and_return({"done_ratio" => [50, nil]})
+          allow(journal).to receive(:details).and_return('done_ratio' => [50, nil])
         end
 
         it 'displays deleted done ratio' do

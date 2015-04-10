@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,15 +27,15 @@
 #++
 
 FactoryGirl.define do
-  factory(:timeline, :class => Timeline) do
+  factory(:timeline, class: Timeline) do
 
-    options({
-      'exist'                     => "",
-      'timeframe_start'           => "",
-      'zoom_factor'               => ["1"],
-      'timeframe_end'             => "",
-      'initial_outline_expansion' => ["2"]
-    })
+    options(
+      'exist'                     => '',
+      'timeframe_start'           => '',
+      'zoom_factor'               => ['1'],
+      'timeframe_end'             => '',
+      'initial_outline_expansion' => ['2']
+    )
 
     association :project
     sequence(:name) { |n| "Timeline No. #{n}" }
@@ -44,7 +44,7 @@ FactoryGirl.define do
 end
 
 FactoryGirl.define do
-  factory(:timeline_with_history, :parent => :timeline) do
+  factory(:timeline_with_history, parent: :timeline) do
 
     sequence(:name) { |n| "Timeline No. #{n} with History" }
 

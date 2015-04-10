@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
   def setup
     super
     @wiki = Wiki.find(1)
-    @original = WikiPage.create(:wiki => @wiki, :title => 'Original title')
+    @original = WikiPage.create(wiki: @wiki, title: 'Original title')
   end
 
   def test_create_redirect
@@ -50,7 +50,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
 
   def test_update_redirect
     # create a redirect that point to this page
-    assert WikiRedirect.create(:wiki => @wiki, :title => 'An_old_page', :redirects_to => 'Original_title')
+    assert WikiRedirect.create(wiki: @wiki, title: 'An_old_page', redirects_to: 'Original_title')
 
     @original.title = 'New title'
     @original.save
@@ -60,7 +60,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
 
   def test_reverse_rename
     # create a redirect that point to this page
-    assert WikiRedirect.create(:wiki => @wiki, :title => 'An_old_page', :redirects_to => 'Original_title')
+    assert WikiRedirect.create(wiki: @wiki, title: 'An_old_page', redirects_to: 'Original_title')
 
     @original.title = 'An old page'
     @original.save
@@ -69,7 +69,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
   end
 
   def test_rename_to_already_redirected
-    assert WikiRedirect.create(:wiki => @wiki, :title => 'An_old_page', :redirects_to => 'Other_page')
+    assert WikiRedirect.create(wiki: @wiki, title: 'An_old_page', redirects_to: 'Other_page')
 
     @original.title = 'An old page'
     @original.save
@@ -78,7 +78,7 @@ class WikiRedirectTest < ActiveSupport::TestCase
   end
 
   def test_redirects_removed_when_deleting_page
-    assert WikiRedirect.create(:wiki => @wiki, :title => 'An_old_page', :redirects_to => 'Original_title')
+    assert WikiRedirect.create(wiki: @wiki, title: 'An_old_page', redirects_to: 'Original_title')
 
     @original.destroy
     assert !@wiki.redirects.find(:first)

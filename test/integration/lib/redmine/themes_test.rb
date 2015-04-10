@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,16 +48,16 @@ class ThemesTest < ActionDispatch::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_tag :tag => 'link',
-      :attributes => {:href => '/assets/default.css'}
+    assert_tag tag: 'link',
+               attributes: { href: '/assets/default.css' }
   end
 
   should_eventually 'test_without_theme_js' do
     get '/'
 
     assert_response :success
-    assert_no_tag :tag => 'script',
-      :attributes => {:src => '/assets/default.js'}
+    assert_no_tag tag: 'script',
+                  attributes: { src: '/assets/default.js' }
   end
 
   should_eventually 'test_with_theme_js' do
@@ -67,8 +67,8 @@ class ThemesTest < ActionDispatch::IntegrationTest
       get '/'
 
       assert_response :success
-      assert_tag :tag => 'script',
-        :attributes => {:src => '/assets/default.js'}
+      assert_tag tag: 'script',
+                 attributes: { src: '/assets/default.js' }
     ensure
       @theme.javascripts.delete 'theme'
     end
@@ -81,10 +81,10 @@ class ThemesTest < ActionDispatch::IntegrationTest
       get '/'
 
       assert_response :success
-      assert_tag :tag => 'link',
-        :attributes => {:src => '/foo/assets/default.js'}
-      assert_tag :tag => 'script',
-        :attributes => {:src => '/foo/assets/default.js'}
+      assert_tag tag: 'link',
+                 attributes: { src: '/foo/assets/default.js' }
+      assert_tag tag: 'script',
+                 attributes: { src: '/foo/assets/default.js' }
     ensure
       OpenProject::Configuration['rails_relative_url_root'] = ''
     end

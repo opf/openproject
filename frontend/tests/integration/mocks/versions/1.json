@@ -1,0 +1,28 @@
+{
+  "_type": "Version",
+  "_links": {
+    "self": {
+      "href": "/api/v3/versions/1",
+      "title": "v1"
+    },
+    "definingProject": {
+      "href": "/api/v3/projects/1",
+      "title": "Seeded Project"
+    },
+    "availableInProjects": {
+      "href": "/api/v3/versions/1/projects"
+    }
+  },
+  "id": 1,
+  "name": "v1",
+  "description": {
+    "format": "plain",
+    "raw": "",
+    "html": ""
+  },
+  "startDate": "2015-02-02",
+  "endDate": null,
+  "status": "open",
+  "createdAt": "2015-02-18T14:53:17+00:00",
+  "updatedAt": "2015-02-18T14:53:17+00:00"
+}

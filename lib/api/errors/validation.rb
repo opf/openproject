@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,23 +29,57 @@
 
 module API
   module Errors
-    class Validation < Grape::Exceptions::Base
-      attr_reader :code, :title, :description, :headers
+    class Validation < ErrorBase
+      def self.create(errors)
+        merge_error_properties(errors)
 
-      def initialize(obj, args = { })
-        @obj = obj
-        @code = args[:code] || 422
-        @title = args[:title] || 'validation_error'
-        @description = args[:description] || 'Validation failed.'
-        @headers = { 'Content-Type' => 'application/hal+json' }.merge(args[:headers] || { })
+        errors.keys.each_with_object({}) do |attribute, hash|
+          messages = errors[attribute].each_with_object([]) do |message, message_list|
+            # Let's assume that standard validation errors never end with a
+            # punctuation mark. Then it should be fair enough to assume that we
+            # don't need to prepend the error key if the error ends with a
+            # punctuation mark. Let's hope that this is true for the languages
+            # we'll support in OpenProject.
+            if message =~ /(\.|\?|\!)\z/
+              message_list << message
+            else
+              message_list << errors.full_message(attribute, message) + '.'
+            end
+          end
+
+          hash[attribute.to_s.camelize(:lower)] = ::API::Errors::Validation.new(messages)
+        end
       end
 
-      def errors
-        @obj.nil? ? '' : @obj.errors.full_messages
+      # Merges property error messages (e.g. for status and status_id)
+      def self.merge_error_properties(errors)
+        properties = errors.keys
+
+        properties.each do |p|
+          match = /(?<property>\w+)_id/.match(p)
+
+          if match
+            key = match[:property].to_sym
+            error = Array(errors[key]) + errors[p]
+
+            errors.set(key, error)
+            errors.delete(p)
+          end
+        end
       end
 
-      def to_json
-        { title: @title, description: @description, errors: errors }.to_json
+      def initialize(messages)
+        messages = Array(messages)
+
+        if messages.length == 1
+          message = messages[0]
+        else
+          message = I18n.t('api_v3.errors.multiple_errors')
+        end
+
+        super 422, message
+
+        messages.each { |m| @errors << Validation.new(m) } if messages.length > 1
       end
     end
   end

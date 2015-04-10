@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,22 +28,22 @@
 
 FactoryGirl.define do
   factory :work_package_custom_field do
-    ignore do
+    transient do
       name_locales nil
       default_locales nil
     end
 
-    sequence(:name) {|n| "Custom Field Nr. #{n}"}
-    regexp ""
+    sequence(:name) { |n| "Custom Field Nr. #{n}" }
+    regexp ''
     is_required false
     min_length false
-    default_value ""
+    default_value ''
     max_length false
     editable true
-    possible_values ""
+    possible_values ''
     visible true
-    field_format "bool"
-    type "WorkPackageCustomField"
+    field_format 'bool'
+    type 'WorkPackageCustomField'
 
     callback(:after_build) do |custom_field, evaluator|
       name_locales = evaluator.name_locales || {}

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,22 +28,22 @@
 
 RSpec::Matchers.define :have_exactly_one_selected_menu_item_in do |menu|
   match do |actual|
-    failure_message(menu, actual) == nil
+    build_failure_message(menu, actual) == nil
   end
 
-  failure_message_for_should do |actual|
-    failure_message(menu, actual)
+  failure_message do |actual|
+    build_failure_message(menu, actual)
   end
 
   description do
     "have exactly one selected menu item in #{menu}"
   end
 
-  failure_message_for_should_not do |actual|
-    raise "You should not use this matcher for should_not matches"
+  failure_message_when_negated do |_actual|
+    raise 'You should not use this matcher for should_not matches'
   end
 
-  def failure_message(menu, actual)
+  def build_failure_message(menu, actual)
     menu_selector = HTML::Selector.new(selector_for_menu(menu))
     menu_item_selector = HTML::Selector.new('a.selected')
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ When(/^I log (\d+) hours with the comment "(.*?)"$/) do |hours, comment|
   click_link I18n.t(:button_log_time)
   fill_in TimeEntry.human_attribute_name(:hours), with: hours
   fill_in TimeEntry.human_attribute_name(:comment), with: comment
-  select "Development", from: "Activity"
+  select 'Development', from: 'Activity'
   click_button I18n.t(:button_save)
 end
 
@@ -54,7 +54,7 @@ Then(/^I should (not )?see a total spent time of (\d+) hours$/) do |negative, ho
 
   if available || !negative
     within('div.total-hours') do
-      element = find("span.hours-int")
+      element = find('span.hours-int')
 
       if negative
         expect(element).not_to have_content hours
@@ -66,8 +66,8 @@ Then(/^I should (not )?see a total spent time of (\d+) hours$/) do |negative, ho
 end
 
 When(/^I update the first time entry with (\d+) hours and the comment "(.*?)"$/) do |hours, comment|
-  click_link I18n.t("button_edit")
+  click_link I18n.t('button_edit')
   fill_in TimeEntry.human_attribute_name(:hours), with: hours
   fill_in TimeEntry.human_attribute_name(:comment), with: comment
-  click_button "Save"
+  click_button 'Save'
 end

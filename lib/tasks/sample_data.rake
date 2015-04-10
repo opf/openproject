@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 namespace :sample_data do
 
-  desc "Create the given number of fake projects"
-  task :projects, [:nr_of_projects] => :environment do |task, args|
+  desc 'Create the given number of fake projects'
+  task :projects, [:nr_of_projects] => :environment do |_task, args|
     puts "Creating #{args[:nr_of_projects]} fake projects"
 
     args[:nr_of_projects].to_i.times do |i|
@@ -46,6 +46,5 @@ namespace :sample_data do
     puts "#{args[:nr_of_projects]} fake projects created"
 
   end
-
 
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +37,8 @@ class Repository::Filesystem < Repository
            :validate_url_is_dir
 
   ATTRIBUTE_KEY_NAMES = {
-      "url"          => "Root directory",
-    }
+    'url'          => 'Root directory',
+  }
   def self.human_attribute_name(attribute_key_name, options = {})
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
   end
@@ -59,7 +59,7 @@ class Repository::Filesystem < Repository
     false
   end
 
-  def entries(path=nil, identifier=nil)
+  def entries(path = nil, identifier = nil)
     scm.entries(path, identifier)
   end
 

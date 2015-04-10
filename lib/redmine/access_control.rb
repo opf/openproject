@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 
 module Redmine
   module AccessControl
-
     class << self
       def map
         mapper = Mapper.new
@@ -47,7 +46,7 @@ module Redmine
       # Returns the permission of given name or nil if it wasn't found
       # Argument should be a symbol
       def permission(name)
-        permissions.detect {|p| p.name == name}
+        permissions.detect { |p| p.name == name }
       end
 
       # Returns the actions that are allowed by the permission of given name
@@ -57,56 +56,67 @@ module Redmine
       end
 
       def public_permissions
-        @public_permissions ||= @permissions.select {|p| p.public?}
+        @public_permissions ||= @permissions.select(&:public?)
       end
 
       def members_only_permissions
-        @members_only_permissions ||= @permissions.select {|p| p.require_member?}
+        @members_only_permissions ||= @permissions.select(&:require_member?)
       end
 
       def loggedin_only_permissions
-        @loggedin_only_permissions ||= @permissions.select {|p| p.require_loggedin?}
+        @loggedin_only_permissions ||= @permissions.select(&:require_loggedin?)
       end
 
       def available_project_modules
         @available_project_modules ||= (
-            @permissions.collect(&:project_module) + @project_modules_without_permissions
+            @permissions.map(&:project_module) + @project_modules_without_permissions
           ).uniq.compact
       end
 
       def modules_permissions(modules)
-        @permissions.select {|p| p.project_module.nil? || modules.include?(p.project_module.to_s)}
+        @permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
+      end
+
+      def remove_modules_permissions(module_name)
+        permissions = @permissions
+
+        module_permissions = permissions.select { |p| p.project_module.to_s == module_name.to_s }
+
+        clear_caches
+
+        @permissions = permissions - module_permissions
+      end
+
+      def clear_caches
+        @available_project_modules = nil
+        @public_permissions = nil
+        @members_only_permissions = nil
+        @loggedin_only_permissions = nil
       end
     end
 
     class Mapper
-      def initialize
-        @project_module = nil
-        @project_modules_without_permissions = []
+      def permission(name, hash, options = {})
+        options.merge!(project_module: @project_module)
+        mapped_permissions << Permission.new(name, hash, options)
       end
 
-      def permission(name, hash, options={})
-        @permissions ||= []
-        options.merge!(:project_module => @project_module)
-        @permissions << Permission.new(name, hash, options)
-      end
-
-      def project_module(name, options={})
+      def project_module(name, _options = {})
         if block_given?
           @project_module = name
           yield self
           @project_module = nil
         else
-          @project_modules_without_permissions << name
+          project_modules_without_permissions << name
         end
       end
 
       def mapped_permissions
-        @permissions
+        @permissions ||= []
       end
 
       def project_modules_without_permissions
-        @project_modules_without_permissions
+        @project_modules_without_permissions ||= []
       end
     end
 
@@ -121,7 +131,7 @@ module Redmine
         @project_module = options[:project_module]
         hash.each do |controller, actions|
           if actions.is_a? Array
-            @actions << actions.collect {|action| "#{controller}/#{action}"}
+            @actions << actions.map { |action| "#{controller}/#{action}" }
           else
             @actions << "#{controller}/#{actions}"
           end

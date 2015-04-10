@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,6 @@
 #++
 
 class CreateUserPasswords < ActiveRecord::Migration
-
   def initialize
     super
     @former_passwords_table_exists = ActiveRecord::Base.connection.tables.include? 'former_user_passwords'
@@ -36,15 +35,15 @@ class CreateUserPasswords < ActiveRecord::Migration
 
   def up
     create_table :user_passwords do |t|
-      t.integer :user_id, :null => false
-      t.string :hashed_password, :limit => 40
-      t.string :salt, :limit => 64
+      t.integer :user_id, null: false
+      t.string :hashed_password, limit: 40
+      t.string :salt, limit: 64
       t.timestamps
     end
     add_index :user_passwords, :user_id
 
-    #if the plugin strong passwords was installed, we also transfer its
-    #stored former passwords of the users
+    # if the plugin strong passwords was installed, we also transfer its
+    # stored former passwords of the users
     if @former_passwords_table_exists
       ActiveRecord::Base.connection.execute <<-SQL
         INSERT INTO user_passwords (user_id, hashed_password, salt, created_at, updated_at)
@@ -57,15 +56,15 @@ class CreateUserPasswords < ActiveRecord::Migration
     begin
       # because of the circular dependencies between User, Principal and Project
       # we have to require principal first
-      # see https://www.openproject.org/issues/1294
+      # see https://community.openproject.org/work_packages/1294
       require 'principal'
       UserPassword.record_timestamps = false
       # Create a UserPassword with the old password for each user
       User.find_each do |user|
-        user.passwords.create({:hashed_password => user.hashed_password,
-                               :salt => user.salt,
-                               :created_at => user.updated_on,
-                               :updated_at => user.updated_on})
+        user.passwords.create(hashed_password: user.hashed_password,
+                              salt: user.salt,
+                              created_at: user.updated_on,
+                              updated_at: user.updated_on)
       end
     ensure
       UserPassword.record_timestamps = true
@@ -81,8 +80,8 @@ class CreateUserPasswords < ActiveRecord::Migration
     # we dont recreate the former_user_passwords_table here, since there is no Rails3
     # version of the old strong passwords plugin
     change_table :users do |t|
-      t.string :hashed_password, :limit => 40
-      t.string :salt, :limit => 60
+      t.string :hashed_password, limit: 40
+      t.string :salt, limit: 60
     end
     User.reset_column_information
 

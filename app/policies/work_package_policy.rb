@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,8 @@ class WorkPackagePolicy < BasePolicy
         move: move_allowed?(work_package),
         copy: move_allowed?(work_package),
         duplicate: copy_allowed?(work_package), # duplicating is another form of copying
-        delete: delete_allowed?(work_package)
+        delete: delete_allowed?(work_package),
+        manage_subtasks: manage_subtasks_allowed?(work_package)
       }
     end
   end
@@ -102,5 +103,13 @@ class WorkPackagePolicy < BasePolicy
     end
 
     @type_active_cache[work_package.project].include?(work_package.type_id)
+  end
+
+  def manage_subtasks_allowed?(work_package)
+    @manage_subtasks_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:manage_subtasks, work_package.project)
+    end
+
+    @manage_subtasks_cache[work_package.project]
   end
 end

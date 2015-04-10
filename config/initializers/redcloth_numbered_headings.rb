@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'redcloth3'
+
 module RedCloth3Patch
   def self.included(base)
     base.send(:include, InstanceMethods)
@@ -39,11 +41,9 @@ module RedCloth3Patch
   end
 
   module InstanceMethods
-
     private
 
     def block_textile_prefix_with_numbering(text)
-
       text.replace(prepend_number_to_heading(text))
 
       block_textile_prefix_without_numbering(text)
@@ -63,7 +63,7 @@ module RedCloth3Patch
         reset_numbering
       end
 
-      return new_text.nil? ? text : new_text
+      new_text.nil? ? text : new_text
     end
 
     def get_next_number_or_start_new_numbering(level)
@@ -86,7 +86,6 @@ module RedCloth3Patch
     def reset_numbering
       @numbering_provider = nil
     end
-
   end
 end
 
@@ -104,7 +103,7 @@ module Redcloth3
 
       increase_numbering_for_level internal_level
 
-      return current_numbering
+      current_numbering
     end
 
     private
@@ -118,7 +117,7 @@ module Redcloth3
         reset_higher_levels_than level
       end
 
-      return @stack[level]
+      @stack[level]
     end
 
     def reset_higher_levels_than(level)
@@ -126,18 +125,18 @@ module Redcloth3
     end
 
     def current_numbering
-      return @stack.join(".") + "."
+      @stack.join('.') + '.'
     end
 
     def map_external_to_internal_level(level)
       if level.to_i < @init_level
-        raise ArgumentError, "Current level lower than initial level"
+        raise ArgumentError, 'Current level lower than initial level'
       end
       level.to_i - @init_level
     end
 
     def fill_nil_levels_with_zero
-      @stack.map! { |e| e.nil? ? 0 : e}
+      @stack.map! { |e| e.nil? ? 0 : e }
     end
   end
 end

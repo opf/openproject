@@ -3,6 +3,7 @@ require 'rack/test'
 
 describe 'API v3 Root resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryGirl.create(:user) }
   let(:role) { FactoryGirl.create(:role, permissions: []) }
@@ -10,7 +11,7 @@ describe 'API v3 Root resource' do
 
   describe '#get' do
     subject(:response) { last_response }
-    let(:get_path) { "/api/v3" }
+    let(:get_path) { api_v3_paths.root }
 
     context 'anonymous user' do
       before do

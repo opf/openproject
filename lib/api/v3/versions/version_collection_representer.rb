@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,36 +28,15 @@
 #++
 
 require 'roar/decorator'
-require 'representable/json/collection'
-require 'roar/representer/json/hal'
+require 'roar/json'
+require 'roar/json/collection'
+require 'roar/json/hal'
 
 module API
   module V3
     module Versions
-      class VersionCollectionRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include OpenProject::StaticRouting::UrlHelpers
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        attr_reader :project
-
-        def initialize(model, project)
-          @project = project
-          super(model)
-        end
-
-        link :self do
-          "#{root_path}api/v3/projects/#{project.id}/versions"
-        end
-
-        property :_type, exec_context: :decorator
-
-        collection :versions, embedded: true, extend: VersionRepresenter, getter: ->(_) { self }
-
-        def _type
-          'Versions'
-        end
+      class VersionCollectionRepresenter < ::API::Decorators::Collection
+        element_decorator ::API::V3::Versions::VersionRepresenter
       end
     end
   end

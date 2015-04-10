@@ -1,0 +1,55 @@
+<div id="column-context-menu"
+     role="menu"
+     class="dropdown-relative dropdown action-menu"
+     ng-class="{'dropdown-anchor-right': column && column.name !== 'id'}">
+  <ul class="dropdown-menu">
+    <li ng-if="canSort()" role="menuitem">
+      <a role="menuitem" focus href="" ng-click="sortAscending(column.name)">
+        <i class="icon-action-menu icon-sort-ascending"></i>
+        <span ng-bind="I18n.t('js.work_packages.query.sort_ascending')"/>
+      </a>
+    </li>
+
+    <li ng-if="canSort()">
+      <a role="menuitem" href="" ng-click="sortDescending(column.name)">
+        <i class="icon-action-menu icon-sort-descending"></i>
+        <span ng-bind="I18n.t('js.work_packages.query.sort_descending')"/>
+      </a>
+    </li>
+
+    <li ng-if="isGroupable">
+      <a role="menuitem" focus="focusFeature('group')" href="" ng-click="groupBy(column.name)">
+        <i class="icon-action-menu icon-group-by2"></i>
+        <span ng-bind="I18n.t('js.work_packages.query.group')"/>
+      </a>
+    </li>
+
+    <li ng-if="canMoveLeft()">
+      <a role="menuitem" focus="focusFeature('moveLeft')" href="" ng-click="moveLeft(column.name)">
+        <i class="icon-action-menu icon-column-left"></i>
+        <span ng-bind="I18n.t('js.work_packages.query.move_column_left')"/>
+      </a>
+    </li>
+
+    <li ng-if="canMoveRight()">
+      <a role="menuitem" focus="focusFeature('moveRight')" href="" ng-click="moveRight(column.name)">
+        <i class="icon-action-menu icon-column-right"></i>
+        <span ng-bind="I18n.t('js.work_packages.query.move_column_right')"/>
+      </a>
+    </li>
+
+    <li ng-if="canBeHidden()">
+      <a role="menuitem" focus="focusFeature('hide')" href="" ng-click="hideColumn(column.name)">
+        <i class="icon-action-menu icon-delete2"></i>
+        <span ng-bind="I18n.t('js.work_packages.query.hide_column')"/>
+      </a>
+    </li>
+
+    <li>
+      <a role="menuitem" focus="focusFeature('insert')" href="" ng-click="insertColumns()">
+        <i class="icon-action-menu icon-columns"></i>
+        <span ng-bind="I18n.t('js.work_packages.query.insert_columns')"/>
+      </a>
+    </li>
+  </ul>
+</div>

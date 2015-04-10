@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-#require 'source_annotation_extractor'
+# require 'source_annotation_extractor'
 
 # Modified version of the SourceAnnotationExtractor in railties
 # Will search for runable code that uses <tt>call_hook</tt>
@@ -59,29 +59,29 @@ end
 
 namespace :redmine do
   namespace :plugins do
-    desc "Enumerate all Redmine plugin hooks and their context parameters"
+    desc 'Enumerate all Redmine plugin hooks and their context parameters'
     task :hook_list do
       PluginSourceAnnotationExtractor.enumerate 'call_hook'
     end
 
     namespace :test do
       desc 'Runs the plugins unit tests.'
-      Rake::TestTask.new :units => "db:test:prepare" do |t|
-        t.libs << "test"
+      Rake::TestTask.new units: 'db:test:prepare' do |t|
+        t.libs << 'test'
         t.verbose = true
         t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
       end
 
       desc 'Runs the plugins functional tests.'
-      Rake::TestTask.new :functionals => "db:test:prepare" do |t|
-        t.libs << "test"
+      Rake::TestTask.new functionals: 'db:test:prepare' do |t|
+        t.libs << 'test'
         t.verbose = true
         t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
       end
 
       desc 'Runs the plugins integration tests.'
-      Rake::TestTask.new :integration => "db:test:prepare" do |t|
-        t.libs << "test"
+      Rake::TestTask.new integration: 'db:test:prepare' do |t|
+        t.libs << 'test'
         t.verbose = true
         t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
       end

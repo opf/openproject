@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,12 +38,12 @@ module OpenProject
       # class methods
 
       describe '.new_theme' do
-        it "returns a new theme" do
+        it 'returns a new theme' do
           theme = Theme.new_theme
           expect(theme).to be_kind_of Theme
         end
 
-        it "allows passing in the identifier" do
+        it 'allows passing in the identifier' do
           theme = Theme.new_theme do |theme|
             theme.identifier = :new_theme
           end
@@ -52,16 +52,16 @@ module OpenProject
       end
 
       describe '.abstract!' do
-        it "abstract themes have no instance" do
+        it 'abstract themes have no instance' do
           theme_class = Class.new(Theme) { abstract! }
           expect { theme_class.instance }.to raise_error NoMethodError
         end
       end
 
       describe '.abstract?' do
-        it "is abstract when marked as abstract" do
+        it 'is abstract when marked as abstract' do
           theme_class = Class.new(Theme)
-          expect(theme_class).to_not be_abstract
+          expect(theme_class).not_to be_abstract
           theme_class.abstract!
           expect(theme_class).to be_abstract
         end
@@ -69,19 +69,19 @@ module OpenProject
 
       # duplicates singleton code, just to make sure
       describe '.instance' do
-        it "is an instance of the class" do
+        it 'is an instance of the class' do
           theme_class = Class.new(Theme)
           expect(theme_class.instance.class).to be theme_class
         end
 
-        it "is a singleton" do
+        it 'is a singleton' do
           theme_class = Class.new(Theme)
           expect(theme_class.instance).to be theme_class.instance
         end
       end
 
       describe '.inherited' do
-        it "is aware of the new theme after inheriting" do
+        it 'is aware of the new theme after inheriting' do
           theme = Theme.new_theme
           expect(ThemeFinder.themes).to include theme
         end
@@ -135,7 +135,7 @@ module OpenProject
           end
 
           it "doesn't store images which are not present" do
-            expect(theme.overridden_images).to_not include 'missing.rb'
+            expect(theme.overridden_images).not_to include 'missing.rb'
           end
         end
 
@@ -146,7 +146,7 @@ module OpenProject
           end
 
           it 'wont fail' do
-            expect { theme.overridden_images }.to_not raise_error
+            expect { theme.overridden_images }.not_to raise_error
           end
 
           it 'has an empty list' do
@@ -156,14 +156,14 @@ module OpenProject
       end
 
       describe '#path_to_image' do
-        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
+        let(:theme) { Theme.new_theme { |t| t.identifier = :new_theme } }
 
         before do
           # set a list of overridden images
           allow(theme).to receive(:overridden_images).and_return(['add.png'])
         end
 
-        it "prepends the theme path if file is present" do
+        it 'prepends the theme path if file is present' do
           expect(theme.path_to_image('add.png')).to eq 'new_theme/add.png'
         end
 
@@ -181,7 +181,7 @@ module OpenProject
       end
 
       describe '#overridden_images_path' do
-        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
+        let(:theme) { Theme.new_theme { |t| t.identifier = :new_theme } }
 
         before do
           # set an arbitrary base path for assets
@@ -229,19 +229,19 @@ module OpenProject
       end
 
       describe '#<=>' do
-        it "is equal when the classes match" do
+        it 'is equal when the classes match' do
           theme_class = Class.new(Theme)
           expect(theme_class.instance).to eq theme_class.instance
         end
 
         it "is not equal when the classes don't match" do
-          expect(Class.new(Theme).instance).to_not eq Class.new(Theme).instance
+          expect(Class.new(Theme).instance).not_to eq Class.new(Theme).instance
         end
       end
     end
 
     describe ViewHelpers do
-      let(:theme)   { Theme.new_theme {|t| t.identifier = :new_theme} }
+      let(:theme)   { Theme.new_theme { |t| t.identifier = :new_theme } }
       let(:helpers) { ApplicationController.helpers }
 
       before do

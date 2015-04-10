@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,15 +71,15 @@ if User.admin.empty?
   Setting.password_min_length = 0
 
   user.admin = true
-  user.login = "admin"
-  user.password = "admin"
+  user.login = 'admin'
+  user.password = 'admin'
   # force password change on first login
   user.force_password_change = true
-  user.firstname = "OpenProject"
-  user.lastname = "Admin"
-  user.mail = ENV.fetch('ADMIN_EMAIL') { "admin@example.net" }
+  user.firstname = 'OpenProject'
+  user.lastname = 'Admin'
+  user.mail = ENV.fetch('ADMIN_EMAIL') { 'admin@example.net' }
   user.mail_notification = User::USER_MAIL_OPTION_NON.first
-  user.language = "en"
+  user.language = 'en'
   user.status = 1
   user.save!
 

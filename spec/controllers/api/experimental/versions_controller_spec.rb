@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ describe Api::Experimental::VersionsController, type: :controller do
   before do
     allow(User).to receive(:current).and_return(current_user)
     allow(Project).to receive(:find).with(project.id.to_s)
-                                    .and_return(project)
+      .and_return(project)
   end
 
   describe '#index' do
@@ -58,8 +58,8 @@ describe Api::Experimental::VersionsController, type: :controller do
 
       context 'with versions available' do
         before do
-          project.stub_chain(:shared_versions, :all)
-                 .and_return(FactoryGirl.build_list(:version, 2))
+          allow(project).to receive_message_chain(:shared_versions, :all)
+            .and_return(FactoryGirl.build_list(:version, 2))
         end
 
         it 'assigns an array with 2 versions' do
@@ -84,8 +84,8 @@ describe Api::Experimental::VersionsController, type: :controller do
 
         before do
           # TODO: rename to receive_message_chain once on rspec 3.0
-          Version.stub_chain(:visible, :systemwide)
-                 .and_return(shared_versions)
+          allow(Version).to receive_message_chain(:visible, :systemwide)
+            .and_return(shared_versions)
 
           get 'index', format: 'json'
         end

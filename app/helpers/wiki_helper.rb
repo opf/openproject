@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ module WikiHelper
         indent = (level > 0) ? ('&nbsp;' * level * 2 + '&#187; ') : nil
 
         s << "<option #{attrs}>#{indent}#{h(page.pretty_title)}</option>\n" +
-               wiki_page_options_for_select(pages, selected, page, level + 1)
+          wiki_page_options_for_select(pages, selected, page, level + 1)
       end
     end
     s.html_safe
@@ -47,10 +47,10 @@ module WikiHelper
   def breadcrumb_for_page(page, action = nil)
     if action
       related_pages = page.ancestors.reverse + [page]
-      breadcrumb_paths(*(related_pages.collect{|parent| link_to h(parent.breadcrumb_title), {:id => parent.title, :project_id => parent.project, :action => "show"}} + [action]))
+      breadcrumb_paths(*(related_pages.map { |parent| link_to h(parent.breadcrumb_title), id: parent.title, project_id: parent.project, action: 'show' } + [action]))
     else
       related_pages = page.ancestors.reverse
-      breadcrumb_paths(*(related_pages.collect{|parent| link_to h(parent.breadcrumb_title), {:id => parent.title, :project_id => parent.project, :action => "show"}} + [h(page.breadcrumb_title)]))
+      breadcrumb_paths(*(related_pages.map { |parent| link_to h(parent.breadcrumb_title), id: parent.title, project_id: parent.project, action: 'show' } + [h(page.breadcrumb_title)]))
     end
   end
 

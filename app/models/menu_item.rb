@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +30,13 @@
 class MenuItem < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :parent, :class_name => 'MenuItem'
-  has_many :children, :class_name => 'MenuItem', :dependent => :destroy, :foreign_key => :parent_id, :order => 'id ASC'
+  belongs_to :parent, class_name: 'MenuItem'
+  has_many :children, class_name: 'MenuItem', dependent: :destroy, foreign_key: :parent_id, order: 'id ASC'
 
   serialize :options, Hash
 
   validates_presence_of :title
-  validates_uniqueness_of :title, :scope => [:navigatable_id, :type]
+  validates_uniqueness_of :title, scope: [:navigatable_id, :type]
 
   validates_presence_of :name
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,18 @@
 
 class AttachmentsController < ApplicationController
   before_filter :find_project
-  before_filter :file_readable, :read_authorize, :except => :destroy
-  before_filter :delete_authorize, :only => :destroy
+  before_filter :file_readable, :read_authorize, except: :destroy
+  before_filter :delete_authorize, only: :destroy
 
   def show
     if @attachment.is_diff?
-      @diff = File.new(@attachment.diskfile, "rb").read
-      render :action => 'diff'
+      @diff = File.new(@attachment.diskfile, 'rb').read
+      render action: 'diff'
     elsif @attachment.is_text? && @attachment.filesize <= Setting.file_max_size_displayed.to_i.kilobyte
-      @content = File.new(@attachment.diskfile, "rb").read
-      render :action => 'file'
+      @content = File.new(@attachment.diskfile, 'rb').read
+      render action: 'file'
     else
-      download
+      redirect_to link_to_attachment(@attachment)
     end
   end
 
@@ -52,10 +52,9 @@ class AttachmentsController < ApplicationController
     # browsers should not try to guess the content-type
     response.headers['X-Content-Type-Options'] = 'nosniff'
 
-    send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-                                    :type => @attachment.content_type,
-                                    :disposition => @attachment.content_disposition
-
+    send_file @attachment.diskfile, filename: filename_for_content_disposition(@attachment.filename),
+                                    type: @attachment.content_type,
+                                    disposition: @attachment.content_disposition
   end
 
   def destroy
@@ -68,7 +67,17 @@ class AttachmentsController < ApplicationController
     end
   end
 
-private
+  private
+
+  def link_to_attachment(attachment)
+    url = URI.parse attachment.file.download_url
+
+    if url.host # check if URL or file path
+      url.to_s
+    else
+      download_attachment_url filename: attachment.filename, id: attachment.id
+    end
+  end
 
   def find_project
     @attachment = Attachment.find(params[:id])
@@ -93,6 +102,6 @@ private
   end
 
   def destroy_response_url(container)
-    url_for(container.kind_of?(WikiPage) ? [@project, container.wiki] : container)
+    url_for(container.is_a?(WikiPage) ? [@project, container.wiki] : container)
   end
 end

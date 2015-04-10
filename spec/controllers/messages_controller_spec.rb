@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,25 +28,32 @@
 
 require 'spec_helper'
 
-describe MessagesController, :type => :controller do
+describe MessagesController, type: :controller do
 
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role) }
-  let!(:member) { FactoryGirl.create(:member,
-                                     project: project,
-                                     principal: user,
-                                     roles: [role]) }
-  let!(:board) { FactoryGirl.create(:board,
-                                    project: project) }
-  let(:filename) { "test1.test" }
+  let!(:member) {
+    FactoryGirl.create(:member,
+                       project: project,
+                       principal: user,
+                       roles: [role])
+  }
+  let!(:board) {
+    FactoryGirl.create(:board,
+                       project: project)
+  }
+
+  let(:filename) { 'testfile.txt' }
+  let(:file) { File.open(Rails.root.join('test/fixtures/files', filename)) }
+  let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
 
   before { allow(User).to receive(:current).and_return user }
 
-  describe :create do
-    context :attachments do
+  describe '#create' do
+    context 'attachments' do
       # see ticket #2464 on OpenProject.org
-      context "new attachment on new messages" do
+      context 'new attachment on new messages' do
         before do
           expect(controller).to receive(:authorize).and_return(true)
 
@@ -54,13 +61,13 @@ describe MessagesController, :type => :controller do
           allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
 
           post 'create', board_id: board.id,
-                         message: { subject: "Test created message",
-                                    content: "Messsage body" },
-                         attachments: { file: { file: filename,
-                                                description: '' } }
+                         message: { subject: 'Test created message',
+                                    content: 'Messsage body' },
+                         attachments: { '1' => { 'file' => uploaded_file,
+                                                 'description' => '' } }
         end
 
-        describe :journal do
+        describe '#journal' do
           let(:attachment_id) { "attachments_#{Message.last.attachments.first.id}" }
 
           subject { Message.last.journals.last.changed_data }
@@ -73,13 +80,13 @@ describe MessagesController, :type => :controller do
     end
   end
 
-  describe :update do
+  describe '#update' do
     let(:message) { FactoryGirl.create :message, board: board }
     let(:other_board) { FactoryGirl.create :board, project: project }
 
     before do
       role.add_permission!(:edit_messages) and user.reload
-      put :update, id: message, message: {board_id: other_board}
+      put :update, id: message, message: { board_id: other_board }
     end
 
     it 'allows for changing the board' do
@@ -87,14 +94,16 @@ describe MessagesController, :type => :controller do
     end
   end
 
-  describe :attachment do
+  describe '#attachment' do
     let!(:message) { FactoryGirl.create(:message) }
     let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
-    let(:params) { { id: message.id,
-                     attachments: { '1' => { file: filename,
-                                             description: '' } } } }
+    let(:params) {
+      { id: message.id,
+        attachments: { '1' => { 'file' => uploaded_file,
+                                'description' => '' } } }
+    }
 
-    describe :add do
+    describe '#add' do
       before do
         allow_any_instance_of(Message).to receive(:editable_by?).and_return(true)
 
@@ -102,7 +111,7 @@ describe MessagesController, :type => :controller do
         allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
       end
 
-      context "invalid attachment" do
+      context 'invalid attachment' do
         let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
 
         before do
@@ -111,13 +120,13 @@ describe MessagesController, :type => :controller do
           put :update, params
         end
 
-        describe :view do
+        describe '#view' do
           subject { response }
 
-          it { is_expected.to render_template('messages/edit', formats: ["html"]) }
+          it { is_expected.to render_template('messages/edit', formats: ['html']) }
         end
 
-        describe :error do
+        describe '#error' do
           subject { assigns(:message).errors.messages }
 
           it { is_expected.to have_key(:attachments) }
@@ -126,20 +135,20 @@ describe MessagesController, :type => :controller do
         end
       end
 
-      context :journal do
+      context 'journal' do
         before do
           put :update, params
 
           message.reload
         end
 
-        describe :key do
+        describe '#key' do
           subject { message.journals.last.changed_data }
 
           it { is_expected.to have_key attachment_id }
         end
 
-        describe :value do
+        describe '#value' do
           subject { message.journals.last.changed_data[attachment_id].last }
 
           it { is_expected.to eq(filename) }
@@ -147,15 +156,19 @@ describe MessagesController, :type => :controller do
       end
     end
 
-    describe :remove do
-      let!(:attachment) { FactoryGirl.create(:attachment,
-                                             container: message,
-                                             author: user,
-                                             filename: filename) }
-      let!(:attachable_journal) { FactoryGirl.create(:journal_attachable_journal,
-                                                     journal: message.journals.last,
-                                                     attachment: attachment,
-                                                     filename: filename) }
+    describe '#remove' do
+      let!(:attachment) {
+        FactoryGirl.create(:attachment,
+                           container: message,
+                           author: user,
+                           filename: filename)
+      }
+      let!(:attachable_journal) {
+        FactoryGirl.create(:journal_attachable_journal,
+                           journal: message.journals.last,
+                           attachment: attachment,
+                           filename: filename)
+      }
 
       before do
         message.reload
@@ -163,16 +176,16 @@ describe MessagesController, :type => :controller do
         message.reload
       end
 
-      context :journal do
+      context 'journal' do
         let(:attachment_id) { "attachments_#{attachment.id}" }
 
-        describe :key do
+        describe '#key' do
           subject { message.journals.last.changed_data }
 
           it { is_expected.to have_key attachment_id }
         end
 
-        describe :value do
+        describe '#value' do
           subject { message.journals.last.changed_data[attachment_id].first }
 
           it { is_expected.to eq(filename) }
@@ -182,7 +195,7 @@ describe MessagesController, :type => :controller do
   end
 
   describe 'preview' do
-    let(:content) { "Message content" }
+    let(:content) { 'Message content' }
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [content] }
@@ -196,7 +209,7 @@ describe MessagesController, :type => :controller do
 
     it_behaves_like 'authorizes object access' do
       let(:message) { FactoryGirl.create :message, board: board }
-      let(:preview_params) { { id: message.id, message: { } } }
+      let(:preview_params) { { id: message.id, message: {} } }
     end
   end
 end

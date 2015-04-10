@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert FactoryGirl.build(:user_preference).valid?
 
     # user required
-    refute FactoryGirl.build(:user_preference, :user => nil).valid?
+    refute FactoryGirl.build(:user_preference, user: nil).valid?
   end
 
   def test_create
@@ -49,7 +49,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
 
   def test_update
     user = FactoryGirl.create :user
-    pref = FactoryGirl.create :user_preference, :user => user, :hide_mail => true
+    pref = FactoryGirl.create :user_preference, user: user, hide_mail: true
     assert_equal true, user.pref.hide_mail
 
     user.pref['preftest'] = 'value'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,19 @@
 
 require 'spec_helper'
 
-describe CategoriesController, :type => :controller do
+describe CategoriesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role,
-                                  permissions: [:manage_categories]) }
-  let(:member) { FactoryGirl.create(:member,
-                                    project: project,
-                                    principal: user,
-                                    roles: [role]) }
+  let(:role) {
+    FactoryGirl.create(:role,
+                       permissions: [:manage_categories])
+  }
+  let(:member) {
+    FactoryGirl.create(:member,
+                       project: project,
+                       principal: user,
+                       roles: [role])
+  }
 
   before do
     member
@@ -52,7 +56,7 @@ describe CategoriesController, :type => :controller do
     it { is_expected.to redirect_to("/projects/#{project.identifier}/settings/categories") }
   end
 
-  describe :new do
+  describe '#new' do
     before { get :new, project_id: project.id }
 
     subject { response }
@@ -62,15 +66,17 @@ describe CategoriesController, :type => :controller do
     it { is_expected.to render_template('new') }
   end
 
-  describe :create do
+  describe '#create' do
     let(:category_name) { 'New category' }
 
-    before { post :create,
-                  project_id: project.id,
-                  category: { name: category_name,
-                              assigned_to_id: user.id } }
+    before {
+      post :create,
+           project_id: project.id,
+           category: { name: category_name,
+                       assigned_to_id: user.id }
+    }
 
-    describe :categories do
+    describe '#categories' do
       subject { Category.find_by_name(category_name) }
 
       it { expect(subject.project_id).to eq(project.id) }
@@ -81,22 +87,26 @@ describe CategoriesController, :type => :controller do
     it_behaves_like :redirect
   end
 
-  describe :edit do
+  describe '#edit' do
     let(:name) { 'Testing' }
 
-    context "valid category" do
-      let(:category) { FactoryGirl.create(:category,
-                                          project: project) }
+    context 'valid category' do
+      let(:category) {
+        FactoryGirl.create(:category,
+                           project: project)
+      }
 
-      before { post :update,
-                    id: category.id,
-                    category: { name: name } }
+      before {
+        post :update,
+             id: category.id,
+             category: { name: name }
+      }
 
       subject { Category.find(category.id).name }
 
       it { is_expected.to eq(name) }
 
-      describe :category_count do
+      describe '#category_count' do
         subject { Category.count }
 
         it { is_expected.to eq(1) }
@@ -105,10 +115,12 @@ describe CategoriesController, :type => :controller do
       it_behaves_like :redirect
     end
 
-    context "invalid category" do
-      before { post :update,
-                    id: 404,
-                    category: { name: name } }
+    context 'invalid category' do
+      before {
+        post :update,
+             id: 404,
+             category: { name: name }
+      }
 
       subject { response.response_code }
 
@@ -116,12 +128,16 @@ describe CategoriesController, :type => :controller do
     end
   end
 
-  describe :destroy do
-    let(:category) { FactoryGirl.create(:category,
-                                        project: project) }
-    let(:work_package) { FactoryGirl.create(:work_package,
-                                            project: project,
-                                            category: category) }
+  describe '#destroy' do
+    let(:category) {
+      FactoryGirl.create(:category,
+                         project: project)
+    }
+    let(:work_package) {
+      FactoryGirl.create(:work_package,
+                         project: project,
+                         category: category)
+    }
 
     before { category }
 
@@ -131,7 +147,7 @@ describe CategoriesController, :type => :controller do
       it { is_expected.to be_nil }
     end
 
-    context "unused" do
+    context 'unused' do
       before { delete :destroy, id: category.id }
 
       it_behaves_like :redirect
@@ -139,7 +155,7 @@ describe CategoriesController, :type => :controller do
       it_behaves_like :delete
     end
 
-    context "in use" do
+    context 'in use' do
       before do
         work_package
 
@@ -150,7 +166,7 @@ describe CategoriesController, :type => :controller do
 
       it { is_expected.not_to be_nil }
 
-      describe :response do
+      describe '#response' do
         subject { response }
 
         it { is_expected.to be_success }
@@ -159,9 +175,11 @@ describe CategoriesController, :type => :controller do
       end
     end
 
-    describe :reassign do
-      let(:target) { FactoryGirl.create(:category,
-                                        project: project) }
+    describe '#reassign' do
+      let(:target) {
+        FactoryGirl.create(:category,
+                           project: project)
+      }
       before do
         work_package
 
@@ -180,7 +198,7 @@ describe CategoriesController, :type => :controller do
       it_behaves_like :redirect
     end
 
-    describe :nullify do
+    describe '#nullify' do
       before do
         work_package
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,12 +77,20 @@ gem 'delayed_job_active_record', '0.3.3'
 gem 'daemons'
 
 # include custom rack-protection for now until rkh/rack-protection is fixed and released
-# (see https://www.openproject.org/work_packages/3029)
+# (see https://community.openproject.org/work_packages/3029)
 gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
+# Rack::Attack is a rack middleware to protect your web app from bad clients.
+# It allows whitelisting, blacklisting, throttling, and tracking based on arbitrary properties of the request.
+# https://github.com/kickstarter/rack-attack
+gem 'rack-attack'
+
+gem 'syck', :platforms => [:mri, :mingw], :require => false
 
 gem 'gon', '~> 4.0'
+
+# catch exceptions and send them to any airbrake compatible backend
+gem 'airbrake', '~> 4.1.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -95,17 +103,17 @@ gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '
 gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
-gem 'sass',             '~> 3.3.6'
-gem 'bourbon',          '~> 4.0.2'
+gem 'sass',             '~> 3.4.12'
+gem 'autoprefixer-rails'
+gem 'execjs',           '~> 1.3'
+gem 'bourbon',          '~> 4.2.0'
 gem 'uglifier',         '>= 1.0.3', require: false
-gem 'livingstyleguide', '~> 1.2.0'
+gem 'livingstyleguide', '~> 1.2.2'
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
-
-gem 'i18n-js', '~> 3.0.0.rc6'
 
 # small wrapper around the command line
 gem 'cocaine'
@@ -123,6 +131,9 @@ gem 'i18n', '~> 0.6.8'
 
 gem 'nokogiri', '~> 1.6.6'
 
+gem 'carrierwave', '~> 0.10.0'
+gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
+
 group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda'
@@ -136,12 +147,12 @@ group :test do
   # connection with database cleaner here but setting it to 1.2 fixes the
   # issue.
   gem 'database_cleaner', '~> 1.2.0'
-  gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
-  gem 'rspec', '~> 2.99.0'
+  gem 'rspec', '~> 3.2.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem "rspec-rails", "~> 2.99.0", :group => :development
+  gem 'rspec-rails', '~> 3.2.0', group: :development
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
+  gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'selenium-webdriver', '~> 2.44.0'
@@ -155,6 +166,7 @@ group :test do
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
   gem "codeclimate-test-reporter", :require => nil
+  gem 'equivalent-xml', '~> 0.5.1'
 end
 
 group :ldap do
@@ -162,11 +174,12 @@ group :ldap do
 end
 
 group :development do
-  gem 'letter_opener', '~> 1.0.0'
+  gem 'letter_opener', '~> 1.3.0'
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
+  gem 'rubocop', '~> 0.28'
 end
 
 group :development, :test do
@@ -178,10 +191,9 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 0.7.0'
-gem 'representable', git: 'https://github.com/finnlabs/representable'
-gem 'roar',   '~> 0.12.6'
-gem 'reform', '~> 1.0.4', require: false
+gem 'grape', '~> 0.10.1'
+gem 'roar',   '~> 1.0.0'
+gem 'reform', '~> 1.2.6', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since
@@ -197,10 +209,6 @@ platforms :mri, :mingw do
   group :postgres do
     gem 'pg', "~> 0.17.1"
   end
-
-  group :sqlite do
-    gem "sqlite3"
-  end
 end
 
 platforms :jruby do
@@ -213,14 +221,10 @@ platforms :jruby do
   group :postgres do
     gem "activerecord-jdbcpostgresql-adapter"
   end
-
-  group :sqlite do
-    gem "activerecord-jdbcsqlite3-adapter"
-  end
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
 Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}", __FILE__) do |file|
   next unless File.readable?(file)
-  instance_eval File.read(file)
+  eval_gemfile(file)
 end

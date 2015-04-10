@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,6 @@
 #++
 
 class Reports::ReportsService
-
   class_attribute :report_types
 
   def self.add_report(report)
@@ -39,7 +38,6 @@ class Reports::ReportsService
   def self.has_report_for?(report_type)
     self.report_types.has_key? report_type
   end
-
 
   # automate this? by cycling through each instance of Reports::Report? or is this to automagically?
   # and there is no reason, why plugins shouldn't be able to use this to add their own customized reports...
@@ -52,11 +50,8 @@ class Reports::ReportsService
   add_report Reports::CategoryReport
   add_report Reports::VersionReport
 
-
-
-
   def initialize(project)
-    raise "You must provide a project to report upon" unless project && project.is_a?(Project)
+    raise 'You must provide a project to report upon' unless project && project.is_a?(Project)
     @project = project
   end
 
@@ -64,5 +59,4 @@ class Reports::ReportsService
     report_klass = self.class.report_types[report_type]
     report_klass.new(@project) if report_klass
   end
-
 end

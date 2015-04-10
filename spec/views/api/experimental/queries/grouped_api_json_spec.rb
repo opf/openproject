@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/experimental/queries/grouped.api.rabl', :type => :view do
+describe 'api/experimental/queries/grouped.api.rabl', type: :view do
   before do
     params[:format] = 'json'
 
@@ -57,7 +57,7 @@ describe 'api/experimental/queries/grouped.api.rabl', :type => :view do
 
   describe 'with 2 queries and no user queries' do
     let(:user_queries) {
-      [["query1", 1], ["query2", 2]]
+      [['query1', 1], ['query2', 2]]
     }
     let(:queries) {
       []
@@ -73,7 +73,7 @@ describe 'api/experimental/queries/grouped.api.rabl', :type => :view do
       []
     }
     let(:queries) {
-      [["query1", 1], ["query2", 2]]
+      [['query1', 1], ['query2', 2]]
     }
 
     it { is_expected.to have_json_path('queries') }

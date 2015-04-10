@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,14 @@
 #++
 
 # Loads the core plugins located in lib/plugins
-Dir.glob(File.join(Rails.root, "lib/plugins/*")).sort.each do |directory|
+Dir.glob(File.join(Rails.root, 'lib/plugins/*')).sort.each do |directory|
   if File.directory?(directory)
-    lib = File.join(directory, "lib")
+    lib = File.join(directory, 'lib')
     if File.directory?(lib)
       $:.unshift lib
       ActiveSupport::Dependencies.autoload_paths += [lib]
     end
-    initializer = File.join(directory, "init.rb")
+    initializer = File.join(directory, 'init.rb')
     if File.file?(initializer)
       config = config = OpenProject::Application.config
       eval(File.read(initializer), binding, initializer)
