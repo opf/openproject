@@ -116,8 +116,8 @@ Then try to download RVM again and continue the installation with:
 ```bash
 [openproject@all] source $HOME/.rvm/scripts/rvm
 [openproject@all] rvm autolibs disable
-[openproject@all] rvm install 2.1.4
-[openproject@all] rvm use --default 2.1.4
+[openproject@all] rvm install 2.1.5
+[openproject@all] rvm use --default 2.1.5
 [openproject@all] gem install bundler
 ```
 
@@ -154,10 +154,9 @@ As a reference, the following Node.js and NPM versions have been installed on ou
 [openproject@all] cd ~
 [openproject@all] git clone https://github.com/opf/openproject.git
 [openproject@all] cd openproject
-[openproject@all] git checkout stable
+[openproject@all] git checkout v4.1.0 # please use actual current stable version v4.1.X
 [openproject@all] bundle install
 [openproject@all] npm install
-[openproject@all] bower install
 ```
 
 ## Configure OpenProject
@@ -261,10 +260,10 @@ As told by the installer, add this lines to `/etc/apache2/apache2.conf`.
 But before copy&pasting the following lines, check if the content (especially the version numbers!) is the same as the `passenger-install-apache2-module` installer said. When you're in doubt, do what passenger tells you.
 
 ```apache
-LoadModule passenger_module /home/openproject/.rvm/gems/ruby-2.1.4/gems/passenger-4.0.53/buildout/apache2/mod_passenger.so
+LoadModule passenger_module /home/openproject/.rvm/gems/ruby-2.1.5/gems/passenger-4.0.53/buildout/apache2/mod_passenger.so
 <IfModule mod_passenger.c>
-  PassengerRoot /home/openproject/.rvm/gems/ruby-2.1.4/gems/passenger-4.0.53
-  PassengerDefaultRuby /home/openproject/.rvm/gems/ruby-2.1.4/wrappers/ruby
+  PassengerRoot /home/openproject/.rvm/gems/ruby-2.1.5/gems/passenger-4.0.53
+  PassengerDefaultRuby /home/openproject/.rvm/gems/ruby-2.1.5/wrappers/ruby
 </IfModule>
 ```
 
@@ -325,15 +324,15 @@ As told by the installer, create the file `/etc/apache2/mods-available/passenger
 But before copy&pasting the following lines, check if the content (especially the version numbers!) is the same as the `passenger-install-apache2-module` installer said. When you're in doubt, do what passenger tells you.
 
 ```apache
-LoadModule passenger_module /home/openproject/.rvm/gems/ruby-2.1.4/gems/passenger-4.0.53/buildout/apache2/mod_passenger.so
+LoadModule passenger_module /home/openproject/.rvm/gems/ruby-2.1.5/gems/passenger-4.0.53/buildout/apache2/mod_passenger.so
 ```
 
 Then create the file `/etc/apache2/mods-available/passenger.conf` with the following contents (again, take care of the version numbers!):
 
 ```apache
 <IfModule mod_passenger.c>
-  PassengerRoot /home/openproject/.rvm/gems/ruby-2.1.4/gems/passenger-4.0.53
-  PassengerDefaultRuby /home/openproject/.rvm/gems/ruby-2.1.4/wrappers/ruby
+  PassengerRoot /home/openproject/.rvm/gems/ruby-2.1.5/gems/passenger-4.0.53
+  PassengerDefaultRuby /home/openproject/.rvm/gems/ruby-2.1.5/wrappers/ruby
 </IfModule>
 ```
 
@@ -397,7 +396,7 @@ OpenProject sends (some) mails asynchronously by using background jobs. All such
 Now, the crontab file opens in the standard editor. Add the following entry to the file:
 
 ```cron
-*/1 * * * * cd /home/openproject/openproject; /home/openproject/.rvm/gems/ruby-2.1.4/wrappers/rake jobs:workoff
+*/1 * * * * cd /home/openproject/openproject; /home/openproject/.rvm/gems/ruby-2.1.5/wrappers/rake jobs:workoff
 ```
 
 This will start the worker job every minute.
@@ -406,10 +405,10 @@ This will start the worker job every minute.
 
 Your OpenProject installation is ready to run. However, there are some things to consider:
 
-* Regularly backup your OpenProject installation. See the [backup guide](https://community.openproject.org/projects/openproject/wiki/Create_Backups) for details.
+* Regularly backup your OpenProject installation. See the [backup guide](backup-guide.md) for details.
 * Serve OpenProject via https
 * Enable Repositories for your OpenProject projects
-* Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
+* Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). Information on how to perform an update can been found in the [upgrade guide](upgrade-guid.md). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
 
 ## Plug-In Installation (Optional)
 
@@ -422,16 +421,15 @@ OpenProject plug-ins are separated in ruby gems. You can install them by listing
 
 ```ruby
 # Required by backlogs
-gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable"
-gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable"
+gem "openproject-meeting", git: "https://github.com/finnlabs/openproject-meeting.git", :tag => "v4.1.0"
 ```
 
-If you have modified the @Gemfile.plugin@ file, always repeat the following steps of the OpenProject installation:
+If you have modified the `Gemfile.plugin` file, always repeat the following steps of the OpenProject installation:
 
 ```bash
 [openproject@all] cd ~/openproject
 [openproject@all] bundle install
-[openproject@all] bower install
+[openproject@all] npm install
 [openproject@all] RAILS_ENV="production" bundle exec rake db:migrate
 [openproject@all] RAILS_ENV="production" bundle exec rake db:seed
 [openproject@all] RAILS_ENV="production" bundle exec rake assets:precompile
@@ -469,6 +467,7 @@ If you need to restart the server (for example after a configuration change), do
 
   The `db:seed` command listed above creates a default admin-user. The username is `admin` and the default password is `admin`. You are forced to change the admin password on the first login.
   If you cannot login as the admin user, make sure that you have executed the `db:seed` command.
+
   ```bash
   [openproject@all] RAILS_ENV="production" bundle exec rake db:seed
   ```
@@ -488,9 +487,7 @@ If you need to restart the server (for example after a configuration change), do
 * **I get errors, since I have installed an OpenProject plug-in**
 
   With each new OpenProject core version, the plug-ins might need to be updated. Please make sure that the plug-in versions of all you plug-ins works with the OpenProject version you use.
-  Many plug-ins follow the OpenProject version with their version number (So, if you have installed OpenProject version 4.0.0, the plug-in should also have the version 4.0.0).
-  Also, most plug-ins provide a `stable` branch containing the last stable version (just like we do for the OpenProject core).
-  When you're in doubt, please contact the plug-in maintainer.
+  Many plug-ins follow the OpenProject version with their version number (So, if you have installed OpenProject version 4.1.0, the plug-in should also have the version 4.1.0).
 
 * **I get an error during @bower install@. What can I do?**
 
@@ -507,6 +504,7 @@ If you need to restart the server (for example after a configuration change), do
   ```
 
   The solution is to configure git to use `https://` URLs instead of `git://` URLs lke this:
+
   ```bash
   git config --global url."https://".insteadOf git://
   ```
