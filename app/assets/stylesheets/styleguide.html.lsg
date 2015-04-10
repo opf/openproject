@@ -36,7 +36,6 @@ styleguide-sass: |
   .livingstyleguide--code-block
     max-height: 300px
 
-  //@todo for select2 visibility in livingStyleGuide, need another solution  it will rewrite globally
   .livingstyleguide--example
     overflow: visible
 

@@ -9,12 +9,17 @@
         <div class="form--row" ng-repeat="element in sortElements">
           <div class="form--field -full-width">
             <div class="form--field-container">
-              <ui-select ng-model="element[0]" theme="select2" focus="!$index">
+              <ui-select ng-model="element[0]" theme="select2" focus="!$index" aria-describedby="sorting_select_description">
                 <ui-select-match>{{$select.selected.label}}</ui-select-match>
                 <ui-select-choices repeat="column as column in getRemainingAvailableColumnsData() | filter: { title: $select.search }">
                   <div ng-bind-html="column.label | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select>
+              <div class="form--tooltip-container">
+                <span class="tooltip--right -multiline" tabindex="0" data-tooltip="{{ I18n.t('js.work_packages.label_column_select') }}">
+                  <i class="icon icon-help1"></i>
+                </span>
+              </div>
             </div>
           </div>
           <div class="form--field -full-width">
@@ -39,6 +44,9 @@
               </label>
             </div>
           </div>
+        </div>
+        <div id="sorting_select_description" class="hidden-for-sighted">
+          <p>{{ I18n.t('js.work_packages.label_column_select') }}</p>
         </div>
       </div>
       <button class="button -highlight"
