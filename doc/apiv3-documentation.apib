@@ -40,11 +40,42 @@ in the [Collections Section](#collections).
 
 # Authentication
 
-For now the API only supports **session-based authentication**. This means you have to login to OpenProject via
-the Web-Interface to be authenticated in the API. This method is well-suited for clients acting within the browser,
-like the Angular-Client built into OpenProject.
+For now the API only supports two authentication schemes: session based authentication and basic auth.
 
-However for the future we plan to add authentication modes that are more suitable for **external clients** too.
+## Session-based Authentication
+
+This means you have to login to OpenProject via the Web-Interface to be authenticated in the API.
+This method is well-suited for clients acting within the browser, like the Angular-Client built into OpenProject.
+
+## API Key through Basic Auth
+
+Users can authenticate towards the API v3 using basic auth with 'apikey' as the user name and their API key as the password. Users can find their API key on their account page.
+
+Example:
+
+```bash
+API_KEY=2519132cdf62dcf5a66fd96394672079f9e9cad1
+curl -u apikey:$API_KEY https://community.openproject.com/api/v3/users/42
+```
+
+### Why not username and password?
+
+The simplest way to do basic auth would be to use a user's username and password naturally.
+However, OpenProject already has supported API keys in the past for the API v2, though not through basic auth.
+
+Using **username and password** directly would have some advantages:
+
+* It is intuitive for the user who then just has to provide those just as they would when logging into OpenProject.
+* No extra logic for token managment necessary.
+
+On the other hand using **API keys* has some advantages too, which is why we went for them:
+
+* If compromised while saved on a insecure client the user only has to regenerate the API key instead of changing their password, too.
+* They are naturally long and random which makes them invulnerable to dictionary attacks and harder to crack in general.
+
+## Future Work
+
+For the future we plan to add authentication modes based on OAuth2 and OpenID Connect.
 
 # Allowed HTTP methods
 
