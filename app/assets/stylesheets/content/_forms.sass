@@ -78,33 +78,6 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
   // cancel out foundations overflow-y: auto
   overflow: visible
 
-fieldset
-  legend:after
-    @include icon-common
-    float: right
-    padding:
-      right: 5px
-      top: 4px
-  &.collapsible
-    > legend:after
-      content: "\e0d4"
-    &.collapsed
-      > legend:after
-        content: "\e0d2"
-  &.with-legend-control
-    legend
-      float: left
-      background-color: white
-      margin-top: -15px
-
-  div.legend-control
-    margin-top: -15px
-    padding-bottom: 5px
-
-    span
-      padding-left: 5px
-      background-color: white
-
 // TODO: Customise with proper jQuery UI theme.
 .ui-datepicker-month,
 .ui-datepicker-year
@@ -171,7 +144,7 @@ fieldset
 %form--fieldset-or-section
   padding:        1rem
   margin-bottom:  1rem
-  border:         1px solid $gray
+  border:         0
 
 %form--fieldset-legend-or-section-title
   color:          lighten($body-font-color, 10)
@@ -179,6 +152,7 @@ fieldset
   font-weight:    bold
   line-height:    1.8
   text-transform: uppercase
+  border-bottom:  1px solid $gray
 
 // HACK. TODO: Remove fieldset element rules in various places.
 .form--fieldset,
@@ -187,6 +161,38 @@ fieldset.form--fieldset
 
 .form--fieldset-legend
   @extend %form--fieldset-legend-or-section-title
+  width:     100%
+
+  .form--fieldset.-collapsible > &
+    @include without-link-styling
+    cursor:  pointer
+
+  &:after
+    @include icon-common
+    float:   right
+    padding:
+      right: 5px
+      top:   4px
+
+    .form--fieldset.-collapsible > &
+      content: "\e0d4"
+
+    .form--fieldset.-collapsible.-collapsed > &,
+    .form--fieldset.-collapsible.collapsed  > &
+      content: "\e0d2"
+
+.form--fieldset-control
+  float:          right
+  margin-top:     -2.8rem
+  text-align:     right
+  color:          lighten($body-font-color, 10)
+  font-size:      1rem
+  font-style:     italic
+  line-height:    1.8
+
+.form--fieldset-control-container
+  padding: 0 0.25rem
+  background-color: white
 
 .form--section
   @extend %form--fieldset-or-section
@@ -199,11 +205,9 @@ fieldset.form--fieldset
   // properties to reset h3
   margin: 0
   padding: 0
-  border: 0
 
   .form--section > &,
   #content .form--section > &
-    border-bottom: 1px solid $gray
     margin-bottom: 1rem
 
 .form--field

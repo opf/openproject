@@ -31,8 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
                  time_entry,
                  { :builder => TabularFormBuilder,
                  :lang => current_language} do |fields| %>
-  <fieldset id="timelog" class="header_collapsible collapsible">
-    <legend title="<%=l(:button_log_time)%>", onclick="toggleFieldset(this);">
+  <fieldset id="timelog" class="form--fieldset -collapsible">
+    <legend class="form--fieldset-legend" title="<%=l(:button_log_time)%>", onclick="toggleFieldset(this);">
       <a href="javascript:"><%=l(:button_log_time)%></a>
     </legend>
 

@@ -74,8 +74,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if work_package.new_record? && User.current.allowed_to?(:add_work_package_watchers, project) -%>
   <% watcher_blocks = work_package.possible_watcher_users.sort.in_groups(3, false) %>
 
-  <fieldset id="timelog" class="header_collapsible collapsible">
-    <legend title="<%=l(:label_work_package_watchers)%>", onclick="toggleFieldset(this);">
+  <fieldset id="timelog" class="form--fieldset -collapsible">
+    <legend class="form--fieldset-legend" title="<%=l(:label_work_package_watchers)%>", onclick="toggleFieldset(this);">
       <a href="javascript:"><%=l(:label_work_package_watchers)%></a>
     </legend>
     <div id="watchers_form" class="grid-block">

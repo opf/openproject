@@ -31,11 +31,11 @@ See doc/COPYRIGHT.rdoc for more details.
   project = form.object
 %>
 
-<fieldset class="box with-legend-control">
-  <legend><%= l(:text_select_project_modules) %></legend>
+<fieldset class="form--fieldset -with-control">
+  <legend class="form--fieldset-legend"><%= l(:text_select_project_modules) %></legend>
 
-  <div class="legend-control">
-    <span>
+  <div class="form--fieldset-control">
+    <span class="form--fieldset-control-container">
       (<%= check_all_links 'modules-form' %>)
     </span>
   </div>
