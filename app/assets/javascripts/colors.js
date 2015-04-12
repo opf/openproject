@@ -28,7 +28,7 @@
 
 (function ($) {
   $(function() {
-    $('.timelines-x-update-color').each(function(idx, element) {
+    $('.timelines-x-update-color').each(function() {
       var preview, input, func, target;
 
       preview = $(this);
