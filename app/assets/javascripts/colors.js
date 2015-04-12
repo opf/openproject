@@ -25,3 +25,30 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+
+(function ($) {
+  $(function() {
+    $('.timelines-x-update-color').each(function(idx, element) {
+      var preview, input, func, target;
+
+      preview = $(this);
+      target  = preview.data('target');
+      if(target) {
+        input = $(target);
+      } else {
+        input = preview.next('input');
+      }
+
+      if (input.length === 0) {
+        return;
+      }
+
+      func = function () {
+        preview.css('background-color', input.val());
+      };
+
+      input.keyup(func).change(func).focus(func);
+      func();
+    });
+  });
+}(jQuery));
