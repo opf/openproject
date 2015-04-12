@@ -40,8 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <%=h @project_type.name %>
   </h2>
 
-  <fieldset class="timelines-pt-properties">
-    <legend><%= l('timelines.properties') %></legend>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
     <div class="form--field">
       <%= f.check_box :allows_association, disabled: true %>
     </div>
