@@ -26,19 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$advanced-filters--background-color: $gray-light !default
-$advanced-filters--border-color: $gray !default
-
 .advanced-filters--container
-  background-color: $advanced-filters--background-color
-  border:   1px solid $advanced-filters--border-color
-  border-top-width: 3px
-  padding:  10px
+  @extend %filters--container
+  padding: rem-calc(10px)
   max-height: 250px
   overflow-y: auto
-
-  legend
-    @extend .hidden-for-sighted
 
 @mixin advanced-filters--sizing()
   @include grid-block()
@@ -128,7 +120,7 @@ $advanced-filters--border-color: $gray !default
   @include grid-content(3)
 
 .advanced-filters--spacer
-  border-top:   1px solid $advanced-filters--border-color
+  border-top:   1px solid $filters--border-color
   height: 1px
   margin:          0.75rem 1rem
 

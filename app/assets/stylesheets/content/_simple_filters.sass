@@ -1,5 +1,16 @@
+$filters--background-color: $gray-light !default
+$filters--border-color: $gray !default
+
+%filters--container
+  background-color: $filters--background-color
+  border: 1px solid $filters--border-color
+  border-top-width: 3px
+
+  legend
+    @extend .hidden-for-sighted
+
 .simple-filters--container
-  border: 1px solid $advanced-filters--border-color
+  @extend %filters--container
   padding: 1rem
   margin: 0.6em 0
 
