@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset class="simple-filters--container">
     <legend><%=l(:text_workflow_edit)%></legend>
     <ul class="simple-filters--filters">
-      <li class="simple-filters-filter">
+      <li class="simple-filters--filter">
         <%= styled_label_tag :role_id, Role.model_name.human, class: 'simple-filters--filter-name' %>
         <div class="simple-filters--filter-value">
           <%= styled_select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %>
@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
         </div>
       </li>
-      <li class="simple-filters-filter">
+      <li class="simple-filters--filter">
         <%= styled_label_tag :type_id, Type.model_name.human, class: 'simple-filters--filter-name' %>
         <div class="simple-filter--filter-value">
           <%= styled_select_tag 'type_id', options_from_collection_for_select(@types, "id", "name", @type && @type.id) %>
