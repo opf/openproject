@@ -34,10 +34,13 @@ describe 'API v3 Watcher resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:add_watchers_role) { FactoryGirl.create(:role, permissions: [:add_work_package_watchers]) }
-  let(:delete_watchers_role) { FactoryGirl.create(:role, permissions: [:delete_work_package_watchers]) }
+  let(:add_watchers_role) do
+    FactoryGirl.create(:role, permissions: [:add_work_package_watchers, :view_work_packages])
+  end
+  let(:delete_watchers_role) do
+    FactoryGirl.create(:role, permissions: [:delete_work_package_watchers, :view_work_packages])
+  end
   let(:view_work_packages_role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:unauthorized_user) { FactoryGirl.create(:user) }
   let(:work_package) { FactoryGirl.create(:work_package, project_id: project.id) }
   let(:available_watcher) { FactoryGirl.create(:user, member_in_project: project, member_through_role: view_work_packages_role) }
   let(:watcher) { FactoryGirl.create :user,  member_in_project: project, member_through_role: view_work_packages_role }
@@ -96,7 +99,11 @@ describe 'API v3 Watcher resource', type: :request do
 
     context 'unauthorized user' do
       context 'when the current user is trying to assign another user as watcher' do
-        let(:current_user) { unauthorized_user }
+        let(:current_user) do
+          FactoryGirl.create(:user,
+                             member_in_project: project,
+                             member_through_role: view_work_packages_role)
+        end
 
         it_behaves_like 'unauthorized access'
       end
@@ -151,7 +158,14 @@ describe 'API v3 Watcher resource', type: :request do
 
     context 'unauthorized user' do
       context 'when the current user tries to deassign another user from the work package watchers' do
-        let(:current_user) { unauthorized_user }
+        let(:view_watchers_role) do
+          FactoryGirl.create(:role, permissions: [:view_work_package_watchers])
+        end
+        let(:current_user) do
+          FactoryGirl.create :user,
+                             member_in_project: project,
+                             member_through_role: view_work_packages_role
+        end
 
         it_behaves_like 'unauthorized access'
       end
@@ -187,20 +201,24 @@ describe 'API v3 Watcher resource', type: :request do
     end
 
     it 'has a total of 1' do
-      expect(subject.body).to be_json_eql(1).at_path('total')
+      expect(subject.body).to be_json_eql(2).at_path('total')
     end
 
     it 'has a count of 1' do
-      expect(subject.body).to be_json_eql(1).at_path('count')
+      expect(subject.body).to be_json_eql(2).at_path('count')
     end
 
     it 'has a user fit for watching embedded' do
-      expect(subject.body).to have_json_size(1).at_path('_embedded/elements')
-      expect(subject.body).to be_json_eql(available_watcher.id).at_path('_embedded/elements/0/id')
+      expect(subject.body).to have_json_size(2).at_path('_embedded/elements')
+      expect(subject.body).to be_json_eql(available_watcher.id).at_path('_embedded/elements/1/id')
     end
 
     context 'when the user does not have the necessary permissions' do
-      let(:current_user) { unauthorized_user }
+      let(:current_user) do
+        FactoryGirl.create(:user,
+                           member_in_project: project,
+                           member_through_role: view_work_packages_role)
+      end
 
       it 'responds with 403' do
         expect(subject.status).to eql(403)

@@ -72,7 +72,7 @@ module API
         end
       end
 
-      def authorize(permission, context: nil, global: false, user: current_user, &block)
+      def authorize(permission, context: nil, global: false, user: current_user)
         is_authorized = AuthorizationService.new(permission,
                                                  context: context,
                                                  global: global,
@@ -81,7 +81,7 @@ module API
         return true if is_authorized
 
         if block_given?
-          yield block
+          yield
         else
           raise API::Errors::Unauthorized
         end
