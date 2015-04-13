@@ -28,12 +28,12 @@
 
 /* jshint ignore:start */
 
-var expect = require('../../../spec_helper.js').expect, 
+var expect = require('../../../spec_helper.js').expect,
     detailsPaneHelper = require('./details-pane-helper.js');
 
 
 describe('details pane', function() {
-  var dateRangePicker;  
+  var dateRangePicker;
   describe('date range picker', function() {
     beforeEach(function() {
       detailsPaneHelper.loadPane(819, 'overview');
@@ -127,7 +127,7 @@ describe('details pane', function() {
       describe('range selection', function() {
         it('changes start date by clicking on calendar', function() {
           startDate.click();
-          element.all(by.css('a.ui-state-default')).filter(function(elem){
+          element.all(by.css('a.ui-state-default')).filter(function(elem) {
             return elem.getText().then(function(text) {
               return text.indexOf('9') !== -1;
             });

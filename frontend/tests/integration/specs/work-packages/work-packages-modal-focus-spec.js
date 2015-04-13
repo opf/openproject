@@ -61,7 +61,6 @@ describe('OpenProject', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showGroupingModal($event)"]')).click();
     browser.driver.switchTo().activeElement().getAttribute('id').then(function (elementId) {
-      console.log(browser.driver.switchTo().activeElement().getAttribute('id'))
       expect(element(by.css('.ng-modal-window .select2-container input.ui-select-focusser')).getAttribute('id'))
         .to.eventually.equal(elementId);
     });
