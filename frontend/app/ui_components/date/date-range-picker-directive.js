@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(TimezoneService, ConfigurationService, 
+module.exports = function(TimezoneService, ConfigurationService,
                           I18n, $timeout) {
   var parseDate = TimezoneService.parseDate,
       formattedDate = function(date) {
@@ -38,8 +38,8 @@ module.exports = function(TimezoneService, ConfigurationService,
   return {
     restrict: 'EA',
     replace: true,
-    scope: { 
-      'startDate': '=', 
+    scope: {
+      'startDate': '=',
       'endDate': '='
     },
     templateUrl: '/templates/components/inplace_editor/date/date_range_picker.html',
@@ -91,7 +91,7 @@ module.exports = function(TimezoneService, ConfigurationService,
             scope.startDate = null;
           });
           inputStart.val('');
-          $timeout.cancel(startTimerId);  
+          $timeout.cancel(startTimerId);
           return;
         }
         $timeout.cancel(startTimerId);
@@ -111,7 +111,7 @@ module.exports = function(TimezoneService, ConfigurationService,
             scope.endDate = null;
           });
           inputEnd.val('');
-          $timeout.cancel(endTimerId);  
+          $timeout.cancel(endTimerId);
           return;
         }
         $timeout.cancel(startTimerId);
