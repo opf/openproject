@@ -68,4 +68,33 @@ jQuery(function($) {
   }
 
   $.datepicker.setDefaults(defaults);
+
+  $.extend($.datepicker, {
+
+    // Reference the orignal function so we can override it and call it later
+    _inlineDatepicker2: $.datepicker._inlineDatepicker,
+
+    // Override the _inlineDatepicker method
+    _inlineDatepicker: function (target, inst) {
+
+      // Call the original
+      this._inlineDatepicker2(target, inst);
+
+      var beforeShow = $.datepicker._get(inst, 'beforeShow');
+
+      if (beforeShow) {
+        beforeShow.apply(target, [target, inst]);
+      }
+    },
+    _checkOffset_original: $.datepicker._checkOffset,
+
+    _checkOffset: function(inst, offset, isFixed) {
+      var offset = $.datepicker._checkOffset_original(inst, offset, isFixed);
+      var alterOffset = this._get(inst, 'alterOffset');
+      if (alterOffset) {
+        return alterOffset.apply((inst.input ? inst.input[0] : null), [offset]);  // trigger custom callback
+      }
+      return offset;
+    }
+  });
 });
