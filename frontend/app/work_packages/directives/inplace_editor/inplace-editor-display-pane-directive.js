@@ -80,12 +80,11 @@ module.exports = function(
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
       scope.displayPaneController.field = scope.fieldController.field;
-      scope.templateUrl = '/templates/components/inplace_editor/display/' +
-        WorkPackageFieldService.getInplaceDisplayStrategy(
-          EditableFieldsState.workPackage,
-          fieldController.field
-        ) +
-        '.html';
+      var type = WorkPackageFieldService.getInplaceDisplayStrategy(
+        EditableFieldsState.workPackage,
+        fieldController.field
+      )
+      scope.templateUrl = '/templates/components/inplace_editor/display/' + type +'.html';
 
       // TODO: extract this when more placeholders come
       if (fieldController.field === 'description') {

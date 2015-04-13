@@ -71,7 +71,7 @@ module.exports = function(
   }
 
   function getValue(workPackage, field) {
-    if(field == 'date') {
+    if (field === 'date') {
       return {
         startDate: workPackage.props['startDate'],
         dueDate: workPackage.props['dueDate']
@@ -263,6 +263,7 @@ module.exports = function(
         break;
       case 'User':
         displayStrategy = 'user';
+        break;
       case 'DateRange':
         displayStrategy = 'daterange';
         break;

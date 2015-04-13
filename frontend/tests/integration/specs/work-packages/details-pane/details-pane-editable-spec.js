@@ -237,11 +237,9 @@ describe('OpenProject', function(){
             detailsPaneHelper.showAll();
           });
 
-          xit('should render a span with placeholder', function() {
+          it('should render a span with placeholder', function() {
             expect(
               assigneeEditor
-                // TODO: this selector is wrong, as some of the "no start/end date"
-                // logic bleeds into the assignee field
                 .$('span.inplace-edit--read-value span')
                 .getText()
             ).to.eventually.equal('-');
