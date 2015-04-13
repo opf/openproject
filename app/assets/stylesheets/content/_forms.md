@@ -383,6 +383,8 @@
 
 ## Forms: Sections and fieldsets
 
+### standard
+
 ```
 <form class="form -bordered">
   <section class="form--section">
@@ -412,6 +414,40 @@
     </legend>
     <div class="form--field -required">
       <label class="form--label">Even more text:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</form>
+```
+
+
+### collapsible
+
+```
+<form class="form -bordered">
+  <fieldset class="form--fieldset -collapsible -collapsed">
+    <legend class="form--fieldset-legend">
+      <a href="javascript:">Less important information</a>
+    </legend>
+    <div class="form--field -required" style="display:none">
+      <label class="form--label">Field:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="form--fieldset -collapsible">
+    <legend class="form--fieldset-legend">
+      <a href="javascript:">More important information</a>
+    </legend>
+    <div class="form--field -required">
+      <label class="form--label">Field:</label>
       <div class="form--field-container">
         <div class="form--text-field-container">
           <input type="text" class="form--text-field">
