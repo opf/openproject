@@ -79,7 +79,12 @@ describe('WorkPackageDetailsController', function() {
                 }
               }
             }
-          ]
+          ],
+          project: {
+            props: {
+
+            }
+          }
         },
         links: {
           self: "it's a me, it's... you know...",

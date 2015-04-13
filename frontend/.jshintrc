@@ -5,6 +5,7 @@
     "OpenProject",
 
     "_",
+    "moment",
 
     "angular",
     "inject",
@@ -18,6 +19,7 @@
 
     "context",
     "expect",
+    "element",
     "describe",
     "xdescribe",
     "it",

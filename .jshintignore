@@ -4,3 +4,5 @@ app/assets/javascripts/jstoolbar/**/*
 app/assets/javascripts/jquery_noconflict.js
 app/assets/javascripts/project/**/*
 app/assets/javascripts/lib/**/*
+frontend/tests/*
+frontend/tests/**/*
