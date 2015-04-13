@@ -90,5 +90,11 @@ module.exports = function() {
     isModuleEnabled: function(module) {
       return this.settings.enabled_modules.indexOf(module) >= 0;
     },
+    startOfWeekPresent: function() {
+      return this.displaySettingPresent('start_of_week') && this.setting.display.start_of_week != '';
+    },
+    startOfWeek: function() {
+      return this.settings.display.start_of_week;
+    }
   };
 };

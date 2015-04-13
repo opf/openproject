@@ -78,7 +78,11 @@ describe('OpenProject', function(){
     }
 
     describe('subject', function() {
-      var subjectEditor = $('.inplace-edit.attribute-subject');
+      var subjectEditor;
+
+      beforeEach(function() {
+        subjectEditor = element(by.css('.inplace-edit.attribute-subject'));
+      });
 
       context('work package with update link', function() {
         beforeEach(function() {

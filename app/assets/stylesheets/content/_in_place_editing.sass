@@ -17,6 +17,22 @@ $inplace-edit--color--very-dark: #cacaca
       opacity: 0.5
     *
       cursor: wait!important
+      inplace-edit--write
+  .inplace-edit--write-value
+    .date-range-picker
+      display: table
+      & > *
+        display: table-cell
+        margin-bottom: 0
+      & > span
+        padding-right: 5px
+        padding-left: 5px
+.ui-datepicker-current,
+.ui-datepicker-close
+  display: none
+
+#ui-datepicker-div
+  z-index: 9999 !important
 
 .inplace-edit--form
   display: block
