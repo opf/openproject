@@ -76,13 +76,15 @@ module.exports = function() {
       return this.settings.user_preferences.time_zone;
     },
     dateFormatPresent: function() {
-      return this.displaySettingPresent('date_format') && this.settings.display.date_format !== '';
+      return this.displaySettingPresent('date_format') &&
+             this.settings.display.date_format !== '';
     },
     dateFormat: function() {
       return this.settings.display.date_format;
     },
     timeFormatPresent: function() {
-      return this.displaySettingPresent('time_format') && this.settings.display.time_format !== '';
+      return this.displaySettingPresent('time_format') &&
+             this.settings.display.time_format !== '';
     },
     timeFormat: function() {
       return this.settings.display.time_format;
@@ -91,7 +93,8 @@ module.exports = function() {
       return this.settings.enabled_modules.indexOf(module) >= 0;
     },
     startOfWeekPresent: function() {
-      return this.displaySettingPresent('start_of_week') && this.setting.display.start_of_week !== '';
+      return this.displaySettingPresent('start_of_week') &&
+             this.setting.display.start_of_week !== '';
     },
     startOfWeek: function() {
       return this.settings.display.start_of_week;
