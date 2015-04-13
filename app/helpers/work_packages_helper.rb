@@ -327,22 +327,33 @@ module WorkPackagesHelper
     group_work_package_attributes work_package_show_attribute_list(work_package)
   end
 
-  def work_package_show_table_row(attribute, klass = nil, attribute_lang = nil, value_lang = nil, &block)
-    klass = attribute.to_s.dasherize if klass.nil?
+  def work_package_show_dd_dt(attribute, css_class = nil, attribute_lang = nil, value_lang = nil, &block)
+    css_classes = if css_class.nil?
+                    ["-#{attribute.to_s.dasherize}"]
+                  else
+                    css_class.split(' ').map { |k| "-#{k}" }
+    end
+
     attribute_string = if attribute.is_a?(Symbol)
                          WorkPackage.human_attribute_name(attribute)
                        else
                          attribute
                        end
 
-    content = content_tag(:td, class: [:work_package_attribute_header, klass], lang: attribute_lang) { "#{attribute_string}:" }
-    content << content_tag(:td, class: klass, lang: value_lang, &block)
+    content = content_tag(:dt, attribute_string,
+                          class: %w(attributes-key-value--key) + css_classes,
+                          lang: attribute_lang)
+    content << content_tag(:dd,
+                           class: %w(attributes-key-value--value-container) + css_classes,
+                           lang: value_lang) do
+      content_tag(:div, class: 'attributes-key-value--value', &block)
+    end
 
     WorkPackageAttribute.new(attribute, content)
   end
 
   def work_package_show_status_attribute(work_package)
-    work_package_show_table_row(:status) do
+    work_package_show_dd_dt(:status) do
       work_package.status ?
         work_package.status.name :
         empty_element_tag
@@ -350,7 +361,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_start_date_attribute(work_package)
-    work_package_show_table_row(:start_date, 'start-date') do
+    work_package_show_dd_dt(:start_date, 'start-date') do
       work_package.start_date ?
         format_date(work_package.start_date) :
         empty_element_tag
@@ -358,7 +369,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_priority_attribute(work_package)
-    work_package_show_table_row(:priority) do
+    work_package_show_dd_dt(:priority) do
       work_package.priority ?
         work_package.priority.name :
         empty_element_tag
@@ -366,7 +377,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_due_date_attribute(work_package)
-    work_package_show_table_row(:due_date) do
+    work_package_show_dd_dt(:due_date) do
       work_package.due_date ?
         format_date(work_package.due_date) :
         empty_element_tag
@@ -374,7 +385,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_assigned_to_attribute(work_package)
-    work_package_show_table_row(:assigned_to) do
+    work_package_show_dd_dt(:assigned_to) do
       content = avatar(work_package.assigned_to, class: 'avatar-mini').html_safe
       content << (work_package.assigned_to ? link_to_user(work_package.assigned_to) : empty_element_tag)
       content
@@ -382,7 +393,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_responsible_attribute(work_package)
-    work_package_show_table_row(:responsible) do
+    work_package_show_dd_dt(:responsible) do
       content = avatar(work_package.responsible, class: 'avatar-mini').html_safe
       content << (work_package.responsible ? link_to_user(work_package.responsible) : empty_element_tag)
       content
@@ -392,13 +403,13 @@ module WorkPackagesHelper
   def work_package_show_progress_attribute(work_package)
     return if WorkPackage.done_ratio_disabled?
 
-    work_package_show_table_row(:progress, 'done-ratio') do
+    work_package_show_dd_dt(:progress, 'done-ratio') do
       progress_bar work_package.done_ratio, width: '80px', legend: work_package.done_ratio.to_s
     end
   end
 
   def work_package_show_category_attribute(work_package)
-    work_package_show_table_row(:category) do
+    work_package_show_dd_dt(:category) do
       work_package.category ?
         work_package.category.name :
         empty_element_tag
@@ -406,7 +417,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_spent_time_attribute(work_package)
-    work_package_show_table_row(:spent_time) do
+    work_package_show_dd_dt(:spent_time) do
       work_package.spent_hours > 0 ?
         link_to(l_hours(work_package.spent_hours), work_package_time_entries_path(work_package)) :
         empty_element_tag
@@ -414,7 +425,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_fixed_version_attribute(work_package)
-    work_package_show_table_row(:fixed_version) do
+    work_package_show_dd_dt(:fixed_version) do
       work_package.fixed_version ?
         link_to_version(work_package.fixed_version) :
         empty_element_tag
@@ -422,7 +433,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_estimated_hours_attribute(work_package)
-    work_package_show_table_row(:estimated_hours) do
+    work_package_show_dd_dt(:estimated_hours) do
       work_package.estimated_hours ?
         l_hours(work_package.estimated_hours) :
         empty_element_tag
@@ -658,10 +669,10 @@ module WorkPackagesHelper
 
   def work_package_show_custom_fields(work_package)
     work_package.custom_field_values.each_with_object([]) do |v, a|
-      a << work_package_show_table_row(v.custom_field.name,
-                                       "custom_field cf_#{v.custom_field_id}",
-                                       v.custom_field.name_locale,
-                                       v.custom_field.default_value_locale) do
+      a << work_package_show_dd_dt(v.custom_field.name,
+                                   "custom_field cf_#{v.custom_field_id}",
+                                   v.custom_field.name_locale,
+                                   v.custom_field.default_value_locale) do
         v.value.blank? ? empty_element_tag : simple_format_without_paragraph(h(show_value(v)))
       end
     end
