@@ -83,7 +83,7 @@ module.exports = function(
       var type = WorkPackageFieldService.getInplaceDisplayStrategy(
         EditableFieldsState.workPackage,
         fieldController.field
-      )
+      );
       scope.templateUrl = '/templates/components/inplace_editor/display/' + type +'.html';
 
       // TODO: extract this when more placeholders come
