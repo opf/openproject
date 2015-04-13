@@ -52,7 +52,7 @@ angular.module('openproject.workPackages.filters')
 .filter('remainingFilterNames', ['orderByFilter', 'FiltersHelper', function(orderByFilter, FiltersHelper) {
 
   function subtractActiveFilters(filters, filtersToSubtract) {
-    var filterDiff = angular.copy(filters);
+    var filterDiff = _.cloneDeep(filters);
 
     angular.forEach(filtersToSubtract, function(filter) {
       if(!filter.deactivated) delete filterDiff[filter.name];
