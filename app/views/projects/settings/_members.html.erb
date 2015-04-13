@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <tbody>
         <% @members.each do |member| %>
           <% next if member.new_record? %>
-            <tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
+            <tr id="member-<%= member.id %>" class="list--row member">
               <td class="<%= member.principal.class.name.downcase %> <%= 'icon-context icon-group' if member.principal.class.name.downcase == 'group' %> <%= user_status_class member.principal%>" title="<%= user_status_i18n member.principal%>"><%= link_to_user member.principal %></td>
               <td class="roles">
                 <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
@@ -87,7 +87,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;",
                     class: 'button -small' %></p>
                   <% end %>
-                  <td class="buttons">
+                  <td class="list--actions-cell">
                     <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
                     <%= link_to(l(:button_delete), {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
                       :method => :delete,
@@ -99,7 +99,7 @@ See doc/COPYRIGHT.rdoc for more details.
               </td>
               <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
             </tr>
-          <% end; reset_cycle %>
+          <% end %>
         </tbody>
       </table>
       <%= pagination_links_full @members, params: { tab: 'members' }.merge(@pagination_url_options || {}) %>

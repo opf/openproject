@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <tbody>
         <% @group.memberships.each do |membership| %>
           <% next if membership.new_record? %>
-            <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
+            <tr id="member-<%= membership.id %>" class="list--row class">
               <td class="project"><%=h membership.project %></td>
               <td class="roles">
                 <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
@@ -60,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
               class: 'button -small' %></p>
                 <% end %>
               </td>
-              <td class="buttons">
+              <td class="list--actions-cell">
                 <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
                 <%= link_to l(:button_delete), membership_of_group_path(@group, membership),
                                      :method => :delete,
@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
               </td>
             </tr>
           </tbody>
-        <% end; reset_cycle %>
+        <% end %>
       </table>
     <% else %>
       <p class="nodata"><%= l(:label_no_data) %></p>

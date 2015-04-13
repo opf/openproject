@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
             </tr>
           <% end %>
           <% perms_by_module[mod].each do |permission| %>
-            <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
+            <tr class="list--row permission-<%= permission.name %>">
               <td>
                 <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
                                                                 :class => 'no-decoration-on-hover',

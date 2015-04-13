@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </thead>
       <tbody>
         <% for work_package in work_packages %>
-          <tr id="work_package-<%= h(work_package.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= work_package_css_classes(work_package) %>">
+          <tr id="work_package-<%= h(work_package.id) %>" class="hascontextmenu list--row <%= work_package_css_classes(work_package) %>">
             <td class="id">
               <%= check_box_tag("ids[]", work_package.id, false, :style => 'display:none;') %>
               <%= link_to_work_package(work_package, :id_only => true) %>

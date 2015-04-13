@@ -179,7 +179,6 @@ module TimelinesHelper
 
         #content table.timelines-pt td.timelines-pt-reorder,
         #content table.timelines-pt td.timelines-pt-allows_association,
-        #content table.timelines-pt td.timelines-pt-actions,
         #content table.timelines-pet td.timelines-pet-color,
         #content table.timelines-pet td.timelines-pet-reorder,
         #content table.timelines-pet td.timelines-pet-is_default,
