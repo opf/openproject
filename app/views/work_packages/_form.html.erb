@@ -97,8 +97,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% if work_package.new_record? %>
-  <hr class="form--separator -invisible">
-
   <%= render :partial => 'attachments/nested_form', locals: { open: true } %>
 <% end %>
 
