@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="attributes-group--header-container">
     <h3 class="attributes-group--header-text"><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</h3>
   </div>
-  <div class="attributes-group--header-toggle">
+  <div class="attributes-group--header-control">
     <% if user_allowed_to_add_watchers %>
       <%= toggle_link icon_wrapper('icon icon-add', l(:button_add_watcher)),
                       'new-watcher-form',
