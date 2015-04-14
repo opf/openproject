@@ -68,8 +68,8 @@ Note: Only headings to level ***three*** are supported in the wiki toolbar at th
 
 ```
 <div class="wiki">
-  <fieldset class="header_collapsible collapsible">
-    <legend title="Show/Hide table of contents" onclick="toggleFieldset(this);">
+  <fieldset class="form--fieldset -collapsible">
+    <legend class="form--fieldset-legend" title="Show/Hide table of contents" onclick="toggleFieldset(this);">
       <a href="javascript:">Table of Contents</a>
     </legend>
     <div>

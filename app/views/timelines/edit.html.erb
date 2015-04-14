@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for(@timeline,
             :url => project_timeline_path(@project, @timeline),
-            :html => {:class => "tabular form", :method => 'put'}) do |f| %>
+            :html => {:method => 'put'}) do |f| %>
 
   <%= render(:partial => "timelines/form",
              :locals => {:f => f, :timeline => @timeline}) %>

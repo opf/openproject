@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
         class: 'button'%>
       <%= preview_link preview_news_path(@news), 'news-form-preview', class: 'button' %>
     <% end %>
-    <div id="preview" class="wiki"></div>
+    <div id="preview"></div>
   </div>
 <% end %>
 <p><% unless @news.summary.blank? %><em><%=h @news.summary %></em><br />

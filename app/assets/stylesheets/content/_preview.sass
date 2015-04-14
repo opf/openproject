@@ -26,5 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.nothing-to-preview
+.preview
+  @extend %form--fieldset-or-section
+  padding: 1rem
+  background: image-url('draft.png')
+
+.preview--legend
+  @extend %form--fieldset-legend-or-section-title
+  border: 0
+
+.preview--nothing-to-preview
   color: red

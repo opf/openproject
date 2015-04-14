@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2><%=l(:label_project_new)%></h2>
 
 <%= labelled_tabular_form_for @copy_project, :url => { :action => "copy" } do |f| %>
-  <div class="copy box">
+  <section class="form--section">
     <%= render :partial => "projects/form/attributes/name", :locals => { :form => f } %>
     <%= render :partial => "projects/form/attributes/identifier", :locals => { :form => f,
                                                                                :project => @copy_project } %>
@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
                :locals => { :form => f, :project => @project, :issue_custom_fields => @issue_custom_fields } %>
     <%= render :partial => "copy_projects/copy_settings/enabled_module_names",
                :locals => { :project => @project } %>
-  </div>
+  </section>
 
   <%= render :partial => "copy_projects/copy_settings/copy_associations", :locals => { :project => @project } %>
 
