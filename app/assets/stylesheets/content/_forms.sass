@@ -393,6 +393,11 @@ fieldset.form--fieldset
   &[multiple]
     background-image: none
     padding-right: $form-padding
+    // TODO: this has to be fixed upstream as select are fixed
+    // in height in foundation for apps.
+    height: auto
+    // this fixes a border issue in chrome
+    border-right-width: 2px
 
 .form--text-field,
 .form--select
