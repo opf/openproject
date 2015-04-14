@@ -8,7 +8,13 @@
   <div class="content" ng-show="expand">
     <div class="workpackages">
       <div ng-if="handler.relations">
-        <table class="attributes-table relations-table">
+        <table class="attributes-table">
+          <colgroup>
+            <col style="width: 50%" />
+            <col style="width: 15%" />
+            <col />
+            <col style="width: 1rem" />
+          </colgroup>
           <thead>
             <tr>
               <td title="{{ I18n.t('js.work_packages.properties.subject')}}">{{ I18n.t('js.work_packages.properties.subject') }}</td>
