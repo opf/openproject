@@ -41,7 +41,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
   before do
     allow(schema.project).to receive(:backlogs_enabled?).and_return(true)
-    allow(work_package.type).to receive(:backlogs_type?).and_return(true)
+    allow(work_package.type).to receive(:story?).and_return(true)
   end
 
   describe 'storyPoints' do
@@ -65,9 +65,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    context 'not a backlogs type' do
+    context 'not a story' do
       before do
-        allow(schema.type).to receive(:backlogs_type?).and_return(false)
+        allow(schema.type).to receive(:story?).and_return(false)
       end
 
       it 'does not show story points' do
@@ -100,12 +100,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
       end
 
-      it_behaves_like 'has schema for remainingTime'
+      it 'has no schema for remaining time' do
+        is_expected.not_to have_json_path('remainingTime')
+      end
     end
 
-    context 'not a backlogs type' do
+    context 'not a story' do
       before do
-        allow(schema.type).to receive(:backlogs_type?).and_return(false)
+        allow(schema.type).to receive(:story?).and_return(false)
       end
 
       it_behaves_like 'has schema for remainingTime'

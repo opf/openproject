@@ -56,9 +56,5 @@ module OpenProject::Backlogs::Patches::TypePatch
     def task?
       Task.type.present? && id == Task.type
     end
-
-    def backlogs_type?
-      story? || task?
-    end
   end
 end
