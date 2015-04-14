@@ -43,6 +43,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="single-attribute">
   <table id="work-package-relations-table" class="attributes-table <%= '-hidden' if relations.empty? %>">
+    <colgroup>
+      <col style="width: 40%" />
+      <col />
+      <col />
+      <col />
+      <col style="width: 1rem" />
+    </colgroup>
     <thead>
       <tr>
         <th><%= Relation.human_attribute_name(:to)%></th>
