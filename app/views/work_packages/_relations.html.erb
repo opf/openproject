@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <div class="single-attribute">
-  <table id="work-package-relations-table" class="list work-package-data-table <%= 'hidden' if relations.empty? %>">
+  <table id="work-package-relations-table" class="attributes-table <%= '-hidden' if relations.empty? %>">
     <thead>
       <tr>
         <th><%= Relation.human_attribute_name(:to)%></th>
