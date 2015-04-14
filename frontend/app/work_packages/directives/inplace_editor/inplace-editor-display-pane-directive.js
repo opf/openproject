@@ -92,10 +92,13 @@ module.exports = function(
         scope.displayPaneController.placeholder = I18n.t('js.label_click_to_enter_description');
       }
 
-      scope.$watch('fieldController.isEditing', function(isEditing) {
+      scope.$watch('fieldController.isEditing', function(isEditing, oldIsEditing) {
         if (!isEditing) {
           $timeout(function() {
-            element.find('.inplace-editing--trigger-link').focus();
+            if (oldIsEditing) {
+              // check old value to not trigger focus on the first time
+              element.find('.inplace-editing--trigger-link').focus();
+            }
             element.find('.inplace-edit--read-value a').off('click').on('click', function(e) {
               e.stopPropagation();
             });
