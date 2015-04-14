@@ -27,8 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= header_tags %>
-
 <%= labelled_tabular_form_for(@project_type,
             :url  => project_type_path(@project_type),
             :html => {:method => 'delete'}) do |f| %>
@@ -42,8 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <%=h @project_type.name %>
   </h2>
 
-  <fieldset class="timelines-pt-properties">
-    <legend><%= l('timelines.properties') %></legend>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
     <div class="form--field">
       <%= f.check_box :allows_association, disabled: true %>
     </div>

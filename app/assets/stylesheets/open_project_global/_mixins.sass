@@ -93,3 +93,8 @@
 @mixin allow-vertical-scrolling
   overflow-x: hidden
   overflow-y: auto
+
+@mixin without-link-styling
+  a:link, a:hover, a:active, a:visited
+    color: inherit
+    text-decoration: none

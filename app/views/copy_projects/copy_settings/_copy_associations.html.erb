@@ -27,8 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset class="copy box">
-  <legend><%= l(:button_copy) %></legend>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= l(:button_copy) %></legend>
 
   <%= render :partial => "copy_projects/copy_settings/block_checkbox",
              :locals => { :name => "queries", :checked => true, :label => l(:label_query_plural),

@@ -67,10 +67,6 @@
 form
   display: inline
 
-fieldset
-  border: 1px solid #e4e4e4
-  margin: 0
-
 hr
   width: 100%
   height: 1px
@@ -207,8 +203,6 @@ div
     margin-left: 16px
     margin-bottom: 16px
     background-color: #fff
-    fieldset
-      margin-bottom: 1em
     .total-hours
       text-align: right
 
@@ -310,18 +304,6 @@ div#tab-content-members
 
 input#user_search
   width: 100%
-
-* html div#tab-content-members fieldset div
-  height: 450px
-
-div#tab-content-members fieldset div
-  &.select-boxes label
-    display: inline-block
-    width: 350px
-    /* max-width of select2boxes
-  &.select-boxes .select2-container
-    float: left
-    font-weight: normal
 
 .quick_info
   padding-bottom: 0.5em
@@ -494,14 +476,6 @@ form#issue-list
 #roadmap h3
   margin: 21px 0 12px
 
-div#roadmap fieldset.related-issues
-  margin: 12px 0
-  padding: 6px 12px
-  border-radius: 5px
-
-#roadmap fieldset legend
-  font-style: italic
-
 tr.context-menu-selection td.priority
   background: none !important
 
@@ -516,14 +490,6 @@ ul.projects div.root a.project
 
 div.issue div#relations
   margin-top: 25px
-
-
-fieldset#columns
-  table
-    width: auto
-  td
-    border: 0
-    vertical-align: middle
 
 /* all kinds of wonderful tweaks
 
@@ -546,26 +512,7 @@ div.issue hr
   h2 + h3
     margin-top: 12px
 
-/* add filter select box on non-issue pages
-
-fieldset#filters div.add-filter
-  text-align: left
-  margin: 0 0 6px 0
-
 .nosidebar
-  #add_filter_select
-    margin-bottom: 6px
-  .box fieldset
-    line-height: 1.5
-    margin: 0 0 12px 180px
-    legend
-      margin-bottom: 6px
-  fieldset ul li
-    background: none
-
-.nosidebar
-  fieldset ul
-    margin-left: 0
   ol.ui-sortable li
     list-style: none outside none
 
@@ -581,13 +528,6 @@ tr.time-entry
 
 #content table .changeset td.id a:hover
   text-decoration: underline
-
-/* issue updates
-
-#update
-  fieldset .box
-    padding: 0
-    border: 0 none
 
 #content table.files .opt-desc
   width: 45%
@@ -725,9 +665,6 @@ div.indent
     margin-left: 0
   select#parent_wiki_menu_item_wiki_page
     margin-bottom: 10px
-  p input
-  fieldset#wiki_menu_item_setting
-    margin-top: 10px
   p
     &.item-name
       padding-top: 10px

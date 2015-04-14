@@ -383,6 +383,8 @@
 
 ## Forms: Sections and fieldsets
 
+### standard
+
 ```
 <form class="form -bordered">
   <section class="form--section">
@@ -412,6 +414,73 @@
     </legend>
     <div class="form--field -required">
       <label class="form--label">Even more text:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</form>
+```
+
+### with controls
+
+```
+<form class="form -bordered">
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend">
+      Various information
+    </legend>
+    <div class="form--fieldset-control">
+    <span class="form--fieldset-control-container">
+      (<a href="#">Check all</a> | <a href="#">Uncheck all</a>)
+    </span>
+    </div>
+    <div class="form--field -wide-label">
+      <label class="form--label">Multiple choices:</label>
+      <div class="form--field-container -vertical">
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox" class="form--check-box">
+          </div>
+          Apple
+        </label>
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox" class="form--check-box">
+          </div>
+          Grapefruit
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</form>
+```
+
+### collapsible
+
+```
+<form class="form -bordered">
+  <fieldset class="form--fieldset -collapsible -collapsed">
+    <legend class="form--fieldset-legend">
+      <a href="javascript:">Less important information</a>
+    </legend>
+    <div class="form--field -required" style="display:none">
+      <label class="form--label">Field:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input type="text" class="form--text-field">
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="form--fieldset -collapsible">
+    <legend class="form--fieldset-legend">
+      <a href="javascript:">More important information</a>
+    </legend>
+    <div class="form--field -required">
+      <label class="form--label">Field:</label>
       <div class="form--field-container">
         <div class="form--text-field-container">
           <input type="text" class="form--text-field">
@@ -762,8 +831,8 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
 # Forms: Attachment fieldsets
 
 ```
-<fieldset id="attachments" class="header_collapsible collapsible">
-  <legend title="Show/Hide attachments" ,="" onclick="toggleFieldset(this);">
+<fieldset id="attachments" class="form--fieldset -collapsible">
+  <legend class="form--fieldset-legend" title="Show/Hide attachments" onclick="toggleFieldset(this);">
     <a href="javascript:">Files<span class="fieldset-toggle-state-label hidden-for-sighted">expanded</span></a>
   </legend>
   <div style="">

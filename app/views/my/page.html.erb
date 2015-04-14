@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% breadcrumb_paths(l(:label_my_page)) %>
 <% content_for :action_menu_specific do %>
-  <%= link_to l(:label_personalize_page), action: 'page_layout', accesskey: accesskey(:edit) %>
+  <%= link_to l(:label_personalize_page), { action: 'page_layout' }, accesskey: accesskey(:edit) %>
 <% end %>
 <h2><%=l(:label_my_page)%></h2>
 <%= render :partial => 'layouts/action_menu_specific' %>
