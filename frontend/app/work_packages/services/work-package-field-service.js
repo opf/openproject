@@ -42,7 +42,7 @@ module.exports = function(
     // TODO: extract to strategy if new cases arise
     if (field === 'date') {
       // nope
-      return false;
+      return true;
       //return workPackage.schema.props.startDate.writable
       // && workPackage.schema.props.dueDate.writable;
     }
@@ -71,6 +71,12 @@ module.exports = function(
   }
 
   function getValue(workPackage, field) {
+    if (field === 'date') {
+      return {
+        startDate: workPackage.props['startDate'],
+        dueDate: workPackage.props['dueDate']
+      };
+    }
     if (!_.isUndefined(workPackage.props[field])) {
       return workPackage.props[field];
     }
@@ -178,12 +184,16 @@ module.exports = function(
   function getInplaceEditStrategy(workPackage, field) {
     var fieldType = null,
         inplaceType = 'text';
+
     if (field === 'date') {
       fieldType = 'DateRange';
     } else {
       fieldType = workPackage.form.embedded.schema.props[field].type;
     }
     switch(fieldType) {
+      case 'DateRange':
+        inplaceType = 'daterange';
+        break;
       case 'Float':
         inplaceType = 'float';
         break;
@@ -238,7 +248,6 @@ module.exports = function(
       case 'Integer':
       case 'Float':
       case 'Duration':
-      case 'DateRange':
       case 'Date':
       case 'Boolean':
         displayStrategy = 'text';
@@ -254,6 +263,9 @@ module.exports = function(
         break;
       case 'User':
         displayStrategy = 'user';
+        break;
+      case 'DateRange':
+        displayStrategy = 'daterange';
         break;
     }
 
@@ -272,13 +284,12 @@ module.exports = function(
 
   function format(workPackage, field) {
     if (field === 'date') {
-      var displayedStartDate =
-          WorkPackagesHelper.formatValue(workPackage.props.startDate, 'startDate') ||
-          I18n.t('js.label_no_start_date'),
-        displayedEndDate =
-          WorkPackagesHelper.formatValue(workPackage.props.dueDate, 'dueDate') ||
-          I18n.t('js.label_no_due_date');
-      return  displayedStartDate + ' - ' + displayedEndDate;
+      return {
+        startDate: workPackage.props.startDate,
+        dueDate: workPackage.props.dueDate,
+        noStartDate: I18n.t('js.label_no_start_date'),
+        noEndDate: I18n.t('js.label_no_due_date')
+      };
     }
 
     var value = workPackage.props[field];

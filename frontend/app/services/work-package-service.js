@@ -178,6 +178,11 @@ module.exports = function($http,
         _links: {}
       };
       _.forEach(workPackage.form.pendingChanges, function(value, field) {
+        if(field == 'date') {
+          data['startDate'] = value['startDate'];
+          data['dueDate'] = value['dueDate'];
+          return;
+        }
         if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
           data._links[field] = value ? value.links.self.props : { href: null };
         } else {

@@ -25,12 +25,13 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+/* global CS */
 
 window.CS = window.CS || {};
 
 jQuery(function($) {
   var regions = $.datepicker.regional;
-  var regional = regions[CS.lang] || regions[""];
+  var regional = regions[CS.lang] || regions[''];
   $.datepicker.setDefaults(regional);
 
   var gotoToday = $.datepicker._gotoToday;
@@ -49,7 +50,7 @@ jQuery(function($) {
     showWeek: true,
     changeMonth: true,
     changeYear: true,
-    yearRange: "c-100:c+10",
+    yearRange: 'c-100:c+10',
     dateFormat: 'yy-mm-dd',
     showButtonPanel: true,
     calculateWeek: function (day) {
@@ -63,9 +64,40 @@ jQuery(function($) {
     }
   };
 
-  if (CS.firstWeekDay && CS.firstWeekDay !== "") {
+  if (CS.firstWeekDay && CS.firstWeekDay !== '') {
     defaults.firstDay = parseInt(CS.firstWeekDay, 10);
   }
 
   $.datepicker.setDefaults(defaults);
+
+  $.extend($.datepicker, {
+
+    // Reference the orignal function so we can override it and call it later
+    _inlineDatepicker2: $.datepicker._inlineDatepicker,
+
+    // Override the _inlineDatepicker method
+    _inlineDatepicker: function (target, inst) {
+
+      // Call the original
+      this._inlineDatepicker2(target, inst);
+
+      var beforeShow = $.datepicker._get(inst, 'beforeShow');
+
+      if (beforeShow) {
+        beforeShow.apply(target, [target, inst]);
+      }
+    },
+    _checkOffsetOriginal: $.datepicker._checkOffset,
+
+    _checkOffset: function(inst, offset, isFixed) {
+      var _offset = $.datepicker._checkOffsetOriginal(inst, offset, isFixed);
+      var alterOffset = this._get(inst, 'alterOffset');
+      if (alterOffset) {
+        var inp = inst.input ? inst.input[0] : null;
+        // trigger custom callback
+        return alterOffset.apply(inp, [_offset]);
+      }
+      return _offset;
+    }
+  });
 });
