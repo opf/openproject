@@ -85,10 +85,6 @@
       "method": "post",
       "title": "Add comment"
     },
-    "parent": {
-      "href": "/api/v3/work_packages/54",
-      "title": "asdsadd"
-    },
     "timeEntries": {
       "href": "/work_packages/822/time_entries",
       "type": "text/html",
@@ -114,7 +110,6 @@
   "estimatedTime": "PT0S",
   "spentTime": "PT12H",
   "percentageDone": 0,
-  "parentId": 54,
   "createdAt": "2014-11-05T15:56:53Z",
   "updatedAt": "2014-12-04T09:48:50Z",
   "customProperties": [
