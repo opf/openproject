@@ -32,6 +32,7 @@
 @import fonts/openproject_icon_font
 
 div.changeset-changes ul
+  list-style-type: none
   margin: 0
   padding: 0
   > ul
@@ -39,9 +40,9 @@ div.changeset-changes ul
     padding: 0
 
 li.change
-  list-style-type:none
+  list-style-type: none
   background-image: image-url('bullet_black.png')
-  background-position: 1px 1px
+  background-position: left center
   background-repeat: no-repeat
   padding-top: 1px
   padding-bottom: 1px
@@ -73,12 +74,13 @@ li.change
       content: " - "
 
 #changes-legend
+  list-style-type: none
   float: right
   font-size: 0.8em
   margin: 0
   li
     float: left
-    background-position: 5px 0
+    margin-right: 1em
 
 table.filecontent
   border: 1px solid #ccc
@@ -95,7 +97,7 @@ table.filecontent
       padding: 0.2em
   tr.spacing
     th
-      text-align:center
+      text-align: center
     td
       height: 0.4em
       background: #EAF2F5

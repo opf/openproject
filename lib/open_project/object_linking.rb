@@ -77,9 +77,9 @@ module OpenProject
     def link_to_revision(revision, project, options = {})
       text = options.delete(:text) || format_revision(revision)
       rev = revision.respond_to?(:identifier) ? revision.identifier : revision
-
-      link_to(h(text), { controller: '/repositories', action: 'revision', project_id: project, rev: rev },
-              title: l(:label_revision_id, format_revision(revision)))
+      url_opts = { controller: '/repositories', action: 'revision', project_id: project, rev: rev }
+      html_options = { title: l(:label_revision_id, format_revision(revision)) }.merge(options)
+      link_to(h(text), url_opts, html_options)
     end
 
     # Generates a link to a message
