@@ -60,7 +60,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
       </div>
       <div class="choice--button">
-        <%= submit_tag l(:button_add), class: 'button' %>
+        <%= styled_submit_tag l(:button_add), class: '-highlight' %>
+      </div>
+      <div class="choice--button">
+        <%= toggle_link l(:button_cancel), 'new-watcher-form', {}, class: 'button' %>
       </div>
     </div>
   <% end %>
