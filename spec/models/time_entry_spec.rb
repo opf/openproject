@@ -353,42 +353,46 @@ describe TimeEntry, :type => :model do
     end
 
     context 'calculate dates' do
-      let (:user3) { FactoryGirl.create(:user) }
+      let(:user3) { FactoryGirl.create(:user) }
       let(:late_time_entry) do
-        FactoryGirl.create(:time_entry, :project => project,
-                           :work_package => work_package,
-                           :spent_on => 2.days.ago,
-                           :hours => hours,
-                           :user => user3,
-                           :rate => hourly_one,
-                           :comments => "ipsum")
+        FactoryGirl.create(:time_entry,
+                           project: project,
+                           work_package: work_package,
+                           spent_on: 2.days.ago,
+                           hours: hours,
+                           user: user3,
+                           rate: hourly_one,
+                           comments: 'ipsum')
       end
       let(:early_time_entry) do
-        FactoryGirl.create(:time_entry, :project => project,
-                           :work_package => work_package,
-                           :spent_on => 4.days.ago,
-                           :hours => hours,
-                           :user => user3,
-                           :rate => hourly_one,
-                           :comments => "dolor")
+        FactoryGirl.create(:time_entry,
+                           project: project,
+                           work_package: work_package,
+                           spent_on: 4.days.ago,
+                           hours: hours,
+                           user: user3,
+                           rate: hourly_one,
+                           comments: 'dolor')
       end
       let(:other_time_entry) do
-        FactoryGirl.create(:time_entry, :project => project,
-                           :work_package => work_package,
-                           :spent_on => 6.days.ago,
-                           :hours => hours,
-                           :user => user2,
-                           :rate => hourly_one,
-                           :comments => "dolor")
+        FactoryGirl.create(:time_entry,
+                           project: project,
+                           work_package: work_package,
+                           spent_on: 6.days.ago,
+                           hours: hours,
+                           user: user2,
+                           rate: hourly_one,
+                           comments: 'dolor')
       end
       let(:another_time_entry) do
-        FactoryGirl.create(:time_entry, :project => project,
-                           :work_package => work_package,
-                           :spent_on => 1.days.ago,
-                           :hours => hours,
-                           :user => user2,
-                           :rate => hourly_one,
-                           :comments => "dolor")
+        FactoryGirl.create(:time_entry,
+                           project: project,
+                           work_package: work_package,
+                           spent_on: 1.days.ago,
+                           hours: hours,
+                           user: user2,
+                           rate: hourly_one,
+                           comments: 'dolor')
       end
 
       before do
@@ -396,9 +400,13 @@ describe TimeEntry, :type => :model do
         # don't understand why memberships get loaded on the user
         early_time_entry.user.memberships(true)
         late_time_entry.user.memberships(true)
+        other_time_entry.user.memberships(true)
+        another_time_entry.user.memberships(true)
 
         early_time_entry.save!
         late_time_entry.save!
+        other_time_entry.save!
+        another_time_entry.save!
 
         allow(User).to receive(:current).and_return(user3)
       end
