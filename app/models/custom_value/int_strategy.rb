@@ -35,9 +35,13 @@ class CustomValue::IntStrategy < CustomValue::FormatStrategy
   end
 
   def validate_type_of_value
-    Kernel.Integer(value)
-    nil
-  rescue
-    :not_an_integer
+    return :not_an_integer if value.is_a? Float
+
+    begin
+      Kernel.Integer(value)
+      nil
+    rescue
+      :not_an_integer
+    end
   end
 end
