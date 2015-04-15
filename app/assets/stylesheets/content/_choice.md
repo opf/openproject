@@ -17,4 +17,5 @@ For selection from a list without having to use a form. This can be reused for s
     </button>
   </div>
 </div>
+<div class="clearfix"></div>
 ```
