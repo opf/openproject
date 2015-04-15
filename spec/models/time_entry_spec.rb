@@ -353,7 +353,11 @@ describe TimeEntry, :type => :model do
     end
 
     context 'calculate dates' do
-      let(:user3) { FactoryGirl.create(:user) }
+      let(:my_role) { FactoryGirl.create(:role, permissions: [:view_own_time_entries]) }
+      let(:user3) do
+        FactoryGirl.create(:user, member_in_project: project, member_through_role: my_role)
+      end
+
       let(:late_time_entry) do
         FactoryGirl.create(:time_entry,
                            project: project,
@@ -396,13 +400,6 @@ describe TimeEntry, :type => :model do
       end
 
       before do
-        is_member(project, user3, [:view_own_time_entries])
-        # don't understand why memberships get loaded on the user
-        early_time_entry.user.memberships(true)
-        late_time_entry.user.memberships(true)
-        other_time_entry.user.memberships(true)
-        another_time_entry.user.memberships(true)
-
         early_time_entry.save!
         late_time_entry.save!
         other_time_entry.save!
