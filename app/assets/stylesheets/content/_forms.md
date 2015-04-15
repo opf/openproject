@@ -938,11 +938,6 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 ### Standalone
 
 ```
-<input type="checkbox" class="form--check-box" id="checkbox_example_choice1">
-<label for="checkbox_example_choice1" class="form--label">Choice</label>
-```
-
-```
 <label class="form--label-with-check-box">
   <div class="form--check-box-container">
     <input type="checkbox" class="form--check-box">
