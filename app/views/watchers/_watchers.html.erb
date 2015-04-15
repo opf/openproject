@@ -44,7 +44,10 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <div class="single-attribute">
- <%= labelled_tabular_form_for(:watcher,
+  <%= watchers_list(watched) %>
+  <div class="clearfix"></div>
+
+  <%= labelled_tabular_form_for(:watcher,
               url: watchers_path(watched.class.name.underscore.pluralize, watched),
               method: :post,
               remote: true,
@@ -61,6 +64,4 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   <% end %>
-
-  <%= watchers_list(watched) %>
 </div>
