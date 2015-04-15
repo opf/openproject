@@ -113,5 +113,19 @@ describe CustomValue::BoolStrategy do
         is_expected.to be_nil
       end
     end
+
+    context 'value is true' do
+      let(:value) { true }
+      it 'accepts' do
+        is_expected.to be_nil
+      end
+    end
+
+    context 'value is false' do
+      let(:value) { false }
+      it 'accepts' do
+        is_expected.to be_nil
+      end
+    end
   end
 end
