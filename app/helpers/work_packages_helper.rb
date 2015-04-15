@@ -29,6 +29,7 @@
 
 module WorkPackagesHelper
   include AccessibilityHelper
+  extend DeprecatedAlias
 
   def work_package_breadcrumb
     full_path = if !@project.nil?
@@ -351,6 +352,7 @@ module WorkPackagesHelper
 
     WorkPackageAttribute.new(attribute, content)
   end
+  deprecated_alias :work_package_show_table_row, :work_package_show_dd_dt
 
   def work_package_show_status_attribute(work_package)
     work_package_show_dd_dt(:status) do
