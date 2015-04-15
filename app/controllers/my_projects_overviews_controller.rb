@@ -37,7 +37,6 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def index
-    render
   end
 
   # User's page layout configuration
