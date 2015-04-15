@@ -193,9 +193,7 @@ module OpenProject::Backlogs
              name_source: :remaining_hours,
              required: false,
              writable: -> (*) { represented.remaining_time_writable? },
-             show_if: -> (*) {
-               represented.project.backlogs_enabled?
-             }
+             show_if: -> (*) { represented.project.backlogs_enabled? }
     end
 
     allow_attribute_update :work_package, :story_points
