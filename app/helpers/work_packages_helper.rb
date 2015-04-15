@@ -324,7 +324,7 @@ module WorkPackagesHelper
                     ["-#{attribute.to_s.dasherize}"]
                   else
                     css_class.split(' ').map { |k| "-#{k}" }
-    end
+                  end
 
     attribute_string = if attribute.is_a?(Symbol)
                          WorkPackage.human_attribute_name(attribute)
