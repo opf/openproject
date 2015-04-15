@@ -76,5 +76,19 @@ describe CustomValue::IntStrategy do
         is_expected.to eql(:not_an_integer)
       end
     end
+
+    context 'value is an actual int' do
+      let(:value) { 10 }
+      it 'accepts' do
+        is_expected.to be_nil
+      end
+    end
+
+    context 'value is a float' do
+      let(:value) { 2.3 }
+      it 'rejects' do
+        is_expected.to eql(:not_an_integer)
+      end
+    end
   end
 end

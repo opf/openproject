@@ -83,5 +83,12 @@ describe CustomValue::DateStrategy do
         is_expected.to eql(:not_a_date)
       end
     end
+
+    context 'value is valid date' do
+      let(:value) { Date.iso8601('2015-01-03') }
+      it 'accepts' do
+        is_expected.to be_nil
+      end
+    end
   end
 end

@@ -76,5 +76,20 @@ describe CustomValue::FloatStrategy do
         is_expected.to eql(:not_a_number)
       end
     end
+
+    context 'value is float' do
+      let(:value) { 3.14 }
+      it 'accepts' do
+        is_expected.to be_nil
+      end
+    end
+
+    context 'value is int' do
+      let(:value) { 3 }
+      it 'accepts' do
+        # accepting here, as we can "losslessly" convert
+        is_expected.to be_nil
+      end
+    end
   end
 end
