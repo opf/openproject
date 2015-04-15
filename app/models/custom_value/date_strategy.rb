@@ -35,9 +35,13 @@ class CustomValue::DateStrategy < CustomValue::FormatStrategy
   end
 
   def validate_type_of_value
-    Date.iso8601(value)
-    nil
-  rescue
-    :not_a_date
+    return nil if value.is_a? Date
+
+    begin
+      Date.iso8601(value)
+      nil
+    rescue
+      :not_a_date
+    end
   end
 end
