@@ -147,7 +147,7 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :work_package) do
       property :story_points,
                render_nil: true,
-               if: -> (*) { backlogs_enabled? && type.backlogs_type? }
+               if: -> (*) { backlogs_enabled? && type.story? }
 
       property :remaining_time,
                exec_context: :decorator,
@@ -155,13 +155,14 @@ module OpenProject::Backlogs
                  datetime_formatter.format_duration_from_hours(represented.remaining_hours,
                                                                allow_nil: true)
                },
-               render_nil: true
+               render_nil: true,
+               if: -> (*) { represented.backlogs_enabled? }
     end
 
     extend_api_response(:v3, :work_packages, :form, :work_package_payload) do
       property :story_points,
                render_nil: true,
-               if: -> (*) { backlogs_enabled? && type.backlogs_type? }
+               if: -> (*) { backlogs_enabled? && type.story? }
 
       property :remaining_time,
                exec_context: :decorator,
@@ -175,7 +176,8 @@ module OpenProject::Backlogs
                                                                         allow_nil: true)
                  represented.remaining_hours = remaining
                },
-               render_nil: true
+               render_nil: true,
+               if: -> (*) { represented.backlogs_enabled? }
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
@@ -183,14 +185,15 @@ module OpenProject::Backlogs
              type: 'Integer',
              required: false,
              show_if: -> (*) {
-               represented.project.backlogs_enabled? && represented.type.backlogs_type?
+               represented.project.backlogs_enabled? && represented.type.story?
              }
 
       schema :remaining_time,
              type: 'Duration',
              name_source: :remaining_hours,
              required: false,
-             writable: -> (*) { represented.remaining_time_writable? }
+             writable: -> (*) { represented.remaining_time_writable? },
+             show_if: -> (*) { represented.project.backlogs_enabled? }
     end
 
     allow_attribute_update :work_package, :story_points

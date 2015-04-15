@@ -83,7 +83,7 @@ describe 'API v3 Work package resource' do
 
       it { is_expected.not_to have_json_path('storyPoints') }
 
-      it { is_expected.to be_json_eql('PT5H'.to_json).at_path('remainingTime') }
+      it { is_expected.not_to have_json_path('remainingTime') }
     end
   end
 
