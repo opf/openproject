@@ -942,7 +942,19 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
   <div class="form--check-box-container">
     <input type="checkbox" class="form--check-box">
   </div>
-  Choice
+  Pera
+</label>
+<label class="form--label-with-check-box">
+  <div class="form--check-box-container">
+    <input type="checkbox" class="form--check-box">
+  </div>
+  Maracujá
+</label>
+<label class="form--label-with-check-box">
+  <div class="form--check-box-container">
+    <input type="checkbox" class="form--check-box">
+  </div>
+  Abacaxi
 </label>
 ```
 
