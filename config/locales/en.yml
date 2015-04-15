@@ -1681,6 +1681,7 @@ en:
       code_409: "Couldn\'t update the resource because of conflicting modifications."
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_relation: "The relation is invalid."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
       multiple_errors: "Multiple field constraints have been violated."
