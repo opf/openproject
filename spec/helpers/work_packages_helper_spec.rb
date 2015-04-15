@@ -213,7 +213,7 @@ describe WorkPackagesHelper, type: :helper do
 
       expected_href = work_package_time_entries_path(stub_work_package)
 
-      expect(field).to have_css(".spent-time a[@href='#{ expected_href }']", text: '5.0')
+      expect(field).to have_css(".-spent-time a[@href='#{ expected_href }']", text: '5.0')
     end
 
     it "should show a '-' if spent time is 0" do
@@ -221,7 +221,7 @@ describe WorkPackagesHelper, type: :helper do
 
       field = helper.work_package_show_spent_time_attribute(stub_work_package).field
 
-      expect(field).to have_css('.spent-time', text: '-')
+      expect(field).to have_css('.-spent-time', text: '-')
     end
   end
 
@@ -248,7 +248,7 @@ describe WorkPackagesHelper, type: :helper do
 
       expect(attributes.length).to eql(1)
 
-      expected_css_class = ".work_package_attribute_header.custom_field.cf_#{stub_custom_field.id}"
+      expected_css_class = ".attributes-key-value--key.-custom_field.-cf_#{stub_custom_field.id}"
       expect(attributes[0].field).to have_css(expected_css_class, text: stub_custom_field.name)
     end
   end

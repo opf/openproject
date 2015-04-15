@@ -29,8 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'relation' %>
 
-<div class="grid-block">
-  <div class="grid-content small-6">
+<div class="choice">
+  <div class="choice--select">
     <span class="inline-label">
       <%= f.select :relation_type, collection_for_relation_type_select, {},
             :onchange => "setPredecessorFieldsVisibility();",
@@ -43,10 +43,15 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= f.text_field :delay, :size => 3, class: 'form--text-field' %>
       <span class="form-label"><%= l(:label_day_plural) %></span>
     </span>
-    <%= submit_tag l(:button_add), class: 'button -highlight' %>
+  </div>
+  <div class="choice--button">
+    <%= styled_submit_tag l(:button_add), class: '-highlight' %>
+  </div>
+  <div class="choice--button">
     <%= toggle_link l(:button_cancel), 'new-relation-form', {}, class: 'button' %>
   </div>
 </div>
+<div class="clearfix"></div>
 
 <div id="related_issue_candidates" class="autocomplete"></div>
 <%= javascript_tag "observeRelatedIssueField('#{work_packages_auto_complete_path(:id => controller.work_package, :project_id => @project, :escape => false) }')" %>

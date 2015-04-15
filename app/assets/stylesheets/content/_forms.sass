@@ -167,19 +167,17 @@ fieldset.form--fieldset
     @include without-link-styling
     cursor:  pointer
 
-  &:after
+  &:before
     @include icon-common
-    float:   right
-    padding:
-      right: 5px
-      top:   4px
+    font-size: 0.75rem
+    padding:   0.625rem 0.25rem 0 0.25rem
 
     .form--fieldset.-collapsible > &
-      content: "\e0d4"
+      content: "\e0cc"
 
     .form--fieldset.-collapsible.-collapsed > &,
     .form--fieldset.-collapsible.collapsed  > &
-      content: "\e0d2"
+      content: "\e0cb"
 
 .form--fieldset-control
   float:          right
@@ -498,12 +496,14 @@ fieldset.form--fieldset
     border: none
 
 .form--label-with-check-box
-  display:  block
-  clear:    both
+  display:     block
+  clear:       both
+  line-height: $base-line-height
 
   & > .form--check-box-container
-    display: block
-    float:   left
+    display:  block
+    float:    left
+    padding:  0.125rem 0.5rem 0 0
 
 .form--field-affix
   flex:           0 0 auto
