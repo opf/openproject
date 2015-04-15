@@ -214,26 +214,17 @@ module WorkPackagesHelper
     end
   end
 
-  def send_notification_option(checked = true)
-    work_package_form_field do
-      field = content_tag(:label,
-                          l(:label_notify_member_plural),
-                          for: 'send_notification',
-                          class: 'form--label')
+  def send_notification_option(checked = false)
+    content_tag(:label, for: 'send_notification', class: 'form--label-with-check-box') do
+      (content_tag 'span', class: 'form--check-box-container' do
+        boxes = hidden_field_tag('send_notification', '0', id: nil)
 
-      field += content_tag 'span', class: 'form--field-container' do
-        content_tag 'span', class: 'form--check-box-field' do
-          boxes = hidden_field_tag('send_notification', '0', id: nil)
-
-          boxes += check_box_tag('send_notification',
-                                 '1',
-                                 checked,
-                                 class: 'form--check-box')
-          boxes
-        end
-      end
-
-      field
+        boxes += check_box_tag('send_notification',
+                               '1',
+                               checked,
+                               class: 'form--check-box')
+        boxes
+      end) + l(:label_notify_member_plural)
     end
   end
 
