@@ -125,8 +125,8 @@ Then /^the work package should be shown with the following values:$/ do |table|
   end
 
   table_attributes.each do |key, value|
-    label = find('td.work_package_attribute_header', text: key)
-    should have_css("td.#{label[:class].split(' ').last}", text: value)
+    label = find('dt.attributes-key-value--key', text: key)
+    should have_css("dd.#{label[:class].split(' ').last}", text: value)
   end
 
   if table.rows_hash['Type'] || table.rows_hash['Subject']

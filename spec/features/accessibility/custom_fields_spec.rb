@@ -244,13 +244,13 @@ describe 'Custom field accessibility', type: :feature do
         end
 
         shared_examples_for 'attribute header lang' do
-          let(:element) { find("td.work_package_attribute_header.custom_field.cf_#{custom_field.id}") }
+          let(:element) { find("dt.attributes-key-value--key.-custom_field.-cf_#{custom_field.id}") }
 
           it_behaves_like 'Element has lang tag'
         end
 
         shared_examples_for 'attribute value lang' do
-          let(:element) { find("td.work_package_attribute_header.custom_field.cf_#{custom_field.id} + td") }
+          let(:element) { find("dt.attributes-key-value--key.-custom_field.-cf_#{custom_field.id} + dd") }
 
           it_behaves_like 'Element has lang tag'
         end
