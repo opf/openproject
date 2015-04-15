@@ -44,8 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="single-attribute">
   <table id="work-package-relations-table" class="attributes-table <%= '-hidden' if relations.empty? %>">
     <colgroup>
-      <col style="width: 40%" />
-      <col />
+      <col style="width: 50%" />
       <col />
       <col />
       <col style="width: 1rem" />
@@ -53,7 +52,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <thead>
       <tr>
         <th><%= Relation.human_attribute_name(:to)%></th>
-        <th><%= WorkPackage.human_attribute_name(:type)%></th>
         <th><%= WorkPackage.human_attribute_name(:start_date)%></th>
         <th><%= WorkPackage.human_attribute_name(:due_date)%></th>
         <th><span class="hidden-for-sighted"><%= t('button_delete') %></span></th>
