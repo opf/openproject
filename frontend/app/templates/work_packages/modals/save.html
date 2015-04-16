@@ -1,13 +1,13 @@
 <div class="ng-modal-window">
   <div class="ng-modal-inner">
-    <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()"></i></div>
+    <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()" title="{{ ::I18n.t('js.close_popup_title') }}"></i></div>
 
-    <h3>{{ I18n.t('js.label_save_as') }}</h3>
+    <h3>{{ ::I18n.t('js.label_save_as') }}</h3>
 
     <form name="modalSaveForm" class="form">
       <div class="form--field -required">
         <label class="form--label">
-          {{ I18n.t('js.modals.label_name') }}
+          {{ ::I18n.t('js.modals.label_name') }}
         </label>
         <div class="form--field-container">
           <div class="form--text-field-container">
@@ -20,10 +20,10 @@
         <button class="button -highlight"
           ng-click="saveQueryAs(queryName)"
           ng-disabled="modalSaveForm.$invalid">
-          {{ I18n.t('js.modals.button_save') }}
+          {{ ::I18n.t('js.modals.button_save') }}
         </button>
         <button class="button" ng-click="modal.closeMe()">
-          {{ I18n.t('js.modals.button_cancel') }}
+          {{ ::I18n.t('js.modals.button_cancel') }}
         </button>
       </div>
     </form>
