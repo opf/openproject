@@ -200,7 +200,11 @@ namespace :copyright do
   task :update_js, :arg1 do |_task, args|
     excluded = ['app/assets/javascripts/date-de-DE.js',
                 'app/assets/javascripts/date-en-US.js',
-                'app/assets/javascripts/jstoolbar/']
+                'app/assets/javascripts/jstoolbar/',
+                'app/assets/javascripts/lib/',
+                'frontend/bower_components',
+                'frontend/node_modules',
+                'frontend/vendor']
 
     rewrite_copyright('js', excluded, :js, args[:arg1])
   end
