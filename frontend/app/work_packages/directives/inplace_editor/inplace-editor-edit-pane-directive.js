@@ -45,23 +45,33 @@ module.exports = function(
         fieldController.isBusy = true;
         var pendingFormChanges = getPendingFormChanges();
         pendingFormChanges[fieldController.field] = fieldController.writeValue;
-        var result = WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage, notify);
-        result.then(angular.bind(this, function() {
-          $scope.$emit(
-            'workPackageRefreshRequired',
-            function() {
-              fieldController.isBusy = false;
-              fieldController.isEditing = false;
-              fieldController.updateWriteValue();
-              EditableFieldsState.error = null;
+        WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
+          function(form) {
+            if (_.isEmpty(form.embedded.validationErrors.props)) {
+              var result = WorkPackageService.updateWorkPackage(
+                EditableFieldsState.workPackage,
+                notify
+              );
+              result.then(angular.bind(this, function() {
+                $scope.$emit(
+                  'workPackageRefreshRequired',
+                  function() {
+                    fieldController.isBusy = false;
+                    fieldController.isEditing = false;
+                    fieldController.updateWriteValue();
+                    EditableFieldsState.errors = null;
+                  }
+                );
+              })).catch(setFailure);
+            } else {
+              afterError();
+              EditableFieldsState.errors = {};
+               _.forEach(form.embedded.validationErrors.props, function(error, field) {
+                EditableFieldsState.errors[field] = error.message;
+              });
             }
-          );
-        }));
-        result.catch(angular.bind(this, function(e) {
-          fieldController.isBusy = false;
-          EditableFieldsState.error = ApiHelper.getErrorMessage(e);
-          $scope.focusInput();
-        }));
+          }).catch(setFailure);
+
 
       };
 
@@ -69,6 +79,12 @@ module.exports = function(
         $scope.fieldController.isEditing = false;
         delete getPendingFormChanges()[$scope.fieldController.field];
         $scope.fieldController.updateWriteValue();
+        if (
+          EditableFieldsState.errors &&
+          EditableFieldsState.errors.hasOwnProperty($scope.fieldController.field)
+        ) {
+          delete EditableFieldsState.errors[$scope.fieldController.field];
+        }
       };
 
       this.getPendingFormChanges = getPendingFormChanges;
@@ -77,6 +93,17 @@ module.exports = function(
         var form = EditableFieldsState.workPackage.form;
         form.pendingChanges = form.pendingChanges || angular.copy(form.embedded.payload.props);
         return form.pendingChanges;
+      }
+
+      function afterError() {
+        $scope.fieldController.isBusy = false;
+        $scope.focusInput();
+      }
+      function setFailure(e) {
+        afterError();
+        EditableFieldsState.errors = {
+          '_common': ApiHelper.getErrorMessage(e)
+        };
       }
     },
     link: function(scope, element, attrs, fieldController) {
@@ -116,13 +143,21 @@ module.exports = function(
         scope.editPaneController.discardEditing();
       });
       scope.editableFieldsState = EditableFieldsState;
-      scope.$watch('editableFieldsState.error', function(error) {
-        scope.editPaneController.error = error;
-      });
+      scope.$watch('editableFieldsState.errors', function(errors) {
+        scope.editPaneController.error = null;
+        if (!_.isEmpty(errors)) {
+          // uncomment when we are sure we can bind every message to every field
+          // scope
+          //  .editPaneController
+          //  .error = errors[scope.fieldController.field] || errors['_common'];
+          scope.editPaneController.error = _.map(errors, function(error) {
+            return error;
+          }).join('\n');
+        }
+      }, true);
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
         if (isEditing) {
-          EditableFieldsState.error = null;
           scope.focusInput();
         }
       });

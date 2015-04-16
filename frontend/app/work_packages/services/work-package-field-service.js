@@ -32,13 +32,24 @@ module.exports = function(
   WorkPackagesHelper,
   $q,
   $http,
-  HookService) {
-  /* global moment */
+  HookService,
+  EditableFieldsState
+  ) {
+
+  function getSchema(workPackage) {
+    if (workPackage.form) {
+      return workPackage.form.embedded.schema;
+    } else {
+      return workPackage.schema;
+    }
+  }
+
   function isEditable(workPackage, field) {
     // no form - no editing
     if (!workPackage.form) {
       return false;
     }
+    var schema = getSchema(workPackage);
     // TODO: extract to strategy if new cases arise
     if (field === 'date') {
       // nope
@@ -46,14 +57,13 @@ module.exports = function(
       //return workPackage.schema.props.startDate.writable
       // && workPackage.schema.props.dueDate.writable;
     }
-    if(workPackage.schema.props[field].type === 'Date') {
+    if(schema.props[field].type === 'Date') {
       return false;
     }
-    var isWritable = workPackage.schema.props[field].writable;
+    var isWritable = schema.props[field].writable;
 
     // not writable if no embedded allowed values
-    if (workPackage.form && workPackage.form.embedded.schema
-        .props[field]._links && allowedValuesEmbedded(workPackage, field)) {
+    if (schema.props[field]._links && allowedValuesEmbedded(workPackage, field)) {
       if (getEmbeddedAllowedValues(workPackage, field).length === 0) {
         return false;
       }
@@ -62,12 +72,23 @@ module.exports = function(
   }
 
   function isSpecified(workPackage, field) {
+    var schema = getSchema(workPackage);
     if (field === 'date') {
       // kind of specified
       return true;
     }
-    return !_.isUndefined(workPackage.schema
-      .props[field]);
+    return !_.isUndefined(schema.props[field]);
+  }
+
+  // under special conditions fields will be shown
+  // irregardless if they are empty or not
+  // e.g. when an error should trigger the editing state
+  // of an empty field after type change
+  function isHideable(workPackage, field) {
+    if (EditableFieldsState.errors && EditableFieldsState.errors[field]) {
+      return false;
+    }
+    return isEmpty(workPackage, field);
   }
 
   function getValue(workPackage, field) {
@@ -91,14 +112,14 @@ module.exports = function(
   }
 
   function allowedValuesEmbedded(workPackage, field) {
-    return _.isArray(workPackage.form.embedded.schema
-      .props[field]._links.allowedValues);
+    var schema = getSchema(workPackage);
+    return _.isArray(schema.props[field]._links.allowedValues);
   }
 
   function getEmbeddedAllowedValues(workPackage, field) {
     var options = [];
-    var allowedValues = workPackage.form.embedded.schema
-      .props[field]._links.allowedValues;
+    var schema = getSchema(workPackage);
+    var allowedValues = schema.props[field]._links.allowedValues;
     options = _.map(allowedValues, function(item) {
       return _.extend({}, item, { name: item.title });
     });
@@ -112,8 +133,8 @@ module.exports = function(
   }
 
   function getLinkedAllowedValues(workPackage, field) {
-    var href = workPackage.form.embedded.schema
-      .props[field]._links.allowedValues.href;
+    var schema = getSchema(workPackage);
+    var href = schema.props[field]._links.allowedValues.href;
     return $http.get(href).then(function(r) {
       var options = [];
       options = _.map(r.data._embedded.elements, function(item) {
@@ -138,8 +159,8 @@ module.exports = function(
   }
 
   function isRequired(workPackage, field) {
-    return workPackage.form.embedded.schema
-      .props[field].required;
+    var schema = getSchema(workPackage);
+    return schema.props[field].required;
   }
 
   function isEmbedded(workPackage, field) {
@@ -151,11 +172,12 @@ module.exports = function(
   }
 
   function getLabel(workPackage, field) {
+    var schema = getSchema(workPackage);
     if (field === 'date') {
       // special case
       return I18n.t('js.work_packages.properties.date');
     }
-    return workPackage.schema.props[field].name;
+    return schema.props[field].name;
   }
 
   function isEmpty(workPackage, field) {
@@ -182,13 +204,14 @@ module.exports = function(
   }
 
   function getInplaceEditStrategy(workPackage, field) {
+    var schema = getSchema(workPackage);
     var fieldType = null,
         inplaceType = 'text';
 
     if (field === 'date') {
       fieldType = 'DateRange';
     } else {
-      fieldType = workPackage.form.embedded.schema.props[field].type;
+      fieldType = schema.props[field].type;
     }
     switch(fieldType) {
       case 'DateRange':
@@ -219,6 +242,7 @@ module.exports = function(
       case 'Status':
       case 'Priority':
       case 'Category':
+      case 'Type':
         inplaceType = 'dropdown';
         break;
     }
@@ -234,6 +258,7 @@ module.exports = function(
   }
 
   function getInplaceDisplayStrategy(workPackage, field) {
+    var schema = getSchema(workPackage);
     var fieldType = null,
       displayStrategy = 'embedded';
     if (field === 'date') {
@@ -241,7 +266,7 @@ module.exports = function(
     } else if (field === 'spentTime') {
       fieldType = 'SpentTime';
     }  else {
-      fieldType = workPackage.schema.props[field].type;
+      fieldType = schema.props[field].type;
     }
     switch(fieldType) {
       case 'String':
@@ -283,6 +308,7 @@ module.exports = function(
   }
 
   function format(workPackage, field) {
+    var schema = getSchema(workPackage);
     if (field === 'date') {
       return {
         startDate: workPackage.props.startDate,
@@ -309,13 +335,13 @@ module.exports = function(
       updatedAt: 'datetime'
     };
 
-    if (workPackage.schema.props[field]) {
-      if (workPackage.schema.props[field].type === 'Duration') {
+    if (schema.props[field]) {
+      if (schema.props[field].type === 'Duration') {
         var hours = moment.duration(value).asHours();
         return I18n.t('js.units.hour', { count: hours.toFixed(2) });
       }
 
-      if (workPackage.schema.props[field].type === 'Boolean') {
+      if (schema.props[field].type === 'Boolean') {
         return value ? I18n.t('js.general_text_yes') : I18n.t('js.general_text_no');
       }
     }
@@ -324,10 +350,12 @@ module.exports = function(
   }
 
   var WorkPackageFieldService = {
+    getSchema: getSchema,
     isEditable: isEditable,
     isRequired: isRequired,
     isSpecified: isSpecified,
     isEmpty: isEmpty,
+    isHideable: isHideable,
     isEmbedded: isEmbedded,
     isSavedAsLink: isSavedAsLink,
     getValue: getValue,
