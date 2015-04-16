@@ -48,7 +48,10 @@ module.exports = function(
         WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
           function(form) {
             if (_.isEmpty(form.embedded.validationErrors.props)) {
-              var result = WorkPackageService.updateWorkPackage(EditableFieldsState.workPackage, notify);
+              var result = WorkPackageService.updateWorkPackage(
+                EditableFieldsState.workPackage,
+                notify
+              );
               result.then(angular.bind(this, function() {
                 $scope.$emit(
                   'workPackageRefreshRequired',
@@ -144,8 +147,10 @@ module.exports = function(
         scope.editPaneController.error = null;
         if (!_.isEmpty(errors)) {
           // uncomment when we are sure we can bind every message to every field
-          // scope.editPaneController.error = errors[scope.fieldController.field] || errors['_common'];
-          scope.editPaneController.error = _.map(errors, function(error, field) {
+          // scope
+          //  .editPaneController
+          //  .error = errors[scope.fieldController.field] || errors['_common'];
+          scope.editPaneController.error = _.map(errors, function(error) {
             return error;
           }).join('\n');
         }
