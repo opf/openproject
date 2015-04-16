@@ -65,7 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <ui-select ng-model="vm.currentTimeline" theme="select2"
         on-select="vm.switchTimeline()">
         <ui-select-match>{{$select.selected.name}}</ui-select-match>
-        <ui-select-choices repeat="timeline in vm.timelines track by timeline.id | filter: { name: $select.search }">
+        <ui-select-choices repeat="timeline in vm.timelines | filter: { name: $select.search } track by timeline.id">
           <div ng-bind-html="timeline.name | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select>
