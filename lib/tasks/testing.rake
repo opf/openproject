@@ -112,19 +112,25 @@ task spec: %w(spec:core spec:legacy)
 
 namespace :spec do
   desc 'Run the code examples in spec, excluding legacy'
-  RSpec::Core::RakeTask.new(core: 'spec:prepare') do |t|
-    t.exclude_pattern = 'spec/legacy/**/*_spec.rb'
-  end
+  begin
+    require 'rspec/core/rake_task'
+    RSpec::Core::RakeTask.new(core: 'spec:prepare') do |t|
+      t.exclude_pattern = 'spec/legacy/**/*_spec.rb'
+    end
 
-  desc 'Run the code examples in spec/legacy'
-  task legacy: %w(legacy:unit legacy:functional legacy:integration)
-  namespace :legacy do
-    %w(unit functional integration).each do |type|
-      desc "Run the code examples in spec/legacy/#{type}"
-      RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
-        t.pattern = "spec/legacy/#{type}/**/*_spec.rb"
+    desc 'Run the code examples in spec/legacy'
+    task legacy: %w(legacy:unit legacy:functional legacy:integration)
+    namespace :legacy do
+      %w(unit functional integration).each do |type|
+        desc "Run the code examples in spec/legacy/#{type}"
+        RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
+          t.pattern = "spec/legacy/#{type}/**/*_spec.rb"
+        end
       end
     end
+  rescue LoadError
+    # when you bundle without development and test (e.g. to create a deployment
+    # artefact) still all tasks get loaded. To avoid an error we rescue here.
   end
 end
 
