@@ -242,7 +242,16 @@ namespace :copyright do
 
   desc 'Update the copyright on .html source files'
   task :update_html, :arg1 do |_task, args|
-    excluded = []
+    excluded = [
+                  'coverage',
+                  'frontend/app/templates/',
+                  'frontend/bower_components',
+                  'frontend/coverage',
+                  'frontend/node_modules',
+                  'frontend/tests/integration/mocks/',
+                  'frontend/tmp',
+                  'frontend/vendor'
+                ]
     rewrite_copyright('html', excluded, :html, args[:arg1])
   end
 
