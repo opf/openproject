@@ -123,7 +123,7 @@ namespace :copyright do
   task :update_special_files, :arg1 do |_task, args|
     # ruby-like files
     file_list = %w{Gemfile Guardfile Rakefile config.ru .travis.yml
-                   .rspec .gitignore extra/svn/svnserve.wrapper}.map do |f|
+                   .rspec .gitignore}.map do |f|
       File.absolute_path f
     end
     rewrite_copyright('rb', [], :rb, args[:arg1], file_list: file_list)
@@ -131,13 +131,8 @@ namespace :copyright do
 
   desc 'Update the copyright on .rb source files'
   task :update_rb, :arg1 do |_task, args|
-    excluded = (['diff',
-                 'ruby-net-ldap-0.0.4',
-                 'acts_as_tree',
-                 'classic_pagination',
-                 'dynamic_form',
+    excluded = (['acts_as_tree',
                  'rfpdf',
-                 'gravatar',
                  'verification'].map { |dir| "lib/plugins/#{dir}" }) +
                (['redcloth'].map { |dir| "lib/#{dir}" })
 
@@ -176,15 +171,14 @@ namespace :copyright do
 
   desc 'Update the copyright on .css source files'
   task :update_css, :arg1 do |_task, args|
-    excluded = ['app/assets/stylesheets/reset.css',
-                'lib/assets']
+    excluded = []
 
     rewrite_copyright('css', excluded, :css, args[:arg1])
   end
 
   desc 'Update the copyright on .css.erb source files'
   task :update_css_erb, :arg1 do |_task, args|
-    excluded = ['lib/assets/stylesheets/select2.css.erb']
+    excluded = []
 
     rewrite_copyright('css.erb', excluded, :css, args[:arg1])
   end
@@ -204,9 +198,7 @@ namespace :copyright do
 
   desc 'Update the copyright on .js source files'
   task :update_js, :arg1 do |_task, args|
-    excluded = ['lib/assets',
-                'app/assets/javascripts/Bitstream_Vera_Sans_400.font.js',
-                'app/assets/javascripts/date-de-DE.js',
+    excluded = ['app/assets/javascripts/date-de-DE.js',
                 'app/assets/javascripts/date-en-US.js',
                 'app/assets/javascripts/jstoolbar/']
 
@@ -215,9 +207,7 @@ namespace :copyright do
 
   desc 'Update the copyright on .js.erb source files'
   task :update_js_erb, :arg1 do |_task, args|
-    excluded = ['lib/assets',
-                'app/assets/javascripts/calendar/',
-                'app/assets/javascripts/jstoolbar']
+    excluded = ['app/assets/javascripts/jstoolbar']
 
     rewrite_copyright('js.erb', excluded, :erb, args[:arg1])
   end
@@ -248,7 +238,7 @@ namespace :copyright do
 
   desc 'Update the copyright on .html source files'
   task :update_html, :arg1 do |_task, args|
-    excluded = ['lib/assets/javascripts/qunit/']
+    excluded = []
     rewrite_copyright('html', excluded, :html, args[:arg1])
   end
 
