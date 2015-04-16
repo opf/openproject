@@ -29,7 +29,7 @@
 module.exports = function() {
   return {
     workPackage: null,
-    error: null,
+    errors: null,
     isBusy: false
   };
 };
