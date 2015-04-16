@@ -27,10 +27,14 @@
 //++
 
 module.exports = function($scope, $window) {
-  $scope.timelines = gon.timelines;
-  $scope.currentTimelineId = gon.current_timeline_id;
+  var vm;
+  $scope.vm = vm = {};
 
-  $scope.switchTimeline = function() {
-    $window.location.href = $scope.timelines[$scope.currentTimelineId].path;
+  vm.timelines = gon.timelines;
+  vm.currentTimelineId = gon.current_timeline_id;
+  vm.currentTimeline = _.find(vm.timelines, { 'id': vm.currentTimelineId });
+
+  vm.switchTimeline = function() {
+    $window.location.href = vm.currentTimeline.path;
   };
 };

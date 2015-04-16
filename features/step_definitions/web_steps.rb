@@ -164,7 +164,14 @@ When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
     container = find(:xpath, xpath_selector)
 
     container.find('.select2-choice').click
-    find(:xpath, "//*[@id='select2-drop']/descendant::li[contains(., '#{value}')]").click
+
+    if container['class'].include?('ui-select-container')
+      # ui-select (Angular)
+      find('ul.select2-result-single li', text: value).click
+    else
+      # classic select2 (jQuery)
+      find(:xpath, "//*[@id='select2-drop']/descendant::li[contains(., '#{value}')]").click
+    end
   end
 end
 
