@@ -186,7 +186,12 @@ module.exports = function($http,
         if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
           data._links[field] = value ? value.links.self.props : { href: null };
         } else {
-          data[field] = value;
+          if (value === true) {
+            // special boolean handing
+            data[field] = '1';
+          } else {
+            data[field] = value;
+          }
         }
       });
       var options = { ajax: {
