@@ -70,7 +70,6 @@
 /tmp/test/*
 /*.rbc
 /doc/app
-#/Gemfile.lock
 /Gemfile.local
 /Gemfile.plugins
 /.rvmrc*
