@@ -41,7 +41,7 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
   // Available selectable Columns
   vm.promise = QueryService.loadAvailableColumns()
     .then(function(availableColumns){
-      vm.availableColumns = availableColumns;
+      vm.availableColumns = QueryService.getAvailableUnusedColumns();
       var availableColumnNames = getColumnNames(availableColumns);
       selectedColumns.forEach(function(column) {
         if (_.contains(availableColumnNames, column.name)) {
