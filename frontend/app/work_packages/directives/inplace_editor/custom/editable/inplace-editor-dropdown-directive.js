@@ -44,7 +44,8 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $t
       scope.fieldController.isBusy = true;
       WorkPackageFieldService.getAllowedValues(
         EditableFieldsState.workPackage,
-        fieldController.field).then(function(values) {
+        fieldController.field
+      ).then(function(values) {
         scope.customEditorController.allowedValues = values;
         scope.fieldController.isBusy = false;
         $timeout(function() {

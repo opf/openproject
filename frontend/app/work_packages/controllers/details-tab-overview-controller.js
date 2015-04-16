@@ -38,8 +38,8 @@ module.exports = function(
   vm.hideEmptyFields = true;
   vm.workPackage = $scope.workPackage;
 
-  vm.isGroupEmpty = isGroupEmpty;
-  vm.isFieldEmpty = isFieldEmpty;
+  vm.isGroupHideable = isGroupHideable;
+  vm.isFieldHideable = isFieldHideable;
   vm.getLabel = getLabel;
   vm.isSpecified = isSpecified;
   vm.showToggleButton = showToggleButton;
@@ -53,26 +53,32 @@ module.exports = function(
         vm.workPackage = $scope.workPackage;
       }
     });
-
     vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
-    var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
-    _.forEach(vm.workPackage.schema.props, function(prop, propName) {
-      if (propName.match(/^customField/)) {
-        otherGroup.attributes.push(propName);
+
+    $scope.$watchCollection('vm.workPackage.form', function(form) {
+      if (form) {
+        var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
+        otherGroup.attributes = [];
+        _.forEach(vm.workPackage.form.embedded.schema.props, function(prop, propName) {
+          if (propName.match(/^customField/)) {
+            otherGroup.attributes.push(propName);
+          }
+        });
+        otherGroup.attributes.sort(function(a, b) {
+          return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
+        });
       }
     });
-    otherGroup.attributes.sort(function(a, b) {
-      return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
-    });
+
   }
 
-  function isGroupEmpty(groupName) {
+  function isGroupHideable(groupName) {
     var group = _.find(vm.groupedFields, {groupName: groupName});
-    return _.every(group.attributes, isFieldEmpty);
+    return _.every(group.attributes, isFieldHideable);
   }
 
-  function isFieldEmpty(field) {
-    return WorkPackageFieldService.isEmpty(vm.workPackage, field);
+  function isFieldHideable(field) {
+    return WorkPackageFieldService.isHideable(vm.workPackage, field);
   }
 
   function isSpecified(field) {

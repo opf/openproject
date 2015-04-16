@@ -91,6 +91,15 @@ module.exports = function(
         scope.displayPaneController.placeholder = I18n.t('js.label_click_to_enter_description');
       }
 
+      scope.editableFieldsState = EditableFieldsState;
+      scope.$watch('editableFieldsState.errors', function(errors) {
+        if (errors) {
+          if (errors[scope.fieldController.field]) {
+            scope.displayPaneController.startEditing();
+          }
+        }
+      }, true);
+
       scope.$watch('fieldController.isEditing', function(isEditing, oldIsEditing) {
         if (!isEditing) {
           $timeout(function() {
