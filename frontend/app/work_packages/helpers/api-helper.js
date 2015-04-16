@@ -35,18 +35,6 @@ module.exports = function() {
       });
     },
 
-    getErrorDictionary: function(e) {
-      var dictionary = {};
-        var response = JSON.parse(error.responseText);
-        if (ApiHelper.isMultiErrorMessage(response)) {
-          angular.forEach(response._embedded.errors, function(error, field) {
-            dictionary[field] = error.message;
-          });
-        } else {
-        }
-        return dictionary;
-    },
-
     getErrorMessage: function(error) {
       if(error.status == 500) {
         return error.statusText;
