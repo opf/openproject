@@ -41,6 +41,33 @@ module.exports = function($http,
   ) {
   var workPackage;
 
+  function getPendingChanges(workPackage) {
+    var data = {
+      // _links: {}
+    };
+    if (workPackage.form) {
+      _.forEach(workPackage.form.pendingChanges, function(value, field) {
+        if(field == 'date') {
+          data['startDate'] = value['startDate'];
+          data['dueDate'] = value['dueDate'];
+          return;
+        }
+        if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
+          data._links = data._links || {};
+          data._links[field] = value ? value.links.self.props : { href: null };
+        } else {
+          data[field] = value;
+        }
+      });
+    }
+
+    if (_.isEmpty(data)) {
+      return null;
+    } else {
+      return JSON.stringify(data);
+    }
+  }
+
   var WorkPackageService = {
     getWorkPackage: function(id) {
       var resource = HALAPIResource.setup('work_packages/' + id);
@@ -53,6 +80,7 @@ module.exports = function($http,
             wp.schema = result[1];
             workPackage = wp;
             EditableFieldsState.workPackage = wp;
+            EditableFieldsState.errors = null;
             return wp;
           });
       });
@@ -146,20 +174,17 @@ module.exports = function($http,
     },
 
     loadWorkPackageForm: function(workPackage) {
-
       if (this.authorizedFor(workPackage, 'update')) {
         var options = { ajax: {
           method: 'POST',
           headers: {
             Accept: 'application/hal+json'
           },
+          data:getPendingChanges(workPackage),
           contentType: 'application/json; charset=utf-8'
         }, force: true};
 
-        return workPackage.links.update.fetch(options).then(function(form) {
-          workPackage.form = form;
-          return form;
-        });
+        return workPackage.links.update.fetch(options);
       }
 
       return $q.when();
@@ -195,7 +220,7 @@ module.exports = function($http,
         headers: {
           Accept: 'application/hal+json'
         },
-        data: JSON.stringify(data),
+        data: getPendingChanges(workPackage),
         contentType: 'application/json; charset=utf-8'
       }, force: true};
       return workPackage.links.updateImmediately.fetch(options);

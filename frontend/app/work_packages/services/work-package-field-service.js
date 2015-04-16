@@ -32,7 +32,9 @@ module.exports = function(
   WorkPackagesHelper,
   $q,
   $http,
-  HookService) {
+  HookService,
+  EditableFieldsState
+  ) {
   /* global moment */
   function isEditable(workPackage, field) {
     // no form - no editing
@@ -68,6 +70,17 @@ module.exports = function(
     }
     return !_.isUndefined(workPackage.schema
       .props[field]);
+  }
+
+  // under special conditions fields will be shown
+  // irregardless if they are empty or not
+  // e.g. when an error should trigger the editing state
+  // of an empty field after type change
+  function isHideable(workPackage, field) {
+    if (EditableFieldsState.errors && EditableFieldsState.errors[field]) {
+      return false;
+    }
+    return isEmpty(workPackage, field);
   }
 
   function getValue(workPackage, field) {
@@ -328,6 +341,7 @@ module.exports = function(
     isRequired: isRequired,
     isSpecified: isSpecified,
     isEmpty: isEmpty,
+    isHideable: isHideable,
     isEmbedded: isEmbedded,
     isSavedAsLink: isSavedAsLink,
     getValue: getValue,
