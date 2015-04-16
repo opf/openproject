@@ -31,7 +31,6 @@
   </span>
 
   <div class="work-packages--details--title">
-    <div class="work-packages--details--type">{{ type.props.name }}:</div>
     <work-package-field field="'subject'"></work-package-field>
   </div>
 
@@ -46,7 +45,7 @@
         </span>
       </span>
     </accessible-by-keyboard>
-    <a href="{{ showStaticPagePath }}">#{{ workPackage.props.id }}</a>
+    <a href="{{ showStaticPagePath }}">{{ type.props.name }} #{{ workPackage.props.id }}</a>
     <span ng-bind="I18n.t('js.label_added_by')"/>
       <a ng-if="authorActive" ng-href="{{ authorPath }}" ng-bind="author.props.name"/>
       <span ng-if="!authorActive">{{ author.props.name }} </span>

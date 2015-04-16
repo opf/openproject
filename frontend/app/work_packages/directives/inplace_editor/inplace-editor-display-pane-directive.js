@@ -98,7 +98,7 @@ module.exports = function(
             scope.displayPaneController.startEditing();
           }
         }
-      });
+      }, true);
 
       scope.$watch('fieldController.isEditing', function(isEditing, oldIsEditing) {
         if (!isEditing) {

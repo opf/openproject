@@ -76,10 +76,12 @@ module.exports = function(
         $scope.fieldController.isEditing = false;
         delete getPendingFormChanges()[$scope.fieldController.field];
         $scope.fieldController.updateWriteValue();
-        console.log('-', EditableFieldsState.errors);
-        delete EditableFieldsState.errors[$scope.fieldController.field];
-        console.log('+', EditableFieldsState.errors);
-
+        if (
+          EditableFieldsState.errors &&
+          EditableFieldsState.errors.hasOwnProperty($scope.fieldController.field)
+        ) {
+          delete EditableFieldsState.errors[$scope.fieldController.field];
+        }
       };
 
       this.getPendingFormChanges = getPendingFormChanges;
@@ -100,21 +102,6 @@ module.exports = function(
           '_common': ApiHelper.getErrorMessage(e)
         };
       }
-
-      // function setErrors(e) {
-      //   if (e) {
-      //     // EditableFieldsState.errors = ApiHelper.getErrorMessage(e);
-      //     if (ApiHelper.isMultiErrorMessage(e)) {
-      //       EditableFieldsState.errors = ApiHelper.getErrorsDictionary(e);
-      //     } else {
-      //       EditableFieldsState.errors = {
-      //         '_common': ApiHelper.getErrorMessage(e)
-      //       };
-      //     }
-      //   } else {
-      //     EditableFieldsState.errors = null;
-      //   }
-      // }
     },
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;

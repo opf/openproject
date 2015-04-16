@@ -47,16 +47,18 @@ module.exports = function($http,
     };
     if (workPackage.form) {
       _.forEach(workPackage.form.pendingChanges, function(value, field) {
-        if(field == 'date') {
-          data['startDate'] = value['startDate'];
-          data['dueDate'] = value['dueDate'];
-          return;
-        }
-        if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
-          data._links = data._links || {};
-          data._links[field] = value ? value.links.self.props : { href: null };
-        } else {
-          data[field] = value;
+        if (WorkPackageFieldService.isSpecified(workPackage, field)) {
+          if(field == 'date') {
+            data['startDate'] = value['startDate'];
+            data['dueDate'] = value['dueDate'];
+            return;
+          }
+          if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
+            data._links = data._links || {};
+            data._links[field] = value ? value.links.self.props : { href: null };
+          } else {
+            data[field] = value;
+          }
         }
       });
     }
@@ -184,7 +186,10 @@ module.exports = function($http,
           contentType: 'application/json; charset=utf-8'
         }, force: true};
 
-        return workPackage.links.update.fetch(options);
+        return workPackage.links.update.fetch(options).then(function(form) {
+          workPackage.form = form;
+          return form;
+        });
       }
 
       return $q.when();
@@ -199,21 +204,6 @@ module.exports = function($http,
     },
 
     updateWorkPackage: function(workPackage, notify) {
-      var data = {
-        _links: {}
-      };
-      _.forEach(workPackage.form.pendingChanges, function(value, field) {
-        if(field == 'date') {
-          data['startDate'] = value['startDate'];
-          data['dueDate'] = value['dueDate'];
-          return;
-        }
-        if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
-          data._links[field] = value ? value.links.self.props : { href: null };
-        } else {
-          data[field] = value;
-        }
-      });
       var options = { ajax: {
         method: 'PATCH',
         url: URI(workPackage.links.updateImmediately.href).addSearch('notify', notify).toString(),
