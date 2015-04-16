@@ -37,7 +37,11 @@ module.exports = function(
   ) {
 
   function getSchema(workPackage) {
-    return workPackage.form.embedded.schema || workPackage.schema;
+    if (workPackage.form) {
+      return workPackage.form.embedded.schema;
+    } else {
+      return workPackage.schema;
+    }
   }
 
   function isEditable(workPackage, field) {
@@ -346,6 +350,7 @@ module.exports = function(
   }
 
   var WorkPackageFieldService = {
+    getSchema: getSchema,
     isEditable: isEditable,
     isRequired: isRequired,
     isSpecified: isSpecified,

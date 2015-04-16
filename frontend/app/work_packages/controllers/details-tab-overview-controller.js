@@ -56,18 +56,18 @@ module.exports = function(
     vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
 
     $scope.$watchCollection('vm.workPackage.form', function(form) {
-      if (form) {
-        var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
-        otherGroup.attributes = [];
-        _.forEach(vm.workPackage.form.embedded.schema.props, function(prop, propName) {
-          if (propName.match(/^customField/)) {
-            otherGroup.attributes.push(propName);
-          }
-        });
-        otherGroup.attributes.sort(function(a, b) {
-          return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
-        });
-      }
+      var schema = WorkPackageFieldService.getSchema(vm.workPackage);
+      var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
+      otherGroup.attributes = [];
+      _.forEach(schema.props, function(prop, propName) {
+        if (propName.match(/^customField/)) {
+          otherGroup.attributes.push(propName);
+        }
+      });
+      otherGroup.attributes.sort(function(a, b) {
+        return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
+      });
+
     });
 
   }
