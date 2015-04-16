@@ -44,6 +44,10 @@ module.exports = function(ConfigurationService, I18n) {
       return d;
     },
 
+    parseISODate: function(date) {
+      return TimezoneService.parseDate(date, 'YYYY-MM-DD');
+    },
+
     formattedDate: function(date) {
       var format = ConfigurationService.dateFormatPresent() ? ConfigurationService.dateFormat() : 'L';
       return TimezoneService.parseDate(date).format(format);

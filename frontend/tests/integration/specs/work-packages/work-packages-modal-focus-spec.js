@@ -36,7 +36,7 @@ describe('OpenProject', function() {
     page.get();
   });
 
-  it('columns modal should focus', function() {
+  xit('columns modal should focus', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showColumnsModal($event)"]')).click();
     browser.driver.switchTo().activeElement().getAttribute('class').then(function (classList) {
@@ -45,7 +45,7 @@ describe('OpenProject', function() {
     });
   });
 
-  it('sorting modal should focus', function() {
+  xit('sorting modal should focus', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showSortingModal($event)"]')).click();
     //don't why, but if to do the request twice the test is green
@@ -57,7 +57,7 @@ describe('OpenProject', function() {
     });
   });
 
-  it('grouping modal should focus', function() {
+  xit('grouping modal should focus', function() {
     element(by.css('#work-packages-settings-button')).click();
     element(by.css('[ng-click="showGroupingModal($event)"]')).click();
     browser.driver.switchTo().activeElement().getAttribute('id').then(function (elementId) {

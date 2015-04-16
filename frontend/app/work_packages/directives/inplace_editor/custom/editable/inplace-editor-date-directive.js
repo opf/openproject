@@ -30,10 +30,16 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
                           TimezoneService, ConfigurationService, I18n, 
                           $timeout) {
   var parseDate = TimezoneService.parseDate,
+      parseISODate = TimezoneService.parseISODate,
       formattedDate = function(date) {
         return TimezoneService.parseDate(date).format('L');
       },
-      formattedISODate = TimezoneService.formattedISODate;
+      formattedISODate = TimezoneService.formattedISODate,
+      customDateFormat = 'DD/MM/YYYY',
+      datepickerFormat = 'dd/mm/yy',
+      customFormattedDate = function(date) {
+        return parseISODate(date).format(customDateFormat);
+      };
   return {
     restrict: 'E',
     transclude: true,
@@ -60,8 +66,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
               jQuery( '<button>', {
                     text: 'Clear',
                     click: function() {
-                      inp.val('');
-                      inp.change();
+                      setDate(inp, null);
                     }
                 })
                 .addClass('ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all')
@@ -70,9 +75,9 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
           },
           setDate = function(inp, date) {
             if(date) {
-              inp.datepicker('option', 'defaultDate', formattedDate(date));
-              inp.datepicker('option', 'setDate', formattedDate(date));
-              inp.val(formattedDate(date));
+              inp.datepicker('option', 'defaultDate', customFormattedDate(date));
+              inp.datepicker('option', 'setDate', customFormattedDate(date));
+              inp.val(customFormattedDate(date));
             } else {
               inp.datepicker('option', 'defaultDate', null);
               inp.datepicker('option', 'setDate', null);
@@ -81,7 +86,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
             }
           };
 
-      input.attr('placeholder', '');
+      input.attr('placeholder', '-');
 
       input.on('change', function() {
         if(input.val().replace(/^\s+|\s+$/g, '') === '') {
@@ -95,10 +100,10 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
         $timeout.cancel(timerId);
         timerId = $timeout(function() {
           var date = input.val(),
-              isValid = TimezoneService.isValid(date, 'DD/MM/YYYY');
+              isValid = TimezoneService.isValid(date, customDateFormat);
 
           if(isValid){
-            scope.fieldController.writeValue = formattedISODate(date);
+            scope.fieldController.writeValue = formattedISODate(parseDate(date, customDateFormat));
           }
         }, 1000);
       });
@@ -108,7 +113,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
         showWeeks: true,
         changeMonth: true,
         numberOfMonths: 1,
-        dateFormat: 'dd/mm/yy',
+        dateFormat: datepickerFormat,
         alterOffset: function(offset) {
           var wHeight = jQuery(window).height(),
               dpHeight = jQuery('#ui-datepicker-div').height(),
@@ -130,10 +135,9 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
           if(!selectedDate || selectedDate === '' || selectedDate === prevDate) {
             return;
           }
-          var parsedDate = parseDate(selectedDate, 'DD/MM/YYYY');
-          prevDate = parsedDate;
+          prevDate = parseDate(selectedDate, customDateFormat);
           $timeout(function() {
-            scope.fieldController.writeValue = formattedISODate(parsedDate);
+            scope.fieldController.writeValue = formattedISODate(prevDate);
           });
         }
       });
