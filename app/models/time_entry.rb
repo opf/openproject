@@ -103,14 +103,6 @@ class TimeEntry < ActiveRecord::Base
     (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
   end
 
-  # TODO: remove this method in 1.3.0
-  def self.visible_by(usr)
-    ActiveSupport::Deprecation.warn 'TimeEntry.visible_by is deprecated and will be removed in Redmine 1.3.0. Use the visible scope instead.'
-    with_scope(find: { conditions: Project.allowed_to_condition(usr, :view_time_entries) }) do
-      yield
-    end
-  end
-
   def self.earliest_date_for_project(project = nil)
     scope = TimeEntry.visible(User.current)
     scope = scope.where(project_id: project.hierarchy.map(&:id)) if project

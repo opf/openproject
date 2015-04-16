@@ -38,8 +38,8 @@ describe WorkPackage, type: :model do
       it { is_expected.to validate_presence_of field }
     end
 
-    it { is_expected.to ensure_length_of(:subject).is_at_most 255 }
-    it { is_expected.to ensure_inclusion_of(:done_ratio).in_range 0..100 }
+    it { is_expected.to validate_length_of(:subject).is_at_most 255 }
+    it { is_expected.to validate_inclusion_of(:done_ratio).in_range 0..100 }
     it { is_expected.to validate_numericality_of :estimated_hours }
 
     it 'validates, that start-date is before end-date' do
