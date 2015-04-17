@@ -32,6 +32,11 @@ var expect = require('../../spec_helper.js').expect,
 describe('OpenProject', function() {
   var page = new WorkPackagesPage();
 
+  beforeEach(function() {
+    page.get();
+    browser.waitForAngular();
+  });
+
   it('should show work packages title', function() {
     page.get();
 
@@ -50,6 +55,30 @@ describe('OpenProject', function() {
         'SUBJECT',
         'ASSIGNEE'
       ]);
+    });
+  });
+
+  describe('click', function() {
+    context('with Ctrl', function() {
+      var newWindowHandle;
+      
+      beforeEach(function() {
+        var link = element(by.css('[title="16923"]'));
+        browser.actions()
+          .mouseMove(link)
+          .sendKeys(protractor.Key.CONTROL)
+          .click()
+          .perform();
+      });
+
+      it('opens new tab', function() {
+        browser.getAllWindowHandles().then(function (handles) {
+          newWindowHandle = handles[1];
+          browser.switchTo().window(newWindowHandle).then(function () {
+            expect(browser.getCurrentUrl()).to.eventually.contain('/work_packages/16923');
+          });
+        });
+      });
     });
   });
 });
