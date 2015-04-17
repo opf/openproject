@@ -3,7 +3,10 @@
       <div class="inplace-edit--write-value" ng-include="templateUrl">
       </div>
     <div class="inplace-edit--dashboard">
-      <div class="inplace-edit--errors" ng-show="editPaneController.error" role="alert" ng-bind="editPaneController.error" aria-live="polite"></div>
+      <div class="inplace-edit--errors" ng-show="editPaneController.error" role="alert" aria-live="polite">
+        <i class="icon-attention2 inplace-edit--errors--icon"></i>
+        <div class="inplace-edit--errors--text" ng-bind="editPaneController.error"></div>
+      </div>
       <div class="inplace-edit--controls" ng-hide="fieldController.isBusy">
         <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(false)" class="inplace-edit--control inplace-edit--control--save">
           <icon-wrapper icon-name="yes" icon-title="{{ editPaneController.saveTitle }}">
