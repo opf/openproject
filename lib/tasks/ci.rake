@@ -50,7 +50,11 @@ namespace :ci do
       raise 'please provide a db adapter with DB={mysql2, postgres, sqlite}' unless db_adapter
 
       db_info = {
-        'mysql2' => {
+        'mysql-5.5' => {
+          'adapter'  => 'mysql2',
+          'username' => 'root'
+        },
+        'mysql-5.6' => {
           'adapter'  => 'mysql2',
           'username' => 'root'
         },
