@@ -315,7 +315,7 @@ GEM
       disposable (~> 0.0.4)
       representable (~> 1.8.1)
       uber (~> 0.0.4)
-    request_store (1.0.5)
+    request_store (1.1.0)
     roar (0.12.7)
       representable (>= 1.6.0)
     rspec (2.99.0)
@@ -473,7 +473,7 @@ DEPENDENCIES
   rdoc (>= 2.4.2)
   reform (~> 1.0.4)
   representable!
-  request_store
+  request_store (~> 1.1.0)
   roar (~> 0.12.6)
   rspec (~> 2.99.0)
   rspec-activemodel-mocks
