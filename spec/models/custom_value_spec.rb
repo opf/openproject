@@ -35,8 +35,8 @@ describe CustomValue do
 
   describe '#typed_value' do
     before do
-      # we are testing the database-side integratively here
-      # databases might choose to store values in weird and unexpected formats (e.g. booleans)
+      # we are testing roundtrips through the database here
+      # the databases might choose to store values in weird and unexpected formats (e.g. booleans)
       subject.reload
     end
 
@@ -45,14 +45,48 @@ describe CustomValue do
       let(:value) { true }
 
       context 'is true' do
-        it { expect(subject.typed_value).to eql(true) }
+        it { expect(subject.typed_value).to eql(value) }
       end
 
       context 'is false' do
         let(:value) { false }
 
-        it { expect(subject.typed_value).to eql(false) }
+        it { expect(subject.typed_value).to eql(value) }
       end
+
+      context 'is nil' do
+        let(:value) { nil }
+
+        it { expect(subject.typed_value).to eql(value) }
+      end
+    end
+
+    describe 'integer custom value' do
+      let(:format) { 'string' }
+      let(:value) { 'This is a string!' }
+
+      it { expect(subject.typed_value).to eql(value) }
+    end
+
+    describe 'integer custom value' do
+      let(:format) { 'int' }
+      let(:value) { 123 }
+
+      it { expect(subject.typed_value).to eql(value) }
+    end
+
+    describe 'float custom value' do
+      let(:format) { 'float' }
+      let(:value) { 3.147 }
+
+      it { expect(subject.typed_value).to eql(value) }
+    end
+
+    describe 'date custom value' do
+      let(:format) { 'date' }
+      let(:value) { Date.today }
+
+      it { expect(subject.typed_value).to eql(value) }
     end
   end
 end
