@@ -77,7 +77,12 @@ module WorkPackage::CsvExporter
 
     if row.size > 0
       row.unshift(work_package.id.to_s)
-      row << work_package.description.gsub(/\r/, '').gsub(/\n/, ' ')
+
+      if work_package.description
+        row << work_package.description.gsub(/\r/, '').gsub(/\n/, ' ')
+      else
+        row << ''
+      end
     end
 
     row

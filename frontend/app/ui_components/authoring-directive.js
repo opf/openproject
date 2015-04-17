@@ -34,7 +34,7 @@ module.exports = function(I18n, PathHelper, TimezoneService) {
     scope: { createdOn: '=', author: '=', project: '=', activity: '=' },
     templateUrl: '/templates/components/authoring.html',
     link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+      moment.locale(I18n.locale);
 
       var createdOn = TimezoneService.parseDate(scope.createdOn);
       var timeago = createdOn.fromNow();

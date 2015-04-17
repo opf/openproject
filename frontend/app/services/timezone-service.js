@@ -30,7 +30,7 @@ module.exports = function(ConfigurationService, I18n) {
   var TimezoneService = {
 
     setupLocale: function() {
-      moment.lang(I18n.locale);
+      moment.locale(I18n.locale);
     },
 
     parseDate: function(date, format) {
