@@ -28,11 +28,15 @@
 #++
 
 shared_examples_for 'labelled' do
-  it { is_expected.to have_selector 'label.form--label' }
+  it 'has a label with title' do
+    is_expected.to have_selector 'label.form--label[title]'
+  end
 end
 
 shared_examples_for 'not labelled' do
-  it { is_expected.not_to have_selector 'label.form--label' }
+  it 'does not have a label with title' do
+    is_expected.not_to have_selector 'label.form--label[title]'
+  end
 end
 
 shared_examples_for 'labelled by default' do
