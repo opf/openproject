@@ -54,8 +54,8 @@ describe('details pane', function() {
       var startDate, endDate;
 
       beforeEach(function() {
-        startDate = dateRangePicker.$('input.start');
-        endDate = dateRangePicker.$('input.end');
+        startDate = dateRangePicker.$('.inplace-edit--date-range-start-date');
+        endDate = dateRangePicker.$('.inplace-edit--date-range-end-date');
       });
 
       beforeEach(function() {
@@ -182,8 +182,8 @@ describe('details pane', function() {
       var startDate, endDate;
 
       beforeEach(function() {
-        startDate = dateRangePicker.$('input.start');
-        endDate = dateRangePicker.$('input.end');
+        startDate = dateRangePicker.$('.inplace-edit--date-range-start-date');
+        endDate = dateRangePicker.$('.inplace-edit--date-range-end-date');
       });
 
       beforeEach(function() {
@@ -262,8 +262,8 @@ describe('details pane', function() {
       var startDate, endDate;
 
       beforeEach(function() {
-        startDate = dateRangePicker.$('input.start');
-        endDate = dateRangePicker.$('input.end');
+        startDate = dateRangePicker.$('.inplace-edit--date-range-start-date');
+        endDate = dateRangePicker.$('.inplace-edit--date-range-end-date');
       });
 
       beforeEach(function() {

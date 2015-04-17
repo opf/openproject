@@ -46,13 +46,15 @@ module.exports = function(TimezoneService, ConfigurationService,
     link: function(scope, element) {
       var startTimerId = 0,
           endTimerId = 0,
-          inputStart = element.find('input.start'),
-          inputEnd = element.find('input.end'),
+          inputStart = element.find('.inplace-edit--date-range-start-date'),
+          inputEnd = element.find('.inplace-edit--date-range-end-date'),
+          divStart = element.find('.inplace-edit--date-range-start-date-picker'),
+          divEnd = element.find('.inplace-edit--date-range-end-date-picker'),
           prevStartDate = '',
           prevEndDate = '',
-          addClearButton = function (inp) {
+          addClearButton = function (div, inp) {
             setTimeout(function() {
-              var buttonPane = jQuery('.ui-datepicker-buttonpane');
+              var buttonPane = div.find('.ui-datepicker-buttonpane');
 
               if(buttonPane.find('.ui-datepicker-clear').length === 0) {
                 buttonPane.find('.ui-datepicker-clear').remove();
@@ -61,22 +63,21 @@ module.exports = function(TimezoneService, ConfigurationService,
               jQuery( '<button>', {
                     text: 'Clear',
                     click: function() {
-                      inp.val('');
-                      inp.change();
+                      setDate(div, inp, null);
                     }
                 })
                 .addClass('ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all')
                 .appendTo(buttonPane);
             }, 1);
           },
-          setDate = function(input, date) {
+          setDate = function(div, input, date) {
             if(date) {
-              input.datepicker('option', 'defaultDate', formattedDate(date));
-              input.datepicker('option', 'setDate', formattedDate(date));
+              div.datepicker('option', 'defaultDate', formattedDate(date));
+              div.datepicker('option', 'setDate', formattedDate(date));
               input.val(formattedDate(date));
             } else {
-              input.datepicker('option', 'defaultDate', null);
-              input.datepicker('option', 'setDate', null);
+              div.datepicker('option', 'defaultDate', null);
+              div.datepicker('option', 'setDate', null);
               input.val('');
               date = null;
             }
@@ -125,7 +126,7 @@ module.exports = function(TimezoneService, ConfigurationService,
         }, 1000);
       });
 
-      inputStart.datepicker({
+      divStart.datepicker({
         firstDay: ConfigurationService.startOfWeek(),
         showWeeks: true,
         changeMonth: true,
@@ -136,8 +137,8 @@ module.exports = function(TimezoneService, ConfigurationService,
         alterOffset: function(offset) {
           var wHeight = jQuery(window).height(),
               dpHeight = jQuery('#ui-datepicker-div').height(),
-              inputTop = inputStart.offset().top,
-              inputHeight = inputStart.innerHeight();
+              inputTop = divStart.offset().top,
+              inputHeight = divStart.innerHeight();
 
           if((inputTop + inputHeight + dpHeight) > wHeight) {
             offset.top -= inputHeight - 4;
@@ -145,12 +146,12 @@ module.exports = function(TimezoneService, ConfigurationService,
           return offset;
         },
         beforeShow: function() {
-          addClearButton(inputStart);
+          addClearButton(divStart, inputStart);
         },
         onChangeMonthYear: function() {
-          addClearButton(inputStart);
+          addClearButton(divStart, inputStart);
         },
-        onClose: function(selectedDate) {
+        onSelect: function(selectedDate) {
           if(!selectedDate || selectedDate === '' || selectedDate === prevStartDate) {
             return;
           }
@@ -159,10 +160,11 @@ module.exports = function(TimezoneService, ConfigurationService,
           $timeout(function() {
             scope.startDate = formattedISODate(parsedDate);
           });
-          inputEnd.datepicker('option', 'minDate', selectedDate ? selectedDate : null);
+          divEnd.datepicker('option', 'minDate', selectedDate ? selectedDate : null);
+          divStart.hide();
         }
       });
-      inputEnd.datepicker({
+      divEnd.datepicker({
         firstDay: ConfigurationService.startOfWeek(),
         showWeeks: true,
         changeMonth: true,
@@ -172,8 +174,8 @@ module.exports = function(TimezoneService, ConfigurationService,
         alterOffset: function(offset) {
           var wHeight = jQuery(window).height(),
               dpHeight = jQuery('#ui-datepicker-div').height(),
-              inputTop = inputEnd.offset().top,
-              inputHeight = inputEnd.innerHeight();
+              inputTop = divEnd.offset().top,
+              inputHeight = divEnd.innerHeight();
 
           if((inputTop + inputHeight + dpHeight) > wHeight) {
             offset.top -= inputHeight - 4;
@@ -181,12 +183,12 @@ module.exports = function(TimezoneService, ConfigurationService,
           return offset;
         },
         beforeShow: function() {
-          addClearButton(inputEnd);
+          addClearButton(divEnd, inputEnd);
         },
         onChangeMonthYear: function() {
-          addClearButton(inputEnd);
+          addClearButton(divEnd, inputEnd);
         },
-        onClose: function(selectedDate) {
+        onSelect: function(selectedDate) {
           if(!selectedDate || selectedDate === '' || selectedDate === prevEndDate) {
             return;
           }
@@ -195,31 +197,43 @@ module.exports = function(TimezoneService, ConfigurationService,
           $timeout(function() {
             scope.endDate = formattedISODate(parsedDate);
           });
-          inputStart.datepicker('option', 'maxDate', selectedDate ? selectedDate : null);
+          divStart.datepicker('option', 'maxDate', selectedDate ? selectedDate : null);
+          divEnd.hide();
         }
       });
+
       if(scope.endDate) {
         prevEndDate = formattedDate(scope.endDate);
-        inputStart.datepicker('option', 'maxDate', formattedDate(scope.endDate));
+        divStart.datepicker('option', 'maxDate', formattedDate(scope.endDate));
       }
       if(scope.startDate) {
         prevStartDate = formattedDate(scope.startDate);
-        inputEnd.datepicker('option', 'minDate', formattedDate(scope.startDate));
+        divEnd.datepicker('option', 'minDate', formattedDate(scope.startDate));
       }
 
-      setDate(inputStart, scope.startDate);
-      setDate(inputEnd, scope.endDate);
+      setDate(divStart, inputStart, scope.startDate);
+      setDate(divEnd, inputEnd, scope.endDate);
 
-      angular.element('.work-packages--details-content').scroll(function() {
-        inputStart.datepicker('hide');
-        inputEnd.datepicker('hide');
-        angular.element('#ui-datepicker-div').blur();
+      inputStart.on('click', function() {
+        if(divStart.is(':hidden') || divEnd.is(':visible')) {
+          divEnd.hide();
+          divStart.show();
+        }
       });
 
-      angular.element(window).resize(function() {
-        inputStart.datepicker('hide');
-        inputEnd.datepicker('hide');
-        angular.element('#ui-datepicker-div').blur();
+      inputEnd.on('click', function() {
+        if(divEnd.is(':hidden') || divStart.is(':visible')) {
+          divEnd.show();
+          divStart.hide();
+        }
+      });
+
+      jQuery('.work-packages--details-content').on('click', function(e) {
+        if(!jQuery(e.target).is('.inplace-edit--date-range input') && 
+            jQuery(e.target).parents('.inplace-edit--date-range .hasDatepicker').length <= 0) {
+          divStart.hide();
+          divEnd.hide();
+        }
       });
     }
   };
