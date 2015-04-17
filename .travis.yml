@@ -35,13 +35,13 @@ env:
   # Frontend
   - "SUITE=karma"
   # mysql2
-  - "SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "SUITE=spec     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=mysql:postgres:sqlite:development"
+  - "SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=mysql:postgres:sqlite:development"
+  - "SUITE=spec     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=mysql:postgres:sqlite:development"
   # postgres
-  - "SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+  - "SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=mysql:mysql2:sqlite:development"
+  - "SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=mysql:mysql2:sqlite:development"
+  - "SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=mysql:mysql2:sqlite:development"
 script: "if [[ $SUITE == 'karma' ]]; then npm test; else bundle exec rake $SUITE; fi"
 before_install:
   - "echo `firefox -v`"
