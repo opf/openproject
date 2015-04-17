@@ -323,7 +323,7 @@ module WorkPackagesHelper
     css_classes = if css_class.nil?
                     ["-#{attribute.to_s.dasherize}"]
                   else
-                    css_class.split(' ').map { |k| "-#{k}" }
+                    css_class.to_s.split(' ').map { |k| "-#{k}" }
                   end
 
     attribute_string = if attribute.is_a?(Symbol)
