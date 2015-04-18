@@ -1,0 +1,4 @@
+source 'https://rubygems.org'
+
+gem 'livingstyleguide', '~> 2.0.0.alpha.6'
+gem 'sass',             '~> 3.4.12'
