@@ -158,7 +158,7 @@ group :test do
 end
 
 group :ldap do
-  gem "net-ldap", '~> 0.10.1'
+  gem "net-ldap", '~> 0.11'
 end
 
 group :development do
