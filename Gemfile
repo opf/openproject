@@ -108,7 +108,6 @@ gem 'autoprefixer-rails'
 gem 'execjs',           '~> 2.4.0'
 gem 'bourbon',          '~> 4.2.0'
 gem 'uglifier',         '>= 1.0.3', require: false
-gem 'livingstyleguide', '~> 1.2.2'
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
