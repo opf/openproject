@@ -42,14 +42,9 @@ module MyProjectsOverviewsHelper
   end
 
   def grid_field(name)
-    content_tag :div, id: "list-#{name}", class: %w(block-receiver) + [name] do
-      ActiveSupport::SafeBuffer.new(blocks[name].map do |block|
-        if block_available? block
-          render partial: 'block', locals: { block_name: block }
-        elsif block.respond_to? :to_ary
-          render partial: 'block_textilizable', locals: { block_name: block }
-        end
-      end.join)
+    css_classes = %w(block-receiver) + [name]
+    content_tag :div, id: "list-#{name}", class: css_classes do
+      ActiveSupport::SafeBuffer.new(blocks[name].map { |b| construct b }.join)
     end
   end
 
@@ -64,8 +59,17 @@ module MyProjectsOverviewsHelper
       url: { action: 'order_blocks', group: field }
   end
 
+  protected
+
   def block_available?(block)
     controller.class.available_blocks.keys.include? block
   end
 
+  def construct(block)
+    if block_available? block
+      render partial: 'block', locals: { block_name: block }
+    elsif block.respond_to? :to_ary
+      render partial: 'block_textilizable', locals: { block_name: block }
+    end
+  end
 end
