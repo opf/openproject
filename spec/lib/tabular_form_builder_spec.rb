@@ -538,18 +538,14 @@ JJ Abrams</textarea>
   describe 'labels for fields' do
     let(:options) { {} }
     shared_examples_for "generated label" do
-      def remove_form_field_container(string)
-        string.gsub(/<span class="form--field-container">.+<\/span>/m,'')
-      end
-
       def expected_label_like(expected_title)
-        expect(remove_form_field_container(output)).to be_html_eql(%{
+        expect(output).to be_html_eql(%{
           <label class="form--label"
                  for="user_name"
                  title="#{expected_title}">
             #{expected_title}
           </label>
-        })
+        }).at_path('label')
       end
 
       context 'with a label specified as string' do
