@@ -226,15 +226,6 @@ namespace :copyright do
     rewrite_copyright('rdoc', excluded, :rdoc, args[:arg1], position: :bottom)
   end
 
-  desc 'Update the copyright on .md source files'
-  task :update_md, :arg1 do |_task, args|
-    excluded = ['README.md',
-                'doc/COPYRIGHT.md',
-                'doc/COPYRIGHT_short.md']
-
-    rewrite_copyright('md', excluded, :md, args[:arg1])
-  end
-
   desc 'Update the copyright on .html.erb source files'
   task :update_html_erb, :arg1 do |_task, args|
     rewrite_copyright('html.erb', [], :erb, args[:arg1])
@@ -274,8 +265,7 @@ namespace :copyright do
   task :update, :arg1 do |_task, args|
     %w{
       css rb js js_erb css_erb html_erb json_erb text_erb atom_builder rake
-      feature rdoc rjs md sql html yml yml_example rb_example special_files
-      sass
+      feature rdoc rjs sql html yml yml_example rb_example special_files sass
     }.each do |t|
       Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])
     end
