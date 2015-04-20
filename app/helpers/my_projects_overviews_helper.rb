@@ -1,7 +1,7 @@
 #-- copyright
 # OpenProject My Project Page Plugin
 #
-# Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2011-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,10 +23,10 @@ module MyProjectsOverviewsHelper
 
   TOP = %w(top)
   MIDDLE = %w(left right)
-  BOTTOM = %w(hidden)
+  HIDDEN = %w(hidden)
 
   def field_list
-    TOP + MIDDLE + BOTTOM
+    TOP + MIDDLE + HIDDEN
   end
 
   def visible_fields
@@ -41,6 +41,18 @@ module MyProjectsOverviewsHelper
     raise NoMethodError
   end
 
+  def grid_field(name)
+    content_tag :div, id: "list-#{name}", class: %w(block-receiver) + [name] do
+      ActiveSupport::SafeBuffer.new(blocks[name].map do |block|
+        if block_available? block
+          render partial: 'block', locals: { block_name: block }
+        elsif block.respond_to? :to_ary
+          render partial: 'block_textilizable', locals: { block_name: block }
+        end
+      end.join)
+    end
+  end
+
   def sortable_box(field)
     sortable_element "list-#{field}",
       tag: 'div',
@@ -51,4 +63,9 @@ module MyProjectsOverviewsHelper
       constraint: false,
       url: { action: 'order_blocks', group: field }
   end
+
+  def block_available?(block)
+    controller.class.available_blocks.keys.include? block
+  end
+
 end
