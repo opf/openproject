@@ -84,6 +84,13 @@ class Redmine::I18nTest < ActiveSupport::TestCase
         assert_equal '15:45', format_time(now, false)
       end
     end
+
+    with_settings time_format: '%H %M' do
+      with_settings date_format: '%d %m %Y' do
+        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
+        assert_equal now.strftime('%H %M'), format_time(now, false)
+      end
+    end
   end
 
   def test_time_format_default
@@ -98,17 +105,6 @@ class Redmine::I18nTest < ActiveSupport::TestCase
       with_settings :date_format => '%Y-%m-%d' do
         assert_equal '2011-02-20 03:45 PM', format_time(now)
         assert_equal '03:45 PM', format_time(now, false)
-      end
-    end
-  end
-
-  def test_time_format
-    set_language_if_valid 'en'
-    now = Time.now
-    with_settings :time_format => '%H %M' do
-      with_settings :date_format => '%d %m %Y' do
-        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
-        assert_equal now.strftime('%H %M'), format_time(now, false)
       end
     end
   end
