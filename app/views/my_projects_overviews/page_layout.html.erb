@@ -19,107 +19,17 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<script language="JavaScript">
-//<![CDATA[
-function recreateSortables() {
-    <% field_list.each do |f| %>
-      Sortable.destroy('list-<%= f %>');
-    <% end %>
-    <% field_list.each do |f| %>
-      Sortable.create("list-<%= f %>", {
-        constraint: false,
-        containment: <%= field_list.collect {|x| "list-#{x}" }.inspect.html_safe %>,
-        dropOnEmpty: true,
-        handle: 'handle',
-        onUpdate: function () {
-          new Ajax.Request('<%= url_for(:controller => '/my_projects_overviews',
-                                        :action => 'order_blocks',
-                                        :group => f) %>',
-                           { asynchronous: true,
-                             evalScripts: true,
-                             parameters: Sortable.serialize("list-<%= f %>")
-                           });
-        },
-        only: 'mypage-box',
-        tag: 'div' });
-    <% end %>
-}
-
-function updateSelect() {
-    s = $('block-select')
-    for (var i = 0; i < s.options.length; i++) {
-        if ($('block_' + s.options[i].value)) {
-            s.options[i].disabled = true;
-        } else {
-            s.options[i].disabled = false;
-        }
-    }
-    s.options[0].selected = true;
-}
-
-function afterAddBlock(response) {
-    recreateSortables();
-    updateSelect();
-    editTextilizable(extractBlockName(response));
-    new Effect.ScrollTo('list-hidden');
-}
-
-function extractBlockName(response) {
-    return response.responseText.match(/id="block_(.*?)"/)[1];
-}
-
-function removeBlock(block) {
-    Effect.DropOut(block);
-    $(block).remove();
-    updateSelect();
-}
-
-function resetTextilizable(name) {
-    $("textile_" + name).setValue(window["page_layout-textile" + name] + "");
-    toggleTextilizableVisibility(name);
-    return false;
-}
-
-function editTextilizable(name) {
-    var textile_name = $("textile_" + name);
-    if (textile_name != null) {
-      window["page_layout-textile" + name] = textile_name.getValue();
-      toggleTextilizableVisibility(name);
-    }
-    return false;
-}
-
-function toggleTextilizableVisibility(name) {
-  $(name + '-form-div').toggle();
-  $(name + '-preview-div').toggle();
-  $(name + '-text').toggle();
-}
-function addBlock() {
-  new Ajax.Updater('list-hidden',
-                   $('block-form').action,
-                   { insertion: 'top',
-                     onComplete: afterAddBlock,
-                     parameters: Form.serialize('block-form'),
-                     evalScripts:true
-                   });
-
-  return false;
-}
-//]]>
-</script>
-
 <% content_for :toolbar do %>
   <li class="toolbar-item">
     <%= styled_form_tag({:action => "add_block"}, :id => "block-form") do %>
       <%= styled_select_tag 'block',
                      ("<option>--#{t(:button_add)}--</option>" + options_for_select(block_options)).html_safe,
                      :id => "block-select",
-                     :onChange => "addBlock();",
                      class: 'form--select'
     %>
     <% end %>
   </li>
-  <li class="toolbar-item"><%= link_to l(:button_back), {:action => 'index'}, :class => 'button' %></li>
+  <li class="toolbar-item"><%= link_to l(:button_back), {:action => 'index'}, class: 'button' %></li>
 <% end %>
 
 <h2><%=l(:label_overview)%></h2>
@@ -141,22 +51,14 @@ function addBlock() {
 </div>
 
 <h4><%=l(:label_hidden_elements) %></h4>
-<div id="list-hidden">
-  <% hidden_fields.each do |f| %>
-    <%= grid_field f %>
-  <% end %>
-</div>
+<% hidden_fields.each do |f| %>
+  <%= grid_field f %>
+<% end %>
 
 <h4><%= l(:label_file_plural) %></h4>
 <div class="attachments" id="page_layout_attachments">
   <%= render(:partial => "page_layout_attachments") %>
 </div>
-
-<% field_list.each do |field| %>
-  <%= sortable_box field %>
-<% end %>
-
-<%= javascript_tag "updateSelect()" %>
 
 <% content_for :header_tags do %>
   <%= javascript_include_tag "my_project_page/my_project_page" %>

@@ -42,21 +42,14 @@ module MyProjectsOverviewsHelper
   end
 
   def grid_field(name)
-    css_classes = %w(block-receiver) + [name]
-    content_tag :div, id: "list-#{name}", class: css_classes do
+    css_classes = %w(block-receiver list-position) + [name]
+    data = {
+      :'ajax-url' => ajax_url(name),
+      position: name
+    }
+    content_tag :div, id: "list-#{name}", class: css_classes, data: data do
       ActiveSupport::SafeBuffer.new(blocks[name].map { |b| construct b }.join)
     end
-  end
-
-  def sortable_box(field)
-    sortable_element "list-#{field}",
-      tag: 'div',
-      only: 'mypage-box',
-      handle: 'handle',
-      dropOnEmpty: true,
-      containment: field_list.collect { |x| "list-#{x}" },
-      constraint: false,
-      url: { action: 'order_blocks', group: field }
   end
 
   protected
@@ -71,5 +64,11 @@ module MyProjectsOverviewsHelper
     elsif block.respond_to? :to_ary
       render partial: 'block_textilizable', locals: { block_name: block }
     end
+  end
+
+  def ajax_url(name)
+    url_for controller: '/my_projects_overviews',
+            action: 'order_blocks',
+            group: name
   end
 end
