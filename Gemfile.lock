@@ -528,7 +528,7 @@ DEPENDENCIES
   rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
   reform (~> 1.2.6)
-  request_store
+  request_store (~> 1.1.0)
   roar (~> 1.0.0)
   rspec (~> 3.2.0)
   rspec-activemodel-mocks

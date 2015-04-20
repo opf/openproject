@@ -35,7 +35,7 @@ gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 gem 'globalize', "~> 3.1.0"
 gem 'omniauth'
-gem 'request_store'
+gem 'request_store', "~> 1.1.0"
 gem 'gravatar_image_tag', '~> 1.2.0'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
