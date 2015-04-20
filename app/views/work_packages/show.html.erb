@@ -126,7 +126,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{work_package.project} - #{work_package.to_s}") %>
-  <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
 
 <% #include calendar js files in case they are needed for edit

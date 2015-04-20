@@ -91,7 +91,6 @@ OpenProject::Application.configure do
                                   members_select_boxes.js
                                   project/responsible_attribute.js
                                   repository_navigation.js
-                                  rtl.css context_menu_rtl.css
                                   select_list_move.js
                                   timelines.css
                                   timelines_modal.js
