@@ -109,7 +109,7 @@ function addBlock() {
 </script>
 
 <% content_for :toolbar do %>
-  <li>
+  <li class="toolbar-item">
     <%= styled_form_tag({:action => "add_block"}, :id => "block-form") do %>
       <%= styled_select_tag 'block',
                      ("<option>--#{t(:button_add)}--</option>" + options_for_select(block_options)).html_safe,
@@ -119,7 +119,7 @@ function addBlock() {
     %>
     <% end %>
   </li>
-  <li><%= link_to l(:button_back), {:action => 'index'}, :class => 'button' %></li>
+  <li class="toolbar-item"><%= link_to l(:button_back), {:action => 'index'}, :class => 'button' %></li>
 <% end %>
 
 <h2><%=l(:label_overview)%></h2>
