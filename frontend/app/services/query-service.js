@@ -164,10 +164,14 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
 
     loadAvailableUnusedColumns: function(projectIdentifier) {
       return QueryService.loadAvailableColumns(projectIdentifier)
-        .then(function(available_columns) {
-          availableUnusedColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
+        .then(function(availableColumns) {
+          availableUnusedColumns = QueryService.selectUnusedColumns(availableColumns);
           return availableUnusedColumns;
         });
+    },
+
+    selectUnusedColumns: function(columns) {
+      return WorkPackagesTableHelper.getColumnDifference(columns, QueryService.getSelectedColumns());
     },
 
     loadAvailableColumns: function(projectIdentifier) {
