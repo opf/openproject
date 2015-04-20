@@ -171,7 +171,8 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
     },
 
     selectUnusedColumns: function(columns) {
-      return WorkPackagesTableHelper.getColumnDifference(columns, QueryService.getSelectedColumns());
+      return WorkPackagesTableHelper.getColumnDifference(
+        columns, QueryService.getSelectedColumns());
     },
 
     loadAvailableColumns: function(projectIdentifier) {

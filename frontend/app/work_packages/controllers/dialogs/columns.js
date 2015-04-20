@@ -84,8 +84,9 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
   };
 
   /**
-   * When a column is removed from the selection it becomes unused and hence available for selection again.
-   * When a column is added to the selection it becomes used and is therefore unavailable for selection.
+   * When a column is removed from the selection it becomes unused and hence available for
+   * selection again. When a column is added to the selection it becomes used and is
+   * therefore unavailable for selection.
    *
    * This function updates the unused columns according to the currently selected columns.
    *
@@ -93,10 +94,10 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
    */
   $scope.updateUnusedColumns = function(selectedColumns) {
     var used = _.map(selectedColumns, getColumnName);
-    var isUsed = function(col) {
+    var isUnused = function(col) {
       return !_.contains(used, col.name);
     };
 
-    vm.unusedColumns = _.filter(vm.availableColumns, isUsed);
+    vm.unusedColumns = _.filter(vm.availableColumns, isUnused);
   };
 };
