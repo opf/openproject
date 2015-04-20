@@ -215,6 +215,8 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
           if ($event.shiftKey) {
             clearSelection();
             activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
+          } else if($event.ctrlKey){
+            setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
           } else {
             setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
 
