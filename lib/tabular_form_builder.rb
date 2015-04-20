@@ -190,13 +190,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_options = { class: '',
                       title: text }
 
-    text += @template.content_tag('span', ' *', class: 'required') if options.delete(:required)
-
     id = element_id(translation_form) if translation_form
 
     # FIXME: reenable the error handling
     label_options[:class] << 'error' if false && @object && @object.respond_to?(:errors) && @object.errors[field] # FIXME
     label_options[:class] << 'form--label'
+    label_options[:class] << ' -required' if options.delete(:required)
     label_options[:for] = if options[:for]
                             options[:for]
                           elsif options[:multi_locale] && id

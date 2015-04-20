@@ -538,9 +538,9 @@ JJ Abrams</textarea>
   describe 'labels for fields' do
     let(:options) { {} }
     shared_examples_for "generated label" do
-      def expected_label_like(expected_title)
+      def expected_label_like(expected_title, expected_classes = 'form--label')
         expect(output).to be_html_eql(%{
-          <label class="form--label"
+          <label class="#{expected_classes}"
                  for="user_name"
                  title="#{expected_title}">
             #{expected_title}
@@ -604,14 +604,7 @@ JJ Abrams</textarea>
         end
 
         it 'uses the label' do
-          expect(output).to be_html_eql(%{
-            <label class="form--label"
-                   for="user_name"
-                   title="#{I18n.t(:name)}">
-              #{I18n.t(:name)}
-              <span class="required">*</span>
-            </label>
-          }).at_path('label')
+          expected_label_like(I18n.t(:name), 'form--label -required')
         end
       end
     end
