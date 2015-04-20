@@ -594,6 +594,26 @@ JJ Abrams</textarea>
           expected_label_like(User.human_attribute_name(:name))
         end
       end
+
+      context 'when required, with a label specified as symbol' do
+        let(:text) { :name }
+
+        before do
+          options[:label] = text
+          options[:required] = true
+        end
+
+        it 'uses the label' do
+          expect(output).to be_html_eql(%{
+            <label class="form--label"
+                   for="user_name"
+                   title="#{I18n.t(:name)}">
+              #{I18n.t(:name)}
+              <span class="required">*</span>
+            </label>
+          }).at_path('label')
+        end
+      end
     end
 
     %w{ text_field
