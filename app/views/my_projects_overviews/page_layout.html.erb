@@ -19,9 +19,6 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<!-- page_layout.html -->
-<% field_list = ['top', 'left', 'right', 'hidden'] %>
-
 <script language="JavaScript">
 //<![CDATA[
 function recreateSortables() {
@@ -130,22 +127,41 @@ function addBlock() {
 <%= render :partial => 'layouts/action_menu_specific' %>
 
 <h4><%=l(:label_visible_elements) %></h4>
-<% (field_list - ['hidden']).each do |f| %>
-  <div id="list-<%= f %>" class="splitcontent<%= f %> block-receiver">
-    <% blocks[f].each do |b| %>
-      <% if MyProjectsOverviewsController.available_blocks.keys.include? b %>
-        <%= render(:partial => 'block', :locals => { :block_name => b }) %>
-      <% elsif b.respond_to? :to_ary %>
-        <%= render(:partial => 'block_textilizable',
-                   :locals => {:block_name => b.first,
-                               :block_title => b[1],
-                               :textile => b.last}) %>
-      <% end %>
+<div id="visible-grid">
+  <div class="grid-block">
+    <% top_fields.each do |f| %>
+      <div id="list-<%= f %>" class="grid-content block-receiver">
+        <% blocks[f].each do |b| %>
+          <% if MyProjectsOverviewsController.available_blocks.keys.include? b %>
+            <%= render(:partial => 'block', :locals => { :block_name => b }) %>
+          <% elsif b.respond_to? :to_ary %>
+            <%= render(:partial => 'block_textilizable',
+                       :locals => {:block_name => b.first,
+                                   :block_title => b[1],
+                                   :textile => b.last}) %>
+          <% end %>
+        <% end %>
+      </div>
     <% end %>
   </div>
-<% end %>
+  <div class="grid-block">
+    <% middle_fields.each do |f| %>
+      <div id="list-<%= f %>" class="block-receiver <%= f %>">
+        <% blocks[f].each do |b| %>
+          <% if MyProjectsOverviewsController.available_blocks.keys.include? b %>
+            <%= render(:partial => 'block', :locals => { :block_name => b }) %>
+          <% elsif b.respond_to? :to_ary %>
+            <%= render(:partial => 'block_textilizable',
+                       :locals => {:block_name => b.first,
+                                   :block_title => b[1],
+                                   :textile => b.last}) %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
-<div style="clear: both"></div>
 <h4><%=l(:label_hidden_elements) %></h4>
 <div id="list-hidden" class="block-receiver">
   <% blocks['hidden'].each do |b| %>
@@ -165,16 +181,8 @@ function addBlock() {
   <%= render(:partial => "page_layout_attachments") %>
 </div>
 
-<% field_list.each do |f| %>
-  <%= sortable_element "list-#{f}",
-      :tag => 'div',
-      :only => 'mypage-box',
-      :handle => "handle",
-      :dropOnEmpty => true,
-      :containment => field_list.collect {|x| "list-#{x}" },
-      :constraint => false,
-      :url => { :action => "order_blocks", :group => f }
-       %>
+<% field_list.each do |field| %>
+  <%= sortable_box field %>
 <% end %>
 
 <%= javascript_tag "updateSelect()" %>

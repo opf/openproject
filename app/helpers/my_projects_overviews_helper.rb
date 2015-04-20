@@ -20,4 +20,35 @@
 
 module MyProjectsOverviewsHelper
   include WorkPackagesFilterHelper
+
+  TOP = %w(top)
+  MIDDLE = %w(left right)
+  BOTTOM = %w(hidden)
+
+  def field_list
+    TOP + MIDDLE + BOTTOM
+  end
+
+  def visible_fields
+    TOP + MIDDLE
+  end
+
+  def method_missing(name)
+    constant_name = name.to_s.gsub('_fields', '').upcase
+    if MyProjectsOverviewsHelper.const_defined? constant_name
+      return MyProjectsOverviewsHelper.const_get constant_name
+    end
+    raise NoMethodError
+  end
+
+  def sortable_box(field)
+    sortable_element "list-#{field}",
+      tag: 'div',
+      only: 'mypage-box',
+      handle: 'handle',
+      dropOnEmpty: true,
+      containment: field_list.collect { |x| "list-#{x}" },
+      constraint: false,
+      url: { action: 'order_blocks', group: field }
+  end
 end
