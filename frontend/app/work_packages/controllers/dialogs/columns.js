@@ -35,13 +35,16 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
   vm.selectedColumns = [];
   vm.oldSelectedColumns = [];
   vm.availableColumns = [];
+  vm.unusedColumns = [];
 
   var selectedColumns = QueryService.getSelectedColumns();
 
   // Available selectable Columns
   vm.promise = QueryService.loadAvailableColumns()
     .then(function(availableColumns){
-      vm.availableColumns = availableColumns;
+      vm.availableColumns = availableColumns; // all existing columns
+      vm.unusedColumns = QueryService.selectUnusedColumns(availableColumns); // columns not shown
+
       var availableColumnNames = getColumnNames(availableColumns);
       selectedColumns.forEach(function(column) {
         if (_.contains(availableColumnNames, column.name)) {
@@ -55,10 +58,12 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
     return _.difference(vm.selectedColumns, vm.oldSelectedColumns);
   }
 
+  function getColumnName(column) {
+    return column.name;
+  }
+
   function getColumnNames(arr) {
-    return _.map(arr, function(column) {
-      return column.name;
-    });
+    return _.map(arr, getColumnName);
   }
 
   $scope.updateSelectedColumns = function() {
@@ -76,5 +81,23 @@ module.exports = function($scope, $filter, columnsModal, QueryService, WorkPacka
     }
 
     columnsModal.deactivate();
+  };
+
+  /**
+   * When a column is removed from the selection it becomes unused and hence available for
+   * selection again. When a column is added to the selection it becomes used and is
+   * therefore unavailable for selection.
+   *
+   * This function updates the unused columns according to the currently selected columns.
+   *
+   * @param selectedColumns Columns currently selected through the multi select box.
+   */
+  $scope.updateUnusedColumns = function(selectedColumns) {
+    var used = _.map(selectedColumns, getColumnName);
+    var isUnused = function(col) {
+      return !_.contains(used, col.name);
+    };
+
+    vm.unusedColumns = _.filter(vm.availableColumns, isUnused);
   };
 };
