@@ -20,16 +20,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
-reply = jQuery("#reply");
-subject = jQuery("#reply_subject");
-content = jQuery("#reply_content");
+(function($) {
+  var reply = $("#reply"),
+      subject = $("#reply_subject"),
+      content = $("#reply_content");
 
-subject.val("<%= subject.html_safe %>");
-content.val("<%= content.html_safe %>");
+  subject.val("<%= subject.html_safe %>");
+  content.val("<%= content.html_safe %>");
 
-reply.slideDown();
-content.focus();
+  reply.slideDown();
+  content.focus();
 
-jQuery('html, body').animate({
-  scrollTop: content.offset().top
-}, 1000);
+  $('html, body').animate({
+    scrollTop: content.offset().top
+  }, 1000);
+}(jQuery))
