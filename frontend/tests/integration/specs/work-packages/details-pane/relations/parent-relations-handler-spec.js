@@ -40,7 +40,7 @@ describe('Details pane', function() {
         browser.waitForAngular();
       });
 
-      it('shows', function() {
+      xit('shows', function() {
         element(by.repeater('relation in handler.relations')).then(function(relation) {
           expect(relation).to.be.defined;
         });
@@ -56,7 +56,7 @@ describe('Details pane', function() {
         browser.waitForAngular();
       });
 
-      iit('shows "No realtion exists"', function() {
+      it('shows "No relation exists"', function() {
         element.all(by.repeater('relation in handler.relations')).count().then(function(count) {
           expect(count).to.eq(0);
         });

@@ -83,41 +83,66 @@ describe OpenProject::FormTagHelper, type: :helper do
   end
 
   describe '#styled_label_tag' do
-    subject(:output) {
-      helper.styled_label_tag('field', nil, options) do
-        'Label content'
+    context 'with block' do
+      subject(:output) {
+        helper.styled_label_tag('field', nil, options) do
+          'Label content'
+        end
+      }
+
+      it_behaves_like 'not wrapped in container', 'label-container'
+
+      it 'should output element' do
+        expect(output).to be_html_eql(%{
+          <label class="form--label" for="field" title="Label content">Label content</label>
+        })
       end
-    }
-
-    it_behaves_like 'not wrapped in container', 'label-container'
-
-    it 'should output element' do
-      expect(output).to be_html_eql(%{
-        <label class="form--label" for="field" title="Label content">Label content</label>
-      })
     end
 
-    it 'should use the title from the options if given' do
-      label =  helper.styled_label_tag 'field', 'Lautrec', title: 'Carim'
-      expect(label).to be_html_eql(%{
-        <label for="field" class="form--label" title="Carim">Lautrec</label>
-      })
-    end
+    context 'with content arg' do
+      subject(:output) {
+        helper.styled_label_tag('field', 'Label content', options)
+      }
 
-    it 'should prefer the title given in the options over the content' do
-      label =  helper.styled_label_tag('field', nil, title: 'Carim') { 'Lordvessel' }
-      expect(label).to be_html_eql(%{
-        <label for="field" class="form--label" title="Carim">Lordvessel</label>
-      })
-    end
+      it_behaves_like 'not wrapped in container', 'label-container'
 
-    it 'should strip any given inline HTML from the title tag' do
-      label =  helper.styled_label_tag('field') do
-        helper.content_tag :span, 'Sif'
+      it 'should output element' do
+        expect(output).to be_html_eql(%{
+          <label class="form--label" for="field" title="Label content">Label content</label>
+        })
       end
-      expect(label).to be_html_eql(%{
-        <label for="field" class="form--label" title="Sif"><span>Sif</span></label>
-      })
+    end
+
+    context 'titles' do
+      it 'should use the title from the options if given' do
+        label = helper.styled_label_tag 'field', 'Lautrec', title: 'Carim'
+        expect(label).to be_html_eql(%{
+          <label for="field" class="form--label" title="Carim">Lautrec</label>
+        })
+      end
+
+      it 'should prefer the title given in the options over the content' do
+        label = helper.styled_label_tag('field', nil, title: 'Carim') { 'Lordvessel' }
+        expect(label).to be_html_eql(%{
+          <label for="field" class="form--label" title="Carim">Lordvessel</label>
+        })
+      end
+
+      it 'should strip any given inline HTML from the title tag (with block)' do
+        label = helper.styled_label_tag('field') do
+          helper.content_tag :span, 'Sif'
+        end
+        expect(label).to be_html_eql(%{
+          <label for="field" class="form--label" title="Sif"><span>Sif</span></label>
+        })
+      end
+
+      it 'should strip any given inline HTML from the title tag (with content arg)' do
+        label = helper.styled_label_tag('field', helper.content_tag(:span, 'Sif'))
+        expect(label).to be_html_eql(%{
+          <label for="field" class="form--label" title="Sif"><span>Sif</span></label>
+        })
+      end
     end
   end
 

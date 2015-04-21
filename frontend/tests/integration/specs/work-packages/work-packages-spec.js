@@ -71,7 +71,7 @@ describe('OpenProject', function() {
           .perform();
       });
 
-      it('opens new tab', function() {
+      xit('opens new tab', function() {
         browser.getAllWindowHandles().then(function (handles) {
           newWindowHandle = handles[1];
           browser.switchTo().window(newWindowHandle).then(function () {

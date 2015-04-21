@@ -111,7 +111,7 @@ describe('OpenProject', function(){
           subjectEditor.$('.inplace-edit--control--save a').click();
         });
 
-        it('should render an error', function() {
+        xit('should render an error', function() {
           expect(
             subjectEditor
               .$('.inplace-edit--errors')
@@ -206,7 +206,7 @@ describe('OpenProject', function(){
           detailsPaneHelper.loadPane(820, 'overview');
         });
 
-        it('should render a span', function() {
+        xit('should render a span', function() {
           expect(
             editor
             .$('span.inplace-edit--read-value .version-wrapper span')
