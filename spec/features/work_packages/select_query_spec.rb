@@ -43,12 +43,13 @@ describe 'Query selection', type: :feature do
   let(:i18n_filter_2_name) { WorkPackage.human_attribute_name(filter_2_name.to_sym) }
 
   let!(:query) do
-    query = FactoryGirl.build(:query, project: project, is_public: true)
-    query.filters = [
-      Queries::WorkPackages::Filter.new(filter_1_name, operator: '=',  values: ['me']),
-      Queries::WorkPackages::Filter.new(filter_2_name, operator: '>=', values: [10])
-    ]
-    query.save and return query
+    FactoryGirl.build(:query, project: project, is_public: true).tap do |query|
+      query.filters = [
+        Queries::WorkPackages::Filter.new(filter_1_name, operator: '=',  values: ['me']),
+        Queries::WorkPackages::Filter.new(filter_2_name, operator: '>=', values: [10])
+      ]
+      query.save
+    end
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
