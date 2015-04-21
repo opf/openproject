@@ -91,4 +91,37 @@ describe 'ColumnData', type: :controller do
       end
     end
   end
+
+  describe '#include_columns' do
+    let(:regular_columns) { ['type'] }
+
+    context 'regular fields' do
+      let(:bogus_columns) { ['bogus'] }
+
+      it 'includes nothing empty column names' do
+        expect(includes_for_columns([])).to eq([])
+      end
+
+      it 'includes mutual fields' do
+        expect(includes_for_columns(regular_columns)).to eq([:type])
+      end
+
+      it 'excludes bogus columns' do
+        expect(includes_for_columns(regular_columns | bogus_columns)).to eq([:type])
+      end
+    end
+
+    context 'custom fields' do
+      let(:custom_fields) { ['cf_1'] }
+
+      it 'includes custom fields' do
+        expect(includes_for_columns(custom_fields)).to eq([{:custom_values=>:custom_field}])
+      end
+
+      it 'includes custom fields and regular fields' do
+        columns = custom_fields | regular_columns
+        expect(includes_for_columns(columns)).to eq([:type, {:custom_values=>:custom_field}])
+      end
+    end
+  end
 end
