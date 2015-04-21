@@ -42,6 +42,7 @@ module.exports = function(
   vm.isFieldHideable = isFieldHideable;
   vm.getLabel = getLabel;
   vm.isSpecified = isSpecified;
+  vm.isRequired = isRequired;
   vm.showToggleButton = showToggleButton;
 
   activate();
@@ -83,6 +84,10 @@ module.exports = function(
 
   function isSpecified(field) {
     return WorkPackageFieldService.isSpecified(vm.workPackage, field);
+  }
+
+  function isRequired(field) {
+    return WorkPackageFieldService.isRequired(vm.workPackage, field);
   }
 
   function getLabel(field) {
