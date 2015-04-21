@@ -54,7 +54,7 @@ describe API::Experimental::WorkPackageDecorator, type: :model do
   end
 
   describe '#custom_values_display_data' do
-    it 'returns a hash with a subset of information about the custom value' do
+    it 'returns a hash with a subset of information about a custom value' do
       allow(dwp1).to receive(:custom_values).and_return [custom_value]
 
       returned = dwp1.custom_values_display_data(custom_field.id)
@@ -62,18 +62,19 @@ describe API::Experimental::WorkPackageDecorator, type: :model do
       expected = [{
         custom_field_id: custom_field.id,
         field_format: custom_field.field_format,
-        value: nil
+        value: ''
       }]
 
       expect(returned).to eql (expected)
     end
 
-    it 'returns a hash with a subset of information about the custom value' do
+    it 'returns a hash with a subset of information about a user custom value' do
       field = FactoryGirl.build_stubbed(:user_issue_custom_field)
       custom_value.custom_field = field
       user = FactoryGirl.build_stubbed(:user)
       custom_value.value = user.id.to_s
       allow(User).to receive(:find_by_id).with(user.id).and_return(user)
+      allow(User).to receive(:find_by_id).with(user.id.to_s).and_return(user)
 
       allow(dwp1).to receive(:custom_values).and_return [custom_value]
 
