@@ -18,7 +18,8 @@
 // See doc/COPYRIGHT.md for more details.
 //++
 
-/*globals jQuery, I18n*/
+/* globals jQuery, $$, $, Sortable, Effect, Form */
+/* jshint camelcase: false */
 
 (function($) {
   // $ is prototype
@@ -26,12 +27,12 @@
 
   function recreateSortables() {
     var lists = $$('.list-position'),
-        containedPositions = function() {
+        containedPositions = (function() {
           var positions = _.map(lists, function(list) {
-            return list.readAttribute('id')
+            return list.readAttribute('id');
           });
           return _.uniq(positions);
-        }(),
+        }()),
         destroy = function destroy(list) {
           var id = list.readAttribute('id');
           Sortable.destroy(id);
@@ -44,7 +45,7 @@
             dropOnEmpty: true,
             handle: 'handle',
             onUpdate: function updatePosition() {
-              new Ajax. Request(url, {
+              new Ajax.Request(url, {
                 asynchronous: true,
                 evalScripts: true,
                 parameters: Sortable.serialize(id)
@@ -61,41 +62,41 @@
   }
 
   function updateSelect() {
-      s = $('block-select')
-      for (var i = 0; i < s.options.length; i++) {
-          if ($('block_' + s.options[i].value)) {
-              s.options[i].disabled = true;
-          } else {
-              s.options[i].disabled = false;
-          }
+    var s = $('block-select');
+    for (var i = 0; i < s.options.length; i++) {
+      if ($('block_' + s.options[i].value)) {
+        s.options[i].disabled = true;
+      } else {
+        s.options[i].disabled = false;
       }
-      s.options[0].selected = true;
+    }
+    s.options[0].selected = true;
   }
 
   function afterAddBlock(response) {
-      recreateSortables();
-      updateSelect();
-      editTextilizable(extractBlockName(response));
-      new Effect.ScrollTo('list-hidden');
+    recreateSortables();
+    updateSelect();
+    editTextilizable(extractBlockName(response));
+    new Effect.ScrollTo('list-hidden');
   }
 
   function extractBlockName(response) {
-      return response.responseText.match(/id="block_(.*?)"/)[1];
+    return response.responseText.match(/id="block_(.*?)"/)[1];
   }
 
   function resetTextilizable(name) {
-      $("textile_" + name).setValue(window["page_layout-textile" + name] + "");
-      toggleTextilizableVisibility(name);
-      return false;
+    $('textile_' + name).setValue(window['page_layout-textile' + name] + '');
+    toggleTextilizableVisibility(name);
+    return false;
   }
 
   function editTextilizable(name) {
-      var textile_name = $("textile_" + name);
-      if (textile_name != null) {
-        window["page_layout-textile" + name] = textile_name.getValue();
-        toggleTextilizableVisibility(name);
-      }
-      return false;
+    var textile_name = $('textile_' + name);
+    if (textile_name !== null) {
+      window['page_layout-textile' + name] = textile_name.getValue();
+      toggleTextilizableVisibility(name);
+    }
+    return false;
   }
 
   function toggleTextilizableVisibility(name) {
@@ -129,23 +130,52 @@
         trigger: '.all',
         indicator_class: 'ajax-indicator',
         load_target: '#users_per_role',
-        loading_text: I18n.t("js.ajax.loading"),
+        loading_text: I18n.t('js.ajax.loading'),
         loading_class: 'box loading'
       });
 
       // this was previously bound in the template directly
       $('#block-select').on('change', addBlock);
 
-      //initialize the fun!
+      // we need to rebind some of the links constantly, as the content is generated
+      // on the page
+      function updateBlockLinks() {
+        function getBlockName(element) {
+          var blockName = element.data('block-name');
+          if (!blockName) {
+            throw new Error('no block name found for element');
+          }
+          return blockName;
+        }
+
+        // bind textilizable block links
+        $('a.reset-textilizable').on('click', function(e) {
+          e.preventDefault();
+          resetTextilizable(getBlockName($(this)));
+        });
+
+        $('a.edit-textilizable').on('click', function(e) {
+          e.preventDefault();
+          editTextilizable(getBlockName($(this)));
+        });
+      }
+
+      // initialize the fun! (prototype)
       recreateSortables();
       updateSelect();
 
+      // moar fun
+      updateBlockLinks();
+
+      //these are generated blocks, so we have to watch the links inside them
+
       // TODO: this is exceptionally _not_ fun
       // this attaches the update method to the window in order for it
-      // being callable after removal
+      // being callable after removal of a block
       window.myPage = window.myPage || {
-        updateSelect: updateSelect
+        updateSelect: updateSelect,
+        updateBlockLinks: updateBlockLinks
       };
     });
-  }(jQuery))
+  }(jQuery));
 }($));

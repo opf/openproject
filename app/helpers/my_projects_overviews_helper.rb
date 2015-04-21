@@ -38,7 +38,7 @@ module MyProjectsOverviewsHelper
     if MyProjectsOverviewsHelper.const_defined? constant_name
       return MyProjectsOverviewsHelper.const_get constant_name
     end
-    raise NoMethodError
+    raise NoMethodError.new("tried to call method #{name}, but was not found!")
   end
 
   def grid_field(name)
@@ -59,10 +59,11 @@ module MyProjectsOverviewsHelper
   end
 
   def construct(block)
+    if block.is_a? Array
+      return render_textilized block
+    end
     if block_available? block
-      render partial: 'block', locals: { block_name: block }
-    elsif block.respond_to? :to_ary
-      render partial: 'block_textilizable', locals: { block_name: block }
+      return render_normal block
     end
   end
 
@@ -70,5 +71,17 @@ module MyProjectsOverviewsHelper
     url_for controller: '/my_projects_overviews',
             action: 'order_blocks',
             group: name
+  end
+
+  def render_textilized(block)
+    render partial: 'block_textilizable', locals: {
+      block_name: block.first,
+      block_title: block[1],
+      textile: block.last
+    }
+  end
+
+  def render_normal(block)
+    render partial: 'block', locals: { block_name: block }
   end
 end

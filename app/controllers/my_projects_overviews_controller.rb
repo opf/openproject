@@ -113,7 +113,6 @@ class MyProjectsOverviewsController < ApplicationController
         overview.update_attribute(group, group_items)
       end
     end
-    render :nothing => true
   end
 
   def param_to_block(param)
