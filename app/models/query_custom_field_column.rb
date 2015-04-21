@@ -48,6 +48,6 @@ class QueryCustomFieldColumn < QueryColumn
 
   def value(issue)
     cv = issue.custom_values.detect { |v| v.custom_field_id == @cf.id }
-    cv && @cf.cast_value(cv.value)
+    cv && cv.typed_value
   end
 end
