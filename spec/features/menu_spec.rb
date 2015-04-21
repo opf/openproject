@@ -59,9 +59,9 @@ describe 'project menu', type: :feature do
   # * May apply to routes used with parameters in general.
   describe '#18788 (cost reports not found (404)) regression test' do
     describe 'link to project cost reports' do
-      context "when on the project's activity page" do
+      shared_examples 'it leads to the project costs reports' do
         before do
-          visit '/projects/ponyo/activity'
+          visit current_path
         end
 
         it 'leads to cost reports' do
@@ -71,23 +71,23 @@ describe 'project menu', type: :feature do
         end
       end
 
+      context "when on the project's activity page" do
+        let(:current_path) { '/projects/ponyo/activity' }
+
+        it_behaves_like 'it leads to the project costs reports'
+      end
+
       context "when on the project's calendar" do
-        before do
-          visit '/projects/ponyo/work_packages/calendar'
-        end
+        let(:current_path) { '/projects/ponyo/work_packages/calendar' }
 
-        it 'leads to cost reports' do
-          click_on 'Cost Reports'
-
-          expect(page).to have_selector('h1', text: 'HomePonyoCost Reports')
-        end
+        it_behaves_like 'it leads to the project costs reports'
       end
     end
 
     describe 'link to global cost reports', js: true do
-      context "when on the project's activity page" do
+      shared_examples 'it leads to the cost reports' do
         before do
-          visit '/projects/ponyo/activity'
+          visit current_path
         end
 
         it 'leads to cost reports' do
@@ -97,24 +97,22 @@ describe 'project menu', type: :feature do
           end
 
           expect(page).to have_selector('h1', text: 'Cost Reports')
+
+          # to make sure we're not seeing the project cost reports:
           expect(page).not_to have_text('Ponyo')
         end
       end
 
+      context "when on the project's activity page" do
+        let(:current_path) { '/projects/ponyo/activity' }
+
+        it_behaves_like 'it leads to the cost reports'
+      end
+
       context "when on the project's calendar" do
-        before do
-          visit '/projects/ponyo/work_packages/calendar'
-        end
+        let(:current_path) { '/projects/ponyo/work_packages/calendar' }
 
-        it 'leads to cost reports' do
-          click_on 'Modules'
-          within '#more-menu ul' do
-            click_on 'Cost Reports'
-          end
-
-          expect(page).to have_selector('h1', text: 'Cost Reports')
-          expect(page).not_to have_text('Ponyo')
-        end
+        it_behaves_like 'it leads to the cost reports'
       end
     end
   end
