@@ -182,7 +182,7 @@ module Api::Experimental::Concerns::ColumnData
 
   def includes_for_columns(column_names)
     column_names = Array(column_names)
-    includes = (WorkPackage.reflections.keys & column_names)
+    includes = (WorkPackage.reflections.keys & column_names.map(&:to_sym))
 
     if column_names.any? { |c| custom_field_id_in(c) }
       includes << { custom_values: :custom_field }
