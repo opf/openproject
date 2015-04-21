@@ -8,11 +8,11 @@
         <div class="inplace-edit--errors--text" ng-bind="editPaneController.error" role="alert" aria-live="polite"></div>
       </div>
       <div class="inplace-edit--controls" ng-hide="fieldController.state.isBusy">
-        <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(false)" class="inplace-edit--control inplace-edit--control--save">
+        <accessible-by-keyboard execute="editPaneController.submit(false)" class="inplace-edit--control inplace-edit--control--save">
           <icon-wrapper icon-name="yes" icon-title="{{ editPaneController.saveTitle }}">
           </icon-wrapper>
         </accessible-by-keyboard>
-        <accessible-by-keyboard execute="editPaneController.editForm.$valid && editPaneController.submit(true)" class="inplace-edit--control -icons-2 inplace-edit--control--send">
+        <accessible-by-keyboard execute="editPaneController.submit(true)" class="inplace-edit--control -icons-2 inplace-edit--control--send">
             <span title="{{ editPaneController.saveAndSendTitle }}">
               <i class="icon-yes"></i>
               <i class="icon-mail"></i>

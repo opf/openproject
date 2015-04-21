@@ -400,6 +400,9 @@ de:
       btn_preview_enable: "Vorschau"
       btn_preview_disable: "Vorschau deaktivieren"
       null_value_label: "Kein Wert"
+      errors:
+        required: '%{field} ist ein Pflichtfeld'
+        number: '%{field} ist keine Zahl'
 
     error_could_not_resolve_version_name: "Versionsbezeichner konnte nicht aufgelöst werden"
     error_could_not_resolve_user_name: "Benutzername konnte nicht aufgelöst werden"

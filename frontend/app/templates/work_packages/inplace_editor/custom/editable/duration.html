@@ -3,5 +3,6 @@
        type="number"
        step="0.5"
        ng-disabled="fieldController.state.isBusy"
+       ng-required="editPaneController.isRequired"
        title="{{ fieldController.editTitle }}"
        ng-model="customEditorController.writeValue" />
