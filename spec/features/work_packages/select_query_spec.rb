@@ -37,11 +37,17 @@ describe 'Query selection', type: :feature do
                               member_through_role: role
   }
 
-  let(:filter_name) { 'done_ratio' }
-  let(:i18n_filter_name) { WorkPackage.human_attribute_name(filter_name.to_sym) }
+  let(:filter_1_name) { 'assigned_to_id' }
+  let(:filter_2_name) { 'done_ratio' }
+  let(:i18n_filter_1_name) { WorkPackage.human_attribute_name(filter_1_name.to_sym) }
+  let(:i18n_filter_2_name) { WorkPackage.human_attribute_name(filter_2_name.to_sym) }
+
   let!(:query) do
     query = FactoryGirl.build(:query, project: project, is_public: true)
-    query.filters = [Queries::WorkPackages::Filter.new(filter_name, operator: '>=', values: [10])]
+    query.filters = [
+      Queries::WorkPackages::Filter.new(filter_1_name, operator: '=',  values: ['me']),
+      Queries::WorkPackages::Filter.new(filter_2_name, operator: '>=', values: [10])
+    ]
     query.save and return query
   end
 
@@ -51,17 +57,42 @@ describe 'Query selection', type: :feature do
     allow(User).to receive(:current).and_return current_user
   end
 
-  context 'when a query is selected' do
+  context 'default view, without a query selected' do
     before do
-      work_packages_page.select_query query
+      work_packages_page.visit_index
       # ensure the page is loaded before expecting anything
       find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
                                                        visible: false)
     end
 
-    it 'should show the filter', js: true do
-      find('#work-packages-filter-toggle-button').click
-      expect(work_packages_page.selected_filter(filter_name)).to have_content(i18n_filter_name)
+    it 'shows the default (status) filter', js: true do
+      work_packages_page.click_toolbar_button 'Activate Filter'
+      expect(work_packages_page.find_filter('status_id')).to have_content('Status')
+      expect(work_packages_page.find_filter('status_id'))
+        .to have_select('operators-status_id', selected: 'open')
+    end
+
+    it 'shows filter count within toggle button', js: true do
+      expect(find_button('Activate Filter')).to have_text /1$/
+    end
+  end
+
+  context 'when a query is selected' do
+    before do
+      work_packages_page.select_query query
+      # ensure the page is loaded before expecting anything
+      find('.advanced-filters--filters select option', text: /\AStart date\Z/,
+                                                       visible: false)
+    end
+
+    it 'shows the saved filters', js: true do
+      work_packages_page.click_toolbar_button 'Activate Filter'
+      expect(work_packages_page.find_filter(filter_1_name)).to have_content(i18n_filter_1_name)
+      expect(work_packages_page.find_filter(filter_2_name)).to have_content(i18n_filter_2_name)
+    end
+
+    it 'shows filter count within toggle button', js: true do
+      expect(find_button('Activate Filter')).to have_text /2$/
     end
   end
 end
