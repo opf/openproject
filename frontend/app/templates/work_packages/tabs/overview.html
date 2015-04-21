@@ -35,7 +35,7 @@
         ng-if="vm.isSpecified(field)"
         ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
         {{vm.getLabel(field)}}
-        <span class="required" ng-if="vm.isRequired(field)"> *</span>
+        <span class="required" ng-if="vm.hasNiceStar(field)"> *</span>
     </dt>
     <dd
         ng-hide="vm.hideEmptyFields && vm.isFieldHideable(field)"
