@@ -18,6 +18,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.md for more details.
 
 ++#%>
+<% html_title(l(:label_overview)) -%>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "my_project_page/my_project_page" %>
+  <%= stylesheet_link_tag "my_project_page/my_projects_overview", :media => 'all' %>
+  <% heads_for_wiki_formatter %>
+<% end %>
 
 <% content_for :toolbar do %>
   <li class="toolbar-item">
@@ -60,10 +67,5 @@ See doc/COPYRIGHT.md for more details.
   <%= render(:partial => "page_layout_attachments") %>
 </div>
 
-<% content_for :header_tags do %>
-  <%= javascript_include_tag "my_project_page/my_project_page" %>
-  <%= stylesheet_link_tag "my_project_page/my_projects_overview", :media => 'all' %>
-  <% heads_for_wiki_formatter %>
-<% end %>
 
-<% html_title(l(:label_overview)) -%>
+
