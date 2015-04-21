@@ -115,12 +115,12 @@ describe 'ColumnData', type: :controller do
       let(:custom_fields) { ['cf_1'] }
 
       it 'includes custom fields' do
-        expect(includes_for_columns(custom_fields)).to eq([{:custom_values=>:custom_field}])
+        expect(includes_for_columns(custom_fields)).to eq([{ custom_values: :custom_field }])
       end
 
       it 'includes custom fields and regular fields' do
         columns = custom_fields | regular_columns
-        expect(includes_for_columns(columns)).to eq([:type, {:custom_values=>:custom_field}])
+        expect(includes_for_columns(columns)).to eq([:type, { custom_values: :custom_field }])
       end
     end
   end
