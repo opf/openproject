@@ -39,15 +39,16 @@ module.exports = function(TimezoneService) {
         } else {
           scope.date = scope.noDateText;
         }
+
+        if (!scope.hideTitle) {
+          scope.dateTitle = scope.date;
+        }
       }
       
       setDate(scope.dateValue);
       scope.$watch('dateValue', function(newVal) {
         setDate(newVal);
       });
-      if (!scope.hideTitle) {
-        scope.dateTitle = scope.date;
-      }
     }
   };
 };
