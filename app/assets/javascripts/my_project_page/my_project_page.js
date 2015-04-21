@@ -18,7 +18,7 @@
 // See doc/COPYRIGHT.md for more details.
 //++
 
-/* globals jQuery, $$, $, Sortable, Effect, Form */
+/* globals jQuery, $$, $, Sortable, Effect, Form, Ajax, I18n, _ */
 /* jshint camelcase: false */
 /* jshint nonew: false */
 
