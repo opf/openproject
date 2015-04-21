@@ -40,7 +40,7 @@ describe('Details pane', function() {
         browser.waitForAngular();
       });
 
-      it('shows', function() {
+      xit('shows', function() {
         element(by.repeater('relation in handler.relations')).then(function(relation) {
           expect(relation).to.be.defined;
         });
