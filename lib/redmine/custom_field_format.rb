@@ -36,12 +36,12 @@ module Redmine
 
     attr_accessor :name, :order, :label, :edit_as, :class_names
 
-    def initialize(name, options = {})
+    def initialize(name, label:, order:, edit_as: name, only: nil)
       self.name = name
-      self.label = options[:label]
-      self.order = options[:order]
-      self.edit_as = options[:edit_as] || name
-      self.class_names = options[:only]
+      self.label = label
+      self.order = order
+      self.edit_as = edit_as
+      self.class_names = only
     end
 
     def format(value)
