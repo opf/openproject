@@ -83,12 +83,6 @@
       return response.responseText.match(/id="block_(.*?)"/)[1];
   }
 
-  function removeBlock(block) {
-      Effect.DropOut(block);
-      $(block).remove();
-      updateSelect();
-  }
-
   function resetTextilizable(name) {
       $("textile_" + name).setValue(window["page_layout-textile" + name] + "");
       toggleTextilizableVisibility(name);
@@ -139,12 +133,19 @@
         loading_class: 'box loading'
       });
 
-      // this was previously bound in the template
+      // this was previously bound in the template directly
       $('#block-select').on('change', addBlock);
 
       //initialize the fun!
       recreateSortables();
       updateSelect();
+
+      // TODO: this is exceptionally _not_ fun
+      // this attaches the update method to the window in order for it
+      // being callable after removal
+      window.myPage = window.myPage || {
+        updateSelect: updateSelect
+      };
     });
   }(jQuery))
 }($));

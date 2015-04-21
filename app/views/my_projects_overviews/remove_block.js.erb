@@ -1,0 +1,7 @@
+(function($) {
+  var block = $('#block_' + '<%= @block.dasherize %>');
+  block.fadeOut('fast', function() {
+    block.remove();
+    myPage.updateSelect();
+  });
+}(jQuery))
