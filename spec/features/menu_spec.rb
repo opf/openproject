@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'project menu', type: :feature do
   let(:current_user) { FactoryGirl.create :admin }
-  let!(:project) { FactoryGirl.create :valid_project, identifier: 'ponyo' }
+  let!(:project) { FactoryGirl.create :valid_project, identifier: 'ponyo', name: 'Ponyo' }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -58,17 +58,16 @@ describe 'project menu', type: :feature do
   #
   # * May apply to routes used with parameters in general.
   describe '#18788 (cost reports not found (404)) regression test' do
-    describe 'link to cost reports' do
+    describe 'link to project cost reports' do
       context "when on the project's activity page" do
         before do
           visit '/projects/ponyo/activity'
         end
 
-        it 'shows the correct link to cost reports: /projects/ponyo/cost_reports' do
-          a = find_link 'Cost Reports'
+        it 'leads to cost reports' do
+          click_on 'Cost Reports'
 
-          expect(a).to be_present
-          expect(a[:href]).to match %r{/projects/ponyo/cost_reports$}
+          expect(page).to have_selector('h1', text: 'HomePonyoCost Reports')
         end
       end
 
@@ -77,11 +76,44 @@ describe 'project menu', type: :feature do
           visit '/projects/ponyo/work_packages/calendar'
         end
 
-        it 'shows the correct link to cost reports: /projects/ponyo/cost_reports' do
-          a = find_link 'Cost Reports'
+        it 'leads to cost reports' do
+          click_on 'Cost Reports'
 
-          expect(a).to be_present
-          expect(a[:href]).to match %r{/projects/ponyo/cost_reports$}
+          expect(page).to have_selector('h1', text: 'HomePonyoCost Reports')
+        end
+      end
+    end
+
+    describe 'link to global cost reports', js: true do
+      context "when on the project's activity page" do
+        before do
+          visit '/projects/ponyo/activity'
+        end
+
+        it 'leads to cost reports' do
+          click_on 'Modules'
+          within '#more-menu ul' do
+            click_on 'Cost Reports'
+          end
+
+          expect(page).to have_selector('h1', text: 'Cost Reports')
+          expect(page).not_to have_text('Ponyo')
+        end
+      end
+
+      context "when on the project's calendar" do
+        before do
+          visit '/projects/ponyo/work_packages/calendar'
+        end
+
+        it 'leads to cost reports' do
+          click_on 'Modules'
+          within '#more-menu ul' do
+            click_on 'Cost Reports'
+          end
+
+          expect(page).to have_selector('h1', text: 'Cost Reports')
+          expect(page).not_to have_text('Ponyo')
         end
       end
     end
