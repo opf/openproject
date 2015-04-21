@@ -58,7 +58,7 @@ module Redmine
 
     ['string', 'text', 'int', 'float', 'list'].each do |name|
       define_method("format_as_#{name}") {|value|
-        return value
+        return value.to_s
       }
     end
 
