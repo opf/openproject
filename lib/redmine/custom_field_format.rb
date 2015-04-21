@@ -52,7 +52,8 @@ module Redmine
       format_date(value.to_date); rescue; value     end
 
     def format_as_bool(value)
-      l(value == '1' ? :general_text_Yes : :general_text_No)
+      is_true = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
+      l(is_true ? :general_text_Yes : :general_text_No)
     end
 
     ['string', 'text', 'int', 'float', 'list'].each do |name|
