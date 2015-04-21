@@ -108,6 +108,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
                 custom_value.custom_field.name,
                 for: custom_field_field_id,
                 class: classes,
+                title: custom_value.custom_field.name,
                 lang: custom_value.custom_field.name_locale
   end
 end
