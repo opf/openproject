@@ -20,6 +20,7 @@
 
 /* globals jQuery, $$, $, Sortable, Effect, Form */
 /* jshint camelcase: false */
+/* jshint nonew: false */
 
 (function($) {
   // $ is prototype

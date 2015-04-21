@@ -33,6 +33,7 @@ module MyProjectsOverviewsHelper
     TOP + MIDDLE
   end
 
+  # TODO: potentially dangerous, is there a better way? (via define_method?)
   def method_missing(name)
     constant_name = name.to_s.gsub('_fields', '').upcase
     if MyProjectsOverviewsHelper.const_defined? constant_name
