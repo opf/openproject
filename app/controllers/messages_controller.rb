@@ -145,14 +145,12 @@ class MessagesController < ApplicationController
     subject = "RE: #{subject}" unless subject.starts_with?('RE:')
     content = "#{ll(Setting.default_language, :text_user_wrote, user)}\\n> "
     content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, '\\n> ') + '\\n\\n'
-    render(:update) { |page|
-      page << "$('reply_subject').value = \"#{subject}\";"
-      page.<< "$('reply_content').value = \"#{content}\";"
-      page.show 'reply'
-      page << "Form.Element.focus('reply_content');"
-      page << "Element.scrollTo('reply');"
-      page << "$('reply_content').scrollTop = $('reply_content').scrollHeight - $('reply_content').clientHeight;"
-    }
+
+    respond_to do |format|
+      format.js do
+        render locals: { subject: subject, content: content }
+      end
+    end
   end
 
   protected
