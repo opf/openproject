@@ -101,7 +101,10 @@ module API
                    },
                    setter: -> (value, *) { represented.description = value['raw'] },
                    render_nil: true
-          property :parent_id, writeable: true
+
+          property :parent_id,
+                   writeable: true,
+                   render_nil: true
 
           property :project_id,
                    getter: -> (*) { nil },
