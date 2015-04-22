@@ -287,4 +287,15 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
       );
     }
   };
+
+  $scope.getFilterCount = function() {
+    if ($scope.query) {
+      var filters = $scope.query.filters;
+      return _.size(_.where(filters, function(filter) {
+        return !filter.deactivated;
+      }));
+    } else {
+      return 0;
+    }
+  };
 };

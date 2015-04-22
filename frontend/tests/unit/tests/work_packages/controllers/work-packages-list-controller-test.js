@@ -259,4 +259,39 @@ describe('WorkPackagesListController', function() {
       expect(scope.query.id).to.eq(testQueries['2'].id);
     });
   });
+
+  describe('getFilterCount', function() {
+    beforeEach(function(){
+      var testState = {
+        params: {
+          query_id: testQueries['2'].id
+        },
+        href: function() { return ''; },
+      };
+      var testLocation = {
+        search: function() {
+          return {};
+        },
+        url: angular.identity
+      };
+
+      buildController({}, testState, testLocation);
+    });
+
+    it('returns 0 with no filters', function() {
+      expect(scope.getFilterCount()).to.eq(0);
+    });
+
+    it('returns the filter count with filters', function() {
+      scope.query.filters = [{}, {}];
+
+      expect(scope.getFilterCount()).to.eq(2);
+    });
+
+    it('returns the filter count with deactivated filters', function() {
+      scope.query.filters = [{}, { deactivated: true }, { deactivated: true }];
+
+      expect(scope.getFilterCount()).to.eq(1);
+    });
+  });
 });
