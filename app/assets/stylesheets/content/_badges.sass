@@ -26,32 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $timeout) {
-  return {
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    scope: {},
-    require: '^workPackageField',
-    templateUrl: '/templates/work_packages/inplace_editor/custom/editable/dropdown.html',
-    controller: function() {
-      this.allowedValues = [];
-      this.nullValueLabel = I18n.t('js.inplace.null_value_label');
-    },
-    controllerAs: 'customEditorController',
-    link: function(scope, element, attrs, fieldController) {
-      scope.fieldController = fieldController;
-      scope.fieldController.state.isBusy = true;
-      WorkPackageFieldService.getAllowedValues(
-        EditableFieldsState.workPackage,
-        fieldController.field
-      ).then(function(values) {
-        scope.customEditorController.allowedValues = values;
-        scope.fieldController.state.isBusy = false;
-        $timeout(function() {
-          element.find('.ui-select-match').trigger('click');
-        });
-      });
-    }
-  };
-};
+$badge-diameter: 1.25rem
+
+.badge
+  @include badge
+
+  &.-secondary
+    @include badge-style($secondary-color, auto)

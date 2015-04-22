@@ -28,6 +28,7 @@
                 ng-click="toggleShowFilterOptions()"
                 ng-class="{active: showFiltersOptions}">
           <i class="icon-filter-big icon-buttons"></i>{{ I18n.t('js.toolbar.filter') }}
+          <span class="badge -secondary">{{ getFilterCount() }}</span>
         </button>
       </li>
       <li class="toolbar-item" feature-flag="detailsView">

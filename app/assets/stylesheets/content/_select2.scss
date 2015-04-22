@@ -120,7 +120,7 @@
 $se2-theme-selectable-color: #f8f8f8;
 //todo change to global theme color var
 //{bgThemeHighlight}
-$se2-theme-selectable-color-highlighted: #24b3e7;
+$se2-theme-selectable-color-highlighted: $drop-down-selected-bg-color;
 
 $se2-element-height: 33px;
 $se2-line-height: 30px;
@@ -190,7 +190,7 @@ $se2-width: 100%;
       //possible background tweaks
     }
   }
-  
+
   .select2-results {
     max-height: $se2-results-max-height;
     overflow: auto;

@@ -42,7 +42,7 @@ module.exports = function(
     controller: function($scope, WorkPackageService) {
       this.submit = function(notify) {
         var fieldController = $scope.fieldController;
-        fieldController.isBusy = true;
+        fieldController.state.isBusy = true;
         var pendingFormChanges = getPendingFormChanges();
         pendingFormChanges[fieldController.field] = fieldController.writeValue;
         WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
@@ -56,7 +56,7 @@ module.exports = function(
                 $scope.$emit(
                   'workPackageRefreshRequired',
                   function() {
-                    fieldController.isBusy = false;
+                    fieldController.state.isBusy = false;
                     fieldController.isEditing = false;
                     fieldController.updateWriteValue();
                     EditableFieldsState.errors = null;
@@ -96,7 +96,7 @@ module.exports = function(
       }
 
       function afterError() {
-        $scope.fieldController.isBusy = false;
+        $scope.fieldController.state.isBusy = false;
         $scope.focusInput();
       }
       function setFailure(e) {
