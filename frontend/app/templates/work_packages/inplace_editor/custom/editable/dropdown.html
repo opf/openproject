@@ -2,7 +2,7 @@
     <ui-select
             class="inplace-edit--select"
             name="value"
-            ng-disabled="fieldController.isBusy"
+            ng-disabled="fieldController.state.isBusy"
             ng-model="fieldController.writeValue.links.self.props.href"
             title="{{ fieldController.editTitle }}"
             reset-search-input="true"
