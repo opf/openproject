@@ -51,9 +51,9 @@ class API::Experimental::WorkPackageDecorator < SimpleDelegator
 
     custom_field = custom_value.custom_field
     value = if custom_field.field_format == 'user'
-              custom_field.cast_value(custom_value.value).as_json(methods: :name)
+              custom_value.typed_value.as_json(methods: :name)
             else
-              custom_field.cast_value(custom_value.value)
+              custom_value.typed_value
             end
 
     {

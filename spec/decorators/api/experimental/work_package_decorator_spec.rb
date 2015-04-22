@@ -31,12 +31,15 @@ require File.expand_path('../../../../spec_helper', __FILE__)
 describe API::Experimental::WorkPackageDecorator, type: :model do
   let(:wp1) { FactoryGirl.build_stubbed(:work_package) }
   let(:wp2) { FactoryGirl.build_stubbed(:work_package) }
-  let(:dwp1) { described_class.new(wp1) }
   let(:custom_field) { FactoryGirl.build_stubbed(:text_issue_custom_field) }
   let(:custom_value) do
     FactoryGirl.build_stubbed(:custom_value,
-                              custom_field: custom_field)
+                              custom_field: custom_field,
+                              value: value)
   end
+  let(:value) { '' }
+
+  subject { described_class.new(wp1) }
 
   describe '#decorate' do
 
@@ -54,38 +57,43 @@ describe API::Experimental::WorkPackageDecorator, type: :model do
   end
 
   describe '#custom_values_display_data' do
-    it 'returns a hash with a subset of information about the custom value' do
-      allow(dwp1).to receive(:custom_values).and_return [custom_value]
+    before do
+      allow(wp1).to receive(:custom_values).and_return [custom_value]
+    end
 
-      returned = dwp1.custom_values_display_data(custom_field.id)
+    it 'returns a hash with a subset of information about a custom value' do
+      returned = subject.custom_values_display_data(custom_field.id)
 
       expected = [{
         custom_field_id: custom_field.id,
         field_format: custom_field.field_format,
-        value: nil
+        value: ''
       }]
 
-      expect(returned).to eql (expected)
+      expect(returned).to eql expected
     end
 
-    it 'returns a hash with a subset of information about the custom value' do
-      field = FactoryGirl.build_stubbed(:user_issue_custom_field)
-      custom_value.custom_field = field
-      user = FactoryGirl.build_stubbed(:user)
-      custom_value.value = user.id.to_s
-      allow(User).to receive(:find_by_id).with(user.id).and_return(user)
+    context 'user custom value' do
+      let(:custom_field) { FactoryGirl.build_stubbed(:user_issue_custom_field) }
+      let(:user) { FactoryGirl.build_stubbed(:user) }
+      let(:value) { user.id.to_s }
 
-      allow(dwp1).to receive(:custom_values).and_return [custom_value]
+      before do
+        allow(User).to receive(:find_by_id).with(user.id).and_return(user)
+        allow(User).to receive(:find_by_id).with(user.id.to_s).and_return(user)
+      end
 
-      returned = dwp1.custom_values_display_data(field.id)
+      it 'returns a hash with a subset of information about a custom value' do
+        returned = subject.custom_values_display_data(custom_field.id)
 
-      expected = [{
-        custom_field_id: field.id,
-        field_format: field.field_format,
-        value: user.as_json(methods: :name)
-      }]
+        expected = [{
+          custom_field_id: custom_field.id,
+          field_format: custom_field.field_format,
+          value: user.as_json(methods: :name)
+        }]
 
-      expect(returned).to eql (expected)
+        expect(returned).to eql expected
+      end
     end
   end
 end

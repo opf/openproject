@@ -194,7 +194,7 @@ class CustomField < ActiveRecord::Base
       when 'date'
         casted = begin; value.to_date; rescue; nil end
       when 'bool'
-        casted = (value == '1' ? true : false)
+        casted = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
       when 'int'
         casted = value.to_i
       when 'float'

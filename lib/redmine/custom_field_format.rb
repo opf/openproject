@@ -36,12 +36,12 @@ module Redmine
 
     attr_accessor :name, :order, :label, :edit_as, :class_names
 
-    def initialize(name, options = {})
+    def initialize(name, label:, order:, edit_as: name, only: nil)
       self.name = name
-      self.label = options[:label]
-      self.order = options[:order]
-      self.edit_as = options[:edit_as] || name
-      self.class_names = options[:only]
+      self.label = label
+      self.order = order
+      self.edit_as = edit_as
+      self.class_names = only
     end
 
     def format(value)
@@ -52,12 +52,13 @@ module Redmine
       format_date(value.to_date); rescue; value     end
 
     def format_as_bool(value)
-      l(value == '1' ? :general_text_Yes : :general_text_No)
+      is_true = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
+      l(is_true ? :general_text_Yes : :general_text_No)
     end
 
     ['string', 'text', 'int', 'float', 'list'].each do |name|
       define_method("format_as_#{name}") {|value|
-        return value
+        return value.to_s
       }
     end
 
