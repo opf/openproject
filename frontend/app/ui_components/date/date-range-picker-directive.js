@@ -29,10 +29,16 @@
 module.exports = function(TimezoneService, ConfigurationService,
                           I18n, $timeout) {
   var parseDate = TimezoneService.parseDate,
+      parseISODate = TimezoneService.parseISODate,
       formattedDate = function(date) {
         return TimezoneService.parseDate(date).format('L');
       },
       formattedISODate = TimezoneService.formattedISODate,
+      customDateFormat = 'YYYY-MM-DD',
+      datepickerFormat = 'yy-mm-dd',
+      customFormattedDate = function(date) {
+        return parseISODate(date).format(customDateFormat);
+      },
       noStartDate = I18n.t('js.label_no_start_date'),
       noEndDate = I18n.t('js.label_no_due_date');
   return {
@@ -46,13 +52,14 @@ module.exports = function(TimezoneService, ConfigurationService,
     link: function(scope, element) {
       var startTimerId = 0,
           endTimerId = 0,
+          form = element.parents('.inplace-edit--form'),
           inputStart = element.find('.inplace-edit--date-range-start-date'),
           inputEnd = element.find('.inplace-edit--date-range-end-date'),
           divStart = element.find('.inplace-edit--date-range-start-date-picker'),
           divEnd = element.find('.inplace-edit--date-range-end-date-picker'),
           prevStartDate = '',
           prevEndDate = '',
-          addClearButton = function (div, inp) {
+          addClearButton = function (inp) {
             setTimeout(function() {
               var buttonPane = div.find('.ui-datepicker-buttonpane');
 
@@ -76,65 +83,89 @@ module.exports = function(TimezoneService, ConfigurationService,
             if(date) {
               div.datepicker('option', 'defaultDate', formattedDate(date));
               div.datepicker('option', 'setDate', formattedDate(date));
-              input.val(formattedDate(date));
+              input.val(customFormattedDate(date));
+              input.attr('title', customFormattedDate(date));
             } else {
               div.datepicker('option', 'defaultDate', null);
               div.datepicker('option', 'setDate', null);
               input.val('');
+              input.change();
+              input.attr('title', noDate);
               date = null;
             }
           };
 
-      inputStart.attr('placeholder', noStartDate);
-      inputEnd.attr('placeholder', noEndDate);
+      scope.execute = function() {
+        form.scope().editPaneController.submit(false);
+      };
+
+      inputStart.attr({
+        'placeholder': customDateFormat,
+        'aria-label': customDateFormat,
+        'title': noStartDate
+      });
+      inputEnd.attr({
+        'placeholder': customDateFormat,
+        'aria-label': customDateFormat,
+        'title': noEndDate
+      });
 
       inputStart.on('change', function() {
-        if(inputStart.val().replace(/^\s+|\s+$/g, '') === '') {
+        if(inputStart.val().trim() === '') {
           $timeout(function() {
             scope.startDate = null;
           });
           inputStart.val('');
+          inputStart.attr('title', noStartDate);
+          inputEnd.datepicker('option', 'minDate', null);
           $timeout.cancel(startTimerId);
           return;
         }
         $timeout.cancel(startTimerId);
         startTimerId = $timeout(function() {
           var date = inputStart.val(),
-              isValid = TimezoneService.isValid(date, 'DD/MM/YYYY');
+              isValid = TimezoneService.isValid(date, customDateFormat);
 
           if(isValid){
-            scope.startDate = formattedISODate(date);
+            scope.startDate = formattedISODate(parseDate(date, customDateFormat));
+            inputStart.attr('title', customFormattedDate(date));
           }
         }, 1000);
+      }).on('click', function() {
+        inputStart.datepicker('show');
       });
 
       inputEnd.on('change', function() {
-        if(inputEnd.val().replace(/^\s+|\s+$/g, '') === '') {
+        if(inputEnd.val().trim() === '') {
           $timeout(function() {
             scope.endDate = null;
           });
           inputEnd.val('');
+          inputEnd.attr('title', noEndDate);
+          inputStart.datepicker('option', 'maxDate', null);
           $timeout.cancel(endTimerId);
           return;
         }
-        $timeout.cancel(startTimerId);
-        startTimerId = $timeout(function() {
+        $timeout.cancel(endTimerId);
+        endTimerId = $timeout(function() {
           var date = inputEnd.val(),
-              isValid = TimezoneService.isValid(date, 'DD/MM/YYYY');
+              isValid = TimezoneService.isValid(date, customDateFormat);
 
           if(isValid){
-            scope.endDate = formattedISODate(date);
+            scope.endDate = formattedISODate(parseDate(date, customDateFormat));
+            inputEnd.attr('title', customFormattedDate(date));
           }
         }, 1000);
+      }).on('click', function(){
+        inputEnd.datepicker('show');
       });
 
       divStart.datepicker({
         firstDay: ConfigurationService.startOfWeek(),
         showWeeks: true,
         changeMonth: true,
-        numberOfMonths: 2,
         showButtonPanel: true,
-        dateFormat: 'dd/mm/yy',
+        dateFormat: datepickerFormat,
         inline: true,
         alterOffset: function(offset) {
           var wHeight = angular.element(window).height(),
@@ -148,19 +179,18 @@ module.exports = function(TimezoneService, ConfigurationService,
           return offset;
         },
         beforeShow: function() {
-          addClearButton(divStart, inputStart);
+          addClearButton(inputStart);
         },
         onChangeMonthYear: function() {
-          addClearButton(divStart, inputStart);
+          addClearButton(inputStart);
         },
         onSelect: function(selectedDate) {
           if(!selectedDate || selectedDate === '' || selectedDate === prevStartDate) {
             return;
           }
-          var parsedDate = parseDate(selectedDate, 'DD/MM/YYYY');
-          prevStartDate = parsedDate;
+          prevStartDate = parseDate(selectedDate, customDateFormat);
           $timeout(function() {
-            scope.startDate = formattedISODate(parsedDate);
+            scope.startDate = formattedISODate(prevStartDate);
           });
           divEnd.datepicker('option', 'minDate', selectedDate ? selectedDate : null);
           divStart.hide();
@@ -170,8 +200,7 @@ module.exports = function(TimezoneService, ConfigurationService,
         firstDay: ConfigurationService.startOfWeek(),
         showWeeks: true,
         changeMonth: true,
-        numberOfMonths: 2,
-        dateFormat: 'dd/mm/yy',
+        dateFormat: datepickerFormat,
         inline: true,
         alterOffset: function(offset) {
           var wHeight = angular.element(window).height(),
@@ -185,19 +214,18 @@ module.exports = function(TimezoneService, ConfigurationService,
           return offset;
         },
         beforeShow: function() {
-          addClearButton(divEnd, inputEnd);
+          addClearButton(inputEnd);
         },
         onChangeMonthYear: function() {
-          addClearButton(divEnd, inputEnd);
+          addClearButton(inputEnd);
         },
         onSelect: function(selectedDate) {
           if(!selectedDate || selectedDate === '' || selectedDate === prevEndDate) {
             return;
           }
-          var parsedDate = parseDate(selectedDate, 'DD/MM/YYYY');
-          prevEndDate = parsedDate;
+          prevEndDate = parseDate(selectedDate, customDateFormat);
           $timeout(function() {
-            scope.endDate = formattedISODate(parsedDate);
+            scope.endDate = formattedISODate(prevEndDate);
           });
           divStart.datepicker('option', 'maxDate', selectedDate ? selectedDate : null);
           divEnd.hide();
@@ -206,15 +234,18 @@ module.exports = function(TimezoneService, ConfigurationService,
 
       if(scope.endDate) {
         prevEndDate = formattedDate(scope.endDate);
-        divStart.datepicker('option', 'maxDate', formattedDate(scope.endDate));
+        inputStart.datepicker('option', 'maxDate', formattedDate(scope.endDate));
       }
       if(scope.startDate) {
         prevStartDate = formattedDate(scope.startDate);
-        divEnd.datepicker('option', 'minDate', formattedDate(scope.startDate));
+        inputEnd.datepicker('option', 'minDate', formattedDate(scope.startDate));
       }
 
-      setDate(divStart, inputStart, scope.startDate);
-      setDate(divEnd, inputEnd, scope.endDate);
+      setDate(inputStart, scope.startDate);
+      setDate(inputEnd, scope.endDate);
+      $timeout(function() {
+        inputStart.click();
+      });
 
       inputStart.on('click', function() {
         if(divStart.is(':hidden') || divEnd.is(':visible')) {

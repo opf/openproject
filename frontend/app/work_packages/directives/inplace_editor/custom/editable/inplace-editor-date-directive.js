@@ -35,8 +35,8 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
         return TimezoneService.parseDate(date).format('L');
       },
       formattedISODate = TimezoneService.formattedISODate,
-      customDateFormat = 'DD/MM/YYYY',
-      datepickerFormat = 'dd/mm/yy',
+      customDateFormat = 'YYYY-MM-DD',
+      datepickerFormat = 'yy-mm-dd',
       customFormattedDate = function(date) {
         return parseISODate(date).format(customDateFormat);
       };
@@ -66,6 +66,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
               angular.element( '<button>', {
                     text: 'Clear',
                     click: function() {
+                      inp.focus();
                       setDate(inp, null);
                     }
                 })
