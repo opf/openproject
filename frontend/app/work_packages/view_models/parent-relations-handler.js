@@ -47,7 +47,7 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
           parentId: scope.relationToAddId
         };
 
-        WorkPackageService.updateWorkPackage(this.workPackage, params).then(function() {
+        WorkPackageService.updateWithPayload(this.workPackage, params).then(function() {
             scope.relationToAddId = '';
             scope.updateFocus(-1);
             scope.$emit('workPackageRefreshRequired');
@@ -63,7 +63,7 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
             parentId: null
           };
 
-          WorkPackageService.updateWorkPackage(scope.workPackage, params).then(function(response){
+          WorkPackageService.updateWithPayload(scope.workPackage, params).then(function(response){
               handler.relations.splice(index, 1);
               scope.workPackage.props.lockVersion = response.props.lockVersion;
               scope.updateFocus(index);
