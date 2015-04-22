@@ -158,6 +158,6 @@ class MessagesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     xhr :get, :quote, board_id: 1, id: 3
     assert_response :success
-    assert_select_rjs :show, 'reply'
+    assert_template 'quote'
   end
 end
