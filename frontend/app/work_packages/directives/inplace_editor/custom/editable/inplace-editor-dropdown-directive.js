@@ -41,13 +41,13 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $t
     controllerAs: 'customEditorController',
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
-      scope.fieldController.isBusy = true;
+      scope.fieldController.state.isBusy = true;
       WorkPackageFieldService.getAllowedValues(
         EditableFieldsState.workPackage,
         fieldController.field
       ).then(function(values) {
         scope.customEditorController.allowedValues = values;
-        scope.fieldController.isBusy = false;
+        scope.fieldController.state.isBusy = false;
         $timeout(function() {
           element.find('.ui-select-match').trigger('click');
         });

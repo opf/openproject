@@ -47,17 +47,17 @@ module.exports = function(TextileService, EditableFieldsState, $sce, AutoComplet
         if (!this.isPreview) {
           return;
         }
-        $scope.fieldController.isBusy = true;
+        $scope.fieldController.state.isBusy = true;
         TextileService
           .renderWithWorkPackageContext(
           EditableFieldsState.workPackage.form,
           $scope.fieldController.writeValue.raw)
           .then(angular.bind(this, function(r) {
             this.previewHtml = $sce.trustAsHtml(r.data);
-            $scope.fieldController.isBusy = false;
+            $scope.fieldController.state.isBusy = false;
           }), angular.bind(this, function() {
             this.isPreview = false;
-            $scope.fieldController.isBusy = false;
+            $scope.fieldController.state.isBusy = false;
           }));
       };
     },

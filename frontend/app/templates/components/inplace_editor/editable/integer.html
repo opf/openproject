@@ -1,6 +1,6 @@
 <input class="focus-input inplace-edit--text-field"
        name="value"
        type="number"
-       ng-disabled="fieldController.isBusy"
+       ng-disabled="fieldController.state.isBusy"
        title="{{ fieldController.editTitle }}"
        ng-model="fieldController.writeValue" />

@@ -2,15 +2,15 @@
     <textarea
             wiki-toolbar
             class="focus-input inplace-edit--textarea"
-            ng-hide="customEditorController.isPreview && !fieldController.isBusy"
+            ng-hide="customEditorController.isPreview && !fieldController.state.isBusy"
             preview-toggle="customEditorController.togglePreview()"
             name="value"
-            ng-disabled="fieldController.isBusy"
+            ng-disabled="fieldController.state.isBusy"
             ng-model="fieldController.writeValue.raw"
             title="{{ fieldController.editTitle }}"
             data-wp_autocomplete_url="{{customEditorController.autocompletePath }}">
     </textarea>
-    <div class="inplace-edit--preview" ng-if="customEditorController.isPreview && !fieldController.isBusy">
+    <div class="inplace-edit--preview" ng-if="customEditorController.isPreview && !fieldController.state.isBusy">
         <span ng-bind-html="customEditorController.previewHtml"></span>
     </div>
 </div>

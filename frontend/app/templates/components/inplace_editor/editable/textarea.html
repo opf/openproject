@@ -1,7 +1,7 @@
 <textarea
           class="focus-input inplace-edit--textarea"
           name="value"
-          ng-disabled="isBusy"
+          ng-disabled="fieldController.state.isBusy"
           ng-model="fieldController.writeValue.raw"
           title="{{ editTitle }}"
           data-wp_autocomplete_url="{{ autocompletePath }}">

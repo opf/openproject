@@ -2,6 +2,6 @@
        name="value"
        type="number"
        step="0.01"
-       ng-disabled="fieldController.isBusy"
+       ng-disabled="fieldController.state.isBusy"
        title="{{ fieldController.editTitle }}"
        ng-model="fieldController.writeValue" />
