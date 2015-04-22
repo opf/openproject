@@ -203,6 +203,19 @@ module.exports = function($http,
       return AuthorisationService.can(modelName, action);
     },
 
+    updateWithPayload: function(workPackage, payload) {
+      var options = { ajax: {
+        method: 'PATCH',
+        url: workPackage.links.updateImmediately.href,
+        headers: {
+          Accept: 'application/hal+json'
+        },
+        data: JSON.stringify(payload),
+        contentType: 'application/json; charset=utf-8'
+      }, force: true};
+      return workPackage.links.updateImmediately.fetch(options);
+    },
+
     updateWorkPackage: function(workPackage, notify) {
       var options = { ajax: {
         method: 'PATCH',
