@@ -32,7 +32,7 @@ module.exports = function(EditableFieldsState) {
     transclude: true,
     replace: true,
     scope: {},
-    require: '^inplaceEditorDisplayPane',
+    require: ['^inplaceEditorDisplayPane', '^workPackageField'],
     templateUrl: '/templates/work_packages/inplace_editor/custom/display/spent_time.html',
     controller: function() {
       this.isLinkViewable = function() {
@@ -44,8 +44,9 @@ module.exports = function(EditableFieldsState) {
       };
     },
     controllerAs: 'customEditorController',
-    link: function(scope, element, attrs, displayPaneController) {
-      scope.displayPaneController = displayPaneController;
+    link: function(scope, element, attrs, controllers) {
+      scope.displayPaneController = controllers[0];
+      scope.fieldController = controllers[1];
     }
   };
 };
