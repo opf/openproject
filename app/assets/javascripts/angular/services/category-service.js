@@ -43,9 +43,9 @@ angular.module('openproject.services')
 
       doQuery: function(url, params) {
         return $http.get(url, { params: params })
-          .then(function(response){
-            // TODO: parse the real response (the code below is c&p from version-service)
-            return _.sortBy(response.data.categories, 'name');
+          .then(function(response) {
+            var elements =  response.data._embedded.elements;
+            return _.sortBy(elements, 'name');
           });
       }
     };
