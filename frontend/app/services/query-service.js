@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n, queryMenuItemFactory, $rootScope, QUERY_MENU_ITEM_TYPE) {
+module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, CategoryService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n, queryMenuItemFactory, $rootScope, QUERY_MENU_ITEM_TYPE) {
 
   var query;
 
@@ -285,6 +285,9 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
                 break;
               case 'version':
                 retrieveAvailableValues = VersionService.getVersions(projectIdentifier);
+                break;
+              case 'category':
+                retrieveAvailableValues = CategoryService.getCategories(projectIdentifier);
                 break;
               case 'role':
                 retrieveAvailableValues = RoleService.getRoles();

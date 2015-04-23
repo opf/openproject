@@ -34,7 +34,7 @@ module.exports = function($http, PathHelper) {
         return [];
       }
 
-      var url = PathHelper.staticCategoriesPath(projectIdentifier);
+      var url = PathHelper.apiV3ProjectCategoriesPath(projectIdentifier);
 
       return CategoryService.doQuery(url);
     },
