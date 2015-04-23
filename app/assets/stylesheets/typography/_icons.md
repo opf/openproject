@@ -1,6 +1,4 @@
-## OpenProject Icon Font
-
-*OpenProject Icon Font* for icons:
+# Icons
 
 ```
 <i class="icon-add"></i>
