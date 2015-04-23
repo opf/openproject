@@ -29,4 +29,5 @@
 angular.module('openproject.workPackages.directives')
 .directive('inplaceEditorWikiTextarea', require('./inplace-editor-wiki-textarea-directive'))
 .directive('inplaceEditorDuration', require('./inplace-editor-duration-directive'))
-.directive('inplaceEditorDropdown', require('./inplace-editor-dropdown-directive'));
+.directive('inplaceEditorDropdown', require('./inplace-editor-dropdown-directive'))
+.directive('inplaceEditorDate', require('./inplace-editor-date-directive'));

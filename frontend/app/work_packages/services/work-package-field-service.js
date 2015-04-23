@@ -58,7 +58,7 @@ module.exports = function(
       // && workPackage.schema.props.dueDate.writable;
     }
     if(schema.props[field].type === 'Date') {
-      return false;
+      return true;
     }
     var isWritable = schema.props[field].writable;
 
@@ -222,6 +222,9 @@ module.exports = function(
       case 'DateRange':
         inplaceType = 'daterange';
         break;
+      case 'Date':
+        inplaceType = 'date';
+        break;
       case 'Float':
         inplaceType = 'float';
         break;
@@ -278,7 +281,6 @@ module.exports = function(
       case 'Integer':
       case 'Float':
       case 'Duration':
-      case 'Date':
       case 'Boolean':
         displayStrategy = 'text';
         break;
@@ -296,6 +298,9 @@ module.exports = function(
         break;
       case 'DateRange':
         displayStrategy = 'daterange';
+        break;
+      case 'Date':
+        displayStrategy = 'date';
         break;
     }
 
@@ -348,6 +353,10 @@ module.exports = function(
 
       if (schema.props[field].type === 'Boolean') {
         return value ? I18n.t('js.general_text_yes') : I18n.t('js.general_text_no');
+      }
+
+      if (workPackage.schema.props[field].type === 'Date') {
+        return value;
       }
     }
 
