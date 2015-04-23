@@ -67,7 +67,7 @@ module WorkPackage::PdfExporter
       col_width = query.columns.map do |c|
         (c.name == :subject || (c.is_a?(QueryCustomFieldColumn) && ['string', 'text'].include?(c.custom_field.field_format))) ? 4.0 : 1.0
       end
-      ratio = table_width / col_width.inject(0) { |s, w| s += w }
+      ratio = table_width / col_width.reduce(:+)
       col_width = col_width.map { |w| w * ratio }
     end
 
