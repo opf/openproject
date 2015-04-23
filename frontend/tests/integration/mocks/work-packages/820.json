@@ -5,16 +5,6 @@
       "href": "/api/v3/work_packages/820",
       "title": "66666"
     },
-    "update": {
-      "href": "/api/v3/work_packages/820/form",
-      "method": "post",
-      "title": "Update 66666"
-    },
-    "updateImmediately": {
-      "href": "/api/v3/work_packages/820",
-      "method": "patch",
-      "title": "Update 66666"
-    },
     "delete": {
       "href": "/work_packages/bulk?ids=820",
       "method": "delete",
