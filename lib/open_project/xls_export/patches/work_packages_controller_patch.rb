@@ -39,7 +39,7 @@ module OpenProject::XlsExport
           sb = SpreadsheetBuilder.new("#{I18n.t(:label_work_package_plural)}")
           formatters = OpenProject::XlsExport::Formatters.for_columns(columns)
 
-          headers = columns.collect(&:caption).unshift("#")
+          headers = columns.collect(&:caption)
           headers << WorkPackage.human_attribute_name(:description) if options[:show_descriptions]
           sb.add_headers headers, 0
 
@@ -48,7 +48,7 @@ module OpenProject::XlsExport
                     cv = formatters[column].format work_package, column
                     cv = cv.in_time_zone(current_user.time_zone) if cv.is_a?(ActiveSupport::TimeWithZone)
                     (cv.respond_to? :name) ? cv.name : cv
-                  end).unshift(work_package.id)
+                  end)
             row << work_package.description if options[:show_descriptions]
             sb.add_row(row)
           end
