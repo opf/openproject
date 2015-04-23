@@ -26,69 +26,128 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-div.wiki
+.wiki
   font-size: $wiki-default-font-size
-  $wiki-max-heading-font-size: 24px
-  line-height: 1.6em
 
-  // this should be the same as a normal heading (see toolbar)
+  // Wiki paragraph styling
+
+  p
+    font-family:    $paragraph-font-family
+    font-weight:    $paragraph-font-weight
+    font-size:      $paragraph-font-size
+    line-height:    $paragraph-line-height
+    margin-bottom:  $paragraph-margin-bottom
+    text-rendering: $paragraph-text-rendering
+
+  // Wiki links styling
+
+  a.wiki-anchor
+    display: none
+    margin-left: 6px
+    text-decoration: none
+    &:hover
+      color: #aaa !important
+      text-decoration: none
+
+  h1:hover, h2:hover, h3:hover
+    a.wiki-anchor
+      display: inline
+      color: #ddd
+
+  // Wiki heading styling
+
+  h1, h2, h3, h4, h5, h6
+    font-family:    $header-font-family
+    font-weight:    bold
+    font-style:     $header-font-style
+    color:          $header-font-color
+    text-rendering: $header-text-rendering
+    margin-top:     $header-top-margin
+    margin-bottom:  $header-bottom-margin
+    line-height:    $header-line-height
+
   h1
-    padding: 12px 0 0 0
-    border: 0
-    font-size: $wiki-max-heading-font-size
-    line-height: 1.4
-    height: 45px
+    font-size:      $h1-font-size - $h1-font-reduction
+    margin-top:     0.5rem
+    border-bottom:  1px solid lighten(#555, 50%)
   h2
-    font-size: $wiki-max-heading-font-size * 0.8
+    font-size:      $h2-font-size - $h2-font-reduction
   h3
-    font-size: $wiki-max-heading-font-size * 0.6
+    font-size:      $h3-font-size - $h3-font-reduction
   h4
-    font-size: $wiki-max-heading-font-size * 0.5
+    font-size:      $h4-font-size - $h4-font-reduction
+  h5
+    font-size:      $h5-font-size - $h5-font-reduction
+  h6
+    font-size:      $h6-font-size - $h6-font-reduction
 
-  h2, h3
-    margin: 1em 0 1em 0
-    font-weight: bold
-    color: #555555
-    text-transform: none
-    border-bottom: 1px solid #bbbbbb
+  @include breakpoint(medium)
+    h1
+      font-size:    $h1-font-size
+    h2
+      font-size:    $h2-font-size
+    h3
+      font-size:    $h3-font-size
+    h4
+      font-size:    $h4-font-size
+    h5
+      font-size:    $h5-font-size
+    h6
+      font-size:    $h6-font-size
 
-  h2
-    padding: 2px 10px 1px 0
+  // Wiki typography defaults
 
-  h3
-    padding: 0 10px 1px 0
-    border-bottom: 1px dotted #bbbbbb
+  em,
+  i
+    font-style:   italic
+    line-height:  inherit
 
-  table
-    border: 1px solid #505050
-    border-collapse: collapse
-    margin-bottom: 1em
+  strong,
+  b
+    font-weight:  $font-weight-bold
+    line-height:  inherit
 
-  table, td, th
-    border: 1px solid #bbb
-    padding: 4px
+  small
+    font-size:    $small-font-size
+    color:        $small-font-color
+    line-height:  inherit
 
-  .external
-    background-position: 0% 60%
-    background-repeat: no-repeat
-    padding-left: 12px
-    background-image: image-url('external.png')
+  // Wiki list styling
 
-  pre
-    margin: 1em 1em 1em 1.6em
-    padding: 2px 2px 2px 0
-    background-color: #fafafa
-    border: 1px solid #dadada
-    width: auto
-    overflow-x: auto
-    overflow-y: hidden
+  ul,
+  ol,
+  dl
+    font-size:            $list-font-size
+    line-height:          $list-line-height
+    margin-bottom:        $list-margin-bottom
+    list-style-position:  outside
+    font-family:          $list-font-family
+
+  ul,
+  ol
+    margin-left: $list-side-margin
+    li
+      ul,
+      ol
+        margin-left: $list-nested-margin
+        margin-bottom: 0
+
+  ol li
+    list-style-type: decimal
+
+  ul li
+    list-style-type: disc
+
+    a:link, a:hover, a:active, a:visited
+      color: #555
+
+  // Wiki table of contents
 
   ul.toc
     margin-bottom: 12px
     margin-right: 12px
     margin-left: 0
     display: table
-    font-size: $wiki-toc-ul-font-size
     &.right
       float: right
       margin-left: 12px
@@ -101,51 +160,49 @@ div.wiki
       width: auto
     a
       font-weight: normal
-      background-image: image-url('arrow-down.png')
-      background-repeat: no-repeat
-      background-position: 0% 60%
       padding-left: 16px
     li
+      font-size: $wiki-toc-ul-font-size
       list-style-type: none
 
-  ol, ul
-    padding: 0 0 0 2em
-    margin: 0.3em 0
+  // Wiki table styling
 
-  li
-    list-style-position: outside
-    margin: 0
+  table
+    border-collapse: collapse
+    margin-bottom: 1em
 
-  ol li
-    list-style-type: decimal
+  table, td, th
+    border: 1px solid #ccc
 
-  ul li
-    list-style-type: disc
+    tr
+      vertical-align: top
+    td
+      padding: 0.625em
+      line-height: 1.5
+    thead
+      td
+        font-weight: bold
 
-  li li
-    margin-left: 1.5em
-  fieldset.collapsible legend
-    font-weight: bold
-    font-size: $wiki-toc-header-font-size
+  // Wiki misc
+
+  .external
+    background-position: 0% 60%
+    background-repeat: no-repeat
+    padding-left: 12px
+    background-image: image-url('external.png')
+
   img
     vertical-align: middle
 
-a.wiki-anchor
-  display: none
-  margin-left: 6px
-  text-decoration: none
-  &:hover
-    color: #aaa !important
-    text-decoration: none
+  pre
+    margin: 1em 1em 1em 1.6em
+    padding: 2px 2px 2px 0
+    background-color: #fafafa
+    border: 1px solid #dadada
+    width: auto
+    overflow-x: auto
+    overflow-y: hidden
 
-h1:hover, h2:hover, h3:hover
-  a.wiki-anchor
-    display: inline
-    color: #ddd
-
-.wiki
-  p
-    margin-bottom: 1em
   p, span
     &.see-also, &.caution, &.important, &.info, &.tip, &.note
       display: block
@@ -210,6 +267,3 @@ h1:hover, h2:hover, h3:hover
     color: #000
     font-weight: bold
     font-size: $wiki-default-font-size
-
-.wiki-content
-  width: 700px
