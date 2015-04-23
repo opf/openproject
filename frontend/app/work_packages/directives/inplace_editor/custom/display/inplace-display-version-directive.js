@@ -36,7 +36,7 @@ module.exports = function(EditableFieldsState, PathHelper, VersionService, $time
     templateUrl: '/templates/work_packages/inplace_editor/custom/display/version.html',
     controller: function($scope) {
       this.pathHelper = PathHelper;
-      this.isVersionFieldViewable = function() {
+      this.isVersionLinkViewable = function() {
         var version = $scope.displayPaneController.getReadValue();
         return version.links.definingProject && version.links.definingProject.href;
       }

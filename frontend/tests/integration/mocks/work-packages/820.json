@@ -3,53 +3,41 @@
   "_links": {
     "self": {
       "href": "/api/v3/work_packages/820",
-      "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+      "title": "66666"
     },
-    "schema": {
-      "href": "/api/v3/work_packages/schemas/1-7"
+    "update": {
+      "href": "/api/v3/work_packages/820/form",
+      "method": "post",
+      "title": "Update 66666"
     },
     "updateImmediately": {
       "href": "/api/v3/work_packages/820",
       "method": "patch",
-      "title": "Update veritatis voluptas hic qui praesentium tempora illum omnis"
+      "title": "Update 66666"
     },
     "delete": {
       "href": "/work_packages/bulk?ids=820",
       "method": "delete",
-      "title": "Delete veritatis voluptas hic qui praesentium tempora illum omnis"
+      "title": "Delete 66666"
     },
     "log_time": {
       "href": "/work_packages/820/time_entries/new",
       "type": "text/html",
-      "title": "Log time on veritatis voluptas hic qui praesentium tempora illum omnis"
+      "title": "Log time on 66666"
     },
     "duplicate": {
       "href": "/projects/seeded_project/work_packages/new?copy_from=820",
       "type": "text/html",
-      "title": "Duplicate veritatis voluptas hic qui praesentium tempora illum omnis"
+      "title": "Duplicate 66666"
     },
     "move": {
       "href": "/work_packages/820/move/new",
       "type": "text/html",
-      "title": "Move veritatis voluptas hic qui praesentium tempora illum omnis"
-    },
-    "type": {
-      "href": "/api/v3/types/5",
-      "title": "Phase"
-    },
-    "status": {
-      "href": "/api/v3/statuses/1",
-      "title": "new"
+      "title": "Move 66666"
     },
     "author": {
       "href": "/api/v3/users/5",
-      "title": "Alexandrine Heidenreich"
-    },
-    "responsible": {
-      "href": null
-    },
-    "assignee": {
-      "href": null
+      "title": "Freida Fay - Christine6938"
     },
     "availableWatchers": {
       "href": "/api/v3/work_packages/820/available_watchers",
@@ -77,12 +65,12 @@
     "addChild": {
       "href": "/projects/seeded_project/work_packages/new?work_package%5Bparent_id%5D=820",
       "type": "text/html",
-      "title": "Add child of veritatis voluptas hic qui praesentium tempora illum omnis"
+      "title": "Add child of 66666"
     },
     "changeParent": {
       "href": "/api/v3/work_packages/820",
       "method": "patch",
-      "title": "Change parent of veritatis voluptas hic qui praesentium tempora illum omnis"
+      "title": "Change parent of 66666"
     },
     "addComment": {
       "href": "/api/v3/work_packages/820/activities",
@@ -90,7 +78,8 @@
       "title": "Add comment"
     },
     "parent": {
-      "href": null
+      "href": "/api/v3/work_packages/54",
+      "title": "asd"
     },
     "timeEntries": {
       "href": "/work_packages/820/time_entries",
@@ -106,7 +95,6 @@
     }
   },
   "id": 820,
-  "lockVersion": 119,
   "subject": "66666",
   "type": "Feature",
   "description": {
@@ -142,8 +130,8 @@
   ],
   "_embedded": {
     "status": {
-      "name": "open",
-      "isClosed": false
+      "name": "rejected",
+      "isClosed": true
     },
     "priority": {
       "name": "high"
@@ -1049,237 +1037,1176 @@
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/333",
-            "title": "333"
+            "href": "/api/v3/activities/542",
+            "title": "542"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/65",
-            "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
           },
           "user": {
-            "href": "/api/v3/users/3",
-            "title": "Anonymous - "
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/333",
+            "href": "/api/v3/activities/542",
             "method": "patch",
-            "title": "333"
+            "title": "542"
           }
         },
-        "id": 333,
-        "comment": {
-          "format": "textile",
-          "raw": "",
-          "html": ""
-        },
+        "id": 542,
+        "comment": "",
+        "rawComment": "",
         "details": [
-          {
-            "format": "custom",
-            "raw": "Type set to Phase",
-            "html": "<strong>Type</strong> set to <i title=\"Phase\">Phase</i>"
-          },
-          {
-            "format": "custom",
-            "raw": "Project set to Seeded Project",
-            "html": "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>"
-          },
-          {
-            "format": "custom",
-            "raw": "Subject set to veritatis voluptas hic qui praesentium tempora illum omnis",
-            "html": "<strong>Subject</strong> set to <i title=\"veritatis voluptas hic qui praesentium tempora illum omnis\">veritatis voluptas hic qui praesentium tempora illum omnis</i>"
-          },
-          {
-            "format": "custom",
-            "raw": "Description set (/journals/333/diff/description)",
-            "html": "<strong>Description</strong> set (<a href=\"/journals/333/diff/description\" class=\"description-details\">Details</a>)"
-          },
-          {
-            "format": "custom",
-            "raw": "Due date set to 04/29/2015",
-            "html": "<strong>Due date</strong> set to <i title=\"04/29/2015\">04/29/2015</i>"
-          },
-          {
-            "format": "custom",
-            "raw": "Status set to new",
-            "html": "<strong>Status</strong> set to <i title=\"new\">new</i>"
-          },
-          {
-            "format": "custom",
-            "raw": "Priority set to Normal",
-            "html": "<strong>Priority</strong> set to <i title=\"Normal\">Normal</i>"
-          },
-          {
-            "format": "custom",
-            "raw": "Author set to Alexandrine Heidenreich",
-            "html": "<strong>Author</strong> set to <i title=\"Alexandrine Heidenreich\">Alexandrine Heidenreich</i>"
-          },
-          {
-            "format": "custom",
-            "raw": "% done changed from 0 to 0",
-            "html": "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>"
-          },
-          {
-            "format": "custom",
-            "raw": "Start date set to 02/17/2015",
-            "html": "<strong>Start date</strong> set to <i title=\"02/17/2015\">02/17/2015</i>"
-          }
+          "Description changed (/journals/542/diff/description)"
         ],
-        "version": 1,
-        "createdAt": "2015-02-13T10:09:07+00:00"
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/542/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 27,
+        "createdAt": "2014-11-17T14:08:27Z"
       },
       {
         "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/816",
-            "title": "816"
+            "href": "/api/v3/activities/543",
+            "title": "543"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/65",
-            "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/816",
+            "href": "/api/v3/activities/543",
             "method": "patch",
-            "title": "816"
+            "title": "543"
           }
         },
-        "id": 816,
-        "comment": {
-          "format": "textile",
-          "raw": "",
-          "html": ""
-        },
+        "id": 543,
+        "comment": "",
+        "rawComment": "",
         "details": [
-          {
-            "format": "custom",
-            "raw": "Status changed from new to in progress",
-            "html": "<strong>Status</strong> changed from <i title=\"new\">new</i> to <i title=\"in progress\">in progress</i>"
-          }
+          "Status changed from new to in progress"
         ],
-        "version": 2,
-        "createdAt": "2015-04-07T13:36:43+00:00"
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"new\">new</i> to <i title=\"in progress\">in progress</i>"
+        ],
+        "version": 28,
+        "createdAt": "2014-11-17T14:08:38Z"
       },
       {
-        "_type": "Activity::Comment",
+        "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/817",
-            "title": "817"
+            "href": "/api/v3/activities/544",
+            "title": "544"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/65",
-            "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/817",
+            "href": "/api/v3/activities/544",
             "method": "patch",
-            "title": "817"
+            "title": "544"
           }
         },
-        "id": 817,
-        "comment": {
-          "format": "textile",
-          "raw": "I have a comment",
-          "html": "<p>I have a comment</p>"
-        },
-        "details": [],
-        "version": 3,
-        "createdAt": "2015-04-07T13:37:09+00:00"
+        "id": 544,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Status changed from in progress to tested"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"in progress\">in progress</i> to <i title=\"tested\">tested</i>"
+        ],
+        "version": 29,
+        "createdAt": "2014-11-17T14:11:36Z"
       },
       {
-        "_type": "Activity::Comment",
+        "_type": "Activity",
         "_links": {
           "self": {
-            "href": "/api/v3/activities/818",
-            "title": "818"
+            "href": "/api/v3/activities/546",
+            "title": "546"
           },
           "workPackage": {
-            "href": "/api/v3/work_packages/65",
-            "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
           },
           "user": {
             "href": "/api/v3/users/1",
             "title": "OpenProject Admin - admin"
           },
           "update": {
-            "href": "/api/v3/activities/818",
+            "href": "/api/v3/activities/546",
             "method": "patch",
-            "title": "818"
+            "title": "546"
           }
         },
-        "id": 818,
-        "comment": {
-          "format": "textile",
-          "raw": "And another one",
-          "html": "<p>And another one</p>"
+        "id": 546,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Status changed from tested to closed"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"tested\">tested</i> to <i title=\"closed\">closed</i>"
+        ],
+        "version": 30,
+        "createdAt": "2014-11-17T14:11:41Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/548",
+            "title": "548"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/548",
+            "method": "patch",
+            "title": "548"
+          }
         },
-        "details": [],
-        "version": 4,
-        "createdAt": "2015-04-07T13:37:33+00:00"
+        "id": 548,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Status changed from closed to in progress"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"closed\">closed</i> to <i title=\"in progress\">in progress</i>"
+        ],
+        "version": 31,
+        "createdAt": "2014-11-17T14:11:51Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/549",
+            "title": "549"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/549",
+            "method": "patch",
+            "title": "549"
+          }
+        },
+        "id": 549,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description deleted (/journals/549/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> deleted (<a href=\"/journals/549/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 32,
+        "createdAt": "2014-11-17T14:13:06Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/550",
+            "title": "550"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/550",
+            "method": "patch",
+            "title": "550"
+          }
+        },
+        "id": 550,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 3q4e4 to 3q4e4s"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"3q4e4\">3q4e4</i> to <i title=\"3q4e4s\">3q4e4s</i>"
+        ],
+        "version": 33,
+        "createdAt": "2014-11-17T14:14:53Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/551",
+            "title": "551"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/551",
+            "method": "patch",
+            "title": "551"
+          }
+        },
+        "id": 551,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description set (/journals/551/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> set (<a href=\"/journals/551/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 34,
+        "createdAt": "2014-11-17T14:17:41Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/5820",
+            "title": "5820"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/5820",
+            "method": "patch",
+            "title": "5820"
+          }
+        },
+        "id": 5820,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 3q4e4s to 2"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"3q4e4s\">3q4e4s</i> to <i title=\"2\">2</i>"
+        ],
+        "version": 35,
+        "createdAt": "2014-11-17T14:17:44Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/553",
+            "title": "553"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/553",
+            "method": "patch",
+            "title": "553"
+          }
+        },
+        "id": 553,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 2 to 22"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"2\">2</i> to <i title=\"22\">22</i>"
+        ],
+        "version": 36,
+        "createdAt": "2014-11-17T14:17:51Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/554",
+            "title": "554"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/554",
+            "method": "patch",
+            "title": "554"
+          }
+        },
+        "id": 554,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 22 to 2323"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"22\">22</i> to <i title=\"2323\">2323</i>"
+        ],
+        "version": 37,
+        "createdAt": "2014-11-17T14:18:33Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/555",
+            "title": "555"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/555",
+            "method": "patch",
+            "title": "555"
+          }
+        },
+        "id": 555,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/555/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/555/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 38,
+        "createdAt": "2014-11-17T14:18:46Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/556",
+            "title": "556"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/556",
+            "method": "patch",
+            "title": "556"
+          }
+        },
+        "id": 556,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 2323 to 2323123123"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"2323\">2323</i> to <i title=\"2323123123\">2323123123</i>"
+        ],
+        "version": 39,
+        "createdAt": "2014-11-17T14:20:40Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/557",
+            "title": "557"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/557",
+            "method": "patch",
+            "title": "557"
+          }
+        },
+        "id": 557,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 2323123123 to 22"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"2323123123\">2323123123</i> to <i title=\"22\">22</i>"
+        ],
+        "version": 40,
+        "createdAt": "2014-11-17T14:22:21Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/559",
+            "title": "559"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/559",
+            "method": "patch",
+            "title": "559"
+          }
+        },
+        "id": 559,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Status changed from in progress to rejected"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"in progress\">in progress</i> to <i title=\"rejected\">rejected</i>"
+        ],
+        "version": 41,
+        "createdAt": "2014-11-17T14:22:34Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/560",
+            "title": "560"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/560",
+            "method": "patch",
+            "title": "560"
+          }
+        },
+        "id": 560,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 22 to 2222"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"22\">22</i> to <i title=\"2222\">2222</i>"
+        ],
+        "version": 42,
+        "createdAt": "2014-11-17T14:25:07Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/562",
+            "title": "562"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/562",
+            "method": "patch",
+            "title": "562"
+          }
+        },
+        "id": 562,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Status changed from rejected to tested"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"rejected\">rejected</i> to <i title=\"tested\">tested</i>"
+        ],
+        "version": 43,
+        "createdAt": "2014-11-17T14:26:20Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/563",
+            "title": "563"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/563",
+            "method": "patch",
+            "title": "563"
+          }
+        },
+        "id": 563,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description deleted (/journals/563/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> deleted (<a href=\"/journals/563/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 44,
+        "createdAt": "2014-11-17T14:26:29Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/564",
+            "title": "564"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/564",
+            "method": "patch",
+            "title": "564"
+          }
+        },
+        "id": 564,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 2222 to sad"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"2222\">2222</i> to <i title=\"sad\">sad</i>"
+        ],
+        "version": 45,
+        "createdAt": "2014-11-17T14:26:31Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/565",
+            "title": "565"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/565",
+            "method": "patch",
+            "title": "565"
+          }
+        },
+        "id": 565,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description set (/journals/565/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> set (<a href=\"/journals/565/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 46,
+        "createdAt": "2014-11-18T12:46:00Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/566",
+            "title": "566"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/566",
+            "method": "patch",
+            "title": "566"
+          }
+        },
+        "id": 566,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/566/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/566/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 47,
+        "createdAt": "2014-11-18T12:48:820Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/567",
+            "title": "567"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/567",
+            "method": "patch",
+            "title": "567"
+          }
+        },
+        "id": 567,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/567/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/567/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 48,
+        "createdAt": "2014-11-18T12:820:34Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/568",
+            "title": "568"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/568",
+            "method": "patch",
+            "title": "568"
+          }
+        },
+        "id": 568,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/568/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/568/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 49,
+        "createdAt": "2014-11-18T12:53:03Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/569",
+            "title": "569"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/569",
+            "method": "patch",
+            "title": "569"
+          }
+        },
+        "id": 569,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/569/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/569/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 50,
+        "createdAt": "2014-11-18T14:10:48Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/570",
+            "title": "570"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/570",
+            "method": "patch",
+            "title": "570"
+          }
+        },
+        "id": 570,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/570/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/570/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 51,
+        "createdAt": "2014-11-18T14:10:55Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/571",
+            "title": "571"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/571",
+            "method": "patch",
+            "title": "571"
+          }
+        },
+        "id": 571,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/571/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/571/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 820,
+        "createdAt": "2014-11-18T14:11:22Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/572",
+            "title": "572"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/572",
+            "method": "patch",
+            "title": "572"
+          }
+        },
+        "id": 572,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/572/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/572/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 53,
+        "createdAt": "2014-11-19T12:53:54Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/573",
+            "title": "573"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/573",
+            "method": "patch",
+            "title": "573"
+          }
+        },
+        "id": 573,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from sad to sadaa"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"sad\">sad</i> to <i title=\"sadaa\">sadaa</i>"
+        ],
+        "version": 54,
+        "createdAt": "2014-11-21T08:32:09Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/574",
+            "title": "574"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/574",
+            "method": "patch",
+            "title": "574"
+          }
+        },
+        "id": 574,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Description changed (/journals/574/diff/description)"
+        ],
+        "htmlDetails": [
+          "<strong>Description</strong> changed (<a href=\"/journals/574/diff/description\" class=\"description-details\">Details</a>)"
+        ],
+        "version": 55,
+        "createdAt": "2014-11-21T08:34:01Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/575",
+            "title": "575"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/575",
+            "method": "patch",
+            "title": "575"
+          }
+        },
+        "id": 575,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from sadaa to sadaa222"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"sadaa\">sadaa</i> to <i title=\"sadaa222\">sadaa222</i>"
+        ],
+        "version": 56,
+        "createdAt": "2014-11-21T08:38:21Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/576",
+            "title": "576"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/576",
+            "method": "patch",
+            "title": "576"
+          }
+        },
+        "id": 576,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from sadaa222 to sadaa22222"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"sadaa222\">sadaa222</i> to <i title=\"sadaa22222\">sadaa22222</i>"
+        ],
+        "version": 57,
+        "createdAt": "2014-11-21T08:41:25Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/577",
+            "title": "577"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/577",
+            "method": "patch",
+            "title": "577"
+          }
+        },
+        "id": 577,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from sadaa22222 to 23"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"sadaa22222\">sadaa22222</i> to <i title=\"23\">23</i>"
+        ],
+        "version": 58,
+        "createdAt": "2014-11-21T08:47:21Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/578",
+            "title": "578"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/578",
+            "method": "patch",
+            "title": "578"
+          }
+        },
+        "id": 578,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Subject changed from 23 to 66666"
+        ],
+        "htmlDetails": [
+          "<strong>Subject</strong> changed from <i title=\"23\">23</i> to <i title=\"66666\">66666</i>"
+        ],
+        "version": 59,
+        "createdAt": "2014-11-21T08:48:27Z"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/580",
+            "title": "580"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/820",
+            "title": "66666"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/580",
+            "method": "patch",
+            "title": "580"
+          }
+        },
+        "id": 580,
+        "comment": "",
+        "rawComment": "",
+        "details": [
+          "Status changed from tested to rejected"
+        ],
+        "htmlDetails": [
+          "<strong>Status</strong> changed from <i title=\"tested\">tested</i> to <i title=\"rejected\">rejected</i>"
+        ],
+        "version": 60,
+        "createdAt": "2014-11-21T08:48:57Z"
       }
     ],
-    "watchers": [],
-    "attachments": [],
-    "relations": [],
-    "costsByType": {
-      "_type": "Collection",
+       "version": {
+      "_type": "Version",
       "_links": {
         "self": {
-          "href": "/api/v3/work_packages/820/summarized_costs_by_type"
+          "href": "/api/v3/versions/1",
+          "title": "v2"
+        },
+        "definingProject": {
+          "href": null
+        },
+        "availableInProjects": {
+          "href": "/api/v3/versions/1/projects"
         }
       },
-      "total": 0,
-      "count": 0,
-      "_embedded": {
-        "elements": []
+      "id": 1,
+      "name": "v2",
+      "description": {
+        "format": "plain",
+        "raw": ""
+      },
+      "startDate": "2014-10-23",
+      "endDate": null,
+      "status": "open",
+      "createdAt": "01/21/2015/ 09:30 AM",
+      "updatedAt": "01/21/2015/ 09:30 AM"
+    },
+    "project": {
+      "_type": "Project",
+      "_links": {
+        "self": {
+        "href": "/api/v3/projects/1",
+        "title": "No Plugins Project"
+      },
+      "categories": {
+        "href": "/api/v3/projects/1/categories"
+      },
+      "versions": {
+        "href": "/api/v3/projects/1/versions"
       }
-    }
-  },
-  "id": 820,
-  "lockVersion": 1,
-  "subject": "veritatis voluptas hic qui praesentium tempora illum omnis",
-  "description": {
-    "format": "textile",
-    "raw": "Tutis vulgivagus alveus appello. Triginta nostrum sit eum. Enim crudelis tremo adfectus auris nam adiuvo. Terreo absque aegrus decerno aegrotatio sui. Facere candidus illo spiculum. Et voluntarius acidus qui.",
-    "html": "<p>Tutis vulgivagus alveus appello. Triginta nostrum sit eum. Enim crudelis tremo adfectus auris nam adiuvo. Terreo absque aegrus decerno aegrotatio sui. Facere candidus illo spiculum. Et voluntarius acidus qui.</p>"
-  },
-  "startDate": "2015-02-17",
-  "dueDate": "2015-04-29",
-  "estimatedTime": null,
-  "spentTime": "PT0S",
-  "percentageDone": 0,
-  "createdAt": "2015-02-13T10:09:07+00:00",
-  "updatedAt": "2015-02-13T10:09:07+00:00",
-  "storyPoints": null,
-  "remainingTime": null,
-  "customField1": {
-    "format": "plain",
-    "raw": null,
-    "html": ""
-  },
-  "customField2": {
-    "format": "plain",
-    "raw": null,
-    "html": ""
-  },
-  "customField3": {
-    "format": "plain",
-    "raw": null,
-    "html": ""
-  },
-  "customField4": null,
-  "customField5": null,
-  "customField6": null,
-  "customField7": null,
-  "customField9": null,
-  "customField10": null
+      },
+      "id": 1,
+      "identifier": "seeded-project",
+      "name": "Seeded Project",
+      "description": "",
+      "homepage": "",
+      "createdAt": "2014-04-30T13:28:51+00:00",
+      "updatedAt": "2014-04-30T13:28:51+00:00",
+      "type": null
+    },
+    "watchers": [],
+    "attachments": [],
+    "relations": []
+  }
 }

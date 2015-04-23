@@ -111,7 +111,7 @@ describe('OpenProject', function(){
           subjectEditor.$('.inplace-edit--control--save a').click();
         });
 
-        xit('should render an error', function() {
+        it('should render an error', function() {
           expect(
             subjectEditor
               .$('.inplace-edit--errors')
@@ -201,12 +201,12 @@ describe('OpenProject', function(){
         });
       });
 
-      context('when work package link is missing', function() {
+      context('when work package version link is missing', function() {
         before(function() {
           detailsPaneHelper.loadPane(820, 'overview');
         });
 
-        xit('should render a span', function() {
+        it('should render a span', function() {
           expect(
             editor
             .$('span.inplace-edit--read-value .version-wrapper span')
