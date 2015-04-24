@@ -43,13 +43,13 @@ $include-css: (
   block-list: false,
   button: false,
   button-group: false,
-  card: false,
+  card: true,
   coloring: false,
   extras: false,
   forms: false,
   grid: true,
   iconic: false,
-  label: false,
+  label: true,
   badge: false,
   list: false,
   menu-bar: false,
@@ -324,15 +324,15 @@ $button-radius: 2px;
 // 11. Card
 // - - - - - - - - - - - - - - -
 
-// $card-background: #fff;
-// $card-color: isitlight($card-background);
-// $card-border: 1px solid smartscale($card-background, 7%);
-// $card-radius: $global-radius;
-// $card-shadow: 0 1px 2px rgba(#000, 0.2);
-// $card-padding: $global-padding;
-// $card-margin: 0.5rem;
+$card-background: #fff;
+$card-color: isitlight($card-background);
+$card-border: 1px solid;
+$card-radius: 0;
+$card-shadow: none;
+$card-padding: 10px;
+$card-margin: 0.5rem;
 
-// $card-divider-background: smartscale($card-background, 7%);
+$card-divider-background: smartscale($card-background, 7%);
 
 // 12. Extras
 // - - - - - - - - - - - - - - -
@@ -411,11 +411,11 @@ $form-padding: 0.375rem;
 // 15. Label
 // - - - - - - - - - - - - - - -
 
-// $label-fontsize: 0.8rem;
-// $label-padding: ($global-padding / 3) ($global-padding / 2);
-// $label-radius: 0;
-// $label-background: $primary-color;
-// $label-color: isitlight($primary-color);
+$label-fontsize: 1em;
+$label-padding: 10px;
+$label-radius: 10px;
+$label-background: $gray;
+$label-color: $gray-dark;
 
 // $badge-fontsize: 0.8em;
 // $badge-diameter: 1.5rem;
