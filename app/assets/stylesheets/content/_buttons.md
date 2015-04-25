@@ -17,6 +17,16 @@
 <input type="submit" class="button -highlight" value="Do not submit" disabled />
 ```
 
+
+## Success buttons
+
+```
+<input type="submit" class="button -success" value="Submit me"/>
+<a href="#" class="button -success">Click me</a>
+<input type="submit" class="button -success" value="Do not submit" disabled />
+```
+
+
 ## Active (depressed) buttons
 
 ```

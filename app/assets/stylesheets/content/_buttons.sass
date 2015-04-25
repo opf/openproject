@@ -39,6 +39,10 @@ $button-highlight-font-color:                   white !default
 $button-highlight-background-color:             $primary-color !default
 $button-highlight-background-hover-color:       $primary-color-dark !default
 
+$button-success-font-color:                     white !default
+$button-success-background-color:               $success-color !default
+$button-success-background-hover-color:         darken($success-color, 18%) !default
+
 $button-border-radius:                          2px !default
 
 .button
@@ -61,6 +65,14 @@ $button-border-radius:                          2px !default
 
     &:hover, &:focus
       border-color: $button-highlight-background-hover-color
+
+
+  &.-success
+    @include button-style($button-success-background-color, $button-success-background-hover-color, $button-success-font-color, $button-style)
+    border-color: $button-success-background-color
+
+    &:hover, &:focus
+      border-color: $button-success-background-hover-color
 
 
   &.-active
