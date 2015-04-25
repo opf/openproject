@@ -26,18 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$button-background-color:                       $gray-light !default
-$button-background-hover-color:                 #ededed !default
-$button-border-color:                           #ddd    !default
 $button-font-color:                             #222222 !default
-$button-highlight-font-color:                   #FFFFFF !default
-$button-active-font-color:                      #BBBBBB !default
-$button-active-background-color:                #eee    !default
-$button-active-border-color:                    #ccc    !default
+$button-background-color:                       $gray-light !default
+$button-background-hover-color:                 darken($button-background-color, 4.5%)  !default
+$button-border-color:                           darken($button-background-color, 10.5%) !default
+
+$button-active-font-color:                      darken($button-background-color, 24%) !default
+$button-active-background-color:                darken($button-background-color, 4%)  !default
+$button-active-border-color:                    darken($button-background-color, 18%) !default
+
+$button-highlight-font-color:                   white !default
 $button-highlight-background-color:             $primary-color !default
 $button-highlight-background-hover-color:       $primary-color-dark !default
 $button-highlight-border-color:                 $button-highlight-background-hover-color !default
 $button-highlight-border-hover-color:           $button-highlight-background-hover-color !default
+
 $button-border-radius:                          2px !default
 
 .button
