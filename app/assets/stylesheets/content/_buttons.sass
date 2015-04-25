@@ -38,8 +38,6 @@ $button-active-border-color:                    darken($button-background-color,
 $button-highlight-font-color:                   white !default
 $button-highlight-background-color:             $primary-color !default
 $button-highlight-background-hover-color:       $primary-color-dark !default
-$button-highlight-border-color:                 $button-highlight-background-hover-color !default
-$button-highlight-border-hover-color:           $button-highlight-background-hover-color !default
 
 $button-border-radius:                          2px !default
 
@@ -59,7 +57,10 @@ $button-border-radius:                          2px !default
 
   &.-highlight
     @include button-style($button-highlight-background-color, $button-highlight-background-hover-color, $button-highlight-font-color, $button-style)
-    border-color: $button-highlight-border-color
+    border-color: $button-highlight-background-color
+
+    &:hover, &:focus
+      border-color: $button-highlight-background-hover-color
 
 
   &.-active
