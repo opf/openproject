@@ -26,7 +26,7 @@
                 class="button"
                 title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
                 ng-click="toggleShowFilterOptions()"
-                ng-class="{active: showFiltersOptions}">
+                ng-class="{ '-active': showFiltersOptions }">
           <i class="icon-filter-big icon-buttons"></i>{{ I18n.t('js.toolbar.filter') }}
           <span class="badge -secondary">{{ getFilterCount() }}</span>
         </button>
@@ -41,7 +41,7 @@
                     class="button"
                     title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                     ng-click="closeDetailsView()"
-                    ng-class="{ active: !isDetailsViewActive() }">
+                    ng-class="{ '-active': !isDetailsViewActive() }">
               <i class="icon-table-view icon-buttons"></i>
             </button>
           </li>
@@ -53,7 +53,7 @@
                     accesskey="8"
                     class="button"
                     title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
-                    ng-class="{ active: isDetailsViewActive() }"
+                    ng-class="{ '-active': isDetailsViewActive() }"
                     ng-click="openLatestTab()">
               <i class="icon-table-detail-view icon-buttons"></i>
             </button>
