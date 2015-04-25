@@ -26,24 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(EditableFieldsState, PathHelper, VersionService, $timeout) {
+module.exports = function(PathHelper) {
   return {
     restrict: 'E',
-    transclude: true,
     replace: true,
-    scope: {},
-    require: '^inplaceEditorDisplayPane',
-    templateUrl: '/templates/work_packages/inplace_editor/custom/display/version.html',
-    controller: function($scope) {
-      this.pathHelper = PathHelper;
-      this.isVersionLinkViewable = function() {
-        var version = $scope.displayPaneController.getReadValue();
-        return version.links.definingProject && version.links.definingProject.href;
-      }
-    },
-    controllerAs: 'customEditorController',
-    link: function(scope, element, attrs, displayPaneController) {
-      scope.displayPaneController = displayPaneController;
+    templateUrl: '/templates/components/user_field.html',
+    scope: { user: '=' },
+    link: function(scope) {
+      scope.$watch('user', function() {
+        if (scope.user && scope.user.props && scope.user.props.name) {
+          scope.userName = scope.user.props.name;
+        }
+      });
+
+      scope.userPath = PathHelper.staticUserPath;
     }
   };
 };

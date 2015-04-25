@@ -58,7 +58,6 @@ module WorkPackage::CsvExporter
   # fetch all headers
   def csv_headers(query)
     headers = []
-    headers << '#'
 
     query.columns.each_with_index do |column, _|
       headers << column.caption
@@ -76,7 +75,6 @@ module WorkPackage::CsvExporter
     end
 
     if row.size > 0
-      row.unshift(work_package.id.to_s)
 
       if work_package.description
         row << work_package.description.gsub(/\r/, '').gsub(/\n/, ' ')
