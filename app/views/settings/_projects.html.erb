@@ -36,5 +36,5 @@ See doc/COPYRIGHT.rdoc for more details.
                       Role.find_all_givable.collect {|r| [r.name, r.id.to_s]},
                       :blank => "--- #{l(:actionview_instancetag_blank_option)} ---" %></div>
   </section>
-  <%= styled_submit_tag l(:button_save), class: '-highlight' %>
+  <%= styled_submit_tag l(:button_save), class: '-success' %>
 <% end %>

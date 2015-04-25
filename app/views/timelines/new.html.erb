@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render(:partial => "timelines/form",
              :locals => {:f => f, :timeline => @timeline}) %>
 
-  <%= f.submit l(:button_create), class: 'button -highlight' %>
+  <%= f.submit l(:button_create), class: 'button -success' %>
   <%= link_to l(:button_cancel), project_path(@project), class: 'button' %>
 
 <% end %>

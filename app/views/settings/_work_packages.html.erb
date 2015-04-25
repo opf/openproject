@@ -39,5 +39,5 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= settings_matrix([:work_package_list_default_columns, :work_package_list_summable_columns],
   Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label_choices => :setting_work_package_properties) %>
   </fieldset>
-  <%= styled_submit_tag l(:button_save), class: '-highlight' %>
+  <%= styled_submit_tag l(:button_save), class: '-success' %>
 <% end %>

@@ -33,5 +33,5 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @auth_source, :as => :auth_source do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <%= styled_submit_tag l(:button_save), class: '-highlight' %>
+  <%= styled_submit_tag l(:button_save), class: '-success' %>
 <% end %>
