@@ -52,6 +52,10 @@ $button-border-radius:                          2px !default
   @include button-style($button-background-color, $button-background-hover-color, $button-font-color, $button-style)
   border: 1px solid $button-border-color
 
+  transition-property: background, border
+  transition-duration: 0.25s
+  transition-timing-function: ease-out
+
   &:disabled
     @include button-disabled
 
