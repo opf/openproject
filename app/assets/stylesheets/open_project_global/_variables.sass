@@ -26,6 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$gray:                    #EAEAEA
+$gray-dark:               #878787
+$gray-light:              #F8F8F8
+
 $light-gray: #ccc
 
 $body-background:         white !default
@@ -153,16 +157,20 @@ $content-calendar-inactive-day-bg-color:        #4B4B4B !default
 
 $context-menu-font-color:                       $main-menu-font-color !default
 
-$button-bg-hover-color:                         #06799F !default
+$button-background-color:                       $gray-light !default
+$button-background-hover-color:                 #ededed !default
+$button-border-color:                           #ddd    !default
 $button-font-color:                             #222222 !default
 $button-font-hover-color:                       #222222 !default
 $button-highlight-font-color:                   #FFFFFF !default
 $button-highlight-font-hover-color:             #FFFFFF !default
 $button-active-font-color:                      #BBBBBB !default
-$button-highlight-background-color:             #0B8DB8 !default
-$button-highlight-background-hover-color:       #3493B3 !default
-$button-highlight-border-color:                 #06799F !default
-$button-highlight-border-hover-color:           #3493B3 !default
+$button-active-background-color:                #eee    !default
+$button-active-border-color:                    #ccc    !default
+$button-highlight-background-color:             #3493b3 !default
+$button-highlight-background-hover-color:       #06799F !default
+$button-highlight-border-color:                 $button-highlight-background-hover-color !default
+$button-highlight-border-hover-color:           $button-highlight-background-hover-color !default
 $button-border-radius:                          2px !default
 
 $content-box-border:                            1px solid $content-default-border-color !default
