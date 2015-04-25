@@ -72,17 +72,14 @@ $button-border-radius:                          2px !default
     @include button-style($background: $button-font-color, $style: hollow)
     border-color: transparent
 
-    &:enabled
-      &:hover,
-      &:focus
-        border-color: $button-border-color
+    &:hover, &:focus
+      border-color: $button-border-color
 
     &.-active
       background: $button-active-background-color
 
-      &:enabled
-        &:hover, &:focus
-          border-color: $button-active-border-color
+      &:hover, &:focus
+        border-color: $button-active-border-color
 
   &.-tiny
     @include button-size(tiny)
