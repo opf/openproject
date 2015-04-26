@@ -19,7 +19,8 @@ A toolbar that can and should be used for actions on the current view. Initially
       </li>
       <li class="toolbar-item">
         <button class="button">
-          <i class="icon icon-star1"></i> Favourite button
+          <i class="button--icon icon-star1"></i>
+          <span class="button--text">Favourite button</span>
         </button>
       </li>
     </ul>
@@ -60,7 +61,7 @@ A toolbar that can and should be used for actions on the current view. Initially
       </li>
       <li class="toolbar-item">
         <a href="#" class="button -highlight">
-          <i class="icon-add icon4"></i>
+          <i class="button--icon icon-add"></i>
         </a>
       </li>
     </ul>

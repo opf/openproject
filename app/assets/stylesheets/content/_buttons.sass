@@ -112,3 +112,18 @@ a.button
 
   &.-round
     border-radius: 2em
+
+.button--icon
+  @include icon-common
+
+.button--icon + .button--text,
+.button--text + .button--icon
+  margin-left: 10px
+
+.button--dropdown-indicator
+  @include icon-common
+  padding: 0 0 0 3px
+  font-size: rem-calc(13px)
+
+  &:before
+    @extend .icon-pulldown-arrow1:before
