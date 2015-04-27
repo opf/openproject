@@ -84,5 +84,5 @@ See doc/COPYRIGHT.rdoc for more details.
          [[l(:label_default), 0]] + TimeEntryActivity.shared.all.collect{|activity| [activity.name, activity.id.to_s]},
          :disabled => !Setting.commit_logtime_enabled?%></div>
   </fieldset>
-  <%= styled_submit_tag l(:button_save), class: '-success' %>
+  <%= styled_button_tag l(:button_save), class: '-success -with-icon icon-yes' %>
 <% end %>

@@ -61,5 +61,5 @@ See doc/COPYRIGHT.rdoc for more details.
              locals: { form: f } %>
 
   <%= call_hook(:view_timelog_edit_form_bottom, { time_entry: @time_entry, form: f }) %>
-  <%= f.submit l(:button_save), class: 'button -success' %>
+  <%= f.button l(:button_save), class: 'button -success -with-icon icon-yes' %>
 <% end %>

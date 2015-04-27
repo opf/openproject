@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_select :gravatar_default, [["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid'], ["Retro", 'retro'], ["Mystery man", 'mm']], :blank => :label_none %></div>
   </section>
 
-  <%= styled_submit_tag l(:button_save), class: '-success' %>
+  <%= styled_button_tag l(:button_save), class: '-success -with-icon icon-yes' %>
 <% end %>
 
 <div style="float:right">

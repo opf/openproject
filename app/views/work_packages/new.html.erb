@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= send_notification_option(params['send_notification'] != '0') %>
 
-  <%= f.submit l(:button_create), :class => "button -success" %>
+  <%= f.button l(:button_create), :class => "button -success -with-icon icon-yes" %>
   <!-- not supported by controller for now -->
   <%= link_to_work_package_preview(project) %>
 
