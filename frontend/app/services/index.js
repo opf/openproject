@@ -58,6 +58,7 @@ angular.module('openproject.services')
     'PriorityService',
     'UserService',
     'VersionService',
+    'CategoryService',
     'RoleService',
     'GroupService',
     'ProjectService',
@@ -83,6 +84,8 @@ angular.module('openproject.services')
   ])
   .service('VersionService', ['$http', 'PathHelper', require(
     './version-service')])
+  .service('CategoryService', ['$http', 'PathHelper', require(
+    './category-service')])
   .constant('DEFAULT_FILTER_PARAMS', {
     'fields[]': 'status_id',
     'operators[status_id]': 'o'

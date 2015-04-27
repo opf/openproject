@@ -160,6 +160,7 @@ en:
       assigned_to: "Assignee"
       assigned_to_role: "Assignee's role"
       author: "Author"
+      category: "Category"
       created_at: "Created on"
       done_ratio: "% done"
       due_date: "Due date"
