@@ -40,7 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= labelled_tabular_form_for @user, :as => :user, :url => { :action => "account" },
                           :lang => current_language,
                           :html => { :id => 'my_account_form', class: 'form -wide-labels' } do |f| %>
-  <div class="grid-block">
+  <%# @see https://github.com/zurb/foundation-apps/issues/575 -%>
+  <div class="grid-block medium-up-2">
     <div class="grid-content">
       <h3 class="form--section-title"><%=l(:label_information_plural)%></h3>
       <section class="form--section">
