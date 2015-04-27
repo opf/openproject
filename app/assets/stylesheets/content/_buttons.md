@@ -29,7 +29,7 @@
 </button>
 <br>
 
-<a href="#" class="button ***-highlight*** icon-context icon-attention2">Apply</a>
+<a href="#" class="button ***-highlight*** -with-icon icon-attention2">Apply</a>
 <a href="#" class="button ***-highlight***">Click to apply</a>
 
 <input type="submit" class="button ***-highlight***" value="Submit to apply"/>
@@ -48,7 +48,7 @@
 </button>
 <br>
 
-<a href="#" class="button ***-success*** icon-context icon-yes">Save</a>
+<a href="#" class="button ***-success*** -with-icon icon-yes">Save</a>
 <a href="#" class="button ***-success***">Click to save</a>
 
 <input type="submit" class="button ***-success***" value="Submit to save"/>
@@ -67,7 +67,7 @@
 </button>
 <br>
 
-<a href="#" class="button ***-active*** icon-context icon-fire">Connect</a>
+<a href="#" class="button ***-active*** -with-icon icon-fire">Connect</a>
 <a href="#" class="button ***-active***">Click to connect</a>
 
 <input type="submit" class="button ***-active***" value="Submit to connect"/>
@@ -85,7 +85,7 @@
 </button>
 <br>
 
-<a href="#" class="button ***-transparent*** icon-context icon-bubble3">Comment</a>
+<a href="#" class="button ***-transparent*** -with-icon icon-bubble3">Comment</a>
 <a href="#" class="button ***-transparent***">Click to comment</a>
 
 <input type="submit" class="button ***-transparent***" value="Submit to comment"/>
@@ -98,14 +98,14 @@
 <button class="button ***-tiny***"><i class="button--icon icon-star1"></i></button>
 <button class="button ***-tiny***"><i class="button--icon icon-star1"></i><span class="button--text">Tiny</span></button>
 <button class="button ***-tiny***">Tiny</button>
-<button class="button ***-tiny*** icon-context icon-star1">Tiny</button>
+<button class="button ***-tiny*** -with-icon icon-star1">Tiny</button>
 ```
 
 ```
 <button class="button ***-small***"><i class="button--icon icon-star1"></i></button>
 <button class="button ***-small***"><i class="button--icon icon-star1"></i><span class="button--text">Small</span></button>
 <button class="button ***-small***">Small</button>
-<button class="button ***-small*** icon-context icon-star1">Small</button>
+<button class="button ***-small*** -with-icon icon-star1">Small</button>
 ```
 
 ```
@@ -119,7 +119,7 @@
 <button class="button ***-large***"><i class="button--icon icon-star1"></i></button>
 <button class="button ***-large***"><i class="button--icon icon-star1"></i><span class="button--text">Large</span></button>
 <button class="button ***-large***">Large</button>
-<button class="button ***-large*** icon-context icon-star1">Large</button>
+<button class="button ***-large*** -with-icon icon-star1">Large</button>
 ```
 
 ## Expanded buttons

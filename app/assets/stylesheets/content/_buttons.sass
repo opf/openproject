@@ -43,6 +43,7 @@ $button--success-font-color:                white !default
 $button--success-background-color:          $success-color !default
 $button--success-background-hover-color:    darken($success-color, 18%) !default
 
+$button--text-icon-spacing:                 0.65em !default
 
 .button,
 a.button
@@ -62,6 +63,9 @@ a.button
   &:hover
     text-decoration: none
 
+  &.-with-icon
+    &::before
+      padding: 0 $button--text-icon-spacing 0 0
 
   &.-highlight
     @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
@@ -118,7 +122,7 @@ a.button
 
 .button--icon + .button--text,
 .button--text + .button--icon
-  margin-left: 10px
+  margin: 0 0 0 $button--text-icon-spacing
 
 .button--dropdown-indicator
   @include icon-common
