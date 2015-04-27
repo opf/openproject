@@ -270,6 +270,15 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
       });
   };
 
+  $scope.openOverviewTab = function() {
+    $scope.settingUpPage = $state.go(
+      'work-packages.list.details.overview',
+      {
+        workPackageId: $scope.preselectedWorkPackageId,
+        'query_props': $location.search()['query_props']
+      });
+  };
+
   $scope.closeDetailsView = function() {
     // can't use query_props in $state.go since it's not specified
     // in the config. if I put it into config, a reload will be triggered
