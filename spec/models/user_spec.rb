@@ -72,7 +72,48 @@ describe User, :type => :model do
       user.login = 'a' * 257
       expect(user.save).to be_falsey
     end
+  end
 
+  describe 'login whitespace' do
+    before do
+      user.login = login
+    end
+
+    context 'simple spaces' do
+      let(:login) { 'a b  c' }
+
+      it 'is valid' do
+        expect(user).to be_valid
+      end
+
+      it 'may be stored in the database' do
+        expect(user.save).to be_truthy
+      end
+    end
+
+    context 'line breaks' do
+      let(:login) { 'ab\nc' }
+
+      it 'is invalid' do
+        expect(user).not_to be_valid
+      end
+
+      it 'may not be stored in the database' do
+        expect(user.save).to be_falsey
+      end
+    end
+
+    context 'tabs' do
+      let(:login) { 'ab\tc' }
+
+      it 'is invalid' do
+        expect(user).not_to be_valid
+      end
+
+      it 'may not be stored in the database' do
+        expect(user.save).to be_falsey
+      end
+    end
   end
 
 
