@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <%= render :partial => 'attachments/form', :f => f %>
 
-  <hr>
+  <hr class="form--separator">
   <%= f.submit l(:button_save), class: 'button -success' %>
   <%= preview_link preview_wiki_path(@project), 'wiki_form-preview', class: 'button' %>
 

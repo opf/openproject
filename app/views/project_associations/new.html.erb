@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   </br>
   <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
-  <hr>
+  <hr class="form--separator">
   <%= f.submit l("timelines.add_project_association"), :name => nil,
         class: 'button -highlight'%>
   <%= link_to l(:button_cancel), project_project_associations_path(@project),
