@@ -196,6 +196,11 @@ module.exports = function(
       return true;
     }
 
+    // strategy pattern, guys
+    if (field === 'spentTime' && WorkPackageFieldService.getValue(workPackage, field) === 'PT0S') {
+      return true;
+    }
+
     if (value.embedded && _.isArray(value.embedded.elements)) {
       return value.embedded.elements.length === 0;
     }
