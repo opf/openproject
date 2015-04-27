@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= styled_button_tag l(:button_save), class: '-success -with-icon icon-yes' %>
       <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;',
         class: 'button'%>
-      <%= preview_link preview_news_path(@news), 'news-form-preview', class: 'button' %>
+      <%= preview_link preview_news_path(@news), 'news-form-preview' %>
     <% end %>
     <div id="preview"></div>
   </div>

@@ -27,19 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module PreviewsHelper
-  def preview_link(path, link_id, options = {})
-    options = {
-      accesskey: accesskey(:preview),
-      id: link_id,
-      'has-preview' => '',
-      # NOTE:   legacy JS relies on preview class
-      # FIXME:  replace placeholder icon with preview icon
-      class: 'button preview -with-icon icon-ticket-checked'
-    }.merge(options)
+require 'spec_helper'
 
-    link_to path, options do
-      l(:label_preview)
+describe PreviewsHelper, type: :helper do
+  describe '#preview_link' do
+    let(:path) { '/' }
+    let(:id)   { 'news_preview' }
+    subject(:output) { helper.preview_link(path, id) }
+
+    before do
+      allow(helper).to receive(:accesskey).and_return('a')
+    end
+
+    it 'outputs a styled link' do
+      expect(output).to be_html_eql(%{
+        <a href="/"
+          class="button preview -with-icon icon-ticket-checked"
+          accesskey="a"
+          has-preview=""
+          id="news_preview">Preview</a>
+      })
     end
   end
 end
