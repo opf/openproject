@@ -45,6 +45,10 @@ $button--success-background-hover-color:    darken($success-color, 18%) !default
 
 $button--text-icon-spacing:                 0.65em !default
 
+%button--icon
+  display: inline-block
+  transition: scale 0.25s ease-out
+
 .button,
 a.button
   @extend %button
@@ -63,9 +67,16 @@ a.button
   &:hover
     text-decoration: none
 
+    .button--icon
+      transform: scale(1.15)
+
   &.-with-icon
     &::before
+      @extend %button--icon
       padding: 0 $button--text-icon-spacing 0 0
+
+    &:hover::before
+      transform: scale(1.15)
 
   &.-highlight
     @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
@@ -118,7 +129,7 @@ a.button
     border-radius: 2em
 
 .button--icon
-  @include icon-common
+  @extend %button--icon
 
 .button--icon + .button--text,
 .button--text + .button--icon
