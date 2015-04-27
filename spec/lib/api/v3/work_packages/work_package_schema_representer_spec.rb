@@ -221,6 +221,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'spentTime' do
       before do
+        # don't fail the test for other allowed_to calls than the expected ones
+        allow(current_user).to receive(:allowed_to?).and_return false
+
         allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
           .and_return true
       end
