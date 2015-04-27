@@ -52,6 +52,7 @@ angular.module('openproject.workPackages.config')
   watcher_id: {type: 'list_model', modelName: 'user', order: 6, locale_name: 'watcher'},
   responsible_id: {type: 'list_optional', modelName: 'user', order: 6, locale_name: 'responsible'},
   fixed_version_id: {type: 'list_optional', modelName: 'version', order: 7, locale_name: 'fixed_version'},
+  category_id: {type: 'list_optional', modelName: 'category', order: 7, locale_name: 'category'},
   member_of_group: {type: 'list_optional', modelName: 'group', order: 8, locale_name: 'member_of_group'},
   assigned_to_role: {type: 'list_optional', modelName: 'role', order: 9, locale_name: 'assigned_to_role'},
   subject: { type: 'text', order: 10, locale_name: 'subject' },

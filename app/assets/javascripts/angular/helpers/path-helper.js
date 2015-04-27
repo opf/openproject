@@ -240,6 +240,12 @@ angular.module('openproject.helpers')
     },
 
     // API V3
+    apiV3ProjectPath: function(projectIdentifier) {
+      return PathHelper.apiV3 + "/projects/" + projectIdentifier;
+    },
+    apiProjectCategoriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/categories';
+    },
     apiQueryStarPath: function(queryId) {
       return PathHelper.apiV3QueryPath(queryId) + '/star';
     },

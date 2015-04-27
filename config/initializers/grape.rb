@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,27 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Categories
-      class CategoriesAPI < Grape::API
-
-        resources :categories do
-
-          namespace ':id' do
-
-            before do
-              @category = Category.find(params[:id])
-              authorize(:view_project, context: @category.project)
-            end
-
-            get do
-              CategoryRepresenter.new(@category)
-            end
-          end
-        end
-
-      end
-    end
+module Grape
+  class Endpoint
+    include ::API::V3::Utilities::PathHelper
   end
 end

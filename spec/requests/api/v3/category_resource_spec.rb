@@ -32,36 +32,55 @@ require 'rack/test'
 describe 'API v3 Category resource' do
   include Rack::Test::Methods
 
-  let(:current_user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role, permissions: []) }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:categories) { FactoryGirl.create_list(:category, 3, project: project) }
-  let(:other_categories) { FactoryGirl.create_list(:category, 2) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_project]) }
+  let(:private_project) { FactoryGirl.create(:project, is_public: false) }
+  let(:public_project) { FactoryGirl.create(:project, is_public: true) }
+  let(:anonymous_user) { FactoryGirl.create(:user) }
+  let(:privileged_user) do
+    FactoryGirl.create(:user,
+                       member_in_project: private_project,
+                       member_through_role: role)
+  end
 
-  describe '#get' do
+  let!(:categories) { FactoryGirl.create_list(:category, 3, project: private_project) }
+  let!(:other_categories) { FactoryGirl.create_list(:category, 2, project: public_project) }
+  let!(:user_categories) do
+    FactoryGirl.create_list(:category,
+                            2,
+                            project: private_project,
+                            assigned_to: privileged_user)
+  end
+
+  describe 'categories by project' do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { "/api/v3/projects/#{project.id}/categories" }
+      let(:get_path) { "/api/v3/projects/#{private_project.id}/categories" }
       before do
-        allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
-
-        categories
-        other_categories
+        allow(User).to receive(:current).and_return privileged_user
 
         get get_path
       end
 
-      it 'should respond with 200' do
-        expect(subject.status).to eq(200)
+      it_behaves_like 'API V3 collection response', 5, 5, 'Category'
+    end
+  end
+
+  describe 'categories/:id' do
+    subject(:response) { last_response }
+
+    context 'logged in user' do
+      let(:get_path) { "/api/v3/categories/#{other_categories.first.id}" }
+      before do
+        allow(User).to receive(:current).and_return privileged_user
+
+        get get_path
       end
 
-      it 'should respond with categories' do
-        expect(subject.body).to include_json('Categories'.to_json).at_path('_type')
-        expect(subject.body).to have_json_size(3).at_path('_embedded/categories')
+      context 'valid priority id' do
+        it 'should return HTTP 200' do
+          expect(response.status).to eql(200)
+        end
       end
     end
   end

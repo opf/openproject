@@ -7,15 +7,6 @@ GIT
       rack
 
 GIT
-  remote: https://github.com/finnlabs/representable
-  revision: 5f8fbcb1e61720699135c39be3f36a725ca870ad
-  specs:
-    representable (1.8.1)
-      multi_json
-      nokogiri
-      uber
-
-GIT
   remote: https://github.com/finnlabs/rspec-example_disabler.git
   revision: deb9c38e3f4e3688724583ac1ff58e1ae8aba409
   specs:
@@ -162,8 +153,8 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
-    disposable (0.0.4)
-      representable (~> 1.8.1)
+    disposable (0.0.9)
+      representable (~> 2.0)
       uber
     equalizer (0.0.9)
     erubis (2.7.0)
@@ -310,14 +301,18 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.0.0)
-    reform (1.0.4)
+    reform (1.2.6)
       activemodel
-      disposable (~> 0.0.4)
-      representable (~> 1.8.1)
-      uber (~> 0.0.4)
+      disposable (~> 0.0.5)
+      representable (~> 2.1.0)
+      uber (~> 0.0.11)
+    representable (2.1.5)
+      multi_json
+      nokogiri
+      uber (~> 0.0.7)
     request_store (1.1.0)
-    roar (0.12.7)
-      representable (>= 1.6.0)
+    roar (1.0.0)
+      representable (>= 2.0.1, <= 3.0.0)
     rspec (2.99.0)
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
@@ -388,7 +383,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.43)
-    uber (0.0.10)
+    uber (0.0.13)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
@@ -471,10 +466,9 @@ DEPENDENCIES
   rails_autolink (~> 1.1.6)
   rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
-  reform (~> 1.0.4)
-  representable!
+  reform (~> 1.2.6)
   request_store (~> 1.1.0)
-  roar (~> 0.12.6)
+  roar (~> 1.0.0)
   rspec (~> 2.99.0)
   rspec-activemodel-mocks
   rspec-example_disabler!

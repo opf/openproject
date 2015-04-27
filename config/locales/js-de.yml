@@ -161,6 +161,7 @@ de:
       assigned_to: "Zugewiesen an"
       assigned_to_role: "Zuständigkeitsrolle"
       author: "Autor"
+      category: "Kategorie"
       created_at: "Angelegt"
       done_ratio: "% erledigt"
       due_date: "Abgabedatum"

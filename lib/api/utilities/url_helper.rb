@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +27,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module API
+  module Utilities
+    module UrlHelper
+      include OpenProject::StaticRouting::UrlHelpers
+      include ActionView::Helpers::UrlHelper
 
-describe ::API::V3::Categories::CategoryModel do
-  subject(:model) { ::API::V3::Categories::CategoryModel.new(category) }
-  let(:category) { FactoryGirl.build(:category, attributes) }
-  let(:attributes) { { name: 'Specific Category' } }
-
-  its(:name) { should eq 'Specific Category' }
+      def controller; end # The URL helpers need a controller, even if it's nil
+    end
+  end
 end

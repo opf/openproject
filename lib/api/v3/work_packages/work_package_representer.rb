@@ -28,15 +28,18 @@
 #++
 
 require 'roar/decorator'
-require 'roar/representer/json/hal'
+require 'roar/json/hal'
+
+require 'api/v3/utilities/path_helper'
 
 module API
   module V3
     module WorkPackages
       class WorkPackageRepresenter < Roar::Decorator
-        include Roar::Representer::JSON::HAL
-        include Roar::Representer::Feature::Hypermedia
+        include Roar::JSON::HAL
+        include Roar::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
+        include ::API::V3::Utilities::PathHelper
 
         self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -199,6 +202,13 @@ module API
           } unless represented.model.parent.nil? || !represented.model.parent.visible?
         end
 
+        link :category do
+          {
+            href: api_v3_paths.category(represented.category.id),
+            title: represented.category.name
+          } unless represented.category.nil?
+        end
+
         link :version do
           {
             href: version_path(represented.model.fixed_version),
@@ -254,7 +264,7 @@ module API
         property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }, writeable: false
         property :responsible, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }, writeable: false
         property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }, writeable: false
-        property :category, embedded: true, class: ::API::V3::Categories::CategoryModel, decorator: ::API::V3::Categories::CategoryRepresenter, if: -> (*) { !category.nil? }, writeable: false
+        property :category, embedded: true, decorator: ::API::V3::Categories::CategoryRepresenter, if: -> (*) { !category.nil? }, writeable: false
 
         property :activities, embedded: true, exec_context: :decorator, writeable: false
         property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers, represented.model) }, writeable: false

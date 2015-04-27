@@ -118,7 +118,7 @@ module API
         end
 
         def category
-          ::API::V3::Categories::CategoryModel.new(model.category)  unless model.category.nil?
+          model.category
         end
 
         def activities

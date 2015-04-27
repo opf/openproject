@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,26 +32,53 @@ require 'roar/json/hal'
 
 module API
   module Decorators
-    class Collection < Roar::Decorator
+    # This class is purely used for backporting categories to OP4.0. It should not be present in
+    # OpenProject 4.1 (you can use API::Decorators::Collection there)
+    class CollectionFourDotOne < Roar::Decorator
       include Roar::JSON::HAL
       include Roar::Hypermedia
-      include OpenProject::StaticRouting::UrlHelpers
+      include API::Utilities::UrlHelper
 
-      attr_reader :current_user, :as
+      def initialize(models, total, self_link, context: {})
+        @total = total
+        @self_link = self_link
+        @context = context
 
-      def initialize(models, current_user: nil, as: nil)
-        @current_user = current_user
-        @as = as.to_s.camelize(:lower)
         super(models)
+      end
+
+      class_attribute :element_decorator_class
+
+      def self.element_decorator(klass)
+        self.element_decorator_class = klass
+      end
+
+      def element_decorator
+        self.class.element_decorator_class
       end
 
       as_strategy = API::Utilities::CamelCasingStrategy.new
 
-      property :total, as: :_total, exec_context: :decorator
-
-      def total
-        represented.empty? ? 0 : represented.first.model.class.count
+      link :self do
+        { href: @self_link }
       end
+
+      property :_type, getter: -> (*) { 'Collection' }
+      property :total, getter: -> (*) { @total }, exec_context: :decorator
+      property :count, getter: -> (*) { empty? ? 0 : count }
+
+      collection :elements,
+                 getter: -> (*) {
+                   represented.map { |model|
+                     element_decorator.new(model, context)
+                   }
+                 },
+                 exec_context: :decorator,
+                 embedded: true
+
+      private
+
+      attr_reader :context
     end
   end
 end

@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,17 +26,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
+require 'representable'
 
-module API
-  module V3
-    module Categories
-      class CategoryModel < Reform::Form
-        include Coercion
+module OpenProject::RepresentablePatch
+  def self.included(base)
+    base.class_eval do
+      def self.as_strategy=(strategy)
+        raise 'The :as_strategy option should respond to #call?' unless strategy.respond_to?(:call)
 
-        property :name, type: String
+        @as_strategy = strategy
+      end
+
+      def self.as_strategy
+        @as_strategy
+      end
+
+      def self.property(name, options = {}, &block)
+        options = { as: as_strategy.call(name.to_s) }.merge(options) if as_strategy
+
+        super
       end
     end
   end
+end
+
+unless Representable::Decorator.included_modules.include?(OpenProject::RepresentablePatch)
+  Representable::Decorator.send(:include, OpenProject::RepresentablePatch)
 end
