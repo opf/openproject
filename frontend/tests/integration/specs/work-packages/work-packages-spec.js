@@ -57,28 +57,4 @@ describe('OpenProject', function() {
       ]);
     });
   });
-
-  describe('click', function() {
-    context('with Ctrl', function() {
-      var newWindowHandle;
-      
-      beforeEach(function() {
-        var link = element(by.css('[title="16923"]'));
-        browser.actions()
-          .mouseMove(link)
-          .sendKeys(protractor.Key.CONTROL)
-          .click()
-          .perform();
-      });
-
-      xit('opens new tab', function() {
-        browser.getAllWindowHandles().then(function (handles) {
-          newWindowHandle = handles[1];
-          browser.switchTo().window(newWindowHandle).then(function () {
-            expect(browser.getCurrentUrl()).to.eventually.contain('/work_packages/16923');
-          });
-        });
-      });
-    });
-  });
 });

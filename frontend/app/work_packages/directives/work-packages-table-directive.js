@@ -207,9 +207,14 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
         if ($event.target.type != 'checkbox') {
           var currentRowCheckState = row.checked;
           var multipleChecked = mulipleRowsChecked();
+          var isLink = angular.element($event.target).is('a');
 
           if (!($event.ctrlKey || $event.shiftKey)) {
             scope.setCheckedStateForAllRows(false);
+          }
+
+          if(isLink) {
+            return;
           }
 
           if ($event.shiftKey) {
