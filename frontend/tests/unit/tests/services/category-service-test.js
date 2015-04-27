@@ -61,8 +61,8 @@ describe('CategoryService', function() {
     it('loads the categories sorted by their name', function() {
       $httpBackend.expectGET(apiPath);
 
-      var callback = sinon.spy(),
-          requestedCategories = CategoryService.getCategories(projectIdentifier).then(callback);
+      var callback = sinon.spy();
+      CategoryService.getCategories(projectIdentifier).then(callback);
 
       $httpBackend.flush();
       expect(callback).to.have.been.calledWith(sinon.match([

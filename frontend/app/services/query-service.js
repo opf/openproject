@@ -26,7 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, CategoryService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n, queryMenuItemFactory, $rootScope, QUERY_MENU_ITEM_TYPE) {
+/* jshint camelcase: false */
+
+module.exports = function(
+    Query,
+    Sortation,
+    $http,
+    PathHelper,
+    $q,
+    AVAILABLE_WORK_PACKAGE_FILTERS,
+    StatusService,
+    TypeService,
+    PriorityService,
+    UserService,
+    VersionService,
+    CategoryService,
+    RoleService,
+    GroupService,
+    ProjectService,
+    WorkPackagesTableHelper,
+    I18n,
+    queryMenuItemFactory,
+    $rootScope,
+    QUERY_MENU_ITEM_TYPE
+  ) {
 
   var query;
 

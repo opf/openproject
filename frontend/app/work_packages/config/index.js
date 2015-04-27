@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/* jshint camelcase: false */
+
 angular.module('openproject.workPackages.config')
 
 .constant('INITIALLY_SELECTED_COLUMNS', [{ name: 'id' }, { name: 'project' }, { name: 'type' }, { name: 'status' }, { name: 'priority' }, { name: 'subject' }, { name: 'assigned_to_id' }, { name: 'updated_at' }])
