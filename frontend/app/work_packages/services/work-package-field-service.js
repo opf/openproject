@@ -160,6 +160,9 @@ module.exports = function(
 
   function isRequired(workPackage, field) {
     var schema = getSchema(workPackage);
+    if (_.isUndefined(schema.props[field])) {
+      return false;
+    }
     return schema.props[field].required;
   }
 
