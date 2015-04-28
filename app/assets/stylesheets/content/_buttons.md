@@ -11,7 +11,7 @@
 </button>
 <br>
 
-<a href="#" class="***button*** icon-context icon-watch-1">Watch</a>
+<a href="#" class="***button*** -with-icon icon-watch-1">Watch</a>
 <a href="#" class="***button***">Click to watch</a>
 
 <input type="submit" class="***button***" value="Submit to watch"/>
@@ -112,7 +112,7 @@
 <button class="***button***"><i class="button--icon icon-star1"></i></button>
 <button class="***button***"><i class="button--icon icon-star1"></i><span class="button--text">Default</span></button>
 <button class="***button***">Default</button>
-<button class="***button*** icon-context icon-star1">Default</button>
+<button class="***button*** -with-icon icon-star1">Default</button>
 ```
 
 ```
