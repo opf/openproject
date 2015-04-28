@@ -30,6 +30,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2><%=l(:label_project_new)%></h2>
 <%= labelled_tabular_form_for @project do |f| %>
   <%= render :partial => 'form', :locals => { :f => f, :project => @project, :renderTypes => true } %>
-  <%= submit_tag l(:button_save), class: 'button -highlight' %>
+  <%= styled_button_tag l(:button_save), class: '-success -with-icon icon-yes' %>
   <%= javascript_tag "Form.Element.focus('project_name');" %>
 <% end %>

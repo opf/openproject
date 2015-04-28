@@ -59,9 +59,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <%= render :partial => 'attachments/form', :f => f %>
 
-  <hr>
-  <%= f.submit l(:button_save), class: 'button -highlight' %>
-  <%= preview_link preview_wiki_path(@project), 'wiki_form-preview', class: 'button' %>
+  <hr class="form--separator">
+  <%= f.button l(:button_save), class: 'button -success -with-icon icon-yes' %>
+  <%= preview_link preview_wiki_path(@project), 'wiki_form-preview' %>
 
   <%= wikitoolbar_for 'content_text' %>
 <% end %>

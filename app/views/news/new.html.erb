@@ -33,8 +33,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for [@project, @news], :html => { :id => 'news-form' } do |f| %>
   <%= render :partial => 'news/form', :locals => { :f => f } %>
-  <hr>
-  <%= submit_tag l(:button_create), class: 'button -highlight' %>
-  <%= preview_link preview_news_index_path, 'news-form-preview', class: 'button' %>
+  <hr class="form--separator">
+  <%= styled_button_tag l(:button_create), class: '-success -with-icon icon-yes' %>
+  <%= preview_link preview_news_index_path, 'news-form-preview' %>
 <% end %>
 <div id="preview"></div>

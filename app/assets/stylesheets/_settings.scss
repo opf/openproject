@@ -106,9 +106,6 @@ $include-css: (
 // $success-color: #43AC6A;
 // $warning-color: #F08A24;
 // $dark-color: #232323;
-$gray: #EAEAEA;
-$gray-dark: #878787;
-$gray-light: #F8F8F8;
 
 // We use these to make sure border radius matches unless we want it different.
 // $global-radius: 4px;
@@ -243,7 +240,7 @@ $breakpoints: (
 // 6. Button
 // - - - - - - - - - - - - - - -
 
-$button-padding: 0.65em 1em;
+$button-padding: 0.65em;
 // $button-margin: 0 $global-padding $global-padding 0;
 // $button-style: solid;
 // $button-background: $primary-color;

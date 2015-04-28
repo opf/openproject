@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
              :html => {:id => 'types-form'} do |f| %>
   <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => @project } %>
 
-  <p><%= submit_tag l(:button_save), class: 'button -highlight' %></p>
+  <p><%= styled_button_tag l(:button_save), class: '-success -with-icon icon-yes' %></p>
 <% end %>
 
 <br/>
