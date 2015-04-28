@@ -26,47 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState) {
+module.exports = function($http, PathHelper) {
 
-  function workPackageFieldDirectiveController($scope) {
-    this.state = EditableFieldsState;
+  var CategoryService = {
+    getCategories: function(projectIdentifier) {
+      if(!projectIdentifier) {
+        return [];
+      }
 
-    this.isEditable = function() {
-      return WorkPackageFieldService.isEditable(EditableFieldsState.workPackage, this.field);
-    };
+      var url = PathHelper.apiV3ProjectCategoriesPath(projectIdentifier);
 
-    this.isEmpty = function() {
-      return WorkPackageFieldService.isEmpty(EditableFieldsState.workPackage, this.field);
-    };
-
-    this.getLabel = function() {
-      return WorkPackageFieldService.getLabel(EditableFieldsState.workPackage, this.field);
-    };
-
-    this.updateWriteValue = function() {
-      this.writeValue = _.cloneDeep(WorkPackageFieldService.getValue(
-        EditableFieldsState.workPackage,
-        this.field
-      ));
-    };
-
-    if (this.isEditable()) {
-      this.state.isBusy = false;
-      this.isEditing = false;
-      this.updateWriteValue();
-      this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.getLabel() });
-    }
-  }
-
-  return {
-    restrict: 'E',
-    replace: true,
-    controllerAs: 'fieldController',
-    bindToController: true,
-    templateUrl: '/templates/work_packages/field.html',
-    scope: {
-      field: '='
+      return CategoryService.doQuery(url);
     },
-    controller: workPackageFieldDirectiveController
+
+    doQuery: function(url, params) {
+      return $http.get(url, { params: params })
+        .then(function(response) {
+          var elements =  response.data._embedded.elements;
+          return _.sortBy(elements, 'name');
+        });
+    }
   };
+
+  return CategoryService;
 };

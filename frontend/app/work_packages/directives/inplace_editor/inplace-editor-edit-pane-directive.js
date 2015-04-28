@@ -40,8 +40,26 @@ module.exports = function(
     templateUrl: '/templates/work_packages/inplace_editor/edit_pane.html',
     controllerAs: 'editPaneController',
     controller: function($scope, WorkPackageService) {
+      var vm = this;
+      var acknowledgedValidationErrors = ['required', 'number'];
+
       this.submit = function(notify) {
         var fieldController = $scope.fieldController;
+        if (vm.editForm.$invalid) {
+          var detectedViolations = [];
+          acknowledgedValidationErrors.forEach(function(error) {
+            if (vm.editForm.$error[error]) {
+              detectedViolations.push(I18n.t('js.inplace.errors.' + error, {
+                field: fieldController.getLabel()
+              }));
+            }
+          });
+          if (detectedViolations.length) {
+            EditableFieldsState.errors = EditableFieldsState.errors || {};
+            EditableFieldsState.errors[fieldController.field] = detectedViolations.join(' ');
+            return false;
+          }
+        }
         fieldController.state.isBusy = true;
         var pendingFormChanges = getPendingFormChanges();
         pendingFormChanges[fieldController.field] = fieldController.writeValue;
@@ -87,6 +105,14 @@ module.exports = function(
         }
       };
 
+      this.isActive = function() {
+        return $scope.fieldController.field === EditableFieldsState.activeField;
+      };
+
+      this.markActive = function() {
+        EditableFieldsState.activeField = $scope.fieldController.field;
+      };
+
       this.getPendingFormChanges = getPendingFormChanges;
 
       function getPendingFormChanges() {
@@ -108,6 +134,11 @@ module.exports = function(
     },
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
+      scope.editPaneController.isRequired = WorkPackageFieldService.isRequired(
+        EditableFieldsState.workPackage,
+        fieldController.field
+      );
+
       scope.strategy = WorkPackageFieldService.getInplaceEditStrategy(
         EditableFieldsState.workPackage,
         fieldController.field
@@ -120,6 +151,13 @@ module.exports = function(
           var inputElement = element.find('.focus-input');
           FocusHelper.focus(inputElement);
           inputElement.triggerHandler('keyup');
+          scope.editPaneController.markActive();
+          inputElement.off('focus.inplace').on('focus.inplace', function() {
+            // ♥♥♥ angular ♥♥♥
+            scope.$apply(function() {
+              scope.editPaneController.markActive();
+            });
+          });
         });
       };
 

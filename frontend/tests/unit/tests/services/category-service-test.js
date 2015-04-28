@@ -26,11 +26,50 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
-  return {
-    workPackage: null,
-    errors: null,
-    isBusy: false,
-    activeField: null
-  };
-};
+/*jshint expr: true*/
+
+describe('CategoryService', function() {
+
+  var CategoryService, $httpBackend;
+  var projectIdentifier = 'ocarina',
+      apiPath = '/api/v3/projects/' + projectIdentifier + '/categories';
+
+  beforeEach(module('openproject.services'));
+
+  beforeEach(inject(function(_$httpBackend_, _CategoryService_){
+    $httpBackend   = _$httpBackend_;
+    CategoryService = _CategoryService_;
+  }));
+
+  afterEach(function() {
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
+
+  describe('getCategories', function() {
+
+    var categories = [
+      { id: 1, name: 'Happy Mask' },
+      { id: 2, name: 'A Salesman' }
+    ];
+
+    beforeEach(function() {
+      $httpBackend.when('GET', apiPath)
+        .respond({ _embedded: { elements: categories } });
+    });
+
+    it('loads the categories sorted by their name', function() {
+      $httpBackend.expectGET(apiPath);
+
+      var callback = sinon.spy();
+      CategoryService.getCategories(projectIdentifier).then(callback);
+
+      $httpBackend.flush();
+      expect(callback).to.have.been.calledWith(sinon.match([
+        { id: 2, name: 'A Salesman' },
+        { id: 1, name: 'Happy Mask' }
+      ]));
+    });
+
+  });
+});

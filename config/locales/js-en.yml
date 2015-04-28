@@ -160,6 +160,7 @@ en:
       assigned_to: "Assignee"
       assigned_to_role: "Assignee's role"
       author: "Author"
+      category: "Category"
       created_at: "Created on"
       done_ratio: "% done"
       due_date: "Due date"
@@ -403,6 +404,9 @@ en:
       btn_preview_enable: "Preview"
       btn_preview_disable: "Disable preview"
       null_value_label: "No value"
+      errors:
+        required: '%{field} cannot be empty'
+        number: '%{field} is not a valid number'
 
     error_could_not_resolve_version_name: "Couldn't resolve version name"
     error_could_not_resolve_user_name: "Couldn't resolve user name"

@@ -161,6 +161,7 @@ de:
       assigned_to: "Zugewiesen an"
       assigned_to_role: "Zuständigkeitsrolle"
       author: "Autor"
+      category: "Kategorie"
       created_at: "Angelegt"
       done_ratio: "% erledigt"
       due_date: "Abgabedatum"
@@ -400,6 +401,9 @@ de:
       btn_preview_enable: "Vorschau"
       btn_preview_disable: "Vorschau deaktivieren"
       null_value_label: "Kein Wert"
+      errors:
+        required: '%{field} ist ein Pflichtfeld'
+        number: '%{field} ist keine gültige Zahl'
 
     error_could_not_resolve_version_name: "Versionsbezeichner konnte nicht aufgelöst werden"
     error_could_not_resolve_user_name: "Benutzername konnte nicht aufgelöst werden"

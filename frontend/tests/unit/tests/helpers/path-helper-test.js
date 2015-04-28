@@ -25,12 +25,25 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+describe('PathHelper', function() {
+  var PathHelper;
 
-module.exports = function() {
-  return {
-    workPackage: null,
-    errors: null,
-    isBusy: false,
-    activeField: null
-  };
-};
+  beforeEach(module('openproject.helpers'));
+  beforeEach(inject(function(_PathHelper_) {
+    PathHelper = _PathHelper_;
+  }));
+
+  context('apiV3', function() {
+    var projectIdentifier = 'majora';
+
+    it('should provide the project\'s path', function() {
+      expect(PathHelper.apiV3ProjectsPath(projectIdentifier)).to.equal('/api/v3/projects/majora');
+    });
+
+    it('should provide a path to the project\'s categories', function() {
+      expect(
+        PathHelper.apiV3ProjectCategoriesPath(projectIdentifier)
+      ).to.equal('/api/v3/projects/majora/categories');
+    });
+  });
+});

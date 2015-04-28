@@ -46,17 +46,24 @@ $inplace-edit--color--very-dark: #cacaca
     *
       cursor: wait!important
       inplace-edit--write
-  .inplace-edit--write-value
-    .inplace-edit--date
-      margin: 0
-    .date-range-picker
-      display: table
-      & > *
-        display: table-cell
-        margin-bottom: 0
-      & > span
-        padding-right: 5px
-        padding-left: 5px
+
+  .inplace-edit--date
+    margin: 0
+  .inplace-edit--date-range
+    display: table
+    position: relative
+    & > *
+      display: table-cell
+      margin-bottom: 0
+    & > span
+      padding-right: 5px
+      padding-left: 5px
+    & > .inplace-edit--date-range-start-date-picker,
+    & > .inplace-edit--date-range-end-date-picker
+      display: none
+      z-index: 99999
+      right: 0
+      position: absolute
 
 .ui-datepicker-current,
 .ui-datepicker-close
