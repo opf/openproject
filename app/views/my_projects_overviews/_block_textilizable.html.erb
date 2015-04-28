@@ -24,8 +24,8 @@ See doc/COPYRIGHT.md for more details.
     <% content_for block_name do %>
       <div id="<%= block_name %>-form-div" style="display: none;" ng-non-bindable>
         <div class="box-actions">
-          <a href="#" onclick="return resetTextilizable('<%= block_name %>');"
-             class="icon icon-cancel"><%= l(:button_cancel) %></a>
+          <a href="#" data-block-name="<%= block_name %>"
+             class="icon icon-cancel reset-textilizable"><%= l(:button_cancel) %></a>
         </div>
         <div style="clear: right;"></div>
         <%= form_for :overview,
@@ -49,14 +49,13 @@ See doc/COPYRIGHT.md for more details.
       </div>
       <div id="<%= block_name %>-preview-div" class="wiki">
         <div class="box-actions">
-          <a href="#" onclick="return editTextilizable('<%= block_name %>');"
-             class="icon icon-edit"><%= l(:button_edit) %></a>
+          <a href="#" class="icon icon-edit edit-textilizable" data-block-name="<%= block_name %>"><%= l(:button_edit) %></a>
 
           <%= link_to_remote l(:button_delete), {
                 :confirm => l(:label_confirm_delete),
                 :url => { :action => "remove_block", :block => block_name },
-                :complete => "removeBlock('block_#{block_name.dasherize}')" },
-              :class => "icon icon-delete"
+                :class => "icon icon-delete"
+              }
               %>
         </div>
       </div>
