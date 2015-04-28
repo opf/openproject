@@ -77,10 +77,14 @@ body
   margin: 0 0 0 $main-menu-width
   padding: 10px 20px
   width: auto
-  overflow: hidden
   height: auto
   background-color: #fff
   z-index: 10
+  .clearfix
+    &:before,
+    &:after
+      display: initial
+      clear: none
 
   %absolute-layout-mode &
     position:   absolute
