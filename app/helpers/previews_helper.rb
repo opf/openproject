@@ -34,8 +34,8 @@ module PreviewsHelper
       id: link_id,
       'has-preview' => '',
       # NOTE:   legacy JS relies on preview class
-      # FIXME:  replace placeholder icon with preview icon
-      class: 'button preview -with-icon icon-ticket-checked'
+      # FIXME:  fix preview icon naming
+      class: 'button preview -with-icon icon-issue-watched'
     }.merge(options)
 
     link_to path, options do

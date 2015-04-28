@@ -42,7 +42,7 @@ describe PreviewsHelper, type: :helper do
     it 'outputs a styled link' do
       expect(output).to be_html_eql(%{
         <a href="/"
-          class="button preview -with-icon icon-ticket-checked"
+          class="button preview -with-icon icon-issue-watched"
           accesskey="a"
           has-preview=""
           id="news_preview">Preview</a>
