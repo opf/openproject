@@ -100,7 +100,7 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
     it 'should include estimated hours' do
       expect(@sheet.rows.size).to eq(4 + 1)
 
-      hours = @sheet.rows.last.values_at(3)
+      hours = @sheet.rows.last.values_at(2)
       expect(hours).to include(27.5)
     end
   end
