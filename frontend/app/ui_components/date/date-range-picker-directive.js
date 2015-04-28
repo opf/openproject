@@ -27,7 +27,8 @@
 //++
 
 module.exports = function(TimezoneService, ConfigurationService,
-                          I18n, $timeout) {
+                          I18n, $timeout, WorkPackageFieldService,
+                          EditableFieldsState) {
   var parseDate = TimezoneService.parseDate,
       parseISODate = TimezoneService.parseISODate,
       formattedDate = function(date) {
@@ -39,8 +40,10 @@ module.exports = function(TimezoneService, ConfigurationService,
       customFormattedDate = function(date) {
         return parseISODate(date).format(customDateFormat);
       },
-      noStartDate = I18n.t('js.label_no_start_date'),
-      noEndDate = I18n.t('js.label_no_due_date');
+      getLabel = WorkPackageFieldService.getLabel.bind(null, EditableFieldsState.workPackage),
+      getTitle = function(labelName) {
+        return I18n.t('js.inplace.button_edit', {attribute: getLabel(labelName)});
+      };
   return {
     restrict: 'EA',
     replace: true,
@@ -59,18 +62,16 @@ module.exports = function(TimezoneService, ConfigurationService,
           divEnd = element.find('.inplace-edit--date-range-end-date-picker'),
           prevStartDate = '',
           prevEndDate = '',
-          setDate = function(div, input, date, noDate) {
+          setDate = function(div, input, date) {
             if(date) {
               div.datepicker('option', 'defaultDate', formattedDate(date));
               div.datepicker('option', 'setDate', formattedDate(date));
               input.val(customFormattedDate(date));
-              input.attr('title', customFormattedDate(date));
             } else {
               div.datepicker('option', 'defaultDate', null);
               div.datepicker('option', 'setDate', null);
               input.val('');
               input.change();
-              input.attr('title', noDate);
               date = null;
             }
           };
@@ -82,12 +83,12 @@ module.exports = function(TimezoneService, ConfigurationService,
       inputStart.attr({
         'placeholder': customDateFormat,
         'aria-label': customDateFormat,
-        'title': noStartDate
+        'title': getTitle('startDate')
       });
       inputEnd.attr({
         'placeholder': customDateFormat,
         'aria-label': customDateFormat,
-        'title': noEndDate
+        'title': getTitle('dueDate')
       });
 
       inputStart.on('change', function() {
@@ -96,7 +97,6 @@ module.exports = function(TimezoneService, ConfigurationService,
             scope.startDate = null;
           });
           inputStart.val('');
-          inputStart.attr('title', noStartDate);
           divEnd.datepicker('option', 'minDate', null);
           $timeout.cancel(startTimerId);
           return;
@@ -108,7 +108,6 @@ module.exports = function(TimezoneService, ConfigurationService,
 
           if(isValid){
             scope.startDate = formattedISODate(parseDate(date, customDateFormat));
-            inputStart.attr('title', customFormattedDate(date));
           }
         }, 1000);
       });
@@ -119,7 +118,6 @@ module.exports = function(TimezoneService, ConfigurationService,
             scope.endDate = null;
           });
           inputEnd.val('');
-          inputEnd.attr('title', noEndDate);
           divStart.datepicker('option', 'maxDate', null);
           $timeout.cancel(endTimerId);
           return;
@@ -131,7 +129,6 @@ module.exports = function(TimezoneService, ConfigurationService,
 
           if(isValid){
             scope.endDate = formattedISODate(parseDate(date, customDateFormat));
-            inputEnd.attr('title', customFormattedDate(date));
           }
         }, 1000);
       });
@@ -206,10 +203,10 @@ module.exports = function(TimezoneService, ConfigurationService,
         divEnd.datepicker('option', 'minDate', formattedDate(scope.startDate));
       }
 
-      setDate(divStart, inputStart, scope.startDate, noStartDate);
-      setDate(divEnd, inputEnd, scope.endDate, noEndDate);
+      setDate(divStart, inputStart, scope.startDate);
+      setDate(divEnd, inputEnd, scope.endDate);
       $timeout(function() {
-        inputStart.click();
+        inputStart.click().focus();
       });
 
       inputStart.on('click', function() {

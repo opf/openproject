@@ -62,13 +62,11 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
               div.datepicker('option', 'defaultDate', formattedDate(date));
               div.datepicker('option', 'setDate', formattedDate(date));
               inp.val(customFormattedDate(date));
-              inp.attr('title', customFormattedDate(date));
             } else {
               div.datepicker('option', 'defaultDate', null);
               div.datepicker('option', 'setDate', null);
               inp.val('');
               inp.change();
-              inp.attr('title', '');
               date = null;
             }
           };
@@ -79,11 +77,9 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
 
       input.attr({
         'placeholder': '-',
-        'aria-label': customDateFormat,
-        'title': customDateFormat
+        'aria-label': customDateFormat
       });
 
-      console.log(input);
       input.on('change', function() {
         if(input.val().trim() === '') {
           $timeout(function() {
@@ -144,7 +140,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
       setDate(datepickerContainer, input, scope.fieldController.writeValue);
 
       $timeout(function() {
-        input.click();
+        input.click().focus();
       });
 
       angular.element('.work-packages--details-content').on('click', function(e) {
