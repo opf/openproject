@@ -30,6 +30,17 @@ $inplace-edit--border-color: #ddd
 $inplace-edit--dark-background: #f8f8f8
 $inplace-edit--color--very-dark: #cacaca
 
+
+%inline-datepicker-container
+  display: none
+  z-index: 99999
+  right: 0
+  position: absolute
+
+%span-margin
+  padding-right: 5px
+  padding-left: 5px
+
 .inplace-edit
   @extend .form--field.-full-width
 
@@ -49,6 +60,13 @@ $inplace-edit--color--very-dark: #cacaca
 
   .inplace-edit--date
     margin: 0
+    position: relative
+    & > *
+      margin-bottom: 0
+    & > span
+      @extend %span-margin
+    & > .inplace-edit--date-picker
+      @extend %inline-datepicker-container
   .inplace-edit--date-range
     display: table
     position: relative
@@ -56,14 +74,10 @@ $inplace-edit--color--very-dark: #cacaca
       display: table-cell
       margin-bottom: 0
     & > span
-      padding-right: 5px
-      padding-left: 5px
+      @extend %span-margin
     & > .inplace-edit--date-range-start-date-picker,
     & > .inplace-edit--date-range-end-date-picker
-      display: none
-      z-index: 99999
-      right: 0
-      position: absolute
+      @extend %inline-datepicker-container
 
 .ui-datepicker-current,
 .ui-datepicker-close

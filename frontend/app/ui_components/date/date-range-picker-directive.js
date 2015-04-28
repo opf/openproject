@@ -59,27 +59,7 @@ module.exports = function(TimezoneService, ConfigurationService,
           divEnd = element.find('.inplace-edit--date-range-end-date-picker'),
           prevStartDate = '',
           prevEndDate = '',
-          addClearButton = function (inp) {
-            setTimeout(function() {
-              var buttonPane = div.find('.ui-datepicker-buttonpane');
-
-              if(buttonPane.find('.ui-datepicker-clear').length > 0) {
-                buttonPane.find('.ui-datepicker-clear').remove();
-              }
-
-              angular.element( '<button>', {
-                    text: 'Clear',
-                    click: function() {
-                      setDate(div, inp, null);
-                      inp.change();
-                      addClearButton(div, inp);
-                    }
-                })
-                .addClass('ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all')
-                .appendTo(buttonPane);
-            }, 100);
-          },
-          setDate = function(div, input, date) {
+          setDate = function(div, input, date, noDate) {
             if(date) {
               div.datepicker('option', 'defaultDate', formattedDate(date));
               div.datepicker('option', 'setDate', formattedDate(date));
@@ -117,7 +97,7 @@ module.exports = function(TimezoneService, ConfigurationService,
           });
           inputStart.val('');
           inputStart.attr('title', noStartDate);
-          inputEnd.datepicker('option', 'minDate', null);
+          divEnd.datepicker('option', 'minDate', null);
           $timeout.cancel(startTimerId);
           return;
         }
@@ -131,8 +111,6 @@ module.exports = function(TimezoneService, ConfigurationService,
             inputStart.attr('title', customFormattedDate(date));
           }
         }, 1000);
-      }).on('click', function() {
-        inputStart.datepicker('show');
       });
 
       inputEnd.on('change', function() {
@@ -142,7 +120,7 @@ module.exports = function(TimezoneService, ConfigurationService,
           });
           inputEnd.val('');
           inputEnd.attr('title', noEndDate);
-          inputStart.datepicker('option', 'maxDate', null);
+          divStart.datepicker('option', 'maxDate', null);
           $timeout.cancel(endTimerId);
           return;
         }
@@ -156,15 +134,12 @@ module.exports = function(TimezoneService, ConfigurationService,
             inputEnd.attr('title', customFormattedDate(date));
           }
         }, 1000);
-      }).on('click', function(){
-        inputEnd.datepicker('show');
       });
 
       divStart.datepicker({
         firstDay: ConfigurationService.startOfWeek(),
         showWeeks: true,
         changeMonth: true,
-        showButtonPanel: true,
         dateFormat: datepickerFormat,
         inline: true,
         alterOffset: function(offset) {
@@ -178,12 +153,6 @@ module.exports = function(TimezoneService, ConfigurationService,
           }
           return offset;
         },
-        beforeShow: function() {
-          addClearButton(inputStart);
-        },
-        onChangeMonthYear: function() {
-          addClearButton(inputStart);
-        },
         onSelect: function(selectedDate) {
           if(!selectedDate || selectedDate === '' || selectedDate === prevStartDate) {
             return;
@@ -194,6 +163,7 @@ module.exports = function(TimezoneService, ConfigurationService,
           });
           divEnd.datepicker('option', 'minDate', selectedDate ? selectedDate : null);
           divStart.hide();
+          inputStart.focus();
         }
       });
       divEnd.datepicker({
@@ -213,12 +183,6 @@ module.exports = function(TimezoneService, ConfigurationService,
           }
           return offset;
         },
-        beforeShow: function() {
-          addClearButton(inputEnd);
-        },
-        onChangeMonthYear: function() {
-          addClearButton(inputEnd);
-        },
         onSelect: function(selectedDate) {
           if(!selectedDate || selectedDate === '' || selectedDate === prevEndDate) {
             return;
@@ -229,20 +193,21 @@ module.exports = function(TimezoneService, ConfigurationService,
           });
           divStart.datepicker('option', 'maxDate', selectedDate ? selectedDate : null);
           divEnd.hide();
+          inputEnd.focus();
         }
       });
 
       if(scope.endDate) {
         prevEndDate = formattedDate(scope.endDate);
-        inputStart.datepicker('option', 'maxDate', formattedDate(scope.endDate));
+        divStart.datepicker('option', 'maxDate', formattedDate(scope.endDate));
       }
       if(scope.startDate) {
         prevStartDate = formattedDate(scope.startDate);
-        inputEnd.datepicker('option', 'minDate', formattedDate(scope.startDate));
+        divEnd.datepicker('option', 'minDate', formattedDate(scope.startDate));
       }
 
-      setDate(inputStart, scope.startDate);
-      setDate(inputEnd, scope.endDate);
+      setDate(divStart, inputStart, scope.startDate, noStartDate);
+      setDate(divEnd, inputEnd, scope.endDate, noEndDate);
       $timeout(function() {
         inputStart.click();
       });

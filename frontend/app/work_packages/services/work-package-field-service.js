@@ -93,6 +93,9 @@ module.exports = function(
 
   function getValue(workPackage, field) {
     if (field === 'date') {
+      if(workPackage.embedded.type.props.name === 'Milestone') {
+        return workPackage.props['startDate'];
+      }
       return {
         startDate: workPackage.props['startDate'],
         dueDate: workPackage.props['dueDate']
@@ -217,7 +220,11 @@ module.exports = function(
         inplaceType = 'text';
 
     if (field === 'date') {
-      fieldType = 'DateRange';
+      if(workPackage.embedded.type.props.name === 'Milestone') {
+        fieldType = 'Date';
+      } else {
+        fieldType = 'DateRange';
+      }
     } else {
       fieldType = schema.props[field].type;
     }
@@ -272,8 +279,13 @@ module.exports = function(
     var schema = getSchema(workPackage);
     var fieldType = null,
       displayStrategy = 'embedded';
+
     if (field === 'date') {
-      fieldType = 'DateRange';
+      if(workPackage.embedded.type.props.name === 'Milestone') {
+        fieldType = 'Date';
+      } else {
+        fieldType = 'DateRange';
+      }
     } else if (field === 'spentTime') {
       fieldType = 'SpentTime';
     }  else {
@@ -323,6 +335,9 @@ module.exports = function(
   function format(workPackage, field) {
     var schema = getSchema(workPackage);
     if (field === 'date') {
+      if(workPackage.embedded.type.props.name === 'Milestone') {
+        return workPackage.props.startDate;
+      }
       return {
         startDate: workPackage.props.startDate,
         dueDate: workPackage.props.dueDate,

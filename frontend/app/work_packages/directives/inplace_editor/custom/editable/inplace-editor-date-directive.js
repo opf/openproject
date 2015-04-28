@@ -54,47 +54,41 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
       scope.fieldController = fieldController;
       var timerId = 0,
           prevDate = '',
-          input = element,
-          addClearButton = function (inp) {
-            setTimeout(function() {
-              var buttonPane = angular.element('.ui-datepicker-buttonpane');
-
-              if(buttonPane.find('.ui-datepicker-clear').length > 0) {
-                buttonPane.find('.ui-datepicker-clear').remove();
-              }
-
-              angular.element( '<button>', {
-                    text: 'Clear',
-                    click: function() {
-                      inp.focus();
-                      setDate(inp, null);
-                    }
-                })
-                .addClass('ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all')
-                .appendTo(buttonPane);
-            }, 1);
-          },
-          setDate = function(inp, date) {
+          form = element.parents('.inplace-edit--form'),
+          input = element.find('.inplace-edit--date'),
+          datepickerContainer = element.find('.inplace-edit--date-picker'),
+          setDate = function(div, inp, date) {
             if(date) {
-              inp.datepicker('option', 'defaultDate', customFormattedDate(date));
-              inp.datepicker('option', 'setDate', customFormattedDate(date));
+              div.datepicker('option', 'defaultDate', formattedDate(date));
+              div.datepicker('option', 'setDate', formattedDate(date));
               inp.val(customFormattedDate(date));
-              inp.change();
+              inp.attr('title', customFormattedDate(date));
             } else {
-              inp.datepicker('option', 'defaultDate', null);
-              inp.datepicker('option', 'setDate', null);
+              div.datepicker('option', 'defaultDate', null);
+              div.datepicker('option', 'setDate', null);
               inp.val('');
               inp.change();
+              inp.attr('title', '');
               date = null;
             }
           };
 
-      input.attr('placeholder', '-');
+      scope.execute = function() {
+        form.scope().editPaneController.submit(false);
+      };
 
+      input.attr({
+        'placeholder': '-',
+        'aria-label': customDateFormat,
+        'title': customDateFormat
+      });
+
+      console.log(input);
       input.on('change', function() {
-        if(input.val().replace(/^\s+|\s+$/g, '') === '') {
+        if(input.val().trim() === '') {
           $timeout(function() {
             scope.fieldController.writeValue = null;
+            console.log(scope.fieldController.writeValue, 'time');
           });
           input.val('');
           $timeout.cancel(timerId);
@@ -109,9 +103,11 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
             scope.fieldController.writeValue = formattedISODate(parseDate(date, customDateFormat));
           }
         }, 1000);
+      }).on('click', function() {
+        datepickerContainer.show();
       });
 
-      input.datepicker({
+      datepickerContainer.datepicker({
         firstDay: ConfigurationService.startOfWeek(),
         showWeeks: true,
         changeMonth: true,
@@ -128,13 +124,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
           }
           return offset;
         },
-        beforeShow: function() {
-          addClearButton(input);
-        },
-        onChangeMonthYear: function() {
-          addClearButton(input);
-        },
-        onClose: function(selectedDate) {
+        onSelect: function(selectedDate) {
           if(!selectedDate || selectedDate === '' || selectedDate === prevDate) {
             return;
           }
@@ -142,6 +132,8 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
           $timeout(function() {
             scope.fieldController.writeValue = formattedISODate(prevDate);
           });
+          datepickerContainer.hide();
+          input.focus();
         }
       });
 
@@ -149,16 +141,18 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
         prevDate = formattedDate(scope.fieldController.writeValue);
       }
 
-      setDate(input, scope.fieldController.writeValue);
+      setDate(datepickerContainer, input, scope.fieldController.writeValue);
 
-      angular.element('.work-packages--details-content').scroll(function() {
-        input.datepicker('hide');
-        angular.element('#ui-datepicker-div').blur();
+      $timeout(function() {
+        input.click();
       });
 
-      angular.element(window).resize(function() {
-        input.datepicker('hide');
-        angular.element('#ui-datepicker-div').blur();
+      angular.element('.work-packages--details-content').on('click', function(e) {
+        var target = angular.element(e.target);
+        if(!target.is('.inplace-edit--date input') && 
+            target.parents('.inplace-edit--date .hasDatepicker').length <= 0) {
+          datepickerContainer.hide();
+        }
       });
     }
   };
