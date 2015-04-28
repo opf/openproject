@@ -130,6 +130,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageService',
     'WorkPackagesTableService',
     '$rootScope',
+    '$timeout',
     require('./dialogs/columns')
   ])
   .factory('exportModal', ['btfModal', function(btfModal) {
