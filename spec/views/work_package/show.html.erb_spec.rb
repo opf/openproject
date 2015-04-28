@@ -56,6 +56,6 @@ describe 'work_packages/show', :type => :view do
       render partial: 'work_packages/show_attributes', locals: { work_package: story }
     end
 
-    it { expect(rendered).to have_selector('.work_package.details .-story-points', text: story_points.to_s) }
+    it { expect(rendered).to have_selector('.work_package.details dd.-story-points', text: story_points.to_s) }
   end
 end

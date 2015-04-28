@@ -81,7 +81,7 @@ describe WorkPackagesController, :type => :controller do
 
       subject { response.body }
 
-      it { is_expected.to have_selector('.work_package.details .-story-points', text: story_points.to_s) }
+      it { is_expected.to have_selector('.work_package.details dd.-story-points', text: story_points.to_s) }
     end
   end
 
