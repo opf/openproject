@@ -64,8 +64,8 @@ module.exports = function(TimezoneService, ConfigurationService,
           prevEndDate = '',
           setDate = function(div, input, date) {
             if(date) {
-              div.datepicker('option', 'defaultDate', formattedDate(date));
-              div.datepicker('option', 'setDate', formattedDate(date));
+              div.datepicker('option', 'defaultDate', customFormattedDate(date));
+              div.datepicker('option', 'setDate', customFormattedDate(date));
               input.val(customFormattedDate(date));
             } else {
               div.datepicker('option', 'defaultDate', null);
@@ -138,6 +138,7 @@ module.exports = function(TimezoneService, ConfigurationService,
         showWeeks: true,
         changeMonth: true,
         dateFormat: datepickerFormat,
+        defaultDate: customFormattedDate(scope.startDate),
         inline: true,
         alterOffset: function(offset) {
           var wHeight = angular.element(window).height(),
@@ -168,6 +169,7 @@ module.exports = function(TimezoneService, ConfigurationService,
         showWeeks: true,
         changeMonth: true,
         dateFormat: datepickerFormat,
+        defaultDate: customFormattedDate(scope.endDate),
         inline: true,
         alterOffset: function(offset) {
           var wHeight = angular.element(window).height(),
@@ -196,11 +198,11 @@ module.exports = function(TimezoneService, ConfigurationService,
 
       if(scope.endDate) {
         prevEndDate = formattedDate(scope.endDate);
-        divStart.datepicker('option', 'maxDate', formattedDate(scope.endDate));
+        divStart.datepicker('option', 'maxDate', customFormattedDate(scope.endDate));
       }
       if(scope.startDate) {
         prevStartDate = formattedDate(scope.startDate);
-        divEnd.datepicker('option', 'minDate', formattedDate(scope.startDate));
+        divEnd.datepicker('option', 'minDate', customFormattedDate(scope.startDate));
       }
 
       setDate(divStart, inputStart, scope.startDate);
@@ -209,14 +211,14 @@ module.exports = function(TimezoneService, ConfigurationService,
         inputStart.click().focus();
       });
 
-      inputStart.on('click', function() {
+      inputStart.on('click focusin', function() {
         if(divStart.is(':hidden') || divEnd.is(':visible')) {
           divEnd.hide();
           divStart.show();
         }
       });
 
-      inputEnd.on('click', function() {
+      inputEnd.on('click focusin', function() {
         if(divEnd.is(':hidden') || divStart.is(':visible')) {
           divEnd.show();
           divStart.hide();
@@ -226,7 +228,8 @@ module.exports = function(TimezoneService, ConfigurationService,
       angular.element('.work-packages--details-content').on('click', function(e) {
         var target = angular.element(e.target);
         if(!target.is('.inplace-edit--date-range input') && 
-            target.parents('.inplace-edit--date-range .hasDatepicker').length <= 0) {
+            target.parents('.hasDatepicker').length <= 0 &&
+            target.parents('.ui-corner-all').length <= 0) {
           divStart.hide();
           divEnd.hide();
         }
