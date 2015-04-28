@@ -105,6 +105,14 @@ module.exports = function(
         }
       };
 
+      this.isActive = function() {
+        return $scope.fieldController.field === EditableFieldsState.activeField;
+      };
+
+      this.markActive = function() {
+        EditableFieldsState.activeField = $scope.fieldController.field;
+      };
+
       this.getPendingFormChanges = getPendingFormChanges;
 
       function getPendingFormChanges() {
@@ -143,6 +151,13 @@ module.exports = function(
           var inputElement = element.find('.focus-input');
           FocusHelper.focus(inputElement);
           inputElement.triggerHandler('keyup');
+          scope.editPaneController.markActive();
+          inputElement.off('focus.inplace').on('focus.inplace', function() {
+            // ♥♥♥ angular ♥♥♥
+            scope.$apply(function() {
+              scope.editPaneController.markActive();
+            });
+          });
         });
       };
 

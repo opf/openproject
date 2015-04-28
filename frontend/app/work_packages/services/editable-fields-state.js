@@ -30,6 +30,7 @@ module.exports = function() {
   return {
     workPackage: null,
     errors: null,
-    isBusy: false
+    isBusy: false,
+    activeField: null
   };
 };
