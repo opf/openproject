@@ -55,7 +55,7 @@ module OpenProject::XlsExport
 
           columns.each_with_index do |column, i|
             options = formatters[column].format_options column
-            sb.add_format_option_to_column i + 1, options
+            sb.add_format_option_to_column i, options
           end
 
           sb
