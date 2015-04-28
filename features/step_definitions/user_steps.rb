@@ -62,7 +62,7 @@ Given /^I save the user$/ do
 end
 
 Given /^I save the new user$/ do
-  find('input[name=commit]').click
+  click_button('Create', exact: true)
 end
 
 ##

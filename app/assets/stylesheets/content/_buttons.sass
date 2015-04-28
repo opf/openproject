@@ -26,23 +26,40 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-a.button,
-.button
+$button--font-color:                        #222222 !default
+$button--background-color:                  $gray-light !default
+$button--background-hover-color:            darken($button--background-color, 4.5%)  !default
+$button--border-color:                      darken($button--background-color, 10.5%) !default
+
+$button--active-font-color:                 darken($button--background-color, 24%) !default
+$button--active-background-color:           darken($button--background-color, 4%)  !default
+$button--active-border-color:               darken($button--background-color, 18%) !default
+
+$button--highlight-font-color:              white !default
+$button--highlight-background-color:        $primary-color !default
+$button--highlight-background-hover-color:  $primary-color-dark !default
+
+$button--success-font-color:                white !default
+$button--success-background-color:          $success-color !default
+$button--success-background-hover-color:    darken($success-color, 18%) !default
+
+$button--text-icon-spacing:                 0.65em !default
+
+%button--icon
+  display: inline-block
+  transition: scale 0.25s ease-out
+
+.button,
+a.button
   @extend %button
   @include button-size(medium)
   @include button-expand(false)
-  @include button-style(#eee, $button-bg-hover-color, $button-font-color, $button-style)
+  @include button-style($button--background-color, $button--background-hover-color, $button--font-color, $button-style)
+  border: 1px solid $button--border-color
 
-  transition: none
-
-  background: linear-gradient(to bottom, #fff 0%, #eee 74%, #eee 100%)
-  border: 1px solid #ccc
-
-  &:enabled
-    &:hover,
-    &:focus
-      border-color: #777
-      background: linear-gradient(to bottom, #fff 0%, #eee 40%, #ddd 100%)
+  transition-property: background, border
+  transition-duration: 0.25s
+  transition-timing-function: ease-out
 
   &:disabled
     @include button-disabled
@@ -50,48 +67,51 @@ a.button,
   &:hover
     text-decoration: none
 
+    .button--icon
+      transform: scale(1.15)
+
+  &.-with-icon
+    &::before
+      @extend %button--icon
+      padding: 0 $button--text-icon-spacing 0 0
+
+    &:hover::before
+      transform: scale(1.15)
 
   &.-highlight
-    @include button-style($button-highlight-background-color, $button-highlight-background-hover-color, $button-highlight-font-color, $button-style)
+    @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
+    border-color: $button--highlight-background-color
 
-    background: $button-highlight-background-gradient
-    border-color: $button-highlight-border-color
-
-    &:enabled
-      &:hover,
-      &:focus
-        border-color: $button-highlight-background-hover-color
-        background: $button-highlight-background-hover-color
+    &:hover, &:focus
+      border-color: $button--highlight-background-hover-color
 
 
-  &.-active,
-  &.active
-    @include button-style(#eee, #eee, $button-active-font-color, $button-style)
+  &.-success
+    @include button-style($button--success-background-color, $button--success-background-hover-color, $button--success-font-color, $button-style)
+    border-color: $button--success-background-color
 
-    border-color: #ccc
-    box-shadow: 0 2px 4px #ccc inset
+    &:hover, &:focus
+      border-color: $button--success-background-hover-color
 
-    &:enabled
-      &:hover,
-      &:focus
-        background: #eee
+
+  &.-active
+    @include button-style($button--active-background-color, $button--active-background-color, $button--active-font-color, $button-style)
+    border-color: $button--active-border-color
+    box-shadow: 0 0 3px $button--active-border-color inset
 
 
   &.-transparent
-    @include button-style($background: $button-font-color, $style: hollow)
+    @include button-style($background: $button--font-color, $style: hollow)
     border-color: transparent
 
-    &:enabled
-      &:hover,
-      &:focus
-        border-color: #ddd
+    &:hover, &:focus
+      border-color: $button--border-color
 
     &.-active
-      background: #eee
+      background: $button--active-background-color
 
-      &:enabled
-        &:hover, &:focus
-          border-color: #777
+      &:hover, &:focus
+        border-color: $button--active-border-color
 
   &.-tiny
     @include button-size(tiny)
@@ -107,3 +127,18 @@ a.button,
 
   &.-round
     border-radius: 2em
+
+.button--icon
+  @extend %button--icon
+
+.button--icon + .button--text,
+.button--text + .button--icon
+  margin: 0 0 0 $button--text-icon-spacing
+
+.button--dropdown-indicator
+  @include icon-common
+  padding: 0 0 0 3px
+  font-size: rem-calc(13px)
+
+  &:before
+    @extend .icon-pulldown-arrow1:before

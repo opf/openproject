@@ -60,7 +60,8 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <% if roles.any? && (principals.any? && principals.size <= 20) %>
-      <%= f.submit l(:button_add), :id => 'member-add-submit', class: 'button' %>
+      <%= f.button l(:button_add), :id => 'member-add-submit',
+            class: 'button -success -with-icon icon-yes' %>
     <% end %>
   </div>
 

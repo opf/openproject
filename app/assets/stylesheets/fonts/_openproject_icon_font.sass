@@ -63,14 +63,6 @@ $icon-font-file-formats: eot woff ttf
   padding: 0 7px 0 9px
   font-size: 12px
 
-@mixin icon-dropdown-rules
-  padding: 0 0 0 3px
-  font-size: 13px
-
-@mixin icon-button-rules
-  padding: 0 5px 0 0
-  font-size: 13px
-
 @mixin icon-dropdown-menu-rules
   padding: 0 8px 0 0
   font-size: 14px
@@ -127,20 +119,10 @@ $icon-font-file-formats: eot woff ttf
   content: attr(data-icon5)
   @include icon5-rules
 
-[data-icon-dropwdown]:before
-  @include icon-common
-  content: attr(data-icon-dropdown)
-  @include icon-dropdown-rules
-
 [data-icon-dropdown-menu]:before
   @include icon-common
   content: attr(data-icon-dropdown-menu)
   @include icon-dropdown-menu-rules
-
-[data-icon-button]:before
-  @include icon-common
-  content: attr(data-icon-button)
-  @include icon-button-rules
 
 [data-icon-table]:before
   @include icon-common
@@ -186,17 +168,9 @@ $icon-font-file-formats: eot woff ttf
 .icon6:before
   @include icon6-rules
 
-// used for arrow icons in buttons with dropdown
-.icon-dropdown:before
-  @include icon-dropdown-rules
-
 // used for icons dropdown-menus
 .icon-dropdown-menu:before
   @include icon-dropdown-menu-rules
-
-// used for icons in buttons
-.icon-buttons:before
-  @include icon-button-rules
 
 // used for icons in workpackage table
 .icon-table:before
@@ -210,10 +184,6 @@ $icon-font-file-formats: eot woff ttf
   @include icon-common
   @include icon-rules
   float: left
-
-.button.-highlight.icon-context:before
-  @include icon-context-padding
-  color: $button-highlight-font-color
 
 // used for icons in the content area, which appear in context (menus)
 .action-menu .icon:before,

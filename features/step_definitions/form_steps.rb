@@ -27,6 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-When /^I submit the form by the "(.+?)" button$/ do |button_name|
-  find("input[type=submit][value=#{button_name}]").click
+When /^I submit the form by the "(.+?)" button$/ do |button_text|
+  click_button(button_text, exact: true)
 end

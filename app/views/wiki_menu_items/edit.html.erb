@@ -70,7 +70,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </p>
   </fieldset>
   <p>
-    <%= submit_tag l(:button_save), :method => :post, class: 'button -highlight' %>
+    <%= styled_button_tag l(:button_save), :method => :post,
+          class: '-success -with-icon icon-yes' %>
     <%= link_to l(:button_cancel),
           {:controller => '/wiki', :action => 'show', :project_id => @project, :id => @page_title},
           class: 'button'%>

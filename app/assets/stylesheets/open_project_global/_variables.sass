@@ -26,6 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$gray:                    #EAEAEA
+$gray-dark:               #878787
+$gray-light:              #F8F8F8
+
 $light-gray: #ccc
 
 $body-background:         white !default
@@ -33,32 +37,35 @@ $body-font-family:        'Lato', 'Lucida Grande', Helvetica, Arial, sans-serif 
 $body-font-color:         #555 !default
 $base-line-height:        1.5 !default
 
-$primary-color:           #06799F !default
+$primary-color:           #3493B3 !default
+$primary-color-dark:      #06799F !default
 $secondary-color:         #bfbfbf !default
+
+$success-color:           #35c53f !default
 
 $h1-font-size:            rem-calc(28px)    !default
 $h1-font-color:           $body-font-color  !default
 $h2-font-size:            rem-calc(22px)    !default
-$h2-font-color:           #06799F           !default
+$h2-font-color:           $body-font-color  !default
 $h3-font-size:            rem-calc(19px)    !default
 $h3-font-color:           $body-font-color  !default
 $h4-font-size:            rem-calc(17px)    !default
 $h4-font-color:           $body-font-color  !default
 
 $header-height:                                 55px !default
-$header-bg-color:                               #3493B3 !default
-$header-border-bottom-color:                    #3493B3 !default
+$header-bg-color:                               $primary-color !default
+$header-border-bottom-color:                    $primary-color !default
 $header-border-bottom-width:                    0 !default
 $header-item-font-size:                         14px !default
 $header-item-font-color:                        #FFFFFF !default
 $header-item-font-hover-color:                  #FFFFFF !default
-$header-item-bg-hover-color:                    #06799F !default
+$header-item-bg-hover-color:                    $primary-color-dark !default
 $header-drop-down-bg-color:                     #FFFFFF !default
 $header-drop-down-border-color:                 #E0E0E0 !default
 $header-drop-down-item-font-color:              $body-font-color !default
 $header-drop-down-item-font-hover-color:        #FFFFFF !default
 
-$header-logo-bg-color:                          #06799F !default
+$header-logo-bg-color:                          $primary-color-dark !default
 $header-home-link-bg:                           image-url('logo_openproject_white_big.png') no-repeat 20px 0 !default
 
 $header-drop-down-projects-search-font-color:     $body-font-color !default
@@ -69,7 +76,7 @@ $header-search-field-bg-color:                  #FFFFFF !default
 $header-search-field-font-color:                #000000 !default
 $header-search-field-border:                    0 !default
 
-$footer-bg-color:                               #3493B3 !default
+$footer-bg-color:                               $primary-color !default
 $footer-font-color:                             #FFFFFF !default
 $footer-height:                                 55px !default
 $footer-content-height:                         55px !default
@@ -86,18 +93,18 @@ $main-menu-item-border-width:                   1px !default
 $main-menu-enable-toggle-highlighting:          false !default
 
 $main-menu-bg-color:                            #F8F8F8 !default
-$main-menu-bg-hover-selected-background:        url() no-repeat #06799F !default
+$main-menu-bg-hover-selected-background:        url() no-repeat $primary-color-dark !default
 $main-menu-font-color:                          #333333 !default
 $main-menu-selected-font-color:                 #FFFFFF !default
 $main-menu-font-size:                           15px !default
-$main-menu-selected-hover-indicator-color:      #06799F !default
+$main-menu-selected-hover-indicator-color:      $primary-color-dark !default
 $main-menu-selected-hover-indicator-width:      4px !default
 
 $main-menu-navigation-toggler-font-hover-color: #FFFFFF !default
 
 $main-menu-child-item-height:                   38px !default
 $main-menu-child-menu-bg-color:                 #FFFFFF !default
-$main-menu-child-bg-hover-selected-color:       #06799F !default
+$main-menu-child-bg-hover-selected-color:       $primary-color-dark !default
 $main-menu-child-menu-border-color:             #E7E7E7 !default
 $main-menu-child-font-color:                    #04232F !default
 $main-menu-child-font-size:                     13px !default
@@ -119,12 +126,12 @@ $breadcrumb-font-color:                         $body-font-color !default
 $content-default-border-color:                  #EAEAEA !default
 $content-default-border-width:                  1px !default
 
-$content-link-color:                            #06799F !default
-$content-link-hover-active-color:               #06799F !default
+$content-link-color:                            $primary-color-dark !default
+$content-link-hover-active-color:               $primary-color-dark !default
 $content-icon-link-color:                       #4b4b4b !default
-$content-icon-link-hover-color:                 #06799F !default
+$content-icon-link-hover-color:                 $primary-color-dark !default
 
-$content-icon-color:                            #06799F !default
+$content-icon-color:                            $primary-color-dark !default
 
 $content-form-bg-color:                         #F8F8F8 !default
 $content-form-border:                           1px solid $content-default-border-color !default
@@ -153,22 +160,9 @@ $content-calendar-inactive-day-bg-color:        #4B4B4B !default
 
 $context-menu-font-color:                       $main-menu-font-color !default
 
-$button-bg-hover-color:                         #06799F !default
-$button-font-color:                             #222222 !default
-$button-font-hover-color:                       #222222 !default
-$button-highlight-font-color:                   #FFFFFF !default
-$button-highlight-font-hover-color:             #FFFFFF !default
-$button-active-font-color:                      #BBBBBB !default
-$button-highlight-background-color:             #0B8DB8 !default
-$button-highlight-background-gradient:          linear-gradient(to bottom, #0B8DB8 0%, #06799F 100%) !default
-$button-highlight-background-hover-color:       #3493B3 !default
-$button-highlight-border-color:                 #06799F !default
-$button-highlight-border-hover-color:           #3493B3 !default
-$button-border-radius:                          2px !default
-
 $content-box-border:                            1px solid $content-default-border-color !default
 $content-box-bg-color:                          #FFFFFF !default
-$my-page-edit-box-border-color:                 #06799F !default
+$my-page-edit-box-border-color:                 $primary-color-dark !default
 
 $drop-down-unselected-font-color:               $main-menu-font-color !default
 $drop-down-selected-font-color:                 $main-menu-font-color !default

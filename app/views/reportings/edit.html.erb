@@ -66,8 +66,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
   </fieldset>
-  <hr>
-  <%= f.submit l(:button_save), :name => nil, class: 'button -highlight' %>
+  <hr class="form--separator">
+  <%= f.button l(:button_save), :name => nil, class: 'button -success -with-icon icon-yes' %>
   <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
 <% end %>
 
