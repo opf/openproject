@@ -54,7 +54,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
       this.state.isBusy = false;
       this.isEditing = false;
       this.updateWriteValue();
-      this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.field });
+      this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.getLabel() });
     }
   }
 
