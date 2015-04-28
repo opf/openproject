@@ -152,6 +152,12 @@ module.exports = function(
           FocusHelper.focus(inputElement);
           inputElement.triggerHandler('keyup');
           scope.editPaneController.markActive();
+          inputElement.off('focus.inplace').on('focus.inplace', function() {
+            // ♥♥♥ angular ♥♥♥
+            scope.$apply(function() {
+              scope.editPaneController.markActive();
+            });
+          });
         });
       };
 
