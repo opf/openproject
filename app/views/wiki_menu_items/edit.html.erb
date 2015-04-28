@@ -43,7 +43,8 @@ See doc/COPYRIGHT.rdoc for more details.
   </p>
   </br>
   <div style="clear: both;"></div>
-  <fieldset class="box" id="wiki_menu_item_setting"><legend><%=l(:menu_item_setting)%></legend>
+  <fieldset class="box form--fieldset" id="wiki_menu_item_setting">
+    <legend class="form--fieldset-legend"><%=l(:menu_item_setting)%></legend>
     <p>
       <%= form.radio_button 'setting', :no_item %>
       <%= form.label 'setting_no_item', l(:label_wiki_dont_show_menu_item) %>
