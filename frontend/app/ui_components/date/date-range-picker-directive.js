@@ -160,8 +160,8 @@ module.exports = function(TimezoneService, ConfigurationService,
             scope.startDate = formattedISODate(prevStartDate);
           });
           divEnd.datepicker('option', 'minDate', selectedDate ? selectedDate : null);
-          divStart.hide();
           inputStart.focus();
+          divStart.hide();
         }
       });
       divEnd.datepicker({
@@ -191,8 +191,8 @@ module.exports = function(TimezoneService, ConfigurationService,
             scope.endDate = formattedISODate(prevEndDate);
           });
           divStart.datepicker('option', 'maxDate', selectedDate ? selectedDate : null);
-          divEnd.hide();
           inputEnd.focus();
+          divEnd.hide();
         }
       });
 
@@ -229,7 +229,7 @@ module.exports = function(TimezoneService, ConfigurationService,
         var target = angular.element(e.target);
         if(!target.is('.inplace-edit--date-range input') && 
             target.parents('.hasDatepicker').length <= 0 &&
-            target.parents('.ui-corner-all').length <= 0) {
+            target.parents('.ui-datepicker-header').length <= 0) {
           divStart.hide();
           divEnd.hide();
         }

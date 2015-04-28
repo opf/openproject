@@ -49,7 +49,7 @@ module.exports = function($http,
       _.forEach(workPackage.form.pendingChanges, function(value, field) {
         if (WorkPackageFieldService.isSpecified(workPackage, field)) {
           if(field === 'date') {
-            if(workPackage.embedded.type.props.name === 'Milestone') {
+            if(WorkPackageFieldService.isMilestone(workPackage)) {
               data['startDate'] = data['dueDate'] = value ? value : null;
               return;  
             }

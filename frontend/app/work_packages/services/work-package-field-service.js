@@ -91,10 +91,14 @@ module.exports = function(
     return isEmpty(workPackage, field);
   }
 
+  function isMilestone(workPackage) {
+    return workPackage.form.embedded.payload.links.type.props.href === '/api/v3/types/4';
+  }
+
   function getValue(workPackage, field) {
     if (field === 'date') {
-      if(workPackage.embedded.type.props.name === 'Milestone') {
-        return workPackage.props['startDate'];
+      if(isMilestone(workPackage)) {
+        return workPackage.props['dueDate'];
       }
       return {
         startDate: workPackage.props['startDate'],
@@ -220,7 +224,7 @@ module.exports = function(
         inplaceType = 'text';
 
     if (field === 'date') {
-      if(workPackage.embedded.type.props.name === 'Milestone') {
+      if(isMilestone(workPackage)) {
         fieldType = 'Date';
       } else {
         fieldType = 'DateRange';
@@ -281,7 +285,7 @@ module.exports = function(
       displayStrategy = 'embedded';
 
     if (field === 'date') {
-      if(workPackage.embedded.type.props.name === 'Milestone') {
+      if(isMilestone(workPackage)) {
         fieldType = 'Date';
       } else {
         fieldType = 'DateRange';
@@ -335,8 +339,8 @@ module.exports = function(
   function format(workPackage, field) {
     var schema = getSchema(workPackage);
     if (field === 'date') {
-      if(workPackage.embedded.type.props.name === 'Milestone') {
-        return workPackage.props.startDate;
+      if(isMilestone(workPackage)) {
+        return workPackage.props['dueDate'];
       }
       return {
         startDate: workPackage.props.startDate,
@@ -388,6 +392,7 @@ module.exports = function(
     isSpecified: isSpecified,
     isEmpty: isEmpty,
     isHideable: isHideable,
+    isMilestone: isMilestone,
     isEmbedded: isEmbedded,
     isSavedAsLink: isSavedAsLink,
     getValue: getValue,

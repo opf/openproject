@@ -84,7 +84,6 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
         if(input.val().trim() === '') {
           $timeout(function() {
             scope.fieldController.writeValue = null;
-            console.log(scope.fieldController.writeValue, 'time');
           });
           input.val('');
           $timeout.cancel(timerId);
@@ -128,8 +127,8 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
           $timeout(function() {
             scope.fieldController.writeValue = formattedISODate(prevDate);
           });
-          datepickerContainer.hide();
           input.focus();
+          datepickerContainer.hide();
         }
       });
 
