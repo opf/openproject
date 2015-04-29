@@ -92,7 +92,13 @@ module.exports = function(
   }
 
   function isMilestone(workPackage) {
-    return workPackage.form.embedded.payload.links.type.props.href === '/api/v3/types/4';
+    var embedded = workPackage.form.embedded,
+        allowedValues = embedded.schema.props.type._embedded.allowedValues,
+        currentType = embedded.payload.links.type.props.href;
+    return _.some(allowedValues, function(allowedValue) {
+      return allowedValue._links.self.href === currentType && 
+             allowedValue.isMilestone;
+    });
   }
 
   function getValue(workPackage, field) {
