@@ -29,8 +29,7 @@
 .attributes-key-value
   @include grid-block
   @include grid-layout(2)
-  overflow: visible
-  overflow-y: visible
+  @include grid-visible-overflow
   font-size: 0.875rem
 
 .attributes-key-value--key
@@ -42,11 +41,9 @@
 
 .attributes-key-value--value-container
   @include grid-content(8)
-  overflow: visible
-  overflow-y: visible
+  @include grid-visible-overflow
   margin-bottom: 0.1875rem
   padding: 0
 
 .attributes-key-value--value
-  overflow: visible
-  overflow-y: visible
+  @include grid-visible-overflow

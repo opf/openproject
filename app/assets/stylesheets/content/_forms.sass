@@ -72,8 +72,7 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 
 .form--row
   @include grid-block
-  // cancel out foundations overflow-y: auto
-  overflow: visible
+  @include grid-visible-overflow
 
 // TODO: Customise with proper jQuery UI theme.
 .ui-datepicker-month,
@@ -207,10 +206,9 @@ fieldset.form--fieldset
 
 .form--field
   @include grid-block($wrap: true)
+  @include grid-visible-overflow
   align-items: center
   margin-bottom: 0.825rem
-  // cancel out foundations overflow-y: auto
-  overflow: visible
 
   &.-vertical,
   .form.-vertical &
@@ -240,9 +238,8 @@ fieldset.form--fieldset
 
 .form--label
   @include grid-content(2)
+  @include grid-visible-overflow
   @extend %label-style
-  overflow:     visible
-  overflow-y:   visible
   padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
@@ -268,10 +265,9 @@ fieldset.form--fieldset
 
 .form--field-container
   @include grid-content(10)
+  @include grid-visible-overflow
   padding: 0
   display: flex
-  // cancel out foundations overflow-y: auto
-  overflow-y: visible
   align-items: stretch
 
   &.-vertical
@@ -329,7 +325,7 @@ fieldset.form--fieldset
 
 .form--field-extra-actions
   @extend %form--field-after-container
-  overflow-y: visible
+  @include grid-visible-overflow
 
 %form--field-element-container
   display: block
@@ -439,9 +435,8 @@ fieldset.form--fieldset
 
 .form--grouping-label
   @include grid-content(2)
+  @include grid-visible-overflow
   @extend %label-style
-  overflow:     visible
-  overflow-y:   visible
   padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height
