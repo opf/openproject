@@ -30,8 +30,7 @@
   font-size:  0.875rem
 
 @mixin details-pane--form-field
-  overflow: visible
-  overflow-y: visible
+  @include grid-visible-overflow
   padding: 0
 
 .work-packages--details--title
@@ -125,4 +124,3 @@ $work-package-details--tab-height: 40px
     border-bottom: 2px solid $content-link-color
     a
       color: $content-link-color
-
