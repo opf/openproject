@@ -91,8 +91,21 @@ module.exports = function(
     return isEmpty(workPackage, field);
   }
 
+  function isMilestone(workPackage) {
+    var embedded = workPackage.form.embedded,
+        allowedValues = embedded.schema.props.type._embedded.allowedValues,
+        currentType = embedded.payload.links.type.props.href;
+    return _.some(allowedValues, function(allowedValue) {
+      return allowedValue._links.self.href === currentType && 
+             allowedValue.isMilestone;
+    });
+  }
+
   function getValue(workPackage, field) {
     if (field === 'date') {
+      if(isMilestone(workPackage)) {
+        return workPackage.props['dueDate'];
+      }
       return {
         startDate: workPackage.props['startDate'],
         dueDate: workPackage.props['dueDate']
@@ -217,7 +230,11 @@ module.exports = function(
         inplaceType = 'text';
 
     if (field === 'date') {
-      fieldType = 'DateRange';
+      if(isMilestone(workPackage)) {
+        fieldType = 'Date';
+      } else {
+        fieldType = 'DateRange';
+      }
     } else {
       fieldType = schema.props[field].type;
     }
@@ -272,8 +289,13 @@ module.exports = function(
     var schema = getSchema(workPackage);
     var fieldType = null,
       displayStrategy = 'embedded';
+
     if (field === 'date') {
-      fieldType = 'DateRange';
+      if(isMilestone(workPackage)) {
+        fieldType = 'Date';
+      } else {
+        fieldType = 'DateRange';
+      }
     } else if (field === 'spentTime') {
       fieldType = 'SpentTime';
     }  else {
@@ -323,6 +345,9 @@ module.exports = function(
   function format(workPackage, field) {
     var schema = getSchema(workPackage);
     if (field === 'date') {
+      if(isMilestone(workPackage)) {
+        return workPackage.props['dueDate'];
+      }
       return {
         startDate: workPackage.props.startDate,
         dueDate: workPackage.props.dueDate,
@@ -373,6 +398,7 @@ module.exports = function(
     isSpecified: isSpecified,
     isEmpty: isEmpty,
     isHideable: isHideable,
+    isMilestone: isMilestone,
     isEmbedded: isEmbedded,
     isSavedAsLink: isSavedAsLink,
     getValue: getValue,

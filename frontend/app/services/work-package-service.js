@@ -48,7 +48,11 @@ module.exports = function($http,
     if (workPackage.form) {
       _.forEach(workPackage.form.pendingChanges, function(value, field) {
         if (WorkPackageFieldService.isSpecified(workPackage, field)) {
-          if(field == 'date') {
+          if(field === 'date') {
+            if(WorkPackageFieldService.isMilestone(workPackage)) {
+              data['startDate'] = data['dueDate'] = value ? value : null;
+              return;  
+            }
             data['startDate'] = value['startDate'];
             data['dueDate'] = value['dueDate'];
             return;

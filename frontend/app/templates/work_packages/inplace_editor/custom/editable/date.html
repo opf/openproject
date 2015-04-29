@@ -1,1 +1,8 @@
-<input class="focus-input inplace-edit--date" type="text" />
+<div class="inplace-edit--date">
+	<input execute-on-enter="execute()" 
+				 ng-model="fieldController.writeValue"
+				 title="{{ fieldController.editTitle }}"
+				 class="inplace-edit--date" 
+				 type="text" />
+	<div class="inplace-edit--date-picker"></div>
+</div>
