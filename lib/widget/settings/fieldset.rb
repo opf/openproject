@@ -31,12 +31,13 @@ class Widget::Settings::Fieldset < Widget::Base
     hash = self.hash
     write(content_tag(:fieldset,
                       id: @id,
-                      class: 'header_collapsible collapsible collapsed') do
+                      class: 'form--fieldset -collapsible -collapsed') do
             html = content_tag(:legend,
                                show_at_id: hash.to_s,
                                icon: "#{@type}-legend-icon",
                                tooltip: "#{@type}-legend-tip",
                                onclick: 'toggleFieldset(this);',
+                               class: 'form--fieldset-legend',
                                id: hash.to_s) do # FIXME: onclick
               content_tag(:a, href: 'javascript:') do (l(@label) + maybe_with_help(instant_write: false)).html_safe end
             end
