@@ -43,7 +43,7 @@ env:
   global:
     - CI=true
     - RAILS_ENV=test
-    - BUNDLE_WITHOUT=rmagick:development
+    - BUNDLE_WITHOUT=development
   matrix:
     # Frontend
     - "TEST_SUITE=karma"
