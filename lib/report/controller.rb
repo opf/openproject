@@ -107,11 +107,7 @@ module Report::Controller
   # specified record or renders the updated table on XHR
   def update
     if params[:set_filter].to_i == 1 # save
-      old_query = @query
-      prepare_query
-      old_query.migrate(@query)
-      old_query.save!
-      @query = old_query
+      @query.save!
     end
     if request.xhr?
       table
