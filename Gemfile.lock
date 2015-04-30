@@ -509,7 +509,7 @@ DEPENDENCIES
   launchy (~> 2.3.0)
   letter_opener (~> 1.3.0)
   livingstyleguide (~> 1.2.2)
-  multi_json
+  multi_json (~> 1.11.0)
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.8.0)
   nokogiri (~> 1.6.6)
