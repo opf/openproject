@@ -122,6 +122,17 @@ class Report < ActiveRecord::Base
       child.try(:each, &block)
     end
 
+    def remove(element)
+      if element == self
+        parent.child = child if parent
+        child.parent = parent if child
+        child
+      else
+        child.try(:remove, element)
+        self
+      end
+    end
+
     def row?
       type == :row
     end
