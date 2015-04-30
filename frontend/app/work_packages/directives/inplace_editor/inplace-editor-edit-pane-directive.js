@@ -156,7 +156,7 @@ module.exports = function(
           form.pendingChanges = scope.editPaneController.getPendingFormChanges();
           form.pendingChanges['startDate'] = 
           form.pendingChanges['dueDate'] = 
-          fieldController.writeValue['dueDate'];
+          fieldController.writeValue ? fieldController.writeValue['dueDate'] : null;
         }
 
         if (strategy !== scope.strategy) {
