@@ -129,6 +129,10 @@ class Report < ActiveRecord::Base
     self
   end
 
+  def remove_filter(filter)
+    @chain = chain.remove(filter) if filter.filter?
+  end
+
   def filter(name, options = {})
     add_chain self.class::Filter, name, options
   end
