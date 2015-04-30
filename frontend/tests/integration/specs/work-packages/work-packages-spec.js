@@ -40,7 +40,7 @@ describe('OpenProject', function() {
   it('should show work packages title', function() {
     page.get();
 
-    expect(page.getSelectableTitle().getText()).to.eventually.equal('WORK PACKAGES');
+    expect(page.getSelectableTitle().getText()).to.eventually.equal('Work packages');
   });
 
   it('should show work packages', function() {
