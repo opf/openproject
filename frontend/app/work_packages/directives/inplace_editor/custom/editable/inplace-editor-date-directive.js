@@ -145,7 +145,8 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
       angular.element('.work-packages--details-content').on('click', function(e) {
         var target = angular.element(e.target);
         if(!target.is('.inplace-edit--date input') && 
-            target.parents('.inplace-edit--date .hasDatepicker').length <= 0) {
+            target.parents('.inplace-edit--date .hasDatepicker').length <= 0 &&
+            target.parents('.ui-datepicker-header').length <= 0) {
           datepickerContainer.hide();
         }
       });
