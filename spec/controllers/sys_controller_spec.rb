@@ -140,8 +140,11 @@ module OpenProjectRepositoryAuthenticationSpecs
     describe :repo_auth, 'for missing username' do
       before(:each) do
         @key = Setting.sys_api_key
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials('invalid_user', 'an invalid password')
-        post 'repo_auth',  key: @key, repository: 'any-repo', method: 'GET'
+        request.env['HTTP_AUTHORIZATION'] =
+          ActionController::HttpAuthentication::Basic
+          .encode_credentials('invalid_user', 'an invalid password')
+
+        post 'repo_auth', key: @key, repository: 'any-repo', method: 'GET'
       end
 
       context 'with authentication bypass' do
@@ -157,8 +160,10 @@ module OpenProjectRepositoryAuthenticationSpecs
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic
+        request.env['HTTP_AUTHORIZATION'] =
+          ActionController::HttpAuthentication::Basic
           .encode_credentials(valid_user.login, valid_user_password)
+
         post 'repo_auth',  key: @key, repository: @project.identifier, method: 'GET'
       end
 

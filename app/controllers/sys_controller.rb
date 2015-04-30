@@ -101,15 +101,19 @@ class SysController < ActionController::Base
   private
 
   def require_basic_auth
-    @authenticated_user =
+    @authenticated_user = get_authenticated_user
+    render_authorization_required unless @authenticated_user.present?
+  end
+
+  ##
+  # Returns the authenticated user from the auth dialog.
+  def get_authenticated_user
     if Setting.repository_authentication_bypass?
       find_user_from_basic_auth
     else
       # Authenticate the user internally
       perform_basic_auth
     end
-
-    render_authorization_required unless @authenticated_user.present?
   end
 
   ##

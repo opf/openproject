@@ -138,7 +138,6 @@ repository_authentication_caching_enabled:
 repository_authentication_bypass:
   default: 0
 commit_ref_keywords:
-commit_ref_keywords:
   default: 'refs,references,IssueID'
 commit_fix_keywords:
   default: 'fixes,closes'
