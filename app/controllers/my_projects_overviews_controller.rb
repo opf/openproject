@@ -37,7 +37,6 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def index
-    render
   end
 
   # User's page layout configuration
@@ -92,10 +91,9 @@ class MyProjectsOverviewsController < ApplicationController
   # Remove a block to user's page
   # params[:block] : id of the block to remove
   def remove_block
-    block = param_to_block(params[:block])
-    %w(top left right hidden).each {|f| overview.send(f).delete block }
+    @block = param_to_block(params[:block])
+    %w(top left right hidden).each {|f| overview.send(f).delete @block }
     overview.save!
-    render :nothing => true
   end
 
   # Change blocks order on user's page
@@ -115,7 +113,6 @@ class MyProjectsOverviewsController < ApplicationController
         overview.update_attribute(group, group_items)
       end
     end
-    render :nothing => true
   end
 
   def param_to_block(param)

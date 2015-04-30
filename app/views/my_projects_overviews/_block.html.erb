@@ -27,8 +27,8 @@ See doc/COPYRIGHT.md for more details.
       <%= link_to_remote l(:button_delete), {
             :confirm => l(:label_confirm_delete),
             :url => { :action => "remove_block", :block => block_name },
-            :complete => "removeBlock('block_#{block_name.dasherize}')" },
-          :class => "icon icon-delete"
+            :class => "icon icon-delete"
+          }
           %>
     </div>
   <% end %>
