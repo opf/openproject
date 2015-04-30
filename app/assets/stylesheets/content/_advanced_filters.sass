@@ -29,7 +29,7 @@
 .advanced-filters--container
   @extend %filters--container
   padding: rem-calc(10px)
-  max-height: 250px
+  max-height: 50vh
   overflow-y: auto
 
 @mixin advanced-filters--sizing()
@@ -61,6 +61,8 @@
 
 .advanced-filters--text-field
   @extend .form--text-field, .form--text-field.-small
+  &:required
+    box-shadow: none
 
 .advanced-filters--select
   @extend .form--select, .form--select.-small, .form--select.-narrow
@@ -94,15 +96,13 @@
 
 .advanced-filters--remove-filter
   @include grid-content($size: shrink)
+  @include grid-visible-overflow
   padding: 0
-  // cancel out foundations overflow-y: auto
-  overflow-y: visible
 
 .advanced-filters--remove-filter-icon
   @extend .icon-close, .icon4
   @include grid-content(1)
-  // cancel out foundations overflow-y: auto
-  overflow-y: visible
+  @include grid-visible-overflow
 
 .advanced-filters--add-filter
   @include advanced-filters--sizing

@@ -30,6 +30,12 @@ $inplace-edit--border-color: #ddd
 $inplace-edit--dark-background: #f8f8f8
 $inplace-edit--color--very-dark: #cacaca
 
+
+%inline-date-picker-container-position-absolute
+  display: none
+  z-index: 99999
+  position: absolute
+
 .inplace-edit
   @extend .form--field.-full-width
 
@@ -49,21 +55,27 @@ $inplace-edit--color--very-dark: #cacaca
 
   .inplace-edit--date
     margin: 0
+    position: relative
+    & > *
+      margin-bottom: 0
+    & > .inplace-edit--date-picker
+      @extend %inline-date-picker-container-position-absolute
+      left: 0
   .inplace-edit--date-range
     display: table
     position: relative
     & > *
       display: table-cell
       margin-bottom: 0
-    & > span
+    & > .delimeter
       padding-right: 5px
       padding-left: 5px
-    & > .inplace-edit--date-range-start-date-picker,
+    & > .inplace-edit--date-range-start-date-picker
+      @extend %inline-date-picker-container-position-absolute
+      left: 0
     & > .inplace-edit--date-range-end-date-picker
-      display: none
-      z-index: 99999
+      @extend %inline-date-picker-container-position-absolute
       right: 0
-      position: absolute
 
 .ui-datepicker-current,
 .ui-datepicker-close
@@ -122,7 +134,7 @@ $inplace-edit--color--very-dark: #cacaca
   background: rgb(254, 208, 209)
   border: 1px solid $inplace-edit--color--very-dark
   min-height: 42px
-  color: #444
+  color: $body-font-color
   .inplace-edit--errors--icon
     position: absolute
     top: 8px
@@ -245,4 +257,3 @@ a.inplace-editing--trigger-link,
     // which in textile is shown due to edit buttons on the right side
     &.edit-strategy-textarea
       margin-top: auto
-

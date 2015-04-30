@@ -80,18 +80,24 @@ module.exports = function(
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
       scope.displayPaneController.field = scope.fieldController.field;
-      var type = WorkPackageFieldService.getInplaceDisplayStrategy(
-        EditableFieldsState.workPackage,
-        fieldController.field
-      );
-      scope.templateUrl = '/templates/components/inplace_editor/display/' + type +'.html';
+      scope.editableFieldsState = EditableFieldsState;
+
+      scope.$watchCollection('editableFieldsState.workPackage.form', function() {
+        var strategy = WorkPackageFieldService.getInplaceDisplayStrategy(
+          EditableFieldsState.workPackage,
+          fieldController.field
+        );
+        if (strategy !== scope.displayStrategy) {
+          scope.displayStrategy = strategy;
+          scope.templateUrl = '/templates/components/inplace_editor/display/' + strategy +'.html';
+        }
+      });
 
       // TODO: extract this when more placeholders come
       if (fieldController.field === 'description') {
         scope.displayPaneController.placeholder = I18n.t('js.label_click_to_enter_description');
       }
 
-      scope.editableFieldsState = EditableFieldsState;
       scope.$watch('editableFieldsState.errors', function(errors) {
         if (errors) {
           if (errors[scope.fieldController.field]) {

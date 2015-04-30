@@ -101,15 +101,12 @@ li.select2-result.select2-visible-selected-parent
 
 .tl-toolbar
   float: right
-  margin: 10px
   .tl-toolbar-container
     float: left
     margin-left: 6px
-
-  // ensure that the following div is always placed below the floating
-  // toolbar
-  & + div
-    clear: both
+    input[type='range']
+      //removing element padding for IE11
+      padding: 0
 
 /* IE9 interprets this as baseline from inherited css, although it must
  *not be applied in anything that is not display:table-cell
