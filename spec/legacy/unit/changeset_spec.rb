@@ -216,22 +216,22 @@ describe Changeset, type: :model do
   end
 
   it 'should previous' do
-    changeset = Changeset.find_by_revision('3')
-    assert_equal Changeset.find_by_revision('2'), changeset.previous
+    changeset = Changeset.find_by(revision: '3')
+    assert_equal Changeset.find_by(revision: '2'), changeset.previous
   end
 
   it 'should previous nil' do
-    changeset = Changeset.find_by_revision('1')
+    changeset = Changeset.find_by(revision: '1')
     assert_nil changeset.previous
   end
 
   it 'should next' do
-    changeset = Changeset.find_by_revision('2')
-    assert_equal Changeset.find_by_revision('3'), changeset.next
+    changeset = Changeset.find_by(revision: '2')
+    assert_equal Changeset.find_by(revision: '3'), changeset.next
   end
 
   it 'should next nil' do
-    changeset = Changeset.find_by_revision('10')
+    changeset = Changeset.find_by(revision: '10')
     assert_nil changeset.next
   end
 
@@ -373,7 +373,7 @@ describe Changeset, type: :model do
   end
 
   it 'should identifier' do
-    c = Changeset.find_by_revision('1')
+    c = Changeset.find_by(revision: '1')
     assert_equal c.revision, c.identifier
   end
 end

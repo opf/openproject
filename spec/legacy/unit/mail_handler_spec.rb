@@ -48,13 +48,13 @@ describe MailHandler, type: :model do
     assert_equal Project.find(2), issue.project
     assert_equal issue.project.types.first, issue.type
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Status.find_by_name('Resolved'), issue.status
+    assert_equal User.find_by(login: 'jsmith'), issue.author
+    assert_equal Status.find_by(name: 'Resolved'), issue.status
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
-    assert_equal User.find_by_login('jsmith'), issue.assigned_to
-    assert_equal Version.find_by_name('alpha'), issue.fixed_version
+    assert_equal User.find_by(login: 'jsmith'), issue.assigned_to
+    assert_equal Version.find_by(name: 'alpha'), issue.fixed_version
     assert_equal 2.5, issue.estimated_hours
     assert_equal 30, issue.done_ratio
     assert_equal issue.id, issue.root_id
@@ -85,7 +85,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal Project.find(2), issue.project
-    assert_equal Status.find_by_name('Resolved'), issue.status
+    assert_equal Status.find_by(name: 'Resolved'), issue.status
   end
 
   it 'should add work package with attributes override' do
@@ -94,7 +94,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal User.find_by(login: 'jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'Feature request', issue.type.to_s
     assert_equal 'Stock management', issue.category.to_s
@@ -120,7 +120,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal User.find_by(login: 'jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'Feature request', issue.type.to_s
     assert_nil issue.category
@@ -134,7 +134,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal User.find_by(login: 'jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'Feature request', issue.type.to_s
     assert_equal 'Stock management', issue.category.to_s
@@ -148,7 +148,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'Ticket created by email with attachment', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal User.find_by(login: 'jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'This is  a new ticket with attachments', issue.description
     # Attachment properties
@@ -164,7 +164,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket with custom field values', issue.subject
-    assert_equal 'Value for a custom field', issue.custom_value_for(CustomField.find_by_name('Searchable field')).value
+    assert_equal 'Value for a custom field', issue.custom_value_for(CustomField.find_by(name: 'Searchable field')).value
     assert !issue.description.match(/^searchable field:/i)
   end
 
@@ -183,7 +183,7 @@ describe MailHandler, type: :model do
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
-    assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
+    assert issue.watched_by?(User.find_by(mail: 'dlopper@somenet.foo'))
     assert_equal 1, issue.watcher_user_ids.size
   end
 
@@ -252,13 +252,13 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package with localized attributes' do
-    User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
+    User.find_by(mail: 'jsmith@somenet.foo').update_attribute 'language', 'de'
     issue = submit_email('ticket_with_localized_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal User.find_by(login: 'jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'Feature request', issue.type.to_s
     assert_equal 'Stock management', issue.category.to_s
@@ -344,7 +344,7 @@ describe MailHandler, type: :model do
   it 'should add work package note' do
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
-    assert_equal User.find_by_login('jsmith'), journal.user
+    assert_equal User.find_by(login: 'jsmith'), journal.user
     assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
@@ -358,7 +358,7 @@ describe MailHandler, type: :model do
                            journable_id: issue.id
     journal = submit_email('ticket_reply_by_message_id.eml')
     assert journal.data.is_a?(Journal::WorkPackageJournal), "Email was a #{journal.data.class}"
-    assert_equal User.find_by_login('jsmith'), journal.user
+    assert_equal User.find_by(login: 'jsmith'), journal.user
     assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
@@ -370,15 +370,15 @@ describe MailHandler, type: :model do
     journal = submit_email('ticket_reply_with_status.eml')
     assert journal.data.is_a?(Journal::WorkPackageJournal)
     issue = WorkPackage.find(journal.journable.id)
-    assert_equal User.find_by_login('jsmith'), journal.user
+    assert_equal User.find_by(login: 'jsmith'), journal.user
     assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
-    assert_equal Status.find_by_name('Resolved'), issue.status
+    assert_equal Status.find_by(name: 'Resolved'), issue.status
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
-    assert_equal User.find_by_login('jsmith'), issue.assigned_to
-    assert_equal '52.6', issue.custom_value_for(CustomField.find_by_name('Float field')).value
+    assert_equal User.find_by(login: 'jsmith'), issue.assigned_to
+    assert_equal '52.6', issue.custom_value_for(CustomField.find_by(name: 'Float field')).value
     # keywords should be removed from the email body
     assert !journal.notes.match(/^Status:/i)
     assert !journal.notes.match(/^Start Date:/i)

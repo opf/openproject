@@ -78,7 +78,7 @@ describe Enumeration, type: :model do
   end
 
   it 'should change default' do
-    e = Enumeration.find_by_name(@default_enumeration.name)
+    e = Enumeration.find_by(name: @default_enumeration.name)
     e.update_attributes(name: 'Changed Enumeration', is_default: true)
     assert_equal e, Enumeration.default
   end

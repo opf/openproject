@@ -73,7 +73,7 @@ describe Repository::Git, type: :model do
     commit = @repository.changesets.reorder('committed_on ASC').first
     assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
     assert_equal 'jsmith <jsmith@foo.bar>', commit.committer
-    assert_equal User.find_by_login('jsmith'), commit.user
+    assert_equal User.find_by(login: 'jsmith'), commit.user
     # TODO: add a commit with commit time <> author time to the test repository
     assert_equal '2007-12-14 09:22:52'.to_time, commit.committed_on
     assert_equal '2007-12-14'.to_date, commit.commit_date
@@ -252,14 +252,14 @@ describe Repository::Git, type: :model do
   it 'should identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+    c = @repository.changesets.find_by(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal c.scmid, c.identifier
   end
 
   it 'should format identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+    c = @repository.changesets.find_by(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal '7234cb27', c.format_identifier
   end
 
@@ -282,7 +282,7 @@ describe Repository::Git, type: :model do
     if str_felix_hex.respond_to?(:force_encoding)
       str_felix_hex.force_encoding('UTF-8')
     end
-    c = @repository.changesets.find_by_revision('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
+    c = @repository.changesets.find_by(revision: 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
     assert_equal "#{str_felix_hex} <felix@fachschaften.org>", c.committer
   end
 

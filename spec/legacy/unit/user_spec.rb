@@ -124,8 +124,8 @@ describe User, type: :model do
 
   it 'should destroy' do
     User.find(2).destroy
-    assert_nil User.find_by_id(2)
-    assert Member.find_all_by_user_id(2).empty?
+    assert_nil User.find_by(id: 2)
+    assert Member.where(user_id: 2).empty?
   end
 
   it 'should validate login presence' do
@@ -392,7 +392,7 @@ describe User, type: :model do
   end
 
   it 'should find by mail should be case insensitive' do
-    u = User.find_by_mail('JSmith@somenet.foo')
+    u = User.find_by(mail: 'JSmith@somenet.foo')
     assert_not_nil u
     assert_equal 'jsmith@somenet.foo', u.mail
   end

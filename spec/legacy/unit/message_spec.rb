@@ -104,7 +104,7 @@ describe Message, type: :model do
     board.reload
 
     # Replies deleted
-    assert Message.find_all_by_parent_id(1).empty?
+    assert Message.where(parent_id: 1).empty?
     # Checks counters
     assert_equal topics_count - 1, board.topics_count
     assert_equal messages_count - 3, board.messages_count

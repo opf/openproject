@@ -129,7 +129,7 @@ describe WatchersController, type: :controller do
   it 'remove watcher' do
     session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
-      xhr :delete, :destroy, id: Watcher.find_by_user_id_and_watchable_id(3, 2).id
+      xhr :delete, :destroy, id: Watcher.find_by(user_id: 3, watchable_id: 2).id
       assert_response :success
       assert_select_rjs :replace_html, 'watchers'
     end

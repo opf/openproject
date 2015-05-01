@@ -64,7 +64,7 @@ describe TimelogController, type: :controller do
 
   it 'should get edit with an existing time entry with inactive activity' do
     te = TimeEntry.find(1)
-    te.activity = TimeEntryActivity.find_by_name('Inactive Activity')
+    te.activity = TimeEntryActivity.find_by(name: 'Inactive Activity')
     te.save!
 
     session[:user_id] = 1
@@ -89,7 +89,7 @@ describe TimelogController, type: :controller do
     assert_redirected_to action: 'index', project_id: 'ecookbook'
 
     i = WorkPackage.find(1)
-    t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
+    t = TimeEntry.find_by(comments: 'Some work on TimelogControllerTest')
     assert_not_nil t
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
@@ -111,7 +111,7 @@ describe TimelogController, type: :controller do
                                 hours: '7.3' }
     assert_redirected_to action: 'index', project_id: 'ecookbook'
 
-    t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
+    t = TimeEntry.find_by(comments: 'Some work on TimelogControllerTest')
     assert_not_nil t
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
@@ -140,7 +140,7 @@ describe TimelogController, type: :controller do
     delete :destroy, id: 1
     assert_redirected_to action: 'index', project_id: 'ecookbook'
     assert_equal I18n.t(:notice_successful_delete), flash[:notice]
-    assert_nil TimeEntry.find_by_id(1)
+    assert_nil TimeEntry.find_by(id: 1)
   end
 
   it 'should destroy should fail' do
@@ -154,7 +154,7 @@ describe TimelogController, type: :controller do
     delete :destroy, id: 1
     assert_redirected_to action: 'index', project_id: 'ecookbook'
     assert_equal I18n.t(:notice_unable_delete_time_entry), flash[:error]
-    assert_not_nil TimeEntry.find_by_id(1)
+    assert_not_nil TimeEntry.find_by(id: 1)
 
     # remove the simulation
     TimeEntry._destroy_callbacks.reject! { |callback| callback.filter == :stop_callback_chain }

@@ -570,7 +570,7 @@ describe Project, type: :model do
     assert_equal [1, 2, 3], parent.version_ids.sort
     assert_equal [4], child.version_ids
     assert_equal [6], private_child.version_ids
-    assert_equal [7], Version.find_all_by_sharing('system').map(&:id)
+    assert_equal [7], Version.where(sharing: 'system').map(&:id)
 
     assert_equal 6, parent.shared_versions.size
     parent.shared_versions.each do |version|
@@ -724,7 +724,7 @@ describe Project, type: :model do
 
   specify 'activities should not include active System activities if the project has an override that is inactive' do
     project = Project.find(1)
-    system_activity = TimeEntryActivity.find_by_name('Design')
+    system_activity = TimeEntryActivity.find_by(name: 'Design')
     assert system_activity.active?
     overridden_activity = TimeEntryActivity.generate!(project: project, parent: system_activity, active: false)
     assert overridden_activity.save!
@@ -760,7 +760,7 @@ describe Project, type: :model do
     end
 
     it 'should copy work units' do
-      @source_project.work_packages << WorkPackage.generate!(status: Status.find_by_name('Closed'),
+      @source_project.work_packages << WorkPackage.generate!(status: Status.find_by(name: 'Closed'),
                                                              subject: 'copy issue status',
                                                              type_id: 1,
                                                              assigned_to_id: 2,
@@ -820,8 +820,8 @@ describe Project, type: :model do
 
       assert @project.copy(@source_project)
       assert_equal @source_project.work_packages.count, @project.work_packages.count
-      copied_issue = @project.work_packages.find_by_subject('Issue on project 2') # Was #4
-      copied_second_issue = @project.work_packages.find_by_subject('copy issue relation')
+      copied_issue = @project.work_packages.find_by(subject: 'Issue on project 2') # Was #4
+      copied_second_issue = @project.work_packages.find_by(subject: 'copy issue relation')
 
       # First issue with a relation on project
       assert_equal 1, copied_issue.relations.size, 'Relation not copied'
@@ -863,12 +863,12 @@ describe Project, type: :model do
                                role_ids: [2] }
       end).save!
 
-      member = Member.find_by_user_id_and_project_id(user.id, @source_project.id)
+      member = Member.find_by(user_id: user.id, project_id: @source_project.id)
       # additional role
       member.role_ids = [1]
 
       assert @project.copy(@source_project)
-      member = Member.find_by_user_id_and_project_id(user.id, @project.id)
+      member = Member.find_by(user_id: user.id, project_id: @project.id)
       assert_not_nil member
       assert_equal [1, 2], member.role_ids.sort
     end
@@ -1057,18 +1057,18 @@ describe Project, type: :model do
 
       it 'should return 100 if the version has only closed issues' do
         v1 = Version.generate!(project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v1)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by(name: 'Closed'), fixed_version: v1)
         v2 = Version.generate!(project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v2)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by(name: 'Closed'), fixed_version: v2)
 
         assert_equal 100, @project.completed_percent
       end
 
       it 'should return the averaged completed percent of the versions (not weighted)' do
         v1 = Version.generate!(project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v1)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by(name: 'New'), estimated_hours: 10, done_ratio: 50, fixed_version: v1)
         v2 = Version.generate!(project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v2)
+        FactoryGirl.create(:work_package, project: @project, status: Status.find_by(name: 'New'), estimated_hours: 10, done_ratio: 50, fixed_version: v2)
 
         assert_equal 50, @project.completed_percent
       end

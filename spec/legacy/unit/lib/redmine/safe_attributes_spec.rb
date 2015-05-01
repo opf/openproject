@@ -55,7 +55,7 @@ describe Redmine::SafeAttributes do
   end
 
   before do
-    @admin = User.find_by_login('admin') || FactoryGirl.create(:admin)
+    @admin = User.find_by(login: 'admin') || FactoryGirl.create(:admin)
     @anonymous = User.anonymous || FactoryGirl.create(:anonymous)
   end
 

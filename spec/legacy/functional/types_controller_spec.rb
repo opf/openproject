@@ -54,7 +54,7 @@ describe TypesController, type: :controller do
   it 'should post create' do
     post :create, type: { name: 'New type', project_ids: ['1', '', ''], custom_field_ids: ['1', '6', ''] }
     assert_redirected_to action: 'index'
-    type = ::Type.find_by_name('New type')
+    type = ::Type.find_by(name: 'New type')
     assert_equal [1], type.project_ids.sort
     assert_equal [1, 6], type.custom_field_ids
     assert_equal 0, type.workflows.count
@@ -63,7 +63,7 @@ describe TypesController, type: :controller do
   it 'should post create with workflow copy' do
     post :create, type: { name: 'New type' }, copy_workflow_from: 1
     assert_redirected_to action: 'index'
-    type = ::Type.find_by_name('New type')
+    type = ::Type.find_by(name: 'New type')
     assert_equal 0, type.projects.count
     assert_equal ::Type.find(1).workflows.count, type.workflows.count
   end
@@ -103,7 +103,7 @@ describe TypesController, type: :controller do
   end
 
   it 'should move lower' do
-    type = ::Type.find_by_position(1)
+    type = ::Type.find_by(position: 1)
     post :move, id: 1, type: { move_to: 'lower' }
     assert_equal 2, type.reload.position
   end

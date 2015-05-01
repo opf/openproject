@@ -81,7 +81,7 @@ describe CustomFieldsController, type: :controller do
                                     type_ids: ['1', ''] }
     end
     assert_redirected_to '/custom_fields?tab=WorkPackageCustomField'
-    field = WorkPackageCustomField.find_by_name('test_post_new_list')
+    field = WorkPackageCustomField.find_by(name: 'test_post_new_list')
     assert_not_nil field
     assert_equal ['0.1', '0.2'], field.possible_values
     assert_equal 1, field.types.size

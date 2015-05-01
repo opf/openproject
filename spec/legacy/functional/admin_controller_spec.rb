@@ -77,7 +77,7 @@ describe AdminController, type: :controller do
     post :default_configuration, lang: 'de'
     assert_response :redirect
     assert_nil flash[:error]
-    assert Status.find_by_name('neu')
+    assert Status.find_by(name: 'neu')
   end
 
   it 'should test email' do
