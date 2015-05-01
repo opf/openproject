@@ -162,7 +162,7 @@ describe VersionsController, type: :controller do
         version = Version.find_by_name('test_add_version_from_issue_form')
 
         expect(response.body).to include(
-          "option value=\\\"#{version.id}\\\" selected=\\\"selected\\\""
+          "option selected=\\\"selected\\\" value=\\\"#{version.id}\\\""
         )
       end
 
