@@ -203,8 +203,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                             id.sub(/\_id$/, "_#{field}")
                           end
     label_options[:lang] = options[:lang]
+    label_options.reject! { |_k, v| v.nil? }
 
-    @template.label(@object_name, field.to_s, text.html_safe, label_options)
+    @template.label(@object_name, field, text.html_safe, label_options)
   end
 
   def element_id(translation_form)
