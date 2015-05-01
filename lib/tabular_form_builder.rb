@@ -106,9 +106,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   attr_reader :template
 
-  TEXT_LIKE_FIELDS = [
-    'number_field', 'password_field', 'url_field', 'telephone_field', 'email_field'
-  ].freeze
+  TEXT_LIKE_FIELDS = %i(
+    number_field password_field url_field telephone_field email_field
+  ).freeze
 
   def container_wrap_field(field_html, selector, options = {})
     ret = content_tag(:span, field_html, class: field_container_css_class(selector, options))
@@ -156,7 +156,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     classes = if TEXT_LIKE_FIELDS.include?(selector)
                 'form--text-field-container'
               else
-                "form--#{selector.tr('_', '-')}-container"
+                "form--#{selector.to_s.tr('_', '-')}-container"
               end
 
     classes << ' ' + options.fetch(:container_class, '')
@@ -166,9 +166,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def field_css_class(selector)
     if TEXT_LIKE_FIELDS.include?(selector)
-      "form--text-field -#{selector.gsub(/_field$/, '')}"
+      "form--text-field -#{selector.to_s.gsub(/_field$/, '')}"
     else
-      "form--#{selector.tr('_', '-')}"
+      "form--#{selector.to_s.tr('_', '-')}"
     end
   end
 
@@ -182,7 +182,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
            elsif options[:label]
              options[:label]
            elsif @object.is_a?(ActiveRecord::Base)
-             @object.class.human_attribute_name(field.to_sym)
+             @object.class.human_attribute_name(field)
            else
              l(field)
            end
