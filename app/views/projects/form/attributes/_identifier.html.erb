@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,20 +27,31 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<p>
-  <%= form.text_field :identifier, :required => true, :size => 60, :disabled => project.identifier_frozen? %>
-  <% unless project.identifier_frozen? %>
+<%
+  project = form.object
+  id = project.identifier
+  id_max_length = Project::IDENTIFIER_MAX_LENGTH
+  id_locked = project.identifier_frozen?
+%>
+
+<div class="form--field -required">
+  <%= form.text_field :identifier,
+                      disabled: id_locked %>
+  <% unless id_locked %>
+
     <script type="text/javascript" charset="utf-8">
-      projectIdentifierMaxLength = <%= Project::IDENTIFIER_MAX_LENGTH %>;
-      projectIdentifierDefault = '<%= project.identifier %>';
-      projectIdentifierLocked = <%= !project.identifier.blank? && params[:action] != "create" %>;
+      projectIdentifierMaxLength = <%= id_max_length %>;
+      projectIdentifierDefault = '<%= id %>';
+      projectIdentifierLocked = <%= id_locked %>;
       observeProjectIdentifier();
       observeProjectName();
     </script>
-    <br />
-    <em>
-      <%= l(:text_length_between, :min => 1, :max => Project::IDENTIFIER_MAX_LENGTH) %>
+
+    <div class="form--field-instructions">
+      <%= l(:text_length_between, min: 1,
+                                  max: Project::IDENTIFIER_MAX_LENGTH) %>
       <%= l(:text_project_identifier_info).html_safe %>
-    </em>
+    </div>
+
   <% end %>
-</p>
+</div>

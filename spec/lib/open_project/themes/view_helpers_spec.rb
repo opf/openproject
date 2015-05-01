@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +34,8 @@ module OpenProject
       let(:helpers) { ApplicationController.helpers }
 
       it "is mixed into application controller's helper chain" do
-        expect { helpers.current_theme }.to_not raise_error
-        expect { helpers.image_tag('example.png') }.to_not raise_error
+        expect { helpers.current_theme }.not_to raise_error
+        expect { helpers.image_tag('example.png') }.not_to raise_error
       end
 
       describe '#current_theme' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,8 @@ require 'spec_helper'
 describe EnumerationsController, type: :controller do
   before { allow(controller).to receive(:require_admin).and_return(true) }
 
-  describe :destroy do
-    describe :priority do
+  describe '#destroy' do
+    describe '#priority' do
       let(:enum_to_delete) { FactoryGirl.create(:priority_normal) }
 
       shared_examples_for 'successful delete' do

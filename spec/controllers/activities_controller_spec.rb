@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -120,11 +120,11 @@ describe ActivitiesController, type: :controller do
       before { get :index, params, session_values }
     end
 
-    describe :atom_feed do
+    describe '#atom_feed' do
       let(:user) { FactoryGirl.create(:user) }
       let(:project) { FactoryGirl.create(:project) }
 
-      context :work_package do
+      context 'work_package' do
         let!(:wp_1) {
           FactoryGirl.create(:work_package,
                              project: project,
@@ -163,7 +163,7 @@ describe ActivitiesController, type: :controller do
         end
       end
 
-      context :boards do
+      context 'boards' do
         let(:board) {
           FactoryGirl.create(:board,
                              project: project)

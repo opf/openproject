@@ -93,7 +93,9 @@ See doc/COPYRIGHT.rdoc for more details.
                          { name: l(:label_keyboard_shortcut_go_calendar), shortcut: 'g c' },
                          { name: l(:label_keyboard_shortcut_go_news), shortcut: 'g n' },
                          { name: l(:label_keyboard_shortcut_go_timelines), shortcut: 'g t' },
-                         { name: l(:label_keyboard_shortcut_new_work_package), shortcut: 'n w p', accesskey: :new_work_package } ] %>
+                         { name: l(:label_keyboard_shortcut_new_work_package), shortcut: 'n w p', accesskey: :new_work_package },
+                         { name: l(:label_keyboard_shortcut_details_package), shortcut: 'd w p', accesskey: :details } ] %>
+
 <%= render partial: 'help/keyboard_shortcut_table', locals: { shortcuts: project_shortcuts } %>
 
 <h2><%= l(:label_keyboard_shortcut_some_pages_only) %></h2>

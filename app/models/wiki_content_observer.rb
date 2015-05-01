@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ class WikiContentObserver < ActiveRecord::Observer
       recipients = wiki_content.recipients + wiki_content.page.wiki.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
-        UserMailer.wiki_content_added(user, wiki_content).deliver
+        UserMailer.wiki_content_added(user, wiki_content, User.current).deliver
       end
     end
   end
@@ -43,7 +43,7 @@ class WikiContentObserver < ActiveRecord::Observer
       recipients = wiki_content.recipients + wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
-        UserMailer.wiki_content_updated(user, wiki_content).deliver
+        UserMailer.wiki_content_updated(user, wiki_content, User.current).deliver
       end
     end
   end

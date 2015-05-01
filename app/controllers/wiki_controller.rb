@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -129,6 +129,11 @@ class WikiController < ApplicationController
 
   # display a page (in editing mode if it doesn't exist)
   def show
+    # TODO FIXME OMG! this is the ugliest hack I ever performed
+    # We need to hide the clearfix in the wiki to avoid additional spacing in the wiki
+    # THIS HACK NEEDS TO BE REPLACED BY AN ENGINEERS SOLUTION!
+    @no_clearfix = true
+
     page_title = params[:id]
     @page = @wiki.find_or_new_page(page_title)
     if @page.new_record?
@@ -218,7 +223,7 @@ class WikiController < ApplicationController
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.pretty_title
-    if request.put? && @page.update_attributes(permitted_params.wiki_page)
+    if request.put? && @page.update_attributes(permitted_params.wiki_page_rename)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
     end

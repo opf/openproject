@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ describe PaginationHelper, type: :helper do
     paginator
   end
 
-  describe :pagination_links_full do
+  describe '#pagination_links_full' do
     let(:per_page) { 10 }
     let(:total_entries) { 55 }
     let(:offset) { 1 }
@@ -151,7 +151,7 @@ describe PaginationHelper, type: :helper do
     end
   end
 
-  describe :page_param do
+  describe '#page_param' do
     it 'should return page if provided and sensible' do
       page = 2
 
@@ -197,7 +197,7 @@ describe PaginationHelper, type: :helper do
     end
   end
 
-  describe :per_page_param do
+  describe '#per_page_param' do
     it 'should return per_page if provided and one of the values stored in the settings' do
       with_settings per_page_options: '1,2,3' do
         per_page = 2

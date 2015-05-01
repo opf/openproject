@@ -1,0 +1,96 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+enumerations_004:
+  name: Low
+  id: 4
+  type: IssuePriority
+  active: true
+  position: 1
+enumerations_005:
+  name: Normal
+  id: 5
+  type: IssuePriority
+  is_default: true
+  active: true
+  position: 2
+enumerations_006:
+  name: High
+  id: 6
+  type: IssuePriority
+  active: true
+  position: 3
+enumerations_007:
+  name: Urgent
+  id: 7
+  type: IssuePriority
+  active: true
+  position: 4
+enumerations_008:
+  name: Immediate
+  id: 8
+  type: IssuePriority
+  active: true
+  position: 5
+enumerations_009:
+  name: Design
+  id: 9
+  type: TimeEntryActivity
+  position: 1
+  active: true
+enumerations_010:
+  name: Development
+  id: 10
+  type: TimeEntryActivity
+  position: 2
+  is_default: true
+  active: true
+enumerations_011:
+  name: QA
+  id: 11
+  type: TimeEntryActivity
+  position: 3
+  active: true
+enumerations_012:
+  name: Default Enumeration
+  id: 12
+  type: Enumeration
+  is_default: true
+  active: true
+enumerations_013:
+  name: Another Enumeration
+  id: 13
+  type: Enumeration
+  active: true
+enumerations_014:
+  name: Inactive Activity
+  id: 14
+  type: TimeEntryActivity
+  position: 4
+  active: false

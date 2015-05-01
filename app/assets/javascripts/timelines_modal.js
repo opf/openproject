@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,10 @@
 ModalHelper.prototype.create = function(projectId) {
   var modalHelper = this;
   var url = modalHelper.options.url_prefix +
-                    modalHelper.options.project_prefix +
-                    "/" +
-                    projectId +
-                    '/work_packages/new';
+            modalHelper.options.project_prefix +
+            "/" +
+            projectId +
+            '/work_packages/new';
 
   //create the modal by using the html the url gives us.
   modalHelper.createModal(url);

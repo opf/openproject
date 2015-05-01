@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,9 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @caption = options[:caption]
     @html_options = options[:html] || {}
     # Adds a unique class to each menu item based on its name
-    @html_options[:class] = [@html_options[:class], @name.to_s.dasherize, 'ellipsis'].compact.join(' ')
+    @html_options[:class] = [
+      @html_options[:class], "#{@name.to_s.dasherize}-menu-item", 'ellipsis'
+    ].compact.join(' ')
     @parent = options[:parent]
     @child_menus = options[:children]
     @last = options[:last] || false

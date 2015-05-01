@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'work_packages/show', type: :view do
   let(:work_package) { FactoryGirl.create(:work_package, description: '') }
   let(:attachment)   {
-    FactoryGirl.create(:attachment,
+    FactoryGirl.create(:attached_picture,
                        author: work_package.author,
                        container: work_package,
                        filename: 'foo.jpg')
@@ -42,7 +42,8 @@ describe 'work_packages/show', type: :view do
     work_package.attachments << attachment
     work_package.save
     render 'history', work_package: work_package, journals: work_package.journals
-    expect(rendered).to have_selector "img[src='/attachments/#{attachment.id}/download']"
+    expect(rendered)
+      .to have_selector "img[src='/attachments/#{attachment.id}/download']"
   end
 
   context 'watchers list is sorted alphabeticaly' do

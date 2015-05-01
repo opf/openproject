@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -143,10 +143,10 @@ describe WorkPackagesController, type: :controller do
 
         # Note: Stubs for methods used to build up the json query results.
         # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
-        query.stub_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
-        query.stub_chain(:results, :work_package_count_by_group).and_return([])
-        query.stub_chain(:results, :column_total_sums).and_return([])
-        query.stub_chain(:results, :column_group_sums).and_return([])
+        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
+        allow(query).to receive_message_chain(:results, :work_package_count_by_group).and_return([])
+        allow(query).to receive_message_chain(:results, :column_total_sums).and_return([])
+        allow(query).to receive_message_chain(:results, :column_group_sums).and_return([])
         allow(query).to receive(:as_json).and_return('')
       end
 
@@ -191,12 +191,13 @@ describe WorkPackagesController, type: :controller do
           before do
             mock_csv = double('csv export')
 
-            expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, project)
-              .and_return(mock_csv)
+            expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, query)
+                                                          .and_return(mock_csv)
 
             expect(controller).to receive(:send_data).with(mock_csv,
                                                            type: 'text/csv; charset=utf-8; header=present',
-                                                           filename: 'export.csv') do |*_args|
+                                                           filename: "#{query.name}.csv") do |_|
+
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
               controller.render text: 'success'
@@ -293,7 +294,7 @@ describe WorkPackagesController, type: :controller do
 
       expect {
         get :index, format: 'csv'
-      }.to_not raise_error
+      }.not_to raise_error
 
       data = CSV.parse(response.body)
 
@@ -586,7 +587,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :work_package do
+  describe '#work_package' do
     describe 'when providing an id (wanting to see an existing wp)' do
       describe 'when beeing allowed to see the work_package' do
         become_member_with_view_planning_element_permissions
@@ -672,7 +673,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :project do
+  describe '#project' do
     it "should be the work_packages's project" do
       allow(controller).to receive(:work_package).and_return(planning_element)
 
@@ -680,7 +681,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :journals do
+  describe '#journals' do
     it "should return all the work_package's journals except the first one" do
       planning_element.description = 'blubs'
 
@@ -729,7 +730,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :changesets do
+  describe '#changesets' do
     let(:change1) { double('change_1') }
     let(:change2) { double('change_2') }
     let(:changesets) { [change1, change2] }
@@ -757,7 +758,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :relations do
+  describe '#relations' do
     let(:relation) {
       FactoryGirl.build_stubbed(:relation, from: stub_issue,
                                            to: stub_planning_element)
@@ -783,7 +784,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :ancestors do
+  describe '#ancestors' do
     let(:project) { FactoryGirl.create(:project_with_types) }
     let(:ancestor_issue) { FactoryGirl.create(:work_package, project: project) }
     let(:issue) { FactoryGirl.create(:work_package, project: project, parent_id: ancestor_issue.id) }
@@ -814,7 +815,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :descendants do
+  describe '#descendants' do
     before do
       allow(controller).to receive(:work_package).and_return(planning_element)
     end
@@ -824,7 +825,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :priorities do
+  describe '#priorities' do
     it 'should return all defined priorities' do
       expected = double('priorities')
 
@@ -834,7 +835,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :allowed_statuses do
+  describe '#allowed_statuses' do
     it 'should return all statuses allowed by the issue' do
       expected = double('statuses')
 
@@ -846,7 +847,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :time_entry do
+  describe '#time_entry' do
     before do
       allow(controller).to receive(:work_package).and_return(stub_planning_element)
     end
@@ -882,9 +883,11 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  let(:filename) { 'test1.test' }
+  let(:filename) { 'testfile.txt' }
+  let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
+  let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
 
-  describe :create do
+  describe '#create' do
     let(:type) { FactoryGirl.create :type }
     let(:project) {
       FactoryGirl.create :project,
@@ -893,7 +896,7 @@ describe WorkPackagesController, type: :controller do
     let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
 
-    context :copy do
+    context 'copy' do
       let(:current_user) { FactoryGirl.create(:admin) }
       let(:params) { { copy_from: planning_element.id, project_id: project.id } }
       let(:except) {
@@ -917,7 +920,7 @@ describe WorkPackagesController, type: :controller do
       end
     end
 
-    context :attachments do
+    context 'attachments' do
       let(:new_work_package) {
         FactoryGirl.build(:work_package,
                           project: project,
@@ -927,8 +930,8 @@ describe WorkPackagesController, type: :controller do
       }
       let(:params) {
         { project_id: project.id,
-          attachments: { file: { file: filename,
-                                 description: '' } } }
+          attachments: { '1' => { 'file' => uploaded_file,
+                                  'description' => '' } } }
       }
 
       before do
@@ -943,7 +946,7 @@ describe WorkPackagesController, type: :controller do
       context 'new attachment on new work package' do
         before { post 'create', params }
 
-        describe :journal do
+        describe '#journal' do
           let(:attachment_id) { "attachments_#{new_work_package.attachments.first.id}" }
 
           subject { new_work_package.journals.last.changed_data }
@@ -963,13 +966,13 @@ describe WorkPackagesController, type: :controller do
           post :create, params
         end
 
-        describe :view do
+        describe '#view' do
           subject { response }
 
           it { is_expected.to render_template('work_packages/new') }
         end
 
-        describe :error do
+        describe '#error' do
           subject { new_work_package.errors.messages }
 
           it { is_expected.to have_key(:attachments) }
@@ -980,7 +983,7 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe :update do
+  describe '#update' do
     let(:type) { FactoryGirl.create :type }
     let(:project) {
       FactoryGirl.create :project,
@@ -989,7 +992,7 @@ describe WorkPackagesController, type: :controller do
     let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
 
-    context :attachments do
+    context 'attachments' do
       let(:work_package) {
         FactoryGirl.build(:work_package,
                           project: project,
@@ -999,8 +1002,8 @@ describe WorkPackagesController, type: :controller do
       }
       let(:params) {
         { id: work_package.id,
-          work_package: { attachments: { '1' =>  { file: filename,
-                                                   description: '' } } } }
+          work_package: { attachments: { '1' => { 'file' => uploaded_file,
+                                                  'description' => '' } } } }
       }
 
       before do
@@ -1022,13 +1025,13 @@ describe WorkPackagesController, type: :controller do
           post :update, params
         end
 
-        describe :view do
+        describe '#view' do
           subject { response }
 
           it { is_expected.to render_template('work_packages/edit') }
         end
 
-        describe :error do
+        describe '#error' do
           subject { work_package.errors.messages }
 
           it { is_expected.to have_key(:attachments) }
@@ -1054,7 +1057,7 @@ describe WorkPackagesController, type: :controller do
     let(:notes) { 'Work package note' }
     let(:preview_params) {
       { work_package: { description: description,
-                        notes: notes } }
+                        journal_notes: notes } }
     }
 
     before { allow(User).to receive(:current).and_return(user) }
@@ -1085,7 +1088,11 @@ describe WorkPackagesController, type: :controller do
 
     let(:description) { 'Muh hahahah!!!' }
     let(:notes) { 'Work package note' }
-    let(:wp_params) { { id: work_package.id, work_package: { description: description, notes: notes } } }
+    let(:wp_params) {
+      { id: work_package.id,
+        work_package: { description: description,
+                        journal_notes: notes } }
+    }
 
     shared_context 'update work package' do
       let(:user) {
@@ -1101,7 +1108,7 @@ describe WorkPackagesController, type: :controller do
       let!(:original_description) { work_package.description }
 
       before do
-        User.stub(:current).and_return user
+        allow(User).to receive(:current).and_return user
 
         put 'update', wp_params
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -81,8 +81,8 @@ Feature: General Reporting administration
       And I should see "Hallo Junge"
 
      When I follow link "Edit" for report "World Domination"
-     Then I should see "Status comment:"
-      And I should see "Project status:"
+     Then I should see "Status comment"
+      And I should see "Project status"
 
      When I fill in "So'n Feuerball" for "Status comment"
       And I click on "Save"

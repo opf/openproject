@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -115,8 +115,7 @@ describe WikiController, type: :controller do
         it 'redirects to the show action' do
           post 'create',
                project_id: @project,
-               page: { title: 'abc' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: 'abc' } }
 
           expect(response).to redirect_to action: 'show', project_id: @project, id: 'Abc'
         end
@@ -124,8 +123,7 @@ describe WikiController, type: :controller do
         it 'saves a new WikiPage with proper content' do
           post 'create',
                project_id: @project,
-               page: { title: 'abc' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: 'abc' } }
 
           page = @project.wiki.pages.find_by_title 'Abc'
           expect(page).not_to be_nil
@@ -138,8 +136,7 @@ describe WikiController, type: :controller do
         it 'renders "wiki/new"' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(response).to render_template('new')
         end
@@ -147,8 +144,7 @@ describe WikiController, type: :controller do
         it 'assigns project to work with new template' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(assigns[:project]).to eq(@project)
         end
@@ -156,8 +152,7 @@ describe WikiController, type: :controller do
         it 'assigns wiki to work with new template' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(assigns[:wiki]).to eq(@project.wiki)
           expect(assigns[:wiki]).not_to be_new_record
@@ -166,8 +161,7 @@ describe WikiController, type: :controller do
         it 'assigns page to work with new template' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(assigns[:page]).to be_new_record
           expect(assigns[:page].wiki.project).to eq(@project)
@@ -178,8 +172,7 @@ describe WikiController, type: :controller do
         it 'assigns content to work with new template' do
           post 'create',
                project_id: @project,
-               page: { title: '' },
-               content: { text: 'h1. abc' }
+               content: { text: 'h1. abc', page: { title: '' } }
 
           expect(assigns[:content]).to be_new_record
           expect(assigns[:content].page.wiki.project).to eq(@project)
@@ -288,8 +281,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
         end
 
         it "is inactive, when another wiki menu item's page is shown" do
@@ -298,8 +291,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
         end
 
         it 'is active, when the given wiki menu item is shown' do
@@ -308,7 +301,7 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
         end
       end
 
@@ -320,8 +313,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_no_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
         end
 
         it 'is inactive, when a toc page is shown' do
@@ -330,8 +323,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_no_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
         end
       end
 
@@ -342,7 +335,7 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}.selected"
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
         end
       end
 

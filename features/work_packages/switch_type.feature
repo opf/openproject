@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,6 @@ Feature: Switching types of work packages
     When I go to the edit page of the work package "wp1"
     And I fill in the following:
       | Responsible | Bob Bobbit |
-    And I follow "More"
     And I select "Feature" from "Type"
 
     Then I should be on the edit page of the work package "wp1"
@@ -78,7 +77,6 @@ Feature: Switching types of work packages
     And the custom field "cfAll" is activated for type "Feature"
 
     When I go to the edit page of the work package "wp1"
-    And I follow "More"
     And I fill in the following:
       | cfAll | 5 |
     And I select "Feature" from "Type"

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,18 +76,29 @@ module Redmine
       def modules_permissions(modules)
         @permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
       end
+
+      def remove_modules_permissions(module_name)
+        permissions = @permissions
+
+        module_permissions = permissions.select { |p| p.project_module.to_s == module_name.to_s }
+
+        clear_caches
+
+        @permissions = permissions - module_permissions
+      end
+
+      def clear_caches
+        @available_project_modules = nil
+        @public_permissions = nil
+        @members_only_permissions = nil
+        @loggedin_only_permissions = nil
+      end
     end
 
     class Mapper
-      def initialize
-        @project_module = nil
-        @project_modules_without_permissions = []
-      end
-
       def permission(name, hash, options = {})
-        @permissions ||= []
         options.merge!(project_module: @project_module)
-        @permissions << Permission.new(name, hash, options)
+        mapped_permissions << Permission.new(name, hash, options)
       end
 
       def project_module(name, _options = {})
@@ -96,16 +107,16 @@ module Redmine
           yield self
           @project_module = nil
         else
-          @project_modules_without_permissions << name
+          project_modules_without_permissions << name
         end
       end
 
       def mapped_permissions
-        @permissions
+        @permissions ||= []
       end
 
       def project_modules_without_permissions
-        @project_modules_without_permissions
+        @project_modules_without_permissions ||= []
       end
     end
 

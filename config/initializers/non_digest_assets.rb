@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,6 @@
 
 NonStupidDigestAssets.whitelist = [
   'styleguide.html',
-  /jquery-ui\/.*/,
-  /select2\/.*/,
-  'angular-busy/angular-busy.html'
+  'styleguide.css',
+  'styleguide.js'
 ]

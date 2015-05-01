@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ describe OpenProject::Configuration do
     let(:config) { Hash.new }
 
     before do
-      File.should_receive(:file?).with('file').and_return(true)
-      File.should_receive(:read).and_return("
+      expect(File).to receive(:file?).with('file').and_return(true)
+      expect(File).to receive(:read).and_return("
         default:
 
         test:
@@ -89,19 +89,42 @@ describe OpenProject::Configuration do
   end
 
   describe '.load_overrides_from_environment_variables' do
-    let(:config) { { 'somesetting' => 'foo' } }
+    let(:config) {
+      {
+        'somesetting' => 'foo',
+        'nested' => {
+          'key' => 'value',
+          'deeply_nested' => {
+            'key' => nil
+          }
+        }
+      }
+    }
+
+    let(:env_vars) {
+      {
+        'SOMESETTING' => 'bar',
+        'OPTEST_NESTED_KEY' => 'baz',
+        'OPTEST_NESTED_DEEPLY__NESTED_KEY' => '42'
+      }
+    }
 
     before do
-      ENV['SOMESETTING'] = 'bar'
-      OpenProject::Configuration.send(:load_overrides_from_environment_variables, config)
+      stub_const('OpenProject::Configuration::ENV_PREFIX', 'OPTEST')
+
+      OpenProject::Configuration.send :override_config!, config, env_vars
     end
 
     it 'should override the previous setting value' do
       expect(config['somesetting']).to eq('bar')
     end
 
-    after do
-      ENV.delete 'SOMESETTING'
+    it 'should override a nested value' do
+      expect(config['nested']['key']).to eq('baz')
+    end
+
+    it 'should override values nested several levels deep' do
+      expect(config['nested']['deeply_nested']['key']).to eq('42')
     end
   end
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,13 +65,13 @@ end
 Then /^the table of contents wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
   parent_item = MenuItems::WikiMenuItem.find_by_title(parent_item_name)
 
-  page.should have_css(".#{parent_item.item_class}-toc.selected")
+  page.should have_css(".#{parent_item.item_class}-toc-menu-item.selected")
 end
 
 Then /^the child page wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
   parent_item = MenuItems::WikiMenuItem.find_by_title(parent_item_name)
 
-  page.should have_css(".#{parent_item.item_class}-new-page.selected")
+  page.should have_css(".#{parent_item.item_class}-new-page-menu-item.selected")
 end
 
 Given /^the wiki page "([^"]*)" of the project "([^"]*)" has the following contents:$/ do |page, project, table|

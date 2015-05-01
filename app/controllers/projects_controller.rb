@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,6 +75,7 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
+    @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
     @project.safe_attributes = params[:project]
   end
 
@@ -176,7 +177,7 @@ class ProjectsController < ApplicationController
   end
 
   def modules
-    @project.enabled_module_names = params[:enabled_module_names]
+    @project.enabled_module_names = params[:project][:enabled_module_names]
     flash[:notice] = l(:notice_successful_update)
     redirect_to action: 'settings', id: @project, tab: 'modules'
   end

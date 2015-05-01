@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -81,7 +81,7 @@ describe CopyProjectsController, type: :controller do
 
     it { expect(response).to render_template('copy_from_settings') }
     it 'should display error validation messages' do
-      expect(assigns(:copy_project).errors).to_not be_empty
+      expect(assigns(:copy_project).errors).not_to be_empty
     end
   end
 

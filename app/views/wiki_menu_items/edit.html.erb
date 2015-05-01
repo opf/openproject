@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,8 @@ See doc/COPYRIGHT.rdoc for more details.
   </p>
   </br>
   <div style="clear: both;"></div>
-  <fieldset class="box" id="wiki_menu_item_setting"><legend><%=l(:menu_item_setting)%></legend>
+  <fieldset class="form--fieldset" id="wiki_menu_item_setting">
+    <legend class="form--fieldset-legend"><%=l(:menu_item_setting)%></legend>
     <p>
       <%= form.radio_button 'setting', :no_item %>
       <%= form.label 'setting_no_item', l(:label_wiki_dont_show_menu_item) %>
@@ -69,7 +70,10 @@ See doc/COPYRIGHT.rdoc for more details.
     </p>
   </fieldset>
   <p>
-    <%= submit_tag l(:button_save), :method => :post %>
-    <%= link_to l(:button_cancel), {:controller => '/wiki', :action => 'show', :project_id => @project, :id => @page_title} %>
+    <%= styled_button_tag l(:button_save), :method => :post,
+          class: '-success -with-icon icon-yes' %>
+    <%= link_to l(:button_cancel),
+          {:controller => '/wiki', :action => 'show', :project_id => @project, :id => @page_title},
+          class: 'button'%>
   </p>
   <% end %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ describe BoardsController, type: :controller do
     disable_flash_sweep
   end
 
-  describe :create do
+  describe '#create' do
     let(:params) { { board: board_params } }
     let(:board_params) { { name: 'my board', description: 'awesome board' } }
 
@@ -89,7 +89,7 @@ describe BoardsController, type: :controller do
     end
   end
 
-  describe :move do
+  describe '#move' do
     let(:project) { FactoryGirl.create(:project) }
     let!(:board_1) {
       FactoryGirl.create(:board,
@@ -104,7 +104,7 @@ describe BoardsController, type: :controller do
 
     before { allow(@controller).to receive(:authorize).and_return(true) }
 
-    describe :higher do
+    describe '#higher' do
       let(:move_to) { 'higher' }
       let(:redirect_url) { "http://test.host/projects/#{project.id}/settings/boards" }
 
@@ -123,7 +123,7 @@ describe BoardsController, type: :controller do
 
   end
 
-  describe :update do
+  describe '#update' do
     let!(:board) {
       FactoryGirl.create(:board, name: 'Board name',
                                  description: 'Board description')
@@ -184,7 +184,7 @@ describe BoardsController, type: :controller do
 
   end
 
-  describe :sticky do
+  describe '#sticky' do
 
     let!(:message1) { FactoryGirl.create(:message, board: board) }
     let!(:message2) { FactoryGirl.create(:message, board: board) }
@@ -225,7 +225,7 @@ describe BoardsController, type: :controller do
         it 'it should not be displayed as sticky message' do
 
           expect(sticked_message1.sticked_on).to be_nil
-          expect(assigns[:topics][0].id).to_not eq(sticked_message1.id)
+          expect(assigns[:topics][0].id).not_to eq(sticked_message1.id)
         end
       end
 

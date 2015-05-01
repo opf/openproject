@@ -1,0 +1,933 @@
+{
+  "_type": "Form",
+  "_links": {
+    "self": {
+      "href": "/api/v3/work_packages/821/form"
+    },
+    "validate": {
+      "href": "/api/v3/work_packages/821/form",
+      "method": "post"
+    },
+    "previewMarkup": {
+      "href": "/api/v3/render/textile?context=/api/v3/work_packages/821",
+      "method": "post"
+    },
+    "commit": {
+      "href": "/api/v3/work_packages/821",
+      "method": "patch"
+    }
+  },
+  "_embedded": {
+    "payload": {
+      "_links": {
+        "type": {
+          "href": "/api/v3/types/5"
+        },
+        "status": {
+          "href": "/api/v3/statuses/1"
+        },
+        "assignee": {
+          "href": null
+        },
+        "responsible": {
+          "href": null
+        },
+        "category": {
+          "href": null
+        },
+        "version": {
+          "href": null
+        },
+        "priority": {
+          "href": "/api/v3/priorities/2"
+        },
+        "costObject": {
+          "href": null
+        },
+        "customField8": {
+          "href": null
+        },
+        "customField11": {
+          "href": null
+        },
+        "customField12": {
+          "href": null
+        }
+      },
+      "lockVersion": 1,
+      "subject": "veritatis voluptas hic qui praesentium tempora illum omnis",
+      "percentageDone": 0,
+      "estimatedTime": null,
+      "description": {
+        "format": "textile",
+        "raw": "Tutis vulgivagus alveus appello. Triginta nostrum sit eum. Enim crudelis tremo adfectus auris nam adiuvo. Terreo absque aegrus decerno aegrotatio sui. Facere candidus illo spiculum. Et voluntarius acidus qui.",
+        "html": "<p>Tutis vulgivagus alveus appello. Triginta nostrum sit eum. Enim crudelis tremo adfectus auris nam adiuvo. Terreo absque aegrus decerno aegrotatio sui. Facere candidus illo spiculum. Et voluntarius acidus qui.</p>"
+      },
+      "startDate": "2015-02-17",
+      "dueDate": "2015-04-29",
+      "storyPoints": null,
+      "remainingTime": null,
+      "customField1": {
+        "format": "plain",
+        "raw": null,
+        "html": ""
+      },
+      "customField2": {
+        "format": "plain",
+        "raw": null,
+        "html": ""
+      },
+      "customField3": {
+        "format": "plain",
+        "raw": null,
+        "html": ""
+      },
+      "customField4": null,
+      "customField5": null,
+      "customField6": null,
+      "customField7": null,
+      "customField9": null,
+      "customField10": null
+    },
+    "schema": {
+      "_type": "Schema",
+      "_links": {},
+      "lockVersion": {
+        "type": "Integer",
+        "name": "Lock Version",
+        "required": true,
+        "writable": false
+      },
+      "id": {
+        "type": "Integer",
+        "name": "ID",
+        "required": true,
+        "writable": false
+      },
+      "subject": {
+        "type": "String",
+        "name": "Subject",
+        "required": true,
+        "writable": true,
+        "minLength": 1,
+        "maxLength": 255
+      },
+      "description": {
+        "type": "Formattable",
+        "name": "Description",
+        "required": true,
+        "writable": true
+      },
+      "startDate": {
+        "type": "Date",
+        "name": "Start date",
+        "required": false,
+        "writable": true
+      },
+      "dueDate": {
+        "type": "Date",
+        "name": "Due date",
+        "required": false,
+        "writable": true
+      },
+      "estimatedTime": {
+        "type": "Duration",
+        "name": "Estimated time",
+        "required": false,
+        "writable": true
+      },
+      "spentTime": {
+        "type": "Duration",
+        "name": "Spent time",
+        "required": true,
+        "writable": false
+      },
+      "percentageDone": {
+        "type": "Integer",
+        "name": "% done",
+        "required": true,
+        "writable": true
+      },
+      "createdAt": {
+        "type": "DateTime",
+        "name": "Created on",
+        "required": true,
+        "writable": false
+      },
+      "updatedAt": {
+        "type": "DateTime",
+        "name": "Updated on",
+        "required": true,
+        "writable": false
+      },
+      "author": {
+        "type": "User",
+        "name": "Author",
+        "required": true,
+        "writable": false
+      },
+      "project": {
+        "type": "Project",
+        "name": "Project",
+        "required": true,
+        "writable": false
+      },
+      "assignee": {
+        "type": "User",
+        "name": "Assignee",
+        "required": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": {
+            "href": "/api/v3/projects/1/available_assignees"
+          }
+        }
+      },
+      "responsible": {
+        "type": "User",
+        "name": "Responsible",
+        "required": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": {
+            "href": "/api/v3/projects/1/available_responsibles"
+          }
+        }
+      },
+      "type": {
+        "type": "Type",
+        "name": "Type",
+        "required": true,
+        "writable": true,
+        "_links": {
+          "allowedValues": [
+            {
+              "href": "/api/v3/types/1",
+              "title": "none"
+            },
+            {
+              "href": "/api/v3/types/2",
+              "title": "Task"
+            },
+            {
+              "href": "/api/v3/types/3",
+              "title": "Deliverable"
+            },
+            {
+              "href": "/api/v3/types/4",
+              "title": "Milestone"
+            },
+            {
+              "href": "/api/v3/types/5",
+              "title": "Phase"
+            },
+            {
+              "href": "/api/v3/types/6",
+              "title": "Bug"
+            },
+            {
+              "href": "/api/v3/types/7",
+              "title": "Feature"
+            }
+          ]
+        },
+        "_embedded": {
+          "allowedValues": [
+            {
+              "_type": "Type",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/types/1",
+                  "title": "none"
+                }
+              },
+              "id": 1,
+              "name": "none",
+              "color": "#DDDDDD",
+              "position": 0,
+              "isDefault": true,
+              "isMilestone": false,
+              "createdAt": "2015-02-13T10:08:51+00:00",
+              "updatedAt": "2015-02-13T10:08:51+00:00"
+            },
+            {
+              "_type": "Type",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/types/2",
+                  "title": "Task"
+                }
+              },
+              "id": 2,
+              "name": "Task",
+              "color": "#66CCCC",
+              "position": 1,
+              "isDefault": false,
+              "isMilestone": false,
+              "createdAt": "2015-02-13T10:08:52+00:00",
+              "updatedAt": "2015-02-13T10:08:52+00:00"
+            },
+            {
+              "_type": "Type",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/types/3",
+                  "title": "Deliverable"
+                }
+              },
+              "id": 3,
+              "name": "Deliverable",
+              "color": "#FFCC00",
+              "position": 2,
+              "isDefault": false,
+              "isMilestone": false,
+              "createdAt": "2015-02-13T10:08:52+00:00",
+              "updatedAt": "2015-02-13T10:08:52+00:00"
+            },
+            {
+              "_type": "Type",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/types/4",
+                  "title": "Milestone"
+                }
+              },
+              "id": 4,
+              "name": "Milestone",
+              "color": "#CC0066",
+              "position": 3,
+              "isDefault": true,
+              "isMilestone": true,
+              "createdAt": "2015-02-13T10:08:52+00:00",
+              "updatedAt": "2015-02-13T10:08:52+00:00"
+            },
+            {
+              "_type": "Type",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/types/5",
+                  "title": "Phase"
+                }
+              },
+              "id": 5,
+              "name": "Phase",
+              "color": "#66CC99",
+              "position": 4,
+              "isDefault": true,
+              "isMilestone": false,
+              "createdAt": "2015-02-13T10:08:52+00:00",
+              "updatedAt": "2015-02-13T10:08:52+00:00"
+            },
+            {
+              "_type": "Type",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/types/6",
+                  "title": "Bug"
+                }
+              },
+              "id": 6,
+              "name": "Bug",
+              "color": "#FF3300",
+              "position": 5,
+              "isDefault": false,
+              "isMilestone": false,
+              "createdAt": "2015-02-13T10:08:52+00:00",
+              "updatedAt": "2015-02-13T10:08:52+00:00"
+            },
+            {
+              "_type": "Type",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/types/7",
+                  "title": "Feature"
+                }
+              },
+              "id": 7,
+              "name": "Feature",
+              "color": "#3399CC",
+              "position": 6,
+              "isDefault": false,
+              "isMilestone": false,
+              "createdAt": "2015-02-13T10:08:52+00:00",
+              "updatedAt": "2015-02-13T10:08:52+00:00"
+            }
+          ]
+        }
+      },
+      "status": {
+        "type": "Status",
+        "name": "Status",
+        "required": true,
+        "writable": true,
+        "_links": {
+          "allowedValues": [
+            {
+              "href": "/api/v3/statuses/1",
+              "title": "new"
+            },
+            {
+              "href": "/api/v3/statuses/4",
+              "title": "to be scheduled"
+            },
+            {
+              "href": "/api/v3/statuses/5",
+              "title": "scheduled"
+            },
+            {
+              "href": "/api/v3/statuses/6",
+              "title": "in progress"
+            },
+            {
+              "href": "/api/v3/statuses/8",
+              "title": "on hold"
+            },
+            {
+              "href": "/api/v3/statuses/9",
+              "title": "rejected"
+            },
+            {
+              "href": "/api/v3/statuses/10",
+              "title": "closed"
+            }
+          ]
+        },
+        "_embedded": {
+          "allowedValues": [
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/1",
+                  "title": "new"
+                }
+              },
+              "id": 1,
+              "name": "new",
+              "isClosed": false,
+              "isDefault": true,
+              "defaultDoneRatio": null,
+              "position": 1
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/4",
+                  "title": "to be scheduled"
+                }
+              },
+              "id": 4,
+              "name": "to be scheduled",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 4
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/5",
+                  "title": "scheduled"
+                }
+              },
+              "id": 5,
+              "name": "scheduled",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 5
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/6",
+                  "title": "in progress"
+                }
+              },
+              "id": 6,
+              "name": "in progress",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 6
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/8",
+                  "title": "on hold"
+                }
+              },
+              "id": 8,
+              "name": "on hold",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 8
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/9",
+                  "title": "rejected"
+                }
+              },
+              "id": 9,
+              "name": "rejected",
+              "isClosed": true,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 9
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/10",
+                  "title": "closed"
+                }
+              },
+              "id": 10,
+              "name": "closed",
+              "isClosed": true,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 10
+            }
+          ]
+        }
+      },
+      "category": {
+        "type": "Category",
+        "name": "Category",
+        "required": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": []
+        },
+        "_embedded": {
+          "allowedValues": []
+        }
+      },
+      "version": {
+        "type": "Version",
+        "name": "Version",
+        "required": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": [
+            {
+              "href": "/api/v3/versions/1",
+              "title": "v1"
+            },
+            {
+              "href": "/api/v3/versions/2",
+              "title": "v2"
+            }
+          ]
+        },
+        "_embedded": {
+          "allowedValues": [
+            {
+              "_type": "Version",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/versions/1",
+                  "title": "v1"
+                },
+                "definingProject": {
+                  "href": "/api/v3/projects/1",
+                  "title": "Seeded Project"
+                },
+                "availableInProjects": {
+                  "href": "/api/v3/versions/1/projects"
+                }
+              },
+              "id": 1,
+              "name": "v1",
+              "description": {
+                "format": "plain",
+                "raw": "",
+                "html": ""
+              },
+              "startDate": "2015-02-02",
+              "endDate": null,
+              "status": "open",
+              "createdAt": "2015-02-18T14:53:17+00:00",
+              "updatedAt": "2015-02-18T14:53:17+00:00"
+            },
+            {
+              "_type": "Version",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/versions/2",
+                  "title": "v2"
+                },
+                "definingProject": {
+                  "href": "/api/v3/projects/1",
+                  "title": "Seeded Project"
+                },
+                "availableInProjects": {
+                  "href": "/api/v3/versions/2/projects"
+                }
+              },
+              "id": 2,
+              "name": "v2",
+              "description": {
+                "format": "plain",
+                "raw": "",
+                "html": ""
+              },
+              "startDate": "2015-01-24",
+              "endDate": null,
+              "status": "open",
+              "createdAt": "2015-02-18T14:53:28+00:00",
+              "updatedAt": "2015-02-18T14:53:28+00:00"
+            }
+          ]
+        }
+      },
+      "priority": {
+        "type": "Priority",
+        "name": "Priority",
+        "required": true,
+        "writable": true,
+        "_links": {
+          "allowedValues": [
+            {
+              "href": "/api/v3/priorities/1",
+              "title": "Low"
+            },
+            {
+              "href": "/api/v3/priorities/2",
+              "title": "Normal"
+            },
+            {
+              "href": "/api/v3/priorities/3",
+              "title": "High"
+            },
+            {
+              "href": "/api/v3/priorities/4",
+              "title": "Immediate"
+            }
+          ]
+        },
+        "_embedded": {
+          "allowedValues": [
+            {
+              "_type": "Priority",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/priorities/1",
+                  "title": "Low"
+                }
+              },
+              "id": 1,
+              "name": "Low",
+              "position": 1,
+              "isDefault": false,
+              "isActive": true
+            },
+            {
+              "_type": "Priority",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/priorities/2",
+                  "title": "Normal"
+                }
+              },
+              "id": 2,
+              "name": "Normal",
+              "position": 2,
+              "isDefault": true,
+              "isActive": true
+            },
+            {
+              "_type": "Priority",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/priorities/3",
+                  "title": "High"
+                }
+              },
+              "id": 3,
+              "name": "High",
+              "position": 3,
+              "isDefault": false,
+              "isActive": true
+            },
+            {
+              "_type": "Priority",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/priorities/4",
+                  "title": "Immediate"
+                }
+              },
+              "id": 4,
+              "name": "Immediate",
+              "position": 5,
+              "isDefault": false,
+              "isActive": true
+            }
+          ]
+        }
+      },
+      "overallCosts": {
+        "type": "String",
+        "name": "Overall costs",
+        "required": false,
+        "writable": false
+      },
+      "costsByType": {
+        "type": "Collection",
+        "name": "Spent units",
+        "required": false,
+        "writable": false
+      },
+      "costObject": {
+        "type": "Budget",
+        "name": "Budget",
+        "required": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": [
+            {
+              "href": "/api/v3/budgets/1",
+              "title": "Party budget"
+            }
+          ]
+        },
+        "_embedded": {
+          "allowedValues": [
+            {
+              "_type": "Budget",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/budgets/1",
+                  "title": "Party budget"
+                }
+              },
+              "id": 1,
+              "subject": "Party budget"
+            }
+          ]
+        }
+      },
+      "storyPoints": {
+        "type": "Integer",
+        "name": "Story Points",
+        "required": false,
+        "writable": true
+      },
+      "remainingTime": {
+        "type": "Duration",
+        "name": "Remaining Hours",
+        "required": false,
+        "writable": true
+      },
+      "customField1": {
+        "type": "Formattable",
+        "name": "culpa et",
+        "required": false,
+        "writable": true
+      },
+      "customField2": {
+        "type": "Formattable",
+        "name": "velit sit",
+        "required": false,
+        "writable": true
+      },
+      "customField3": {
+        "type": "Formattable",
+        "name": "earum consectetur",
+        "required": false,
+        "writable": true
+      },
+      "customField4": {
+        "type": "String",
+        "name": "cf_text",
+        "required": false,
+        "writable": true
+      },
+      "customField5": {
+        "type": "Integer",
+        "name": "cf_int",
+        "required": false,
+        "writable": true
+      },
+      "customField6": {
+        "type": "Float",
+        "name": "cf_float",
+        "required": false,
+        "writable": true
+      },
+      "customField7": {
+        "type": "Float",
+        "name": "cf_float2",
+        "required": false,
+        "writable": true
+      },
+      "customField8": {
+        "type": "StringObject",
+        "name": "cf_list",
+        "required": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": [
+            {
+              "href": "/api/v3/string_objects?value=li1",
+              "title": "li1"
+            },
+            {
+              "href": "/api/v3/string_objects?value=li2",
+              "title": "li2"
+            },
+            {
+              "href": "/api/v3/string_objects?value=li3",
+              "title": "li3"
+            }
+          ]
+        },
+        "_embedded": {
+          "allowedValues": [
+            {
+              "_type": "StringObject",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/string_objects?value=li1"
+                }
+              },
+              "value": "li1"
+            },
+            {
+              "_type": "StringObject",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/string_objects?value=li2"
+                }
+              },
+              "value": "li2"
+            },
+            {
+              "_type": "StringObject",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/string_objects?value=li3"
+                }
+              },
+              "value": "li3"
+            }
+          ]
+        }
+      },
+      "customField9": {
+        "type": "Date",
+        "name": "cf_date",
+        "required": false,
+        "writable": true
+      },
+      "customField10": {
+        "type": "Boolean",
+        "name": "cf_bool",
+        "required": false,
+        "writable": true
+      },
+      "customField11": {
+        "type": "User",
+        "name": "cf_user",
+        "required": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": {
+            "href": "/api/v3/projects/1/available_assignees"
+          }
+        }
+      },
+      "customField12": {
+        "type": "Version",
+        "name": "cf_version",
+        "required": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": [
+            {
+              "href": "/api/v3/versions/1",
+              "title": "v1"
+            },
+            {
+              "href": "/api/v3/versions/2",
+              "title": "v2"
+            }
+          ]
+        },
+        "_embedded": {
+          "allowedValues": [
+            {
+              "_type": "Version",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/versions/1",
+                  "title": "v1"
+                },
+                "definingProject": {
+                  "href": "/api/v3/projects/1",
+                  "title": "Seeded Project"
+                },
+                "availableInProjects": {
+                  "href": "/api/v3/versions/1/projects"
+                }
+              },
+              "id": 1,
+              "name": "v1",
+              "description": {
+                "format": "plain",
+                "raw": "",
+                "html": ""
+              },
+              "startDate": "2015-02-02",
+              "endDate": null,
+              "status": "open",
+              "createdAt": "2015-02-18T14:53:17+00:00",
+              "updatedAt": "2015-02-18T14:53:17+00:00"
+            },
+            {
+              "_type": "Version",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/versions/2",
+                  "title": "v2"
+                },
+                "definingProject": {
+                  "href": "/api/v3/projects/1",
+                  "title": "Seeded Project"
+                },
+                "availableInProjects": {
+                  "href": "/api/v3/versions/2/projects"
+                }
+              },
+              "id": 2,
+              "name": "v2",
+              "description": {
+                "format": "plain",
+                "raw": "",
+                "html": ""
+              },
+              "startDate": "2015-01-24",
+              "endDate": null,
+              "status": "open",
+              "createdAt": "2015-02-18T14:53:28+00:00",
+              "updatedAt": "2015-02-18T14:53:28+00:00"
+            }
+          ]
+        }
+      }
+    },
+    "validationErrors": {}
+  }
+}

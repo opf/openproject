@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,37 +32,42 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= javascript_include_tag 'admin_users' %>
 
 <!--[form:user]-->
-<div class="box tabular">
-  <p><%= f.text_field :login, :required => true, :size => 25  %></p>
-  <p><%= f.text_field :firstname, :required => true %></p>
-  <p><%= f.text_field :lastname, :required => true %></p>
-  <p><%= f.text_field :mail, :required => true %></p>
-  <p><%= f.select :language, lang_options_for_select %></p>
+<section class="form--section">
+  <div class="form--field"><%= f.text_field :login, :required => true, :size => 25  %></div>
+  <div class="form--field"><%= f.text_field :firstname, :required => true %></div>
+  <div class="form--field"><%= f.text_field :lastname, :required => true %></div>
+  <div class="form--field"><%= f.text_field :mail, :required => true %></div>
+  <div class="form--field"><%= f.select :language, lang_options_for_select %></div>
 
-  <% @user.custom_field_values.each do |value| %>
-    <p><%= custom_field_tag_with_label :user, value %></p>
-  <% end %>
+  <%= render partial:     'customizable/field',
+             collection:  @user.custom_field_values,
+             as:          :value,
+             locals:      { form: f } %>
 
-  <p><%= f.check_box :admin, :disabled => (@user == User.current) %></p>
+  <div class="form--field"><%= f.check_box :admin, :disabled => (@user == User.current) %></div>
   <%= call_hook(:view_users_form, :user => @user, :form => f) %>
-</div>
+</section>
 
-<div class="box tabular">
-  <h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
+<section class="form--section">
+  <h3 class="form--section-title"><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
   <%= render :partial => "users/impaired_settings" %>
-</div>
+</section>
 
-<div class="box tabular">
-  <h3><%=l(:label_authentication)%></h3>
+<section class="form--section">
+  <h3 class="form--section-title"><%=l(:label_authentication)%></h3>
   <% if @user.uses_external_authentication? %>
-    <p>
-      <label><%= I18n.t('user.authentication_provider') %></label>
-      <%= @user.authentication_provider %>
-    </p>
-    <%= I18n.t('user.authentication_settings_disabled_due_to_external_authentication') %>
+    <div class="form--field">
+      <%= styled_label_tag nil, I18n.t('user.authentication_provider') %>
+      <div class="form--field-container">
+        <%= @user.authentication_provider %>
+      </div>
+    </div>
+    <div class="form--field-instructions">
+      <%= I18n.t('user.authentication_settings_disabled_due_to_external_authentication') %>
+    </div>
   <% else %>
     <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
-      <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></p>
+      <div class="form--field"><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></div>
     <% end %>
     <% if !OpenProject::Configuration.disable_password_login? %>
       <%
@@ -76,53 +81,58 @@ See doc/COPYRIGHT.rdoc for more details.
       <div id="password_fields"<%= pw_style.html_safe %>>
         <% assign_random_password_enabled = params[:user] &&
                                             params[:user][:assign_random_password] %>
-        <p>
-          <label for="user_assign_random_password">
-            <%= I18n.t(:assign_random_password, :scope => :user) %>
-          </label>
-          <%= check_box_tag("user[assign_random_password]",
-                            "1",
-                            assign_random_password_enabled) %>
-        </p>
+        <div class="form--field">
+          <%= styled_label_tag 'user_assign_random_password',
+                               I18n.t(:assign_random_password, scope: :user) %>
+          <div class="form--field-container">
+            <%= styled_check_box_tag("user[assign_random_password]",
+                                     "1",
+                                     assign_random_password_enabled) %>
+          </div>
+        </div>
 
         <% unless OpenProject::Configuration.disable_password_choice? %>
-          <p>
+          <div class="form--field">
             <%= f.password_field :password,
                                  :required => true,
                                  :size => 25,
-                                 :disabled => assign_random_password_enabled %><br />
-            <%= password_complexity_requirements %>
-          </p>
-          <p>
+                                 :disabled => assign_random_password_enabled %>
+            <div class="form--field-instructions">
+              <%= password_complexity_requirements %>
+            </div>
+          </div>
+          <div class="form--field">
             <%= f.password_field :password_confirmation,
                                  :required => true,
                                  :size => 25,
                                  :disabled => assign_random_password_enabled %>
-          </p>
+          </div>
         <% end %>
-        <p>
+        <div class="form--field">
           <%= f.check_box :force_password_change,
                           :disabled => assign_random_password_enabled %>
-        </p>
+        </div>
       </div>
     <% else %>
       <div id="no_password_info">
-        <p>
-          <label><%= I18n.t 'warning' %></label>
-          <%= I18n.t 'user.no_login' %>
-        </p>
+        <div class="form--field">
+          <%= styled_label_tag nil, I18n.t(:warning) %>
+          <div class="form--field-container">
+            <%= I18n.t 'user.no_login' %>
+          </div>
+        </div>
       </div>
     <% end %>
   <% end %>
-</div>
+</section>
 
-<div class="box">
-  <h3><%= User.human_attribute_name(:mail_notification) %></h3>
+<section class="form--section">
+  <h3 class="form--section-title"><%= User.human_attribute_name(:mail_notification) %></h3>
   <%= render :partial => 'users/mail_notifications' %>
-</div>
+</section>
 
-<div class="box tabular">
-  <h3><%=l(:label_preferences)%></h3>
+<section class="form--section">
+  <h3 class="form--section-title"><%=l(:label_preferences)%></h3>
   <%= render :partial => 'users/preferences' %>
-</div>
+</section>
 <!--[eoform:user]-->

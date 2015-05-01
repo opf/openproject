@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe 'API v3 Activity resource', type: :request do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -42,7 +43,7 @@ describe 'API v3 Activity resource', type: :request do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { "/api/v3/activities/#{activity.id}" }
+      let(:get_path) { api_v3_paths.activity activity.id }
       before do
         allow(User).to receive(:current).and_return current_user
         member = FactoryGirl.build(:member, user: current_user, project: project)
@@ -61,16 +62,19 @@ describe 'API v3 Activity resource', type: :request do
       end
 
       context 'requesting nonexistent activity' do
-        let(:get_path) { '/api/v3/activities/9999' }
+        let(:get_path) { api_v3_paths.activity 9999 }
 
-        it_behaves_like 'not found', 9999, 'Journal'
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'Journal' }
+        end
       end
 
       context 'requesting activity without sufficient permissions' do
         let(:another_project) { FactoryGirl.create(:project, is_public: false) }
         let(:another_work_package) { FactoryGirl.create(:work_package, project: another_project) }
         let(:another_activity) { FactoryGirl.create(:work_package_journal, journable: another_work_package) }
-        let(:get_path) { "/api/v3/activities/#{another_activity.id}" }
+        let(:get_path) { api_v3_paths.activity another_activity.id }
 
         it_behaves_like 'unauthorized access'
       end

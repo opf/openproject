@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -244,10 +244,16 @@ class PermittedParams < Struct.new(:params, :current_user)
                                          :lock_version)
   end
 
+  def wiki_page_rename
+    permitted = permitted_attributes(:wiki_page)
+
+    params.require(:page).permit(*permitted)
+  end
+
   def wiki_page
     permitted = permitted_attributes(:wiki_page)
 
-    permitted_params = params.require(:page).permit(*permitted)
+    permitted_params = params.require(:content).require(:page).permit(*permitted)
 
     permitted_params
   end
@@ -379,7 +385,7 @@ class PermittedParams < Struct.new(:params, :current_user)
           end
         end,
         # attributes unique to :new_work_package
-        :notes,
+        :journal_notes,
         :lock_version],
       planning_element: [
         # attributes common with :new_work_package above

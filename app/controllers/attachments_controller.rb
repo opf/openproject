@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ class AttachmentsController < ApplicationController
       @content = File.new(@attachment.diskfile, 'rb').read
       render action: 'file'
     else
-      download
+      redirect_to link_to_attachment(@attachment)
     end
   end
 
@@ -68,6 +68,16 @@ class AttachmentsController < ApplicationController
   end
 
   private
+
+  def link_to_attachment(attachment)
+    url = URI.parse attachment.file.download_url
+
+    if url.host # check if URL or file path
+      url.to_s
+    else
+      download_attachment_url filename: attachment.filename, id: attachment.id
+    end
+  end
 
   def find_project
     @attachment = Attachment.find(params[:id])

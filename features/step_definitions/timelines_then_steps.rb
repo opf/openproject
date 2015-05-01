@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ Then(/^I should see a modal window with selector "(.*?)"$/) do |selector|
   page.should have_selector(selector)
   dialog = find(selector)
 
-  dialog['class'].include?('ui-dialog-content').should be_true
+  dialog['class'].include?('ui-dialog-content').should be_truthy
 end
 
 Then(/^I should see the column "(.*?)" immediately before the column "(.*?)" in the timelines table$/) do |content1, content2|
@@ -126,7 +126,7 @@ end
 
 Then(/^the first table column should not take more than 25% of the space$/) do
   result = page.evaluate_script("jQuery('.tl-left-main th').width() < (jQuery('body').width() * 0.25 + 22)")
-  result.should be_true
+  result.should be_truthy
 end
 
 Then(/^the "([^"]*)" row should (not )?be marked as default$/) do |title, negation|

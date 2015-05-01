@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,74 +30,96 @@
 module API
   module V3
     module Render
-      class RenderAPI < Grape::API
-        include OpenProject::TextFormatting
+      class RenderAPI < ::API::OpenProjectAPI
         format :txt
+        parser :txt, ::API::V3::Formatter::TxtCharset
 
         resources :render do
           helpers do
             SUPPORTED_CONTEXT_NAMESPACES = ['work_packages'].freeze
+            SUPPORTED_MEDIA_TYPE = 'text/plain'
+
+            def check_content_type
+              actual = request.content_type
+
+              unless actual && actual.starts_with?(SUPPORTED_MEDIA_TYPE)
+                bad_type = actual || I18n.t('api_v3.errors.missing_content_type')
+                message = I18n.t('api_v3.errors.invalid_content_type',
+                                 content_type: SUPPORTED_MEDIA_TYPE,
+                                 actual: bad_type)
+
+                fail ::API::Errors::UnsupportedMediaType, message
+              end
+            end
+
+            def check_format(format)
+              supported_formats = ['plain']
+              supported_formats += Array(::Redmine::WikiFormatting.format_names)
+              unless supported_formats.include?(format)
+                fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
+              end
+            end
+
+            def setup_response
+              status 200
+              content_type 'text/html'
+            end
 
             def request_body
               env['api.request.body']
             end
 
             def context_object
+              try_context_object
+            rescue ::ActiveRecord::RecordNotFound
+              fail ::API::Errors::InvalidRenderContext.new(
+                I18n.t('api_v3.errors.render.context_object_not_found')
+              )
+            end
+
+            def try_context_object
               if params[:context]
-                context_object = nil
-                namespace, id = parse_context
+                context = parse_context
 
-                case namespace
+                case context[:namespace]
                 when 'work_packages'
-                  context_object = WorkPackage.visible(current_user).find_by_id(id)
-                end
-
-                unless context_object
-                  fail API::Errors::InvalidRenderContext.new('Context does not exist!')
+                  WorkPackage.visible(current_user).find(context[:id])
                 end
               end
             end
 
             def parse_context
-              contexts = API::V3::Root.routes.map do |route|
-                route_options = route.instance_variable_get(:@options)
-                match = route_options[:compiled].match(params[:context])
+              context = ::API::Utilities::ResourceLinkParser.parse(params[:context])
 
-                if match
-                  {
-                    ns: /\/(?<ns>\w+)\//.match(route_options[:namespace])[:ns],
-                    id: match[:id]
-                  }
-                end
-              end
-
-              contexts.compact!.uniq! { |c| c[:ns] }
-
-              fail API::Errors::InvalidRenderContext.new('No context found.') if contexts.empty?
-
-              unless SUPPORTED_CONTEXT_NAMESPACES.include? contexts[0][:ns]
-                fail API::Errors::InvalidRenderContext.new('Unsupported context found.')
-              end
-
-              [contexts[0][:ns], contexts[0][:id]]
-            end
-
-            def render(type)
-              case type
-              when :textile
-                renderer = ::API::Utilities::Renderer::TextileRenderer.new(request_body, context_object)
-                renderer.to_html
+              if context.nil?
+                fail ::API::Errors::InvalidRenderContext.new(
+                  I18n.t('api_v3.errors.render.context_not_parsable')
+                )
+              elsif !SUPPORTED_CONTEXT_NAMESPACES.include?(context[:namespace]) ||
+                    context[:version] != '3'
+                fail ::API::Errors::InvalidRenderContext.new(
+                  I18n.t('api_v3.errors.render.unsupported_context')
+                )
               else
+                context
               end
             end
           end
 
-          resources :textile do
-            post do
-              status 200
-              content_type 'text/html'
+          route_param :render_format do
+            before do
+              @format = params[:render_format]
+            end
 
-              render :textile
+            post do
+              check_format(@format)
+              check_content_type
+              setup_response
+
+              renderer = ::API::Utilities::TextRenderer.new(request_body,
+                                                            object: context_object,
+                                                            format: @format)
+              renderer.to_html
             end
           end
         end

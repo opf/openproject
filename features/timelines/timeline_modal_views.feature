@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -84,7 +84,7 @@ Feature: Timeline View Tests
     And I wait for timeline to load table
     And I click on the Planning Element with name "January"
     And I click on the first anchor matching "Update" in the modal
-    And I fill in "work_package_notes" with "A new comment" in the modal
+    And I fill in "work_package_journal_notes" with "A new comment" in the modal
     And I click on the div "ui-dialog-closer"
     And I confirm the JS confirm dialog
    Then I should not see a modal window

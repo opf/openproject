@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,7 +78,7 @@ describe AvatarHelper, type: :helper do
     end
   end
 
-  describe :avatar do
+  describe '#avatar' do
     it 'should return a gravatar image tag if a user is provided' do
       digest = Digest::MD5.hexdigest(user.mail)
 
@@ -123,7 +123,7 @@ describe AvatarHelper, type: :helper do
     end
   end
 
-  describe :avatar_url do
+  describe '#avatar_url' do
     it 'should return a gravatar url if a user is provided' do
       digest = Digest::MD5.hexdigest(user.mail)
 

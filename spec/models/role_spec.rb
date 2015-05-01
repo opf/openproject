@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe Role, type: :model do
       edit_project_role = FactoryGirl.create :role, permissions: [:edit_project]
 
       expect(Role.by_permission(:edit_project)).to include edit_project_role
-      expect(Role.by_permission(:some_other)).to_not include edit_project_role
+      expect(Role.by_permission(:some_other)).not_to include edit_project_role
     end
   end
 end

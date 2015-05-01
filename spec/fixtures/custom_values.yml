@@ -1,0 +1,143 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+custom_values_006:
+  customized_type: WorkPackage
+  custom_field_id: 2
+  customized_id: 3
+  id: 6
+  value: "125"
+custom_values_007:
+  customized_type: Project
+  custom_field_id: 3
+  customized_id: 1
+  id: 7
+  value: Stable
+custom_values_001:
+  customized_type: Principal
+  custom_field_id: 4
+  customized_id: 3
+  id: 1
+  value: ""
+custom_values_002:
+  customized_type: Principal
+  custom_field_id: 4
+  customized_id: 4
+  id: 2
+  value: 01 23 45 67 89
+custom_values_003:
+  customized_type: Principal
+  custom_field_id: 4
+  customized_id: 2
+  id: 3
+  value: "01 42 50 00 00"
+custom_values_004:
+  customized_type: WorkPackage
+  custom_field_id: 2
+  customized_id: 1
+  id: 4
+  value: "125"
+custom_values_005:
+  customized_type: WorkPackage
+  custom_field_id: 2
+  customized_id: 2
+  id: 5
+  value: ""
+custom_values_008:
+  customized_type: WorkPackage
+  custom_field_id: 1
+  customized_id: 3
+  id: 8
+  value: "MySQL"
+custom_values_009:
+  customized_type: WorkPackage
+  custom_field_id: 2
+  customized_id: 7
+  id: 9
+  value: "this is a stringforcustomfield search"
+custom_values_010:
+  customized_type: WorkPackage
+  custom_field_id: 6
+  customized_id: 1
+  id: 10
+  value: "2.1"
+custom_values_011:
+  customized_type: WorkPackage
+  custom_field_id: 6
+  customized_id: 2
+  id: 11
+  value: "2.05"
+custom_values_012:
+  customized_type: WorkPackage
+  custom_field_id: 6
+  customized_id: 3
+  id: 12
+  value: "11.65"
+custom_values_013:
+  customized_type: WorkPackage
+  custom_field_id: 6
+  customized_id: 7
+  id: 13
+  value: ""
+custom_values_014:
+  customized_type: WorkPackage
+  custom_field_id: 6
+  customized_id: 5
+  id: 14
+  value: "-7.6"
+custom_values_015:
+  customized_type: Enumeration
+  custom_field_id: 7
+  customized_id: 10
+  id: 15
+  value: true
+custom_values_016:
+  customized_type: Enumeration
+  custom_field_id: 7
+  customized_id: 11
+  id: 16
+  value: '1'
+custom_values_017:
+  customized_type: WorkPackage
+  custom_field_id: 8
+  customized_id: 1
+  id: 17
+  value: '2009-12-01'
+custom_values_018:
+  customized_type: WorkPackage
+  custom_field_id: 1
+  customized_id: 1
+  id: 18
+  value: "Oracle"
+custom_values_019:
+  customized_type: WorkPackage
+  custom_field_id: 8
+  customized_id: 3
+  id: 19
+  value: '2009-12-01'

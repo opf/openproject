@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ namespace :ci do
       RAILS_ENV = 'test'
       db_adapter = ENV['DB']
 
-      raise 'please provide a db adapter with DB={mysql2, postgres, sqlite}' unless db_adapter
+      raise 'please provide a db adapter with DB={mysql2, postgres}' unless db_adapter
 
       db_info = {
         'mysql2' => {
@@ -57,10 +57,6 @@ namespace :ci do
         'postgres' => {
           'adapter'  => 'postgresql',
           'username' => 'postgres'
-        },
-        'sqlite' => {
-          'adapter'  => 'sqlite3',
-          'database' => 'db/test.sqlite3'
         }
       }[db_adapter]
 
@@ -91,8 +87,6 @@ namespace :ci do
 
       Rake::Task['db:migrate'].invoke
       Rake::Task['db:schema:dump'].invoke
-
-      Rake::Task['bower:install'].invoke('-F')
 
       # Create test repositories
       Rake::Task['test:scm:setup:all'].invoke

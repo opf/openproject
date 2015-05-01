@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,10 +89,22 @@ module Redmine
           # TODO: There might be addable users which are not in the current
           #       project. But its hard (performance wise) to find them
           #       correctly. So we only search for users in the project scope.
-          #       Also, the watchable might not be allowed to be seen by all
-          #       users in the project.
           #       This implementation is so wrong, it makes me sad.
-          project.users
+          watchers = project.users
+
+          watchers = if respond_to?(:visible?)
+                       # Intentionally splitting this up into two requests as
+                       # doing it in one will be way to slow in scenarios where
+                       # the project's users have a lot of memberships.
+                       possible_watcher_ids = watchers.pluck(:id)
+
+                       User.where(id: possible_watcher_ids)
+                           .authorize_within(project) do |scope|
+                             scope.select { |user| visible?(user) }
+                           end
+                     end
+
+          watchers
         end
 
         # Returns an array of users that are proposed as watchers

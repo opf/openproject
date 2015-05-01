@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -217,7 +217,7 @@ class MembersController < ApplicationController
       role_ids = attrs.delete(:role_ids).map(&:to_i).select { |i| i > 0 }
       @member.assign_roles(role_ids)
     end
-    @member.update_attributes(attrs)
+    @member.assign_attributes(attrs)
     @member
   end
 end

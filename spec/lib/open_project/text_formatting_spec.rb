@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,28 +60,24 @@ describe OpenProject::TextFormatting do
       @project = project
 
       allow(User).to receive(:current).and_return(project_member)
-
-      Setting.enabled_scm = Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include? 'Filesystem'
+      allow(Setting).to receive(:text_formatting).and_return('textile')
     end
 
-    after do
-      allow(User).to receive(:current).and_call_original
-
-      Setting.enabled_scm.delete 'Filesystem'
-    end
-
-    context 'Changeset links' do
-      let(:repository) { FactoryGirl.create :repository, project: project }
-      let(:changeset1) {
-        FactoryGirl.create :changeset,
-                           repository: repository,
-                           comments: 'My very first commit'
-      }
-      let(:changeset2) {
-        FactoryGirl.create :changeset,
-                           repository: repository,
-                           comments: 'This commit fixes #1, #2 and references #1 & #3'
-      }
+    context "Changeset links" do
+      let(:repository) do
+        FactoryGirl.build_stubbed :repository,
+                                  project: project
+      end
+      let(:changeset1) do
+        FactoryGirl.build_stubbed :changeset,
+                                  repository: repository,
+                                  comments: 'My very first commit'
+      end
+      let(:changeset2) do
+        FactoryGirl.build_stubbed :changeset,
+                                  repository: repository,
+                                  comments: 'This commit fixes #1, #2 and references #1 & #3'
+      end
       let(:changeset_link) {
         link_to("r#{changeset1.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset1.revision },
@@ -94,7 +90,18 @@ describe OpenProject::TextFormatting do
       }
 
       before do
-        project.repository = repository
+        allow(project).to receive(:repository).and_return(repository)
+
+        changesets = [changeset1, changeset2]
+
+        allow(Changeset).to receive(:visible).and_return(changesets)
+
+        changesets.each do |changeset|
+          allow(changesets)
+            .to receive(:find_by_repository_id_and_revision)
+            .with(project.repository.id, changeset.revision)
+            .and_return(changeset)
+        end
       end
 
       context 'Single link' do
@@ -423,12 +430,29 @@ describe OpenProject::TextFormatting do
     end
 
     context 'Redmine links' do
-      let(:repository) { FactoryGirl.create :repository, project: project }
-      let(:source_url) { { controller: 'repositories', action: 'entry', project_id: identifier, path: 'some/file' } }
-      let(:source_url_with_ext) { { controller: 'repositories', action: 'entry', project_id: identifier, path: 'some/file.ext' } }
+      let(:repository) do
+        FactoryGirl.build_stubbed :repository, project: project
+      end
+      let(:source_url) do
+        { controller: 'repositories',
+          action: 'entry',
+          project_id: identifier,
+          path: 'some/file' }
+      end
+      let(:source_url_with_ext) do
+        { controller: 'repositories',
+          action: 'entry',
+          project_id: identifier,
+          path: 'some/file.ext' }
+      end
 
       before do
-        project.repository = repository
+        allow(project).to receive(:repository).and_return(repository)
+        allow(User).to receive(:current).and_return(project_member)
+        allow(project_member)
+          .to receive(:allowed_to?)
+          .with(:browse_repository, project)
+          .and_return(true)
 
         @to_test = {
           # source
@@ -503,6 +527,85 @@ EXPECTED
       subject { format_text(raw).gsub(%r{[\r\n\t]}, '') }
 
       it { is_expected.to eql(expected.gsub(%r{[\r\n\t]}, '')) }
+    end
+
+    describe 'options' do
+      describe '#format' do
+        it 'uses format of Settings, if nothing is specified' do
+          expect(format_text('*Stars!*')).to eq('<p><strong>Stars!</strong></p>')
+        end
+
+        it 'uses format of options, if specified' do
+          expect(format_text('*Stars!*', format: 'plain')).to eq('<p>*Stars!*</p>')
+        end
+      end
+    end
+  end
+
+  describe '{{toc}}', 'table of contents macro' do
+    # Source: http://en.wikipedia.org/wiki/Orange_(fruit)
+    let(:wiki_text) {
+      <<-WIKI_TEXT
+{{toc}}
+
+h1. Orange
+
+h2. Varietes
+
+h3. Common Oranges
+
+h4. Valencia
+
+h5. Naranjito
+
+h4. Hart's Tardiff Valencia
+
+h3. Navel Oranges
+
+h3. Blood Oranges
+
+h3. Acidless Oranges
+
+h2. Attributes
+
+WIKI_TEXT
+    }
+
+    subject(:html) { format_text(wiki_text) }
+
+    it 'emits a table of contents for headings h1-h4' do
+      expect(html).to be_html_eql(%{
+        <fieldset class='form--fieldset -collapsible'>
+          <legend class='form--fieldset-legend' title='Show/Hide table of contents' onclick='toggleFieldset(this);'>
+            <a href='javascript:'>Table of Contents</a>
+          </legend>
+          <div>
+            <ul class="toc">
+              <li>
+                <a href="#Orange">Orange</a>
+                <ul>
+                  <li>
+                    <a href="#Varietes">Varietes</a>
+                    <ul>
+                      <li>
+                        <a href="#Common-Oranges">Common Oranges</a>
+                        <ul>
+                          <li><a href="#Valencia">Valencia</a></li>
+                          <li><a href="#Harts-Tardiff-Valencia">Hart's Tardiff Valencia</a></li>
+                        </ul>
+                      </li>
+                      <li><a href="#Navel-Oranges">Navel Oranges</a></li>
+                      <li><a href="#Blood-Oranges">Blood Oranges</a></li>
+                      <li><a href="#Acidless-Oranges">Acidless Oranges</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#Attributes">Attributes</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </fieldset>
+      }).at_path('fieldset')
     end
   end
 

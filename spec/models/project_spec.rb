@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -128,7 +128,7 @@ describe Project, type: :model do
     end
   end
 
-  describe :find_visible do
+  describe '#find_visible' do
     it 'should find the project by id if the user is project member' do
       become_member_with_permissions(project, user, :view_work_packages)
 
@@ -151,7 +151,7 @@ describe Project, type: :model do
   end
 
   context 'when the wiki module is enabled' do
-    let(:project) { FactoryGirl.create(:project, :without_wiki) }
+    let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
 
     before :each do
       project.enabled_module_names = project.enabled_module_names | ['wiki']
@@ -202,6 +202,50 @@ describe Project, type: :model do
       it 'should not allow copy' do
         expect(project.copy_allowed?).to eq(false)
       end
+    end
+  end
+
+  describe 'avialable principles' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group) }
+    let(:role) { FactoryGirl.create(:role) }
+    let!(:user_member) {
+      FactoryGirl.create(:member,
+                         principal: user,
+                         project: project,
+                         roles: [role])
+    }
+    let!(:group_member) {
+      FactoryGirl.create(:member,
+                         principal: group,
+                         project: project,
+                         roles: [role])
+    }
+
+    shared_examples_for 'respecting group assignment settings' do
+      context 'with group assignment' do
+        before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
+
+        it { is_expected.to match_array([user, group]) }
+      end
+
+      context 'w/o group assignment' do
+        before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
+
+        it { is_expected.to match_array([user]) }
+      end
+    end
+
+    describe 'assignees' do
+      subject { project.possible_assignees }
+
+      it_behaves_like 'respecting group assignment settings'
+    end
+
+    describe 'responsibles' do
+      subject { project.possible_responsibles }
+
+      it_behaves_like 'respecting group assignment settings'
     end
   end
 end

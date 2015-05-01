@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -110,8 +110,7 @@ module Redmine
     end
 
     def find_language(lang)
-      @@languages_lookup = valid_languages.inject({}) { |k, v| k[v.to_s.downcase] = v; k }
-      @@languages_lookup[lang.to_s.downcase]
+      valid_languages.detect { |l| l =~ /#{lang}/i }
     end
 
     def set_language_if_valid(lang)

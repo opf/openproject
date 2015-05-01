@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,56 +26,63 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<%= form_tag({:action => 'edit', :tab => 'repositories'}) do %>
-
-<div class="box tabular settings">
-<p><%= setting_check_box :autofetch_changesets %></p>
-
-<p><%= setting_check_box :sys_api_enabled,
-         :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %></p>
-
-<p><%= setting_text_field :sys_api_key, :size => 30,
+<%= styled_form_tag({:action => 'edit', :tab => 'repositories'}) do %>
+  <section class="form--section">
+    <div class="form--field"><%= setting_check_box :autofetch_changesets %></div>
+    <div class="form--field"><%= setting_check_box :sys_api_enabled,
+         :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %></div>
+    <div class="form--field"><%= setting_text_field :sys_api_key, :size => 30,
                                         :id => 'settings_sys_api_key',
                                         :disabled => !Setting.sys_api_enabled?,
                                         :label => :setting_mail_handler_api_key %>
-  <%= link_to_function l(:label_generate_key), "if ($('settings_sys_api_key').disabled == false) { $('settings_sys_api_key').value = randomKey(20) }" %>
-</p>
-
-<p><%= setting_multiselect(:enabled_scm, Redmine::Scm::Base.all) %></p>
-
-<p><%= setting_text_field :repositories_encodings, :size => 60 %><br />
-<em><%= l(:text_comma_separated) %></em></p>
-
-<p><%= setting_text_field :repository_log_display_limit, :size => 6 %></p>
-
-<p><%= setting_check_box :repository_authentication_caching_enabled %></p>
-</div>
-
-<fieldset class="box tabular settings"><legend><%= l(:text_work_packages_ref_in_commit_messages) %></legend>
-<p><%= setting_text_field :commit_ref_keywords, :size => 30 %><br />
-<em><%= l(:text_comma_separated) %></em></p>
-
-<p><%= setting_text_field :commit_fix_keywords, :size => 30 %>
-<span>
-  <label style="float:none; margin-left:0px; display: inline;">
-    <%= l(:label_applied_status) %>:
-    <%= setting_select :commit_fix_status_id, [["", 0]] + Status.all.collect{|status| [status.name, status.id.to_s]}, :label => false %>
-  </label>
-  <label style="float:none; margin-left:0px; display: inline;">
-    <%= WorkPackage.human_attribute_name(:done_ratio) %>:
-    <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, :blank => :label_no_change_option, :label => false %>
-  </label>
-</span>
-<br /><em><%= l(:text_comma_separated) %></em></p>
-
-<p><%= setting_check_box :commit_logtime_enabled,
-         :onclick => "if (this.checked) { Form.Element.enable('settings_commit_logtime_activity_id'); } else { Form.Element.disable('settings_commit_logtime_activity_id'); }"%></p>
-
-<p><%= setting_select :commit_logtime_activity_id,
+      <span class="form--field-extra-actions">
+        <%= link_to_function l(:label_generate_key), "if ($('settings_sys_api_key').disabled == false) { $('settings_sys_api_key').value = randomKey(20) }" %>
+      </span>
+    </div>
+    <div class="form--field"><%= setting_multiselect(:enabled_scm, Redmine::Scm::Base.configured) %></div>
+    <div class="form--field">
+      <%= setting_text_field :repositories_encodings, :size => 60 %>
+      <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>
+    </div>
+    <div class="form--field"><%= setting_text_field :repository_log_display_limit, :size => 6 %></div>
+    <div class="form--field"><%= setting_check_box :repository_authentication_caching_enabled %></div>
+  </section>
+  <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:text_work_packages_ref_in_commit_messages) %></legend>
+    <div class="form--field">
+      <%= setting_text_field :commit_ref_keywords, :size => 30 %>
+      <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>
+    </div>
+    <div class="form--grouping" role="group" aria-labelledby="form-grouping-label-setting_commit_fix_keywords">
+      <div id="form-grouping-label-setting_commit_fix_keywords" class="form--grouping-label">
+        <%= I18n.t("setting_commit_fix_keywords") %>
+      </div>
+      <div class="form--grouping-row">
+        <div class="form--field -full-width">
+          <%= label_tag 'commit_fix_keywords', I18n.t(:setting_commit_fix_keywords), class: 'hidden-for-sighted' %>
+          <div class="form--field-container">
+            <%= setting_text_field :commit_fix_keywords, :size => 30, label: false %>
+          </div>
+        </div>
+        <div class="form--field -wide-label">
+          <%= styled_label_tag :settings_commit_fix_status_id, l(:label_applied_status) %>
+          <div class="form--field-container">
+            <%= setting_select :commit_fix_status_id, [["", 0]] + Status.all.collect{|status| [status.name, status.id.to_s]}, :label => false %>
+          </div>
+        </div>
+        <div class="form--field -wide-label">
+          <%= styled_label_tag :settings_commit_fix_done_ratio, WorkPackage.human_attribute_name(:done_ratio) %>
+          <div class="form--field-container">
+            <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, :blank => :label_no_change_option, :label => false %>
+          </div>
+        </div>
+      </div>
+      <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>
+    </div>
+    <div class="form--field"><%= setting_check_box :commit_logtime_enabled,
+         :onclick => "if (this.checked) { Form.Element.enable('settings_commit_logtime_activity_id'); } else { Form.Element.disable('settings_commit_logtime_activity_id'); }"%></div>
+    <div class="form--field"><%= setting_select :commit_logtime_activity_id,
          [[l(:label_default), 0]] + TimeEntryActivity.shared.all.collect{|activity| [activity.name, activity.id.to_s]},
-         :disabled => !Setting.commit_logtime_enabled?%></p>
-</fieldset>
-
-<%= submit_tag l(:button_save) %>
+         :disabled => !Setting.commit_logtime_enabled?%></div>
+  </fieldset>
+  <%= styled_button_tag l(:button_save), class: '-success -with-icon icon-yes' %>
 <% end %>

@@ -1,0 +1,59 @@
+<div class="work-package-details-activities-activity-contents"
+     ng-mouseover="showActions()"
+     ng-mouseout="hideActions()">
+  <div class="comments-number">
+    <span ui-sref="work-packages.list.details.activity.details({ activity_no: activityNo })">
+      <a name="{{ activityNo }}"
+         ng-bind="'#' + activityNo"
+         href="#{{ activityNo }}"></a>
+    </span>
+    <div class="comments-icons"
+         ng-show="activity.props._type == 'Activity::Comment' && (inFocus || accessibilityModeEnabled)">
+      <accessible-by-keyboard ng-if="userCanQuote" execute="quoteComment()">
+        <icon-wrapper icon-name="quote" icon-title="{{ I18n.t('js.wiki_formatting.quote') }}" css-class="action-icon">
+        </icon-wrapper>
+      </accessible-by-keyboard>
+      <accessible-by-keyboard ng-if="userCanEdit" execute="editComment()">
+        <icon-wrapper icon-name="edit" icon-title="{{ I18n.t('js.button_edit') }}" css-class="action-icon">
+        </icon-wrapper>
+      </accessible-by-keyboard>
+    </div>
+  </div>
+  <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" ng-if="userAvatar" />
+  <span class="user" ng-if="userActive"><a ng-href="{{ userPath(userId) }}" name="{{ currentAnchor }}" ng-bind="userName"></a></span>
+  <span class="user" ng-if="!userActive">{{ userName }}</span>
+  <span class="date">{{ I18n.t('js.label_commented_on') }} <op-date-time date-time-value="activity.props.createdAt"/></op-date-time>
+  <span class="user-comment wiki">
+    <div ng-if="inEdit">
+      <form name="editCommentForm">
+        <div>
+          <textarea id="edit-comment-text"
+                    name="edit_comment_text"
+                    class="add-comment-text"
+                    ng-model="activity.props.comment.raw"
+                    ng-bind-html="activity.props.comment.html"
+                    rows="4"
+                    required
+                    data-wp_autocomplete_url="{{ autocompletePath }}">
+          </textarea>
+        </div>
+        <div>
+          <button class="button"
+                  ng-click="updateComment()"
+                  ng-disabled="editCommentForm.$invalid"><i class="icon-yes icon-left"></i>{{ I18n.t('js.button_save') }}
+          </button>
+          <button class="button" ng-disabled="commentForm.$invalid" ng-click="cancelEdit()"><i class="icon-close icon-left"></i>{{ I18n.t('js.button_cancel') }}</button>
+        </div>
+      </form>
+    </div>
+    <span ng-if="!inEdit"
+          class="message"
+          ng-show="activity.props._type == 'Activity::Comment'"
+          ng-bind-html="comment"/>
+    <ul class="work-package-details-activities-messages">
+      <li ng-repeat="detail in details track by $index">
+        <span class="message" ng-bind-html="detail"/>
+      </li>
+    </ul>
+  </span>
+</div>

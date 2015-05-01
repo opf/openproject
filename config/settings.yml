@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,7 +75,7 @@ password_days_valid:
 software_name:
   default: OpenProject
 software_url:
-  default: 'https://www.openproject.org/'
+  default: 'https://community.openproject.org/'
 attachment_max_size:
   format: int
   default: 5120
@@ -180,6 +180,7 @@ mail_handler_api_key:
 work_package_list_default_columns:
   serialized: true
   default:
+  - id
   - type
   - status
   - priority

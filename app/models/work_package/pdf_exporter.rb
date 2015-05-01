@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,6 @@ module WorkPackage::PdfExporter
     page_width = 297
     right_margin = 10
     bottom_margin = 20
-    col_id_width = 10
     row_height = 5
 
     # column widths
@@ -68,7 +67,7 @@ module WorkPackage::PdfExporter
       col_width = query.columns.map do |c|
         (c.name == :subject || (c.is_a?(QueryCustomFieldColumn) && ['string', 'text'].include?(c.custom_field.field_format))) ? 4.0 : 1.0
       end
-      ratio = (table_width - col_id_width) / col_width.inject(0) { |s, w| s += w }
+      ratio = table_width / col_width.reduce(:+)
       col_width = col_width.map { |w| w * ratio }
     end
 
@@ -80,7 +79,6 @@ module WorkPackage::PdfExporter
     # headers
     pdf.SetFontStyle('B', 8)
     pdf.SetFillColor(230, 230, 230)
-    pdf.RDMCell(col_id_width, row_height, '#', 1, 0, 'L', 1)
     query.columns.each_with_index do |column, i|
       pdf.RDMCell(col_width[i], row_height, column.caption, 1, 0, 'L', 1)
     end
@@ -141,9 +139,8 @@ module WorkPackage::PdfExporter
       end
 
       # write the cells on page
-      pdf.Cell(col_id_width, row_height, work_package.id.to_s, 'T', 0, 'C', 1)
       pdf_write_cells(pdf, col_values, col_width, row_height)
-      pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
+      pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_width)
 
       # description
       if options[:show_descriptions]
@@ -156,7 +153,6 @@ module WorkPackage::PdfExporter
                          base_x,
                          base_y + max_height,
                          base_y + max_height + description_height,
-                         0,
                          [table_width])
         pdf.SetY(base_y + max_height + description_height)
       else
@@ -318,8 +314,8 @@ module WorkPackage::PdfExporter
   end
 
   # Draw lines to close the row (MultiCell border drawing in not uniform)
-  def pdf_draw_borders(pdf, top_x, top_y, lower_y, id_width, col_widths)
-    col_x = top_x + id_width
+  def pdf_draw_borders(pdf, top_x, top_y, lower_y, col_widths)
+    col_x = top_x
     pdf.Line(col_x, top_y, col_x, lower_y)    # id right border
     col_widths.each do |width|
       col_x += width

@@ -2,7 +2,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -138,7 +138,7 @@ OptionParser.new do |opts|
   opts.separator("  reposman.rb --svn-dir=/var/svn --openproject-host=openproject.example.net --scm Subversion")
   opts.separator("  reposman.rb -s /var/git -r openproject.example.net -u http://svn.example.net --scm Git")
   opts.separator("")
-  opts.separator("You might find more information on the openproject's wiki:\nhttps://www.openproject.org/projects/openproject/wiki/Support")
+  opts.separator("You might find more information on the OpenProject's help site:\nhttps://www.openproject.org/help")
 end.parse!
 
 if $test

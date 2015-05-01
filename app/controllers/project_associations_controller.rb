@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,9 +59,10 @@ class ProjectAssociationsController < ApplicationController
   end
 
   def create
+    project_b_id = params[:project_association].delete :project_b_id
     @project_association = ProjectAssociation.new(params[:project_association])
     @project_association.project_a = @project
-    @project_association.project_b_id = params[:project_association_select][:project_b_id]
+    @project_association.project_b_id = project_b_id
 
     check_visibility
 

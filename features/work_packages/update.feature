@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,7 +75,6 @@ Feature: Updating work packages
   @javascript
   Scenario: Updating the work package and seeing the results on the show page
     When I go to the edit page of the work package called "pe1"
-    And I follow "More"
     And I fill in the following:
       | Type           | Phase2      |
     # This is to be removed once the bug

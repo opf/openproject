@@ -1,0 +1,37 @@
+  <div id="detail-panel-watchers">
+    <ul class="watchers-list" ng-if="watchers.length">
+      <li ng-repeat="watcher in watchers">
+        <user-field focus="$index == focusElementIndex" user="watcher"></user-field>
+        <accessible-by-keyboard execute="deleteWatcher(watcher)" ng-if="watcher.links.removeWatcher"
+          link-class="detail-panel-watchers-delete-watcher-link">
+          <icon-wrapper icon-name="close"
+                        icon-title="{{I18n.t('js.button_delete_watcher')}}"
+                        class="detail-panel-watchers-delete-watcher-icon"></icon-wrapper>
+        </accessible-by-keyboard>
+      </li>
+    </ul>
+
+    <div id="detail-panel-watchers-add-watcher" ng-if="workPackage.link('addWatcher') && availableWatchers.length">
+      <h3 ng-bind="I18n.t('js.button_add_watcher')"/>
+      <fieldset>
+        <legend ng-bind="I18n.t('js.button_add_watcher')" class="hidden-for-sighted"/>
+        <div id="watchers_selected_list" class="hidden-for-sighted">{{watcherListString()}}</div>
+        <ui-select
+          multiple
+          title="{{ I18n.t('js.button_add_watcher') }}"
+          aria-labelledby="watchers_selected_list"
+          ng-model="watcher.selected"
+          theme="select2">
+          <ui-select-match
+            placeholder="{{ I18n.t('js.label_select_watcher') }}">
+            {{ $item.props.name }}
+          </ui-select-match>
+          <ui-select-choices
+            repeat="item in availableWatchers | filter: $select.search">
+              <div ng-bind-html="item.props.name | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </fieldset>
+    </div>
+
+  </div>

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,9 +33,11 @@ module API
       attr_reader :code, :message, :details, :errors
 
       def self.create(errors)
-        [:error_unauthorized, :error_conflict, :error_readonly].each do |key|
+        [:error_not_found, :error_unauthorized, :error_conflict, :error_readonly].each do |key|
           if errors.has_key?(key)
             case key
+            when :error_not_found
+              return ::API::Errors::NotFound.new(errors[key].join(' '))
             when :error_unauthorized
               return ::API::Errors::Unauthorized
             when :error_conflict
@@ -46,7 +48,8 @@ module API
           end
         end
 
-        ::API::Errors::Validation.new(errors.full_messages)
+        messages_by_attribute = ::API::Errors::Validation.create(errors)
+        ::API::Errors::Validation.new(messages_by_attribute.values.map(&:message))
       end
 
       def initialize(code, message)

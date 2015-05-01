@@ -1,3 +1,33 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$pagination--font-size: 0.8125rem
+
 .pagination
   +display(flex)
   +justify-content(space-between)
@@ -18,7 +48,7 @@
   +display(flex)
   margin: 0
   padding: 0
-  font-size: 90%
+  font-size: $pagination--font-size
 
   .pagination--pages &
     +justify-content(flex-start)
@@ -27,7 +57,7 @@
     +justify-content(flex-end)
 
 .pagination--item
-  min-width: 17px
+  min-width: 25px
   margin: 0 5px 0 0
   white-space: nowrap
 
@@ -45,13 +75,13 @@
   a
     margin: 0
     display: block
-    min-width: 17px
+    min-width: 25px
     text-align: center
     padding: 3px 3px
     background: #f8f8f8
     border-radius: 2px
     border: 1px solid #cccccc
-    color: $global_font_color
+    color: $body-font-color
     font-weight: normal
     cursor: pointer
     text-decoration: none
@@ -59,15 +89,15 @@
       background: #eaeaea
 
 .pagination--space
-  width: 17px
+  width: 25px
   background: #ffffff
   border: 1px solid #ffffff
   font-style: italic
-  padding: 3px 0px
+  padding: 3px 0
 
 .pagination--label
   +flex(1)
-  padding: 3px 0px
+  padding: 3px 0
   white-space: nowrap
   text-align: right
   overflow: hidden
@@ -76,7 +106,7 @@
 .pagination--range
   +flex(1)
   margin: 0 0 0 5px
-  padding: 3px 0px
+  padding: 3px 0
   display: block
   overflow: hidden
   text-overflow: ellipsis

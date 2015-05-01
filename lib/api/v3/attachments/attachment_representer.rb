@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,24 +36,34 @@ module API
       class AttachmentRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+        include API::V3::Utilities::PathHelper
+        include API::V3::Utilities
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/attachments/#{represented.id}", title: "#{represented.filename}" }
+          {
+            href: api_v3_paths.attachment(represented.id),
+            title: "#{represented.filename}"
+          }
         end
 
         link :work_package do
           work_package = represented.container
-          { href: "#{root_path}api/v3/work_packages/#{work_package.id}", title: "#{work_package.subject}" } unless work_package.nil?
+          {
+            href: api_v3_paths.work_package(work_package.id),
+            title: "#{work_package.subject}"
+          } unless work_package.nil?
         end
 
         link :author do
           author = represented.author
-          { href: "#{root_path}api/v3/users/#{author.id}", title: "#{author.name} - #{author.login}" } unless author.nil?
+          {
+            href: api_v3_paths.user(author.id),
+            title: "#{author.name} - #{author.login}"
+          } unless author.nil?
         end
 
         property :id, render_nil: true
@@ -64,7 +74,11 @@ module API
         property :content_type, render_nil: true
         property :digest, render_nil: true
         property :downloads, render_nil: true
-        property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
+        property :created_on,
+                 as: 'createdAt',
+                 getter: -> (*) {
+                   ::API::V3::Utilities::DateTimeFormatter::format_datetime(created_on)
+                 }
 
         def _type
           'Attachment'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,6 +97,8 @@ Feature: Copying a work package
      And I should see "project_2" within ".breadcrumb"
 
   Scenario: Move an issue
+    Given the "cross_project_work_package_relations" setting is set to true
+
     When I go to the move page of the work package "issue1"
      And I select "project_2" from "Project"
 
@@ -106,6 +108,8 @@ Feature: Copying a work package
      And I should see "project_2" within ".breadcrumb"
 
   Scenario: Issue children are moved
+    Given the "cross_project_work_package_relations" setting is set to true
+
     When I go to the move page of the work package "issue1"
      And I select "project_2" from "Project"
 

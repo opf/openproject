@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,8 @@ require 'spec_helper'
 require 'rack/test'
 
 describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
+  include API::V3::Utilities::PathHelper
+
   let(:admin) { FactoryGirl.create(:admin) }
 
   describe 'activities' do
@@ -39,7 +41,7 @@ describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
     describe 'POST /api/v3/work_packages/:id/activities' do
       shared_context 'create activity' do
         before {
-          post "/api/v3/work_packages/#{work_package.id}/activities",
+          post (api_v3_paths.work_package_activities work_package.id),
                { comment: comment }.to_json,  'CONTENT_TYPE' => 'application/json'
         }
       end

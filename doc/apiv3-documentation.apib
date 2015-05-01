@@ -27,8 +27,6 @@ Read more: http://stateless.co/hal_specification.html
     - `_type` - specifies the type of the resource (e.g.: WorkPackage, Project)
     - `_links` - contains all links available for the resource
     - `_embedded` - contains all embedded objects
-    - `_count` - number of records fetched in the response
-    - `_total` - number of available records
 
 HAL does not guarantee that embedded resources are embedded in their full representation, they might as well be
 partially represented (e.g. some properties can be left out).
@@ -36,63 +34,51 @@ However in this API you have the guarantee that whenever a resource is **embedde
 
 # API response structure
 
-All API responses contain a single HAL+JSON object. Collections are also represented by a single JSON object that itself
-contains its members in its `_embedded` section.
-
-## Simple objects
-
-For example:
-
-    {
-        "id": 1,
-        "name": "My awesome project",
-        ...
-
-        "_type": "Project",
-        "_links": {
-            "self": { "href": "/projects/1", "title": "My awesome project" },
-            "update": { "href": "/projects/1", "method": "patch", "title": "Update My awesome project" },
-            "delete": { "href": "/projects/1", "method": "delete", "title": "Delete My awesome project" }
-        },
-        "_embedded": {
-            ...
-        }
-    }
-
-## Collection objects
-
-For example:
-
-    {
-        "_links":
-        {
-            "self": { href: "/api/v3/projects" }
-        },
-        "_type": "Projects",
-        "_embedded":
-        {
-            "projects": [
-                {
-                    "self": { "href": "/projects/1" }
-                    "_type": "Project",
-                    // ... etc ...
-                },
-                {
-                    "self": { "href": "/projects/2" }
-                    "_type": "Project",
-                    // ... etc ...
-                }
-            ]
-        }
-    }
+All API responses contain a single HAL+JSON object, even collections of objects are technically represented by
+a single HAL+JSON object that itself contains its members. More details on collections can be found
+in the [Collections Section](#collections).
 
 # Authentication
 
-For now the API only supports **session-based authentication**. This means you have to login to OpenProject via
-the Web-Interface to be authenticated in the API. This method is well-suited for clients acting within the browser,
-like the Angular-Client built into OpenProject.
+For now the API only supports two authentication schemes: session based authentication and basic auth.
 
-However for the future we plan to add authentication modes that are more suitable for **external clients** too.
+## Session-based Authentication
+
+This means you have to login to OpenProject via the Web-Interface to be authenticated in the API.
+This method is well-suited for clients acting within the browser, like the Angular-Client built into OpenProject.
+
+## API Key through Basic Auth
+
+Users can authenticate towards the API v3 using basic auth with 'apikey' as the user name and their API key as the password. Users can find their API key on their account page.
+
+Example:
+
+```bash
+API_KEY=2519132cdf62dcf5a66fd96394672079f9e9cad1
+curl -u apikey:$API_KEY https://community.openproject.com/api/v3/users/42
+```
+
+### Why not username and password?
+
+The simplest way to do basic auth would be to use a user's username and password naturally.
+However, OpenProject already has supported API keys in the past for the API v2, though not through basic auth.
+
+Using **username and password** directly would have some advantages:
+
+* It is intuitive for the user who then just has to provide those just as they would when logging into OpenProject.
+* No extra logic for token managment necessary.
+
+On the other hand using **API keys** has some advantages too, which is why we went for that:
+
+* If compromised while saved on an insecure client the user only has to regenerate the API key instead of changing their password, too.
+* They are naturally long and random which makes them invulnerable to dictionary attacks and harder to crack in general.
+
+Most importantly users may not actually have a password to begin with. Specifically when they have registered
+through an OpenID Connect provider.
+
+## Future Work
+
+For the future we plan to add authentication modes based on OAuth2 and OpenID Connect.
 
 # Allowed HTTP methods
 
@@ -102,6 +88,40 @@ However for the future we plan to add authentication modes that are more suitabl
 - `DELETE` - Delete a resource
 
 # Group Basic Objects
+
+# Links
+
+Links to other resources in the API are represented uniformly by so called link objects.
+
+## Properties
+
+| Property  | Description                                                              | Type    | Required | Nullable | Default |
+|:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ------- |
+| href      | URL to the referenced resource (might be relative)                       | String  |    ✓     |    ✓     |         |
+| title     | Representative label for the resource                                    | String  |          |          |         |
+| templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false   |
+| method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET     |
+
+All link objects *must* contain the `href` property, though it might be `null`. Thus the following is a valid
+link object:
+
+    {
+        "href": null
+    }
+
+whereas `{ }` is not a valid link object. The meaning of `"href": null` is that **no** resource is referenced.
+For example a work package without an assignee will still have an assignee link, but its `href` will be `null`.
+
+If a `title` is present, the client can display the title to the user when referring to the resource.
+
+Templated links are links that contain client replacable parts. Replaceable parts are enclosed in braces. For example
+the link `api/v3/example/{id}` is not complete in itself, but the client needs to replace the string `{id}` itself.
+As of now the API does not indicate the valid replacement values.
+
+The `method` indicates which HTTP verb the client *must* use when following the link for the intended purpose.
+
+Note: When writing links (e.g. during a `PATCH` operation) only changes to `href` are accepted.
+Changes to all other properties will be **silently ignored**.
 
 # Errors
 
@@ -118,7 +138,7 @@ Error objects shall give the client additional details about the cause of an err
     * The "List of Error Identifiers" defines the possible mappings between HTTP status and error identifier
 * The `message` contains a human readable concise message describing the error
     * It *optionally* includes specific information, for example which permission would have been needed to perform an action
-    * It it localized depending on the users preferences
+    * It is localized depending on the users preferences
     * It *must not* include HTML or other kind of markup
     * Error messages form complete sentences including punctuation
 
@@ -187,20 +207,23 @@ embedded errors or simply state that multiple errors occured.
 
 * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
+* `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**) The client used an invalid transition in the attempt to change the status of a user account.
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
+* `urn:openproject-org:api:v3:errors:TypeNotSupported` (**HTTP 415**) - The request contained data in an unsupported media type (Content-Type)
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
 * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
+* `urn:openproject-org:api:v3:errors:PropertyFormatError` (**HTTP 422**) - A property value was provided in a format that the server does not understand or accept
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 * `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
 
-# Formatable Text
+# Formattable Text
 
 OpenProject supports text formatting in Textile. Other text formats *may* be introduced in the future.
-Properties that contain formatable text have a special representation in this API. In this specification their
-type is indicated as `Formatable`. Their representation contains the following properties:
+Properties that contain formattable text have a special representation in this API. In this specification their
+type is indicated as `Formattable`. Their representation contains the following properties:
 
 | Property | Description                                        | Type   | Example                            | Supported operations |
 |:--------:| -------------------------------------------------- | ------ | ---------------------------------- | -------------------- |
@@ -210,16 +233,17 @@ type is indicated as `Formatable`. Their representation contains the following p
 
 `format` can as of today have one of the following values:
 
-* `plain` - no formatting at all
+* `plain` - only basic formatting, e.g. inserting paragraphs and line breaks into HTML
 * `textile` - formatting using Textile
+* `custom` - There is no apparent formatting rule that transforms the raw version to HTML (only used for read only properties)
 
 More formats might be added in the future.
 
-Note that `raw` is the only property supporting the **write** operation. A property of type *Formatable* that
+Note that `raw` is the only property supporting the **write** operation. A property of type *Formattable* that
 is marked as **read and write**, will only accept changes to the `raw` property. Changes to `format` and `html` will be **silently ignored**.
 It is thus sufficient to solely provide the `raw` property for changes.
 
-If the *Formatable* is marked as **read only**, the `raw` attribute also becomes **read only**.
+If the *Formattable* is marked as **read only**, the `raw` attribute also becomes **read only**.
 
 #### Example
 
@@ -229,20 +253,200 @@ If the *Formatable* is marked as **read only**, the `raw` attribute also becomes
         "html": "I <strong>am</strong> formatted!"
     }
 
+# Dates, Times and Durations
+
+Representation of time related values in this API is done according to [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601).
+In this specification the following terms will be used as type specifiers (e.g. in tables):
+
+* `Date` - refers to an ISO 8601 date, e.g. "2014-05-21"
+* `DateTime` - refers to an ISO 8601 combined date and time, e.g. "2014-05-21T13:37:00Z"
+* `Duration` - refers to an ISO 8601 duration, e.g. "P1DT18H"
+
+# Colors
+
+Colors are represented in RGB using hexadecimal notation as specified in [CSS Color Module Level 3](http://www.w3.org/TR/css3-color/).
+That is a `#` followed by either three or six hexadecimal digits.
+
+#### Examples
+
+    red:   #ff0000 or #f00
+    green: #00ff00 or #0f0
+    black: #000000 or #000
+    white: #ffffff or #fff
+
+# Group Collections
+
+Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
+However as collections can become quite large, the API will **not** simply return a JSON array, but a special collection
+object that will contain the actual elements in its embedded property `elements`.
+
+Collections *may* be paginated, this means that a single response from the server will not contain all elements of the collection,
+but only a subset. In this case the client can issue further requests to retrieve the remaining elements.
+There are two ways to access the result pages of a paginated collection:
+
+* offset based pagination
+* cursor based pagination
+
+The available ways of pagination depend on the collection queried. Some collections feature no pagination at all, meaning they
+will always return all elements. Others might only offer one of the two pagination methods or both of them.
+An explanation of [offset](#collections-offset-based-pagination) and [cursor](#collections-cursor-based-pagination) based
+pagination can be found below the links table.
+
+A collection also carries meta information like the total count of elements in the collection or - in case of a paginated collection -
+the amount of elements returned in this response and action links to retrieve the remaining elements.
+
+## Properties
+
+| Property | Description                                                     | Type    | Availability                |
+|:--------:| --------------------------------------------------------------- | ------- | --------------------------- |
+| total    | The total amount of elements available in the collection        | Integer | always                      |
+| pageSize | Amount of elements that a response will hold                    | Integer | when paginated              |
+| count    | Actual amount of elements in this response                      | Integer | always                      |
+| offset   | Amount of elements preceding the first element of this response | Integer | when offset based available |
+
+## Links
+
+| Link             | Description                                                              | Availability                |
+|:----------------:| ------------------------------------------------------------------------ | --------------------------- |
+| self             | Link to the current page in the collection                               | always                      |
+| changeSize       | Templated link to change the page size, preserving the relative position | when paginated              |
+| filter           | Templated link to receive only elements matching the provided OQL query  | when filtering available    |
+| jumpTo           | Templated link to jump to a specified offset                             | when offset based available |
+| nextByOffset     | Link to retrieve the following page of elements (offset based)           | when offset based available |
+| previousByOffset | Link to retrieve the preceding page of elements (offset based)           | when offset based available |
+| nextByCursor     | Link to retrieve the elements following the current page (cursor based)  | when cursor based available |
+| previousByCursor | Link to retrieve the elements preceding the current page (cursor based)  | when cursor based available |
+
+### Filters
+
+Filters are specified using the [OpenProject Query Language (OQL)](https://github.com/opf/oql).
+
+The syntax of OQL queries is explained in the [OQL Documentation](http://www.rubydoc.info/github/opf/oql/dev). All properties of the underlying resource can be used
+in the query, e.g. when filtering over a collection of work packages, it is possible to compare the `subject` with any value.
+
+Note that for linked resources you can either compare against the **ID** of the linked resource or against its **link URL**:
+
+    # valid
+    status == "1"
+    status == "/api/v3/statuses/1"
+
+    # NOT valid
+    status == "New"
+
+## Offset based pagination [/api/v3/examples{?offset,pageSize}]
+
+Offset based pagination works by specifying two values: the **offset** and the **pageSize**. The offset determines how many elements are
+skipped before the first element that is present in the result. The page size determines how many items there will be in the result. Note
+that the server might not allow arbitrarily large page sizes, a client should therefore always check the page size accepted by the server
+using the **pageSize** property of the response.
+
+The benefit of offset based pagination is that the total number of pages can be easily determined and that it is possible to jump
+to arbitrary pages within the collection. Offset based pagination is therefore well suited when a result is displayed to the end user
+in the form of multiple pages anyway.
+
+A drawback of offset based pagination comes with concurrent modification of the collection. If the collection is modified
+between two page requests, it is possible that the client receives elements close to the page boundaries twice or does not see them at all.
+
+## view offset based [GET]
+
++ Parameters
+    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/examples?offset=25&pageSize=25" },
+                    "jumpTo": {
+                        "href": "/api/v3/examples?offset={offset}&pageSize=25",
+                        "templated": true
+                    },
+                    "changeSize": {
+                        "href": "/api/v3/examples?offset=25&pageSize={size}",
+                        "templated": true
+                    },
+                    "previousByOffset": { "href": "/api/v3/examples?offset=0&pageSize=25" },
+                    "previousByCursor": { "href": "/api/v3/examples?before=bar&pageSize=25" }
+                },
+                "_type": "Collection",
+                "total": 27,
+                "pageSize": 25,
+                "count": 2,
+                "offset": 25,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar" },
+                        { "foo": "baz" }
+                    ]
+                }
+            }
+
+## Cursor based pagination [/api/v3/examples{?before,after,pageSize}]
+
+Cursor based pagination is intended to be used, when the client needs a consistent and complete (sub-) range of the collection,
+e.g. in infinite scrolling scenarios. In cursor based pagination the client will receive a link to the next and
+the previous page in the result set. The guarantee is, that the boundaries of that page will align with the boundaries of the current page,
+regardless of changes to the collection.
+
+The drawback for cursor based pagination is, that it is not immediately determinable how many "next" and how many "previous" pages there are.
+Cursor based pagination is therefore less suited for use cases where you want to directly "jump" to an arbitrary page.
+
+## view cursor based [GET]
+
++ Parameters
+    + before (optional, string, `bar`) ... Display the elements preceding the given element.
+    Note that the value of this parameter is very specific to the collection, a client should not
+    try to infer values, but use the **previous** link offered by the collection.
+
+    + after (optional, string, `buz`) ... Display the elements succeeding the given element.
+    Note that the value of this parameter is very specific to the collection, a client should not
+    try to infer values, but use the **next** link offered by the collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/examples?after=buz&pageSize=25" },
+                    "changeSize": {
+                        "href": "/api/v3/examples?after=buz&pageSize={size}",
+                        "templated": true
+                    },
+                    "previousByCursor": { "href": "/api/v3/examples?before=bar&pageSize=25" }
+                },
+                "_type": "Collection",
+                "total": 27,
+                "pageSize": 25,
+                "count": 2,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar" },
+                        { "foo": "baz" }
+                    ]
+                }
+            }
+
 # Group Activities
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Activity id | Integer | Must be a positive integer | 12 | READ |
-| version | Activity version | Integer | Must be a positive integer | 31 | READ |
-| comment | | Formatable | | | READ / WRITE |
-| details | | Array of Formatable | | | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| Property    | Description      | Type                 | Constraints | Supported operations |
+| :---------: | -------------    | ----                 | ----------- | -------------------- |
+| id          | Activity id      | Integer              | x > 0       | READ                 |
+| version     | Activity version | Integer              | x > 0       | READ                 |
+| comment     |                  | Formattable          |             | READ / WRITE         |
+| details     |                  | Array of Formattable |             | READ                 |
+| createdAt   | Time of creation | DateTime             |             | READ                 |
 
 Activity can be either _type Activity or _type Activity::Comment.
 
-## Activity [/activities/{id}]
+## Activity [/api/v3/activities/{id}]
 
 + Model
     + Body
@@ -348,18 +552,18 @@ Updates an activity's comment and, on success, returns the updated activity.
 # Group Attachments
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Attachment's id | Integer | Must be a positive integer | 12 | READ |
-| fileName | | String | | dolor_sit_amet | READ |
-| diskFileName | | String | | dolor_sit_amet | READ |
-| description | | String | | Lorem ipsum dolor ... | READ |
-| contentType | | String | | application/binary | READ |
-| digest | | String | | | READ |
-| downloads | | Integer | | | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| Property     | Description      | Type     | Constraints | Supported operations |
+| :---------:  | -------------    | ----     | ----------- | -------------------- |
+| id           | Attachment's id  | Integer  | x > 0       | READ                 |
+| fileName     |                  | String   |             | READ                 |
+| diskFileName |                  | String   |             | READ                 |
+| description  |                  | String   |             | READ                 |
+| contentType  |                  | String   |             | READ                 |
+| digest       |                  | String   |             | READ                 |
+| downloads    |                  | Integer  |             | READ                 |
+| createdAt    | Time of creation | DateTime |             | READ                 |
 
-## Attachment [/attachments/{id}]
+## Attachment [/api/v3/attachments/{id}]
 
 + Model
     + Body
@@ -402,38 +606,61 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 # Group Categories
 
-## Properties
-| Property | Description | Type    | Constraints | Example | Supported operations |
-|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Category id   | Integer | Must be a positive integer | 12 | READ |
-| name     | Category name | String  |             | Category Name  | READ |
+## Linked Properties:
+|  Link           | Description                                         | Type          | Constraints | Supported operations |
+|:---------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
+| self            | This category                                       | Category      | not null    | READ                 |
+| project         | The project of this category                        | Project       | not null    | READ                 |
+| defaultAssignee | Default assignee for work packages of this category | User          |             | READ                 |
 
-## Categories by Project [/projects/{project_id}/categories]
+## Properties
+| Property   | Description   | Type    | Constraints | Supported operations |
+| :--------: | ------------- | ------- | ----------- | -------------------- |
+| id         | Category id   | Integer | x > 0       | READ                 |
+| name       | Category name | String  |             | READ                 |
+
+## Categories by Project [/api/v3/projects/{project_id}/categories]
 
 + Model
     + Body
 
             {
-                _links:
-                {
-                    self:
-                    {
-                        href: "/api/v3/projects/11/categories"
-                    }
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/categories" }
                 },
-                _type: "Categories",
-                _embedded:
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
                 {
-                    categories: [
+                    "elements": [
                         {
-                            _type: "Category",
-                            id: 10,
-                            name: "Foo"
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/categories/10",
+                                    "title": "Category with assignee"
+                                },
+                                "project": {
+                                    "href": "/api/v3/projects/11",
+                                    "title": "Example project"
+                                },
+                                "defaultAssignee": {
+                                    "href": "/api/v3/users/42",
+                                    "title": "John Sheppard"
+                                }
+                            },
+                            "_type": "Category",
+                            "id": 10,
+                            "name": "Foo"
                         },
                         {
-                            _type: "Category",
-                            id: 11,
-                            name: "Bar"
+                            "_links": {
+                                "self": { "href": "/api/v3/categories/11" },
+                                "project": { "href": "/api/v3/projects/11" }
+                            },
+                            "_type": "Category",
+                            "id": 11,
+                            "name": "Bar"
                         }
                     ]
                 }
@@ -447,6 +674,76 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Response 200 (application/hal+json)
 
     [Categories by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Category [/api/v3/categories/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/categories/10",
+                        "title": "Category with assignee"
+                     },
+                    "project": {
+                        "href": "/api/v3/projects/11",
+                        "title": "Example project"
+                    },
+                    "defaultAssignee": {
+                        "href": "/api/v3/users/42",
+                        "title": "John Sheppard"
+                    }
+                },
+                "_type": "Category",
+                "id": 10,
+                "name": "Foo"
+            }
+
+## View Category [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... category id
+
++ Response 200 (application/hal+json)
+
+    [Category][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the category does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project (defining the category)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a category. Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified category does not exist."
+            }
 
 # Group Forms
 
@@ -467,14 +764,20 @@ Subsequent calls to the form should contain a single JSON object as described by
 ## Actions:
 
 | Link                | Description                                                           | Condition                        |
-|:-------------------:|-----------------------------------------------------------------------| -------------------------------- |
+|:-------------------:| --------------------------------------------------------------------- | -------------------------------- |
 | validate            | Validate changes, show errors and allowed values for changed resource |                                  |
 | commit              | Actually perform changes to the resource                              | form content is valid            |
 | previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
 
+## Linked Properties:
+
+| Link                | Description                                      | Type          | Nullable | Supported operations |
+|:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
+| self                | This form                                        | Form          |          | READ                 |
+
 ## Embedded Properties:
 
-Forms contain exactly three embedded properties:
+Apart from the linked properties, forms contain always three other embedded properties:
 
 * `payload`
 * `schema`
@@ -497,48 +800,28 @@ contain a default value for that property. Nevertheless the client will also rec
 
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
+A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
+It is only necessary to include the properties that you want to change, as well as the `lockVersion` if one is present.
+However you *may* include all the properties sent in the `payload` section.
+
 ### Schema
 
-The schema provides more detailed information about the properties of a resource.
-Technically `schema` is a dictionary containing names of properties as keys
-and objects describing the corresponding property as values. The values are called **field schema**.
-
-#### Field schema
-
-**Linked Properties**
-
-| Property       | Description                                                    | Example       |
-|:--------------:|----------------------------------------------------------------| ------------- |
-| allowed_values | List of resources that are assignable by the current user.     | `{ href: "/api/v3/statuses" }` |
-
-**Properties**
-
-| Property       | Description                                                    | Example       | Default |
-|:--------------:|----------------------------------------------------------------| ------------- | ------- |
-| type           | The data type of the properties values                         | String        |         |
-| required       | If true every request **must** contain this property           | true          | false   |
-| writable       | If false it is not allowed to **change** the properties value  | false         | true    |
-
-**Remarks**
-
-The `allowed_values` can either contain a list of canonical links or just a single link to a collection resource.
-This is an optimization to allow efficient handling of both small resource lists (that be be enumerated inline) and large
-resource lists (requiring one or more separate requests).
-
-A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
-It is only necessary to include the properties that you want to change and the properties that are defined as **required**
-by the field schema. However you *may* include all the properties sent in the `payload` section.
+The schema embedded in a form is a normal [schema describing the underlying resource](#schema).
+However, the embedded schema can change with each revalidation of the form.
+For example it might be possible, that changing the type of a work package affects its available properties,
+as well as possible values for certain properties.
+As this makes the embedded schema very dynamic, it is not included as a static link.
 
 ### Validation Errors
 
-Like `schema` the validation errors build a dictionary where the key is a property name.
+Like a [schema](#schema) the validation errors build a dictionary where the key is a property name.
 Each value is an error object that indicates the error that occured validating the corresponding property.
 There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
 
 However note that even in the case of validation errors, the response you receive from the form endpoint will be an HTTP 200.
 That is because the main purpose of a form is helping the client to sort out validation errors.
 
-## Example Form [/example/form]
+## Example Form [/api/v3/example/form]
 
 + Model
     + Body
@@ -572,22 +855,23 @@ That is because the main purpose of a form is helping the client to sort out val
                         "subject": "An example title"
                     },
                     "schema": {
+                        "_type": "Schema",
+                        "_links": {
+                            "self": { "href": "/api/v3/example/schema" }
+                        },
+
                         "lockVersion": {
                             "type": "Integer",
-                            "required": true,
-                            "writable": false
-                        },
-                        "_type": {
-                            "type": "MetaType",
-                            "required": true,
                             "writable": false
                         },
                         "subject": {
-                            "type": "String"
+                            "type": "String",
+                            "minLength": 1,
+                            "maxLength": 255
                         },
                         "status": {
                             "_links": {
-                                "allowed_values": [
+                                "allowedValues": [
                                     { "href": "/api/v3/statuses/1", "title": "New" },
                                     { "href": "/api/v3/statuses/2", "title": "Closed" }
                                 ]
@@ -596,7 +880,7 @@ That is because the main purpose of a form is helping the client to sort out val
                             "type": "Status",
 
                             "_embedded": {
-                                "allowed_values": [
+                                "allowedValues": [
                                     {
                                         "_links": { "self": { "href": "/api/v3/statuses/1" } },
                                         "_type": "Status",
@@ -694,17 +978,17 @@ This is an example of how a form might look like. Note that this endpoint does n
 # Group Previewing
 
 Throughout OpenProject user input for many properties can be formatted (e.g. using *Textile*).
-Using the apropriate rendering endpoint it is possible to render custom formatted inputs into HTML and thus
+Using the appropriate rendering endpoint it is possible to render custom formatted inputs into HTML and thus
 receive a preview of the rendered text.
 
-The request to a rendering endpoint should always have a MIME-Type of `text/plain`.
+The request to a rendering endpoint must always have a MIME-Type of `text/plain`.
 The request body is the actual string that shall be rendered as HTML string.
 
-## Textile [/render/textile{?context}]
+## Textile [/api/v3/render/textile{?context}]
 
 + Model
     + Body
-    
+
             <p>Hello world! <a href="http://example.com">This</a> <strong>is</strong> textile!</p>
 
 ## Preview Textile document [POST]
@@ -712,12 +996,12 @@ The request body is the actual string that shall be rendered as HTML string.
 + Parameters
     + context (optional, string, `/api/v3/work_packages/42`)
         API-Link to the context in which the rendering occurs, for example a specific work package.
-        
+
         If left out only context-agnostic rendering takes place.
         Please note that OpenProject features textile-extensions that can only work given a context (e.g. display attached images).
-        
+
         **Supported contexts:**
-        
+
         * `/api/v3/work_packages/{id}` - an existing work package
 
 + Request (text/plain)
@@ -727,27 +1011,39 @@ The request body is the actual string that shall be rendered as HTML string.
 + Response 200 (text/html)
 
     [Textile][]
-    
+
 + Response 400 (application/json)
 
     Returned if the context passed by the client is not valid (e.g. unknown).
-    
+
     Note that this response will also occur when the requesting user
     is not allowed to see the context resource (e.g. limited work package visibility).
 
     + Body
-        
+
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRenderContext",
                 "message": "Could not render textile string in the given context."
             }
 
-## Plain Text [/render/plain]
++ Response 415 (application/json)
+
+    Returned if the Content-Type indicated in the request is not `text/plain`.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:TypeNotSupported",
+                "message": "Expected Content-Type to be 'text/plain' but got 'application/json'."
+            }
+
+## Plain Text [/api/v3/render/plain]
 
 + Model
     + Body
-    
+
             <p>Hello world! This *is* plain text!</p>
 
 ## Preview plain document [POST]
@@ -760,59 +1056,106 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Plain Text][]
 
++ Response 415 (application/json)
+
+    Returned if the Content-Type indicated in the request is not `text/plain`.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:TypeNotSupported",
+                "message": "Expected Content-Type to be 'text/plain' but got 'application/json'."
+            }
+
 # Group Priorities
 
-## Properties
-| Property | Description | Type    | Constraints | Example | Supported operations |
-|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Priority id   | Integer | Must be a positive integer | 12 | READ |
-| name     | Priority name | String  |             | High  | READ |
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This priority                               | Priority      | not null              | READ                 |
 
-## Priorities [/priorities]
+## Properties
+| Property    | Description                                 | Type       | Constraints | Supported operations |
+| :---------: | ------------------------------------------- | ---------- | ----------- | -------------------- |
+| id          | Priority id                                 | Integer    | x > 0       | READ                 |
+| name        | Priority name                               | String     | not empty   | READ                 |
+| position    | Sort index of the priority                  | Integer    | x > 0       | READ                 |
+| isDefault   | Indicates whether this is the default value | Boolean    |             | READ                 |
+| isActive    | Indicates whether the priority is available | Boolean    |             | READ                 |
+
+## Priorities [/api/v3/priorities]
 
 + Model
     + Body
 
             {
-                _links:
-                {
-                    self:
-                    {
-                        href: "/api/v3/priorities"
+                "_links" : {
+                    "self" : {
+                        "href" : "/api/v3/priorities"
                     }
                 },
-                _type: "Priorities",
-                _embedded:
-                {
-                    priorities: [
-                        {
-                            _type: "Priority",
-                            id: 1,
-                            name: "Low"
-                        },
-                        {
-                            _type: "Priority",
-                            id: 2,
-                            name: "Normal"
-                        },
-                        {
-                            _type: "Priority",
-                            id: 3,
-                            name: "High"
-                        },
-                        {
-                            _type: "Priority",
-                            id: 4,
-                            name: "Urgent"
-                        },
-                        {
-                            _type: "Priority",
-                            id: 5,
-                            name: "Immediate"
+                "_type" : "Collection",
+                "total" : 4,
+                "count" : 4,
+                "_embedded" : {
+                    "elements" : [{
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/1",
+                                    "title" : "Low"
+                                }
+                            },
+                            "id" : 1,
+                            "name" : "Low",
+                            "position" : 1,
+                            "isDefault" : false,
+                            "isActive" : true
+                        }, {
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/2",
+                                    "title" : "Normal"
+                                }
+                            },
+                            "id" : 2,
+                            "name" : "Normal",
+                            "position" : 2,
+                            "isDefault" : true,
+                            "isActive" : true
+                        }, {
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/3",
+                                    "title" : "High"
+                                }
+                            },
+                            "id" : 3,
+                            "name" : "High",
+                            "position" : 3,
+                            "isDefault" : false,
+                            "isActive" : true
+                        }, {
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/4",
+                                    "title" : "Immediate"
+                                }
+                            },
+                            "id" : 4,
+                            "name" : "Immediate",
+                            "position" : 5,
+                            "isDefault" : false,
+                            "isActive" : true
                         }
                     ]
                 }
             }
+
 
 ## List all Priorities [GET]
 
@@ -820,27 +1163,86 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Priorities][]
 
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the priorities."
+            }
+
+## Priority [/api/v3/priorities/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type" : "Priority",
+                "_links" : {
+                    "self" : {
+                        "href" : "/api/v3/priorities/1",
+                        "title" : "Low"
+                    }
+                },
+                "id" : 1,
+                "name" : "Low",
+                "position" : 1,
+                "isDefault" : false,
+                "isActive" : true
+            }
+
+
+## view Priority [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Priority id
+
++ Response 200 (application/hal+json)
+
+    [Priority][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this priority."
+            }
+
 # Group Projects
 
 ## Linked Properties:
-|  Link  | Description | Type | Constraints | Supported operations |
-|:------:|-------------| ---- | ----------- | -------------------- |
-| self   | This project | Project | not null | READ |
-| categories | Categories available in this project | Categories | not null | READ |
-| versions | Versions available in this project | Versions | not null | READ |
+| Link       | Description                          | Type       | Constraints | Supported operations |
+| :------:   | -------------                        | ----       | ----------- | -------------------- |
+| self       | This project                         | Project    | not null    | READ                 |
+| categories | Categories available in this project | Categories | not null    | READ                 |
+| types      | Types available in this project      | Types      | not null    | READ                 |
+| versions   | Versions available in this project   | Versions   | not null    | READ                 |
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Projects's id | Integer | Must be a positive integer | 12 | READ |
-| identifier | | String | | project_identifier | READ |
-| name | | String | | Project example | READ |
-| description | | String | | Lorem ipsum dolor sit amet | READ |
-| homepage | | String | | http://openproject.com | READ |
-| createdOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
-| updatedOn | | Timestamp | 2014-05-21T08:51:20Z | | READ |
+| Property    | Description                                   | Type     | Constraints | Supported operations |
+| :---------: | -------------                                 | ----     | ----------- | -------------------- |
+| id          | Projects's id                                 | Integer  | x > 0       | READ                 |
+| identifier  |                                               | String   |             | READ                 |
+| name        |                                               | String   |             | READ                 |
+| description |                                               | String   |             | READ                 |
+| homepage    |                                               | String   |             | READ                 |
+| createdAt   | Time of creation                              | DateTime |             | READ                 |
+| updatedAt   | Time of the most recent change to the project | DateTime |             | READ                 |
 
-## Project [/projects/{id}]
+## Project [/api/v3/projects/{id}]
 
 + Model
     + Body
@@ -852,18 +1254,17 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/projects/1",
                         "title": "Lorem"
                     },
-                    "workPackages": [{
-                        "href": "/api/v3/work_packages/1",
-                        "title": "Lorem ipsum"
-                    }]
+                    "categories": { "href": "/api/v3/projects/1/categories" },
+                    "types": { "href": "/api/v3/projects/1/types" },
+                    "versions": { "href": "/api/v3/projects/1/versions" }
                 },
                 "id": 1,
                 "identifier": "project_identifier",
                 "name": "Project example",
                 "description": "Lorem ipsum dolor sit amet",
                 "homepage": "http://openproject.com",
-                "createdOn": "2014-05-21T08:51:20Z",
-                "updatedOn": "2014-05-21T08:51:20Z"
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
             }
 
 ## View project [GET]
@@ -875,22 +1276,95 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Project][]
 
+## Projects by version [/api/v3/versions/{id}/projects]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/versions/2/projects"
+                    }
+                },
+                "total": 1,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Project",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/projects/1",
+                                    "title": "Lorem"
+                                },
+                                "categories": { "href": "/api/v3/projects/1/categories" },
+                                "versions": { "href": "/api/v3/projects/1/versions" }
+                            },
+                            "id": 1,
+                            "identifier": "project_identifier",
+                            "name": "Project example",
+                            "description": "Lorem ipsum dolor sit amet",
+                            "homepage": "http://openproject.com",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List projects with version [GET]
+
+This endpoint lists the projects where the given version is available.
+
+The projects returned depend on the sharing settings of the given version,
+but are also limited to the projects that the current user is allowed to see.
+
++ Parameters
+    + id (required, integer, `1`) ... Version id
+
++ Response 200 (application/hal+json)
+
+    [Projects by version][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the given version is available)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a version.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }
+
 # Group Queries
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Query id | Integer | Must be a positive integer | 12 | READ |
-| name | Query name | String | | My work packages query | READ |
-| filters | | String | | | READ |
-| isPublic | | Boolean | | true | READ |
-| columnNames | | String | | | READ |
-| sortCriteria | | String | | | READ |
-| groupBy | | String | | | READ |
-| displaySums | | Boolean | | true | READ |
-| isStarred | | Boolean | | true | READ |
+| Property     | Description   | Type    | Constraints | Supported operations |
+| :---------:  | ------------- | ----    | ----------- | -------------------- |
+| id           | Query id      | Integer | x > 0       | READ                 |
+| name         | Query name    | String  |             | READ                 |
+| filters      |               | String  |             | READ                 |
+| isPublic     |               | Boolean |             | READ                 |
+| columnNames  |               | String  |             | READ                 |
+| sortCriteria |               | String  |             | READ                 |
+| groupBy      |               | String  |             | READ                 |
+| displaySums  |               | Boolean |             | READ                 |
+| isStarred    |               | Boolean |             | READ                 |
 
-## Query [/queries/{id}]
+## Query [/api/v3/queries/{id}]
 
 + Model
     + Body
@@ -959,7 +1433,7 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Query][]
 
-## Star Query [/queries/{id}/star]
+## Star Query [/api/v3/queries/{id}/star]
 
 + Model
     + Body
@@ -1038,7 +1512,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "The request body was not empty."
             }
 
-## Unstar Query [/queries/{id}/unstar]
+## Unstar Query [/api/v3/queries/{id}/unstar]
 
 + Model
     + Body
@@ -1117,26 +1591,137 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "The request body was not empty."
             }
 
+# Group Schemas
+
+| Link                | Description                              | Type          | Nullable | Supported operations |
+|:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
+| self                | This schema                              | Schema        |          | READ                 |
+
+The schema provides more detailed information about the properties of a resource.
+The schema is represented by a dictionary containing names of resource properties as keys
+and objects describing the corresponding property as values.
+These objects are called **field schema** and form the core of the schema representation,
+each of them can contain its own `_links` and `_embedded` section.
+
+# Field schema
+
+## Linked Properties:
+
+| Property       | Description                                                    |
+|:--------------:| -------------------------------------------------------------- |
+| allowedValues  | List of resources that are assignable by the current user.     |
+
+The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
+This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
+resource lists (requiring one or more separate requests).
+
+## Properties:
+
+| Property          | Description                                                                        | Type     | Default |
+|:-----------------:| ---------------------------------------------------------------------------------- | -------- | ------- |
+| name              | Human readable name of the property as it could be displayed in a UI               | String   |         |
+| type              | The data type of the properties values                                             | MetaType |         |
+| minLength         | The value of the property must at least contain the specified amount of characters | Integer  | 0       |
+| maxLength         | The value of the property must at most contain the specified amount of characters  | Integer  | ∞       |
+| regularExpression | The value of the property must match the given regular expression (if not null)    | String   | null    |
+| required          | If true this property is not nullable                                              | Boolean  | true    |
+| writable          | If false it is not allowed to **change** the properties value                      | Boolean  | true    |
+
+All of the above properties that do not have a default value *must* be present in the schema.
+For properties that have a default value, the client can assume the default value, if the property is missing.
+
+Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](http://www.ruby-doc.org/core-2.1.5/Regexp.html).
+
+## Example Schema [/api/v3/example/schema]
+
++ Model
+    + Body
+
+            {
+                "_type": "Schema",
+                "_links": {
+                    "self": { "href": "/api/v3/example/schema" }
+                },
+
+                "lockVersion": {
+                    "name": "Resource Version",
+                    "type": "Integer",
+                    "writable": false
+                },
+                "subject": {
+                    "name": "Subject",
+                    "type": "String",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "status": {
+                    "_links": {
+                        "allowedValues": [
+                            { "href": "/api/v3/statuses/1", "title": "New" },
+                            { "href": "/api/v3/statuses/2", "title": "Closed" }
+                        ]
+                    },
+
+                    "name": "Status",
+                    "type": "Status",
+
+                    "_embedded": {
+                        "allowedValues": [
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/1" } },
+                                "_type": "Status",
+                                "id": 1,
+                                "name": "New",
+                                "position": 1,
+                                "isDefault": true,
+                                "isClosed": false,
+                                "defaultDoneRatio": 0,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            },
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/2" } },
+                                "_type": "Status",
+                                "id": 2,
+                                "name": "Closed",
+                                "position": 2,
+                                "isDefault": false,
+                                "isClosed": true,
+                                "defaultDoneRatio": 100,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            }
+                        ]
+                    }
+                }
+            }
+
+## view the schema [GET]
+
+This is an example of how a schema might look like. Note that this endpoint does not exist in the actual implementation.
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
+
 # Group Statuses
 
 ## Linked Properties:
-|  Link  | Description | Type   | Constraints | Supported operations |
-|:------:|-------------| ------ | ----------- | -------------------- |
-| self   | This status | Status | not null    | READ |
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This status               | Status        | not null    | READ                 |
 
 ## Properties
-| Property | Description | Type    | Constraints | Example | Supported operations |
-|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Status id   | Integer | Must be a positive integer | 12 |       READ |
-| name     | Status name | String  |             | Closed  |                 READ |
-| position | Sort index of the status | Integer  | |     1 |                 READ |
-| isDefault|             | Boolean |             | true    |                 READ |
-| isClosed | are tickets of this status considered closed? | Boolean | | true | READ |
-| defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | 50 | READ |
-| createdAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-| updatedAt|             | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| Property         | Description                                                   | Type    | Constraints   | Supported operations |
+| :--------:       | -------------                                                 | ------- | -----------   | -------------------- |
+| id               | Status id                                                     | Integer | x > 0         | READ                 |
+| name             | Status name                                                   | String  |               | READ                 |
+| position         | Sort index of the status                                      | Integer |               | READ                 |
+| isDefault        |                                                               | Boolean |               | READ                 |
+| isClosed         | are tickets of this status considered closed?                 | Boolean |               | READ                 |
+| defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | READ                 |
 
-## Statuses [/statuses]
+## Statuses [/api/v3/statuses]
 
 + Model
     + Body
@@ -1149,10 +1734,12 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/statuses"
                     }
                 },
-                "_type": "Statuses",
+                "total": 6,
+                "count": 6,
+                "_type": "Collection",
                 "_embedded":
                 {
-                    "statuses": [
+                    "elements": [
                         {
                             "_links":
                             {
@@ -1167,9 +1754,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 1,
                             "isDefault": true,
                             "isClosed": false,
-                            "defaultDoneRatio": 0,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 0
                         },
                         {
                             "_links":
@@ -1185,9 +1770,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 3,
                             "isDefault": false,
                             "isClosed": false,
-                            "defaultDoneRatio": 75,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 75
                         },
                         {
                             "_links":
@@ -1203,9 +1786,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 4,
                             "isDefault": false,
                             "isClosed": false,
-                            "defaultDoneRatio": 25,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 25
                         },
                         {
                             "_links":
@@ -1221,9 +1802,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 5,
                             "isDefault": false,
                             "isClosed": true,
-                            "defaultDoneRatio": 100,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 100
                         },
                         {
                             "_links":
@@ -1239,9 +1818,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 6,
                             "isDefault": false,
                             "isClosed": true,
-                            "defaultDoneRatio": 100,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 100
                         },
                         {
                             "_links":
@@ -1257,9 +1834,7 @@ The request body is the actual string that shall be rendered as HTML string.
                             "position": 3,
                             "isDefault": false,
                             "isClosed": false,
-                            "defaultDoneRatio": 50,
-                            "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-21T09:12:00Z"
+                            "defaultDoneRatio": 50
                         }
                     ]
                 }
@@ -1285,7 +1860,7 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "You are not allowed to see the statuses."
             }
 
-## Status [/statuses/{id}]
+## Status [/api/v3/statuses/{id}]
 
 + Model
     + Body
@@ -1304,12 +1879,13 @@ The request body is the actual string that shall be rendered as HTML string.
                 "position": 1,
                 "isDefault": true,
                 "isClosed": false,
-                "defaultDoneRatio": 0,
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T09:12:00Z"
+                "defaultDoneRatio": 0
             }
 
 ## View Status [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... status id
 
 + Response 200 (application/hal+json)
 
@@ -1329,23 +1905,307 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "You are not allowed to see this status."
             }
 
+# Group String Objects
+
+## Linked Properties:
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This string object        | StringObject  | not null    | READ                 |
+
+## Properties
+| Property         | Description                                    | Type     | Constraints | Supported operations |
+|:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
+| value            | The value of the string                        | String   |             | READ                 |
+
+String objects are a linkable representation of strings. They merely serve the purpose of making links to strings possible,
+e.g. to be able to provide `allowedValues` for a string typed property.
+
+## String Object [/api/v3/string_objects?value={value}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/string_objects?value=Foo" }
+                },
+                "_type": "StringObject",
+                "value": "Foo"
+            }
+
+## View String Object [GET]
+
++ Parameters
+    + value (required, string, `Foo`) ... The string value being resolved
+
++ Response 200 (application/hal+json)
+
+    [String Object][]
+
+# Group Types
+
+## Linked Properties:
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This type                 | Type          | not null    | READ                 |
+
+## Properties
+| Property         | Description                                    | Type     | Constraints | Supported operations |
+|:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
+| id               | Type id                                        | Integer  | x > 0       | READ                 |
+| name             | Type name                                      | String   |             | READ                 |
+| color            | The color used to represent this type          | Color    |             | READ                 |
+| position         | Sort index of the type                         | Integer  |             | READ                 |
+| isDefault        |                                                | Boolean  |             | READ                 |
+| isMilestone      | Do tickets of this type represent a milestone? | Boolean  |             | READ                 |
+| createdAt        | Time of creation                               | DateTime |             | READ                 |
+| updatedAt        | Time of the most recent change to the user     | DateTime |             | READ                 |
+
+## Types [/api/v3/types]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/types"
+                    }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/1"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 1,
+                            "name": "Bug",
+                            "color": "#ff0000",
+                            "position": 1,
+                            "isDefault": true,
+                            "isMilestone": false,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/2"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 2,
+                            "name": "Feature",
+                            "color": "#888",
+                            "position": 2,
+                            "isDefault": false,
+                            "isMilestone": false,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List all Types [GET]
+
++ Response 200 (application/hal+json)
+
+    [Types][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package or manage types (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the types."
+            }
+
+## Types by Project [/api/v3/projects/{project_id}/types]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/types" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/1"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 1,
+                            "name": "Bug",
+                            "color": "#ff0000",
+                            "position": 1,
+                            "isDefault": true,
+                            "isMilestone": false,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/types/2"
+                                }
+                            },
+                            "_type": "Type",
+                            "id": 2,
+                            "name": "Feature",
+                            "color": "#888",
+                            "position": 2,
+                            "isDefault": false,
+                            "isMilestone": false,
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List types available in a project [GET]
+
+This endpoint lists the types that are *available* in a given project.
+
++ Parameters
+    + project_id (required, integer, `1`) ... ID of the project whoose types will be listed
+
++ Response 200 (application/hal+json)
+
+    [Types by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage types (on given project)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Type [/api/v3/types/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/types/1"
+                    }
+                },
+                "_type": "Type",
+                "id": 1,
+                "name": "Bug",
+                "color": "#ff0000",
+                "position": 1,
+                "isDefault": true,
+                "isMilestone": false,
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
+            }
+
+## View Type [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... type id
+
++ Response 200 (application/hal+json)
+
+    [Type][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package or manage types (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this type."
+            }
+
 # Group Users
 
+## Actions:
+| Link                | Description                                                          | Condition                                  |
+|:-------------------:| -------------------------------------------------------------------- | ------------------------------------------ |
+| lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator  |
+| unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator      |
+| delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete |
+
+## Linked Properties:
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This user                                   | User          | not null              | READ                 |
+
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | User's id | Integer | Must be a positive integer | 12 | READ |
-| login | User's login name | String | | j.sheppard | READ |
-| firstName | User's first name | String | | John | READ |
-| lastName | User's last name | String | | Sheppard | READ |
-| name | User's full name, formatting depends on instance settings | String | | Sheppard, John | READ |
-| mail | User's email | String | | shep@mail.com | READ |
-| avatar | URL to user's avatar | String | | https://gravatar/avatar | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-| updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| Property    | Description                                               | Type     | Constraints | Supported operations | Condition                 |
+| :---------: | -------------                                             | ----     | ----------- | -------------------- | ------------------------- |
+| id          | User's id                                                 | Integer  | x > 0       | READ                 |                           |
+| login       | User's login name                                         | String   |             | READ                 |                           |
+| firstName   | User's first name                                         | String   |             | READ                 |                           |
+| lastName    | User's last name                                          | String   |             | READ                 |                           |
+| name        | User's full name, formatting depends on instance settings | String   |             | READ                 |                           |
+| email       | User's E-Mail address                                     | String   |             | READ                 | E-Mail address not hidden |
+| avatar      | URL to user's avatar                                      | String   |             | READ                 |                           |
+| status      | The current activation status of the user (see below)     | String   |             | READ                 |                           |
+| createdAt   | Time of creation                                          | DateTime |             | READ                 |                           |
+| updatedAt   | Time of the most recent change to the user                | DateTime |             | READ                 |                           |
 
+The `status` of a user can be one of:
 
-## User [/users/{id}]
+* `active` - the user can log in with the account
+* `registered` - the user just registered to the instance, he can't log in yet, but will be able to, once the registration is completed
+* `locked` - the user is locked and can't log in
+
+## User [/api/v3/users/{id}]
 
 + Model
     + Body
@@ -1356,14 +2216,25 @@ The request body is the actual string that shall be rendered as HTML string.
                     "self": {
                         "href": "/api/v3/users/1",
                         "title": "John Sheppard - j.sheppard"
+                    },
+                    "lock": {
+                        "href": "/api/v3/users/1/lock",
+                        "title": "Set lock on j.sheppard"
+                        "method": "POST"
+                    },
+                    "delete": {
+                        "href": "/api/v3/users/1",
+                        "title": "Delete j.sheppard"
+                        "method": "DELETE"
                     }
                 },
                 "id": 1,
                 "login": "j.sheppard",
                 "firstName": "John",
                 "lastName": "Sheppard",
-                "mail": "shep@mail.com",
+                "email": "shep@mail.com",
                 "avatar": "https://gravatar/avatar",
+                "status": "active",
                 "createdAt": "2014-05-21T08:51:20Z",
                 "updatedAt": "2014-05-21T08:51:20Z"
             }
@@ -1377,51 +2248,259 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [User][]
 
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+## Delete user [DELETE]
+
+Permanently deletes the specified user account.
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 202
+
+    Returned if the account was deleted successfully.
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned, indicating the progress of deletion.
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions or if deletion of users was disabled in the instance wide settings.
+
+    **Required permission:** Administrators only (exception: users might be able to delete their own accounts)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+
+## User Account Locking [/api/v3/users/{id}/lock]
+
+## Set Lock [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to lock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for locking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to lock the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+## Remove Lock [DELETE]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to unlock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for unlocking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to unlock the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
 # Group Versions
 
-## Properties
-| Property | Description | Type    | Constraints | Example | Supported operations |
-|:--------:|-------------| ------- | ----------- | ------- | -------------------- |
-| id       | Version id   | Integer | Must be a positive integer | 12 | READ |
-| name     | Version name | String  |             | Version 1.0  | READ |
+## Linked Properties:
+|  Link               | Description                              | Type          | Constraints                                                    | Supported operations |
+|:-------------------:|----------------------------------------- | ------------- | -------------------------------------------------------------- | -------------------- |
+| self                | This version                             | Version       | not null                                                       | READ                 |
+| definingProject     | The project to which the version belongs | Project       | only present if the project is visible for the current user    | READ                 |
+| availableInProjects | Projects where this version can be used  | Projects      | not null                                                       | READ                 |
 
-## Versions by Project [/projects/{project_id}/versions]
+## Properties
+| Property    | Description                                   | Type        | Constraints | Supported operations |
+| :---------: | --------------------------------------------- | ----------- | ----------- | -------------------- |
+| id          | Version id                                    | Integer     | x > 0       | READ                 |
+| name        | Version name                                  | String      | not null    | READ                 |
+| description |                                               | Formattable | not null    | READ                 |
+| startDate   |                                               | Date        |             | READ                 |
+| endDate     |                                               | Date        |             | READ                 |
+| status      | The current status of the version             | String      | not null    | READ                 |
+| createdAt   | Time of creation                              | DateTime    | not null    | READ                 |
+| updatedAt   | Time of the most recent change to the version | DateTime    | not null    | READ                 |
+
+## Versions by Project [/api/v3/projects/{project_id}/versions]
 
 + Model
     + Body
 
             {
-                _links:
-                {
-                    self:
-                    {
-                        href: "/api/v3/projects/11/versions"
-                    }
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/versions" }
                 },
-                _type: "Versions",
-                _embedded:
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
+                "_embedded":
                 {
-                    versions: [
+                    "elements": [
                         {
-                            _type: "Version",
-                            id: 11,
-                            name: "v3.0 Alpha"
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/11" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 11,
+                            "name": "v3.0 Alpha",
+                            "description": {
+                                "format": "plain",
+                                "raw": "This version has a description",
+                                "html": "This version has a description"
+                            },
+                            "startDate": "2014-11-20",
+                            "endDate": null,
+                            "status": "Open"
                         },
                         {
-                            _type: "Version",
-                            id: 12,
-                            name: "v2.0"
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/12" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/12/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 12,
+                            "name": "v2.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Closed"
                         },
                         {
-                            _type: "Version",
-                            id: 10,
-                            name: "v1.0"
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/10" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/10/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 10,
+                            "name": "v1.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Open"
                         }
                     ]
                 }
             }
 
 ## List versions available in a project [GET]
+
+This endpoint lists the versions that are *available* in a given project.
+Note that due to sharing this might be more than the versions *defined* by that project.
 
 + Parameters
     + project_id (required, integer, `1`) ... ID of the project whoose versions will be listed
@@ -1430,44 +2509,142 @@ The request body is the actual string that shall be rendered as HTML string.
 
     [Versions by Project][]
 
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (on given project)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Version [/api/v3/versions/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/versions/11" },
+                    "definingProject": { "href": "/api/v3/projects/11" },
+                    "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                },
+                "_type": "Version",
+                "id": 11,
+                "name": "v3.0 Alpha",
+                "description": {
+                    "format": "plain",
+                    "raw": "This version has a description",
+                    "html": "This version has a description"
+                },
+                "startDate": "2014-11-20",
+                "endDate": null,
+                "status": "Open"
+            }
+
+## View Version [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... version id
+
++ Response 200 (application/hal+json)
+
+    [Version][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified version does not exist."
+            }
+
 # Group Work packages
 
 ## Actions:
 
-| Link                | Description                                                          | Condition                        |
-|:-------------------:|----------------------------------------------------------------------| -------------------------------- |
+| Link                | Description                                                          | Condition                         |
+|:-------------------:|----------------------------------------------------------------------| --------------------------------- |
 | update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit work package |
 | updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit work package |
-| watch               | Add current user to WP watchers                                      | logged in; not watching          |
-| unwatch             | Remove current user from WP watchers                                 | logged in; watching              |
-| addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher      |
+| watch               | Add current user to WP watchers                                      | logged in; not watching           |
+| unwatch             | Remove current user from WP watchers                                 | logged in; watching               |
+| addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher       |
 
 ## Linked Properties:
 
-| Link         | Description                              | Type        | Constraints | Supported operations |
-|:------------:|------------------------------------------| ----------- | ----------- | -------------------- |
-| self         | This work package                        | WorkPackage | not null    | READ                 |
-| author       | The person that created the work package | User        | not null    | READ                 |
-| status       | The current status of the work package   | Status      | not null    | READ / WRITE         |
+| Link               | Description                                                                                                                                           | Type         | Constraints  | Supported operations  | Condition                                 |
+| :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
+| self               | This work package                                                                                                                                     | WorkPackage  | not null     | READ                  |                                           |
+| schema             | The schema of this work package                                                                                                                       | Schema       | not null     | READ                  |                                           |
+| author             | The person that created the work package                                                                                                              | User         | not null     | READ                  |                                           |
+| assignee           | The person that is intended to work on the work package                                                                                               | User         |              | READ / WRITE          |                                           |
+| availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
+| category           | The category of the work package                                                                                                                      | Category     |              | READ / WRITE          |                                           |
+| priority           | The priority of the work package                                                                                                                      | Priority     | not null     | READ / WRITE          |                                           |
+| project            | The project to which the work package belongs                                                                                                         | Project      | not null     | READ                  |                                           |
+| responsible        | The person that is responsible for the overall outcome                                                                                                | User         |              | READ / WRITE          |                                           |
+| status             | The current status of the work package                                                                                                                | Status       | not null     | READ / WRITE          |                                           |
+| timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
+| type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
+| version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
 
 ## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Work package id | Integer | Must be a positive integer | 12 | READ |
-| lockVersion | The version of the item as used for optimistic locking | Integer | | 12 | READ |
-| subject | Work package subject | String | not null; 1 <= length <= 255 | Refactor projecs module | READ / WRITE |
-| type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ |
-| description | The work package description | Formatable | | | READ / WRITE |
-| parentId | Parent work package id | Integer | Must be an id of an existing and visible (in respect to the API user) work package | 42 | READ / WRITE |
-| priority | | String | Must be one of the activated priorities | High | READ |
-| startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ |
-| dueDate | | Date | Must be a date in format YYYY-MM-DD and must be greater then start date | | READ |
-| estimatedTime | | Object | Must be in form of a json object with "units" and "value" as keys and value must be an integer or a decimal | { "units": "hours", "value": 12 } | READ |
-| percentageDone | | Integer | Must be an integer between 0 and 100 | 50 | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-| updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## WorkPackage [/work_packages/{id}{?notify}]
+| Property         | Description                                            | Type        | Constraints                                                                                            | Supported operations | Condition                        |
+| :--------------: | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------ | -------------------- | -------------------------------- |
+| id               | Work package id                                        | Integer     | x > 0                                                                                                  | READ                 |                                  |
+| lockVersion      | The version of the item as used for optimistic locking | Integer     |                                                                                                        | READ                 |                                  |
+| subject          | Work package subject                                   | String      | not null; 1 <= length <= 255                                                                           | READ / WRITE         |                                  |
+| type             | Name of the work package's type                        | String      | not null                                                                                               | READ                 |                                  |
+| description      | The work package description                           | Formattable |                                                                                                        | READ / WRITE         |                                  |
+| parentId         | Parent work package id                                 | Integer     | Must be an id of an existing and visible (for the current user) work package                           | READ / WRITE         |                                  |
+| startDate        | Scheduled beginning of a work package                  | Date        | Cannot be set for parent work packages; must be equal or greater than the earliest possible start date | READ / WRITE         |                                  |
+| dueDate          | Scheduled end of a work package                        | Date        | Cannot be set for parent work packages; must be greater than or equal to the start date                | READ / WRITE         |                                  |
+| estimatedTime    | Time a work package likely needs to be completed       | Duration    | Cannot be set for parent work packages                                                                 | READ / WRITE         |                                  |
+| spentTime        |                                                        | Duration    |                                                                                                        | READ                 | **Permission** view time entries |
+| percentageDone   | Amount of total completion for a work package          | Integer     | 0 <= x <= 100; Cannot be set for parent work packages                                                  | READ / WRITE         |                                  |
+| createdAt        | Time of creation                                       | DateTime    |                                                                                                        | READ                 |                                  |
+| updatedAt        | Time of the most recent change to the work package     | DateTime    |                                                                                                        | READ                 |                                  |
+
+*Note that the properties listed here only cover the built-in properties of the OpenProject Core.
+Using plug-ins and custom fields a work package might contain various additional properties.
+A client can consult the schema information to which the work package links. The schema will contain information about
+all properties of the linking work package, including properties added by plug-ins and custom fields.*
+
+*Custom fields are identified by a key in the form of `customFieldN`, where `N` is an integer. Depending on their type,
+they can occur as properties or as linked properties. A client has to consult the schema to resolve
+the human readable name of custom fields.*
+
+*Properties that cannot be set directly on parent work packages are inferred from their children instead:*
+
+* `startDate` is the earliest start date from its children
+* `dueDate` is the latest due date from its children
+* `estimatedTime` is the sum of estimated times from its children
+* `percentageDone` is the weighted average of the sum of its children percentages done. The weight is given by the average of its children estimatedHours. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
+
+*Start date can also not be earlier than a due date of any predecessor.*
+
+## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
 + Model
     + Body
@@ -1479,6 +2656,7 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/work_packages/1528",
                         "title": "Develop API"
                     },
+                    "schema": { "href": "/api/v3/work_packages/schemas/1-1-2" },
                     "update": {
                         "href": "/api/v3/work_packages/1528",
                         "method": "patch",
@@ -1516,13 +2694,25 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/users/11",
                         "title": "Emmie Okuneva - Adele5450"
                     },
+                    "priority": {
+                        "href": "/api/v3/priorities/2",
+                        "title": "Normal"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/1",
+                        "title": "A Test Project"
+                    },
                     "status": {
                         "href": "/api/v3/statuses/1",
                         "title": "New"
                     },
-                    "availableStatuses": {
-                        "href": "/api/v3/work_packages/1528/available_statuses",
-                        "title": "Available Statuses"
+                    "type": {
+                        "href": "/api/v3/types/1",
+                        "title": "New"
+                    },
+                    "version": {
+                        "href": "/api/v3/versions/1",
+                        "title": "Version 1"
                     },
                     "availableWatchers": {
                         "href": "/api/v3/work_packages/1528/available_watchers",
@@ -1561,254 +2751,41 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/work_packages/1298",
                         "title": "nisi eligendi officiis eos delectus quis voluptas dolores"
                     },
+                    "category": {
+                        "href": "/api/v3/categories/1298",
+                        "title": "eligend isi"
+                    },
                     "children": [
                         {
                             "href": "/api/v3/work_packages/1529",
                             "title": "Write API documentation"
                         }
-                    ]
+                    ],
+                    "timeEntries": {
+                        "href": "/work_packages/1528/time_entries",
+                        "type": "text/html",
+                        "title": "Time entries"
+                    },
+                    "customField3": {
+                        "href": "api/v3/users/14"
+                    }
                 },
                 "id": 1528,
                 "subject": "Develop API",
-                "type": "Feature",
                 "description": {
                     "format": "textile",
                     "raw": "Develop super cool OpenProject API.",
                     "html": "<p>Develop super cool OpenProject API.</p>"
                 },
-                "isClosed": false,
-                "priority": "Normal",
                 "startDate": null,
                 "dueDate": null,
-                "estimatedTime": {
-                    "units": "hours",
-                    "value": null
-                },
+                "estimatedTime": "PT2H",
                 "percentageDone": 0,
-                "versionId": 2,
-                "versionName": "1.0",
-                "projectId": 1,
-                "projectName": "Seeded Project",
                 "parentId": 1298,
+                "customField1": "Foo",
+                "customField2": 42,
                 "createdAt": "2014-08-29T12:40:53Z",
-                "updatedAt": "2014-08-29T12:44:41Z",
-                "customProperties": [
-                    {
-                        "name": "velit molestiae",
-                        "format": "text",
-                        "value": "dolor sit amet"
-                    },
-                    {
-                        "name": "et quam",
-                        "format": "text",
-                        "value": ""
-                    },
-                    {
-                        "name": "quo deserunt",
-                        "format": "text",
-                        "value": ""
-                    }
-                ],
-                "_embedded": {
-                    "author": {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/1",
-                                "title": "OpenProject Admin - admin"
-                            }
-                        },
-                        "id": 1,
-                        "login": "admin",
-                        "firstName": "OpenProject",
-                        "lastName": "Admin",
-                        "name": "OpenProject Admin",
-                        "mail": "admin@example.net",
-                        "avatar": "http://gravatar.com/avatar/cb4f282fed12016bd18a879c1f27ff97?secure=false",
-                        "createdAt": "2014-05-23T12:25:03Z",
-                        "updatedAt": "2014-08-29T06:37:03Z",
-                        "status": 1
-                    },
-                    "responsible": {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/23",
-                                "title": "Laron Leuschke - Alaina5788"
-                            }
-                        },
-                        "id": 23,
-                        "login": "Alaina5788",
-                        "firstName": "Laron",
-                        "lastName": "Leuschke",
-                        "name": "Laron Leuschke",
-                        "mail": "camilla@marquardtkeeling.net",
-                        "avatar": "http://gravatar.com/avatar/0157adaf28fb535e890179cf070f4be0?secure=false",
-                        "createdAt": "2014-05-23T12:27:41Z",
-                        "updatedAt": "2014-05-23T12:27:41Z",
-                        "status": 1
-                    },
-                    "assignee": {
-                        "_type": "User",
-                        "_links": {
-                            "self": {
-                                "href": "/api/v3/users/11",
-                                "title": "Emmie Okuneva - Adele5450"
-                            }
-                        },
-                        "id": 11,
-                        "login": "Adele5450",
-                        "firstName": "Emmie",
-                        "lastName": "Okuneva",
-                        "name": "Emmie Okuneva",
-                        "mail": "ottilie@yundt.net",
-                        "avatar": "http://gravatar.com/avatar/67fa59130a4077555ea953bb434c2f7e?secure=false",
-                        "createdAt": "2014-05-23T12:26:09Z",
-                        "updatedAt": "2014-05-23T12:26:09Z",
-                        "status": 1
-                    },
-                    "activities": [
-                        {
-                            "_type": "Activity",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/activities/5970",
-                                    "title": "5970"
-                                },
-                                "workPackage": {
-                                    "href": "/api/v3/work_packages/1528",
-                                    "title": "Develop API"
-                                },
-                                "user": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "OpenProject Admin - admin"
-                                },
-                                "update": {
-                                    "href": "/api/v3/activities/5970",
-                                    "method": "patch",
-                                    "title": "5970"
-                                }
-                            },
-                            "id": 5970,
-                            "comment": { "format": "textile", "raw": "", "html": ""},
-                            "details": [
-                                {
-                                    "format": "textile",
-                                    "raw": "Type set to Feature",
-                                    "html": "<strong>Type</strong> set to <i title=\"Feature\">Feature</i>"
-                                },
-                                {
-                                    "format": "textile",
-                                    "raw": "Project set to Seeded Project",
-                                    "html": "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>"
-                                }
-                            ],
-                            "version": 1,
-                            "createdAt": "2014-08-29T12:40:53Z"
-                        }
-                    ],
-                    "watchers": [
-                        {
-                            "_type": "User",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/11",
-                                    "title": "Emmie Okuneva - Adele5450"
-                                },
-                                "removeWatcher": {
-                                    "href": "/api/v3/work_packages/1528/watchers/11",
-                                    "method": "delete",
-                                    "title": "Remove watcher"
-                                }
-                            },
-                            "id": 11,
-                            "login": "Adele5450",
-                            "firstName": "Emmie",
-                            "lastName": "Okuneva",
-                            "name": "Emmie Okuneva",
-                            "mail": "ottilie@yundt.net",
-                            "avatar": "http://gravatar.com/avatar/67fa59130a4077555ea953bb434c2f7e?secure=false",
-                            "createdAt": "2014-05-23T12:26:09Z",
-                            "updatedAt": "2014-05-23T12:26:09Z",
-                            "status": 1
-                        }
-                    ],
-                    "attachments": [
-                        {
-                            "_type": "Attachment",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/attachments/91",
-                                    "title": "OpenProject_Requirements.xlsx"
-                                },
-                                "work_package": {
-                                    "href": "/api/v3/work_packages/1528",
-                                    "title": "Develop API"
-                                },
-                                "author": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "OpenProject Admin - admin"
-                                }
-                            },
-                            "id": 91,
-                            "fileName": "OpenProject_Requirements.xlsx",
-                            "diskFileName": "140829144349_OpenProject_Requirements.xlsx",
-                            "description": "",
-                            "fileSize": 18423,
-                            "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            "digest": "a5b944445bd92314214d69b4c2e0c44a",
-                            "downloads": 0,
-                            "createdAt": "2014-08-29T12:43:49Z"
-                        },
-                        {
-                            "_type": "Attachment",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/attachments/92",
-                                    "title": "OpenProject_Requirements.xlsx"
-                                },
-                                "work_package": {
-                                    "href": "/api/v3/work_packages/1528",
-                                    "title": "Develop API"
-                                },
-                                "author": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "OpenProject Admin - admin"
-                                }
-                            },
-                            "id": 92,
-                            "fileName": "OpenProject_Requirements.xlsx",
-                            "diskFileName": "140829144441_OpenProject_Requirements.xlsx",
-                            "description": "Planning",
-                            "fileSize": 18423,
-                            "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                            "digest": "a5b944445bd92314214d69b4c2e0c44a",
-                            "downloads": 0,
-                            "createdAt": "2014-08-29T12:44:41Z"
-                        }
-                    ],
-                    "relations": [
-                        {
-                            "_type": "Relation::Relates",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/relations/38"
-                                },
-                                "relatedFrom": {
-                                    "href": "/api/v3/work_packages/1528"
-                                },
-                                "relatedTo": {
-                                    "href": "/api/v3/work_packages/1412"
-                                },
-                                "remove": {
-                                    "href": "/api/v3/work_packages/1528/relations/38",
-                                    "method": "delete",
-                                    "title": "Remove relation"
-                                }
-                            }
-                        }
-                    ]
-                }
+                "updatedAt": "2014-08-29T12:44:41Z"
             }
 
 ## View work package [GET]
@@ -1825,16 +2802,14 @@ The request body is the actual string that shall be rendered as HTML string.
 When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
 Note that it is only allowed to provide properties or links supporting the **write** operation.
 
-Additionally to the fields the client wants to change, it is mandatory to provide:
-
-* The `_type` which should as of now always be `WorkPackage`
-* The value of `lockVersion` which was received by the `GET` request this change originates from
+Additionally to the fields the client wants to change, it is mandatory to provide the value of `lockVersion` which was received
+by the `GET` request this change originates from.
 
 The value of `lockVersion` is used to implement [optimistic locking](http://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
 + Parameters
     + id (required, integer, `1`) ... Work package id
-    
+
     + notify = `true` (optional, boolean, `false`) ... Indicates whether change notifications (e.g. via E-Mail) should be sent.
     Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
     not just the current user.
@@ -1842,7 +2817,6 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 + Request (application/json)
 
         {
-            "_type": "WorkPackage",
             "lockVersion": 13,
             "subject": "Lorem"
             "parentId": "42"
@@ -1895,6 +2869,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
     Returned if:
     * the client tries to modify a read-only property
     * a constraint for a property was violated
+    * a property was provided in an unreadable format
 
     + Body
 
@@ -1909,7 +2884,41 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
                 }
             }
 
-## Work Package Edit Form [/work_packages/{id}/form]
+## Work Package Schema [/api/v3/work_packages/schemas/{identifier}]
+
+## View Work Package Schema [GET]
+
++ Parameters
+    + identifier (required, string, `12-13`) ... Identifier of the schema
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the schema does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages (on the project where this schema is used)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "The subject might not be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "Subject"
+                    }
+                }
+            }
+
+## Work Package Edit Form [/api/v3/work_packages/{id}/form]
 
 This endpoint returns a form to allow a guided modification of an existing work package.
 
@@ -1924,28 +2933,7 @@ For more details and all possible responses see the general specification of [Fo
 
     [Example Form][]
 
-## Add Watcher [/work_packages/{work_package_id}/watchers]
-
-+ Model
-    + Body
-
-            {
-                "_type": "User",
-                "_links": {
-                    "self": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
-                    }
-                },
-                "id": 1,
-                "login": "j.sheppard",
-                "firstName": "John",
-                "lastName": "Sheppard",
-                "mail": "shep@mail.com",
-                "avatar": "https://gravatar/avatar",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
-            }
+## Add Watcher [/api/v3/work_packages/{work_package_id}/watchers]
 
 ## Add watcher [POST]
 
@@ -1960,9 +2948,9 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 200 (application/hal+json)
 
-    [Add Watcher][]
+    [User][]
 
-## Remove Watcher [/work_packages/{work_package_id}/watchers/{id}]
+## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
 
 ## Remove watcher [DELETE]
 
@@ -1972,33 +2960,73 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 204
 
-## Available Watchers [/work_packages/{work_package_id}/available_watchers{?offset,limit,query}]
+## Available Watchers [/api/v3/work_packages/{work_package_id}/available_watchers]
 
 + Model
     + Body
 
             {
-                "_total": 1674,
-                "_count": 1,
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/14/available_watchers" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
                 "_embedded": {
-                    "availableWatchers": [{
+                  "elements": [
+                    {
                         "_type": "User",
                         "_links": {
                             "self": {
                                 "href": "/api/v3/users/1",
                                 "title": "John Sheppard - j.sheppard"
                             },
-                            "addWatcher": {
-                                "href": "/api/v3/work_packages/1/watchers",
-                                "method": "post"
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard"
+                                "method": "DELETE"
                             }
                         },
                         "id": 1,
                         "login": "j.sheppard",
                         "firstName": "John",
                         "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
+                        "email": "shep@mail.com",
                         "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2"
+                                "method": "DELETE"
+                            }
+                        },
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "email": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"
                     }]
@@ -2011,15 +3039,26 @@ Gets a list of users that can watch the work package.
 
 + Parameters
     + work_package_id (required, integer, `1`) ... Work package id
-    + offset = `0` (optional, integer, `100`) ... Offset
-    + limit = `100` (optional, integer, `50`) ... Limit (Max 100)
-    + query (optional, string, `John`) ... Name, login or email of a user
 
 + Response 200 (application/hal+json)
 
     [Available Watchers][]
 
-## Comment WorkPackage [/work_packages/{id}/activities]
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** add work package watchers
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
 
 ## Comment work package [POST]
 
@@ -2066,156 +3105,218 @@ updated activity.
             }
 
 
-## Available Assignees [/work_packages/{work_package_id}/available_assignees]
+## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees{?offset,pageSize,filter}]
 
 + Model
     + Body
 
             {
-                "_total": 1674,
+                "_links": {
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_assignees" },
+                    "filter": {
+                        "href": "/api/v3/projects/42/work_packages/available_assignees?filter={oql}",
+                        "templated": true
+                    }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
                 "_embedded": {
-                  "availableAssignees": [
+                  "elements": [
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard"
+                                "method": "DELETE"
                             }
                         },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "email": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     },
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
-                            }
-                        "},
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
                             },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2"
+                                "method": "DELETE"
+                            }
+                        },
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "email": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     }]
                 }
             }
 
 ## Available assignees [GET]
 
-Gets a list of users that can be assigned to the work package.
+Gets a list of users that can be assigned to work packages in the given project.
 
 + Parameters
-    + work_package_id (required, integer, `1`) ... Work package id
+    + project_id (required, integer, `1`) ... Project id
+
+    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filter (optional, string, `name == "Karl"`) ... An OQL query to specify which subset of users shall be returned
 
 + Response 200 (application/hal+json)
 
     [Available Assignees][]
 
-## Available Responsibles [/work_packages/{work_package_id}/available_responsibles]
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the assignable users for this project."
+            }
+
+## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles{?offset,pageSize,filter}]
 
 + Model
     + Body
 
             {
-                "_total": 1674,
+                "_links": {
+                    "self": { "href": "/api/v3/projects/42/work_packages/available_responsibles" },
+                    "filter": {
+                        "href": "/api/v3/projects/42/work_packages/available_responsibles?filter={oql}",
+                        "templated": true
+                    }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
                 "_embedded": {
-                  "availableResponsibles": [
+                  "elements": [
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/4581",
-                                "title": "Mister X"
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard"
+                                "method": "DELETE"
                             }
                         },
-                        "id": 4581,
-                        "login": "m@x.org",
-                        "firstName": "Mister",
-                        "lastName": "X",
-                        "name": "Mister X",
-                        "mail": "m@x.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-01T16:25:17Z",
-                        "updatedAt": "2013-10-02T09:33:42Z"
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "email": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     },
                     {
                         "_type": "User",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/users/972",
-                                "title": "Mister Y"
-                            }
-                        "},
-                        "id": 972,
-                        "login": "m@y.org",
-                        "firstName": "Mister",
-                        "lastName": "Y",
-                        "name": "Mister Y",
-                        "mail": "m@y.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-01-11T11:47:06Z",
-                        "updatedAt": "2013-11-18T07:13:56Z"
-                    },
-                    {
-                        "_type": "User",
-                        "_links": {
-                                "self": {
-                                    "href": "/api/v3/users/4724",
-                                    "title": "Mister Z"
-                                }
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
                             },
-                        "id": 4724,
-                        "login": "m@z.org",
-                        "firstName": "Mister",
-                        "lastName": "Z",
-                        "name": "Mister Z",
-                        "mail": "m@z.org",
-                        "avatar": "http://gravatar.com/avatar/12345678901234567890123456789012",
-                        "createdAt": "2013-10-08T09:28:46Z",
-                        "updatedAt": "2013-10-08T09:28:52Z"
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2"
+                                "method": "DELETE"
+                            }
+                        },
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "email": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
                     }]
                 }
             }
 
 ## Available responsibles [GET]
 
-Gets a list of users that can be assigned to the work package as responsible.
+Gets a list of users that can be assigned as the responsible of a work package in the given project.
 
 + Parameters
-    + work_package_id (required, integer, `1`) ... Work package id
+    + project_id (required, integer, `1`) ... Project id
+
+    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filter (optional, string, `name == "Karl"`) ... An OQL query to specify which subset of users shall be returned
 
 + Response 200 (application/hal+json)
 
     [Available Responsibles][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the users available as responsible for this project."
+            }

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,11 @@ module WorkPackage::Validations
     validates_numericality_of :estimated_hours, allow_nil: true
 
     validates :start_date, date: { allow_blank: true }
-    validates :due_date, date: { after_or_equal_to: :start_date, message: :greater_than_start_date, allow_blank: true }, unless: Proc.new { |wp| wp.start_date.blank? }
+    validates :due_date,
+              date: { after_or_equal_to: :start_date,
+                      message: :greater_than_start_date,
+                      allow_blank: true },
+              unless: Proc.new { |wp| wp.start_date.blank? }
     validates :due_date, date: { allow_blank: true }
 
     validate :validate_start_date_before_soonest_start_date
@@ -52,6 +56,12 @@ module WorkPackage::Validations
     validate :validate_status_transition
 
     validate :validate_active_priority
+
+    validate :validate_category
+
+    validate :validate_children
+
+    validate :validate_estimated_hours
   end
 
   def validate_start_date_before_soonest_start_date
@@ -61,14 +71,16 @@ module WorkPackage::Validations
   end
 
   def validate_fixed_version_is_assignable
-    if fixed_version
-      errors.add :fixed_version_id, :inclusion unless assignable_versions.include?(fixed_version)
+    if fixed_version_id && !assignable_versions.map(&:id).include?(fixed_version_id)
+      errors.add :fixed_version_id, :inclusion
     end
   end
 
   def validate_fixed_version_is_still_open
     if fixed_version && assignable_versions.include?(fixed_version)
-      errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version) if reopened? && fixed_version.closed?
+      if reopened? && fixed_version.closed?
+        errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version)
+      end
     end
   end
 
@@ -92,7 +104,7 @@ module WorkPackage::Validations
   end
 
   def validate_status_transition
-    if status_changed? && !(self.type_id_changed? || status_transition_exists?)
+    if status_changed? && status_exists? && !(self.type_id_changed? || status_transition_exists?)
       errors.add :status_id, :status_transition_invalid
     end
   end
@@ -103,10 +115,36 @@ module WorkPackage::Validations
     end
   end
 
+  def validate_category
+    if category_id.present? && !category
+      errors.add :category, :does_not_exist
+    elsif category && !project.categories.include?(category)
+      errors.add :category, :only_same_project_categories_allowed
+    end
+  end
+
+  def validate_children
+    children.select { |c| !c.valid? }.each do |child|
+      child.errors.each do |_, value|
+        errors.add(:"##{child.id}", value)
+      end
+    end
+  end
+
+  def validate_estimated_hours
+    if !estimated_hours.nil? && estimated_hours < 0
+      errors.add :estimated_hours, :only_values_greater_or_equal_zeroes_allowed
+    end
+  end
+
   private
 
   def status_changed?
     status_id_was != 0 && self.status_id_changed?
+  end
+
+  def status_exists?
+    status_id && Status.find_by_id(status_id)
   end
 
   def status_transition_exists?

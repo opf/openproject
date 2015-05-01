@@ -1,36 +1,39 @@
-/*-- copyright
- * OpenProject is a project management system.
- * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See doc/COPYRIGHT.rdoc for more details.  ++
- */
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
 
 @include keyframes(fade-out)
   from
     opacity: 1
   to
     opacity: 0
+
+$work-packages-table--font-size: 0.875rem
+$work-packages-table--header-font-size: 0.875rem
 
 $work-packages-table--header-height: 40px
 $work-packages-table--footer-height: 34px
@@ -66,6 +69,7 @@ table.workpackages-table
   border-collapse: collapse
   width:  100%
   margin: 0
+  font-size: $work-packages-table--font-size
 
   col
     &:hover,
@@ -77,22 +81,22 @@ table.workpackages-table
       &:hover
         background: none
     th
+      font-size: $work-packages-table--header-font-size
       text-transform: uppercase
-      font-size: 14px
       text-align: left
       line-height: 34px
       padding: 0
 
       &.icon-table
-        font-size: 20px
+        //
       &.active-column
         background: #f8f8f8
       a
         text-decoration: none
-        color: $global_font_color
+        color: $body-font-color
         &:hover, &:active
           text-decoration: none
-          color: $global_font_color
+          color: $body-font-color
 
   tfoot
     tr
@@ -121,7 +125,7 @@ table.workpackages-table
       line-height: 34px
 
       &.icon-table
-        font-size: 20px
+        //
       &.checkbox
         min-width: 0
         width: 20px
@@ -133,7 +137,7 @@ table.workpackages-table
         width: 20px
         a
           text-decoration: none
-          color: $global_font_color
+          color: $body-font-color
 
     p
       padding: 0 8px
@@ -180,7 +184,7 @@ table.workpackages-table
   height:       $work-packages-table--header-height
   background:   white
   border-bottom: 1px solid #dddddd
-  box-shadow:   0px 5px 15px -5px #dddddd
+  box-shadow:   0 5px 15px -5px #dddddd
   z-index:      0
 
 .work-packages-table--footer-background
@@ -198,7 +202,7 @@ table.workpackages-table
   right:        10px
   background:   #fff
   border:       1px solid #ddd
-  border-radius: $button_border_radius
+  border-radius: $global-radius
   padding:      20px
 
 .work-packages-table--no-results-title

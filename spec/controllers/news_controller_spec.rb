@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ describe NewsController, type: :controller do
       expect(response).to render_template 'index'
 
       expect(assigns(:project)).to be_nil
-      expect(assigns(:newss)).to_not be_nil
+      expect(assigns(:newss)).not_to be_nil
     end
 
     it 'renders index with project' do
@@ -57,7 +57,7 @@ describe NewsController, type: :controller do
 
       expect(response).to be_success
       expect(response).to render_template 'index'
-      expect(assigns(:newss)).to_not be_nil
+      expect(assigns(:newss)).not_to be_nil
     end
   end
 
@@ -109,7 +109,7 @@ describe NewsController, type: :controller do
         expect(response).to redirect_to project_news_index_path(project)
 
         news = News.find_by_title!('NewsControllerTest')
-        expect(news).to_not be_nil
+        expect(news).not_to be_nil
         expect(news.description).to eq 'This is the description'
         expect(news.author).to eq user
         expect(news.project).to eq project
@@ -125,7 +125,7 @@ describe NewsController, type: :controller do
 
       expect(response).to be_success
       expect(response).to render_template 'new'
-      expect(assigns(:news)).to_not be_nil
+      expect(assigns(:news)).not_to be_nil
       expect(assigns(:news)).to be_new_record
 
       expect(response.body).to have_selector('div#errorExplanation', text: /1 error/)

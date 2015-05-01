@@ -1,0 +1,518 @@
+{
+  "_type": "WorkPackage",
+  "_links": {
+    "self": {
+      "href": "/api/v3/work_packages/819",
+      "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "update": {
+      "href": "/api/v3/work_packages/819/form",
+      "method": "post",
+      "title": "Update veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "schema": {
+      "href": "/api/v3/work_packages/schemas/1-7"
+    },
+    "updateImmediately": {
+      "href": "/api/v3/work_packages/819",
+      "method": "patch",
+      "title": "Update veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "delete": {
+      "href": "/work_packages/bulk?ids=819",
+      "method": "delete",
+      "title": "Delete veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "log_time": {
+      "href": "/work_packages/819/time_entries/new",
+      "type": "text/html",
+      "title": "Log time on veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "duplicate": {
+      "href": "/projects/seeded_project/work_packages/new?copy_from=819",
+      "type": "text/html",
+      "title": "Duplicate veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "move": {
+      "href": "/work_packages/819/move/new",
+      "type": "text/html",
+      "title": "Move veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "type": {
+      "href": "/api/v3/types/5",
+      "title": "Phase"
+    },
+    "status": {
+      "href": "/api/v3/statuses/1",
+      "title": "new"
+    },
+    "author": {
+      "href": "/api/v3/users/5",
+      "title": "Alexandrine Heidenreich"
+    },
+    "responsible": {
+      "href": "/api/v3/users/1",
+      "title": "OpenProject Admin"
+    },
+    "assignee": {
+      "href": null
+    },
+    "availableWatchers": {
+      "href": "/api/v3/work_packages/819/available_watchers",
+      "title": "Available Watchers"
+    },
+    "watchChanges": {
+      "href": "/api/v3/work_packages/819/watchers",
+      "method": "post",
+      "data": {
+        "user_id": 1
+      },
+      "title": "Watch work package"
+    },
+    "addWatcher": {
+      "href": "/api/v3/work_packages/819/watchers{?user_id}",
+      "method": "post",
+      "title": "Add watcher",
+      "templated": true
+    },
+    "addRelation": {
+      "href": "/api/v3/work_packages/819/relations",
+      "method": "post",
+      "title": "Add relation"
+    },
+    "addChild": {
+      "href": "/projects/seeded_project/work_packages/new?work_package%5Bparent_id%5D=819",
+      "type": "text/html",
+      "title": "Add child of veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "changeParent": {
+      "href": "/api/v3/work_packages/819",
+      "method": "patch",
+      "title": "Change parent of veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "addComment": {
+      "href": "/api/v3/work_packages/819/activities",
+      "method": "post",
+      "title": "Add comment"
+    },
+    "parent": {
+      "href": "/api/v3/work_packages/820",
+      "title": "asd"
+    },
+    "timeEntries": {
+      "href": "/work_packages/819/time_entries",
+      "type": "text/html",
+      "title": "Time entries"
+    },
+    "category": {
+      "href": null
+    },
+    "priority": {
+      "href": "/api/v3/priorities/2",
+      "title": "Normal"
+    },
+    "project": {
+      "href": "/api/v3/projects/1",
+      "title": "Seeded Project"
+    },
+    "version": {
+      "href": "/api/v3/versions/1"
+    },
+    "log_costs": {
+      "href": "/work_packages/819/cost_entries/new",
+      "type": "text/html",
+      "title": "Log costs on veritatis voluptas hic qui praesentium tempora illum omnis"
+    },
+    "costObject": {
+      "href": null
+    },
+    "costsByType": {
+      "href": "/api/v3/work_packages/819/summarized_costs_by_type"
+    },
+    "customField8": {
+      "href": null
+    },
+    "customField11": {
+      "href": null
+    },
+    "customField12": {
+      "href": null
+    }
+  },
+  "_embedded": {
+    "type": {
+      "_type": "Type",
+      "_links": {
+        "self": {
+          "href": "/api/v3/types/5",
+          "title": "Phase"
+        }
+      },
+      "id": 5,
+      "name": "Phase",
+      "color": "#66CC99",
+      "position": 4,
+      "isDefault": true,
+      "isMilestone": false,
+      "createdAt": "2015-02-13T10:08:52+00:00",
+      "updatedAt": "2015-02-13T10:08:52+00:00"
+    },
+    "status": {
+      "_type": "Status",
+      "_links": {
+        "self": {
+          "href": "/api/v3/statuses/1",
+          "title": "new"
+        }
+      },
+      "id": 1,
+      "name": "new",
+      "isClosed": false,
+      "isDefault": true,
+      "defaultDoneRatio": null,
+      "position": 1
+    },
+    "author": {
+      "_type": "User",
+      "_links": {
+        "self": {
+          "href": "/api/v3/users/5",
+          "title": "Alexandrine Heidenreich"
+        }
+      },
+      "id": 5,
+      "login": "Kari4599",
+      "subtype": "User",
+      "firstName": "Alexandrine",
+      "lastName": "Heidenreich",
+      "name": "Alexandrine Heidenreich",
+      "email": "marlene_gibson@hyatthane.name",
+      "avatar": "",
+      "createdAt": "2015-02-13T10:09:05+00:00",
+      "updatedAt": "2015-02-13T10:09:05+00:00",
+      "status": "active"
+    },
+    "responsible": {
+      "_type": "User",
+      "_links": {
+        "self": {
+          "href": "/api/v3/users/1",
+          "title": "OpenProject Admin"
+        }
+      },
+      "id": 1,
+      "login": "admin",
+      "subtype": "User",
+      "firstName": "OpenProject",
+      "lastName": "Admin",
+      "name": "OpenProject Admin",
+      "email": "admin@example.net",
+      "avatar": "",
+      "createdAt": "2015-02-13T10:08:51+00:00",
+      "updatedAt": "2015-04-07T15:01:07+00:00",
+      "status": "active"
+    },
+    "priority": {
+      "_type": "Priority",
+      "_links": {
+        "self": {
+          "href": "/api/v3/priorities/2",
+          "title": "Normal"
+        }
+      },
+      "id": 2,
+      "name": "Normal",
+      "position": 2,
+      "isDefault": true,
+      "isActive": true
+    },
+    "version": {
+      "_type": "Version",
+      "_links": {
+        "self": {
+          "href": "/api/v3/versions/1",
+          "title": "v1"
+        },
+        "definingProject": {
+          "href": "/api/v3/projects/1",
+          "title": "Seeded Project"
+        },
+        "availableInProjects": {
+          "href": "/api/v3/versions/1/projects"
+        }
+      },
+      "id": 1,
+      "name": "v1",
+      "description": {
+        "format": "plain",
+        "raw": "",
+        "html": ""
+      },
+      "startDate": "2015-02-02",
+      "endDate": null,
+      "status": "open",
+      "createdAt": "2015-02-18T14:53:17+00:00",
+      "updatedAt": "2015-02-18T14:53:17+00:00"
+    },
+    "project": {
+      "_type": "Project",
+      "_links": {
+        "self": {
+          "href": "/api/v3/projects/1",
+          "title": "Seeded Project"
+        },
+        "categories": {
+          "href": "/api/v3/projects/1/categories"
+        },
+        "versions": {
+          "href": "/api/v3/projects/1/versions"
+        }
+      },
+      "id": 1,
+      "identifier": "seeded_project",
+      "name": "Seeded Project",
+      "description": "Voluptatibus omnis accusantium autem qui est. Sed soluta cupiditate quaerat. Voluptatem ipsam quod qui sit id. Iusto earum numquam quia aut. Ad quia autem. Eveniet non est. Praesentium rerum et vitae provident vel.",
+      "homepage": "",
+      "createdAt": "2015-02-13T10:08:53+00:00",
+      "updatedAt": "2015-02-13T10:08:53+00:00",
+      "type": null
+    },
+    "activities": [
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/333",
+            "title": "333"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/65",
+            "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+          },
+          "user": {
+            "href": "/api/v3/users/3",
+            "title": "Anonymous - "
+          },
+          "update": {
+            "href": "/api/v3/activities/333",
+            "method": "patch",
+            "title": "333"
+          }
+        },
+        "id": 333,
+        "comment": {
+          "format": "textile",
+          "raw": "",
+          "html": ""
+        },
+        "details": [
+          {
+            "format": "custom",
+            "raw": "Type set to Phase",
+            "html": "<strong>Type</strong> set to <i title=\"Phase\">Phase</i>"
+          },
+          {
+            "format": "custom",
+            "raw": "Project set to Seeded Project",
+            "html": "<strong>Project</strong> set to <i title=\"Seeded Project\">Seeded Project</i>"
+          },
+          {
+            "format": "custom",
+            "raw": "Subject set to veritatis voluptas hic qui praesentium tempora illum omnis",
+            "html": "<strong>Subject</strong> set to <i title=\"veritatis voluptas hic qui praesentium tempora illum omnis\">veritatis voluptas hic qui praesentium tempora illum omnis</i>"
+          },
+          {
+            "format": "custom",
+            "raw": "Description set (/journals/333/diff/description)",
+            "html": "<strong>Description</strong> set (<a href=\"/journals/333/diff/description\" class=\"description-details\">Details</a>)"
+          },
+          {
+            "format": "custom",
+            "raw": "Due date set to 04/29/2015",
+            "html": "<strong>Due date</strong> set to <i title=\"04/29/2015\">04/29/2015</i>"
+          },
+          {
+            "format": "custom",
+            "raw": "Status set to new",
+            "html": "<strong>Status</strong> set to <i title=\"new\">new</i>"
+          },
+          {
+            "format": "custom",
+            "raw": "Priority set to Normal",
+            "html": "<strong>Priority</strong> set to <i title=\"Normal\">Normal</i>"
+          },
+          {
+            "format": "custom",
+            "raw": "Author set to Alexandrine Heidenreich",
+            "html": "<strong>Author</strong> set to <i title=\"Alexandrine Heidenreich\">Alexandrine Heidenreich</i>"
+          },
+          {
+            "format": "custom",
+            "raw": "% done changed from 0 to 0",
+            "html": "<strong>% done</strong> changed from <i title=\"0\">0</i> to <i title=\"0\">0</i>"
+          },
+          {
+            "format": "custom",
+            "raw": "Start date set to 02/17/2015",
+            "html": "<strong>Start date</strong> set to <i title=\"02/17/2015\">02/17/2015</i>"
+          }
+        ],
+        "version": 1,
+        "createdAt": "2015-02-13T10:09:07+00:00"
+      },
+      {
+        "_type": "Activity",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/816",
+            "title": "816"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/65",
+            "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/816",
+            "method": "patch",
+            "title": "816"
+          }
+        },
+        "id": 816,
+        "comment": {
+          "format": "textile",
+          "raw": "",
+          "html": ""
+        },
+        "details": [
+          {
+            "format": "custom",
+            "raw": "Status changed from new to in progress",
+            "html": "<strong>Status</strong> changed from <i title=\"new\">new</i> to <i title=\"in progress\">in progress</i>"
+          }
+        ],
+        "version": 2,
+        "createdAt": "2015-04-07T13:36:43+00:00"
+      },
+      {
+        "_type": "Activity::Comment",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/817",
+            "title": "817"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/65",
+            "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/817",
+            "method": "patch",
+            "title": "817"
+          }
+        },
+        "id": 817,
+        "comment": {
+          "format": "textile",
+          "raw": "I have a comment",
+          "html": "<p>I have a comment</p>"
+        },
+        "details": [],
+        "version": 3,
+        "createdAt": "2015-04-07T13:37:09+00:00"
+      },
+      {
+        "_type": "Activity::Comment",
+        "_links": {
+          "self": {
+            "href": "/api/v3/activities/818",
+            "title": "818"
+          },
+          "workPackage": {
+            "href": "/api/v3/work_packages/65",
+            "title": "veritatis voluptas hic qui praesentium tempora illum omnis"
+          },
+          "user": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          },
+          "update": {
+            "href": "/api/v3/activities/818",
+            "method": "patch",
+            "title": "818"
+          }
+        },
+        "id": 818,
+        "comment": {
+          "format": "textile",
+          "raw": "And another one",
+          "html": "<p>And another one</p>"
+        },
+        "details": [],
+        "version": 4,
+        "createdAt": "2015-04-07T13:37:33+00:00"
+      }
+    ],
+    "watchers": [],
+    "attachments": [],
+    "relations": [],
+    "costsByType": {
+      "_type": "Collection",
+      "_links": {
+        "self": {
+          "href": "/api/v3/work_packages/819/summarized_costs_by_type"
+        }
+      },
+      "total": 0,
+      "count": 0,
+      "_embedded": {
+        "elements": []
+      }
+    }
+  },
+  "id": 819,
+  "lockVersion": 1,
+  "subject": "veritatis voluptas hic qui praesentium tempora illum omnis",
+  "description": {
+    "format": "textile",
+    "raw": "Tutis vulgivagus alveus appello #821. Triginta nostrum sit eum. Enim crudelis tremo adfectus auris nam adiuvo. Terreo absque aegrus decerno aegrotatio sui. Facere candidus illo spiculum. Et voluntarius acidus qui.",
+    "html": "<p>Tutis vulgivagus alveus appello <a href=\"/work_packages/820/overview\" class=\"work_package\">#820</a>. Triginta nostrum sit eum. Enim crudelis tremo adfectus auris nam adiuvo. Terreo absque aegrus decerno aegrotatio sui. Facere candidus illo spiculum. Et voluntarius acidus qui.</p>"
+  },
+  "startDate": "2015-02-17",
+  "dueDate": "2015-04-29",
+  "estimatedTime": null,
+  "spentTime": "PT0S",
+  "percentageDone": 0,
+  "createdAt": "2015-02-13T10:09:07+00:00",
+  "updatedAt": "2015-02-13T10:09:07+00:00",
+  "storyPoints": null,
+  "remainingTime": null,
+  "customField1": {
+    "format": "plain",
+    "raw": null,
+    "html": ""
+  },
+  "customField2": {
+    "format": "plain",
+    "raw": null,
+    "html": ""
+  },
+  "customField3": {
+    "format": "plain",
+    "raw": null,
+    "html": ""
+  },
+  "customField4": null,
+  "customField5": null,
+  "customField6": null,
+  "customField7": null,
+  "customField9": "2015-04-12",
+  "customField10": null
+}

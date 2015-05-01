@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,22 +35,28 @@ describe ::API::V3::RootRepresenter do
     subject(:generated) { representer.to_json }
 
     describe '_links' do
-      it { should have_json_type(Object).at_path('_links') }
+      it { is_expected.to have_json_type(Object).at_path('_links') }
 
       describe 'priorities' do
-        it { should have_json_path('_links/priorities') }
-        it { should have_json_path('_links/priorities/href') }
+        it { is_expected.to have_json_path('_links/priorities') }
+        it { is_expected.to have_json_path('_links/priorities/href') }
       end
 
       describe 'project' do
-        it { should have_json_path('_links/project') }
-        it { should have_json_path('_links/project/href') }
-        it { should have_json_path('_links/project/templated') }
+        it { is_expected.to have_json_path('_links/project') }
+        it { is_expected.to have_json_path('_links/project/href') }
+        it { is_expected.to have_json_path('_links/project/templated') }
+
+        it {
+          is_expected.to be_json_eql('/api/v3/projects/{project_id}'.to_json)
+            .at_path('_links/project/href')
+        }
+        it { is_expected.to be_json_eql(true.to_json).at_path('_links/project/templated') }
       end
 
       describe 'statuses' do
-        it { should have_json_path('_links/statuses') }
-        it { should have_json_path('_links/statuses/href') }
+        it { is_expected.to have_json_path('_links/statuses') }
+        it { is_expected.to have_json_path('_links/statuses/href') }
       end
     end
   end

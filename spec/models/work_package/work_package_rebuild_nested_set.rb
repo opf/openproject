@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +56,7 @@ describe WorkPackage, 'rebuilding nested set', type: :model do
   let(:gchild_1_2_1) { issue_factory(child_1_2) }
   let(:gchild_2_1_1) { issue_factory(child_2_1) }
 
-  describe :valid? do
+  describe '#valid?' do
     describe 'WITH one root issue' do
       before do
         root_1
@@ -131,7 +131,7 @@ describe WorkPackage, 'rebuilding nested set', type: :model do
     end
   end
 
-  describe :rebuild! do
+  describe '#rebuild!' do
 
     describe "WITH a two issues deep tree
               WITH the left value of the child beeing invalid" do
@@ -146,7 +146,7 @@ describe WorkPackage, 'rebuilding nested set', type: :model do
     end
   end
 
-  describe :rebuild_silently! do
+  describe '#rebuild_silently!' do
 
     describe "WITH a two issues deep tree
               WITH the left value of the child beeing invalid" do
@@ -259,7 +259,7 @@ describe WorkPackage, 'rebuilding nested set', type: :model do
     end
   end
 
-  describe :selectively_rebuild_silently! do
+  describe '#selectively_rebuild_silently!' do
 
     describe "WITH a two issues deep tree
               WITH the left value of the child beeing invalid" do
@@ -637,7 +637,7 @@ describe WorkPackage, 'rebuilding nested set', type: :model do
     end
   end
 
-  describe :invalid_left_and_rights do
+  describe '#invalid_left_and_rights' do
     describe "WITH a one issue deep tree
               WITH right > left" do
 
@@ -743,7 +743,7 @@ describe WorkPackage, 'rebuilding nested set', type: :model do
     end
   end
 
-  describe :invalid_duplicates_in_columns do
+  describe '#invalid_duplicates_in_columns' do
     describe "WITH a two issues deep tree
               WITH the child's left beeing equal to the root's left" do
 
@@ -789,7 +789,7 @@ describe WorkPackage, 'rebuilding nested set', type: :model do
     end
   end
 
-  describe :invalid_roots do
+  describe '#invalid_roots' do
     describe "WITH two one issues deep tree
               WITH everything ok" do
 
@@ -860,7 +860,7 @@ describe WorkPackage, 'rebuilding nested set', type: :model do
     end
   end
 
-  describe :invalid_root_ids do
+  describe '#invalid_root_ids' do
     describe "WITH a one issue deep tree
               WITH everything ok" do
       before do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,8 +63,8 @@ describe 'Query Saving', type: :feature, js: true do
     before do
       work_packages_page.select_query query
       # ensure the page is loaded before expecting anything
-      find('.filter-fields select option', text: /\AAssignee\Z/,
-                                           visible: false)
+      find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
+                                                       visible: false)
     end
 
     it 'should select its menu item' do
@@ -80,8 +80,8 @@ describe 'Query Saving', type: :feature, js: true do
         fill_in 'query_name', with: 'newQueryName'
         find_button('Save').click
         # ensure the page is loaded before expecting anything
-        find('.filter-fields select option', text: /\AAssignee\Z/,
-                                             visible: false)
+        find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
+                                                         visible: false)
       end
 
       it 'should select the new menu item' do

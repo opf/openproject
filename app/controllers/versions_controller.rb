@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,11 +93,7 @@ class VersionsController < ApplicationController
             redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
           end
           format.js do
-            # IE doesn't support the replace_html rjs method for select box options
-            render(:update) {|page|
-              page.replace 'work_package_fixed_version_id',
-                           content_tag('select', '<option></option>'.html_safe + version_options_for_select(@project.shared_versions.open, @version).html_safe, id: 'work_package_fixed_version_id', name: 'work_package[fixed_version_id]')
-            }
+            render locals: { versions: @project.shared_versions.open, version: @version }
           end
         end
       else

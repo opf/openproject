@@ -1,6 +1,6 @@
 <!---- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -92,7 +92,8 @@ If you want to follow these steps manually for any reason:
 
 You can run the specs with the following commands:
 
-* `bundle exec rake spec` Run all core specs with a random seed
+* `bundle exec rake spec:core` Run all core specs with a random seed
+* `bundle exec rake spec:legacy` Run all legacy specs with a random seed
 * `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
 
 TODO: how to run plugins specs.
@@ -149,16 +150,6 @@ To activate selenium as test driver to test javascript on web pages, you can add
 You can always start a debugger using the step "And I start debugging".
 If you need Firebug and Firepath while debugging a scenario, just replace
 @javascript with @firebug.
-
-### Test Unit [DEPRECATED]
-
-You can run a single test with the following command:
-
-* ``rake test:units TEST=path/to/test.rb TESTOPTS="--name=test_name_of_test_to_run"``
-
-You let test unit display test names instead of anonymous dots with the following command:
-
-* ``rake test:units TESTOPTS="--verbose=verbose"``
 
 ## For the fancy programmer
 

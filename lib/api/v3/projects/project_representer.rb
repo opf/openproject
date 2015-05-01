@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,28 +33,16 @@ require 'roar/json/hal'
 module API
   module V3
     module Projects
-      class ProjectRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+      class ProjectRepresenter < ::API::Decorators::Single
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        property :_type, exec_context: :decorator
-
-        link :self do
-          {
-            href: "#{root_path}api/v3/projects/#{represented.id}",
-            title: "#{represented.name}"
-          }
-        end
+        self_link
 
         link 'categories' do
-          "#{root_path}api/v3/projects/#{represented.id}/categories"
+          { href: api_v3_paths.categories(represented.id) }
         end
 
         link 'versions' do
-          "#{root_path}api/v3/projects/#{represented.id}/versions"
+          { href: api_v3_paths.versions_by_project(represented.id) }
         end
 
         property :id, render_nil: true
@@ -64,8 +52,14 @@ module API
         property :description,  render_nil: true
         property :homepage
 
-        property :created_on,   render_nil: true
-        property :updated_on,   render_nil: true
+        property :created_on,
+                 as: 'createdAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+        property :updated_on,
+                 as: 'updatedAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
 
         property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
 

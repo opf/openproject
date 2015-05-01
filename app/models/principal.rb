@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ class Principal < ActiveRecord::Base
     lastnamefirstname = "((lastname || ' ') || firstname)"
 
     # special concat for mysql
-    if ChiliProject::Database.mysql?
+    if OpenProject::Database.mysql?
       firstnamelastname = "CONCAT(CONCAT(firstname, ' '), lastname)"
       lastnamefirstname = "CONCAT(CONCAT(lastname, ' '), firstname)"
     end
@@ -108,6 +108,22 @@ class Principal < ActiveRecord::Base
     # want to know the status for other Principals than User.
     raise 'Principal has status other than active' unless status == 1
     'active'
+  end
+
+  ##
+  # Allows the API and other sources to determine locking actions
+  # on represented collections of children of Principals.
+  # Must be overriden by User
+  def lockable?
+    false
+  end
+
+  ##
+  # Allows the API and other sources to determine unlocking actions
+  # on represented collections of children of Principals.
+  # Must be overriden by User
+  def activatable?
+    false
   end
 
   def <=>(principal)

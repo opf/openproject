@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -106,14 +106,13 @@ When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*
 end
 
 When (/^I enable the hide other group option$/) do
+  # it is not possible to use the label for the hide group other field
+  # because of the " in the label
   steps %{
     When I edit the settings of the current timeline
+    And I check "timeline_options_hide_other_group"
+    And I click on "Save"
   }
-
-  page.should have_selector('#timeline_options_hide_other_group')
-
-  page.execute_script("jQuery('#timeline_options_hide_other_group').prop('checked', true)")
-  page.execute_script("jQuery('#content form').submit()")
 end
 
 When (/^I show only work packages which have the responsible "(.*?)"$/) do |responsible|

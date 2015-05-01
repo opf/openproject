@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,8 +56,8 @@ class UpdateWorkPackageService
   def effective_params
     effective_params = HashWithIndifferentAccess.new
 
-    if permitted_params[:notes]
-      notes = { notes: permitted_params.delete(:notes) }
+    if permitted_params[:journal_notes]
+      notes = { notes: permitted_params.delete(:journal_notes) }
 
       effective_params.merge!(notes) if user.allowed_to?(:add_work_package_notes, work_package.project)
     end

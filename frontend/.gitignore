@@ -1,0 +1,8 @@
+/.sass-cache
+/bower_components
+/coverage
+/node_modules
+/npm-debug.log
+/public/**/*
+/tests/unit/reports
+/tmp

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,20 +47,6 @@ module ProjectsHelper
             { name: 'types', action: :manage_types, partial: 'projects/settings/types', label: :'label_type_plural' }
            ]
     tabs.select { |tab| User.current.allowed_to?(tab[:action], @project) }
-  end
-
-  def parent_project_select_tag(project)
-    selected = project.parent
-    # retrieve the requested parent project
-    parent_id = (params[:project] && params[:project][:parent_id]) || params[:parent_id]
-    if parent_id
-      selected = (parent_id.blank? ? nil : Project.find(parent_id))
-    end
-
-    options = ''
-    options << "<option value=''></option>" if project.allowed_parents.include?(nil)
-    options << project_tree_options_for_select(project.allowed_parents.compact, selected: selected)
-    content_tag('select', options.html_safe, name: 'project[parent_id]', id: 'project_parent_id')
   end
 
   # Renders a tree of projects as a nested set of unordered lists

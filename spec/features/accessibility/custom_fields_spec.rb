@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -244,13 +244,13 @@ describe 'Custom field accessibility', type: :feature do
         end
 
         shared_examples_for 'attribute header lang' do
-          let(:element) { find("td.work_package_attribute_header.custom_field.cf_#{custom_field.id}") }
+          let(:element) { find("dt.attributes-key-value--key.-custom_field.-cf_#{custom_field.id}") }
 
           it_behaves_like 'Element has lang tag'
         end
 
         shared_examples_for 'attribute value lang' do
-          let(:element) { find("td.work_package_attribute_header.custom_field.cf_#{custom_field.id} + td") }
+          let(:element) { find("dt.attributes-key-value--key.-custom_field.-cf_#{custom_field.id} + dd") }
 
           it_behaves_like 'Element has lang tag'
         end
@@ -358,7 +358,7 @@ describe 'Custom field accessibility', type: :feature do
         end
 
         shared_examples_for 'attribute value lang' do
-          let(:element) { find("#attributes label[for='work_package_custom_field_values_#{custom_field.id}'] + span") }
+          let(:element) { find("#work_package_custom_field_values_#{custom_field.id}") }
 
           it_behaves_like 'Element has lang tag'
         end

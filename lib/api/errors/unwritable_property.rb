@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,8 +35,26 @@ module API
 
         fail ArgumentError, 'UnwritableProperty error must contain at least one invalid attribute!' if attributes.empty?
 
-        super 422, 'You must not write a read-only attribute.'
+        if attributes.length == 1
+          message = if attributes.length == 1
+                      begin
+                        I18n.t("api_v3.errors.validation.#{attributes.first}", raise: true)
+                      rescue I18n::MissingTranslationData
+                        I18n.t('api_v3.errors.writing_read_only_attributes')
+                      end
+                    else
+                      I18n.t('api_v3.errors.multiple_errors')
+                    end
+        else
+          message = I18n.t('api_v3.errors.multiple_errors')
+        end
 
+        super 422, message
+
+        evaluate_attributes(attributes, invalid_attributes)
+      end
+
+      def evaluate_attributes(attributes, invalid_attributes)
         if attributes.length > 1
           invalid_attributes.each do |attribute|
             @errors << UnwritableProperty.new(attribute)

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,14 +30,16 @@
 require 'roar/decorator'
 require 'roar/json/hal'
 
+API::V3::Utilities::DateTimeFormatter
+
 module API
   module V3
     module Activities
       class ActivityRepresenter < Roar::Decorator
         include Roar::JSON::HAL
         include Roar::Hypermedia
-        include API::Utilities::UrlHelper
-        include OpenProject::TextFormatting
+        include API::V3::Utilities::PathHelper
+        include API::V3::Utilities
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -50,36 +52,55 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_path}api/v3/activities/#{represented.id}", title: "#{represented.id}" }
+          {
+            href: api_v3_paths.activity(represented.id),
+            title: "#{represented.id}"
+          }
         end
 
         link :workPackage do
-          { href: "#{root_path}api/v3/work_packages/#{represented.journable.id}", title: "#{represented.journable.subject}" }
+          {
+            href: api_v3_paths.work_package(represented.journable.id),
+            title: "#{represented.journable.subject}"
+          }
         end
 
         link :user do
-          { href: "#{root_path}api/v3/users/#{represented.user.id}", title: "#{represented.user.name} - #{represented.user.login}" }
+          {
+            href: api_v3_paths.user(represented.user.id),
+            title: "#{represented.user.name} - #{represented.user.login}"
+          }
         end
 
         link :update do
           {
-            href: "#{root_path}api/v3/activities/#{represented.id}",
+            href: api_v3_paths.activity(represented.id),
             method: :patch,
             title: "#{represented.id}"
           } if current_user_allowed_to_edit?
         end
 
         property :id, render_nil: true
-        property :notes, as: :comment, exec_context: :decorator, render_nil: true
-        property :raw_notes,
-                 as: :rawComment,
-                 getter: -> (*) { notes },
-                 setter: -> (value, *) { self.notes = value },
+        property :comment,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   ::API::Decorators::Formattable.new(represented.notes,
+                                                     object: represented.journable)
+                 },
+                 setter: -> (value, *) { represented.notes = value['raw'] },
                  render_nil: true
-        property :details, exec_context: :decorator, render_nil: true
-        property :html_details, exec_context: :decorator, render_nil: true
+        property :details,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   details = render_details(represented, no_html: true)
+                   html_details = render_details(represented)
+                   formattables = details.zip(html_details)
+
+                   formattables.map { |d| { format: 'custom', raw: d[0], html: d[1] } }
+                 },
+                 render_nil: true
         property :version, render_nil: true
-        property :created_at, getter: -> (*) { created_at.utc.iso8601 }, render_nil: true
+        property :created_at, getter: -> (*) { DateTimeFormatter::format_datetime(created_at) }
 
         def _type
           if represented.notes.blank?
@@ -87,18 +108,6 @@ module API
           else
             'Activity::Comment'
           end
-        end
-
-        def notes
-          format_text(represented.notes, object: represented.journable)
-        end
-
-        def details
-          render_details(represented, no_html: true)
-        end
-
-        def html_details
-          render_details(represented)
         end
 
         private

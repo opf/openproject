@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -128,7 +128,7 @@ describe ApplicationController, type: :controller do
       it_behaves_like 'handle_unverified_request resets session'
 
       it 'should not render an error' do
-        expect(@controller).to_not receive(:render_error)
+        expect(@controller).not_to receive(:render_error)
 
         @controller.send :handle_unverified_request
       end

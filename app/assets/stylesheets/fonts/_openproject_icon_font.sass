@@ -1,38 +1,34 @@
-/*-- copyright
- * OpenProject is a project management system.
- * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See doc/COPYRIGHT.rdoc for more details.  ++*/
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
 
-@import global/all
+$icon-font-file-formats: eot woff ttf
 
-@font-face
-  font-family: "openproject-icon-font"
-  src: font-url('openproject_icon/openproject-icon-font.eot')
-  src: font-url('openproject_icon/openproject-icon-font.eot?#iefix') format("embedded-opentype"), font-url('openproject_icon/openproject-icon-font.ttf') format("truetype"), font-url('openproject_icon/openproject-icon-font.svg#untitled-font-1') format("svg"), font-url('openproject_icon/openproject-icon-font.woff') format("woff")
-  font-weight: normal
-  font-style: normal
++font-face('openproject-icon-font', 'openproject_icon/openproject-icon-font', $file-formats: $icon-font-file-formats)
 
 @mixin icon-common
   font-family: "openproject-icon-font" !important
@@ -40,6 +36,7 @@
   font-weight: normal !important
   font-variant: normal !important
   text-transform: none !important
+  text-decoration: none !important
   speak: none
   line-height: 1
   -webkit-font-smoothing: antialiased
@@ -47,7 +44,7 @@
 
 @mixin icon-rules
   padding: 0 5px 0 10px
-  color: $content_icon_color
+  color: $content-icon-color
 
 @mixin icon2-rules
   padding: 0 20px 0 7px
@@ -66,24 +63,16 @@
   padding: 0 7px 0 9px
   font-size: 12px
 
-@mixin icon-dropdown-rules
-  padding: 0 0 0 3px
-  font-size: 13px
-
-@mixin icon-button-rules
-  padding: 0 5px 0 0
-  font-size: 13px
-
 @mixin icon-dropdown-menu-rules
   padding: 0 8px 0 0
   font-size: 14px
 
 @mixin icon-context-rules
   @include icon-context-padding
-  color: $content_icon_color
+  color: $content-icon-color
 
 @mixin icon-table-rules
-  padding: 0 0 0 0
+  padding: 0
 
 @mixin icon-action-menu-rules
   padding: 0 10px 0 0
@@ -92,14 +81,14 @@
   vertical-align: -40%
 
 @mixin icon-sub-menu-rules
-  padding: 0 0 0 0
+  padding: 0
   float: right
   font-size: 15px
   line-height: 5px
   vertical-align: -40%
 
 @mixin icon-big-rules
-  padding: 0 0 0 0
+  padding: 0
   font-size: 50px
 
 @mixin icon-context-padding
@@ -130,20 +119,10 @@
   content: attr(data-icon5)
   @include icon5-rules
 
-[data-icon-dropwdown]:before
-  @include icon-common
-  content: attr(data-icon-dropdown)
-  @include icon-dropdown-rules
-
 [data-icon-dropdown-menu]:before
   @include icon-common
   content: attr(data-icon-dropdown-menu)
   @include icon-dropdown-menu-rules
-
-[data-icon-button]:before
-  @include icon-common
-  content: attr(data-icon-button)
-  @include icon-button-rules
 
 [data-icon-table]:before
   @include icon-common
@@ -189,17 +168,9 @@
 .icon6:before
   @include icon6-rules
 
-// used for arrow icons in buttons with dropdown
-.icon-dropdown:before
-  @include icon-dropdown-rules
-
 // used for icons dropdown-menus
 .icon-dropdown-menu:before
   @include icon-dropdown-menu-rules
-
-// used for icons in buttons
-.icon-buttons:before
-  @include icon-button-rules
 
 // used for icons in workpackage table
 .icon-table:before
@@ -213,10 +184,6 @@
   @include icon-common
   @include icon-rules
   float: left
-
-.button_highlight.icon-context:before
-  @include icon-context-padding
-  color: $button_highlight_font_color
 
 // used for icons in the content area, which appear in context (menus)
 .action-menu .icon:before,
@@ -254,6 +221,9 @@ dt > .icon-changeset:before,
 
 .icon-close:before
   content: "\e007"
+
+.icon-close2:before
+  content: "\e0f6"
 
 .icon-copy:before
   content: "\e008"

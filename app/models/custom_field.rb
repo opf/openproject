@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -101,6 +101,10 @@ class CustomField < ActiveRecord::Base
 
   # validate default value in every translation available
   def validate_default_value_in_translations
+    # it is not possible to determine the validity of a value, when there is no valid format.
+    # another validation will take care of adding an error, but here we need to abort
+    return nil if field_format.blank?
+
     required_field = is_required
     self.is_required = false
     translated_locales = (translations.map(&:locale) + self.translated_locales).uniq
@@ -155,12 +159,14 @@ class CustomField < ActiveRecord::Base
 
   ##
   # Returns possible values for this custom field.
-  # Options may be a user, or options suitable for ActiveRecord#read_attribute.
+  # Options may be a customizable, or options suitable for ActiveRecord#read_attribute.
+  # Notes: You SHOULD pass a customizable if this CF has a format of user or version.
+  #        You MUST NOT pass a customizable if this CF has any other format
   # read_attribute is localized - to get values for a specific locale pass the following options hash
   # :locale => <locale (-> :en, :de, ...)>
   def possible_values(obj = nil)
     case field_format
-    when 'user'
+    when 'user', 'version'
       possible_values_options(obj).map(&:last)
     else
       options = obj.nil? ? {} : obj
@@ -188,7 +194,7 @@ class CustomField < ActiveRecord::Base
       when 'date'
         casted = begin; value.to_date; rescue; nil end
       when 'bool'
-        casted = (value == '1' ? true : false)
+        casted = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
       when 'int'
         casted = value.to_i
       when 'float'
@@ -240,6 +246,10 @@ class CustomField < ActiveRecord::Base
   def self.for_all(options = {})
     options.merge!(conditions: ['is_for_all=?', true], order: 'position')
     find :all, options
+  end
+
+  def accessor_name
+    "custom_field_#{id}"
   end
 
   def type_name

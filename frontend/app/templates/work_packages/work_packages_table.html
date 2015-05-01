@@ -1,0 +1,192 @@
+<div class="work-packages-table--container"
+  ng-class="{ '-with-footer': displaySums }">
+  <div class="work-packages-table--results-container" ng-if="rows.length">
+    <table class="workpackages-table keyboard-accessible-list">
+      <colgroup>
+        <col />
+        <col ng-hide="hideWorkPackageDetails" />
+        <col />
+        <col ng-repeat="column in columns" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="checkbox hide-when-print">
+            <div class="work-packages-table--header-outer">
+              <a href
+                 alt="{{toggleRowsLabel}}"
+                 class="no-decoration-on-hover"
+                 ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
+                 title="{{toggleRowsLabel}}">
+                <icon-wrapper icon-title="{{toggleRowsLabel}}"
+                              icon-name="yes"></icon-wrapper>
+              </a>
+            </div>
+          </th>
+
+          <th sort-header ng-repeat="column in columns"
+                          has-dropdown-menu
+                          position-relative-to=".sort-header-outer"
+                          target="ColumnContextMenu"
+                          locals="columns, column"
+                          locale="column.custom_field && columns.custom_field.name_locale || I18n.locale"
+                          header-name="column.name"
+                          header-title="column.title"
+                          sortable="column.sortable"
+                          query="query">
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <!-- Group headers -->
+
+        <tr work-package-group-header
+            ng-repeat-start="row in rows"
+            ng-if="!!groupByColumn &&
+                   ($first || row.groupName !== rows[$index-1].groupName)"
+            ng-class="{
+              group: true,
+              open: groupExpanded[currentGroup],
+              closed: !groupExpanded[currentGroup],
+              keyboard_hover: true
+            }"
+            id="group-header-{{ row.groupName }}">
+          <td colspan="{{ columns.length + 2 - (!!hideWorkPackageDetails * 1) }}">
+            <div ng-class="[
+                    'expander',
+                    'icon-context',
+                    'icon-' + (groupExpanded[currentGroup] && 'minus' || 'plus')
+                  ]"
+                  ng-click="toggleCurrentGroup()">
+              <span ng-class="{
+                'hidden-for-sighted': true,
+                expand: !groupExpanded[currentGroup],
+                collapse: groupExpanded[currentGroup]
+              }">
+                {{ groupExpanded[currentGroup] && I18n.t('js.label_collapse') || I18n.t('js.label_expand') }}
+              </span>
+              <span class="hidden-for-sighted collapse">{{ I18n.t('js.label_collapse') }}</span>
+            </div>
+
+            <div>
+              <span work-package-column
+                    work-package="row.object"
+                    column="groupByColumn"
+                    display-type="{{ groupByColumn.name }}"
+                    display-empty="-">
+              </span>
+
+              <span class="count">
+                ({{ countByGroup[row.groupName] }})
+
+                <span aria-hidden="true" role="presentation" tabindex="-1">
+                  <a class="toggle-all" href ng-click="toggleAllGroups()">
+                    {{ groupExpanded[currentGroup] && I18n.t('js.label_collapse_all') || I18n.t('js.label_expand_all') }}
+                  </a>
+                </span>
+              </span>
+            </div>
+
+          </td>
+        </tr>
+
+        <!-- Work package rows -->
+
+        <tr work-package-row
+            id="work-package-{{ row.object.id }}"
+            has-dropdown-menu
+            trigger-on-event="contextmenu"
+            target="WorkPackageContextMenu"
+            locals="rows,row"
+            after-focus-on=".id a"
+            single-click="selectWorkPackage(row, $event)"
+            ng-dblclick="showWorkPackageDetails(row)"
+            ng-class="[
+              'issue',
+              'hascontextmenu',
+              row.checked && 'context-menu-selection',
+              !row.object['leaf?'] && 'parent' || '',
+              row.level > 0 && 'child idnt' || '',
+              row.level > 0 && ('idnt-' + row.level) || ''
+            ]"
+            ng-show="!groupByColumn || groupExpanded[row.groupName]">
+
+          <td class="checkbox hide-when-print">
+            <accessible-checkbox name="ids[]"
+                                 checkbox-id="work_package{{row.object.id}}"
+                                 checkbox-value="row.object.id"
+                                 checkbox-title="{{checkboxTitle}}"
+                                 model="row.checked"/>
+          </td>
+
+          <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">
+            <span work-package-column
+                  work-package="row.object"
+                  column="column"
+                  display-type="{{column.meta_data.data_type}}"/>
+          </td>
+        </tr>
+
+
+        <!-- Sums for groups -->
+
+        <tr work-package-group-sums
+            ng-repeat-end
+            ng-if="displaySums && !!groupByColumn &&
+                   ($last || row.groupName !== rows[$index+1].groupName)"
+            ng-show="!groupByColumn || groupExpanded[row.groupName]"
+            ng-class="[
+              'group-sum',
+              'sum',
+              'grouped',
+              'group',
+              'issue',
+              'work_package'
+            ]">
+            <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
+              {{ I18n.t('js.label_sum_for') }}
+              <span work-package-column
+                    work-package="row.object"
+                    column="groupByColumn"
+                    display-empty="-"/>
+            </td>
+            <td ng-repeat="column in columns">
+              {{ column.group_sums[row.groupName] }}
+            </td>
+        </tr>
+
+      </tbody>
+      <tfoot>
+
+        <!-- Total sums -->
+
+        <tr work-package-total-sums
+            ng-if="displaySums"
+            class="sum group all issue work_package">
+          <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
+            <div class="work-packages-table--footer-outer">
+              {{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}
+            </div>
+          </td>
+          <td ng-repeat="column in columns">
+            <div class="work-packages-table--footer-outer">
+              {{ column.total_sum }}
+            </div>
+          </td>
+        </tr>
+
+      </tfoot>
+    </table>
+    <div class="work-packages-table--header-background"></div>
+    <div class="work-packages-table--footer-background" ng-if="displaySums"></div>
+  </div>
+  <div class="work-packages-table--no-results-container" ng-if="!rows.length">
+    <h2 class="work-packages-table--no-results-title">
+      <i class="icon-info"></i>
+      {{ I18n.t('js.work_packages.no_results.title') }}
+    </h2>
+    <div class="work-packages-table--no-results-description"
+      ng-bind-html="I18n.t('js.work_packages.no_results.description_html')"></div>
+  </div>
+</div>
