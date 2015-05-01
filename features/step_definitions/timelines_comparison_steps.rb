@@ -86,7 +86,7 @@ Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, tabl
 
   Timecop.freeze(target_time) do
 
-    timeline = WorkPackage.find_by_subject(name)
+    timeline = WorkPackage.find_by(subject: name)
     table.hashes.first.each do | key, value |
       timeline[key] = value
     end

@@ -28,7 +28,7 @@
 #++
 
 Given(/^the work package "(.*?)" has the following changesets:$/) do |subject, table|
-  wp = WorkPackage.find_by_subject!(subject)
+  wp = WorkPackage.find_by!(subject: subject)
 
   repo = wp.project.repository
 

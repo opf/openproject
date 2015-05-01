@@ -28,7 +28,7 @@
 #++
 
 When /^I check the role "(.+?)" for the project member "(.+?)"$/ do |role_name, user_login|
-  role = Role.find_by_name(role_name)
+  role = Role.find_by(name: role_name)
 
   member = member_for_login user_login
 

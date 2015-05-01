@@ -28,7 +28,7 @@
 #++
 
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [wW]ork [pP]ackage [qQ]uer(?:ies|y)? with(?: the following)?:$/ do |project, count, table|
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
+  p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin count do
     i = FactoryGirl.build(:query, project: p)
     send_table_to_object(i, table)
@@ -37,7 +37,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [wW]ork [pP]ackage [qQ]uer(?:ies|y)?
 end
 
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [wW]ork [pP]ackage [qQ]uer(?:ies|y)?$/ do |project, count|
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
+  p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin count do
     i = FactoryGirl.build(:query, project: p)
     i.save

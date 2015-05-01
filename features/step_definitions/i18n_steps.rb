@@ -33,7 +33,7 @@ end
 
 Given /^the (.+) called "(.+)" has the following localizations:$/ do |model_name, object_name, table|
   model = model_name.downcase.gsub(/\s/, '_').camelize.constantize
-  object = model.find_by_name(object_name)
+  object = model.find_by(name: object_name)
 
   object.translations = []
 

@@ -28,7 +28,7 @@
 #++
 
 Given(/^there is a time entry for "(.*?)" with (\d+) hours$/) do |subject, hours|
-  work_package = WorkPackage.find_by_subject(subject)
+  work_package = WorkPackage.find_by(subject: subject)
   time_entry = FactoryGirl.create(:time_entry, work_package: work_package, hours: hours, project: work_package.project)
 end
 
