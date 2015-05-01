@@ -65,7 +65,7 @@ describe TabularFormBuilder do
         expect(output).to be_html_eql(%{
           <input class="form--text-field"
             id="user_translations_attributes_0_name"
-            name="user[translations_attributes][0][name]" size="30" type="text" />
+            name="user[translations_attributes][0][name]" type="text" />
         }).at_path('input:first-child')
       end
     end
@@ -81,7 +81,7 @@ describe TabularFormBuilder do
         expect(output).to be_html_eql(%{
           <input class="form--text-field"
             id="user_translations_attributes_0_name"
-            name="user[translations_attributes][0][name]" size="30" type="text" />
+            name="user[translations_attributes][0][name]" type="text" />
         }).at_path('input:first-child')
       end
 
@@ -103,7 +103,7 @@ describe TabularFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
-            id="user_name" name="user[name]" size="30" title="Name" type="text"
+            id="user_name" name="user[name]" title="Name" type="text"
             value="JJ Abrams" />
         }).at_path('input')
       end
@@ -118,7 +118,7 @@ describe TabularFormBuilder do
             <span class="form--field-affix"><span style="color:red">Prefix</span></span>
             <span class="form--text-field-container">
               <input class="form--text-field"
-                id="user_name" name="user[name]" size="30" title="Name" type="text"
+                id="user_name" name="user[name]" title="Name" type="text"
                 value="JJ Abrams" />
             </span>
           }).within_path('span.form--field-container')
@@ -132,7 +132,7 @@ describe TabularFormBuilder do
           expect(output).to be_html_eql(%{
             <span class="form--text-field-container">
               <input class="form--text-field"
-                id="user_name" name="user[name]" size="30" title="Name" type="text"
+                id="user_name" name="user[name]" title="Name" type="text"
                 value="JJ Abrams" />
             </span>
             <span class="form--field-affix"><span style="color:blue">Suffix</span></span>
@@ -153,7 +153,7 @@ describe TabularFormBuilder do
             <span class="form--field-affix"><span style="color:yellow">PREFIX</span></span>
             <span class="form--text-field-container">
               <input class="form--text-field"
-                id="user_name" name="user[name]" size="30" title="Name" type="text"
+                id="user_name" name="user[name]" title="Name" type="text"
                 value="JJ Abrams" />
             </span>
             <span class="form--field-affix"><span style="color:green">SUFFIX</span></span>
@@ -176,8 +176,8 @@ describe TabularFormBuilder do
 
     it 'should output element' do
       expect(output).to be_html_eql(%{
-        <textarea class="custom-class form--text-area" cols="40" id="user_name"
-          name="user[name]" rows="20" title="Name">
+        <textarea class="custom-class form--text-area" id="user_name"
+          name="user[name]" title="Name">
 JJ Abrams</textarea>
       }).at_path('textarea')
     end
@@ -367,7 +367,7 @@ JJ Abrams</textarea>
     it 'should output element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--search-field" id="user_name"
-          name="user[name]" size="30" title="Search name" type="search"
+          name="user[name]" title="Search name" type="search"
           value="JJ Abrams" />
       }).at_path('input')
     end
@@ -387,7 +387,7 @@ JJ Abrams</textarea>
     it 'should output element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -email"
-          id="user_mail" name="user[mail]" size="30" title="Email" type="email"
+          id="user_mail" name="user[mail]" title="Email" type="email"
           value="jj@lost-mail.com" />
       }).at_path('input')
     end
@@ -407,7 +407,7 @@ JJ Abrams</textarea>
     it 'should output element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -telephone"
-          id="user_mail" name="user[mail]" size="30" title="Not really email"
+          id="user_mail" name="user[mail]" title="Not really email"
           type="tel" value="jj@lost-mail.com" />
       }).at_path('input')
     end
@@ -427,7 +427,7 @@ JJ Abrams</textarea>
     it 'should output element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -password"
-          id="user_login" name="user[login]" size="30" title="Not really password"
+          id="user_login" name="user[login]" title="Not really password"
           type="password" />
       }).at_path('input')
     end
@@ -466,7 +466,7 @@ JJ Abrams</textarea>
     it 'should output element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -url"
-          id="user_name" name="user[name]" size="30" title="Not really file"
+          id="user_name" name="user[name]" title="Not really file"
           type="url" value="JJ Abrams" />
       }).at_path('input')
     end
