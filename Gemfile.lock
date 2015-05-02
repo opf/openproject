@@ -452,7 +452,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.43)
+    tzinfo (0.3.44)
     uber (0.0.13)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
