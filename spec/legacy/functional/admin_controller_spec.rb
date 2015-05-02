@@ -146,7 +146,7 @@ describe AdminController, type: :controller do
 
   def delete_configuration_data
     Role.delete_all('builtin = 0')
-    Type.delete_all('is_standard = false')
+    Type.delete_all(is_standard: false)
     Status.delete_all
     Enumeration.delete_all
   end
