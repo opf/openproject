@@ -19,6 +19,14 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "my_project_page/my_project_page" %>
+  <%= auto_discovery_link_tag(:atom, {:controller => 'activities',  :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+  <%= stylesheet_link_tag "my_project_page/my_projects_overview", :media => 'all' %>
+<% end %>
+
+<% html_title(l(:label_overview)) -%>
+
 <h2><%=l(:label_overview)%></h2>
 
 <% content_for :toolbar do %>
@@ -74,11 +82,3 @@ See doc/COPYRIGHT.md for more details.
   <% end %>
   <%= call_hook(:view_projects_show_sidebar_bottom, :project => project) %>
 <% end %>
-
-<% content_for :header_tags do %>
-  <%= javascript_include_tag "my_project_page/my_project_page" %>
-  <%= auto_discovery_link_tag(:atom, {:controller => 'activities',  :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
-  <%= stylesheet_link_tag "my_project_page/my_projects_overview", :media => 'all' %>
-<% end %>
-
-<% html_title(l(:label_overview)) -%>
