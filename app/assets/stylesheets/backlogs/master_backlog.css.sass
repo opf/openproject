@@ -61,6 +61,7 @@
  *this adds space at the bottom of the main content div to leave enough space
  *for the menu without cutting it even if the bottom backlog does not contain
  *any elements
+ */
 
 .controller-rb_master_backlogs.action-index #content
   padding-bottom: 180px
@@ -195,7 +196,6 @@
     .stories .story
       cursor: move
       display: block
-      height: 2rem
       font-size: 0.9rem
       margin: 0
       overflow: hidden
@@ -265,7 +265,7 @@
     .axislabel
       font-weight: bold
 
-/* In-place Sprint Editor
+/* In-place Sprint Editor */
 
 #rb #backlogs_container
   .sprint.editing
@@ -298,18 +298,19 @@
       display: inline-block
       float: none
       margin: 5px 3px 4px 2px
-      padding: 0.125rem 0.25rem
       font-size: 0.8rem
+      // reset the line-height (foundation sets it to "normal" but that does not work here)
+      line-height: inherit
     .type_id.editor
       width: expression( document.body.clientWidth > 99 ? "100px" : "auto" )
-      /* sets max-width for IE
+      /* sets max-width for IE */
       max-width: 100px
-      /* for the cool guys
+      /* for the cool guys */
     .subject.editor
       min-width: 19em
       width: 53%
     .status_id.editor
-      width: 68px
+      width: 96px
       float: right
     .story_points.editor
       float: right
