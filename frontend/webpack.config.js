@@ -38,21 +38,23 @@ var loaders = [
   { test: /\.gif$/,                   loader: 'file-loader' },
   { test: /\.jpg$/,                   loader: 'file-loader' },
   { test: /js-[\w|-]{2,5}\.yml$/,     loader: 'json!yaml' }
-]
+];
 
 for (var k in pathConfig.pluginNamesPaths) {
-  loaders.push({
-    test: new RegExp('templates/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
-    loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
-      path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html'
-  })
+  if (pathConfig.pluginNamesPaths.hasOwnProperty(k)) {
+    loaders.push({
+      test: new RegExp('templates/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
+      loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
+        path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html'
+    });
+  }
 }
 
 loaders.push({
   test: /^((?!templates\/plugin).)*\.html$/,
   loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
     path.resolve(__dirname, './app') + '!html'
-})
+});
 
 module.exports = {
   context: __dirname + '/app',
