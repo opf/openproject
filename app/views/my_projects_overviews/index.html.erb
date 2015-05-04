@@ -19,29 +19,25 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<% content_for :action_menu_specific do %>
-    <%=
-      context_links = []
-      if User.current.allowed_to?(:add_subprojects, project)
-        context_links << link_to(l(:label_subproject_new),
-                                 { :controller => 'projects',
-                                   :action => 'new',
-                                   :parent_id => project },
-                                   :class => 'icon icon-add')
-      end
-      if User.current.allowed_to?(:edit_project, project)
-        context_links << link_to(l(:label_personalize_page),
-                                 { :action => 'page_layout' },
-                                   :class => 'icon icon-edit',
-                                   :accesskey => accesskey(:edit))
-      end
-      context_links.join("&nbsp;&nbsp;&nbsp;").html_safe
-    %>
-<% end %>
-
 <h2><%=l(:label_overview)%></h2>
 
-<%= render :partial => 'layouts/action_menu_specific' %>
+<% content_for :toolbar do %>
+  <% if User.current.allowed_to?(:add_subprojects, project) %>
+    <li class="toolbar-item">
+      <%= link_to new_project_path(parent_id: project), class: 'button -highlight' do %>
+        <i class="icon-add"></i> <%= l(:label_subproject_new) %>
+      <% end %>
+    </li>
+  <% end %>
+  <% if User.current.allowed_to?(:edit_project, project) %>
+    <li class="toolbar-item">
+      <%= link_to my_projects_overview_path(project), class: 'button', accesskey: accesskey(:edit) do %>
+        <i class="icon-edit"></i> <%= l(:label_personalize_page) %>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+<%= render :partial => 'layouts/toolbar' %>
 
 <% ['top', 'left', 'right'].each do |position| %>
   <div id="list-<%= position %>" class="splitcontent<%= position %>">
