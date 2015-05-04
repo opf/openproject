@@ -64,3 +64,16 @@ See doc/COPYRIGHT.rdoc for more details.
 th {
   font-weight: bold;
 }
+
+#col_width label {
+  display: inline-block;
+  float: left;
+  line-height: 40px;
+  margin: 0 15px;
+}
+
+#col_width_input {
+  display: inline-block;
+  float: right;
+  margin: 0;
+}
