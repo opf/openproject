@@ -183,7 +183,7 @@ describe MailHandler, type: :model do
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?
     issue.reload
-    assert issue.watched_by?(User.find_by(mail: 'dlopper@somenet.foo'))
+    assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
     assert_equal 1, issue.watcher_user_ids.size
   end
 
@@ -252,7 +252,7 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package with localized attributes' do
-    User.find_by(mail: 'jsmith@somenet.foo').update_attribute 'language', 'de'
+    User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
     issue = submit_email('ticket_with_localized_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?

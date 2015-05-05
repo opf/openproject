@@ -392,7 +392,7 @@ describe User, type: :model do
   end
 
   it 'should find by mail should be case insensitive' do
-    u = User.find_by(mail: 'JSmith@somenet.foo')
+    u = User.find_by_mail('JSmith@somenet.foo')
     assert_not_nil u
     assert_equal 'jsmith@somenet.foo', u.mail
   end
