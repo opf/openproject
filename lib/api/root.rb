@@ -31,6 +31,8 @@
 # This is the place for all API wide configuration, helper methods, exceptions
 # rescuing, mounting of differnet API versions etc.
 
+require 'open_project/authentication/manager'
+
 module API
   class Root < Grape::API
     prefix :api
@@ -59,15 +61,23 @@ module API
 
     parser :json, Parser.new
 
+    use OpenProject::Authentication::Manager
+
     helpers do
       def current_user
-        return User.current if running_in_test_env?
-        user_id = env['rack.session']['user_id']
-        User.current = user_id ? User.find(user_id) : User.anonymous
+        User.current
+      end
+
+      def warden
+        env['warden']
       end
 
       def authenticate
-        if Setting.login_required? && (current_user.nil? || current_user.anonymous?)
+        warden.authenticate! scope: :api_v3
+
+        User.current = warden.user scope: :api_v3
+
+        if Setting.login_required? && (current_user.nil? || (!current_user.admin? && current_user.anonymous?))
           raise API::Errors::Unauthenticated
         end
       end
