@@ -32,51 +32,6 @@ var expect = require('../../../spec_helper.js').expect,
 /*jshint expr: true*/
 describe('OpenProject', function(){
   describe('editable', function() {
-    function behaveLikeEmbeddedDropdown(name, correctValue) {
-      context('behaviour', function() {
-        var editor = $('.inplace-edit.attribute-' + name);
-
-        before(function() {
-          detailsPaneHelper.loadPane(819, 'overview');
-          detailsPaneHelper.showAll();
-        });
-
-        describe('read state', function() {
-          it('should render a span with value', function() {
-            expect(
-              editor
-                .$('.inplace-edit--read-value')
-                .getText()
-            ).to.eventually.equal(correctValue);
-          });
-        });
-
-        describe('edit state', function() {
-          before(function() {
-            editor.$('.inplace-editing--trigger-link').click();
-          });
-
-          context('dropdown', function() {
-            it('should be rendered', function() {
-              expect(
-                editor
-                  .$('.select2-container').isDisplayed()
-                  .isDisplayed()
-              ).to.eventually.be.true;
-            });
-
-            it('should have the correct value', function() {
-              expect(
-                editor
-                  .$('.select2-choice .select2-chosen span')
-                  .getText()
-              ).to.eventually.equal(correctValue);
-            });
-          });
-        });
-      });
-    }
-
     describe('subject', function() {
       var subjectEditor;
 
@@ -171,15 +126,15 @@ describe('OpenProject', function(){
       });
     });
     describe('status', function() {
-      behaveLikeEmbeddedDropdown('status', 'new');
+      detailsPaneHelper.behaveLikeEmbeddedDropdown('status', 'new');
     });
     describe('priority', function() {
-      behaveLikeEmbeddedDropdown('priority', 'Normal');
+      detailsPaneHelper.behaveLikeEmbeddedDropdown('priority', 'Normal');
     });
     describe('version', function() {
       var editor = $('.inplace-edit.attribute-version');
 
-      behaveLikeEmbeddedDropdown('version', 'v1');
+      detailsPaneHelper.behaveLikeEmbeddedDropdown('version', 'v1');
 
       context('when work package version link is present', function() {
         beforeEach(function() {
