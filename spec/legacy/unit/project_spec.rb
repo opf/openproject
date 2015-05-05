@@ -224,8 +224,8 @@ describe Project, type: :model do
     assert_equal 0, Wiki.count
     assert_equal 0, WikiPage.count
     assert_equal 0, WikiContent.count
-    assert_equal 0, Project.connection.select_all('SELECT * FROM projects_types').size
-    assert_equal 0, Project.connection.select_all('SELECT * FROM custom_fields_projects').size
+    assert_equal 0, Project.connection.select_all('SELECT * FROM projects_types').to_a.size
+    assert_equal 0, Project.connection.select_all('SELECT * FROM custom_fields_projects').to_a.size
     assert_equal 0, CustomValue.count(conditions: { customized_type: ['Project', 'Issue', 'TimeEntry', 'Version'] })
   end
 
