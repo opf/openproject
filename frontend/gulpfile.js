@@ -167,5 +167,5 @@ gulp.task('watch', function() {
 
   gulp.watch('../app/assets/stylesheets/**/*.scss', ['sass', 'styleguide']);
   gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass', 'styleguide']);
-  gulp.watch('../app/assets/stylesheets/**/*.md',   ['styleguide']);
+  gulp.watch('../app/assets/stylesheets/**/*.lsg',  ['styleguide']);
 });
