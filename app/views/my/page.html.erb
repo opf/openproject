@@ -27,37 +27,43 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% breadcrumb_paths(l(:label_my_page)) %>
-<% content_for :action_menu_specific do %>
-  <%= link_to l(:label_personalize_page), { action: 'page_layout' }, accesskey: accesskey(:edit) %>
+<% content_for :toolbar do %>
+  <li class="toolbar-item">
+    <%= link_to({ action: 'page_layout' }, accesskey: accesskey(:edit), class: 'button') do %>
+      <i class="icon-edit"></i> <%= l(:label_personalize_page) %>
+    <% end %>
+  </li>
 <% end %>
 <h2><%=l(:label_my_page)%></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
-<div class="grid-block">
-  <div id="list-top" class="grid-content">
-    <% @blocks['top'].each do |b|
-       next unless MyController.available_blocks.keys.include? b  %>
-      <div class="mypage-box">
-        <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-      </div>
-    <% end if @blocks['top'] %>
+<%= render :partial => 'layouts/toolbar' %>
+<div id="invisible-grid">
+  <div class="grid-block">
+    <div id="list-top" class="grid-content">
+      <% @blocks['top'].each do |b|
+         next unless MyController.available_blocks.keys.include? b  %>
+        <div class="mypage-box">
+          <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+        </div>
+      <% end if @blocks['top'] %>
+    </div>
   </div>
-</div>
-<div class="grid-block">
-  <div id="list-left" class="grid-content">
-    <% @blocks['left'].each do |b|
-       next unless MyController.available_blocks.keys.include? b %>
-      <div class="mypage-box">
-        <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-      </div>
-    <% end if @blocks['left'] %>
-  </div>
-  <div id="list-right" class="grid-content">
-    <% @blocks['right'].each do |b|
-       next unless MyController.available_blocks.keys.include? b %>
-      <div class="mypage-box">
-        <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-      </div>
-    <% end if @blocks['right'] %>
+  <div class="grid-block">
+    <div id="list-left" class="grid-content">
+      <% @blocks['left'].each do |b|
+         next unless MyController.available_blocks.keys.include? b %>
+        <div class="mypage-box">
+          <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+        </div>
+      <% end if @blocks['left'] %>
+    </div>
+    <div id="list-right" class="grid-content">
+      <% @blocks['right'].each do |b|
+         next unless MyController.available_blocks.keys.include? b %>
+        <div class="mypage-box">
+          <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+        </div>
+      <% end if @blocks['right'] %>
+    </div>
   </div>
 </div>
 <% html_title(l(:label_my_page)) -%>
