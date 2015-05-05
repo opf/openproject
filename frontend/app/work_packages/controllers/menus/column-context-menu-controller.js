@@ -78,7 +78,7 @@ module.exports = function($scope, ColumnContextMenu, I18n, QueryService, WorkPac
     };
 
     function isValidColumn(column) {
-      return column && column.name !== 'id';
+      return column;
     }
 
     $scope.canMoveLeft = function() {
