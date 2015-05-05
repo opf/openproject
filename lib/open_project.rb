@@ -41,3 +41,5 @@ require 'redmine/notifiable'
 
 require 'csv'
 require 'globalize'
+
+require 'core_ext/hash/hash_navigation'

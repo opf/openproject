@@ -738,7 +738,7 @@ class User < Principal
   end
 
   def self.system
-    system_user = SystemUser.find(:first)
+    system_user = SystemUser.first
     if system_user.nil?
       (system_user = SystemUser.new.tap do |u|
         u.lastname = 'System'
