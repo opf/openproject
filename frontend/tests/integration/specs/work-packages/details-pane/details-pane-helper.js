@@ -68,6 +68,7 @@ function behaveLikeEmbeddedDropdown(name, correctValue) {
           expect(
             editor
             .$('.select2-container').isDisplayed()
+            .isDisplayed()
           ).to.eventually.be.true;
         });
 
