@@ -88,30 +88,57 @@ See doc/COPYRIGHT.rdoc for more details.
   <li><%= link_to l(:button_back), {:action => 'page'}, :class => 'icon icon-cancel' %></li>
 <% end %>
 
+<% content_for :toolbar do %>
+    <li class="toolbar-item">
+      <%= styled_form_tag({:action => "add_block"}, :id => "block-form") do %>
+        <%= styled_select_tag 'block', "<option>--#{t(:button_add)}--</option>".html_safe + options_for_select(@block_options),
+              :id => "block-select",
+              class: '-small' %>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <%= link_to_remote l(:button_add),
+                       {:url => { :action => "add_block" },
+                        :with => "Form.serialize('block-form')",
+                        :update => "list-top",
+                        :position => :top,
+                        :complete => "afterAddBlock();"
+                       }, :class => 'button'
+                         %>
+    </li>
+  <li class="toolbar-item">
+    <%= link_to({action: 'page'}, class: 'button') do %>
+      <i class="icon-cancel"></i> <%= l(:button_back) %>
+    <% end %>
+  </li>
+<% end %>
+
 <h2><%=l(:label_my_page)%></h2>
 
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= render :partial => 'layouts/toolbar' %>
 
-<div class="grid-block">
-  <div id="list-top" class="grid-content block-receiver">
-    <% @blocks['top'].each do |b|
-       next unless MyController.available_blocks.keys.include? b %>
-      <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-    <% end if @blocks['top'] %>
+<div id="visible-grid">
+  <div class="grid-block">
+    <div id="list-top" class="grid-content block-receiver">
+      <% @blocks['top'].each do |b|
+         next unless MyController.available_blocks.keys.include? b %>
+        <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+      <% end if @blocks['top'] %>
+    </div>
   </div>
-</div>
-<div class="grid-block">
-  <div id="list-left" class="grid-content block-receiver">
-    <% @blocks['left'].each do |b|
-       next unless MyController.available_blocks.keys.include? b %>
-      <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-    <% end if @blocks['left'] %>
-  </div>
-  <div id="list-right" class="grid-content block-receiver">
-    <% @blocks['right'].each do |b|
-       next unless MyController.available_blocks.keys.include? b %>
-      <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-    <% end if @blocks['right'] %>
+  <div class="grid-block">
+    <div id="list-left" class="grid-content block-receiver">
+      <% @blocks['left'].each do |b|
+         next unless MyController.available_blocks.keys.include? b %>
+        <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+      <% end if @blocks['left'] %>
+    </div>
+    <div id="list-right" class="grid-content block-receiver">
+      <% @blocks['right'].each do |b|
+         next unless MyController.available_blocks.keys.include? b %>
+        <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+      <% end if @blocks['right'] %>
+    </div>
   </div>
 </div>
 <%= sortable_element 'list-top',
