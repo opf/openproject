@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-%default-font
+%breadcrumb--default-font
   @include default-font($breadcrumb-font-color, $breadcrumb-font-size, bold)
 
 #breadcrumb
@@ -52,10 +52,10 @@
     margin-left: 13px
 
   a
-    @extend %default-font
+    @extend %breadcrumb--default-font
     text-decoration: underline
   li
-    @extend %default-font
+    @extend %breadcrumb--default-font
     color: lighten($breadcrumb-font-color, 20)
     list-style-type: none
     white-space: nowrap
