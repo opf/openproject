@@ -165,7 +165,7 @@ class CostReportsController < ApplicationController
     @unit_id = 0 unless @cost_types.include? @unit_id
   end
 
-  # Determine the active cost type, if it is not labor or money, and add a hidden filter to the query
+  # Determine the active cost type and add a hidden filter to the query
   #   sets the @cost_type -> this is used to select the proper units for display
   def set_cost_type
     if @query
