@@ -70,26 +70,122 @@ describe API::V3, type: :request do
       end
     end
 
-    context 'with global basic auth configured' do
-      let(:username) { 'root' }
-      let(:password) { 'toor' }
-
+    context 'with login required' do
       before do
-        authentication = {
-          'global_basic_auth' => {
-            'user'     => username,
-            'password' => password
-          }
-        }
-        OpenProject::Configuration['authentication'] = authentication
+        Setting.login_required = 1
       end
 
-      context 'with login required' do
+      context 'with global basic auth configured' do
+        let(:username) { 'root' }
+        let(:password) { 'toor' }
+
         before do
-          Setting.login_required = 1
+          authentication = {
+            'global_basic_auth' => {
+              'user'     => 'root',
+              'password' => 'toor'
+            }
+          }
+          OpenProject::Configuration['authentication'] = authentication
         end
 
         it_behaves_like 'it is basic auth protected'
+
+        describe 'user basic auth' do
+          let(:username) { 'hans' }
+          let(:password) { 'bambidibam' }
+
+          let!(:api_user) do
+            FactoryGirl.create :user,
+                               login: username,
+                               password: password,
+                               password_confirmation: password
+          end
+
+          # check that user basic auth is tried when global basic auth fails
+          it_behaves_like 'it is basic auth protected'
+        end
+      end
+    end
+
+    context 'without login required' do
+      before do
+        Setting.login_required = 0
+      end
+
+      context 'with global and user basic auth enabled' do
+        let(:username) { 'hancholo' }
+        let(:password) { 'olooleol' }
+
+        let!(:api_user) do
+          FactoryGirl.create :user,
+                             login: 'user_account',
+                             password: 'user_password',
+                             password_confirmation: 'user_password'
+        end
+
+        before do
+          authentication = {
+            'global_basic_auth' => {
+              'user'     => 'global_account',
+              'password' => 'global_password'
+            }
+          }
+          OpenProject::Configuration['authentication'] = authentication
+        end
+
+        context 'without credentials' do
+          before do
+            get resource
+          end
+
+          it 'should return 200 OK' do
+            expect(response.status).to eq 200
+          end
+
+          it 'should "login" the anonymous user' do
+            expect(User.current).to be_anonymous
+          end
+        end
+
+        context 'with invalid credentials' do
+          before do
+            get resource, {}, basic_auth(username, password)
+          end
+
+          it 'should return 401 unauthorized' do
+            expect(response.status).to eq 401
+          end
+        end
+
+        context 'with valid global credentials' do
+          before do
+            get resource, {}, basic_auth('global_account', 'global_password')
+          end
+
+          it 'should return 200 OK' do
+            expect(response.status).to eq 200
+          end
+
+          it 'should login an admin system user' do
+            expect(User.current.is_a?(SystemUser)).to eq true
+            expect(User.current).to be_admin
+          end
+        end
+
+        context 'with valid user credentials' do
+          before do
+            get resource, {}, basic_auth('user_account', 'user_password')
+          end
+
+          it 'should return 200 OK' do
+            expect(response.status).to eq 200
+          end
+
+          it 'should login user' do
+            expect(User.current).to eq api_user
+          end
+        end
       end
     end
   end

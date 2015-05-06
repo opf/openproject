@@ -12,10 +12,18 @@ module Warden
         { user: user, password: password } if user && password
       end
 
+      def self.user
+        configuration[:user]
+      end
+
+      def self.password
+        configuration[:password]
+      end
+
       ##
-      # Only valid if global basic auth is configured.
+      # Only valid if global basic auth is configured and tried.
       def valid?
-        self.class.configuration && super
+        self.class.configuration && super && username == self.class.user
       end
 
       def authenticate_user(username, password)
