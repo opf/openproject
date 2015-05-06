@@ -5,6 +5,8 @@ targets:
     build_dependencies:
       - libmagickwand-dev
       - libsqlite3-dev
+  debian-8:
+    <<: *debian
   ubuntu-14.04:
     <<: *debian
   fedora-20: &redhat
@@ -21,13 +23,13 @@ crons:
   - packaging/cron/openproject-create-svn-repositories
 services:
   - postgres
-installer: https://github.com/pkgr/installer.git#suse
+installer: https://github.com/pkgr/installer.git
 wizards:
   - https://github.com/pkgr/addon-legacy-installer.git
-  - https://github.com/pkgr/addon-mysql.git#suse
-  - https://github.com/pkgr/addon-apache2.git#suse
-  - https://github.com/pkgr/addon-svn-dav.git#suse
-  - https://github.com/pkgr/addon-smtp.git#suse
-  - https://github.com/pkgr/addon-memcached.git#suse
-  - https://github.com/pkgr/addon-openproject.git#suse
+  - https://github.com/pkgr/addon-mysql.git
+  - https://github.com/pkgr/addon-apache2.git
+  - https://github.com/pkgr/addon-svn-dav.git
+  - https://github.com/pkgr/addon-smtp.git
+  - https://github.com/pkgr/addon-memcached.git
+  - https://github.com/pkgr/addon-openproject.git
 buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
