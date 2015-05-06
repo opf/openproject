@@ -26,6 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+%default-font
+  @include default-font($breadcrumb-font-color, $breadcrumb-font-size, bold)
+
 #breadcrumb
   @include default-transition
   height: $breadcrumb-height
@@ -47,14 +50,13 @@
   h1
     margin-bottom: 0
     margin-left: 13px
-    @include default-font($breadcrumb-font-color, $breadcrumb-font-size)
 
   a
-    @include default-font($breadcrumb-font-color, $breadcrumb-font-size, bold)
-    text-decoration: none
-    &:hover
-      text-decoration: underline
+    @extend %default-font
+    text-decoration: underline
   li
+    @extend %default-font
+    color: lighten($breadcrumb-font-color, 20)
     list-style-type: none
     white-space: nowrap
     &.cutme
@@ -77,6 +79,7 @@ ul.breadcrumb
     text-decoration: none
     display: block
     width: 25px
+    font-size: 12px
 
 #breadcrumb ul.breadcrumb li
   float: left
@@ -84,5 +87,3 @@ ul.breadcrumb
   padding: 0 25px 0 0
   background: image-url('breadcrumb-list.png') no-repeat right center
 
-#breadcrumb a.breadcrumb-project-title
-  font-size: $breadcrumb-highlighted-font-size
