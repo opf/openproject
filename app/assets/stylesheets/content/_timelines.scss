@@ -71,6 +71,10 @@
   }
 }
 
+.controller-timelines #content {
+    min-height: 700px;
+}
+
 #content {
   .meta table.timelines-attributes {
     th, td {
