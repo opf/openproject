@@ -104,6 +104,7 @@ describe('details pane', function() {
         describe('date selection', function() {
           it('changes date by clicking on calendar', function() {
             dateInput.click();
+            browser.waitForAngular();
             datepicker.selectMonthAndYear(dateInput, 4, 2015);
             datepicker.clickDate(dateInput, date, '9').then(function() {
               datepicker.expectedDate(date, '2015-04-09');
