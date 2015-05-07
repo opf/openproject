@@ -1,16 +1,16 @@
-## Basic fig.yml
+## Basic docker-compose.yml
 #
 # build the openproject image
-# $ fig build
+# $ docker-compose build
 #
 # migrate the database
-# $ fig run app bundle exec rake db:migrate
+# $ docker-compose run app bundle exec rake db:migrate
 #
 # seed the database
-# $ fig run app bundle exec rake db:seed
+# $ docker-compose run app bundle exec rake db:seed
 #
 # run database, openproject, and worker process
-# $ fig up -d
+# $ docker-compose up -d
 
 web:
   image: nginx:1.7
