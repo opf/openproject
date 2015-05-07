@@ -99,7 +99,7 @@ jQuery(document).ready(function($) {
     $(item).autocomplete({
       multiple: false,
       formatSelection: function (item) {
-        return item.name || item.project.name;
+        return item.name || (item.project ? item.project.name : '');
       },
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
