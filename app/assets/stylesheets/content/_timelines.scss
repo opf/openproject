@@ -71,7 +71,7 @@
   }
 }
 
-/*HACK: Use a min-height to ensure that the timeline_select select2 is not cropped at the bottom*/
+//HACK: Use a min-height to ensure that the timeline_select select2 is not cropped at the bottom
 .controller-timelines #content {
   min-height: 700px;
 }
