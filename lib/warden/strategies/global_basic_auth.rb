@@ -2,6 +2,20 @@ require 'warden/basic_auth'
 
 module Warden
   module Strategies
+    ##
+    # Allows authentication via a singular set of basic auth credentials for admin access.
+    #
+    # The credentials must be configured in `config/configuration.yml` like this:
+    #
+    #     production:
+    #       authentication:
+    #         global_basic_auth:
+    #           user: admin
+    #           password: 123456
+    #
+    # The strategy will only be triggered when the configured user name is sent.
+    # Meaning that this strategy is skipped if a basic auth attempt involving any
+    # other user name is made.
     class GlobalBasicAuth < BasicAuth
       def self.configuration
         config = Hash(OpenProject::Configuration['authentication'])
