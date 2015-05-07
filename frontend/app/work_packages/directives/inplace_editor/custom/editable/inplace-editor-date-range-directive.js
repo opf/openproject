@@ -27,8 +27,8 @@
 //++
 
 module.exports = function(TimezoneService, ConfigurationService,
-  I18n, $timeout, WorkPackageFieldService,
-  EditableFieldsState, Datepicker) {
+                          I18n, $timeout, WorkPackageFieldService,
+                          EditableFieldsState, Datepicker) {
   var parseISODate = TimezoneService.parseISODate,
       customDateFormat = 'YYYY-MM-DD',
       customFormattedDate = function(date) {
@@ -41,14 +41,18 @@ module.exports = function(TimezoneService, ConfigurationService,
         });
       };
   return {
-    restrict: 'EA',
+    restrict: 'E',
+    transclude: true,
     replace: true,
-    scope: {
-      'startDate': '=',
-      'endDate': '='
+    scope: {},
+    require: '^workPackageField',
+    templateUrl: '/templates/work_packages/inplace_editor/custom/editable/daterange.html',
+    controller: function() {
     },
-    templateUrl: '/templates/components/inplace_editor/date/date_range_picker.html',
-    link: function(scope, element) {
+    controllerAs: 'customEditorController',
+    link: function(scope, element, attrs, fieldController) {
+      scope.startDate = fieldController.writeValue.startDate;
+      scope.endDate = fieldController.writeValue.dueDate;
       var form = element.parents('.inplace-edit--form'),
           inputStart = element.find('.inplace-edit--date-range-start-date'),
           inputEnd = element.find('.inplace-edit--date-range-end-date'),
@@ -72,10 +76,10 @@ module.exports = function(TimezoneService, ConfigurationService,
       startDatepicker = new Datepicker(divStart, inputStart, scope.startDate);
       endDatepicker = new Datepicker(divEnd, inputEnd, scope.endDate);
       startDatepicker.onChange = function(date) {
-        scope.startDate = date;
+        scope.startDate = fieldController.writeValue.startDate = date;
         if (startDatepicker.prevDate.isAfter(endDatepicker.prevDate)) {
           scope.startDateIsChanged = true;
-          scope.endDate = scope.startDate;
+          scope.endDate = fieldController.writeValue.dueDate = scope.startDate;
           endDatepicker.setDate(scope.endDate);
         }
       };
@@ -84,17 +88,17 @@ module.exports = function(TimezoneService, ConfigurationService,
         startDatepicker.onEdit();
       };
       endDatepicker.onChange = function(date) {
-        scope.endDate = date;
+        scope.endDate = fieldController.writeValue.dueDate = date;
         if (endDatepicker.prevDate.isBefore(startDatepicker.prevDate)) {
           scope.endDateIsChanged = true;
-          scope.startDate = scope.endDate;
+          scope.startDate = fieldController.writeValue.startDate = scope.endDate;
           startDatepicker.setDate(scope.startDate);
         }
       };
       scope.onEndEdit = function() {
         scope.startDateIsChanged = scope.endDateIsChanged = false;
         endDatepicker.onEdit();
-      }
+      };
 
       $timeout(function() {
         startDatepicker.focus();
@@ -136,4 +140,3 @@ module.exports = function(TimezoneService, ConfigurationService,
     }
   };
 };
-

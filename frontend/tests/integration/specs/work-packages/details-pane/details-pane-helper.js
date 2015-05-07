@@ -68,7 +68,6 @@ function behaveLikeEmbeddedDropdown(name, correctValue) {
           expect(
             editor
             .$('.select2-container').isDisplayed()
-            .isDisplayed()
           ).to.eventually.be.true;
         });
 
@@ -100,7 +99,8 @@ var elements = {
 var datepicker = {
   clickDate: function datepickerSpec(calendar, dateInput, selectDate) {
     dateInput.click();
-    return calendar.all(by.css('.ui-datepicker-calendar a.ui-state-default')).filter(function(elem) {
+    return calendar.all(by.css('.ui-datepicker-calendar a.ui-state-default'))
+          .filter(function(elem) {
       return elem.getText().then(function(text) {
         return text.indexOf(selectDate) !== -1;
       });
