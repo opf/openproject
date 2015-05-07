@@ -31,10 +31,12 @@
 # This is the place for all API wide configuration, helper methods, exceptions
 # rescuing, mounting of differnet API versions etc.
 
-require 'open_project/authentication/manager'
+require 'open_project/authentication'
 
 module API
   class Root < Grape::API
+    include OpenProject::Authentication::Scope
+
     prefix :api
 
     class Formatter
@@ -73,13 +75,18 @@ module API
       end
 
       def authenticate
-        warden.authenticate! scope: :api_v3
+        warden.authenticate! scope: API_V3
 
-        User.current = warden.user scope: :api_v3
+        User.current = warden.user scope: API_V3
 
-        if Setting.login_required? && (current_user.nil? || (!current_user.admin? && current_user.anonymous?))
+        if Setting.login_required? && not_logged_in?
           raise API::Errors::Unauthenticated
         end
+      end
+
+      def not_logged_in?
+        # An admin SystemUser is anonymous but still a valid user to be logged in.
+        current_user.nil? || (!current_user.admin? && current_user.anonymous?)
       end
 
       def authorize(permission, context: nil, global: false, user: current_user)
