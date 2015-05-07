@@ -2,11 +2,28 @@ require 'warden/basic_auth'
 
 module Warden
   module Strategies
+    ##
+    # Allows users to authenticate using their API key via basic auth.
+    # Note that in order for a user to be able to generate one
+    # `Setting.rest_api_enabled` has to be `1`.
+    #
+    # The basic auth credentials are expected to contain the literal 'apikey'
+    # as the user name and the API key as the password.
     class UserBasicAuth < BasicAuth
-      def authenticate_user(username, password)
-        user = User.find_by_login username
+      def self.user
+        'apikey'
+      end
 
-        user if user && user.check_password?(password)
+      def valid?
+        super && username == self.class.user
+      end
+
+      def authenticate_user(_, api_key)
+        token(api_key).try(:user)
+      end
+
+      def token(value)
+        Token.where(action: 'api', value: value).first
       end
     end
   end

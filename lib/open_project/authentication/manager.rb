@@ -1,31 +1,13 @@
 module OpenProject
   module Authentication
     class Manager < Warden::Manager
-      def self.strategies
-        @strategies ||= begin
-          hash = {
-            api_v3: [:global_basic_auth, :user_basic_auth, :session]
-          }
 
-          hash.tap do |h|
-            h.default = []
-          end
-        end
+      serialize_into_session do |user|
+        user.id
       end
 
-      def self.register_strategy(name, clazz, scopes)
-        Warden::Strategies.add name, clazz
-
-        scopes.each do |scope|
-          strategies[scope] << name
-        end
-      end
-
-      def self.configure(config)
-        config.default_strategies :session
-        config.failure_app = OpenProject::Authentication::FailureApp
-
-        config.scope_defaults :api_v3, strategies: strategies[:api_v3], store: false
+      serialize_from_session do |id|
+        User.find id
       end
 
       def initialize(app, options={}, &configure)
@@ -36,6 +18,25 @@ module OpenProject
         end
 
         super app, options, &block
+      end
+
+      class << self
+        def scope_strategies
+          @scope_strategies ||= {}
+        end
+
+        def store_defaults
+          @store_defaults ||= Hash.new false
+        end
+
+        def configure(config)
+          config.default_strategies :session
+          config.failure_app = OpenProject::Authentication::FailureApp
+
+          scope_strategies.each do |scope, strategies|
+            config.scope_defaults scope, strategies: strategies, store: store_defaults[scope]
+          end
+        end
       end
     end
   end
