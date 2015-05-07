@@ -1,14 +1,16 @@
+require 'open_project/authentication'
+
 # Strategies provided by OpenProject:
-require 'warden/strategies/basic_auth_failure'
-require 'warden/strategies/global_basic_auth'
-require 'warden/strategies/user_basic_auth'
-require 'warden/strategies/session'
+require 'open_project/authentication/strategies/warden/basic_auth_failure'
+require 'open_project/authentication/strategies/warden/global_basic_auth'
+require 'open_project/authentication/strategies/warden/user_basic_auth'
+require 'open_project/authentication/strategies/warden/session'
 
 strategies = [
-  [:basic_auth_failure, Warden::Strategies::BasicAuthFailure],
-  [:global_basic_auth,  Warden::Strategies::GlobalBasicAuth],
-  [:user_basic_auth,    Warden::Strategies::UserBasicAuth],
-  [:session,            Warden::Strategies::Session]
+  [:basic_auth_failure, OpenProject::Authentication::Strategies::Warden::BasicAuthFailure],
+  [:global_basic_auth,  OpenProject::Authentication::Strategies::Warden::GlobalBasicAuth],
+  [:user_basic_auth,    OpenProject::Authentication::Strategies::Warden::UserBasicAuth],
+  [:session,            OpenProject::Authentication::Strategies::Warden::Session]
 ]
 
 strategies.each do |name, clazz|
