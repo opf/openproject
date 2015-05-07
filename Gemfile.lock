@@ -453,6 +453,10 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
       equalizer (~> 0.0, >= 0.0.9)
+    warden (1.2.3)
+      rack (>= 1.0)
+    warden-basic_auth (0.1.0)
+      warden (~> 1.2)
     websocket (1.2.1)
     will_paginate (3.0.5)
     xpath (2.0.0)
@@ -555,4 +559,6 @@ DEPENDENCIES
   timecop (~> 0.7.1)
   uglifier (>= 1.0.3)
   unicorn
+  warden (~> 1.2)
+  warden-basic_auth (~> 0.1.0)
   will_paginate (~> 3.0)
