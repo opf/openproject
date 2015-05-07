@@ -611,7 +611,9 @@ class User < Principal
       action[:controller] = action[:controller][1..-1]
     end
 
-    if context.is_a?(Project)
+    if context.is_a?(ActiveRecord::Relation)
+      allowed_to?(action, context.to_a, options)
+    elsif context.is_a?(Project)
       allowed_to_in_project?(action, context, options)
     elsif context.is_a?(Array)
       # Authorize if user is authorized on every element of the array
