@@ -98,9 +98,9 @@ var elements = {
 };
 
 var datepicker = {
-  clickingDate: function datepickerSpec(calendar, dateInput, selectDate) {
+  clickDate: function datepickerSpec(calendar, dateInput, selectDate) {
     dateInput.click();
-    return calendar.all(by.css('a.ui-state-default')).filter(function(elem) {
+    return calendar.all(by.css('.ui-datepicker-calendar a.ui-state-default')).filter(function(elem) {
       return elem.getText().then(function(text) {
         return text.indexOf(selectDate) !== -1;
       });
@@ -108,8 +108,19 @@ var datepicker = {
       filteredElements[0].click();
     });
   },
+  selectMonth: function(calendar, monthNumber) {
+    return calendar.$('.ui-datepicker-month > option[value="' + (monthNumber - 1) + '"]').click();
+  },
+  selectYear: function(calendar, yearNumber) {
+    return calendar.$('.ui-datepicker-year > option[value="' + yearNumber + '"]').click();
+  },
+  selectMonthAndYear: function(calendar, monthNumber, yearNumber) {
+    return datepicker.selectMonth(calendar, monthNumber).then(function() {
+      datepicker.selectYear(calendar, yearNumber);
+    });
+  },
   expectedDate: function expectedDate(dateInput, expected) {
-    dateInput.getText(function(text) {
+    dateInput.getAttribute('value').then(function(text) {
       expect(text).to.equal(expected);
     });
   },

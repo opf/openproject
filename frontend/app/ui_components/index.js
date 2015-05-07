@@ -48,7 +48,7 @@ angular.module('openproject.uiComponents')
   .directive('emptyElement', [require('./empty-element-directive')])
   .directive('opDateRangePicker', ['TimezoneService', 'ConfigurationService', 
              'I18n', '$timeout', 'WorkPackageFieldService',
-             'EditableFieldsState', require('./date/date-range-picker-directive')])
+             'EditableFieldsState', 'Datepicker', require('./date/date-range-picker-directive')])
   .constant('ENTER_KEY', 13)
   .directive('executeOnEnter', ['ENTER_KEY', require(
     './execute-on-enter-directive')])

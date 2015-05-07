@@ -124,48 +124,144 @@ describe('details pane', function() {
       });
 
       it('shows date range in input', function() {
-        datepicker.expectedDate(startDate, '10/23/2014');
-        datepicker.expectedDate(endDate, '12/27/2014');
+        datepicker.expectedDate(startDate, '2015-02-17');
+        datepicker.expectedDate(endDate, '2015-04-29');
+      });
+
+      describe('switching date', function() {
+        describe('end date',function() {
+          it('changes when typed start date is greater', function() {
+            datepicker.validation(startDate, '2015-05-30', '2015-05-30');
+            datepicker.expectedDate(endDate, '2015-05-30');
+          });
+
+          it('does not change when typed start date is lower', function() {
+            datepicker.validation(startDate, '2015-04-28', '2015-04-28');
+            datepicker.expectedDate(endDate, '2015-04-29');
+          });
+
+          it('does not change when typed start date is equal', function() {
+            datepicker.validation(startDate, '2015-04-29', '2015-04-29');
+            datepicker.expectedDate(endDate, '2015-04-29');
+          });
+
+          it('changes when selected start date is greater', function() {
+            datepicker.selectMonth(startDateDatepicker, 5, 2015).then(function() {
+              datepicker.clickDate(startDateDatepicker, startDate, '30').then(function() { 
+                datepicker.expectedDate(startDate, '2015-05-30');
+                datepicker.expectedDate(endDate, '2015-05-30');
+              });
+            });
+          });
+
+          it('does not change when selected start date is lower', function() {
+            datepicker.selectMonth(startDateDatepicker, 4).then(function() {
+              datepicker.clickDate(startDateDatepicker, startDate, '28').then(function() { 
+                datepicker.expectedDate(startDate, '2015-04-28');
+                datepicker.expectedDate(endDate, '2015-04-29');
+              });
+            });
+          });
+
+          it('does not change when selected start date is equal', function() {
+            datepicker.selectMonth(startDateDatepicker, 5).then(function() {
+              datepicker.clickDate(startDateDatepicker, startDate, '29').then(function() { 
+                datepicker.expectedDate(startDate, '2015-05-29');
+                datepicker.expectedDate(endDate, '2015-05-29');
+              });
+            });
+          });
+        });
+
+        describe('start date',function() {
+          beforeEach(function() {
+            endDate.click();
+          });
+
+          it('does not change when typed end date is greater', function() {
+            datepicker.validation(endDate, '2015-05-30', '2015-05-30');
+            datepicker.expectedDate(startDate, '2015-02-17');
+          });
+
+          it('changes when typed end date is lower', function() {
+            datepicker.validation(endDate, '2015-02-16', '2015-02-16');
+            datepicker.expectedDate(startDate, '2015-02-16');
+          });
+
+          it('does not change when typed start date is equal', function() {
+            datepicker.validation(endDate, '2015-02-17', '2015-02-17');
+            datepicker.expectedDate(startDate, '2015-02-17');
+          });
+
+          it('does not change when selected end date is greater', function() {
+            datepicker.selectMonthAndYear(endDateDatepicker, 5, 2015).then(function() {
+              datepicker.clickDate(endDateDatepicker, endDate, '30').then(function() { 
+                datepicker.expectedDate(startDate, '2015-02-17');
+                datepicker.expectedDate(endDate, '2015-05-30');
+              });
+            });
+          });
+
+          it('changes when selected end date is lower', function() {
+            datepicker.selectMonth(endDateDatepicker, 2).then(function() {
+              datepicker.clickDate(endDateDatepicker, endDate, '16').then(function() { 
+                datepicker.expectedDate(startDate, '2015-02-16');
+                datepicker.expectedDate(endDate, '2015-02-16');
+              });
+            });
+          });
+
+          it('does not change when selected start date is equal', function() {
+            datepicker.selectMonthAndYear(endDateDatepicker, 2, 2015).then(function() {
+              datepicker.clickDate(endDateDatepicker, endDate, '17').then(function() { 
+                datepicker.expectedDate(startDate, '2015-02-17');
+                datepicker.expectedDate(endDate, '2015-02-17');
+              });
+            });
+          });
+        });
       });
 
       describe('validation', function() {
         it('validates valid start date', function() {
-          datepicker.validation(startDate, '10/24/2014', '10/24/2014');
+          datepicker.validation(startDate, '2014-10-24', '2014-10-24');
         });
 
         it('validates valid end date', function() {
-          datepicker.validation(endDate, '11/27/2014', '11/27/2014');
+          datepicker.validation(endDate, '2014-11-27', '2014-11-27');
         });
 
         it('doesn\'t validate invalid start date', function() {
-          datepicker.validation(startDate, '13/24/2014', '10/23/2014');
+          datepicker.validation(startDate, '2014-13-27', '2015-02-17');
         });
 
         it('doesn\'t validate invalid end date', function() {
-          datepicker.validation(endDate, '11/40/2014', '12/27/2014');
+          datepicker.validation(endDate, '2014-11-40', '2015-04-29');
         });
 
         it('validates empty start date', function() {
-          datepicker.validation(startDate, '', 'no start date');
+          datepicker.validation(startDate, '', '');
         });
 
         it('validates empty end date', function() {
-          datepicker.validation(endDate, '', 'no end date');
+          datepicker.validation(endDate, '', '');
         });
       });
 
       describe('range selection', function() {
         it('changes start date by clicking on calendar', function() {
-          datepicker.clickingDate(dateRangePicker, startDate, '9').then(function() {
-            datepicker.expectedDate(startDate, '12/09/2014');
-            datepicker.expectedDate(endDate, '12/17/2014');
+          startDate.click();
+          datepicker.selectMonthAndYear(startDateDatepicker, 12, 2014);
+          datepicker.clickDate(startDateDatepicker, startDate, '9').then(function() {
+            datepicker.expectedDate(startDate, '2014-12-09');
+            datepicker.expectedDate(endDate, '2015-04-29');
           });
         });
 
         it('changes end date by clicking on calendar', function() {
-          datepicker.clickingDate(dateRangePicker, startDate, '17').then(function() {
-            datepicker.expectedDate(startDate, '09/23/2014');
-            datepicker.expectedDate(endDate, '12/17/2014');
+          datepicker.clickDate(endDateDatepicker, endDate, '17').then(function() {
+            datepicker.expectedDate(startDate, '2015-02-17');
+            datepicker.expectedDate(endDate, '2015-04-17');
           });
         });
       });
@@ -194,6 +290,8 @@ describe('details pane', function() {
       beforeEach(function() {
         startDate = dateRangePicker.$('.inplace-edit--date-range-start-date');
         endDate = dateRangePicker.$('.inplace-edit--date-range-end-date');
+        startDateDatepicker = dateRangePicker.$('.inplace-edit--date-range-start-date-picker');
+        endDateDatepicker = dateRangePicker.$('.inplace-edit--date-range-end-date-picker');
       });
 
       beforeEach(function() {
@@ -206,22 +304,26 @@ describe('details pane', function() {
       });
 
       it('shows date range in input', function() {
-        datepicker.expectedDate(startDate, 'no start date');
-        datepicker.expectedDate(endDate, '12/27/2014');
+        datepicker.expectedDate(startDate, '');
+        datepicker.expectedDate(endDate, '2014-12-27');
       });
 
       describe('range selection', function() {
         it('changes start date by clicking on calendar', function() {
-          datepicker.clickingDate(dateRangePicker, startDate, '9').then(function() {
-            datepicker.expectedDate(startDate, '12/09/2014');
-            datepicker.expectedDate(endDate, '12/17/2014');
+          startDate.click();
+          datepicker.selectMonthAndYear(startDateDatepicker, 12, 2014);
+          datepicker.clickDate(startDateDatepicker, startDate, '9').then(function() {
+            datepicker.expectedDate(startDate, '2014-12-09');
+            datepicker.expectedDate(endDate, '2014-12-27');
           });
         });
 
         it('changes end date by clicking on calendar', function() {
-          datepicker.clickingDate(dateRangePicker, endDate, '17').then(function() {
-            datepicker.expectedDate(startDate, '09/23/2014');
-            datepicker.expectedDate(endDate, '12/17/2014');
+          endDate.click();
+          datepicker.selectMonthAndYear(endDateDatepicker, 12, 2014);
+          datepicker.clickDate(endDateDatepicker, endDate, '17').then(function() {
+            datepicker.expectedDate(startDate, '');
+            datepicker.expectedDate(endDate, '2014-12-17');
           });
         });
       });
@@ -250,6 +352,8 @@ describe('details pane', function() {
       beforeEach(function() {
         startDate = dateRangePicker.$('.inplace-edit--date-range-start-date');
         endDate = dateRangePicker.$('.inplace-edit--date-range-end-date');
+        startDateDatepicker = dateRangePicker.$('.inplace-edit--date-range-start-date-picker');
+        endDateDatepicker = dateRangePicker.$('.inplace-edit--date-range-end-date-picker');
       });
 
       beforeEach(function() {
@@ -262,22 +366,24 @@ describe('details pane', function() {
       });
 
       it('shows date range in input', function() {
-        datepicker.expectedDate(startDate, '0/23/2014');
-        datepicker.expectedDate(endDate, 'no end date');
+        datepicker.expectedDate(startDate, '2014-10-23');
+        datepicker.expectedDate(endDate, '');
       });
 
       describe('range selection', function() {
         it('changes start date by clicking on calendar', function() {
-          datepicker.clickingDate(dateRangePicker, startDate, '9').then(function() {
-            datepicker.expectedDate(startDate, '12/09/2014');
-            datepicker.expectedDate(endDate, '12/17/2014');
+          datepicker.clickDate(startDateDatepicker, startDate, '9').then(function() {
+            datepicker.expectedDate(startDate, '2014-10-09');
+            datepicker.expectedDate(endDate, '');
           });
         });
 
         it('changes end date by clicking on calendar', function() {
-          datepicker.clickingDate(dateRangePicker, endDate, '17').then(function() {
-            datepicker.expectedDate(startDate, '09/23/2014');
-            datepicker.expectedDate(endDate, '12/17/2014');
+          endDate.click()
+          datepicker.selectMonthAndYear(endDateDatepicker, 12, 2014);
+          datepicker.clickDate(endDateDatepicker, endDate, '17').then(function() {
+            datepicker.expectedDate(startDate, '2014-10-23');
+            datepicker.expectedDate(endDate, '2014-12-17');
           });
         });
       });
