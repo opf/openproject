@@ -3,8 +3,9 @@ module OpenProject
     module Strategies
       module Warden
         ##
-        # Temporary strategy necessary as long as the OpenProject authentication has not been unified
-        # in terms of Warden strategies and is only locally applied to the API v3.
+        # Temporary strategy necessary as long as the OpenProject authentication has
+        # not been unified in terms of Warden strategies and is only locally
+        # applied to the API v3.
         class Session < ::Warden::Strategies::Base
           def valid?
             session
