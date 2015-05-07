@@ -53,6 +53,9 @@ module.exports = function(
     // TODO: extract to strategy if new cases arise
     if (field === 'date') {
       // nope
+      if(workPackage.links.children) {
+        return false;
+      }
       return true;
       //return workPackage.schema.props.startDate.writable
       // && workPackage.schema.props.dueDate.writable;
