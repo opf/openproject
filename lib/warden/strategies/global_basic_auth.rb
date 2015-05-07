@@ -18,20 +18,30 @@ module Warden
     # other user name is made.
     class GlobalBasicAuth < BasicAuth
       def self.configuration
-        path = %w(authentication global_basic_auth)
-        config = path.inject(OpenProject::Configuration) { |acc, key| Hash(acc[key]) }
-        user = config['user']
-        password = config['password']
+        @configuration ||= configuration!
+      end
 
-        { user: user, password: password } if user && password
+      def self.configuration!
+        path = %w(authentication global_basic_auth)
+        @configuration = path.inject(OpenProject::Configuration) { |acc, key| Hash(acc[key]) }
+
+        if user == UserBasicAuth.user
+          raise ArgumentError, "global user must not be '#{UserBasicAuth.user}'"
+        end
+
+        @configuration
+      end
+
+      def self.configuration?
+        user && password
       end
 
       def self.user
-        configuration[:user]
+        configuration['user']
       end
 
       def self.password
-        configuration[:password]
+        configuration['password']
       end
 
       ##
@@ -41,9 +51,7 @@ module Warden
       end
 
       def authenticate_user(username, password)
-        config = self.class.configuration
-
-        if username == config[:user] && password == config[:password]
+        if username == self.class.user && password == self.class.password
           User.system.tap do |user|
             user.admin = true
           end
