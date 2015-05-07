@@ -30,3 +30,14 @@
 @mixin grid-visible-overflow
   overflow:   visible
   overflow-y: visible
+
+// grid-basic-content has similar semantics to grid-content, but does not add
+// padding or change default overflow/scroll behaviour.
+@mixin grid-basic-content($size: expand, $offset: null, $order: null)
+  display: block
+
+  @include grid-size($size)
+  @if $offset != null
+    @include grid-offset($offset)
+  @if $order != null
+    @include grid-order($order)
