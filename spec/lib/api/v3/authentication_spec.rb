@@ -33,9 +33,11 @@ describe API::V3, type: :request do
     let(:user) { FactoryGirl.create :user }
     let(:resource) { "/api/v3/users/#{user.id}"}
 
+    Strategies = OpenProject::Authentication::Strategies::Warden
+
     def basic_auth(user, password)
       credentials = ActionController::HttpAuthentication::Basic.encode_credentials user, password
-      {'HTTP_AUTHORIZATION' => credentials}
+      { 'HTTP_AUTHORIZATION' => credentials }
     end
 
     shared_examples 'it is basic auth protected' do
@@ -80,13 +82,7 @@ describe API::V3, type: :request do
         let(:password) { 'toor' }
 
         before do
-          authentication = {
-            'global_basic_auth' => {
-              'user'     => 'root',
-              'password' => 'toor'
-            }
-          }
-          OpenProject::Configuration['authentication'] = authentication
+          Strategies::GlobalBasicAuth.configure! user: 'root', password: 'toor'
         end
 
         it_behaves_like 'it is basic auth protected'
@@ -116,13 +112,8 @@ describe API::V3, type: :request do
         let(:api_key)  { FactoryGirl.create :api_key, user: api_user }
 
         before do
-          authentication = {
-            'global_basic_auth' => {
-              'user'     => 'global_account',
-              'password' => 'global_password'
-            }
-          }
-          OpenProject::Configuration['authentication'] = authentication
+          config = { user: 'global_account', password: 'global_password' }
+          Strategies::GlobalBasicAuth.configure! config
         end
 
         context 'without credentials' do
