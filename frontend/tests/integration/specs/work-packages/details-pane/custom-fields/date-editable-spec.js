@@ -38,12 +38,17 @@ describe('details pane', function() {
     describe('date editbale', function() {
       beforeEach(function() {
         detailsPaneHelper.loadPane(819, 'overview');
-        datePicker = element(by.css('.inplace-edit.attribute-customField9'));
+        dateInput = element(by.css('.inplace-edit.attribute-customField9'));
+        datePicker = element(by.css('.inplace-edit.inplace-edit--date-picker'));
       });
 
       context('read value', function() {
-        it('should be present on page', function(){
-          expect(datePicker.isDisplayed()).to.eventually.be.true;
+        it('is editable', function() {
+          expect(dateInput.$('.inplace-edit--write').isPresent()).to.eventually.be.true;
+        });
+
+        it('should be present on page', function() {
+          expect(dateInput.isDisplayed()).to.eventually.be.true;
         });
 
         it('shows date range', function() {

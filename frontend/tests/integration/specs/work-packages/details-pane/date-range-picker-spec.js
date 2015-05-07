@@ -41,6 +41,10 @@ describe('details pane', function() {
     });
 
     context('read value', function() {
+      it('is editable', function() {
+        expect(dateRangePicker.$('.inplace-edit--write').isPresent()).to.eventually.be.true;
+      });
+
       it('should be present on page', function(){
         expect(dateRangePicker.isDisplayed()).to.eventually.be.true;
       });
@@ -319,6 +323,17 @@ describe('details pane', function() {
           });
         });
       });
+    });
+  });
+
+  describe('date range picker with children', function() {
+    beforeEach(function() {
+      detailsPaneHelper.loadPane(825, 'overview');
+      dateRangePicker = element(by.css('.inplace-edit.attribute-date'));
+    });
+
+    it('not editable', function() {
+      expect(dateRangePicker.$('.inplace-edit--write').isPresent()).to.eventually.be.false;
     });
   });
 });
