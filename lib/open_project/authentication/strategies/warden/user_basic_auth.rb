@@ -21,11 +21,7 @@ module OpenProject
           end
 
           def authenticate_user(_, api_key)
-            token(api_key).try(:user)
-          end
-
-          def token(value)
-            Token.where(action: 'api', value: value).first
+            User.find_by_api_key api_key
           end
         end
       end
