@@ -10,7 +10,7 @@ module OpenProject
         User.find id
       end
 
-      def initialize(app, options={}, &configure)
+      def initialize(app, options = {}, &configure)
         block = lambda do |config|
           self.class.configure config
 

@@ -18,10 +18,10 @@ module Warden
     # other user name is made.
     class GlobalBasicAuth < BasicAuth
       def self.configuration
-        config = Hash(OpenProject::Configuration['authentication'])
-
-        user = config.fetch? 'global_basic_auth', 'user'
-        password = config.fetch? 'global_basic_auth', 'password'
+        path = %w(authentication global_basic_auth)
+        config = path.reduce(OpenProject::Configuration) { |acc, key| Hash(acc[key]) }
+        user = config['user']
+        password = config['password']
 
         { user: user, password: password } if user && password
       end
