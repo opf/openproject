@@ -107,12 +107,30 @@ module Report::Controller
   # specified record or renders the updated table on XHR
   def update
     if params[:set_filter].to_i == 1 # save
+      # TODO detect cost filter and do not remove it, remove every other filter
+      new_query = build_query(session[report_engine.name.underscore.to_sym][:filters],
+                              session[report_engine.name.underscore.to_sym][:groups])
+      consolidate_additional_filters(new_query)
+      @query.migrate(new_query)
       @query.save!
     end
     if request.xhr?
       table
     else
       redirect_to action: 'show', id: @query.id
+    end
+  end
+
+  ##
+  # with #19902 this should be removed
+  # Assuming if a cost filter exists it will always be the first, because of before_filter(s)
+  def consolidate_additional_filters(new_query)
+    if params[:unit]
+      cost_filter = @query.serialized[:filters].first
+      new_query.filter :cost_type_id,
+                       operator: cost_filter[1][:operator],
+                       value: params[:unit],
+                       display: cost_filter[1][:display]
     end
   end
 
