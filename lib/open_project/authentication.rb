@@ -7,7 +7,7 @@ module OpenProject
     class << self
       ##
       # Updates the used warden strategies for a given scope. The strategies will be tried
-      # in the order they are set here.
+      # in the order they are set here. Plugins can call this to add or remove strategies.
       # For available scopes please refer to `OpenProject::Authentication::Scope`.
       #
       # @param [Symbol] scope The scope for which to update the used warden strategies.
