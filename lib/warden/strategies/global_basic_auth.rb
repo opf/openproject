@@ -19,7 +19,7 @@ module Warden
     class GlobalBasicAuth < BasicAuth
       def self.configuration
         path = %w(authentication global_basic_auth)
-        config = path.reduce(OpenProject::Configuration) { |acc, key| Hash(acc[key]) }
+        config = path.inject(OpenProject::Configuration) { |acc, key| Hash(acc[key]) }
         user = config['user']
         password = config['password']
 

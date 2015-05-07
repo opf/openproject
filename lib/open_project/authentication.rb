@@ -11,7 +11,8 @@ module OpenProject
       # For available scopes please refer to `OpenProject::Authentication::Scope`.
       #
       # @param [Symbol] scope The scope for which to update the used warden strategies.
-      # @param [Boolean] store Indicates whether the user should be stored in the session for this scope.
+      # @param [Boolean] store Indicates whether the user should be stored in the session
+      #                        for this scope.
       #
       # @yield [strategies] A block returning the strategies to be used for this scope.
       # @yieldparam [Array] The strategies currently used by this scope. May be empty.

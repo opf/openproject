@@ -1,7 +1,6 @@
 module OpenProject
   module Authentication
     class Manager < Warden::Manager
-
       serialize_into_session do |user|
         user.id
       end
