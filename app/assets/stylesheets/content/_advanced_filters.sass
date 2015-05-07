@@ -71,6 +71,11 @@
 .advanced-filters--number-field
   @extend .form--text-field, .form--text-field.-small
 
+%advanced-filters--text-label
+  line-height:  1.6
+  padding:      0.375rem 1rem 0
+  overflow-y:   hidden
+
 %advanced-filters--filter-part
   .inline-label
     margin-bottom: 0
@@ -80,9 +85,9 @@
     margin-bottom: 0
 
 .advanced-filters--filter-name
-  @include grid-content(3)
+  @include grid-basic-content(3)
   @extend %advanced-filters--filter-part
-  overflow-y: hidden
+  @extend %advanced-filters--text-label
   white-space: nowrap
   text-overflow: ellipsis
 
@@ -111,7 +116,8 @@
   padding:          0.25rem 0
 
 .advanced-filters--add-filter-label
-  @include grid-content(shrink)
+  @include grid-basic-content(shrink)
+  @extend %advanced-filters--text-label
 
 .advanced-filters--add-filter-label-icon
   @extend .icon-add, .icon4
