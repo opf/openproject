@@ -36,6 +36,7 @@
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
+require 'capybara-select2'
 
 # json-spec is used to specifiy our json-apis
 require 'json_spec/cucumber'
@@ -121,3 +122,5 @@ end
 #     Capybara::Selenium::Driver.new(app, :browser => :chrome)
 # end
 #
+
+World(Capybara::Select2)
