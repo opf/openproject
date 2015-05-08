@@ -26,12 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// Enable asset pipeline for Bourbon mixins (e.g. +font-face)
-// @see http://bourbon.io/docs/#asset-pipeline
-$asset-pipeline: function-exists(font-url)
-
-@import bourbon
-@import open_project_global/accessibility
-@import open_project_global/variables
-@import open_project_global/mixins
-@import open_project_global/functions
+@function rem-concat-list($list-of-pixels)
+  $result: ''
+  @each $pixel-val in $list-of-pixels
+    $result: $result + rem-calc($pixel-val) + ' '
+  @return #{$result}
