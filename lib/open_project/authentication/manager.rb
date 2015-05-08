@@ -30,7 +30,7 @@ module OpenProject
 
         def configure(config)
           config.default_strategies :session
-          config.failure_app = OpenProject::Authentication::FailureApp
+          config.failure_app = OpenProject::Authentication::FailureApp.new
 
           scope_strategies.each do |scope, strategies|
             config.scope_defaults scope, strategies: strategies, store: store_defaults[scope]
