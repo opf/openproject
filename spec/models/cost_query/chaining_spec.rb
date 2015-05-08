@@ -1,7 +1,7 @@
 #-- copyright
 # OpenProject Reporting Plugin
 #
-# Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2010 - 2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -314,6 +314,38 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         end
         expect(TestFilter.selectable?).to be true
         Object.send(:remove_const, :TestFilter)
+      end
+    end
+
+    describe '#remove' do
+      before do
+        @chain = Report::Chainable.new
+        @chain = Report::Chainable.new(@chain)
+      end
+
+      it 'has one less element after removal' do
+        count_before = @chain.count
+        @chain = @chain.remove(@chain.bottom)
+        expect(@chain.count).to eq(count_before - 1)
+      end
+
+      it 'removes the specified element' do
+        @chain = @chain.remove(@chain.bottom)
+        expect(@chain.top).to eq(@chain.bottom)
+      end
+
+      it 'returns the top of the chain' do
+        @chain = Report::Chainable.new(@chain)
+        chain_top = @chain.top
+        @chain = @chain.remove(@chain.top.child)
+        expect(chain_top).to eq(@chain.top)
+      end
+
+      it 'properly disconnects the removed element from the chain' do
+        @chain = Report::Chainable.new(@chain)
+        @chain = @chain.remove(@chain.top.child)
+        expect(@chain.top.child).to eq(@chain.bottom)
+        expect(@chain.bottom.parent).to eq(@chain.top)
       end
     end
   end
