@@ -99,7 +99,7 @@ jQuery(document).ready(function($) {
     $(item).autocomplete({
       multiple: false,
       formatSelection: function (item) {
-        return item.name || (item.project ? item.project.name : '');
+        return OpenProject.Helpers.markupEscape(item.name || (item.project ? item.project.name : ''));
       },
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
@@ -118,7 +118,7 @@ jQuery(document).ready(function($) {
       multiple: true,
       sortable: true,
       formatSelection: function (item) {
-        return item.name || item.project.name;
+        return OpenProject.Helpers.markupEscape(item.name || item.project.name);
       },
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
@@ -136,7 +136,7 @@ jQuery(document).ready(function($) {
     $(item).autocomplete({
       multiple: true,
       formatSelection: function (item) {
-        return item.name || item.project.name;
+        return OpenProject.Helpers.markupEscape(item.name || item.project.name);
       },
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
