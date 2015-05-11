@@ -49,7 +49,18 @@
               new Ajax.Request(url, {
                 asynchronous: true,
                 evalScripts: true,
-                parameters: Sortable.serialize(id)
+                // this might seem like magic, but it actually
+                // replaces Sortable.serialize which breaks our
+                // block names when they contain underscores
+                parameters: (function serialize(id, $) {
+                  var element =  $('#' + id),
+                      blocks = element.find('.mypage-box').map(function() {
+                        return this.id.replace(/^block_/, '');
+                      }).get();
+                  return blocks.map(function(item) {
+                    return id + '[]=' + encodeURIComponent(item);
+                  }).join('&');
+                }(id, jQuery))
               });
             },
             containment: containedPositions,
