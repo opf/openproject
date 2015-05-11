@@ -31,7 +31,7 @@ require 'spec_helper'
 describe API::V3, type: :request do
   describe 'basic auth' do
     let(:user) { FactoryGirl.create :user }
-    let(:resource) { "/api/v3/users/#{user.id}"}
+    let(:resource) { "/api/v3/users/#{user.id}" }
 
     Strategies = OpenProject::Authentication::Strategies::Warden
 
