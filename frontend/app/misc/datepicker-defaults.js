@@ -25,13 +25,9 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-/* global CS */
-
-window.CS = window.CS || {};
-
 jQuery(function($) {
   var regions = $.datepicker.regional;
-  var regional = regions[CS.lang] || regions[''];
+  var regional = regions[I18n.locale] || regions[''];
   $.datepicker.setDefaults(regional);
 
   var gotoToday = $.datepicker._gotoToday;
@@ -64,8 +60,8 @@ jQuery(function($) {
     }
   };
 
-  if (CS.firstWeekDay && CS.firstWeekDay !== '') {
-    defaults.firstDay = parseInt(CS.firstWeekDay, 10);
+  if (regional && regional.firstDay) {
+    defaults.firstDay = regional.firstDay;
   }
 
   $.datepicker.setDefaults(defaults);
