@@ -6,12 +6,12 @@ require 'open_project/authentication/strategies/warden/global_basic_auth'
 require 'open_project/authentication/strategies/warden/user_basic_auth'
 require 'open_project/authentication/strategies/warden/session'
 
-strategies = [
-  [:basic_auth_failure, OpenProject::Authentication::Strategies::Warden::BasicAuthFailure],
-  [:global_basic_auth,  OpenProject::Authentication::Strategies::Warden::GlobalBasicAuth],
-  [:user_basic_auth,    OpenProject::Authentication::Strategies::Warden::UserBasicAuth],
-  [:session,            OpenProject::Authentication::Strategies::Warden::Session]
-]
+strategies = {
+  basic_auth_failure: OpenProject::Authentication::Strategies::Warden::BasicAuthFailure,
+  global_basic_auth:  OpenProject::Authentication::Strategies::Warden::GlobalBasicAuth,
+  user_basic_auth:    OpenProject::Authentication::Strategies::Warden::UserBasicAuth,
+  session:            OpenProject::Authentication::Strategies::Warden::Session
+}
 
 strategies.each do |name, clazz|
   Warden::Strategies.add name, clazz
