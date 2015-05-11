@@ -163,12 +163,6 @@ module API
 
     # run authentication before each request
     before do
-      # Call current_user as it sets User.current.
-      # Not doing this might cause devs to use User.current without that value
-      # being set to the actually current user. That might result in standard
-      # users becoming admins and otherwise based on who called the ruby
-      # process last.
-      current_user
       authenticate
     end
 
