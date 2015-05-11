@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe API::V3, type: :request do
   describe 'basic auth' do
-    let(:user) { FactoryGirl.create :user }
+    let(:user)     { FactoryGirl.create :user }
     let(:resource) { "/api/v3/users/#{user.id}" }
 
     Strategies = OpenProject::Authentication::Strategies::Warden
@@ -88,7 +88,7 @@ describe API::V3, type: :request do
         it_behaves_like 'it is basic auth protected'
 
         describe 'user basic auth' do
-          let(:api_key)  { FactoryGirl.create :api_key }
+          let(:api_key) { FactoryGirl.create :api_key }
 
           let(:username) { 'apikey' }
           let(:password) { api_key.value }
@@ -99,7 +99,7 @@ describe API::V3, type: :request do
       end
 
       describe 'user basic auth' do
-        let(:api_key)  { FactoryGirl.create :api_key }
+        let(:api_key) { FactoryGirl.create :api_key }
 
         let(:username) { 'apikey' }
         let(:password) { api_key.value }
