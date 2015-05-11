@@ -29,10 +29,10 @@
 var I18n = require('./vendor/i18n');
 
 // load all js locales
-var requireExtraLocale = require.context('../../config/locales', false, /js-[\w|-]{2,5}\.yml$/);
-requireExtraLocale.keys().forEach(function(localeFile) {
+var localeFiles = require.context('../../config/locales', false, /js-[\w|-]{2,5}\.yml$/);
+localeFiles.keys().forEach(function(localeFile) {
   var locale = localeFile.match(/js-([\w|-]{2,5})\.yml/)[1];
-  I18n.translations[locale] = requireExtraLocale(localeFile)[locale];
+  I18n.translations[locale] = localeFiles(localeFile)[locale];
 });
 
 I18n.addTranslations = function(locale, translations) {
