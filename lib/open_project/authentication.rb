@@ -12,7 +12,8 @@ module OpenProject
       #
       # @param [Symbol] scope The scope for which to update the used warden strategies.
       # @param [Boolean] store Indicates whether the user should be stored in the session
-      #                        for this scope.
+      #                        for this scope. Optional. If not given, the current store flag
+      #                        for this strategy will remain unchanged what ever it is.
       #
       # @yield [strategies] A block returning the strategies to be used for this scope.
       # @yieldparam [Array] The strategies currently used by this scope. May be empty.
