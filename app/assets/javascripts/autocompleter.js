@@ -187,7 +187,7 @@
       return markup.join("");
     },
     formatSelection: function (item) {
-      return item.name;
+      return OpenProject.Helpers.markupEscape(item.name);
     },
     initSelection: function (element, callback) {
       var data = [], multiple;
