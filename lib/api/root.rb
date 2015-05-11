@@ -86,7 +86,7 @@ module API
 
       def logged_in?
         # An admin SystemUser is anonymous but still a valid user to be logged in.
-        current_user.present? && (current_user.admin? || !current_user.anonymous?)
+        current_user && (current_user.admin? || !current_user.anonymous?)
       end
 
       def authorize(permission, context: nil, global: false, user: current_user)
