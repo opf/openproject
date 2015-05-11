@@ -2,7 +2,6 @@
 
 `openproject-github_integration` is an OpenProject plugin, which aims to integrate GitHub code repositories and a pull request workflow with OpenProject.
 
-**Note:** This plugin has not been tested in production.
 
 ![GitHub Integration Screenshot](doc/screenshot.png?raw=true)
 
