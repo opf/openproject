@@ -80,7 +80,7 @@ module API
         User.current = warden.user scope: API_V3
 
         if Setting.login_required? and not logged_in?
-          raise API::Errors::Unauthenticated
+          raise ::API::Errors::Unauthenticated
         end
       end
 
