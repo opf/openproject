@@ -33,6 +33,15 @@ describe API::V3, type: :request do
     let(:user)     { FactoryGirl.create :user }
     let(:resource) { "/api/v3/users/#{user.id}" }
 
+    let(:response_401) do
+      {
+        '_embedded'       => {},
+        '_type'           => 'Error',
+        'errorIdentifier' => 'urn:openproject-org:api:v3:errors:MissingPermission',
+        'message'         => 'You need to be authenticated to access this resource.'
+      }
+    end
+
     Strategies = OpenProject::Authentication::Strategies::Warden
 
     def basic_auth(user, password)
@@ -49,6 +58,10 @@ describe API::V3, type: :request do
         it 'should return 401 unauthorized' do
           expect(response.status).to eq 401
         end
+
+        it 'should return the correct JSON response' do
+          expect(JSON.parse(response.body)).to eq response_401
+        end
       end
 
       context 'with invalid credentials' do
@@ -58,6 +71,10 @@ describe API::V3, type: :request do
 
         it 'should return 401 unauthorized' do
           expect(response.status).to eq 401
+        end
+
+        it 'should return the correct JSON response' do
+          expect(JSON.parse(response.body)).to eq response_401
         end
       end
 
