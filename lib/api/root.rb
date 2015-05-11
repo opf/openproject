@@ -79,14 +79,14 @@ module API
 
         User.current = warden.user scope: API_V3
 
-        if Setting.login_required? && not_logged_in?
+        if Setting.login_required? and not logged_in?
           raise API::Errors::Unauthenticated
         end
       end
 
-      def not_logged_in?
+      def logged_in?
         # An admin SystemUser is anonymous but still a valid user to be logged in.
-        current_user.nil? || (!current_user.admin? && current_user.anonymous?)
+        current_user.present? && (current_user.admin? || !current_user.anonymous?)
       end
 
       def authorize(permission, context: nil, global: false, user: current_user)
