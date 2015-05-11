@@ -97,6 +97,16 @@ describe API::V3, type: :request do
           it_behaves_like 'it is basic auth protected'
         end
       end
+
+      describe 'user basic auth' do
+        let(:api_key)  { FactoryGirl.create :api_key }
+
+        let(:username) { 'apikey' }
+        let(:password) { api_key.value }
+
+        # check that user basic auth works on its own too
+        it_behaves_like 'it is basic auth protected'
+      end
     end
 
     context 'without login required' do
