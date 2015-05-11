@@ -26,19 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'securerandom'
+require 'spec_helper'
 
-FactoryGirl.define do
-  factory :token do
-    user
-    value { SecureRandom.hex(16) }
-
-    factory :api_key do
-      action 'api'
+describe OpenProject::Authentication::Strategies::Warden::GlobalBasicAuth do
+  it 'does not allow the UserBasicAuth user name' do
+    configuration = lambda do
+      user = OpenProject::Authentication::Strategies::Warden::UserBasicAuth.user
+      OpenProject::Authentication::Strategies::Warden::GlobalBasicAuth.configure!(
+        user: user, password: 'foo')
     end
 
-    factory :rss_key do
-      action 'rss'
-    end
+    expect(configuration).to raise_error(ArgumentError)
   end
 end
