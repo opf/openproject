@@ -28,13 +28,33 @@
 
 module.exports = function(TimezoneService, ConfigurationService, $timeout) {
   var parseDate = TimezoneService.parseDate,
-      parseISODate = TimezoneService.parseISODate,
-      formattedISODate = TimezoneService.formattedISODate,
-      customDateFormat = 'YYYY-MM-DD',
-      datepickerFormat = 'yy-mm-dd',
-      customFormattedDate = function(date) {
-        return parseISODate(date).format(customDateFormat);
-      };
+    parseISODate = TimezoneService.parseISODate,
+    formattedISODate = TimezoneService.formattedISODate,
+    customDateFormat = 'YYYY-MM-DD',
+    datepickerFormat = 'yy-mm-dd',
+    customFormattedDate = function(date) {
+      return parseISODate(date).format(customDateFormat);
+    },
+    addButton = function(appendTo, text, className, callback) {
+      return jQuery('<button>', {
+          text: text,
+          click: callback
+        })
+        .addClass('ui-state-default ui-priority-primary ui-corner-all ' + className)
+        .appendTo(appendTo);
+    },
+    addDoneButton = function(div) {
+      setTimeout(function() {
+        var buttonPane = div.find('.ui-datepicker-buttonpane');
+
+        if (buttonPane.find('.ui-datepicker-done').length !== 0) {
+          return;
+        }
+
+        addButton(buttonPane, 'Done', 'ui-datepicker-done');
+      }, 1);
+    };
+
   function Datepicker(datepickerElem, textboxElem, date) {
     this.date = date;
     this.prevDate = customFormattedDate(this.date);
@@ -67,7 +87,14 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
       dateFormat: datepickerFormat,
       defaultDate: customFormattedDate(self.date),
       inline: true,
-      showButtonPanel: false,
+      showButtonPanel: true,
+      closeText: 'Done',
+      beforeShow: function() {
+        addDoneButton(self.datepickerCont);
+      },
+      onChangeMonthYear: function() {
+        addDoneButton(self.datepickerCont);
+      },
       alterOffset: function(offset) {
         var wHeight = angular.element(window).height(),
           dpHeight = angular.element('#ui-datepicker-div').height(),
@@ -89,6 +116,7 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
         });
         self.textbox.focus();
         self.datepickerCont.hide();
+        addDoneButton(self.datepickerCont);
       }
     });
   };
