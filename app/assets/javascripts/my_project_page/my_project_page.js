@@ -64,7 +64,9 @@
 
   function updateSelect() {
     var s = $('block-select');
-    if (s === null) { return };
+    if (s === null) {
+      return;
+    }
     for (var i = 0; i < s.options.length; i++) {
       if ($('block_' + s.options[i].value)) {
         s.options[i].disabled = true;
