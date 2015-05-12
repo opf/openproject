@@ -1,5 +1,5 @@
 (function($) {
-  var block = $('#block_' + '<%= @block.is_a?(Array) ? @block.first.dasherize : @block.dasherize %>');
+  var block = $('#block_' + '<%= @block.is_a?(Array) ? @block.first : @block %>');
   block.fadeOut('fast', function() {
     block.remove();
     myPage.updateSelect();
