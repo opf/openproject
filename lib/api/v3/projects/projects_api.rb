@@ -47,7 +47,7 @@ module API
             end
 
             get do
-              ProjectRepresenter.new(@project)
+              ProjectRepresenter.new(@project, current_user: current_user)
             end
 
             mount API::V3::Projects::AvailableAssigneesAPI
