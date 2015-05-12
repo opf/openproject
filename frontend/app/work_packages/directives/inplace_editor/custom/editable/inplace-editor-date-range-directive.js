@@ -100,6 +100,10 @@ module.exports = function(TimezoneService, ConfigurationService,
         endDatepicker.onEdit();
       };
 
+      startDatepicker.onDone = endDatepicker.onDone = function() {
+        form.scope().editPaneController.discardEditing();
+      };
+
       $timeout(function() {
         startDatepicker.focus();
       });

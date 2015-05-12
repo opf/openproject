@@ -72,13 +72,13 @@ jQuery(function($) {
 
   $.extend($.datepicker, {
 
-    _gotoToday2: $.datepicker._gotoToday,
+    _originalGotoToday: $.datepicker._gotoToday,
     _gotoToday: function(id) {
       var target = $(id),
           inst = this._getInst(target[0]),
           today = new Date(),
           date = this._formatDate(inst, today.getDate(), today.getMonth(), today.getFullYear());
-      this._gotoToday2(id);
+      this._originalGotoToday(id);
       this._selectDate(id, date);
     },
 

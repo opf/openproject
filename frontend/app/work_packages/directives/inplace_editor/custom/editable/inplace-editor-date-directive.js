@@ -66,6 +66,9 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
       scope.onEdit = function() {
         datepicker.onEdit();
       };
+      datepicker.onDone = function() {
+        form.scope().editPaneController.discardEditing();
+      };
 
       datepicker.textbox.attr({
         'placeholder': '-',
