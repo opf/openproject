@@ -47,9 +47,9 @@ require('jquery-ui/themes/base/jquery.ui.datepicker.css');
 // TODO: move require to backlogs plugin
 require('jquery-ui/themes/base/jquery.ui.dialog.css');
 
-require('momentjs');
-require('momentjs/lang/en-gb.js');
-require('momentjs/lang/de.js');
+require('moment');
+require('moment/locale/en-gb.js');
+require('moment/locale/de.js');
 
 require('moment-timezone/moment-timezone.js');
 require('moment-timezone/moment-timezone-data.js');
