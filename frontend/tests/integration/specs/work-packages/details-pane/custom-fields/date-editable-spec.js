@@ -41,10 +41,13 @@ describe('details pane', function() {
       beforeEach(function() {
         detailsPaneHelper.loadPane(819, 'overview');
         dateInput = element(by.css('.inplace-edit.attribute-customField9'));
-        datePicker = element(by.css('.inplace-edit.inplace-edit--date-picker'));
       });
 
       context('read value', function() {
+        it('is editable', function() {
+          expect(dateInput.$('.inplace-edit--write').isPresent()).to.eventually.be.true;
+        });
+
         it('should be present on page', function() {
           expect(dateInput.isDisplayed()).to.eventually.be.true;
         });
@@ -58,11 +61,9 @@ describe('details pane', function() {
         var date;
 
         beforeEach(function() {
-          date = dateInput.$('input.inplace-edit--date');
-        });
-
-        beforeEach(function() {
           dateInput.$('.inplace-edit--read-value').click();
+          datePicker = element(by.css('.inplace-edit .inplace-edit--date-picker'));
+          date = dateInput.$('input.inplace-edit--date');
         });
 
         it('opens calendar on click', function() {
