@@ -5,7 +5,8 @@ Color Variables
 
 ```
 @colors
-- $body-font-color - -
-- $header-bg-color - $header-logo-bg-color -
-- $gray-light $gray $gray-dark
+- $body-font-color -
+- $primary-color $primary-color-dark
+- $alternative-color -
+$gray-light $gray $gray-dark
 ```

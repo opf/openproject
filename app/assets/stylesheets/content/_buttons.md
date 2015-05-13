@@ -21,15 +21,15 @@
 ## Highlight buttons
 
 ```
-<button class="button ***-highlight***"><i class="button--icon icon-attention2"></i><span class="button--text">Apply</span></button>
-<button class="button ***-highlight***"><i class="button--icon icon-attention2"></i></button>
+<button class="button ***-highlight***"><i class="button--icon icon-yes"></i><span class="button--text">Apply</span></button>
+<button class="button ***-highlight***"><i class="button--icon icon-yes"></i></button>
 <button class="button ***-highlight***">Apply</button>
 <button class="button ***-highlight***" disabled>
-  <i class="button--icon icon-attention2"></i><span class="button--text">Apply</span>
+  <i class="button--icon icon-yes"></i><span class="button--text">Apply</span>
 </button>
 <br>
 
-<a href="#" class="button ***-highlight*** -with-icon icon-attention2">Apply</a>
+<a href="#" class="button ***-highlight*** -with-icon icon-yes">Apply</a>
 <a href="#" class="button ***-highlight***">Click to apply</a>
 
 <input type="submit" class="button ***-highlight***" value="Submit to apply"/>
@@ -37,22 +37,22 @@
 ```
 
 
-## Success buttons
+## Alternative highlight buttons
 
 ```
-<button class="button ***-success***"><i class="button--icon icon-yes"></i><span class="button--text">Save</span></button>
-<button class="button ***-success***"><i class="button--icon icon-yes"></i></button>
-<button class="button ***-success***">Save</button>
-<button class="button ***-success***" disabled>
-  <i class="button--icon icon-yes"></i><span class="button--text">Save</span>
+<button class="button ***-alt-highlight***"><i class="button--icon icon-add"></i><span class="button--text">Create</span></button>
+<button class="button ***-alt-highlight***"><i class="button--icon icon-add"></i></button>
+<button class="button ***-alt-highlight***">Create</button>
+<button class="button ***-alt-highlight***" disabled>
+  <i class="button--icon icon-add"></i><span class="button--text">Create</span>
 </button>
 <br>
 
-<a href="#" class="button ***-success*** -with-icon icon-yes">Save</a>
-<a href="#" class="button ***-success***">Click to save</a>
+<a href="#" class="button ***-alt-highlight*** -with-icon icon-add">Create</a>
+<a href="#" class="button ***-alt-highlight***">Click to create</a>
 
-<input type="submit" class="button ***-success***" value="Submit to save"/>
-<input type="submit" class="button ***-success***" value="Do not save" disabled />
+<input type="submit" class="button ***-alt-highlight***" value="Submit to create"/>
+<input type="submit" class="button ***-alt-highlight***" value="Do not create" disabled />
 ```
 
 
