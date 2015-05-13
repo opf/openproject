@@ -116,7 +116,7 @@ $se2-theme-selectable-color: #f8f8f8;
 $se2-theme-selectable-color-highlighted: $drop-down-selected-bg-color;
 
 $se2-element-height: 33px;
-$se2-input-height: 34px;
+$se2-input-height: rem-calc(34px);
 $se2-line-height: 30px;
 $se2-button-width: 28px;
 $se2-arrow-button-width: 18px;
@@ -196,6 +196,6 @@ $se2-width: 100%;
   }
 }
 
-.select2-input {
-  height: rem-calc($se2-input-height) !important;
+input[type="text"].select2-input {
+  height: $se2-input-height;
 }
