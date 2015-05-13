@@ -35,12 +35,6 @@ module API
       class ActivityRepresenter < ::API::Decorators::Single
         include API::V3::Utilities
 
-        def initialize(model, options = {})
-          @current_user = options[:current_user]
-
-          super(model)
-        end
-
         self_link title_getter: -> (*) { represented.id }
 
         link :workPackage do
@@ -100,7 +94,7 @@ module API
         def current_user_allowed_to_edit?
           (current_user_allowed_to(:edit_own_work_package_notes,
                                    context: represented.journable.project) &&
-            represented.editable_by?(@current_user)) ||
+            represented.editable_by?(current_user)) ||
             current_user_allowed_to(:edit_work_package_notes,
                                     context: represented.journable.project)
         end
