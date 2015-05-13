@@ -10,7 +10,7 @@ before upgrading to a newer version.
 Execute the following command in a shell in the directory where
 OpenProject is installed:
 
-````bash
+```bash
 RAILS_ENV=production bundle exec rake backup:database:create
 ```
 
