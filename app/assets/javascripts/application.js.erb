@@ -573,6 +573,10 @@ jQuery(document).ready(function($) {
     },
     formatSearching: function () {
       return I18n.t("js.select2.searching");
+    },
+    containerCssClass: 'form--select2',
+    adaptContainerCssClass: function(clazz) {
+      return null;
     }
   });
 
