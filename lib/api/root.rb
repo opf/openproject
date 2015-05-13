@@ -65,6 +65,27 @@ module API
 
     use OpenProject::Authentication::Manager
 
+    ##
+    # We need this to be able to use `Grape::Middleware::Error#error_response`
+    # outside of the Grape context. We use it outside of the Grape context because
+    # OpenProject authentication happens in a middleware upstream of Grape.
+    class GrapeError < Grape::Middleware::Error
+      def initialize(env)
+        @env = env
+        @options = {}
+      end
+    end
+
+    ##
+    # Return JSON error response on authentication failure.
+    OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, _opts|
+      e = GrapeError.new warden.env
+      representer = ::API::V3::Errors::ErrorRepresenter.new ::API::Errors::Unauthenticated.new
+
+      warden.env['api.format'] = 'hal+json'
+      e.error_response(status: 401, message: representer.to_json, headers: warden.headers)
+    end
+
     helpers do
       def current_user
         User.current
@@ -153,6 +174,14 @@ module API
       representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
       env['api.format'] = 'hal+json'
       error_response(status: api_error.code, message: representer.to_json)
+    end
+
+    # Make sure the WWW-Authenticate header is set upon 401.
+    rescue_from ::API::Errors::Unauthenticated do |e|
+      headers = { 'WWW-Authenticate' => %(Basic realm="#{OpenProject::Authentication::Realm.realm}") }
+      representer = ::API::V3::Errors::ErrorRepresenter.new(e)
+      env['api.format'] = 'hal+json'
+      error_response(status: e.code, message: representer.to_json, headers: headers)
     end
 
     rescue_from ::API::Errors::ErrorBase, rescue_subclasses: true do |e|

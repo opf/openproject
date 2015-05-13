@@ -60,5 +60,15 @@ module OpenProject
         end
       end
     end
+
+    module Realm
+      module_function
+
+      def realm
+        'OpenProject'
+      end
+    end
   end
 end
+
+Warden::Strategies::BasicAuth.include OpenProject::Authentication::Realm
