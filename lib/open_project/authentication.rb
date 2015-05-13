@@ -16,7 +16,7 @@ module OpenProject
       #                        for this strategy will remain unchanged what ever it is.
       #
       # @yield [strategies] A block returning the strategies to be used for this scope.
-      # @yieldparam [Array] The strategies currently used by this scope. May be empty.
+      # @yieldparam [Array] strategies The strategies currently used by this scope. May be empty.
       # @yieldreturn [Array] The strategies to be used by this scope.
       def update_strategies(scope, store: nil, &block)
         raise ArgumentError, "invalid scope: #{scope}" unless Scope.values.include? scope
