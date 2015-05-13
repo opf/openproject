@@ -28,9 +28,13 @@ module OpenProject
           @store_defaults ||= Hash.new false
         end
 
+        def failure_handlers
+          @failure_handlers ||= {}
+        end
+
         def configure(config)
           config.default_strategies :session
-          config.failure_app = OpenProject::Authentication::FailureApp.new
+          config.failure_app = OpenProject::Authentication::FailureApp.new failure_handlers
 
           scope_strategies.each do |scope, strategies|
             config.scope_defaults scope, strategies: strategies, store: store_defaults[scope]

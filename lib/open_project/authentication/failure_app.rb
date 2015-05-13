@@ -1,22 +1,51 @@
 module OpenProject
   module Authentication
     class FailureApp
-      def call(env)
-        warden = env['warden']
+      attr_reader :failure_handlers
 
-        if warden.present? && warden.result == :failure
-          wrong_credentials warden.message, headers: warden.headers
+      def initialize(failure_handlers)
+        @failure_handlers = failure_handlers
+      end
+
+      def call(env)
+        warden = self.warden env
+        scope = self.scope env
+
+        if warden && warden.result == :failure
+          handler = failure_handlers[scope] || default_failure_handler
+
+          if handler
+            handler.call warden, warden_options(env)
+          else
+            handle_failure warden
+          end
         else
           unauthorized
         end
       end
 
-      def wrong_credentials(message, headers: {})
-        [401, headers, [message]]
+      def default_failure_handler
+        failure_handlers[nil]
+      end
+
+      def handle_failure(warden)
+        [warden.status || 401, warden.headers, [warden.message]]
       end
 
       def unauthorized
-        [401, {}, []]
+        [401, {}, ['unauthorized']]
+      end
+
+      def warden(env)
+        env['warden']
+      end
+
+      def warden_options(env)
+        Hash(env['warden.options'])
+      end
+
+      def scope(env)
+        warden_options(env)[:scope]
       end
     end
   end

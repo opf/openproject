@@ -26,6 +26,22 @@ module OpenProject
         Manager.store_defaults[scope] = store unless store.nil?
         Manager.scope_strategies[scope] = block.call current_strategies if block_given?
       end
+
+      ##
+      # Allows to handle an authentication failure with a custom response.
+      #
+      # @param [Symbol] scope The scope for which to set the custom failure handler. Optional.
+      #                       If omitted the default failure handler is set.
+      #
+      # @yield [failure_handler] A block returning a custom failure response.
+      # @yieldparam [Warden::Proxy] warden Warden instance giving access to the would-be
+      #                             result message and headers.
+      # @yieldparam [Hash] warden_options Warden options including the scope of the failed
+      #                                   strategy and the attempted request path.
+      # @yieldreturn [Array] A rack standard response such as `[401, {}, ['unauthenticated']]`.
+      def handle_failure(scope: nil, &block)
+        Manager.failure_handlers[scope] = block
+      end
     end
 
     ##
