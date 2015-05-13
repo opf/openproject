@@ -62,9 +62,9 @@ module.exports = function(ConfigurationService, I18n) {
       return TimezoneService.parseDate(date).format('YYYY-MM-DD');
     },
 
-    isValid: function(date) {
-      var format = ConfigurationService.dateFormatPresent() ?
-                   ConfigurationService.dateFormat() : 'L';
+    isValid: function(date, dateFormat) {
+      var format = dateFormat || (ConfigurationService.dateFormatPresent() ?
+                   ConfigurationService.dateFormat() : 'L');
       return moment(date, [format]).isValid();
     }
   };
