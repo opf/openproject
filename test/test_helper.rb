@@ -29,10 +29,12 @@
 
 ENV['RAILS_ENV'] = 'test'
 
+require 'simplecov'
+SimpleCov.start
+
 if ENV['CI'] == 'true'
-  # we are running on a CI server, report coverage to code climate
-  require 'codeclimate-test-reporter'
-  CodeClimate::TestReporter.start
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
 require File.expand_path('../../config/environment', __FILE__)
