@@ -1,4 +1,4 @@
-SimpleCov.start
+SimpleCov.start :rails
 
 if ENV['CI'] == 'true'
   require 'codecov'
