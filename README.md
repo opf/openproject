@@ -2,7 +2,7 @@
 [<img src="https://travis-ci.org/opf/openproject.svg?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
 [<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />](https://gemnasium.com/opf/openproject)
 [![Code Climate](https://codeclimate.com/github/opf/openproject/badges/gpa.svg)](https://codeclimate.com/github/opf/openproject)
-[![codecov.io](http://codecov.io/github/opf/openproject/coverage.svg?branch=release/4.1)](http://codecov.io/github/opf/openproject?branch=release/4.1)
+[![codecov.io](http://codecov.io/github/opf/openproject/coverage.svg?branch=dev)](http://codecov.io/github/opf/openproject?branch=dev)
 [![Inline docs](http://inch-ci.org/github/opf/openproject.png?branch=dev)](http://inch-ci.org/github/opf/openproject)
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/opf/openproject?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
