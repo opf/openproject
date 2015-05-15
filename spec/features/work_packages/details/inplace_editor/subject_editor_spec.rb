@@ -1,13 +1,16 @@
 require 'spec_helper'
 require 'features/work_packages/details/inplace_editor/shared_examples'
+require 'features/work_packages/details/inplace_editor/work_package_field'
 
 describe 'subject inplace editor', js: true do
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
+  let(:property_name) { :subject }
+  let(:property_title) { 'Subject' }
   let!(:work_package) { FactoryGirl.create :work_package, project: project }
-  let(:user) { FactoryGirl.create(:admin) }
+  let(:user) { FactoryGirl.create :admin }
 
   let(:field_selector) { '.work-package-field.work-packages--details--subject' }
-  let(:field) { page.find(field_selector) }
+  let(:field) { WorkPackageField.new page.find(field_selector) }
   before do
     allow(User).to receive(:current).and_return(user)
     visit project_work_packages_path(project)
@@ -20,7 +23,7 @@ describe 'subject inplace editor', js: true do
 
   context 'in read state' do
     it 'has correct content' do
-      expect(field.find('.inplace-edit--read-value span').text).to eq work_package.subject
+      expect(field.read_state_text).to eq work_package.send(property_name)
     end
 
     context 'when is editable' do
@@ -29,7 +32,7 @@ describe 'subject inplace editor', js: true do
 
     context 'when user is authorized' do
       it 'is editable' do
-        expect(field.find('a.inplace-editing--trigger-link')).to be_visible
+        expect(field.trigger_link).to be_visible
       end
     end
 
@@ -37,22 +40,50 @@ describe 'subject inplace editor', js: true do
       let(:user) {
         FactoryGirl.create :user,
           member_in_project: project,
-          member_through_role: FactoryGirl.build(:role, permissions: [:view_work_packages])
+          member_through_role: FactoryGirl.build(
+            :role,
+            permissions: [:view_work_packages]
+          )
       }
 
       it 'is not editable' do
-        expect { field.find('a.inplace-editing--trigger-link') }.to raise_error Capybara::ElementNotFound
+        expect { field.trigger_link }.to raise_error Capybara::ElementNotFound
       end
     end
   end
 
+  it_behaves_like 'a cancellable field'
+  it_behaves_like 'having a single validation point'
+  it_behaves_like 'a required field'
+
   context 'in edit state' do
-    it 'renders a text input'
-    it 'has a correct value for the input'
-    it 'displays the new value after save'
-    it 'saves the value on ENTER'
-    it_behaves_like 'an ESC-aware field'
-    it_behaves_like 'having a single validation point'
-    it_behaves_like 'a required field'
+    before do
+      field.activate_edition
+    end
+
+    it 'renders a text input' do
+      expect(field.input_element).to be_visible
+      expect(field.input_element['type']).to eq 'text'
+    end
+
+    it 'has a correct value for the input' do
+      expect(field.input_element[:value]).to eq work_package.subject
+    end
+
+    context 'on save' do
+      before do
+        field.input_element.set 'Aloha'
+      end
+
+      it 'displays the new value after save' do
+        field.submit_by_click
+        expect(field.read_state_text).to eq 'Aloha'
+      end
+
+      it 'saves the value on ENTER' do
+        field.submit_by_enter
+        expect(field.read_state_text).to eq 'Aloha'
+      end
+    end
   end
 end

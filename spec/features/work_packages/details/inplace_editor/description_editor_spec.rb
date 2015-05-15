@@ -30,6 +30,7 @@ describe 'description inplace editor' do
     it 'renders a textarea'
     it 'renders formatting buttons'
     it 'renders a preview button'
+    it 'prevents page navigation in edit mode'
     it 'has a correct value for the textarea'
     it 'displays the new HTML after save'
     it_behaves_like 'an ESC-aware field'
