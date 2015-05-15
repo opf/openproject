@@ -28,13 +28,22 @@
 
 module.exports = function(TimezoneService, ConfigurationService, $timeout) {
   var parseDate = TimezoneService.parseDate,
-      parseISODate = TimezoneService.parseISODate,
-      formattedISODate = TimezoneService.formattedISODate,
-      customDateFormat = 'YYYY-MM-DD',
-      datepickerFormat = 'yy-mm-dd',
-      customFormattedDate = function(date) {
-        return parseISODate(date).format(customDateFormat);
-      };
+    parseISODate = TimezoneService.parseISODate,
+    formattedISODate = TimezoneService.formattedISODate,
+    customDateFormat = 'YYYY-MM-DD',
+    datepickerFormat = 'yy-mm-dd',
+    customFormattedDate = function(date) {
+      return parseISODate(date).format(customDateFormat);
+    },
+    addButton = function(appendTo, text, className, callback) {
+      return jQuery('<button>', {
+          text: text
+        })
+        .addClass('ui-state-default ui-priority-primary ui-corner-all ' + className)
+        .appendTo(appendTo)
+        .on('click', callback);
+    };
+
   function Datepicker(datepickerElem, textboxElem, date) {
     this.date = date;
     this.prevDate = customFormattedDate(this.date);
@@ -44,6 +53,22 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
     this.initialize();
     this.setDate(this.date);
   }
+
+  Datepicker.prototype.addDoneButton = function() {
+    var self = this;
+    setTimeout(function() {
+      var buttonPane = self.datepickerCont.find('.ui-datepicker-buttonpane');
+
+      if (buttonPane.find('.ui-datepicker-done').length !== 0) {
+        return;
+      }
+
+      addButton(buttonPane, 'Done', 'ui-datepicker-done', function(e) {
+        self.onDone();
+        e.preventDefault();
+      });
+    }, 1);
+  };
 
   Datepicker.prototype.setDate = function(date) {
     if (date) {
@@ -67,7 +92,13 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
       dateFormat: datepickerFormat,
       defaultDate: customFormattedDate(self.date),
       inline: true,
-      showButtonPanel: false,
+      showButtonPanel: true,
+      beforeShow: function() {
+        self.addDoneButton();
+      },
+      onChangeMonthYear: function() {
+        self.addDoneButton();
+      },
       alterOffset: function(offset) {
         var wHeight = angular.element(window).height(),
           dpHeight = angular.element('#ui-datepicker-div').height(),
@@ -80,6 +111,7 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
         return offset;
       },
       onSelect: function(selectedDate) {
+        console.log(arguments);
         if (!selectedDate || selectedDate === '' || selectedDate === self.prevDate) {
           return;
         }
@@ -89,6 +121,7 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
         });
         self.textbox.focus();
         self.datepickerCont.hide();
+        self.addDoneButton();
       }
     });
   };
@@ -106,6 +139,7 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
   };
 
   Datepicker.prototype.onChange = angular.noop;
+  Datepicker.prototype.onDone = angular.noop;
   Datepicker.prototype.onEdit = function() {
     var self = this;
     if (self.textbox.val().trim() === '') {

@@ -82,13 +82,63 @@ describe('details pane', function() {
 
       it('start date calendar doesn\'t contain buttons', function() {
         var locator = by.css('.inplace-edit--date-range-start-date-picker .ui-datepicker-buttonpane > *');
-        elements.count(locator, 0);
+        elements.count(locator, 2);
       });
 
       it('end date calendar doesn\'t contain buttons', function() {
         endDate.click();
         var locator = by.css('.inplace-edit--date-range-end-date-picker .ui-datepicker-buttonpane > *');
-        elements.count(locator, 0);
+        elements.count(locator, 2);
+      });
+
+      describe('today button', function() {
+        var todayBtn;
+        beforeEach(function() {
+          todayBtn = startDateDatepicker.$('.ui-datepicker-current');
+        });
+
+        it('is displayed', function() {
+          expect(
+            startDateDatepicker
+            .$('.ui-datepicker-current')
+            .isDisplayed()).to.eventually.be.true;
+        });
+
+        it('changes date to current day', function() {
+          var currentDate = new Date(),
+              dateStr = 
+                currentDate.getFullYear() + '-' + 
+                ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + 
+                ("0" + currentDate.getDate()).slice(-2);
+          todayBtn.click();
+          datepicker.expectedDate(startDate, dateStr);
+        });
+      });
+
+      describe('done button', function() {
+        var doneBtn;
+        beforeEach(function() {
+          doneBtn = startDateDatepicker.$('.ui-datepicker-done');
+        });
+
+        it('is displayed', function() {
+          expect(
+            doneBtn
+            .isDisplayed()).to.eventually.be.true;
+        });
+
+        it('it closes editing', function() {
+          doneBtn.click();
+          browser.waitForAngular();
+          expect(
+            dateRangePicker
+            .$('.inplace-edit--read')
+            .isDisplayed()).to.eventually.be.true;
+          expect(
+            dateRangePicker
+            .$('.inplace-edit--write')
+            .isDisplayed()).to.eventually.be.false;
+        });
       });
 
       describe('start date', function() {
