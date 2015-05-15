@@ -72,7 +72,7 @@ describe('details pane', function() {
         });
 
         it('shows date in input', function() {
-          datepicker.expectedDate(date, '04/12/2015');
+          datepicker.expectedDate(date, '2015-04-12');
         });
 
         it('contains week days displayed', function() {
@@ -89,11 +89,11 @@ describe('details pane', function() {
 
         describe('validation', function() {
           it('validates valid date', function() {
-            datepicker.validation(date, '04/12/2015', '04/12/2015');
+            datepicker.validation(date, '2015-04-12', '2015-04-12');
           });
 
           it('doesn\'t validate invalid date', function() {
-            datepicker.validation(date, '13/24/2014', '04/12/2015');
+            datepicker.validation(date, '2014-13-24', '2015-04-12');
           });
 
           it('validates empty date', function() {
@@ -103,8 +103,9 @@ describe('details pane', function() {
 
         describe('date selection', function() {
           it('changes date by clicking on calendar', function() {
-            datepicker.clickingDate(dateInput, date, '9').then(function() {
-              datepicker.expectedDate(date, '04/09/2015');
+            datepicker.selectMonthAndYear(dateInput, 4, 2015);
+            datepicker.clickDate(dateInput, date, '9').then(function() {
+              datepicker.expectedDate(date, '2015-04-09');
             });
           });
         });

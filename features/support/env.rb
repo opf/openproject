@@ -33,6 +33,7 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
+require 'simplecov'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'

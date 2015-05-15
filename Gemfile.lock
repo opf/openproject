@@ -138,8 +138,10 @@ GEM
       activesupport (>= 3.0)
     cocaine (0.5.4)
       climate_control (>= 0.0.3, < 1.0)
-    codeclimate-test-reporter (0.1.1)
-      simplecov (>= 0.7.1, < 1.0.0)
+    codecov (0.0.6)
+      json
+      simplecov
+      url
     coderay (1.0.9)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -453,6 +455,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    url (0.3.2)
     virtus (1.0.4)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -481,7 +484,7 @@ DEPENDENCIES
   capybara-select2!
   carrierwave (~> 0.10.0)
   cocaine
-  codeclimate-test-reporter
+  codecov
   coderay (~> 1.0.9)
   color-tools (~> 1.3.0)
   cucumber-rails (~> 1.4.2)

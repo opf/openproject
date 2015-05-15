@@ -72,6 +72,16 @@ jQuery(function($) {
 
   $.extend($.datepicker, {
 
+    _originalGotoToday: $.datepicker._gotoToday,
+    _gotoToday: function(id) {
+      var target = $(id),
+          inst = this._getInst(target[0]),
+          today = new Date(),
+          date = this._formatDate(inst, today.getDate(), today.getMonth(), today.getFullYear());
+      this._originalGotoToday(id);
+      this._selectDate(id, date);
+    },
+
     // Reference the orignal function so we can override it and call it later
     _inlineDatepicker2: $.datepicker._inlineDatepicker,
 

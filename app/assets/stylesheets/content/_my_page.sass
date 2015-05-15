@@ -48,7 +48,7 @@ div.box-actions
   #list-right
     padding: 0 4px 0 10px
   #list-left
-    padding: 0 10px 0px
+    padding: 0 10px 0px 4px
 
 .block-receiver
   border: 1px dashed $my-page-edit-box-border-color
@@ -56,7 +56,6 @@ div.box-actions
   padding: 15px 0 15px 0
 
   #visible-grid &
-    @extend .grid-content
     min-height: 32px
     // TODO: this fixes an issue which currently breaks the layout
     // It has to be removed once it is fixed upstream

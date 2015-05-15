@@ -167,7 +167,7 @@ group :test do
   gem "shoulda-matchers", '~> 2.8', require: nil
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
-  gem "codeclimate-test-reporter", :require => nil
+  gem 'codecov', require: nil
   gem 'equivalent-xml', '~> 0.5.1'
 end
 

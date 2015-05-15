@@ -39,9 +39,9 @@ $button--highlight-font-color:              white !default
 $button--highlight-background-color:        $primary-color !default
 $button--highlight-background-hover-color:  $primary-color-dark !default
 
-$button--success-font-color:                white !default
-$button--success-background-color:          $success-color !default
-$button--success-background-hover-color:    darken($success-color, 18%) !default
+$button--alt-highlight-font-color:                white !default
+$button--alt-highlight-background-color:          $alternative-color !default
+$button--alt-highlight-background-hover-color:    darken($alternative-color, 18%) !default
 
 $button--text-icon-spacing:                 0.65em !default
 
@@ -75,12 +75,12 @@ a.button
       border-color: $button--highlight-background-hover-color
 
 
-  &.-success
-    @include button-style($button--success-background-color, $button--success-background-hover-color, $button--success-font-color, $button-style)
-    border-color: $button--success-background-color
+  &.-alt-highlight
+    @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
+    border-color: $button--alt-highlight-background-color
 
     &:hover, &:focus
-      border-color: $button--success-background-hover-color
+      border-color: $button--alt-highlight-background-hover-color
 
 
   &.-active

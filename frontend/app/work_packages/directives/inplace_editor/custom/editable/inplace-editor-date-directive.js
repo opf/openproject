@@ -28,15 +28,9 @@
 
 module.exports = function(WorkPackageFieldService, EditableFieldsState, 
                           TimezoneService, ConfigurationService, I18n, 
-                          $timeout) {
-  var parseDate = TimezoneService.parseDate,
-      parseISODate = TimezoneService.parseISODate,
-      formattedDate = function(date) {
-        return TimezoneService.parseDate(date).format('L');
-      },
-      formattedISODate = TimezoneService.formattedISODate,
+                          $timeout, Datepicker) {
+  var parseISODate = TimezoneService.parseISODate,
       customDateFormat = 'YYYY-MM-DD',
-      datepickerFormat = 'yy-mm-dd',
       customFormattedDate = function(date) {
         return parseISODate(date).format(customDateFormat);
       };
@@ -52,94 +46,41 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
     controllerAs: 'customEditorController',
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
-      var timerId = 0,
-          prevDate = '',
-          form = element.parents('.inplace-edit--form'),
+      var form = element.parents('.inplace-edit--form'),
           input = element.find('.inplace-edit--date'),
           datepickerContainer = element.find('.inplace-edit--date-picker'),
-          setDate = function(div, inp, date) {
-            if(date) {
-              div.datepicker('option', 'defaultDate', formattedDate(date));
-              div.datepicker('option', 'setDate', formattedDate(date));
-              inp.val(customFormattedDate(date));
-            } else {
-              div.datepicker('option', 'defaultDate', null);
-              div.datepicker('option', 'setDate', null);
-              inp.val('');
-              inp.change();
-              date = null;
-            }
-          };
+          datepicker;
 
       scope.execute = function() {
         form.scope().editPaneController.submit(false);
       };
 
-      input.attr({
+      if(scope.fieldController.writeValue) {
+        scope.fieldController.writeValue = customFormattedDate(scope.fieldController.writeValue);
+      }
+
+      datepicker = new Datepicker(datepickerContainer, input, scope.fieldController.writeValue);
+      datepicker.onChange = function(date) {
+        scope.fieldController.writeValue = date;
+      };
+      scope.onEdit = function() {
+        datepicker.onEdit();
+      };
+      datepicker.onDone = function() {
+        form.scope().editPaneController.discardEditing();
+      };
+
+      datepicker.textbox.attr({
         'placeholder': '-',
         'aria-label': customDateFormat
       });
 
-      input.on('change', function() {
-        if(input.val().trim() === '') {
-          $timeout(function() {
-            scope.fieldController.writeValue = null;
-          });
-          input.val('');
-          $timeout.cancel(timerId);
-          return;
-        }
-        $timeout.cancel(timerId);
-        timerId = $timeout(function() {
-          var date = input.val(),
-              isValid = TimezoneService.isValid(date, customDateFormat);
-
-          if(isValid){
-            scope.fieldController.writeValue = formattedISODate(parseDate(date, customDateFormat));
-          }
-        }, 1000);
-      }).on('click', function() {
-        datepickerContainer.show();
-      });
-
-      datepickerContainer.datepicker({
-        firstDay: ConfigurationService.startOfWeek(),
-        showWeeks: true,
-        changeMonth: true,
-        numberOfMonths: 1,
-        dateFormat: datepickerFormat,
-        alterOffset: function(offset) {
-          var wHeight = angular.element(window).height(),
-              dpHeight = angular.element('#ui-datepicker-div').height(),
-              inputTop = input.offset().top,
-              inputHeight = input.innerHeight();
-
-          if((inputTop + inputHeight + dpHeight) > wHeight) {
-            offset.top -= inputHeight - 4;
-          }
-          return offset;
-        },
-        onSelect: function(selectedDate) {
-          if(!selectedDate || selectedDate === '' || selectedDate === prevDate) {
-            return;
-          }
-          prevDate = parseDate(selectedDate, customDateFormat);
-          $timeout(function() {
-            scope.fieldController.writeValue = formattedISODate(prevDate);
-          });
-          input.focus();
-          datepickerContainer.hide();
-        }
-      });
-
-      if(scope.fieldController.writeValue) {
-        prevDate = formattedDate(scope.fieldController.writeValue);
-      }
-
-      setDate(datepickerContainer, input, scope.fieldController.writeValue);
+      scope.showDatepicker = function() {
+        datepicker.show();
+      };
 
       $timeout(function() {
-        input.click().focus();
+        datepicker.focus();
       });
 
       angular.element('.work-packages--details-content').on('click', function(e) {
@@ -147,7 +88,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState,
         if(!target.is('.inplace-edit--date input') && 
             target.parents('.inplace-edit--date .hasDatepicker').length <= 0 &&
             target.parents('.ui-datepicker-header').length <= 0) {
-          datepickerContainer.hide();
+          datepicker.hide();
         }
       });
     }
