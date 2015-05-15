@@ -28,6 +28,13 @@
 jQuery(function($) {
   var regions = $.datepicker.regional;
   var regional = regions[I18n.locale] || regions[''];
+
+  // see ./app/helpers/application_helper.rb:508
+  var CS = window.CS || {};
+  if (typeof CS.firstDay === 'number') {
+    regional.firstDay = CS.firstDay;
+  }
+
   $.datepicker.setDefaults(regional);
 
   var gotoToday = $.datepicker._gotoToday;
@@ -59,10 +66,6 @@ jQuery(function($) {
       return $.datepicker.iso8601Week(dayOfWeek);
     }
   };
-
-  if (regional && regional.firstDay) {
-    defaults.firstDay = regional.firstDay;
-  }
 
   $.datepicker.setDefaults(defaults);
 

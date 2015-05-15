@@ -487,7 +487,7 @@ module ApplicationHelper
 
   def calendar_for(field_id)
     include_calendar_headers_tags
-    javascript_tag("jQuery('##{field_id}').datepicker();")
+    javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
   end
 
   def include_calendar_headers_tags
@@ -504,7 +504,8 @@ module ApplicationHelper
         else
           '' # use language
         end
-        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstWeekDay: '#{start_of_week}' };"
+        # FIXME: Get rid of this abomination
+        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };"
         javascript_tag(js)
       end
     end
