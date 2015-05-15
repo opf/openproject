@@ -94,10 +94,22 @@ module.exports = function() {
     },
     startOfWeekPresent: function() {
       return this.displaySettingPresent('start_of_week') &&
-             this.setting.display.start_of_week !== '';
+             this.settings.display.start_of_week !== '';
     },
     startOfWeek: function() {
-      return this.settings.display.start_of_week;
+      if(this.startOfWeekPresent()) {
+        return this.settings.display.start_of_week;
+      }
+
+      // This if/else statement is used because
+      // jquery regionals have different start day for German locale
+      if(I18n.locale === 'en') {
+        return 1;
+      } else if(I18n.locale === 'de') {
+        return 0;
+      }
+
+      return '';
     }
   };
 };

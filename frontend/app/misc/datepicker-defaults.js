@@ -25,13 +25,16 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-/* global CS */
-
-window.CS = window.CS || {};
-
 jQuery(function($) {
   var regions = $.datepicker.regional;
-  var regional = regions[CS.lang] || regions[''];
+  var regional = regions[I18n.locale] || regions[''];
+
+  // see ./app/helpers/application_helper.rb:508
+  var CS = window.CS || {};
+  if (typeof CS.firstDay === 'number') {
+    regional.firstDay = CS.firstDay;
+  }
+
   $.datepicker.setDefaults(regional);
 
   var gotoToday = $.datepicker._gotoToday;
@@ -63,10 +66,6 @@ jQuery(function($) {
       return $.datepicker.iso8601Week(dayOfWeek);
     }
   };
-
-  if (CS.firstWeekDay && CS.firstWeekDay !== '') {
-    defaults.firstDay = parseInt(CS.firstWeekDay, 10);
-  }
 
   $.datepicker.setDefaults(defaults);
 
