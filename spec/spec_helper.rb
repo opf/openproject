@@ -37,6 +37,7 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
 require 'capybara/rails'
+require 'factory_girl_rails'
 
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'

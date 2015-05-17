@@ -84,9 +84,12 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
   };
 
   Datepicker.prototype.initialize = function() {
-    var self = this;
+    var self = this,
+        firstDayOfWeek = ConfigurationService.startOfWeekPresent() ? 
+        ConfigurationService.startOfWeek() : 
+        jQuery.datepicker._defaults.firstDay;
     this.datepickerCont.datepicker({
-      firstDay: ConfigurationService.startOfWeek(),
+      firstDay: firstDayOfWeek,
       showWeeks: true,
       changeMonth: true,
       dateFormat: datepickerFormat,

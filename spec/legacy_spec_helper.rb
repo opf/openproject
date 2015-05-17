@@ -35,6 +35,7 @@ require File.expand_path('../../config/environment', __FILE__)
 
 require 'fileutils'
 require 'rspec/mocks'
+require 'factory_girl_rails'
 
 require_relative './legacy/support/legacy_assertions'
 
