@@ -36,6 +36,7 @@
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
+require 'factory_girl_rails'
 
 # json-spec is used to specifiy our json-apis
 require "json_spec/cucumber"
