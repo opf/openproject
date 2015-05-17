@@ -80,12 +80,6 @@
   text-overflow: ellipsis;
 }
 
-
-/* Fix search input in IE8 - input was to high */
-.select2-search input {
-  min-height: 0\9;
-}
-
 .controller-work_packages.action-index .select2-drop:not(.project-search-results) .select2-results .select2-result-selectable {
   color: #000;
 }
@@ -118,11 +112,11 @@
 
 //$se2- select2 var prefix
 $se2-theme-selectable-color: #f8f8f8;
-//todo change to global theme color var
 //{bgThemeHighlight}
 $se2-theme-selectable-color-highlighted: $drop-down-selected-bg-color;
 
 $se2-element-height: 33px;
+$se2-input-height: rem-calc(34px);
 $se2-line-height: 30px;
 $se2-button-width: 28px;
 $se2-arrow-button-width: 18px;
@@ -137,21 +131,21 @@ $se2-width: 100%;
 .select2-container {
   //Indirectly styling size of result list
   max-width: $se2-max-width;
-  position: relative;
   width: $se2-width;
 
   .select2-choice {
     border-radius: 0;
     box-shadow: none;
+    background: none;
     height: $se2-element-height;
     line-height: $se2-element-height;
 
-    > span {
+    .select2-chosen {
       line-height: $se2-line-height;
     }
 
-    > div {
-      background-color: $se2-theme-selectable-color;
+    .select2-arrow {
+      background: $se2-theme-selectable-color none;
       border-radius: 0;
       line-height: $se2-line-height;
       text-align: center;
@@ -178,6 +172,7 @@ $se2-width: 100%;
   }
 
   &.select2-dropdown-open {
+    
     .select2-choice {
       background-color: $se2-theme-selectable-color;
     }
@@ -199,4 +194,8 @@ $se2-width: 100%;
       background-color: $se2-theme-selectable-color-highlighted;
     }
   }
+}
+
+input[type="text"].select2-input {
+  height: $se2-input-height;
 }

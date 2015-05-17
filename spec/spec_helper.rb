@@ -27,11 +27,7 @@
 #++
 
 require 'rubygems'
-if ENV['CI'] == 'true'
-  # we are running on a CI server, report coverage to code climate
-  require 'codeclimate-test-reporter'
-  CodeClimate::TestReporter.start
-end
+require 'simplecov'
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
@@ -41,6 +37,7 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
 require 'capybara/rails'
+require 'factory_girl_rails'
 
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'

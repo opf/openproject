@@ -135,7 +135,7 @@ group :test do
 
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
-  gem "factory_girl_rails", "~> 4.5"
+  gem "factory_girl_rails", "~> 4.5", :require => false
   gem 'cucumber-rails', "~> 1.4.2", :require => false
   gem 'rack_session_access'
   # restrict because in version 1.3 a lot of tests using acts as journalized
@@ -151,6 +151,7 @@ group :test do
   gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot', '~> 1.0.4'
+  gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'selenium-webdriver', '~> 2.44.0'
   gem 'timecop', '~> 0.7.1'
 
@@ -161,7 +162,7 @@ group :test do
   gem "shoulda-matchers", '~> 2.8', require: nil
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
-  gem "codeclimate-test-reporter", :require => nil
+  gem 'codecov', require: nil
   gem 'equivalent-xml', '~> 0.5.1'
 end
 

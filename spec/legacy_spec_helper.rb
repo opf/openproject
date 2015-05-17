@@ -29,16 +29,13 @@
 
 ENV['RAILS_ENV'] = 'test'
 
-if ENV['CI'] == 'true'
-  # we are running on a CI server, report coverage to code climate
-  require 'codeclimate-test-reporter'
-  CodeClimate::TestReporter.start
-end
+require 'simplecov'
 
 require File.expand_path('../../config/environment', __FILE__)
 
 require 'fileutils'
 require 'rspec/mocks'
+require 'factory_girl_rails'
 
 require_relative './legacy/support/legacy_assertions'
 

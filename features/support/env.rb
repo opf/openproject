@@ -33,9 +33,12 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
+require 'simplecov'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
+require 'capybara-select2'
+require 'factory_girl_rails'
 
 # json-spec is used to specifiy our json-apis
 require 'json_spec/cucumber'
@@ -121,3 +124,5 @@ end
 #     Capybara::Selenium::Driver.new(app, :browser => :chrome)
 # end
 #
+
+World(Capybara::Select2)

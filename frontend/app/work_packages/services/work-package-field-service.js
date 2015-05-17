@@ -53,7 +53,7 @@ module.exports = function(
     // TODO: extract to strategy if new cases arise
     if (field === 'date') {
       // nope
-      return true;
+      return schema.props['startDate'].writable && schema.props['dueDate'].writable;
       //return workPackage.schema.props.startDate.writable
       // && workPackage.schema.props.dueDate.writable;
     }

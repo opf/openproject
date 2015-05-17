@@ -29,25 +29,31 @@
 /* jshint ignore:start */
 
 var expect = require('../../../../spec_helper.js').expect,
-    detailsPaneHelper = require('../details-pane-helper.js');
+  detailsPaneHelper = require('../details-pane-helper.js'),
+  datepicker = detailsPaneHelper.datepicker,
+  elements = detailsPaneHelper.elements;
 
 
 describe('details pane', function() {
   describe('custom fields', function() {
-    var datePicker;
+    var dateInput, datePicker;
     describe('date editbale', function() {
       beforeEach(function() {
         detailsPaneHelper.loadPane(819, 'overview');
-        datePicker = element(by.css('.inplace-edit.attribute-customField9'));
+        dateInput = element(by.css('.inplace-edit.attribute-customField9'));
       });
 
       context('read value', function() {
-        it('should be present on page', function(){
-          expect(datePicker.isDisplayed()).to.eventually.be.true;
+        it('is editable', function() {
+          expect(dateInput.$('.inplace-edit--write').isPresent()).to.eventually.be.true;
+        });
+
+        it('should be present on page', function() {
+          expect(dateInput.isDisplayed()).to.eventually.be.true;
         });
 
         it('shows date range', function() {
-          expect(datePicker.getText()).to.eventually.equal('04/12/2015');
+          expect(dateInput.getText()).to.eventually.equal('04/12/2015');
         });
       });
 
@@ -55,11 +61,9 @@ describe('details pane', function() {
         var date;
 
         beforeEach(function() {
-          date = datePicker.$('input.inplace-edit--date');
-        });
-
-        beforeEach(function() {
-          datePicker.$('.inplace-edit--read-value').click();
+          dateInput.$('.inplace-edit--read-value').click();
+          datePicker = element(by.css('.inplace-edit .inplace-edit--date-picker'));
+          date = dateInput.$('input.inplace-edit--date');
         });
 
         it('opens calendar on click', function() {
@@ -68,48 +72,40 @@ describe('details pane', function() {
         });
 
         it('shows date in input', function() {
-          date.getText(function(text) {
-            expect(text).to.equal('04/12/2015');
-          });
+          datepicker.expectedDate(date, '2015-04-12');
+        });
+
+        it('contains week days displayed', function() {
+          var locator = by.css('.inplace-edit--date-picker thead th:not(.ui-datepicker-week-col)');
+          expect(dateInput.$('thead .ui-datepicker-week-col').isPresent()).to.eventually.be.true;
+          elements.count(locator, 7);
+        });
+
+        it('contains year week numbers displayed', function() {
+          var locator = by.css('.inplace-edit--date-picker tbody tr .ui-datepicker-week-col');
+          expect(dateInput.$('tbody .ui-datepicker-week-col').isPresent()).to.eventually.be.true;
+          elements.notCount(locator, 0);
         });
 
         describe('validation', function() {
           it('validates valid date', function() {
-            date.clear();
-            date.sendKeys('04/12/2015');
-            date.getText(function(text) {
-              expect(text).to.equal('04/12/2015');
-            });
+            datepicker.validation(date, '2015-04-12', '2015-04-12');
           });
 
           it('doesn\'t validate invalid date', function() {
-            date.clear();
-            date.sendKeys('13/24/2014');
-            date.getText(function(text) {
-              expect(text).to.equal('04/12/2015');
-            });
+            datepicker.validation(date, '2014-13-24', '2015-04-12');
           });
 
           it('validates empty date', function() {
-            date.clear();
-            date.getText(function(text) {
-              expect(text).to.equal('');
-            });
+            datepicker.validation(date, '', '');
           });
         });
 
         describe('date selection', function() {
           it('changes date by clicking on calendar', function() {
-            date.click();
-            element.all(by.css('a.ui-state-default')).filter(function(elem) {
-              return elem.getText().then(function(text) {
-                return text.indexOf('9') !== -1;
-              });
-            }).then(function(filteredElements) {
-              filteredElements[0].click();
-              date.getText(function(text) {
-                expect(text).to.equal('04/09/2015');
-              });
+            datepicker.selectMonthAndYear(dateInput, 4, 2015);
+            datepicker.clickDate(dateInput, date, '9').then(function() {
+              datepicker.expectedDate(date, '2015-04-09');
             });
           });
         });
@@ -118,3 +114,4 @@ describe('details pane', function() {
   });
 });
 /* jshint ignore:end */
+

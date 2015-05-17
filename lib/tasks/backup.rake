@@ -111,7 +111,7 @@ namespace :backup do
     private
 
     def database_configuration
-      ActiveRecord::Base.configurations[Rails.env]
+      ActiveRecord::Base.configurations[Rails.env] || Rails.application.config.database_configuration[Rails.env]
     end
 
     def with_pg_config(config, &blk)

@@ -26,55 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-#content
-  .mypage-box
-    @include content-box
-    i
-      float: left
-      padding: 7px 10px 0 0
-
-.handle
-  cursor: move
-
-div.box-actions
-  float: right
-  margin-right: 16px
-  z-index: 500
-
-#invisible-grid
-
-  #list-top
-    padding: 0 4px
-  #list-right
-    padding: 0 4px 0 10px
-  #list-left
-    padding: 0 10px 0px 4px
-
-.block-receiver
-  border: 1px dashed $my-page-edit-box-border-color
-  margin-bottom: 20px
-  padding: 15px 0 15px 0
-
-  #visible-grid &
-    min-height: 32px
-    // TODO: this fixes an issue which currently breaks the layout
-    // It has to be removed once it is fixed upstream
-    // @see https://github.com/zurb/foundation-apps/issues/575
-    &.left, &.right
-      @extend .medium-6
-
-  div.mypage-box
-    margin-top: 8px
-    padding-bottom: 8px
-
-  div.mypage-box div.box-actions
-    margin-top: -60px
-
-div.mypage-box p.summary
-  font-style: normal
-
-div.mypage-box div.overview p.author
-  margin-bottom: 7px
-
-div.mypage-box .hascontextmenu
-  cursor: auto
+@function rem-concat-list($list-of-pixels)
+  $result: ''
+  @each $pixel-val in $list-of-pixels
+    $result: $result + rem-calc($pixel-val) + ' '
+  @return #{$result}

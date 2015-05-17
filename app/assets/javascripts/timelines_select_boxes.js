@@ -29,6 +29,10 @@
 //requires 'autocompleter'
 
 jQuery(document).ready(function($) {
+  var formatSelection = function(item) {
+    return OpenProject.Helpers.markupEscape(item.name || (item.project ? item.project.name : ''));
+  };
+
   [
     $("#reporting_reported_project_status_id"),
     $("#timeline_options_initial_outline_expansion"),
@@ -98,9 +102,7 @@ jQuery(document).ready(function($) {
     // Stuff borrowed from Core application.js Project Jump Box
     $(item).autocomplete({
       multiple: false,
-      formatSelection: function (item) {
-        return item.name || item.project.name;
-      },
+      formatSelection: formatSelection,
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
@@ -117,9 +119,7 @@ jQuery(document).ready(function($) {
     $(item).autocomplete({
       multiple: true,
       sortable: true,
-      formatSelection: function (item) {
-        return item.name || item.project.name;
-      },
+      formatSelection: formatSelection,
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
@@ -135,9 +135,7 @@ jQuery(document).ready(function($) {
     // Stuff borrowed from Core application.js Project Jump Box
     $(item).autocomplete({
       multiple: true,
-      formatSelection: function (item) {
-        return item.name || item.project.name;
-      },
+      formatSelection: formatSelection,
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(

@@ -25,13 +25,16 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-/* global CS */
-
-window.CS = window.CS || {};
-
 jQuery(function($) {
   var regions = $.datepicker.regional;
-  var regional = regions[CS.lang] || regions[''];
+  var regional = regions[I18n.locale] || regions[''];
+
+  // see ./app/helpers/application_helper.rb:508
+  var CS = window.CS || {};
+  if (typeof CS.firstDay === 'number') {
+    regional.firstDay = CS.firstDay;
+  }
+
   $.datepicker.setDefaults(regional);
 
   var gotoToday = $.datepicker._gotoToday;
@@ -64,13 +67,19 @@ jQuery(function($) {
     }
   };
 
-  if (CS.firstWeekDay && CS.firstWeekDay !== '') {
-    defaults.firstDay = parseInt(CS.firstWeekDay, 10);
-  }
-
   $.datepicker.setDefaults(defaults);
 
   $.extend($.datepicker, {
+
+    _originalGotoToday: $.datepicker._gotoToday,
+    _gotoToday: function(id) {
+      var target = $(id),
+          inst = this._getInst(target[0]),
+          today = new Date(),
+          date = this._formatDate(inst, today.getDate(), today.getMonth(), today.getFullYear());
+      this._originalGotoToday(id);
+      this._selectDate(id, date);
+    },
 
     // Reference the orignal function so we can override it and call it later
     _inlineDatepicker2: $.datepicker._inlineDatepicker,
