@@ -456,7 +456,7 @@ describe ProjectsController, type: :controller do
   it 'should hook response' do
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, id: 1
-    assert_tag tag: 'link', attributes: { href: '/assets/ecookbook.css' },
+    assert_tag tag: 'link', attributes: { href: '/stylesheets/ecookbook.css' },
                parent: { tag: 'head' }
 
     Redmine::Hook.clear_listeners
