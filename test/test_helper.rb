@@ -35,6 +35,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'fileutils'
 require 'rspec/mocks'
+require 'factory_girl_rails'
 
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
 
