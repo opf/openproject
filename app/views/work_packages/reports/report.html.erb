@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title l(:label_summary) %>
-<h2><%=l(:label_summary)%></h2>
+<%= toolbar title: l(:label_summary) %>
 <div class="grid-block">
   <div class="grid-content">
     <% [@type_report, @priority_report, @assignee_report, @responsible_report, @author_report].each do |report| %>
