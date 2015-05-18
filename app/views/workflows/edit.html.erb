@@ -26,8 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= render :partial => 'action_menu' %>
-<h2><%= Workflow.model_name.human %></h2>
+<%= render :partial => 'action_menu', locals: { title: Workflow.model_name.human } %>
 <%= render :partial => 'layouts/action_menu_specific' %>
 <%= styled_form_tag({}, :method => 'get') do %>
   <fieldset class="simple-filters--container">
