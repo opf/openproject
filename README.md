@@ -8,7 +8,7 @@ You will have to add the following lines to your OpenProject's _Gemfile.plugins_
 
     gem "openproject-auth_plugins", :git => 'git@github.com:finnlabs/openproject-auth_plugins', :branch => 'dev'
     gem 'omniauth-openid-connect', :git => 'git@github.com:finnlabs/omniauth-openid-connect.git', :branch => 'dev'
-    gem 'omniauth-openid-connect-providers', :git => 'git@github.com:finnlabs/omniauth-openid_connect-providers.git', :branch => 'dev'
+    gem 'omniauth-openid_connect-providers', :git => 'git@github.com:finnlabs/omniauth-openid_connect-providers.git', :branch => 'dev'
     gem 'openproject-openid_connect', :git => 'git@github.com:finnlabs/openproject-openid_connect.git', :branch => 'dev'
 
 ### Development
