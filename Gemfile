@@ -135,6 +135,7 @@ gem 'carrierwave', '~> 0.10.0'
 gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
 
 group :test do
+  gem "chromedriver-helper"
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
