@@ -37,7 +37,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= javascript_include_tag "timelines_select_boxes.js" %>
 <% end %>
 
-<h2><%= l('timelines.new_reporting').tap { |t| html_title t } %></h2>
+<% html_title l('timelines.new_reporting') %>
+<%= toolbar title: l('timelines.new_reporting') %>
 
 <%= labelled_tabular_form_for :reporting,
             :url  => project_reportings_path(@project),

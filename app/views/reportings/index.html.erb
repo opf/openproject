@@ -37,8 +37,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% html_title l("timelines.project_menu.reportings") %>
-<h2><%= l("timelines.project_menu.reportings") %></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= toolbar title:  l("timelines.project_menu.reportings") do %>
+  <% if authorize_for(:reportings, :new) %>
+    <%= link_to new_project_reporting_path(@project), title: l("timelines.new_reporting"), class: 'button -alt-highlight' do %>
+      <i class="button--icon icon-add"></i> <%= l("timelines.new_reporting") %>
+    <% end %>
+  <% end %>
+<% end %>
 
 <% if @reportings.blank? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
