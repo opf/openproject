@@ -13,14 +13,15 @@ module ToolbarHelper
 
   def dom_title(title, subtitle)
     content_tag :div, class: 'title-container' do
-      content_tag(:h2, title, title: title) +
-      content_tag(:p, subtitle, class: 'subtitle')
+      heading = content_tag(:h2, title, title: title)
+      next heading if subtitle.blank?
+      heading + content_tag(:p, subtitle, class: 'subtitle')
     end
   end
 
   def dom_toolbar(&block)
     return '' unless block_given?
-    content_tag :ul, class: 'toolbar-items' do
+    content_tag :ul, id: 'toolbar-items' do
       yield
     end
   end
