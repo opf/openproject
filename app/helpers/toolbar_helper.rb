@@ -1,8 +1,8 @@
 module ToolbarHelper
-  def toolbar(title:, &block)
+  def toolbar(title:, subtitle: '', &block)
     content_tag :div, class: 'toolbar-container' do
       content_tag :div, id: 'toolbar' do
-        dom_title(title) + dom_toolbar do
+        dom_title(title, subtitle) + dom_toolbar do
           yield if block_given?
         end
       end
@@ -11,9 +11,10 @@ module ToolbarHelper
 
   protected
 
-  def dom_title(title)
+  def dom_title(title, subtitle)
     content_tag :div, class: 'title-container' do
-      content_tag :h2, title, title: title
+      content_tag(:h2, title, title: title) +
+      content_tag(:p, subtitle, class: 'subtitle')
     end
   end
 
