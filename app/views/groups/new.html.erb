@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l(:label_administration), l("label_group_new") %>
 
-<h2><%= link_to l(:label_group_plural), groups_path %> &#187; <%= l(:label_group_new) %></h2>
+<%= render partial: 'toolbar', locals: { new_group: true } %>
 
 <%= labelled_tabular_form_for(@group) do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
