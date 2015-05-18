@@ -13,7 +13,7 @@ module ToolbarHelper
 
   def dom_title(title, subtitle)
     content_tag :div, class: 'title-container' do
-      heading = content_tag(:h2, title, title: title)
+      heading = content_tag(:h2, title.html_safe, title: strip_links(title))
       next heading if subtitle.blank?
       heading + content_tag(:p, subtitle, class: 'subtitle')
     end
