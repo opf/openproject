@@ -25,7 +25,6 @@ describe 'subject inplace editor', js: true do
     end
   end
 
-
   it_behaves_like 'an auth aware field'
   it_behaves_like 'a cancellable field'
   it_behaves_like 'having a single validation point'

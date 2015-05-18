@@ -7,7 +7,13 @@ describe 'description inplace editor', js: true do
   let(:property_name) { :description }
   let(:property_title) { 'Description' }
   let(:description_text) { 'Ima description' }
-  let!(:work_package) { FactoryGirl.create :work_package, project: project, description: description_text }
+  let!(:work_package) {
+    FactoryGirl.create(
+      :work_package,
+      project: project,
+      description: description_text
+    )
+  }
   let(:user) { FactoryGirl.create :admin }
   let(:field) { WorkPackageField.new page, property_name }
 
@@ -21,7 +27,11 @@ describe 'description inplace editor', js: true do
   end
 
   after do
-    field.cancel_by_click rescue true
+    begin
+      field.cancel_by_click
+    rescue Capybara::ElementNotFound
+      # it's ok
+    end
   end
 
   context 'in read state' do

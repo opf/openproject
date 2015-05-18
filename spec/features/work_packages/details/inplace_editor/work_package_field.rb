@@ -1,5 +1,4 @@
 class WorkPackageField
-
   attr_reader :element
 
   def initialize(page, property_name)
