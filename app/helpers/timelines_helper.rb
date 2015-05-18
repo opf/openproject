@@ -182,4 +182,37 @@ module TimelinesHelper
   def timeline_options
     OpenStruct.new @timeline.options
   end
+
+  def new_timeline_link(project, &_block)
+    link_to({ controller: '/timelines', action: 'new', project_id: project },
+            title: l('timelines.new_timeline'),
+            class: 'button -alt-highlight') do
+      yield if block_given?
+    end
+  end
+
+  def edit_timeline_link(project, timeline, &_block)
+    link_to({ controller: '/timelines',
+              action: 'edit',
+              project_id: project,
+              id: timeline },
+            class: 'button',
+            accesskey: accesskey(:edit)) do
+      yield if block_given?
+    end
+  end
+
+  def destroy_timeline_link(project, timeline, &_block)
+    link_to({ controller: '/timelines',
+              action: 'confirm_destroy',
+              project_id: project,
+              id: timeline },
+            class: 'button') do
+      yield if block_given?
+    end
+  end
+
+  def timeline_action_authorized?(action)
+    authorize_for(:timelines, action)
+  end
 end
