@@ -28,9 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_administration), l(:label_enumeration_new) %>
-
-<h2><%= link_to l(@enumeration.option_name), enumerations_path %> &#187; <%=l(:label_enumeration_new)%></h2>
-
+<%= toolbar title: "#{link_to l(@enumeration.option_name), enumerations_path} &raquo; #{l(:label_enumeration_new)}" %>
 <%= labelled_tabular_form_for @enumeration do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-yes' %>
