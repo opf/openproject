@@ -16,8 +16,46 @@ shared_examples 'an accessible inplace editor' do
   end
 end
 
+shared_examples 'an auth aware field' do
+  context 'when is editable' do
+    it_behaves_like 'an accessible inplace editor'
+  end
+
+  context 'when user is authorized' do
+    it 'is editable' do
+      expect(field.trigger_link).to be_visible
+    end
+  end
+
+  context 'when user is not authorized' do
+    let(:user) {
+      FactoryGirl.create :user,
+        member_in_project: project,
+        member_through_role: FactoryGirl.build(
+          :role,
+          permissions: [:view_work_packages]
+        )
+    }
+
+    it 'is not editable' do
+      expect { field.trigger_link }.to raise_error Capybara::ElementNotFound
+    end
+  end
+end
+
 shared_examples 'having a single validation point' do
-  it 'triggers validation for all inputs'
+  let(:other_field) { WorkPackageField.new page, :type }
+  before do
+    field.activate_edition
+    other_field.activate_edition
+    field.input_element.set ''
+    field.submit_by_click
+  end
+
+  it 'displays validation for all inputs' do
+    expect(other_field.errors_element).to be_visible
+    expect(other_field.errors_text).to eq "#{property_title} cannot be empty"
+  end
 end
 
 shared_examples 'a required field' do
@@ -28,8 +66,8 @@ shared_examples 'a required field' do
   end
 
   it 'displays a required validation' do
-    expect(field.element.find('.inplace-edit--errors')).to be_visible
-    expect(field.element.find('.inplace-edit--errors--text').text).to eq "#{property_title} cannot be empty"
+    expect(field.errors_element).to be_visible
+    expect(field.errors_text).to eq "#{property_title} cannot be empty"
   end
 end
 
@@ -44,7 +82,7 @@ shared_examples 'a cancellable field' do
     end
 
     it 'focuses the trigger link' do
-      expect(page).to have_selector("#{field_selector} #{field.trigger_link_selector}:focus")
+      expect(page).to have_selector("#{field.field_selector} #{field.trigger_link_selector}:focus")
     end
   end
 

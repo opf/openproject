@@ -2,8 +2,9 @@ class WorkPackageField
 
   attr_reader :element
 
-  def initialize(element)
-    @element = element
+  def initialize(page, property_name)
+    @property_name = property_name
+    @element = page.find(field_selector)
   end
 
   def read_state_text
@@ -16,6 +17,10 @@ class WorkPackageField
 
   def trigger_link_selector
     'a.inplace-editing--trigger-link'
+  end
+
+  def field_selector
+    ".work-package-field.work-packages--details--#{@property_name}"
   end
 
   def activate_edition
@@ -44,5 +49,13 @@ class WorkPackageField
 
   def editable?
     !!@element.find('.inplace-edit--write') rescue false
+  end
+
+  def errors_text
+    @element.find('.inplace-edit--errors--text').text
+  end
+
+  def errors_element
+    @element.find('.inplace-edit--errors')
   end
 end

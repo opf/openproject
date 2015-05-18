@@ -43,7 +43,8 @@ Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
     Selenium::WebDriver::Firefox::Binary.path
-  Capybara::Selenium::Driver.new(app, browser: :firefox)
+  caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {"args" => [ "--start-maximized" ]})
+  Capybara::Selenium::Driver.new(app, {:browser => :chrome, :desired_capabilities => caps})
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
