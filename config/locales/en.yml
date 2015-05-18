@@ -66,7 +66,7 @@ en:
     card_paper_size: "Paper size for card printing"
     chart_options: "Active series"
     close: "Close"
-    column_with: "Column width:"
+    column_width: "Column width:"
     date: "Day"
     definition_of_done: "Definition of Done"
     generating_chart: "Generating Graph..."
