@@ -26,8 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<h2><%=l('backlogs.definition_of_done')%></h2>
+<%= toolbar title:l('backlogs.definition_of_done')  %>
 
 <% statuses_done_for_project = @project.done_statuses.select(:id).map(&:id) %>
 
@@ -59,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><%= submit_tag l(:button_save), class: 'button -highlight' %></p>
 <% end %>
 
-<h2><%=l('backlogs.rebuild_positions')%></h2>
+<h3><%=l('backlogs.rebuild_positions')%></h3>
 
 <%= styled_form_tag(:controller => '/projects', :action => "rebuild_positions", :id => @project) do %>
   <p><%= submit_tag l('backlogs.rebuild'), class: 'button' %></p>
