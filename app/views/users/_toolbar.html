@@ -1,0 +1,32 @@
+
+<div class="toolbar-container">
+  <div id="toolbar">
+    <div class="title-container">
+      <h2><%= link_to l(:label_user_plural), :controller => '/users', :action => 'index' %> &#187; <%= new_user ? l("label_user_new") : @user.login %></h2>
+    </div>
+    <% unless new_user %>
+      <ul id="toolbar-items">
+        <li class="toolbar-item">
+          <%= link_to user_path(@user), class: 'button' do %>
+            <i class="button--icon icon-user1"></i> <%= l(:label_profile) %>
+          <% end %>
+        </li>
+        <% unless current_user.id == @user.id %>
+          <%= form_for @user, :url => {:action => :change_status},
+                    :method => :post do %>
+            <li class="toolbar-item">
+              <%= change_user_status_buttons(@user) %>
+            </li>
+          <% end %>
+        <% end %>
+        <% if Setting.users_deletable_by_admins? %>
+          <li class="toolbar-items">
+            <%= link_to deletion_info_user_path(@user), class: 'button' do %>
+              <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</div>
