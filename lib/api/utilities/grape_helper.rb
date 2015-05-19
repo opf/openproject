@@ -45,14 +45,24 @@ module API
         GrapeError.new env
       end
 
-      def error_response(rescue_from, error = nil, rescue_subclasses: nil, headers: {})
-        rescue_from rescue_from, rescue_subclasses: rescue_subclasses do |e|
-          error ||= e
-          representer = ::API::V3::Errors::ErrorRepresenter.new error
+      def error_response(rescued_error, error = nil, rescue_subclasses: nil, headers: {})
+        default_response = lambda do |e|
+          representer = ::API::V3::Errors::ErrorRepresenter.new e
           env['api.format'] = 'hal+json'
 
-          error_response status: error.code, message: representer.to_json, headers: headers
+          error_response status: e.code, message: representer.to_json, headers: headers
         end
+
+        response =
+          if error.nil?
+            default_response
+          else
+            lambda { instance_exec error, &default_response }
+          end
+
+        # We do this lambda business because #rescue_from behaves differently
+        # depending on the number of parameters the passed block accepts.
+        rescue_from rescued_error, rescue_subclasses: rescue_subclasses, &response
       end
     end
   end
