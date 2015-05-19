@@ -1,0 +1,64 @@
+<div id="tabs">
+  <ul class="tabrow">
+    <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+    properly. Thus, don't remove the hrefs or the empty URLs! -->
+    <li ui-sref="work-packages.list.details.overview({})"
+        ui-sref-active="selected">
+      <a href="" ng-bind="I18n.t('js.work_packages.tabs.overview')"/>
+    </li>
+    <li ui-sref="work-packages.list.details.activity({})"
+        ui-sref-active="selected">
+      <a href="" ng-bind="I18n.t('js.work_packages.tabs.activity')"/>
+    </li>
+    <li ui-sref="work-packages.list.details.relations({})"
+        ui-sref-active="selected">
+      <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
+    </li>
+    <li ng-if="canViewWorkPackageWatchers()"
+        ui-sref="work-packages.list.details.watchers({})"
+        ui-sref-active="selected">
+      <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
+    </li>
+    <li ui-sref="work-packages.list.details.attachments({})"
+        ui-sref-active="selected">
+      <a href="" ng-bind="I18n.t('js.work_packages.tabs.attachments')"/>
+    </li>
+  </ul>
+</div>
+
+<div class="work-packages--details-content">
+  <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel">
+  </span>
+
+  <div class="work-packages--details--title">
+    <work-package-field field="'subject'"></work-package-field>
+  </div>
+
+
+  <span class="subtitle">
+    <accessible-by-keyboard ng-if="toggleWatchLink" execute="toggleWatch()"
+      link-class="icon-control {{isWatched ? '-active' : ''}}">
+      <span class="icon-control--icon icon-star1"
+        title="{{isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package')}}">
+        <span class="hidden-for-sighted"
+          ng-bind="isWatched ? I18n.t('js.label_unwatch_work_package') : I18n.t('js.label_watch_work_package')">
+        </span>
+      </span>
+    </accessible-by-keyboard>
+    <a href="{{ showStaticPagePath }}">{{ type.props.name }} #{{ workPackage.props.id }}</a>
+    <span ng-bind="I18n.t('js.label_added_by')"/>
+      <a ng-if="authorActive" ng-href="{{ authorPath }}" ng-bind="author.props.name"/>
+      <span ng-if="!authorActive">{{ author.props.name }} </span>
+      <span ng-bind="I18n.t('js.label_on')"/> <op-date date-value="workPackage.props.createdAt"></op-date>.
+    <span ng-bind="I18n.t('js.label_last_updated_on')"/>
+      <op-date date-value="workPackage.props.updatedAt"></op-date>.
+  </span>
+
+  <div class="work-package-details-tab" ui-view></div>
+
+</div>
+
+<div class="bottom-toolbar">
+  <work-package-details-toolbar work-package='workPackage'>
+  </work-package-details-toolbar>
+</div>

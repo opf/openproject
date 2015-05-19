@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory :user do
-    ignore do
+    transient do
       member_in_project nil
       member_in_projects nil
       member_through_role nil

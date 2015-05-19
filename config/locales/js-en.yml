@@ -31,6 +31,7 @@ en:
     ajax:
       hide: "Hide"
       loading: "Loading ..."
+    close_popup_title: "Close popup"
     button_add_watcher: "Add watcher"
     button_cancel: "Cancel"
     button_check_all: "Check all"
@@ -110,8 +111,6 @@ en:
     label_menu_collapse: "collapse"
     label_menu_expand: "expand"
     label_more_than_ago: "more than days ago"
-    label_move_column_left: "Move column left"
-    label_move_column_right: "Move column right"
     label_next: "Next"
     label_no_data: "No data to display"
     label_no_due_date: "no end date"
@@ -159,6 +158,7 @@ en:
       assigned_to: "Assignee"
       assigned_to_role: "Assignee's role"
       author: "Author"
+      category: "Category"
       created_at: "Created on"
       done_ratio: "% done"
       due_date: "Due date"
@@ -304,6 +304,8 @@ en:
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Add filter"
       label_options: "Options"
+      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
+      label_column_select: "Status - Combined dropdown field: Selection with auto-completion."
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
       no_results:
@@ -400,6 +402,9 @@ en:
       btn_preview_enable: "Preview"
       btn_preview_disable: "Disable preview"
       null_value_label: "No value"
+      errors:
+        required: '%{field} cannot be empty'
+        number: '%{field} is not a valid number'
 
     error_could_not_resolve_version_name: "Couldn't resolve version name"
     error_could_not_resolve_user_name: "Couldn't resolve user name"

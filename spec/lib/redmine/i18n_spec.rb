@@ -126,7 +126,7 @@ module OpenProject
       it 'should not set I18n.locale to an invalid language' do
         allow(Setting).to receive(:available_languages).and_return([:en])
 
-        expect(I18n).to_not receive(:locale=).with(:de)
+        expect(I18n).not_to receive(:locale=).with(:de)
       end
     end
 

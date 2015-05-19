@@ -75,7 +75,6 @@ Feature: Updating work packages
   @javascript
   Scenario: Updating the work package and seeing the results on the show page
     When I go to the edit page of the work package called "pe1"
-    And I follow "More"
     And I fill in the following:
       | Type           | Phase2      |
     # This is to be removed once the bug

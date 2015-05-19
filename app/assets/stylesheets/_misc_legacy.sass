@@ -1,30 +1,30 @@
-/*-- copyright
- * OpenProject is a project management system.
- * Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See doc/COPYRIGHT.rdoc for more details.  ++
- */
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
 
 /*
   IMPORTANT!
@@ -66,10 +66,6 @@
 
 form
   display: inline
-
-fieldset
-  border: 1px solid #e4e4e4
-  margin: 0
 
 hr
   width: 100%
@@ -207,8 +203,6 @@ div
     margin-left: 16px
     margin-bottom: 16px
     background-color: #fff
-    fieldset
-      margin-bottom: 1em
     .total-hours
       text-align: right
 
@@ -229,15 +223,6 @@ div
     margin: 0
     text-align: right
     white-space: nowrap
-
-form .attributes
-  margin-bottom: 8px
-  overflow: auto
-  p
-    padding-top: 1px
-    padding-bottom: 2px
-  select
-    min-width: 50%
 
 ul.projects
   margin: 0
@@ -294,19 +279,6 @@ textarea#custom_field_possible_values
   width: 99%
 
 
-input.attachment_choose_file
-  float: left
-  margin-right: 10px
-
-div.attachment_field
-  height: 30px
-
-#attachments
-  font-size: 1em
-
-#attachments_fields input[type=text]
-  margin-left: 8px
-
 div.attachments
   margin-top: 12px
   p
@@ -326,31 +298,12 @@ p.other-formats
 
 /* Project members tab
 
-div
-  &#tab-content-members fieldset, &#tab-content-memberships fieldset, &#tab-content-users fieldset
-    padding: 1em
-  &#tab-content-members fieldset, &#tab-content-memberships fieldset, &#tab-content-users fieldset, &#tab-content-members fieldset p
-    margin-bottom: 1em
-  &#tab-content-info fieldset legend, &#tab-content-members fieldset legend, &#tab-content-memberships fieldset legend, &#tab-content-users fieldset legend
-    font-weight: bold
-  &#tab-content-members
-    .user.status_registered, label.status_registered
-      opacity: 0.8
+div#tab-content-members
+  .user.status_registered, label.status_registered
+    opacity: 0.8
 
 input#user_search
   width: 100%
-
-* html div#tab-content-members fieldset div
-  height: 450px
-
-div#tab-content-members fieldset div
-  &.select-boxes label
-    display: inline-block
-    width: 350px
-    /* max-width of select2boxes
-  &.select-boxes .select2-container
-    float: left
-    font-weight: normal
 
 .quick_info
   padding-bottom: 0.5em
@@ -523,36 +476,14 @@ form#issue-list
 #roadmap h3
   margin: 21px 0 12px
 
-div#roadmap fieldset.related-issues
-  margin: 12px 0
-  padding: 6px 12px
-  border-radius: 5px
-
-#roadmap fieldset legend
-  font-style: italic
-
 tr.context-menu-selection td.priority
   background: none !important
 
 ul.projects div.root a.project
   font-family: inherit
 
-/* tables don't all need border you know
-
-#relations table
-  td, th
-    border: 0 none
-
 div.issue div#relations
   margin-top: 25px
-
-
-fieldset#columns
-  table
-    width: auto
-  td
-    border: 0
-    vertical-align: middle
 
 /* all kinds of wonderful tweaks
 
@@ -575,26 +506,7 @@ div.issue hr
   h2 + h3
     margin-top: 12px
 
-/* add filter select box on non-issue pages
-
-fieldset#filters div.add-filter
-  text-align: left
-  margin: 0 0 6px 0
-
 .nosidebar
-  #add_filter_select
-    margin-bottom: 6px
-  .box fieldset
-    line-height: 1.5
-    margin: 0 0 12px 180px
-    legend
-      margin-bottom: 6px
-  fieldset ul li
-    background: none
-
-.nosidebar
-  fieldset ul
-    margin-left: 0
   ol.ui-sortable li
     list-style: none outside none
 
@@ -610,19 +522,6 @@ tr.time-entry
 
 #content table .changeset td.id a:hover
   text-decoration: underline
-
-/* issue updates
-
-#update
-  fieldset .box
-    padding: 0
-    border: 0 none
-  .tabular
-    label
-      width: 140px
-      margin-left: -147px
-    p
-      padding-left: 140px
 
 #content table.files .opt-desc
   width: 45%
@@ -671,12 +570,6 @@ label.label-with-input
   margin-left: 0
   float: none
 
-fieldset#attachments
-  input, span.add_another_file
-    zoom: 1
-    margin-left: 10px
-    margin-right: 10px
-
 #query_form_content
   padding-top: 10px
 
@@ -688,11 +581,6 @@ fieldset#attachments
 
 #watchers .contextual
   margin-top: 0
-
-div.work_package_part
-  margin-top: 15px
-  strong
-    text-decoration: underline
 
 div
   &.issues.box > p, &.mypage-box p
@@ -766,9 +654,6 @@ div.indent
     margin-left: 0
   select#parent_wiki_menu_item_wiki_page
     margin-bottom: 10px
-  p input
-  fieldset#wiki_menu_item_setting
-    margin-top: 10px
   p
     &.item-name
       padding-top: 10px

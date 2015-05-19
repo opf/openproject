@@ -52,7 +52,7 @@
     position: absolute
 
   #search
-    margin: 7px 25px 0 0
+    margin: 5px 25px 0 0
     float: left
   #search_wrap
     position: relative
@@ -72,8 +72,8 @@
   span#magnifier
     @include icon-common
     position: absolute
-    top:   7px
-    right: 7px
+    top:   9px
+    right: 9px
     &:after
       display: inline-block
       content: "\e0a1"
@@ -163,6 +163,7 @@
     margin-right: 0.5em
     color: #fff
   #nav-login-content
+    width: 506px
     position: relative
     position-top: 44px
     float: right
@@ -173,24 +174,6 @@
     padding: 15px 10px 15px 15px
     @include default-font(#555555, 13px)
 
-    input[type=text]
-      height: 28px
-      width: 175px
-      border: 1px solid #CCCCCC
-      padding: 5px
-      @include default-transition
-      &:hover
-        border: 1px solid #888888
-    input[type=password]
-      height: 28px
-      width: 175px
-      border: 1px solid #CCCCCC
-      padding: 5px
-      @include default-transition
-      &:hover
-        border: 1px solid #888888
-    input[type=submit]
-      height: 28px
     a
       display: inline
       padding: 0
@@ -221,7 +204,7 @@
     margin: 0 0 10px 0
 
   .select2-search input
-    background: $header-drop-down-projects-search-input-bg-color url(image-path('magnifier.png')) no-repeat 94% center
+    background: $header-drop-down-projects-search-input-bg-color image-url('magnifier.png') no-repeat 94% center
     margin: 10px 10px
     padding: 9px 7px 9px 10px
     border: none

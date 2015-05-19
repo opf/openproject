@@ -26,19 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$advanced-filters--background-color: $gray-light !default
-$advanced-filters--border-color: $gray !default
-
 .advanced-filters--container
-  background-color: $advanced-filters--background-color
-  border:   1px solid $advanced-filters--border-color
-  border-top-width: 3px
-  padding:  10px
-  max-height: 250px
+  @extend %filters--container
+  padding: rem-calc(10px)
+  max-height: 50vh
   overflow-y: auto
-
-  legend
-    @extend .hidden-for-sighted
 
 @mixin advanced-filters--sizing()
   @include grid-block()
@@ -69,6 +61,8 @@ $advanced-filters--border-color: $gray !default
 
 .advanced-filters--text-field
   @extend .form--text-field, .form--text-field.-small
+  &:required
+    box-shadow: none
 
 .advanced-filters--select
   @extend .form--select, .form--select.-small, .form--select.-narrow
@@ -102,11 +96,13 @@ $advanced-filters--border-color: $gray !default
 
 .advanced-filters--remove-filter
   @include grid-content($size: shrink)
+  @include grid-visible-overflow
   padding: 0
 
 .advanced-filters--remove-filter-icon
   @extend .icon-close, .icon4
   @include grid-content(1)
+  @include grid-visible-overflow
 
 .advanced-filters--add-filter
   @include advanced-filters--sizing
@@ -124,49 +120,10 @@ $advanced-filters--border-color: $gray !default
   @include grid-content(3)
 
 .advanced-filters--spacer
-  border-top:   1px solid $advanced-filters--border-color
+  border-top:   1px solid $filters--border-color
   height: 1px
   margin:          0.75rem 1rem
 
-#content fieldset.collapsible.header_collapsible
-  padding-top: 0
-  padding-bottom: 0
-  border: 0
-  margin: 0
-  margin-right: 10px
-  margin-left: 1px
-
-fieldset.collapsible.header_collapsible > div
-  padding-top: 5px
-  padding-bottom: 5px
-
-fieldset.collapsible.header_collapsible > *
-  border-left: 1px solid #E6E6E6
-  border-right: 1px solid #E6E6E6
-  border-bottom: 1px solid #E6E6E6
-  width: 100%
-  padding-left: 6px
-
-fieldset.collapsible.header_collapsible legend
-  background: #E6E6E6
-  cursor: pointer
-  width: 100%
-  height: 23px
-  line-height: 24px
-
-
-fieldset.collapsible.header_collapsible legend:hover
-  background-color: #d8d8d8
-
-fieldset.collapsible
-  border-width: 1px 0 0 0
-fieldset.collapsible.borders
-  border-width: 1px
-fieldset.collapsible.collapsed.borders
-  border-width: 1px 0 0 0
-fieldset.collapsible legend
-  padding-left: 16px
-  cursor: pointer
 
 fieldset#date-range p
   margin: 2px 0 2px 0

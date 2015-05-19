@@ -43,7 +43,7 @@ describe OpenProject::Plugins::ModuleHandler do
 
   context '#disable' do
     it 'should disable repository module' do
-      expect(Redmine::AccessControl.available_project_modules).to_not include(:repository)
+      expect(Redmine::AccessControl.available_project_modules).not_to include(:repository)
     end
   end
 end

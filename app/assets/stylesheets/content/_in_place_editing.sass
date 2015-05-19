@@ -1,162 +1,267 @@
-.select2-container
-  position: relative!important
-.inplace-editor
-  ul
-    margin-left: auto
-  display: inline
-  font-size: medium
-  .ined-input-wrapper-inner
-    display: inline
-  &.busy
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$inplace-edit--border-color: #ddd
+$inplace-edit--dark-background: #f8f8f8
+$inplace-edit--color--very-dark: #cacaca
+$inplace-edit--color-highlight: #0a97dd
+$inplace-edit--selected-date-border-color: #008bd0
+$inplace-edit--color-highlight: #0a97dd
+
+
+%inline-date-picker-container-position-absolute
+  display: none
+  z-index: 99999
+  position: absolute
+
+.inplace-edit
+  @extend .form--field.-full-width
+
+  .-preview
+    button
+      visibility: hidden
+    .jstb_preview
+      visibility: visible
+
+  &.-busy
     opacity: 0.5
     .jstElements button
       opacity: 0.5
     *
       cursor: wait!important
-  &.preview
-    button, .help
-      visibility: hidden
-    .btn-preview
-      visibility: visible
-    &.type-wiki_textarea .ined-controls
-      bottom: -34px
-  .hidden-but-focusable
-    position: absolute
-    left: -10000px
-    top: auto
-    width: 1px
-    height: 1px
-    overflow: hidden
-  .visible-on-focus
-    left: 0
-    position: inherit
-    width: auto
-    height: auto
-    float: inherit
-  .editing-link-wrapper
-    position: absolute
-    margin-left: 4px
-    a
-      @extend .hidden-but-focusable
-      &:focus
-        @extend .visible-on-focus
+      inplace-edit--write
 
-  .ined-input-wrapper
-    display: inline
-    input
-      width: 90%
-      margin-bottom: -1px
-  .ined-read-value
-    display: inline
+  .inplace-edit--date
+    margin: 0
     position: relative
-    &.default
-      span
-        font-style: italic
-    &.editable:hover
-      outline: 1px solid #cacaca
-      cursor: pointer
-      .editing-link-wrapper a
-        @extend .visible-on-focus
-  form
+    & > *
+      margin-bottom: 0
+    & > .inplace-edit--date-picker
+      @extend %inline-date-picker-container-position-absolute
+      left: 0
+  .inplace-edit--date-range
+    display: table
     position: relative
-    display: inline
-    .ng-invalid
-      background: lightpink!important
-  .ined-dashboard
-    min-height: 42px
-    .ined-errors
-      line-height: 1.2em
-      width: 100%
-      padding: 5px
-      left: 251px
-      bottom: -11px
-      background: white
-      border: 1px solid #cacaca
-      min-height: 42px
-    .ined-controls
-      float: left
-      display: inline-block
-      bottom: 17px
-      left: 29px
-      width: 120px
-      background: white
-      border: 1px solid #cacaca
-      text-align: center
-      a
-        width: 36px
-        display: inline-block
-        text-align: center
-        text-decoration: none
-        &:hover
-          background: #f0f0f0
-  &.type-text
-    .ined-dashboard
-      width: 90%
-  &.type-wiki_textarea
-    textarea
-      min-height: 200px
-      width: 100%
-      margin-bottom: -1px
-    .ined-input-wrapper-inner
-      display: block!important
-    form
-      display: block
-    .ined-read-value
-      display: block
-    .read-value-wrapper
-      display: inline-block
-      width: 100%
-    .editing-link-wrapper
-      top: 5px
-      right: 0px
-    .ined-dashboard
-      padding-left: 0px
-      width: 100%
-      .ined-controls
-        left: 0px
-        z-index: 1
-    .jstHandle
+    & > *
+      display: table-cell
+      margin-bottom: 0
+    & > .delimeter
+      padding-right: 5px
+      padding-left: 5px
+    & > .inplace-edit--date-range-start-date-picker
+      @extend %inline-date-picker-container-position-absolute
+      left: 0
+    & > .inplace-edit--date-range-end-date-picker
+      @extend %inline-date-picker-container-position-absolute
+      right: 0
+  .ui-datepicker .ui-datepicker-calendar td a.ui-state-active
+    border-color: $inplace-edit--selected-date-border-color
+
+#ui-datepicker-div
+  z-index: 9999 !important
+
+.inplace-edit--form
+  display: block
+  position: relative
+
+  //todo: Move to something more specific
+  .jstHandle, .jstSpacer
+    display: none
+  .jstElements
+    button
       display: none
-    .jstElements
-      display: inline
-      bottom: -31px
-      width: 307px
-      button
-        display: none
-        &.btn-preview
-          float: right
-          height: 32px
-          width: auto
-          display: inline
-          margin-right: 0
-      .help
-        display: inline
-        float: none
-        position: relative
-        top: -4px
-        left: -12px
-        a
-          padding-left: 0
-      .jstb_strong, .jstb_em, .jstb_ins, .jstb_del, .jstb_ul, .jstb_ol
-        display: inline
-  &.type-select2
-    .select2-display-none
-      display: none
-    input[type='text']
-      width: 100%
-    .ined-dashboard
-      padding-left: 0px
-    .ined-controls
-    .ined-read-value
-      position: relative
-      display: block
-      margin: 3px
-      &.editable:hover
-        outline: 1px solid #cacaca
-    .editing-link-wrapper
-      position: absolute
-      right: -3px
-      top: 1px
-      width: 30px
-      .icon-context:before
-        padding: 0 1px 1px 0
+    .jstb_strong,
+    .jstb_em,
+    .jstb_ins,
+    .jstb_del,
+    .jstb_ul,
+    .jstb_ol,
+    .jstb_preview,
+    .jstb_help
+      display: flex
+
+.inplace-edit--select
+  .select2-display-none
+    display: none
+
+.inplace-edit--textarea
+  min-height: 200px
+  width: 100%
+  margin-bottom: -1px
+
+.inplace-edit--text-field
+  margin-bottom: 0!important
+  padding: 0.375rem
+  font-size: inherit
+  line-height: inherit
+
+.inplace-edit--dashboard
+  position: relative
+  width: 100%
+  z-index: 100
+  font-size: 0.875rem
+
+.inplace-edit--errors
+  line-height: 1.2em
+  width: 100%
+  padding: 5px
+  left: 251px
+  bottom: -11px
+  background: rgb(254, 208, 209)
+  border: 1px solid $inplace-edit--color--very-dark
+  min-height: 42px
+  color: $body-font-color
+  .inplace-edit--errors--icon
+    position: absolute
+    top: 8px
+  .inplace-edit--errors--text
+    white-space: pre-line
+    padding-left: 18px
+
+.inplace-edit--controls
+  display: inline-block
+  width: 115px
+  height: 35px
+  background: $inplace-edit--dark-background
+  border: 1px solid $inplace-edit--color--very-dark
+  box-shadow: 1px 1px 2px $inplace-edit--border-color
+  text-align: center
+  float: right
+  padding: 5px
+  line-height: 1.6rem
+  margin-top: -1px
+  // Having to get the element out of the normal dom flow to
+  // prevent the element overlapping and thereby blocking the click on
+  // inplace-editable elements below the current one.
+  position: absolute
+  right: 0
+
+.inplace-edit--read
+  @extend .form--field-container
+
+.inplace-edit--read-value
+  @include grid-block
+  padding: 0.375rem
+
+  &.-default
+    font-style: italic
+
+.inplace-edit--preview
+  border: 1px solid $inplace-edit--border-color
+  padding: 0.375rem
+
+.inplace-edit--icon-wrapper
+  @include grid-block(shrink)
+  text-align: center
+  width: 33px
+  background: $gray-light
+  border-left: 1px solid $inplace-edit--border-color
+  align-items: center
+  justify-content: center
+  visibility: hidden
+  font-size: rem-calc(14px)
+
+  .icon-edit::before
+    // HACK: overriding default padding here
+    padding-right: 0
+
+  a
+    color: $body-font-color
+
+  a:hover
+    color: $body-font-color
+    text-decoration: none
+
+.inplace-editing--trigger-container
+  @include grid-block
+
+// need to specify the a explicitly as otherwise
+// the default class will win
+a.inplace-editing--trigger-link,
+.inplace-editing--trigger-link
+  @include grid-block
+  color: $body-font-color
+  font-weight: inherit
+
+  &:hover,
+  &:focus,
+    text-decoration: none
+    color: $body-font-color
+
+    .inplace-editing--container
+      border-color: $inplace-edit--border-color
+    .inplace-edit--icon-wrapper
+      visibility: visible
+
+.inplace-editing--container
+  @include grid-block
+  border-color: #fff
+  border-style: solid
+  border-radius: 2px
+  border-width: 1px
+
+.inplace-edit--read
+  @include grid-block
+
+.inplace-edit--control
+  background: $inplace-edit--color--very-dark
+  width: 1.5rem
+  height: 1.5rem
+  line-height: 1.5rem
+  border: 1px solid $inplace-edit--dark-background
+  display: inline-block
+  border-radius: 0.75rem
+  font-size: 0.75rem
+
+  &.-icons-2
+    width: 2.875rem
+
+  a
+    color: $body-font-color
+    text-decoration: none
+    &:hover
+
+    .icon-context::before
+      padding: 0
+
+// custom hack to have the jsToolbar in the same line as the "Description" title
+
+.inplace-edit.attribute-description
+  .inplace-edit--write
+    margin-top: -48px
+    // for non-textile description we need to not overlap the 'Description' header
+    // which in textile is shown due to edit buttons on the right side
+    &.edit-strategy-textarea
+      margin-top: auto
+
+// this aligns the title for the WP
+.work-packages--details--title
+  margin-left: -0.375rem
+
+.inplace-edit--highlight
+  border-color: $inplace-edit--color-highlight !important

@@ -36,7 +36,7 @@ angular.module('openproject.workPackages.services')
   .constant('WORK_PACKAGE_ATTRIBUTES', [
     {
       groupName: 'details',
-      attributes: ['status', 'percentageDone', 'date', 'priority', 'versionName', 'category']
+      attributes: ['type', 'status', 'percentageDone', 'date', 'priority', 'version', 'category']
     },
     {
       groupName: 'people',
@@ -51,7 +51,23 @@ angular.module('openproject.workPackages.services')
       attributes: []
     }
   ])
+  .constant('WORK_PACKAGE_REGULAR_EDITABLE_FIELD', [
+    'assignee', 'responsible', 'status', 'version', 'priority'
+  ])
   .service('WorkPackagesOverviewService', [
-      'WORK_PACKAGE_ATTRIBUTES',
-      require('./work-packages-overview-service')
-  ]);
+    'WORK_PACKAGE_ATTRIBUTES',
+    require('./work-packages-overview-service')
+  ])
+  .service('WorkPackageFieldService', [
+    'I18n',
+    'WORK_PACKAGE_REGULAR_EDITABLE_FIELD',
+    'WorkPackagesHelper',
+    '$q',
+    '$http',
+    'HookService',
+    'EditableFieldsState',
+    require('./work-package-field-service')
+  ])
+  .service('EditableFieldsState',
+    require('./editable-fields-state')
+  );

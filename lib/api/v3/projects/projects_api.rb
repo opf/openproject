@@ -26,24 +26,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/projects/project_representer'
+
 module API
   module V3
     module Projects
-      class ProjectsAPI < Grape::API
+      class ProjectsAPI < ::API::OpenProjectAPI
         resources :projects do
           params do
             requires :id, desc: 'Project id'
           end
 
-          namespace ':id' do
+          route_param :id do
             before do
               @project = Project.find(params[:id])
 
               authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new(
-                        I18n.t('api_v3.errors.code_404',
-                               type: I18n.t('activerecord.models.project'),
-                               id: params[:id]))
+                raise API::Errors::NotFound.new
               end
             end
 
@@ -54,7 +53,8 @@ module API
             mount API::V3::Projects::AvailableAssigneesAPI
             mount API::V3::Projects::AvailableResponsiblesAPI
             mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::ProjectsVersionsAPI
+            mount API::V3::Versions::VersionsByProjectAPI
+            mount API::V3::Types::TypesByProjectAPI
           end
         end
       end

@@ -49,12 +49,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <div id="edit-news" style="display:none;">
     <%= labelled_tabular_form_for @news, :html => { :id => 'news-form' } do |f| %>
       <%= render :partial => 'form', :locals => { :f => f } %>
-      <%= submit_tag l(:button_save), class: 'button -highlight' %>
+      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
       <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;',
         class: 'button'%>
-      <%= preview_link preview_news_path(@news), 'news-form-preview', class: 'button' %>
+      <%= preview_link preview_news_path(@news), 'news-form-preview' %>
     <% end %>
-    <div id="preview" class="wiki"></div>
+    <div id="preview"></div>
   </div>
 <% end %>
 <p><% unless @news.summary.blank? %><em><%=h @news.summary %></em><br />

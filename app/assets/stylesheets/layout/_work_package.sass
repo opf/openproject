@@ -86,6 +86,7 @@
   position: relative
   padding:  0
   border-left: 4px solid #eee
+  border-top: 4px solid #eee
 
   @media only screen and (max-width: 1280px)
     display: none
@@ -99,7 +100,7 @@
 
 .work-packages--details-content
   position:   absolute
-  top:        65px
+  top:        45px
   bottom:     55px
   width:      100%
   +allow-vertical-scrolling
@@ -122,10 +123,6 @@
     .select2-container
       margin-left: 5px
 
-  .issue
-    .attributes
-      td.work_package_attribute_header
-        font-weight: bold
   .icon-button, .sort-header, .action-icon
     cursor: pointer
 
@@ -146,3 +143,7 @@
       line-height: $user-avatar-mini-width
   .avatar-mini
     float: left
+
+  #attributes
+    .form--field-container
+      max-width: 400px

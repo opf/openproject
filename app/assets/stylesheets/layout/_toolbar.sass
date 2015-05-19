@@ -55,13 +55,23 @@
     &.toolbar-item
       margin: 0 5px //$drop-nav-spacing // spacing between nav items
 
-  button
+  button, .button, input[type=text], input[type=number], select
     margin: 0.625rem 0 0
+    height: 40px
+    line-height: 22px
+  select
+    //extend forms select
+    @extend .form--select
+    //hack vertical text alignment for select (for all browsers)
+    padding-top: 5px
+    padding-bottom: 11px
+    //firefox hack, outline fix for select, remove to see why
+    &:-moz-focusring
+      color: transparent
+      text-shadow: 0 0 0 #000
 
   a.last, .last
     margin-right: 0
-
-
 
 .title-container
   h2
@@ -110,7 +120,6 @@
     float: left
     li
       color: $main-menu-font-color
-      padding: 4px 25px
       display: block
       @include query-selection-link($drop-down-unselected-font-color)
       &.selected
@@ -124,6 +133,11 @@
           @include query-select-dropdown-filter-select($drop-down-selected-font-color)
       &:hover
         background: #f0f0f0
+      a
+        display: block
+        width: 100%
+        height: 100%
+        padding: 4px 25px
   .search-query-wrapper
     padding: 15px
   input

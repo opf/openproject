@@ -253,12 +253,11 @@ module.exports = function() {
     apiV3WorkPackagePath: function(workPackageId) {
       return PathHelper.apiV3 + '/work_packages/' + workPackageId;
     },
-    apiV3TextilePath: function(context) {
-      var textilePath = PathHelper.apiV3 + '/render/textile';
-      if (context) {
-        textilePath += '?context=' + context;
-      }
-      return textilePath;
+    apiV3ProjectsPath: function(projectIdentifier) {
+      return PathHelper.apiV3 + PathHelper.projectsPath() + '/' + projectIdentifier;
+    },
+    apiV3ProjectCategoriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/categories';
     },
     // Static
     staticAttachmentPath: function(attachmentId, fileName) {
@@ -294,6 +293,24 @@ module.exports = function() {
     staticWorkPackageAutoCompletePath: function(projectId, workPackageId) {
       return PathHelper.staticBase
         + PathHelper.workPackageAutoCompletePath(projectId, workPackageId);
+    },
+    staticProjectWikiPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/wiki';
+    },
+    staticProjectCalendarPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/calendar';
+    },
+    staticProjectNewsPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/news';
+    },
+    staticProjectTimelinesPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/timelines';
+    },
+    staticMyPagePath: function() {
+      return PathHelper.staticBase + '/my/page';
+    },
+    staticKeyboardShortcutsHelpPath: function() {
+      return PathHelper.staticBase + '/help/keyboard_shortcuts';
     }
   };
 

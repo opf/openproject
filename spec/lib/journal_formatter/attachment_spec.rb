@@ -56,7 +56,7 @@ describe OpenProject::JournalFormatter::Attachment do
   }
   let(:key) { "attachments_#{attachment.id}" }
 
-  describe :render do
+  describe '#render' do
     describe 'WITH the first value beeing nil, and the second an id as string' do
       # FIXME
       # calling a helper method (link_to_attachment in this case) doesn't work always here

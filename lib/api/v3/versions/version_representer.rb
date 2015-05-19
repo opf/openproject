@@ -39,12 +39,12 @@ module API
 
         linked_property :definingProject,
                         path: :project,
-                        association: :project,
+                        getter: :project,
                         show_if: -> (*) { represented.project.visible?(current_user) }
 
         link :availableInProjects do
           {
-            href: api_v3_paths.versions_projects(represented.id)
+            href: api_v3_paths.projects_by_version(represented.id)
           }
         end
 
@@ -54,10 +54,9 @@ module API
         property :description,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   {
-                     format: 'plain',
-                     raw: represented.description,
-                   }
+                   ::API::Decorators::Formattable.new(represented.description,
+                                                     object: represented,
+                                                     format: 'plain')
                  },
                  render_nil: true
 
@@ -86,12 +85,6 @@ module API
 
         def _type
           'Version'
-        end
-
-        private
-
-        def current_user
-          context[:current_user]
         end
       end
     end

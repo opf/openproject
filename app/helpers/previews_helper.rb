@@ -32,7 +32,10 @@ module PreviewsHelper
     options = {
       accesskey: accesskey(:preview),
       id: link_id,
-      'has-preview' => ''
+      'has-preview' => '',
+      # NOTE:   legacy JS relies on preview class
+      # FIXME:  fix preview icon naming
+      class: 'button preview -with-icon icon-issue-watched'
     }.merge(options)
 
     link_to path, options do

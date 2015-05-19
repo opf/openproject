@@ -29,6 +29,8 @@
 require 'spec_helper'
 require File.expand_path('../../support/shared/become_member', __FILE__)
 
+require 'support/shared/acts_as_watchable'
+
 describe News, type: :model do
   include BecomeMember
 
@@ -40,6 +42,12 @@ describe News, type: :model do
 
   let!(:news) { FactoryGirl.create(:news, project: project) }
 
+  it_behaves_like 'acts_as_watchable included' do
+    let(:model_instance) { FactoryGirl.create(:news) }
+    let(:watch_permission) { :view_news }
+    let(:project) { model_instance.project }
+  end
+
   describe '.latest' do
     it 'includes news elements from projects where news module is enabled' do
       expect(News.latest).to include news
@@ -49,7 +57,7 @@ describe News, type: :model do
       EnabledModule.delete_all(['project_id = ? AND name = ?', project.id, 'news'])
       project.reload
 
-      expect(News.latest).to_not include news
+      expect(News.latest).not_to include news
     end
 
     it 'only includes news elements from projects that are visible to the user' do
@@ -58,7 +66,7 @@ describe News, type: :model do
 
       latest_news = News.latest(User.anonymous)
       expect(latest_news).to include news
-      expect(latest_news).to_not include private_news
+      expect(latest_news).not_to include private_news
     end
 
     it 'limits the number of returned news elements' do

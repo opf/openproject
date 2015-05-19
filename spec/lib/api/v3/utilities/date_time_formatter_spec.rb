@@ -155,4 +155,41 @@ describe :DateTimeFormatter do
       let(:input) { 5 }
     end
   end
+
+  describe 'parse_duration_to_hours' do
+    it 'parses ISO 8601 durations of full hours' do
+      expect(subject.parse_duration_to_hours('PT5H', 'prop')).to eql(5.0)
+    end
+
+    it 'parses ISO 8601 durations of fractional hours' do
+      expect(subject.parse_duration_to_hours('PT5H30M', 'prop')).to eql(5.5)
+    end
+
+    it 'parses ISO 8601 durations of days' do
+      expect(subject.parse_duration_to_hours('P1D', 'prop')).to eql(24.0)
+    end
+
+    it 'rejects parsing non sense' do
+      expect {
+        subject.parse_duration_to_hours('foo', 'prop')
+      }.to raise_error(API::Errors::PropertyFormatError)
+    end
+
+    it 'rejects parsing pure number strings' do
+      expect {
+        subject.parse_duration_to_hours('5', 'prop')
+      }.to raise_error(API::Errors::PropertyFormatError)
+    end
+
+    it 'rejects parsing pure numbers' do
+      expect {
+        subject.parse_duration_to_hours(5, 'prop')
+      }.to raise_error(API::Errors::PropertyFormatError)
+    end
+
+    it_behaves_like 'can parse nil' do
+      let(:method) { :parse_duration_to_hours }
+      let(:input) { 'PT5H' }
+    end
+  end
 end

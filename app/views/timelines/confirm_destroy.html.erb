@@ -29,9 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title I18n.t("timelines.delete_timeline", :timeline => @timeline.name) %>
 
-<%= header_tags %>
-
-<%= form_for :timeline,
+<%= labelled_tabular_form_for @timeline,
             :url  => project_timeline_path(@project, @timeline),
             :html => {:method => 'delete'} do |f| %>
 
@@ -43,13 +41,12 @@ See doc/COPYRIGHT.rdoc for more details.
     <%=h @timeline.name %>
   </h2>
 
-  <fieldset class="tabular">
-    <legend><%= l('timelines.properties') %></legend>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
 
-    <p>
-      <%= f.label :name %>
-      <%= f.text_field :name, :disabled => true %>
-    </p>
+    <div class="form--field">
+      <%= f.text_field :name, disabled: true %>
+    </div>
   </fieldset>
 
   <%= submit_tag l(:button_delete), class: 'button -highlight' %>

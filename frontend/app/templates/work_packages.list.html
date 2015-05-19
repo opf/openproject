@@ -1,0 +1,120 @@
+<div class="toolbar-container">
+  <div toolbar id="toolbar">
+    <selectable-title focus
+                      selected-title="selectedTitle"
+                      groups="groups"
+                      transition-method="loadQuery">
+    </selectable-title>
+
+    <ul id="toolbar-items">
+      <li class="toolbar-item">
+        <button class="button -alt-highlight"
+                has-dropdown-menu
+                target="TasksDropdownMenu"
+                locals="availableTypes,projectIdentifier"
+                ng-disabled="cannot('work_package', 'create')">
+          <i class="button--icon icon-add"></i>
+          <span class="button--text" ng-bind="::I18n.t('js.toolbar.unselected_title')"></span>
+          <i class="button--dropdown-indicator"></i>
+        </button>
+      </li>
+      <li class="toolbar-item">
+        <label for="work-packages-filter-toggle-button" class="hidden-for-sighted">
+          {{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}
+        </label>
+        <button id="work-packages-filter-toggle-button"
+                class="button"
+                title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
+                ng-click="toggleShowFilterOptions()"
+                ng-class="{ '-active': showFiltersOptions }">
+          <i class="icon-filter-big button--icon"></i>
+          <span class="button--text" ng-bind="::I18n.t('js.toolbar.filter')"></span>
+          <span class="badge -secondary">{{ getFilterCount() }}</span>
+        </button>
+      </li>
+      <li class="toolbar-item" feature-flag="detailsView">
+        <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
+          <li>
+            <label for="work-packages-list-view-button" class="hidden-for-sighted">
+              {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
+            </label>
+            <button id="work-packages-list-view-button"
+                    accesskey="{{ !isDetailsViewActive() ? '' : '8' }}"
+                    class="button"
+                    title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
+                    ng-click="closeDetailsView()"
+                    ng-class="{ '-active': !isDetailsViewActive() }">
+              <i class="icon-table-view button--icon"></i>
+            </button>
+          </li>
+          <li feature-flag="detailsView">
+            <label for="work-packages-details-view-button" class="hidden-for-sighted">
+              {{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}
+            </label>
+            <button class="hide"
+                    ng-click="openOverviewTab()"
+                    accesskey="{{ isDetailsViewActive() ? '' : '8' }}"></button>
+            <button id="work-packages-details-view-button"
+                    class="button"
+                    title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
+                    ng-class="{ '-active': isDetailsViewActive() }"
+                    ng-click="openLatestTab()">
+              <i class="icon-table-detail-view button--icon"></i>
+            </button>
+          </li>
+        </ul>
+      </li>
+      <li class="toolbar-item">
+        <label for="work-packages-settings-button" class="hidden-for-sighted">
+          {{ I18n.t('js.button_settings') }}
+        </label>
+        <button id="work-packages-settings-button"
+                title="{{ I18n.t('js.button_settings') }}"
+                class="button last work-packages-settings-button"
+                has-dropdown-menu
+                target="SettingsDropdownMenu"
+                locals="query">
+          <i class="button--icon icon-settings"></i>
+          <i class="button--dropdown-indicator"></i>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="work-packages--filters-optional-container" ng-show="showFiltersOptions">
+  <div query-form id="query_form_content" class="hide-when-print">
+    <query-filters></query-filters>
+  </div>
+</div>
+
+<back-url></back-url>
+
+
+<div class="work-packages--split-view" cg-busy="[settingUpPage,refreshWorkPackages]">
+  <div class="work-packages--list">
+    <div class="work-packages--list-table-area">
+      <work-packages-table ng-if="rows && columns"
+                           project-identifier="projectIdentifier"
+                           columns="columns"
+                           rows="rows"
+                           query="query"
+                           group-by="query.groupBy"
+                           group-by-column="groupByColumn"
+                           count-by-group="workPackageCountByGroup"
+                           display-sums="query.displaySums"
+                           total-sums="totalSums"
+                           group-sums="groupSums"
+                           activation-callback="showWorkPackageDetails(id, force)">
+      </work-packages-table>
+    </div>
+    <div class="work-packages--list-pagination-area">
+      <table-pagination total-entries="totalEntries">
+      </table-pagination>
+    </div>
+    <modal-loading>
+    </modal-loading>
+  </div>
+  <div class="work-packages--details" ui-view ng-show="workPackage"
+    feature-flag="detailsView"></div>
+</div>

@@ -27,114 +27,38 @@
 //++
 
 .work-packages--details-content
-  font-size:  0.8125rem
+  font-size:  0.875rem
 
-  .wp-subject
-    margin:       0
-    padding:      0 0 4px 0
-    font-size:    1.25rem
-    line-height:  26px
-    font-weight:  normal
-    border:       none
-    text-transform: none
-    color:        #333
-  h3
-    margin:       0 0 10px 0
-    padding:      0
-    font-size:    0.875rem
-    font-weight:  bold
-    border:       none
+@mixin details-pane--form-field
+  @include grid-visible-overflow
+  padding: 0
+
+.work-packages--details--title
+  @include grid-block
+  @include details-pane--form-field
+  align-items: center
+  font-size: 1.125rem
+  font-weight: bold
+
+.work-packages--details--subject
+  @include grid-content
+  @include grid-size(expand)
+  @include details-pane--form-field
+
+  // overriding default in place editing padding
+  // because the heigt will otherwise be too much
+  // and the change from read to write will flicker
+  .inplace-edit--text-field
+    padding: 0.15625rem 0.375rem
 
 .report-category-actions
   margin-top: -28px
   width: 100%
   text-align: right
 
-// Legacy Form
-
-#work_package-form
-  @extend %form-style
-  .attributes
-    margin-bottom: 30px
-    overflow: auto
-
-  #watchers_form
-    position: relative
-    padding-left: 160px
-    margin-bottom: 30px
-    line-height: 30px
-
-    .watcher_label
-      @include label-style
-      width: 152px
-      margin-left: -160px
-
-    .floating
-      float: none
-      display: inline-block
-
-  #attachments
-    padding-left: 0
-    padding-right: 0
-
-  .handle_attachments, #attachments
-    > label
-      @include label-style
-      height: 30px
-      display: block
-    margin-bottom: 30px
-
-    #attachments_fields
-      display: inline-block
-
-    .attachment_field
-      display: block
-      margin-bottom: 10px
-      height: 32px
-      > input
-        @include input-style
-        border: none
-        &:hover, &:focus
-          border: none
-      label
-        @include label-style
-        width: auto
-        height: 32px
-        input
-          margin-left: 50px
-    .add_another_file
-      padding-left: 10px
-
-  fieldset
-    margin-bottom: 20px
-    padding: 30px 20px
-
-  legend.change_properties
-    padding-right: 20px
-  #show_more_wp_properties
-    float: left
-    margin-left: 115px
-    margin-top: -48px
-    background-color: $content-form-bg-color
-
-// Detail Panel Content
-
-.subtitle
-  margin: 0
-  padding: 0 0 10px 0
-  display: block
-  clear: both
-
-.select-type
-  padding-top: 3px
-  line-height: 26px
-  float: left
-  color: $content-link-color
-
 .detail-panel-description
   margin: 0
   line-height: 18px
-
 
 .comments-form
   float: left
@@ -165,22 +89,6 @@ i
     vertical-align: -2px
     padding: 0 0 0 4px
 
-accessible-by-keyboard
-  &.star
-    margin-right: -1em
-    a:hover
-      text-decoration: none
-    .star
-      padding: 0 2px 0 0
-      vertical-align: -3px
-      color: #ccc
-      margin: 0 0 0 -2px
-      cursor: pointer
-      &:hover, &.active
-        color: #f8d033
-      &.active:hover
-        color: #ccc
-
 #tabs
   position: relative
   width: 100%
@@ -192,7 +100,7 @@ $work-package-details--tab-height: 40px
   list-style: none
   margin: 0 0 0 10px
   padding:     4px 0 0 0
-  line-height: $work-package-details--tab-height - 6px
+  line-height: $work-package-details--tab-height - 10px
   height:      $work-package-details--tab-height
   overflow: hidden
   position: relative

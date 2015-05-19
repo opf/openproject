@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= header_tags %>
+
 <% unless User.current.impaired? %>
   <%# TODO: Require autocompleter inside select_boxes.js
     For lack of a requiring policy (such as requirejs), just include the
@@ -38,10 +38,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 
-<%= form_for :project_association,
-            :url  => project_project_associations_path(@project),
-            :html => {:method => 'post'},
-            class: "inline-label" do |f| %>
+<%= labelled_tabular_form_for @project_association,
+                              :url  => project_project_associations_path(@project),
+                              :html => {:method => 'post'},
+                              class: "inline-label" do |f| %>
 
   <% title = l('timelines.project_association_new',
                :project_a => h(@project.name),
@@ -50,22 +50,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= error_messages_for 'project_association' %>
 
-  <span class="inline-label">
-    <%= label_tag 'project_association_select_project_b_id', l('timelines.project_association_new_for_with',
-                                                  :project_a => h(@project.name)),
-                                                  class: "form-label -transparent" %>
-
+  <span class="form--field -required">
     <% if User.current.impaired? %>
-      <%= select("project_association_select", "project_b_id",
+      <%= f.select("project_b_id",
                  grouped_options_for_select(@associated_project_candidates_by_type.collect do |type, projects|
                    [type.try(:name) || l('timelines.without_project_type'), projects.collect do |candidate|
                      [candidate.name, candidate.id]
                    end]
                  end)) %>
     <% else %>
-      <%= select("project_association_select", "project_b_id",
+      <%= f.select("project_b_id",
                    options_for_select([]),
-                   {},
+                   { label:  l('timelines.project_association_new_for_with',
+                     project_a: h(@project.name)) },
                    { :'data-ajaxURL' => url_for({:controller => "/api/v2/project_associations",
                                                  :action     => "available_projects",
                                                  :format     => "json"})
@@ -74,12 +71,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </span>
 
-
-  </br>
   <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
-
-  <%= f.submit l("timelines.add_project_association"), :name => nil,
-        class: 'button -highlight'%>
+  <hr class="form--separator">
+  <%= f.button l("timelines.add_project_association"), :name => nil,
+        class: 'button -highlight -with-icon icon-yes'%>
   <%= link_to l(:button_cancel), project_project_associations_path(@project),
         class: 'button'%>
 <% end %>

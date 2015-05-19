@@ -72,7 +72,7 @@ module API
         end
       end
 
-      def authorize(permission, context: nil, global: false, user: current_user, &block)
+      def authorize(permission, context: nil, global: false, user: current_user)
         is_authorized = AuthorizationService.new(permission,
                                                  context: context,
                                                  global: global,
@@ -81,7 +81,7 @@ module API
         return true if is_authorized
 
         if block_given?
-          yield block
+          yield
         else
           raise API::Errors::Unauthorized
         end
@@ -104,14 +104,19 @@ module API
       # checks whether the user has
       # any of the provided permission in any of the provided
       # projects
-      def authorize_any(permissions, projects, user: current_user)
+      def authorize_any(permissions, projects: nil, global: false, user: current_user)
+        raise ArgumentError if projects.nil? && !global
         projects = Array(projects)
 
         authorized = permissions.any? do |permission|
           allowed_condition = Project.allowed_to_condition(user, permission)
           allowed_projects = Project.where(allowed_condition)
 
-          !(allowed_projects & projects).empty?
+          if global
+            allowed_projects.any?
+          else
+            !(allowed_projects & projects).empty?
+          end
         end
 
         raise API::Errors::Unauthorized unless authorized
@@ -119,20 +124,23 @@ module API
       end
     end
 
-    rescue_from ActiveRecord::RecordNotFound do |e|
-      api_error = ::API::Errors::NotFound.new(e.message)
+    rescue_from ActiveRecord::RecordNotFound do
+      api_error = ::API::Errors::NotFound.new
       representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      env['api.format'] = 'hal+json'
       error_response(status: api_error.code, message: representer.to_json)
     end
 
     rescue_from ActiveRecord::StaleObjectError do
       api_error = ::API::Errors::Conflict.new
       representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
+      env['api.format'] = 'hal+json'
       error_response(status: api_error.code, message: representer.to_json)
     end
 
     rescue_from ::API::Errors::ErrorBase, rescue_subclasses: true do |e|
       representer = ::API::V3::Errors::ErrorRepresenter.new(e)
+      env['api.format'] = 'hal+json'
       error_response(status: e.code, message: representer.to_json)
     end
 
@@ -147,6 +155,8 @@ module API
       authenticate
     end
 
-    mount API::V3::Root
+    version 'v3', using: :path do
+      mount API::V3::Root
+    end
   end
 end

@@ -26,87 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@mixin input-style
-  width: $content-from-input-width
+$form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file)
+
+%input-style
   border: $content-form-input-border
-  padding: 0 0 0 10px
   border-radius: 2px
-  font-weight: bold
   font-size: 1rem
-  line-height: 30px
-  margin: 0
   &:hover, &:focus
     border: $content-form-input-hover-border
 
-  float: none
-  display: inline-block
   vertical-align: middle
 
-@mixin select-style
-  @include input-style
-  margin: 0
-  min-width: $content-from-input-width + 10
-  max-width: $content-from-input-width + 10
-
-@mixin label-style
-  width: 155px
-  margin-left: 0
+%label-style
   text-align: left
   font-weight: normal
-  float: none
-  display: inline-block
-  padding-right: 5px
   vertical-align: middle
-
-%form-style
-  padding: 30px 20px
-  background-color: $content-form-bg-color
-  display: block
-  border: $content-form-border
-
-  div.attribute_wrapper
-    position: relative
-    padding: 0
-    margin-bottom: 10px
-    font-size: 1.1rem
-    line-height: 30px
-    label
-      @include label-style
-
-    .short
-      width: 100px
-      margin-right: 200px
-
-    &.indented
-      margin-left: 160px
-
-  select
-    @include select-style
-
-  input
-    &[type=password], &[type=text]
-      @include input-style
-    &#work_package_subject, &#work_package_time_entry_comments
-      width: 50%
-  textarea
-    font-weight: bold
-    font-size: 1rem
-    border: $content-form-input-border
-    &:hover, &:focus
-      border: $content-form-input-hover-border
-
-  table
-    border: 0 none
-    background: none
-    margin: 0
-    td
-      padding: 6px
-      label
-        @include label-style
-        display: inline
-      &.label
-        vertical-align: middle
-        width: 160px
 
 // A general CSS class to be applied to forms using the above defined form style.
 // We can't define this on form itself as this would break a lot of existing forms.
@@ -114,59 +48,36 @@
 // Using this form class allows to easily override defaults defined here with a more
 // specific definition.
 .form
-  @extend %form-style
+  display: block
 
-hr.form_separator
+  &.-inline
+    display: inline
+
+  &.-bordered
+    padding: 30px 20px
+    background-color: $content-form-bg-color
+    border: $content-form-border
+
+.form--separator
   border: 0
   border-bottom: 1px solid $content-form-separator-color
   margin: 0 0 30px
   background: none
 
-.form-space
+  &.-invisible
+    border-bottom-width: 0px
+
+.form--space
   padding-top: 10px
 
-fieldset
-  legend:after
-    @include icon-common
-    float: right
-    padding:
-      right: 5px
-      top: 4px
-  &.collapsible
-    > legend:after
-      content: "\e0d4"
-    &.collapsed
-      > legend:after
-        content: "\e0d2"
-  &.with-legend-control
-    legend
-      float: left
-      background-color: white
-      margin-top: -15px
-
-  div.legend-control
-    margin-top: -15px
-    padding-bottom: 5px
-
-    span
-      padding-left: 5px
-      background-color: white
-
-.ui-widget
-  font-family: $body-font-family
-  font-size: 0.9rem
+.form--row
+  @include grid-block
+  @include grid-visible-overflow
 
 // TODO: Customise with proper jQuery UI theme.
 .ui-datepicker-month,
 .ui-datepicker-year
   display: inline-block
-
-#content
-  .tabular
-    label.inline-label
-      width: auto
-      margin-left: 0
-      font-weight: normal
 
 .checkbox-label
   position: relative
@@ -215,9 +126,9 @@ fieldset
     content: ''
     position: absolute
     margin: 5px 2px
-    /* Length of check tail
+    // Length of check tail
     width: 11px
-    /* Lenght of check foot
+    // Length of check foot
     height: 3px
     background: transparent
     border: 3px solid #666666
@@ -225,14 +136,267 @@ fieldset
     border-right: none
     @include transform(rotate(-50deg))
 
+
+%form--fieldset-or-section
+  padding:        1rem 0 0
+  margin-bottom:  1rem
+  border:         0
+
+%form--fieldset-legend-or-section-title
+  color:          lighten($body-font-color, 10)
+  font-size:      1rem
+  font-weight:    bold
+  line-height:    1.8
+  text-transform: uppercase
+  border-bottom:  1px solid $gray
+
+// HACK. TODO: Remove fieldset element rules in various places.
+.form--fieldset,
+fieldset.form--fieldset
+  @extend %form--fieldset-or-section
+
+.form--fieldset-legend
+  @extend %form--fieldset-legend-or-section-title
+  width:     100%
+
+  .form--fieldset.-collapsible > &
+    @include without-link-styling
+    cursor:  pointer
+
+  &:before
+    @include icon-common
+    font-size: 0.75rem
+    padding:   0.625rem 0.25rem 0 0.25rem
+
+    .form--fieldset.-collapsible > &
+      content: "\e0cc"
+
+    .form--fieldset.-collapsible.-collapsed > &,
+    .form--fieldset.-collapsible.collapsed  > &
+      content: "\e0cb"
+
+.form--fieldset-control
+  float:          right
+  margin-top:     -2.8rem
+  text-align:     right
+  color:          lighten($body-font-color, 10)
+  font-size:      1rem
+  font-style:     italic
+  line-height:    1.8
+
+.form--fieldset-control-container
+  padding: 0 0.25rem
+  background-color: inherit
+
+.form--section
+  @extend %form--fieldset-or-section
+
+// HACK. TODO: Remove H3 element rules in various places.
+// See: https://community.openproject.org/work_packages/18330
+.form--section-title,
+#content h3.form--section-title
+  @extend %form--fieldset-legend-or-section-title
+  // properties to reset h3
+  margin: 0
+  padding: 0
+
+  .form--section > &,
+  #content .form--section > &
+    margin-bottom: 1rem
+
+.form--field
+  @include grid-block($wrap: true)
+  @include grid-visible-overflow
+  align-items: center
+  margin-bottom: 0.825rem
+
+  &.-vertical,
+  .form.-vertical &
+    @include grid-orient(vertical)
+
+  .grid-block > &:nth-last-of-type(n+2),
+  .form--row > &:nth-last-of-type(n+2),
+  .form--grouping-row > &:nth-last-of-type(n+2)
+    padding-right: 1rem
+
+  &.-trailing-label
+    .form--label
+      @include grid-order(2)
+      @include grid-size(expand)
+      // override max-width set by including grid-content
+      max-width: 100%
+      padding-left: 0.5rem
+
+    .form--field-container
+      @include grid-order(1)
+      @include grid-size(shrink)
+
+      // FIXME: this will break anything in regards to flex layouting within the container,
+      // e.g. using form--field-inline-action inside -trailing-label
+    .form--label + span.form--field-container
+      display: block
+
+.form--label
+  @include grid-content(2)
+  @include grid-visible-overflow
+  @extend %label-style
+  padding:      0 1rem 0 0
+  font-size:    $form-label-fontsize
+  line-height:  $base-line-height
+  color:        $form-label-color
+
+  .form.-wide-labels &,
+  .form--field.-wide-label &,
+    @include grid-size(4)
+
+  .form--field.-vertical &,
+  .form.-vertical &
+    @include grid-size(shrink)
+    max-width: none
+
+  .form--field.-required > &
+    &::after
+      @include default-transition
+      content:  '*'
+      color:    #008BD0
+      padding:  0 0.325rem
+    &:hover::after
+      color:    smartscale(#008BD0, 30%)
+
+.form--field-container
+  @include grid-content(10)
+  @include grid-visible-overflow
+  padding: 0
+  display: flex
+  align-items: stretch
+
+  &.-vertical
+    display: block
+
+  &:nth-of-type(n+2),
+  .form--field.-no-label &
+    @include grid-offset(2)
+
+  .form--field.-full-width &
+    @include grid-size(12)
+
+  .form.-wide-labels &,
+  .form--field.-wide-label &
+    @include grid-size(8)
+
+  .form.-wide-labels .form--field.-no-label &,
+  .form--field.-wide-label.-no-label &
+    @include grid-offset(4)
+
+  .form--field.-vertical &,
+  .form.-vertical &
+    @include grid-size(shrink)
+    max-width: none
+
+.form--field-inline-action
+  @include grid-content(shrink)
+  padding: 0 0 0 0.2rem
+  line-height: 2rem
+
+%form--field-after-container
+  @include grid-content(10, 2)
+  padding:      0
+  font-size:    $form-label-fontsize
+  line-height:  1.4
+  color:        $form-label-color
+
+  .form--field.-full-width &
+    @include grid-size(12)
+    @include grid-offset(0)
+
+  .form.-wide-labels &,
+  .form--field.-wide-label &
+    @include grid-size(8)
+    @include grid-offset(4)
+
+  .form.-vertical &
+    @include grid-size(shrink)
+    @include grid-offset(0)
+    max-width: none
+
+.form--field-instructions
+  @extend %form--field-after-container
+  font-style: italic
+
+.form--field-extra-actions
+  @extend %form--field-after-container
+  @include grid-visible-overflow
+
+%form--field-element-container
+  display: block
+  flex: 1 1
+
+  &:nth-last-of-type(n+2)
+    padding-right: $block-padding
+
+@each $field-type in $form--field-types
+  .form--#{$field-type}-container
+    @extend %form--field-element-container
+
+    &.-tiny
+      max-width: 50px
+
+    &.-xslim
+      max-width: 110px
+
+    &.-slim
+      max-width: 200px
+
+    &.-middle
+      max-width: 350px
+
+    &.-wide
+      max-width: 500px
+
+    &.-xwide
+      max-width: 800px
+
+    &.-xxwide
+      max-width: 1100px
+
+.form--select-container
+  &.-tiny,
+  &.-xslim,
+  &.-slim,
+  &.-middle,
+  &.-wide,
+  &.-xwide,
+  &.-xxwide
+    // overriding hack on select2 by another hack (select2_customizing.css)
+    // remove once the initial limit on the width is removed
+    .select2-container
+      max-width: initial
+
+.form--text-field
+  @extend %input-style
+
+.form--text-field,
+#{$text-input-selectors}
+  line-height: 1.5
+
 .form--select
-  // TODO: remove padding property once upstream PR merged:
-  // https://github.com/zurb/foundation-apps/pull/416
-  padding-right: $form-padding + rem-calc(18px)
+  @extend %input-style
+  line-height: normal
+  padding: rem-concat-list($select-element-padding)
+  // TODO: Temporary fix, for sure it will be fixed with next foundation-app release v1.1.1
+  // remove background image after/if upgrade
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20version%3D%221.1%22%20width%3D%2232%22%20height%3D%2224%22%20viewBox%3D%220%200%2032%2024%22%3E%3Cpolygon%20points%3D%220%2C0%2032%2C0%2016%2C24%22%20style%3D%22fill%3A%20black%22%3E%3C/polygon%3E%3C/svg%3E")
 
   &[multiple]
     background-image: none
     padding-right: $form-padding
+    // TODO: this has to be fixed upstream as select are fixed
+    // in height in foundation for apps.
+    height: auto
+
+.form--select2
+  border: none
+  padding-right: 0
 
 .form--text-field,
 .form--select
@@ -249,9 +413,137 @@ fieldset
     width: auto
     max-width: 100%
 
+  .form &
+    margin-bottom: 0.5rem
+
+.form--text-area
+  @extend %input-style
+
+  .form &
+    margin-bottom: 0.5rem
+
+.form--radio-button-container
+  //prevent radio-buttons from being cut at the border
+  padding: 0 1px
+
+.form--radio-button
+  // Be on par with Foundation's margin-bottom on labels.
+  .form &
+    margin-bottom: 0.5rem
+
+.form--grouping
+  @include grid-block($wrap: true)
+  align-items: center
+
+  .form--grouping-row
+    @include grid-block(10)
+
+  .form--grouping-row + .form--grouping-row
+    @include grid-offset(2)
+
+.form--grouping-label
+  @include grid-content(2)
+  @include grid-visible-overflow
+  @extend %label-style
+  padding:      0 1rem 0 0
+  font-size:    $form-label-fontsize
+  line-height:  $base-line-height
+  color:        $form-label-color
+  margin-bottom: 0.8rem
+
+.form--matrix
+  border:       $content-form-input-border
+  border-radius: 2px
+  background:   none
+  margin:       0
+  font-size:    0.9rem
+  line-height:  1.5
+
+.form--matrix-header-row
+  font-weight:      bold
+  border-bottom:    $content-form-input-border
+  background-color: $gray-light
+
+.form--matrix-header-cell
+  padding:          0 1rem
+
+.form--matrix-row
+
+  &:nth-child(odd)
+    background-color: $gray-light
+  &:nth-child(even)
+    background-color: white
+
+.form--matrix-checkbox-cell
+  min-width:    1rem
+  max-width:    4rem
+  text-align:   center
+
+.form--column
+  @include grid-block
+  @include grid-orient(vertical)
+  overflow-y: hidden
+
+  &:nth-last-of-type(n+2)
+    padding-right: $block-padding
+
+  .form--field
+    flex-basis: auto
+
 .inline-label
   > .form-label.-transparent
     margin-bottom: 0
     font-size: 1em
     background: none
     border: none
+
+.form--label-with-check-box
+  display:     block
+  clear:       both
+  line-height: $base-line-height
+
+  & > .form--check-box-container
+    display:  block
+    float:    left
+    padding:  0.125rem 0.5rem 0 0
+
+.form--field-affix
+  flex:           0 0 auto
+  display:        flex
+  font-size:      0.9rem
+  background:     $inlinelabel-background
+  color:          $inlinelabel-color
+  border:         $content-form-input-border
+  // OR $inlinelabel-border
+  border-radius:  2px
+  padding:        0 $form-padding
+  margin-bottom:  0.5rem
+  align-items:    center
+
+  %form--field-element-container + &
+    margin-left:  -1rem
+    border-left:  0
+
+  &.-transparent
+    background: none
+    border: none
+
+.form--tooltip-container
+  flex: 0 0 auto
+  display: flex
+  & > [data-tooltip], & > [class^="tooltip--"]
+    padding-top: 0.6rem
+
+.form--list
+  display: flex
+  margin: 0
+  @include grid-layout(3)
+
+  @include breakpoint(large)
+    @include grid-layout(4)
+
+  @include breakpoint(xlarge)
+    @include grid-layout(6)
+
+  li, div
+    padding: 0

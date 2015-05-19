@@ -75,7 +75,7 @@ function toggleFieldset(el) {
 }
 
 jQuery(document).ready(function() {
-  jQuery('fieldset.header_collapsible').each(function(index) {
+  jQuery('fieldset.form--fieldset.-collapsible').each(function() {
     var fieldset = getFieldset(this);
 
     setFieldsetToggleState(fieldset);

@@ -73,15 +73,6 @@ angular.module('openproject.uiComponents')
   .service('I18n', [require('./i18n')])
   .directive('iconWrapper', [require('./icon-wrapper-directive')])
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
-  .directive('inplaceEditor', [
-      '$timeout',
-      'FocusHelper',
-      'PathHelper',
-      'InplaceEditorDispatcher',
-      'OverviewTabInplaceEditorConfig',
-      require('./inplace-editor-directive')
-  ])
-  .service('InplaceEditorDispatcher', require('./inplace-editor-dispatcher'))
   .directive('modal', [require('./modal-directive')])
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
   .directive('progressBar', ['I18n', require('./progress-bar-directive')])
@@ -109,6 +100,7 @@ angular.module('openproject.uiComponents')
     './toggled-multiselect-directive')])
   .directive('toolbar', require('./toolbar-directive'))
   .constant('ESC_KEY', 27)
+  .directive('userField', [require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))

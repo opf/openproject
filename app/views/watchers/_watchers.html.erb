@@ -29,32 +29,42 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% user_allowed_to_add_watchers = User.current.allowed_to?(:add_work_package_watchers, @project) %>
 
-<p>
-  <strong><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</strong>
-  <% if user_allowed_to_add_watchers %>
-    <%= toggle_link icon_wrapper('icon icon-add', l(:button_add_watcher)),
-                    'new-watcher-form',
-                    { focus: 'watcher_user_id' },
-                    { :class => 'no-decoration-on-hover', :title => l(:button_add_watcher) } %>
-  <% end %>
-</p>
-
-<%= form_for(:watcher,
-             url: watchers_path(watched.class.name.underscore.pluralize, watched),
-             method: :post,
-             remote: true,
-             complete: "Form.Element.focus('watcher_user_id');",
-             html: { id: 'new-watcher-form', style: (@watcher ? '' : 'display:none;') }) do |f| %>
-  <div class="grid-block">
-    <div class="grid-content small-6">
-      <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}.sort_by{|name, id | name}),
-            { :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" },
-            class: 'form--select' %>
-
-      <%= submit_tag l(:button_add), class: 'button -highlight' %>
-      <%= toggle_link l(:button_cancel), 'new-watcher-form', {}, class: 'button' %>
-    </div>
+<div class="attributes-group--header">
+  <div class="attributes-group--header-container">
+    <h3 class="attributes-group--header-text"><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</h3>
   </div>
-<% end %>
+  <div class="attributes-group--header-control">
+    <% if user_allowed_to_add_watchers %>
+      <%= toggle_link icon_wrapper('icon icon-add', l(:button_add_watcher)),
+                      'new-watcher-form',
+                      { focus: 'watcher_user_id' },
+                      { :class => 'no-decoration-on-hover', :title => l(:button_add_watcher) } %>
+    <% end %>
+  </div>
+</div>
 
-<%= watchers_list(watched) %>
+<div class="single-attribute">
+  <%= watchers_list(watched) %>
+  <div class="clearfix"></div>
+
+  <%= labelled_tabular_form_for(:watcher,
+              url: watchers_path(watched.class.name.underscore.pluralize, watched),
+              method: :post,
+              remote: true,
+              complete: "Form.Element.focus('watcher_user_id');",
+              html: { id: 'new-watcher-form', style: (@watcher ? '' : 'display:none;') }) do |f| %>
+    <div class="choice">
+      <div class="choice--select">
+        <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}.sort_by{|name, id | name}),
+              { :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---", no_label: true } %>
+
+      </div>
+      <div class="choice--button">
+        <%= styled_button_tag l(:button_add), class: '-highlight -with-icon icon-yes' %>
+      </div>
+      <div class="choice--button">
+        <%= toggle_link l(:button_cancel), 'new-watcher-form', {}, class: 'button' %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,57 @@
+{
+  "node": true,
+  "jquery": true,
+  "predef": [
+    "OpenProject",
+
+    "_",
+    "moment",
+
+    "angular",
+    "inject",
+    "module",
+    "protractor",
+
+    "I18n",
+    "Hyperagent",
+    "gon",
+
+    "Ajax",
+
+    "context",
+    "expect",
+    "element",
+    "describe",
+    "xdescribe",
+    "it",
+    "xit",
+    "beforeEach",
+    "before",
+    "afterEach",
+    "after",
+    "sinon",
+    "Factory",
+
+    "browser",
+    "by"
+  ],
+
+  "asi": false,
+  "bitwise": true,
+  "browser": true,
+  "camelcase": true,
+  "curly": true,
+  "forin": true,
+  "immed": true,
+  "latedef": "nofunc",
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonew": true,
+  "maxlen": 100,
+  "quotmark": true,
+  "sub": true,
+  "undef": true,
+  "unused": true,
+  "eqeqeq": true
+}

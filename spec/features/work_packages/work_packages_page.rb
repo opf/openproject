@@ -66,7 +66,7 @@ class WorkPackagesPage
     visit query_path(query)
   end
 
-  def selected_filter(filter_name)
+  def find_filter(filter_name)
     find(".advanced-filters--filters #filter_#{filter_name}")
   end
 

@@ -46,7 +46,7 @@ describe AttachmentsController, type: :controller do
 
   before { allow(User).to receive(:current).and_return user }
 
-  describe :destroy do
+  describe '#destroy' do
     let(:attachment) {
       FactoryGirl.create(:attachment,
                          container: container)
@@ -66,7 +66,7 @@ describe AttachmentsController, type: :controller do
       it { is_expected.to redirect_to(redirect_path) }
     end
 
-    context :work_package do
+    context 'work_package' do
       let(:container) {
         FactoryGirl.create(:work_package,
                            author: user,
@@ -81,7 +81,7 @@ describe AttachmentsController, type: :controller do
       it_behaves_like :redirected
     end
 
-    context :wiki do
+    context 'wiki' do
       let(:container) {
         FactoryGirl.create(:wiki_page,
                            wiki: project.wiki)
@@ -100,7 +100,7 @@ describe AttachmentsController, type: :controller do
     end
   end
 
-  describe :show do
+  describe '#show' do
     let(:file) { OpenProject::Files.create_uploaded_file name: 'foobar.txt' }
     let(:work_package) { FactoryGirl.create :work_package, project: project }
     let(:uploader) { nil }

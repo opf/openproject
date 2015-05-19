@@ -290,9 +290,12 @@ module ApplicationHelper
         h
       end
 
-      content_tag :div do
-        check_box_tag(name, object.id, false, id: id) +
-          label_tag(id, object, object_options)
+      object_options[:class] = Array(object_options[:class]) + %w(form--label-with-check-box)
+
+      content_tag :div, class: 'form--field' do
+        label_tag(id, object, object_options) do
+          styled_check_box_tag(name, object.id, false, id: id) + object
+        end
       end
     end.join.html_safe
   end
@@ -423,8 +426,8 @@ module ApplicationHelper
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
-    options.reverse_merge!(builder: TabularFormBuilder, lang: current_language, html: {})
-    options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
+    options.reverse_merge!(builder: TabularFormBuilder, html: {})
+    options[:html][:class] = 'form' unless options[:html].has_key?(:class)
     form_for(record, options, &block)
   end
 
@@ -484,7 +487,7 @@ module ApplicationHelper
 
   def calendar_for(field_id)
     include_calendar_headers_tags
-    javascript_tag("jQuery('##{field_id}').datepicker();")
+    javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
   end
 
   def include_calendar_headers_tags
@@ -501,7 +504,8 @@ module ApplicationHelper
         else
           '' # use language
         end
-        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstWeekDay: '#{start_of_week}' };"
+        # FIXME: Get rid of this abomination
+        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };"
         javascript_tag(js)
       end
     end

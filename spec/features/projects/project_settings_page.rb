@@ -39,7 +39,7 @@ class ProjectSettingsPage
   end
 
   def fieldset_label
-    find 'fieldset#project_issue_custom_fields label span'
+    find 'fieldset#project_issue_custom_fields label'
   end
 
   private

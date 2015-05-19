@@ -1,0 +1,77 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$filters--background-color: $gray-light !default
+$filters--border-color: $gray !default
+
+%filters--container
+  background-color: $filters--background-color
+  border: 1px solid $filters--border-color
+  border-top-width: 3px
+
+  legend
+    @extend .hidden-for-sighted
+
+.simple-filters--container
+  @extend %filters--container
+  padding: 1rem
+  margin: 0.6em 0
+
+.simple-filters--filters
+  @extend .advanced-filters--filters
+  @include grid-block
+  @include grid-layout(1)
+  justify-content: space-between
+
+  @include breakpoint(large)
+    @include grid-layout(2)
+
+  // Cancel out foundations padding which breaks in IE. IE seems to calculate
+  // the padding on top of the flex-basis size. That means when the flex-basis
+  // is 50% and two elements should be within a row and padding is anything but
+  // 0. The elements will in sum take up more than 100% and thus the second
+  // element will move to the next row.
+  .simple-filters--filter,
+    padding: 0
+    @include breakpoint(large)
+      flex-basis: 49%
+
+.simple-filters--filters.-columns-3
+  justify-content: space-between
+  @include breakpoint(large)
+    @include grid-layout(3)
+
+  // Cancel out foundations padding which breaks in IE. IE seems to calculate
+  // the padding on top of the flex-basis size. That means when the flex-basis
+  // is 50% and two elements should be within a row and padding is anything but
+  // 0. The elements will in sum take up more than 100% and thus the second
+  // element will move to the next row.
+  .simple-filters--filter,
+    padding: 0
+    @include breakpoint(large)
+      flex-basis: 32%

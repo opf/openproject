@@ -33,8 +33,8 @@ describe OpenProject::Configuration do
     let(:config) { Hash.new }
 
     before do
-      File.should_receive(:file?).with('file').and_return(true)
-      File.should_receive(:read).and_return("
+      expect(File).to receive(:file?).with('file').and_return(true)
+      expect(File).to receive(:read).and_return("
         default:
 
         test:

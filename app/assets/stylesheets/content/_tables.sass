@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/***** Tables ****
-
 table
   &.list
     border: 1px solid #e4e4e4
@@ -39,7 +37,7 @@ table
       padding: 4px
       white-space: nowrap
     td
-      vertical-align: top
+      vertical-align: middle
       &.id
         width: 2%
         text-align: center
@@ -54,16 +52,11 @@ table
         text-align: right
         a
           padding-right: 0.6em
+      .form--text-field, .form--select, .form--text-area
+        margin-bottom: 0
     caption
       text-align: left
       padding: 0.5em 0.5em 0.5em 0
-  &.work-package-data-table
-    margin-top: 5px
-    &.hidden
-      display: none
-    td
-      text-align: left
-      padding: 3px 6px
 
 tr
   &.project
@@ -98,9 +91,6 @@ tr
     td
       &.category
         white-space: normal
-
-td.assigned_to
-  white-space: normal
 
 tr.issue
   td
@@ -142,9 +132,6 @@ tr
       white-space: normal
   &.issue td.category
     white-space: normal
-
-td.assigned_to
-  white-space: normal
 
 tr.work-package
   td
@@ -350,8 +337,6 @@ table#time-report
 #content table
   &.issues
     width: 100%
-  th
-    font-weight: normal
   &.issues td
     border: 0 none
     padding: 3px 6px

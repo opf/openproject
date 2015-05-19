@@ -82,13 +82,17 @@
       "title": "Add comment"
     },
     "parent": {
-      "href": "/api/v3/work_packages/54",
+      "href": "/api/v3/work_packages/820",
       "title": "asd"
     },
     "timeEntries": {
       "href": "/work_packages/819/time_entries",
       "type": "text/html",
       "title": "Time entries"
+    },
+    "project": {
+      "href": "/api/v3/projects/1",
+      "title": "Seeded Project"
     }
   },
   "id": 819,
@@ -108,11 +112,7 @@
   "estimatedTime": "PT0S",
   "spentTime": "PT0S",
   "percentageDone": 0,
-  "versionId": null,
-  "versionName": null,
-  "projectId": 1,
-  "projectName": "Seeded Project",
-  "parentId": 54,
+  "parentId": 820,
   "createdAt": "2014-11-05T15:56:53Z",
   "updatedAt": "2014-11-21T08:48:57Z",
   "customProperties": [
@@ -147,7 +147,7 @@
       "firstName": "Freida",
       "lastName": "Fay",
       "name": "Freida Fay",
-      "mail": "elwyn_dickens@gulgowskicasper.biz",
+      "email": "elwyn_dickens@gulgowskicasper.biz",
       "avatar": "",
       "createdAt": "2014-11-05T15:56:819Z",
       "updatedAt": "2014-11-05T15:56:819Z",
@@ -2153,6 +2153,29 @@
         "createdAt": "2014-11-21T08:48:57Z"
       }
     ],
+    "project": {
+      "_type": "Project",
+      "_links": {
+        "self": {
+        "href": "/api/v3/projects/1",
+        "title": "No Plugins Project"
+      },
+      "categories": {
+        "href": "/api/v3/projects/1/categories"
+      },
+      "versions": {
+        "href": "/api/v3/projects/1/versions"
+      }
+      },
+      "id": 1,
+      "identifier": "seeded-project",
+      "name": "Seeded Project",
+      "description": "",
+      "homepage": "",
+      "createdAt": "2014-04-30T13:28:51+00:00",
+      "updatedAt": "2014-04-30T13:28:51+00:00",
+      "type": null
+    },
     "watchers": [],
     "attachments": [],
     "relations": []

@@ -26,10 +26,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/users/user_representer'
+
 module API
   module V3
     module Users
-      class UsersAPI < Grape::API
+      class UsersAPI < ::API::OpenProjectAPI
         helpers do
           def user_transition(allowed)
             if allowed
@@ -49,7 +51,7 @@ module API
           params do
             requires :id, desc: 'User\'s id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @user  = User.find(params[:id])

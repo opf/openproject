@@ -28,14 +28,12 @@
 #++
 
 class DeliverWorkPackageUpdatedJob
+  include MailNotificationJob
+
   def initialize(user_id, journal_id, current_user_id)
     @user_id         = user_id
     @journal_id      = journal_id
     @current_user_id = current_user_id
-  end
-
-  def perform
-    notification_mail.deliver
   end
 
   private

@@ -41,9 +41,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= form.text_field :name, :size => 20 %>
     <% end %>
   </p>
-  </br>
+  <br>
   <div style="clear: both;"></div>
-  <fieldset class="box" id="wiki_menu_item_setting"><legend><%=l(:menu_item_setting)%></legend>
+  <fieldset class="form--fieldset" id="wiki_menu_item_setting">
+    <legend class="form--fieldset-legend"><%=l(:menu_item_setting)%></legend>
     <p>
       <%= form.radio_button 'setting', :no_item %>
       <%= form.label 'setting_no_item', l(:label_wiki_dont_show_menu_item) %>
@@ -56,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= form.check_box 'new_wiki_page' %>
       <%= form.label 'new_wiki_page', l(:label_wiki_show_new_page_link) %>
 
-      </br>
+      <br>
 
       <%= form.check_box 'index_page' %>
       <%= form.label 'index_page', l(:label_wiki_show_index_page_link) %>
@@ -69,7 +70,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </p>
   </fieldset>
   <p>
-    <%= submit_tag l(:button_save), :method => :post, class: 'button -highlight' %>
+    <%= styled_button_tag l(:button_save), :method => :post,
+          class: '-highlight -with-icon icon-yes' %>
     <%= link_to l(:button_cancel),
           {:controller => '/wiki', :action => 'show', :project_id => @project, :id => @page_title},
           class: 'button'%>

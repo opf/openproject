@@ -29,21 +29,19 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.build(:work_package,
                       start_date: Date.today.to_datetime,
                       due_date: Date.today.to_datetime,
                       created_at: DateTime.now,
                       updated_at: DateTime.now)
-  }
-  let(:representer)  { described_class.new(work_package) }
+  end
+  let(:representer) { described_class.create(work_package) }
 
   before { allow(work_package).to receive(:lock_version).and_return(1) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
-
-    it { is_expected.to include_json('WorkPackage'.to_json).at_path('_type') }
 
     describe 'work_package' do
       it { is_expected.to have_json_path('subject') }
@@ -60,6 +58,40 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         it { is_expected.to have_json_type(Integer).at_path('lockVersion') }
 
         it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
+      end
+
+      describe 'estimated hours' do
+        it { is_expected.to have_json_path('estimatedTime') }
+        it do
+          is_expected.to be_json_eql(work_package.estimated_hours.to_json)
+            .at_path('estimatedTime')
+        end
+
+        context 'not set' do
+          it { is_expected.to have_json_type(NilClass).at_path('estimatedTime') }
+        end
+
+        context 'set' do
+          let(:work_package) { FactoryGirl.build(:work_package, estimated_hours: 0) }
+
+          it { is_expected.to have_json_type(String).at_path('estimatedTime') }
+        end
+      end
+
+      describe 'percentage done' do
+        context 'percentage done enabled' do
+          it { is_expected.to have_json_path('percentageDone') }
+          it { is_expected.to have_json_type(Integer).at_path('percentageDone') }
+          it do
+            is_expected.to be_json_eql(work_package.done_ratio.to_json).at_path('percentageDone')
+          end
+        end
+
+        context 'percentage done disabled' do
+          before { allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') }
+
+          it { is_expected.to_not have_json_path('percentageDone') }
+        end
       end
 
       describe 'startDate' do
@@ -151,6 +183,17 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
         end
       end
 
+      describe 'category' do
+        let(:category) { FactoryGirl.build_stubbed(:category) }
+
+        before { work_package.category = category }
+
+        it_behaves_like 'linked property' do
+          let(:property) { 'category' }
+          let(:link) { "/api/v3/categories/#{category.id}" }
+        end
+      end
+
       describe 'priority' do
         let(:priority) { FactoryGirl.build_stubbed(:priority) }
 
@@ -160,6 +203,15 @@ describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
           let(:property) { 'priority' }
           let(:link) { "/api/v3/priorities/#{priority.id}" }
         end
+      end
+    end
+
+    describe 'custom fields' do
+      it 'uses a CustomFieldInjector' do
+        expected_method = :create_value_representer_for_property_patching
+        expect(::API::V3::Utilities::CustomFieldInjector).to receive(expected_method)
+          .and_call_original
+        representer.to_json
       end
     end
   end

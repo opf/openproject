@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/goodwill/capybara-select2.git
+  revision: c0826f33707b85fd39a838c6909ee12d0bff64a1
+  specs:
+    capybara-select2 (1.0.1)
+      capybara
+      rspec
+
+GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
@@ -81,9 +89,12 @@ GEM
     activesupport (3.2.21)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    acts_as_list (0.2.0)
+    acts_as_list (0.3.0)
       activerecord (>= 3.0)
     addressable (2.3.4)
+    airbrake (4.1.0)
+      builder
+      multi_json
     arel (3.0.3)
     ast (2.0.0)
     astrolabe (1.3.0)
@@ -99,8 +110,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bourbon (4.1.1)
-      sass (~> 3.3)
+    bourbon (4.2.0)
+      sass (~> 3.4)
       thor
     builder (3.0.4)
     byebug (2.7.0)
@@ -121,14 +132,16 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
-    childprocess (0.5.3)
+    childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.4)
       climate_control (>= 0.0.3, < 1.0)
-    codeclimate-test-reporter (0.1.1)
-      simplecov (>= 0.7.1, < 1.0.0)
+    codecov (0.0.6)
+      json
+      simplecov
+      url
     coderay (1.0.9)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -166,19 +179,20 @@ GEM
       representable (~> 2.0)
       uber
     equalizer (0.0.9)
+    equivalent-xml (0.5.1)
+      nokogiri (>= 1.4.3)
     erubis (2.7.0)
-    eventmachine (1.0.3)
+    eventmachine (1.0.7)
     excon (0.42.1)
-    execjs (1.4.0)
-      multi_json (~> 1.0)
-    factory_girl (4.2.0)
+    execjs (2.4.0)
+    factory_girl (4.5.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.2.1)
-      factory_girl (~> 4.2.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
     faker (1.2.0)
       i18n (~> 0.5)
-    ffi (1.9.3)
+    ffi (1.9.6)
     fog (1.23.0)
       fog-brightbox
       fog-core (~> 1.23)
@@ -234,14 +248,14 @@ GEM
     iso8601 (0.8.2)
     journey (1.0.4)
     json (1.8.2)
-    json_spec (1.1.1)
+    json_spec (1.1.4)
       multi_json (~> 1.0)
-      rspec (~> 2.0)
+      rspec (>= 2.0, < 4.0)
     kgio (2.9.2)
     launchy (2.3.0)
       addressable (~> 2.3)
-    letter_opener (1.0.0)
-      launchy (>= 2.0.4)
+    letter_opener (1.3.0)
+      launchy (~> 2.2)
     livingstyleguide (1.2.2)
       hooks (= 0.3.3)
       minisyntax
@@ -256,7 +270,7 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.6.2)
     minisyntax (0.2.3)
-    multi_json (1.10.1)
+    multi_json (1.11.0)
     multi_test (0.1.1)
     multi_xml (0.5.5)
     mysql2 (0.3.17)
@@ -328,7 +342,7 @@ GEM
     rails-dev-tweaks (0.6.1)
       actionpack (~> 3.1)
       railties (~> 3.1)
-    rails_autolink (1.1.0)
+    rails_autolink (1.1.6)
       rails (> 3.1)
     railties (3.2.21)
       actionpack (= 3.2.21)
@@ -344,41 +358,46 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.0.0)
-    reform (1.2.4)
+    reform (1.2.6)
       activemodel
       disposable (~> 0.0.5)
       representable (~> 2.1.0)
       uber (~> 0.0.11)
-    representable (2.1.3)
+    representable (2.1.5)
       multi_json
       nokogiri
       uber (~> 0.0.7)
     request_store (1.1.0)
     roar (1.0.0)
       representable (>= 2.0.1, <= 3.0.0)
-    rspec (2.99.0)
-      rspec-core (~> 2.99.0)
-      rspec-expectations (~> 2.99.0)
-      rspec-mocks (~> 2.99.0)
+    rspec (3.2.0)
+      rspec-core (~> 3.2.0)
+      rspec-expectations (~> 3.2.0)
+      rspec-mocks (~> 3.2.0)
     rspec-activemodel-mocks (1.0.1)
       activemodel (>= 3.0)
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
-    rspec-collection_matchers (1.0.0)
-      rspec-expectations (>= 2.99.0.beta1)
-    rspec-core (2.99.0)
-    rspec-expectations (2.99.0)
-      diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.99.0)
-    rspec-rails (2.99.0)
-      actionpack (>= 3.0)
-      activemodel (>= 3.0)
-      activesupport (>= 3.0)
-      railties (>= 3.0)
-      rspec-collection_matchers
-      rspec-core (~> 2.99.0)
-      rspec-expectations (~> 2.99.0)
-      rspec-mocks (~> 2.99.0)
+    rspec-core (3.2.0)
+      rspec-support (~> 3.2.0)
+    rspec-expectations (3.2.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.2.0)
+    rspec-legacy_formatters (1.0.0)
+      rspec-core (>= 3.0.0.beta2)
+      rspec-support (>= 3.0.0.beta2)
+    rspec-mocks (3.2.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.2.0)
+    rspec-rails (3.2.0)
+      actionpack (>= 3.0, <= 4.2)
+      activesupport (>= 3.0, <= 4.2)
+      railties (>= 3.0, <= 4.2)
+      rspec-core (~> 3.2.0)
+      rspec-expectations (~> 3.2.0)
+      rspec-mocks (~> 3.2.0)
+      rspec-support (~> 3.2.0)
+    rspec-support (3.2.0)
     rubocop (0.28.0)
       astrolabe (~> 1.3)
       parser (>= 2.2.0.pre.7, < 3.0)
@@ -395,17 +414,14 @@ GEM
       json (>= 1.7.5)
       structured_warnings (>= 0.1.3)
     rubyzip (1.1.6)
-    sass (3.4.11)
+    sass (3.4.12)
     selenium-webdriver (2.44.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    shoulda (3.5.0)
-      shoulda-context (~> 1.0, >= 1.0.1)
-      shoulda-matchers (>= 1.4.1, < 3.0)
     shoulda-context (1.2.1)
-    shoulda-matchers (2.5.0)
+    shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
     simplecov (0.8.0.pre)
       multi_json
@@ -431,7 +447,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.43)
-    uber (0.0.12)
+    uber (0.0.13)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
@@ -439,6 +455,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    url (0.3.2)
     virtus (1.0.4)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -457,15 +474,17 @@ DEPENDENCIES
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
   activerecord-tableless (~> 1.0)
-  acts_as_list (~> 0.2.0)
+  acts_as_list (~> 0.3.0)
+  airbrake (~> 4.1.0)
   autoprefixer-rails
   awesome_nested_set
-  bourbon (~> 4.1.1)
+  bourbon (~> 4.2.0)
   capybara (~> 2.3.0)
   capybara-screenshot (~> 1.0.4)
+  capybara-select2!
   carrierwave (~> 0.10.0)
   cocaine
-  codeclimate-test-reporter
+  codecov
   coderay (~> 1.0.9)
   color-tools (~> 1.3.0)
   cucumber-rails (~> 1.4.2)
@@ -474,7 +493,9 @@ DEPENDENCIES
   database_cleaner (~> 1.2.0)
   date_validator (~> 0.7.1)
   delayed_job_active_record (= 0.3.3)
-  factory_girl_rails (~> 4.0)
+  equivalent-xml (~> 0.5.1)
+  execjs (~> 2.4.0)
+  factory_girl_rails (~> 4.5)
   faker
   fog (~> 1.23.0)
   globalize (~> 3.1.0)
@@ -486,7 +507,7 @@ DEPENDENCIES
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)
-  letter_opener (~> 1.0.0)
+  letter_opener (~> 1.3.0)
   livingstyleguide (~> 1.2.2)
   multi_json
   mysql2 (~> 0.3.11)
@@ -512,26 +533,27 @@ DEPENDENCIES
   rack_session_access
   rails (~> 3.2.21)
   rails-dev-tweaks (~> 0.6.1)
-  rails_autolink
+  rails_autolink (~> 1.1.6)
   rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
-  reform (~> 1.2.4)
-  request_store
+  reform (~> 1.2.6)
+  request_store (~> 1.1.0)
   roar (~> 1.0.0)
-  rspec (~> 2.99.0)
+  rspec (~> 3.2.0)
   rspec-activemodel-mocks
   rspec-example_disabler!
-  rspec-rails (~> 2.99.0)
+  rspec-legacy_formatters
+  rspec-rails (~> 3.2.0)
   rubocop (~> 0.28)
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar
   rubytree (~> 0.8.3)
-  sass (~> 3.4.9)
+  sass (~> 3.4.12)
   sass-rails!
   selenium-webdriver (~> 2.44.0)
-  shoulda
-  shoulda-matchers (~> 2.5.0)
+  shoulda-context (~> 1.2)
+  shoulda-matchers (~> 2.8)
   simplecov (= 0.8.0.pre)
   sprockets!
   sprockets-rails!

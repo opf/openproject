@@ -59,9 +59,10 @@ class ProjectAssociationsController < ApplicationController
   end
 
   def create
+    project_b_id = params[:project_association].delete :project_b_id
     @project_association = ProjectAssociation.new(params[:project_association])
     @project_association.project_a = @project
-    @project_association.project_b_id = params[:project_association_select][:project_b_id]
+    @project_association.project_b_id = project_b_id
 
     check_visibility
 

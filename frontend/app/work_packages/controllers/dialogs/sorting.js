@@ -30,6 +30,8 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
+  $scope.availableColumnsData = [];
+  $scope.sortElements = [];
   $scope.initSortation = function(){
     var currentSortation = QueryService.getSortation();
 
@@ -45,24 +47,9 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
 
   function fillUpSortElements() {
     while($scope.sortElements.length < 3) {
-      $scope.sortElements.push([]);
+      $scope.sortElements.push([{}, $scope.availableDirectionsData[1]]);
     }
   }
-
-  // functions exposing available options to select2
-
-  $scope.getAvailableColumnsData = function(term, result) {
-    var filterBy = term ? { label: term } : {},
-      filtered = $filter('filter')(getRemainingAvailableColumnsData(), filterBy),
-      sorted = $filter('orderBy')(filtered, 'label');
-
-    return result(sorted);
-  };
-  $scope.getDirectionsData = function(term, result) {
-    var filterBy = term ? { label: term } : {};
-
-    return result($filter('filter')($scope.availableDirectionsData, filterBy));
-  };
 
   // reduction of column options to columns that haven't been selected
 
@@ -79,6 +66,7 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
     });
   }
 
+  $scope.getRemainingAvailableColumnsData = getRemainingAvailableColumnsData;
   // updates
 
   $scope.updateSortation = function(){
@@ -100,7 +88,7 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
 
   var blankOption = { id: null, label: ' ', other: null };
 
-  QueryService.loadAvailableColumns()
+  $scope.promise = QueryService.loadAvailableColumns()
     .then(function(available_columns){
 
       $scope.availableColumnsData = available_columns
@@ -114,18 +102,4 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
 
       $scope.initSortation();
     });
-
-  // prune unselected sorting criteria
-
-  function pruneBlankSortElements() {
-    angular.forEach($scope.sortElements, function(sortElement, index) {
-      if (sortElement.length && !sortElement[0].id) {
-        $scope.sortElements.splice(index, 1);
-      }
-    });
-    fillUpSortElements();
-  }
-
-  $scope.$watch('sortElements', pruneBlankSortElements, true);
-
 };

@@ -36,7 +36,7 @@ describe MyController, type: :controller do
 
   describe 'password change' do
 
-    describe :password do
+    describe '#password' do
       before do
         get :password
       end

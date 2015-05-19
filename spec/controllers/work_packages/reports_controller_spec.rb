@@ -69,7 +69,7 @@ describe WorkPackages::ReportsController, type: :controller do
     work_package_3
   end
 
-  describe :report do
+  describe '#report' do
     describe 'w/o details' do
       before { get :report, project_id: project.id }
 
@@ -113,49 +113,49 @@ describe WorkPackages::ReportsController, type: :controller do
         it { assigns :report_title }
       end
 
-      describe :type do
+      describe '#type' do
         let(:detail) { 'type' }
 
         it_behaves_like 'details view'
       end
 
-      describe :version do
+      describe '#version' do
         let(:detail) { 'version' }
 
         it_behaves_like 'details view'
       end
 
-      describe :priority do
+      describe '#priority' do
         let(:detail) { 'priority' }
 
         it_behaves_like 'details view'
       end
 
-      describe :category do
+      describe '#category' do
         let(:detail) { 'category' }
 
         it_behaves_like 'details view'
       end
 
-      describe :assigned_to do
+      describe '#assigned_to' do
         let(:detail) { 'assigned_to' }
 
         it_behaves_like 'details view'
       end
 
-      describe :responsible do
+      describe '#responsible' do
         let(:detail) { 'responsible' }
 
         it_behaves_like 'details view'
       end
 
-      describe :author do
+      describe '#author' do
         let(:detail) { 'author' }
 
         it_behaves_like 'details view'
       end
 
-      describe :subproject do
+      describe '#subproject' do
         let(:detail) { 'subproject' }
 
         it_behaves_like 'details view'

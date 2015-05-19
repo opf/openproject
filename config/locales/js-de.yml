@@ -31,6 +31,7 @@ de:
     ajax:
       hide: "Verbergen"
       loading: "Lädt ..."
+    close_popup_title: "Dialog schließen"
     button_add_watcher: "Beobachter hinzufügen"
     button_cancel: "Abbrechen"
     button_check_all: "Alles auswählen"
@@ -110,8 +111,6 @@ de:
     label_menu_collapse: "ausblenden"
     label_menu_expand: "einblenden"
     label_more_than_ago: "vor mehr als"
-    label_move_column_left: "Spalte nach links verschieben"
-    label_move_column_right: "Spalte nach rechts verschieben"
     label_next: "Weiter"
     label_no_data: "Nichts anzuzeigen"
     label_no_due_date: "kein Abgabedatum"
@@ -160,6 +159,7 @@ de:
       assigned_to: "Zugewiesen an"
       assigned_to_role: "Zuständigkeitsrolle"
       author: "Autor"
+      category: "Kategorie"
       created_at: "Angelegt"
       done_ratio: "% erledigt"
       due_date: "Abgabedatum"
@@ -299,6 +299,8 @@ de:
       description_options_show: "Optionen einblenden"
       label_enable_multi_select: "Mehrfachauswahl aktivieren"
       label_disable_multi_select: "Mehrfachauswahl deaktivieren"
+      label_column_multiselect: "Kombiniertes Eingabefeld: Auswahl mit Pfeiltasten, Auslösen mit Enter, Löschen mit Backspace"
+      label_column_select: "Status - Kombiniertes Eingabefeld: Auswahl mit Autovervollständigung"
       label_filter_add: "Filter hinzufügen"
       label_options: "Optionen"
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
@@ -397,6 +399,9 @@ de:
       btn_preview_enable: "Vorschau"
       btn_preview_disable: "Vorschau deaktivieren"
       null_value_label: "Kein Wert"
+      errors:
+        required: '%{field} ist ein Pflichtfeld'
+        number: '%{field} ist keine gültige Zahl'
 
     error_could_not_resolve_version_name: "Versionsbezeichner konnte nicht aufgelöst werden"
     error_could_not_resolve_user_name: "Benutzername konnte nicht aufgelöst werden"

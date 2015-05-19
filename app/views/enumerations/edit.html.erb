@@ -33,9 +33,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @enumeration do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <%= submit_tag l(:button_save), class: 'button -highlight' %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
 <% end %>
 
-<%= form_tag(enumeration_path(@enumeration), :method => :delete) do %>
-  <%= submit_tag l(:button_delete), class: 'button -highlight' %>
+<%= styled_form_tag(enumeration_path(@enumeration), :method => :delete) do %>
+  <%= styled_submit_tag l(:button_delete), class: '-highlight' %>
 <% end %>

@@ -30,20 +30,88 @@
 module API
   module Utilities
     module ResourceLinkParser
-      def self.parse(resource_link)
-        ::API::Root.routes.each do |route|
-          route_options = route.instance_variable_get(:@options)
-          match = route_options[:compiled].match(resource_link)
+      # N.B. valid characters for URL path segments as of
+      # http://tools.ietf.org/html/rfc3986#section-3.3
+      SEGMENT_CHARACTER = '(\w|[-~!$&\'\(\)*+\.,:;=@]|%[0-9A-Fa-f]{2})'
+      RESOURCE_REGEX = "/api/v(?<version>\\d)/(?<namespace>\\w+)/(?<id>#{SEGMENT_CHARACTER}+)\\z"
+      SO_REGEX = "/api/v(?<version>\\d)/string_objects/?\\?value=(?<id>#{SEGMENT_CHARACTER}*)\\z"
 
-          if match
-            return {
-              ns: /\/(?<ns>\w+)\//.match(route_options[:namespace])[:ns],
-              id: match[:id]
-            }
-          end
+      class << self
+        def parse(resource_link)
+          # string objects have a quite different format from the usual resources (query-parameter)
+          # we therefore have a specific regex to deal with them and a generic one for all others
+          parse_string_object(resource_link) || parse_resource(resource_link)
         end
 
-        nil
+        def parse_id(resource_link,
+                     property: nil,
+                     expected_version: nil,
+                     expected_namespace: nil)
+          raise ArgumentError unless resource_link && property
+
+          resource = parse(resource_link)
+
+          if resource
+            version_valid = matches_expectation?(expected_version, resource[:version])
+            namespace_valid = matches_expectation?(expected_namespace, resource[:namespace])
+          end
+
+          unless resource && version_valid && namespace_valid
+            fail ::API::Errors::Form::InvalidResourceLink.new(property,
+                                                              make_expected_link(
+                                                                expected_version,
+                                                                expected_namespace),
+                                                              resource_link)
+          end
+
+          resource[:id]
+        end
+
+        private
+
+        def parse_resource(resource_link)
+          match = resource_matcher.match(resource_link)
+
+          return nil unless match
+
+          {
+            version: match[:version],
+            namespace: match[:namespace],
+            id: ::URI.unescape(match[:id])
+          }
+        end
+
+        def parse_string_object(resource_link)
+          match = string_object_matcher.match(resource_link)
+
+          return nil unless match
+
+          {
+            version: match[:version],
+            namespace: 'string_objects',
+            id: ::URI.unescape(match[:id])
+          }
+        end
+
+        def resource_matcher
+          @resource_matcher ||= Regexp.compile(RESOURCE_REGEX)
+        end
+
+        def string_object_matcher
+          @string_object_matcher ||= Regexp.compile(SO_REGEX)
+        end
+
+        # returns whether expectation and actual are identical
+        # will always be true if there is no expectation (nil)
+        def matches_expectation?(expected, actual)
+          expected.nil? || expected.to_s == actual
+        end
+
+        def make_expected_link(version, namespace)
+          version = "v#{version}" || ':apiVersion'
+          namespace = namespace || ':resource'
+          "/api/#{version}/#{namespace}/:id"
+        end
       end
     end
   end

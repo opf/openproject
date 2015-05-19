@@ -30,28 +30,7 @@
   margin-left: auto
   margin-right: auto
   padding-top: 20px
-  // label width + label padding-right + input width + input padding-left + input border
-  width: 155px + 5px + $content-from-input-width + 10px + 2px
-
-  .button.-highlight
-    // align with input fields
-    // label width + label padding-right
-    margin-left: 155px + 5px
-
-    height: 32px
-
-  .attribute_wrapper
-    @include prevent-float-collapse
-
-  label
-    // inline-block can't guarantee a specific width (possibly due to whitespace)
-    display: block
-    float: left
-
-  input
-    &[type=password], &[type=text]
-      // inline-block can't guarantee a specific width
-      display: block
+  width: 511px
 
   .login-options-container
     margin-bottom: 10px
@@ -104,12 +83,12 @@
 
   a.auth-provider
     float: left
-    width: 97px
+    width: 147px
     height: 40px
     padding-left: 50px
     margin-left: 10px
     margin-top: 20px
-    background-image: url(image-path('auth_provider-developer.png'))
+    background-image: image-url('auth_provider-developer.png')
     background-size: 40px 40px
     background-repeat: no-repeat
     font-weight: normal

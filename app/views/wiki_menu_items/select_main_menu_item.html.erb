@@ -32,8 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><%= t :wiki_menu_item_new_main_item_explanation %></p>
 
 <%= labelled_tabular_form_for :wiki_page, url: { action: 'replace_main_menu_item' } do |f| %>
-  <fieldset class="box" id="wiki_menu_item_setting">
-    <legend><%= l(:label_wiki_page) %></legend>
+  <fieldset class="form--fieldset" id="wiki_menu_item_setting">
+    <legend class="form--fieldset-legend"><%= l(:label_wiki_page) %></legend>
     <p>
       <%= f.select :id, wiki_page_options_for_select(@possible_wiki_pages, @page),
                           {label: WikiPage.human_attribute_name(:title)},

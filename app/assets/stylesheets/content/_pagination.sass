@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$pagination--font-size: 0.8125rem
+
 .pagination
   +display(flex)
   +justify-content(space-between)
@@ -46,7 +48,7 @@
   +display(flex)
   margin: 0
   padding: 0
-  font-size: 90%
+  font-size: $pagination--font-size
 
   .pagination--pages &
     +justify-content(flex-start)

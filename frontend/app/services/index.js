@@ -34,7 +34,12 @@ angular.module('openproject.services')
   .service('AuthorisationService', require('./authorisation-service'))
   .service('GroupService', ['$http', 'PathHelper', require('./group-service')])
   .service('HookService', require('./hook-service'))
-  .service('OverviewTabInplaceEditorConfig', require('./overview-tab-inplace-editor-config'))
+  .service('KeyboardShortcutService', [
+    '$window',
+    '$rootScope',
+    '$timeout',
+    'PathHelper',
+    require('./keyboard-shortcut-service')])
   .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', require(
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(
@@ -53,6 +58,7 @@ angular.module('openproject.services')
     'PriorityService',
     'UserService',
     'VersionService',
+    'CategoryService',
     'RoleService',
     'GroupService',
     'ProjectService',
@@ -78,6 +84,8 @@ angular.module('openproject.services')
   ])
   .service('VersionService', ['$http', 'PathHelper', require(
     './version-service')])
+  .service('CategoryService', ['$http', 'PathHelper', require(
+    './category-service')])
   .constant('DEFAULT_FILTER_PARAMS', {
     'fields[]': 'status_id',
     'operators[status_id]': 'o'
@@ -93,5 +101,7 @@ angular.module('openproject.services')
     '$window',
     '$q',
     'AuthorisationService',
+    'EditableFieldsState',
+    'WorkPackageFieldService',
     require('./work-package-service')
   ]);

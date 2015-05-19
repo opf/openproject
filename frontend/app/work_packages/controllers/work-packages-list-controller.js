@@ -270,6 +270,15 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
       });
   };
 
+  $scope.openOverviewTab = function() {
+    $scope.settingUpPage = $state.go(
+      'work-packages.list.details.overview',
+      {
+        workPackageId: $scope.preselectedWorkPackageId,
+        'query_props': $location.search()['query_props']
+      });
+  };
+
   $scope.closeDetailsView = function() {
     // can't use query_props in $state.go since it's not specified
     // in the config. if I put it into config, a reload will be triggered
@@ -285,6 +294,17 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
         latestTab.getStateName(),
         { workPackageId: id, 'query_props': $location.search()['query_props'] }
       );
+    }
+  };
+
+  $scope.getFilterCount = function() {
+    if ($scope.query) {
+      var filters = $scope.query.filters;
+      return _.size(_.where(filters, function(filter) {
+        return !filter.deactivated;
+      }));
+    } else {
+      return 0;
     }
   };
 };

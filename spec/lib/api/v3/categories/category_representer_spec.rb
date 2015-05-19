@@ -61,7 +61,7 @@ describe ::API::V3::Categories::CategoryRepresenter do
       it_behaves_like 'category has core values'
 
       it 'should not link to an assignee' do
-        expect(subject).to_not have_json_path('_links/user')
+        expect(subject).not_to have_json_path('_links/defaultAssignee')
       end
     end
 
@@ -72,10 +72,10 @@ describe ::API::V3::Categories::CategoryRepresenter do
       it_behaves_like 'category has core values'
 
       it 'should link to its default assignee' do
-        expect(subject).to have_json_path('_links/user/href')
+        expect(subject).to have_json_path('_links/defaultAssignee/href')
       end
       it 'should display the name of its default assignee' do
-        expect(subject).to have_json_path('_links/user/title')
+        expect(subject).to have_json_path('_links/defaultAssignee/title')
       end
     end
   end

@@ -97,14 +97,38 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/categories\/42/) }
   end
 
-  describe '#preview_textile' do
-    subject { helper.preview_textile '/api/v3/work_packages/42' }
+  describe '#render_markup' do
+    subject { helper.render_markup(format: 'super_fancy', link: 'link-ish') }
+
+    before do
+      allow(Setting).to receive(:text_formatting).and_return('by-the-settings')
+    end
 
     it_behaves_like 'api v3 path'
 
-    it { is_expected.to match(/^\/api\/v3\/render\/textile/) }
+    it { is_expected.to eql('/api/v3/render/super_fancy?context=link-ish') }
 
-    it { is_expected.to match(/\?\/api\/v3\/work_packages\/42$/) }
+    context 'no link given' do
+      subject { helper.render_markup(format: 'super_fancy') }
+
+      it { is_expected.to eql('/api/v3/render/super_fancy') }
+    end
+
+    context 'no format given' do
+      subject { helper.render_markup }
+
+      it { is_expected.to eql('/api/v3/render/by-the-settings') }
+
+      context 'settings set to no formatting' do
+        subject { helper.render_markup }
+
+        before do
+          allow(Setting).to receive(:text_formatting).and_return('')
+        end
+
+        it { is_expected.to eql('/api/v3/render/plain') }
+      end
+    end
   end
 
   describe 'priorities paths' do
@@ -151,6 +175,22 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/queries\/1/) }
   end
 
+  describe '#query_star' do
+    subject { helper.query_star 1 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to eql('/api/v3/queries/1/star') }
+  end
+
+  describe '#query_unstar' do
+    subject { helper.query_unstar 1 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to eql('/api/v3/queries/1/unstar') }
+  end
+
   describe 'relations paths' do
     describe '#relation' do
       subject { helper.relation 1 }
@@ -166,6 +206,16 @@ describe ::API::V3::Utilities::PathHelper do
       it_behaves_like 'api v3 path'
 
       it { is_expected.to match(/^\/api\/v3\/relations\/1/) }
+    end
+  end
+
+  describe 'schemas paths' do
+    describe '#work_package_schema' do
+      subject { helper.work_package_schema 1, 2 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to match(/^\/api\/v3\/work_packages\/schemas\/1-2/) }
     end
   end
 
@@ -193,11 +243,11 @@ describe ::API::V3::Utilities::PathHelper do
 
       it_behaves_like 'api v3 path'
 
-      it { is_expected.to match(/^\/api\/v3\/string_objects\/foo/) }
+      it { is_expected.to eql('/api/v3/string_objects?value=foo') }
 
       it 'escapes correctly' do
         value = 'foo/bar baz'
-        expect(helper.string_object value).to eql('/api/v3/string_objects/foo%2Fbar%20baz')
+        expect(helper.string_object value).to eql('/api/v3/string_objects?value=foo%2Fbar%20baz')
       end
     end
 
@@ -207,6 +257,32 @@ describe ::API::V3::Utilities::PathHelper do
       it_behaves_like 'api v3 path'
 
       it { is_expected.to match(/^\/api\/v3\/statuses\/1/) }
+    end
+  end
+
+  describe 'types paths' do
+    describe '#types' do
+      subject { helper.types }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to eql('/api/v3/types') }
+    end
+
+    describe '#types_by_project' do
+      subject { helper.types_by_project 12 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to eql('/api/v3/projects/12/types') }
+    end
+
+    describe '#type' do
+      subject { helper.type 1 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to eql('/api/v3/types/1') }
     end
   end
 
@@ -226,16 +302,16 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/versions\/42/) }
   end
 
-  describe '#versions' do
-    subject { helper.versions 42 }
+  describe '#versions_by_project' do
+    subject { helper.versions_by_project 42 }
 
     it_behaves_like 'api v3 path'
 
     it { is_expected.to match(/^\/api\/v3\/projects\/42\/versions/) }
   end
 
-  describe '#versions_projects' do
-    subject { helper.versions_projects 42 }
+  describe '#projects_by_version' do
+    subject { helper.projects_by_version 42 }
 
     it_behaves_like 'api v3 path'
 

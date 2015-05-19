@@ -35,13 +35,13 @@ gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 gem 'globalize', "~> 3.1.0"
 gem 'omniauth'
-gem 'request_store'
+gem 'request_store', "~> 1.1.0"
 gem 'gravatar_image_tag', '~> 1.2.0'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
-gem 'rails_autolink'
+gem 'rails_autolink', '~> 1.1.6'
 gem "will_paginate", '~> 3.0'
-gem "acts_as_list", "~> 0.2.0"
+gem "acts_as_list", "~> 0.3.0"
 
 gem 'awesome_nested_set'
 
@@ -85,9 +85,12 @@ gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git"
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
+gem 'syck', :platforms => [:mri, :mingw], :require => false
 
 gem 'gon', '~> 4.0'
+
+# catch exceptions and send them to any airbrake compatible backend
+gem 'airbrake', '~> 4.1.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -100,9 +103,10 @@ gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '
 gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
-gem 'sass',             '~> 3.4.9'
+gem 'sass',             '~> 3.4.12'
 gem 'autoprefixer-rails'
-gem 'bourbon',          '~> 4.1.1'
+gem 'execjs',           '~> 2.4.0'
+gem 'bourbon',          '~> 4.2.0'
 gem 'uglifier',         '>= 1.0.3', require: false
 gem 'livingstyleguide', '~> 1.2.2'
 
@@ -132,10 +136,11 @@ gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
 
 group :test do
   gem 'rack-test', '~> 0.6.2'
-  gem 'shoulda'
+  gem 'shoulda-context', '~> 1.2'
+
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
-  gem "factory_girl_rails", "~> 4.0"
+  gem "factory_girl_rails", "~> 4.5", :require => false
   gem 'cucumber-rails', "~> 1.4.2", :require => false
   gem 'rack_session_access'
   # restrict because in version 1.3 a lot of tests using acts as journalized
@@ -143,13 +148,15 @@ group :test do
   # connection with database cleaner here but setting it to 1.2 fixes the
   # issue.
   gem 'database_cleaner', '~> 1.2.0'
-  gem 'rspec', '~> 2.99.0'
+  gem 'rspec', '~> 3.2.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem "rspec-rails", "~> 2.99.0", :group => :development
+  gem 'rspec-rails', '~> 3.2.0', group: :development
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
+  gem 'rspec-legacy_formatters'
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot', '~> 1.0.4'
+  gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'selenium-webdriver', '~> 2.44.0'
   gem 'timecop', '~> 0.7.1'
 
@@ -157,10 +164,11 @@ group :test do
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', '0.8.0.pre'
-  gem "shoulda-matchers", '~> 2.5.0'
+  gem "shoulda-matchers", '~> 2.8', require: nil
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
-  gem "codeclimate-test-reporter", :require => nil
+  gem 'codecov', require: nil
+  gem 'equivalent-xml', '~> 0.5.1'
 end
 
 group :ldap do
@@ -168,7 +176,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'letter_opener', '~> 1.0.0'
+  gem 'letter_opener', '~> 1.3.0'
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'thin'
   gem 'faker'
@@ -187,7 +195,7 @@ end
 # API gems
 gem 'grape', '~> 0.10.1'
 gem 'roar',   '~> 1.0.0'
-gem 'reform', '~> 1.2.4', require: false
+gem 'reform', '~> 1.2.6', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since

@@ -1,0 +1,11 @@
+<div class="inplace-edit--date-range">
+  <input type="text" class="inplace-edit--date-range-start-date" 
+  			 execute-on-enter="execute()" ng-change="onStartEdit()" 
+  			 ng-model="startDate" ng-class="{'inplace-edit--highlight': startDateIsChanged}" />
+  <div class="inplace-edit--date-range-start-date-picker"></div>
+  <span class="delimeter">-</span>
+  <input type="text" class="inplace-edit--date-range-end-date" 
+  			 execute-on-enter="execute()" ng-change="onEndEdit()" 
+  			 ng-model="endDate" ng-class="{'inplace-edit--highlight': endDateIsChanged}" />
+  <div class="inplace-edit--date-range-end-date-picker"></div>
+</div>

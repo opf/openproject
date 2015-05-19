@@ -31,29 +31,34 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :action_menu_specific do %>
   <%= link_to_if_authorized l(:label_message_new),
-                            {:controller => '/messages', :action => 'new', :board_id => @board},
-                            :class => 'icon icon-add',
-                            :onclick => 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
+                            {controller: '/messages', action: 'new', board_id: @board},
+                            class: 'icon icon-add',
+                            onclick: 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
   <%= watcher_link(@board, User.current) %>
 <% end %>
+
 <div id="add-message" style="display:none;">
   <% if authorize_for('messages', 'new') %>
     <h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
-    <%= form_for Message.new,
-             :url => board_topics_path(@board),
-             :html => { :multipart => true,
-                        :id => 'message-form'} do |f| %>
-      <%= render :partial => 'messages/form', :locals => {:f => f} %>
-      <p><%= submit_tag l(:button_create), class: 'button -highlight' %>
-        <%= preview_link preview_board_topics_path(@board), 'message-form-preview', class: 'button' %>
-        <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-message")', class: 'button' %></p>
+    <%= labelled_tabular_form_for Message.new,
+                                  url: board_topics_path(@board),
+                                  html: { multipart: true,
+                                          id: 'message-form',
+                                          class: 'form' } do |f| %>
+      <%= render partial: 'messages/form', locals: {f: f} %>
+
+      <hr class="form--separator">
+      <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-yes' %>
+      <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
+      <%= link_to l(:button_cancel), "#", onclick: 'Element.hide("add-message")', class: 'button' %>
     <% end %>
-    <div id="preview" class="wiki"></div>
+    <div id="preview"></div>
   <% end %>
 </div>
+
 <h2><%=h @board.name %></h2>
 <p class="subtitle"><%=h @board.description %></p>
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= render partial: 'layouts/action_menu_specific' %>
 
 
 <div ng-controller="MessagesController">
@@ -96,9 +101,9 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
 <% end %>
 <% html_title h(@board.name) %>
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
+  <%= auto_discovery_link_tag(:atom, {format: 'atom', key: User.current.rss_key}, title: "#{@project}: #{@board}") %>
 <% end %>

@@ -31,14 +31,14 @@ See doc/COPYRIGHT.rdoc for more details.
   <%=I18n.t("timelines.edit_timeline", :timeline => @timeline.name)%>
 </h2>
 
-<%= form_for(:timeline,
+<%= labelled_tabular_form_for(@timeline,
             :url => project_timeline_path(@project, @timeline),
-            :html => {:class => "tabular", :method => 'put'}) do |f| %>
+            :html => {:method => 'put'}) do |f| %>
 
   <%= render(:partial => "timelines/form",
              :locals => {:f => f, :timeline => @timeline}) %>
 
-  <%= f.submit l(:button_save), class: 'button -highlight' %>
+  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %>
   <%= link_to l(:button_cancel), project_timeline_path(@project, @timeline), class: 'button' %>
 
 <% end %>

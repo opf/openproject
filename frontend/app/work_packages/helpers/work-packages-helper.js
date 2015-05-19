@@ -122,6 +122,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
           return object.parent_id;
         case 'project':
           return object.project.identifier;
+        case 'id':
         case 'subject':
           return object.id;
         default:
@@ -151,27 +152,6 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
           return currencyFilter(value, 'EUR ');
         default:
           return value;
-      }
-    },
-
-    formatWorkPackageProperty: function(value, propertyName) {
-      var mappings = {
-        dueDate: 'date',
-        startDate: 'date',
-        createdAt: 'datetime',
-        updatedAt: 'datetime'
-      };
-
-      if (propertyName === 'estimatedTime' || propertyName === 'spentTime') {
-        if (value === null) {
-          return null;
-        }
-
-        var hours = moment.duration(value).asHours();
-
-        return I18n.t('js.units.hour', { count: hours });
-      } else {
-        return this.formatValue(value, mappings[propertyName]);
       }
     },
 

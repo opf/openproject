@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe "API v3 project's versions resource" do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:current_user) do
     user = FactoryGirl.create(:user,
@@ -50,7 +51,7 @@ describe "API v3 project's versions resource" do
   subject(:response) { last_response }
 
   describe '#get (index)' do
-    let(:get_path) { "/api/v3/projects/#{project.id}/versions" }
+    let(:get_path) { api_v3_paths.versions_by_project project.id }
 
     context 'logged in user' do
       before do

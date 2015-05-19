@@ -26,15 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+.attributes-group
+  margin-top: 1.6875rem
+
 .attributes-group--header
   @include grid-block
   margin:  0 0 1rem 0
-  border-bottom: 2px solid #eee
+  border-bottom: 1px solid #eee
   align-items: flex-end
 
 .attributes-group--header-container
   @include grid-content
   padding: 0 1rem 0.4rem 0
+
+.attributes-group--header-control
+  @include grid-content(shrink)
+  padding: 0 0 0.4rem 0
 
 .attributes-group--header-toggle
   @include grid-content(shrink)

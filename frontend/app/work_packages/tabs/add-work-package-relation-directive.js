@@ -42,7 +42,7 @@ module.exports = function($http, PathHelper) {
           scope: 'all',
           escape: false,
           id: scope.handler.workPackage.props.id,
-          'project_id': scope.handler.workPackage.props.projectId
+          'project_id': scope.handler.workPackage.embedded.project.props.id
         };
         return $http({
           method: 'GET',

@@ -40,11 +40,45 @@ in the [Collections Section](#collections).
 
 # Authentication
 
-For now the API only supports **session-based authentication**. This means you have to login to OpenProject via
-the Web-Interface to be authenticated in the API. This method is well-suited for clients acting within the browser,
-like the Angular-Client built into OpenProject.
+For now the API only supports two authentication schemes: session based authentication and basic auth.
 
-However for the future we plan to add authentication modes that are more suitable for **external clients** too.
+## Session-based Authentication
+
+This means you have to login to OpenProject via the Web-Interface to be authenticated in the API.
+This method is well-suited for clients acting within the browser, like the Angular-Client built into OpenProject.
+
+## API Key through Basic Auth
+
+Users can authenticate towards the API v3 using basic auth with 'apikey' as the user name and their API key as the password. Users can find their API key on their account page.
+
+Example:
+
+```bash
+API_KEY=2519132cdf62dcf5a66fd96394672079f9e9cad1
+curl -u apikey:$API_KEY https://community.openproject.com/api/v3/users/42
+```
+
+### Why not username and password?
+
+The simplest way to do basic auth would be to use a user's username and password naturally.
+However, OpenProject already has supported API keys in the past for the API v2, though not through basic auth.
+
+Using **username and password** directly would have some advantages:
+
+* It is intuitive for the user who then just has to provide those just as they would when logging into OpenProject.
+* No extra logic for token managment necessary.
+
+On the other hand using **API keys** has some advantages too, which is why we went for that:
+
+* If compromised while saved on an insecure client the user only has to regenerate the API key instead of changing their password, too.
+* They are naturally long and random which makes them invulnerable to dictionary attacks and harder to crack in general.
+
+Most importantly users may not actually have a password to begin with. Specifically when they have registered
+through an OpenID Connect provider.
+
+## Future Work
+
+For the future we plan to add authentication modes based on OAuth2 and OpenID Connect.
 
 # Allowed HTTP methods
 
@@ -177,6 +211,7 @@ embedded errors or simply state that multiple errors occured.
 * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
+* `urn:openproject-org:api:v3:errors:TypeNotSupported` (**HTTP 415**) - The request contained data in an unsupported media type (Content-Type)
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
 * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
@@ -184,11 +219,11 @@ embedded errors or simply state that multiple errors occured.
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 * `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
 
-# Formatable Text
+# Formattable Text
 
 OpenProject supports text formatting in Textile. Other text formats *may* be introduced in the future.
-Properties that contain formatable text have a special representation in this API. In this specification their
-type is indicated as `Formatable`. Their representation contains the following properties:
+Properties that contain formattable text have a special representation in this API. In this specification their
+type is indicated as `Formattable`. Their representation contains the following properties:
 
 | Property | Description                                        | Type   | Example                            | Supported operations |
 |:--------:| -------------------------------------------------- | ------ | ---------------------------------- | -------------------- |
@@ -198,16 +233,17 @@ type is indicated as `Formatable`. Their representation contains the following p
 
 `format` can as of today have one of the following values:
 
-* `plain` - no formatting at all
+* `plain` - only basic formatting, e.g. inserting paragraphs and line breaks into HTML
 * `textile` - formatting using Textile
+* `custom` - There is no apparent formatting rule that transforms the raw version to HTML (only used for read only properties)
 
 More formats might be added in the future.
 
-Note that `raw` is the only property supporting the **write** operation. A property of type *Formatable* that
+Note that `raw` is the only property supporting the **write** operation. A property of type *Formattable* that
 is marked as **read and write**, will only accept changes to the `raw` property. Changes to `format` and `html` will be **silently ignored**.
 It is thus sufficient to solely provide the `raw` property for changes.
 
-If the *Formatable* is marked as **read only**, the `raw` attribute also becomes **read only**.
+If the *Formattable* is marked as **read only**, the `raw` attribute also becomes **read only**.
 
 #### Example
 
@@ -400,13 +436,13 @@ Cursor based pagination is therefore less suited for use cases where you want to
 # Group Activities
 
 ## Properties:
-| Property    | Description      | Type                | Constraints | Supported operations |
-| :---------: | -------------    | ----                | ----------- | -------------------- |
-| id          | Activity id      | Integer             | x > 0       | READ                 |
-| version     | Activity version | Integer             | x > 0       | READ                 |
-| comment     |                  | Formatable          |             | READ / WRITE         |
-| details     |                  | Array of Formatable |             | READ                 |
-| createdAt   | Time of creation | DateTime            |             | READ                 |
+| Property    | Description      | Type                 | Constraints | Supported operations |
+| :---------: | -------------    | ----                 | ----------- | -------------------- |
+| id          | Activity id      | Integer              | x > 0       | READ                 |
+| version     | Activity version | Integer              | x > 0       | READ                 |
+| comment     |                  | Formattable          |             | READ / WRITE         |
+| details     |                  | Array of Formattable |             | READ                 |
+| createdAt   | Time of creation | DateTime             |             | READ                 |
 
 Activity can be either _type Activity or _type Activity::Comment.
 
@@ -765,15 +801,15 @@ contain a default value for that property. Nevertheless the client will also rec
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
 A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
-It is only necessary to include the properties that you want to change, as well as the `_type` and a `lockVersion` if one is present.
+It is only necessary to include the properties that you want to change, as well as the `lockVersion` if one is present.
 However you *may* include all the properties sent in the `payload` section.
 
 ### Schema
 
 The schema embedded in a form is a normal [schema describing the underlying resource](#schema).
 However, the embedded schema can change with each revalidation of the form.
-For example it might be possible, that changing the type of a work package affects the available properties
-of the work package, as well as possible values for certain properties.
+For example it might be possible, that changing the type of a work package affects its available properties,
+as well as possible values for certain properties.
 As this makes the embedded schema very dynamic, it is not included as a static link.
 
 ### Validation Errors
@@ -826,10 +862,6 @@ That is because the main purpose of a form is helping the client to sort out val
 
                         "lockVersion": {
                             "type": "Integer",
-                            "writable": false
-                        },
-                        "_type": {
-                            "type": "MetaType",
                             "writable": false
                         },
                         "subject": {
@@ -946,10 +978,10 @@ This is an example of how a form might look like. Note that this endpoint does n
 # Group Previewing
 
 Throughout OpenProject user input for many properties can be formatted (e.g. using *Textile*).
-Using the apropriate rendering endpoint it is possible to render custom formatted inputs into HTML and thus
+Using the appropriate rendering endpoint it is possible to render custom formatted inputs into HTML and thus
 receive a preview of the rendered text.
 
-The request to a rendering endpoint should always have a MIME-Type of `text/plain`.
+The request to a rendering endpoint must always have a MIME-Type of `text/plain`.
 The request body is the actual string that shall be rendered as HTML string.
 
 ## Textile [/api/v3/render/textile{?context}]
@@ -995,6 +1027,18 @@ The request body is the actual string that shall be rendered as HTML string.
                 "message": "Could not render textile string in the given context."
             }
 
++ Response 415 (application/json)
+
+    Returned if the Content-Type indicated in the request is not `text/plain`.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:TypeNotSupported",
+                "message": "Expected Content-Type to be 'text/plain' but got 'application/json'."
+            }
+
 ## Plain Text [/api/v3/render/plain]
 
 + Model
@@ -1011,6 +1055,18 @@ The request body is the actual string that shall be rendered as HTML string.
 + Response 200 (text/html)
 
     [Plain Text][]
+
++ Response 415 (application/json)
+
+    Returned if the Content-Type indicated in the request is not `text/plain`.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:TypeNotSupported",
+                "message": "Expected Content-Type to be 'text/plain' but got 'application/json'."
+            }
 
 # Group Priorities
 
@@ -1167,6 +1223,13 @@ The request body is the actual string that shall be rendered as HTML string.
 
 # Group Projects
 
+## Actions:
+
+| Link                       | Description                                                          | Condition                         |
+|:--------------------------:|----------------------------------------------------------------------| --------------------------------- |
+| createWorkPackage          | Form endpoint that aids in preparing and creating a work package     | **Permission**: add work packages |
+| createWorkPackageImmediate | Directly creates a work package in the project                       | **Permission**: add work packages |
+
 ## Linked Properties:
 | Link       | Description                          | Type       | Constraints | Supported operations |
 | :------:   | -------------                        | ----       | ----------- | -------------------- |
@@ -1198,6 +1261,14 @@ The request body is the actual string that shall be rendered as HTML string.
                         "href": "/api/v3/projects/1",
                         "title": "Lorem"
                     },
+                    "createWorkPackage": {
+                        "href": "/api/v3/projects/1/work_packages/form",
+                        "method": "post"
+                    },
+                    "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/1/work_packages",
+                        "method": "post"
+                    },
                     "categories": { "href": "/api/v3/projects/1/categories" },
                     "types": { "href": "/api/v3/projects/1/types" },
                     "versions": { "href": "/api/v3/projects/1/versions" }
@@ -1219,6 +1290,24 @@ The request body is the actual string that shall be rendered as HTML string.
 + Response 200 (application/hal+json)
 
     [Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
 
 ## Projects by version [/api/v3/versions/{id}/projects]
 
@@ -1292,6 +1381,107 @@ but are also limited to the projects that the current user is allowed to see.
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified version does not exist."
             }
+
+## WorkPackages [/api/v3/projects/{id}/work_packages{?notify}]
+
+## Create WorkPackage in project [POST]
+
+When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+The required fields of a WorkPackage can be found in its schema, which is embedded in the respective form.
+Note that it is only allowed to provide properties or links supporting the write operation.
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
+    + notify = `true` (optional, boolean, `false`) ... Indicates whether change notifications (e.g. via E-Mail) should be sent.
+    Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
+    not just the current user.
+
++ Response 200 (application/hal+json)
+
+    [WorkPackage][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** add work packages
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to add work packages to this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permissions:** view project
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+    * the client tries to write a read-only property
+    * a constraint for a property was violated
+    * a property was provided in an unreadable format
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "The subject might not be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "Subject"
+                    }
+                }
+            }
+
+## Work Package Create Form [/api/v3/projects/{id}/work_packages/form]
+
+This endpoint returns a form to allow a guided creation of a new work package.
+The returned form will be pre-filled with default values for every property, if available.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+## WorkPackage Create Form [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the project in which the work package will be created
+
++ Response 200 (application/hal+json)
+
+    [Example Form][]
 
 # Group Queries
 
@@ -1592,11 +1782,6 @@ Note that regular expressions used in the API follow the rules of [Ruby Regular 
                     "type": "Integer",
                     "writable": false
                 },
-                "_type": {
-                    "name": "Resource Type",
-                    "type": "MetaType",
-                    "writable": false
-                },
                 "subject": {
                     "name": "Subject",
                     "type": "String",
@@ -1869,14 +2054,14 @@ This is an example of how a schema might look like. Note that this endpoint does
 String objects are a linkable representation of strings. They merely serve the purpose of making links to strings possible,
 e.g. to be able to provide `allowedValues` for a string typed property.
 
-## String Object [/api/v3/string_objects/{value}]
+## String Object [/api/v3/string_objects?value={value}]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/string_objects/Foo" }
+                    "self": { "href": "/api/v3/string_objects?value=Foo" }
                 },
                 "_type": "StringObject",
                 "value": "Foo"
@@ -2135,18 +2320,18 @@ This endpoint lists the types that are *available* in a given project.
 | self      | This user                                   | User          | not null              | READ                 |
 
 ## Properties:
-| Property    | Description                                               | Type     | Constraints | Supported operations |
-| :---------: | -------------                                             | ----     | ----------- | -------------------- |
-| id          | User's id                                                 | Integer  | x > 0       | READ                 |
-| login       | User's login name                                         | String   |             | READ                 |
-| firstName   | User's first name                                         | String   |             | READ                 |
-| lastName    | User's last name                                          | String   |             | READ                 |
-| name        | User's full name, formatting depends on instance settings | String   |             | READ                 |
-| mail        | User's email                                              | String   |             | READ                 |
-| avatar      | URL to user's avatar                                      | String   |             | READ                 |
-| status      | The current activation status of the user (see below)     | String   |             | READ                 |
-| createdAt   | Time of creation                                          | DateTime |             | READ                 |
-| updatedAt   | Time of the most recent change to the user                | DateTime |             | READ                 |
+| Property    | Description                                               | Type     | Constraints | Supported operations | Condition                 |
+| :---------: | -------------                                             | ----     | ----------- | -------------------- | ------------------------- |
+| id          | User's id                                                 | Integer  | x > 0       | READ                 |                           |
+| login       | User's login name                                         | String   |             | READ                 |                           |
+| firstName   | User's first name                                         | String   |             | READ                 |                           |
+| lastName    | User's last name                                          | String   |             | READ                 |                           |
+| name        | User's full name, formatting depends on instance settings | String   |             | READ                 |                           |
+| email       | User's E-Mail address                                     | String   |             | READ                 | E-Mail address not hidden |
+| avatar      | URL to user's avatar                                      | String   |             | READ                 |                           |
+| status      | The current activation status of the user (see below)     | String   |             | READ                 |                           |
+| createdAt   | Time of creation                                          | DateTime |             | READ                 |                           |
+| updatedAt   | Time of the most recent change to the user                | DateTime |             | READ                 |                           |
 
 The `status` of a user can be one of:
 
@@ -2181,7 +2366,7 @@ The `status` of a user can be one of:
                 "login": "j.sheppard",
                 "firstName": "John",
                 "lastName": "Sheppard",
-                "mail": "shep@mail.com",
+                "email": "shep@mail.com",
                 "avatar": "https://gravatar/avatar",
                 "status": "active",
                 "createdAt": "2014-05-21T08:51:20Z",
@@ -2366,7 +2551,7 @@ Permanently deletes the specified user account.
 | :---------: | --------------------------------------------- | ----------- | ----------- | -------------------- |
 | id          | Version id                                    | Integer     | x > 0       | READ                 |
 | name        | Version name                                  | String      | not null    | READ                 |
-| description |                                               | Formatable  | not null    | READ                 |
+| description |                                               | Formattable | not null    | READ                 |
 | startDate   |                                               | Date        |             | READ                 |
 | endDate     |                                               | Date        |             | READ                 |
 | status      | The current status of the version             | String      | not null    | READ                 |
@@ -2559,21 +2744,21 @@ Note that due to sharing this might be more than the versions *defined* by that 
 
 ## Properties:
 
-| Property         | Description                                            | Type       | Constraints                                                                  | Supported operations | Condition                        |
-| :--------------: | ------------------------------------------------------ | ---------- | ---------------------------------------------------------------------------- | -------------------- | -------------------------------- |
-| id               | Work package id                                        | Integer    | x > 0                                                                        | READ                 |                                  |
-| lockVersion      | The version of the item as used for optimistic locking | Integer    |                                                                              | READ                 |                                  |
-| subject          | Work package subject                                   | String     | not null; 1 <= length <= 255                                                 | READ / WRITE         |                                  |
-| type             | Name of the work package's type                        | String     | not null                                                                     | READ                 |                                  |
-| description      | The work package description                           | Formatable |                                                                              | READ / WRITE         |                                  |
-| parentId         | Parent work package id                                 | Integer    | Must be an id of an existing and visible (for the current user) work package | READ / WRITE         |                                  |
-| startDate        |                                                        | Date       | must be equal or greater than the soonest possible start date                | READ / WRITE         |                                  |
-| dueDate          |                                                        | Date       | must be greater than or equal to the start date                              | READ / WRITE         |                                  |
-| estimatedTime    |                                                        | Duration   |                                                                              | READ                 |                                  |
-| spentTime        |                                                        | Duration   |                                                                              | READ                 | **Permission** view time entries |
-| percentageDone   |                                                        | Integer    | 0 <= x <= 100                                                                | READ                 |                                  |
-| createdAt        | Time of creation                                       | DateTime   |                                                                              | READ                 |                                  |
-| updatedAt        | Time of the most recent change to the work package     | DateTime   |                                                                              | READ                 |                                  |
+| Property         | Description                                            | Type        | Constraints                                                                                            | Supported operations | Condition                        |
+| :--------------: | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------ | -------------------- | -------------------------------- |
+| id               | Work package id                                        | Integer     | x > 0                                                                                                  | READ                 |                                  |
+| lockVersion      | The version of the item as used for optimistic locking | Integer     |                                                                                                        | READ                 |                                  |
+| subject          | Work package subject                                   | String      | not null; 1 <= length <= 255                                                                           | READ / WRITE         |                                  |
+| type             | Name of the work package's type                        | String      | not null                                                                                               | READ                 |                                  |
+| description      | The work package description                           | Formattable |                                                                                                        | READ / WRITE         |                                  |
+| parentId         | Parent work package id                                 | Integer     | Must be an id of an existing and visible (for the current user) work package                           | READ / WRITE         |                                  |
+| startDate        | Scheduled beginning of a work package                  | Date        | Cannot be set for parent work packages; must be equal or greater than the earliest possible start date | READ / WRITE         |                                  |
+| dueDate          | Scheduled end of a work package                        | Date        | Cannot be set for parent work packages; must be greater than or equal to the start date                | READ / WRITE         |                                  |
+| estimatedTime    | Time a work package likely needs to be completed       | Duration    | Cannot be set for parent work packages                                                                 | READ / WRITE         |                                  |
+| spentTime        |                                                        | Duration    |                                                                                                        | READ                 | **Permission** view time entries |
+| percentageDone   | Amount of total completion for a work package          | Integer     | 0 <= x <= 100; Cannot be set for parent work packages                                                  | READ / WRITE         |                                  |
+| createdAt        | Time of creation                                       | DateTime    |                                                                                                        | READ                 |                                  |
+| updatedAt        | Time of the most recent change to the work package     | DateTime    |                                                                                                        | READ                 |                                  |
 
 *Note that the properties listed here only cover the built-in properties of the OpenProject Core.
 Using plug-ins and custom fields a work package might contain various additional properties.
@@ -2583,6 +2768,15 @@ all properties of the linking work package, including properties added by plug-i
 *Custom fields are identified by a key in the form of `customFieldN`, where `N` is an integer. Depending on their type,
 they can occur as properties or as linked properties. A client has to consult the schema to resolve
 the human readable name of custom fields.*
+
+*Properties that cannot be set directly on parent work packages are inferred from their children instead:*
+
+* `startDate` is the earliest start date from its children
+* `dueDate` is the latest due date from its children
+* `estimatedTime` is the sum of estimated times from its children
+* `percentageDone` is the weighted average of the sum of its children percentages done. The weight is given by the average of its children estimatedHours. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
+
+*Start date can also not be earlier than a due date of any predecessor.*
 
 ## WorkPackage [/api/v3/work_packages/{id}{?notify}]
 
@@ -2742,10 +2936,8 @@ the human readable name of custom fields.*
 When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
 Note that it is only allowed to provide properties or links supporting the **write** operation.
 
-Additionally to the fields the client wants to change, it is mandatory to provide:
-
-* The `_type` which should as of now always be `WorkPackage`
-* The value of `lockVersion` which was received by the `GET` request this change originates from
+Additionally to the fields the client wants to change, it is mandatory to provide the value of `lockVersion` which was received
+by the `GET` request this change originates from.
 
 The value of `lockVersion` is used to implement [optimistic locking](http://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
@@ -2759,7 +2951,6 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 + Request (application/json)
 
         {
-            "_type": "WorkPackage",
             "lockVersion": 13,
             "subject": "Lorem"
             "parentId": "42"
@@ -2837,6 +3028,29 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 + Response 200 (application/hal+json)
 
     [Example Schema][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the schema does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages (on the project where this schema is used)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "The subject might not be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "Subject"
+                    }
+                }
+            }
 
 ## Work Package Edit Form [/api/v3/work_packages/{id}/form]
 
@@ -2916,7 +3130,7 @@ For more details and all possible responses see the general specification of [Fo
                         "login": "j.sheppard",
                         "firstName": "John",
                         "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
+                        "email": "shep@mail.com",
                         "avatar": "https://gravatar/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
@@ -2944,7 +3158,7 @@ For more details and all possible responses see the general specification of [Fo
                         "login": "j.sheppard2",
                         "firstName": "Jim",
                         "lastName": "Sheppard",
-                        "mail": "shep@mail.net",
+                        "email": "shep@mail.net",
                         "avatar": "https://gravatar/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
@@ -3065,7 +3279,7 @@ updated activity.
                         "login": "j.sheppard",
                         "firstName": "John",
                         "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
+                        "email": "shep@mail.com",
                         "avatar": "https://gravatar/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
@@ -3093,7 +3307,7 @@ updated activity.
                         "login": "j.sheppard2",
                         "firstName": "Jim",
                         "lastName": "Sheppard",
-                        "mail": "shep@mail.net",
+                        "email": "shep@mail.net",
                         "avatar": "https://gravatar/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
@@ -3173,7 +3387,7 @@ Gets a list of users that can be assigned to work packages in the given project.
                         "login": "j.sheppard",
                         "firstName": "John",
                         "lastName": "Sheppard",
-                        "mail": "shep@mail.com",
+                        "email": "shep@mail.com",
                         "avatar": "https://gravatar/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
@@ -3201,7 +3415,7 @@ Gets a list of users that can be assigned to work packages in the given project.
                         "login": "j.sheppard2",
                         "firstName": "Jim",
                         "lastName": "Sheppard",
-                        "mail": "shep@mail.net",
+                        "email": "shep@mail.net",
                         "avatar": "https://gravatar/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",

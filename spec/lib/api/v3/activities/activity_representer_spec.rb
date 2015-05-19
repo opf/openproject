@@ -69,7 +69,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
 
         it 'should render all details as formattable' do
           (0..journal.details.count - 1).each do |x|
-            is_expected.to have_json_path("details/#{x}/format")
+            is_expected.to be_json_eql('custom'.to_json).at_path("details/#{x}/format")
             is_expected.to have_json_path("details/#{x}/raw")
             is_expected.to have_json_path("details/#{x}/html")
           end

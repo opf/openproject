@@ -30,6 +30,12 @@
 module.exports = function($timeout, FOCUSABLE_SELECTOR) {
   var FocusHelper = {
     getFocusableElement: function(element) {
+      var focusser = element.find('input.ui-select-focusser');
+
+      if (focusser.length > 0) {
+        return focusser[0];
+      }
+
       var focusable = element;
 
       if (!element.is(FOCUSABLE_SELECTOR)) {
@@ -40,9 +46,19 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
     },
 
     focus: function(element) {
-      var focusable = FocusHelper.getFocusableElement(element);
+      var focusable = angular.element(FocusHelper.getFocusableElement(element)),
+          $focusable = angular.element(focusable),
+          isDisabled = $focusable.is('[disabled]');
+
+      if(isDisabled) {
+        $focusable.removeProp('disabled');
+      }
 
       focusable.focus();
+
+      if(isDisabled) {
+        $focusable.prop('disabled');
+      }
     },
 
     focusElement: function(element) {
@@ -51,6 +67,7 @@ module.exports = function($timeout, FOCUSABLE_SELECTOR) {
       });
     },
 
+    // TODO: remove when select2 is not used
     focusSelect2Element: function(element) {
       var focusSelect2ElementRecursiv = function(retries) {
         $timeout(function() {

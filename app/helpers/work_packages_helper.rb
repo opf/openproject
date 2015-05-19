@@ -29,6 +29,7 @@
 
 module WorkPackagesHelper
   include AccessibilityHelper
+  extend DeprecatedAlias
 
   def work_package_breadcrumb
     full_path = if !@project.nil?
@@ -213,14 +214,18 @@ module WorkPackagesHelper
     end
   end
 
-  def send_notification_option
-    checked = params['send_notification'] != '0'
+  def send_notification_option(checked = false)
+    content_tag(:label, for: 'send_notification', class: 'form--label-with-check-box') do
+      (content_tag 'span', class: 'form--check-box-container' do
+        boxes = hidden_field_tag('send_notification', '0', id: nil)
 
-    content_tag(:label,
-                l(:label_notify_member_plural),
-                for: 'send_notification') +
-      hidden_field_tag('send_notification', '0', id: nil) +
-      check_box_tag('send_notification', '1', checked)
+        boxes += check_box_tag('send_notification',
+                               '1',
+                               checked,
+                               class: 'form--check-box')
+        boxes
+      end) + l(:label_notify_member_plural)
+    end
   end
 
   def render_work_package_tree_row(work_package, level, relation)
@@ -295,15 +300,6 @@ module WorkPackagesHelper
     ].flatten.compact
   end
 
-  def work_package_form_top_attributes(form, work_package, locals = {})
-    [
-      work_package_form_type_attribute(form, work_package, locals),
-      work_package_form_subject_attribute(form, work_package, locals),
-      work_package_form_parent_attribute(form, work_package, locals),
-      work_package_form_description_attribute(form, work_package, locals)
-    ].compact
-  end
-
   def work_package_show_attribute_list(work_package)
     main_attributes = work_package_show_main_attributes(work_package)
     custom_field_attributes = work_package_show_custom_fields(work_package)
@@ -323,22 +319,34 @@ module WorkPackagesHelper
     group_work_package_attributes work_package_show_attribute_list(work_package)
   end
 
-  def work_package_show_table_row(attribute, klass = nil, attribute_lang = nil, value_lang = nil, &block)
-    klass = attribute.to_s.dasherize if klass.nil?
+  def work_package_show_dd_dt(attribute, css_class = nil, attribute_lang = nil, value_lang = nil, &block)
+    css_classes = if css_class.nil?
+                    ["-#{attribute.to_s.dasherize}"]
+                  else
+                    css_class.to_s.split(' ').map { |k| "-#{k}" }
+                  end
+
     attribute_string = if attribute.is_a?(Symbol)
                          WorkPackage.human_attribute_name(attribute)
                        else
                          attribute
                        end
 
-    content = content_tag(:td, class: [:work_package_attribute_header, klass], lang: attribute_lang) { "#{attribute_string}:" }
-    content << content_tag(:td, class: klass, lang: value_lang, &block)
+    content = content_tag(:dt, attribute_string,
+                          class: %w(attributes-key-value--key) + css_classes,
+                          lang: attribute_lang)
+    content << content_tag(:dd,
+                           class: %w(attributes-key-value--value-container) + css_classes,
+                           lang: value_lang) do
+      content_tag(:div, class: 'attributes-key-value--value', &block)
+    end
 
     WorkPackageAttribute.new(attribute, content)
   end
+  deprecated_alias :work_package_show_table_row, :work_package_show_dd_dt
 
   def work_package_show_status_attribute(work_package)
-    work_package_show_table_row(:status) do
+    work_package_show_dd_dt(:status) do
       work_package.status ?
         work_package.status.name :
         empty_element_tag
@@ -346,7 +354,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_start_date_attribute(work_package)
-    work_package_show_table_row(:start_date, 'start-date') do
+    work_package_show_dd_dt(:start_date, 'start-date') do
       work_package.start_date ?
         format_date(work_package.start_date) :
         empty_element_tag
@@ -354,7 +362,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_priority_attribute(work_package)
-    work_package_show_table_row(:priority) do
+    work_package_show_dd_dt(:priority) do
       work_package.priority ?
         work_package.priority.name :
         empty_element_tag
@@ -362,7 +370,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_due_date_attribute(work_package)
-    work_package_show_table_row(:due_date) do
+    work_package_show_dd_dt(:due_date) do
       work_package.due_date ?
         format_date(work_package.due_date) :
         empty_element_tag
@@ -370,7 +378,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_assigned_to_attribute(work_package)
-    work_package_show_table_row(:assigned_to) do
+    work_package_show_dd_dt(:assigned_to) do
       content = avatar(work_package.assigned_to, class: 'avatar-mini').html_safe
       content << (work_package.assigned_to ? link_to_user(work_package.assigned_to) : empty_element_tag)
       content
@@ -378,7 +386,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_responsible_attribute(work_package)
-    work_package_show_table_row(:responsible) do
+    work_package_show_dd_dt(:responsible) do
       content = avatar(work_package.responsible, class: 'avatar-mini').html_safe
       content << (work_package.responsible ? link_to_user(work_package.responsible) : empty_element_tag)
       content
@@ -388,13 +396,13 @@ module WorkPackagesHelper
   def work_package_show_progress_attribute(work_package)
     return if WorkPackage.done_ratio_disabled?
 
-    work_package_show_table_row(:progress, 'done-ratio') do
+    work_package_show_dd_dt(:progress, 'done-ratio') do
       progress_bar work_package.done_ratio, width: '80px', legend: work_package.done_ratio.to_s
     end
   end
 
   def work_package_show_category_attribute(work_package)
-    work_package_show_table_row(:category) do
+    work_package_show_dd_dt(:category) do
       work_package.category ?
         work_package.category.name :
         empty_element_tag
@@ -402,7 +410,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_spent_time_attribute(work_package)
-    work_package_show_table_row(:spent_time) do
+    work_package_show_dd_dt(:spent_time) do
       work_package.spent_hours > 0 ?
         link_to(l_hours(work_package.spent_hours), work_package_time_entries_path(work_package)) :
         empty_element_tag
@@ -410,7 +418,7 @@ module WorkPackagesHelper
   end
 
   def work_package_show_fixed_version_attribute(work_package)
-    work_package_show_table_row(:fixed_version) do
+    work_package_show_dd_dt(:fixed_version) do
       work_package.fixed_version ?
         link_to_version(work_package.fixed_version) :
         empty_element_tag
@@ -418,63 +426,56 @@ module WorkPackagesHelper
   end
 
   def work_package_show_estimated_hours_attribute(work_package)
-    work_package_show_table_row(:estimated_hours) do
+    work_package_show_dd_dt(:estimated_hours) do
       work_package.estimated_hours ?
         l_hours(work_package.estimated_hours) :
         empty_element_tag
     end
   end
 
-  def work_package_form_type_attribute(form, work_package, locals = {})
-    selectable_types = locals[:project].types.map { |t| [((t.is_standard) ? '' : t.name), t.id] }
+  def work_package_form_field(required: false, classes: '')
+    div_class = 'form--field'
+    div_class << " #{classes}"
+    div_class << ' -required' if required
 
-    field = form.select :type_id, selectable_types, required: true
-
-    url = work_package.new_record? ?
-           new_type_project_work_packages_path(locals[:project]) :
-           new_type_work_package_path(work_package)
-
-    field += observe_field :work_package_type_id, url: url,
-                                                  update: :attributes,
-                                                  method: :get,
-                                                  with: "Form.serialize('work_package-form')"
-
-    WorkPackageAttribute.new(:type, field)
-  end
-
-  def work_package_form_subject_attribute(form, _work_package, _locals = {})
-    WorkPackageAttribute.new :subject, form.text_field(:subject, size: 80, required: true)
-  end
-
-  def work_package_form_parent_attribute(form, work_package, locals = {})
-    if User.current.allowed_to?(:manage_subtasks, locals[:project])
-      field = form.text_field :parent_id, size: 10, title: l(:description_autocomplete), class: 'short'
-      field += '<div id="parent_issue_candidates" class="autocomplete"></div>'.html_safe
-      field += javascript_tag "observeWorkPackageParentField('#{work_packages_auto_complete_path(id: work_package, project_id: locals[:project], escape: false) }')"
-
-      WorkPackageAttribute.new(:parent_issue, field)
+    content_tag 'div', class: div_class do
+      yield
     end
   end
 
-  def work_package_form_description_attribute(form, work_package, _locals = {})
-    field = form.text_area :description,
-                           cols: 60,
-                           rows: (work_package.description.blank? ? 10 : [[10, work_package.description.length / 50].max, 100].min),
-                           accesskey: accesskey(:edit),
-                           class: 'wiki-edit',
-                           :'ng-non-bindable' => '',
-                           :'data-wp_autocomplete_url' => work_packages_auto_complete_path(project_id: work_package.project, format: :json)
+  def work_package_form_type_selectable_types(project)
+    project.types.map { |t| [((t.is_standard) ? '' : t.name), t.id] }
+  end
 
-    WorkPackageAttribute.new(:description, field)
+  def work_package_form_type_observable_url(work_package, project)
+    if work_package.new_record?
+      new_type_project_work_packages_path(project)
+    else
+      new_type_work_package_path(work_package)
+    end
+  end
+
+  def user_can_manage_subtasks?(project)
+    User.current.allowed_to?(:manage_subtasks, project)
+  end
+
+  def work_package_form_parent_autocomplete_path(work_package, project)
+    work_packages_auto_complete_path(id: work_package, project_id: project, escape: false)
   end
 
   def work_package_form_status_attribute(form, work_package, locals = {})
     new_statuses = work_package.new_statuses_allowed_to(locals[:user])
 
     field = if new_statuses.any?
-              form.select(:status_id, (new_statuses.map { |p| [p.name, p.id] }), required: true)
+              work_package_form_field do
+                form.select(:status_id,
+                            new_statuses.map { |p| [p.name, p.id] },
+                            required: true)
+              end
             elsif work_package.status
-              form.label(:status) + work_package.status.name
+              work_package_form_field do
+                form.label(:status, class: 'form--label') + wrap_text(work_package.status.name)
+              end
             else
               form.label(:status) + empty_element_tag
             end
@@ -483,73 +484,137 @@ module WorkPackagesHelper
   end
 
   def work_package_form_priority_attribute(form, work_package, locals = {})
-    WorkPackageAttribute.new(:priority,
-                             form.select(:priority_id, (locals[:priorities].map { |p| [p.name, p.id] }), { required: true }, disabled: attrib_disabled?(work_package, 'priority_id')))
+    field = work_package_form_field do
+      form.select(:priority_id,
+                  locals[:priorities].map { |p| [p.name, p.id] },
+                  { required: true },
+                  disabled: attrib_disabled?(work_package, 'priority_id'))
+    end
+
+    WorkPackageAttribute.new(:priority, field)
   end
 
   def work_package_form_assignee_attribute(form, work_package, _locals = {})
-    WorkPackageAttribute.new(:assignee,
-                             form.select(:assigned_to_id, (work_package.assignable_assignees.map { |m| [m.name, m.id] }), include_blank: true))
+    field = work_package_form_field do
+      form.select(:assigned_to_id,
+                  work_package.assignable_assignees.map { |m| [m.name, m.id] },
+                  include_blank: true)
+    end
+
+    WorkPackageAttribute.new(:assignee, field)
   end
 
   def work_package_form_responsible_attribute(form, work_package, _locals = {})
-    WorkPackageAttribute.new(:responsible,
-                             form.select(:responsible_id, work_package.assignable_responsibles.map { |m| [m.name, m.id] }, include_blank: true))
+    field = work_package_form_field do
+      form.select(:responsible_id,
+                  work_package.assignable_responsibles.map { |m| [m.name, m.id] },
+                  include_blank: true)
+    end
+
+    WorkPackageAttribute.new(:responsible, field)
   end
 
   def work_package_form_category_attribute(form, _work_package, locals = {})
-    unless locals[:project].categories.empty?
-      field = form.select(:category_id,
-                          (locals[:project].categories.map { |c| [c.name, c.id] }),
-                          include_blank: true)
-      field += prompt_to_remote(icon_wrapper('icon icon-add', I18n.t(:label_work_package_category_new)),
-                                I18n.t(:label_work_package_category_new),
-                                'category[name]',
-                                project_categories_path(locals[:project]),
-                                class: 'no-decoration-on-hover',
-                                title: I18n.t(:label_work_package_category_new)) if authorize_for('categories', 'new')
+    return if locals[:project].categories.empty?
 
-      WorkPackageAttribute.new(:category, field)
+    category_field = work_package_form_field do
+      label = form.label(:category_id)
+
+      field = content_tag(:span, class: 'form--field-container') do
+        field = form.select(:category_id,
+                            (locals[:project].categories.map { |c| [c.name, c.id] }),
+                            include_blank: true,
+                            no_label: true)
+
+        if authorize_for('categories', 'new')
+
+          field += prompt_to_remote(icon_wrapper('icon icon-add icon4',
+                                                 I18n.t(:label_work_package_category_new)),
+                                    I18n.t(:label_work_package_category_new),
+                                    'category[name]',
+                                    project_categories_path(locals[:project]),
+                                    class: 'no-decoration-on-hover form--field-inline-action',
+                                    title: I18n.t(:label_work_package_category_new))
+        end
+
+        field
+      end
+
+      label + field
     end
+
+    WorkPackageAttribute.new(:category, category_field)
   end
 
   def work_package_form_assignable_versions_attribute(form, work_package, locals = {})
-    unless work_package.assignable_versions.empty?
-      field = form.select(:fixed_version_id,
-                          version_options_for_select(work_package.assignable_versions, work_package.fixed_version),
-                          include_blank: true)
-      field += prompt_to_remote(icon_wrapper('icon icon-add', I18n.t(:label_version_new)),
-                                l(:label_version_new),
-                                'version[name]',
-                                project_versions_path(locals[:project]),
-                                class: 'no-decoration-on-hover',
-                                title: l(:label_version_new)) if authorize_for('versions', 'new')
+    return if work_package.assignable_versions.empty?
 
-      WorkPackageAttribute.new(:fixed_version, field)
+    version_field = work_package_form_field do
+      label = form.label(:fixed_version_id)
+
+      field = content_tag(:span, class: 'form--field-container') do
+        field = form.select(:fixed_version_id,
+                            version_options_for_select(work_package.assignable_versions,
+                                                       work_package.fixed_version),
+                            include_blank: true,
+                            no_label: true)
+
+        if authorize_for('versions', 'new')
+          field += prompt_to_remote(icon_wrapper('icon icon-add icon4',
+                                                 I18n.t(:label_version_new)),
+                                    l(:label_version_new),
+                                    'version[name]',
+                                    project_versions_path(locals[:project]),
+                                    class: 'no-decoration-on-hover form--field-inline-action',
+                                    title: l(:label_version_new))
+        end
+
+        field
+      end
+
+      label + field
     end
+
+    WorkPackageAttribute.new(:fixed_version, version_field)
   end
 
   def work_package_form_start_date_attribute(form, work_package, _locals = {})
-    start_date_field = form.text_field :start_date, size: 10, disabled: attrib_disabled?(work_package, 'start_date'), class: 'short'
-    start_date_field += calendar_for("#{form.object_name}_start_date") unless attrib_disabled?(work_package, 'start_date')
+    start_date_field = work_package_form_field do
+      field = form.text_field :start_date,
+                              size: 10,
+                              disabled: attrib_disabled?(work_package, 'start_date'),
+                              class: 'short'
+      field += calendar_for("#{form.object_name}_start_date") unless attrib_disabled?(work_package, 'start_date')
+
+      field
+    end
 
     WorkPackageAttribute.new(:start_date, start_date_field)
   end
 
   def work_package_form_due_date_attribute(form, work_package, _locals = {})
-    due_date_field = form.text_field :due_date, size: 10, disabled: attrib_disabled?(work_package, 'due_date'), class: 'short'
-    due_date_field += calendar_for("#{form.object_name}_due_date") unless attrib_disabled?(work_package, 'due_date')
+    due_date_field = work_package_form_field do
+      field = form.text_field(:due_date,
+                              size: 10,
+                              disabled: attrib_disabled?(work_package, 'due_date'),
+                              class: 'short')
+      field += calendar_for("#{form.object_name}_due_date") unless attrib_disabled?(work_package, 'due_date')
+
+      field
+    end
 
     WorkPackageAttribute.new(:due_date, due_date_field)
   end
 
   def work_package_form_estimated_hours_attribute(form, work_package, _locals = {})
-    field = form.text_field :estimated_hours,
-                            size: 3,
-                            disabled: attrib_disabled?(work_package, 'estimated_hours'),
-                            value: number_with_precision(work_package.estimated_hours, precision: 2),
-                            class: 'short',
-                            placeholder: TimeEntry.human_attribute_name(:hours)
+    field = work_package_form_field do
+      form.text_field :estimated_hours,
+                      size: 3,
+                      disabled: attrib_disabled?(work_package, 'estimated_hours'),
+                      value: number_with_precision(work_package.estimated_hours, precision: 2),
+                      class: 'short',
+                      placeholder: TimeEntry.human_attribute_name(:hours)
+    end
 
     WorkPackageAttribute.new(:estimated_hours, field)
   end
@@ -557,15 +622,21 @@ module WorkPackagesHelper
   def work_package_form_done_ratio_attribute(form, work_package, _locals = {})
     if !attrib_disabled?(work_package, 'done_ratio') && WorkPackage.use_field_for_done_ratio?
 
-      field = form.select(:done_ratio, ((0..10).to_a.map { |r| ["#{r * 10} %", r * 10] }))
+      field = work_package_form_field do
+        form.select(:done_ratio, ((0..10).to_a.map { |r| ["#{r * 10} %", r * 10] }))
+      end
 
       WorkPackageAttribute.new(:done_ratio, field)
     end
   end
 
   def work_package_form_custom_values_attribute(_form, work_package, _locals = {})
-    work_package.custom_field_values.map do |value|
-      field = custom_field_tag_with_label :work_package, value
+    fields = work_package.custom_field_values.map do |value|
+      field = _form.fields_for_custom_fields :custom_field_values, value do |value_form|
+        work_package_form_field required: value.custom_field.is_required? do
+          value_form.custom_field
+        end
+      end
 
       WorkPackageAttribute.new(:"work_package_#{value.id}", field)
     end
@@ -591,10 +662,10 @@ module WorkPackagesHelper
 
   def work_package_show_custom_fields(work_package)
     work_package.custom_field_values.each_with_object([]) do |v, a|
-      a << work_package_show_table_row(v.custom_field.name,
-                                       "custom_field cf_#{v.custom_field_id}",
-                                       v.custom_field.name_locale,
-                                       v.custom_field.default_value_locale) do
+      a << work_package_show_dd_dt(v.custom_field.name,
+                                   "custom_field cf_#{v.custom_field_id}",
+                                   v.custom_field.name_locale,
+                                   v.custom_field.default_value_locale) do
         v.value.blank? ? empty_element_tag : simple_format_without_paragraph(h(show_value(v)))
       end
     end
@@ -654,5 +725,11 @@ module WorkPackagesHelper
                end
 
     [responsible, assignee].compact.join('<br>').html_safe
+  end
+
+  def wrap_text(name)
+    content_tag :span, class: 'form--field-container' do
+      content_tag :span, name, class: 'form--text-field-container'
+    end
   end
 end

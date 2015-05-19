@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ module.exports = function(
     }
     if($scope.query.isNew()) {
       if( allowQueryAction(event, 'create') ){
-        $scope.$emit('hideAllDropdowns');
+        emitClosingEvents($scope);
         saveModal.activate();
       }
     } else {
@@ -121,7 +121,7 @@ module.exports = function(
   };
 
   $scope.toggleDisplaySums = function(){
-    $scope.$emit('hideAllDropdowns');
+    emitClosingEvents($scope);
     $scope.query.displaySums = !$scope.query.displaySums;
 
     // This eventually calls the resize event handler defined in the
@@ -170,13 +170,13 @@ module.exports = function(
   }
 
   function showModal() {
-    $scope.$emit('hideAllDropdowns');
+    emitClosingEvents($scope);
     this.activate();
   }
 
   function showExistingQueryModal(event) {
     if( preventNewQueryAction(event) ){
-      $scope.$emit('hideAllDropdowns');
+      emitClosingEvents($scope);
       this.activate();
     }
   }
@@ -196,6 +196,11 @@ module.exports = function(
       event.stopPropagation();
       return false;
     }
+  }
+
+  function emitClosingEvents($scope) {
+    $scope.$emit('hideAllDropdowns');
+    $scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
   }
 
   function deleteConfirmed() {

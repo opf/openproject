@@ -51,7 +51,7 @@ jQuery(document).ready(function($) {
     };
 
     formatItemSelection = function (item) {
-      return item.name;
+      return OpenProject.Helpers.markupEscape(item.name);
     };
 
     $("#members_add_form select.select2-select").each(function (ix, elem){
