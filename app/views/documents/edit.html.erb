@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= Document.model_name.human %></h2>
+<%= toolbar title: Document.model_name.human %>
 
 <%= labelled_tabular_form_for @document, url: project_document_path(@document) do |f| -%>
   <%= render partial: "documents/form", locals: { f: f } %>
