@@ -30,6 +30,7 @@ app:
     DATABASE_URL: postgres://openproject:openproject@db:5432/openproject
     SECRET_TOKEN: foobar
     SESSION_STORE: active_record_store
+    OPENPROJECT_ATTACHMENTS__STORAGE__PATH: /var/lib/openproject/attachments
     OPENPROJECT_EMAIL__DELIVERY__METHOD: smtp
     OPENPROJECT_SMTP__ADDRESS: mailcatcher
     OPENPROJECT_SMTP__PORT: 1025
@@ -40,6 +41,8 @@ app:
     - mailcatcher
   volumes:
     - /app/public
+  volumes_from:
+    - attachments
 
 worker:
   build: .
@@ -48,12 +51,21 @@ worker:
     RAILS_ENV: production
     DATABASE_URL: postgres://openproject:openproject@db:5432/openproject
     SECRET_TOKEN: foobar
+    OPENPROJECT_ATTACHMENTS__STORAGE__PATH: /var/lib/openproject/attachments
     OPENPROJECT_EMAIL__DELIVERY__METHOD: smtp
     OPENPROJECT_SMTP__ADDRESS: mailcatcher
     OPENPROJECT_SMTP__PORT: 1025
   links:
     - db
     - mailcatcher
+  volumes_from:
+    - attachments
+
+attachments:
+  image: busybox:latest
+  command: chown -R 1000:1000 /var/lib/openproject/attachments
+  volumes:
+    - /var/lib/openproject/attachments
 
 db:
   image: postgres:9.4
