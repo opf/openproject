@@ -1,5 +1,5 @@
 module ToolbarHelper
-  def toolbar(title:, subtitle: '', &_)
+  def toolbar(title:, subtitle: '')
     content_tag :div, class: 'toolbar-container' do
       content_tag :div, id: 'toolbar' do
         dom_title(title, subtitle) + dom_toolbar do
@@ -19,7 +19,7 @@ module ToolbarHelper
     end
   end
 
-  def dom_toolbar(&_)
+  def dom_toolbar
     return '' unless block_given?
     content_tag :ul, id: 'toolbar-items' do
       yield
