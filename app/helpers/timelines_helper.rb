@@ -186,7 +186,9 @@ module TimelinesHelper
   def new_timeline_link(project, &block)
     link_to({ controller: '/timelines', action: 'new', project_id: project },
             title: l('timelines.new_timeline'),
-            class: 'button -alt-highlight', &block)
+            class: 'button -alt-highlight',
+            &block
+            )
   end
 
   def edit_timeline_link(project, timeline, &block)
@@ -195,7 +197,9 @@ module TimelinesHelper
               project_id: project,
               id: timeline },
             class: 'button',
-            accesskey: accesskey(:edit), &block)
+            accesskey: accesskey(:edit),
+            &block
+            )
   end
 
   def destroy_timeline_link(project, timeline, &block)
@@ -203,7 +207,9 @@ module TimelinesHelper
               action: 'confirm_destroy',
               project_id: project,
               id: timeline },
-            class: 'button', &block)
+            class: 'button',
+            &block
+            )
   end
 
   def timeline_action_authorized?(action)
