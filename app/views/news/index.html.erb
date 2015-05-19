@@ -34,9 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
         <i class="button--icon icon-add"></i> <%= l(:label_news_new) %>
       <% end %>
     </li>
-    <%= javascript_tag do %>
-      jQuery(function($) { $('#new_news_link').focus() });
-    <% end %>
   <% end %>
 <% end %>
 <% if @newss.empty? %>
