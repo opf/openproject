@@ -23,7 +23,7 @@ class WorkPackageField
   end
 
   def activate_edition
-    @element.click
+    trigger_link.click
   end
 
   def input_element
@@ -40,6 +40,7 @@ class WorkPackageField
 
   def cancel_by_click
     @element.find('.inplace-edit--control--cancel').click
+    sleep 0.1
   end
 
   def cancel_by_escape

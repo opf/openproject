@@ -26,14 +26,6 @@ describe 'description inplace editor', js: true do
     row.double_click
   end
 
-  after do
-    begin
-      field.cancel_by_click
-    rescue Capybara::ElementNotFound
-      # it's ok
-    end
-  end
-
   context 'in read state' do
     it 'renders the correct text' do
       expect(field.read_state_text).to eq work_package.send(property_name)
@@ -61,6 +53,10 @@ describe 'description inplace editor', js: true do
   context 'in edit state' do
     before do
       field.activate_edition
+    end
+
+    after do
+      field.cancel_by_click
     end
 
     it 'renders a textarea' do

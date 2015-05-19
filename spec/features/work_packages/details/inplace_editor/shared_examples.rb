@@ -2,6 +2,7 @@ shared_examples 'an accessible inplace editor' do
   it 'triggers edit mode on click' do
     field.activate_edition
     expect(field).to be_editable
+    field.cancel_by_click
   end
 
   it 'triggers edit mode on RETURN key' do
@@ -54,6 +55,11 @@ shared_examples 'having a single validation point' do
     field.submit_by_click
   end
 
+  after do
+    field.cancel_by_click
+    other_field.cancel_by_click
+  end
+
   it 'displays validation for all inputs' do
     expect(other_field.errors_element).to be_visible
     expect(other_field.errors_text).to eq "#{property_title} cannot be empty"
@@ -65,6 +71,10 @@ shared_examples 'a required field' do
     field.activate_edition
     field.input_element.set ''
     field.submit_by_click
+  end
+
+  after do
+    field.cancel_by_click
   end
 
   it 'displays a required validation' do
@@ -94,6 +104,10 @@ shared_examples 'a cancellable field' do
       field.cancel_by_click
     end
 
+    after do
+      field.cancel_by_click
+    end
+
     it_behaves_like 'cancelling properly'
   end
 
@@ -101,6 +115,10 @@ shared_examples 'a cancellable field' do
     before do
       field.activate_edition
       field.cancel_by_escape
+    end
+
+    after do
+      field.cancel_by_click
     end
 
     it_behaves_like 'cancelling properly'
