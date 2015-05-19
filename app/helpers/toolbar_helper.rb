@@ -15,7 +15,8 @@ module ToolbarHelper
 
   def dom_title(title)
     content_tag :div, class: 'title-container' do
-      content_tag(:h2, title.html_safe, title: strip_links(title))
+      title_attribute = decode title
+      content_tag(:h2, title.html_safe, title: title_attribute)
     end
   end
 
@@ -24,5 +25,9 @@ module ToolbarHelper
     content_tag :ul, id: 'toolbar-items' do
       yield
     end
+  end
+
+  def decode(string)
+    raw strip_links string
   end
 end
