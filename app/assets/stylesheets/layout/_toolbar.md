@@ -38,7 +38,6 @@ A toolbar that can and should be used for actions on the current view. Initially
   <div id="toolbar">
     <div class="title-container">
       <h2>Dragonball Z characters</h2>
-      <p class="subtitle">Now with subtitles!</p>
     </div>
     <ul id="toolbar-items">
       <li class="toolbar-item">
@@ -70,5 +69,6 @@ A toolbar that can and should be used for actions on the current view. Initially
       </li>
     </ul>
   </div>
+  <p class="subtitle">now with extremeley long subtitle: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste consequatur doloribus suscipit nemo temporibus deserunt alias incidunt doloremque officia rerum, nobis fuga, recusandae voluptatibus voluptatem tenetur repellendus itaque et. Eum.</p>
 </div>
 ```

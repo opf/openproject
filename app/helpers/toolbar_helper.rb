@@ -1,21 +1,21 @@
 module ToolbarHelper
   def toolbar(title:, subtitle: '')
     content_tag :div, class: 'toolbar-container' do
-      content_tag :div, id: 'toolbar' do
-        dom_title(title, subtitle) + dom_toolbar do
+      toolbar = content_tag :div, id: 'toolbar' do
+        dom_title(title) + dom_toolbar do
           yield if block_given?
         end
       end
+      next toolbar if subtitle.blank?
+      toolbar + content_tag(:p, subtitle, class: 'subtitle')
     end
   end
 
   protected
 
-  def dom_title(title, subtitle)
+  def dom_title(title)
     content_tag :div, class: 'title-container' do
-      heading = content_tag(:h2, title.html_safe, title: strip_links(title))
-      next heading if subtitle.blank?
-      heading + content_tag(:p, subtitle, class: 'subtitle')
+      content_tag(:h2, title.html_safe, title: strip_links(title))
     end
   end
 
