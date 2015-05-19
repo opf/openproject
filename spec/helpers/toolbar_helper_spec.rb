@@ -63,7 +63,7 @@ describe ToolbarHelper, type: :helper do
     it 'should include capsulate html' do
       result = toolbar title: 'Title' do
         content_tag :li do
-          content_tag :p, 'paragraph', data: { number: 2}
+          content_tag :p, 'paragraph', data: { number: 2 }
         end
       end
       expect(result).to be_html_eql %{
@@ -80,7 +80,6 @@ describe ToolbarHelper, type: :helper do
           </div>
         </div>
       }
-
     end
   end
 end
