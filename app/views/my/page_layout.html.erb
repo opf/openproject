@@ -65,7 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
   //]]>
 </script>
 
-<% toolbar title: l(:label_my_page) do %>
+<%= toolbar title: l(:label_my_page) do %>
     <li class="toolbar-item">
       <%= styled_form_tag({:action => "add_block"}, :id => "block-form") do %>
         <%= styled_select_tag 'block', "<option>--#{t(:button_add)}--</option>".html_safe + options_for_select(@block_options),
