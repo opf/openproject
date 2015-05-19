@@ -130,10 +130,10 @@ RUN gem install bundler
 RUN gem install foreman
 
 # add openproject's source to the container
-COPY . /usr/src/openproject
+COPY . /app
 
 # set the working directory to the app
-WORKDIR /usr/src/openproject
+WORKDIR /app
 
 # add two gems that are required to make everything work inside a container
 #
@@ -144,11 +144,11 @@ RUN echo "gem 'sqlite3', '~> 1.3.10'" >> ./Gemfile.local
 RUN echo "gem 'rails_12factor', '~> 0.0.3'" >> ./Gemfile.local
 
 # create an unprivileged user that owns the code and will run the app server
-RUN useradd -m openproject
-RUN chown -R openproject:openproject /usr/src/openproject
+RUN useradd -m app
+RUN chown -R app:app /app
 
-# switch to the openproject user from now on
-USER openproject
+# switch to the app user from now on
+USER app
 
 # install all ruby dependencies via bundler into a local path
 RUN bundle install --path ./vendor/bundle

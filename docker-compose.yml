@@ -39,7 +39,7 @@ app:
     - db
     - mailcatcher
   volumes:
-    - /usr/src/openproject/public
+    - /app/public
 
 worker:
   build: .
