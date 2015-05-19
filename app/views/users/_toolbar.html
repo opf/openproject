@@ -1,7 +1,7 @@
 <div class="toolbar-container">
   <div id="toolbar">
     <div class="title-container">
-      <h2><%= link_to l(:label_user_plural), :controller => '/users', :action => 'index' %> &#187; <%= new_user ? l("label_user_new") : @user.name %></h2>
+      <h2><%= link_to l(:label_user_plural), :controller => '/users', :action => 'index' %> &#187; <%= new_user ? l("label_user_new") : h @user.name %></h2>
     </div>
     <% unless new_user %>
       <ul id="toolbar-items">

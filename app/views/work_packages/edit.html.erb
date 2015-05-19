@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l(:label_work_package_edit, name: work_package.to_s) %>
 
-<h2><%=h work_package.to_s %></h2>
+<h2 class="legacy-heading"><%=h work_package.to_s %></h2>
 
 <%= render :partial => 'edit', :locals => { :work_package => work_package,
                                             :allowed_statuses => allowed_statuses,

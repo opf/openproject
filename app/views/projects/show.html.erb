@@ -30,13 +30,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_overview) do %>
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <li class="toolbar-item">
-      <%= link_to l(:label_subproject_new), {:controller => '/projects', :action => 'new', :parent_id => @project}, :class => 'icon icon-add button' %>
+      <%= link_to({:controller => '/projects', :action => 'new', :parent_id => @project}, :class => 'button -alt-highlight') do %>
+        <span class="button--text"><i class="button--icon icon-add"></i> <%= l(:label_subproject_new) %></span>
+      <% end %>
     </li>
   <% end %>
 <% end %>
 <% breadcrumb_paths(l(:label_overview)) %>
 
-<div class="grid-block">
+<div class="grid-block medium-up-2">
   <div class="grid-content">
     <div class="wiki" ng-non-bindable>
       <%= format_text @project.description %>

@@ -27,8 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title l("label_roadmap_edit", name: @version.name) %>
-
-<h2><%= Version.model_name.human %></h2>
+<%= toolbar title: Version.model_name.human %>
 
 <%= labelled_tabular_form_for @version do |f| %>
 

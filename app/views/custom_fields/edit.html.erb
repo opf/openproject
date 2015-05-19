@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{CustomField.model_name.human} #{@custom_field.name}" %>
+<% html_title l(:label_administration), "#{l(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
 
 <%= toolbar title: %{#{link_to l(:label_custom_field_plural), custom_fields_path}
     &raquo; #{link_to l(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)}

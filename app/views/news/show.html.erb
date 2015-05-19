@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: "#{avatar(@news.author)} #{@news.title}" do %>
+<%= toolbar title: "#{avatar(@news.author)} #{h @news.title}" do %>
   <% if User.current.allowed_to?(:manage_news, @project) %>
     <%= link_to(edit_news_path(@news),
       :accesskey => accesskey(:edit),
