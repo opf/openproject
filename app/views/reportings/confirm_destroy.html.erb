@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l('timelines.reporting_for_project.show',
                 :title => h(@reporting.reporting_to_project.name)) %>
 
-<%= render partial: 'toolbar', locals: { type: :show } %>
+<%= render partial: 'toolbar', locals: { show_actions: false } %>
 
 <%= form_for :reporting,
             :url  => project_reporting_path(@project, @reporting),
