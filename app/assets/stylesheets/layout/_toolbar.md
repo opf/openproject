@@ -6,10 +6,11 @@ A toolbar that can and should be used for actions on the current view. Initially
 
 ```
 @full-width
-
-<h2>Title of the page</h2>
 <div class="toolbar-container">
   <div id="toolbar">
+    <div class="title-container">
+      <h2>Title of the page</h2>
+    </div>
     <ul id="toolbar-items">
       <li class="toolbar-item">
         <a href="#" class="button -highlight">An important button</a>
@@ -33,9 +34,12 @@ A toolbar that can and should be used for actions on the current view. Initially
 ```
 @full-width
 
-<h2>Dragonball Z characters</h2>
 <div class="toolbar-container">
   <div id="toolbar">
+    <div class="title-container">
+      <h2>Dragonball Z characters</h2>
+      <p class="subtitle">Now with subtitles!</p>
+    </div>
     <ul id="toolbar-items">
       <li class="toolbar-item">
         <select name="attribue">
