@@ -140,7 +140,7 @@ WORKDIR /usr/src/openproject
 # sqlite3: for connecting to a dummy database during asset precompilation
 # 12factor: to serve static assets by rails and log to stdout in production
 #
-RUN echo "gem 'sqlite3', '~> 1.3.0'" >> ./Gemfile.local
+RUN echo "gem 'sqlite3', '~> 1.3.10'" >> ./Gemfile.local
 RUN echo "gem 'rails_12factor', '~> 0.0.3'" >> ./Gemfile.local
 
 # create an unprivileged user that owns the code and will run the app server
