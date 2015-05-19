@@ -156,11 +156,11 @@ module API
       e.error_response status: 401, message: representer.to_json, headers: warden.headers
     end
 
-    error_response ::API::Errors::Unauthenticated, headers: auth_headers
-    error_response ::API::Errors::ErrorBase, rescue_subclasses: true
-
     error_response ActiveRecord::RecordNotFound, ::API::Errors::NotFound.new
     error_response ActiveRecord::StaleObjectError, ::API::Errors::Conflict.new
+
+    error_response ::API::Errors::Unauthenticated, headers: auth_headers
+    error_response ::API::Errors::ErrorBase, rescue_subclasses: true
 
     # run authentication before each request
     before do
