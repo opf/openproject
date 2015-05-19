@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render_timelog_breadcrumb %>
 
 <%= toolbar title: l(:label_spent_time) do %>
-  <% if User.current.allowed_to?(controller: 'timelog', action: :new) %>
+  <% if User.current.allowed_to?({controller: :timelog, action: :new}, @project) %>
       <li class="toolbar-item">
         <%= link_to polymorphic_new_time_entry_path(@issue || @project), class: 'button' do %>
           <span class="button--text"><i class="button--icon icon-time"></i> <%= l(:button_log_time) %></span>
