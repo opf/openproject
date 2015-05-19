@@ -21,7 +21,7 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title "#{l(:label_meeting_edit)}: #{@meeting.title}" %>
 
-<h2><%= l(:label_meeting) %> #<%= @meeting.id %></h2>
+<%= toolbar title: "#{l(:label_meeting)} ##{@meeting.id}" %>
 <%= labelled_tabular_form_for @meeting, :url => {:controller => '/meetings', :action => 'update'}, :html => {:id => 'meeting-form', :method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
 <%= submit_tag l(:button_save), class: 'button -highlight' %>

@@ -19,15 +19,16 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<% content_for :action_menu_specific do %>
-  <%= link_to_if_authorized(l(:label_history), {:controller => '/' + @content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-wiki') %>
-<% end %>
-
 <% html_title "#{l(:label_meeting_diff)}: #{@meeting.title}" %>
-
-<h2><%= l(:"label_#{@content_type}") %>: <%= link_to @meeting, @meeting %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= toolbar title: "#{l(:"label_#{@content_type}")}: #{link_to @meeting, @meeting}" do %>
+  <% if authorize_for(@content_type.pluralize, :history) %>
+    <li class="toolbar-item">
+      <%= link_to({controller: "/#{@content_type.pluralize}", action: 'history', meeting_id: @meeting }, class: 'button') do %>
+        <i class="button--icon icon-wiki"></i> <%= l(:label_history) %>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
 
 <p>
 <%= l(:label_version) %> <%= link_to @diff.content_from.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_from.version) %>
