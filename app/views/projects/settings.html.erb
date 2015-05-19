@@ -29,9 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title(l(:label_settings)) -%>
 <% breadcrumb_paths(l(:label_settings)) %>
 <%= toolbar title: l(:label_settings) do %>
-  <% if authorize_for(:copy_projects, :copy_project )&& @project.copy_allowed? %>
+  <% if @project.copy_allowed? %>
     <li class="toolbar-item">
-      <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button', accesskey: accesskey(:copy) do %>
+      <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button copy', accesskey: accesskey(:copy) do %>
         <i class="button--icon icon-copy"></i> <%= l(:button_copy) %>
       <% end %>
     </li>
