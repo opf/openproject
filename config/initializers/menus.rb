@@ -213,14 +213,6 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_news_plural,
             html: { class: 'icon2 icon-news' }
 
-  # menu.push :new_news,
-  #           { controller: '/news', action: 'new' },
-  #           param: :project_id,
-  #           caption: :label_news_new,
-  #           parent: :news,
-  #           if: Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) },
-  #           html: { class: 'icon2 icon-add' }
-
   menu.push :boards,
             { controller: '/boards', action: 'index', id: nil },
             param: :project_id,
