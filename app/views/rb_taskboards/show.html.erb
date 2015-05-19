@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                      :sprint_id => @sprint) %>
 <% end %>
 
-<%= toolbar title: @sprint.name do %>
+<%= toolbar title: h(@sprint.name) do %>
   <% if @sprint.has_burndown? %>
     <li class="toolbar-item">
       <label for="col_width_input"><%= l('backlogs.column_width') %></label>
