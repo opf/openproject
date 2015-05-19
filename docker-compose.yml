@@ -27,7 +27,7 @@ app:
   build: .
   environment:
     RAILS_ENV: production
-    DATABASE_URL: postgres://openproject:openproject@db:5432/openproject
+    DATABASE_URL: postgres://openproject:openproject@db:5432/openproject?encoding=unicode&pool=5
     SECRET_TOKEN: foobar
     SESSION_STORE: active_record_store
     OPENPROJECT_ATTACHMENTS__STORAGE__PATH: /var/lib/openproject/attachments
@@ -49,7 +49,7 @@ worker:
   command: foreman start worker
   environment:
     RAILS_ENV: production
-    DATABASE_URL: postgres://openproject:openproject@db:5432/openproject
+    DATABASE_URL: postgres://openproject:openproject@db:5432/openproject?encoding=unicode&pool=5
     SECRET_TOKEN: foobar
     OPENPROJECT_ATTACHMENTS__STORAGE__PATH: /var/lib/openproject/attachments
     OPENPROJECT_EMAIL__DELIVERY__METHOD: smtp
