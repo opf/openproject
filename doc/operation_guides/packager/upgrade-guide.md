@@ -2,9 +2,9 @@
 
 Starting with OpenProject 4.1 stable releases will have their own branch on github. According to this the OpenProject release 4.1 is tracked via the stable/4.1 branch. But why is this important to how the OpenProject packages are provided:
 
-The OpenProject Core and OpenProject Community Edition release 4.0 packages are derived from the stable branch of the respective repositories. Due to the fact that the branch for the OpenProject releasse 4.1 is tracked via the stable/4.1 branch packages has to be derived from the stable/4.1 branch instead of stable. This change make it necessary to update the source file for the package management system of the machine OpenProject is currently installed on. A typical `apt-get install openproject` e.g. for debian like systems will not work.
+The OpenProject Core and OpenProject Community Edition release 4.0 packages are derived from the stable branch of the respective repositories. Due to the fact that the branch for the OpenProject releasse 4.1 is tracked via the stable/4.1 branch packages has to be derived from the stable/4.1 branch instead of stable. This change makes it necessary to update the source file for the package management system of the machine OpenProject is currently installed on. A typical `apt-get install openproject` e.g. for debian like systems will not work.
 
-The following upgrade instructions describe in detail what has to be done to upgrade existing 4.0 installations of the OpenProject Core respectively the OpenProject Community Edition to 4.1 via the package management system. Therefore the guide is splitted into two parts:
+The following upgrade instructions describe in detail what has to be done to upgrade existing 4.0 installations of the OpenProject Core and the OpenProject Community Edition to 4.1 via the package management system. Therefore the guide is split into two parts:
 
 * The upgrade guide for OpenProject Core
 * The upgrade guide for OpenProject Community Edition
