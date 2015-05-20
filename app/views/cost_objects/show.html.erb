@@ -23,19 +23,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% html_title "#{l(:label_cost_object_id, id: @cost_object.id)}: #{@cost_object.subject}" %>
 <%= toolbar title: l(:label_cost_object_id,  id:  @cost_object.id) do %>
   <% if authorize_for(:cost_objects, :edit) %>
-    <%= link_to({ controller: 'cost_objects', action: 'edit',  id: @cost_object }, class: 'button', accesskey: accesskey(:edit)) do %>
-      <i class="button--icon icon-edit"></i> <%= l(:button_update) %>
-    <% end %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: 'cost_objects', action: 'edit',  id: @cost_object }, class: 'button', accesskey: accesskey(:edit)) do %>
+        <i class="button--icon icon-edit"></i> <%= l(:button_update) %>
+      <% end %>
+    </li>
   <% end %>
   <% if authorize_for(:cost_objects, :copy) %>
-    <%= link_to({ controller: 'cost_objects', action: 'copy', id: @cost_object }, class: 'button') do %>
-      <i class="button--icon icon-copy"></i> <%= l(:button_copy) %>
-    <% end %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: 'cost_objects', action: 'copy', id: @cost_object }, class: 'button') do %>
+        <i class="button--icon icon-copy"></i> <%= l(:button_copy) %>
+      <% end %>
+    </li>
   <% end %>
   <% if authorize_for(:cost_objects, :copy) %>
-    <%= link_to({ controller: 'cost_objects', action: 'destroy', id: @cost_object }, class: 'button', method: :delete, data: { confirm: l(:text_are_you_sure)}) do %>
-      <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
-    <% end %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: 'cost_objects', action: 'destroy', id: @cost_object }, class: 'button', method: :delete, data: { confirm: l(:text_are_you_sure)}) do %>
+        <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
+      <% end %>
+    </li>
   <% end %>
 <% end %>
 

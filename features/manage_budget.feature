@@ -93,8 +93,7 @@ Feature: Managing Budgets
       | project | project1 |
     And I go to the show page of the budget "budget1"
     When I click on "Update"
-    Then I should be able to update the budget "budget1"
-    When I create a material item in row 1 with the following:
+    And I create a material item in row 1 with the following:
       | units    | 10                  |
       | comment  | materialtestcomment |
     Then the planned material costs in row 1 should be "400.00 EUR"
@@ -127,8 +126,7 @@ Feature: Managing Budgets
       |    5  | labortestcomment2 | testuser |
     And I go to the show page of the budget "budget1"
     And I click on "Update"
-    Then I should be able to update the budget "budget1"
-    When I update the material item in row 1 with the following:
+    And I update the material item in row 1 with the following:
       | units    | 5                            |
       | comment  | changed_materialtestcomment  |
     Then the planned material costs in row 1 should be "200.00 EUR"

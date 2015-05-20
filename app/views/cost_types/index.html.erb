@@ -22,9 +22,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% html_title l(:cost_types_title) %>
 <%= toolbar title: CostType.model_name.human(count: 2) do %>
-  <%= link_to new_cost_type_path, class: 'button -alt-highlight' do%>
-    <i class="button--icon icon-add"></i> <%= l(:button_add_cost_type) %>
-  <% end %>
+  <li class="toolbar-item">
+    <%= link_to new_cost_type_path, class: 'button -alt-highlight' do%>
+      <i class="button--icon icon-add"></i> <%= l(:button_add_cost_type) %>
+    <% end %>
+  </li>
 <% end %>
 
 <%= styled_form_tag(cost_types_path, { :method => :get, :id => 'query_form' }) do %>
