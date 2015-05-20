@@ -21,8 +21,7 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title l(:label_meeting_plural) %>
 
-<h2><%= l(:label_meeting_plural)%></h2>
-
+<%= toolbar title: l(:label_meeting_plural) %>
 <% if @meetings_by_start_year_month_date.empty? -%>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else -%>
