@@ -80,6 +80,9 @@
     }
     for (var i = 0; i < s.options.length; i++) {
       var name = s.options[i].value || '';
+      // this becomes necessary as the block names are saved with dashes in the db,
+      // but their ids use underscores in the frontend - this changes the name to find 
+      // the block in the DOM
       name = name.replace(/\-/g, '_');
       if ($('block_' + name)) {
         s.options[i].disabled = true;
