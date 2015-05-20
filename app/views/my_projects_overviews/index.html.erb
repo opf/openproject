@@ -27,9 +27,7 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title(l(:label_overview)) -%>
 
-<h2><%=l(:label_overview)%></h2>
-
-<% content_for :toolbar do %>
+<%= toolbar title: l(:label_overview) do %>
   <% if User.current.allowed_to?(:add_subprojects, project) %>
     <li class="toolbar-item">
       <%= link_to new_project_path(parent_id: project), class: 'button -highlight' do %>
@@ -45,7 +43,6 @@ See doc/COPYRIGHT.md for more details.
     </li>
   <% end %>
 <% end %>
-<%= render :partial => 'layouts/toolbar' %>
 
 <div id="invisible-grid">
   <div class="grid-block medium-up-1">
