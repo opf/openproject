@@ -37,7 +37,6 @@
     text-decoration: none
 
 .toolbar-container
-  min-height:  $header-height
   padding: 0
   margin-bottom: 12px
 
@@ -46,7 +45,6 @@
     font-style: italic
     margin-top: rem-calc(5px)
     margin-bottom: 10px
-    clear: both
 
 #toolbar
   ul
@@ -56,6 +54,12 @@
 
   li
     list-style-type: none
+
+// automatically clear the toolbar
+#toolbar:after
+  clear: both
+  content: ""
+  display: table
 
 #toolbar-items
   li
