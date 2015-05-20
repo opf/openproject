@@ -1066,6 +1066,7 @@ de:
   label_keyboard_shortcut_go_preview: "Gehe zur Vorschau (nur auf Editieren-Seiten)"
   label_keyboard_shortcut_focus_previous_item: "Fokussiere vorheriges Listenelement (nur bei einigen Listen)"
   label_keyboard_shortcut_focus_next_item: "Fokussiere nächstes Listenelement (nur bei einigen Listen)"
+  label_visible_elements: Sichtbare Elemente
 
   macro_execution_error: "Das Makro %{macro_name} konnte nicht ausgeführt werden"
   macro_unavailable: "Makro %{macro_name} kann nicht angezeigt werden"

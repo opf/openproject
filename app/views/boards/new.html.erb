@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= l(:label_board_new) %></h2>
+<%= toolbar title: l(:label_board_new) %>
 
 <%= labelled_tabular_form_for [@project, @board] do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>

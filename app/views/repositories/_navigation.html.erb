@@ -30,8 +30,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
-
-<% content_for :toolbar do %>
+<% merge ||= {} %>
+<% crumbs = render :partial => 'breadcrumbs', :locals => { :path => @path, :revision => @rev }.merge(merge) %>
+<%= toolbar title: crumbs  do %>
   <li class="toolbar-item">
     <%= link_to stats_project_repository_path(@project), class: 'button' do %>
       <i class="icon icon-stats1"></i> <%= l(:label_statistics) %>
@@ -64,3 +65,4 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   <% end -%>
 <% end %>
+

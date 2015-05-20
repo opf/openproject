@@ -28,9 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_administration), l("label_user_new") %>
-
-<h2><%= link_to l(:label_user_plural), :controller => '/users', :action => 'index' %> &#187; <%=l(:label_user_new)%></h2>
-
+<%= render partial: 'toolbar', locals: { new_user: true } %>
 <%= labelled_tabular_form_for @user,
                               :url => { :action => "create" },
                               :html => { :class => nil, :autocomplete => 'off' },

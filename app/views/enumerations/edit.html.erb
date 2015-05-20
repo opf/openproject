@@ -27,9 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{Enumeration.model_name.human} #{@enumeration.name}" %>
-
-<h2><%= link_to l(@enumeration.option_name), enumerations_path %> &#187; <%=h @enumeration %></h2>
+<% html_title l(:label_administration), "#{l(:label_edit)} #{Enumeration.model_name.human} #{h @enumeration.name}" %>
+<%= toolbar title: "#{link_to l(@enumeration.option_name), enumerations_path} &raquo; #{h @enumeration}" %>
 
 <%= labelled_tabular_form_for @enumeration do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
@@ -37,5 +36,5 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= styled_form_tag(enumeration_path(@enumeration), :method => :delete) do %>
-  <%= styled_submit_tag l(:button_delete), class: '-highlight' %>
+  <%= styled_submit_tag l(:button_delete) %>
 <% end %>

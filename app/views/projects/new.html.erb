@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title l("label_project_new") %>
-<h2><%=l(:label_project_new)%></h2>
+<%= toolbar title: l(:label_project_new) %>
 <%= labelled_tabular_form_for @project do |f| %>
   <%= render :partial => 'form', :locals => { :f => f, :project => @project, :renderTypes => true } %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>

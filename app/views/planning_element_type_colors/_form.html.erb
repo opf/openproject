@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'color' %>
 
-<h2><%= color.new_record? ? l('timelines.new_color') : l('timelines.edit_color') %></h2>
+<%= toolbar title: (color.new_record? ? l('timelines.new_color') : l('timelines.edit_color')) %>
 
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>

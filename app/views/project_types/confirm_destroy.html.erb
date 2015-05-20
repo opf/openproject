@@ -27,6 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= toolbar title: h(@project_type.name) %>
 <%= labelled_tabular_form_for(@project_type,
             :url  => project_type_path(@project_type),
             :html => {:method => 'delete'}) do |f| %>
@@ -35,10 +36,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= l('timelines.really_delete_project_type') %>
     <i class="icon-close close-handler"></i>
   </div>
-
-  <h2>
-    <%=h @project_type.name %>
-  </h2>
 
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>

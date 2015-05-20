@@ -29,15 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{l("timelines.admin_menu.project_type")} #{@project_type.name}" %>
-
+<% html_title l(:label_administration), "#{l(:label_edit)} #{l("timelines.admin_menu.project_type")} #{h @project_type.name}" %>
+<%= toolbar title: "#{l(:label_edit)} #{l("timelines.admin_menu.project_type")} #{h @project_type.name}" %>
 <%= labelled_tabular_form_for(@project_type,
              :url  => project_type_path(@project_type),
              :html => {:method => 'put'}) do |f| %>
-  <h2>
-    <% html_title "#{l("timelines.edit_project_type")}: #{h(@project_type.name)}" %>
-    <%= l("timelines.edit_project_type") %>: <%=h @project_type.name %>
-  </h2>
   <%= render :partial => "project_types/form",
              :locals => {:f => f, :project_type => @project_type} %>
 <% end %>

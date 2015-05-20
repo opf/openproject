@@ -28,8 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_work_package_edit, name: work_package.to_s) %>
-
-<h2><%=h work_package.to_s %></h2>
+<%= toolbar title: h(work_package.to_s) %>
 
 <%= render :partial => 'edit', :locals => { :work_package => work_package,
                                             :allowed_statuses => allowed_statuses,

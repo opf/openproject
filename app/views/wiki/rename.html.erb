@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= l(:button_rename) %>: <%= h(@original_title) %></h2>
+<%= toolbar title: "#{l(:button_rename)} #{h(@original_title)}" %>
 
 <%= error_messages_for 'page' %>
 
