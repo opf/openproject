@@ -31,7 +31,7 @@ class WorkPackageField
   end
 
   def submit_by_click
-    @element.find('.inplace-edit--control--save').click
+    @element.find('.inplace-edit--control--save a').click
   end
 
   def submit_by_enter
@@ -39,7 +39,10 @@ class WorkPackageField
   end
 
   def cancel_by_click
-    @element.find('.inplace-edit--control--cancel').click
+    cancel_link_selector = '.inplace-edit--control--cancel a'
+    if @element.has_selector?(cancel_link_selector)
+      @element.find(cancel_link_selector).click
+    end
     sleep 0.1
   end
 
@@ -48,7 +51,11 @@ class WorkPackageField
   end
 
   def editable?
-    !!@element.find('.inplace-edit--write') rescue false
+    trigger_link.visible? rescue false
+  end
+
+  def editing?
+    @element.find('.inplace-edit--write').visible? rescue false
   end
 
   def errors_text

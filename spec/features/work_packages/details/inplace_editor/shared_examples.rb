@@ -1,13 +1,14 @@
 shared_examples 'an accessible inplace editor' do
   it 'triggers edit mode on click' do
     field.activate_edition
-    expect(field).to be_editable
+    expect(field).to be_editing
     field.cancel_by_click
   end
 
   it 'triggers edit mode on RETURN key' do
     field.trigger_link.native.send_keys(:return)
-    expect(field).to be_editable
+    expect(field).to be_editing
+    field.cancel_by_click
   end
 
   it 'is focusable' do
@@ -24,7 +25,7 @@ shared_examples 'an auth aware field' do
 
   context 'when user is authorized' do
     it 'is editable' do
-      expect(field.trigger_link).to be_visible
+      expect(field).to be_editable
     end
   end
 
@@ -86,7 +87,7 @@ end
 shared_examples 'a cancellable field' do
   shared_examples 'cancelling properly' do
     it 'reverts to read state' do
-      expect(field).to_not be_editable
+      expect(field).to_not be_editing
     end
 
     it 'keeps old content' do
@@ -101,10 +102,6 @@ shared_examples 'a cancellable field' do
   context 'by click' do
     before do
       field.activate_edition
-      field.cancel_by_click
-    end
-
-    after do
       field.cancel_by_click
     end
 
