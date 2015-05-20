@@ -79,7 +79,9 @@
       return;
     }
     for (var i = 0; i < s.options.length; i++) {
-      if ($('block_' + s.options[i].value)) {
+      var name = s.options[i].value || '';
+      name = name.replace(/\-/g, '_');
+      if ($('block_' + name)) {
         s.options[i].disabled = true;
       } else {
         s.options[i].disabled = false;
