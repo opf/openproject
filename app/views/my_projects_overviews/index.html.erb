@@ -30,7 +30,7 @@ See doc/COPYRIGHT.md for more details.
 <%= toolbar title: l(:label_overview) do %>
   <% if User.current.allowed_to?(:add_subprojects, project) %>
     <li class="toolbar-item">
-      <%= link_to new_project_path(parent_id: project), class: 'button -highlight' do %>
+      <%= link_to new_project_path(parent_id: project), class: 'button -alt-highlight' do %>
         <i class="icon-add"></i> <%= l(:label_subproject_new) %>
       <% end %>
     </li>
