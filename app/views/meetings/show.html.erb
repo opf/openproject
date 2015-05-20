@@ -21,7 +21,7 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title "#{l(:label_meeting)}: #{@meeting.title}" %>
 <%= toolbar title: "#{l(:label_meeting)}: #{link_to @meeting}" do %>
-  <% unless User.current.nil? %>
+  <% unless User.current.anonymous? %>
     <li class="toolbar-item">
       <div class="button">
         <%= watcher_link @meeting, User.current %>
