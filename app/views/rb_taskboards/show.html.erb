@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                      :sprint_id => @sprint) %>
 <% end %>
 
-<% content_for :toolbar do %>
+<%= toolbar title: h(@sprint.name) do %>
   <% if @sprint.has_burndown? %>
     <li class="toolbar-item">
       <label for="col_width_input"><%= l('backlogs.column_width') %></label>
@@ -58,12 +58,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% breadcrumb_paths(link_to(l(:label_backlogs), backlogs_project_backlogs_path(@project)), link_to(@sprint.name, backlogs_project_backlogs_path(@sprint))) %>
-
-<h2>
-  <%= @sprint.name %>
-</h2>
-
-<%= render :partial => 'layouts/toolbar' %>
 
 <div id='rb'>
   <div id="taskboard">
