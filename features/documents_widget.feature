@@ -49,7 +49,6 @@ Feature: Adding the document widget to personalisable pages
   @javascript
   Scenario: Adding a "Documents" widget to the my page
     Given I am on the My page personalization page
-    # Safeguard to ensure the page is loaded
     When I select "Documents" from the available widgets drop down
     And I click on "Add"
     Then the "Documents" widget should be in the top block
