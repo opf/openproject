@@ -41,8 +41,11 @@ module API
         end
       end
 
-      def grape_error_for(env)
-        GrapeError.new env
+      def grape_error_for(env, api)
+        GrapeError.new(env).tap do |e|
+          e.options[:content_types] = api.content_types
+          e.options[:format] = 'hal+json'
+        end
       end
 
       def error_response(rescued_error, error = nil, rescue_subclasses: nil, headers: {})

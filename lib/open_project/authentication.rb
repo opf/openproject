@@ -71,4 +71,4 @@ module OpenProject
   end
 end
 
-Warden::Strategies::BasicAuth.include OpenProject::Authentication::Realm
+Warden::Strategies::BasicAuth.prepend OpenProject::Authentication::Realm

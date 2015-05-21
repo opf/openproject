@@ -80,6 +80,14 @@ describe API::V3, type: :request do
         it 'should return the correct JSON response' do
           expect(JSON.parse(response.body)).to eq response_401
         end
+
+        it 'should return the correct content type header' do
+          expect(response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
+        end
+
+        it 'should return the WWW-Authenticate header' do
+          expect(response.header['WWW-Authenticate']).to include 'Basic realm="OpenProject"'
+        end
       end
 
       context 'with valid credentials' do
