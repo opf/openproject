@@ -30,7 +30,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <% unless @user.new_record? %>
     <li class="toolbar-item">
       <%= link_to user_path(@user), class: 'button' do %>
-        <i class="button--icon icon-user1"></i> <%= l(:label_profile) %>
+        <i class="button--icon icon-user1"></i>
+        <span class="button--text"><%= l(:label_profile) %></span>
       <% end %>
     </li>
     <% unless current_user.id == @user.id %>
@@ -44,7 +45,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if Setting.users_deletable_by_admins? %>
       <li class="toolbar-items">
         <%= link_to deletion_info_user_path(@user), class: 'button' do %>
-          <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
+          <i class="button--icon icon-delete"></i>
+          <span class="button--text"><%= l(:button_delete) %></span>
         <% end %>
       </li>
     <% end %>

@@ -33,7 +33,8 @@ See doc/COPYRIGHT.rdoc for more details.
       :accesskey => accesskey(:edit),
       class: 'button',
       :onclick => 'Element.show("edit-news"); return false;') do %>
-      <i class="button--icon icon-edit"></i> <%= l(:button_edit) %>
+      <i class="button--icon icon-edit"></i>
+      <span class="button--text"><%= l(:button_edit) %></span>
     <% end %>
   <% end %>
   <li class="toolbar-item">
@@ -47,7 +48,8 @@ See doc/COPYRIGHT.rdoc for more details.
           :confirm => l(:text_are_you_sure),
           :method => :delete,
           :class => 'button') do %>
-      <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
+      <i class="button--icon icon-delete"></i>
+      <span class="button--text"><%= l(:button_delete) %></span>
     <% end %>
   <% end %>
 <% end %>

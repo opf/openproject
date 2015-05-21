@@ -32,7 +32,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if timeline_action_authorized?(:new) %>
     <li class="toolbar-item">
       <%= new_timeline_link @project do %>
-        <i class="button--icon icon-add"></i> <%= l('timelines.new_timeline') %><span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= l('timelines.new_timeline') %></span>
+        <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
       <% end %>
     </li>
   <% end %>
@@ -40,7 +42,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if timeline_action_authorized?(:edit) %>
     <li class="toolbar-item">
       <%= edit_timeline_link @project, @timeline do %>
-        <i class="button--icon icon-edit"></i> <%= l(:button_edit) %><span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
+        <i class="button--icon icon-edit"></i>
+        <span class="button--text"><%= l(:button_edit) %></span>
+        <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
       <% end %>
     </li>
   <% end %>
@@ -48,7 +52,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if timeline_action_authorized?(:destroy) %>
     <li class="toolbar-item">
       <%= destroy_timeline_link @project, @timeline do %>
-        <i class="button--icon icon-delete"></i> <%= l(:button_delete) %><span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
+        <i class="button--icon icon-delete"></i>
+        <span class="button--text"><%= l(:button_delete) %></span>
+        <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
       <% end %>
     </li>
   <% end %>

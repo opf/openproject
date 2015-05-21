@@ -35,7 +35,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if User.current.admin? %>
     <li class="toolbar-item">
       <%= link_to edit_user_path(@user), class: 'button', accesskey: accesskey(:edit) do %>
-        <i class="button--icon icon-edit"></i> <%= l(:button_edit) %>
+        <i class="button--icon icon-edit"></i>
+        <span class="button--text"><%= l(:button_edit) %></span>
       <% end %>
     </li>
   <% end %>

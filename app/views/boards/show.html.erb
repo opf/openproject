@@ -54,7 +54,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= link_to({ controller: '/messages', action: 'new', board_id: @board},
                     class: 'button -alt-highlight',
                     onclick: 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;') do %>
-        <i class="button--icon icon-add"></i> <%= l(:label_message_new) %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= l(:label_message_new) %></span>
       <% end %>
     </li>
   <% end %>
