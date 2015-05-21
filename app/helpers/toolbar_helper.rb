@@ -28,6 +28,6 @@ module ToolbarHelper
   end
 
   def decode(string)
-    raw strip_links string
+    raw(strip_tags(string)).strip
   end
 end
