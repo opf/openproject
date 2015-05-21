@@ -538,18 +538,14 @@ JJ Abrams</textarea>
   describe 'labels for fields' do
     let(:options) { {} }
     shared_examples_for "generated label" do
-      def remove_form_field_container(string)
-        string.gsub(/<span class="form--field-container">.+<\/span>/m,'')
-      end
-
-      def expected_label_like(expected_title)
-        expect(remove_form_field_container(output)).to be_html_eql(%{
-          <label class="form--label"
+      def expected_label_like(expected_title, expected_classes = 'form--label')
+        expect(output).to be_html_eql(%{
+          <label class="#{expected_classes}"
                  for="user_name"
                  title="#{expected_title}">
             #{expected_title}
           </label>
-        })
+        }).at_path('label')
       end
 
       context 'with a label specified as string' do
@@ -596,6 +592,19 @@ JJ Abrams</textarea>
 
         it 'uses the human attibute name' do
           expected_label_like(User.human_attribute_name(:name))
+        end
+      end
+
+      context 'when required, with a label specified as symbol' do
+        let(:text) { :name }
+
+        before do
+          options[:label] = text
+          options[:required] = true
+        end
+
+        it 'uses the label' do
+          expected_label_like(I18n.t(:name), 'form--label -required')
         end
       end
     end

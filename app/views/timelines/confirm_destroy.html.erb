@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title I18n.t("timelines.delete_timeline", :timeline => @timeline.name) %>
-
+<%= toolbar title: h(@timeline.name) %>
 <%= labelled_tabular_form_for @timeline,
             :url  => project_timeline_path(@project, @timeline),
             :html => {:method => 'delete'} do |f| %>
@@ -36,10 +36,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class='flash warning'>
     <%= l('timelines.really_delete_timeline') %>
   </div>
-
-  <h2>
-    <%=h @timeline.name %>
-  </h2>
 
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>

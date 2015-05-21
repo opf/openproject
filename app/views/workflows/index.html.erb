@@ -26,10 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= render :partial => 'action_menu' %>
+<%= render partial: 'action_menu', locals: { title: l(:label_workflow_plural) } %>
 <% html_title l(:label_administration), l(:label_workflow_plural) -%>
-<h2><%= l(:label_workflow_plural) %></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
 <% if @workflow_counts.empty? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>

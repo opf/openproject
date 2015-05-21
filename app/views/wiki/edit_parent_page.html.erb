@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= t(:button_change_parent_page) %>: <%= h(@page.title) %></h2>
+<%= toolbar title: "#{t(:button_change_parent_page)}: #{h(@page.title)}" %>
 
 <%= error_messages_for 'page' %>
 

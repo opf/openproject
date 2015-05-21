@@ -28,9 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_work_package_new) %>
-
-<h2><%=l(:label_work_package_new)%></h2>
-
+<%= toolbar title: l(:label_work_package_new) %>
 
 <%= labelled_tabular_form_for work_package,
                               :url => project_work_packages_path(project),

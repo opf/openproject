@@ -57,7 +57,7 @@
       </div>
     </div>
     <div class="form--field">
-      <label class="form--label">Email:</label>
+      <label class="form--label -required">Email:</label>
       <div class="form--field-container">
         <div class="form--text-field-container">
           <input type="email" class="form--text-field" placeholder="a valid email">

@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<h2><%= l(@enumeration.option_name) %>: <%=h @enumeration %></h2>
+<%= toolbar title: "#{link_to l(@enumeration.option_name), enumerations_path} &raquo; #{h @enumeration}" %>
 <%= styled_form_tag({}, :method => :delete) do %>
   <section class="form--section">
     <p><strong><%= l(:text_enumeration_destroy_question, @enumeration.objects_count) %></strong></p>

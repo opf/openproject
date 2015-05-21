@@ -105,7 +105,7 @@ module UsersHelper
 
   def change_user_status_buttons(user)
     build_change_user_status_action(user) do |title, name|
-      styled_submit_tag(title, name: name, class: '-round')
+      submit_tag(title, name: name, class: 'button')
     end
   end
 

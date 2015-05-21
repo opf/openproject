@@ -28,8 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_news_edit) %>
-
-<h2><%= News.model_name.human %></h2>
+<%= toolbar title: News.model_name.human %>
 
 <%= labelled_tabular_form_for @news, :html => { :id => 'news-form' } do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
