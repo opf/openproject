@@ -43,7 +43,6 @@ class WorkPackageField
     if @element.has_selector?(cancel_link_selector)
       @element.find(cancel_link_selector).click
     end
-    sleep 0.1
   end
 
   def cancel_by_escape

@@ -123,6 +123,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-angular (0.1.1)
+      capybara
     capybara-screenshot (1.0.5)
       capybara (>= 1.0, < 3)
       colored
@@ -132,7 +134,7 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
-    childprocess (0.5.5)
+    childprocess (0.5.6)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
       activesupport (>= 3.0)
@@ -192,7 +194,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.2.0)
       i18n (~> 0.5)
-    ffi (1.9.6)
+    ffi (1.9.8)
     fog (1.23.0)
       fog-brightbox
       fog-core (~> 1.23)
@@ -415,7 +417,7 @@ GEM
       structured_warnings (>= 0.1.3)
     rubyzip (1.1.6)
     sass (3.4.12)
-    selenium-webdriver (2.44.0)
+    selenium-webdriver (2.45.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -464,7 +466,7 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
       equalizer (~> 0.0, >= 0.0.9)
-    websocket (1.2.1)
+    websocket (1.2.2)
     will_paginate (3.0.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
@@ -483,6 +485,7 @@ DEPENDENCIES
   awesome_nested_set
   bourbon (~> 4.2.0)
   capybara (~> 2.3.0)
+  capybara-angular
   capybara-screenshot (~> 1.0.4)
   capybara-select2!
   carrierwave (~> 0.10.0)
@@ -554,7 +557,7 @@ DEPENDENCIES
   rubytree (~> 0.8.3)
   sass (~> 3.4.12)
   sass-rails!
-  selenium-webdriver (~> 2.44.0)
+  selenium-webdriver (~> 2.45.0)
   shoulda
   shoulda-matchers (~> 2.5.0)
   simplecov (= 0.8.0.pre)

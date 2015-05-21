@@ -14,8 +14,6 @@ describe 'subject inplace editor', js: true do
     allow(User).to receive(:current).and_return(user)
     visit project_work_packages_path(project)
     row = page.find("#work-package-#{work_package.id}")
-    sleep 0.1 # wait for angular to run digest to hook the listeners
-    # TODO: try capybara-angular
     row.double_click
   end
 
