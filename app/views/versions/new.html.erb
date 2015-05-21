@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% html_title l("label_version_new") %>
 
-<h2><%=l(:label_version_new)%></h2>
+<%= toolbar title: l(:label_version_new) %>
 
 <%= labelled_tabular_form_for [@project, @version] do |f| %>
 

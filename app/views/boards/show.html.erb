@@ -29,14 +29,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= include_gon %>
 
-<% content_for :action_menu_specific do %>
-  <%= link_to_if_authorized l(:label_message_new),
-                            {controller: '/messages', action: 'new', board_id: @board},
-                            class: 'icon icon-add',
-                            onclick: 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
-  <%= watcher_link(@board, User.current) %>
-<% end %>
-
 <div id="add-message" style="display:none;">
   <% if authorize_for('messages', 'new') %>
     <h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
@@ -56,10 +48,25 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </div>
 
-<h2><%=h @board.name %></h2>
-<p class="subtitle"><%=h @board.description %></p>
-<%= render partial: 'layouts/action_menu_specific' %>
-
+<%= toolbar title: @board.name, subtitle: @board.description do %>
+  <% if authorize_for(:messages, :new) %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: '/messages', action: 'new', board_id: @board},
+                    class: 'button -alt-highlight',
+                    onclick: 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;') do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= l(:label_message_new) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <% unless User.current.anonymous? %>
+    <li class="toolbar-item">
+      <div class="button">
+        <%= watcher_link(@board, User.current) %>
+      </div>
+    </li>
+  <% end %>
+<% end %>
 
 <div ng-controller="MessagesController">
   <% if @topics.any? %>

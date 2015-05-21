@@ -28,8 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{l(:label_auth_source)} #{@auth_source.name}" %>
-
-<h2><%=l(:label_auth_source)%> (<%= @auth_source.auth_method_name %>)</h2>
+<%= toolbar title: "#{l(:label_auth_source)} (#{h @auth_source.auth_method_name})" %>
 
 <%= labelled_tabular_form_for @auth_source, :as => :auth_source do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>

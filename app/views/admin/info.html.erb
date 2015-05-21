@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title(l(:label_administration), l(:label_information_plural)) -%>
 
-<%= content_tag :h2, I18n.t('label_information_plural') %>
+<%= toolbar title: I18n.t('label_information_plural') %>
 <%= call_hook(:view_admin_info_top) %>
 
 <%= content_tag :h3, I18n.t('label_core_version') %>

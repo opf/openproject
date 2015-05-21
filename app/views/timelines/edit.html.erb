@@ -26,10 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title I18n.t("timelines.edit_timeline", :timeline => @timeline.name) %>
-<h2>
-  <%=I18n.t("timelines.edit_timeline", :timeline => @timeline.name)%>
-</h2>
+<% html_title I18n.t("timelines.edit_timeline", :timeline => h(@timeline.name)) %>
+<%= toolbar title: I18n.t("timelines.edit_timeline", :timeline => h(@timeline.name)) %>
 
 <%= labelled_tabular_form_for(@timeline,
             :url => project_timeline_path(@project, @timeline),

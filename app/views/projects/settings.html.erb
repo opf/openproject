@@ -26,11 +26,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<h2><%=l(:label_settings)%></h2>
-<%= render :partial => 'projects/settings/action_menu', :locals => { :project => @project } %>
+<% html_title(l(:label_settings)) -%>
 <% breadcrumb_paths(l(:label_settings)) %>
+<%= toolbar title: l(:label_settings) do %>
+  <% if @project.copy_allowed? %>
+    <li class="toolbar-item">
+      <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button copy', accesskey: accesskey(:copy) do %>
+        <i class="button--icon icon-copy"></i>
+        <span class="button--text"><%= l(:button_copy) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
 
 <%= render_tabs project_settings_tabs %>
-
-<% html_title(l(:label_settings)) -%>
