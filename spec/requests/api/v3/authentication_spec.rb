@@ -37,10 +37,12 @@ describe API::V3, type: :request do
       {
         '_embedded'       => {},
         '_type'           => 'Error',
-        'errorIdentifier' => 'urn:openproject-org:api:v3:errors:MissingPermission',
-        'message'         => 'You need to be authenticated to access this resource.'
+        'errorIdentifier' => 'urn:openproject-org:api:v3:errors:Unauthenticated',
+        'message'         => expected_message
       }
     end
+
+    let(:expected_message) { 'You need to be authenticated to access this resource.' }
 
     Strategies = OpenProject::Authentication::Strategies::Warden
 
@@ -69,6 +71,8 @@ describe API::V3, type: :request do
       end
 
       context 'with invalid credentials' do
+        let(:expected_message) { 'You did not provide the correct credentials.' }
+
         before do
           get resource, {}, basic_auth(username, password.reverse)
         end

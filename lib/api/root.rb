@@ -150,7 +150,9 @@ module API
     # Return JSON error response on authentication failure.
     OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, _opts|
       e = grape_error_for warden.env, self
-      representer = ::API::V3::Errors::ErrorRepresenter.new ::API::Errors::Unauthenticated.new
+      error_message = I18n.t('api_v3.errors.code_401_wrong_credentials')
+      api_error = ::API::Errors::Unauthenticated.new error_message
+      representer = ::API::V3::Errors::ErrorRepresenter.new api_error
 
       e.error_response status: 401, message: representer.to_json, headers: warden.headers
     end

@@ -207,8 +207,9 @@ embedded errors or simply state that multiple errors occured.
 
 * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
-* `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**) The client used an invalid transition in the attempt to change the status of a user account.
-* `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 401** / **HTTP 403**) - The client does not have the needed permissions to perform the requested action
+* `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**) - The client used an invalid transition in the attempt to change the status of a user account.
+* `urn:openproject-org:api:v3:errors:Unauthenticated` (**HTTP 401**) - The client has to authenticate to access the requested resource.
+* `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 403**) - The client does not have the needed permissions to perform the requested action
 * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**) - Default for HTTP 404 when no further information is available
 * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**) - The resource changed between GET-ing it and performing an update on it
 * `urn:openproject-org:api:v3:errors:TypeNotSupported` (**HTTP 415**) - The request contained data in an unsupported media type (Content-Type)

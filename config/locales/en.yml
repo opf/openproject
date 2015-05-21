@@ -1676,6 +1676,7 @@ en:
       lock_version: "Lock Version"
     errors:
       code_401: "You need to be authenticated to access this resource."
+      code_401_wrong_credentials: "You did not provide the correct credentials."
       code_403: "You are not authorized to access this resource."
       code_404: "The requested resource could not be found."
       code_409: "Couldn\'t update the resource because of conflicting modifications."
