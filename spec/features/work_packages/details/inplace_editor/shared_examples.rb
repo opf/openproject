@@ -50,8 +50,8 @@ end
 shared_examples 'having a single validation point' do
   let(:other_field) { WorkPackageField.new page, :type }
   before do
-    field.activate_edition
     other_field.activate_edition
+    field.activate_edition
     field.input_element.set ''
     field.submit_by_click
   end
