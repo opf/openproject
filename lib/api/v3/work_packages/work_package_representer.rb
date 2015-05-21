@@ -254,8 +254,9 @@ module API
                    datetime_formatter.format_duration_from_hours(represented.spent_hours)
                  end,
                  writeable: false,
-                 if: -> (_) { current_user_allowed_to(:view_time_entries,
-                                                      context: represented.project) }
+                 if: -> (_) {
+                   current_user_allowed_to(:view_time_entries, context: represented.project)
+                 }
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true,
@@ -278,8 +279,10 @@ module API
         property :watchers,
                  embedded: true,
                  exec_context: :decorator,
-                 if: -> (*) { current_user_allowed_to(:view_work_package_watchers,
-                                                      context: represented.project) }
+                 if: -> (*) {
+                   current_user_allowed_to(:view_work_package_watchers,
+                                           context: represented.project)
+                 }
 
         property :attachments,
                  embedded: true,

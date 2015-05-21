@@ -37,7 +37,7 @@ module API
 
         self_link
 
-        link :createWorkPackage  do
+        link :createWorkPackage do
           {
             href: api_v3_paths.create_work_package_form(represented.id),
             method: :post
