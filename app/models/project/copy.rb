@@ -144,7 +144,7 @@ module Project::Copy
         if issue.fixed_version
           new_version = versions.select { |v| v.name == issue.fixed_version.name }.first
           if new_version
-            new_issue.instance_variable_set(:@changed_attributes, new_issue.changed_attributes.merge('fixed_version_id' => new_version.id))
+            new_issue.skip_fixed_version_validation = true
             new_issue.fixed_version = new_version
           end
         end

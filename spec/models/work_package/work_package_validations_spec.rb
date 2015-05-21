@@ -126,6 +126,7 @@ describe WorkPackage, type: :model do
       wp.fixed_version = assignable_version
       expect(wp).to be_valid
     end
+
     it 'validate, that the fixed_version belongs to the project the ticket lives in' do
       other_project = FactoryGirl.create(:project)
       non_assignable_version = FactoryGirl.create(:version, project: other_project)
@@ -145,6 +146,18 @@ describe WorkPackage, type: :model do
         wp.fixed_version = non_assignable_version
         expect(wp).not_to be_valid
         expect(wp.errors[:fixed_version_id].size).to eq(1)
+      end
+    end
+
+    it 'does not validate closed and locked versions if validation is skipped' do
+      non_assignable_version = FactoryGirl.create(:version, project: wp.project)
+
+      %w{locked closed}.each do |status|
+        non_assignable_version.update_attribute(:status, status)
+
+        wp.skip_fixed_version_validation = true
+        wp.fixed_version = non_assignable_version
+        expect(wp).to be_valid
       end
     end
 

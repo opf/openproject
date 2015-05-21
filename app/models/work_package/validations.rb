@@ -31,6 +31,8 @@ module WorkPackage::Validations
   extend ActiveSupport::Concern
 
   included do
+    attr_accessor :skip_fixed_version_validation
+
     validates_presence_of :subject, :priority, :project, :type, :author, :status
 
     validates_length_of :subject, maximum: 255
@@ -46,8 +48,8 @@ module WorkPackage::Validations
     validates :due_date, date: { allow_blank: true }
 
     validate :validate_start_date_before_soonest_start_date
-    validate :validate_fixed_version_is_assignable
-    validate :validate_fixed_version_is_still_open
+    validate :validate_fixed_version_is_assignable, unless: :skip_fixed_version_validation?
+    validate :validate_fixed_version_is_still_open, unless: :skip_fixed_version_validation?
     validate :validate_enabled_type
 
     validate :validate_milestone_constraint
@@ -62,6 +64,10 @@ module WorkPackage::Validations
     validate :validate_children
 
     validate :validate_estimated_hours
+  end
+
+  def skip_fixed_version_validation?
+    !!skip_fixed_version_validation
   end
 
   def validate_start_date_before_soonest_start_date

@@ -795,7 +795,29 @@ describe Project, type: :model do
 
       assert @project.copy(@source_project)
       @project.reload
-      copied_issue = @project.work_packages.first(conditions: { subject: 'change the new issues to use the copied version' })
+      copied_issue = @project.work_packages.find_by(subject: 'change the new issues to use the copied version')
+
+      assert copied_issue
+      assert copied_issue.fixed_version
+      assert_equal 'Assigned Issues', copied_issue.fixed_version.name # Same name
+      assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
+    end
+
+    it 'should change the new issues to use the copied closed version' do
+      User.current = User.find(1)
+      assigned_version = Version.generate!(name: 'Assigned Issues', status: 'open')
+      @source_project.versions << assigned_version
+      assert_equal 3, @source_project.versions.size
+      FactoryGirl.create(:work_package, project: @source_project,
+                                        fixed_version_id: assigned_version.id,
+                                        subject: 'change the new issues to use the copied version',
+                                        type_id: 1,
+                                        project_id: @source_project.id)
+      assigned_version.update_attribute(:status, 'closed')
+
+      assert @project.copy(@source_project)
+      @project.reload
+      copied_issue = @project.work_packages.find_by(subject: 'change the new issues to use the copied version')
 
       assert copied_issue
       assert copied_issue.fixed_version
