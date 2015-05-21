@@ -4,13 +4,15 @@
       <% if authorize_for :reportings, :edit %>
         <li class="toolbar-item">
           <%= link_to edit_project_reporting_path(@project, @reporting), class: 'button' do %>
-            <i class="button--icon icon-edit"></i> <%= l(:button_edit) %>
+            <i class="button--icon icon-edit"></i>
+            <span class="button--text"><%= l(:button_edit) %></span>
           <% end %>
         </li>
       <% end %>
       <% if authorize_for :reportings, :destroy %>
         <%= link_to confirm_destroy_project_reporting_path(@project, @reporting), class: 'button' do %>
-            <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
+            <i class="button--icon icon-delete"></i>
+            <span class="button--text"><%= l(:button_delete) %></span>
           <% end %>
       <% end %>
     <% end %>

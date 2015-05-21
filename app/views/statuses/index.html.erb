@@ -31,13 +31,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_work_package_status_plural) do %>
   <li class="toolbar-item">
     <%= link_to new_status_path, class: 'button -alt-highlight' do %>
-      <i class="button--icon icon-add"></i> <%= l(:label_work_package_status_new) %>
+      <i class="button--icon icon-add"></i>
+      <span class="button--text"><%= l(:label_work_package_status_new) %></span>
     <% end %>
   </li>
   <% if WorkPackage.use_status_for_done_ratio? %>
     <li class="toolbar-item">
       <%= link_to update_work_package_done_ratio_statuses_path, class: 'button', remote: true, method: :post, data: { confirm: l(:text_are_you_sure) } do %>
-        <i class="button--icon icon-reload2"></i> <%= l(:label_update_work_package_done_ratios) %>
+        <i class="button--icon icon-reload2"></i>
+        <span class="button--text"><%= l(:label_update_work_package_done_ratios) %></span>
       <% end %>
     </li>
   <% end %>

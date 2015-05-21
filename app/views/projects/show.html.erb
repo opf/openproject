@@ -31,7 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <li class="toolbar-item">
       <%= link_to({:controller => '/projects', :action => 'new', :parent_id => @project}, :class => 'button -alt-highlight') do %>
-        <span class="button--text"><i class="button--icon icon-add"></i> <%= l(:label_subproject_new) %></span>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= l(:label_subproject_new) %></span>
       <% end %>
     </li>
   <% end %>

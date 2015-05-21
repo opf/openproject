@@ -32,11 +32,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if @project.copy_allowed? %>
     <li class="toolbar-item">
       <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button copy', accesskey: accesskey(:copy) do %>
-        <i class="button--icon icon-copy"></i> <%= l(:button_copy) %>
+        <i class="button--icon icon-copy"></i>
+        <span class="button--text"><%= l(:button_copy) %></span>
       <% end %>
     </li>
   <% end %>
 <% end %>
 
 <%= render_tabs project_settings_tabs %>
-
