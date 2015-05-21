@@ -61,7 +61,7 @@ module API
               @work_package.reload
 
               WorkPackages::WorkPackageRepresenter.create(@work_package,
-                                            current_user: current_user)
+                                                          current_user: current_user)
             else
               errors = ::API::Errors::ErrorBase.create(@work_package.errors.dup)
               @work_package.destroy
