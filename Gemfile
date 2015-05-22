@@ -64,7 +64,7 @@ gem 'ruby-duration', '~> 3.2.0'
 # This can be removed as soon as said bugfix is integrated into rabl itself.
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '0.9.3'
-gem 'multi_json'
+gem 'multi_json', '~> 1.11.0'
 gem 'oj', '~> 2.11.4'
 
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
@@ -87,7 +87,7 @@ gem 'rack-attack'
 
 gem 'syck', :platforms => [:mri, :mingw], :require => false
 
-gem 'gon', '~> 4.0'
+gem 'gon', '~> 4.0.3'
 
 # catch exceptions and send them to any airbrake compatible backend
 gem 'airbrake', '~> 4.1.0'
@@ -99,8 +99,8 @@ group :production do
   gem 'dalli', '~> 2.7.2'
 end
 
-gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '2_2_2_backport2'
-gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
+gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', ref: 'be18cf9420ea5606b0824d'
+gem 'sprockets-rails',  git: 'https://github.com/marutosi/sprockets-rails.git', branch: 'backport'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
 gem 'sass',             '~> 3.4.12'
