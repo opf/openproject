@@ -42,13 +42,13 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            @work_package = WorkPackage.new(project: @project,
-                                            author: current_user,
-                                            created_at: Time.now)
-            @work_package.type = Type.where(is_default: true).first
-            @work_package.save(validate: false)
+            hash = {
+              project: @project,
+              author: current_user,
+              type: Type.where(is_default: true).first
+            }
+            @work_package = @project.add_work_package(hash)
             write_work_package_attributes
-            @work_package.lock_version = 1
 
             send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
             update_service = UpdateWorkPackageService.new(current_user,
@@ -57,7 +57,7 @@ module API
                                                           send_notifications,
                                                           WorkPackageObserver)
 
-            if write_request_valid? && update_service.save
+            if write_request_valid?(WorkPackages::CreateContract) && update_service.save
               @work_package.reload
 
               WorkPackages::WorkPackageRepresenter.create(@work_package,

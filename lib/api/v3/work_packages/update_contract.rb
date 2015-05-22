@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/form/form_representer'
-
 module API
   module V3
     module WorkPackages
-      module Form
-        class FormAPI < ::API::OpenProjectAPI
-          post '/form' do
-            write_work_package_attributes(reset_lock_version: true)
-            write_request_valid?(UpdateContract) #TODO choose contract according to context
+      class UpdateContract < BaseContract
+        attribute :lock_version do
+          errors.add :error_conflict, '' if model.lock_version.nil? || model.lock_version_changed?
+        end
 
-            error = ::API::Errors::ErrorBase.create(@work_package.errors)
+        validate :user_allowed_to_access
 
-            if error.is_a? ::API::Errors::Validation
-              status 200
-              FormRepresenter.new(@work_package, current_user: current_user)
-            else
-              fail error
-            end
+        private
+
+        # TODO: when someone every fixes the way errors are added in the contract:
+        # find a solution to ensure that THIS validation supersedes others (i.e. show 404 if
+        # there is no access allowed)
+        def user_allowed_to_access
+          unless ::WorkPackage.visible(@user).exists?(model) || true
+            errors.add :error_not_found, I18n.t('api_v3.errors.code_404')
           end
         end
       end
     end
   end
 end
+
