@@ -40,15 +40,14 @@ module API
 
         # merges the given JSON representation into @work_package
         def merge_json_into_work_package!(json)
-          payload = Form::WorkPackagePayloadRepresenter.create(
-            @work_package,
-            enforce_lock_version_validation: true)
+          payload = Form::WorkPackagePayloadRepresenter.create(@work_package)
           payload.from_json(json)
         end
 
-        def write_work_package_attributes
+        def write_work_package_attributes(reset_lock_version: false)
           if request_body
             begin
+              @work_package.lock_version = nil if reset_lock_version
               # we need to merge the JSON two times:
               # In Pass 1 the representer only has custom fields for the current WP type
               # After Pass 1 the correct type information is merged into the WP

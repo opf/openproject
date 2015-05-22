@@ -34,7 +34,7 @@ module API
       module Form
         class FormAPI < ::API::OpenProjectAPI
           post '/form' do
-            write_work_package_attributes
+            write_work_package_attributes(reset_lock_version: true)
             write_request_valid?
 
             error = ::API::Errors::ErrorBase.create(@work_package.errors)

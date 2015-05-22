@@ -45,19 +45,14 @@ module API
                                                                             WorkPackagePayloadRepresenter)
             end
 
-            def create(work_package, options = {})
-              create_class(work_package).new(work_package, options)
+            def create(work_package)
+              create_class(work_package).new(work_package)
             end
           end
 
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-          def initialize(represented, options = {})
-            if options[:enforce_lock_version_validation]
-              # enforces availibility validation of lock_version
-              represented.lock_version = nil
-            end
-
+          def initialize(represented)
             super(represented)
           end
 
