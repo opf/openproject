@@ -42,22 +42,14 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            hash = {
+            create_service = CreateWorkPackageService.new(
+              user: current_user,
               project: @project,
-              author: current_user,
-              type: Type.where(is_default: true).first
-            }
-            @work_package = @project.add_work_package(hash)
+              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
+            @work_package = create_service.create
             write_work_package_attributes
 
-            send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
-            update_service = UpdateWorkPackageService.new(current_user,
-                                                          @work_package,
-                                                          nil,
-                                                          send_notifications,
-                                                          WorkPackageObserver)
-
-            if write_request_valid?(WorkPackages::CreateContract) && update_service.save
+            if write_request_valid?(WorkPackages::CreateContract) && create_service.save
               @work_package.reload
 
               WorkPackages::WorkPackageRepresenter.create(@work_package,
