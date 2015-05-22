@@ -89,9 +89,9 @@ module Api
       end
 
       def scope(transition)
-        if transition.author
+        if ActiveRecord::ConnectionAdapters::Column.value_to_boolean(transition.author)
           :author
-        elsif transition.assignee
+        elsif ActiveRecord::ConnectionAdapters::Column.value_to_boolean(transition.assignee)
           :assignee
         else
           :role
