@@ -26,29 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar(title: "#{link_to l(:label_user_plural), users_path} &raquo; #{@user.new_record? ? l(:label_user_new) : h(@user.name)}") do %>
-  <% unless @user.new_record? %>
-    <li class="toolbar-item">
-      <%= link_to user_path(@user), class: 'button' do %>
-        <i class="button--icon icon-user1"></i>
-        <span class="button--text"><%= l(:label_profile) %></span>
-      <% end %>
-    </li>
-    <% unless current_user.id == @user.id %>
-      <%= form_for @user, :url => {:action => :change_status},
-                :method => :post do %>
-        <li class="toolbar-item">
-          <%= change_user_status_buttons(@user) %>
-        </li>
-      <% end %>
-    <% end %>
-    <% if Setting.users_deletable_by_admins? %>
-      <li class="toolbar-items">
-        <%= link_to deletion_info_user_path(@user), class: 'button' do %>
-          <i class="button--icon icon-delete"></i>
-          <span class="button--text"><%= l(:button_delete) %></span>
+<%= content_header title: "#{link_to l(:label_user_plural), users_path} &raquo; #{@user.new_record? ? l(:label_user_new) : h(@user.name)}" do |h| %>
+  <%= h.toolbar do |t| %>
+    <% unless @user.new_record? %>
+      <%= t.button l(:label_profile), user_path(@user), icon: :user1 %>
+      <% unless current_user.id == @user.id %>
+        <%= t.toolbar_item do %>
+          <% form_for @user, url: { action: :change_status }, method: :post do %>
+            <%= change_user_status_buttons(@user) %>
+          <% end %>
         <% end %>
-      </li>
+      <% end %>
+      <%= t.button l(:button_delete), deletion_info_user_path(@user), icon: :delete, if: Setting.users_deletable_by_admins? %>
     <% end %>
   <% end %>
 <% end %>
