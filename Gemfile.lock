@@ -222,9 +222,11 @@ GEM
     globalize (3.1.0)
       activemodel (>= 3.1.0, < 4.0.0)
       activerecord (>= 3.1.0, < 4.0.0)
-    gon (5.0.4)
+    gon (5.1.2)
       actionpack (>= 2.3.0)
       json
+      multi_json
+      request_store (>= 1.0.5)
     grape (0.10.1)
       activesupport
       builder
@@ -499,7 +501,7 @@ DEPENDENCIES
   faker
   fog (~> 1.23.0)
   globalize (~> 3.1.0)
-  gon (~> 5.0.4)
+  gon (~> 5.1.2)
   grape (~> 0.10.1)
   gravatar_image_tag (~> 1.2.0)
   htmldiff
