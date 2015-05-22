@@ -35,7 +35,7 @@ module API
         class FormAPI < ::API::OpenProjectAPI
           post '/form' do
             write_work_package_attributes(reset_lock_version: true)
-            write_request_valid?(UpdateContract) #TODO choose contract according to context
+            write_request_valid?(UpdateContract) # TODO choose contract according to context
 
             error = ::API::Errors::ErrorBase.create(@work_package.errors)
 
