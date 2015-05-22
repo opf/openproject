@@ -87,7 +87,7 @@ gem 'rack-attack'
 
 gem 'syck', :platforms => [:mri, :mingw], :require => false
 
-gem 'gon', '~> 4.1.1'
+gem 'gon', '~> 5.0.4'
 
 # catch exceptions and send them to any airbrake compatible backend
 gem 'airbrake', '~> 4.1.0'
