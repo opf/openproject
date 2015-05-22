@@ -28,18 +28,13 @@
 #++
 
 class UpdateWorkPackageService
-  attr_accessor :user, :work_package, :permitted_params, :send_notifications, :observer
+  attr_accessor :user, :work_package, :permitted_params, :send_notifications
 
-  def initialize(user,
-                 work_package,
-                 permitted_params = nil,
-                 send_notifications = true,
-                 observer = JournalObserver)
+  def initialize(user:, work_package:, permitted_params: nil, send_notifications: true)
     self.user = user
     self.work_package = work_package
     self.permitted_params = permitted_params
     self.send_notifications = send_notifications
-    self.observer = observer
 
     configure_update_notification
   end
@@ -55,7 +50,7 @@ class UpdateWorkPackageService
   private
 
   def configure_update_notification
-    observer.instance.send_notification = send_notifications
+    JournalObserver.instance.send_notification = send_notifications
   end
 
   def effective_params

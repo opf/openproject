@@ -64,10 +64,10 @@ module API
               write_work_package_attributes(reset_lock_version: true)
 
               send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
-              update_service = UpdateWorkPackageService.new(current_user,
-                                                            @work_package,
-                                                            nil,
-                                                            send_notifications)
+              update_service = UpdateWorkPackageService.new(
+                user: current_user,
+                work_package: @work_package,
+                send_notifications: send_notifications)
 
               if write_request_valid?(UpdateContract) && update_service.save
                 @work_package.reload
