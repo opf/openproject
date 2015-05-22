@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_package_contract'
+require 'api/v3/work_packages/base_contract'
 require 'api/v3/work_packages/form/work_package_payload_representer'
 
 module API
@@ -61,8 +61,8 @@ module API
           end
         end
 
-        def write_request_valid?
-          contract = WorkPackageContract.new(@work_package, current_user)
+        def write_request_valid?(contract_class)
+          contract = contract_class.new(@work_package, current_user)
 
           contract_valid = contract.validate
           represented_valid = @work_package.valid?

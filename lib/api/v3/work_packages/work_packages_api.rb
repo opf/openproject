@@ -69,7 +69,7 @@ module API
                                                             nil,
                                                             send_notifications)
 
-              if write_request_valid? && update_service.save
+              if write_request_valid?(UpdateContract) && update_service.save
                 @work_package.reload
 
                 work_package_representer

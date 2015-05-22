@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/form/form_representer'
-
 module API
   module V3
     module WorkPackages
-      module Form
-        class FormAPI < ::API::OpenProjectAPI
-          post '/form' do
-            write_work_package_attributes(reset_lock_version: true)
-            write_request_valid?(UpdateContract) #TODO choose contract according to context
-
-            error = ::API::Errors::ErrorBase.create(@work_package.errors)
-
-            if error.is_a? ::API::Errors::Validation
-              status 200
-              FormRepresenter.new(@work_package, current_user: current_user)
-            else
-              fail error
-            end
-          end
-        end
+      class CreateContract < BaseContract
+        # These attributes need to be set during creation and cannot be modified via representer.
+        # Hence making them writable here is unproblematic.
+        attribute :project_id
+        attribute :author_id
       end
     end
   end
 end
+
