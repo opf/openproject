@@ -29,7 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= content_header title: l(:label_user_plural) do |header| %>
   <%= header.toolbar do |toolbar| %>
-    <%= toolbar.item l(:label_user_new), new_user_path, icon: :add, color: :green %>
+    <%= toolbar.button l(:label_user_new), new_user_path, icon: :add, color: :green %>
+    <%= call_hook(:user_admin_action_menu) %>
   <% end %>
 <% end %>
 
