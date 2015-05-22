@@ -54,13 +54,24 @@ module API
       private
 
       def readonly_attributes_unchanged
-        changed_attributes = model.changed - self.class.writable_attributes
+        changed_attributes = model.changed - writable_attributes
 
         errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
       end
 
       def run_attribute_validations
         self.class.attribute_validations.each { |validation| instance_exec(&validation) }
+      end
+
+      def writable_attributes
+        attributes = []
+        klass = self.class
+        while klass != ModelContract
+          # Collect all the writable attributes from ancestors
+          attributes += klass.writable_attributes
+          klass = klass.superclass
+        end
+        attributes.uniq
       end
     end
   end
