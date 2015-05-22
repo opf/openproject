@@ -28,7 +28,7 @@
 
 Feature: Editing a version
 
-  Scenario: a version can bed edited from it's show page
+  Scenario: a version can be edited from its show page
     Given there is 1 project with the following:
       | identifier | omicronpersei8 |
       | name       | omicronpersei8 |
