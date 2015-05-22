@@ -40,18 +40,18 @@ class WorkPackages::BulkController < ApplicationController
 
   def edit
     WorkPackageBulkUpdateService.new(@work_packages, @projects).run(params)
-    .available_attributes.each do |key, value|
-      self.instance_variable_set(:"@#{key}", value)
-    end
+      .available_attributes.each do |key, value|
+        instance_variable_set(:"@#{key}", value)
+      end
   end
 
   def update
     WorkPackageBulkUpdateService.new(@work_packages, @projects).save(params).each do |key, value|
-      self.instance_variable_set(:"@#{key}", value)
+      instance_variable_set(:"@#{key}", value)
     end
 
     set_flash_from_bulk_save(@work_packages, @unsaved_work_package_ids)
-    redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project}, false)
+    redirect_back_or_default({ controller: '/work_packages', action: :index, project_id: @project }, false)
   end
 
   def destroy
@@ -91,7 +91,7 @@ class WorkPackages::BulkController < ApplicationController
     end
   end
 
-private
+  private
 
   def destroy_work_packages(work_packages)
     work_packages.each do |work_package|

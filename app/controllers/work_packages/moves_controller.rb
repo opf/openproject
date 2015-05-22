@@ -34,17 +34,17 @@ class WorkPackages::MovesController < ApplicationController
 
   def new
     WorkPackageBulkUpdateService.new(@work_packages, @projects)
-    .run(params).available_attributes.each do |key, value|
-      self.instance_variable_set(:"@#{key}", value)
-    end
-    render :layout => false if request.xhr?
+      .run(params).available_attributes.each do |key, value|
+        instance_variable_set(:"@#{key}", value)
+      end
+    render layout: false if request.xhr?
   end
 
   def create
     WorkPackageBulkUpdateService.new(@work_packages, @projects)
-    .save(params, true).each do |key, value|
-      self.instance_variable_set(:"@#{key}", value)
-    end
+      .save(params, true).each do |key, value|
+        instance_variable_set(:"@#{key}", value)
+      end
 
     set_flash_from_bulk_work_package_save(@work_packages, @unsaved_work_package_ids)
 
