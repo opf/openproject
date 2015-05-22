@@ -15,7 +15,10 @@ module ContentHeaderHelper
           dom_title(@title) + content_tag(:ul, items(&block), id: 'toolbar-items')
         end
         next header if @subtitle.blank?
-        header + content_tag(:p, @subtitle, class: 'subtitle')
+        capture do
+          concat header
+          concat content_tag(:p, @subtitle, class: 'subtitle')
+        end
       end
     end
 
@@ -42,30 +45,38 @@ module ContentHeaderHelper
 
       attr_accessor :output_buffer
 
+      delegate :key_for, to: OpenProject::AccessKeys
+
       def button(text, location, options = {})
         options[:class] = %w(button) + Array(options[:class])
         item text, location, options
       end
 
       def item(text, location, options = {})
-        color, icon, css_classes = [:color, :icon, :class].map { |sym| options.fetch sym, '' }
+        color, icon, css_classes, key = values_from options
         css_classes = Array(css_classes) + Array(class_from_color(color))
         return '' unless show?(options)
         toolbar_item do
-          link_to location, class: css_classes do
-            next button_text(text) if icon.blank?
-            button_icon(icon) + button_text(text)
+          link_to location, class: css_classes, accesskey: key_for(key) do
+            (button_icon(icon) + button_text(text)).html_safe
           end
         end
       end
 
-      def toolbar_item(&block)
-        content_tag :li, class: 'toolbar-item', &block
+      def toolbar_item
+        if block_given?
+          content_tag :li, class: 'toolbar-item' do
+            yield
+          end
+        else
+          content_tag :li, '', class: 'toolbar-item'
+        end
       end
 
       protected
 
       def button_icon(icon)
+        return '' if icon.blank?
         content_tag :i, '', class: "button--icon icon-#{icon}"
       end
 
@@ -79,13 +90,17 @@ module ContentHeaderHelper
 
       def class_from_color(color)
         case color.to_sym
-        when :green
+        when :alt
           '-alt-highlight'
-        when :blue
+        when :default
           '-highlight'
         else
           ''
         end
+      end
+
+      def values_from(options)
+        [:highlight, :icon, :class, :accesskey].map { |sym| options.fetch sym, '' }
       end
     end
   end
