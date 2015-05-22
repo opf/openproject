@@ -114,6 +114,13 @@ class Project < ActiveRecord::Base
   before_destroy :delete_all_members
   before_destroy :destroy_all_work_packages
 
+  # HACK: remove on upgrade to awesome_nested_set 3.
+  # Active Record 4 will, by default, order by id:
+  #   ORDER BY "projects"."id" ASC LIMIT 1
+  # this results in the following genre of errors on PostgreSQL:
+  #   …it is not contained in either an aggregate function or the GROUP BY clause
+  default_scope order('')
+
   scope :has_module, lambda { |mod| { conditions: ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   scope :active, lambda { |*_args| where(status: STATUS_ACTIVE) }
   scope :public, lambda { |*_args| where(is_public: true) }
