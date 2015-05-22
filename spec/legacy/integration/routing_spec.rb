@@ -844,20 +844,9 @@ describe 'routing', type: :routing do
 
   context 'wikis (plural, admin setup)' do
     it {
-      is_expected.to route(:get, '/projects/ladida/wiki/destroy').to(controller: 'wikis',
-                                                                     action: 'destroy',
-                                                                     id: 'ladida')
-    }
-
-    it {
       is_expected.to route(:post, '/projects/ladida/wiki').to(controller: 'wikis',
                                                               action: 'edit',
                                                               id: 'ladida')
-    }
-    it {
-      is_expected.to route(:post, '/projects/ladida/wiki/destroy').to(controller: 'wikis',
-                                                                      action: 'destroy',
-                                                                      id: 'ladida')
     }
   end
 
