@@ -68,7 +68,7 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
-    @group = Group.includes(:group_users, :users, :memberships).find(params[:id])
+    @group = Group.includes(:users, :memberships).find(params[:id])
   end
 
   # POST /groups
@@ -91,7 +91,7 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.xml
   def update
-    @group = Group.includes(:group_users, :users).find(params[:id])
+    @group = Group.includes(:users).find(params[:id])
 
     respond_to do |format|
       if @group.update_attributes(permitted_params.group)
@@ -117,7 +117,7 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @group = Group.includes(:group_users, :users).find(params[:id])
+    @group = Group.includes(:users).find(params[:id])
     @users = User.includes(:memberships).where(id: params[:user_ids])
     @group.users << @users
     respond_to do |format|
@@ -127,7 +127,7 @@ class GroupsController < ApplicationController
   end
 
   def remove_user
-    @group = Group.includes(:group_users, :users).find(params[:id])
+    @group = Group.includes(:users).find(params[:id])
     @group.users.delete(User.includes(:memberships).find(params[:user_id]))
     respond_to do |format|
       format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' }

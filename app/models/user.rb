@@ -78,10 +78,11 @@ class User < Principal
     USER_MAIL_OPTION_NON
   ]
 
-  has_many :group_users
-  has_many :groups, through: :group_users,
-                    after_add: Proc.new { |user, group| group.user_added(user) },
-                    after_remove: Proc.new { |user, group| group.user_removed(user) }
+  has_and_belongs_to_many :groups,
+                          join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
+                          after_add:    ->(user, group) { group.user_added(user) },
+                          after_remove: ->(user, group) { group.user_removed(user) }
+
   has_many :categories, foreign_key: 'assigned_to_id',
                         dependent: :nullify
   has_many :assigned_issues, foreign_key: 'assigned_to_id',
