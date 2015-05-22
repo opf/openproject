@@ -49,7 +49,7 @@ GIT
 GIT
   remote: https://github.com/tessi/sprockets.git
   revision: 1e56fd0a92a9fda93dab4550ab3cf82138d097ac
-  branch: 2_2_2_backport2
+  ref: 1e56fd0a92a9fda9
   specs:
     sprockets (2.2.2.backport2)
       hike (~> 1.2)
@@ -222,9 +222,11 @@ GEM
     globalize (3.1.0)
       activemodel (>= 3.1.0, < 4.0.0)
       activerecord (>= 3.1.0, < 4.0.0)
-    gon (4.0.0)
+    gon (5.1.2)
       actionpack (>= 2.3.0)
       json
+      multi_json
+      request_store (>= 1.0.5)
     grape (0.10.1)
       activesupport
       builder
@@ -499,7 +501,7 @@ DEPENDENCIES
   faker
   fog (~> 1.23.0)
   globalize (~> 3.1.0)
-  gon (~> 4.0)
+  gon (~> 5.1.2)
   grape (~> 0.10.1)
   gravatar_image_tag (~> 1.2.0)
   htmldiff
@@ -509,7 +511,7 @@ DEPENDENCIES
   launchy (~> 2.3.0)
   letter_opener (~> 1.3.0)
   livingstyleguide (~> 1.2.2)
-  multi_json
+  multi_json (~> 1.11.0)
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.8.0)
   nokogiri (~> 1.6.6)
