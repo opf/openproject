@@ -58,10 +58,6 @@ describe 'Select work package row', type: :feature do
     work_packages_page.visit_index
   end
 
-  after do
-    ensure_wp_page_is_loaded
-  end
-
   describe 'Work package row selection', js: true do
     def select_work_package_row(number, mouse_button_behavior = :left)
       element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
