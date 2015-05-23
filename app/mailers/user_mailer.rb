@@ -325,28 +325,6 @@ class UserMailer < ActionMailer::Base
     "#{hash}@#{host}"
   end
 
-  protected
-
-  # Option 1 to take out an html part: Leave the part out
-  # while creating the mail. Since rails internally uses three
-  # different ways to create a mail (passing a block, giving parameters
-  # with optional template, or passing the body directly), we would have
-  # to replicate a lot of rails code to modify all three ways.
-  # Therefore, we use option 2: modifying the set of parts rails
-  # created internally as a result of the above ways, as this is
-  # much shorter.
-  # On the downside, this might break if ActionMailer changes the signature
-  # or semantics of the following function. However, we should at least
-  # notice this as there are tests for checking the no-html setting.
-  def collect_responses_and_parts_order(headers)
-    responses, parts_order = super(headers)
-    if Setting.plain_text_mail?
-      responses.delete_if { |response| response[:content_type] == 'text/html' }
-      parts_order.delete_if { |part| part == 'text/html' } unless parts_order.nil?
-    end
-    [responses, parts_order]
-  end
-
   private
 
   # like #mail, but contains special author based filters
@@ -417,6 +395,17 @@ end
 #
 # Unfortunately, this results in changes on the interceptor classes during development mode
 # not being reflected until a server restart.
+
+class PlainTextInterceptor
+  def self.delivering_email(message)
+    if Setting.plain_text_mail?
+      # HACK: this is a workaround to ensure @html_part ivar is set correctly
+      # on the Mail::Message.
+      message.html_part = message.html_part
+      message.html_part = nil
+    end
+  end
+end
 
 class DefaultHeadersInterceptor
   def self.delivering_email(mail)

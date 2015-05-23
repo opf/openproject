@@ -208,18 +208,18 @@ describe UserMailer, type: :mailer do
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
   end
 
-  it 'should plain text mail' do
+  it 'sends plain text mail' do
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue, user).deliver
     mail = ActionMailer::Base.deliveries.last
-    assert_match /text\/plain/, mail.content_type
-    assert_equal 0, mail.parts.size
+    assert_match /multipart\/mixed/, mail.content_type
+    assert_equal 1, mail.parts.size
     assert !mail.encoded.include?('href')
   end
 
-  it 'should html mail' do
+  it 'sends html mail' do
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
