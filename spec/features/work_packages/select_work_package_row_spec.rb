@@ -281,7 +281,8 @@ describe 'Select work package row', type: :feature do
     describe 'specific selection' do
       before { select_work_package_row_with_ctrl(1) }
 
-      it_behaves_like 'work package row not selected' do
+      it_behaves_like 'work package row selected' do
+        # apparently it should be selected if there one row only
         let(:index) { 1 }
       end
 
