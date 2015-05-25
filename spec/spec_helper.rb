@@ -113,6 +113,8 @@ RSpec.configure do |config|
 
   config.include Capybara::Angular::DSL
 
+  Capybara.default_wait_time = 4
+
   config.after(:each) do
     OpenProject::RspecCleanup.cleanup
   end

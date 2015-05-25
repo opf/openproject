@@ -36,21 +36,10 @@ feature 'Query menu items' do
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
-    find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
-                                                     visible: false)
   end
-
-
 
   before do
     allow(User).to receive(:current).and_return user
-  end
-
-  after do
-    # Taking an element, that get's activated late in the page setup.
-    expect(page).to have_selector('.advanced-filters--filter label',
-                                  text: I18n.t(:label_status),
-                                  visible: false)
   end
 
   context 'with identical names' do
