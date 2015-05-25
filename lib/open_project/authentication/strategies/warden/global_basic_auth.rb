@@ -34,6 +34,10 @@ module OpenProject
               raise ArgumentError, "global user must not be '#{UserBasicAuth.user}'"
             end
 
+            if config[:password].blank?
+              raise ArgumentError, "password must not be empty"
+            end
+
             @configuration = config
           end
 
@@ -55,7 +59,7 @@ module OpenProject
           end
 
           def self.password
-            configuration[:password]
+            configuration[:password].to_s
           end
 
           ##
