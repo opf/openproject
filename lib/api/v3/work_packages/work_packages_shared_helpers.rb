@@ -27,7 +27,7 @@
 #++
 
 require 'api/v3/work_packages/base_contract'
-require 'api/v3/work_packages/form/work_package_payload_representer'
+require 'api/v3/work_packages/work_package_payload_representer'
 
 module API
   module V3
@@ -40,7 +40,7 @@ module API
 
         # merges the given JSON representation into @work_package
         def merge_json_into_work_package!(json)
-          payload = Form::WorkPackagePayloadRepresenter.create(@work_package)
+          payload = WorkPackagePayloadRepresenter.create(@work_package)
           payload.from_json(json)
         end
 

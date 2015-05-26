@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Form::FormRepresenter do
+describe ::API::V3::WorkPackages::FormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) {

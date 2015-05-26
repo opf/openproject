@@ -63,7 +63,7 @@ module API
           end
         end
 
-        mount ::API::V3::WorkPackages::Form::FormAPI
+        mount ::API::V3::WorkPackages::FormAPI
       end
     end
   end
