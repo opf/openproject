@@ -75,7 +75,7 @@ module API
           end
 
           def self.create_work_package_form(project_id)
-            "#{project(project_id)}/work_packages/form"
+            "#{work_packages_by_project(project_id)}/form"
           end
 
           def self.priorities
