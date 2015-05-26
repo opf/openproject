@@ -64,7 +64,7 @@ gem 'ruby-duration', '~> 3.2.0'
 # This can be removed as soon as said bugfix is integrated into rabl itself.
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '0.9.3'
-gem 'multi_json'
+gem 'multi_json', '~> 1.11.0'
 gem 'oj', '~> 2.11.4'
 
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
