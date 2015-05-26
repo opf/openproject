@@ -199,3 +199,10 @@ $se2-width: 100%;
 input[type="text"].select2-input {
   height: $se2-input-height;
 }
+
+.columns-modal-content {
+  .select2-container {
+    max-width: calc(100% - 45px);
+  }
+}
+
