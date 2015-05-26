@@ -50,7 +50,7 @@ class WorkPackages::BulkController < ApplicationController
       instance_variable_set(:"@#{key}", value)
     end
 
-    set_flash_from_bulk_save(@work_packages, @unsaved_work_package_ids)
+    set_flash_from_bulk_save(@work_packages, @unsaved_work_packages)
     redirect_back_or_default({ controller: '/work_packages', action: :index, project_id: @project }, false)
   end
 
@@ -79,15 +79,15 @@ class WorkPackages::BulkController < ApplicationController
   # Sets the `flash` notice or error based the number of work packages that did not save
   #
   # @param [Array, WorkPackage] work_packages all of the saved and unsaved WorkPackages
-  # @param [Array, Integer] unsaved_work_package_ids the WorkPackage ids that were not saved
-  def set_flash_from_bulk_save(work_packages, unsaved_work_package_ids)
-    if unsaved_work_package_ids.empty?
+  # @param [Array, Integer] unsaved_work_packages the WorkPackages that were not saved
+  def set_flash_from_bulk_save(work_packages, unsaved_work_packages)
+    if unsaved_work_packages.empty?
       flash[:notice] = l(:notice_successful_update) unless work_packages.empty?
     else
       flash[:error] = l(:notice_failed_to_save_work_packages,
-                        count: unsaved_work_package_ids.size,
+                        count: unsaved_work_packages.size,
                         total: work_packages.size,
-                        ids: '#' + unsaved_work_package_ids.join(', #'))
+                        ids: unsaved_work_packages.map {|wp| "##{wp.id}"}.join(', '))
     end
   end
 

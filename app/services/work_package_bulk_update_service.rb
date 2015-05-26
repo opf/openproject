@@ -59,7 +59,7 @@ class WorkPackageBulkUpdateService
   def save(params, isMoveOrCopy = false)
     prepare(params)
 
-    unsaved_work_package_ids = []
+    unsaved_work_packages = []
     moved_work_packages      = []
     @work_packages.sort!
 
@@ -82,7 +82,7 @@ class WorkPackageBulkUpdateService
         if moved_wp
           moved_work_packages << moved_wp
         else
-          unsaved_work_package_ids << work_package.id
+          unsaved_work_packages << work_package
         end
 
       else
@@ -96,15 +96,15 @@ class WorkPackageBulkUpdateService
                                 params: params, work_package: work_package)
         JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
         unless work_package.save
-          unsaved_work_package_ids << work_package.id
+          unsaved_work_packages << work_package
         end
 
       end
     end
 
     {
-      moved_work_packages:      moved_work_packages,
-      unsaved_work_package_ids: unsaved_work_package_ids,
+      moved_work_packages:   moved_work_packages,
+      unsaved_work_packages: unsaved_work_packages,
       copy: @copy
     }
   end
