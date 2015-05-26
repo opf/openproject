@@ -87,7 +87,7 @@ gem 'rack-attack'
 
 gem 'syck', :platforms => [:mri, :mingw], :require => false
 
-gem 'gon', '~> 4.0'
+gem 'gon', '~> 5.2.3'
 
 # catch exceptions and send them to any airbrake compatible backend
 gem 'airbrake', '~> 4.1.0'
@@ -99,7 +99,7 @@ group :production do
   gem 'dalli', '~> 2.7.2'
 end
 
-gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '2_2_2_backport2'
+gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', ref: '1e56fd0a92a9fda9'
 gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
