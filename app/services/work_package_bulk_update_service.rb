@@ -157,7 +157,7 @@ class WorkPackageBulkUpdateService
                   :follow,
                   :new_type_id,
                   :new_project_id,
-                  ids:       [])
+                  ids: [])
   end
 
   def intersect_arrays(arrays)
