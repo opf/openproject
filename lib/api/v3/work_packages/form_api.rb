@@ -26,25 +26,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/form/form_representer'
+require 'api/v3/work_packages/form_representer'
 
 module API
   module V3
     module WorkPackages
-      module Form
-        class FormAPI < ::API::OpenProjectAPI
-          post '/form' do
-            write_work_package_attributes(reset_lock_version: true)
-            write_request_valid?(UpdateContract) # TODO choose contract according to context
+      class FormAPI < ::API::OpenProjectAPI
+        before do
+          @contract = WorkPackage.exists?(@work_package) ? UpdateContract : CreateContract
+        end
 
-            error = ::API::Errors::ErrorBase.create(@work_package.errors)
+        post '/form' do
+          write_work_package_attributes(reset_lock_version: true)
+          write_request_valid?(@contract)
 
-            if error.is_a? ::API::Errors::Validation
-              status 200
-              FormRepresenter.new(@work_package, current_user: current_user)
-            else
-              fail error
-            end
+          error = ::API::Errors::ErrorBase.create(@work_package.errors)
+
+          if error.is_a? ::API::Errors::Validation
+            status 200
+            FormRepresenter.new(@work_package, current_user: current_user)
+          else
+            fail error
           end
         end
       end
