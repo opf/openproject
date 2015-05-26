@@ -43,20 +43,22 @@ class WorkPackageBulkUpdateService
 
   def available_attributes
     {
-      available_statuses: @available_statuses,
-      assignables:        @assignables,
-      responsibles:       @responsibles,
-      types:              @types,
-      custom_fields:      @custom_fields,
-      target_project:     @target_project,
-      allowed_projects:   @allowed_projects,
-      copy:               @copy,
-      notes:              @notes
+      statuses:         @statuses,
+      types:            @types,
+      priorities:       IssuePriority.active,
+      assignables:      @assignables,
+      responsibles:     @responsibles,
+      custom_fields:    @custom_fields,
+      allowed_projects: @allowed_projects,
+      target_project:   @target_project,
+      copy:             @copy,
+      notes:            @notes
     }
   end
 
   def save(params, copy = false)
     prepare(params)
+
     unsaved_work_package_ids = []
     moved_work_packages      = []
     @work_packages.sort!
@@ -72,9 +74,10 @@ class WorkPackageBulkUpdateService
                                 copy:           !!@copy)
 
         if r = work_package.move_to_project(@target_project,
-                                            @new_type,  copy:         @copy,
-                                                        attributes:   permitted_params(params),
-                                                        journal_note: @notes)
+                                            @target_type,
+                                            copy:         @copy,
+                                            attributes:   permitted_params(params),
+                                            journal_note: @notes)
           moved_work_packages << r
         else
           unsaved_work_package_ids << work_package.id
@@ -97,9 +100,11 @@ class WorkPackageBulkUpdateService
       end
     end
 
-    { moved_work_packages:      moved_work_packages,
+    {
+      moved_work_packages:      moved_work_packages,
       unsaved_work_package_ids: unsaved_work_package_ids,
-      copy: @copy }
+      copy: @copy
+    }
   end
 
   private
@@ -108,23 +113,23 @@ class WorkPackageBulkUpdateService
     @work_packages.sort!
     @copy             = params.has_key? :copy
     @allowed_projects = WorkPackage.allowed_target_projects_on_move
-    @target_project   = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
-    @target_project   ||= @project
-    @new_type         = params[:new_type_id].blank? ? nil : @target_project.types.find_by_id(params[:new_type_id])
-    @notes            = params[:notes]
-    @notes            ||= ''
-
-    @custom_fields      = @projects.map(&:all_work_package_custom_fields)
-                          .inject { |memo, c| memo & c }
-    @assignables        = @projects.map(&:possible_assignees).inject { |memo, a| memo & a }
-    @responsibles       = @projects.map(&:possible_responsibles).inject { |memo, a| memo & a }
-    @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject { |memo, w| memo & w }
-
-    if params.has_key? :copy
-      @types = @target_project.types
-    else
-      @types = @projects.map(&:types).inject { |memo, t| memo & t }
+    if params[:new_project_id]
+      @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s }
     end
+
+    # allowed values will be derived from the effective project
+    effective_projects = @target_project ? [@target_project] : @projects
+
+    @custom_fields = intersect_arrays effective_projects.map(&:all_work_package_custom_fields)
+    @assignables   = intersect_arrays effective_projects.map(&:possible_assignees)
+    @responsibles  = intersect_arrays effective_projects.map(&:possible_responsibles)
+    @statuses      = intersect_arrays effective_projects.map { |p| Workflow.available_statuses(p) }
+    @types         = intersect_arrays effective_projects.map(&:types)
+
+    @target_project ||= @project
+    @target_type = params[:new_type_id].nil? ? nil : @types.detect { |t| t.id.to_s == params[:new_type_id].to_s }
+    @notes       = params[:notes] || ''
+
     self
   end
 
@@ -153,5 +158,9 @@ class WorkPackageBulkUpdateService
                   :new_project_id,
                   ids:       [],
                   status_id: [])
+  end
+
+  def intersect_arrays(arrays)
+    arrays.inject { |memo, array| memo & array }
   end
 end
