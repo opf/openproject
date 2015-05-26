@@ -30,8 +30,8 @@ require 'api/v3/work_packages/work_package_representer'
 
 module API
   module V3
-    module Projects
-      class AvailableWorkPackagesAPI < ::API::OpenProjectAPI
+    module WorkPackages
+      class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
         resources :work_packages do
           before do
             authorize(:view_project, context: @project) do
