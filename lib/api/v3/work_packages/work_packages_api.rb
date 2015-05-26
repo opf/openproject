@@ -108,7 +108,7 @@ module API
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Relations::RelationsAPI
             mount ::API::V3::Attachments::AttachmentsByWorkPackageAPI
-            mount ::API::V3::WorkPackages::FormAPI
+            mount ::API::V3::WorkPackages::UpdateFormAPI
           end
 
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
