@@ -56,7 +56,7 @@ class WorkPackageBulkUpdateService
     }
   end
 
-  def save(params, copy = false)
+  def save(params, isMoveOrCopy = false)
     prepare(params)
 
     unsaved_work_package_ids = []
@@ -66,19 +66,21 @@ class WorkPackageBulkUpdateService
     @work_packages.each do |work_package|
       work_package.reload
 
-      if copy
+      if isMoveOrCopy
         Redmine::Hook.call_hook(:controller_work_packages_move_before_save,
                                 params:         params,
                                 work_package:   work_package,
                                 target_project: @target_project,
                                 copy:           !!@copy)
 
-        if r = work_package.move_to_project(@target_project,
-                                            @target_type,
-                                            copy:         @copy,
-                                            attributes:   permitted_params(params),
-                                            journal_note: @notes)
-          moved_work_packages << r
+        moved_wp = work_package.move_to_project(@target_project,
+                                                @target_type,
+                                                copy:         @copy,
+                                                attributes:   permitted_params(params),
+                                                journal_note: @notes)
+
+        if moved_wp
+          moved_work_packages << moved_wp
         else
           unsaved_work_package_ids << work_package.id
         end
