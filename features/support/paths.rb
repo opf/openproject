@@ -373,6 +373,14 @@ module NavigationHelpers
       message = Message.find_by(subject: $1)
       topic_path(message)
 
+    when /^the show page (for|of) version ('|")(.+)('|")$/
+      version = Version.find_by_name($3)
+      version_path(version)
+
+    when /^the edit page (for|of) version ('|")(.+)('|")$/
+      version = Version.find_by_name($3)
+      edit_version_path(version)
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
