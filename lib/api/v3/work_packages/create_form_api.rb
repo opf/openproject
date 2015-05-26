@@ -26,44 +26,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_package_representer'
 require 'api/v3/work_packages/work_packages_shared_helpers'
 
 module API
   module V3
     module WorkPackages
-      class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
-        resources :work_packages do
-          before do
-            authorize(:view_project, context: @project) do
-              raise API::Errors::NotFound.new
-            end
-
-            @create_service = CreateWorkPackageService.new(
-              user: current_user,
-              project: @project,
-              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
-            @work_package = @create_service.create
-          end
-
+      class CreateFormAPI < ::API::OpenProjectAPI
+        resource :form do
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            write_work_package_attributes
-
-            if write_request_valid?(WorkPackages::CreateContract) && @create_service.save
-              @work_package.reload
-
-              WorkPackages::WorkPackageRepresenter.create(@work_package,
-                                                          current_user: current_user)
-            else
-              errors = ::API::Errors::ErrorBase.create(@work_package.errors.dup)
-              @work_package.destroy
-              fail errors
-            end
+            create_work_package_form(CreateContract)
           end
-
-          mount ::API::V3::WorkPackages::CreateFormAPI
         end
       end
     end
