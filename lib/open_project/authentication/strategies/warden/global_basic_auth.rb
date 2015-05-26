@@ -30,6 +30,8 @@ module OpenProject
           # @raise [ArgumentError] Raises an error if the configured user name collides with the
           #                        user name used for UserBasicAuth (apikey).
           def self.configure!(config = openproject_config)
+            return {} if config.empty?
+
             if config[:user] == UserBasicAuth.user
               raise ArgumentError, "global user must not be '#{UserBasicAuth.user}'"
             end
