@@ -60,7 +60,7 @@ class WorkPackageBulkUpdateService
     prepare(params)
 
     unsaved_work_packages = []
-    moved_work_packages      = []
+    moved_work_packages   = []
     @work_packages.sort!
 
     @work_packages.each do |work_package|
@@ -84,7 +84,6 @@ class WorkPackageBulkUpdateService
         else
           unsaved_work_packages << work_package
         end
-
       else
         work_package.add_journal(User.current, @notes)
 
@@ -98,7 +97,6 @@ class WorkPackageBulkUpdateService
         unless work_package.save
           unsaved_work_packages << work_package
         end
-
       end
     end
 
@@ -155,11 +153,11 @@ class WorkPackageBulkUpdateService
                   :start_date,
                   :due_date,
                   :priority_id,
+                  :status_id,
                   :follow,
                   :new_type_id,
                   :new_project_id,
-                  ids:       [],
-                  status_id: [])
+                  ids:       [])
   end
 
   def intersect_arrays(arrays)

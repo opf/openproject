@@ -319,7 +319,7 @@ describe WorkPackages::MovesController, type: :controller do
                  new_type_id: target_project.types.first.id, # FIXME see #1868
                  assigned_to_id: target_user.id,
                  responsible_id: target_user.id,
-                 status_id: [target_status],
+                 status_id: target_status,
                  start_date: start_date,
                  due_date: due_date
           end
