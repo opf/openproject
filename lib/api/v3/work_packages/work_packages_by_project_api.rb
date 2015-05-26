@@ -37,19 +37,20 @@ module API
             authorize(:view_project, context: @project) do
               raise API::Errors::NotFound.new
             end
+
+            @create_service = CreateWorkPackageService.new(
+              user: current_user,
+              project: @project,
+              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
+            @work_package = @create_service.create
           end
 
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            create_service = CreateWorkPackageService.new(
-              user: current_user,
-              project: @project,
-              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
-            @work_package = create_service.create
             write_work_package_attributes
 
-            if write_request_valid?(WorkPackages::CreateContract) && create_service.save
+            if write_request_valid?(WorkPackages::CreateContract) && @create_service.save
               @work_package.reload
 
               WorkPackages::WorkPackageRepresenter.create(@work_package,
