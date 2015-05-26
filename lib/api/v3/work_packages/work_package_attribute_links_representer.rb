@@ -41,8 +41,9 @@ module API
         class << self
           def create_class(work_package)
             injector_class = ::API::V3::Utilities::CustomFieldInjector
-            injector_class.create_value_representer_for_link_patching(work_package,
-                                                                      WorkPackageAttributeLinksRepresenter)
+            injector_class.create_value_representer_for_link_patching(
+              work_package,
+              WorkPackageAttributeLinksRepresenter)
           end
 
           def create(work_package)
