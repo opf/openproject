@@ -406,8 +406,8 @@ OpenProject::Application.routes.draw do
   # We should fix this crappy routing (split up and rename controller methods)
   get '/workflows' => 'workflows#index'
   scope 'workflows', controller: 'workflows' do
-    match 'edit', action: 'edit', via: [:get, :post]
-    match 'copy', action: 'copy', via: [:get, :post]
+    match 'edit', action: 'edit', via: [:get, :post], as: :edit_workflows
+    match 'copy', action: 'copy', via: [:get, :post], as: :copy_workflows
   end
 
   namespace :work_packages do
