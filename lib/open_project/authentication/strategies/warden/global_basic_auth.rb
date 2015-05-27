@@ -28,7 +28,10 @@ module OpenProject
           #
           # @param [Hash] config The configuration to be used. Must contain :user and :password.
           # @raise [ArgumentError] Raises an error if the configured user name collides with the
-          #                        user name used for UserBasicAuth (apikey).
+          #                        user name used for UserBasicAuth (apikey) or if the
+          #                        provided password is empty.
+          # @return [Hash] The new hash set for the configuration or an empty hash if
+          #                no configuration was provided.
           def self.configure!(config = openproject_config)
             return {} if config.empty?
 
