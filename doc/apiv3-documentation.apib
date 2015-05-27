@@ -275,6 +275,26 @@ That is a `#` followed by either three or six hexadecimal digits.
     black: #000000 or #000
     white: #ffffff or #fff
 
+# Digests
+
+Digests (or Hashes) are one way functions that map data of arbitrary size to data of a fixed size.
+In OpenProject they are for example used to calculate checksums for (attachment) files.
+The checksum calculated depends on the hashed data and the algorithm used as hash function.
+
+Therefore all digests are represented in the following form:
+
+| Property  | Description                                        | Type   | Example                            |
+|:---------:| -------------------------------------------------- | ------ | ---------------------------------- |
+| algorithm | The algorithm used to compute the digest           | String | md5                                |
+| hash      | The calculated digest in hexadecimal notation      | String | 64c26a8403cd796ea4cf913cda2ee4a9   |
+
+#### Example
+
+    {
+        "algorithm": "md5",
+        "hash": "64c26a8403cd796ea4cf913cda2ee4a9"
+    }
+
 # Group Collections
 
 Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
@@ -552,17 +572,24 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 # Group Attachments
 
+## Linked Properties:
+|  Link            | Description                                         | Type          | Constraints | Supported operations |
+|:----------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
+| self             | This attachment                                     | Attachment    | not null    | READ                 |
+| container        | The object (e.g. WorkPackage) housing the attachment| Anything      | not null    | READ                 |
+| author           | The user that uploaded the attachment               | User          | not null    | READ                 |
+| downloadLocation | Direct download link to the attachment              | -             | not null    | READ                 |
+
 ## Properties:
-| Property     | Description      | Type     | Constraints | Supported operations |
-| :---------:  | -------------    | ----     | ----------- | -------------------- |
-| id           | Attachment's id  | Integer  | x > 0       | READ                 |
-| fileName     |                  | String   |             | READ                 |
-| diskFileName |                  | String   |             | READ                 |
-| description  |                  | String   |             | READ                 |
-| contentType  |                  | String   |             | READ                 |
-| digest       |                  | String   |             | READ                 |
-| downloads    |                  | Integer  |             | READ                 |
-| createdAt    | Time of creation | DateTime |             | READ                 |
+| Property     | Description                                     | Type        | Constraints | Supported operations |
+|:------------:| ----------------------------------------------- | ----------- | ----------- | -------------------- |
+| id           | Attachment's id                                 | Integer     | x > 0       | READ                 |
+| fileName     | The name of the uploaded file                   | String      | not null    | READ                 |
+| fileSize     | The size of the uploaded file in Bytes          | Integer     | x >= 0      | READ                 |
+| description  | A user provided description of the file         | Formattable | not null    | READ                 |
+| contentType  | The files MIME-Type as determined by the server | String      | not null    | READ                 |
+| digest       | A checksum for the files content                | Digest      | not null    | READ                 |
+| createdAt    | Time of creation                                | DateTime    | not null    | READ                 |
 
 ## Attachment [/api/v3/attachments/{id}]
 
@@ -573,26 +600,28 @@ Updates an activity's comment and, on success, returns the updated activity.
                 "_type": "Attachment",
                 "_links": {
                     "self": {
-                        "href": "/api/v3/attachments/1",
-                        "title": "dolor_sit_amet"
+                        "href": "/api/v3/attachments/1"
                     },
-                    "workPackage" {
-                        "href": "/api/v3/work_packages/1",
-                        "title": "Lorem ipsum"
+                    "container" {
+                        "href": "/api/v3/work_packages/1"
                     },
                     "author": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - admin"
+                        "href": "/api/v3/users/1"
                     }
                 },
                 "id": 1,
-                "fileName": "dolor_sit_amet",
-                "diskFileName": "dolor_sit_amet",
-                "description": "Lorem ipsum dolor sit amet consecetur elis.",
+                "fileName": "cat.png",
                 "filesize": 24,
-                "contentType": "application/binary",
-                "digest": "",
-                "downloads": 0,
+                "description": {
+                    "format": "plain",
+                    "raw": "A picture of a cute cat",
+                    "html": "<p>A picture of a cute cat</p>"
+                },
+                "contentType": "image/png",
+                "digest": {
+                    "algorithm": "md5",
+                    "64c26a8403cd796ea4cf913cda2ee4a9":
+                },
                 "createdAt": "2014-05-21T08:51:20Z"
             }
 
@@ -604,6 +633,75 @@ Updates an activity's comment and, on success, returns the updated activity.
 + Response 200 (application/hal+json)
 
     [Attachment][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the attachment does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view permission for the container of the attachment
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified attachment does not exist."
+            }
+
+## Delete attachment [DELETE]
+
+Permanently deletes the specified user account.
+
++ Parameters
+    + id (required, integer, `1`) ... Attachment id
+
++ Response 202
+
+    Returned if the attachment was deleted successfully.
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned.
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit permission for the container of the attachment
+
+    *Note that you will only receive this error, if you are at least allowed to see the attachment.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete this attachment."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the attachment does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view permission for the container of the attachment
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified attachment does not exist."
+            }
+
 
 # Group Categories
 
