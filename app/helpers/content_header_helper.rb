@@ -59,7 +59,8 @@ module ContentHeaderHelper
         link_options = delete_keys_from(options).merge(class: css_classes, accesskey: key_for(key))
         toolbar_item do
           link_to location, link_options do
-            (button_icon(icon) + button_text(text)).html_safe
+            concat button_icon(icon)
+            concat button_text(text, options)
           end
         end
       end
@@ -81,8 +82,12 @@ module ContentHeaderHelper
         content_tag :i, '', class: "button--icon icon-#{icon}"
       end
 
-      def button_text(text)
-        content_tag :span, text, class: 'button--text'
+      def button_text(text, options = {})
+        label_for_blind = options.fetch :label_for_blind, ''
+        concat content_tag :span, text, class: 'button--text'
+        unless label_for_blind.blank?
+          concat content_tag( :span, label_for_blind, class: 'hidden-for-sighted')
+        end
       end
 
       def show?(options = {})

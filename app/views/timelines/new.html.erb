@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l("timelines.new_timeline") %>
-<%= toolbar title: l('timelines.new_timeline') %>
+<%= content_header title: l('timelines.new_timeline') %>
 
 <%= labelled_tabular_form_for(@timeline,
              :url => project_timelines_path,
