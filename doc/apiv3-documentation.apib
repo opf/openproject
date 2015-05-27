@@ -702,6 +702,107 @@ Permanently deletes the specified user account.
                 "message": "The specified attachment does not exist."
             }
 
+# Attachments by work package [/api/v3/work_packages/{id}/attachments]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/1/attachments" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/attachments/1"
+                                },
+                                "container" {
+                                    "href": "/api/v3/work_packages/1"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/1"
+                                }
+                            },
+                            "id": 1,
+                            "fileName": "cat.png",
+                            "filesize": 24,
+                            "description": {
+                                "format": "plain",
+                                "raw": "A picture of a cute cat",
+                                "html": "<p>A picture of a cute cat</p>"
+                            },
+                            "contentType": "image/png",
+                            "digest": {
+                                "algorithm": "md5",
+                                "64c26a8403cd796ea4cf913cda2ee4a9":
+                            },
+                            "createdAt": "2014-05-21T08:51:20Z"
+                        },
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/attachments/2"
+                                },
+                                "container" {
+                                    "href": "/api/v3/work_packages/1"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/1"
+                                }
+                            },
+                            "id": 2,
+                            "fileName": "cat2.png",
+                            "filesize": 24,
+                            "description": {
+                                "format": "plain",
+                                "raw": "A picture of another cute cat",
+                                "html": "<p>A picture of another cute cat</p>"
+                            },
+                            "contentType": "image/png",
+                            "digest": {
+                                "algorithm": "md5",
+                                "46c26a8403cd769ea4c9f13cdae2e49a":
+                            },
+                            "createdAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List attachments of a work package [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the work package whose attachments will be listed
+
++ Response 200 (application/hal+json)
+
+    [Attachments by work package][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work package
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
 
 # Group Categories
 
@@ -2829,6 +2930,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
 | self               | This work package                                                                                                                                     | WorkPackage  | not null     | READ                  |                                           |
 | schema             | The schema of this work package                                                                                                                       | Schema       | not null     | READ                  |                                           |
+| attachments        | The files attached to this work package                                                                                                               | Collection   | not null     | READ                  |                                           |
 | author             | The person that created the work package                                                                                                              | User         | not null     | READ                  |                                           |
 | assignee           | The person that is intended to work on the work package                                                                                               | User         |              | READ / WRITE          |                                           |
 | availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
@@ -2914,6 +3016,9 @@ the human readable name of custom fields.*
                         "href": "/work_packages/1528/move/new",
                         "type": "text/html",
                         "title": "Move Develop API"
+                    },
+                    "attachments": {
+                        "href": "/api/v3/work_packages/1528/attachments"
                     },
                     "author": {
                         "href": "/api/v3/users/1",
