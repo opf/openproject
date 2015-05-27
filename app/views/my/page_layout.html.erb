@@ -65,16 +65,17 @@ See doc/COPYRIGHT.rdoc for more details.
   //]]>
 </script>
 
-<%= toolbar title: l(:label_my_page) do %>
-    <li class="toolbar-item">
-      <%= styled_form_tag({:action => "add_block"}, :id => "block-form") do %>
-        <%= styled_select_tag 'block', "<option>--#{t(:button_add)}--</option>".html_safe + options_for_select(@block_options),
+<%= content_header title: l(:label_my_page) do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.toolbar_item do %>
+      <% styled_form_tag({:action => "add_block"}, :id => "block-form") do %>
+        <% styled_select_tag 'block', "<option>--#{t(:button_add)}--</option>".html_safe + options_for_select(@block_options),
               :id => "block-select",
               class: '-small' %>
       <% end %>
-    </li>
-    <li class="toolbar-item">
-      <%= link_to_remote l(:button_add),
+    <% end %>
+    <%= t.toolbar_item do %>
+      <% link_to_remote l(:button_add),
                        {:url => { :action => "add_block" },
                         :with => "Form.serialize('block-form')",
                         :update => "list-top",
@@ -82,13 +83,9 @@ See doc/COPYRIGHT.rdoc for more details.
                         :complete => "afterAddBlock();"
                        }, :class => 'button'
                          %>
-    </li>
-  <li class="toolbar-item">
-    <%= link_to({action: 'page'}, class: 'button') do %>
-      <i class="button--icon icon-cancel"></i>
-      <span class="button--text"><%= l(:button_back) %></span>
     <% end %>
-  </li>
+    <%= t.button l(:button_back), my_page_path, icon: :cancel %>
+  <% end %>
 <% end %>
 
 <h4><%=l(:label_visible_elements) %></h4>
