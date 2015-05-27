@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_administration), l("label_user_new") %>
-<%= render partial: 'toolbar', locals: { new_user: true } %>
+<%= render partial: 'toolbar' %>
 <%= labelled_tabular_form_for @user,
                               :url => { :action => "create" },
                               :html => { :class => nil, :autocomplete => 'off' },
