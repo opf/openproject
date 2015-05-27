@@ -27,14 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title(l(:label_news_plural)) -%>
-<%= toolbar title: l(:label_news_plural) do %>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
-    <li class="toolbar-item">
-      <%= link_to new_project_news_path(@project), title: l(:label_news_new), id: 'new_news_link', class: 'button -alt-highlight' do %>
-        <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= l(:label_news_new) %></span>
-      <% end %>
-    </li>
+<%= content_header title: l(:label_news_plural) do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l(:label_news_new), new_project_news_path(@project),
+                 title: l(:label_news_new), id: 'new_news_link',
+                 icon: :add, highlight: :alt,
+                 if: User.current.allowed_to?(:manage_news, @project)
+    %>
   <% end %>
 <% end %>
 <% if @newss.empty? %>
