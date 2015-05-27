@@ -27,8 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%= link_to h(@board.name), controller: '/boards', action: 'show', project_id: @project, id: @board %> &#187; <%= l(:label_message_new) %></h2>
-
+<%= content_header title: "#{link_to h(@board.name), project_board_path(@project, @board)} &raquo; #{l(:label_message_new)}" %>
 <%= labelled_tabular_form_for @message,
                               url: board_topics_path(@board),
                               html: { multipart: true,
