@@ -29,13 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l(:label_administration), l("timelines.admin_menu.colors") %>
 
-<%= toolbar title: l('timelines.admin_menu.colors') do %>
-  <li class="toolbar-item">
-    <%= link_to new_color_path, class: 'button -alt-highlight', title: l('timelines.new_color') do %>
-      <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l('timelines.new_color') %></span>
-    <% end %>
-  </li>
+<%= content_header title: l('timelines.admin_menu.colors') do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l('timelines.new_color'), new_color_path, icon: :add, highlight: :alt %>
+  <% end %>
 <% end %>
 
 <% if @colors.blank? %>
