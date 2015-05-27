@@ -425,7 +425,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def send_notifications?
-    params[:send_notification] == '0' ? false : true
+    params[:send_notification] != '0'
   end
 
   def per_page_param
