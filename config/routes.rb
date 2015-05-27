@@ -561,7 +561,9 @@ OpenProject::Application.routes.draw do
       get :confirm_destroy, on: :member
     end
 
-    resources :timelines,              controller: 'timelines'
+    resources :timelines,              controller: 'timelines' do
+      get :confirm_destroy
+    end
   end
 
   resources :reported_project_statuses, controller: 'reported_project_statuses'
