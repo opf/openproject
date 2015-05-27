@@ -93,7 +93,7 @@ class WorkPackageBulkUpdateService
 
         Redmine::Hook.call_hook(:controller_work_package_bulk_before_save,
                                 params: params, work_package: work_package)
-        JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+        JournalObserver.instance.send_notification = params[:send_notification] != '0'
         unless work_package.save
           unsaved_work_packages << work_package
         end
