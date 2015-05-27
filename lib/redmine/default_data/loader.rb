@@ -201,30 +201,63 @@ module Redmine
             none = Type.standard_type
 
             # Issue statuses
-            new      = Status.create!(name: l(:default_status_new), is_closed: false, is_default: true, position: 1)
-            specified  = Status.create!(name: l(:default_status_specified), is_closed: false, is_default: false, position: 2)
-            confirmed  = Status.create!(name: l(:default_status_confirmed), is_closed: false, is_default: false, position: 3)
-            to_be_scheduled  = Status.create!(name: l(:default_status_to_be_scheduled), is_closed: false, is_default: false, position: 4)
-            scheduled  = Status.create!(name: l(:default_status_scheduled), is_closed: false, is_default: false, position: 5)
-            in_progress  = Status.create!(name: l(:default_status_in_progress), is_closed: false, is_default: false, position: 6)
-            tested  = Status.create!(name: l(:default_status_tested), is_closed: false, is_default: false, position: 7)
-            on_hold  = Status.create!(name: l(:default_status_on_hold), is_closed: false, is_default: false, position: 8)
-            rejected  = Status.create!(name: l(:default_status_rejected), is_closed: true, is_default: false, position: 9)
-            closed    = Status.create!(name: l(:default_status_closed), is_closed: true, is_default: false, position: 10)
+            new      = Status.create!(name: l(:default_status_new),
+                                      is_closed: false,
+                                      is_default: true,
+                                      position: 1)
+            specified  = Status.create!(name: l(:default_status_specified),
+                                        is_closed: false,
+                                        is_default: false,
+                                        position: 2)
+            confirmed  = Status.create!(name: l(:default_status_confirmed),
+                                        is_closed: false,
+                                        is_default: false,
+                                        position: 3)
+            to_be_scheduled  = Status.create!(name: l(:default_status_to_be_scheduled),
+                                              is_closed: false,
+                                              is_default: false,
+                                              position: 4)
+            scheduled  = Status.create!(name: l(:default_status_scheduled),
+                                        is_closed: false,
+                                        is_default: false,
+                                        position: 5)
+            in_progress  = Status.create!(name: l(:default_status_in_progress),
+                                          is_closed: false,
+                                          is_default: false,
+                                          position: 6)
+            tested  = Status.create!(name: l(:default_status_tested),
+                                     is_closed: false,
+                                     is_default: false,
+                                     position: 7)
+            on_hold  = Status.create!(name: l(:default_status_on_hold),
+                                      is_closed: false,
+                                      is_default: false,
+                                      position: 8)
+            rejected  = Status.create!(name: l(:default_status_rejected),
+                                       is_closed: true,
+                                       is_default: false,
+                                       position: 9)
+            closed    = Status.create!(name: l(:default_status_closed),
+                                       is_closed: true,
+                                       is_default: false,
+                                       position: 10)
 
             # Workflow - Each type has its own workflow
-            statuses = { task.name =>        [new, in_progress, on_hold, rejected, closed],
-                         deliverable.name => [new, specified, in_progress, on_hold, rejected, closed],
-                         none.name =>        [new, in_progress, rejected, closed],
-                         milestone.name =>   [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-                         phase.name =>       [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-                         bug.name =>         [new, confirmed, in_progress, tested, on_hold, rejected, closed],
-                         feature.name =>     [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed] }
-            statuses.each { |t, statuses_for_t|
-              statuses_for_t.each { |os|
-                statuses_for_t.each { |ns|
+            workflows = { task.id =>        [new, in_progress, on_hold, rejected, closed],
+                          deliverable.id => [new, specified, in_progress, on_hold, rejected, closed],
+                          none.id =>        [new, in_progress, rejected, closed],
+                          milestone.id =>   [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+                          phase.id =>       [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+                          bug.id =>         [new, confirmed, in_progress, tested, on_hold, rejected, closed],
+                          feature.id =>     [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed] }
+            workflows.each { |type_id, statuses_for_type|
+              statuses_for_type.each { |old_status|
+                statuses_for_type.each { |new_status|
                   [manager.id, member.id].each { |role_id|
-                    Workflow.create!(:type_id => Type.where(:name => t).first.id, :role_id => role_id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+                    Workflow.create!(type_id: type_id,
+                                     role_id: role_id,
+                                     old_status_id: old_status.id,
+                                     new_status_id: new_status.id)
                   }
                 }
               }
