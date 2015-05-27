@@ -156,7 +156,7 @@ group :test do
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
-  gem 'capybara-ng', git: 'git@github.com:kikonen/capybara-ng.git', tag: 'v0.2.1'
+  gem 'capybara-ng', '~> 0.2.1'
   gem 'selenium-webdriver', '~> 2.45.0'
   gem 'timecop', '~> 0.7.1'
 
