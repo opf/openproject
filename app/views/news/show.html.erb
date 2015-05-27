@@ -27,30 +27,24 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}" do %>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
-    <%= link_to(edit_news_path(@news),
-      :accesskey => accesskey(:edit),
-      class: 'button',
-      :onclick => 'Element.show("edit-news"); return false;') do %>
-      <i class="button--icon icon-edit"></i>
-      <span class="button--text"><%= l(:button_edit) %></span>
-    <% end %>
-  <% end %>
-  <li class="toolbar-item">
-    <%# hack around the old watchers_link implementation %>
-    <div class="button">
-      <%= watcher_link(@news, User.current) %>
-    </div>
-  </li>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
-    <%= link_to(news_path(@news),
-          :confirm => l(:text_are_you_sure),
-          :method => :delete,
-          :class => 'button') do %>
-      <i class="button--icon icon-delete"></i>
-      <span class="button--text"><%= l(:button_delete) %></span>
-    <% end %>
+<%= content_header title: "#{avatar(@news.author)}  #{h @news.title}" do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l(:button_edit), edit_news_path(@news),
+                 accesskey: :edit, icon: :edit,
+                 onclick: 'Element.show("edit-news"); return false;',
+                 if: User.current.allowed_to?(:manage_news, @project)
+    %>
+    <%# TODO: use a real watchers_link implementation %>
+    <li class="toolbar-item">
+      <div class="button">
+        <%= watcher_link(@news, User.current) %>
+      </div>
+    </li>
+    <%= t.button l(:button_delete), news_path,
+                 icon: :delete,
+                 data: { method: :delete, confirm: l(:text_are_you_sure) },
+                 if: User.current.allowed_to?(:manage_news, @project)
+    %>
   <% end %>
 <% end %>
 

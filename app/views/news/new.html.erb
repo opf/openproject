@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l(:label_news_new) %>
 
-<%= toolbar title: l(:label_news_new) %>
+<%= content_header title: l(:label_news_new) %>
 
 <%= labelled_tabular_form_for [@project, @news], :html => { :id => 'news-form' } do |f| %>
   <%= render :partial => 'news/form', :locals => { :f => f } %>
