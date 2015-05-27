@@ -7,6 +7,14 @@ GIT
       rspec
 
 GIT
+  remote: git@github.com:kikonen/capybara-ng.git
+  revision: 0708d158425c4e3cdd66da77ea91bd4e62bb36b0
+  tag: v0.2.1
+  specs:
+    capybara-ng (0.2.1)
+      awesome_print (>= 1.2.0)
+
+GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
@@ -104,6 +112,7 @@ GEM
       json
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
+    awesome_print (1.6.1)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -123,8 +132,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-angular (0.1.1)
-      capybara
     capybara-screenshot (1.0.5)
       capybara (>= 1.0, < 3)
       colored
@@ -485,7 +492,7 @@ DEPENDENCIES
   awesome_nested_set
   bourbon (~> 4.2.0)
   capybara (~> 2.3.0)
-  capybara-angular
+  capybara-ng!
   capybara-screenshot (~> 1.0.4)
   capybara-select2!
   carrierwave (~> 0.10.0)
