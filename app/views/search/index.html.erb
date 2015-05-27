@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= call_hook :search_index_head %>
 <% end %>
-<%= toolbar title: l(:label_search) %>
+<%= content_header title: l(:label_search) %>
 <%= styled_form_tag(search_path(@project), :method => :get) do %>
   <fieldset class="simple-filters--container" id="search-filter">
     <ul class="simple-filters--filters">
