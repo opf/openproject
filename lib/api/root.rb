@@ -147,7 +147,10 @@ module API
     end
 
     def self.auth_headers
-      { 'WWW-Authenticate' => %(Basic realm="#{OpenProject::Authentication::Realm.realm}") }
+      scheme = OpenProject::Authentication::WWWAuthenticate.auth_scheme
+      realm = OpenProject::Authentication::WWWAuthenticate.realm
+
+      { 'WWW-Authenticate' => %(#{scheme} realm="#{realm}") }
     end
 
     ##

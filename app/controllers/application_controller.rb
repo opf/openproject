@@ -259,7 +259,7 @@ class ApplicationController < ActionController::Base
         authentication_scheme = if request.headers['X-Authentication-Scheme'] == 'Session'
                                   'Session'
                                 else
-                                  'Basic'
+                                  'BasicAuth' # not 'Basic' on purpose to suppress prompt
                                 end
         format.any(:xml, :js, :json)  do
           head :unauthorized,

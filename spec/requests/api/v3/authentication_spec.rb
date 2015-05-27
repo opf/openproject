@@ -66,7 +66,8 @@ describe API::V3, type: :request do
         end
 
         it 'should return the WWW-Authenticate header' do
-          expect(response.header['WWW-Authenticate']).to include 'Basic realm="OpenProject"'
+          expect(response.header['WWW-Authenticate'])
+            .to include 'BasicAuth realm="OpenProject API"'
         end
       end
 
@@ -90,7 +91,8 @@ describe API::V3, type: :request do
         end
 
         it 'should return the WWW-Authenticate header' do
-          expect(response.header['WWW-Authenticate']).to include 'Basic realm="OpenProject"'
+          expect(response.header['WWW-Authenticate'])
+            .to include 'BasicAuth realm="OpenProject API"'
         end
       end
 
