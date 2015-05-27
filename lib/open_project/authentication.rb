@@ -61,14 +61,34 @@ module OpenProject
       end
     end
 
-    module Realm
+    ##
+    # General options used in the WWW-Authenticate header returned to the user
+    # in case authentication failed (401).
+    module WWWAuthenticate
       module_function
 
+      ##
+      # Per default the scheme is 'Basic' which is recognized by the browser
+      # which will promt the user to provide basic auth credentials in order
+      # to authenticate.
+      #
+      # When using the APIv3 through Angular, e.g. in the work package view,
+      # this behaviour is not desired, however. If the user is not logged in
+      # the calls should just fail.
+      #
+      # It is impossible to suppress the prompt using Javascript.
+      # Hence we rename the auth scheme in a way that makes it still obvious
+      # to developers that it is basic auth but still unknown to the browser
+      # thereby avoiding the undesired prompt.
+      def auth_scheme
+        'BasicAuth'
+      end
+
       def realm
-        'OpenProject'
+        'OpenProject API'
       end
     end
   end
 end
 
-Warden::Strategies::BasicAuth.prepend OpenProject::Authentication::Realm
+Warden::Strategies::BasicAuth.prepend OpenProject::Authentication::WWWAuthenticate
