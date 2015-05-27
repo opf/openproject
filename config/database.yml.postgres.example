@@ -39,7 +39,7 @@ production:
 development:
   adapter: postgresql
   encoding: unicode
-  database: openproject_production
+  database: openproject_development
   pool: 5
   username: vagrant
   password: vagrant
