@@ -149,7 +149,7 @@ class Enumeration < ActiveRecord::Base
 
   # Are the new and previous fields equal?
   def self.same_active_state?(new, previous)
-    new = (new == '1' ? true : false)
+    new = new == '1'
     new == previous
   end
 
