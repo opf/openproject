@@ -66,7 +66,7 @@ class WorkPackages::MovesController < ApplicationController
       flash[:error] = l(:notice_failed_to_save_work_packages,
                         count: unsaved_work_packages.size,
                         total: work_packages.size,
-                        ids: unsaved_work_packages.map {|wp| "##{wp.id}"}.join(', '))
+                        ids: unsaved_work_packages.map { |wp| "##{wp.id}" }.join(', '))
     end
   end
 
