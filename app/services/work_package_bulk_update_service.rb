@@ -76,7 +76,7 @@ class WorkPackageBulkUpdateService
         moved_wp = work_package.move_to_project(@target_project,
                                                 @target_type,
                                                 copy:         @copy,
-                                                attributes:   permitted_params(params),
+                                                attributes:   permit_params_for_move_or_copy(params),
                                                 journal_note: @notes)
 
         if moved_wp
@@ -88,7 +88,7 @@ class WorkPackageBulkUpdateService
         work_package.add_journal(User.current, @notes)
 
         # filter parameters by whitelist and add defaults
-        attributes = parse_params_for_bulk_work_package_attributes params, work_package.project
+        attributes = permit_params_for_edit params, work_package.project
         work_package.assign_attributes attributes
 
         Redmine::Hook.call_hook(:controller_work_package_bulk_before_save,
@@ -133,7 +133,7 @@ class WorkPackageBulkUpdateService
     self
   end
 
-  def parse_params_for_bulk_work_package_attributes(params, project)
+  def permit_params_for_edit(params, project)
     return {} unless params.has_key? :work_package
     permitted_params = PermittedParams.new(params, User.current)
     safe_params      = permitted_params.update_work_package project: project
@@ -146,7 +146,7 @@ class WorkPackageBulkUpdateService
     attributes
   end
 
-  def permitted_params(params)
+  def permit_params_for_move_or_copy(params)
     params.permit(:copy,
                   :assigned_to_id,
                   :responsible_id,
