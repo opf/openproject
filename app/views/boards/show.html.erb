@@ -48,24 +48,23 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </div>
 
-<%= toolbar title: @board.name, subtitle: @board.description do %>
-  <% if authorize_for(:messages, :new) %>
-    <li class="toolbar-item">
-      <%= link_to({ controller: '/messages', action: 'new', board_id: @board},
-                    class: 'button -alt-highlight',
-                    onclick: 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;') do %>
-        <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= l(:label_message_new) %></span>
-      <% end %>
-    </li>
+<%= content_header title: h(@board.name), subtitle: h(@board.description) do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l(:label_message_new), new_board_topic_path(@board),
+                 icon: :add, highlight: :alt,
+                 onclick: 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;',
+                 if: authorize_for(:messages, :new)
+    %>
+    <%# TODO: provide a real watch button implmentation %>
+    <% unless User.current.anonymous? %>
+      <li class="toolbar-item">
+        <div class="button">
+          <%= watcher_link(@board, User.current) %>
+        </div>
+      </li>
+    <% end %>
   <% end %>
-  <% unless User.current.anonymous? %>
-    <li class="toolbar-item">
-      <div class="button">
-        <%= watcher_link(@board, User.current) %>
-      </div>
-    </li>
-  <% end %>
+
 <% end %>
 
 <div ng-controller="MessagesController">
