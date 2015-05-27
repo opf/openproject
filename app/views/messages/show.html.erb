@@ -31,29 +31,22 @@ See doc/COPYRIGHT.rdoc for more details.
   link_to(l(:label_board_plural), project_boards_path(@project)),
   link_to(h(@board.name), project_board_path(@project, @board)))
 %>
-
-<% content_for :action_menu_specific do %>
-  <%= watcher_link(@topic, User.current) %>
-  <%= link_to(l(:button_quote),
-              { action: 'quote', id: @topic },
-              remote: true,
-              method: 'get',
-              class: 'icon icon-quote') if !@topic.locked? && authorize_for('messages', 'reply') %>
-  <%= link_to(l(:button_edit),
-              edit_topic_path(@topic),
-              class: 'icon icon-edit',
-              accesskey: accesskey(:edit)) if @message.editable_by?(User.current) %>
-  <%= link_to(l(:button_delete),
-              topic_path(@topic),
-              method: :delete,
-              confirm: l(:text_are_you_sure),
-              class: 'icon icon-delete') if @message.destroyable_by?(User.current) %>
+<%= content_header title: "#{avatar @topic.author} #{h(@topic.subject)}" do |h| %>
+  <%= h.toolbar do |t| %>
+    <%# TODO: provide a real watch button implementation %>
+    <% unless User.current.anonymous? %>
+      <li class="toolbar-item">
+        <div class="button">
+          <%= watcher_link(@topic, User.current) %>
+        </div>
+      </li>
+    <% end %>
+    <%= t.button l(:button_quote), quote_topic_path(@topic), remote: true, method: :get, icon: :quote, unless: @topic.locked?, if: authorize_for(:messages, :reply) %>
+    <%= t.button l(:button_edit), edit_topic_path(@topic), icon: :edit, accesskey: :edit, id: @message.editable_by?(User.current) %>
+    <%= t.button l(:button_delete), topic_path(@topic), icon: :delete, data: { method: :delete, confirm: l(:text_are_you_sure) }, if: @message.destroyable_by?(User.current) %>
+  <% end %>
 <% end %>
 
-<div class="top-page">
-  <%= render partial: 'layouts/action_menu_specific' %>
-  <h2 title="<%= h @topic.subject %>"><%= avatar(@topic.author) %><%=h @topic.subject %></h2>
-</div>
 <div class="message">
   <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
   <div class="wiki" ng-non-bindable>
