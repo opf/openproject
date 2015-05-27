@@ -92,7 +92,7 @@ end
 shared_examples_for 'unauthenticated access' do
   it_behaves_like 'error response',
                   401,
-                  'MissingPermission',
+                  'Unauthenticated',
                   I18n.t('api_v3.errors.code_401')
 end
 
