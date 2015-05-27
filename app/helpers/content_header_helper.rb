@@ -56,8 +56,9 @@ module ContentHeaderHelper
         color, icon, css_classes, key = values_from options
         css_classes = Array(css_classes) + Array(class_from_color(color))
         return '' unless show?(options)
+        link_options = delete_keys_from(options).merge(class: css_classes, accesskey: key_for(key))
         toolbar_item do
-          link_to location, class: css_classes, accesskey: key_for(key) do
+          link_to location, link_options do
             (button_icon(icon) + button_text(text)).html_safe
           end
         end
@@ -101,6 +102,11 @@ module ContentHeaderHelper
 
       def values_from(options)
         [:highlight, :icon, :class, :accesskey].map { |sym| options.fetch sym, '' }
+      end
+
+      def delete_keys_from(options)
+        keys_to_delete = [:unless, :if, :highlight, :icon, :class, :accesskey]
+        options.delete_if { |k, _| keys_to_delete.include? k }
       end
     end
   end
