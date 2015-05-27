@@ -30,12 +30,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= javascript_include_tag 'contextual_fieldset.js' %>
 
 <% html_title l("timelines.project_menu.reportings") %>
-<%= toolbar title:  l("timelines.project_menu.reportings") do %>
-  <% if authorize_for(:reportings, :new) %>
-    <%= link_to new_project_reporting_path(@project), title: l("timelines.new_reporting"), class: 'button -alt-highlight' do %>
-      <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l("timelines.new_reporting") %></span>
-    <% end %>
+<%= content_header title:  l("timelines.project_menu.reportings") do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l("timelines.new_reporting"), new_project_reporting_path(@project), title: l("timelines.new_reporting"), icon: :add, highlight: :alt, if: authorize_for(:reportings, :new) %>
   <% end %>
 <% end %>
 
