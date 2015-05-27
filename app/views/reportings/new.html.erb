@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% html_title l('timelines.new_reporting') %>
-<%= toolbar title: l('timelines.new_reporting') %>
+<%= content_header title: l('timelines.new_reporting') %>
 
 <%= labelled_tabular_form_for :reporting,
             :url  => project_reportings_path(@project),
