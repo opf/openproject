@@ -71,7 +71,6 @@ OpenProject::Application.routes.draw do
                        }
 
     namespace :v2 do
-
       resources :authentication
       resources :users, only: [:index]
       resources :planning_element_journals
@@ -121,7 +120,6 @@ OpenProject::Application.routes.draw do
           resources model, only: [:index]
         end
       end
-
     end
 
     namespace :experimental do
@@ -357,7 +355,6 @@ OpenProject::Application.routes.draw do
       get '(/revisions/:rev)(/*path)', action: :show,
                                        format: false,
                                        rev: /[a-z0-9\.\-_]+/
-
     end
   end
 
@@ -478,7 +475,6 @@ OpenProject::Application.routes.draw do
 
   resources :boards, only: [] do
     resources :topics, controller: 'messages', except: [:index], shallow: true do
-
       member do
         get :quote
         post :reply, as: 'reply_to'
@@ -557,11 +553,11 @@ OpenProject::Application.routes.draw do
       get :available_projects, on: :collection
     end
 
-    resources :reportings,             controller: 'reportings' do
+    resources :reportings, controller: 'reportings' do
       get :confirm_destroy, on: :member
     end
 
-    resources :timelines,              controller: 'timelines' do
+    resources :timelines, controller: 'timelines' do
       get :confirm_destroy
     end
   end

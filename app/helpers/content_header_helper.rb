@@ -4,9 +4,9 @@ module ContentHeaderHelper
     attr_accessor :output_buffer
 
     def initialize(title:, subtitle: '', helper: nil, &_block)
-      @title    = title
+      @title = title
       @subtitle = subtitle
-      @helper   = helper
+      @helper = helper
     end
 
     def toolbar(&block)
@@ -53,13 +53,11 @@ module ContentHeaderHelper
       end
 
       def item(text, location, options = {})
-        color, icon, css_classes, key = values_from options
-        css_classes = Array(css_classes) + Array(class_from_color(color))
         return '' unless show?(options)
-        link_options = delete_keys_from(options).merge(class: css_classes, accesskey: key_for(key))
+        link_options = extract_from options
         toolbar_item do
           link_to location, link_options do
-            concat button_icon(icon)
+            concat button_icon(options)
             concat button_text(text, options)
           end
         end
@@ -77,7 +75,8 @@ module ContentHeaderHelper
 
       protected
 
-      def button_icon(icon)
+      def button_icon(options = {})
+        icon = options.fetch :icon, ''
         return '' if icon.blank?
         content_tag :i, '', class: "button--icon icon-#{icon}"
       end
@@ -86,7 +85,7 @@ module ContentHeaderHelper
         label_for_blind = options.fetch :label_for_blind, ''
         concat content_tag :span, text, class: 'button--text'
         unless label_for_blind.blank?
-          concat content_tag( :span, label_for_blind, class: 'hidden-for-sighted')
+          concat content_tag(:span, label_for_blind, class: 'hidden-for-sighted')
         end
       end
 
@@ -105,12 +104,18 @@ module ContentHeaderHelper
         end
       end
 
+      def extract_from(options = {})
+        color, css_classes, key = values_from options
+        css_classes = Array(css_classes) + Array(class_from_color(color))
+        delete_keys_from(options).merge(class: css_classes, accesskey: key_for(key))
+      end
+
       def values_from(options)
-        [:highlight, :icon, :class, :accesskey].map { |sym| options.fetch sym, '' }
+        [:highlight, :class, :accesskey].map { |sym| options.fetch sym, '' }
       end
 
       def delete_keys_from(options)
-        keys_to_delete = [:unless, :if, :highlight, :icon, :class, :accesskey]
+        keys_to_delete = [:unless, :if, :highlight, :class, :accesskey]
         options.delete_if { |k, _| keys_to_delete.include? k }
       end
     end
