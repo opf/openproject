@@ -319,7 +319,7 @@ end
 Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?$/ do |disabled, fieldname, visible|
   # Checking for a disabled field will only work for field with labels where the label
   # has a correctly filled "for" attribute
-  visibility = visible && visible.include?('invisible') ? false : true
+  visibility = visible && !visible.include?('invisible')
 
   if disabled
     # disabled fields can not be found via find_field
