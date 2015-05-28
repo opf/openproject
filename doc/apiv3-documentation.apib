@@ -59,7 +59,7 @@ However for the future we plan to add authentication modes that are more suitabl
 
 Links to other resources in the API are represented uniformly by so called link objects.
 
-## Properties
+## Local Properties
 
 | Property  | Description                                                              | Type    | Required | Nullable | Default |
 |:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ------- |
@@ -261,7 +261,7 @@ pagination can be found below the links table.
 A collection also carries meta information like the total count of elements in the collection or - in case of a paginated collection -
 the amount of elements returned in this response and action links to retrieve the remaining elements.
 
-## Properties
+## Local Properties
 
 | Property | Description                                                     | Type    | Availability                |
 |:--------:| --------------------------------------------------------------- | ------- | --------------------------- |
@@ -401,7 +401,7 @@ Cursor based pagination is therefore less suited for use cases where you want to
 
 # Group Activities
 
-## Properties:
+## Local Properties:
 | Property    | Description      | Type                 | Constraints | Supported operations |
 | :---------: | -------------    | ----                 | ----------- | -------------------- |
 | id          | Activity id      | Integer              | x > 0       | READ                 |
@@ -517,7 +517,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 # Group Attachments
 
-## Properties:
+## Local Properties:
 | Property     | Description      | Type     | Constraints | Supported operations |
 | :---------:  | -------------    | ----     | ----------- | -------------------- |
 | id           | Attachment's id  | Integer  | x > 0       | READ                 |
@@ -579,7 +579,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 | project         | The project of this category                        | Project       | not null    | READ                 |
 | defaultAssignee | Default assignee for work packages of this category | User          |             | READ                 |
 
-## Properties
+## Local Properties
 | Property   | Description   | Type    | Constraints | Supported operations |
 | :--------: | ------------- | ------- | ----------- | -------------------- |
 | id         | Category id   | Integer | x > 0       | READ                 |
@@ -1041,7 +1041,7 @@ The request body is the actual string that shall be rendered as HTML string.
 |:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
 | self      | This priority                               | Priority      | not null              | READ                 |
 
-## Properties
+## Local Properties
 | Property    | Description                                 | Type       | Constraints | Supported operations |
 | :---------: | ------------------------------------------- | ---------- | ----------- | -------------------- |
 | id          | Priority id                                 | Integer    | x > 0       | READ                 |
@@ -1197,7 +1197,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | types      | Types available in this project      | Types      | not null    | READ                 |
 | versions   | Versions available in this project   | Versions   | not null    | READ                 |
 
-## Properties:
+## Local Properties:
 | Property    | Description                                   | Type     | Constraints | Supported operations |
 | :---------: | -------------                                 | ----     | ----------- | -------------------- |
 | id          | Projects's id                                 | Integer  | x > 0       | READ                 |
@@ -1317,7 +1317,7 @@ but are also limited to the projects that the current user is allowed to see.
 
 # Group Queries
 
-## Properties:
+## Local Properties:
 | Property     | Description   | Type    | Constraints | Supported operations |
 | :---------:  | ------------- | ----    | ----------- | -------------------- |
 | id           | Query id      | Integer | x > 0       | READ                 |
@@ -1581,7 +1581,7 @@ The `allowedValues` can either contain a list of canonical links or just a singl
 This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
 resource lists (requiring one or more separate requests).
 
-## Properties:
+## Local Properties:
 
 | Property          | Description                                                                        | Type     | Default |
 |:-----------------:| ---------------------------------------------------------------------------------- | -------- | ------- |
@@ -1677,7 +1677,7 @@ This is an example of how a schema might look like. Note that this endpoint does
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This status               | Status        | not null    | READ                 |
 
-## Properties
+## Local Properties
 | Property         | Description                                                   | Type    | Constraints   | Supported operations |
 | :--------:       | -------------                                                 | ------- | -----------   | -------------------- |
 | id               | Status id                                                     | Integer | x > 0         | READ                 |
@@ -1878,7 +1878,7 @@ This is an example of how a schema might look like. Note that this endpoint does
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This string object        | StringObject  | not null    | READ                 |
 
-## Properties
+## Local Properties
 | Property         | Description                                    | Type     | Constraints | Supported operations |
 |:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
 | value            | The value of the string                        | String   |             | READ                 |
@@ -1915,7 +1915,7 @@ e.g. to be able to provide `allowedValues` for a string typed property.
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This type                 | Type          | not null    | READ                 |
 
-## Properties
+## Local Properties
 | Property         | Description                                    | Type     | Constraints | Supported operations |
 |:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
 | id               | Type id                                        | Integer  | x > 0       | READ                 |
@@ -2151,7 +2151,7 @@ This endpoint lists the types that are *available* in a given project.
 |:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
 | self      | This user                                   | User          | not null              | READ                 |
 
-## Properties:
+## Local Properties:
 | Property    | Description                                               | Type     | Constraints | Supported operations | Condition                 |
 | :---------: | -------------                                             | ----     | ----------- | -------------------- | ------------------------- |
 | id          | User's id                                                 | Integer  | x > 0       | READ                 |                           |
@@ -2378,7 +2378,7 @@ Permanently deletes the specified user account.
 | definingProject     | The project to which the version belongs | Project       | only present if the project is visible for the current user    | READ                 |
 | availableInProjects | Projects where this version can be used  | Projects      | not null                                                       | READ                 |
 
-## Properties
+## Local Properties
 | Property    | Description                                   | Type        | Constraints | Supported operations |
 | :---------: | --------------------------------------------- | ----------- | ----------- | -------------------- |
 | id          | Version id                                    | Integer     | x > 0       | READ                 |
@@ -2574,7 +2574,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
 | version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
 
-## Properties:
+## Local Properties:
 
 | Property         | Description                                            | Type        | Constraints                                                                                            | Supported operations | Condition                        |
 | :--------------: | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------ | -------------------- | -------------------------------- |
