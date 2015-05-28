@@ -33,9 +33,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% work_package_breadcrumb %>
 
-<%= content_tag('h2', h(work_package.to_s), class: 'legacy-heading') %>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
+<%= content_header title: h(work_package.to_s) do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l(:button_update), edit_work_package_path(work_package), class: 'edit', accesskey: :edit, icon: :edit, if: authorize_for(:work_packages, :edit) %>
+  <% end %>
+<% end %>
 
 <div class = "details">
   <div class="profile-wrap">
