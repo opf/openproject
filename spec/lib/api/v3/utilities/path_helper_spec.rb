@@ -63,6 +63,14 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to eql('/attachments/1') }
   end
 
+  describe '#attachments_by_work_package' do
+    subject { helper.attachments_by_work_package 1 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to eql('/api/v3/work_packages/1/attachments') }
+  end
+
   describe '#available_assignees' do
     subject { helper.available_assignees 42 }
 

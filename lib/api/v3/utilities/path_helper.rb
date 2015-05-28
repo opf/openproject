@@ -50,6 +50,10 @@ module API
             "#{root_path}attachments/#{id}"
           end
 
+          def self.attachments_by_work_package(id)
+            "#{work_package(id)}/attachments"
+          end
+
           def self.available_assignees(project_id)
             "#{project(project_id)}/available_assignees"
           end
