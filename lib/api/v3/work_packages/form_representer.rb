@@ -48,36 +48,6 @@ module API
 
         property :_type, exec_context: :decorator, writeable: false
 
-        link :self do
-          {
-            href: api_v3_paths.work_package_form(represented.id),
-          }
-        end
-
-        link :validate do
-          {
-            href: api_v3_paths.work_package_form(represented.id),
-            method: :post
-          }
-        end
-
-        link :previewMarkup do
-          {
-            href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),
-            method: :post
-          }
-        end
-
-        link :commit do
-          {
-            href: api_v3_paths.work_package(represented.id),
-            method: :patch
-          } if @current_user.allowed_to?(:edit_work_packages, represented.project) &&
-               # Calling valid? on represented empties the list of errors
-               # also removing errors from other sources (like contracts).
-               represented.errors.empty?
-        end
-
         property :payload,
                  embedded: true,
                  decorator: -> (represented, *) {

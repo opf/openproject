@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,19 +27,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_packages_shared_helpers'
-
 module API
   module V3
     module WorkPackages
-      class CreateFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+      class CreateFormRepresenter < FormRepresenter
+        link :self do
+          {
+            href: api_v3_paths.create_work_package_form(represented.project_id),
+            method: :post
+          }
+        end
 
-          post do
-            create_work_package_form(contract_class: CreateContract,
-                                     form_class: CreateFormRepresenter)
-          end
+        link :validate do
+          {
+            href: api_v3_paths.create_work_package_form(represented.project_id),
+            method: :post
+          }
+        end
+
+        link :previewMarkup do
+          {
+            href: api_v3_paths.render_markup(link: api_v3_paths.project(represented.project_id)),
+            method: :post
+          }
+        end
+
+        link :commit do
+          {
+            href: api_v3_paths.work_packages_by_project(represented.project_id),
+            method: :post
+          } if @current_user.allowed_to?(:edit_work_packages, represented.project) &&
+            # Calling valid? on represented empties the list of errors
+            # also removing errors from other sources (like contracts).
+            represented.errors.empty?
         end
       end
     end
