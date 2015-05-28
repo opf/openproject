@@ -456,7 +456,7 @@ Cursor based pagination is therefore less suited for use cases where you want to
 
 # Group Activities
 
-## Local Properties:
+## Local Properties
 | Property    | Description      | Type                 | Constraints | Supported operations |
 | :---------: | -------------    | ----                 | ----------- | -------------------- |
 | id          | Activity id      | Integer              | x > 0       | READ                 |
@@ -572,15 +572,15 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 # Group Attachments
 
-## Linked Properties:
+## Linked Properties
 |  Link            | Description                                         | Type          | Constraints | Supported operations |
 |:----------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
 | self             | This attachment                                     | Attachment    | not null    | READ                 |
 | container        | The object (e.g. WorkPackage) housing the attachment| Anything      | not null    | READ                 |
-| author           | The user that uploaded the attachment               | User          | not null    | READ                 |
+| author           | The user who uploaded the attachment                | User          | not null    | READ                 |
 | downloadLocation | Direct download link to the attachment              | -             | not null    | READ                 |
 
-## Local Properties:
+## Local Properties
 | Property     | Description                                     | Type        | Constraints | Supported operations |
 |:------------:| ----------------------------------------------- | ----------- | ----------- | -------------------- |
 | id           | Attachment's id                                 | Integer     | x > 0       | READ                 |
@@ -806,7 +806,7 @@ Permanently deletes the specified user account.
 
 # Group Categories
 
-## Linked Properties:
+## Linked Properties
 |  Link           | Description                                         | Type          | Constraints | Supported operations |
 |:---------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
 | self            | This category                                       | Category      | not null    | READ                 |
@@ -961,7 +961,7 @@ When posting to a form endpoint with an empty request body or an empty JSON obje
 you will receive an initial form for the associated resource.
 Subsequent calls to the form should contain a single JSON object as described by the form.
 
-## Actions:
+## Actions
 
 | Link                | Description                                                           | Condition                        |
 |:-------------------:| --------------------------------------------------------------------- | -------------------------------- |
@@ -969,7 +969,7 @@ Subsequent calls to the form should contain a single JSON object as described by
 | commit              | Actually perform changes to the resource                              | form content is valid            |
 | previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
 
-## Linked Properties:
+## Linked Properties
 
 | Link                | Description                                      | Type          | Nullable | Supported operations |
 |:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
@@ -1270,7 +1270,7 @@ The request body is the actual string that shall be rendered as HTML string.
 
 # Group Priorities
 
-## Linked Properties:
+## Linked Properties
 |  Link     | Description                                 | Type          | Constraints           | Supported operations |
 |:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
 | self      | This priority                               | Priority      | not null              | READ                 |
@@ -1423,14 +1423,14 @@ The request body is the actual string that shall be rendered as HTML string.
 
 # Group Projects
 
-## Actions:
+## Actions
 
 | Link                       | Description                                                          | Condition                         |
 |:--------------------------:|----------------------------------------------------------------------| --------------------------------- |
 | createWorkPackage          | Form endpoint that aids in preparing and creating a work package     | **Permission**: add work packages |
 | createWorkPackageImmediate | Directly creates a work package in the project                       | **Permission**: add work packages |
 
-## Linked Properties:
+## Linked Properties
 | Link       | Description                          | Type       | Constraints | Supported operations |
 | :------:   | -------------                        | ----       | ----------- | -------------------- |
 | self       | This project                         | Project    | not null    | READ                 |
@@ -1438,7 +1438,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | types      | Types available in this project      | Types      | not null    | READ                 |
 | versions   | Versions available in this project   | Versions   | not null    | READ                 |
 
-## Local Properties:
+## Local Properties
 | Property    | Description                                   | Type     | Constraints | Supported operations |
 | :---------: | -------------                                 | ----     | ----------- | -------------------- |
 | id          | Projects's id                                 | Integer  | x > 0       | READ                 |
@@ -1685,7 +1685,7 @@ For more details and all possible responses see the general specification of [Fo
 
 # Group Queries
 
-## Local Properties:
+## Local Properties
 | Property     | Description   | Type    | Constraints | Supported operations |
 | :---------:  | ------------- | ----    | ----------- | -------------------- |
 | id           | Query id      | Integer | x > 0       | READ                 |
@@ -1927,6 +1927,8 @@ For more details and all possible responses see the general specification of [Fo
 
 # Group Schemas
 
+## Linked Properties
+
 | Link                | Description                              | Type          | Nullable | Supported operations |
 |:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
 | self                | This schema                              | Schema        |          | READ                 |
@@ -1939,7 +1941,7 @@ each of them can contain its own `_links` and `_embedded` section.
 
 # Field schema
 
-## Linked Properties:
+## Linked Properties
 
 | Property       | Description                                                    |
 |:--------------:| -------------------------------------------------------------- |
@@ -1949,7 +1951,7 @@ The `allowedValues` can either contain a list of canonical links or just a singl
 This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
 resource lists (requiring one or more separate requests).
 
-## Local Properties:
+## Local Properties
 
 | Property          | Description                                                                        | Type     | Default |
 |:-----------------:| ---------------------------------------------------------------------------------- | -------- | ------- |
@@ -2040,7 +2042,7 @@ This is an example of how a schema might look like. Note that this endpoint does
 
 # Group Statuses
 
-## Linked Properties:
+## Linked Properties
 |  Link         | Description               | Type          | Constraints | Supported operations |
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This status               | Status        | not null    | READ                 |
@@ -2241,7 +2243,7 @@ This is an example of how a schema might look like. Note that this endpoint does
 
 # Group String Objects
 
-## Linked Properties:
+## Linked Properties
 |  Link         | Description               | Type          | Constraints | Supported operations |
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This string object        | StringObject  | not null    | READ                 |
@@ -2278,7 +2280,7 @@ e.g. to be able to provide `allowedValues` for a string typed property.
 
 # Group Types
 
-## Linked Properties:
+## Linked Properties
 |  Link         | Description               | Type          | Constraints | Supported operations |
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This type                 | Type          | not null    | READ                 |
@@ -2507,19 +2509,19 @@ This endpoint lists the types that are *available* in a given project.
 
 # Group Users
 
-## Actions:
+## Actions
 | Link                | Description                                                          | Condition                                  |
 |:-------------------:| -------------------------------------------------------------------- | ------------------------------------------ |
 | lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator  |
 | unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator      |
 | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete |
 
-## Linked Properties:
+## Linked Properties
 |  Link     | Description                                 | Type          | Constraints           | Supported operations |
 |:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
 | self      | This user                                   | User          | not null              | READ                 |
 
-## Local Properties:
+## Local Properties
 | Property    | Description                                               | Type     | Constraints | Supported operations | Condition                 |
 | :---------: | -------------                                             | ----     | ----------- | -------------------- | ------------------------- |
 | id          | User's id                                                 | Integer  | x > 0       | READ                 |                           |
@@ -2739,7 +2741,7 @@ Permanently deletes the specified user account.
 
 # Group Versions
 
-## Linked Properties:
+## Linked Properties
 |  Link               | Description                              | Type          | Constraints                                                    | Supported operations |
 |:-------------------:|----------------------------------------- | ------------- | -------------------------------------------------------------- | -------------------- |
 | self                | This version                             | Version       | not null                                                       | READ                 |
@@ -2914,7 +2916,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 
 # Group Work packages
 
-## Actions:
+## Actions
 
 | Link                | Description                                                          | Condition                         |
 |:-------------------:|----------------------------------------------------------------------| --------------------------------- |
@@ -2924,7 +2926,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | unwatch             | Remove current user from WP watchers                                 | logged in; watching               |
 | addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher       |
 
-## Linked Properties:
+## Linked Properties
 
 | Link               | Description                                                                                                                                           | Type         | Constraints  | Supported operations  | Condition                                 |
 | :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
@@ -2943,7 +2945,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
 | version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
 
-## Local Properties:
+## Local Properties
 
 | Property         | Description                                            | Type        | Constraints                                                                                            | Supported operations | Condition                        |
 | :--------------: | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------ | -------------------- | -------------------------------- |
