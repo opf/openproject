@@ -11,8 +11,8 @@ module ContentHeaderHelper
 
     def toolbar(&block)
       content_tag :div, class: 'toolbar-container' do
-        header = content_tag :div, id: 'toolbar', role: 'navigation' do
-          dom_title(@title) + content_tag(:ul, items(&block), id: 'toolbar-items', role: 'menubar')
+        header = content_tag :div, class: 'toolbar', role: 'navigation' do
+          dom_title(@title) + content_tag(:ul, items(&block), class: 'toolbar-items', role: 'menubar')
         end
         next header if @subtitle.blank?
         capture do
