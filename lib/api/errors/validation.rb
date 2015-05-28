@@ -30,6 +30,8 @@
 module API
   module Errors
     class Validation < ErrorBase
+      identifier 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
+
       def self.create(errors)
         merge_error_properties(errors)
 
