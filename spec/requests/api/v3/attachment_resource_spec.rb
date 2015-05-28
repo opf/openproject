@@ -33,22 +33,19 @@ describe 'API v3 Attachment resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
   let(:attachment) { FactoryGirl.create(:attachment, container: work_package) }
 
   describe '#get' do
     subject(:response) { last_response }
+    let(:get_path) { api_v3_paths.attachment attachment.id }
 
     context 'logged in user' do
-      let(:get_path) { api_v3_paths.attachment attachment.id }
       before do
         allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
         get get_path
       end
 
@@ -77,11 +74,6 @@ describe 'API v3 Attachment resource', type: :request do
 
         it_behaves_like 'unauthorized access'
       end
-    end
-
-    it_behaves_like 'handling anonymous user', 'Attachment', '/api/v3/attachments/%s' do
-      let(:project) { FactoryGirl.create(:project, is_public: true) }
-      let(:id) { attachment.id }
     end
   end
 end

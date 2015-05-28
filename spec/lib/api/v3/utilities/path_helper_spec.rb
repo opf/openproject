@@ -54,7 +54,13 @@ describe ::API::V3::Utilities::PathHelper do
 
     it_behaves_like 'api v3 path'
 
-    it { is_expected.to match(/^\/api\/v3\/attachments\/1/) }
+    it { is_expected.to eql('/api/v3/attachments/1') }
+  end
+
+  describe '#attachment_download' do
+    subject { helper.attachment_download 1 }
+
+    it { is_expected.to eql('/attachments/1') }
   end
 
   describe '#available_assignees' do

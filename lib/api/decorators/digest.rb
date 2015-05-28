@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,33 +27,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/attachments/attachment_representer'
-
 module API
-  module V3
-    module Attachments
-      class AttachmentsAPI < ::API::OpenProjectAPI
-        resources :attachments do
+  module Decorators
+    class Digest < Single
+      def initialize(model, algorithm:)
+        @algorithm = algorithm
 
-          params do
-            requires :id, desc: 'Attachment id'
-          end
-          route_param :id do
-
-            before do
-              @attachment = Attachment.find(params[:id])
-
-              # For now we only support work package attachments
-              raise ::API::Errors::NotFound.new unless @attachment.container_type == 'WorkPackage'
-              authorize(:view_work_packages, context: @attachment.container.project)
-            end
-
-            get do
-              AttachmentRepresenter.new(@attachment)
-            end
-          end
-        end
+        super(model)
       end
+
+      property :algorithm,
+               exec_context: :decorator,
+               getter: -> (*) { @algorithm },
+               writable: false,
+               render_nil: true
+      property :hash,
+               exec_context: :decorator,
+               getter: -> (*) { represented },
+               render_nil: true
     end
   end
 end

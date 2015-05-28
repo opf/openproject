@@ -46,6 +46,10 @@ module API
             "#{root}/attachments/#{id}"
           end
 
+          def self.attachment_download(id)
+            "#{root_path}attachments/#{id}"
+          end
+
           def self.available_assignees(project_id)
             "#{project(project_id)}/available_assignees"
           end

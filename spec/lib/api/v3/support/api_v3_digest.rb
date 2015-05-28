@@ -26,33 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/attachments/attachment_representer'
+require 'spec_helper'
 
-module API
-  module V3
-    module Attachments
-      class AttachmentsAPI < ::API::OpenProjectAPI
-        resources :attachments do
+shared_examples_for 'API V3 digest' do
+  it 'defines an algorithm' do
+    is_expected.to be_json_eql(algorithm.to_json).at_path("#{path}/algorithm")
+  end
 
-          params do
-            requires :id, desc: 'Attachment id'
-          end
-          route_param :id do
-
-            before do
-              @attachment = Attachment.find(params[:id])
-
-              # For now we only support work package attachments
-              raise ::API::Errors::NotFound.new unless @attachment.container_type == 'WorkPackage'
-              authorize(:view_work_packages, context: @attachment.container.project)
-            end
-
-            get do
-              AttachmentRepresenter.new(@attachment)
-            end
-          end
-        end
-      end
-    end
+  it 'has a hash' do
+    is_expected.to be_json_eql(hash.to_json).at_path("#{path}/hash")
   end
 end
