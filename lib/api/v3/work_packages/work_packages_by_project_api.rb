@@ -58,7 +58,6 @@ module API
                                                           current_user: current_user)
             else
               errors = ::API::Errors::ErrorBase.create(@work_package.errors.dup)
-              @work_package.destroy
               fail errors
             end
           end
