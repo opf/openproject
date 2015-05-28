@@ -36,7 +36,8 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            create_work_package_form(UpdateContract)
+            create_work_package_form(contract_class: UpdateContract,
+                                     form_class: UpdateFormRepresenter)
           end
         end
       end

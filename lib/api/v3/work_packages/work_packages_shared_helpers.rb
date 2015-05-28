@@ -80,7 +80,7 @@ module API
           false
         end
 
-        def create_work_package_form(contract_class)
+        def create_work_package_form(contract_class:, form_class:)
           write_work_package_attributes(reset_lock_version: true)
           write_request_valid?(contract_class)
 
@@ -88,7 +88,7 @@ module API
 
           if error.is_a? ::API::Errors::Validation
             status 200
-            FormRepresenter.new(@work_package, current_user: current_user)
+            form_class.new(@work_package, current_user: current_user)
           else
             fail error
           end
