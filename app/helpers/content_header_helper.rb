@@ -11,8 +11,8 @@ module ContentHeaderHelper
 
     def toolbar(&block)
       content_tag :div, class: 'toolbar-container' do
-        header = content_tag :div, id: 'toolbar' do
-          dom_title(@title) + content_tag(:ul, items(&block), id: 'toolbar-items')
+        header = content_tag :div, id: 'toolbar', role: 'navigation' do
+          dom_title(@title) + content_tag(:ul, items(&block), id: 'toolbar-items', role: 'menubar')
         end
         next header if @subtitle.blank?
         capture do
@@ -64,12 +64,13 @@ module ContentHeaderHelper
       end
 
       def toolbar_item
+        opts = { class: 'toolbar-item', role: 'menuitem' }
         if block_given?
-          content_tag :li, class: 'toolbar-item' do
+          content_tag :li, opts  do
             yield
           end
         else
-          content_tag :li, '', class: 'toolbar-item'
+          content_tag :li, '', opts
         end
       end
 
