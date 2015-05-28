@@ -50,6 +50,13 @@ module API
             get do
               AttachmentRepresenter.new(@attachment)
             end
+
+            delete do
+              authorize(:edit_work_packages, context: @attachment.container.project)
+
+              @attachment.container.attachments.delete(@attachment)
+              status 202
+            end
           end
         end
       end

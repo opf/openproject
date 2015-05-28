@@ -35,9 +35,14 @@ describe 'API v3 Attachment resource', type: :request do
 
   let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages] }
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
   let(:attachment) { FactoryGirl.create(:attachment, container: work_package) }
+
+  before do
+    allow(User).to receive(:current).and_return current_user
+  end
 
   describe '#get' do
     subject(:response) { last_response }
@@ -45,7 +50,6 @@ describe 'API v3 Attachment resource', type: :request do
 
     context 'logged in user' do
       before do
-        allow(User).to receive(:current).and_return current_user
         get get_path
       end
 
@@ -67,12 +71,52 @@ describe 'API v3 Attachment resource', type: :request do
       end
 
       context 'requesting attachments without sufficient permissions' do
-        let(:another_project) { FactoryGirl.create(:project, is_public: false) }
-        let(:another_work_package) { FactoryGirl.create(:work_package, project: another_project) }
-        let(:another_attachment) { FactoryGirl.create(:attachment, container: another_work_package) }
-        let(:get_path) { api_v3_paths.attachment another_attachment.id }
+        let(:permissions) { [] }
 
         it_behaves_like 'unauthorized access'
+      end
+    end
+  end
+
+  describe '#delete' do
+    let(:path) { api_v3_paths.attachment attachment.id }
+
+    before do
+      delete path
+    end
+
+    subject(:response) { last_response }
+
+    context 'with required permissions' do
+      let(:permissions) { [:view_work_packages, :edit_work_packages] }
+
+      it 'responds with 202' do
+        expect(subject.status).to eq 202
+      end
+
+      it 'deletes the attachment' do
+        expect(Attachment.exists?(attachment.id)).not_to be_truthy
+      end
+
+      context 'for a non-existent attachment' do
+        let(:path) { api_v3_paths.attachment 1337 }
+
+        it_behaves_like 'not found' do
+          let(:id) { 1337 }
+          let(:type) { 'Attachment' }
+        end
+      end
+    end
+
+    context 'without required permissions' do
+      let(:permissions) { [:view_work_packages] }
+
+      it 'responds with 403' do
+        expect(subject.status).to eq 403
+      end
+
+      it 'does not delete the attachment' do
+        expect(Attachment.exists?(attachment.id)).to be_truthy
       end
     end
   end
