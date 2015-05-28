@@ -90,7 +90,7 @@ A toolbar that can and should be used for actions on the current view. Initially
           <span class="button--text">Prolong existence</span>
           <i class="button--dropdown-indicator"></i>
         </a>
-        <ul class="toolbar-submenu" role="menu" aria-hidden="true">
+        <ul class="toolbar-submenu show" role="menu" aria-hidden="true">
           <li class="toolbar-item" role="menuitem">
             <a href="#">
               <i class="icon icon-search"></i>
