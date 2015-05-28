@@ -36,6 +36,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= content_header title: h(work_package.to_s) do |h| %>
   <%= h.toolbar do |t| %>
     <%= t.button l(:button_update), edit_work_package_path(work_package), class: 'edit', accesskey: :edit, icon: :edit, if: authorize_for(:work_packages, :edit) %>
+    <%= t.submenu title: l(:more_actions), accesskey: :more_menu, icon: :'grid-view1', last: true do %>
+      <%= t.submenu_item l(:button_log_time), root_path, icon: :time %>
+    <% end %>
   <% end %>
 <% end %>
 

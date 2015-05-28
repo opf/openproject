@@ -66,6 +66,9 @@
     float: left
     &.toolbar-item
       margin: 0 5px //$drop-nav-spacing // spacing between nav items
+      // submenu items
+      .toolbar-item
+        float: none
 
   .toolbar-submenu
     position: absolute
@@ -85,6 +88,9 @@
     transition: 0.1s linear
     &.show
       opacity: 0.99
+    &.-last
+      left: auto
+      right: 24px
     > .toolbar-item
       list-style: none
       padding: 0
