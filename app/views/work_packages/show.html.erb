@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
 <% end %>
 
-<%= content_header title: "#{avatar work_package.author} #{h(work_package.to_s)}", subtitle: h(subtitle) do |h| %>
+<%= content_header title: "#{avatar work_package.author} #{h(work_package.to_s)}", subtitle: h(subtitle), scrollable: true do |h| %>
   <%= h.toolbar do |t| %>
     <%= t.button l(:button_update), edit_work_package_path(work_package), class: 'edit', accesskey: :edit, icon: :edit, if: authorize_for(:work_packages, :edit) %>
     <%= t.watch_button work_package, User.current %>
@@ -105,6 +105,8 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 <div style="clear: both;"></div>
 
+<%= render :partial => 'action_menu_with_edit_container' if current_user.wants_comments_in_reverse_order? %>
+
 <% if changesets.present? %>
   <div id="work_package-changesets">
     <h3><%=l(:label_associated_revisions)%></h3>
@@ -118,6 +120,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render :partial => 'history', :locals => { :work_package => work_package, :journals => journals } %>
   </div>
 <% end %>
+
+<%= render :partial => 'action_menu_with_edit_container' unless current_user.wants_comments_in_reverse_order? %>
 
 <div style="clear: both;"></div>
 

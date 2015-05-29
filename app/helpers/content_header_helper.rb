@@ -7,15 +7,18 @@ module ContentHeaderHelper
   end
 
   class ContentHeader < AbstractContent
-    def initialize(title:, subtitle: '', helper: nil, &_block)
+    def initialize(title:, subtitle: '', helper: nil, scrollable: false, &_block)
       @title = title
       @subtitle = subtitle
       @helper = helper
+      @scrollable = scrollable
     end
 
     def toolbar(&block)
       content_tag :div, class: 'toolbar-container' do
-        header = content_tag :div, class: 'toolbar', role: 'navigation' do
+        class_name = %w(toolbar)
+        class_name += %w(-scrollable) if @scrollable
+        header = content_tag :div, class: class_name, role: 'navigation' do
           dom_title(@title) + content_tag(:ul, items(&block), class: 'toolbar-items', role: 'menubar')
         end
         next header if @subtitle.blank?
@@ -198,11 +201,11 @@ module ContentHeaderHelper
     end
   end
 
-  def content_header(title:, subtitle: '', &block)
+  def content_header(title:, subtitle: '', scrollable: false, &block)
     if block_given?
-      capture(ContentHeader.new(title: title, subtitle: subtitle, helper: self), &block)
+      capture(ContentHeader.new(title: title, subtitle: subtitle, helper: self, scrollable: scrollable), &block)
     else
-      ContentHeader.new(title: title, subtitle: subtitle).toolbar
+      ContentHeader.new(title: title, subtitle: subtitle, scrollable: scrollable).toolbar
     end
   end
 end

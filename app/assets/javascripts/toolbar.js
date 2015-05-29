@@ -33,6 +33,7 @@
       SUBMENU_ITEM_CLASS = '.-with-submenu',
       SHOW_CLASS = 'show';
 
+  // submenu handling
   $(function() {
     var toolbars = $(TOOLBAR_CLASS),
         body    = $('body');
@@ -69,5 +70,29 @@
     body.not(SUBMENU_CLASS).not(triggers).on('click', function(e) {
       $(SUBMENU_CLASS).removeClass(SHOW_CLASS);
     });
+  });
+
+  //scrollable toolbars
+  $(function() {
+
+    var win = $(window),
+        main = $('#main'),
+        toolbar = $('.toolbar.-scrollable'),
+        timeout = null,
+        update = function() {
+          var fixated = win.scrollTop() > 159,
+              smallToolbar = $('#wrapper').hasClass('hidden-navigation');
+          toolbar.toggleClass('-fixed', fixated);
+          toolbar.toggleClass('-wide', fixated && smallToolbar);
+          timeout = null;
+        };
+
+    win.scroll(function(e) {
+      if (timeout === null) {
+        timeout = setTimeout(update, 50);
+      }
+    });
+
+    update();
   });
 }(jQuery));

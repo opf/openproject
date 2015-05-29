@@ -42,7 +42,7 @@ var WorkPackage = WorkPackage || {};
       return;
     }
     bodyInjector().invoke(['$compile', function($compile) {
-      var scope = angular.element(button).scope();
+      var scope = button.scope();
       $compile(button)(scope);
     }])
   };

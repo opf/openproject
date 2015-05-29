@@ -55,6 +55,21 @@
   li
     list-style-type: none
 
+  &.-scrollable.-fixed
+    position: fixed
+    top: 0
+    right: 0
+    z-index: 1000
+    background: #F8F8F8
+    border-bottom: 1px solid $gray
+    padding-left: 20px
+    padding-right: 20px
+    padding-bottom: 5px
+    left: $main-menu-width
+
+    &.-wide
+      left: $main-menu-folded-width
+
 // automatically clear the toolbar
 #toolbar:after, .toolbar:after
   clear: both
