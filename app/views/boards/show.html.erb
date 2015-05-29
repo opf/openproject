@@ -55,14 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
                  onclick: 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;',
                  if: authorize_for(:messages, :new)
     %>
-    <%# TODO: provide a real watch button implmentation %>
-    <% unless User.current.anonymous? %>
-      <li class="toolbar-item">
-        <div class="button">
-          <%= watcher_link(@board, User.current) %>
-        </div>
-      </li>
-    <% end %>
+    <%= t.watch_button(@board, User.current) %>
   <% end %>
 
 <% end %>

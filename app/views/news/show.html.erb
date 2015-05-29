@@ -34,12 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
                  onclick: 'Element.show("edit-news"); return false;',
                  if: User.current.allowed_to?(:manage_news, @project)
     %>
-    <%# TODO: use a real watchers_link implementation %>
-    <li class="toolbar-item">
-      <div class="button">
-        <%= watcher_link(@news, User.current) %>
-      </div>
-    </li>
+    <%= t.watch_button @news, User.current %>
     <%= t.button l(:button_delete), news_path,
                  icon: :delete,
                  data: { method: :delete, confirm: l(:text_are_you_sure) },
