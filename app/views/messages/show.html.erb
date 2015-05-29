@@ -33,14 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 %>
 <%= content_header title: "#{avatar @topic.author} #{h(@topic.subject)}" do |h| %>
   <%= h.toolbar do |t| %>
-    <%# TODO: provide a real watch button implementation %>
-    <% unless User.current.anonymous? %>
-      <li class="toolbar-item">
-        <div class="button">
-          <%= watcher_link(@topic, User.current) %>
-        </div>
-      </li>
-    <% end %>
+    <%= t.watch_button @topic, User.current %>
     <%= t.button l(:button_quote), quote_topic_path(@topic), remote: true, method: :get, icon: :quote, unless: @topic.locked?, if: authorize_for(:messages, :reply) %>
     <%= t.button l(:button_edit), edit_topic_path(@topic), icon: :edit, accesskey: :edit, id: @message.editable_by?(User.current) %>
     <%= t.button l(:button_delete), topic_path(@topic), icon: :delete, data: { method: :delete, confirm: l(:text_are_you_sure) }, if: @message.destroyable_by?(User.current) %>
