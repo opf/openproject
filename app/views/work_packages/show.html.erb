@@ -37,7 +37,16 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= h.toolbar do |t| %>
     <%= t.button l(:button_update), edit_work_package_path(work_package), class: 'edit', accesskey: :edit, icon: :edit, if: authorize_for(:work_packages, :edit) %>
     <%= t.submenu title: l(:more_actions), accesskey: :more_menu, icon: :'grid-view1', last: true do %>
-      <%= t.submenu_item l(:button_log_time), root_path, icon: :time %>
+      <%= t.submenu_item l(:button_log_time), new_work_package_time_entry_path(work_package), icon: :time, if: authorize_for(:timelog, :new) %>
+      <%= t.submenu_item l(:button_duplicate), new_project_work_package_path(@project, copy_from: work_package), icon: :duplicate, if: authorize_for('/work_packages/moves', :new) %>
+      <%= t.submenu_item l(:button_copy), new_work_package_move_path(work_package, copy: ''), icon: :copy, if: authorize_for('/work_packages/moves', :new) %>
+      <%= t.submenu_item l(:button_move), new_work_package_move_path(work_package), icon: :move, if: authorize_for('/work_packages/moves', :new) %>
+      <%= t.submenu_item l(:button_delete), work_packages_bulk_path(ids: [work_package.id]),
+                         icon: :delete, data: { method: :delete, confirm: l(:text_are_you_sure) },
+                         if: authorize_for('/work_packages/bulk', :destroy)
+      %>
+      <%= t.submenu_divider %>
+      <%= call_hook(:view_work_package_show_action_menu, work_package: work_package) %>
     <% end %>
   <% end %>
 <% end %>

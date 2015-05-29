@@ -88,22 +88,30 @@ module ContentHeaderHelper
         end
         concat link
         css = Array(options[:class]) + %w(toolbar-submenu)
-        css += %w(-last) if options[:last]
+        css += %w(-last) if options.delete :last
         concat content_tag :ul, capture(&block), class: css
       end
     end
 
     def submenu_item(text, location, options = {})
+      return '' unless show?(options)
       unless options[:icon]
         options[:class] = Array(options[:class]) + %w(no-icon)
       end
-      item = toolbar_item(options) do
-        link_options = extract_from(options).delete_if { |k, _| k == :icon }
+      toolbar_item_options = options.dup.delete_if { |k, _| k == :icon }
+      item = toolbar_item(toolbar_item_options) do
+        link_options = extract_from(options)
         link_to location, link_options do
           concat content_tag :i, '', class: "icon icon-#{options[:icon]}" if options[:icon]
           concat text
         end
       end
+      concat item
+      ''
+    end
+
+    def submenu_divider
+      item = toolbar_item class: '-divider'
       concat item
       ''
     end
@@ -152,7 +160,7 @@ module ContentHeaderHelper
     end
 
     def delete_keys_from(options)
-      keys_to_delete = [:unless, :if, :highlight, :class, :accesskey]
+      keys_to_delete = [:unless, :if, :highlight, :class, :accesskey, :last]
       options.delete_if { |k, _| keys_to_delete.include? k }
     end
   end
