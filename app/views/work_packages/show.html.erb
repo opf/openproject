@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <%= javascript_include_tag("work_packages.js") %>
-<%= render :partial => 'work_packages/action_menu', :locals => { work_package: work_package } %>
+<% html_title h(work_package.to_s) %>
 
 <% work_package_breadcrumb %>
 
@@ -44,6 +44,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= h.toolbar do |t| %>
     <%= t.button l(:button_update), edit_work_package_path(work_package), class: 'edit', accesskey: :edit, icon: :edit, if: authorize_for(:work_packages, :edit) %>
     <%= t.watch_button work_package, User.current %>
+    <%= t.button 'Atom', url_for({ format: :atom, :key => User.current.rss_key }), icon: :'page-atom', rel: 'nofollow', if: Setting.feeds_enabled? %>
+    <%= t.button 'PDF', url_for({ format: :pdf }), icon: :'page-pdf', rel: 'nofollow', if: Setting.feeds_enabled? %>
     <%= t.submenu title: l(:more_actions), accesskey: :more_menu, icon: :'grid-view1', last: true do %>
       <%= t.submenu_item l(:button_log_time), new_work_package_time_entry_path(work_package), icon: :time, if: authorize_for(:timelog, :new) %>
       <%= t.submenu_item l(:button_duplicate), new_project_work_package_path(@project, copy_from: work_package), icon: :duplicate, if: authorize_for('/work_packages/moves', :new) %>
@@ -124,13 +126,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'action_menu_with_edit_container' unless current_user.wants_comments_in_reverse_order? %>
 
 <div style="clear: both;"></div>
-
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-  <%= f.link_to 'PDF' %>
-<% end %>
-
-<% html_title h(work_package.to_s) %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
