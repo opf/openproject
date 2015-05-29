@@ -818,22 +818,24 @@ Permanently deletes the specified attachment.
 
 ## Add attachment to a work package [POST]
 
-To add an attachment to a work package, a client needs to issue a request of type `multipart/related`
+To add an attachment to a work package, a client needs to issue a request of type `multipart/form-data`
 with exactly two parts.
 
-The first part contains metadata, such as the file name and its description.
-Its content type is expected to be `application/json`, the content must be a single JSON object,
-containing at least the `fileName` and optionally the attachments `description`.
+The first part *must* be called `metadata`. Its content type is expected to be `application/json`,
+the body *must* be a single JSON object, containing at least the `fileName` and optionally the attachments `description`.
 
-The second part contains the file data, its content type *should* match the mime type of the file
-content.
+The second part *must* be called `file`, its content type *should* match the mime type of the file.
+The body *must* be the raw content of the file.
+Note that a `filename` must be indicated in the `Content-Disposition` of this part, however it will be ignored.
+Instead the `fileName` inside the JSON of the metadata part will be used.
 
 + Parameters
     + id (required, integer, `1`) ... ID of the work package to receive the attachment
 
-+ Request (multipart/related)
++ Request (multipart/form-data)
 
         --boundary-delimiter
+        Content-Disposition: form-data; name="metadata"
         Content-Type: application/json; charset=UTF-8
 
         {
@@ -844,6 +846,7 @@ content.
         }
 
         --boundary-delimiter
+        Content-Disposition: form-data; name="file"; filename="attachment"
         Content-Type: image/png
 
         PNG file data
