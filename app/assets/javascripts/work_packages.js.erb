@@ -63,21 +63,22 @@ var WorkPackage = WorkPackage || {};
       loading_text: I18n.t("js.ajax.loading"),
       loading_class: 'box loading',
       loading: function(update) {
-                $('html, body').animate({
-                   scrollTop: $(update).offset().top
-                 }, 200);
-               },
+        $('html, body').animate({
+          scrollTop: $(update).offset().top
+        }, 200);
+      },
       loaded: function(update) {
-                $('html, body').animate({
-                  scrollTop: $(update).offset().top
-                }, 200);
-                enable_textarea_auto_completion($("#work_package_notes"));
-                $("#work_package_notes").focus();
+        var position = $(update).offset().top - 70
+        $('html, body').animate({
+          scrollTop: position
+        }, 200);
+        enable_textarea_auto_completion($("#work_package_notes"));
+        $("#work_package_notes").focus();
 
-                // TODO: see last todo
-                var previewButton = update.find(".preview.button")
-                manuallyCompile(previewButton);
-                initializeAtWho(update);
+        // TODO: see last todo
+        var previewButton = update.find(".preview.button")
+        manuallyCompile(previewButton);
+          initializeAtWho(update);
       }
     });
 

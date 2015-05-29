@@ -84,7 +84,7 @@ module ContentHeaderHelper
       watched = object.watched_by?(user)
       text = watched ? unwatch_text : watch_text
       method = watched ? :delete : :post
-      icon = watched ? :'watch-1' : :'not-watch'
+      icon = watched ? :'not-watch' : :'watch-1'
       additionals = {
         data: {
           remote: true,

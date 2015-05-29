@@ -80,7 +80,7 @@
         toolbar = $('.toolbar.-scrollable'),
         timeout = null,
         update = function() {
-          var fixated = win.scrollTop() > 159,
+          var fixated = win.scrollTop() > 150,
               smallToolbar = $('#wrapper').hasClass('hidden-navigation');
           toolbar.toggleClass('-fixed', fixated);
           toolbar.toggleClass('-wide', fixated && smallToolbar);
