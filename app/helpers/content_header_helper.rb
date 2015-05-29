@@ -1,5 +1,4 @@
 module ContentHeaderHelper
-
   class AbstractContent
     include ActionView::Helpers
     attr_accessor :output_buffer
@@ -8,7 +7,6 @@ module ContentHeaderHelper
   end
 
   class ContentHeader < AbstractContent
-
     def initialize(title:, subtitle: '', helper: nil, &_block)
       @title = title
       @subtitle = subtitle
@@ -48,7 +46,6 @@ module ContentHeaderHelper
   end
 
   class ContentToolbar < AbstractContent
-
     def button(text, location, options = {})
       options[:class] = %w(button) + Array(options[:class])
       item text, location, options
@@ -75,6 +72,32 @@ module ContentHeaderHelper
       else
         content_tag :li, '', options
       end
+    end
+
+    def watch_button(object, user, options = {})
+      watch_text = options.delete(:watch_text) || I18n.t(:button_watch)
+      unwatch_text = options.delete(:unwatch_text) || I18n.t(:button_unwatch)
+      return '' unless object.respond_to?(:watched_by?) || user.anonymous?
+      watched = object.watched_by?(user)
+      text = watched ? unwatch_text : watch_text
+      method = watched ? :delete : :post
+      icon = watched ? :'watch-1' : :'not-watch'
+      additionals = {
+        data: {
+          remote: true,
+          method: method,
+          watch_text: watch_text,
+          unwatch_text: unwatch_text,
+          watch_icon: :'watch-1',
+          unwatch_icon: :'not-watch',
+          watch_path: watch_path(object, false),
+          unwatch_path: watch_path(object, true),
+          watch_method: :post,
+          unwatch_method: :delete
+        },
+        icon: icon
+      }
+      button text, watch_path(object, watched), options.merge(additionals)
     end
 
     def submenu(options = {}, &block)
@@ -162,6 +185,16 @@ module ContentHeaderHelper
     def delete_keys_from(options)
       keys_to_delete = [:unless, :if, :highlight, :class, :accesskey, :last]
       options.delete_if { |k, _| keys_to_delete.include? k }
+    end
+
+    def watch_path(object, watched)
+      path_name = watched ? 'unwatch_path' : 'watch_path'
+      url_helpers.send path_name, object_type: object.class.to_s.underscore.pluralize,
+                                  object_id: object.id
+    end
+
+    def url_helpers
+      Rails.application.routes.url_helpers
     end
   end
 

@@ -105,20 +105,7 @@ class WatchersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js do
-        if params[:replace].present?
-          if params[:replace].is_a? Array
-            @replace_selectors = params[:replace]
-          else
-            @replace_selectors = params[:replace].split(',').map(&:strip)
-          end
-        else
-          @replace_selectors = ['#watcher']
-        end
-        @user = user
-
-        render action: 'replace_selectors'
-      end
+      format.js
     end
   rescue ::ActionController::RedirectBackError
     render text: (watching ? 'Watcher added.' : 'Watcher removed.'), layout: true
