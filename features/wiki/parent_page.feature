@@ -41,7 +41,7 @@ Feature: Parent wiki page
   Scenario: Changing parent page for wiki page
     When I go to the wiki page "Test page" for the project called "Test"
     And I click on "More functions"
-    And I follow "Change parent page"
+    And I click on "Change parent page"
     When I select "Parent page" from "Parent page"
     And I press "Save"
     Then I should be on the wiki page "Test_page" for the project called "Test"
@@ -49,7 +49,7 @@ Feature: Parent wiki page
     # no check removing the parent
     When I go to the wiki page "Test page" for the project called "Test"
     And I click on "More functions"
-    And I follow "Change parent page"
+    And I click on "Change parent page"
     And I select "" from "Parent page"
     And I press "Save"
     Then I should be on the wiki page "Test_page" for the project called "Test"

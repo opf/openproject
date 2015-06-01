@@ -54,12 +54,12 @@ Feature: Watch issues
   @javascript
   Scenario: Watch an issue
     When I go to the page of the issue "issue1"
-    Then I should see "Watch" within "#content > .action_menu_specific"
-    When I click on "Watch" within "#content > .action_menu_specific"
-    Then I should see "Unwatch" within "#content > .action_menu_specific"
+    Then I should see "Watch" within ".toolbar"
+    When I click on "Watch" within ".toolbar"
+    Then I should see "Unwatch" within ".toolbar"
     # The space before and after 'Watch' is important as 'Unwatch' includes the
     # string 'watch' if matched case insenstivive.
-    And  I should not see " Watch " within "#content > .action_menu_specific"
+    And  I should not see " Watch " within ".toolbar"
      And I should see "Bob Bobbit" within "#watchers ul"
      And the issue "issue1" should have 1 watchers
 
@@ -68,12 +68,12 @@ Feature: Watch issues
     Given the issue "issue1" is watched by:
       | bob |
     When I go to the page of the issue "issue1"
-    Then I should see "Unwatch" within "#content > .action_menu_specific"
-    When I click on "Unwatch" within "#content > .action_menu_specific"
+    Then I should see "Unwatch" within ".toolbar"
+    When I click on "Unwatch" within ".toolbar"
     # The space before and after 'Watch' is important as 'Unwatch' includes the
     # string 'watch' if matched case insenstivive.
-    Then I should see " Watch " within "#content >.action_menu_specific"
-     And I should not see "Unwatch" within "#content >.action_menu_specific"
+    Then I should see " Watch " within ".toolbar"
+     And I should not see "Unwatch" within ".toolbar"
      And I should not see "Bob Bobbit" within "#watchers"
      And the issue "issue1" should have 0 watchers
 
