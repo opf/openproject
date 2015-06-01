@@ -60,15 +60,25 @@ module API
       end
 
       def run_attribute_validations
-        self.class.attribute_validations.each { |validation| instance_exec(&validation) }
+        attribute_validations.each { |validation| instance_exec(&validation) }
       end
 
       def writable_attributes
+        collect_ancestor_attributes(:writable_attributes)
+      end
+
+      def attribute_validations
+        collect_ancestor_attributes(:attribute_validations)
+      end
+
+      # All of the contract information across the entire inheritance hierarchy has to be
+      # considered in order to properly enforce them.
+      def collect_ancestor_attributes(attribute_to_collect)
         attributes = []
         klass = self.class
         while klass != ModelContract
-          # Collect all the writable attributes from ancestors
-          attributes += klass.writable_attributes
+          # Collect all the attribute_to_collect from ancestors
+          attributes += klass.send(attribute_to_collect)
           klass = klass.superclass
         end
         attributes.uniq
