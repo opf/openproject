@@ -60,6 +60,7 @@ de:
     attributes:
       attachment:
         downloads: "Downloads"
+        file: "Datei"
         filename: "Datei"
         filesize: "Größe"
       auth_source:
@@ -193,6 +194,7 @@ de:
         equal_to: "muss genau %{count} sein"
         even: "muss gerade sein"
         exclusion: "ist nicht verfügbar"
+        file_too_large: "ist zu groß (nicht mehr als %{count} Bytes erlaubt)"
         greater_than: "muss größer als %{count} sein"
         greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
         smaller_than_or_equal_to_max_length: "muss kleiner als oder gleich der maximalen Länge sein"

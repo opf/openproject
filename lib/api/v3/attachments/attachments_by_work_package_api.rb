@@ -76,6 +76,11 @@ module API
                                    container: @work_package,
                                    description: description,
                                    author: current_user)
+
+            unless attachment.valid?
+              raise ::API::Errors::ErrorBase.create(attachment.errors.dup)
+            end
+
             attachment.save!
 
             ::API::V3::Attachments::AttachmentRepresenter.new(attachment)
