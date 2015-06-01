@@ -45,10 +45,10 @@ The [OpenProject Foundation (OPF)](https://community.openproject.org/projects/op
 
 ## Repository
 
-This repository contains two main branches:
+This repository contains several main branches:
 
 * `dev`: The main development branch. We try to keep it stable in the sense of all tests are passing, but we don't recommend it for production systems.
-* `stable`: Contains the latest stable release that we recommend for production use. Use this if you always want the latest version of OpenProject.
+* `stable/<version>`: Contains the latest stable release for a specific version. We recommend to use this for production use. Example: `stable/4.1`.
 
 ## License
 
