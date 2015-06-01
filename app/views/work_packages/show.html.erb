@@ -45,8 +45,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= t.button l(:button_update), edit_work_package_path(work_package), class: 'edit', accesskey: :edit, icon: :edit, if: authorize_for(:work_packages, :edit) %>
     <%= t.watch_button work_package, User.current %>
     <%= t.button 'Atom', url_for({ format: :atom, :key => User.current.rss_key }), icon: :'page-atom', rel: 'nofollow', if: Setting.feeds_enabled? %>
-    <%= t.button 'PDF', url_for({ format: :pdf }), icon: :'page-pdf', rel: 'nofollow', if: Setting.feeds_enabled? %>
-    <%= t.submenu title: l(:more_actions), accesskey: :more_menu, icon: :'grid-view1', last: true do %>
+    <%= t.button 'PDF', url_for({ format: :pdf }), icon: :'page-pdf', rel: 'nofollow' %>
+    <%= t.submenu title: l(:more_actions), accesskey: :more_menu, icon: :'grid-view1', last: true, unless: User.current.anonymous? do %>
       <%= t.submenu_item l(:button_log_time), new_work_package_time_entry_path(work_package), icon: :time, if: authorize_for(:timelog, :new) %>
       <%= t.submenu_item l(:button_duplicate), new_project_work_package_path(@project, copy_from: work_package), icon: :duplicate, if: authorize_for('/work_packages/moves', :new) %>
       <%= t.submenu_item l(:button_copy), new_work_package_move_path(work_package, copy: ''), icon: :copy, if: authorize_for('/work_packages/moves', :new) %>
