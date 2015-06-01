@@ -28,6 +28,47 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= call_hook :wiki_navigation %>
+<%= content_header title: h(@page.title), scrollable: true do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l(:button_edit), edit_project_wiki_path(@project, @page),
+                 icon: :edit, accesskey: :edit,
+                 if: @editable && @content.version == @page.content.version && authorize_for(:wiki, :edit)
+    %>
+    <%= t.watch_button @page, User.current,
+                       if: Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated")
+    %>
+    <%= t.submenu title: l(:more_actions), icon: :'grid-view1', last: true do %>
+      <%= t.submenu_item l(:button_lock), protect_project_wiki_path(@project, @page, protected: 1),
+                         icon: :locked,
+                         data: { method: :post },
+                         unless: @page.protected? || !authorize_for(:wiki, :protect)
+      %>
+      <%= t.submenu_item l(:button_unlock), protect_project_wiki_path(@project, @page, protected: 0),
+                         icon: :unlocked,
+                         data: { method: :post },
+                         if: @page.protected? && authorize_for(:wiki, :protect)
+      %>
+      <%= t.submenu_item l(:create_child_page), wiki_new_child_path(@project, @page),
+                         icon: :duplicate,
+                         if: User.current.allowed_to?(:edit_wiki_pages, @project)
+      %>
+      <%= t.submenu_item l(:button_rename), rename_project_wiki_path(@project, @page),
+                         icon: :rename,
+                         if: @content.version == @page.content.version && authorize_for(:wiki, :rename)
+      %>
+      <%= t.submenu_item l(:button_change_parent_page), parent_page_project_wiki_path(@project, @page),
+                         icon: :link,
+                         if: @content.version == @page.content.version && authorize_for(:wiki, :edit_parent_page)
+      %>
+      <%= t.submenu_divider %>
+      <%= t.submenu_item l(:button_delete), project_wiki_path(@project, @page),
+                         icon: :delete,
+                         data: { method: :delete, confirm: l(:text_are_you_sure) },
+                         if: authorize_for(:wiki, :destroy)
+      %>
+    <% end %>
+  <% end %>
+<% end %>
 <% content_for :action_menu_main do %>
   <% if @editable %>
     <%= li_unless_nil(link_to_if_authorized(l(:button_edit), {:action => 'edit', :id => @page}, :class => 'icon icon-edit', :accesskey => accesskey(:edit))) if @content.version == @page.content.version %>
@@ -73,7 +114,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 <%= link_to_attachments @page %>
-<% if @editable && authorize_for('wiki', 'add_attachment') %>
+q<% if @editable && authorize_for('wiki', 'add_attachment') %>
   <div id="wiki_add_attachment">
     <p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
                                              :id => 'attach_files_link' %></p>
