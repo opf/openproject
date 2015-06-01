@@ -158,10 +158,11 @@ module ContentHeaderHelper
     def button_text(options = {})
       label_for_blind = options.fetch :label_for_blind, ''
       text = options.fetch :text, ''
-      concat content_tag :span, text, class: 'button--text'
+      tag = content_tag :span, text, class: 'button--text'
       unless label_for_blind.blank?
-        concat content_tag(:span, label_for_blind, class: 'hidden-for-sighted')
+        tag += content_tag(:label, label_for_blind, class: 'hidden-for-sighted')
       end
+      tag
     end
 
     def show?(options = {})
