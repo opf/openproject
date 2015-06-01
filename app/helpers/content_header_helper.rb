@@ -80,7 +80,7 @@ module ContentHeaderHelper
     def watch_button(object, user, options = {})
       watch_text = options.delete(:watch_text) || I18n.t(:button_watch)
       unwatch_text = options.delete(:unwatch_text) || I18n.t(:button_unwatch)
-      return '' unless object.respond_to?(:watched_by?) || user.anonymous?
+      return '' if !object.respond_to?(:watched_by?) || user.anonymous?
       watched = object.watched_by?(user)
       text = watched ? unwatch_text : watch_text
       method = watched ? :delete : :post
@@ -104,6 +104,7 @@ module ContentHeaderHelper
     end
 
     def submenu(options = {}, &block)
+      return '' unless show?(options)
       toolbar_item class: '-with-submenu' do
         link_options = extract_from options
         link_options[:class] += %w(button)
