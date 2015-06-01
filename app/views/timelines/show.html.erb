@@ -30,9 +30,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title "#{l('timelines.project_menu.timelines')}: #{h @timeline.name}" %>
 <%= content_header title: h(@timeline.name) do |h| %>
   <%= h.toolbar do |t| %>
-    <%= t.button l('timelines.new_timeline'), new_project_timeline_path(@project), icon: :add, highlight: :alt, label_for_blind: @timeline.name, if: timeline_action_authorized?(:new) %>
-    <%= t.button l(:button_edit), edit_project_timeline_path(@project, @timeline), icon: :edit, accesskey: :edit, label_for_blind: @timeline.name, if: timeline_action_authorized?(:edit) %>
-    <%= t.button l(:button_delete), project_timeline_confirm_destroy_path(@project, @timeline), icon: :delete, label_for_blind: @timeline.name, if: timeline_action_authorized?(:destroy) %>
+    <%= t.button l('timelines.new_timeline'), new_project_timeline_path(@project), icon: :add, highlight: :alt, label_for_blind: h(@timeline.name), if: timeline_action_authorized?(:new) %>
+    <%= t.button l(:button_update), edit_project_timeline_path(@project, @timeline), icon: :edit, accesskey: :edit, label_for_blind: h(@timeline.name), if: timeline_action_authorized?(:edit) %>
+    <%= t.button l(:button_delete), project_timeline_confirm_destroy_path(@project, @timeline), icon: :delete, label_for_blind: h(@timeline.name), if: timeline_action_authorized?(:destroy) %>
   <% end %>
 <% end %>
 
