@@ -25,7 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-!(function($) {
+(function($) {
   'use strict';
 
   var TOOLBAR_CLASS = '.toolbar',
@@ -42,11 +42,11 @@
     // bail if this is the WP list (has a custom implementation via directives)
     if (body.is('.controller-work_packages.action-index')) {
       return;
-    };
+    }
 
     if (toolbars.length === 0) {
       return;
-    };
+    }
 
     var triggers = toolbars.find(SUBMENU_ITEM_CLASS + ' > .button');
     triggers.on({
@@ -57,7 +57,7 @@
           submenu.attr('aria-hidden', 'false');
         } else {
           submenu.attr('aria-hidden', 'true');
-        };
+        }
       },
       'click focus': function silenceEvent(e) {
         e.preventDefault();
@@ -91,7 +91,7 @@
           timeout = null;
         };
 
-    win.scroll(function(e) {
+    win.scroll(function() {
       if (timeout === null) {
         timeout = setTimeout(update, 50);
       }
@@ -140,7 +140,7 @@
           }
           var menu = link.siblings(SUBMENU_CLASS);
           menu.removeClass(SHOW_CLASS).attr('aria-hidden', true);
-        }
+        };
     topLevelFocusItems.on('keydown', function(e) {
       var link = $(this);
       switch(e.keyCode) {
@@ -183,7 +183,7 @@
           var lastItem = link.parent(TOOLBAR_ITEM_CLASS).prev(TOOLBAR_ITEM_CLASS);
           if (lastItem.hasClass('-divider')) {
             lastItem = lastItem.prev(TOOLBAR_ITEM_CLASS);
-          };
+          }
           if (lastItem) {
             lastItem.find('a').focus();
           } else {
@@ -195,14 +195,14 @@
           var nextItem = link.parent(TOOLBAR_ITEM_CLASS).next(TOOLBAR_ITEM_CLASS);
           if (nextItem.hasClass('-divider')) {
             nextItem = nextItem.next(TOOLBAR_ITEM_CLASS);
-          };
+          }
           if (nextItem) {
             nextItem.find('a').focus();
           } else {
             var menu = link.closest(SUBMENU_CLASS);
             menu.find(TOOLBAR_ITEM_CLASS + ' > a').first().focus();
           }
-        }
+        };
     submenuFocusItems.on('keydown', function(e) {
       var link = $(this);
       switch(e.keyCode) {
@@ -223,5 +223,5 @@
           break;
       }
     });
-  })
+  });
 }(jQuery));
