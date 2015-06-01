@@ -134,7 +134,7 @@ module ContentHeaderHelper
         link_options = extract_from(options)
         link_to location, link_options.merge(tabindex: -1) do
           concat content_tag :i, '', class: "icon icon-#{options[:icon]}" if options[:icon]
-          concat text
+          concat content_tag :span, text, class: 'button--text'
         end
       end
       concat item

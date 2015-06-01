@@ -49,8 +49,8 @@ Feature: Creating a wiki child page
       | title | Wikiparentpage |
     Given I go to the wiki index page of the project called "project1"
       And I click "Wikiparentpage"
-      And I follow "More functions" within "#content"
-      And I click "Create new child page"
+      And I click on "More functions"
+      And I click on "Create new child page"
       And I fill in "content_page_title" with "Todd's wiki"
       And I press "Save"
     When I go to the wiki index page of the project called "project1"

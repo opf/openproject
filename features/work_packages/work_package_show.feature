@@ -130,43 +130,47 @@ Feature: Viewing a work package
   @javascript
   Scenario: User adds herself as watcher to an issue
     When I go to the page of the work package "issue1"
-    Then I should see "Watch" within "#content > .action_menu_specific"
-    When I click "Watch" within "#content > .action_menu_specific"
-    Then I should see "Unwatch" within "#content > .action_menu_specific"
+    Then I should see "Watch" within ".toolbar"
+    When I click "Watch" within ".toolbar"
+    Then I should see "Unwatch" within ".toolbar"
 
   @javascript
   Scenario: User removes herself as watcher from an issue
     Given user is already watching "issue1"
     When I go to the page of the work package "issue1"
-    Then I should see "Unwatch" within "#content > .action_menu_specific"
-    When I click "Unwatch" within "#content > .action_menu_specific"
-    Then I should see "Watch" within "#content > .action_menu_specific"
+    Then I should see "Unwatch" within ".toolbar"
+    When I click "Unwatch" within ".toolbar"
+    Then I should see "Watch" within ".toolbar"
 
   @javascript
   Scenario: Log time leads to time entry creation page for issues
     When I go to the page of the work package "issue1"
-    When I select "Log time" from the action menu
+    When I click on "More functions"
+    When I click "Log time"
 
     Then I should see "Spent time"
 
   @javascript
   Scenario: For an issue copy leads to work package copy page
     When I go to the page of the work package "issue1"
-    When I select "Copy" from the action menu
+    When I click on "More functions" within ".toolbar"
+     And I click "Copy"
 
     Then I should see "Copy"
 
   @javascript
   Scenario: For an issue move leads to work package copy page
     When I go to the page of the work package "issue1"
-    When I select "Move" from the action menu
+    When I click on "More functions"
+    When I click "Move"
 
     Then I should see "Move"
 
   @javascript
   Scenario: For an issue deletion leads to the work package list
     When I go to the page of the work package "issue1"
-    When I select "Delete" from the action menu
+    When I click on "More functions"
+    When I click "Delete"
      And I confirm popups
 
     Then I should see "Work packages"

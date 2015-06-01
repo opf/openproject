@@ -11,5 +11,12 @@
     button.find('span.button--text').text(text);
     button.find('i.button--icon').removeClass('icon-' + oldIcon).addClass('icon-' + icon);
     button.attr('href', path).data('method', method)
+
+    // replace the watchers panel
+    var watchersPanel = $('#watchers');
+    if (!watchersPanel) {
+      return;
+    }
+    watchersPanel.html('<%=j render partial: "watchers/watchers", locals: { watched: @watched } %>');
   });
 }(jQuery));
