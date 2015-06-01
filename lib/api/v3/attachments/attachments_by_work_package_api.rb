@@ -47,19 +47,34 @@ module API
             metadata = params[:metadata]
             file = params[:file]
 
-            # TODO: verify input (valid JSON + file given)
+            unless metadata && file
+              raise ::API::Errors::InvalidRequestBody.new(
+                      I18n.t('api_v3.errors.multipart_body_error'))
+            end
 
-            # FIXME: we should be using the representer to parse the metadata
-            parsed_metadata = JSON.parse(metadata)
+            # FIXME: we should be using the attachment representer to parse the metadata
+            # We can't because it relies on the underlying :file being magical (e.g. for fileName)
+            begin
+              parsed_metadata = JSON.parse(metadata)
+            rescue ::JSON::ParseError
+              raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.invalid_json'))
+            end
+
+            file_name = parsed_metadata['fileName']
+            description = (parsed_metadata['description'] || {})['raw'] || ''
+            unless file_name
+              raise ::API::Errors::Validation.new(
+                      "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
+            end
 
             uploaded_file = Rack::Multipart::UploadedFile.new file[:tempfile].path,
                                                               file[:type],
                                                               true
             # I wish I could set the file name in a better way *sigh*
-            uploaded_file.instance_variable_set(:@original_filename, parsed_metadata['fileName'])
+            uploaded_file.instance_variable_set(:@original_filename, file_name)
             attachment = Attachment.new(file: uploaded_file,
                                    container: @work_package,
-                                   description: parsed_metadata['description']['raw'],
+                                   description: description,
                                    author: current_user)
             attachment.save!
 
