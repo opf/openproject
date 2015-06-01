@@ -32,6 +32,7 @@ require 'rack/test'
 describe 'API v3 Attachments by work package resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
+  include OpenProject::Files
 
   let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -39,13 +40,14 @@ describe 'API v3 Attachments by work package resource', type: :request do
   let(:permissions) { [:view_work_packages] }
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
 
+  subject(:response) { last_response }
+
   before do
     allow(User).to receive(:current).and_return current_user
     FactoryGirl.create_list(:attachment, 5, container: work_package)
   end
 
   describe '#get' do
-    subject(:response) { last_response }
     let(:get_path) { api_v3_paths.attachments_by_work_package work_package.id }
 
     before do
@@ -57,5 +59,26 @@ describe 'API v3 Attachments by work package resource', type: :request do
     end
 
     it_behaves_like 'API V3 collection response', 5, 5, 'Attachment'
+  end
+
+  describe '#post' do
+    let(:permissions) { [:view_work_packages, :edit_work_packages] }
+
+    let(:request_path) { api_v3_paths.attachments_by_work_package work_package.id }
+    let(:request_parts) { { metadata: metadata, file: file } }
+    let(:metadata) { { fileName: 'cat.png' }.to_json }
+    let(:file) { mock_uploaded_file }
+
+    before do
+      post request_path, request_parts
+    end
+
+    it 'should respond with HTTP Created' do
+      expect(subject.status).to eq(201)
+    end
+
+    it 'should return the new attachment' do
+      expect(subject.body).to be_json_eql('Attachment'.to_json).at_path('_type')
+    end
   end
 end
