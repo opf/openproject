@@ -94,9 +94,9 @@ module API
           schema :spent_time,
                  type: 'Duration',
                  writable: false,
-                 show_if: -> (_) {
+                 show_if: -> (_) do
                    current_user_allowed_to(:view_time_entries, context: represented.project)
-                 }
+                 end
 
           schema :percentage_done,
                  type: 'Integer',
