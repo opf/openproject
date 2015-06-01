@@ -39,13 +39,15 @@ See doc/COPYRIGHT.rdoc for more details.
                        if: Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated")
     %>
     <% if User.current.allowed_to?(:export_wiki_pages, @project) %>
-      <%= t.button 'Atom', project_activities_path(@project, format: :atom, key: User.current.rss_key, show_wiki_edits: 1),
-                   icon: :'page-atom',
-                   if: Setting.feeds_enabled?
-      %>
-      <%= t.button 'HTML', url_for(format: :html, version: @content.version, id: @page), icon: :publish %>
-      <%= t.button 'TXT', url_for(format: :txt, version: @content.version, id: @page), icon: :ticket2 %>
-      <%= call_hook(:view_wiki_show_other_formats) %>
+      <%= t.submenu title: '', icon: :rss2 do %>
+        <%= t.submenu_item 'Atom', project_activities_path(@project, format: :atom, key: User.current.rss_key, show_wiki_edits: 1),
+                     icon: :'page-atom',
+                     if: Setting.feeds_enabled?
+        %>
+        <%= t.submenu_item 'HTML', url_for(format: :html, version: @content.version, id: @page), icon: :publish %>
+        <%= t.submenu_item 'TXT', url_for(format: :txt, version: @content.version, id: @page), icon: :ticket2 %>
+        <%= call_hook(:view_wiki_show_other_formats) %>
+      <% end %>
     <% end %>
     <%= t.submenu title: l(:more_actions), icon: :'grid-view1', last: true, unless: User.current.anonymous? do %>
       <%= t.submenu_item l(:button_lock), protect_project_wiki_path(@project, @page, protected: 1),
