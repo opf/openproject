@@ -49,6 +49,10 @@ module ContentHeaderHelper
   end
 
   class ContentToolbar < AbstractContent
+    def initialize
+      @tabindex = 0
+    end
+
     def button(text, location, options = {})
       options[:class] = %w(button) + Array(options[:class])
       item text, location, options
@@ -58,7 +62,7 @@ module ContentHeaderHelper
       return '' unless show?(options)
       link_options = extract_from options
       toolbar_item do
-        link_to location, link_options do
+        link_to location, link_options.merge(next_tab_index) do
           concat button_icon(options)
           concat button_text(options.merge text: text)
         end
@@ -105,10 +109,10 @@ module ContentHeaderHelper
 
     def submenu(options = {}, &block)
       return '' unless show?(options)
-      toolbar_item class: '-with-submenu' do
+      toolbar_item class: '-with-submenu', :'aria-haspopup' => true do
         link_options = extract_from options
         link_options[:class] += %w(button)
-        link = link_to('#', link_options) do
+        link = link_to('#', link_options.merge(next_tab_index)) do
           concat button_icon options
           concat button_text text: options[:title]
           concat content_tag :i, '', class: 'button--dropdown-indicator'
@@ -116,7 +120,7 @@ module ContentHeaderHelper
         concat link
         css = Array(options[:class]) + %w(toolbar-submenu)
         css += %w(-last) if options.delete :last
-        concat content_tag :ul, capture(&block), class: css
+        concat content_tag :ul, capture(&block), class: css, :'aria-hidden' => true, role: :menu
       end
     end
 
@@ -126,9 +130,9 @@ module ContentHeaderHelper
         options[:class] = Array(options[:class]) + %w(no-icon)
       end
       toolbar_item_options = options.dup.delete_if { |k, _| k == :icon }
-      item = toolbar_item(toolbar_item_options) do
+      item = toolbar_item(toolbar_item_options.merge(role: :menuitem)) do
         link_options = extract_from(options)
-        link_to location, link_options do
+        link_to location, link_options.merge(tabindex: -1) do
           concat content_tag :i, '', class: "icon icon-#{options[:icon]}" if options[:icon]
           concat text
         end
@@ -187,7 +191,7 @@ module ContentHeaderHelper
     end
 
     def delete_keys_from(options)
-      keys_to_delete = [:unless, :if, :highlight, :class, :accesskey, :last]
+      keys_to_delete = [:unless, :if, :highlight, :class, :accesskey, :last, :icon]
       options.delete_if { |k, _| keys_to_delete.include? k }
     end
 
@@ -199,6 +203,11 @@ module ContentHeaderHelper
 
     def url_helpers
       Rails.application.routes.url_helpers
+    end
+
+    def next_tab_index
+      @tabindex += 1
+      { tabindex: @tabindex }
     end
   end
 

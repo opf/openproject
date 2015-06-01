@@ -30,6 +30,7 @@
 
   var TOOLBAR_CLASS = '.toolbar',
       SUBMENU_CLASS = '.toolbar-submenu',
+      TOOLBAR_ITEM_CLASS = '.toolbar-item',
       SUBMENU_ITEM_CLASS = '.-with-submenu',
       SHOW_CLASS = 'show';
 
@@ -67,8 +68,12 @@
       }
     });
 
-    body.not(SUBMENU_CLASS).not(triggers).on('click', function(e) {
+    body.not(SUBMENU_CLASS).not(triggers).on('click', function() {
       $(SUBMENU_CLASS).removeClass(SHOW_CLASS);
+    });
+
+    $(SUBMENU_CLASS + '> .toolbar-item > a').on('click focus', function() {
+      $(this).closest(SUBMENU_CLASS).addClass(SHOW_CLASS).attr('aria-hidden', false);
     });
   });
 
@@ -76,7 +81,6 @@
   $(function() {
 
     var win = $(window),
-        main = $('#main'),
         toolbar = $('.toolbar.-scrollable'),
         timeout = null,
         update = function() {
@@ -95,4 +99,129 @@
 
     update();
   });
+
+  // key binding
+  $(function() {
+    var topLevelFocusItems =  $(TOOLBAR_CLASS).find('.toolbar-item > .button'),
+        hasSubmenu = function(link) {
+          return link.parent(TOOLBAR_ITEM_CLASS).is(SUBMENU_ITEM_CLASS);
+        },
+        focusLastItem = function(link) {
+          var previous = link.parent(TOOLBAR_ITEM_CLASS).prev(TOOLBAR_ITEM_CLASS);
+          if (previous) {
+            previous.find('> .button').focus();
+          }
+        },
+        focusNextItem = function(link) {
+          var next = link.parent(TOOLBAR_ITEM_CLASS).next(TOOLBAR_ITEM_CLASS);
+          if (next) {
+            next.find('> .button').focus();
+          }
+        },
+        nextSubmenuItem = function(link) {
+          if (!hasSubmenu(link)) {
+            return;
+          }
+          var menu = link.siblings(SUBMENU_CLASS);
+          menu.attr('aria-hidden', false).addClass(SHOW_CLASS);
+          menu.find(TOOLBAR_ITEM_CLASS).find('a').attr('tabindex', 0).first().focus();
+        },
+        previousSubmenuItem = function(link) {
+          if(!hasSubmenu(link)) {
+            return;
+          }
+          var menu = link.siblings(SUBMENU_CLASS);
+          menu.attr('aria-hidden', false).addClass(SHOW_CLASS);
+          menu.find(TOOLBAR_ITEM_CLASS).find('a').attr('tabindex', 0).last().focus();
+        },
+        closeSubmenu = function(link) {
+          if(!hasSubmenu(link)) {
+            return;
+          }
+          var menu = link.siblings(SUBMENU_CLASS);
+          menu.removeClass(SHOW_CLASS).attr('aria-hidden', true);
+        }
+    topLevelFocusItems.on('keydown', function(e) {
+      var link = $(this);
+      switch(e.keyCode) {
+        // escape
+        case 27:
+          closeSubmenu(link);
+          break;
+        // left
+        case 37:
+          e.preventDefault();
+          focusLastItem(link);
+          break;
+        // up
+        case 38:
+          e.preventDefault();
+          previousSubmenuItem(link);
+          break;
+        // right
+        case 39:
+          e.preventDefault();
+          focusNextItem(link);
+          break;
+        // down
+        case 40:
+          e.preventDefault();
+          nextSubmenuItem(link);
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    var submenuFocusItems = $(SUBMENU_CLASS + ' > ' + TOOLBAR_ITEM_CLASS + ' > a', TOOLBAR_CLASS),
+        closeParentSubmenu =  function(link) {
+          var menu =  link.closest(SUBMENU_CLASS);
+          menu.parent(TOOLBAR_ITEM_CLASS).find('> .button').focus();
+        },
+        focusLastSubmenuItem = function(link) {
+          var lastItem = link.parent(TOOLBAR_ITEM_CLASS).prev(TOOLBAR_ITEM_CLASS);
+          if (lastItem.hasClass('-divider')) {
+            lastItem = lastItem.prev(TOOLBAR_ITEM_CLASS);
+          };
+          if (lastItem) {
+            lastItem.find('a').focus();
+          } else {
+            var menu = link.closest(SUBMENU_CLASS);
+            menu.find(TOOLBAR_ITEM_CLASS + ' > a').last().focus();
+          }
+        },
+        focusNextSubmenuItem = function(link) {
+          var nextItem = link.parent(TOOLBAR_ITEM_CLASS).next(TOOLBAR_ITEM_CLASS);
+          if (nextItem.hasClass('-divider')) {
+            nextItem = nextItem.next(TOOLBAR_ITEM_CLASS);
+          };
+          if (nextItem) {
+            nextItem.find('a').focus();
+          } else {
+            var menu = link.closest(SUBMENU_CLASS);
+            menu.find(TOOLBAR_ITEM_CLASS + ' > a').first().focus();
+          }
+        }
+    submenuFocusItems.on('keydown', function(e) {
+      var link = $(this);
+      switch(e.keyCode) {
+        // escape
+        case 27:
+          e.preventDefault();
+          closeParentSubmenu(link);
+          break;
+        // up
+        case 38:
+          e.preventDefault();
+          focusLastSubmenuItem(link);
+          break;
+        // down
+        case 40:
+          e.preventDefault();
+          focusNextSubmenuItem(link);
+          break;
+      }
+    });
+  })
 }(jQuery));
