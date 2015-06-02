@@ -48,10 +48,16 @@
       return;
     }
 
-    var triggers = toolbars.find(SUBMENU_ITEM_CLASS + ' > .button');
+    var triggers = toolbars.find(TOOLBAR_ITEM_CLASS + ' > .button'),
+        submenus = toolbars.find(SUBMENU_CLASS);
+
     triggers.on({
       'focus': function toggleSubmenu() {
+        submenus.removeClass(SHOW_CLASS);
         var submenu = $(this).siblings(SUBMENU_CLASS);
+        if (!submenu) {
+          return;
+        }
         submenu.toggleClass(SHOW_CLASS);
         if (submenu.attr('aria-hidden') === 'true') {
           submenu.attr('aria-hidden', 'false');
@@ -59,20 +65,22 @@
           submenu.attr('aria-hidden', 'true');
         }
       },
-      'click focus': function silenceEvent(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      },
-      'blur': function() {
-        $(this).siblings(SUBMENU_CLASS).removeClass(SHOW_CLASS);
+      'click': function(e) {
+        // this will prevent going to the root path from a submenu button
+        var listItem = $(this).parent(TOOLBAR_ITEM_CLASS);
+        if(listItem.is(SUBMENU_ITEM_CLASS)) {
+          e.preventDefault();
+        }
       }
     });
 
-    body.not(SUBMENU_CLASS).not(triggers).on('click', function() {
-      $(SUBMENU_CLASS).removeClass(SHOW_CLASS);
-    });
+    var submenuItems = $(SUBMENU_CLASS + '> .toolbar-item > a');
 
-    $(SUBMENU_CLASS + '> .toolbar-item > a').on('click focus', function() {
+    // body.not(SUBMENU_CLASS).not(triggers).not(submenuItems).on('click', function() {
+    //   $(SUBMENU_CLASS).removeClass(SHOW_CLASS);
+    // });
+
+    submenuItems.on('click focus', function() {
       $(this).closest(SUBMENU_CLASS).addClass(SHOW_CLASS).attr('aria-hidden', false);
     });
   });

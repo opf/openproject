@@ -103,7 +103,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 <%= link_to_attachments @page %>
-q<% if @editable && authorize_for('wiki', 'add_attachment') %>
+<% if @editable && authorize_for('wiki', 'add_attachment') %>
   <div id="wiki_add_attachment">
     <p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
                                              :id => 'attach_files_link' %></p>
