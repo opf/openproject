@@ -37,7 +37,13 @@ module API
 
         validate :user_allowed_to_access
 
+        validate :user_allowed_to_edit
+
         private
+
+        def user_allowed_to_edit
+          errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
+        end
 
         # TODO: when someone every fixes the way errors are added in the contract:
         # find a solution to ensure that THIS validation supersedes others (i.e. show 404 if

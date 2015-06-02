@@ -35,6 +35,16 @@ module API
         # Hence making them writable here is unproblematic.
         attribute :project_id
         attribute :author_id
+
+        validate :user_allowed_to_add
+
+        private
+
+        def user_allowed_to_add
+          unless @user.allowed_to?(:add_work_packages, model.project)
+            errors.add :error_unauthorized, ''
+          end
+        end
       end
     end
   end
