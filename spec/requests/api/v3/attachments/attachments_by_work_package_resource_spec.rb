@@ -34,7 +34,11 @@ describe 'API v3 Attachments by work package resource', type: :request do
   include API::V3::Utilities::PathHelper
   include OpenProject::Files
 
-  let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:current_user) {
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
+  }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
@@ -108,7 +112,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
     end
 
     context 'metadata is missing the fileName' do
-      let(:metadata) { { }.to_json }
+      let(:metadata) { Hash.new.to_json }
 
       it_behaves_like 'constraint violation' do
         let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}." }
