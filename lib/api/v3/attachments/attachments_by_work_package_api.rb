@@ -33,6 +33,41 @@ module API
     module Attachments
       class AttachmentsByWorkPackageAPI < ::API::OpenProjectAPI
         resources :attachments do
+          helpers do
+            def make_uploaded_file(file, file_name)
+              uploaded_file = Rack::Multipart::UploadedFile.new file[:tempfile].path,
+                                                                file[:type],
+                                                                true
+              # I wish I could set the file name in a better way *sigh*
+              uploaded_file.instance_variable_set(:@original_filename, file_name)
+              uploaded_file
+            end
+
+            def parse_metadata(json)
+              return nil unless json
+
+              # FIXME: we should be using the attachment representer to parse the metadata
+              # We can't because it relies on the underlying :file being magical (e.g. for fileName)
+              begin
+                parsed_json = ::JSON.parse(json)
+              rescue ::JSON::ParserError
+                raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.invalid_json'))
+              end
+
+              file_name = parsed_json['fileName']
+
+              unless file_name
+                raise ::API::Errors::Validation.new(
+                        "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
+              end
+
+              {
+                file_name: file_name,
+                description: (parsed_json['description'] || {})['raw'] || ''
+              }
+            end
+          end
+
           get do
             self_path = api_v3_paths.attachments_by_work_package(@work_package.id)
             attachments = @work_package.attachments
@@ -44,7 +79,7 @@ module API
           post do
             authorize(:edit_work_packages, context: @work_package.project)
 
-            metadata = params[:metadata]
+            metadata = parse_metadata params[:metadata]
             file = params[:file]
 
             unless metadata && file
@@ -52,36 +87,15 @@ module API
                       I18n.t('api_v3.errors.multipart_body_error'))
             end
 
-            # FIXME: we should be using the attachment representer to parse the metadata
-            # We can't because it relies on the underlying :file being magical (e.g. for fileName)
-            begin
-              parsed_metadata = ::JSON.parse(metadata)
-            rescue ::JSON::ParserError
-              raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.invalid_json'))
-            end
-
-            file_name = parsed_metadata['fileName']
-            description = (parsed_metadata['description'] || {})['raw'] || ''
-            unless file_name
-              raise ::API::Errors::Validation.new(
-                      "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
-            end
-
-            uploaded_file = Rack::Multipart::UploadedFile.new file[:tempfile].path,
-                                                              file[:type],
-                                                              true
-            # I wish I could set the file name in a better way *sigh*
-            uploaded_file.instance_variable_set(:@original_filename, file_name)
+            uploaded_file = make_uploaded_file file, metadata[:file_name]
             attachment = Attachment.new(file: uploaded_file,
-                                   container: @work_package,
-                                   description: description,
-                                   author: current_user)
+                                        container: @work_package,
+                                        description: metadata[:description],
+                                        author: current_user)
 
-            unless attachment.valid?
+            unless attachment.save
               raise ::API::Errors::ErrorBase.create(attachment.errors.dup)
             end
-
-            attachment.save!
 
             ::API::V3::Attachments::AttachmentRepresenter.new(attachment)
           end
