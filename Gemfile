@@ -153,7 +153,7 @@ group :test do
   gem 'simplecov', '0.8.0.pre'
   gem "shoulda-matchers", '~> 2.5.0'
   gem "json_spec"
-  gem "activerecord-tableless", "~> 1.0"
+  gem "activerecord-tableless", "~> 1.3"
   gem "codeclimate-test-reporter", :require => nil
 end
 
