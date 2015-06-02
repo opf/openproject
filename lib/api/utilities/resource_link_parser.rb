@@ -57,7 +57,7 @@ module API
           end
 
           unless resource && version_valid && namespace_valid
-            fail ::API::Errors::Form::InvalidResourceLink.new(property,
+            fail ::API::Errors::InvalidResourceLink.new(property,
                                                               make_expected_link(
                                                                 expected_version,
                                                                 expected_namespace),
