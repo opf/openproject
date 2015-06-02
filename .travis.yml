@@ -48,6 +48,10 @@ env:
     # Frontend
     - "TEST_SUITE=karma"
     - "TEST_SUITE=protractor"
+    # sqlite3
+    - "TEST_SUITE=cucumber    DB=sqlite3"
+    - "TEST_SUITE=spec:core   DB=sqlite3"
+    - "TEST_SUITE=spec:legacy DB=sqlite3"
     # mysql2
     - "TEST_SUITE=cucumber    DB=mysql2"
     - "TEST_SUITE=spec:core   DB=mysql2"
