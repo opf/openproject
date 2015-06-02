@@ -83,7 +83,8 @@ class TimelinesController < ApplicationController
   end
 
   def confirm_destroy
-    @timeline = @project.timelines.find(params[:timeline_id])
+    id =  params.fetch(:timeline_id, params[:id])
+    @timeline = @project.timelines.find(id)
   end
 
   def destroy
