@@ -36,7 +36,7 @@ class UpdateWorkPackageService
     self.permitted_params = permitted_params
     self.send_notifications = send_notifications
 
-    configure_update_notification
+    JournalObserver.instance.send_notification = send_notifications
   end
 
   def update
@@ -48,10 +48,6 @@ class UpdateWorkPackageService
   end
 
   private
-
-  def configure_update_notification
-    JournalObserver.instance.send_notification = send_notifications
-  end
 
   def effective_params
     effective_params = HashWithIndifferentAccess.new
