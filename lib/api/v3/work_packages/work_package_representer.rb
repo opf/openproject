@@ -112,6 +112,12 @@ module API
                         getter: :assigned_to,
                         embed_as: ::API::V3::Users::UserRepresenter
 
+        link :attachments do
+          {
+            href: api_v3_paths.attachments_by_work_package(represented.id)
+          }
+        end
+
         link :availableWatchers do
           {
             href: api_v3_paths.available_watchers(represented.id),
@@ -271,10 +277,6 @@ module API
                  embedded: true,
                  exec_context: :decorator,
                  if: -> (*) { current_user_allowed_to(:view_work_package_watchers) }
-        collection :attachments,
-                   embedded: true,
-                   class: ::Attachment,
-                   decorator: ::API::V3::Attachments::AttachmentRepresenter
 
         property :relations, embedded: true, exec_context: :decorator
 

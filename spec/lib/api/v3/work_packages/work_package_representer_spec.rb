@@ -435,6 +435,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'attachments' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'attachments' }
+          let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
+        end
+      end
+
       context 'when the user has the permission to view work packages' do
         context 'and the user is not watching the work package' do
           it 'should have a link to watch' do
@@ -694,11 +701,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'activities' do
         it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }
         it { is_expected.to have_json_size(0).at_path('_embedded/activities') }
-      end
-
-      describe 'attachments' do
-        it { is_expected.to have_json_type(Array).at_path('_embedded/attachments') }
-        it { is_expected.to have_json_size(0).at_path('_embedded/attachments') }
       end
 
       describe 'watchers' do
