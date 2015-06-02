@@ -56,7 +56,7 @@ module API
 
                   representer
                 else
-                  fail ::API::Errors::ErrorBase.create(activity.errors.dup)
+                  fail ::API::Errors::ErrorBase.create(activity.errors)
                 end
               end
 
