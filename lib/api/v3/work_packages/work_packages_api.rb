@@ -76,7 +76,7 @@ module API
 
                 work_package_representer
               else
-                fail ::API::Errors::ErrorBase.create(errors.dup)
+                fail ::API::Errors::ErrorBase.create(errors)
               end
             end
 
