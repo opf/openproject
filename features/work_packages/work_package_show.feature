@@ -34,13 +34,13 @@ Feature: Viewing a work package
     And I am working in project "omicronpersei8"
     And the project "omicronpersei8" has the following types:
       | name | position |
-      | Bug  |     1    |
+      | Bug  | 1        |
     And there is a default issuepriority with:
-      | name   | Normal |
+      | name | Normal |
     And there is a issuepriority with:
-      | name   | High |
+      | name | High |
     And there is a issuepriority with:
-      | name   | Immediate |
+      | name | Immediate |
 
     And there are the following types:
       | Name  | Is Milestone | In aggregation | Is default |
@@ -61,8 +61,8 @@ Feature: Viewing a work package
       | login | bob |
     And the user "bob" is a "member" in the project "omicronpersei8"
     And there are the following issue status:
-      | name        | is_closed  | is_default  |
-      | New         | false      | true        |
+      | name | is_closed | is_default |
+      | New  | false     | true       |
 
     And there are the following issues in project "omicronpersei8":
       | subject | type | description | author |
@@ -79,7 +79,7 @@ Feature: Viewing a work package
       | issue2 |
 
     And the work package "pe1" has the following children:
-      | pe2    |
+      | pe2 |
 
     And I am already logged in as "bob"
 
@@ -145,7 +145,8 @@ Feature: Viewing a work package
   @javascript
   Scenario: Log time leads to time entry creation page for issues
     When I go to the page of the work package "issue1"
-    When I click on "More functions"
+    When I click "More functions"
+     And I wait 3 seconds
     When I click "Log time"
 
     Then I should see "Spent time"
@@ -153,7 +154,8 @@ Feature: Viewing a work package
   @javascript
   Scenario: For an issue copy leads to work package copy page
     When I go to the page of the work package "issue1"
-    When I click on "More functions" within ".toolbar"
+    When I click "More functions"
+     And I wait 3 seconds
      And I click "Copy"
 
     Then I should see "Copy"
@@ -161,7 +163,8 @@ Feature: Viewing a work package
   @javascript
   Scenario: For an issue move leads to work package copy page
     When I go to the page of the work package "issue1"
-    When I click on "More functions"
+    When I click "More functions"
+     And I wait 3 seconds
     When I click "Move"
 
     Then I should see "Move"
@@ -169,7 +172,8 @@ Feature: Viewing a work package
   @javascript
   Scenario: For an issue deletion leads to the work package list
     When I go to the page of the work package "issue1"
-    When I click on "More functions"
+    When I click "More functions"
+     And I wait 3 seconds
     When I click "Delete"
      And I confirm popups
 

@@ -51,7 +51,8 @@ Feature: Deleting work packages
   Scenario: Deleting a work package via the action menu
 
     When I go to the page of the work package "wp1"
-    And I select "Delete" from the action menu
+    And I click "More functions"
+    And I click "Delete"
     And I confirm popups
     Then I should be on the bulk destroy page of work packages
 
