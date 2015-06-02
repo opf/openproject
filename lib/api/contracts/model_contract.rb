@@ -48,6 +48,10 @@ module API
         end
       end
 
+      def writable_attributes
+        collect_ancestor_attributes(:writable_attributes)
+      end
+
       validate :readonly_attributes_unchanged
       validate :run_attribute_validations
 
@@ -61,10 +65,6 @@ module API
 
       def run_attribute_validations
         attribute_validations.each { |validation| instance_exec(&validation) }
-      end
-
-      def writable_attributes
-        collect_ancestor_attributes(:writable_attributes)
       end
 
       def attribute_validations
