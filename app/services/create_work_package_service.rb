@@ -42,7 +42,7 @@ class CreateWorkPackageService
     hash = {
       project: project,
       author: user,
-      type: Type.where(is_default: true).first
+      type: Type.where(is_default: true).first || Type.first
     }
     self.work_package = project.add_work_package(hash)
   end
