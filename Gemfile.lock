@@ -186,7 +186,7 @@ GEM
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
     eventmachine (1.0.7)
-    excon (0.42.1)
+    excon (0.45.3)
     execjs (2.4.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
