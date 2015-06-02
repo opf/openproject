@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= h.toolbar do |t| %>
     <%= t.watch_button @wiki, User.current %>
     <% unless @pages.empty? %>
-      <%= t.button 'Atom', project_activities_path(@project, format: :atom, show_wiki_edits: 1, key: User.current.rss_key), icon: :'page-atom', if: Setting.feeds_enabled? %>
+      <%= t.button 'Atom', project_activity_index_path(@project, format: :atom, show_wiki_edits: 1, key: User.current.rss_key), icon: :'page-atom', if: Setting.feeds_enabled? %>
       <%= t.button 'HTML', export_project_wiki_index_path(@project, format: :html), icon: :publish, if: User.current.allowed_to?(:export_wiki_pages, @project) %>
     <% end %>
   <% end %>

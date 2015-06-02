@@ -27,11 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :action_menu_specific do %>
-  <%= watcher_link(@wiki, User.current) %>
+<%= content_header title: l(:label_index_by_date), scrollable: true do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.watch_button @wiki, User.current %>
+    <%= t.submenu title: '', icon: :rss2, last: true, unless: @pages.empty? do %>
+      <%= t.submenu_item 'Atom', project_activity_index_path(@project, show_wiki_edits: 1, key: User.current.rss_key, format: :atom), icon: :'page-atom', if: Setting.feeds_enabled? %>
+      <%= t.submenu_item 'HTML', url_for(format: :html), icon: :publish %>
+    <% end %>
+  <% end %>
 <% end %>
-<h2 class="legacy-heading"><%= l(:label_index_by_date) %></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
 <% if @pages.empty? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
@@ -46,12 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
 <% end %>
-<% unless @pages.empty? %>
-  <%= other_formats_links do |f| %>
-    <%= f.link_to 'Atom', :url => {:controller => '/activities', :action => 'index', :show_wiki_edits => 1, :key => User.current.rss_key} %>
-    <%= f.link_to('HTML', :url => {:action => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
-  <% end %>
-<% end %>
+
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, :controller => '/activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
 <% end %>

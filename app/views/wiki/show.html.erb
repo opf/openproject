@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     %>
     <% if User.current.allowed_to?(:export_wiki_pages, @project) %>
       <%= t.submenu title: '', icon: :rss2 do %>
-        <%= t.submenu_item 'Atom', project_activities_path(@project, format: :atom, key: User.current.rss_key, show_wiki_edits: 1),
+        <%= t.submenu_item 'Atom', project_activity_index_path(@project, format: :atom, key: User.current.rss_key, show_wiki_edits: 1),
                      icon: :'page-atom',
                      if: Setting.feeds_enabled?
         %>
