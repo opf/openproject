@@ -34,12 +34,7 @@ Then /^I should (not )?see "([^"]*)"\s*\#.*$/ do |negative, name|
 end
 
 When /^I click(?:| on) "([^"]*)"$/ do |name|
-  begin
-    click_link_or_button(name)
-  rescue
-    button = find('a > span.button--text', text: name)
-    click(button)
-  end
+  click_link_or_button(name)
 end
 
 When /^I click(?:| on) the div "([^"]*)"$/ do |name|

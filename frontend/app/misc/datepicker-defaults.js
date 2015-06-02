@@ -30,7 +30,7 @@ jQuery(function($) {
   // prevent freak accident in styleguide
   if (typeof I18n === "undefined") {
     window.I18n = {};
-  };
+  }
 
   var regions = $.datepicker.regional;
   var regional = regions[I18n.locale] || regions[''];
