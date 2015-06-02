@@ -80,7 +80,7 @@ gem 'daemons'
 # (see https://www.openproject.org/work_packages/3029)
 gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
+gem 'syck', :platforms => [:mri, :mingw, :x64_mingw], :require => false
 
 gem 'gon', '~> 4.0'
 
@@ -188,7 +188,7 @@ gem 'reform', '~> 1.2.6', require: false
 # orders of magnitude compared to their native counterparts. You have been
 # warned.
 
-platforms :mri, :mingw do
+platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
     gem "mysql2", "~> 0.3.11"
   end
