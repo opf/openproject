@@ -12,11 +12,13 @@
     button.find('i.button--icon').removeClass('icon-' + oldIcon).addClass('icon-' + icon);
     button.attr('href', path).data('method', method)
 
+    <% if User.current.allowed_to?(:view_work_package_watchers, @project) && @watched.is_a?(WorkPackage) %>
     // replace the watchers panel
     var watchersPanel = $('#watchers');
     if (!watchersPanel) {
       return;
     }
     watchersPanel.html('<%=j render partial: "watchers/watchers", locals: { watched: @watched } %>');
+    <% end %>
   });
 }(jQuery));
