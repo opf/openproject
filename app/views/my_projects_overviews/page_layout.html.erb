@@ -26,7 +26,7 @@ See doc/COPYRIGHT.md for more details.
   <% heads_for_wiki_formatter %>
 <% end %>
 
-<% content_for :toolbar do %>
+<%= toolbar title: l(:label_overview) do %>
   <li class="toolbar-item">
     <%= styled_form_tag({:action => "add_block"}, :id => "block-form") do %>
       <%= styled_select_tag 'block',
@@ -39,13 +39,10 @@ See doc/COPYRIGHT.md for more details.
   <li class="toolbar-item"><%= link_to l(:button_back), {:action => 'index'}, class: 'button' %></li>
 <% end %>
 
-<h2><%=l(:label_overview)%></h2>
-
-<%= render :partial => 'layouts/toolbar' %>
 
 <h4><%=l(:label_visible_elements) %></h4>
 <div id="visible-grid">
-  <div class="grid-block">
+  <div class="grid-block medium-up-1">
     <% top_fields.each do |f| %>
       <%= grid_field f %>
     <% end %>

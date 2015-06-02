@@ -48,12 +48,21 @@ module MyProjectsOverviewsHelper
       :'ajax-url' => ajax_url(name),
       position: name
     }
+    construct_blocks(name: name, css_classes: css_classes, data: data)
+  end
+
+  def rendered_field(name)
+    construct_blocks(name: name, css_classes: Array(name))
+  end
+
+  protected
+
+  def construct_blocks(opts = {})
+    name, css_classes, data = [:name, :css_classes, :data].map { |sym| opts.fetch sym, '' }
     content_tag :div, id: "list-#{name}", class: css_classes, data: data do
       ActiveSupport::SafeBuffer.new(blocks[name].map { |b| construct b }.join)
     end
   end
-
-  protected
 
   def block_available?(block)
     controller.class.available_blocks.keys.include? block

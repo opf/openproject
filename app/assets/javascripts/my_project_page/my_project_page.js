@@ -49,7 +49,18 @@
               new Ajax.Request(url, {
                 asynchronous: true,
                 evalScripts: true,
-                parameters: Sortable.serialize(id)
+                // this might seem like magic, but it actually
+                // replaces Sortable.serialize which breaks our
+                // block names when they contain underscores
+                parameters: (function serialize(id, $) {
+                  var element =  $('#' + id),
+                      blocks = element.find('.mypage-box').map(function() {
+                        return this.id.replace(/^block_/, '');
+                      }).get();
+                  return blocks.map(function(item) {
+                    return id + '[]=' + encodeURIComponent(item);
+                  }).join('&');
+                }(id, jQuery))
               });
             },
             containment: containedPositions,
@@ -64,8 +75,16 @@
 
   function updateSelect() {
     var s = $('block-select');
+    if (s === null) {
+      return;
+    }
     for (var i = 0; i < s.options.length; i++) {
-      if ($('block_' + s.options[i].value)) {
+      var name = s.options[i].value || '';
+      // this becomes necessary as the block names are saved with dashes in the db,
+      // but their ids use underscores in the frontend - this changes the name to find 
+      // the block in the DOM
+      name = name.replace(/\-/g, '_');
+      if ($('block_' + name)) {
         s.options[i].disabled = true;
       } else {
         s.options[i].disabled = false;
