@@ -89,12 +89,12 @@ module.exports = function($scope,
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
-    $scope.isWatched = !!workPackage.links.unwatchChanges;
+    $scope.isWatched = !!workPackage.links.unwatch;
 
-    if (workPackage.links.watchChanges === undefined) {
-      $scope.toggleWatchLink = workPackage.links.unwatchChanges;
+    if (workPackage.links.watch === undefined) {
+      $scope.toggleWatchLink = workPackage.links.unwatch;
     } else {
-      $scope.toggleWatchLink = workPackage.links.watchChanges;
+      $scope.toggleWatchLink = workPackage.links.watch;
     }
 
     $scope.watchers = workPackage.embedded.watchers;

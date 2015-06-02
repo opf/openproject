@@ -438,11 +438,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       context 'when the user has the permission to view work packages' do
         context 'and the user is not watching the work package' do
           it 'should have a link to watch' do
-            expect(subject).to have_json_path('_links/watchChanges/href')
+            expect(subject).to have_json_path('_links/watch/href')
           end
 
           it 'should not have a link to unwatch' do
-            expect(subject).not_to have_json_path('_links/unwatchChanges/href')
+            expect(subject).not_to have_json_path('_links/unwatch/href')
           end
         end
 
@@ -452,11 +452,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'should have a link to watch' do
-            expect(subject).to have_json_path('_links/unwatchChanges/href')
+            expect(subject).to have_json_path('_links/unwatch/href')
           end
 
           it 'should not have a link to watch' do
-            expect(subject).not_to have_json_path('_links/watchChanges/href')
+            expect(subject).not_to have_json_path('_links/watch/href')
           end
         end
       end
@@ -465,11 +465,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:current_user) { FactoryGirl.create :user }
 
         it 'should not have a link to unwatch' do
-          expect(subject).not_to have_json_path('_links/unwatchChanges/href')
+          expect(subject).not_to have_json_path('_links/unwatch/href')
         end
 
         it 'should not have a link to watch' do
-          expect(subject).not_to have_json_path('_links/watchChanges/href')
+          expect(subject).not_to have_json_path('_links/watch/href')
         end
       end
 
