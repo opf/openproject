@@ -55,8 +55,8 @@ module API
             # FIXME: we should be using the attachment representer to parse the metadata
             # We can't because it relies on the underlying :file being magical (e.g. for fileName)
             begin
-              parsed_metadata = JSON.parse(metadata)
-            rescue ::JSON::ParseError
+              parsed_metadata = ::JSON.parse(metadata)
+            rescue ::JSON::ParserError
               raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.invalid_json'))
             end
 
