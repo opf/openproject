@@ -35,7 +35,7 @@ class CreateWorkPackageService
     self.project = project
     self.send_notifications = send_notifications
 
-    configure_update_notification
+    WorkPackageObserver.instance.send_notification = send_notifications
   end
 
   def create
@@ -49,11 +49,5 @@ class CreateWorkPackageService
 
   def save
     work_package.save
-  end
-
-  private
-
-  def configure_update_notification
-    WorkPackageObserver.instance.send_notification = send_notifications
   end
 end
