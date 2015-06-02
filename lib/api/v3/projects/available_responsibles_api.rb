@@ -34,8 +34,6 @@ module API
       class AvailableResponsiblesAPI < ::API::OpenProjectAPI
         resource :available_responsibles do
           get do
-            authorize(:view_project, context: @project)
-
             available_responsibles = @project.possible_responsibles
             total = available_responsibles.count
             self_link = api_v3_paths.available_responsibles(@project.id)
