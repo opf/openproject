@@ -210,7 +210,7 @@ module ContentHeaderHelper
     def extract_from(options = {})
       opts = options.dup
       color, css_classes, key = values_from opts
-      css_classes = Array(css_classes) + Array(class_from_color(color))
+      css_classes = (Array(css_classes) + Array(class_from_color(color))).reject!(&:empty?)
       delete_keys_from(opts).merge(class: css_classes, accesskey: key_for(key))
     end
 
