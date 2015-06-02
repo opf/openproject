@@ -31,6 +31,12 @@ module API
   module V3
     module WorkPackages
       class FormRepresenter < ::API::Decorators::Single
+        def initialize(model, current_user: nil, errors: [])
+          @errors = errors
+
+          super(model, current_user: current_user)
+        end
+
         property :payload,
                  embedded: true,
                  decorator: -> (represented, *) {
@@ -53,7 +59,7 @@ module API
         end
 
         def validation_errors
-          ::API::Errors::Validation.create(represented.errors.dup).inject({}) do |h, (k, v)|
+          ::API::Errors::Validation.create(@errors).inject({}) do |h, (k, v)|
             h[k] = ::API::V3::Errors::ErrorRepresenter.new(v)
             h
           end
