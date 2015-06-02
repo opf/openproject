@@ -55,6 +55,27 @@ module API
       validate :readonly_attributes_unchanged
       validate :run_attribute_validations
 
+      # Performs validation of both, the contract and the underlying model and returns
+      # the merged validation errors for both of them.
+      def validate_contract_and_model
+        self.validate
+        model.valid?
+
+        errors = self.errors.dup
+
+        # We need to merge the contract errors with the model errors in
+        # order to have them available at one place.
+        # This is something we need as long as we have validations split
+        # among the model and its contract.
+        model.errors.keys.each do |key|
+          model.errors[key].each do |message|
+            errors.add(key, message)
+          end
+        end
+
+        errors
+      end
+
       private
 
       def readonly_attributes_unchanged
