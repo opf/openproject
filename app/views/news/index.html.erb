@@ -29,11 +29,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title(l(:label_news_plural)) -%>
 <%= content_header title: l(:label_news_plural) do |h| %>
   <%= h.toolbar do |t| %>
-    <%= t.button l(:label_news_new), new_project_news_path(@project),
-                 title: l(:label_news_new), id: 'new_news_link',
-                 icon: :add, highlight: :alt,
-                 if: User.current.allowed_to?(:manage_news, @project)
-    %>
+    <% unless @project.nil? %>
+      <%= t.button l(:label_news_new), new_project_news_path(@project),
+                   title: l(:label_news_new), id: 'new_news_link',
+                   icon: :add, highlight: :alt,
+                   if: User.current.allowed_to?(:manage_news, @project)
+      %>
+    <% end %>
   <% end %>
 <% end %>
 <% if @newss.empty? %>
