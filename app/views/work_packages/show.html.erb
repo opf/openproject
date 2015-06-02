@@ -40,7 +40,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
 <% end %>
 
-<% scrollable = controller.send(:_layout) != 'base' %>
 <%= content_header title: "#{avatar work_package.author} #{h(work_package.to_s)}", subtitle: h(subtitle), scrollable: scrollable do |h| %>
   <%= h.toolbar do |t| %>
     <%= t.button l(:button_update), edit_work_package_path(work_package), class: 'edit', accesskey: :edit, icon: :edit, if: authorize_for(:work_packages, :edit) %>
