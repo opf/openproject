@@ -97,16 +97,10 @@ module API
           @can = WorkPackagePolicy.new(user)
         end
 
-        validate :user_allowed_to_edit
-
         extend Reform::Form::ActiveModel::ModelValidations
         copy_validations_from WorkPackage
 
         private
-
-        def user_allowed_to_edit
-          errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
-        end
 
         def validate_people_visible(attribute, id_attribute, list)
           id = model[id_attribute]
