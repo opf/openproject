@@ -26,16 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<% content_for :action_menu_specific do %>
-  <%= link_to(l(:button_edit),
-              {:action => 'edit', :id => @page},
-              :class => 'icon icon-edit',
-              :accesskey => accesskey(:edit)) %>
-  <%= link_to(l(:label_history), {:action => 'history', :id => @page}, :class => 'icon icon-wiki') %>
+<%= content_header title: h(@page.pretty_title) do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l(:button_edit), edit_project_wiki_path(@project, @page), icon: :edit, accesskey: :edit, if: authorize_for(:wiki, :edit) %>
+    <%= t.button l(:label_history), history_project_wiki_path(@project, @page), icon: :wiki, if: authorize_for(:wiki, :history) %>
+  <% end %>
 <% end %>
-<h2 class='legacy-heading'><%= h(@page.pretty_title) %></h2>
-<%= render :partial => 'layouts/action_menu_specific' %>
+
 <p>
   <%= Version.model_name.human %> <%= link_to h(@annotate.content.version), :action => 'show', :id => @page, :version => @annotate.content.version %>
   <em>(<%= h(@annotate.content.journable.author ? @annotate.content.journable.author.name : l(:label_user_anonymous)) %>, <%= format_time(@annotate.content.journable.updated_on) %>)</em>

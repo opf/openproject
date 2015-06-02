@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= call_hook :wiki_navigation %>
 <% html_title h(@page.pretty_title) %>
-<%= content_header title: h(@page.title), scrollable: true do |h| %>
+<%= content_header title: h(@page.pretty_title), scrollable: true do |h| %>
   <%= h.toolbar do |t| %>
     <%= t.button l(:button_edit), edit_project_wiki_path(@project, @page),
                  icon: :edit, accesskey: :edit,
