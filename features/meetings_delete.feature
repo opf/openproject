@@ -44,7 +44,6 @@ Feature: Delete meetings
               | duration   | 2:30                |
               | start_time | 2011-02-10 11:00:00 |
 
-  @javascript
   Scenario: Navigate to an other-created meeting with no permission to delete meetings
       Given the role "user" may have the following rights:
             | view_meetings |
@@ -53,7 +52,6 @@ Feature: Delete meetings
         And I click on "Bobs Meeting"
        Then I should not see "Delete"
 
-  @javascript
   Scenario: Navigate to a self-created meeting with permission to delete meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -63,7 +61,6 @@ Feature: Delete meetings
         And I click on "Alices Meeting"
        Then I should see "Delete"
 
-  @javascript
   Scenario: Navigate to an other-created meeting with permission to delete meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
