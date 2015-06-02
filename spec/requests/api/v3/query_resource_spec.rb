@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe 'API v3 Query resource', type: :request do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
   let(:current_user) { FactoryGirl.create(:user) }
@@ -40,7 +41,7 @@ describe 'API v3 Query resource', type: :request do
   let(:unauthorize_user) { FactoryGirl.create(:user) }
 
   describe '#star' do
-    let(:star_path) { "/api/v3/queries/#{query.id}/star" }
+    let(:star_path) { api_v3_paths.query_star query.id }
     let(:filters) do
       query.filters.map { |f| { f.field.to_s => { 'operator' => f.operator, 'values' => f.values } } }
     end
@@ -49,7 +50,7 @@ describe 'API v3 Query resource', type: :request do
         '_type' => 'Query',
         '_links' => {
           'self' => {
-            'href' => "/api/v3/queries/#{query.id}",
+            'href' => api_v3_paths.query(query.id),
             'title' => query.name
           }
         },
@@ -119,7 +120,7 @@ describe 'API v3 Query resource', type: :request do
         end
 
         context 'when trying to star nonexistent query' do
-          let(:star_path) { '/api/v3/queries/999/star' }
+          let(:star_path) { api_v3_paths.query_star 999 }
           before(:each) { patch star_path }
 
           it_behaves_like 'not found' do
@@ -195,7 +196,7 @@ describe 'API v3 Query resource', type: :request do
   end
 
   describe '#unstar' do
-    let(:unstar_path) { "/api/v3/queries/#{query.id}/unstar" }
+    let(:unstar_path) { api_v3_paths.query_unstar query.id }
     let(:filters) do
       query.filters.map { |f| { f.field.to_s => { 'operator' => f.operator, 'values' => f.values } } }
     end
@@ -204,7 +205,7 @@ describe 'API v3 Query resource', type: :request do
         '_type' => 'Query',
         '_links' => {
           'self' => {
-            'href' => "/api/v3/queries/#{query.id}",
+            'href' => api_v3_paths.query(query.id),
             'title' => query.name
           }
         },
@@ -278,7 +279,7 @@ describe 'API v3 Query resource', type: :request do
         end
 
         context 'when trying to unstar nonexistent query' do
-          let(:unstar_path) { '/api/v3/queries/999/unstar' }
+          let(:unstar_path) { api_v3_paths.query_unstar 999 }
           before(:each) { patch unstar_path }
 
           it_behaves_like 'not found' do

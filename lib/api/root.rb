@@ -31,8 +31,13 @@
 # This is the place for all API wide configuration, helper methods, exceptions
 # rescuing, mounting of differnet API versions etc.
 
+require 'open_project/authentication'
+
 module API
   class Root < Grape::API
+    include OpenProject::Authentication::Scope
+    extend API::Utilities::GrapeHelper
+
     prefix :api
 
     class Formatter
@@ -59,21 +64,55 @@ module API
 
     parser :json, Parser.new
 
+    use OpenProject::Authentication::Manager
+
     helpers do
       def current_user
-        return User.current if running_in_test_env?
-        user_id = env['rack.session']['user_id']
-        User.current = user_id ? User.find(user_id) : User.anonymous
+        User.current
+      end
+
+      def warden
+        env['warden']
       end
 
       def authenticate
-        raise API::Errors::Unauthenticated if current_user.nil? || current_user.anonymous? if Setting.login_required?
+        warden.authenticate! scope: API_V3
+
+        User.current = warden.user scope: API_V3
+
+        if Setting.login_required? and not logged_in?
+          raise ::API::Errors::Unauthenticated
+        end
       end
 
-      def authorize(permission, context: nil, global: false, user: current_user, allow: true)
-        is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
-        raise API::Errors::Unauthorized unless is_authorized && allow
-        is_authorized
+      def logged_in?
+        # An admin SystemUser is anonymous but still a valid user to be logged in.
+        current_user && (current_user.admin? || !current_user.anonymous?)
+      end
+
+      def authorize(permission, context: nil, global: false, user: current_user)
+        is_authorized = AuthorizationService.new(permission,
+                                                 context: context,
+                                                 global: global,
+                                                 user: user).call
+
+        return true if is_authorized
+
+        if block_given?
+          yield
+        else
+          raise API::Errors::Unauthorized
+        end
+
+        false
+      end
+
+      def authorize_by_with_raise(&_block)
+        if yield
+          true
+        else
+          raise API::Errors::Unauthorized
+        end
       end
 
       def running_in_test_env?
@@ -83,14 +122,19 @@ module API
       # checks whether the user has
       # any of the provided permission in any of the provided
       # projects
-      def authorize_any(permissions, projects, user: current_user)
+      def authorize_any(permissions, projects: nil, global: false, user: current_user)
+        raise ArgumentError if projects.nil? && !global
         projects = Array(projects)
 
         authorized = permissions.any? do |permission|
           allowed_condition = Project.allowed_to_condition(user, permission)
           allowed_projects = Project.where(allowed_condition)
 
-          !(allowed_projects & projects).empty?
+          if global
+            allowed_projects.any?
+          else
+            !(allowed_projects & projects).empty?
+          end
         end
 
         raise API::Errors::Unauthorized unless authorized
@@ -98,34 +142,34 @@ module API
       end
     end
 
-    rescue_from ActiveRecord::RecordNotFound do |e|
-      api_error = ::API::Errors::NotFound.new(e.message)
-      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
-      error_response(status: api_error.code, message: representer.to_json)
+    def self.auth_headers
+      { 'WWW-Authenticate' => %(Basic realm="#{OpenProject::Authentication::Realm.realm}") }
     end
 
-    rescue_from ActiveRecord::StaleObjectError do
-      api_error = ::API::Errors::Conflict.new
-      representer = ::API::V3::Errors::ErrorRepresenter.new(api_error)
-      error_response(status: api_error.code, message: representer.to_json)
+    ##
+    # Return JSON error response on authentication failure.
+    OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, _opts|
+      e = grape_error_for warden.env, self
+      error_message = I18n.t('api_v3.errors.code_401_wrong_credentials')
+      api_error = ::API::Errors::Unauthenticated.new error_message
+      representer = ::API::V3::Errors::ErrorRepresenter.new api_error
+
+      e.error_response status: 401, message: representer.to_json, headers: warden.headers
     end
 
-    rescue_from ::API::Errors::ErrorBase, rescue_subclasses: true do |e|
-      representer = ::API::V3::Errors::ErrorRepresenter.new(e)
-      error_response(status: e.code, message: representer.to_json)
-    end
+    error_response ActiveRecord::RecordNotFound, ::API::Errors::NotFound.new
+    error_response ActiveRecord::StaleObjectError, ::API::Errors::Conflict.new
+
+    error_response ::API::Errors::Unauthenticated, headers: auth_headers
+    error_response ::API::Errors::ErrorBase, rescue_subclasses: true
 
     # run authentication before each request
     before do
-      # Call current_user as it sets User.current.
-      # Not doing this might cause devs to use User.current without that value
-      # being set to the actually current user. That might result in standard
-      # users becoming admins and otherwise based on who called the ruby
-      # process last.
-      current_user
       authenticate
     end
 
-    mount API::V3::Root
+    version 'v3', using: :path do
+      mount API::V3::Root
+    end
   end
 end

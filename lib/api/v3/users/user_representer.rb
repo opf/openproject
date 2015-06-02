@@ -36,12 +36,7 @@ module API
       class UserRepresenter < ::API::Decorators::Single
         include AvatarHelper
 
-        link :self do
-          {
-            href: api_v3_paths.user(represented.id),
-            title: "#{represented.name} - #{represented.login}"
-          }
-        end
+        self_link
 
         link :lock do
           {
@@ -75,19 +70,41 @@ module API
           } if work_package && current_user_allowed_to(:delete_work_package_watchers, work_package)
         end
 
-        property :id, render_nil: true
-        property :login, render_nil: true
-        property :subtype, getter: -> (*) { type }, render_nil: true
-        property :firstname, as: :firstName, render_nil: true
-        property :lastname, as: :lastName, render_nil: true
-        property :name, render_nil: true
-        property :mail, render_nil: true
-        property :avatar, getter: -> (*) { avatar_url(represented) },
-                          render_nil: true,
-                          exec_context: :decorator
-        property :created_at, getter: -> (*) { created_on.utc.iso8601 }, render_nil: true
-        property :updated_at, getter: -> (*) { updated_on.utc.iso8601 }, render_nil: true
-        property :status, getter: -> (*) { status_name }, render_nil: true
+        property :id,
+                 render_nil: true
+        property :login,
+                 render_nil: true
+        property :subtype,
+                 getter: -> (*) { type },
+                 render_nil: true
+        property :firstname,
+                 as: :firstName,
+                 render_nil: true
+        property :lastname,
+                 as: :lastName,
+                 render_nil: true
+        property :name,
+                 render_nil: true
+        property :email,
+                 getter: -> (*) { mail },
+                 render_nil: true,
+                 # FIXME: remove the "is_a?" as soon as we have a dedicated group representer
+                 if: -> (*) { self.is_a?(User) && !pref.hide_mail }
+        property :avatar,
+                 getter: -> (*) { avatar_url(represented) },
+                 render_nil: true,
+                 exec_context: :decorator
+        property :created_on,
+                 as: 'createdAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+        property :updated_on,
+                 as: 'updatedAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
+        property :status,
+                 getter: -> (*) { status_name },
+                 render_nil: true
 
         def _type
           'User'
@@ -103,16 +120,12 @@ module API
 
         private
 
-        def current_user
-          context[:current_user]
-        end
-
         def work_package
           context[:work_package]
         end
 
         def current_user_can_delete_represented?
-          @current_user && DeleteUserService.deletion_allowed?(represented, @current_user)
+          current_user && DeleteUserService.deletion_allowed?(represented, current_user)
         end
       end
     end

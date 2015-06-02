@@ -43,11 +43,12 @@ module OpenProject
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
+      'scm_filesystem_path_whitelist' => [],
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
-      'rails_cache_store'       => nil,
+      'rails_cache_store'       => :file_store,
       'cache_expires_in_seconds' => nil,
       'cache_namespace' => nil,
       # use dalli defaults for memcache
@@ -56,6 +57,7 @@ module OpenProject
       'session_store'           => :cache_store,
       # url-path prefix
       'rails_relative_url_root' => '',
+      'rails_force_ssl' => false,
 
       # email configuration
       'email_delivery_method' => nil,
@@ -73,7 +75,11 @@ module OpenProject
       'disable_password_login' => false,
       'omniauth_direct_login_provider' => nil,
 
-      'disable_password_choice' => false
+      'disable_password_choice' => false,
+
+      'disabled_modules' => [], # allow to disable default modules
+      'hidden_menu_items' => {},
+      'blacklisted_routes' => []
     }
 
     @config = nil
@@ -191,6 +197,8 @@ module OpenProject
           cache_config = [:dalli_store]
           cache_config << @config['cache_memcache_server'] \
             if @config['cache_memcache_server']
+        elsif cache_store == :file_store
+          cache_config = [:file_store, Rails.root.join('tmp/cache')]
         else
           cache_config = [cache_store]
         end

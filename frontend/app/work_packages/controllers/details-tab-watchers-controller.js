@@ -30,7 +30,15 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
   $scope.I18n = I18n;
   $scope.focusElementIndex;
 
-  $scope.$watch('watchers.length', fetchAvailableWatchers); fetchAvailableWatchers();
+  $scope.watcher = { selected: null };
+  $scope.watcher.selected =  $scope.watchers;
+
+  fetchAvailableWatchers();
+  $scope.watcherListString = function() {
+    return _.map($scope.watcher.selected, function(item) {
+      return item.props.name;
+    }).join(', ');
+  };
 
   /**
    * @name getResourceIdentifier
@@ -83,17 +91,9 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
       });
   }
 
-  $scope.getAvailableWatchers = function(term, result) {
-    var watchers = $scope.availableWatchers.map(function(watcher) {
-      return { id: watcher.props.id, name: watcher.props.name };
-    });
-
-    result($filter('filter')(watchers, {name: term}));
-  };
-
   function addWatcher(newValue, oldValue) {
-    if (newValue) {
-      var id = newValue.id;
+    if (newValue && newValue !== oldValue) {
+      var id = newValue[newValue.length -1].props.id;
 
       if (id) {
         $scope.workPackage.link('addWatcher', {user_id: id})
@@ -146,7 +146,6 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
     });
   }
 
-  $scope.watcher = { selected: null };
-
+  $scope.$watch('watchers.length', fetchAvailableWatchers);
   $scope.$watch('watcher.selected', addWatcher);
 };

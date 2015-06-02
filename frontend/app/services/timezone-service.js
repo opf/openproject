@@ -30,11 +30,11 @@ module.exports = function(ConfigurationService, I18n) {
   var TimezoneService = {
 
     setupLocale: function() {
-      moment.lang(I18n.locale);
+      moment.locale(I18n.locale);
     },
 
-    parseDate: function(date) {
-      var d = moment.utc(date);
+    parseDate: function(date, format) {
+      var d = moment.utc(date, format);
 
       if (ConfigurationService.isTimezoneSet()) {
         d.local();
@@ -44,29 +44,29 @@ module.exports = function(ConfigurationService, I18n) {
       return d;
     },
 
+    parseISODate: function(date) {
+      return TimezoneService.parseDate(date, 'YYYY-MM-DD');
+    },
+
     formattedDate: function(date) {
-      var date;
-
-      if (ConfigurationService.dateFormatPresent()) {
-        date = TimezoneService.parseDate(date).format(ConfigurationService.dateFormat());
-      } else {
-        date = TimezoneService.parseDate(date).format('L');
-      }
-
-      return date;
+      var format = ConfigurationService.dateFormatPresent() ? ConfigurationService.dateFormat() : 'L';
+      return TimezoneService.parseDate(date).format(format);
     },
 
     formattedTime: function(date) {
-      var time;
-
-      if (ConfigurationService.timeFormatPresent()) {
-        time = TimezoneService.parseDate(date).format(ConfigurationService.timeFormat());
-      } else {
-        time = TimezoneService.parseDate(date).format('LT');
-      }
-
-      return time;
+      var format = ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
+      return TimezoneService.parseDate(date).format(format);
     },
+
+    formattedISODate: function(date) {
+      return TimezoneService.parseDate(date).format('YYYY-MM-DD');
+    },
+
+    isValid: function(date, dateFormat) {
+      var format = dateFormat || (ConfigurationService.dateFormatPresent() ?
+                   ConfigurationService.dateFormat() : 'L');
+      return moment(date, [format]).isValid();
+    }
   };
 
   return TimezoneService;

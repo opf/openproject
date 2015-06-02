@@ -44,7 +44,7 @@ EMAIL_DELIVERY_METHOD="smtp"
 SMTP_ADDRESS="smtp.example.net"
 SMTP_PORT="587"
 SMTP_DOMAIN="example.net"
-SMTP_AUTHENTICAITON="plain"
+SMTP_AUTHENTICATION="plain"
 SMTP_USER_NAME="user"
 SMTP_PASSWORD="password"
 SMTP_ENABLE_STARTTLS_AUTO="true"
@@ -78,11 +78,15 @@ storage config above like this:
 * `autologin_cookie_secure` (default: false)
 * `database_cipher_key`     (default: nil)
 * `scm_git_command` (default: 'git')
-* `scm_subversion_command` (default: 'git')
+* `scm_subversion_command` (default: 'svn')
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
 * [`attachments_storage`](#attachments-storage) (default: file)
+* [`hidden_menu_items`](#hidden-menu-items) (default: {})
+* [`disabled_modules`](#disabled-modules) (default: [])
+* [`blacklisted_routes`](#blacklisted-routes) (default: [])
+* [`global_basic_auth`](#global-basic-auth)
 
 ### disable password login
 
@@ -147,6 +151,108 @@ In the case of fog you only have to configure everything under `fog`, however. D
 to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source
 for the migration.
 
+### hidden menu items
+
+*default: {}*
+
+You can disable specific menu items in the menu sidebar for each main menu (such as Administration and Projects).
+The following example disables all menu items except 'Users', 'Groups' and 'Custom fields' under 'Administration':
+
+```
+hidden_menu_items:
+  admin_menu:
+    - roles
+    - types
+    - statuses
+    - workflows
+    - enumerations
+    - settings
+    - ldap_authentication
+    - colors
+    - project_types
+    - export_card_configurations
+    - plugins
+    - info
+```
+
+The configuration can be overridden through environment variables.
+You have to define one variable for each menu.
+For instance 'Roles' and 'Types' under 'Administration' can be disabled by defining the following variable:
+
+```
+OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU='roles types'
+```
+
+### blacklisted routes
+
+*default: []*
+
+You can blacklist specific routes
+The following example forbid all routes for above disabled menu:
+
+```
+blacklisted_routes:
+  - 'admin/info'
+  - 'admin/plugins'
+  - 'export_card_configurations'
+  - 'project_types'
+  - 'colors'
+  - 'settings'
+  - 'admin/enumerations'
+  - 'workflows/*'
+  - 'statuses'
+  - 'types'
+  - 'admin/roles'
+```
+
+The configuration can be overridden through environment variables.
+
+```
+OPENPROJECT_BLACKLISTED__ROUTES='admin/info admin/plugins'
+```
+
+### disabled modules
+
+*default: []*
+
+Modules may be disabled through the configuration.
+Just give a list of the module names either as an array or as a string with values separated by spaces.
+
+**Array example:**
+
+```
+disabled_modules:
+  - backlogs
+  - meetings
+```
+
+**String example:**
+
+```
+disabled_modules: backlogs meetings
+```
+
+The option to use a string is mostly relevant for when you want to override the disabled modules via ENV variables:
+
+```
+OPENPROJECT_DISABLED__MODULES='backlogs meetings'
+```
+
+### global basic auth
+
+*default: none*
+
+You can define a global set of credentials used to authenticate towards API v3.
+Example section for `configuration.yml`:
+
+```
+default:
+  authentication:
+    global_basic_auth:
+      user: admin
+      password: admin
+```
+
 ## Email configuration
 
 * `email_delivery_method`: The way emails should be delivered. Possible values: `smtp` or `sendmail`
@@ -168,3 +274,5 @@ for the migration.
 * `cache_memcache_server`: The memcache server host and IP (default: `127.0.0.1:11211`)
 * `cache_expires_in`: Expiration time for memcache entries (default: `0`, no expiry)
 * `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: none)
+
+

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-  describe :overdue do
+  describe '#overdue' do
     let(:work_package) {
       FactoryGirl.create(:work_package,
                          due_date: due_date)
@@ -84,7 +84,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :behind_schedule? do
+  describe '#behind_schedule?' do
     let(:work_package) {
       FactoryGirl.create(:work_package,
                          start_date: start_date,

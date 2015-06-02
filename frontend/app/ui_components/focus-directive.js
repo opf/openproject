@@ -38,6 +38,10 @@ module.exports = function(FocusHelper) {
   }
 
   function updateFocus(scope, element, attrs) {
+    if (element.hasClass('ui-select-multiple')) {
+      return element.find('input.ui-select-search').focus();
+    }
+
     var condition = (attrs.focus) ? scope.$eval(attrs.focus) : true;
 
     if (condition) {

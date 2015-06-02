@@ -31,7 +31,7 @@ require 'features/work_packages/work_packages_page'
 
 shared_context 'Toggable fieldset examples' do
   def toggable_title
-    find('legend a', text: fieldset_name)
+    find('legend a', text: /#{fieldset_name}/i)
   end
 
   def toggable_content

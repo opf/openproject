@@ -34,9 +34,6 @@ var modalHelperInstance = {
   setupTimeline: nop
 };
 
-
-jQuery.fn.slider = {};
-
 var possibleData = {
   projects: [{
       "id":1,

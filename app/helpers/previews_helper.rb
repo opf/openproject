@@ -28,8 +28,15 @@
 #++
 
 module PreviewsHelper
-  def preview_link(path, form_id, options = {})
-    options = { class: 'preview', accesskey: accesskey(:preview), id: form_id }.merge(options)
+  def preview_link(path, link_id, options = {})
+    options = {
+      accesskey: accesskey(:preview),
+      id: link_id,
+      'has-preview' => '',
+      # NOTE:   legacy JS relies on preview class
+      # FIXME:  fix preview icon naming
+      class: 'button preview -with-icon icon-issue-watched'
+    }.merge(options)
 
     link_to path, options do
       l(:label_preview)

@@ -40,7 +40,7 @@ Then /^I should see the dropdown of available widgets$/ do
 end
 
 Then(/^I should see the widget "([^"]*)"$/) do |arg|
-  page.find("#widget_#{arg}").should_not be_nil
+  page.find("#block_#{arg}").should_not be_nil
 end
 
 Then /^"(.+)" should( not)? be disabled in the my page available widgets drop down$/ do |widget_name, neg|

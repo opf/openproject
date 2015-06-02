@@ -36,13 +36,25 @@ module API
         fail ArgumentError, 'UnwritableProperty error must contain at least one invalid attribute!' if attributes.empty?
 
         if attributes.length == 1
-          message = I18n.t('api_v3.errors.writing_read_only_attributes')
+          message = if attributes.length == 1
+                      begin
+                        I18n.t("api_v3.errors.validation.#{attributes.first}", raise: true)
+                      rescue I18n::MissingTranslationData
+                        I18n.t('api_v3.errors.writing_read_only_attributes')
+                      end
+                    else
+                      I18n.t('api_v3.errors.multiple_errors')
+                    end
         else
           message = I18n.t('api_v3.errors.multiple_errors')
         end
 
         super 422, message
 
+        evaluate_attributes(attributes, invalid_attributes)
+      end
+
+      def evaluate_attributes(attributes, invalid_attributes)
         if attributes.length > 1
           invalid_attributes.each do |attribute|
             @errors << UnwritableProperty.new(attribute)

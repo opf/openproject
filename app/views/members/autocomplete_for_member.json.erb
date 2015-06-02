@@ -32,12 +32,12 @@ See doc/COPYRIGHT.rdoc for more details.
   {
     "items":[
   <% @principals.each_with_index do |principal, ix| %>
-    {
+  {
       "id":   <%= principal.id.to_json.html_safe %>,
       "name": <%= principal.name.to_json.html_safe %>
-    } <%= "," unless ix == @principals.length - 1 %>
-  <% end %> ],
+  } <%= "," unless ix == @principals.length - 1 %>
+<% end %> ],
     "total": <%= @total ? @total : @principals.size %>,
     "more": <%= @more ? @more : 0 %>
-  }
+}
 }

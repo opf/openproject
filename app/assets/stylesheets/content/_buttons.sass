@@ -26,19 +26,108 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/all
+$button--font-color:                        #222222 !default
+$button--background-color:                  $gray-light !default
+$button--background-hover-color:            darken($button--background-color, 4.5%)  !default
+$button--border-color:                      darken($button--background-color, 10.5%) !default
 
-a.button_highlight, .button_highlight
-  @include button-highlight
+$button--active-font-color:                 darken($button--background-color, 24%) !default
+$button--active-background-color:           darken($button--background-color, 4%)  !default
+$button--active-border-color:               darken($button--background-color, 18%) !default
 
-a.button, .button
-  @include button
-  &.active
-    @include button-active
+$button--highlight-font-color:              white !default
+$button--highlight-background-color:        $primary-color !default
+$button--highlight-background-hover-color:  $primary-color-dark !default
 
-a.button_active, .button_active
-  @include button-active
+$button--alt-highlight-font-color:                white !default
+$button--alt-highlight-background-color:          $alternative-color !default
+$button--alt-highlight-background-hover-color:    darken($alternative-color, 18%) !default
 
-input.button, input.button_highlight
-  margin-top: 0
-  padding: 2px 10px
+$button--text-icon-spacing:                 0.65em !default
+
+.button,
+a.button
+  @extend %button
+  @include button-size(medium)
+  @include button-expand(false)
+  @include button-style($button--background-color, $button--background-hover-color, $button--font-color, $button-style)
+  border: 1px solid $button--border-color
+
+  transition-property: background, border
+  transition-duration: 0.25s
+  transition-timing-function: ease-out
+
+  &:disabled
+    @include button-disabled
+
+  &:hover
+    text-decoration: none
+
+  &.-with-icon
+    &::before
+      padding: 0 $button--text-icon-spacing 0 0
+
+  &.-highlight
+    @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
+    border-color: $button--highlight-background-color
+
+    &:hover, &:focus
+      border-color: $button--highlight-background-hover-color
+
+
+  &.-alt-highlight
+    @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
+    border-color: $button--alt-highlight-background-color
+
+    &:hover, &:focus
+      border-color: $button--alt-highlight-background-hover-color
+
+
+  &.-active
+    @include button-style($button--active-background-color, $button--active-background-color, $button--active-font-color, $button-style)
+    border-color: $button--active-border-color
+    box-shadow: 0 0 3px $button--active-border-color inset
+
+
+  &.-transparent
+    @include button-style($background: $button--font-color, $style: hollow)
+    border-color: transparent
+
+    &:hover, &:focus
+      border-color: $button--border-color
+
+    &.-active
+      background: $button--active-background-color
+
+      &:hover, &:focus
+        border-color: $button--active-border-color
+
+  &.-tiny
+    @include button-size(tiny)
+
+  &.-small
+    @include button-size(small)
+
+  &.-large
+    @include button-size(large)
+
+  &.-expand
+    @include button-expand
+
+  &.-round
+    border-radius: 2em
+
+.button--icon
+  @include icon-common
+
+.button--icon + .button--text,
+.button--text + .button--icon
+  margin: 0 0 0 $button--text-icon-spacing
+
+.button--dropdown-indicator
+  @include icon-common
+  padding: 0 0 0 3px
+  font-size: rem-calc(13px)
+
+  &:before
+    @extend .icon-pulldown-arrow1:before

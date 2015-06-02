@@ -50,6 +50,11 @@ module.exports = function HALAPIResource($timeout, $q, PathHelper) {
         return jQuery.ajax(settings);
       });
       Hyperagent.configure('defer', $q.defer);
+      // keep this if you want null values to not be overwritten by
+      // Hyperagent.js miniscore
+      // this weird line replaces HA miniscore with normal underscore
+      // Freud would be happy with what ('_', _) reminds me of
+      Hyperagent.configure('_', _);
     },
 
     setup: function(uri) {

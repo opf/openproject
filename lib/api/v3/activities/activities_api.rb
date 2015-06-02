@@ -26,20 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/activities/activity_representer'
+
 module API
   module V3
     module Activities
-      class ActivitiesAPI < Grape::API
+      class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
 
           params do
             requires :id, desc: 'Activity id'
           end
-          namespace ':id' do
+          route_param :id do
 
             before do
               @activity = Journal.find(params[:id])
-              @representer = ::API::V3::Activities::ActivityRepresenter.new(@activity, current_user: current_user)
+              @representer = ActivityRepresenter.new(@activity, current_user: current_user)
             end
 
             get do
@@ -50,7 +52,7 @@ module API
             helpers do
               def save_activity(activity)
                 if activity.save
-                  representer = ::API::V3::Activities::ActivityRepresenter.new(activity)
+                  representer = ActivityRepresenter.new(activity)
 
                   representer
                 else

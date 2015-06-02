@@ -49,7 +49,7 @@ module.exports = function(PathHelper, CommonRelationsHandler, WorkPackageService
             parentId: null
           };
 
-          WorkPackageService.updateWorkPackage(scope.relation, params).then(function(response){
+          WorkPackageService.updateWithPayload(scope.relation, params).then(function(response){
               handler.relations.splice(index, 1);
               scope.workPackage.props.lockVersion = response.props.lockVersion;
               scope.updateFocus(index);

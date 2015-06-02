@@ -53,5 +53,5 @@ end
 
 Then /^I should( not)? see (\d+) error message(?:s)?$/ do |negative, count|
   equal = page.all('.errorExplanation').count == count.to_i
-  negative ? (equal.should_not be_true) : (equal.should be_true)
+  negative ? (equal.should_not be_truthy) : (equal.should be_truthy)
 end

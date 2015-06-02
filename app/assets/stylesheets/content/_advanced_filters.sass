@@ -1,0 +1,129 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+.advanced-filters--container
+  @extend %filters--container
+  padding: rem-calc(10px)
+  max-height: 50vh
+  overflow-y: auto
+
+@mixin advanced-filters--sizing()
+  @include grid-block()
+
+  @include breakpoint(medium)
+    @include grid-size(12)
+
+  @include breakpoint(large)
+    @include grid-size(10)
+
+  @include breakpoint(xlarge)
+    @include grid-size(8)
+
+  @include breakpoint(xxlarge)
+    @include grid-size(6)
+
+  @include breakpoint(xxxlarge)
+    @include grid-size(5)
+
+.advanced-filters--filters
+  list-style-type:  none
+  margin:           0
+
+.advanced-filters--filter
+  @include advanced-filters--sizing
+  align-items:      center
+  padding:          0.5rem 0
+
+.advanced-filters--text-field
+  @extend .form--text-field, .form--text-field.-small
+  &:required
+    box-shadow: none
+
+.advanced-filters--select
+  @extend .form--select, .form--select.-small, .form--select.-narrow
+  margin-bottom: 0
+
+.advanced-filters--number-field
+  @extend .form--text-field, .form--text-field.-small
+
+%advanced-filters--filter-part
+  .inline-label
+    margin-bottom: 0
+  // adding the input rules to be more specific than the resets of
+  // foundation.
+  input, select
+    margin-bottom: 0
+
+.advanced-filters--filter-name
+  @include grid-content(3)
+  @extend %advanced-filters--filter-part
+  overflow-y: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+
+.advanced-filters--filter-operator
+  @include grid-content(3)
+  @extend %advanced-filters--filter-part
+
+.advanced-filters--filter-value
+  @include grid-content(5)
+  @extend %advanced-filters--filter-part
+
+.advanced-filters--remove-filter
+  @include grid-content($size: shrink)
+  @include grid-visible-overflow
+  padding: 0
+
+.advanced-filters--remove-filter-icon
+  @extend .icon-close, .icon4
+  @include grid-content(1)
+  @include grid-visible-overflow
+
+.advanced-filters--add-filter
+  @include advanced-filters--sizing
+  @extend %advanced-filters--filter-part
+  align-items:      center
+  padding:          0.25rem 0
+
+.advanced-filters--add-filter-label
+  @include grid-content(shrink)
+
+.advanced-filters--add-filter-label-icon
+  @extend .icon-add, .icon4
+
+.advanced-filters--add-filter-value
+  @include grid-content(3)
+
+.advanced-filters--spacer
+  border-top:   1px solid $filters--border-color
+  height: 1px
+  margin:          0.75rem 1rem
+
+
+fieldset#date-range p
+  margin: 2px 0 2px 0

@@ -29,6 +29,8 @@
 module.exports = function($http, PathHelper) {
 
   var VersionService = {
+
+    // TODO: check if code invoked anywere
     getVersions: function(projectIdentifier) {
       var url;
 

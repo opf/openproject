@@ -140,13 +140,13 @@ describe Project, type: :model do
       it 'exposes the via source helper associations' do
         project = FactoryGirl.create(:project)
 
-        expect { project.reportings_via_source }.to_not raise_error
+        expect { project.reportings_via_source }.not_to raise_error
       end
 
       it 'exposes the via target helper associations' do
         project = FactoryGirl.create(:project)
 
-        expect { project.reportings_via_target }.to_not raise_error
+        expect { project.reportings_via_target }.not_to raise_error
       end
     end
 

@@ -27,8 +27,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<p>
-  <%= form.text_area :summary, :rows => 2, :class => 'wiki-edit',
-                     :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
+<%
+  project = form.object
+  autocomplete_path = work_packages_auto_complete_path(project_id: project,
+                                                       format: :json)
+%>
+
+
+<div class="form--field">
+  <%= form.text_area :summary,
+                     rows: 2,
+                     class: 'wiki-edit',
+                     :'data-wp_autocomplete_url' => autocomplete_path,
                      :'ng-non-bindable' => '' %>
-</p>
+</div>

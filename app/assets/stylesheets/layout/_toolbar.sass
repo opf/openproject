@@ -26,25 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@mixin querySelectDropdownFilterSelect($color)
+@mixin query-select-dropdown-filter-select($color)
   text-decoration: underline
   color: $color
 
-@mixin querySelectionLink($color)
+@mixin query-selection-link($color)
   a
     color: $color
     font-weight: normal
     text-decoration: none
 
 .toolbar-container
-  $line-height: 20px
-  $padding: 10px
-  $sub-min-width: 200px
-  $sub-max-width: 300px
-  $drop-item-back-color: #a91e2f
+  padding: 0
+  margin-bottom: 12px
 
-  height:  $header_height
-  padding: 0px
+  > .subtitle
+    font-size: rem-calc(14px)
+    font-style: italic
+    margin-top: rem-calc(5px)
+    margin-bottom: 10px
 
 #toolbar
   ul
@@ -55,41 +55,50 @@
   li
     list-style-type: none
 
+// automatically clear the toolbar
+#toolbar:after
+  clear: both
+  content: ""
+  display: table
+
 #toolbar-items
   li
     float: left
     &.toolbar-item
       margin: 0 5px //$drop-nav-spacing // spacing between nav items
 
-  button
-    margin-right: 0
+  button, .button, input[type=text], input[type=number], select
+    margin: 0.625rem 0 0
+    height: 40px
+    line-height: 22px
+  select
+    //extend forms select
+    @extend .form--select
+    //hack vertical text alignment for select (for all browsers)
+    padding-top: 5px
+    padding-bottom: 11px
+    //firefox hack, outline fix for select, remove to see why
+    &:-moz-focusring
+      color: transparent
+      text-shadow: 0 0 0 #000
 
   a.last, .last
-    margin-right: 0px
-    //font-size: $font-size
-    //line-height: $line-height
-
-
+    margin-right: 0
 
 .title-container
-  $line-height: 20px
-  $padding: 10px
-  $sub-max-width: 300px
-  $drop-item-back-color: #a91e2f
-
   h2
     border: 0
     padding: 12px 0 0 0
 
   span
-    color: $content_link_color
+    color: $content-link-color
 
     &:hover
       text-decoration: underline
 
   float:   left
-  height:  $header_height
-  padding: 0px
+  height:  $header-height
+  padding: 0
 
   ul
     margin:  0
@@ -100,7 +109,7 @@
     float: none
 
   span.filter-selection
-    @include querySelectDropdownFilterSelect($main_menu_font_color)
+    @include query-select-dropdown-filter-select($main-menu-font-color)
 
   .dropdown-scrollable
     overflow-y: auto
@@ -122,33 +131,36 @@
     margin: 0 0 10px 0
     float: left
     li
-      color: $main_menu_font_color
-      padding: 4px 25px
+      color: $main-menu-font-color
       display: block
-      @include querySelectionLink($drop_down_unselected_font_color)
+      @include query-selection-link($drop-down-unselected-font-color)
       &.selected
-        background: $drop_down_selected_bg_color
-        @include querySelectionLink($drop_down_selected_font_color)
+        background: $drop-down-selected-bg-color
+        @include query-selection-link($drop-down-selected-font-color)
         &:hover
-          @include querySelectionLink($drop_down_unselected_font_color)
+          @include query-selection-link($drop-down-unselected-font-color)
           span.filter-selection
-            @include querySelectDropdownFilterSelect($drop_down_unselected_font_color)
+            @include query-select-dropdown-filter-select($drop-down-unselected-font-color)
         span.filter-selection
-          @include querySelectDropdownFilterSelect($drop_down_selected_font_color)
+          @include query-select-dropdown-filter-select($drop-down-selected-font-color)
       &:hover
         background: #f0f0f0
+      a
+        display: block
+        width: 100%
+        height: 100%
+        padding: 4px 25px
   .search-query-wrapper
     padding: 15px
   input
+    box-sizing: border-box
     margin: 0 auto
     width: 100%
     min-width: 250px
     height: 30px
     line-height: 30px
-    padding: 0 0px
     background: #ffffff
     border: 1px solid #cacaca
-    font-size: 13px
     color: #222222
     border-radius: 2px
   .title-group-header
@@ -157,9 +169,9 @@
     text-transform: uppercase
   #magnifier
     position: absolute
-    margin: 8px 0 0 -22px
+    top:   24px
+    right: 22px
     color: #999999
-    font-size: 12px
 
   input[type="search"]::-webkit-search-cancel-button
     display: none

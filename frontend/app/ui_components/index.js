@@ -42,9 +42,9 @@ angular.module('openproject.uiComponents')
   .directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', require(
     './authoring-directive')])
   .directive('backUrl', [require('./back-url-directive')])
-  .directive('date', ['TimezoneService', require('./date/date-directive')])
-  .directive('time', ['TimezoneService', require('./date/time-directive')])
-  .directive('dateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
+  .directive('opDate', ['TimezoneService', require('./date/date-directive')])
+  .directive('opTime', ['TimezoneService', require('./date/time-directive')])
+  .directive('opDateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
   .directive('executeOnEnter', ['ENTER_KEY', require(
@@ -67,16 +67,12 @@ angular.module('openproject.uiComponents')
     'FocusHelper',
     require('./has-dropdown-menu-directive')
   ])
+  .directive('hasPreview', [
+    require('./has-preview-directive')
+  ])
   .service('I18n', [require('./i18n')])
   .directive('iconWrapper', [require('./icon-wrapper-directive')])
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
-  .directive('inplaceEditor', [
-      '$timeout',
-      'FocusHelper',
-      'InplaceEditorDispatcher',
-      require('./inplace-editor-directive')
-  ])
-  .service('InplaceEditorDispatcher', require('./inplace-editor-dispatcher'))
   .directive('modal', [require('./modal-directive')])
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
   .directive('progressBar', ['I18n', require('./progress-bar-directive')])
@@ -104,6 +100,7 @@ angular.module('openproject.uiComponents')
     './toggled-multiselect-directive')])
   .directive('toolbar', require('./toolbar-directive'))
   .constant('ESC_KEY', 27)
+  .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))

@@ -29,12 +29,17 @@
         },
         "responsible": {
           "href": "/api/v3/users/1"
+        },
+        "version": {
+          "href": "/api/v3/versions/1"
+        },
+        "priority": {
+          "href": null
         }
       },
       "lockVersion": 145,
       "subject": "66666os=",
-      "rawDescription": "",
-      "parentId": 54
+      "rawDescription": ""
     },
     "schema": {
       "_type": {
@@ -228,6 +233,156 @@
           }
         },
         "type": "User"
+      },
+      "version": {
+        "_links": {
+          "allowedValues": [{
+            "href": "/api/v3/versions/1",
+            "title": "alpha"
+          }, {
+            "href": "/api/v3/versions/2",
+            "title": "beta"
+          }]
+        },
+        "type": "Version",
+        "_embedded": {
+          "allowedValues": [{
+            "_type": "Version",
+            "_links": {
+              "self": {
+                "href": "/api/v3/versions/1",
+                "title": "alpha"
+              },
+              "definingProject": {
+                "href": "/api/v3/projects/1",
+                "title": "Seeded Project"
+              },
+              "availableInProjects": {
+                "href": "/api/v3/versions/1/projects"
+              }
+            },
+            "id": 1,
+            "name": "alpha",
+            "description": {
+              "format": "plain",
+              "raw": ""
+            },
+            "startDate": "2014-10-23",
+            "endDate": null,
+            "status": "open",
+            "createdAt": "01/21/2015/ 09:30 AM",
+            "updatedAt": "01/21/2015/ 09:30 AM"
+          }, {
+            "_type": "Version",
+            "_links": {
+              "self": {
+                "href": "/api/v3/versions/2",
+                "title": "beta"
+              },
+              "definingProject": {
+                "href": "/api/v3/projects/1",
+                "title": "Seeded Project"
+              },
+              "availableInProjects": {
+                "href": "/api/v3/versions/2/projects"
+              }
+            },
+            "id": 2,
+            "name": "beta",
+            "description": {
+              "format": "plain",
+              "raw": ""
+            },
+            "startDate": null,
+            "endDate": null,
+            "status": "open",
+            "createdAt": "01/21/2015/ 09:30 AM",
+            "updatedAt": "01/21/2015/ 09:30 AM"
+          }]
+        }
+      },
+      "priority":{
+        "_links":{
+          "allowedValues":[
+            {
+              "href":"/api/v3/priorities/1",
+              "title":"Low"
+            },
+            {
+              "href":"/api/v3/priorities/2",
+              "title":"Normal"
+            },
+            {
+              "href":"/api/v3/priorities/3",
+              "title":"High"
+            },
+            {
+              "href":"/api/v3/priorities/4",
+              "title":"Immediate"
+            }
+          ]
+        },
+        "type":"Priority",
+        "_embedded":{
+          "allowedValues":[
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/1",
+                  "title":"Low"
+                }
+              },
+              "id":1,
+              "name":"Low",
+              "position":1,
+              "isDefault":false,
+              "isActive":true
+            },
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/2",
+                  "title":"Normal"
+                }
+              },
+              "id":2,
+              "name":"Normal",
+              "position":2,
+              "isDefault":true,
+              "isActive":true
+            },
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/3",
+                  "title":"High"
+                }
+              },
+              "id":3,
+              "name":"High",
+              "position":3,
+              "isDefault":false,
+              "isActive":true
+            },
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/4",
+                  "title":"Immediate"
+                }
+              },
+              "id":4,
+              "name":"Immediate",
+              "position":5,
+              "isDefault":false,
+              "isActive":true
+            }
+          ]
+        }
       }
     },
     "validationErrors": {}

@@ -56,7 +56,7 @@ describe StatusesController, type: :controller do
     it { is_expected.not_to be_nil }
   end
 
-  describe :index do
+  describe '#index' do
     let(:template) { 'index' }
 
     before { get :index }
@@ -64,7 +64,7 @@ describe StatusesController, type: :controller do
     it_behaves_like :response
   end
 
-  describe :new do
+  describe '#new' do
     let(:template) { 'new' }
 
     before { get :new }
@@ -72,7 +72,7 @@ describe StatusesController, type: :controller do
     it_behaves_like :response
   end
 
-  describe :create do
+  describe '#create' do
     let(:name) { 'New Status' }
 
     before { post :create, status: { name: name } }
@@ -82,10 +82,10 @@ describe StatusesController, type: :controller do
     it_behaves_like :redirect
   end
 
-  describe :edit do
+  describe '#edit' do
     let(:template) { 'edit' }
 
-    context :default do
+    context 'default' do
       let!(:status_default) {
         FactoryGirl.create(:status,
                            is_default: true)
@@ -95,7 +95,7 @@ describe StatusesController, type: :controller do
 
       it_behaves_like :response
 
-      describe :view do
+      describe '#view' do
         render_views
 
         it do
@@ -114,11 +114,11 @@ describe StatusesController, type: :controller do
 
       it_behaves_like :response
 
-      describe :view do
+      describe '#view' do
         render_views
 
         it do
-          assert_tag tag: 'p',
+          assert_tag tag: 'div',
                      content: Status.human_attribute_name(:is_default)
         end
       end
@@ -126,7 +126,7 @@ describe StatusesController, type: :controller do
 
   end
 
-  describe :update do
+  describe '#update' do
     let(:name) { 'Renamed Status' }
 
     before do
@@ -142,7 +142,7 @@ describe StatusesController, type: :controller do
     it_behaves_like :redirect
   end
 
-  describe :destroy do
+  describe '#destroy' do
     let(:name) { status.name }
 
     shared_examples_for :destroyed do
@@ -200,9 +200,9 @@ describe StatusesController, type: :controller do
     end
   end
 
-  describe :update_work_package_done_ratio do
+  describe '#update_work_package_done_ratio' do
     shared_examples_for :flash do
-      it { is_expected.to set_the_flash.to(message) }
+      it { is_expected.to set_flash.to(message) }
     end
 
     context "with 'work_package_done_ratio' using 'field'" do

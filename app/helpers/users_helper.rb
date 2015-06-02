@@ -28,6 +28,8 @@
 #++
 
 module UsersHelper
+  include OpenProject::FormTagHelper
+
   def users_status_options_for_select(selected)
     user_count_by_status = User.count(group: 'status').to_hash
     user_count_by_status.merge! blocked: User.blocked.count,
@@ -103,7 +105,7 @@ module UsersHelper
 
   def change_user_status_buttons(user)
     build_change_user_status_action(user) do |title, name|
-      submit_tag(title, name: name)
+      submit_tag(title, name: name, class: 'button')
     end
   end
 

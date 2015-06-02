@@ -56,7 +56,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(true)
     end
 
-    describe :repo_auth, 'for valid login, but no access to repo_auth' do
+    describe '#repo_auth', 'for valid login, but no access to repo_auth' do
       before(:each) do
         @key = Setting.sys_api_key
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
@@ -69,7 +69,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
     end
 
-    describe :repo_auth, 'for valid login and user has browse repository permission (role reporter) for project' do
+    describe '#repo_auth', 'for valid login and user has browse repository permission (role reporter) for project' do
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
@@ -90,7 +90,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
     end
 
-    describe :repo_auth, 'for valid login and user has commit access permission (role developer) for project' do
+    describe '#repo_auth', 'for valid login and user has commit access permission (role developer) for project' do
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
@@ -112,7 +112,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
     end
 
-    describe :repo_auth, 'for invalid login and user has role manager for project' do
+    describe '#repo_auth', 'for invalid login and user has role manager for project' do
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
@@ -128,7 +128,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
     end
 
-    describe :repo_auth, 'for valid login and user is not member for project' do
+    describe '#repo_auth', 'for valid login and user is not member for project' do
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
@@ -141,7 +141,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
     end
 
-    describe :repo_auth, 'for valid login and project is public' do
+    describe '#repo_auth', 'for valid login and project is public' do
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: true)
@@ -160,7 +160,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
     end
 
-    describe :repo_auth, 'for invalid credentials' do
+    describe '#repo_auth', 'for invalid credentials' do
       before(:each) do
         @key = Setting.sys_api_key
         post 'repo_auth',  key: @key, repository: 'any-repo', method: 'GET'
@@ -172,7 +172,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
     end
 
-    describe :repo_auth, 'for invalid api key' do
+    describe '#repo_auth', 'for invalid api key' do
       before(:each) do
         @key = 'invalid'
       end
@@ -197,7 +197,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       allow(Rails.cache).to receive(:kind_of?).with(anything).and_return(false)
     end
 
-    describe :cached_user_login do
+    describe '#cached_user_login' do
       let(:cache_key) {
         OpenProject::RepositoryAuthentication::CACHE_PREFIX +
           Digest::SHA1.hexdigest("#{valid_user.login}#{valid_user_password}")

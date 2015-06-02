@@ -30,10 +30,10 @@
 module API
   module V3
     module Versions
-      class VersionsAPI < Grape::API
+      class VersionsAPI < ::API::OpenProjectAPI
         resources :versions do
 
-          namespace ':id' do
+          route_param :id do
 
             before do
               @version = Version.find(params[:id])
@@ -47,7 +47,7 @@ module API
 
                 permissions = [:view_work_packages, :manage_versions]
 
-                authorize_any(permissions, projects, user: current_user)
+                authorize_any(permissions, projects: projects, user: current_user)
               end
 
               def context
@@ -59,7 +59,7 @@ module API
               VersionRepresenter.new(@version, context)
             end
 
-            mount API::V3::Versions::VersionsProjectsAPI
+            mount ::API::V3::Versions::ProjectsByVersionAPI
           end
         end
       end

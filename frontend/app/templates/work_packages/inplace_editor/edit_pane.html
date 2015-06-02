@@ -1,0 +1,28 @@
+<div class="inplace-edit--write edit-strategy-{{ strategy }}" ng-show="fieldController.isEditing">
+  <form class="inplace-edit--form" ng-if="fieldController.isEditing" name="editPaneController.editForm" ng-submit="editPaneController.submit(false)" novalidate>
+      <div class="inplace-edit--write-value" ng-include="templateUrl" ng-click="editPaneController.markActive()" tabindex="-1">
+      </div>
+    <div class="inplace-edit--dashboard">
+      <div class="inplace-edit--errors" ng-show="editPaneController.error">
+        <i class="icon-attention2 inplace-edit--errors--icon"></i>
+        <div class="inplace-edit--errors--text" ng-bind="editPaneController.error" role="alert" aria-live="polite"></div>
+      </div>
+      <div class="inplace-edit--controls" ng-hide="fieldController.state.isBusy || !editPaneController.isActive()">
+        <accessible-by-keyboard execute="editPaneController.submit(false)" class="inplace-edit--control inplace-edit--control--save">
+          <icon-wrapper icon-name="yes" icon-title="{{ editPaneController.saveTitle }}">
+          </icon-wrapper>
+        </accessible-by-keyboard>
+        <accessible-by-keyboard execute="editPaneController.submit(true)" class="inplace-edit--control -icons-2 inplace-edit--control--send">
+            <span title="{{ editPaneController.saveAndSendTitle }}">
+              <i class="icon-yes"></i>
+              <i class="icon-mail"></i>
+            </span>
+        </accessible-by-keyboard>
+        <accessible-by-keyboard execute="editPaneController.discardEditing()" class="inplace-edit--control inplace-edit--control--cancel">
+          <icon-wrapper icon-name="close" icon-title="{{ editPaneController.cancelTitle }}">
+          </icon-wrapper>
+        </accessible-by-keyboard>
+      </div>
+    </div>
+  </form>
+</div>

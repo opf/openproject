@@ -1,0 +1,27 @@
+{
+  "_type": "Version",
+  "_links": {
+    "self": {
+      "href": "/api/v3/versions/2",
+      "title": "v2"
+    },
+    "definingProject": {
+      "href": null
+    },
+    "availableInProjects": {
+      "href": "/api/v3/versions/2/projects"
+    }
+  },
+  "id": 2,
+  "name": "v2",
+  "description": {
+    "format": "plain",
+    "raw": "",
+    "html": ""
+  },
+  "startDate": "2015-02-02",
+  "endDate": null,
+  "status": "open",
+  "createdAt": "2015-02-18T14:53:17+00:00",
+  "updatedAt": "2015-02-18T14:53:17+00:00"
+}

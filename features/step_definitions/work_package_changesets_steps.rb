@@ -55,7 +55,7 @@ Then(/^I should see the following changesets:$/) do |table|
         (row[:comments] ||
          (row[:comments] &&
           displayed_changeset.has_selector?('', text: row[:comments])))
-    end.should be_true
+    end.should be_truthy
   end
 end
 

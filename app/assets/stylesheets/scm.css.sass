@@ -28,9 +28,11 @@
 //= require_self
 //= require coderay
 
+@import open_project_global/all
 @import fonts/openproject_icon_font
 
 div.changeset-changes ul
+  list-style-type: none
   margin: 0
   padding: 0
   > ul
@@ -38,9 +40,9 @@ div.changeset-changes ul
     padding: 0
 
 li.change
-  list-style-type:none
-  background-image: url(image-path('bullet_black.png'))
-  background-position: 1px 1px
+  list-style-type: none
+  background-image: image-url('bullet_black.png')
+  background-position: left center
   background-repeat: no-repeat
   padding-top: 1px
   padding-bottom: 1px
@@ -48,21 +50,21 @@ li.change
   margin: 0
 
   &.folder
-    background-image: url(image-path('folder_open.png'))
+    background-image: image-url('folder_open.png')
     &.change-A
-      background-image: url(image-path('folder_open_add.png'))
+      background-image: image-url('folder_open_add.png')
     &.change-M
-      background-image: url(image-path('folder_open_orange.png'))
+      background-image: image-url('folder_open_orange.png')
   &.change-A
-    background-image: url(image-path('bullet_add.png'))
+    background-image: image-url('bullet_add.png')
   &.change-M
-    background-image: url(image-path('bullet_orange.png'))
+    background-image: image-url('bullet_orange.png')
   &.change-C
-    background-image: url(image-path('bullet_blue.png'))
+    background-image: image-url('bullet_blue.png')
   &.change-R
-    background-image: url(image-path('bullet_purple.png'))
+    background-image: image-url('bullet_purple.png')
   &.change-D
-    background-image: url(image-path('bullet_delete.png'))
+    background-image: image-url('bullet_delete.png')
 
   .copied-from
     font-style: italic
@@ -72,12 +74,13 @@ li.change
       content: " - "
 
 #changes-legend
+  list-style-type: none
   float: right
   font-size: 0.8em
   margin: 0
   li
     float: left
-    background-position: 5px 0
+    margin-right: 1em
 
 table.filecontent
   border: 1px solid #ccc
@@ -94,7 +97,7 @@ table.filecontent
       padding: 0.2em
   tr.spacing
     th
-      text-align:center
+      text-align: center
     td
       height: 0.4em
       background: #EAF2F5
@@ -111,7 +114,7 @@ table.filecontent
       color: inherit
 
   td.line-code pre
-    margin: 0px
+    margin: 0
     white-space: pre-wrap
     white-space: -moz-pre-wrap
     white-space: -o-pre-wrap
@@ -125,6 +128,9 @@ table.filecontent
     background: #FFDDDD
     span
       background: #FFAAAA
+
+  pre
+    overflow: hidden
 
 // 12 different colors for the annonate view
 table.annotate
@@ -208,4 +214,4 @@ tr
       td
         &.filename
           a
-            margin-left: $repository_entry_filename_margin_left
+            margin-left: $repository-entry-filename-margin-left

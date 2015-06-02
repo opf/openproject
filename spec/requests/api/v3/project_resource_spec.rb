@@ -31,16 +31,17 @@ require 'rack/test'
 
 describe 'API v3 Project resource' do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:role) { FactoryGirl.create(:role) }
 
   describe '#get' do
+    let(:get_path) { api_v3_paths.project project.id }
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { "/api/v3/projects/#{project.id}" }
       before do
         allow(User).to receive(:current).and_return current_user
         member = FactoryGirl.build(:member, user: current_user, project: project)
@@ -59,7 +60,7 @@ describe 'API v3 Project resource' do
       end
 
       context 'requesting nonexistent project' do
-        let(:get_path) { '/api/v3/projects/9999' }
+        let(:get_path) { api_v3_paths.project 9999 }
 
         it_behaves_like 'not found' do
           let(:id) { 9999 }
@@ -69,10 +70,21 @@ describe 'API v3 Project resource' do
 
       context 'requesting project without sufficient permissions' do
         let(:another_project) { FactoryGirl.create(:project, is_public: false) }
-        let(:get_path) { "/api/v3/projects/#{another_project.id}" }
+        let(:get_path) { api_v3_paths.project another_project.id }
 
-        it_behaves_like 'unauthorized access'
+        it_behaves_like 'not found' do
+          let(:id) { "#{another_project.id}" }
+          let(:type) { 'Project' }
+        end
       end
+    end
+
+    context 'not logged in user' do
+      before do
+        get get_path
+      end
+
+      it_behaves_like 'not found'
     end
   end
 end

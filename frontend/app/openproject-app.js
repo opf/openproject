@@ -36,8 +36,6 @@ I18n.addTranslations = function(locale, translations) {
   I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
 };
 
-
-var angular = require('angular');
 require('angular-animate');
 require('angular-aria');
 require('angular-modal');
@@ -48,24 +46,19 @@ if (I18n.locale === 'de') {
 }
 
 require('angular-ui-router');
-require('angular-ui-select2');
-require('angular-ui-select2-sortable');
 
 require('angular-ui-date');
-require('angular-sanitize');
 require('angular-truncate');
 require('angular-feature-flags');
 
 require('angular-busy/dist/angular-busy');
 require('angular-busy/dist/angular-busy.css');
 
-require('ui-select/dist/select');
-require('ui-select/dist/select.css');
-
 require('angular-context-menu');
+require('mousetrap');
 
 // global
-angular.module('openproject.uiComponents', ['ui.select2', 'ui.select', 'ngSanitize'])
+angular.module('openproject.uiComponents', ['ui.select', 'ngSanitize'])
 .run(['$rootScope', function($rootScope){
   $rootScope.I18n = I18n;
 }]);
@@ -172,8 +165,6 @@ angular.module('openproject.templates', []);
 
 // main app
 var openprojectApp = angular.module('openproject', [
-  'ui.select2',
-  'ui.select2.sortable',
   'ui.date',
   'ui.router',
   'openproject.config',
@@ -228,7 +219,8 @@ openprojectApp
     '$window',
     'featureFlags',
     'TimezoneService',
-    function($http, $rootScope, $window, flags, TimezoneService) {
+    'KeyboardShortcutService',
+    function($http, $rootScope, $window, flags, TimezoneService, KeyboardShortcutService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
       $rootScope.showNavigation =
@@ -237,6 +229,8 @@ openprojectApp
 
       flags.set($http.get('/javascripts/feature-flags.json'));
       TimezoneService.setupLocale();
+      KeyboardShortcutService.activate();
+
     }
   ]);
 
@@ -256,7 +250,7 @@ require('./timelines');
 require('./ui_components');
 require('./work_packages');
 
-var requireTemplate = require.context('../public/templates', true, /\.html$/);
+var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);
 
-require('angular-busy/angular-busy.html');
+require('!ngtemplate?module=openproject.templates!html!angular-busy/angular-busy.html');

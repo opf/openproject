@@ -78,7 +78,7 @@ describe AvatarHelper, type: :helper do
     end
   end
 
-  describe :avatar do
+  describe '#avatar' do
     it 'should return a gravatar image tag if a user is provided' do
       digest = Digest::MD5.hexdigest(user.mail)
 
@@ -123,7 +123,7 @@ describe AvatarHelper, type: :helper do
     end
   end
 
-  describe :avatar_url do
+  describe '#avatar_url' do
     it 'should return a gravatar url if a user is provided' do
       digest = Digest::MD5.hexdigest(user.mail)
 

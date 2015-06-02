@@ -425,7 +425,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def send_notifications?
-    params[:send_notification] == '0' ? false : true
+    params[:send_notification] != '0'
   end
 
   def per_page_param
@@ -457,6 +457,6 @@ class WorkPackagesController < ApplicationController
   end
 
   def parse_preview_data
-    parse_preview_data_helper :work_package, [:notes, :description]
+    parse_preview_data_helper :work_package, [:journal_notes, :description]
   end
 end

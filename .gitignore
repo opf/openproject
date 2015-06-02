@@ -37,7 +37,11 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+/npm-debug.log
 /tmp
+
+# Ignore RubyMine files
+/.idea
 
 /backup
 /.project
@@ -64,16 +68,15 @@
 /tmp/sessions/*
 /tmp/sockets/*
 /tmp/test/*
-/vendor/rails
 /*.rbc
 /doc/app
-#/Gemfile.lock
 /Gemfile.local
 /Gemfile.plugins
 /.rvmrc*
 /.ruby-version
 /.ruby-gemset
 /.foreman
+/.env
 
 # coverage in plugins
 /lib/plugins/*/coverage

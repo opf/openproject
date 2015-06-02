@@ -31,6 +31,7 @@ require 'rack/test'
 
 describe 'API v3 Attachment resource', type: :request do
   include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -42,7 +43,7 @@ describe 'API v3 Attachment resource', type: :request do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { "/api/v3/attachments/#{attachment.id}" }
+      let(:get_path) { api_v3_paths.attachment attachment.id }
       before do
         allow(User).to receive(:current).and_return current_user
         member = FactoryGirl.build(:member, user: current_user, project: project)
@@ -60,7 +61,7 @@ describe 'API v3 Attachment resource', type: :request do
       end
 
       context 'requesting nonexistent attachment' do
-        let(:get_path) { '/api/v3/attachments/9999' }
+        let(:get_path) { api_v3_paths.attachment 9999 }
 
         it_behaves_like 'not found' do
           let(:id) { 9999 }
@@ -72,7 +73,7 @@ describe 'API v3 Attachment resource', type: :request do
         let(:another_project) { FactoryGirl.create(:project, is_public: false) }
         let(:another_work_package) { FactoryGirl.create(:work_package, project: another_project) }
         let(:another_attachment) { FactoryGirl.create(:attachment, container: another_work_package) }
-        let(:get_path) { "/api/v3/attachments/#{another_attachment.id}" }
+        let(:get_path) { api_v3_paths.attachment another_attachment.id }
 
         it_behaves_like 'unauthorized access'
       end

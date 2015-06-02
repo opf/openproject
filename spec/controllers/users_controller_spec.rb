@@ -213,7 +213,7 @@ describe UsersController, type: :controller do
     end
   end
 
-  describe :change_status do
+  describe '#change_status' do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
         FactoryGirl.create(:user, status: User::STATUSES[:registered],

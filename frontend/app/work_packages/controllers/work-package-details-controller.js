@@ -59,15 +59,13 @@ module.exports = function($scope,
   $scope.maxDescriptionLength = 800;
 
   function refreshWorkPackage(callback) {
-    workPackage.links.self
-      .fetch({force: true})
+    WorkPackageService.getWorkPackage($scope.workPackage.props.id)
       .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
-        WorkPackageService.loadWorkPackageForm(workPackage).then(function() {
-          if (callback) {
-            callback(workPackage);
-          }
-        });
+        $scope.$broadcast('workPackageRefreshed');
+        if (callback) {
+          callback(workPackage);
+        }
       });
   }
   $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
@@ -91,7 +89,6 @@ module.exports = function($scope,
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
-
     $scope.isWatched = !!workPackage.links.unwatchChanges;
 
     if (workPackage.links.watchChanges === undefined) {
@@ -103,7 +100,7 @@ module.exports = function($scope,
     $scope.watchers = workPackage.embedded.watchers;
 
     // autocomplete path
-    var projectId = workPackage.props.projectId;
+    var projectId = workPackage.embedded.project.props.id;
     $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
 
     // activities and latest activities
@@ -112,6 +109,11 @@ module.exports = function($scope,
 
     // watchers
     $scope.watchers = workPackage.embedded.watchers;
+
+    $scope.showStaticPagePath = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
+
+    // Type
+    $scope.type = workPackage.embedded.type;
 
     // Author
     $scope.author = workPackage.embedded.author;
@@ -149,9 +151,6 @@ module.exports = function($scope,
         relationTypeIterator(key);
       }
     }
-
-    // Author
-    $scope.author = workPackage.embedded.author;
   }
 
   $scope.toggleWatch = function() {

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -40,9 +40,13 @@ module.exports = function(
   });
 
   $scope.saveQuery = function(event){
-    if($scope.query.isNew()){
+    event.stopPropagation();
+    if (!$scope.query.isDirty()) {
+      return;
+    }
+    if($scope.query.isNew()) {
       if( allowQueryAction(event, 'create') ){
-        $scope.$emit('hideAllDropdowns');
+        emitClosingEvents($scope);
         saveModal.activate();
       }
     } else {
@@ -59,6 +63,7 @@ module.exports = function(
   };
 
   $scope.deleteQuery = function(event){
+    event.stopPropagation();
     if( allowQueryAction(event, 'delete') && preventNewQueryAction(event) && deleteConfirmed() ){
       QueryService.deleteQuery()
         .then(function(data){
@@ -73,43 +78,50 @@ module.exports = function(
 
   // Modals
   $scope.showSaveAsModal = function(event){
+    event.stopPropagation();
     if( allowQueryAction(event, 'create') ) {
       showExistingQueryModal.call(saveModal, event);
     }
   };
 
   $scope.showShareModal = function(event){
+    event.stopPropagation();
     if (allowQueryAction(event, 'publicize') || allowQueryAction(event, 'star')) {
       showExistingQueryModal.call(shareModal, event);
     }
   };
 
   $scope.showSettingsModal = function(event){
+    event.stopPropagation();
     if( allowQueryAction(event, 'update') ) {
       showExistingQueryModal.call(settingsModal, event);
     }
   };
 
   $scope.showExportModal = function(event){
+    event.stopPropagation();
     if( allowWorkPackageAction(event, 'export') ) {
       showModal.call(exportModal);
     }
   };
 
-  $scope.showColumnsModal = function(){
+  $scope.showColumnsModal = function(event){
+    event.stopPropagation();
     showModal.call(columnsModal);
   };
 
-  $scope.showGroupingModal = function(){
+  $scope.showGroupingModal = function(event){
+    event.stopPropagation();
     showModal.call(groupingModal);
   };
 
-  $scope.showSortingModal = function(){
+  $scope.showSortingModal = function(event){
+    event.stopPropagation();
     showModal.call(sortingModal);
   };
 
   $scope.toggleDisplaySums = function(){
-    $scope.$emit('hideAllDropdowns');
+    emitClosingEvents($scope);
     $scope.query.displaySums = !$scope.query.displaySums;
 
     // This eventually calls the resize event handler defined in the
@@ -118,9 +130,39 @@ module.exports = function(
     angular.element($window).trigger('resize');
   };
 
+  $scope.showSettingsModalInvalid = function() {
+    return AuthorisationService.cannot('query', 'update');
+  };
+
+  $scope.showShareModalInvalid = function() {
+    return (AuthorisationService.cannot('query', 'publicize') &&
+            AuthorisationService.cannot('query', 'star'));
+  };
+
+  $scope.showExportModalInvalid = function() {
+    return AuthorisationService.cannot('work_package', 'export');
+  };
+
+  $scope.deleteQueryInvalid = function() {
+    return AuthorisationService.cannot('query', 'delete');
+  };
+
+  $scope.showSaveModalInvalid = function() {
+    return $scope.query.isNew() || AuthorisationService.cannot('query', 'create');
+  };
+
+  $scope.saveQueryInvalid = function() {
+    return (!$scope.query.isDirty()) ||
+      (
+        $scope.query.isDirty() &&
+        !$scope.query.isNew() &&
+        AuthorisationService.cannot('query', 'update')
+      ) ||
+      ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
+  };
+
   function preventNewQueryAction(event){
     if (event && $scope.query.isNew()) {
-      event.preventDefault();
       event.stopPropagation();
       return false;
     }
@@ -128,13 +170,13 @@ module.exports = function(
   }
 
   function showModal() {
-    $scope.$emit('hideAllDropdowns');
+    emitClosingEvents($scope);
     this.activate();
   }
 
   function showExistingQueryModal(event) {
     if( preventNewQueryAction(event) ){
-      $scope.$emit('hideAllDropdowns');
+      emitClosingEvents($scope);
       this.activate();
     }
   }
@@ -151,10 +193,14 @@ module.exports = function(
     if(AuthorisationService.can(modelName, action)){
       return true;
     } else {
-      event.preventDefault();
       event.stopPropagation();
       return false;
     }
+  }
+
+  function emitClosingEvents($scope) {
+    $scope.$emit('hideAllDropdowns');
+    $scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
   }
 
   function deleteConfirmed() {

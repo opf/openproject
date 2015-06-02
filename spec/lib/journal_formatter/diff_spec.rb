@@ -62,7 +62,7 @@ describe OpenProject::JournalFormatter::Diff do
   let(:link) { link_to(I18n.t(:label_details), url, class: 'description-details') }
   let(:full_url_link) { link_to(I18n.t(:label_details), full_url, class: 'description-details') }
 
-  describe :render do
+  describe '#render' do
     describe 'WITH the first value beeing nil, and the second a string' do
       let(:expected) {
         I18n.t(:text_journal_set_with_diff,

@@ -27,9 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{Type.model_name.human} #{@type.name}" %>
+<% html_title l(:label_administration), "#{l(:label_edit)} #{Type.model_name.human} #{h @type.name}" %>
 
-<h2><%= link_to t(:label_type_plural), types_path %> &#187; <%= @type.name %></h2>
+<%= toolbar title: "#{link_to t(:label_type_plural), types_path} &raquo; #{h @type.name}" %>
 
 <%= form_for @type, builder: TabularFormBuilder, lang: current_language do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>

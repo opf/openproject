@@ -145,6 +145,8 @@ describe VersionsController, type: :controller do
     end
 
     context 'from issue form' do
+      render_views
+
       before do
         allow(User).to receive(:current).and_return(user)
         post :create, project_id: project.id, version: { name: 'test_add_version_from_issue_form' }, format: :js
@@ -159,19 +161,16 @@ describe VersionsController, type: :controller do
       it 'returns updated select box with new version' do
         version = Version.find_by_name('test_add_version_from_issue_form')
 
-        select_substring = "select id=\\\"work_package_fixed_version_id\\\" name=\\\"work_package[fixed_version_id]\\\""
-        # selected option tag for the new version
-        option_substring = "option value=\\\"#{version.id}\\\" selected=\\\"selected\\\""
-
-        expect(response.body.include?(select_substring)).to be_truthy
-        expect(response.body.include?(option_substring)).to be_truthy
+        expect(response.body).to include(
+          "option value=\\\"#{version.id}\\\" selected=\\\"selected\\\""
+        )
       end
 
       it 'escapes potentially harmful html' do
         harmful = "test <script>alert('pwned');</script>"
         post :create, project_id: project.id, version: { name: harmful }, format: :js
 
-        expect(response.body).to_not include("<script>alert('pwned');</script>")
+        expect(response.body).not_to include("<script>alert('pwned');</script>")
       end
     end
   end

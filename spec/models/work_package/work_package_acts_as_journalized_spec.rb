@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-  describe :journal do
+  describe '#journal' do
     let(:type) { FactoryGirl.create :type }
     let(:project) {
       FactoryGirl.create :project,
@@ -73,7 +73,7 @@ describe WorkPackage, type: :model do
       end
 
       it 'is not created' do
-        expect { work_package.save! }.to_not change { work_package.journals.length }.by(1)
+        expect { work_package.save! }.not_to change { work_package.journals.length }
       end
     end
 
@@ -187,7 +187,7 @@ describe WorkPackage, type: :model do
       end
 
       describe 'journaled value for' do
-        context :description do
+        context 'description' do
           let(:property) { 'description' }
 
           context 'old_value' do

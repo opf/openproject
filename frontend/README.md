@@ -11,7 +11,7 @@ Please find ways to contact us on the OpenProject [help page](https://www.openpr
 ## Community
 
 OpenProject is driven by an active group of open source enthusiasts: software engineers, project managers, creatives, and consultants. OpenProject is supported by companies as well as individuals. We share the vision to build great open source project collaboration software.
-The [OpenProject Foundation (OPF)](https://www.openproject.org/projects/openproject/wiki/OpenProject_Foundation) will give official guidance to the project and the community and oversees contributions and decisions.
+The [OpenProject Foundation (OPF)](https://community.openproject.org/projects/openproject/wiki/OpenProject_Foundation) will give official guidance to the project and the community and oversees contributions and decisions.
 
 
 ## License

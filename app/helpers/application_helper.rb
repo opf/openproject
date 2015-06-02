@@ -70,8 +70,8 @@ module ApplicationHelper
     safe_join [name, ' ', content_tag('span', '*', class: 'required')]
   end
 
-  def li_unless_nil(link)
-    content_tag(:li, link) if link
+  def li_unless_nil(link, options = {})
+    content_tag(:li, link, options) if link
   end
 
   # Show a sorted linkified (if active) comma-joined list of users
@@ -290,9 +290,12 @@ module ApplicationHelper
         h
       end
 
-      content_tag :div do
-        check_box_tag(name, object.id, false, id: id) +
-          label_tag(id, object, object_options)
+      object_options[:class] = Array(object_options[:class]) + %w(form--label-with-check-box)
+
+      content_tag :div, class: 'form--field' do
+        label_tag(id, object, object_options) do
+          styled_check_box_tag(name, object.id, false, id: id) + object
+        end
       end
     end.join.html_safe
   end
@@ -310,7 +313,9 @@ module ApplicationHelper
     if @project and @project.module_enabled?('activity')
       link_to(text, { controller: '/activities', action: 'index', project_id: @project, from: time.to_date }, title: format_time(time))
     else
-      content_tag('label', text, title: format_time(time), class: 'timestamp')
+      datetime = time.acts_like?(:time) ? time.xmlschema : time.iso8601
+      content_tag(:time, text, datetime: datetime,
+                               title: format_time(time), class: 'timestamp')
     end
   end
 
@@ -421,8 +426,8 @@ module ApplicationHelper
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
-    options.reverse_merge!(builder: TabularFormBuilder, lang: current_language, html: {})
-    options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
+    options.reverse_merge!(builder: TabularFormBuilder, html: {})
+    options[:html][:class] = 'form' unless options[:html].has_key?(:class)
     form_for(record, options, &block)
   end
 
@@ -482,7 +487,7 @@ module ApplicationHelper
 
   def calendar_for(field_id)
     include_calendar_headers_tags
-    javascript_tag("jQuery('##{field_id}').datepicker();")
+    javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
   end
 
   def include_calendar_headers_tags
@@ -497,9 +502,13 @@ module ApplicationHelper
         when 6
           '6' # Saturday
         else
-          '' # use language
+          # use language (pass a blank string into the JSON object,
+          # as the datepicker implementation checks for numbers in
+          # /frontend/app/misc/datepicker-defaults.js:34)
+          '""'
         end
-        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstWeekDay: '#{start_of_week}' };"
+        # FIXME: Get rid of this abomination
+        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };"
         javascript_tag(js)
       end
     end

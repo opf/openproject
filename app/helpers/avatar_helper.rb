@@ -82,7 +82,7 @@ module AvatarHelper
 
   def merge_image_options(user, options)
     default_options = { class: 'avatar' }
-    default_options[:title] = user.name if user.respond_to?(:name)
+    default_options[:title] = h(user.name) if user.respond_to?(:name)
 
     options.reverse_merge(default_options)
   end

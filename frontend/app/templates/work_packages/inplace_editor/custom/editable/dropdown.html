@@ -1,0 +1,16 @@
+<div class="dropdown-wrapper">
+    <ui-select
+            class="inplace-edit--select"
+            name="value"
+            ng-disabled="fieldController.state.isBusy"
+            ng-model="fieldController.writeValue.links.self.props.href"
+            title="{{ fieldController.editTitle }}"
+            reset-search-input="true"
+            theme="select2">
+        <ui-select-match>{{ $select.selected.name }}</ui-select-match>
+        <ui-select-choices
+                repeat="item.href as item in customEditorController.allowedValues | filter: $select.search">
+            <div aria-label="{{ item.name || customEditorController.nullValueLabel }}" ng-bind-html="item.name | highlight: $select.search"></div>
+        </ui-select-choices>
+    </ui-select>
+</div>

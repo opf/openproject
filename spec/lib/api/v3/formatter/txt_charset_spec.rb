@@ -33,7 +33,7 @@ describe API::V3::Formatter::TxtCharset do
   let(:umlaut_object_utf8) { umlaut_object_ascii.force_encoding('utf-8') }
   let(:env) { {} }
 
-  describe :call do
+  describe '#call' do
     it 'returns the object (string) encoded in the charset defined in env' do
       env['CONTENT_TYPE'] = 'text/plain; charset=UTF-8'
 

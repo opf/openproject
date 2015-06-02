@@ -1,21 +1,137 @@
 # Buttons
 
+## Default buttons
+
 ```
-<a href="#" class="button">Click me</a>
-<a href="#" class="button_highlight">Click me</a>
+<button class="***button***"><i class="button--icon icon-watch-1"></i><span class="button--text">Watch</span></button>
+<button class="***button***"><i class="button--icon icon-watch-1"></i></button>
+<button class="***button***">Watch</button>
+<button class="***button***" disabled>
+  <i class="button--icon icon-watch-1"></i><span class="button--text">Watch</span>
+</button>
+<br>
+
+<a href="#" class="***button*** -with-icon icon-watch-1">Watch</a>
+<a href="#" class="***button***">Click to watch</a>
+
+<input type="submit" class="***button***" value="Submit to watch"/>
+<input type="submit" class="***button***" value="Do not watch" disabled />
+```
+
+## Highlight buttons
+
+```
+<button class="button ***-highlight***"><i class="button--icon icon-yes"></i><span class="button--text">Apply</span></button>
+<button class="button ***-highlight***"><i class="button--icon icon-yes"></i></button>
+<button class="button ***-highlight***">Apply</button>
+<button class="button ***-highlight***" disabled>
+  <i class="button--icon icon-yes"></i><span class="button--text">Apply</span>
+</button>
+<br>
+
+<a href="#" class="button ***-highlight*** -with-icon icon-yes">Apply</a>
+<a href="#" class="button ***-highlight***">Click to apply</a>
+
+<input type="submit" class="button ***-highlight***" value="Submit to apply"/>
+<input type="submit" class="button ***-highlight***" value="Do not apply" disabled />
+```
+
+
+## Alternative highlight buttons
+
+```
+<button class="button ***-alt-highlight***"><i class="button--icon icon-add"></i><span class="button--text">Create</span></button>
+<button class="button ***-alt-highlight***"><i class="button--icon icon-add"></i></button>
+<button class="button ***-alt-highlight***">Create</button>
+<button class="button ***-alt-highlight***" disabled>
+  <i class="button--icon icon-add"></i><span class="button--text">Create</span>
+</button>
+<br>
+
+<a href="#" class="button ***-alt-highlight*** -with-icon icon-add">Create</a>
+<a href="#" class="button ***-alt-highlight***">Click to create</a>
+
+<input type="submit" class="button ***-alt-highlight***" value="Submit to create"/>
+<input type="submit" class="button ***-alt-highlight***" value="Do not create" disabled />
+```
+
+
+## Active (depressed) buttons
+
+```
+<button class="button ***-active***"><i class="button--icon icon-fire"></i><span class="button--text">Connect</span></button>
+<button class="button ***-active***"><i class="button--icon icon-fire"></i></button>
+<button class="button ***-active***">Connect</button>
+<button class="button ***-active***" disabled>
+  <i class="button--icon icon-fire"></i><span class="button--text">Connect</span>
+</button>
+<br>
+
+<a href="#" class="button ***-active*** -with-icon icon-fire">Connect</a>
+<a href="#" class="button ***-active***">Click to connect</a>
+
+<input type="submit" class="button ***-active***" value="Submit to connect"/>
+<input type="submit" class="button ***-active***" value="Do not connect" disabled />
+```
+
+## Transparent buttons
+
+```
+<button class="button ***-transparent***"><i class="button--icon icon-bubble3"></i><span class="button--text">Comment</span></button>
+<button class="button ***-transparent***"><i class="button--icon icon-bubble3"></i></button>
+<button class="button ***-transparent***">Comment</button>
+<button class="button ***-transparent***" disabled>
+  <i class="button--icon icon-bubble3"></i><span class="button--text">Comment</span>
+</button>
+<br>
+
+<a href="#" class="button ***-transparent*** -with-icon icon-bubble3">Comment</a>
+<a href="#" class="button ***-transparent***">Click to comment</a>
+
+<input type="submit" class="button ***-transparent***" value="Submit to comment"/>
+<input type="submit" class="button ***-transparent***" value="Do not comment" disabled />
+```
+
+## Button sizes
+
+```
+<button class="button ***-tiny***"><i class="button--icon icon-star1"></i></button>
+<button class="button ***-tiny***"><i class="button--icon icon-star1"></i><span class="button--text">Tiny</span></button>
+<button class="button ***-tiny***">Tiny</button>
+<button class="button ***-tiny*** -with-icon icon-star1">Tiny</button>
 ```
 
 ```
-<input type="submit" class="button" value="Submit me"/>
-<input type="submit" class="button" value="Do not submit" disabled />
+<button class="button ***-small***"><i class="button--icon icon-star1"></i></button>
+<button class="button ***-small***"><i class="button--icon icon-star1"></i><span class="button--text">Small</span></button>
+<button class="button ***-small***">Small</button>
+<button class="button ***-small*** -with-icon icon-star1">Small</button>
 ```
 
 ```
-<input type="submit" class="button_highlight" value="Submit me"/>
-<input type="submit" class="button_highlight" value="Do not submit" disabled />
+<button class="***button***"><i class="button--icon icon-star1"></i></button>
+<button class="***button***"><i class="button--icon icon-star1"></i><span class="button--text">Default</span></button>
+<button class="***button***">Default</button>
+<button class="***button*** -with-icon icon-star1">Default</button>
 ```
 
 ```
-<input type="submit" class="button_active" value="Submit me"/>
-<input type="submit" class="button_active" value="Do not submit" disabled />
+<button class="button ***-large***"><i class="button--icon icon-star1"></i></button>
+<button class="button ***-large***"><i class="button--icon icon-star1"></i><span class="button--text">Large</span></button>
+<button class="button ***-large***">Large</button>
+<button class="button ***-large*** -with-icon icon-star1">Large</button>
+```
+
+## Expanded buttons
+
+```
+<button class="button ***-expand***">Expanded button</button>
+<a href="#" class="button ***-expand***">Expanded button as link</a>
+```
+
+## Rounded buttons
+
+```
+<button class="button ***-round***">Rounded button</button>
+<a href="#" class="button ***-round***">Rounded button as link</a>
 ```

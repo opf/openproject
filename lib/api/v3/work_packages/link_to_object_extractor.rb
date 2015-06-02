@@ -36,7 +36,7 @@ module API
             resource = ::API::Utilities::ResourceLinkParser.parse links[attribute]['href']
 
             if resource
-              case resource[:ns]
+              case resource[:namespace]
               when 'statuses'
                 h[:status_id] = resource[:id]
               end

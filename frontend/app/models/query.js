@@ -188,6 +188,7 @@ module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED
     },
 
     setRawFilters: function(filters) {
+      this.dirty = true;
       if (filters){
         var self = this;
 
@@ -291,6 +292,7 @@ module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED
     },
 
     addFilter: function(filterName, options) {
+      this.dirty = true;
       var filter = this.getFilterByName(filterName);
 
       if (filter) {
@@ -304,6 +306,7 @@ module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED
     },
 
     removeFilter: function(filterName) {
+      this.dirty = true;
       this.filters.splice(this.getFilterNames().indexOf(filterName), 1);
     },
 
@@ -354,7 +357,7 @@ module.exports = function(Filter, Sortation, UrlParamsHelper, INITIALLY_SELECTED
     },
 
     isDirty: function() {
-      return this.isNew() || this.dirty;
+      return this.dirty;
     },
 
     hasName: function() {

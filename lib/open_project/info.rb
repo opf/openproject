@@ -35,7 +35,7 @@ module OpenProject
       def url; Setting.software_url end
 
       def help_url
-        'https://www.openproject.org/support'
+        'https://www.openproject.org/help'
       end
 
       def versioned_name; "#{app_name} #{Redmine::VERSION.to_semver}" end

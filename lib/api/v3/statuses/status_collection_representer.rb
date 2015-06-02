@@ -4,7 +4,7 @@
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License status 3.
+# modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
@@ -12,8 +12,8 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either status 2
-# of the License, or (at your option) any later status.
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -26,10 +26,6 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-require 'roar/decorator'
-require 'roar/json/collection'
-require 'roar/json/hal'
 
 module API
   module V3

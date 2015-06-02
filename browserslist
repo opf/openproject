@@ -1,0 +1,8 @@
+# OpenProject supported browsers
+# https://www.openproject.org/systemrequirements/
+#
+> 5%
+last 2 Chrome versions
+last 2 Safari versions
+Firefox >= 31
+IE >= 10

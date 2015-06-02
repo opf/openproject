@@ -76,7 +76,7 @@ Feature: Copying an work package can copy over the watchers
   Scenario: Watchers should be copied when the user has the permission to
     Given I am already logged in as "lrrr"
     When I go to the copy page for the work package "Improve drive"
-    Then I should see "Watchers" within "div#watchers_form"
+    Then I should see "Watchers" within "#timelog"
     When I fill in "Subject" with "Improve drive even more"
     And I submit the form by the "Create" button
     Then I should see "Watchers (2)"

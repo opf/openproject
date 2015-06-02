@@ -118,7 +118,6 @@ en:
       time_entry:
         activity: "Activity"
         hours: "Hours"
-        work_package: "Work Package"
         spent_on: "Date"
         type: "Type"
       type:
@@ -198,7 +197,7 @@ en:
         greater_than_or_equal_to: "must be greater than or equal to %{count}"
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length"
         greater_than_start_date: "must be greater than start date"
-        inclusion: "is not included in the list"
+        inclusion: "is not set to one of the allowed values"
         invalid: "is invalid"
         less_than: "must be less than %{count}"
         less_than_or_equal_to: "must be less than or equal to %{count}"
@@ -222,6 +221,9 @@ en:
         project_association:
           identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
+        repository:
+          not_whitelisted: "is not allowed by the configuration"
+          no_directory: "is not a directory"
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
@@ -236,6 +238,12 @@ en:
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles"
             priority_id:
               only_active_priorities_allowed: "needs to be active"
+            category:
+              only_same_project_categories_allowed:
+                "The category of a work package must be within the same project as the work package."
+              does_not_exist: "The specified category does not exist."
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: "The estimated hours must be >= 0."
         user:
           attributes:
             password:
@@ -299,6 +307,7 @@ en:
     base: "General Error:"
     blocks_ids: "Blocks"
     category: "Category"
+    comment: "Comment"
     comments: "Comment"
     content: "Content"
     created_at: "Created on"
@@ -309,6 +318,7 @@ en:
     display_sums: "Display Sums"
     due_date: "Due date"
     estimated_hours: "Estimated time"
+    estimated_time: "Estimated time"
     firstname: "First name"
     group: "Group"
     groupname: "Group name"
@@ -316,11 +326,14 @@ en:
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
+    # kept for backwards compatibility
+    issue: "Work package"
     lastname: "Last name"
     login: "Login"
     mail: "Email"
     name: "Name"
     password: "Password"
+    priority: "Priority"
     project: "Project"
     responsible: "Responsible"
     role: "Role"
@@ -563,7 +576,7 @@ en:
   error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
-  error_unable_delete_status: "Unable to delete work package status"
+  error_unable_delete_status: "Unable to delete work package status because it contains work packages."
   error_unable_delete_default_status: "Unable to delete default work package status. Please select another default work package status before deleting the current one."
   error_unable_to_connect: "Unable to connect (%{value})"
   error_workflow_copy_source: "Please select a source type or role"
@@ -708,6 +721,7 @@ en:
   label_downloads_abbr: "D/L"
   label_duplicated_by: "duplicated by"
   label_duplicates: "duplicates"
+  label_edit: "Edit"
   label_enable_multi_select: "Toggle multiselect"
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
@@ -734,6 +748,7 @@ en:
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
   label_greater_or_equal: ">="
+  label_group_by: "Group by"
   label_group_new: "New group"
   label_group_plural: "Groups"
   label_help: "Help"
@@ -770,7 +785,6 @@ en:
   label_work_package_view_all_responsible_for: "View all work packages I am responsible for"
   label_work_package_view_all_watched: "View all watched work packages"
   label_work_package_watchers: "Watchers"
-  label_work_packages_by: "Work packages by %{value}"
   label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
@@ -1045,11 +1059,13 @@ en:
   label_keyboard_shortcut_go_news: "Go to project news"
   label_keyboard_shortcut_go_timelines: "Go to timelines"
   label_keyboard_shortcut_new_work_package: "Create new work package"
+  label_keyboard_shortcut_details_package: "Show work packages details pane"
   label_keyboard_shortcut_go_edit: "Go to edit the current item (on detail pages only)"
   label_keyboard_shortcut_open_more_menu: "Open more-menu (on detail pages only)"
   label_keyboard_shortcut_go_preview: "Go to preview the current edit (on edit pages only)"
   label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
   label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
+  label_visible_elements: Visible elements
 
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
@@ -1404,6 +1420,11 @@ en:
       time: "%I:%M %p"
     pm: "pm"
 
+  timeframe:
+    show: "Show timeframe"
+    end: "to"
+    start: "from"
+
   timelines:
     admin_menu:
       color: "Color"
@@ -1476,7 +1497,8 @@ en:
         absolute: "Absolute"
         none: "None"
         relative: "Relative"
-        compare_relative: "Compare current planning to %{timespan} ago"
+        compare_relative_prefix: "Compare current planning to"
+        compare_relative_suffix: "ago"
         compare_absolute: "Compare current planning to %{date}"
       time_relative:
         days: "days"
@@ -1504,8 +1526,7 @@ en:
       status: "Show status"
 
       project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_absolute_timeframe: "Absolute timeframe"
-      project_time_filter_relative_timeframe: "Relative timeframe"
+      project_time_filter_timeframe: "Timeframe"
       project_time_filter_historical_from: "from"
       project_time_filter_historical_to: "to"
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
@@ -1652,22 +1673,33 @@ en:
   nothing_to_preview: "Nothing to preview"
 
   api_v3:
+    attributes:
+      lock_version: "Lock Version"
     errors:
       code_401: "You need to be authenticated to access this resource."
+      code_401_wrong_credentials: "You did not provide the correct credentials."
       code_403: "You are not authorized to access this resource."
-      code_404: "Couldn\'t find %{type} with id=%{id}"
+      code_404: "The requested resource could not be found."
       code_409: "Couldn\'t update the resource because of conflicting modifications."
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
-      invalid_resource:
-        "For property '%{property}' a resource of type '%{expected}' is expected but got a resource of type '%{actual}'."
+      invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_relation: "The relation is invalid."
       invalid_user_status_transition: "The current user account status does not allow this operation."
-      multiple_errors: "Multiple fields violated their constraints."
+      missing_content_type: "not specified"
+      multiple_errors: "Multiple field constraints have been violated."
       parse_error: "The request body was neither empty, nor did it contain a single JSON object."
       writing_read_only_attributes: "You must not write a read-only attribute."
+      invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       render:
-        context_not_found: "No context found."
-        unsupported_context: "Unsupported context found."
-        context_object_not_found: "Cannot find the resource given with the context."
+        context_not_parsable: "The context provided is not a link to a resource."
+        unsupported_context: "The resource given is not supported as context."
+        context_object_not_found: "Cannot find the resource given as the context."
       validation:
         invalid_user_assigned_to_work_package:
           "The chosen user is not allowed to be '%{property}' for this work package."
+        estimated_hours: "Estimated hours cannot be set on parent work packages."
+        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        start_date: "Start date cannot be set on parent work packages."
+        due_date: "Due date cannot be set on parent work packages."
+    resources:
+      schema: 'Schema'

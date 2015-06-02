@@ -32,7 +32,12 @@ describe WorkPackagesHelper, type: :helper do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:stub_type) { FactoryGirl.build_stubbed(:type) }
-  let(:form) { double('form', select: '').as_null_object }
+  let(:label_placeholder) { '<label>blubs</label>'.html_safe }
+  let(:form) do
+    double('form',
+           select: '',
+           label: label_placeholder).as_null_object
+  end
   let(:stub_user) { FactoryGirl.build_stubbed(:user) }
 
   def inside_form(&_block)
@@ -45,7 +50,7 @@ describe WorkPackagesHelper, type: :helper do
     ret
   end
 
-  describe :work_package_breadcrumb do
+  describe '#work_package_breadcrumb' do
     it 'should provide a link to index as the first element and all ancestors as links' do
       index_link = double('work_package_index_link')
       ancestors_links = double('ancestors_links')
@@ -61,7 +66,7 @@ describe WorkPackagesHelper, type: :helper do
     end
   end
 
-  describe :ancestors_links do
+  describe '#ancestors_links' do
     it 'should return a list of links for every ancestor' do
       ancestors = [double('ancestor1', id: 1),
                    double('ancestor2', id: 2)]
@@ -75,7 +80,7 @@ describe WorkPackagesHelper, type: :helper do
     end
   end
 
-  describe :link_to_work_package do
+  describe '#link_to_work_package' do
     let(:open_status) { FactoryGirl.build_stubbed(:status, is_closed: false) }
     let(:closed_status) { FactoryGirl.build_stubbed(:status, is_closed: true) }
 
@@ -194,13 +199,13 @@ describe WorkPackagesHelper, type: :helper do
     end
   end
 
-  describe :work_package_index_link do
+  describe '#work_package_index_link' do
     it 'should return a link to issue_index (work_packages index later)' do
       expect(helper.work_package_index_link).to have_selector("a[href='#{work_packages_path}']", text: I18n.t(:label_work_package_plural))
     end
   end
 
-  describe :work_package_show_spent_time_attribute do
+  describe '#work_package_show_spent_time_attribute' do
     it 'should show a spent time link pointing to the time entries of the work package' do
       allow(stub_work_package).to receive(:spent_hours).and_return(5.0)
 
@@ -208,7 +213,7 @@ describe WorkPackagesHelper, type: :helper do
 
       expected_href = work_package_time_entries_path(stub_work_package)
 
-      expect(field).to have_css(".spent-time a[@href='#{ expected_href }']", text: '5.0')
+      expect(field).to have_css(".-spent-time a[@href='#{ expected_href }']", text: '5.0')
     end
 
     it "should show a '-' if spent time is 0" do
@@ -216,7 +221,7 @@ describe WorkPackagesHelper, type: :helper do
 
       field = helper.work_package_show_spent_time_attribute(stub_work_package).field
 
-      expect(field).to have_css('.spent-time', text: '-')
+      expect(field).to have_css('.-spent-time', text: '-')
     end
   end
 
@@ -224,7 +229,7 @@ describe WorkPackagesHelper, type: :helper do
   # Only doing so because this method is an exception.
   # All other show... methods are public.
   # TODO: check wether the method can be made public.
-  describe :work_package_show_custom_fields do
+  describe '#work_package_show_custom_fields' do
     let(:stub_custom_field) do
       stub_custom_field = FactoryGirl.build_stubbed(:custom_field,
                                                     name: 'My Custom Field')
@@ -243,12 +248,12 @@ describe WorkPackagesHelper, type: :helper do
 
       expect(attributes.length).to eql(1)
 
-      expected_css_class = ".work_package_attribute_header.custom_field.cf_#{stub_custom_field.id}"
+      expected_css_class = ".attributes-key-value--key.-custom_field.-cf_#{stub_custom_field.id}"
       expect(attributes[0].field).to have_css(expected_css_class, text: stub_custom_field.name)
     end
   end
 
-  describe :work_package_form_category_attribute do
+  describe '#work_package_form_category_attribute' do
     let(:stub_project) { FactoryGirl.build_stubbed(:project) }
     let(:stub_category) { FactoryGirl.build_stubbed(:category) }
 
@@ -268,14 +273,20 @@ describe WorkPackagesHelper, type: :helper do
       expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).attribute).to eq(:category)
     end
 
-    it "should render a select with the project's issue category" do
-      select = double('select')
+    it "should render a select with the project's work package categories" do
+      select = 'category html'
 
       expect(form).to receive(:select).with(:category_id,
                                             [[stub_category.name, stub_category.id]],
-                                            include_blank: true).and_return(select)
+                                            include_blank: true,
+                                            no_label: true).and_return(select)
 
-      expect(helper.work_package_form_category_attribute(form, stub_work_package, project: stub_project).field).to eq(select)
+      expect(helper.work_package_form_category_attribute(form,
+                                                         stub_work_package,
+                                                         project: stub_project).field)
+        .to be_html_eql("<div class=\"form--field \">#{label_placeholder}
+                         <span class=\"form--field-container\">category html</span>
+                         </div>")
     end
 
     it 'should add an additional remote link to create new categories if allowed' do
@@ -291,7 +302,7 @@ describe WorkPackagesHelper, type: :helper do
     end
   end
 
-  describe :work_package_css_classes do
+  describe '#work_package_css_classes' do
     let(:statuses) { (1..5).map { |_i| FactoryGirl.build_stubbed(:status) } }
     let(:priority) { FactoryGirl.build_stubbed :priority, is_default: true }
     let(:status) { statuses[0] }
@@ -412,7 +423,7 @@ describe WorkPackagesHelper, type: :helper do
     end
   end
 
-  describe :work_package_form_estimated_hours_attribute do
+  describe '#work_package_form_estimated_hours_attribute' do
     it 'should output the estimated hours value with a precision of 2' do
       stub_work_package.estimated_hours = 3
 
@@ -424,14 +435,17 @@ describe WorkPackagesHelper, type: :helper do
     end
   end
 
-  describe :work_package_form_custom_values_attribute do
+  describe '#work_package_form_custom_values_attribute' do
     let(:stub_custom_value) { FactoryGirl.build_stubbed(:work_package_custom_value) }
-    let(:expected) { 'field contents' }
+    let(:field_content) { 'field contents' }
+    let(:expected) { "<div class=\"form--field \">#{field_content}</div>" }
 
     before do
       allow(stub_work_package).to receive(:custom_field_values).and_return([stub_custom_value])
+      cf_form = double('custom_value_form_double').as_null_object
+      allow(form).to receive(:fields_for_custom_fields).and_yield(cf_form)
 
-      expect(helper).to receive(:custom_field_tag_with_label).with(:work_package, stub_custom_value).and_return(expected)
+      expect(cf_form).to receive(:custom_field).and_return(field_content)
     end
 
     it 'should return an array for an element for every value' do
@@ -443,7 +457,7 @@ describe WorkPackagesHelper, type: :helper do
     end
   end
 
-  describe :work_package_form_status_attribute do
+  describe '#work_package_form_status_attribute' do
     let(:status1) { FactoryGirl.build_stubbed(:status) }
     let(:status2) { FactoryGirl.build_stubbed(:status) }
 

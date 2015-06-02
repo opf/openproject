@@ -38,6 +38,8 @@ describe UserMailer, type: :mailer do
                               type: type_standard)
   }
 
+  let(:recipient) { FactoryGirl.build_stubbed(:user) }
+
   before do
     allow(work_package).to receive(:reload).and_return(work_package)
 
@@ -50,7 +52,44 @@ describe UserMailer, type: :mailer do
     allow(Setting).to receive(:default_language).and_return('en')
   end
 
-  describe :test_mail do
+  shared_examples_for 'mail is sent' do
+    it 'actually sends a mail' do
+      expect(ActionMailer::Base.deliveries.size).to eql(1)
+    end
+
+    it 'is sent to the recipient' do
+      expect(ActionMailer::Base.deliveries.first.to).to include(recipient.mail)
+    end
+
+    it 'is sent from the configured address' do
+      expect(ActionMailer::Base.deliveries.first.from).to include('john@doe.com')
+    end
+  end
+
+  shared_examples_for 'mail is not sent' do
+    it 'sends no mail' do
+      expect(ActionMailer::Base.deliveries.size).to eql(0)
+    end
+  end
+
+  shared_examples_for 'does only send mails to author if permitted' do
+    let(:user_preference) {
+      FactoryGirl.build(:user_preference, others: { no_self_notified: true })
+    }
+    let(:user) { FactoryGirl.build_stubbed(:user, preference: user_preference) }
+
+    context 'mail is for another user' do
+      it_behaves_like 'mail is sent'
+    end
+
+    context 'mail is for author' do
+      let(:recipient) { user }
+
+      it_behaves_like 'mail is not sent'
+    end
+  end
+
+  describe '#test_mail' do
     let(:test_email) { 'bob.bobbi@example.com' }
     let(:test_user) { User.new(firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
     let(:mail) { UserMailer.test_mail(test_user) }
@@ -67,39 +106,59 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  describe :issue_update do
-    context :delayed_job do
-      before do
-        # Delayed Job does not preserve the closure, so the context of the
-        # delayed method call does not contain the user anymore, who triggered
-        # the job. Instead, the anonymous user is returned.
-        User.current = User.anonymous
-
-        UserMailer.work_package_updated(user, journal, user)
-      end
-
-      it { expect(User.current).to eq(user) }
-
-      after do
-        User.current = User.anonymous
-      end
+  describe '#work_package_added' do
+    before do
+      UserMailer.work_package_added(recipient, work_package, user).deliver
     end
+
+    it_behaves_like 'mail is sent'
+
+    it 'contains the WP subject in the mail subject' do
+      expect(ActionMailer::Base.deliveries.first.subject).to include(work_package.subject)
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
   end
 
-  describe :wiki_content_updated do
+  describe '#work_package_updated' do
+    before do
+      UserMailer.work_package_updated(recipient, journal, user).deliver
+    end
+
+    it_behaves_like 'mail is sent'
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe :wiki_content_added do
     let(:wiki_content) { FactoryGirl.create(:wiki_content) }
-    let!(:mail) { UserMailer.wiki_content_updated(user, wiki_content) }
+
+    before do
+      UserMailer.wiki_content_added(recipient, wiki_content, user).deliver
+    end
+
+    it_behaves_like 'mail is sent'
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#wiki_content_updated' do
+    let(:wiki_content) { FactoryGirl.create(:wiki_content) }
+
+    before do
+      UserMailer.wiki_content_updated(recipient, wiki_content, user).deliver
+    end
+
+    it_behaves_like 'mail is sent'
 
     it 'should link to the latest version diff page' do
-      expect(mail.body.encoded).to include 'diff/2'
+      expect(ActionMailer::Base.deliveries.first.body.encoded).to include 'diff/2'
     end
 
-    after do
-      User.current = nil
-    end
+    it_behaves_like 'does only send mails to author if permitted'
   end
 
-  describe :message_id do
+  describe '#message_id' do
     describe 'same user' do
       let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }
 

@@ -153,9 +153,25 @@ When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
   begin
     select(value, from: field)
   rescue Capybara::ElementNotFound
-    container = find(:xpath, "//label[contains(., '#{field}')]/parent::*/*[contains(@class, 'select2-container')]")
+    # find the label, get the parent and from there find the appropriate
+    # select2 container. There are currently two dom structures in which
+    # this can happen.
+    xpath_selector = "//label[contains(., '#{field}')]/" +
+                     "parent::*/*[contains(@class, 'select2-container')] | " +
+                     "//label[contains(., '#{field}')]/" +
+                     "..//*[contains(@class, 'select2-container')]"
+
+    container = find(:xpath, xpath_selector)
+
     container.find('.select2-choice').click
-    find(:xpath, "//*[@id='select2-drop']/descendant::li[contains(., '#{value}')]").click
+
+    if container['class'].include?('ui-select-container')
+      # ui-select (Angular)
+      find('ul.select2-result-single li', text: value).click
+    else
+      # classic select2 (jQuery)
+      find(:xpath, "//*[@id='select2-drop']/descendant::li[contains(., '#{value}')]").click
+    end
   end
 end
 
@@ -238,12 +254,12 @@ end
 
 Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label |
   field_checked = find_field(label, visible: hidden.nil?)['checked']
-  field_checked.should be_true
+  field_checked.should be_truthy
 end
 
 Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label |
   field_checked = find_field(label, visible: hidden.nil?)['checked']
-  field_checked.should be_false
+  field_checked.should be_falsey
 end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
@@ -303,7 +319,7 @@ end
 Then /^there should be a( disabled)? "(.+)" field( visible| invisible)?$/ do |disabled, fieldname, visible|
   # Checking for a disabled field will only work for field with labels where the label
   # has a correctly filled "for" attribute
-  visibility = visible && visible.include?('invisible') ? false : true
+  visibility = visible && !visible.include?('invisible')
 
   if disabled
     # disabled fields can not be found via find_field

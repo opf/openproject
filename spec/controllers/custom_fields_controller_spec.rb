@@ -91,7 +91,8 @@ describe CustomFieldsController, type: :controller do
       let(:params) {
         { 'type' => 'WorkPackageCustomField',
           'custom_field' => { 'translations_attributes' => { '0' => { 'name' => de_name, 'locale' => 'de' },
-                                                             '1' => { 'name' => en_name, 'locale' => 'en' } } } }
+                                                             '1' => { 'name' => en_name, 'locale' => 'en' } },
+                              'field_format' => 'string' } }
       }
       before do
         post :create, params
@@ -108,14 +109,15 @@ describe CustomFieldsController, type: :controller do
       let(:params) {
         { 'type' => 'WorkPackageCustomField',
           'custom_field' => { 'translations_attributes' => { '0' => { 'name' => de_name, 'locale' => 'de' },
-                                                             '1' => { 'name' => en_name, 'locale' => 'en' } } } }
+                                                             '1' => { 'name' => en_name, 'locale' => 'en' } },
+                              'field_format' => 'string' } }
       }
 
       before do
         post :create, params
       end
 
-      it { expect(response).to be_success }
+      it { expect(response.status).to eql(302) }
       it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :de }[:name]).to eq(de_name) }
       it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :en }[:name]).to eq(en_name) }
     end
@@ -126,13 +128,14 @@ describe CustomFieldsController, type: :controller do
       let(:params) {
         { 'type' => 'WorkPackageCustomField',
           'custom_field' => { 'translations_attributes' => { '0' => { 'name' => de_name, 'locale' => 'de' },
-                                                             '1' => { 'name' => en_name, 'locale' => 'en' } } } }
+                                                             '1' => { 'name' => en_name, 'locale' => 'en' } },
+                              'field_format' => 'string' } }
       }
       before do
         post :create, params
       end
 
-      it { expect(response).to be_success }
+      it { expect(response.status).to eql(302) }
       it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :de }).to be_nil }
       it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :en }[:name]).to eq(en_name) }
     end
@@ -146,13 +149,14 @@ describe CustomFieldsController, type: :controller do
         { 'type' => 'WorkPackageCustomField',
           'custom_field' => { 'translations_attributes' =>
                                            { '0' => { 'name' => de_name, 'locale' => 'de', 'default_value' => de_default },
-                                             '1' => { 'name' => en_name, 'locale' => 'en', 'default_value' => '' } } } }
+                                             '1' => { 'name' => en_name, 'locale' => 'en', 'default_value' => '' } },
+                              'field_format' => 'string' } }
       }
       before do
         post :create, params
       end
 
-      it { expect(response).to be_success }
+      it { expect(response.status).to eql(302) }
       it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :de }[:name]).to eq(en_name) }
       it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :en }[:name]).to eq(en_name) }
       it { expect(assigns(:custom_field).translations.find { |elem| elem.locale == :en }[:default_value]).to be_nil }

@@ -26,7 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n, queryMenuItemFactory, $rootScope, QUERY_MENU_ITEM_TYPE) {
+/* jshint camelcase: false */
+
+module.exports = function(
+    Query,
+    Sortation,
+    $http,
+    PathHelper,
+    $q,
+    AVAILABLE_WORK_PACKAGE_FILTERS,
+    StatusService,
+    TypeService,
+    PriorityService,
+    UserService,
+    VersionService,
+    CategoryService,
+    RoleService,
+    GroupService,
+    ProjectService,
+    WorkPackagesTableHelper,
+    I18n,
+    queryMenuItemFactory,
+    $rootScope,
+    QUERY_MENU_ITEM_TYPE
+  ) {
 
   var query;
 
@@ -164,10 +187,15 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
 
     loadAvailableUnusedColumns: function(projectIdentifier) {
       return QueryService.loadAvailableColumns(projectIdentifier)
-        .then(function(available_columns) {
-          availableUnusedColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
+        .then(function(availableColumns) {
+          availableUnusedColumns = QueryService.selectUnusedColumns(availableColumns);
           return availableUnusedColumns;
         });
+    },
+
+    selectUnusedColumns: function(columns) {
+      return WorkPackagesTableHelper.getColumnDifference(
+        columns, QueryService.getSelectedColumns());
     },
 
     loadAvailableColumns: function(projectIdentifier) {
@@ -190,6 +218,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
 
     setGroupBy: function(groupBy) {
       query.setGroupBy(groupBy);
+      query.dirty = true;
     },
 
     getSelectedColumns: function() {
@@ -197,6 +226,7 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
     },
 
     setSelectedColumns: function(selectedColumnNames) {
+      query.dirty = true;
       var currentColumns = this.getSelectedColumns();
 
       this.hideColumns(currentColumns.map(function(column) { return column.name; }));
@@ -279,6 +309,9 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
               case 'version':
                 retrieveAvailableValues = VersionService.getVersions(projectIdentifier);
                 break;
+              case 'category':
+                retrieveAvailableValues = CategoryService.getCategories(projectIdentifier);
+                break;
               case 'role':
                 retrieveAvailableValues = RoleService.getRoles();
                 break;
@@ -316,7 +349,8 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
     saveQuery: function() {
       var url = query.project_id ? PathHelper.apiProjectQueryPath(query.project_id, query.id) : PathHelper.apiQueryPath(query.id);
 
-      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
+      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response) {
+        query.dirty = false;
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
@@ -346,6 +380,10 @@ module.exports = function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WOR
       return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
+        $rootScope.$broadcast('openproject.layout.removeMenuItem', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          objectId: query.id
+        });
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
       });
     },

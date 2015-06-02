@@ -40,8 +40,8 @@ describe 'Work package index accessibility', type: :feature do
   def visit_index_page
     work_packages_page.visit_index
     # ensure the page is loaded before expecting anything
-    find('.filter-fields select option', text: /\AAssignee\Z/,
-                                         visible: false)
+    find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
+                                                     visible: false)
   end
 
   before do
@@ -57,8 +57,9 @@ describe 'Work package index accessibility', type: :feature do
     # the data in the db to prepare for the next spec.
     #
     # Taking an element, that get's activated late in the page setup.
-    expect(page).to have_selector('.filter label', text: I18n.t(:label_status),
-                                                   visible: false)
+    expect(page).to have_selector('.advanced-filters--filter label',
+                                  text: I18n.t(:label_status),
+                                  visible: false)
   end
 
   describe 'Select all link' do
@@ -156,7 +157,7 @@ describe 'Work package index accessibility', type: :feature do
     end
 
     describe 'id column' do
-      let(:link_caption) { '#' }
+      let(:link_caption) { 'ID' }
       let(:column_header_selector) { 'table.workpackages-table th:nth-of-type(2)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
@@ -309,7 +310,7 @@ describe 'Work package index accessibility', type: :feature do
           expect(page).to have_selector('.ng-modal-window')
           find('body').native.send_keys(:escape)
           # expect it to disappear
-          expect(page).to_not have_selector('.ng-modal-window')
+          expect(page).not_to have_selector('.ng-modal-window')
           # expect the gear to be focused
           expect(page).to have_selector('#work-packages-settings-button:focus')
         end

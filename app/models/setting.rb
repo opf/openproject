@@ -188,21 +188,6 @@ class Setting < ActiveRecord::Base
     per_page_options.split(%r{[\s,]}).map(&:to_i).select { |n| n > 0 }.sort
   end
 
-  # Deprecation Warning: This method is no longer available. There is no
-  # replacement.
-  def self.check_cache
-    ActiveSupport::Deprecation.warn 'The Setting.check_cache method is ' +
-      'deprecated and will be removed in the future. There should be no ' +
-      'replacement for this functionality needed.'
-  end
-
-  # Clears all of the Setting caches
-  def self.clear_cache
-    ActiveSupport::Deprecation.warn 'The Setting.clear_cache method is ' +
-      'deprecated and will be removed in the future. There should be no ' +
-      'replacement for this functionality needed.'
-  end
-
   private
 
   # Returns the Setting instance for the setting named name

@@ -32,7 +32,7 @@ describe UserPassword, type: :model do
   let(:old_password) { FactoryGirl.create(:old_user_password) }
   let(:password) { FactoryGirl.create(:user_password) }
 
-  describe :expired? do
+  describe '#expired?' do
     it 'should be true for an old password when password expiry is activated' do
       with_settings password_days_valid: 30 do
         expect(old_password.expired?).to be_truthy

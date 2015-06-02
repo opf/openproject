@@ -62,10 +62,14 @@ module API
             'urn:openproject-org:api:v3:errors:UpdateConflict'
           when ::API::Errors::NotFound
             'urn:openproject-org:api:v3:errors:NotFound'
-          when ::API::Errors::Unauthenticated, ::API::Errors::Unauthorized
+          when ::API::Errors::Unauthenticated
+            'urn:openproject-org:api:v3:errors:Unauthenticated'
+          when ::API::Errors::Unauthorized
             'urn:openproject-org:api:v3:errors:MissingPermission'
           when ::API::Errors::UnwritableProperty
             'urn:openproject-org:api:v3:errors:PropertyIsReadOnly'
+          when ::API::Errors::PropertyFormatError
+            'urn:openproject-org:api:v3:errors:PropertyFormatError'
           when ::API::Errors::Validation
             'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
           when ::API::Errors::InvalidRenderContext
@@ -74,6 +78,8 @@ module API
             'urn:openproject-org:api:v3:errors:InvalidUserStatusTransition'
           when ::API::Errors::InvalidRequestBody
             'urn:openproject-org:api:v3:errors:InvalidRequestBody'
+          when ::API::Errors::UnsupportedMediaType
+            'urn:openproject-org:api:v3:errors:TypeNotSupported'
           end
         end
       end

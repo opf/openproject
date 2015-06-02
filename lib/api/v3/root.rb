@@ -33,16 +33,17 @@
 
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
-
+    class Root < ::API::OpenProjectAPI
       mount ::API::V3::Activities::ActivitiesAPI
       mount ::API::V3::Attachments::AttachmentsAPI
+      mount ::API::V3::Categories::CategoriesAPI
       mount ::API::V3::Priorities::PrioritiesAPI
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI
       mount ::API::V3::Render::RenderAPI
       mount ::API::V3::Statuses::StatusesAPI
+      mount ::API::V3::StringObjects::StringObjectsAPI
+      mount ::API::V3::Types::TypesAPI
       mount ::API::V3::Users::UsersAPI
       mount ::API::V3::Versions::VersionsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI

@@ -85,14 +85,17 @@
       "method": "post",
       "title": "Add comment"
     },
-    "parent": {
-      "href": "/api/v3/work_packages/54",
-      "title": "asdsadd"
-    },
     "timeEntries": {
       "href": "/work_packages/822/time_entries",
       "type": "text/html",
       "title": "Time entries"
+    },
+    "project": {
+      "href": "/api/v3/projects/1",
+      "title": "Seeded Project"
+    },
+    "schema": {
+      "href": "/api/v3/work_packages/schemas/1-7"
     }
   },
   "id": 822,
@@ -107,11 +110,6 @@
   "estimatedTime": "PT0S",
   "spentTime": "PT12H",
   "percentageDone": 0,
-  "versionId": null,
-  "versionName": null,
-  "projectId": 1,
-  "projectName": "Seeded Project",
-  "parentId": 54,
   "createdAt": "2014-11-05T15:56:53Z",
   "updatedAt": "2014-12-04T09:48:50Z",
   "customProperties": [
@@ -147,6 +145,9 @@
       "defaultDoneRatio": null,
       "position": 9
     },
+    "priority": {
+      "name": "high"
+    },
     "author": {
       "_type": "User",
       "_links": {
@@ -161,7 +162,7 @@
       "firstName": "Freida",
       "lastName": "Fay",
       "name": "Freida Fay",
-      "mail": "elwyn_dickens@gulgowskicasper.biz",
+      "email": "elwyn_dickens@gulgowskicasper.biz",
       "avatar": "",
       "createdAt": "2014-11-05T15:56:822Z",
       "updatedAt": "2014-11-05T15:56:822Z",
@@ -181,7 +182,7 @@
       "firstName": "OpenProject",
       "lastName": "Admin",
       "name": "OpenProject Admin",
-      "mail": "0xf013@gmail.com",
+      "email": "0xf013@gmail.com",
       "avatar": "",
       "createdAt": "2014-11-05T15:56:23Z",
       "updatedAt": "2014-12-03T14:58:37Z",
@@ -2641,6 +2642,56 @@
         "createdAt": "2014-12-04T09:48:50Z"
       }
     ],
+    "version": {
+      "_type": "Version",
+      "_links": {
+        "self": {
+          "href": "/api/v3/versions/1",
+          "title": "alpha"
+        },
+        "definingProject": {
+          "href": "/api/v3/projects/1",
+          "title": "Seeded Project"
+        },
+        "availableInProjects": {
+          "href": "/api/v3/versions/1/projects"
+        }
+      },
+      "id": 1,
+      "name": "alpha",
+      "description": {
+        "format": "plain",
+        "raw": ""
+      },
+      "startDate": "2014-10-23",
+      "endDate": null,
+      "status": "open",
+      "createdAt": "01/21/2015/ 09:30 AM",
+      "updatedAt": "01/21/2015/ 09:30 AM"
+    },
+    "project": {
+      "_type": "Project",
+      "_links": {
+        "self": {
+        "href": "/api/v3/projects/1",
+        "title": "No Plugins Project"
+      },
+      "categories": {
+        "href": "/api/v3/projects/1/categories"
+      },
+      "versions": {
+        "href": "/api/v3/projects/1/versions"
+      }
+      },
+      "id": 1,
+      "identifier": "seeded-project",
+      "name": "Seeded Project",
+      "description": "",
+      "homepage": "",
+      "createdAt": "2014-04-30T13:28:51+00:00",
+      "updatedAt": "2014-04-30T13:28:51+00:00",
+      "type": null
+    },
     "watchers": [],
     "attachments": [],
     "relations": []

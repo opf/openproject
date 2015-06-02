@@ -31,18 +31,18 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="meta">
     <% attributes = work_package_show_attributes(work_package) %>
     <div id="left" style="float:left; width:50%;">
-      <table class="attributes">
+      <dl class="attributes-key-value">
         <% attributes[:left].each do |attribute| %>
-          <tr><%= attribute.field.html_safe %> </tr>
+          <%= attribute.field.html_safe %>
         <% end %>
-      </table>
+      </dl>
     </div>
     <div id="right" style="float:left; width:50%;">
-      <table class="attributes">
+      <dl class="attributes-key-value">
         <% attributes[:right].each do |attribute| %>
-          <tr><%= attribute.field.html_safe %> </tr>
+          <%= attribute.field.html_safe %>
         <% end %>
-      </table>
+      </dl>
     </div>
     <br style="clear:both;" />
   </div>

@@ -38,6 +38,18 @@ module API
           include Roar::JSON::HAL
           include Roar::Hypermedia
 
+          class << self
+            def create_class(work_package)
+              injector_class = ::API::V3::Utilities::CustomFieldInjector
+              injector_class.create_value_representer_for_property_patching(work_package,
+                                                                            WorkPackagePayloadRepresenter)
+            end
+
+            def create(work_package, options = {})
+              create_class(work_package).new(work_package, options)
+            end
+          end
+
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
           def initialize(represented, options = {})
@@ -48,8 +60,6 @@ module API
 
             super(represented)
           end
-
-          property :_type, exec_context: :decorator, writeable: false
 
           property :linked_resources,
                    as: :_links,
@@ -64,28 +74,64 @@ module API
 
           property :lock_version
           property :subject, render_nil: true
+          property :done_ratio,
+                   as: :percentageDone,
+                   render_nil: true,
+                   if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
+
+          property :estimated_hours,
+                   as: :estimatedTime,
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     datetime_formatter.format_duration_from_hours(represented.estimated_hours,
+                                                                   allow_nil: true)
+                   },
+                   setter: -> (value, *) {
+                     represented.estimated_hours = datetime_formatter.parse_duration_to_hours(
+                       value,
+                       'estimated_hours',
+                       allow_nil: true)
+                   },
+                   render_nil: true
+
           property :description,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     {
-                       format: 'textile',
-                       raw: represented.description,
-                       html: description_renderer.to_html
-                     }
+                     API::Decorators::Formattable.new(represented.description, object: represented)
                    },
                    setter: -> (value, *) { represented.description = value['raw'] },
                    render_nil: true
-          property :parent_id, writeable: true
+
+          property :parent_id,
+                   writeable: true,
+                   render_nil: true
 
           property :project_id,
                    getter: -> (*) { nil },
                    render_nil: false
+
           property :start_date,
-                   getter: -> (*) { nil },
-                   render_nil: false
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     datetime_formatter.format_date(represented.start_date, allow_nil: true)
+                   },
+                   setter: -> (value, *) {
+                     represented.start_date = datetime_formatter.parse_date(value,
+                                                                            'startDate',
+                                                                            allow_nil: true)
+                   },
+                   render_nil: true
           property :due_date,
-                   getter: -> (*) { nil },
-                   render_nil: false
+                   exec_context: :decorator,
+                   getter: -> (*) {
+                     datetime_formatter.format_date(represented.due_date, allow_nil: true)
+                   },
+                   setter: -> (value, *) {
+                     represented.due_date = datetime_formatter.parse_date(value,
+                                                                          'dueDate',
+                                                                          allow_nil: true)
+                   },
+                   render_nil: true
           property :version_id,
                    getter: -> (*) { nil },
                    setter: -> (value, *) { self.fixed_version_id = value },
@@ -95,18 +141,14 @@ module API
           property :updated_at,
                    getter: -> (*) { nil }, render_nil: false
 
-          def _type
-            'WorkPackage'
-          end
-
           private
 
-          def work_package_attribute_links_representer(represented)
-            ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.new represented
+          def datetime_formatter
+            API::V3::Utilities::DateTimeFormatter
           end
 
-          def description_renderer
-            ::API::Utilities::Renderer::TextileRenderer.new(represented.description, represented)
+          def work_package_attribute_links_representer(represented)
+            ::API::V3::WorkPackages::Form::WorkPackageAttributeLinksRepresenter.create represented
           end
         end
       end

@@ -1,0 +1,41 @@
+<div class="tl-toolbar legacy-actions--inline-label" ng-show="!warning">
+  <div class="tl-toolbar-container">
+    <a href="javascript://" ng-if='ctrl.timeline.USE_MODALS' ng-click="ctrl.timeline.addPlanningElement()" title="{{I18n.t('js.timelines.new_work_package')}}" class="icon icon-add">
+      <span class="hidden-for-sighted">{{ I18n.t('js.timelines.new_work_package') }}</span>
+    </a>
+  </div>
+
+  <div class="tl-toolbar-container">
+    <a href="javascript://" title="{{ I18n.t('js.timelines.zoom.out') }}" class="icon icon-zoom-out" ng-click="ctrl.decreaseZoom()"></a>
+  </div>
+
+  <div class="tl-toolbar-container" style="width: 100px; height: 20px;">
+    <zoom-slider scales="::ctrl.timeline.ZOOM_SCALES"
+      selected-scale="ctrl.currentScale"></zoom-slider>
+  </div>
+
+  <div class="tl-toolbar-container">
+    <a href="javascript://" title="{{ I18n.t('js.timelines.zoom.in') }}" class="icon icon-zoom-in" ng-click="ctrl.increaseZoom()"></a>
+  </div>
+
+
+  <div class="tl-toolbar-container">
+    <form>
+      <label for="tl-toolbar-zooms" class="hidden-for-sighted">{{ I18n.t('js.tl_toolbar.zooms') }}</label>
+      <select id="tl-toolbar-zooms" name="zooms" ng-model="ctrl.currentScale" ng-options="I18n.t('js.' + ctrl.timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in ctrl.timeline.ZOOM_SCALES">
+      </select>
+    </form>
+  </div>
+
+  <div class="tl-toolbar-container">
+    <a href="javascript://" title="{{ I18n.t('js.timelines.outline') }}" class="icon icon-outline" ng-click="ctrl.resetOutline()"></a>
+  </div>
+
+  <div class="tl-toolbar-container">
+    <form>
+      <label for="tl-toolbar-outlines" class="hidden-for-sighted">{{ I18n.t('js.tl_toolbar.outlines') }}</label>
+      <select id="tl-toolbar-outlines" name="outlines" ng-model="ctrl.currentOutlineLevel" ng-options="I18n.t('js.' + ctrl.timeline.OUTLINE_CONFIGURATIONS[level].name) for level in ctrl.timeline.OUTLINE_LEVELS">
+      </select>
+    </form>
+  </div>
+</div>

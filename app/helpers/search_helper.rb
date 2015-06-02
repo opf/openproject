@@ -94,8 +94,7 @@ module SearchHelper
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
     options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
     options << [@project.name, 'current_project'] unless @project.nil?
-    label_tag('scope', l(:description_project_scope), class: 'hidden-for-sighted') +
-      select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
+    styled_select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
   end
 
   def render_results_by_type(results_by_type)

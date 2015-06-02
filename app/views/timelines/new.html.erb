@@ -28,17 +28,16 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l("timelines.new_timeline") %>
+<%= toolbar title: l('timelines.new_timeline') %>
 
-<h2><%=l('timelines.new_timeline')%></h2>
-
-<%= form_for(:timeline,
+<%= labelled_tabular_form_for(@timeline,
              :url => project_timelines_path,
-             :html => {:class => "tabular", :method => 'post'}) do |f| %>
+             :html => {:method => 'post'}) do |f| %>
 
   <%= render(:partial => "timelines/form",
              :locals => {:f => f, :timeline => @timeline}) %>
 
-  <%= f.submit l(:button_create) %>
-  <%= link_to l(:button_cancel), project_path(@project) %>
+  <%= f.button l(:button_create), class: 'button -highlight -with-icon icon-yes' %>
+  <%= link_to l(:button_cancel), project_path(@project), class: 'button' %>
 
 <% end %>

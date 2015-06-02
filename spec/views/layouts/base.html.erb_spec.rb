@@ -49,7 +49,7 @@ describe 'layouts/base', type: :view do
       end
 
       it 'the projects menu should not be displayed' do
-        expect(response).to_not have_text('Projects')
+        expect(response).not_to have_text('Projects')
       end
     end
 

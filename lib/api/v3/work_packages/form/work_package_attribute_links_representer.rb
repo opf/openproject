@@ -39,65 +39,78 @@ module API
           include Roar::Hypermedia
           include API::V3::Utilities::PathHelper
 
+          class << self
+            def create_class(work_package)
+              injector_class = ::API::V3::Utilities::CustomFieldInjector
+              injector_class.create_value_representer_for_link_patching(work_package,
+                                                                        WorkPackageAttributeLinksRepresenter)
+            end
+
+            def create(work_package)
+              create_class(work_package).new(work_package)
+            end
+          end
+
           self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-          property :status,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     { href: api_v3_paths.status(represented.status_id) }
-                   },
-                   setter: -> (value, *) {
-                     resource = parse_resource(:status, :statuses, value['href'])
+          def self.linked_property(property,
+                                   namespace: property.to_s.pluralize,
+                                   association: "#{property}_id",
+                                   path: property,
+                                   show_if: true)
 
-                     represented.status_id = resource[:id] if resource
-                   }
+            property property,
+                     exec_context: :decorator,
+                     getter: -> (*) {
+                       get_path(get_method: association,
+                                path: path)
+                     },
+                     setter: -> (value, *) {
+                       parse_link(property: property,
+                                  namespace: namespace,
+                                  value: value,
+                                  setter_method: :"#{association}=")
+                     },
+                     if: show_if
+          end
 
-          property :assignee,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     id = represented.assigned_to_id
-
-                     { href: (api_v3_paths.user(id) if id) }
-                   },
-                   setter: -> (value, *) {
-                     user_id = parse_user_resource(:assignee, value['href'])
-
-                     represented.assigned_to_id = user_id
-                   }
-
-          property :responsible,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     id = represented.responsible_id
-
-                     { href: (api_v3_paths.user(id) if id) }
-                   },
-                   setter: -> (value, *) {
-                     user_id = parse_user_resource(:responsible, value['href'])
-
-                     represented.responsible_id = user_id
-                   }
+          linked_property :type
+          linked_property :status
+          linked_property :assignee,
+                          namespace: :users,
+                          association: :assigned_to_id,
+                          path: :user
+          linked_property :responsible,
+                          namespace: :users,
+                          association: :responsible_id,
+                          path: :user
+          linked_property :category
+          linked_property :version,
+                          association: :fixed_version_id
+          linked_property :priority
 
           private
+
+          def get_path(get_method: nil, path: nil)
+            id = represented.send(get_method)
+
+            { href: (api_v3_paths.send(path, id) if id) }
+          end
+
+          def parse_link(property: nil, namespace: nil, value: {}, setter_method: nil)
+            return unless value.has_key?('href')
+            resource = parse_resource(property, namespace, value['href'])
+
+            represented.send(setter_method, resource)
+          end
 
           def parse_resource(property, ns, href)
             return nil unless href
 
-            resource = ::API::Utilities::ResourceLinkParser.parse href
-
-            if resource.nil? || resource[:ns] != ns.to_s
-              actual_ns = resource ? resource[:ns] : nil
-
-              fail ::API::Errors::Form::InvalidResourceLink.new(property, ns, actual_ns)
-            end
-
-            resource
-          end
-
-          def parse_user_resource(property, href)
-            resource = parse_resource(property, :users, href)
-
-            resource ? resource[:id] : nil
+            ::API::Utilities::ResourceLinkParser.parse_id href,
+                                                          property: property,
+                                                          expected_version: '3',
+                                                          expected_namespace: ns
           end
         end
       end

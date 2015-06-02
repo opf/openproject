@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::QueryColumn, type: :model do
   let(:instance) { QueryColumn.new(:query_column) }
 
-  describe :groupable do
+  describe '#groupable' do
     it 'is the name if true is provided' do
       instance.groupable = true
 
@@ -57,7 +57,7 @@ describe ::QueryColumn, type: :model do
     end
   end
 
-  describe :sortable do
+  describe '#sortable' do
     it 'is the name if true is provided' do
       instance.sortable = true
 
@@ -83,7 +83,7 @@ describe ::QueryColumn, type: :model do
     end
   end
 
-  describe :groupable? do
+  describe '#groupable?' do
     it 'is false by default' do
       expect(instance.groupable?).to be_falsey
     end
@@ -101,7 +101,7 @@ describe ::QueryColumn, type: :model do
     end
   end
 
-  describe :sortable? do
+  describe '#sortable?' do
     it 'is false by default' do
       expect(instance.sortable?).to be_falsey
     end

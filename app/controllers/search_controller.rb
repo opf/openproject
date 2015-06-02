@@ -30,12 +30,10 @@
 class SearchController < ApplicationController
   before_filter :find_optional_project
 
-  include MessagesHelper
-
   def index
     @question = params[:q] || ''
     @question.strip!
-    @all_words = params[:all_words] || (params[:submit] ? false : true)
+    @all_words = params[:all_words] || !params[:submit]
     @titles_only = !params[:titles_only].nil?
 
     projects_to_search =

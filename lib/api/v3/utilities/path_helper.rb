@@ -62,12 +62,16 @@ module API
             "#{project(project_id)}/categories"
           end
 
-          def self.preview_textile(link)
-            preview_markup(:textile, link)
+          def self.category(id)
+            "#{root}/categories/#{id}"
           end
 
           def self.priorities
             "#{root}/priorities"
+          end
+
+          def self.priority(id)
+            "#{priorities}/#{id}"
           end
 
           def self.projects
@@ -82,8 +86,26 @@ module API
             "#{root}/queries/#{id}"
           end
 
+          def self.query_star(id)
+            "#{query(id)}/star"
+          end
+
+          def self.query_unstar(id)
+            "#{query(id)}/unstar"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
+          end
+
+          def self.render_markup(format: nil, link: nil)
+            format = format || Setting.text_formatting
+            format = 'plain' if format == '' # Setting will return '' for plain
+
+            path = "#{root}/render/#{format}"
+            path += "?context=#{link}" if link
+
+            path
           end
 
           def self.statuses
@@ -92,6 +114,22 @@ module API
 
           def self.status(id)
             "#{statuses}/#{id}"
+          end
+
+          def self.string_object(value)
+            "#{root}/string_objects?value=#{::ERB::Util::url_encode(value)}"
+          end
+
+          def self.types
+            "#{root}/types"
+          end
+
+          def self.types_by_project(project_id)
+            "#{project(project_id)}/types"
+          end
+
+          def self.type(id)
+            "#{types}/#{id}"
           end
 
           def self.users
@@ -110,11 +148,11 @@ module API
             "#{root}/versions/#{version_id}"
           end
 
-          def self.versions(project_id)
+          def self.versions_by_project(project_id)
             "#{project(project_id)}/versions"
           end
 
-          def self.versions_projects(version_id)
+          def self.projects_by_version(version_id)
             "#{version(version_id)}/projects"
           end
 
@@ -134,6 +172,10 @@ module API
             "#{work_package(id)}/activities"
           end
 
+          def self.work_package_form(id)
+            "#{work_package(id)}/form"
+          end
+
           def self.work_package_relations(id)
             "#{work_package(id)}/relations"
           end
@@ -142,8 +184,8 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
-          def self.work_package_form(id)
-            "#{work_package(id)}/form"
+          def self.work_package_schema(project_id, type_id)
+            "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
 
           def self.work_package_watchers(id)
@@ -154,14 +196,6 @@ module API
             @@root_path ||= Class.new.tap do |c|
               c.extend(::API::V3::Utilities::PathHelper)
             end.root_path
-          end
-
-          def self.preview_markup(method, link)
-            path = "#{root}/render/#{method}"
-
-            path += "?#{link}" unless link.nil?
-
-            path
           end
         end
 

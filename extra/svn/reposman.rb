@@ -138,7 +138,7 @@ OptionParser.new do |opts|
   opts.separator("  reposman.rb --svn-dir=/var/svn --openproject-host=openproject.example.net --scm Subversion")
   opts.separator("  reposman.rb -s /var/git -r openproject.example.net -u http://svn.example.net --scm Git")
   opts.separator("")
-  opts.separator("You might find more information on the openproject's wiki:\nhttps://www.openproject.org/projects/openproject/wiki/Support")
+  opts.separator("You might find more information on the OpenProject's help site:\nhttps://www.openproject.org/help")
 end.parse!
 
 if $test
@@ -205,7 +205,7 @@ def set_owner_and_rights(project, repos_path, &block)
 end
 
 def other_read_right?(file)
-  (File.stat(file).mode & 0007).zero? ? false : true
+  !(File.stat(file).mode & 0007).zero?
 end
 
 def owner_name(file)

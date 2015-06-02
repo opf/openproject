@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+require 'support/shared/acts_as_watchable'
+
 describe WorkPackage, type: :model do
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) {
@@ -38,109 +40,30 @@ describe WorkPackage, type: :model do
 
   let(:non_member_user) { FactoryGirl.create(:user) }
   let(:project_member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let!(:watching_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role).tap { |user| Watcher.create(watchable: work_package, user: user) }
+
+  it_behaves_like 'acts_as_watchable included' do
+    let(:model_instance) { FactoryGirl.create(:work_package) }
+    let(:watch_permission) { :view_work_packages }
+    let(:project) { model_instance.project }
   end
 
-  describe '#possible_watcher_users' do
-    subject { work_package.possible_watcher_users }
-
-    let!(:admin) { FactoryGirl.create(:admin) }
-    let!(:anonymous_user) { FactoryGirl.create(:anonymous) }
-
-    shared_context 'non member role has the permission to view work packages' do
-      let(:non_member_role) { Role.find_by_name('Non member') }
-
-      before do
-        non_member_role.add_permission! :view_work_packages
-      end
-    end
-
-    shared_context 'anonymous role has the permission to view work packages' do
-      let!(:anonymous_role) { FactoryGirl.create :anonymous_role, permissions: [:view_work_packages] } # 'project granting candidate' for anonymous user
-    end
-
-    context 'when it is a public project' do
-      it 'contains project members who are allowed to view work packages' do
-        users_allowed_to_view_work_packages = project.users.select { |u| u.allowed_to?(:view_work_packages, project) }
-        expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
-      end
-
-      xit { is_expected.to include(project_member) }
-      it { is_expected.not_to include(admin) }
-
-      context 'and the non member role has the permission to view work packages' do
-        include_context 'non member role has the permission to view work packages'
-
-        it { is_expected.not_to include(non_member_user) }
-      end
-
-      context 'and the anonymous role has the permission to view work packages' do
-        include_context 'anonymous role has the permission to view work packages'
-
-        it { is_expected.not_to include(anonymous_user) }
-      end
-    end
-
-    context 'when it is a private project' do
-      include_context 'non member role has the permission to view work packages'
-      include_context 'anonymous role has the permission to view work packages'
-
-      before do
-        project.update_attributes is_public: false
-        work_package.reload
-      end
-
-      it 'contains project members who are allowed to view work packages' do
-        users_allowed_to_view_work_packages = project.users.select { |u| u.allowed_to?(:view_work_packages, project) }
-        expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
-      end
-
-      xit { is_expected.to include(project_member) }
-
-      it { is_expected.not_to include(admin) }
-      it { is_expected.not_to include(non_member_user) }
-      it { is_expected.not_to include(anonymous_user) }
-    end
-  end
-
-  describe '#watcher_recipients' do
-    subject { work_package.watcher_recipients }
-
-    it { is_expected.to include(watching_user.mail) }
-
-    context 'when the permission to view work packages has been removed' do
-      before do
-        role.remove_permission! :view_work_packages
-        work_package.reload
-      end
-
-      it { is_expected.not_to include(watching_user.mail) }
-    end
-  end
-
-  describe '#watched_by?' do
-    subject { work_package.watched_by?(watching_user) }
-
-    context 'when the permission to view work packages has been removed' do
-      # an existing watcher shouldn't be removed
-      before do
-        role.remove_permission! :view_work_packages
-        work_package.reload
-      end
-
-      it { is_expected.to be_truthy }
-    end
-  end
-
+  # This is not really a trait of acts as watchable but rather of
+  # the work package observer + journal observer
   context 'notifications' do
     let(:number_of_recipients) { (work_package.recipients | work_package.watcher_recipients).length }
+    let(:current_user) { FactoryGirl.create :user }
 
-    it 'sends one delayed mail notification for each watcher recipient' do
-      UserMailer.stub_chain :work_package_updated, :deliver
+    before do
+      allow(UserMailer).to receive_message_chain :work_package_updated, :deliver
+
       # Ensure notification setting to be set in a way that will trigger e-mails.
       allow(Setting).to receive(:notified_events).and_return(%w(work_package_updated))
       expect(UserMailer).to receive(:work_package_updated).exactly(number_of_recipients).times
+
+      allow(User).to receive(:current).and_return(current_user)
+    end
+
+    it 'sends one delayed mail notification for each watcher recipient' do
       work_package.update_attributes description: 'Any new description'
     end
   end

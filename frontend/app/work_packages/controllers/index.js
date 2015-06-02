@@ -31,29 +31,14 @@ angular.module('openproject.workPackages.controllers')
   .constant('STATUS_TYPE', 'status')
   .constant('VERSION_TYPE', 'version')
   .constant('CATEGORY_TYPE', 'category')
+  .constant('PRIORITY_TYPE', 'priority')
   .constant('USER_TYPE', 'user')
   .constant('TIME_ENTRY_TYPE', 'time_entry')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
   .controller('DetailsTabOverviewController', [
     '$scope',
-    'I18n',
     'WorkPackagesOverviewService',
-    'TEXT_TYPE',
-    'STATUS_TYPE',
-    'VERSION_TYPE',
-    'CATEGORY_TYPE',
-    'USER_TYPE',
-    'TIME_ENTRY_TYPE',
-    'USER_FIELDS',
-    'CustomFieldHelper',
-    'WorkPackagesHelper',
-    'AuthorisationService',
-    'PathHelper',
-    'UserService',
-    'VersionService',
-    'HookService',
-    'OverviewService',
-    '$q',
+    'WorkPackageFieldService',
     require('./details-tab-overview-controller')
   ])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
@@ -99,6 +84,7 @@ angular.module('openproject.workPackages.controllers')
     'CommonRelationsHandler',
     'ChildrenRelationsHandler',
     'ParentRelationsHandler',
+    'EditableFieldsState',
     require('./work-package-details-controller')
   ])
   .controller('WorkPackagesController', [
@@ -107,6 +93,7 @@ angular.module('openproject.workPackages.controllers')
     '$stateParams',
     'QueryService',
     'PathHelper',
+    '$rootScope',
     require('./work-packages-controller')
   ])
   .controller('WorkPackagesListController', [
@@ -143,6 +130,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageService',
     'WorkPackagesTableService',
     '$rootScope',
+    '$timeout',
     require('./dialogs/columns')
   ])
   .factory('exportModal', ['btfModal', function(btfModal) {

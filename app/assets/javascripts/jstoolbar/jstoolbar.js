@@ -206,10 +206,6 @@ jsToolBar.prototype = {
     }
     this.toolNodes = {}; // vide les raccourcis DOM/**/
 
-    var h = document.createElement('div');
-    h.className = 'help';
-    h.innerHTML = this.help_link;
-
     // Draw toolbar elements
     var b, tool, newTool;
 
@@ -230,7 +226,7 @@ jsToolBar.prototype = {
         }
       }
     }
-    this.toolbar.appendChild(h);
+    this.toolbar.appendChild(this.help_link);
   },
 
   singleTag: function(stag,etag) {

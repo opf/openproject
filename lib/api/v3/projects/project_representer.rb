@@ -34,19 +34,15 @@ module API
   module V3
     module Projects
       class ProjectRepresenter < ::API::Decorators::Single
-        link :self do
-          {
-            href: api_v3_paths.project(represented.id),
-            title: "#{represented.name}"
-          }
-        end
+
+        self_link
 
         link 'categories' do
           { href: api_v3_paths.categories(represented.id) }
         end
 
         link 'versions' do
-          { href: api_v3_paths.versions(represented.id) }
+          { href: api_v3_paths.versions_by_project(represented.id) }
         end
 
         property :id, render_nil: true
@@ -56,8 +52,14 @@ module API
         property :description,  render_nil: true
         property :homepage
 
-        property :created_on,   render_nil: true
-        property :updated_on,   render_nil: true
+        property :created_on,
+                 as: 'createdAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+        property :updated_on,
+                 as: 'updatedAt',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
 
         property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
 
