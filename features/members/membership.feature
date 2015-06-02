@@ -96,14 +96,14 @@ Feature: Membership
      When I go to the members tab of the settings page of the project "project1"
      And  I enter the principal name "script"
      Then I should not see an alert dialog
-      And I should see "&lt;script&gt;alert(&#x27;h4x&#x27;);&lt;/script&gt;"
+      And I should see "<script>alert('h4x');</script>"
 
   @javascript
   Scenario: Escaping should work properly when selecting a user
      When I go to the members tab of the settings page of the project "project1"
      When I select the principal "script"
      Then I should not see an alert dialog
-      And I should see "&lt;script&gt;alert(&#x27;h4x&#x27;);&lt;/script&gt;"
+      And I should see "&lt;script&gt;alert(&apos;h4x&apos;);&lt;&#47;script&gt;"
 
   @javascript
   Scenario: Adding and Removing a Group as Member, impaired
