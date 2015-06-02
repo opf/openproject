@@ -789,7 +789,7 @@ Permanently deletes the specified attachment.
                 }
             }
 
-## List attachments of a work package [GET]
+## List attachments [GET]
 
 + Parameters
     + id (required, integer, `1`) ... ID of the work package whose attachments will be listed
@@ -816,7 +816,7 @@ Permanently deletes the specified attachment.
                 "message": "The specified work package does not exist."
             }
 
-## Add attachment to a work package [POST]
+## Add attachment [POST]
 
 To add an attachment to a work package, a client needs to issue a request of type `multipart/form-data`
 with exactly two parts.
@@ -856,6 +856,21 @@ Instead the `fileName` inside the JSON of the metadata part will be used.
 
     [Attachment][]
 
++ Response 400 (application/hal+json)
+
+    Returned if the client sends a not understandable request. Reasons include:
+
+    * Omitting one of the required parts (metadata and file)
+    * sending unparsable JSON in the metadata part
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request could not be parsed as JSON."
+            }
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
@@ -888,6 +903,22 @@ Instead the `fileName` inside the JSON of the metadata part will be used.
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified work package does not exist."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if the client tries to send an invalid attachment.
+    Reasons are:
+
+    * Omitting the file name (`fileName` property of metadata part)
+    * Sending a file that is too large
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "File is too large (maximum size is 5242880 Bytes)."
             }
 
 # Group Categories
