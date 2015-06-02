@@ -37,7 +37,9 @@ describe 'API v3 Cost Entry resource' do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
   }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_cost_entries] }
+  let(:work_package_permissions) { [:view_work_packages] }
+  let(:cost_entry_permissions) { [:view_cost_entries] }
+  let(:permissions) { work_package_permissions + cost_entry_permissions }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   subject(:response) { last_response }
@@ -66,14 +68,14 @@ describe 'API v3 Cost Entry resource' do
     end
 
     context 'user can see own cost entries' do
-      let(:permissions) { [:view_own_cost_entries] }
+      let(:cost_entry_permissions) { [:view_own_cost_entries] }
       it 'should return HTTP 200' do
         expect(response.status).to eql(200)
       end
     end
 
     context 'user has no cost entry permissions' do
-      let(:permissions) { [] }
+      let(:cost_entry_permissions) { [] }
 
       it_behaves_like 'error response',
                       403,
@@ -92,14 +94,14 @@ describe 'API v3 Cost Entry resource' do
     end
 
     context 'user can see own cost entries' do
-      let(:permissions) { [:view_own_cost_entries] }
+      let(:cost_entry_permissions) { [:view_own_cost_entries] }
       it 'should return HTTP 200' do
         expect(response.status).to eql(200)
       end
     end
 
     context 'user has no cost entry permissions' do
-      let(:permissions) { [] }
+      let(:cost_entry_permissions) { [] }
 
       it_behaves_like 'error response',
                       403,
