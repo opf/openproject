@@ -49,7 +49,7 @@ GIT
 GIT
   remote: https://github.com/tessi/sprockets.git
   revision: 1e56fd0a92a9fda93dab4550ab3cf82138d097ac
-  branch: 2_2_2_backport2
+  ref: 1e56fd0a92a9fda9
   specs:
     sprockets (2.2.2.backport2)
       hike (~> 1.2)
@@ -178,6 +178,7 @@ GEM
     disposable (0.0.9)
       representable (~> 2.0)
       uber
+    docile (1.1.5)
     equalizer (0.0.9)
     equivalent-xml (0.5.1)
       nokogiri (>= 1.4.3)
@@ -426,10 +427,11 @@ GEM
     shoulda-context (1.2.1)
     shoulda-matchers (2.5.0)
       activesupport (>= 3.0.0)
-    simplecov (0.8.0.pre)
-      multi_json
-      simplecov-html (~> 0.7.1)
-    simplecov-html (0.7.1)
+    simplecov (0.10.0)
+      docile (~> 1.1.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     slop (3.5.0)
     strong_parameters (0.2.1)
       actionpack (~> 3.0)
@@ -557,7 +559,7 @@ DEPENDENCIES
   selenium-webdriver (~> 2.44.0)
   shoulda
   shoulda-matchers (~> 2.5.0)
-  simplecov (= 0.8.0.pre)
+  simplecov (~> 0.10.0)
   sprockets!
   sprockets-rails!
   strong_parameters
