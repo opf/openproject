@@ -40,7 +40,7 @@ describe 'API v3 Watcher resource', type: :request do
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [] }
   let(:view_work_packages_role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:work_package) { FactoryGirl.create(:work_package, project_id: project.id) }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:available_watcher) {
     FactoryGirl.create :user,
                        member_in_project: project,
@@ -95,42 +95,58 @@ describe 'API v3 Watcher resource', type: :request do
     }
     let(:new_watcher) { available_watcher }
 
+    let(:permissions) { [:add_work_package_watchers, :view_work_packages] }
+
     before do
       post post_path, post_body, 'CONTENT_TYPE' => 'application/json'
     end
 
-    context 'authorized user' do
-      let(:permissions) { [:add_work_package_watchers, :view_work_packages] }
+    it 'should respond with 201' do
+      expect(subject.status).to eq(201)
+    end
 
-      it 'should respond with 201' do
-        expect(subject.status).to eq(201)
+    it 'should respond with newly added watcher' do
+      expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
+      expect(subject.body).to be_json_eql(available_watcher.login.to_json).at_path('login')
+    end
+
+    context 'when user is already watcher' do
+      let(:new_watcher) { watching_user }
+
+      it 'should respond with 200' do
+        expect(subject.status).to eq(200)
       end
 
-      it 'should respond with newly added watcher' do
+      it 'should respond with correct watcher' do
         expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
-        expect(subject.body).to be_json_eql(available_watcher.login.to_json).at_path('login')
+        expect(subject.body).to be_json_eql(watching_user.login.to_json).at_path('login')
       end
+    end
 
-      context 'when user is already watcher' do
-        let(:new_watcher) { watching_user }
+    context 'when the work package does not exist' do
+      let(:post_path) { api_v3_paths.work_package_watchers 9999 }
 
-        it 'should respond with 200' do
-          expect(subject.status).to eq(200)
-        end
-
-        it 'should respond with correct watcher' do
-          expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
-          expect(subject.body).to be_json_eql(watching_user.login.to_json).at_path('login')
-        end
+      it_behaves_like 'not found' do
+        let(:id) { 9999 }
+        let(:type) { 'WorkPackage' }
       end
+    end
 
-      context 'when work package doesn\'t exist' do
-        let(:post_path) { api_v3_paths.work_package_watchers 9999 }
+    context 'when the user does not exist' do
+      let(:post_body) {
+        {
+          user: { href: api_v3_paths.user(99999) }
+        }.to_json
+      }
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'WorkPackage' }
-        end
+      it_behaves_like 'not found'
+    end
+
+    context 'when the target user is not allowed to watch the work package' do
+      let(:new_watcher) { FactoryGirl.create(:user) }
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { 'User is invalid' }
       end
     end
 

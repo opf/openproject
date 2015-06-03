@@ -78,8 +78,13 @@ module API
             user = User.find user_id
 
             Services::CreateWatcher.new(@work_package, user).run(
-              -> (result) { status(200) unless result[:created] },
-              -> (watcher) { raise ::API::Errors::Validation.new(watcher) }
+              success: -> (result) { status(200) unless result[:created] },
+              failure: -> (watcher) {
+                messages = watcher.errors.map do |attribute, message|
+                  watcher.errors.full_message(attribute, message) + '.'
+                end
+                raise ::API::Errors::Validation.new(messages)
+              }
             )
 
             ::API::V3::Users::UserRepresenter.new(user)
