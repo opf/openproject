@@ -104,6 +104,8 @@ module API
 
               user = User.find_by_id params[:user_id]
 
+              raise ::API::Errors::NotFound unless user
+
               Services::RemoveWatcher.new(@work_package, user).run
 
               status 204

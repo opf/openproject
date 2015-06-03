@@ -3360,7 +3360,9 @@ The response will be the collection of *all* the watchers for the given work pac
 
 + Response 204
 
-    Returned if the watcher was removed from the work package successfully.
+    Returned if the request was successful and thespecified user is not watching the work package anymore.
+
+    *Note: This might also be the case, if the specified user did not watch the work package prior to the request.*
 
 + Response 403 (application/hal+json)
 
@@ -3386,7 +3388,7 @@ The response will be the collection of *all* the watchers for the given work pac
 
     **Required permission:** view work package
 
-    Or the specified user is not a watcher of this work package.
+    Or the specified user does not exist at all.
 
     *Note that you will effectively not be able to change the watchers of a work package without being able to see the work package.*
 

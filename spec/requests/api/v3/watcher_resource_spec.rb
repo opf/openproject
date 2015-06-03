@@ -169,8 +169,8 @@ describe 'API v3 Watcher resource', type: :request do
   end
 
   describe '#delete' do
-    let(:existing_watcher) { watching_user }
-    let(:delete_path) { api_v3_paths.watcher existing_watcher.id, work_package.id }
+    let(:deleted_watcher) { watching_user }
+    let(:delete_path) { api_v3_paths.watcher deleted_watcher.id, work_package.id }
 
     before do
       delete delete_path
@@ -183,8 +183,14 @@ describe 'API v3 Watcher resource', type: :request do
         expect(subject.status).to eq(204)
       end
 
-      context 'when removing nonexistent watcher' do
+      context 'when removing nonexistent user' do
         let(:delete_path) { api_v3_paths.watcher 9999, work_package.id }
+
+        it_behaves_like 'not found'
+      end
+
+      context 'when removing user that is not watching' do
+        let(:deleted_watcher) { available_watcher }
 
         it 'should respond with 204' do
           expect(subject.status).to eq(204)
@@ -210,7 +216,7 @@ describe 'API v3 Watcher resource', type: :request do
 
       context 'when the current user tries to unwatch the work package her- or himself' do
         let(:current_user) { watching_user }
-        let(:new_watcher) { watching_user }
+        let(:deleted_watcher) { watching_user }
 
         it 'should respond with 204' do
           expect(subject.status).to eq(204)
