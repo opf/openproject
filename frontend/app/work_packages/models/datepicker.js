@@ -27,14 +27,7 @@
 //++
 
 module.exports = function(TimezoneService, ConfigurationService, $timeout) {
-  var parseDate = TimezoneService.parseDate,
-    parseISODate = TimezoneService.parseISODate,
-    formattedISODate = TimezoneService.formattedISODate,
-    customDateFormat = 'YYYY-MM-DD',
-    datepickerFormat = 'yy-mm-dd',
-    customFormattedDate = function(date) {
-      return parseISODate(date).format(customDateFormat);
-    },
+  var datepickerFormat = 'yy-mm-dd',
     addButton = function(appendTo, text, className, callback) {
       return jQuery('<button>', {
           text: text
@@ -46,7 +39,7 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
 
   function Datepicker(datepickerElem, textboxElem, date) {
     this.date = date;
-    this.prevDate = customFormattedDate(this.date);
+    this.prevDate = TimezoneService.formattedISODate(this.date);
     this.datepickerCont = angular.element(datepickerElem);
     this.textbox = angular.element(textboxElem);
     this.editTimerId = 0;
@@ -72,9 +65,9 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
 
   Datepicker.prototype.setDate = function(date) {
     if (date) {
-      this.datepickerCont.datepicker('option', 'defaultDate', customFormattedDate(date));
-      this.datepickerCont.datepicker('option', 'setDate', customFormattedDate(date));
-      this.textbox.val(customFormattedDate(date));
+      this.datepickerCont.datepicker('option', 'defaultDate', TimezoneService.formattedISODate(date));
+      this.datepickerCont.datepicker('option', 'setDate', TimezoneService.formattedISODate(date));
+      this.textbox.val(TimezoneService.formattedISODate(date));
     } else {
       this.datepickerCont.datepicker('option', 'defaultDate', null);
       this.datepickerCont.datepicker('option', 'setDate', null);
@@ -85,15 +78,15 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
 
   Datepicker.prototype.initialize = function() {
     var self = this,
-        firstDayOfWeek = ConfigurationService.startOfWeekPresent() ? 
-        ConfigurationService.startOfWeek() : 
+        firstDayOfWeek = ConfigurationService.startOfWeekPresent() ?
+        ConfigurationService.startOfWeek() :
         jQuery.datepicker._defaults.firstDay;
     this.datepickerCont.datepicker({
       firstDay: firstDayOfWeek,
       showWeeks: true,
       changeMonth: true,
       dateFormat: datepickerFormat,
-      defaultDate: customFormattedDate(self.date),
+      defaultDate: TimezoneService.formattedISODate(self.date),
       inline: true,
       showButtonPanel: true,
       beforeShow: function() {
@@ -114,13 +107,12 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
         return offset;
       },
       onSelect: function(selectedDate) {
-        console.log(arguments);
-        if (!selectedDate || selectedDate === '' || selectedDate === self.prevDate) {
+        if (!selectedDate || selectedDate === self.prevDate) {
           return;
         }
-        self.prevDate = parseDate(selectedDate, customDateFormat);
+        self.prevDate = TimezoneService.parseISODate(selectedDate);
         $timeout(function() {
-          self.onChange(formattedISODate(self.prevDate));
+          self.onChange(TimezoneService.formattedISODate(self.prevDate));
         });
         self.textbox.focus();
         self.datepickerCont.hide();
@@ -154,13 +146,13 @@ module.exports = function(TimezoneService, ConfigurationService, $timeout) {
     $timeout.cancel(self.editTimerId);
     self.editTimerId = $timeout(function() {
       var date = self.textbox.val(),
-        isValid = TimezoneService.isValid(date, customDateFormat);
+        isValid = TimezoneService.isValidISODate(date);
 
       if (isValid) {
-        self.prevDate = parseDate(date, customDateFormat);
-        self.onChange(formattedISODate(self.prevDate));
+        self.prevDate = TimezoneService.parseISODate(date);
+        self.onChange(TimezoneService.formattedISODate(self.prevDate));
       } else {
-        self.textbox.val(customFormattedDate(self.prevDate));
+        self.textbox.val(TimezoneService.formattedISODate(self.prevDate));
       }
     }, 1000);
   };
