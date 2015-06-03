@@ -102,7 +102,7 @@ group :production do
   gem 'dalli', '~> 2.7.2'
 end
 
-gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '2_2_2_backport2'
+gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', ref: '1e56fd0a92a9fda9'
 gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
@@ -135,7 +135,7 @@ gem 'i18n', '~> 0.6.8'
 gem 'nokogiri', '~> 1.6.6'
 
 gem 'carrierwave', '~> 0.10.0'
-gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
+gem 'fog', '~> 1.29.0', require: "fog/aws/storage"
 
 group :test do
   gem 'rack-test', '~> 0.6.2'
