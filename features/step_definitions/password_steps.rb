@@ -143,7 +143,7 @@ def set_user_attribute(login, attribute, value)
 end
 
 Given /^the user "(.+)" is(not |) forced to change his password$/ do |login, disable|
-  set_user_attribute(login, :force_password_change, (disable == 'not ') ? false : true)
+  set_user_attribute(login, :force_password_change, disable != 'not ')
 end
 
 Given /^I use the first existing token to request a password reset$/ do

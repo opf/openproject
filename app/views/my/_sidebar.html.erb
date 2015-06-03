@@ -44,19 +44,18 @@ See doc/COPYRIGHT.rdoc for more details.
     (<%= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>)
   </p>
 <% end %>
-<% if Setting.rest_api_enabled? %>
-  <h3><%= l(:label_api_access_key) %></h3>
-  <div>
-    <%= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
-    <pre id='api-access-key' class='autoscroll'><%= h(@user.api_key) %></pre>
-  </div>
-  <%= javascript_tag("$('api-access-key').hide();") %>
-  <p>
-    <% if @user.api_token %>
-      <%= l(:label_api_access_key_created_on, distance_of_time_in_words(Time.now, @user.api_token.created_on)) %>
-    <% else %>
-      <%= l(:label_missing_api_access_key) %>
-    <% end %>
-    (<%= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>)
-  </p>
-<% end %>
+
+<h3><%= l(:label_api_access_key) %></h3>
+<div>
+  <%= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
+  <pre id='api-access-key' class='autoscroll'><%= h(@user.api_key) %></pre>
+</div>
+<%= javascript_tag("$('api-access-key').hide();") %>
+<p>
+  <% if @user.api_token %>
+    <%= l(:label_api_access_key_created_on, distance_of_time_in_words(Time.now, @user.api_token.created_on)) %>
+  <% else %>
+    <%= l(:label_missing_api_access_key) %>
+  <% end %>
+  (<%= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>)
+</p>

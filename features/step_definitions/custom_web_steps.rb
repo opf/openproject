@@ -60,7 +60,7 @@ end
 Then /^"([^"]*)" should (not )?be selectable from "([^"]*)"$/ do |value, negative, select_id|
   # more page.evaluate ugliness
   find(:xpath, '//body')
-  bool = negative ? false : true
+  bool = !negative
   (page.evaluate_script("$('#{select_id}').select('option[value=#{value}]').first.disabled") =~ /^#{bool}$/).should be_present
 end
 

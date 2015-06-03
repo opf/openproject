@@ -58,7 +58,7 @@ class WorkflowsController < ApplicationController
       end
     end
 
-    @used_statuses_only = (params[:used_statuses_only] == '0' ? false : true)
+    @used_statuses_only = params[:used_statuses_only] != '0'
     if @type && @used_statuses_only && @type.statuses.any?
       @statuses = @type.statuses
     end

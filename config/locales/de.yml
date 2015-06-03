@@ -1685,6 +1685,7 @@ de:
         lock_version: "Sperrversion"
     errors:
       code_401: "Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können."
+      code_401_wrong_credentials: "Die von Ihnen benutzten Zugangsdaten sind nicht korrekt."
       code_403: "Sie sind nicht berechtigt auf diese Ressource zuzugreifen."
       code_404: "Die angeforderte Ressource konnte nicht gefunden werden."
       code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."

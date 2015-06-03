@@ -80,7 +80,7 @@ module OpenProject
       # don't return html in edit mode when textile or text formatting is enabled
       return text if edit
       project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
-      only_path = options.delete(:only_path) == false ? false : true
+      only_path = options.delete(:only_path) != false
 
       # offer 'plain' as readable version for 'no formatting' to callers
       options_format = options[:format] == 'plain' ? '' : options[:format]

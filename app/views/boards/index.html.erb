@@ -47,12 +47,10 @@ See doc/COPYRIGHT.rdoc for more details.
         <td align="center"><%= board.topics_count %></td>
         <td align="center"><%= board.messages_count %></td>
         <td>
-          <small>
-            <% if board.last_message %>
-              <%= authoring board.last_message.created_on, board.last_message.author %><br />
-              <%= link_to_message board.last_message %>
-            <% end %>
-          </small>
+          <% if board.last_message %>
+            <%= authoring board.last_message.created_on, board.last_message.author %><br />
+            <%= link_to_message board.last_message %>
+          <% end %>
         </td>
       </tr>
     <% end %>

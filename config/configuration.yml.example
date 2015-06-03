@@ -277,6 +277,14 @@ default:
   # generated and sent to the user who then has to change their password upon login.
   disable_password_choice: false
 
+  # You can configure a global set of credentials to authenticate towards
+  # API v3 via basic auth. Note that this will grant admin access. Use with care
+  # and make sure the password does not leak.
+  # authentication:
+  #   global_basic_auth:
+  #     user: admin
+  #     password: admin
+
 # specific configuration options for production environment
 # that overrides the default ones
 # production:
