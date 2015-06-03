@@ -75,6 +75,10 @@ module API
         env['warden']
       end
 
+      def request_body
+        env['api.request.body']
+      end
+
       def authenticate
         warden.authenticate! scope: API_V3
 

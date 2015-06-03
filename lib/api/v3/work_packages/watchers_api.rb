@@ -43,18 +43,22 @@ module API
         end
 
         resources :watchers do
-
-          params do
-            requires :user_id, desc: 'The watcher\'s user id', type: Integer
-          end
           post do
-            if current_user.id == params[:user_id]
+            unless request_body
+              fail ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.missing_request_body'))
+            end
+
+            representer = ::API::V3::Watchers::WatcherRepresenter.new(::Hashie::Mash.new)
+            representer.from_hash(request_body)
+            user_id = representer.represented.user_id.to_i
+
+            if current_user.id == user_id
               authorize(:view_work_packages, context: @work_package.project)
             else
               authorize(:add_work_package_watchers, context: @work_package.project)
             end
 
-            user = User.find params[:user_id]
+            user = User.find user_id
 
             Services::CreateWatcher.new(@work_package, user).run(
               -> (result) { status(200) unless result[:created] },

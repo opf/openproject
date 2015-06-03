@@ -68,10 +68,6 @@ module API
                 payload.from_hash(hash)
               end
 
-              def request_body
-                env['api.request.body']
-              end
-
               def write_request_valid?
                 contract = WorkPackageContract.new(@work_package, current_user)
 

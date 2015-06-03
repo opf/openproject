@@ -54,12 +54,17 @@ describe 'API v3 Watcher resource', type: :request do
     subject(:response) { last_response }
 
     let(:post_path) { api_v3_paths.work_package_watchers work_package.id }
+    let(:post_body) {
+      {
+        user: { href: api_v3_paths.user(new_watcher.id) }
+      }.to_json
+    }
     let(:new_watcher) { available_watcher }
 
     before do
       existing_watcher
 
-      post post_path, %{{"user_id": #{new_watcher.id}}},   'CONTENT_TYPE' => 'application/json'
+      post post_path, post_body, 'CONTENT_TYPE' => 'application/json'
     end
 
     context 'authorized user' do
