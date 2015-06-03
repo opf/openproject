@@ -3270,6 +3270,15 @@ The response will be the collection of *all* the watchers for the given work pac
 
 + Response 200 (application/hal+json)
 
+    Returned if the request was accepted, but the specified user is already watching the
+    work package.
+
+    [Watchers][]
+
++ Response 201 (application/hal+json)
+
+    Returned if the user was successfully added as a watcher of the work package.
+
     [Watchers][]
 
 + Response 400 (application/hal+json)
@@ -3331,6 +3340,7 @@ The response will be the collection of *all* the watchers for the given work pac
 
     * the client tries to specify a link to a resource that is not a user (`ResourceTypeMismatch`)
     * the user specified is not allowed to watch that work package (`PropertyConstraintViolation`)
+    * the user specified does not exist (`PropertyConstraintViolation`)
 
     + Body
 
@@ -3350,6 +3360,8 @@ The response will be the collection of *all* the watchers for the given work pac
 
 + Response 204
 
+    Returned if the watcher was removed from the work package successfully.
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
@@ -3368,9 +3380,13 @@ The response will be the collection of *all* the watchers for the given work pac
 
 + Response 404 (application/hal+json)
 
-    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+    Returned in one of two cases:
+
+    Either the work package does not exist or the client does not have sufficient permissions to see it.
 
     **Required permission:** view work package
+
+    Or the specified user is not a watcher of this work package.
 
     *Note that you will effectively not be able to change the watchers of a work package without being able to see the work package.*
 
