@@ -97,8 +97,6 @@ module.exports = function($scope,
       $scope.toggleWatchLink = workPackage.links.watch;
     }
 
-    $scope.watchers = workPackage.embedded.watchers;
-
     // autocomplete path
     var projectId = workPackage.embedded.project.props.id;
     $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
@@ -108,7 +106,9 @@ module.exports = function($scope,
     $scope.activities = displayedActivities($scope.workPackage);
 
     // watchers
-    $scope.watchers = workPackage.embedded.watchers;
+    if(workPackage.links.watchers) {
+      $scope.watchers = workPackage.embedded.watchers.embedded.elements;
+    }
 
     $scope.showStaticPagePath = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
 

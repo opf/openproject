@@ -139,6 +139,12 @@ module API
                represented.watcher_users.include?(current_user)
         end
 
+        link :watchers do
+          {
+            href: api_v3_paths.work_package_watchers(represented.id)
+          } if current_user_allowed_to(:view_work_package_watchers)
+        end
+
         link :addWatcher do
           {
             href: "#{api_v3_paths.work_package_watchers(represented.id)}{?user_id}",
@@ -289,13 +295,18 @@ module API
         end
 
         def watchers
-          watchers =
-            represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-          watchers.map do |watcher|
-            ::API::V3::Users::UserRepresenter.new(watcher,
-                                                  work_package: represented,
-                                                  current_user: current_user)
-          end
+          # TODO/LEGACY: why do we need to ensure a specific order here?
+          watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
+          total = watchers.count
+          self_link = api_v3_paths.work_package_watchers(represented.id)
+
+          # FIXME/LEGACY: we pass the WP as context?!? that makes a difference!!!
+          # tl;dr: the embedded user representer must not be better than any other user representer
+          context = { current_user: current_user, work_package: represented }
+          Users::UserCollectionRepresenter.new(watchers,
+                                               total,
+                                               self_link,
+                                               context: context)
         end
 
         def relations

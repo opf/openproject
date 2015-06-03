@@ -50,7 +50,8 @@ module API
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UserCollectionRepresenter.new(watchers,
                                                    total,
-                                                   self_link)
+                                                   self_link,
+                                                   context: { current_user: current_user })
             end
           end
 
