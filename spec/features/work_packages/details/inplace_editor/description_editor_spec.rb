@@ -68,3 +68,4 @@ describe 'description inplace editor', js: true do
     it 'displays the new HTML after save'
   end
 end
+
