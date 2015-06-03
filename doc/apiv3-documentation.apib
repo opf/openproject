@@ -2857,7 +2857,7 @@ the human readable name of custom fields.*
                         "title": "Version 1"
                     },
                     "availableWatchers": {
-                        "href": "/api/v3/projects/1/work_packages/available_watchers",
+                        "href": "/api/v3/work_packages/1528/available_watchers",
                         "title": "Available Watchers"
                     },
                     "watch": {
@@ -3257,7 +3257,9 @@ Adds a watcher to the specified work package.
 
 The request is expected to contain a single JSON object, that contains a link object under the `user` key.
 
-The response will be the collection of *all* the watchers for the given work package.
+The response will be user added as watcher.
+In case the user was already watching the work package an `HTTP 200` is returned, an
+`HTTP 201` if the user was added as a new watcher.
 
 + Parameters
     + work_package_id (required, integer, `1`) ... Work package id
@@ -3270,16 +3272,11 @@ The response will be the collection of *all* the watchers for the given work pac
 
 + Response 200 (application/hal+json)
 
-    Returned if the request was accepted, but the specified user is already watching the
-    work package.
-
-    [Watchers][]
+    [User][]
 
 + Response 201 (application/hal+json)
 
-    Returned if the user was successfully added as a watcher of the work package.
-
-    [Watchers][]
+    [User][]
 
 + Response 400 (application/hal+json)
 
@@ -3354,15 +3351,17 @@ The response will be the collection of *all* the watchers for the given work pac
 
 ## Remove watcher [DELETE]
 
+Removes the specified user from the list of watchers for the given work package.
+
+If the request succeeds, the specified user is not watching the work package anymore.
+
+*Note: This might also be the case, if the specified user did not watch the work package prior to the request.*
+
 + Parameters
     + work_package_id (required, integer, `1`) ... Work package id
     + id (required, integer, `1`) ... User id
 
 + Response 204
-
-    Returned if the request was successful and thespecified user is not watching the work package anymore.
-
-    *Note: This might also be the case, if the specified user did not watch the work package prior to the request.*
 
 + Response 403 (application/hal+json)
 
@@ -3400,14 +3399,14 @@ The response will be the collection of *all* the watchers for the given work pac
                 "message": "The specified work package does not exist."
             }
 
-## Available Watchers [/api/v3/projects/{id}/work_packages/available_watchers]
+## Available Watchers [/api/v3/work_packages/{id}/available_watchers]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/projects/14/work_packages/available_watchers" }
+                    "self": { "href": "/api/v3/work_packages/1/available_watchers" }
                 },
                 "total": 2,
                 "count": 2,
@@ -3475,10 +3474,10 @@ The response will be the collection of *all* the watchers for the given work pac
 
 ## Available watchers [GET]
 
-Gets a list of users that are able to be watchers of work packages in the specified project.
+Gets a list of users that are able to be watchers of the specified work package.
 
 + Parameters
-    + id (required, integer, `1`) ... Project id
+    + id (required, integer, `1`) ... work package id
 
 + Response 200 (application/hal+json)
 
