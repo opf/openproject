@@ -66,10 +66,10 @@ describe ::API::V3::WorkPackages::FormRepresenter do
 
         before do
           allow(work_package).to receive(:errors).and_return(errors)
-          allow(work_package.errors).to
-            receive(:full_message).with(:subject, anything).and_return(subject_error_message)
-          allow(work_package.errors).to
-            receive(:full_message).with(:status, anything).and_return(status_error_message)
+          allow(work_package.errors).to(
+            receive(:full_message).with(:subject, anything).and_return(subject_error_message))
+          allow(work_package.errors).to(
+            receive(:full_message).with(:status, anything).and_return(status_error_message))
         end
 
         it { is_expected.to be_json_eql(api_errors.to_json).at_path('_embedded/validationErrors') }
