@@ -45,7 +45,7 @@ module API
           errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
         end
 
-        # TODO: when someone every fixes the way errors are added in the contract:
+        # TODO: when someone ever fixes the way errors are added in the contract:
         # find a solution to ensure that THIS validation supersedes others (i.e. show 404 if
         # there is no access allowed)
         def user_allowed_to_access
