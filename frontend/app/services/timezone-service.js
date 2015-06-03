@@ -63,7 +63,7 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     isValidISODate: function(date) {
-      return TimezoneService.isValid(date, 'YYY-MM-DD');
+      return TimezoneService.isValid(date, 'YYYY-MM-DD');
     },
 
     isValid: function(date, dateFormat) {
