@@ -101,10 +101,6 @@ module API
                  writeable: true,
                  render_nil: true
 
-        property :project_id,
-                 getter: -> (*) { nil },
-                 render_nil: false
-
         property :start_date,
                  exec_context: :decorator,
                  getter: -> (*) {
