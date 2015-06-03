@@ -43,6 +43,23 @@ module API
         end
 
         resources :watchers do
+          helpers do
+            def watchers_collection
+              watchers = @work_package.watcher_users
+              total = watchers.count
+              self_link = api_v3_paths.work_package_watchers(@work_package.id)
+              Users::UserCollectionRepresenter.new(watchers,
+                                                   total,
+                                                   self_link)
+            end
+          end
+
+          get do
+            authorize(:view_work_package_watchers, context: @work_package.project)
+
+            watchers_collection
+          end
+
           post do
             unless request_body
               fail ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.missing_request_body'))
@@ -87,7 +104,6 @@ module API
               status 204
             end
           end
-
         end
       end
     end

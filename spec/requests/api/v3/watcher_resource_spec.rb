@@ -63,6 +63,29 @@ describe 'API v3 Watcher resource', type: :request do
     existing_watcher
   end
 
+  describe '#get' do
+    let(:get_path) { api_v3_paths.work_package_watchers work_package.id }
+    let(:permissions) { [:view_work_packages, :view_work_package_watchers] }
+
+    before do
+      get get_path
+    end
+
+    it_behaves_like 'API V3 collection response', 1, 1, 'User'
+
+    context 'user not allowed to see watchers' do
+      let(:permissions) { [:view_work_packages] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'user not allowed to see work package' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'not found'
+    end
+  end
+
   describe '#post' do
     let(:post_path) { api_v3_paths.work_package_watchers work_package.id }
     let(:post_body) {
