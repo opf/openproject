@@ -461,7 +461,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'constraint violation' do
+          it_behaves_like 'invalid resource link' do
             let(:message) {
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'status',
@@ -526,7 +526,7 @@ h4. things we like
 
           include_context 'patch request'
 
-          it_behaves_like 'constraint violation' do
+          it_behaves_like 'invalid resource link' do
             let(:message) {
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'type',
@@ -650,7 +650,7 @@ h4. things we like
 
               include_context 'patch request'
 
-              it_behaves_like 'constraint violation' do
+              it_behaves_like 'invalid resource link' do
                 let(:message) {
                   I18n.t('api_v3.errors.invalid_resource',
                          property: property,
