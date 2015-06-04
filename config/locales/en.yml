@@ -1684,26 +1684,25 @@ en:
       code_404: "The requested resource could not be found."
       code_409: "Couldn\'t update the resource because of conflicting modifications."
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
+      invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       invalid_json: "The request could not be parsed as JSON."
-      invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
       invalid_relation: "The relation is invalid."
+      invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
       multipart_body_error: "The request body did not contain the expected multipart parts."
       multiple_errors: "Multiple field constraints have been violated."
       parse_error: "The request body was neither empty, nor did it contain a single JSON object."
       writing_read_only_attributes: "You must not write a read-only attribute."
-      invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       render:
         context_not_parsable: "The context provided is not a link to a resource."
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        invalid_user_assigned_to_work_package:
-          "The chosen user is not allowed to be '%{property}' for this work package."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
         done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
-        start_date: "Start date cannot be set on parent work packages."
         due_date: "Due date cannot be set on parent work packages."
+        estimated_hours: "Estimated hours cannot be set on parent work packages."
+        invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
+        start_date: "Start date cannot be set on parent work packages."
     resources:
       schema: 'Schema'
