@@ -18,6 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
 
+<%= render :partial => 'shared/costs_header' %>
+
 <% html_title "#{l(:label_edit)} #{l(:label_cost_object_id, id: @cost_object.id)}: #{@cost_object.subject}" %>
 <%= toolbar title: l(:label_cost_object_id, id: @cost_object.id) %>
 
