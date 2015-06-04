@@ -175,7 +175,6 @@ end
 
 group :development do
   gem 'letter_opener', '~> 1.3.0'
-  # gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
