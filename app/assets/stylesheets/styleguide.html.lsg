@@ -6,7 +6,6 @@ title: "Living Style Guide for OpenProject"
 style:
   base-font: Lato
   base-font-size: 16px
-  background-color: white
 
 styleguide-sass: |
   .livingstyleguide--header

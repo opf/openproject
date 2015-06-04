@@ -33,32 +33,68 @@ Wiki-syntax is used for most textarea-fields within OpenProject. The users have 
 ```
 <div class="wiki">
   <h1>
-    Headline H1
+    A very long H1 headline is useful for testing, don't you think?
     <a href="#Heading-H1" class="wiki-anchor">¶</a>
   </h1>
 
+  <ol>
+    <li>Item</li>
+    <li>Item
+      <ol>
+        <li>Subitem</li>
+        <li>SubItem
+          <ol>
+            <li>Subsubitem</li>
+            <li>SubsubItem</li>
+            <li>SubsubItem</li>
+          </ol>
+        </li>
+        <li>SubItem</li>
+      </ol>
+    </li>
+    <li>Item</li>
+  </ol>
+
+  <p>Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
   <h2>
-    Headline H2
+    A very long H2 headline is useful for testing, don't you think?
     <a href="#Heading-H2" class="wiki-anchor">¶</a>
   </h2>
 
+  <p>Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
   <h3>
-    Headline H3
+    A very long H3 headline is useful for testing, don't you think?
     <a href="#Heading-H3" class="wiki-anchor">¶</a>
   </h3>
 
+  <p>Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
   <h4>
-    Headline H4
+    A very long H4 headline is useful for testing, don't you think?
     <a href="#Heading-H4" class="wiki-anchor">¶</a>
   </h4>
 
-  <h5>
-    Headline H5
-  </h5>
+  <ol>
+    <li>Item</li>
+    <li>Item
+      <ol>
+        <li>Subitem</li>
+        <li>SubItem
+          <ol>
+            <li>Subsubitem</li>
+            <li>SubsubItem</li>
+            <li>SubsubItem</li>
+          </ol>
+        </li>
+        <li>SubItem</li>
+      </ol>
+    </li>
+    <li>Item</li>
+  </ol>
 
-  <h6>
-    Headline H6
-  </h6>
+  <p>Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 </div>
 ```
 
@@ -304,8 +340,6 @@ Links to work packages come in various alternatives:
 ## Image
 
 ```
-
-
 <div class="wiki">
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit sed cum quam obcaecati eius nisi tenetur tempora odio minus nulla rerum hic, itaque nam dolorum vel fuga quibusdam, praesentium unde!</p>
 
@@ -320,9 +354,20 @@ Links to work packages come in various alternatives:
 ## Table
 
 ```
+@full-width
+
 <div class="wiki">
   <table>
-      <tbody><tr>
+    <thead>
+      <tr>
+        <td>One</td>
+        <td>Two</td>
+        <td>Three</td>
+        <td>Four</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
         <td> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor </td>
         <td> invidunt ut labore et  </td>
         <td> dolore magna aliquyam erat, sed diam </td>
