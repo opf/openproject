@@ -47,7 +47,7 @@ module API
           end
 
           def self.attachment_download(id)
-            "#{root_path}attachments/#{id}"
+            Rails.application.routes.url_helpers.attachment_path(id)
           end
 
           def self.attachments_by_work_package(id)
