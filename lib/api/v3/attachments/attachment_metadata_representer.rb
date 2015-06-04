@@ -27,21 +27,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'roar/decorator'
+require 'roar/json/hal'
+
 module API
-  module Errors
-    class ParseError < InvalidRequestBody
-      def initialize(message: I18n.t('api_v3.errors.invalid_json'), details: nil)
-        super(message)
+  module V3
+    module Attachments
+      class AttachmentMetadataRepresenter < ::API::Decorators::Single
 
-        if details
-          @details = { parseError: clean_parse_error(details) }
-        end
-      end
-
-      private
-
-      def clean_parse_error(message)
-        message.gsub(/\s?\[parse.c\:\d+\]/, '')
+        property :file_name
+        property :description,
+                 getter: -> (*) {
+                   ::API::Decorators::Formattable.new(description, format: 'plain')
+                 },
+                 setter: -> (value, *) { represented.description = value['raw'] },
+                 render_nil: true
       end
     end
   end

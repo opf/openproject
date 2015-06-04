@@ -1692,7 +1692,6 @@ en:
       missing_content_type: "not specified"
       multipart_body_error: "The request body did not contain the expected multipart parts."
       multiple_errors: "Multiple field constraints have been violated."
-      parse_error: "The request body was neither empty, nor did it contain a single JSON object."
       writing_read_only_attributes: "You must not write a read-only attribute."
       render:
         context_not_parsable: "The context provided is not a link to a resource."

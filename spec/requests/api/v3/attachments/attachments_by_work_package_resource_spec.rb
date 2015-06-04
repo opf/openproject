@@ -108,7 +108,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
     context 'metadata section is no valid JSON' do
       let(:metadata) { '"fileName": "cat.png"' }
 
-      it_behaves_like 'invalid request body', I18n.t('api_v3.errors.invalid_json')
+      it_behaves_like 'parse error'
     end
 
     context 'metadata is missing the fileName' do

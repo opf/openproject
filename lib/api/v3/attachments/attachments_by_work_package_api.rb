@@ -46,25 +46,15 @@ module API
             def parse_metadata(json)
               return nil unless json
 
-              # FIXME: we should be using the attachment representer to parse the metadata
-              # We can't because it relies on the underlying :file being magical (e.g. for fileName)
-              begin
-                parsed_json = ::JSON.parse(json)
-              rescue ::JSON::ParserError
-                raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.invalid_json'))
-              end
+              metadata = Hashie::Mash.new
+              ::API::V3::Attachments::AttachmentMetadataRepresenter.new(metadata).from_json(json)
 
-              file_name = parsed_json['fileName']
-
-              unless file_name
+              unless metadata.file_name
                 raise ::API::Errors::Validation.new(
                         "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
               end
 
-              {
-                file_name: file_name,
-                description: (parsed_json['description'] || {})['raw'] || ''
-              }
+              metadata
             end
           end
 
@@ -87,10 +77,10 @@ module API
                       I18n.t('api_v3.errors.multipart_body_error'))
             end
 
-            uploaded_file = make_uploaded_file file, metadata[:file_name]
+            uploaded_file = make_uploaded_file file, metadata.file_name
             attachment = Attachment.new(file: uploaded_file,
                                         container: @work_package,
-                                        description: metadata[:description],
+                                        description: metadata.description,
                                         author: current_user)
 
             unless attachment.save

@@ -1700,7 +1700,6 @@ de:
       missing_content_type: "nicht angegeben"
       multipart_body_error: "Die Anfrage enthielt nicht die erwarteten Multipart Abschnitte."
       multiple_errors: "Die Integrität mehrerer Eigenschaften wurde verletzt."
-      parse_error: "Die Abfrage enthielt kein valides JSON."
       writing_read_only_attributes: "Nur-lesbare Eigeschaften dürfen nicht geschrieben werden."
       render:
         context_not_parsable: "Der übergebene Kontext ist kein Link zu einer Ressource."
