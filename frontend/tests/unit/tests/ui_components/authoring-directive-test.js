@@ -37,7 +37,7 @@ describe('authoring Directive', function() {
     beforeEach(module('openproject.templates', function($provide) {
       timezoneService = {};
 
-      timezoneService.parseDate = sinon.stub().returns(createdOn);
+      timezoneService.parseDatetime = sinon.stub().returns(createdOn);
 
       $provide.constant('TimezoneService', timezoneService);
     }));

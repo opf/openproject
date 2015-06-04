@@ -36,7 +36,7 @@ module.exports = function(I18n, PathHelper, TimezoneService) {
     link: function(scope, element, attrs) {
       moment.locale(I18n.locale);
 
-      var createdOn = TimezoneService.parseDate(scope.createdOn);
+      var createdOn = TimezoneService.parseDatetime(scope.createdOn);
       var timeago = createdOn.fromNow();
       var time = createdOn.format('LLL');
 
