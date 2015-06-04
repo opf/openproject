@@ -34,15 +34,6 @@ module API
       class AttachmentsByWorkPackageAPI < ::API::OpenProjectAPI
         resources :attachments do
           helpers do
-            def make_uploaded_file(file, file_name)
-              uploaded_file = Rack::Multipart::UploadedFile.new file[:tempfile].path,
-                                                                file[:type],
-                                                                true
-              # I wish I could set the file name in a better way *sigh*
-              uploaded_file.instance_variable_set(:@original_filename, file_name)
-              uploaded_file
-            end
-
             def parse_metadata(json)
               return nil unless json
 
@@ -77,7 +68,9 @@ module API
                       I18n.t('api_v3.errors.multipart_body_error'))
             end
 
-            uploaded_file = make_uploaded_file file, metadata.file_name
+            uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],
+                                                                   file[:type],
+                                                                   file_name: metadata.file_name
             attachment = Attachment.new(file: uploaded_file,
                                         container: @work_package,
                                         description: metadata.description,
