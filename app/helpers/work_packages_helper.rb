@@ -434,7 +434,7 @@ module WorkPackagesHelper
   end
 
   def work_package_form_field(required: false, classes: '')
-    div_class = 'form--field'
+    div_class = 'form--field -wide-label'
     div_class << " #{classes}"
     div_class << ' -required' if required
 
