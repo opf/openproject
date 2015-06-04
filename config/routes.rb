@@ -528,6 +528,7 @@ OpenProject::Application.routes.draw do
     post '/my/change_password', action: 'change_password'
     match '/my/first_login', action: 'first_login', via: [:get, :put]
     get '/my/page', action: 'page'
+    match '/my/account', action: 'account', via: [:get, :patch]
   end
 
   get 'authentication' => 'authentication#index'

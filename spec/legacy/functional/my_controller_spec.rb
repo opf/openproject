@@ -60,14 +60,14 @@ describe MyController, type: :controller do
   end
 
   it 'should update account' do
-    put :account,
-        user: {
-          firstname: 'Joe',
-          login: 'root', # should not be allowed
-          admin: 1,
-          group_ids: ['10'],
-          custom_field_values: { '4' => '0100562500' }
-        }
+    patch :account,
+          user: {
+            firstname: 'Joe',
+            login: 'root', # should not be allowed
+            admin: 1,
+            group_ids: ['10'],
+            custom_field_values: { '4' => '0100562500' }
+          }
 
     assert_redirected_to '/my/account'
     user = User.find(2)
