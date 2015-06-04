@@ -279,7 +279,7 @@ OpenProject::Application.routes.draw do
         get '/annotate/:version' => 'wiki#annotate', as: 'wiki_annotate'
         match :rename, via: [:get, :patch]
         get :parent_page, action: 'edit_parent_page'
-        put :parent_page, action: 'update_parent_page'
+        patch :parent_page, action: 'update_parent_page'
         get :history
         post :protect
         post :add_attachment
