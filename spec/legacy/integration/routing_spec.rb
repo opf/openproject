@@ -806,10 +806,10 @@ describe 'routing', type: :routing do
       }
 
       it {
-        is_expected.to route(:put, '/projects/22/wiki/ladida/rename').to(controller: 'wiki',
-                                                                         action: 'rename',
-                                                                         project_id: '22',
-                                                                         id: 'ladida')
+        is_expected.to route(:patch, '/projects/22/wiki/ladida/rename').to(controller: 'wiki',
+                                                                           action: 'rename',
+                                                                           project_id: '22',
+                                                                           id: 'ladida')
       }
 
       it {

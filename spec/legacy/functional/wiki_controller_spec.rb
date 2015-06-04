@@ -307,9 +307,9 @@ describe WikiController, type: :controller do
 
   it 'should rename with redirect' do
     session[:user_id] = 2
-    put :rename, project_id: 1, id: 'Another_page',
-                 page: { title: 'Another renamed page',
-                         redirect_existing_links: 1 }
+    patch :rename, project_id: 1, id: 'Another_page',
+                   page: { title: 'Another renamed page',
+                           redirect_existing_links: 1 }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_renamed_page'
     # Check redirects
     assert_not_nil wiki.find_page('Another page')
@@ -318,9 +318,9 @@ describe WikiController, type: :controller do
 
   it 'should rename without redirect' do
     session[:user_id] = 2
-    put :rename, project_id: 1, id: 'Another_page',
-                 page: { title: 'Another renamed page',
-                         redirect_existing_links: '0' }
+    patch :rename, project_id: 1, id: 'Another_page',
+                   page: { title: 'Another renamed page',
+                           redirect_existing_links: '0' }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another_renamed_page'
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')

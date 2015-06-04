@@ -277,7 +277,7 @@ OpenProject::Application.routes.draw do
         get '/diff/:version/vs/:version_from' => 'wiki#diff', as: 'wiki_diff_compare'
         get '/diff(/:version)' => 'wiki#diff', as: 'wiki_diff'
         get '/annotate/:version' => 'wiki#annotate', as: 'wiki_annotate'
-        match :rename, via: [:get, :put]
+        match :rename, via: [:get, :patch]
         get :parent_page, action: 'edit_parent_page'
         put :parent_page, action: 'update_parent_page'
         get :history
