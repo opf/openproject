@@ -99,6 +99,7 @@ group :production do
   gem 'dalli', '~> 2.7.2'
 end
 
+gem 'sprockets',        '~> 2.12.3'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',       '~> 5.0.3'
 gem 'sass',             '~> 3.4.12'
