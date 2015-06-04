@@ -431,6 +431,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { 'attachments' }
           let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
         end
+
+        it 'embeds the watchers as collection' do
+          is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/attachments/_type')
+        end
       end
 
       context 'when the user has the permission to view work packages' do

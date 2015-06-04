@@ -278,6 +278,10 @@ module API
                  exec_context: :decorator,
                  if: -> (*) { current_user_allowed_to(:view_work_package_watchers) }
 
+        property :attachments,
+                 embedded: true,
+                 exec_context: :decorator
+
         property :relations, embedded: true, exec_context: :decorator
 
         def _type
@@ -298,6 +302,14 @@ module API
                                                   work_package: represented,
                                                   current_user: current_user)
           end
+        end
+
+        def attachments
+          self_path = api_v3_paths.attachments_by_work_package(represented.id)
+          attachments = represented.attachments
+          ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
+                                                                      attachments.count,
+                                                                      self_path)
         end
 
         def relations
