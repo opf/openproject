@@ -30,6 +30,15 @@
 class Principal < ActiveRecord::Base
   extend Pagination::Model
 
+  # Account statuses
+  # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
+  STATUSES = {
+    builtin: 0,
+    active: 1,
+    registered: 2,
+    locked: 3
+  }
+
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
   has_many :members, foreign_key: 'user_id', dependent: :destroy
@@ -44,10 +53,13 @@ class Principal < ActiveRecord::Base
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
 
-  # TODO: The constants are misplaced in the subclass
-  scope :active, -> { where(status: User::STATUSES[:active]) }
+  has_many :members, foreign_key: 'user_id', dependent: :destroy
+  has_many :memberships, class_name: 'Member', foreign_key: 'user_id', include: [:project, :roles], conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", order: "#{Project.table_name}.name"
+  has_many :projects, through: :memberships
 
-  scope :active_or_registered, -> { where(status: [User::STATUSES[:active], User::STATUSES[:registered]]) }
+  scope :active, -> { where(status: STATUSES[:active]) }
+
+  scope :active_or_registered, -> { where(status: [STATUSES[:active], STATUSES[:registered]]) }
 
   scope :active_or_registered_like, ->(query) { active_or_registered.like(query) }
 
@@ -106,7 +118,7 @@ class Principal < ActiveRecord::Base
     # User defines the status values and other classes like Principal
     # shouldn't know anything about them. Nevertheless, some functions
     # want to know the status for other Principals than User.
-    raise 'Principal has status other than active' unless status == 1
+    raise 'Principal has status other than active' unless status == STATUSES[:active]
     'active'
   end
 

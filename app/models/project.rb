@@ -45,7 +45,7 @@ class Project < ActiveRecord::Base
 
   # Specific overridden Activities
   has_many :time_entry_activities
-  has_many :members, include: [:user, :roles], conditions: "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUSES[:active]}"
+  has_many :members, include: [:user, :roles], conditions: "#{Principal.table_name}.type='User' AND #{User.table_name}.status=#{Principal::STATUSES[:active]}"
   has_many :possible_assignee_members,
            class_name: 'Member',
            include: [:principal, :roles],
@@ -59,8 +59,8 @@ class Project < ActiveRecord::Base
                                include: :principal,
                                conditions: "#{Principal.table_name}.type='Group' OR " +
                                  "(#{Principal.table_name}.type='User' AND " +
-                                 "(#{Principal.table_name}.status=#{User::STATUSES[:active]} OR " +
-                                 "#{Principal.table_name}.status=#{User::STATUSES[:registered]}))"
+                                 "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
+                                 "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]}))"
   has_many :users, through: :members
   has_many :principals, through: :member_principals, source: :principal
 
@@ -944,7 +944,7 @@ class Project < ActiveRecord::Base
                   ["(#{Principal.table_name}.type=?)", 'User']
 
     condition[0] += " AND #{User.table_name}.status=? AND roles.assignable = ?"
-    condition << User::STATUSES[:active]
+    condition << Principal::STATUSES[:active]
     condition << true
 
     sanitize_sql_array condition

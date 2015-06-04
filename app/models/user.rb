@@ -33,15 +33,6 @@ class User < Principal
   include ActiveModel::ForbiddenAttributesProtection
   include User::Authorization
 
-  # Account statuses
-  # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
-  STATUSES = {
-    builtin: 0,
-    active: 1,
-    registered: 2,
-    locked: 3
-  }
-
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: [:firstname, :lastname],
     firstname: [:firstname],
@@ -105,13 +96,6 @@ class User < Principal
   has_one :rss_token, dependent: :destroy, class_name: 'Token', conditions: "action='feeds'"
   has_one :api_token, dependent: :destroy, class_name: 'Token', conditions: "action='api'"
   belongs_to :auth_source
-
-  # TODO: this is from Principal. the inheritance doesn't work correctly
-  # note: it doesn't fail in development mode
-  # see: https://github.com/rails/rails/issues/3847
-  has_many :members, foreign_key: 'user_id', dependent: :destroy
-  has_many :memberships, class_name: 'Member', foreign_key: 'user_id', include: [:project, :roles], conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", order: "#{Project.table_name}.name"
-  has_many :projects, through: :memberships
 
   # Active non-anonymous users scope
   scope :not_builtin,
