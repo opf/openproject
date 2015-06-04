@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= form_for @project,
              :url => { :action => 'types', :id => @project },
-             :method => :put,
+             :method => :patch,
              :html => {:id => 'types-form'} do |f| %>
   <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => @project } %>
 

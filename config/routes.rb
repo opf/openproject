@@ -236,6 +236,7 @@ OpenProject::Application.routes.draw do
       put :modules
       put :archive
       put :unarchive
+      patch :types
 
       get 'column_sums', controller: 'work_packages'
 
@@ -255,9 +256,6 @@ OpenProject::Application.routes.draw do
     # For nice "road in the url for the index action
     # this could probably be rewritten with a resource :as => 'roadmap'
     match '/roadmap' => 'versions#index', via: :get
-
-    # :id is the project id, complete route is /projects/types/:id
-    post '/types/:id' => 'projects#types', on: :collection
 
     resources :news, only: [:index, :new, :create]
 

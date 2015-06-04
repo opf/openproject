@@ -234,9 +234,9 @@ describe ProjectsController, type: :controller do
         let(:type_ids) { types.map(&:id) }
 
         before {
-          put :types,
-              id: project.id,
-              project: { 'type_ids' => type_ids }
+          patch :types,
+                id: project.id,
+                project: { 'type_ids' => type_ids }
         }
 
         it_behaves_like :redirect
@@ -250,9 +250,9 @@ describe ProjectsController, type: :controller do
         let(:missing_types) { types }
 
         before {
-          put :types,
-              id: project.id,
-              project: { 'type_ids' => [] }
+          patch :types,
+                id: project.id,
+                project: { 'type_ids' => [] }
         }
 
         it_behaves_like :redirect
@@ -273,7 +273,7 @@ describe ProjectsController, type: :controller do
       end
 
       context 'no type selected' do
-        before { put :types, id: project.id }
+        before { patch :types, id: project.id }
 
         it_behaves_like :success
 
