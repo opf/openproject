@@ -100,7 +100,7 @@ group :production do
 end
 
 gem 'non-stupid-digest-assets'
-gem 'sass-rails',       '5.0.0.beta1'
+gem 'sass-rails',       '~> 5.0.3'
 gem 'sass',             '~> 3.4.12'
 gem 'autoprefixer-rails'
 gem 'execjs',           '~> 2.4.0'
