@@ -47,6 +47,16 @@ module API
 
               metadata
             end
+
+            def make_attachment(metadata, file)
+              uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],
+                                                                     file[:type],
+                                                                     file_name: metadata.file_name
+              Attachment.new(file: uploaded_file,
+                             container: @work_package,
+                             description: metadata.description,
+                             author: current_user)
+            end
           end
 
           get do
@@ -68,16 +78,9 @@ module API
                       I18n.t('api_v3.errors.multipart_body_error'))
             end
 
-            uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],
-                                                                   file[:type],
-                                                                   file_name: metadata.file_name
-            attachment = Attachment.new(file: uploaded_file,
-                                        container: @work_package,
-                                        description: metadata.description,
-                                        author: current_user)
-
+            attachment = make_attachment(metadata, file)
             unless attachment.save
-              raise ::API::Errors::ErrorBase.create(attachment.errors.dup)
+              raise ::API::Errors::ErrorBase.create(attachment.errors)
             end
 
             ::API::V3::Attachments::AttachmentRepresenter.new(attachment)
