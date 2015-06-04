@@ -47,10 +47,13 @@ module.exports = function($rootScope, $timeout, ConfigurationService) {
           scope.flashId = "errorExplanation";
         }
 
-        // fade out after time out
+        // not using $timeout to allow capybara to not wait until timeout is done with
+        // scope apply
         if (!ConfigurationService.accessibilityModeEnabled() && !message.isPermanent) {
-          $timeout(function() {
-            scope.message = undefined;
+          setTimeout(function() {
+            scope.$apply(function() {
+              scope.message = undefined;
+            });
           }, fadeOutTime);
         }
       });
