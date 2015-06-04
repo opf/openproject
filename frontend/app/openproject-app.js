@@ -203,7 +203,12 @@ openprojectApp
       $httpProvider.interceptors.push(function($q) {
         return {
           'request': function(config) {
-            if (!config.url.match('(^/templates|\\.html$)')) {
+            // OpenProject can run in a subpath e.g. https://mydomain/open_project.
+            // We append the path found as the base-tag value to all http requests
+            // to the server except:
+            //   * when the path is already appended
+            //   * when we are getting a template
+            if (!config.url.match('(^/templates|\\.html$|^' + window.appBasePath + ')')) {
               config.url = window.appBasePath + config.url;
             }
 
