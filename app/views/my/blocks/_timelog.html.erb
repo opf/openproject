@@ -79,7 +79,7 @@ entries_by_day = entries.group_by(&:spent_on)
                             :title => l(:button_edit) %>
                 <%= link_to icon_wrapper('icon-context icon-delete', l(:button_delete)),
                             {:controller => '/timelog', :action => 'destroy', :id => entry},
-                            :confirm => l(:text_are_you_sure),
+                            data: { confirm: l(:text_are_you_sure) },
                             :class => 'no-decoration-on-hover',
                             :method => :delete,
                             :alt => l(:button_delete),

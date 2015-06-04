@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                               {:action => 'edit_parent_page', :id => @page},
                                               :class => 'icon-context icon-link')) %>
     <% end %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_delete), {:action => 'destroy', :id => @page}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon-context icon-delete')) %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_delete), {:action => 'destroy', :id => @page}, :method => :delete, data: { confirm: l(:text_are_you_sure) }, :class => 'icon-context icon-delete')) %>
     <%= li_unless_nil(link_to_if_authorized(l(:button_rollback), {:action => 'edit', :id => @page, :version => @content.version }, :class => 'icon-context icon-cancel')) if @content.version < @page.content.version %>
   <% end %>
   <%= li_unless_nil(link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page}, :class => 'icon-context icon-wiki')) %>

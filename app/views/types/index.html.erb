@@ -73,7 +73,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <td class="timelines-pet-reorder"><%= reorder_links('type', {:action => 'move', :id => type}) %></td>
         <td class="buttons">
           <% if !type.is_standard? %>
-            <%= link_to type, :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
+            <%= link_to type, :method => :delete, data: { confirm: t(:text_are_you_sure) }, :class => 'icon-context icon-delete' do %>
               <%= t(:button_delete) %>
               <span class="hidden-for-sighted"><%=h type.name %></span>
             <% end %>
