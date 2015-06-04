@@ -34,7 +34,6 @@ module API
   module V3
     module Attachments
       class AttachmentMetadataRepresenter < ::API::Decorators::Single
-
         property :file_name
         property :description,
                  getter: -> (*) {

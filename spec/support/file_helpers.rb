@@ -28,6 +28,7 @@
 
 module FileHelpers
   module_function
+
   def mock_uploaded_file(name: 'test.txt',
                          content_type: 'text/plain',
                          content: 'test content',
