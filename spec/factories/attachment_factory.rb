@@ -37,7 +37,7 @@ FactoryGirl.define do
 
     content_type 'application/binary'
     sequence(:file) do |n|
-      OpenProject::Files.mock_uploaded_file name: filename || "file-#{n}.test",
+      FileHelpers.mock_uploaded_file name: filename || "file-#{n}.test",
                                               content_type: content_type,
                                               binary: true
     end

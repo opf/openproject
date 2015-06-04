@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,20 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Attachment < ActiveRecord::Base
-  generator_for :container, method: :generate_project
-  generator_for :file, method: :generate_file
-  generator_for :author, method: :generate_author
+module FileHelpers
+  module_function
+  def mock_uploaded_file(name: 'test.txt',
+                         content_type: 'text/plain',
+                         content: 'test content',
+                         binary: false)
 
-  def self.generate_project
-    Project.generate!
-  end
-
-  def self.generate_author
-    User.generate_with_protected!
-  end
-
-  def self.generate_file
-    @file = FileHelpers.mock_uploaded_file
+    tmp = ::OpenProject::Files.create_temp_file name: name, content: content, binary: binary
+    Rack::Test::UploadedFile.new tmp.path, content_type, binary
   end
 end
