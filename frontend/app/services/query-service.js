@@ -398,13 +398,16 @@ module.exports = function(
 
     addOrRemoveMenuItem: function(query) {
       if (!query) return;
-
       if(query.starred) {
-        queryMenuItemFactory.generateMenuItem(query.name, QueryService.getQueryPath(query), query.id);
-        $rootScope.$broadcast('openproject.layout.activateMenuItem', {
-          itemType: QUERY_MENU_ITEM_TYPE,
-          objectId: query.id
-        });
+        queryMenuItemFactory
+          .generateMenuItem(query.name, QueryService.getQueryPath(query), query.id)
+          .then(function() {
+            $rootScope.$broadcast('openproject.layout.activateMenuItem', {
+              itemType: QUERY_MENU_ITEM_TYPE,
+              objectId: query.id
+            });
+          });
+
       } else {
         $rootScope.$broadcast('openproject.layout.removeMenuItem', {
           itemType: QUERY_MENU_ITEM_TYPE,
