@@ -44,7 +44,10 @@ See doc/COPYRIGHT.md for more details.
   <% end %>
   <% if authorize_for(:meetings, :destroy) %>
     <li class="toolbar-item">
-      <%= link_to({:controller => '/meetings', :action => 'destroy', :id => @meeting}, class: 'button') do %>
+      <%= link_to({controller: '/meetings', action: 'destroy', id: @meeting},
+                  class: 'button',
+                  method: :delete,
+                  confirm: l(:text_are_you_sure)) do %>
         <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
       <% end %>
     </li>
