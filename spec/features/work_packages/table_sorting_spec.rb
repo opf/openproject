@@ -61,10 +61,6 @@ describe 'Select work package row', type: :feature do
   include_context 'ui-select helpers'
   include_context 'work package table helpers'
 
-  after do
-    ensure_wp_page_is_loaded
-  end
-
   context 'sorting by version', js: true do
     before do
       work_package_1.update_attribute(:fixed_version_id, version_2.id)
