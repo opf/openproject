@@ -559,10 +559,9 @@ DEPENDENCIES
   rubytree (~> 0.8.3)
   sass (~> 3.4.12)
   sass-rails!
+  selenium-webdriver (~> 2.45.0)
   shoulda-context (~> 1.2)
   shoulda-matchers (~> 2.8)
-  selenium-webdriver (~> 2.45.0)
-  shoulda
   simplecov (= 0.8.0.pre)
   sprockets!
   sprockets-rails!
