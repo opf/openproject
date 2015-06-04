@@ -58,10 +58,6 @@ describe 'Select work package row', type: :feature do
     work_packages_page.visit_index
   end
 
-  after do
-    ensure_wp_page_is_loaded
-  end
-
   describe 'Work package row selection', js: true do
     def select_work_package_row(number, mouse_button_behavior = :left)
       element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
@@ -285,7 +281,8 @@ describe 'Select work package row', type: :feature do
     describe 'specific selection' do
       before { select_work_package_row_with_ctrl(1) }
 
-      it_behaves_like 'work package row not selected' do
+      it_behaves_like 'work package row selected' do
+        # apparently it should be selected if there one row only
         let(:index) { 1 }
       end
 
@@ -317,16 +314,6 @@ describe 'Select work package row', type: :feature do
     describe 'opening work package details' do
       before do
         select_work_package_row(1, :double)
-      end
-      after do
-        # ensure work package queried by double clicking the row is fully
-        # loaded before starting the next spec.
-        expect(page).to have_selector(
-          '.work-packages--details .work-packages--details--subject .inplace-edit--read-value',
-          text: work_package_3.subject,
-          visible: false
-        )
-
       end
 
       it_behaves_like 'work package row selected' do

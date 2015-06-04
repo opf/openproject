@@ -45,6 +45,8 @@ module.exports = function(
 
       this.submit = function(notify) {
         var fieldController = $scope.fieldController;
+        var pendingFormChanges = getPendingFormChanges();
+        pendingFormChanges[fieldController.field] = fieldController.writeValue;
         if (vm.editForm.$invalid) {
           var detectedViolations = [];
           acknowledgedValidationErrors.forEach(function(error) {
@@ -61,8 +63,6 @@ module.exports = function(
           }
         }
         fieldController.state.isBusy = true;
-        var pendingFormChanges = getPendingFormChanges();
-        pendingFormChanges[fieldController.field] = fieldController.writeValue;
         WorkPackageService.loadWorkPackageForm(EditableFieldsState.workPackage).then(
           function(form) {
             EditableFieldsState.workPackage.form = form;
@@ -154,15 +154,15 @@ module.exports = function(
 
         if (fieldController.field === 'date' && strategy === 'date') {
           form.pendingChanges = scope.editPaneController.getPendingFormChanges();
-          form.pendingChanges['startDate'] = 
-          form.pendingChanges['dueDate'] = 
+          form.pendingChanges['startDate'] =
+          form.pendingChanges['dueDate'] =
           fieldController.writeValue ? fieldController.writeValue['dueDate'] : null;
         }
 
         if (strategy !== scope.strategy) {
           scope.strategy = strategy;
           scope.templateUrl = '/templates/components/inplace_editor/editable/' +
-            scope.strategy + '.html';          
+            scope.strategy + '.html';
           fieldController.updateWriteValue();
         }
       });
