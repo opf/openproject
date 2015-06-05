@@ -54,7 +54,7 @@ module Redmine
         def acts_as_watchable(_options = {})
           return if included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
           class_eval do
-            has_many :watchers, as: :watchable, dependent: :delete_all
+            has_many :watchers, as: :watchable, dependent: :delete_all, validate: false
             has_many :watcher_users, through: :watchers, source: :user, validate: false
 
             scope :watched_by, ->(user_id) {
