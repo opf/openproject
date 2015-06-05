@@ -62,7 +62,7 @@
 .select2-results .select2-highlighted {
   border-radius: 5px;
 
-  background-color: #24B3E7;
+  background-color: $drop-down-selected-bg-color;
   font-weight:bold;
 }
 .select2-results .select2-result-unselectable {
@@ -172,7 +172,7 @@ $se2-width: 100%;
   }
 
   &.select2-dropdown-open {
-    
+
     .select2-choice {
       background-color: $se2-theme-selectable-color;
     }
