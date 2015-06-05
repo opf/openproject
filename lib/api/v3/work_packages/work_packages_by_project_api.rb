@@ -49,9 +49,9 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            write_work_package_attributes
+            write_work_package_attributes @work_package
 
-            if write_request_valid?(WorkPackages::CreateContract) && @create_service.save
+            if write_request_valid?(@work_package, WorkPackages::CreateContract) && @create_service.save
               @work_package.reload
 
               WorkPackages::WorkPackageRepresenter.create(@work_package,

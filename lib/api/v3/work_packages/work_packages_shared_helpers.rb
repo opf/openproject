@@ -39,33 +39,33 @@ module API
         end
 
         # merges the given JSON representation into @work_package
-        def merge_json_into_work_package!(json)
-          payload = WorkPackagePayloadRepresenter.create(@work_package)
+        def merge_json_into_work_package!(work_package, json)
+          payload = WorkPackagePayloadRepresenter.create(work_package)
           payload.from_json(json)
         end
 
-        def write_work_package_attributes(reset_lock_version: false)
+        def write_work_package_attributes(work_package, reset_lock_version: false)
           if request_body
             begin
-              @work_package.lock_version = nil if reset_lock_version
+              work_package.lock_version = nil if reset_lock_version
               # we need to merge the JSON two times:
               # In Pass 1 the representer only has custom fields for the current WP type
               # After Pass 1 the correct type information is merged into the WP
               # In Pass 2 the representer is created with the new type info and will be able
               # to also parse custom fields successfully
-              merge_json_into_work_package!(request_body.to_json)
-              merge_json_into_work_package!(request_body.to_json)
+              merge_json_into_work_package!(work_package, request_body.to_json)
+              merge_json_into_work_package!(work_package, request_body.to_json)
             rescue ::API::Errors::Form::InvalidResourceLink => e
               fail ::API::Errors::Validation.new(e.message)
             end
           end
         end
 
-        def write_request_valid?(contract_class)
-          contract = contract_class.new(@work_package, current_user)
+        def write_request_valid?(work_package, contract_class)
+          contract = contract_class.new(work_package, current_user)
 
           contract_valid = contract.validate
-          represented_valid = @work_package.valid?
+          represented_valid = work_package.valid?
 
           return true if contract_valid && represented_valid
 
@@ -73,22 +73,22 @@ module API
           # order to have them available at one place.
           contract.errors.keys.each do |key|
             contract.errors[key].each do |message|
-              @work_package.errors.add(key, message)
+              work_package.errors.add(key, message)
             end
           end
 
           false
         end
 
-        def create_work_package_form(contract_class:, form_class:)
-          write_work_package_attributes(reset_lock_version: true)
-          write_request_valid?(contract_class)
+        def create_work_package_form(work_package, contract_class:, form_class:)
+          write_work_package_attributes(work_package, reset_lock_version: true)
+          write_request_valid?(work_package, contract_class)
 
-          error = ::API::Errors::ErrorBase.create(@work_package.errors)
+          error = ::API::Errors::ErrorBase.create(work_package.errors)
 
           if error.is_a? ::API::Errors::Validation
             status 200
-            form_class.new(@work_package, current_user: current_user)
+            form_class.new(work_package, current_user: current_user)
           else
             fail error
           end
