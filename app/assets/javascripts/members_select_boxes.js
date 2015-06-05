@@ -83,7 +83,7 @@ jQuery(document).ready(function($) {
                           q: term, //search term
                           page_limit: 10, // page size
                           page: page, // current page number
-                          id: fakeInput.attr("data-projectId") // current project id
+                          project_id: fakeInput.attr("data-projectId") // current project id
                       };
                   },
                   results: function (data, page) {

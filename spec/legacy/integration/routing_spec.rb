@@ -267,9 +267,10 @@ describe 'routing', type: :routing do
       }
 
       it {
-        is_expected.to route(:get, '/projects/5234/members/autocomplete').to(controller: 'members',
-                                                                             action: 'autocomplete',
-                                                                             project_id: '5234')
+        is_expected.to route(:get, '/projects/5234/members/autocomplete_for_member')
+          .to(controller: 'members',
+              action: 'autocomplete_for_member',
+              project_id: '5234')
       }
     end
 

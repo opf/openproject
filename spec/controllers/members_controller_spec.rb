@@ -103,7 +103,7 @@ describe MembersController, type: :controller do
   end
 
   describe '#autocomplete_for_member' do
-    let(:params) { ActionController::Parameters.new('id' => project.identifier.to_s) }
+    let(:params) { ActionController::Parameters.new('project_id' => project.identifier.to_s) }
 
     before do
       allow(User).to receive(:current).and_return(user)
