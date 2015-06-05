@@ -70,13 +70,12 @@ module API
                 send_notifications: send_notifications)
 
               contract = UpdateContract.new(@work_package, current_user)
-              errors = contract.validate_contract_and_model
-              if errors.empty? && update_service.save
+              if contract.validate && update_service.save
                 @work_package.reload
 
                 work_package_representer
               else
-                fail ::API::Errors::ErrorBase.create(errors)
+                fail ::API::Errors::ErrorBase.create(contract.errors)
               end
             end
 
