@@ -42,7 +42,8 @@ class ProjectType < ActiveRecord::Base
 
   has_many :available_project_statuses, class_name:  'AvailableProjectStatus',
                                         foreign_key: 'project_type_id',
-                                        dependent: :destroy
+                                        dependent: :destroy,
+                                        validate: false
   has_many :reported_project_statuses, through: :available_project_statuses
 
   include ActiveModel::ForbiddenAttributesProtection
