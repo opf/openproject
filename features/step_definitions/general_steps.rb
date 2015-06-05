@@ -85,7 +85,8 @@ Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
 end
 
 Given /^(?:|I )am (not )?impaired$/ do |bool|
-  (user = User.current).impaired = !bool
+  user = User.find(page.get_rack_session_key('user_id'))
+  user.impaired = !bool
   user.save
 end
 
