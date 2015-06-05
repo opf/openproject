@@ -61,7 +61,7 @@ module API
         self.validate
         model.valid?
 
-        errors = self.errors.dup
+        merged_errors = self.errors.dup
 
         # We need to merge the contract errors with the model errors in
         # order to have them available at one place.
@@ -69,11 +69,11 @@ module API
         # among the model and its contract.
         model.errors.keys.each do |key|
           model.errors[key].each do |message|
-            errors.add(key, message)
+            merged_errors.add(key, message)
           end
         end
 
-        errors
+        merged_errors
       end
 
       private
