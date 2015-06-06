@@ -23,7 +23,7 @@ require 'open_project/plugins/migration_mapping'
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class AggregatedCostsMigrations < ActiveRecord::Migration
 
-  def initialize
+  def initialize(*)
     super
     @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'
   end
