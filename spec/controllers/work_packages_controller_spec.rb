@@ -74,7 +74,7 @@ describe WorkPackagesController, :type => :controller do
 
     it { is_expected.to be_success }
 
-    it { is_expected.to render_template('work_packages/show', formats: ['html']) }
+    it { is_expected.to render_template('work_packages/show') }
 
     context 'view' do
       render_views
