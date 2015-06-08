@@ -31,8 +31,10 @@ require 'spec_helper'
 describe CreateWorkPackageService do
   let(:user) { FactoryGirl.build(:user) }
   let(:work_package) { FactoryGirl.build(:work_package) }
-  let(:project) do
-    double('project', add_work_package: work_package)
+  let(:project) { FactoryGirl.build(:project_with_types) }
+
+  before do
+    allow(project).to receive(:add_work_package).and_return(work_package)
   end
 
   subject(:service) { CreateWorkPackageService.new(user: user, project: project) }
