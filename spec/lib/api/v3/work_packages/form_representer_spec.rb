@@ -75,5 +75,8 @@ describe ::API::V3::WorkPackages::FormRepresenter do
         it { is_expected.to be_json_eql(api_errors.to_json).at_path('_embedded/validationErrors') }
       end
     end
+
+    it { is_expected.to have_json_path('_embedded/payload') }
+    it { is_expected.to have_json_path('_embedded/schema') }
   end
 end

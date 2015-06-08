@@ -65,6 +65,33 @@ describe ::API::V3::Projects::ProjectRepresenter do
         expect(subject).to have_json_path('_links/self/title')
       end
 
+      describe 'create work packages' do
+        let(:user) do
+          FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
+        end
+        let(:project) { FactoryGirl.create(:project) }
+        let(:representer) { described_class.new(project, current_user: user) }
+        context 'user allowed to create work packages' do
+          let(:role) { FactoryGirl.create(:role, permissions: [:add_work_packages]) }
+
+          it { is_expected.to have_json_path('_links/createWorkPackage') }
+          it { is_expected.to have_json_path('_links/createWorkPackage/href') }
+
+          it { is_expected.to have_json_path('_links/createWorkPackageImmediate') }
+          it { is_expected.to have_json_path('_links/createWorkPackageImmediate/href') }
+        end
+
+        context 'user not allowed to create work packages' do
+          let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+          it { is_expected.to_not have_json_path('_links/createWorkPackage') }
+          it { is_expected.to_not have_json_path('_links/createWorkPackage/href') }
+
+          it { is_expected.to_not have_json_path('_links/createWorkPackageImmediate') }
+          it { is_expected.to_not have_json_path('_links/createWorkPackageImmediate/href') }
+        end
+      end
+
       describe 'categories' do
         it { is_expected.to have_json_path('_links/categories')      }
         it { is_expected.to have_json_path('_links/categories/href') }
