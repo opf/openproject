@@ -31,7 +31,6 @@ module API
   module V3
     module WorkPackages
       class FormRepresenter < ::API::Decorators::Single
-
         property :payload,
                  embedded: true,
                  decorator: -> (represented, *) {
