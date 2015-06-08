@@ -28,12 +28,11 @@
 #++
 
 class CreateWorkPackageService
-  attr_accessor :user, :send_notifications, :project, :work_package
+  attr_accessor :user, :project, :work_package
 
   def initialize(user:, project:, send_notifications: true)
     self.user = user
     self.project = project
-    self.send_notifications = send_notifications
 
     WorkPackageObserver.instance.send_notification = send_notifications
   end
