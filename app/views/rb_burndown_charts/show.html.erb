@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="burndown_chart" id="burndown_<%= @burndown.sprint_id %>" style="width:600px;height:300px;"><div class="loading"><%=l('backlogs.generating_chart')%></div></div>
 
-  <fieldset class="form--fieldset">
+  <fieldset class="burndown_control form--fieldset">
       <legend class="form--fieldset-legend"><%= l('backlogs.chart_options') %></legend>
       <%= burndown_series_checkboxes(@burndown) %>
   </fieldset>
