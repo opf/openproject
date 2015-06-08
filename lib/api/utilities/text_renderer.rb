@@ -41,7 +41,7 @@ module API
         @object = object
         if object.respond_to?(:project)
           @project = object.project
-        else
+        elsif @object.is_a?(Project)
           @project = object
         end
       end
