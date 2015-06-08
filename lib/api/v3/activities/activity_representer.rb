@@ -35,7 +35,7 @@ module API
       class ActivityRepresenter < ::API::Decorators::Single
         include API::V3::Utilities
 
-        self_link path: 'activity',
+        self_link path: :activity,
                   title_getter: -> (*) { represented.id }
 
         link :workPackage do
