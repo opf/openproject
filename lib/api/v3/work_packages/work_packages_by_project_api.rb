@@ -34,27 +34,25 @@ module API
     module WorkPackages
       class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
         resources :work_packages do
-          before do
-            @create_service = CreateWorkPackageService.new(
-              user: current_user,
-              project: @project,
-              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
-            @work_package = @create_service.create
-          end
-
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            write_work_package_attributes @work_package
+            create_service = CreateWorkPackageService.new(
+              user: current_user,
+              project: @project,
+              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
+            work_package = create_service.create
 
-            if write_request_valid?(@work_package, WorkPackages::CreateContract) &&
-               @create_service.save
-              @work_package.reload
+            write_work_package_attributes work_package
 
-              WorkPackages::WorkPackageRepresenter.create(@work_package,
+            if write_request_valid?(work_package, WorkPackages::CreateContract) &&
+               create_service.save
+              work_package.reload
+
+              WorkPackages::WorkPackageRepresenter.create(work_package,
                                                           current_user: current_user)
             else
-              errors = ::API::Errors::ErrorBase.create(@work_package.errors.dup)
+              errors = ::API::Errors::ErrorBase.create(work_package.errors.dup)
               fail errors
             end
           end
