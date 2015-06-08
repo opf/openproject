@@ -34,6 +34,7 @@ module API
         link :self do
           {
             href: api_v3_paths.work_package_form(represented.id),
+            method: :post
           }
         end
 
