@@ -35,10 +35,6 @@ module API
       class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
         resources :work_packages do
           before do
-            authorize(:view_project, context: @project) do
-              raise API::Errors::NotFound.new
-            end
-
             @create_service = CreateWorkPackageService.new(
               user: current_user,
               project: @project,
