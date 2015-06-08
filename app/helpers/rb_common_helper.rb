@@ -182,7 +182,7 @@ module RbCommonHelper
 
     ret += link_to(l('backlogs.show_burndown_chart'),
                    {},
-                   :class => 'show_burndown_chart')
+                   class: 'show_burndown_chart button')
 
 
     ret += javascript_tag "
