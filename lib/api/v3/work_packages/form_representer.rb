@@ -27,26 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module WorkPackages
-      class FormRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
-
-        self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {})
-          @current_user = options[:current_user]
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator, writeable: false
+      class FormRepresenter < ::API::Decorators::Single
 
         property :payload,
                  embedded: true,
@@ -61,7 +45,7 @@ module API
                    schema = Schema::WorkPackageSchema.new(work_package: represented)
                    Schema::WorkPackageSchemaRepresenter.create(schema,
                                                                form_embedded: true,
-                                                               current_user: @current_user)
+                                                               current_user: current_user)
                  }
         property :validation_errors, embedded: true, exec_context: :decorator
 
