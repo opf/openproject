@@ -43,7 +43,6 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
   end
 
   describe '#create_work_package_form' do
-
     subject do
       create_work_package_form(work_package,
                                contract_class: ::API::V3::WorkPackages::CreateContract,

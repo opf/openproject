@@ -65,7 +65,7 @@ describe CreateWorkPackageService do
 
   it do
     expect(project).to receive(:add_work_package).with(hash_including(:type))
-    project.add_work_package({type: nil})
+    project.add_work_package(type: nil)
   end
 
   it 'should #save records' do
