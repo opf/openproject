@@ -1,4 +1,4 @@
-# Installation of OpenProject 4.0 with Apache on Debian 7.7 or Ubuntu 14.04 LTS
+# Installation of OpenProject 4.1 with Apache on Debian 7.7 or Ubuntu 14.04 LTS
 
 **This tutorial helps you to deploy OpenProject 4.0. Please, aware that:**
 
