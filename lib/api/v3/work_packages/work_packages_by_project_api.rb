@@ -52,8 +52,7 @@ module API
               WorkPackages::WorkPackageRepresenter.create(work_package,
                                                           current_user: current_user)
             else
-              errors = ::API::Errors::ErrorBase.create(work_package.errors.dup)
-              fail errors
+              fail ::API::Errors::ErrorBase.create(work_package.errors.dup)
             end
           end
 
