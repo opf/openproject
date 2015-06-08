@@ -1,4 +1,5 @@
 require 'open_project/plugins'
+require 'lobby_boy'
 
 module OpenProject::OpenIDConnect
   class Engine < ::Rails::Engine
@@ -37,12 +38,40 @@ module OpenProject::OpenIDConnect
         Hash(OpenProject::Configuration["openid_connect"]).deep_merge(from_settings)
       end
 
-      Providers.configure custom_options: [:display_name?, :icon?]
+      Providers.configure custom_options: [
+        :display_name?, :icon?, :sso?, :issuer?,
+        :check_session_iframe?, :end_session_endpoint?
+      ]
 
       strategy :openid_connect do
         # update base redirect URI in case settings changed
         Providers.configure base_redirect_uri: "#{Setting.protocol}://#{Setting.host_name}"
         Providers.load(configuration).map(&:to_h)
+      end
+    end
+
+    config.to_prepare do
+      LobbyBoy.configure_client! host: "#{Setting.protocol}://#{Setting.host_name}",
+                                 end_session_endpoint: '/logout'
+
+      provider = OpenProject::Plugins::AuthPlugin.providers.find { |p| p[:sso] }
+
+      if provider
+        LobbyBoy.configure_provider! name:                 provider[:name],
+                                     client_id:            provider[:client_options][:identifier],
+                                     issuer:               provider[:issuer],
+                                     end_session_endpoint: provider[:end_session_endpoint],
+                                     check_session_iframe: provider[:check_session_iframe]
+      end
+
+      if LobbyBoy.configured?
+        require 'open_project/hooks/session_iframes'
+
+        require 'open_project/openid_connect/sso_login'
+        ::Concerns::OmniauthLogin.prepend SSOLogin
+
+        require 'open_project/openid_connect/sso_logout'
+        ::AccountController.prepend SSOLogout
       end
     end
 
