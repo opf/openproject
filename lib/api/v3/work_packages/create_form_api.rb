@@ -36,7 +36,7 @@ module API
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
           post do
-            create_work_package_form(@work_package,
+            create_work_package_form(create_service.create,
                                      contract_class: CreateContract,
                                      form_class: CreateFormRepresenter)
           end
