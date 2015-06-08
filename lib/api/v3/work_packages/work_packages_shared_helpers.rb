@@ -40,7 +40,7 @@ module API
 
         # merges the given JSON representation into @work_package
         def merge_json_into_work_package!(work_package, json)
-          payload = WorkPackagePayloadRepresenter.create(work_package)
+          payload = ::API::V3::WorkPackages::WorkPackagePayloadRepresenter.create(work_package)
           payload.from_json(json)
         end
 
