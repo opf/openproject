@@ -71,8 +71,8 @@ module API
         collect_ancestor_attributes(:attribute_validations)
       end
 
-      # All of the contract information across the entire inheritance hierarchy has to be
-      # considered in order to properly enforce them.
+      # Traverse ancestor hierarchy to collect contract information.
+      # This allows to define attributes on a common base class of two or more contracts.
       def collect_ancestor_attributes(attribute_to_collect)
         attributes = []
         klass = self.class
