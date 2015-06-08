@@ -35,15 +35,23 @@ module API
       class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
         resources :work_packages do
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+          helpers do
+            def create_service
+              @create_service ||=
+                CreateWorkPackageService.new(
+                  user: current_user,
+                  project: @project,
+                  send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
+            end
+          end
 
           post do
-            service = create_service
-            work_package = service.create
+            work_package = @create_service.create
 
             write_work_package_attributes work_package
 
             if write_request_valid?(work_package, WorkPackages::CreateContract) &&
-               service.save
+               @create_service.save
               work_package.reload
 
               WorkPackages::WorkPackageRepresenter.create(work_package,
@@ -51,13 +59,6 @@ module API
             else
               fail ::API::Errors::ErrorBase.create(work_package.errors.dup)
             end
-          end
-
-          def create_service
-            CreateWorkPackageService.new(
-              user: current_user,
-              project: @project,
-              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
           end
 
           mount ::API::V3::WorkPackages::CreateFormAPI
