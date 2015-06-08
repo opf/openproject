@@ -107,8 +107,8 @@ class Burndown
 
   def determine_max
     @max = {
-      :points => @available_series.values.select{|s| s.unit == :points}.flatten.compact.max || 0.0,
-      :hours => @available_series.values.select{|s| s.unit == :hours}.flatten.compact.max || 0.0
+      :points => @available_series.values.select{|s| s.unit == :points}.flatten.compact.reject(&:nan?).max || 0.0,
+      :hours => @available_series.values.select{|s| s.unit == :hours}.flatten.compact.reject(&:nan?).max || 0.0
     }
   end
 
