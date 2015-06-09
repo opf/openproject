@@ -105,21 +105,21 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :statuses,
             { controller: '/statuses' },
             caption: :label_work_package_status_plural,
-            html: { class: 'statuses icon2 icon-status' }
+            html: { class: 'statuses icon2 icon-flag' }
 
   menu.push :workflows,
             { controller: '/workflows', action: 'edit' },
             caption: Proc.new { Workflow.model_name.human },
-            html: { class: 'icon2 icon-status' }
+            html: { class: 'icon2 icon-arrow-circle1' }
 
   menu.push :custom_fields,
             { controller: '/custom_fields' },
             caption: :label_custom_field_plural,
-            html: { class: 'custom_fields icon2 icon-status' }
+            html: { class: 'custom_fields icon2 icon-custom-fields' }
 
   menu.push :enumerations,
             { controller: '/enumerations' },
-            html: { class: 'icon2 icon-status' }
+            html: { class: 'icon2 icon-enumerations2' }
 
   menu.push :settings,
             { controller: '/settings' },
@@ -127,7 +127,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
-            html: { class: 'server_authentication icon2 icon-status' },
+            html: { class: 'server_authentication icon2 icon-flag' },
             if: proc { !OpenProject::Configuration.disable_password_login? }
 
   menu.push :plugins,
