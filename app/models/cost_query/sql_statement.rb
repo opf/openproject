@@ -82,7 +82,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
         week: iso_year_week(:spent_on, model),
         singleton_value: 1 })
       #FIXME: build this subquery from a sql_statement
-      query.from "(SELECT *, #{typed :text, model.model_name} AS type FROM #{table}) AS #{table}"
+      query.from "(SELECT *, #{typed :text, model.model_name.to_s} AS type FROM #{table}) AS #{table}"
       send("unify_#{table}", query)
     end
   end
