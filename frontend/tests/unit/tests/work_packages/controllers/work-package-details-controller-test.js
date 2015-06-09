@@ -64,7 +64,17 @@ describe('WorkPackageDetailsController', function() {
           },
           activities: [],
           watchers: [],
-          attachments: [],
+          attachments: {
+            links: {
+              self: { href: "/api/v3/work_packages/820/attachments" }
+            },
+            _type: "Collection",
+            total: 0,
+            count: 0,
+            embedded: {
+              elements: []
+            }
+          },
           relations: [
             {
               props: {
