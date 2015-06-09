@@ -284,7 +284,7 @@ describe WorkPackagesHelper, type: :helper do
       expect(helper.work_package_form_category_attribute(form,
                                                          stub_work_package,
                                                          project: stub_project).field)
-        .to be_html_eql("<div class=\"form--field \">#{label_placeholder}
+        .to be_html_eql("<div class=\"form--field -wide-label -break-words \">#{label_placeholder}
                          <span class=\"form--field-container\">category html</span>
                          </div>")
     end
@@ -438,7 +438,7 @@ describe WorkPackagesHelper, type: :helper do
   describe '#work_package_form_custom_values_attribute' do
     let(:stub_custom_value) { FactoryGirl.build_stubbed(:work_package_custom_value) }
     let(:field_content) { 'field contents' }
-    let(:expected) { "<div class=\"form--field \">#{field_content}</div>" }
+    let(:expected) { "<div class=\"form--field -wide-label -break-words \">#{field_content}</div>" }
 
     before do
       allow(stub_work_package).to receive(:custom_field_values).and_return([stub_custom_value])
