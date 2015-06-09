@@ -65,7 +65,7 @@ class HourlyRate < Rate
       if rate.nil?
         project = Project.find(project) unless project.is_a?(Project)
         rate = find(:first,
-                    :conditions => [ "user_id = ? and project_id in (?) and valid_from <= ?", user_id, project.ancestors, date],
+                    :conditions => [ "user_id = ? and project_id in (?) and valid_from <= ?", user_id, project.ancestors.to_a, date],
                     :include => :project,
                     :order => "projects.lft DESC, valid_from DESC")
       end
