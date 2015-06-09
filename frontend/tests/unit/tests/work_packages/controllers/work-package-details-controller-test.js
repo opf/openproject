@@ -44,17 +44,12 @@ describe('WorkPackageDetailsController', function() {
       },
       workPackage = {
         props: {
-          status: 'open',
-          versionName: null,
-          customProperties: [
-            { format: 'text', name: 'color', value: 'red' },
-          ]
         },
         embedded: {
           author: {
             props: {
               id: 1,
-              status: 1
+              status: 'active'
             }
           },
           project: {
@@ -92,7 +87,7 @@ describe('WorkPackageDetailsController', function() {
           ]
         },
         links: {
-          self: "it's a me, it's... you know...",
+          self: { href: "it's a me, it's... you know..." },
           availableWatchers: {
             fetch: function() { return {then: angular.noop}; }
           }
