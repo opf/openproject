@@ -243,12 +243,12 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       def delete_work_package_custom_field(name)
-        WorkPackageCustomField.find_by_name(name).destroy
+        WorkPackageCustomField.find_by(name: name).destroy
         check_cache
       end
 
       def class_name_for(name)
-        "CostQuery::GroupBy::CustomField#{WorkPackageCustomField.find_by_name(name).id}"
+        "CostQuery::GroupBy::CustomField#{WorkPackageCustomField.find_by(name: name).id}"
       end
 
       it "should create classes for custom fields" do
@@ -260,7 +260,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         create_work_package_custom_field("AFreshCustomField")
         # Would raise a name error
         expect { class_name_for('AFreshCustomField').constantize }.to_not raise_error
-        WorkPackageCustomField.find_by_name("AFreshCustomField").destroy
+        WorkPackageCustomField.find_by(name: "AFreshCustomField").destroy
       end
 
       it "should remove the custom field classes after it is deleted" do
@@ -282,7 +282,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       it "is usable as filter" do
         create_work_package_custom_field("Database")
-        id = WorkPackageCustomField.find_by_name('Database').id
+        id = WorkPackageCustomField.find_by(name: 'Database').id
         @query.group_by "custom_field_#{id}".to_sym
         footprint = @query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
         expect(footprint).to eq([[8, 8]])

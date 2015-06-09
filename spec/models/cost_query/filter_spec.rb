@@ -334,19 +334,19 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       def delete_work_package_custom_field(name)
-        WorkPackageCustomField.find_by_name(name).destroy
+        WorkPackageCustomField.find_by(name: name).destroy
         clear_cache
       end
 
       def update_work_package_custom_field(name, options)
-        fld = WorkPackageCustomField.find_by_name(name)
+        fld = WorkPackageCustomField.find_by(name: name)
         options.each_pair {|k, v| fld.send(:"#{k}=", v) }
         fld.save!
         clear_cache
       end
 
       def class_name_for(name)
-        "CostQuery::Filter::CustomField#{WorkPackageCustomField.find_by_name(name).id}"
+        "CostQuery::Filter::CustomField#{WorkPackageCustomField.find_by(name: name).id}"
       end
 
       it "should create classes for custom fields that get added after starting the server" do
@@ -420,14 +420,14 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       it "is usable as filter" do
         create_searchable_fields_and_values
-        id = WorkPackageCustomField.find_by_name("Searchable Field").id
+        id = WorkPackageCustomField.find_by(name: "Searchable Field").id
         @query.filter "custom_field_#{id}".to_sym, operator: '=', value: "125"
         expect(@query.result.count).to eq(2)
       end
 
       it "is usable as filter #2" do
         create_searchable_fields_and_values
-        id = WorkPackageCustomField.find_by_name("Searchable Field").id
+        id = WorkPackageCustomField.find_by(name: "Searchable Field").id
         @query.filter "custom_field_#{id}".to_sym, operator: '=', value: "finnlabs"
         expect(@query.result.count).to eq(0)
       end
