@@ -22,6 +22,8 @@ bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test
 
 Available arguments for this rake task that specify the e-mail behavior are
 
+|key | description|
+|----|------------|
 | `host` | address of the e-mail server |
 | `username` | the name of the user that is used to connect to the e-mail server|
 | `password` | the password of the user|
@@ -51,6 +53,8 @@ bundle exec rake redmine:email:receive_pop3 host='pop.gmail.com' username='test_
 
 Available options that specifiy the e-mail behavior are:
 
+|key | description|
+|----|------------|
 |`host` | address of the e-mail server (default: 127.0.0.1)|
 | username | name of the user that is used to connect to the e-mail server|
 | password | password of the user|
@@ -60,6 +64,8 @@ Available options that specifiy the e-mail behavior are:
 
 Available arguments that change how the work packages are handled:
 
+|key | description|
+|----|------------|
 | `project` | identifier of the target project|
 | `tracker` | name of the target tracker|
 | `category` | name of the target category|
