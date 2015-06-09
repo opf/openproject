@@ -44,7 +44,13 @@ git push origin <your feature branch>
 
 - Create a pull request against a branch of of the <opf/openproject> repository, containing a ***clear description*** of what the pull request attempts to change and/or fix. 
 
-If your pull request **does not contain a description** for what it does and what it's intentions are, we will reject it. If you are working on a specific work package from the [list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22type%22,%22status%22,%22subject%22,%22assigned_to%22%5D,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22status_id%22,%22o%22:%22!%22,%22t%22:%22list_status%22,%22v%22:%5B%2217%22,%2223%22,%223%22,%2214%22,%226%22%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D), you may include a link to that work package in the description, so we can track your work.
+
+If your commits of pull request **do not contain a commit log** for what it does and what it's intentions are, we will reject it.
+
+Do not write a description of GitHub.
+**GitHub is proprietary**. If GitHub stops service, we will lose descriptions and discussions on GitHub.
+
+If you are working on a specific work package from the [list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22type%22,%22status%22,%22subject%22,%22assigned_to%22%5D,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22status_id%22,%22o%22:%22!%22,%22t%22:%22list_status%22,%22v%22:%5B%2217%22,%2223%22,%223%22,%2214%22,%226%22%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D), you may include a link to that work package in the description, so we can track your work.
 
 We will then review your pull request. Please note that you can add commits after the pull request has been created by pushing to the branch in your fork.
 
