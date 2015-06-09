@@ -1,4 +1,4 @@
-OpenProject is an open source project and we encourage you to help us out. For contributing to OpenProject, please read the following guidelines. 
+OpenProject is an open source project and we encourage you to help us out. For contributing to OpenProject, please read the following guidelines.
 
 *Please also note that these rules should be acknowledged by everyone, but repository contributors might occasionally deviate from them for practical purposes, e.g. not fork the repo, but have a branch on the main repository. This should however stay an exception.*
 
@@ -12,25 +12,25 @@ The [CLA can be found here](https://www.openproject.org/wp-content/uploads/2014/
 For contributing source code, please follow the git workflow below:
 
 - **Fork** OpenProject on GitHub
-- Clone your fork to your development machine: 
+- Clone your fork to your development machine:
 
 ```
 git clone git@github.com/<username>/openproject
 ```
 
-- Optional: Add the original OpenProject repository as a remote, so you can fetch changes: 
+- Optional: Add the original OpenProject repository as a remote, so you can fetch changes:
 
 ```
 git remote add upstream git@github.com:opf/openproject
 ```
 
-- Make sure you're on the right branch. The main development branch is `dev`: 
+- Make sure you're on the right branch. The main development branch is `dev`:
 
 ```
 git checkout dev
 ```
 
-- Create a feature branch: 
+- Create a feature branch:
 
 ```
 git checkout -b feature/<short description of your feature>
@@ -42,7 +42,7 @@ git checkout -b feature/<short description of your feature>
 git push origin <your feature branch>
 ```
 
-- Create a pull request against a branch of of the <opf/openproject> repository, containing a ***clear description*** of what the pull request attempts to change and/or fix. 
+- Create a pull request against a branch of of the <opf/openproject> repository, containing a ***clear description*** of what the pull request attempts to change and/or fix.
 
 If your pull request **does not contain a description** for what it does and what it's intentions are, we will reject it. If you are working on a specific work package from the [list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22type%22,%22status%22,%22subject%22,%22assigned_to%22%5D,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22status_id%22,%22o%22:%22!%22,%22t%22:%22list_status%22,%22v%22:%5B%2217%22,%2223%22,%223%22,%2214%22,%226%22%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D), you may include a link to that work package in the description, so we can track your work.
 
@@ -54,7 +54,7 @@ To ensure a smooth workflow for everyone, please take note of the following:
 
 ### Testing
 
-Please add tests to your code to verify functionality, especially if it is a new feature. 
+Please add tests to your code to verify functionality, especially if it is a new feature.
 
 Pull requests will be verified by TravisCI as well, but please run them locally as well and make sure they are green before creating your pull request. We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
 
