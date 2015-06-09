@@ -46,7 +46,7 @@ module API
           end
 
           post do
-            work_package = @create_service.create
+            work_package = create_service.create
 
             write_work_package_attributes work_package
 
