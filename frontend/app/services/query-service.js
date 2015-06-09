@@ -376,7 +376,12 @@ module.exports = function(
     },
 
     deleteQuery: function() {
-      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      var url;
+      if(_.isNull(query.project_id)) {
+        url = PathHelper.apiQueryPath(query.id);
+      } else {
+        url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      }
       return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
