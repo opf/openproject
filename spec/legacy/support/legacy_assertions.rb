@@ -80,8 +80,6 @@ module LegacyAssertionsAndHelpers
     file
   end
 
-  include OpenProject::Files
-
   def save_and_open_page
     body = response.body
 
