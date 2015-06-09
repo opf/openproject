@@ -127,7 +127,7 @@ e-mail will be attached to the relevant work package.
 #### Watchers
 
 If you create a work package via e-mail and sent it to another e-mail
-(to or bcc) OpenProject will search for a user with this user and add it
+(to or bcc) OpenProject will search for a user with this e-mail and add it
 as watcher.
 
 ### Forum Messages
