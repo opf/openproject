@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Attachments::AttachmentRepresenter, type: :request do
+describe ::API::V3::Attachments::AttachmentRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:attachment) { FactoryGirl.create(:attachment) }

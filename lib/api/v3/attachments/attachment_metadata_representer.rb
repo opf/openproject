@@ -39,7 +39,7 @@ module API
                  getter: -> (*) {
                    ::API::Decorators::Formattable.new(description, format: 'plain')
                  },
-                 setter: -> (value, *) { represented.description = value['raw'] },
+                 setter: -> (value, *) { self.description = value['raw'] },
                  render_nil: true
       end
     end
