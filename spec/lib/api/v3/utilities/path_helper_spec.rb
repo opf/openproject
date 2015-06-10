@@ -116,7 +116,7 @@ describe ::API::V3::Utilities::PathHelper do
 
     it_behaves_like 'api v3 path'
 
-    it { is_expected.to match(/^\/api\/v3\/projects\/42\/work_packages\/form/) }
+    it { is_expected.to eql('/api/v3/projects/42/work_packages/form') }
   end
 
   describe '#render_markup' do
