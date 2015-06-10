@@ -1,5 +1,5 @@
 <div class="activity-comment" ng-if="canAddComment">
-  <form name="commentForm">
+  <form name="commentForm" ng-submit="$parent.createComment()">
     <label for="add-comment-text" class="hidden-for-sighted">
       {{ $parent.title }}
     </label>
@@ -13,7 +13,6 @@
               data-wp_autocomplete_url="{{ autocompletePath }}">
     </textarea>
     <button class="button"
-            ng-click="$parent.createComment()"
             ng-disabled="commentForm.$invalid || $parent.processingComment">
       <i class="icon-yes icon-left"></i>{{ $parent.buttonTitle }}
     </button>
