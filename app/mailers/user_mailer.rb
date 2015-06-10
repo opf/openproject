@@ -59,10 +59,7 @@ class UserMailer < ActionMailer::Base
     message_id @issue, user
 
     with_locale_for(user) do
-      subject = "[#{@issue.project.name} - #{ @issue }]"
-      subject << " (#{@issue.status.name})" if @issue.status
-      subject << " #{@issue.subject}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject_for_work_package(@issue)
     end
   end
 
@@ -80,11 +77,7 @@ class UserMailer < ActionMailer::Base
     references @issue, user
 
     with_locale_for(user) do
-      subject =  "[#{@issue.project.name} - #{@issue.type.name} ##{@issue.id}] "
-      subject << "(#{@issue.status.name}) " if @journal.details[:status_id]
-      subject << @issue.subject
-
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject_for_work_package(@issue)
     end
   end
 
@@ -348,6 +341,11 @@ class UserMailer < ActionMailer::Base
   end
 
   private
+
+  def subject_for_work_package(work_package)
+    subject =  "[#{work_package.project.name} - #{work_package.type.name} ##{work_package.id}] "
+    subject << "(#{work_package.status.name}) " << work_package.subject
+  end
 
   # like #mail, but contains special author based filters
   # currently only:
