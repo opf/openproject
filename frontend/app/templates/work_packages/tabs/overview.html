@@ -47,8 +47,13 @@
   </dl>
 </div>
 
-<div class="detail-panel-latest-activity">
-  <h3>{{ I18n.t('js.label_latest_activity') }}</h3>
+<div class="attributes-group detail-panel-latest-activity">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">{{ I18n.t('js.label_latest_activity') }}</h3>
+    </div>
+  </div>
+
   <exclusive-edit>
     <ul>
       <li ng-repeat="activity in activities | latestItems:activitiesSortedInDescendingOrder:3"
