@@ -1686,6 +1686,7 @@ en:
       invalid_relation: "The relation is invalid."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
+      missing_request_body: "There was no request body."
       multiple_errors: "Multiple field constraints have been violated."
       parse_error: "The request body was neither empty, nor did it contain a single JSON object."
       writing_read_only_attributes: "You must not write a read-only attribute."

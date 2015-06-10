@@ -95,12 +95,13 @@ Links to other resources in the API are represented uniformly by so called link 
 
 ## Local Properties
 
-| Property  | Description                                                              | Type    | Required | Nullable | Default |
-|:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ------- |
-| href      | URL to the referenced resource (might be relative)                       | String  |    ✓     |    ✓     |         |
-| title     | Representative label for the resource                                    | String  |          |          |         |
-| templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false   |
-| method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET     |
+| Property  | Description                                                              | Type    | Required | Nullable | Default     |
+|:---------:| ------------------------------------------------------------------------ | ------- |:--------:|:--------:| ----------- |
+| href      | URL to the referenced resource (might be relative)                       | String  |    ✓     |    ✓     |             |
+| title     | Representative label for the resource                                    | String  |          |          |             |
+| templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false       |
+| method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET         |
+| payload   | The exact payload to send in the request to achieve the desired result   | String  |          |          | unspecified |
 
 All link objects *must* contain the `href` property, though it might be `null`. Thus the following is a valid
 link object:
@@ -119,6 +120,10 @@ the link `api/v3/example/{id}` is not complete in itself, but the client needs t
 As of now the API does not indicate the valid replacement values.
 
 The `method` indicates which HTTP verb the client *must* use when following the link for the intended purpose.
+
+If a `payload` is specified, it needs to be sent as the body of the request to achieve the desired result (e.g. perform the
+action represented by the link). If no `payload` is specified, there is either no payload to send or there are multiple valid
+payloads.
 
 Note: When writing links (e.g. during a `PATCH` operation) only changes to `href` are accepted.
 Changes to all other properties will be **silently ignored**.
@@ -216,6 +221,7 @@ embedded errors or simply state that multiple errors occured.
 * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**) - The client tried to set or change a property that is not writable
 * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**) - The client tried to set a property to an invalid value
 * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**) - An unchanged property needs to be changed, because other changes to the resource make it unavailable
+* `urn:openproject-org:api:v3:errors:ResourceTypeMismatch` (**HTTP 422**) - A link to a resource of a specific type was expected, but the link to another type of resource was provided
 * `urn:openproject-org:api:v3:errors:PropertyFormatError` (**HTTP 422**) - A property value was provided in a format that the server does not understand or accept
 * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**) - Default for HTTP 500 when no further information is available
 * `urn:openproject-org:api:v3:errors:MultipleErrors` - Multiple errors occured. See the embedded `errors` array for more details.
@@ -2742,6 +2748,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
 | type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
 | version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
+| watchers           | All users that are currently watching this work package                                                                                               | Users        |              | READ                  | **Permission** view work package watchers |
 
 ## Local Properties:
 
@@ -2856,8 +2863,8 @@ the human readable name of custom fields.*
                     "watch": {
                         "href": "/api/v3/work_packages/1528/watchers",
                         "method": "post",
-                        "data": {
-                            "user_id": 1
+                        "payload": {
+                            "user": { "href": "/api/v3/users/1" }
                         },
                         "title": "Watch work package"
                     },
@@ -2901,6 +2908,9 @@ the human readable name of custom fields.*
                         "type": "text/html",
                         "title": "Time entries"
                     },
+                    "watchers": {
+                        "href": "/api/v3/work_packages/1528/watchers"
+                    },
                     "customField3": {
                         "href": "api/v3/users/14"
                     }
@@ -2931,6 +2941,20 @@ the human readable name of custom fields.*
 + Response 200 (application/hal+json)
 
     [WorkPackage][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
 
 ## Edit WorkPackage [PATCH]
 
@@ -2987,6 +3011,20 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
                 "message": "You are not allowed to edit the content of the work package."
             }
 
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
 + Response 409 (application/hal+json)
 
     Returned if the resource was changed since the client requested it. This is determined using the `lockVersion` property.
@@ -3002,9 +3040,10 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 + Response 422 (application/hal+json)
 
     Returned if:
-    * the client tries to modify a read-only property
-    * a constraint for a property was violated
-    * a property was provided in an unreadable format
+
+    * the client tries to modify a read-only property (`PropertyIsReadOnly`)
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+    * the client provides a link to an invalid resource (`ResourceTypeMismatch`)
 
     + Body
 
@@ -3068,26 +3107,255 @@ For more details and all possible responses see the general specification of [Fo
 
     [Example Form][]
 
-## Add Watcher [/api/v3/work_packages/{work_package_id}/watchers]
++ Response 403 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** edit work package
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit the specified work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
+## Watchers [/api/v3/work_packages/{work_package_id}/watchers]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/14/watchers" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded": {
+                  "elements": [
+                    {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/1/lock",
+                                "title": "Set lock on j.sheppard"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/1",
+                                "title": "Delete j.sheppard"
+                                "method": "DELETE"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard2"
+                            },
+                            "lock": {
+                                "href": "/api/v3/users/2/lock",
+                                "title": "Set lock on j.sheppard2"
+                                "method": "POST"
+                            },
+                            "delete": {
+                                "href": "/api/v3/users/2",
+                                "title": "Delete j.sheppard2"
+                                "method": "DELETE"
+                            }
+                        },
+                        "id": 2,
+                        "login": "j.sheppard2",
+                        "firstName": "Jim",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.net",
+                        "avatar": "https://gravatar/avatar",
+                        "status": "active",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    }]
+                }
+            }
+
+## List watchers [GET]
+
++ Parameters
+    + work_package_id (required, integer, `1`) ... Work package id
+
++ Response 200 (application/hal+json)
+
+    [Watchers][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package watchers
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the watchers of this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    *Note that you will effectively not be able to see the watchers of a work package without being able to see the work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
 
 ## Add watcher [POST]
+
+Adds a watcher to the specified work package.
+
+The request is expected to contain a single JSON object, that contains a link object under the `user` key.
+
+The response will be user added as watcher.
+In case the user was already watching the work package an `HTTP 200` is returned, an
+`HTTP 201` if the user was added as a new watcher.
 
 + Parameters
     + work_package_id (required, integer, `1`) ... Work package id
 
 + Request (application/json)
 
-            {
-                "user_id": 1
-            }
+        {
+            "user": { "href": "/api/v3/users/1" }
+        }
 
 + Response 200 (application/hal+json)
 
     [User][]
 
++ Response 201 (application/hal+json)
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    For example:
+
+    * The request did not contain a single JSON object
+    * The JSON object did not contain the key `user`
+    * The value of `users` was not a link object
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:**
+
+    * view work package (for self)
+    * add work package watchers (for other users)
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to add watchers to this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    *Note that you will effectively not be able to change the watchers of a work package without being able to see the work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * the client tries to specify a link to a resource that is not a user (`ResourceTypeMismatch`)
+    * the user specified is not allowed to watch that work package (`PropertyConstraintViolation`)
+    * the user specified does not exist (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:ResourceTypeMismatch",
+                "message": "Expected resource of type 'User', but got a 'Status'.",
+            }
+
 ## Remove Watcher [/api/v3/work_packages/{work_package_id}/watchers/{id}]
 
 ## Remove watcher [DELETE]
+
+Removes the specified user from the list of watchers for the given work package.
+
+If the request succeeds, the specified user is not watching the work package anymore.
+
+*Note: This might also be the case, if the specified user did not watch the work package prior to the request.*
 
 + Parameters
     + work_package_id (required, integer, `1`) ... Work package id
@@ -3095,14 +3363,50 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 204
 
-## Available Watchers [/api/v3/work_packages/{work_package_id}/available_watchers]
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** delete work package watchers
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to remove watchers from this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned in one of two cases:
+
+    Either the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    Or the specified user does not exist at all.
+
+    *Note that you will effectively not be able to change the watchers of a work package without being able to see the work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
+## Available Watchers [/api/v3/work_packages/{id}/available_watchers]
 
 + Model
     + Body
 
             {
                 "_links": {
-                    "self": { "href": "/api/v3/work_packages/14/available_watchers" }
+                    "self": { "href": "/api/v3/work_packages/1/available_watchers" }
                 },
                 "total": 2,
                 "count": 2,
@@ -3170,10 +3474,10 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Available watchers [GET]
 
-Gets a list of users that can watch the work package.
+Gets a list of users that are able to be watchers of the specified work package.
 
 + Parameters
-    + work_package_id (required, integer, `1`) ... Work package id
+    + id (required, integer, `1`) ... work package id
 
 + Response 200 (application/hal+json)
 
@@ -3185,12 +3489,28 @@ Gets a list of users that can watch the work package.
 
     **Required permission:** add work package watchers
 
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
             }
 
 ## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
@@ -3231,6 +3551,8 @@ updated activity.
 
     **Required permission:** create journals
 
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+
     + Body
 
             {
@@ -3239,6 +3561,19 @@ updated activity.
                 "message": "You are not allowed to create a comment here."
             }
 
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
 
 ## Available Assignees [/api/v3/projects/{project_id}/work_packages/available_assignees{?offset,pageSize,filter}]
 
@@ -3340,12 +3675,28 @@ Gets a list of users that can be assigned to work packages in the given project.
 
     **Required permission:** view work packages
 
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see the assignable users for this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
             }
 
 ## Available Responsibles [/api/v3/projects/{project_id}/work_packages/available_responsibles{?offset,pageSize,filter}]
@@ -3448,10 +3799,26 @@ Gets a list of users that can be assigned as the responsible of a work package i
 
     **Required permission:** view work packages
 
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see the users available as responsible for this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
             }

@@ -119,24 +119,30 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers)
         end
 
-        link :watchChanges do
+        link :watch do
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
-            data: { user_id: current_user.id },
+            payload: { user: { href: api_v3_paths.user(current_user.id) } },
             title: 'Watch work package'
           } if !current_user.anonymous? &&
                current_user_allowed_to(:view_work_packages) &&
                !represented.watcher_users.include?(current_user)
         end
 
-        link :unwatchChanges do
+        link :unwatch do
           {
             href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{current_user.id}",
             method: :delete,
             title: 'Unwatch work package'
           } if current_user_allowed_to(:view_work_packages) &&
                represented.watcher_users.include?(current_user)
+        end
+
+        link :watchers do
+          {
+            href: api_v3_paths.work_package_watchers(represented.id)
+          } if current_user_allowed_to(:view_work_package_watchers)
         end
 
         link :addWatcher do
@@ -289,13 +295,18 @@ module API
         end
 
         def watchers
-          watchers =
-            represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-          watchers.map do |watcher|
-            ::API::V3::Users::UserRepresenter.new(watcher,
-                                                  work_package: represented,
-                                                  current_user: current_user)
-          end
+          # TODO/LEGACY: why do we need to ensure a specific order here?
+          watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
+          total = watchers.count
+          self_link = api_v3_paths.work_package_watchers(represented.id)
+
+          # FIXME/LEGACY: we pass the WP as context?!? that makes a difference!!!
+          # tl;dr: the embedded user representer must not be better than any other user representer
+          context = { current_user: current_user, work_package: represented }
+          Users::UserCollectionRepresenter.new(watchers,
+                                               total,
+                                               self_link,
+                                               context: context)
         end
 
         def relations

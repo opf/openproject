@@ -50,30 +50,22 @@ module API
 
               def write_work_package_attributes
                 if request_body
-                  begin
-                    # we need to merge the JSON two times:
-                    # In Pass 1 the representer only has custom fields for the current WP type
-                    # After Pass 1 the correct type information is merged into the WP
-                    # In Pass 2 the representer is created with the new type info and will be able
-                    # to also parse custom fields successfully
-                    merge_json_into_work_package!(request_body.to_json)
-                    merge_json_into_work_package!(request_body.to_json)
-                  rescue ::API::Errors::Form::InvalidResourceLink => e
-                    fail ::API::Errors::Validation.new(e.message)
-                  end
+                  # we need to merge the JSON two times:
+                  # In Pass 1 the representer only has custom fields for the current WP type
+                  # After Pass 1 the correct type information is merged into the WP
+                  # In Pass 2 the representer is created with the new type info and will be able
+                  # to also parse custom fields successfully
+                  merge_hash_into_work_package!(request_body)
+                  merge_hash_into_work_package!(request_body)
                 end
               end
 
               # merges the given JSON representation into @work_package
-              def merge_json_into_work_package!(json)
+              def merge_hash_into_work_package!(hash)
                 payload = Form::WorkPackagePayloadRepresenter.create(
                   @work_package,
                   enforce_lock_version_validation: true)
-                payload.from_json(json)
-              end
-
-              def request_body
-                env['api.request.body']
+                payload.from_hash(hash)
               end
 
               def write_request_valid?
