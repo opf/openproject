@@ -27,20 +27,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Attachment < ActiveRecord::Base
-  generator_for :container, method: :generate_project
-  generator_for :file, method: :generate_file
-  generator_for :author, method: :generate_author
+module API
+  module Decorators
+    class Digest < Single
+      def initialize(model, algorithm:)
+        @algorithm = algorithm
 
-  def self.generate_project
-    Project.generate!
-  end
+        super(model)
+      end
 
-  def self.generate_author
-    User.generate_with_protected!
-  end
-
-  def self.generate_file
-    @file = FileHelpers.mock_uploaded_file
+      property :algorithm,
+               exec_context: :decorator,
+               getter: -> (*) { @algorithm },
+               writable: false,
+               render_nil: true
+      property :hash,
+               exec_context: :decorator,
+               getter: -> (*) { represented },
+               render_nil: true
+    end
   end
 end

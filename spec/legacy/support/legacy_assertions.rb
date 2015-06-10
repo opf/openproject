@@ -49,8 +49,8 @@ module LegacyAssertionsAndHelpers
           a.file = uploaded_test_file a.disk_filename, a.attributes['content_type'],
                                       original_filename: a.attributes['filename']
         rescue # imaginary file: create it on-the-fly
-          a.file = create_uploaded_file name: a.attributes['filename'],
-                                        content_type: a.attributes['content_type']
+          a.file = FileHelpers.mock_uploaded_file name: a.attributes['filename'],
+                                                  content_type: a.attributes['content_type']
         end
 
         a.save!
@@ -79,8 +79,6 @@ module LegacyAssertionsAndHelpers
     file.define_singleton_method(:original_filename) { original_filename } if original_filename
     file
   end
-
-  include OpenProject::Files
 
   def save_and_open_page
     body = response.body

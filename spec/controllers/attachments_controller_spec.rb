@@ -101,7 +101,7 @@ describe AttachmentsController, type: :controller do
   end
 
   describe '#show' do
-    let(:file) { OpenProject::Files.create_uploaded_file name: 'foobar.txt' }
+    let(:file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
     let(:work_package) { FactoryGirl.create :work_package, project: project }
     let(:uploader) { nil }
 

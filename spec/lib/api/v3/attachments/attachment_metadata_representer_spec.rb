@@ -26,42 +26,51 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  ##
-  # Yields fixture files.
-  factory :file, class: File do
-    # Skip the create callback to be able to use non-AR models. Otherwise FactoryGirl will
-    # try to call #save! on any created object.
-    skip_create
+require 'spec_helper'
 
-    name 'textfile.txt'
+describe ::API::V3::Attachments::AttachmentMetadataRepresenter do
+  include API::V3::Utilities::PathHelper
 
-    initialize_with do
-      new "#{Rails.root}/spec/fixtures/files/#{name}"
+  let(:metadata) {
+    data = Hashie::Mash.new
+    data.file_name = original_file_name
+    data.description = original_description
+    data
+  }
+  let(:original_file_name) { 'a file name' }
+  let(:original_description) { 'a description' }
+  let(:representer) { ::API::V3::Attachments::AttachmentMetadataRepresenter.new(metadata) }
+
+  describe 'generation' do
+    subject { representer.to_json }
+
+    it 'is a type-less representer' do
+      is_expected.not_to have_json_path('_type')
+    end
+
+    it { is_expected.to be_json_eql(original_file_name.to_json).at_path('fileName') }
+
+    it_behaves_like 'API V3 formattable', 'description' do
+      let(:format) { 'plain' }
+      let(:raw) { original_description }
     end
   end
 
-  factory :uploaded_file, class: Rack::Multipart::UploadedFile do
-    skip_create
+  describe 'parsing' do
+    let(:parsed_hash) {
+      {
+        'fileName' => 'the parsed name',
+        'description' => { 'raw' => 'the parsed description' }
+      }
+    }
 
-    name         'test.txt'
-    content      'test content'
-    content_type 'text/plain'
-    binary        false
+    subject { metadata }
 
-    initialize_with do
-      FileHelpers.mock_uploaded_file(
-        name:         name,
-        content:      content,
-        content_type: content_type,
-        binary:       binary)
+    before do
+      representer.from_hash parsed_hash
     end
 
-    factory :uploaded_jpg do
-      name         'test.jpg'
-      content      "\xFF\xD8\xFF\xE0\u0000\u0010JFIF\u0000\u0001\u0001\u0001\u0000H"
-      content_type 'image/jpeg'
-      binary       true
-    end
+    it { expect(subject.file_name).to eql('the parsed name') }
+    it { expect(subject.description).to eql('the parsed description') }
   end
 end

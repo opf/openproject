@@ -41,14 +41,22 @@ module API
 
             before do
               @attachment = Attachment.find(params[:id])
-              @representer = AttachmentRepresenter.new(@attachment)
+
+              # For now we only support work package attachments
+              raise ::API::Errors::NotFound.new unless @attachment.container_type == 'WorkPackage'
+              authorize(:view_work_packages, context: @attachment.container.project)
             end
 
             get do
-              authorize(:view_project, context: @attachment.container.project)
-              @representer
+              AttachmentRepresenter.new(@attachment)
             end
 
+            delete do
+              authorize(:edit_work_packages, context: @attachment.container.project)
+
+              @attachment.container.attachments.delete(@attachment)
+              status 202
+            end
           end
         end
       end

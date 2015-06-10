@@ -50,7 +50,7 @@ module API
       def call(object, _env)
         MultiJson.load(object)
       rescue MultiJson::ParseError => e
-        error = ::API::Errors::ParseError.new(e.message)
+        error = ::API::Errors::ParseError.new(details: e.message)
         representer = ::API::V3::Errors::ErrorRepresenter.new(error)
 
         throw :error, status: 400, message: representer.to_json
@@ -159,6 +159,8 @@ module API
 
     error_response ActiveRecord::RecordNotFound, ::API::Errors::NotFound.new
     error_response ActiveRecord::StaleObjectError, ::API::Errors::Conflict.new
+
+    error_response MultiJson::ParseError, ::API::Errors::ParseError.new
 
     error_response ::API::Errors::Unauthenticated, headers: auth_headers
     error_response ::API::Errors::ErrorBase, rescue_subclasses: true
