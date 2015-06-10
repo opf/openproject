@@ -11,6 +11,7 @@ describe 'subject inplace editor', js: true do
   let(:field) { WorkPackageField.new page, property_name }
 
   before do
+    maximize(page)
     allow(User).to receive(:current).and_return(user)
     visit project_work_packages_path(project)
     row = page.find("#work-package-#{work_package.id}")
