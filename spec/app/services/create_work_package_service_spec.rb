@@ -65,11 +65,6 @@ describe CreateWorkPackageService do
     expect(service.create.new_record?).to be_truthy
   end
 
-  it do
-    expect(project).to receive(:add_work_package).with(hash_including(:type))
-    project.add_work_package(type: nil)
-  end
-
   it 'should #save records' do
     wp = service.create
     service.save
