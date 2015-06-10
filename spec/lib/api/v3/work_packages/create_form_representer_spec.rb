@@ -47,35 +47,50 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
     subject(:generated) { representer.to_json }
 
     describe '_links' do
-      it { is_expected.to have_json_path('_links') }
+      it do
+        is_expected.to be_json_eql(
+          api_v3_paths.create_work_package_form(work_package.project_id).to_json)
+          .at_path('_links/self/href')
+      end
 
-      it { is_expected.to have_json_path('_links/self/href') }
+      it { is_expected.to be_json_eql(:post.to_json).at_path('_links/self/method') }
 
       describe 'validate' do
-        it { is_expected.to have_json_path('_links/validate/href') }
+        it do
+          is_expected.to be_json_eql(
+            api_v3_paths.create_work_package_form(work_package.project_id).to_json)
+            .at_path('_links/validate/href')
+        end
 
         it { is_expected.to be_json_eql(:post.to_json).at_path('_links/validate/method') }
       end
 
       describe 'preview markup' do
-        it { is_expected.to have_json_path('_links/previewMarkup/href') }
+        it do
+          is_expected.to be_json_eql(
+            api_v3_paths.render_markup(
+              link: api_v3_paths.project(work_package.project_id)).to_json)
+            .at_path('_links/previewMarkup/href')
+        end
 
         it { is_expected.to be_json_eql(:post.to_json).at_path('_links/previewMarkup/method') }
 
         it 'contains link to work package' do
-          body = parse_json(subject)
-          actual_preview_link = body['_links']['previewMarkup']['href']
           expected_preview_link =
-            api_v3_paths.render_markup format: 'textile',
-                                       link: "/api/v3/projects/#{work_package.project_id}"
-
-          expect(actual_preview_link).to eq(expected_preview_link)
+            api_v3_paths.render_markup(format: 'textile',
+                                       link: "/api/v3/projects/#{work_package.project_id}")
+          expect(subject).to be_json_eql(expected_preview_link.to_json)
+            .at_path('_links/previewMarkup/href')
         end
       end
 
       describe 'commit' do
         context 'valid work package' do
-          it { is_expected.to have_json_path('_links/commit/href') }
+          it do
+            is_expected.to be_json_eql(
+              api_v3_paths.work_packages_by_project(work_package.project_id)
+              .at_path('_links/commit/href'))
+          end
 
           it { is_expected.to be_json_eql(:post.to_json).at_path('_links/commit/method') }
         end
