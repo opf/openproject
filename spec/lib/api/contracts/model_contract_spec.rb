@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::Contracts::ModelContract do
-  let(:work_package) { FactoryGirl.create(:work_package) }
+  let(:work_package) { FactoryGirl.build(:work_package) }
   let(:child_contract) { ChildContract.new(work_package) }
   let(:grand_child_contract) { GrandChildContract.new(work_package) }
 
@@ -73,7 +73,6 @@ describe ::API::Contracts::ModelContract do
       expect(grand_child_contract.writable_attributes).to include('child_attribute',
                                                                   'overwritten_attribute',
                                                                   'grand_child_attribute')
-      expect(grand_child_contract.writable_attributes.count).to eq(3)
     end
 
     it 'should obey common inheritance rules' do
