@@ -75,7 +75,7 @@ describe ::API::Contracts::ModelContract do
                                                                   'grand_child_attribute')
     end
 
-    it 'should obey common inheritance rules' do
+    it 'should not contain the same attribute twice' do
       expect(grand_child_contract.writable_attributes.count).to eq(3)
     end
 
