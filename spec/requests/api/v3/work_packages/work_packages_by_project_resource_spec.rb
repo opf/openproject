@@ -33,7 +33,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project_with_types, id: 5, is_public: false) }
+  let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
 
   describe '#post' do
     let(:status) { FactoryGirl.build(:status, is_default: true) }
@@ -59,8 +59,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
       let(:permissions) { [:add_work_packages, :view_project, :view_work_packages] }
 
       it 'sends a mail by default' do
-        post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
-        expect(ActionMailer::Base.deliveries.count).to eq(2)
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
       end
 
       context 'without notifications' do
