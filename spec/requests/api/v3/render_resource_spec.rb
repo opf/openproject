@@ -82,29 +82,22 @@ describe 'API v3 Render resource' do
             let(:id) { work_package.id }
             let(:href) { "/work_packages/#{id}" }
             let(:title) { "#{work_package.subject} (#{work_package.status})" }
+            let(:text) {
+              "<p>Hello World! Have a look at <a href=\"#{href}\" "\
+                  "class=\"issue work_package status-1 priority-1\" "\
+                  "title=\"#{title}\">##{id}</a></p>"
+            }
 
             context 'with work package context' do
               let(:context) { api_v3_paths.work_package work_package.id }
 
-              it_behaves_like 'valid response' do
-                let(:text) {
-                  "<p>Hello World! Have a look at <a href=\"#{href}\" "\
-                  "class=\"issue work_package status-1 priority-1\" "\
-                  "title=\"#{title}\">##{id}</a></p>"
-                }
-              end
+              it_behaves_like 'valid response'
             end
 
             context 'with project context' do
               let(:context) { "/api/v3/projects/#{work_package.project_id}" }
 
-              it_behaves_like 'valid response' do
-                let(:text) {
-                  "<p>Hello World! Have a look at <a href=\"#{href}\" "\
-                  "class=\"issue work_package status-1 priority-1\" "\
-                  "title=\"#{title}\">##{id}</a></p>"
-                }
-              end
+              it_behaves_like 'valid response'
             end
           end
         end
