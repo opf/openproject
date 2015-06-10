@@ -30,16 +30,16 @@ require 'spec_helper'
 
 describe ::API::Contracts::ModelContract do
   let(:work_package) { FactoryGirl.create(:work_package) }
-  let(:model_child_contract) { ModelChild.new(work_package) }
-  let(:model_grand_child_contract) { ModelGrandChild.new(work_package) }
+  let(:child_contract) { ChildContract.new(work_package) }
+  let(:grand_child_contract) { GrandChildContract.new(work_package) }
 
   before do
-    model_child_contract.child_value = 0
-    model_grand_child_contract.child_value = 0
+    child_contract.child_value = 0
+    grand_child_contract.child_value = 0
   end
 
   describe 'child' do
-    class ModelChild < ::API::Contracts::ModelContract
+    class ChildContract < ::API::Contracts::ModelContract
       attr_accessor :child_value
 
       attribute :child_attribute
@@ -49,18 +49,18 @@ describe ::API::Contracts::ModelContract do
     end
 
     it 'should collect its own writable attributes' do
-      expect(model_child_contract.writable_attributes).to include('child_attribute',
-                                                                  'overwritten_attribute')
+      expect(child_contract.writable_attributes).to include('child_attribute',
+                                                            'overwritten_attribute')
     end
 
     it 'should collect its own attribute validations' do
-      model_child_contract.validate
-      expect(model_child_contract.child_value).to eq(1)
+      child_contract.validate
+      expect(child_contract.child_value).to eq(1)
     end
   end
 
   describe 'grand_child' do
-    class ModelGrandChild < ModelChild
+    class GrandChildContract < ChildContract
       attr_accessor :grand_child_value
 
       attribute :grand_child_attribute
@@ -70,20 +70,20 @@ describe ::API::Contracts::ModelContract do
     end
 
     it 'should consider its ancestor writable attributes' do
-      expect(model_grand_child_contract.writable_attributes).to include('child_attribute',
-                                                                        'overwritten_attribute',
-                                                                        'grand_child_attribute')
-      expect(model_grand_child_contract.writable_attributes.count).to eq(3)
+      expect(grand_child_contract.writable_attributes).to include('child_attribute',
+                                                                  'overwritten_attribute',
+                                                                  'grand_child_attribute')
+      expect(grand_child_contract.writable_attributes.count).to eq(3)
     end
 
     it 'should obey common inheritance rules' do
-      expect(model_grand_child_contract.writable_attributes.count).to eq(3)
+      expect(grand_child_contract.writable_attributes.count).to eq(3)
     end
 
     it 'should execute all the validations' do
-      model_grand_child_contract.validate
-      expect(model_grand_child_contract.child_value).to eq(1)
-      expect(model_grand_child_contract.grand_child_value).to eq(2)
+      grand_child_contract.validate
+      expect(grand_child_contract.child_value).to eq(1)
+      expect(grand_child_contract.grand_child_value).to eq(2)
     end
   end
 end
