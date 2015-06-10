@@ -29,29 +29,43 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
-  include ::API::V3::WorkPackages::WorkPackagesSharedHelpers
-
-  # Literally mocking the environment for the test here
-  # This is necessary since a module cannot be instantiated
+  let(:work_package) { FactoryGirl.create(:work_package) }
+  let(:user) { FactoryGirl.build(:admin) }
   let(:env) { { 'api.request.body' => { subject: 'foo' } } }
 
-  let(:work_package) { FactoryGirl.create(:work_package) }
-  let(:current_user) { FactoryGirl.build(:admin) }
+  let(:helper_class) {
+    Class.new do
+      include ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
-  before do
-    allow(self).to receive(:status).with(an_instance_of(Fixnum))
-  end
+      def initialize(user, env)
+        @user = user
+        @env = env
+      end
+
+      def env
+        @env
+      end
+
+      def current_user
+        @user
+      end
+
+      def status(_code)
+      end
+    end
+  }
+  let(:helper) { helper_class.new(user, env) }
 
   describe '#create_work_package_form' do
     subject do
-      create_work_package_form(work_package,
-                               contract_class: ::API::V3::WorkPackages::CreateContract,
-                               form_class: ::API::V3::WorkPackages::CreateFormRepresenter)
+      helper.create_work_package_form(work_package,
+                                      contract_class: ::API::V3::WorkPackages::CreateContract,
+                                      form_class: ::API::V3::WorkPackages::CreateFormRepresenter)
     end
 
     context 'valid parameters' do
       it 'should return a form' do
-        expect(subject.is_a?(::API::V3::WorkPackages::CreateFormRepresenter)).to be_truthy
+        expect(subject).to be_a(::API::V3::WorkPackages::CreateFormRepresenter)
       end
     end
 
@@ -70,9 +84,10 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
 
         subject do
           lambda do
-            create_work_package_form(work_package,
-                                     contract_class: ::API::V3::WorkPackages::CreateContract,
-                                     form_class: ::API::V3::WorkPackages::CreateFormRepresenter)
+            helper.create_work_package_form(
+              work_package,
+              contract_class: ::API::V3::WorkPackages::CreateContract,
+              form_class: ::API::V3::WorkPackages::CreateFormRepresenter)
           end
         end
 
