@@ -49,9 +49,6 @@ module.exports = function() {
 
       return link;
     },
-    attachmentPath: function(attachmentId, fileName) {
-      return '/attachments/' + attachmentId + '/' + fileName;
-    },
     boardsPath: function(projectIdentifier) {
       return PathHelper.projectPath(projectIdentifier) + '/boards';
     },
@@ -260,9 +257,6 @@ module.exports = function() {
       return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/categories';
     },
     // Static
-    staticAttachmentPath: function(attachmentId, fileName) {
-      return PathHelper.staticBase + PathHelper.attachmentPath(attachmentId, fileName);
-    },
     staticUserPath: function(userId) {
       return PathHelper.userPath(userId);
     },

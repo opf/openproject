@@ -47,44 +47,32 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def work_package_added(user, issue, author)
-    @issue = issue
+  def work_package_added(user, work_package, author)
+    @issue = work_package # instance variable is used in the view
 
-    open_project_headers 'Project'        => @issue.project.identifier,
-                         'Issue-Id'       => @issue.id,
-                         'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'WorkPackage'
-    open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
+    set_work_package_headers(work_package)
 
-    message_id @issue, user
+    message_id work_package, user
 
     with_locale_for(user) do
-      subject = "[#{@issue.project.name} - #{ @issue }]"
-      subject << " (#{@issue.status.name})" if @issue.status
-      subject << " #{@issue.subject}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
     end
   end
 
   def work_package_updated(user, journal, author = User.current)
+    work_package = journal.journable.reload
+
+    # instance variables are used in the view
+    @issue = work_package
     @journal = journal
-    @issue   = journal.journable.reload
 
-    open_project_headers 'Project'        => @issue.project.identifier,
-                         'Issue-Id'       => @issue.id,
-                         'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'WorkPackage'
-    open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
+    set_work_package_headers(work_package)
 
-    message_id @journal, user
-    references @issue, user
+    message_id journal, user
+    references work_package, user
 
     with_locale_for(user) do
-      subject =  "[#{@issue.project.name} - #{@issue.type.name} ##{@issue.id}] "
-      subject << "(#{@issue.status.name}) " if @journal.details[:status_id]
-      subject << @issue.subject
-
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
     end
   end
 
@@ -349,6 +337,11 @@ class UserMailer < ActionMailer::Base
 
   private
 
+  def subject_for_work_package(work_package)
+    subject =  "[#{work_package.project.name} - #{work_package.type.name} ##{work_package.id}] "
+    subject << "(#{work_package.status.name}) " << work_package.subject
+  end
+
   # like #mail, but contains special author based filters
   # currently only:
   #  - remove_self_notifications
@@ -402,6 +395,17 @@ class UserMailer < ActionMailer::Base
 
   def references(object, user)
     headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
+  end
+
+  def set_work_package_headers(work_package)
+    open_project_headers 'Project'        => work_package.project.identifier,
+                         'Issue-Id'       => work_package.id,
+                         'Issue-Author'   => work_package.author.login,
+                         'Type'           => 'WorkPackage'
+
+    if work_package.assigned_to
+      open_project_headers 'Issue-Assignee' => work_package.assigned_to.login
+    end
   end
 
   # Prepends given fields with 'X-OpenProject-' to save some duplication

@@ -156,6 +156,7 @@ module API
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Relations::RelationsAPI
             mount ::API::V3::WorkPackages::Form::FormAPI
+            mount ::API::V3::Attachments::AttachmentsByWorkPackageAPI
           end
 
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
