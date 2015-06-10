@@ -79,8 +79,7 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
       end
 
       context 'other errors' do
-        let(:parent_wp) { FactoryGirl.create(:work_package, id: 5) }
-        let(:env) { { 'api.request.body' => { percentageDone: 1, parentId: 5 } } }
+        let(:env) { { 'api.request.body' => { percentageDone: 1 } } }
 
         subject do
           lambda do
