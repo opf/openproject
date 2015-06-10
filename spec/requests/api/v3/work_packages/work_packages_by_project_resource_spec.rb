@@ -66,8 +66,15 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=false" }
 
         it 'should not send a mail' do
-          post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
           expect(ActionMailer::Base.deliveries.count).to eq(0)
+        end
+      end
+
+      context 'with notifications' do
+        let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=true" }
+
+        it 'should not send a mail' do
+          expect(ActionMailer::Base.deliveries.count).to eq(1)
         end
       end
     end
