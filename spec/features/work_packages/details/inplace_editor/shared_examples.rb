@@ -95,7 +95,10 @@ shared_examples 'a cancellable field' do
     end
 
     it 'focuses the trigger link' do
-      expect(page).to have_selector("#{field.field_selector} #{field.trigger_link_selector}:focus")
+      active_class_name = page.evaluate_script('document.activeElement.className')
+      trigger_link_focused = "a.#{active_class_name}" == field.trigger_link_selector
+
+      expect(trigger_link_focused).to be_truthy
     end
   end
 
