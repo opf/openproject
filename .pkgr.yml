@@ -12,6 +12,8 @@ targets:
       - ImageMagick-devel
   centos-6:
     <<: *redhat
+  centos-7:
+    <<: *redhat
   sles-12:
     build_dependencies:
       - ImageMagick-devel
