@@ -1,6 +1,6 @@
-# Installation of OpenProject 4.0 with Apache on Debian 7.7 or Ubuntu 14.04 LTS
+# Installation of OpenProject 4.1 with Apache on Debian 7.7 or Ubuntu 14.04 LTS
 
-**This tutorial helps you to deploy OpenProject 4.0. Please, aware that:**
+**This tutorial helps you to deploy OpenProject 4.1. Please, aware that:**
 
 1. This guide requires that you have a clean **Debian 7.7 x64** or **Ubuntu 14.04 x64** installation with administrative rights. We have tested the installation guide on a Debian minimal netinstall image and on an Ubuntu Server image, but it should work on any derivative.
 2. OpenProject will be installed with a MySQL database (the guide should work analogous with PostgreSQL).
