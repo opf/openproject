@@ -17,6 +17,5 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class ViewProjectsShowSidebarBottomHook < Redmine::Hook::ViewListener
-  render_on :view_projects_show_sidebar_bottom, partial: 'hooks/view_projects_show_sidebar_bottom_hook'
+module OpenProject::Reporting::Hooks
 end
