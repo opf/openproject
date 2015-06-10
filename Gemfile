@@ -88,7 +88,7 @@ gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git"
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack'
 
-gem 'syck', :platforms => [:mri, :mingw], :require => false
+gem 'syck', :platforms => [:mri, :mingw, :x64_mingw], :require => false
 
 gem 'gon', '~> 4.0'
 
@@ -160,7 +160,8 @@ group :test do
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
-  gem 'selenium-webdriver', '~> 2.44.0'
+  gem 'capybara-ng', '~> 0.2.1'
+  gem 'selenium-webdriver', '~> 2.45.0'
   gem 'timecop', '~> 0.7.1'
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
@@ -206,7 +207,7 @@ gem 'reform', '~> 1.2.6', require: false
 # orders of magnitude compared to their native counterparts. You have been
 # warned.
 
-platforms :mri, :mingw do
+platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
     gem "mysql2", "~> 0.3.11"
   end

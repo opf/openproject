@@ -121,7 +121,7 @@ module.exports = function($scope,
     $scope.authorActive = UsersHelper.isActive($scope.author);
 
     // Attachments
-    $scope.attachments = workPackage.embedded.attachments;
+    $scope.attachments = workPackage.embedded.attachments.embedded.elements;
 
     // relations
     $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {

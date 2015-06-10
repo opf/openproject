@@ -111,6 +111,10 @@ RSpec.configure do |config|
   # add helpers to parse json-responses
   config.include JsonSpec::Helpers
 
+  config.include ::Angular::DSL
+
+  Capybara.default_wait_time = 4
+
   config.after(:each) do
     OpenProject::RspecCleanup.cleanup
   end

@@ -58,6 +58,34 @@
 require 'spec_helper'
 
 describe OpenProject::Files do
+  describe 'build_uploaded_file' do
+    let(:original_filename) { 'test.png' }
+    let(:content_type) { 'image/png' }
+    let(:file) {
+      OpenProject::Files.create_temp_file(name: original_filename)
+    }
+
+    subject { OpenProject::Files.build_uploaded_file(file, content_type) }
+
+    it 'has the original file name' do
+      expect(subject.original_filename).to eql(original_filename)
+    end
+
+    it 'has the given content type' do
+      expect(subject.content_type).to eql(content_type)
+    end
+
+    context 'with custom file name' do
+      let(:file_name) { 'my-custom-filename.png' }
+
+      subject { OpenProject::Files.build_uploaded_file(file, content_type, file_name: file_name) }
+
+      it 'has the custom file name' do
+        expect(subject.original_filename).to eql(file_name)
+      end
+    end
+  end
+
   describe 'create_uploaded_file' do
     context 'without parameters' do
       let(:file) { OpenProject::Files.create_uploaded_file }

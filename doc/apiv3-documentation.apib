@@ -281,6 +281,26 @@ That is a `#` followed by either three or six hexadecimal digits.
     black: #000000 or #000
     white: #ffffff or #fff
 
+# Digests
+
+Digests (or Hashes) are one way functions that map data of arbitrary size to data of a fixed size.
+In OpenProject they are for example used to calculate checksums for (attachment) files.
+The checksum calculated depends on the hashed data and the algorithm used as hash function.
+
+Therefore all digests are represented in the following form:
+
+| Property  | Description                                        | Type   | Example                            |
+|:---------:| -------------------------------------------------- | ------ | ---------------------------------- |
+| algorithm | The algorithm used to compute the digest           | String | md5                                |
+| hash      | The calculated digest in hexadecimal notation      | String | 64c26a8403cd796ea4cf913cda2ee4a9   |
+
+#### Example
+
+    {
+        "algorithm": "md5",
+        "hash": "64c26a8403cd796ea4cf913cda2ee4a9"
+    }
+
 # Group Collections
 
 Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
@@ -442,7 +462,7 @@ Cursor based pagination is therefore less suited for use cases where you want to
 
 # Group Activities
 
-## Local Properties:
+## Local Properties
 | Property    | Description      | Type                 | Constraints | Supported operations |
 | :---------: | -------------    | ----                 | ----------- | -------------------- |
 | id          | Activity id      | Integer              | x > 0       | READ                 |
@@ -558,17 +578,27 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 # Group Attachments
 
-## Local Properties:
-| Property     | Description      | Type     | Constraints | Supported operations |
-| :---------:  | -------------    | ----     | ----------- | -------------------- |
-| id           | Attachment's id  | Integer  | x > 0       | READ                 |
-| fileName     |                  | String   |             | READ                 |
-| diskFileName |                  | String   |             | READ                 |
-| description  |                  | String   |             | READ                 |
-| contentType  |                  | String   |             | READ                 |
-| digest       |                  | String   |             | READ                 |
-| downloads    |                  | Integer  |             | READ                 |
-| createdAt    | Time of creation | DateTime |             | READ                 |
+Attachments are files that were uploaded to OpenProject. Each attachment belongs to a single
+container (e.g. a work package or a board message).
+
+## Linked Properties
+|  Link            | Description                                         | Type          | Constraints | Supported operations |
+|:----------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
+| self             | This attachment                                     | Attachment    | not null    | READ                 |
+| container        | The object (e.g. WorkPackage) housing the attachment| Anything      | not null    | READ                 |
+| author           | The user who uploaded the attachment                | User          | not null    | READ                 |
+| downloadLocation | Direct download link to the attachment              | -             | not null    | READ                 |
+
+## Local Properties
+| Property     | Description                                     | Type        | Constraints | Supported operations |
+|:------------:| ----------------------------------------------- | ----------- | ----------- | -------------------- |
+| id           | Attachment's id                                 | Integer     | x > 0       | READ                 |
+| fileName     | The name of the uploaded file                   | String      | not null    | READ                 |
+| fileSize     | The size of the uploaded file in Bytes          | Integer     | x >= 0      | READ                 |
+| description  | A user provided description of the file         | Formattable | not null    | READ                 |
+| contentType  | The files MIME-Type as determined by the server | String      | not null    | READ                 |
+| digest       | A checksum for the files content                | Digest      | not null    | READ                 |
+| createdAt    | Time of creation                                | DateTime    | not null    | READ                 |
 
 ## Attachment [/api/v3/attachments/{id}]
 
@@ -579,26 +609,31 @@ Updates an activity's comment and, on success, returns the updated activity.
                 "_type": "Attachment",
                 "_links": {
                     "self": {
-                        "href": "/api/v3/attachments/1",
-                        "title": "dolor_sit_amet"
+                        "href": "/api/v3/attachments/1"
                     },
-                    "workPackage" {
-                        "href": "/api/v3/work_packages/1",
-                        "title": "Lorem ipsum"
+                    "container" {
+                        "href": "/api/v3/work_packages/1"
                     },
                     "author": {
-                        "href": "/api/v3/users/1",
-                        "title": "John Sheppard - admin"
+                        "href": "/api/v3/users/1"
+                    },
+                    "downloadLocation": {
+                        "href": "/attachments/1"
                     }
                 },
                 "id": 1,
-                "fileName": "dolor_sit_amet",
-                "diskFileName": "dolor_sit_amet",
-                "description": "Lorem ipsum dolor sit amet consecetur elis.",
+                "fileName": "cat.png",
                 "filesize": 24,
-                "contentType": "application/binary",
-                "digest": "",
-                "downloads": 0,
+                "description": {
+                    "format": "plain",
+                    "raw": "A picture of a cute cat",
+                    "html": "<p>A picture of a cute cat</p>"
+                },
+                "contentType": "image/png",
+                "digest": {
+                    "algorithm": "md5",
+                    "64c26a8403cd796ea4cf913cda2ee4a9":
+                },
                 "createdAt": "2014-05-21T08:51:20Z"
             }
 
@@ -611,9 +646,290 @@ Updates an activity's comment and, on success, returns the updated activity.
 
     [Attachment][]
 
++ Response 404 (application/hal+json)
+
+    Returned if the attachment does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view permission for the container of the attachment
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified attachment does not exist."
+            }
+
+## Delete attachment [DELETE]
+
+Permanently deletes the specified attachment.
+
++ Parameters
+    + id (required, integer, `1`) ... Attachment id
+
++ Response 202
+
+    Returned if the attachment was deleted successfully.
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned.
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit permission for the container of the attachment
+
+    *Note that you will only receive this error, if you are at least allowed to see the attachment.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete this attachment."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the attachment does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view permission for the container of the attachment
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified attachment does not exist."
+            }
+
+# Attachments by work package [/api/v3/work_packages/{id}/attachments]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/1/attachments" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/attachments/1"
+                                },
+                                "container" {
+                                    "href": "/api/v3/work_packages/1"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/1"
+                                },
+                                "downloadLocation": {
+                                    "href": "/attachments/1"
+                                }
+                            },
+                            "id": 1,
+                            "fileName": "cat.png",
+                            "filesize": 24,
+                            "description": {
+                                "format": "plain",
+                                "raw": "A picture of a cute cat",
+                                "html": "<p>A picture of a cute cat</p>"
+                            },
+                            "contentType": "image/png",
+                            "digest": {
+                                "algorithm": "md5",
+                                "64c26a8403cd796ea4cf913cda2ee4a9":
+                            },
+                            "createdAt": "2014-05-21T08:51:20Z"
+                        },
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/attachments/2"
+                                },
+                                "container" {
+                                    "href": "/api/v3/work_packages/1"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/1"
+                                },
+                                "downloadLocation": {
+                                    "href": "/attachments/2"
+                                }
+                            },
+                            "id": 2,
+                            "fileName": "cat2.png",
+                            "filesize": 24,
+                            "description": {
+                                "format": "plain",
+                                "raw": "A picture of another cute cat",
+                                "html": "<p>A picture of another cute cat</p>"
+                            },
+                            "contentType": "image/png",
+                            "digest": {
+                                "algorithm": "md5",
+                                "46c26a8403cd769ea4c9f13cdae2e49a":
+                            },
+                            "createdAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List attachments [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the work package whose attachments will be listed
+
++ Response 200 (application/hal+json)
+
+    [Attachments by work package][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work package
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
+## Add attachment [POST]
+
+To add an attachment to a work package, a client needs to issue a request of type `multipart/form-data`
+with exactly two parts.
+
+The first part *must* be called `metadata`. Its content type is expected to be `application/json`,
+the body *must* be a single JSON object, containing at least the `fileName` and optionally the attachments `description`.
+
+The second part *must* be called `file`, its content type *should* match the mime type of the file.
+The body *must* be the raw content of the file.
+Note that a `filename` must be indicated in the `Content-Disposition` of this part, however it will be ignored.
+Instead the `fileName` inside the JSON of the metadata part will be used.
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the work package to receive the attachment
+
++ Request (multipart/form-data)
+
+        --boundary-delimiter
+        Content-Disposition: form-data; name="metadata"
+        Content-Type: application/json; charset=UTF-8
+
+        {
+          "fileName": "cute-cat.png",
+          "description": {
+            "raw": "A cute kitty, cuddling with its friends!"
+          }
+        }
+
+        --boundary-delimiter
+        Content-Disposition: form-data; name="file"; filename="attachment"
+        Content-Type: image/png
+
+        PNG file data
+        --boundary-delimiter--
+
++ Response 200 (application/hal+json)
+
+    [Attachment][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends a not understandable request. Reasons include:
+
+    * Omitting one of the required parts (metadata and file)
+    * sending unparsable JSON in the metadata part
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request could not be parsed as JSON."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit work package
+
+    *Note that you will only receive this error, if you are at least allowed to see the work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete this attachment."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work package
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if the client tries to send an invalid attachment.
+    Reasons are:
+
+    * Omitting the file name (`fileName` property of metadata part)
+    * Sending a file that is too large
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "File is too large (maximum size is 5242880 Bytes)."
+            }
+
 # Group Categories
 
-## Linked Properties:
+## Linked Properties
 |  Link           | Description                                         | Type          | Constraints | Supported operations |
 |:---------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
 | self            | This category                                       | Category      | not null    | READ                 |
@@ -690,7 +1006,7 @@ Updates an activity's comment and, on success, returns the updated activity.
     **Required permission:** view project
 
     *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
-    Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
     + Body
 
@@ -742,7 +1058,7 @@ Updates an activity's comment and, on success, returns the updated activity.
     **Required permission:** view project (defining the category)
 
     *Note: A client without sufficient permissions shall not be able to test for the existence of
-    a category. Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+    a category. That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
     + Body
 
@@ -768,7 +1084,7 @@ When posting to a form endpoint with an empty request body or an empty JSON obje
 you will receive an initial form for the associated resource.
 Subsequent calls to the form should contain a single JSON object as described by the form.
 
-## Actions:
+## Actions
 
 | Link                | Description                                                           | Condition                        |
 |:-------------------:| --------------------------------------------------------------------- | -------------------------------- |
@@ -776,7 +1092,7 @@ Subsequent calls to the form should contain a single JSON object as described by
 | commit              | Actually perform changes to the resource                              | form content is valid            |
 | previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
 
-## Linked Properties:
+## Linked Properties
 
 | Link                | Description                                      | Type          | Nullable | Supported operations |
 |:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
@@ -1077,7 +1393,7 @@ The request body is the actual string that shall be rendered as HTML string.
 
 # Group Priorities
 
-## Linked Properties:
+## Linked Properties
 |  Link     | Description                                 | Type          | Constraints           | Supported operations |
 |:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
 | self      | This priority                               | Priority      | not null              | READ                 |
@@ -1230,14 +1546,14 @@ The request body is the actual string that shall be rendered as HTML string.
 
 # Group Projects
 
-## Actions:
+## Actions
 
 | Link                       | Description                                                          | Condition                         |
 |:--------------------------:|----------------------------------------------------------------------| --------------------------------- |
 | createWorkPackage          | Form endpoint that aids in preparing and creating a work package     | **Permission**: add work packages |
 | createWorkPackageImmediate | Directly creates a work package in the project                       | **Permission**: add work packages |
 
-## Linked Properties:
+## Linked Properties
 | Link       | Description                          | Type       | Constraints | Supported operations |
 | :------:   | -------------                        | ----       | ----------- | -------------------- |
 | self       | This project                         | Project    | not null    | READ                 |
@@ -1245,7 +1561,7 @@ The request body is the actual string that shall be rendered as HTML string.
 | types      | Types available in this project      | Types      | not null    | READ                 |
 | versions   | Versions available in this project   | Versions   | not null    | READ                 |
 
-## Local Properties:
+## Local Properties
 | Property    | Description                                   | Type     | Constraints | Supported operations |
 | :---------: | -------------                                 | ----     | ----------- | -------------------- |
 | id          | Projects's id                                 | Integer  | x > 0       | READ                 |
@@ -1492,7 +1808,7 @@ For more details and all possible responses see the general specification of [Fo
 
 # Group Queries
 
-## Local Properties:
+## Local Properties
 | Property     | Description   | Type    | Constraints | Supported operations |
 | :---------:  | ------------- | ----    | ----------- | -------------------- |
 | id           | Query id      | Integer | x > 0       | READ                 |
@@ -1734,6 +2050,8 @@ For more details and all possible responses see the general specification of [Fo
 
 # Group Schemas
 
+## Linked Properties
+
 | Link                | Description                              | Type          | Nullable | Supported operations |
 |:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
 | self                | This schema                              | Schema        |          | READ                 |
@@ -1746,7 +2064,7 @@ each of them can contain its own `_links` and `_embedded` section.
 
 # Field schema
 
-## Linked Properties:
+## Linked Properties
 
 | Property       | Description                                                    |
 |:--------------:| -------------------------------------------------------------- |
@@ -1756,7 +2074,7 @@ The `allowedValues` can either contain a list of canonical links or just a singl
 This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
 resource lists (requiring one or more separate requests).
 
-## Local Properties:
+## Local Properties
 
 | Property          | Description                                                                        | Type     | Default |
 |:-----------------:| ---------------------------------------------------------------------------------- | -------- | ------- |
@@ -1847,7 +2165,7 @@ This is an example of how a schema might look like. Note that this endpoint does
 
 # Group Statuses
 
-## Linked Properties:
+## Linked Properties
 |  Link         | Description               | Type          | Constraints | Supported operations |
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This status               | Status        | not null    | READ                 |
@@ -2048,7 +2366,7 @@ This is an example of how a schema might look like. Note that this endpoint does
 
 # Group String Objects
 
-## Linked Properties:
+## Linked Properties
 |  Link         | Description               | Type          | Constraints | Supported operations |
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This string object        | StringObject  | not null    | READ                 |
@@ -2085,7 +2403,7 @@ e.g. to be able to provide `allowedValues` for a string typed property.
 
 # Group Types
 
-## Linked Properties:
+## Linked Properties
 |  Link         | Description               | Type          | Constraints | Supported operations |
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This type                 | Type          | not null    | READ                 |
@@ -2314,19 +2632,19 @@ This endpoint lists the types that are *available* in a given project.
 
 # Group Users
 
-## Actions:
+## Actions
 | Link                | Description                                                          | Condition                                  |
 |:-------------------:| -------------------------------------------------------------------- | ------------------------------------------ |
 | lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator  |
 | unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator      |
 | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete |
 
-## Linked Properties:
+## Linked Properties
 |  Link     | Description                                 | Type          | Constraints           | Supported operations |
 |:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
 | self      | This user                                   | User          | not null              | READ                 |
 
-## Local Properties:
+## Local Properties
 | Property    | Description                                               | Type     | Constraints | Supported operations | Condition                 |
 | :---------: | -------------                                             | ----     | ----------- | -------------------- | ------------------------- |
 | id          | User's id                                                 | Integer  | x > 0       | READ                 |                           |
@@ -2546,7 +2864,7 @@ Permanently deletes the specified user account.
 
 # Group Versions
 
-## Linked Properties:
+## Linked Properties
 |  Link               | Description                              | Type          | Constraints                                                    | Supported operations |
 |:-------------------:|----------------------------------------- | ------------- | -------------------------------------------------------------- | -------------------- |
 | self                | This version                             | Version       | not null                                                       | READ                 |
@@ -2721,7 +3039,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 
 # Group Work packages
 
-## Actions:
+## Actions
 
 | Link                | Description                                                          | Condition                         |
 |:-------------------:|----------------------------------------------------------------------| --------------------------------- |
@@ -2731,12 +3049,13 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | unwatch             | Remove current user from WP watchers                                 | logged in; watching               |
 | addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher       |
 
-## Linked Properties:
+## Linked Properties
 
 | Link               | Description                                                                                                                                           | Type         | Constraints  | Supported operations  | Condition                                 |
 | :----------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------ | --------------------- | ----------------------------------------- |
 | self               | This work package                                                                                                                                     | WorkPackage  | not null     | READ                  |                                           |
 | schema             | The schema of this work package                                                                                                                       | Schema       | not null     | READ                  |                                           |
+| attachments        | The files attached to this work package                                                                                                               | Collection   | not null     | READ                  |                                           |
 | author             | The person that created the work package                                                                                                              | User         | not null     | READ                  |                                           |
 | assignee           | The person that is intended to work on the work package                                                                                               | User         |              | READ / WRITE          |                                           |
 | availableWatchers  | All users that can be added to the work package as watchers.                                                                                          | User         |              | READ                  | **Permission** add work package watchers  |
@@ -2750,7 +3069,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
 | watchers           | All users that are currently watching this work package                                                                                               | Users        |              | READ                  | **Permission** view work package watchers |
 
-## Local Properties:
+## Local Properties
 
 | Property         | Description                                            | Type        | Constraints                                                                                            | Supported operations | Condition                        |
 | :--------------: | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------ | -------------------- | -------------------------------- |
@@ -2823,6 +3142,9 @@ the human readable name of custom fields.*
                         "href": "/work_packages/1528/move/new",
                         "type": "text/html",
                         "title": "Move Develop API"
+                    },
+                    "attachments": {
+                        "href": "/api/v3/work_packages/1528/attachments"
                     },
                     "author": {
                         "href": "/api/v3/users/1",
@@ -3077,7 +3399,7 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
     **Required permission:** view work packages (on the project where this schema is used)
 
     *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
-    Thatswhy a 404 is returned here, even if a 403 might be more appropriate.*
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
 
     + Body
 

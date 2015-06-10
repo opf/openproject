@@ -232,8 +232,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe '_links' do
-      it { is_expected.to have_json_type(Object).at_path('_links') }
-
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
         let(:href) { "/api/v3/work_packages/#{work_package.id}" }
@@ -406,17 +404,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'priority' do
         let(:priority) { work_package.priority }
-        let(:link) { "/api/v3/priorities/#{priority.id}".to_json }
-        let(:title) { "#{priority.name}".to_json }
-        let(:href_path) { '_links/priority/href' }
-        let(:title_path) { '_links/priority/title' }
 
-        it 'has a link' do
-          is_expected.to be_json_eql(link).at_path(href_path)
-        end
-
-        it 'has a title' do
-          is_expected.to be_json_eql(title).at_path(title_path)
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'priority' }
+          let(:href) { api_v3_paths.priority(priority.id) }
+          let(:title) { priority.name }
         end
 
         it 'has the priority embedded' do
@@ -426,12 +418,22 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'schema' do
-        let(:schema_id) { "#{work_package.project.id}-#{work_package.type.id}" }
-        let(:link) { "/api/v3/work_packages/schemas/#{schema_id}".to_json }
-        let(:href_path) { '_links/schema/href' }
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'schema' }
+          let(:href) {
+            api_v3_paths.work_package_schema(work_package.project.id, work_package.type.id)
+          }
+        end
+      end
 
-        it 'has a link' do
-          is_expected.to be_json_eql(link).at_path(href_path)
+      describe 'attachments' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'attachments' }
+          let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
+        end
+
+        it 'embeds the watchers as collection' do
+          is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/attachments/_type')
         end
       end
 
@@ -717,11 +719,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'activities' do
         it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }
         it { is_expected.to have_json_size(0).at_path('_embedded/activities') }
-      end
-
-      describe 'attachments' do
-        it { is_expected.to have_json_type(Array).at_path('_embedded/attachments') }
-        it { is_expected.to have_json_size(0).at_path('_embedded/attachments') }
       end
     end
   end

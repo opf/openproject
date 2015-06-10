@@ -35,7 +35,7 @@ module.exports = function(PathHelper) {
       attachment: '='
     },
     link: function(scope, element, attributes) {
-      scope.attachmentPath = PathHelper.staticAttachmentPath(scope.attachment.props.id, scope.attachment.props.fileName);
+      scope.attachmentPath = scope.attachment.links.downloadLocation.href;
     }
   };
 };

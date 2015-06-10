@@ -31,6 +31,7 @@
 describe('TimezoneService', function() {
 
   var TIME = '2013-02-08T09:30:26';
+  var DATE = '2013-02-08';
   var TimezoneService;
   var ConfigurationService;
   var isTimezoneSetStub;
@@ -42,15 +43,15 @@ describe('TimezoneService', function() {
     TimezoneService = _TimezoneService_;
     ConfigurationService = _ConfigurationService_;
 
-    isTimezoneSetStub = sinon.stub(ConfigurationService, "isTimezoneSet");
-    timezoneStub = sinon.stub(ConfigurationService, "timezone");
+    isTimezoneSetStub = sinon.stub(ConfigurationService, 'isTimezoneSet');
+    timezoneStub = sinon.stub(ConfigurationService, 'timezone');
   }));
 
-  describe('#parseDate', function() {
+  describe('#parseDatetime', function() {
     it('is UTC', function() {
-      var time = TimezoneService.parseDate(TIME);
+      var time = TimezoneService.parseDatetime(TIME);
       expect(time.zone()).to.equal(0);
-      expect(time.format("HH:mm")).to.eq("09:30");
+      expect(time.format('HH:mm')).to.eq('09:30');
     });
 
     describe('Non-UTC timezone', function() {
@@ -61,12 +62,24 @@ describe('TimezoneService', function() {
         isTimezoneSetStub.returns(true);
         timezoneStub.returns(timezone);
 
-        date = TimezoneService.parseDate(TIME);
+        date = TimezoneService.parseDatetime(TIME);
       });
 
       it('is ' + timezone, function() {
-        expect(date.format("HH:mm")).to.eq("01:30");
+        expect(date.format('HH:mm')).to.eq('01:30');
       });
+    });
+  });
+
+  describe('#parseDate', function() {
+    it('has local time zone', function() {
+      var time = TimezoneService.parseDate(DATE);
+      expect(time.zone()).to.equal(time.clone().local().zone());
+    });
+
+    it('has no time information', function() {
+      var time = TimezoneService.parseDate(DATE);
+      expect(time.format('HH:mm')).to.eq('00:00');
     });
   });
 });

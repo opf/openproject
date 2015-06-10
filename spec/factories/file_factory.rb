@@ -50,7 +50,7 @@ FactoryGirl.define do
     binary        false
 
     initialize_with do
-      OpenProject::Files.create_uploaded_file(
+      FileHelpers.mock_uploaded_file(
         name:         name,
         content:      content,
         content_type: content_type,
