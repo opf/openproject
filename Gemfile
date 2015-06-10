@@ -33,9 +33,9 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
   *                                                   *
   *   OpenProject requires bundler version >= 1.5.0   *
   *                                                   *
-  *   Please install bundler with:                    *
+  *   Please update bundler with:                     *
   *                                                   *
-  *   gem install bundler                             *
+  *   gem update bundler                              *
   *                                                   *
   *****************************************************
 
