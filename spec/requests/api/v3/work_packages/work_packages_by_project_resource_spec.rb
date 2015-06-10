@@ -92,10 +92,22 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     end
 
     context 'unauthorized user' do
-      let(:current_user) { FactoryGirl.build(:user) }
+      context 'no permissions' do
+        let(:current_user) { FactoryGirl.build(:user) }
 
-      it 'should hide the endpoint' do
-        expect(last_response.status).to eq(404)
+        it 'should hide the endpoint' do
+          expect(last_response.status).to eq(404)
+        end
+      end
+
+      context 'view_project permission' do
+        # Note that this just removes the add_work_packages permission
+        # view_project is actually provided by being a member of the project
+        let(:permissions) { [:view_project] }
+
+        it 'should point out the missing permission' do
+          expect(last_response.status).to eq(403)
+        end
       end
     end
 
