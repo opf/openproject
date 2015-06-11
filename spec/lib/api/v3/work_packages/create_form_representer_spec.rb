@@ -88,8 +88,8 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         context 'valid work package' do
           it do
             is_expected.to be_json_eql(
-              api_v3_paths.work_packages_by_project(work_package.project_id)
-              .at_path('_links/commit/href'))
+              api_v3_paths.work_packages_by_project(work_package.project_id).to_json)
+              .at_path('_links/commit/href')
           end
 
           it { is_expected.to be_json_eql(:post.to_json).at_path('_links/commit/method') }
