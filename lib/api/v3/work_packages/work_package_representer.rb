@@ -131,9 +131,7 @@ module API
             method: :post,
             payload: { user: { href: api_v3_paths.user(current_user.id) } },
             title: 'Watch work package'
-          } if !current_user.anonymous? &&
-               current_user_allowed_to(:view_work_packages) &&
-               !represented.watcher_users.include?(current_user)
+          } unless current_user.anonymous? || represented.watcher_users.include?(current_user)
         end
 
         link :unwatch do
@@ -141,8 +139,7 @@ module API
             href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{current_user.id}",
             method: :delete,
             title: 'Unwatch work package'
-          } if current_user_allowed_to(:view_work_packages) &&
-               represented.watcher_users.include?(current_user)
+          } if represented.watcher_users.include?(current_user)
         end
 
         link :watchers do
