@@ -67,7 +67,7 @@ describe 'Query Saving', type: :feature, js: true do
                                                        visible: false)
     end
 
-    it 'should select its menu item' do
+    xit 'should select its menu item' do
       expect(page).to have_css '#main-menu .query.selected'
       selected = find('#main-menu .query.selected')
       expect(selected).to have_text(query_item.name)
@@ -84,7 +84,7 @@ describe 'Query Saving', type: :feature, js: true do
                                                          visible: false)
       end
 
-      it 'should select the new menu item' do
+      xit 'should select the new menu item' do
         expect(page).to have_css '#main-menu .query-menu-item.selected'
         selected = find('#main-menu .query-menu-item.selected')
         expect(selected).to have_text('newQueryName')

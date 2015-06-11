@@ -214,8 +214,8 @@ Given /^there are the following issue status:$/ do |table|
   table.hashes.each_with_index do |t, i|
     status = Status.find_by_name(t['name'])
     status = Status.new name: t['name'] if status.nil?
-    status.is_closed = t['is_closed'] == 'true' ? true : false
-    status.is_default = t['is_default'] == 'true' ? true : false
+    status.is_closed = t['is_closed'] == 'true'
+    status.is_default = t['is_default'] == 'true'
     status.position = t['position'] ? t['position'] : i
     status.default_done_ratio = t['default_done_ratio']
     status.save!

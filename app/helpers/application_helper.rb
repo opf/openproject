@@ -502,7 +502,10 @@ module ApplicationHelper
         when 6
           '6' # Saturday
         else
-          '' # use language
+          # use language (pass a blank string into the JSON object,
+          # as the datepicker implementation checks for numbers in
+          # /frontend/app/misc/datepicker-defaults.js:34)
+          '""'
         end
         # FIXME: Get rid of this abomination
         js = "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };"

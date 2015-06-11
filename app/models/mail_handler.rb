@@ -48,7 +48,7 @@ class MailHandler < ActionMailer::Base
     # Status overridable by default
     @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
 
-    @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
+    @@handler_options[:no_permission_check] = @@handler_options[:no_permission_check].to_s == '1'
 
     email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
     super email

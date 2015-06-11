@@ -143,8 +143,15 @@ module SortHelper
 
     def normalize!
       @criteria ||= []
-      @criteria = @criteria.map { |s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true] }
-      @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) } if @available_criteria
+      @criteria = @criteria.map { |s|
+        s = s.to_a
+        [s.first, !(s.last == false || s.last == 'desc')]
+      }
+
+      if @available_criteria
+        @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) }
+      end
+
       @criteria.slice!(3)
       self
     end
