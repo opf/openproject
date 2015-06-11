@@ -67,7 +67,7 @@ describe CreateWorkPackageService do
 
   it 'should #save records' do
     wp = service.create
-    service.save
+    service.save(wp)
     expect(WorkPackage.exists?(wp.id)).to be_truthy
   end
 end
