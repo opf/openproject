@@ -147,8 +147,9 @@ module API
 
         link :addWatcher do
           {
-            href: "#{api_v3_paths.work_package_watchers(represented.id)}{?user_id}",
+            href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
+            payload: { user: { href: api_v3_paths.user('{user_id}') } },
             templated: true
           } if current_user_allowed_to(:add_work_package_watchers)
         end
