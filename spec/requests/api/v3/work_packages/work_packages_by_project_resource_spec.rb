@@ -73,7 +73,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
       context 'with notifications' do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=true" }
 
-        it 'should not send a mail' do
+        it 'should send a mail' do
           expect(ActionMailer::Base.deliveries.count).to eq(1)
         end
       end
