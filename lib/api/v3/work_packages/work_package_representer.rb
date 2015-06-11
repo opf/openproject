@@ -120,8 +120,7 @@ module API
 
         link :availableWatchers do
           {
-            href: api_v3_paths.available_watchers(represented.id),
-            title: 'Available Watchers'
+            href: api_v3_paths.available_watchers(represented.id)
           } if current_user_allowed_to(:add_work_package_watchers)
         end
 
@@ -129,16 +128,14 @@ module API
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
-            payload: { user: { href: api_v3_paths.user(current_user.id) } },
-            title: 'Watch work package'
+            payload: { user: { href: api_v3_paths.user(current_user.id) } }
           } unless current_user.anonymous? || represented.watcher_users.include?(current_user)
         end
 
         link :unwatch do
           {
             href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{current_user.id}",
-            method: :delete,
-            title: 'Unwatch work package'
+            method: :delete
           } if represented.watcher_users.include?(current_user)
         end
 
@@ -152,7 +149,6 @@ module API
           {
             href: "#{api_v3_paths.work_package_watchers(represented.id)}{?user_id}",
             method: :post,
-            title: 'Add watcher',
             templated: true
           } if current_user_allowed_to(:add_work_package_watchers)
         end
