@@ -154,8 +154,17 @@ module.exports = function($scope,
   }
 
   $scope.toggleWatch = function() {
+    var fetchOptions = {
+      method: $scope.toggleWatchLink.props.method
+    };
+
+    if($scope.toggleWatchLink.props.payload !== undefined) {
+      fetchOptions.contentType = 'application/json; charset=utf-8';
+      fetchOptions.data = JSON.stringify($scope.toggleWatchLink.props.payload);
+    }
+
     $scope.toggleWatchLink
-      .fetch({ ajax: $scope.toggleWatchLink.props })
+      .fetch({ajax: fetchOptions})
       .then(refreshWorkPackage, outputError);
   };
 
