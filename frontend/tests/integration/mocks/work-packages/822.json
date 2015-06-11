@@ -2693,7 +2693,19 @@
       "type": null
     },
     "watchers": [],
-    "attachments": [],
+    "attachments" : {
+      "_links" : {
+        "self" : {
+          "href" : "/api/v3/work_packages/822/attachments"
+        }
+      },
+      "_type" : "Collection",
+      "total" : 0,
+      "count" : 0,
+      "_embedded" : {
+        "elements" : []
+      }
+    },
     "relations": []
   }
 }

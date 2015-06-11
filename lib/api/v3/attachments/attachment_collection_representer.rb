@@ -27,20 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Attachment < ActiveRecord::Base
-  generator_for :container, method: :generate_project
-  generator_for :file, method: :generate_file
-  generator_for :author, method: :generate_author
-
-  def self.generate_project
-    Project.generate!
-  end
-
-  def self.generate_author
-    User.generate_with_protected!
-  end
-
-  def self.generate_file
-    @file = FileHelpers.mock_uploaded_file
+module API
+  module V3
+    module Attachments
+      class AttachmentCollectionRepresenter < ::API::Decorators::Collection
+        element_decorator ::API::V3::Attachments::AttachmentRepresenter
+      end
+    end
   end
 end

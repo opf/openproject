@@ -69,8 +69,8 @@ describe Attachment, type: :model do
         @issue = WorkPackage.find(1)
         response = Attachment.attach_files(
           @issue,
-          '1' => { 'file' => create_uploaded_file, 'description' => 'test 1' },
-          '2' => { 'file' => create_uploaded_file, 'description' => 'test 2' })
+          '1' => { 'file' => FileHelpers.mock_uploaded_file, 'description' => 'test 1' },
+          '2' => { 'file' => FileHelpers.mock_uploaded_file, 'description' => 'test 2' })
 
         assert response[:unsaved].present?
         assert_equal 2, response[:unsaved].length

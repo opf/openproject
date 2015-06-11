@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,20 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Attachment < ActiveRecord::Base
-  generator_for :container, method: :generate_project
-  generator_for :file, method: :generate_file
-  generator_for :author, method: :generate_author
+require 'spec_helper'
 
-  def self.generate_project
-    Project.generate!
+shared_examples_for 'API V3 digest' do
+  it 'defines an algorithm' do
+    is_expected.to be_json_eql(algorithm.to_json).at_path("#{path}/algorithm")
   end
 
-  def self.generate_author
-    User.generate_with_protected!
-  end
-
-  def self.generate_file
-    @file = FileHelpers.mock_uploaded_file
+  it 'has a hash' do
+    is_expected.to be_json_eql(hash.to_json).at_path("#{path}/hash")
   end
 end

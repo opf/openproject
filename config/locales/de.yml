@@ -60,6 +60,7 @@ de:
     attributes:
       attachment:
         downloads: "Downloads"
+        file: "Datei"
         filename: "Datei"
         filesize: "Größe"
       auth_source:
@@ -193,6 +194,7 @@ de:
         equal_to: "muss genau %{count} sein"
         even: "muss gerade sein"
         exclusion: "ist nicht verfügbar"
+        file_too_large: "ist zu groß (nicht mehr als %{count} Bytes erlaubt)"
         greater_than: "muss größer als %{count} sein"
         greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
         smaller_than_or_equal_to_max_length: "muss kleiner als oder gleich der maximalen Länge sein"
@@ -1689,26 +1691,25 @@ de:
       code_403: "Sie sind nicht berechtigt auf diese Ressource zuzugreifen."
       code_404: "Die angeforderte Ressource konnte nicht gefunden werden."
       code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."
-      invalid_content_type:
-        "Es wird der CONTENT-TYPE '%{content_type}' erwartet, es wurde aber der CONTENT-TYP '%{actual}' gesandt."
+      invalid_content_type: "Es wird der CONTENT-TYPE '%{content_type}' erwartet, es wurde aber der CONTENT-TYP '%{actual}' gesandt."
+      invalid_format: "Ungültiges Format für Eigenschaft '%{property}': Ein Format der Art '%{expected_format}' wurde erwartet, aber '%{actual}' wurde übergeben."
+      invalid_json: "The request could not be parsed as JSON."
       invalid_user_status_transition: "Für diesen Nutzeraccount ist die angeforderte Statusänderung nicht zulässig."
       invalid_relation: "Die Beziehung ist ungültig."
       invalid_resource: "Für die Eigenschaft '%{property}' wird ein Link wie '%{expected}' erwartet. Gesandt wurde '%{actual}'."
       missing_content_type: "nicht angegeben"
+      multipart_body_error: "Die Anfrage enthielt nicht die erwarteten Multipart Abschnitte."
       multiple_errors: "Die Integrität mehrerer Eigenschaften wurde verletzt."
-      parse_error: "Die Abfrage enthielt kein valides JSON."
       writing_read_only_attributes: "Nur-lesbare Eigeschaften dürfen nicht geschrieben werden."
-      invalid_format: "Ungültiges Format für Eigenschaft '%{property}': Ein Format der Art '%{expected_format}' wurde erwartet, aber '%{actual}' wurde übergeben."
       render:
         context_not_parsable: "Der übergebene Kontext ist kein Link zu einer Ressource."
         unsupported_context: "Die übergebene Ressource wird nicht als Kontext unterstützt."
         context_object_not_found: "Die als Kontext übergebene Ressource konnte nicht gefunden werden."
       validation:
-        invalid_user_assigned_to_work_package:
-          "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
-        estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden."
         done_ratio: "Der Fortschritt kann nicht gesetzt werden falls es sich um ein Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn er komplett deaktiviert wurde."
-        start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
         due_date: "Das Enddatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
+        estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden."
+        invalid_user_assigned_to_work_package: "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
+        start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
     resources:
       schema: 'Schema'
