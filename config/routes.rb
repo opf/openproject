@@ -43,11 +43,12 @@ OpenProject::Application.routes.draw do
     get :copy, :on => :member
   end
 
-  resources :cost_types, :only => [:index, :new, :edit, :update, :create] do
-    # TODO: check if this can be replaced with update method
-    put :set_rate, :on => :member
-    # TODO: change to destroy or even better, replace with destroy method
-    put :toggle_delete, :on => :member
+  resources :cost_types, :only => [:index, :new, :edit, :update, :create, :destroy] do
+    member do
+      # TODO: check if this can be replaced with update method
+      put :set_rate
+      patch :restore
+    end
   end
 
   # TODO: this is a duplicate from a route defined under project/:project_id, check whether we really want to do that

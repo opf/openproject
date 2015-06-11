@@ -22,7 +22,7 @@ class CostTypesController < ApplicationController
 
   # Allow only admins here
   before_filter :require_admin
-  before_filter :find_cost_type, :only => [:edit, :update, :set_rate, :toggle_delete]
+  before_filter :find_cost_type, only: [:edit, :update, :set_rate, :destroy, :restore]
 
   helper :sort
   include SortHelper
@@ -90,12 +90,23 @@ class CostTypesController < ApplicationController
     flash.now[:error] = l(:notice_locking_conflict)
   end
 
-  def toggle_delete
-    @cost_type.deleted_at = @cost_type.deleted_at ?  nil : DateTime.now()
+  def destroy
+    @cost_type.deleted_at = DateTime.now
     @cost_type.default = false
 
     if @cost_type.save
-      flash[:notice] = @cost_type.deleted_at ? l(:notice_successful_delete) : l(:notice_successful_restore)
+      flash[:notice] = l(:notice_successful_delete)
+
+      redirect_back_or_default(:action => 'index')
+    end
+  end
+
+  def restore
+    @cost_type.deleted_at = nil
+    @cost_type.default = false
+
+    if @cost_type.save
+      flash[:notice] = l(:notice_successful_restore)
 
       redirect_back_or_default(:action => 'index')
     end
