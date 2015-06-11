@@ -46,7 +46,7 @@ class CreateWorkPackageService
     self.work_package = project.add_work_package(hash)
   end
 
-  def save
+  def save(work_package)
     work_package.save
   end
 end
