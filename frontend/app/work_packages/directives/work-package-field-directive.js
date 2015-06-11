@@ -52,7 +52,7 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState) {
 
     if (this.isEditable()) {
       this.state.isBusy = false;
-      this.isEditing = false;
+      this.isEditing = this.state.forcedEditState;
       this.updateWriteValue();
       this.editTitle = I18n.t('js.inplace.button_edit', { attribute: this.getLabel() });
     }

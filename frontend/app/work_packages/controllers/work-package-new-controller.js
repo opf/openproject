@@ -30,14 +30,24 @@ module.exports = function(
            $scope,
            WorkPackagesOverviewService,
            WorkPackageFieldService,
+           WorkPackageService,
            EditableFieldsState
            ) {
 
-  var vm = this;
+  var vm = this,
+      unhideableFields = [
+        'subject',
+        'type',
+        'status',
+        'description',
+        'priority',
+        'assignee',
+        'percentageDone'
+      ];
 
   vm.groupedFields = [];
   vm.hideEmptyFields = true;
-  vm.workPackage = $scope.workPackage;
+
 
   vm.isGroupHideable = isGroupHideable;
   vm.isFieldHideable = isFieldHideable;
@@ -49,15 +59,11 @@ module.exports = function(
   activate();
 
   function activate() {
-    EditableFieldsState.forcedEditState = false;
-    $scope.$watch('workPackage.schema', function(schema) {
-      if (schema) {
-        vm.workPackage = $scope.workPackage;
-      }
-    });
-    vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
-
-    $scope.$watchCollection('vm.workPackage.form', function(form) {
+    EditableFieldsState.forcedEditState = true;
+    WorkPackageService.initializeWorkPackage($scope.projectIdentifier).then(function(wp) {
+      vm.workPackage = wp;
+      $scope.workPackage = wp;
+      vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
       var schema = WorkPackageFieldService.getSchema(vm.workPackage);
       var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
       otherGroup.attributes = [];
@@ -69,7 +75,6 @@ module.exports = function(
       otherGroup.attributes.sort(function(a, b) {
         return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
       });
-
     });
 
   }
@@ -80,6 +85,17 @@ module.exports = function(
   }
 
   function isFieldHideable(field) {
+    if (!WorkPackageFieldService.isEditable(vm.workPackage, field)) {
+      return true;
+    }
+
+    if (_.contains(unhideableFields, field)) {
+      return !WorkPackageFieldService.isEditable(vm.workPackage, field);
+    }
+
+    if (WorkPackageFieldService.isRequired(vm.workPackage, field)) {
+      return false;
+    }
     return WorkPackageFieldService.isHideable(vm.workPackage, field);
   }
 

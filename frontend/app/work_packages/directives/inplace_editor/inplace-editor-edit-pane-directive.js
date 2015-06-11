@@ -111,6 +111,9 @@ module.exports = function(
       };
 
       this.isActive = function() {
+        if (EditableFieldsState.forcedEditState) {
+          return false;
+        }
         return $scope.fieldController.field === EditableFieldsState.activeField;
       };
 
@@ -182,13 +185,15 @@ module.exports = function(
         });
       };
 
-      element.bind('keydown keypress', function(e) {
-        if (e.keyCode == 27) {
-          scope.$apply(function() {
-            scope.editPaneController.discardEditing();
-          });
-        }
-      });
+      if (!EditableFieldsState.forcedEditState) {
+        element.bind('keydown keypress', function(e) {
+          if (e.keyCode == 27) {
+            scope.$apply(function() {
+              scope.editPaneController.discardEditing();
+            });
+          }
+        });
+      }
 
       scope.$watch('fieldController.writeValue', function(writeValue) {
         if (scope.fieldController.isEditing) {

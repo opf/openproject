@@ -70,6 +70,9 @@ module.exports = function() {
     projectWorkPackagesPath: function(projectId) {
       return PathHelper.projectPath(projectId) + PathHelper.workPackagesPath();
     },
+    projectWorkPackagesFormPath: function(projectId) {
+      return PathHelper.projectWorkPackagesPath(projectId) + '/form';
+    },
     queryPath: function(queryIdentifier) {
       return '/queries/' + queryIdentifier;
     },
