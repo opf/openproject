@@ -111,7 +111,7 @@ class VersionsController < ApplicationController
   end
 
   def update
-    if request.put? && params[:version]
+    if request.patch? && params[:version]
       attributes = params[:version].dup
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
       @version.safe_attributes = attributes

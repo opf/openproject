@@ -207,9 +207,9 @@ describe VersionsController, type: :controller do
     context 'with valid params' do
       before do
         allow(User).to receive(:current).and_return(user)
-        put :update, id: version1.id,
-                     version: { name: 'New version name',
-                                effective_date: Date.today.strftime('%Y-%m-%d') }
+        patch :update, id: version1.id,
+                       version: { name: 'New version name',
+                                  effective_date: Date.today.strftime('%Y-%m-%d') }
       end
 
       it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
@@ -221,10 +221,10 @@ describe VersionsController, type: :controller do
              with a redirect url" do
       before do
         allow(User).to receive(:current).and_return(user)
-        put :update, id: version1.id,
-                     version: { name: 'New version name',
-                                effective_date: Date.today.strftime('%Y-%m-%d') },
-                     back_url: home_path
+        patch :update, id: version1.id,
+                       version: { name: 'New version name',
+                                  effective_date: Date.today.strftime('%Y-%m-%d') },
+                       back_url: home_path
       end
 
       it { expect(response).to redirect_to(home_path) }
@@ -233,9 +233,9 @@ describe VersionsController, type: :controller do
     context 'with invalid params' do
       before do
         allow(User).to receive(:current).and_return(user)
-        put :update, id: version1.id,
-                     version: { name: '',
-                                effective_date: Date.today.strftime('%Y-%m-%d') }
+        patch :update, id: version1.id,
+                       version: { name: '',
+                                  effective_date: Date.today.strftime('%Y-%m-%d') }
       end
 
       it { expect(response).to be_success }

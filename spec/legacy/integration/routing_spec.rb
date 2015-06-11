@@ -677,9 +677,9 @@ describe 'routing', type: :routing do
     }
 
     it {
-      is_expected.to route(:put, '/versions/1').to(controller: 'versions',
-                                                   action: 'update',
-                                                   id: '1')
+      is_expected.to route(:patch, '/versions/1').to(controller: 'versions',
+                                                     action: 'update',
+                                                     id: '1')
     }
 
     it {
