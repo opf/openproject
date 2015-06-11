@@ -29,7 +29,6 @@
 # maximizes the window for any given page
 # is needed for certain situations where the details pane must be visible
 
-
 shared_context 'maximized window' do
   def maximize!
     page.driver.browser.manage.window.maximize
