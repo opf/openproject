@@ -72,10 +72,6 @@ class ::Type < ActiveRecord::Base
     name <=> type.name
   end
 
-  # def self.all
-  #  find(:all, order: 'position')
-  # end
-
   def self.statuses(types)
     workflow_table, status_table = [Workflow, Status].map(&:arel_table)
     old_id_subselect, new_id_subselect = [:old_status_id, :new_status_id].map do |foreign_key|
