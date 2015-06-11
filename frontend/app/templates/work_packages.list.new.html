@@ -1,0 +1,59 @@
+<div ng-if="vm.workPackage" class="work-packages--details-content --create-mode">
+  <div class="attributes-group">
+
+    <div class="work-packages--details--title">
+      New something
+    </div>
+
+    <div class="single-attribute subject">
+      <work-package-field field="'subject'"></work-package-field>
+    </div>
+
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text">
+          {{ I18n.t('js.label_description') }}
+        </h3>
+      </div>
+    </div>
+
+    <div class="single-attribute wiki">
+      <work-package-field field="'description'"></work-package-field>
+    </div>
+  </div>
+
+  <div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(group.groupName)" class="attributes-group">
+
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+          ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+      </div>
+      <div class="attributes-group--header-toggle">
+        <panel-expander tabindex="-1" ng-if="vm.showToggleButton() && $first"
+          collapsed="vm.hideEmptyFields"
+          expand-text="{{ I18n.t('js.label_show_attributes') }}"
+          collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
+        </panel-expander>
+      </div>
+    </div>
+
+    <dl class="attributes-key-value">
+      <dt
+          ng-hide="vm.hideEmptyFields && vm.isFieldHideable(field)"
+          ng-if="vm.isSpecified(field)"
+          ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
+          {{vm.getLabel(field)}}
+          <span class="required" ng-if="vm.hasNiceStar(field)"> *</span>
+      </dt>
+      <dd
+          ng-hide="vm.hideEmptyFields && vm.isFieldHideable(field)"
+          ng-if="vm.isSpecified(field)"
+          ng-repeat-end
+          class="attributes-key-value--value-container">
+        <work-package-field field="field"></work-package-field>
+      </dd>
+    </dl>
+  </div>
+
+</div>

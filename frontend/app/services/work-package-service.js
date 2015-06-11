@@ -51,7 +51,7 @@ module.exports = function($http,
           if(field === 'date') {
             if(WorkPackageFieldService.isMilestone(workPackage)) {
               data['startDate'] = data['dueDate'] = value ? value : null;
-              return;  
+              return;
             }
             data['startDate'] = value['startDate'];
             data['dueDate'] = value['dueDate'];
@@ -75,6 +75,31 @@ module.exports = function($http,
   }
 
   var WorkPackageService = {
+    initializeWorkPackage: function(projectIdentifier) {
+      var wp = {
+        props: {},
+        links: {},
+        embedded: {},
+      };
+      var options = { ajax: {
+          method: 'POST',
+          headers: {
+            Accept: 'application/hal+json'
+          },
+          contentType: 'application/json; charset=utf-8'
+        }};
+
+      return HALAPIResource
+        .setup(PathHelper.projectWorkPackagesFormPath(projectIdentifier))
+        .fetch(options)
+        .then(function(form) {
+          wp.form = form;
+          EditableFieldsState.workPackage = wp;
+          EditableFieldsState.errors = null;
+          return wp;
+        });
+    },
+
     getWorkPackage: function(id) {
       var resource = HALAPIResource.setup('work_packages/' + id);
       return resource.fetch().then(function (wp) {
