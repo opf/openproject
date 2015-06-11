@@ -32,8 +32,7 @@ class CustomField < ActiveRecord::Base
 
   has_many :custom_values, dependent: :delete_all
   acts_as_list scope: 'type = \'#{self.class}\''
-  translates :name, fallbacks_for_empty_translations: false
-  translates :default_value, :possible_values
+  translates :name, :default_value, :possible_values
 
   accepts_nested_attributes_for :translations,
                                 allow_destroy: true,
