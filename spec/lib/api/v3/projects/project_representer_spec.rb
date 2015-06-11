@@ -74,12 +74,12 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
       describe 'create work packages' do
         context 'user allowed to create work packages' do
-          it do
+          it 'has the correct path for a create form' do
             is_expected.to be_json_eql(api_v3_paths.create_work_package_form(project.id).to_json)
               .at_path('_links/createWorkPackage/href')
           end
 
-          it do
+          it 'has the correct path to create a work package' do
             is_expected.to be_json_eql(api_v3_paths.work_packages_by_project(project.id).to_json)
               .at_path('_links/createWorkPackageImmediate/href')
           end
@@ -95,14 +95,14 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
 
       describe 'categories' do
-        it do
+        it 'has the correct link to its categories' do
           is_expected.to be_json_eql(api_v3_paths.categories(project.id).to_json)
             .at_path('_links/categories/href')
         end
       end
 
       describe 'versions' do
-        it do
+        it 'has the correct link to its versions' do
           is_expected.to be_json_eql(api_v3_paths.versions_by_project(project.id).to_json)
             .at_path('_links/versions/href')
         end
