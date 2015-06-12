@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -24,40 +25,36 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
 
-require 'api/v3/projects/project_representer'
+require 'spec_helper'
 
-module API
-  module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+describe ::API::Decorators::Single do
+  let(:user) { FactoryGirl.build(:user, member_in_project: project, member_through_role: role) }
+  let(:project) { FactoryGirl.create(:project_with_types) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages] }
+  let(:model) { Object.new }
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
+  context 'no user given' do
+    let(:single) { ::API::Decorators::Single.new(model, context: nil) }
 
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
+    it 'should not authorize an empty user' do
+      expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_falsey
+    end
+  end
 
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
+  context 'user given' do
+    let(:single) { ::API::Decorators::Single.new(model, current_user: user) }
 
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
-          end
-        end
+    it 'should authorize for a given permission' do
+      expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_truthy
+    end
+
+    context 'unauthorized user' do
+      let(:permissions) { [] }
+
+      it 'should not authorize unauthorized user' do
+        expect(single.current_user_allowed_to(:view_work_packages, context: project)).to be_falsey
       end
     end
   end

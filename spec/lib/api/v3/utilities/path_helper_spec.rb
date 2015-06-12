@@ -111,6 +111,14 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to match(/^\/api\/v3\/categories\/42/) }
   end
 
+  describe '#create_work_package_form' do
+    subject { helper.create_work_package_form 42 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to eql('/api/v3/projects/42/work_packages/form') }
+  end
+
   describe '#render_markup' do
     subject { helper.render_markup(format: 'super_fancy', link: 'link-ish') }
 
@@ -330,6 +338,14 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path'
 
     it { is_expected.to match(/^\/api\/v3\/versions\/42\/projects/) }
+  end
+
+  describe '#work_packages_by_project' do
+    subject { helper.work_packages_by_project 42 }
+
+    it_behaves_like 'api v3 path'
+
+    it { is_expected.to match(/^\/api\/v3\/projects\/42\/work_packages/) }
   end
 
   describe 'work packages paths' do

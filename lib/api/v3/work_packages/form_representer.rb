@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,36 +27,35 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/projects/project_representer'
-
 module API
   module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+    module WorkPackages
+      class FormRepresenter < ::API::Decorators::Single
+        property :payload,
+                 embedded: true,
+                 decorator: -> (represented, *) {
+                   WorkPackagePayloadRepresenter.create_class(represented)
+                 },
+                 getter: -> (*) { self }
+        property :schema,
+                 embedded: true,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   schema = Schema::WorkPackageSchema.new(work_package: represented)
+                   Schema::WorkPackageSchemaRepresenter.create(schema,
+                                                               form_embedded: true,
+                                                               current_user: current_user)
+                 }
+        property :validation_errors, embedded: true, exec_context: :decorator
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
+        def _type
+          'Form'
+        end
 
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
-
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
-
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
+        def validation_errors
+          ::API::Errors::Validation.create(represented.errors.dup).inject({}) do |h, (k, v)|
+            h[k] = ::API::V3::Errors::ErrorRepresenter.new(v)
+            h
           end
         end
       end

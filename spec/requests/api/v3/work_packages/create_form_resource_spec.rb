@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -24,41 +25,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
 
-require 'api/v3/projects/project_representer'
+require 'spec_helper'
+require 'rack/test'
 
-module API
-  module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+describe ::API::V3::WorkPackages::CreateFormAPI do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
+  let(:project) { FactoryGirl.create(:project, id: 5) }
+  let(:post_path) { api_v3_paths.create_work_package_form(project.id) }
+  let(:user) { FactoryGirl.build(:admin) }
 
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
+  before do
+    allow(User).to receive(:current).and_return(user)
+    post post_path
+  end
 
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
+  subject(:response) { last_response }
 
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
-          end
-        end
-      end
-    end
+  it 'should return 200(OK)' do
+    expect(response.status).to eq(200)
+  end
+
+  it 'should be of type form' do
+    expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
   end
 end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter do
+describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   let(:work_package) do
     FactoryGirl.build(:work_package,
                       start_date: Date.today.to_datetime,

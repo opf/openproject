@@ -25,40 +25,49 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
 
-class UpdateWorkPackageService
-  attr_accessor :user, :work_package, :permitted_params
+require 'spec_helper'
 
-  def initialize(user:, work_package:, permitted_params: nil, send_notifications: true)
-    self.user = user
-    self.work_package = work_package
-    self.permitted_params = permitted_params
+describe CreateWorkPackageService do
+  let(:user) { FactoryGirl.build(:user) }
+  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:project) { FactoryGirl.build(:project_with_types) }
 
-    JournalObserver.instance.send_notification = send_notifications
+  before do
+    allow(project).to receive(:add_work_package).and_return(work_package)
   end
 
-  def update
-    work_package.update_by!(user, effective_params)
-  end
+  subject(:service) { CreateWorkPackageService.new(user: user, project: project) }
 
-  def save
-    work_package.save
-  end
-
-  private
-
-  def effective_params
-    effective_params = HashWithIndifferentAccess.new
-
-    if permitted_params[:journal_notes]
-      notes = { notes: permitted_params.delete(:journal_notes) }
-
-      effective_params.merge!(notes) if user.allowed_to?(:add_work_package_notes, work_package.project)
+  describe 'should use meaningful defaults for creation' do
+    it 'should use the project' do
+      expect(project).to receive(:add_work_package).with(hash_including(project: project))
     end
 
-    effective_params.merge!(permitted_params) if user.allowed_to?(:edit_work_packages, work_package.project)
+    it 'should use the user' do
+      expect(project).to receive(:add_work_package).with(hash_including(author: user))
+    end
 
-    effective_params
+    it 'should use a type' do
+      expect(project).to receive(:add_work_package).with(hash_including(:type))
+    end
+
+    it 'should have a non-empty type' do
+      expect(project).to receive(:add_work_package).with(hash_excluding(type: nil))
+    end
+
+    after do
+      service.create
+    end
+  end
+
+  it 'should create an unsaved work_package' do
+    expect(service.create.new_record?).to be_truthy
+  end
+
+  it 'should #save records' do
+    wp = service.create
+    service.save(wp)
+    expect(WorkPackage.exists?(wp.id)).to be_truthy
   end
 end

@@ -26,37 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/projects/project_representer'
+require 'api/v3/work_packages/work_package_representer'
+require 'api/v3/work_packages/work_packages_shared_helpers'
 
 module API
   module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
+    module WorkPackages
+      class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
+        resources :work_packages do
+          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+          helpers do
+            def create_service
+              @create_service ||=
+                CreateWorkPackageService.new(
+                  user: current_user,
+                  project: @project,
+                  send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
+            end
           end
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
+          post do
+            work_package = create_service.create
 
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
+            write_work_package_attributes work_package
+
+            if write_request_valid?(work_package, WorkPackages::CreateContract) &&
+               create_service.save(work_package)
+              work_package.reload
+
+              WorkPackages::WorkPackageRepresenter.create(work_package,
+                                                          current_user: current_user)
+            else
+              fail ::API::Errors::ErrorBase.create(work_package.errors.dup)
             end
-
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
-
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
           end
+
+          mount ::API::V3::WorkPackages::CreateFormAPI
         end
       end
     end
