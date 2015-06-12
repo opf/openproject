@@ -41,7 +41,7 @@ Available arguments that change how the work packages are handled:
 | `tracker` | name of the target tracker |
 | `category` | name of the target category |
 | `priority` | name of the target priority |
-| `allow\_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
+| `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
 
 
 ### POP3
