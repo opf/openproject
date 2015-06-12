@@ -64,8 +64,17 @@ describe 'mail notification jobs', type: :model do
         expect(mail).not_to be_present
       end
 
-      it 'deos not raise an error but fails silently' do
+      it 'does not raise an error but fails silently' do
         expect{job.perform}.not_to raise_error
+      end
+
+      context 'raising exceptions' do
+        before { MailNotificationJob.raise_exceptions = true }
+        after { MailNotificationJob.raise_exceptions = false }
+
+        it 'raises an error' do
+          expect { job.perform }.to raise_error(ActiveRecord::RecordNotFound)
+        end
       end
     end
 
