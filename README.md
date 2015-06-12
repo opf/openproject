@@ -21,9 +21,9 @@ version greater or equal to 3.0.0.
 Installation
 ------------
 
-Add the following line to the `Gemfile.plugins` to your OpenProject installation:
+Add the following line to the `Gemfile.plugins` to your OpenProject installation (if you use a different OpenProject version than OpenProject 4.1, adapt `:branch => "stable/4.1"` to your OpenProject version):
 
-`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "stable"`
+`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "stable/4.1"`
 
 Afterwards, run:
 
@@ -38,7 +38,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "stable"`
+`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "stable/4.1"`
 
 from the file `Gemfile.plugins` and run:
 
