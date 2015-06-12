@@ -1,8 +1,6 @@
 module UiComponents
   module Linkable
-
     module InstanceMethods
-
       attr_accessor :text, :icon
 
       # additional anchor tag attributes (HTML5)
@@ -61,7 +59,6 @@ module UiComponents
 
     def self.included(receiver)
       receiver.send :include, InstanceMethods
-
     end
   end
 end

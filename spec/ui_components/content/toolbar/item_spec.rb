@@ -25,5 +25,4 @@ describe UiComponents::Content::Toolbar::Item do
       }
     end
   end
-
 end

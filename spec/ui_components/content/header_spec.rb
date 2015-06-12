@@ -46,18 +46,24 @@ describe UiComponents::Content::Header do
       }
     end
 
-    describe "w/ submenu" do
+    describe 'w/ submenu' do
       let(:submenu_items) {
         [
-          UiComponents::Content::Toolbar::SubmenuItem.new(href: '#', text: "foo", icon: :stop),
+          UiComponents::Content::Toolbar::SubmenuItem.new(href: '#', text: 'foo', icon: :stop),
           UiComponents::Content::Toolbar::SubmenuItem.new(divider: true),
-          UiComponents::Content::Toolbar::SubmenuItem.new(href: '#', text: "bar", icon: :hammer),
-          UiComponents::Content::Toolbar::SubmenuItem.new(href: '#', text: "baz", icon: :time),
+          UiComponents::Content::Toolbar::SubmenuItem.new(href: '#', text: 'bar', icon: :hammer),
+          UiComponents::Content::Toolbar::SubmenuItem.new(href: '#', text: 'baz', icon: :time),
         ]
       }
-      let(:submenu) { UiComponents::Content::Toolbar::Submenu.new items: submenu_items, last: true, text: 'Foo' }
-      let(:button) { UiComponents::Content::Button.new text: 'MC', href: '#Hammer', icon: :glasses, highlight: :default }
-      let(:items) { [UiComponents::Content::Toolbar::Item.new(element: button)] * 2 + [submenu]  }
+      let(:submenu) {
+        UiComponents::Content::Toolbar::Submenu.new items: submenu_items, last: true, text: 'Foo'
+      }
+      let(:button) {
+        UiComponents::Content::Button.new text: 'MC', href: '#Hammer', icon: :glasses
+      }
+      let(:items) {
+        [UiComponents::Content::Toolbar::Item.new(element: button)] * 2 + [submenu]
+      }
       let(:scrollable) { true }
 
       it 'should render correctly' do
@@ -69,13 +75,13 @@ describe UiComponents::Content::Header do
               </div>
               <ul class="toolbar-items">
                 <li class="toolbar-item">
-                  <a href="#Hammer" class="button -highlight">
+                  <a href="#Hammer" class="button">
                     <i class="button--icon icon-glasses"></i>
                     <span class="button--text">MC</span>
                   </a>
                 </li>
                 <li class="toolbar-item">
-                  <a href="#Hammer" class="button -highlight">
+                  <a href="#Hammer" class="button">
                     <i class="button--icon icon-glasses"></i>
                     <span class="button--text">MC</span>
                   </a>

@@ -8,7 +8,7 @@ describe UiComponents::Content::Toolbar::SubmenuItem do
 
     describe 'w/ an icon' do
       let(:icon) { :time }
-      it "should render a menu item with an icon" do
+      it 'should render a menu item with an icon' do
         expect(submenu_item).to be_html_eql %{
           <li class="toolbar-item">
             <a href="http://foo.bar.com" class="my very own classes">
@@ -22,7 +22,7 @@ describe UiComponents::Content::Toolbar::SubmenuItem do
 
     describe 'w/o an icon' do
       let(:icon) { false }
-      it "should render a modifier class" do
+      it 'should render a modifier class' do
         expect(submenu_item).to be_html_eql %{
           <li class="toolbar-item no-icon">
             <a href="http://foo.bar.com" class="my very own classes">
@@ -43,5 +43,4 @@ describe UiComponents::Content::Toolbar::SubmenuItem do
       }
     end
   end
-
 end
