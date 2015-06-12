@@ -84,8 +84,8 @@ module QueriesHelper
       # Project specific queries and global queries
       visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id IS NULL OR project_id = ?', @project.id])
       @visible_queries = Query.where(visible.conditions)
-                              .order('name ASC')
-                              .select(:id, :name, :is_public, :project_id)
+                         .order('name ASC')
+                         .select(:id, :name, :is_public, :project_id)
     end
     @visible_queries
   end
