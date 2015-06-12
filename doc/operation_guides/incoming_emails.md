@@ -36,6 +36,7 @@ Available arguments for this rake task that specify the e-mail behavior are
 Available arguments that change how the work packages are handled:
 
 | key | description |
+|---|---|
 | `project` | identifier of the target project |
 | `tracker` | name of the target tracker |
 | `category` | name of the target category |
