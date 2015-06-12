@@ -24,14 +24,14 @@ Installation
 ------------
 
 OpenProject Backlogs depends on OpenProject PDF export Plugin. Thus, if you haven't done
-it already, add the following lines to the `Gemfile.plugins` to your OpenProject installation:
+it already, add the following lines to the `Gemfile.plugins` to your OpenProject installation (if you use a different OpenProject version than OpenProject 4.1, adapt :branch => "stable/4.1" to your OpenProject version):
 
-`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable"`
+`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable/4.1"`
 
 For OpenProject Backlogs itself you need to add the following line to the
-`Gemfile.plugins` of OpenProject:
+`Gemfile.plugins` of OpenProject(if you use a different OpenProject version than OpenProject 4.1, adapt :branch => "stable/4.1" to your OpenProject version):
 
-`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable"`
+`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable/4.1"`
 
 Afterwards, run:
 
@@ -47,7 +47,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable"`
+`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable/4.1"`
 
 from the file `Gemfile.plugins` and run:
 
