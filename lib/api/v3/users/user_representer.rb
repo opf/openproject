@@ -67,7 +67,8 @@ module API
             href: api_v3_paths.watcher(represented.id, work_package.id),
             method: :delete,
             title: 'Remove watcher'
-          } if work_package && current_user_allowed_to(:delete_work_package_watchers, work_package)
+          } if work_package && current_user_allowed_to(:delete_work_package_watchers,
+                                                       context: work_package.project)
         end
 
         property :id,
@@ -112,10 +113,6 @@ module API
 
         def current_user_is_admin
           current_user && current_user.admin?
-        end
-
-        def current_user_allowed_to(permission, work_package)
-          current_user && current_user.allowed_to?(permission, work_package.project)
         end
 
         private

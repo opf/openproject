@@ -30,7 +30,7 @@
 module API
   module V3
     module WorkPackages
-      class WorkPackageContract < ::API::Contracts::ModelContract
+      class BaseContract < ::API::Contracts::ModelContract
         attribute :subject
         attribute :description
         attribute :start_date, :due_date
@@ -39,10 +39,7 @@ module API
         attribute :priority_id
         attribute :category_id
         attribute :fixed_version_id
-
-        attribute :lock_version do
-          errors.add :error_conflict, '' if model.lock_version.nil? || model.lock_version_changed?
-        end
+        attribute :lock_version
 
         attribute :parent_id do
           if model.changed.include? 'parent_id'
@@ -100,26 +97,10 @@ module API
           @can = WorkPackagePolicy.new(user)
         end
 
-        validate :user_allowed_to_access
-        validate :user_allowed_to_edit
-
         extend Reform::Form::ActiveModel::ModelValidations
         copy_validations_from WorkPackage
 
         private
-
-        # TODO: when someone every fixes the way errors are added in the contract:
-        # find a solution to ensure that THIS validation supersedes others (i.e. show 404 if
-        # there is no access allowed)
-        def user_allowed_to_access
-          unless ::WorkPackage.visible(@user).exists?(model)
-            errors.add :error_not_found, I18n.t('api_v3.errors.code_404')
-          end
-        end
-
-        def user_allowed_to_edit
-          errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
-        end
 
         def validate_people_visible(attribute, id_attribute, list)
           id = model[id_attribute]

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,37 +27,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/projects/project_representer'
-
 module API
   module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+    module WorkPackages
+      class CreateFormRepresenter < FormRepresenter
+        link :self do
+          {
+            href: api_v3_paths.create_work_package_form(represented.project_id),
+            method: :post
+          }
+        end
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
+        link :validate do
+          {
+            href: api_v3_paths.create_work_package_form(represented.project_id),
+            method: :post
+          }
+        end
 
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
+        link :previewMarkup do
+          {
+            href: api_v3_paths.render_markup(link: api_v3_paths.project(represented.project_id)),
+            method: :post
+          }
+        end
 
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
-
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
-          end
+        link :commit do
+          {
+            href: api_v3_paths.work_packages_by_project(represented.project_id),
+            method: :post
+          } if current_user.allowed_to?(:edit_work_packages, represented.project) &&
+               # Calling valid? on represented empties the list of errors
+               # also removing errors from other sources (like contracts).
+               represented.errors.empty?
         end
       end
     end

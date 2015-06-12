@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,39 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/projects/project_representer'
+class CreateWorkPackageService
+  attr_accessor :user, :project, :work_package
 
-module API
-  module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+  def initialize(user:, project:, send_notifications: true)
+    self.user = user
+    self.project = project
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
+    WorkPackageObserver.instance.send_notification = send_notifications
+  end
 
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
+  def create
+    hash = {
+      project: project,
+      author: user,
+      type: project.types.where(is_default: true).first || project.types.first
+    }
+    self.work_package = project.add_work_package(hash)
+  end
 
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
-
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
-          end
-        end
-      end
-    end
+  def save(work_package)
+    work_package.save
   end
 end

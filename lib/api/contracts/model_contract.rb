@@ -48,19 +48,40 @@ module API
         end
       end
 
+      def writable_attributes
+        collect_ancestor_attributes(:writable_attributes)
+      end
+
       validate :readonly_attributes_unchanged
       validate :run_attribute_validations
 
       private
 
       def readonly_attributes_unchanged
-        changed_attributes = model.changed - self.class.writable_attributes
+        changed_attributes = model.changed - writable_attributes
 
         errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
       end
 
       def run_attribute_validations
-        self.class.attribute_validations.each { |validation| instance_exec(&validation) }
+        attribute_validations.each { |validation| instance_exec(&validation) }
+      end
+
+      def attribute_validations
+        collect_ancestor_attributes(:attribute_validations)
+      end
+
+      # Traverse ancestor hierarchy to collect contract information.
+      # This allows to define attributes on a common base class of two or more contracts.
+      def collect_ancestor_attributes(attribute_to_collect)
+        attributes = []
+        klass = self.class
+        while klass != ModelContract
+          # Collect all the attribute_to_collect from ancestors
+          attributes += klass.send(attribute_to_collect)
+          klass = klass.superclass
+        end
+        attributes.uniq
       end
     end
   end

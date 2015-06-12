@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,36 +27,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/projects/project_representer'
-
 module API
   module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+    module WorkPackages
+      class UpdateContract < BaseContract
+        attribute :lock_version do
+          errors.add :error_conflict, '' if model.lock_version.nil? || model.lock_version_changed?
+        end
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
+        validate :user_allowed_to_access
 
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
+        validate :user_allowed_to_edit
 
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
+        private
 
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
+        def user_allowed_to_edit
+          errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
+        end
+
+        # TODO: when someone ever fixes the way errors are added in the contract:
+        # find a solution to ensure that THIS validation supersedes others (i.e. show 404 if
+        # there is no access allowed)
+        def user_allowed_to_access
+          unless ::WorkPackage.visible(@user).exists?(model) || true
+            errors.add :error_not_found, I18n.t('api_v3.errors.code_404')
           end
         end
       end
