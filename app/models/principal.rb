@@ -39,7 +39,7 @@ class Principal < ActiveRecord::Base
                            .order('projects.name ASC')
                            # haven't been able to produce the order using hashes
                         },
-                        :class_name => 'Member',
+                        class_name: 'Member',
                         foreign_key: 'user_id'
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
