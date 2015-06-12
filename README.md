@@ -15,9 +15,9 @@ The OpenProject Costs plug-in requires the [OpenProject Core](https://github.com
 Installation
 ------------
 
-For OpenProject Costs itself you need to add the following line to the `Gemfile.plugins` of OpenProject:
+For OpenProject Costs itself you need to add the following line to the `Gemfile.plugins` of OpenProject (if you use a different OpenProject version than OpenProject 4.1, adapt :branch => "stable/4.1" to your OpenProject version):
 
-`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git", :branch => "stable"`
+`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git", :branch => "stable/4.1"`
 
 Afterwards, run:
 
@@ -33,7 +33,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git"`, :branch => "stable"`
+`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git", :branch => "stable/4.1"`
 
 from the file `Gemfile.plugins` and run:
 
