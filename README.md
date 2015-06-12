@@ -13,9 +13,9 @@ The My Project Page plugin currently requires the OpenProject Core in version 3.
 Installation
 ------------
 
-To install the My Project Page plugin, add the following line to the `Gemfile.plugins` to your OpenProject installation:
+To install the My Project Page plugin, add the following line to the `Gemfile.plugins` to your OpenProject installation (if you use a different OpenProject version than OpenProject 4.1, adapt `:branch => "stable/4.1"` to your OpenProject version):
 
-`gem "openproject-my_project_page", :git => "https://github.com/finnlabs/openproject-my_project_page.git", :branch => "stable"`
+`gem "openproject-my_project_page", :git => "https://github.com/finnlabs/openproject-my_project_page.git", :branch => "stable/4.1"`
 
 Afterwards, run:
 
@@ -30,7 +30,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-my_project_page", :git => "https://github.com/finnlabs/openproject-my_project_page.git", :branch => "stable"`
+`gem "openproject-my_project_page", :git => "https://github.com/finnlabs/openproject-my_project_page.git", :branch => "stable/4.1"`
 
 from the file `Gemfile.plugins` and run:
 
