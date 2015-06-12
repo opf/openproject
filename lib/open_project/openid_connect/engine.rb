@@ -52,7 +52,7 @@ module OpenProject::OpenIDConnect
 
     config.to_prepare do
       LobbyBoy.configure_client! host: "#{Setting.protocol}://#{Setting.host_name}",
-                                 end_session_endpoint: '/logout'
+                                 end_session_endpoint: '/logout?script'
 
       provider = OpenProject::Plugins::AuthPlugin.providers.find { |p| p[:sso] }
 
