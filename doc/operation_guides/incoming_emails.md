@@ -35,11 +35,12 @@ Available arguments for this rake task that specify the e-mail behavior are
 
 Available arguments that change how the work packages are handled:
 
-| `project` | identifier of the target project|
-| `tracker` | name of the target tracker|
-| `category` | name of the target category|
-| `priority` | name of the target priority|
-| `allow\_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list|
+| key | description |
+| `project` | identifier of the target project |
+| `tracker` | name of the target tracker |
+| `category` | name of the target category |
+| `priority` | name of the target priority |
+| `allow\_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
 
 
 ### POP3
@@ -103,8 +104,7 @@ Other available keys for the e-mail are:
 |Key|Description|Example|
 |---|---|---|
 | Project | sets the project. Use the project identifier | Project:test\_project |
-| Assigne | sets the assignee. Use the e-mail or login of the user |
-Assignee:test.nutzer@example.org |
+| Assigne | sets the assignee. Use the e-mail or login of the user | Assignee:test.nutzer@example.org |
 | Type | sets the type | type:Milestone |
 | Version | sets the version | version:v4.1.0 |
 | Start date | sets the start date | start date:2015-02-28 |
