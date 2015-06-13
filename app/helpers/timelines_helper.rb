@@ -28,8 +28,6 @@
 #++
 
 module TimelinesHelper
-  unloadable
-
   def icon_for_color(color, options = {})
     return unless color
 
