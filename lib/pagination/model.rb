@@ -43,8 +43,6 @@ module Pagination::Model
     }
 
     base.instance_eval do
-      unloadable
-
       def paginate_scope!(scope, options = {})
         limit = options.fetch(:page_limit) || 10
         page = options.fetch(:page) || 1
