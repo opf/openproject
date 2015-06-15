@@ -114,7 +114,7 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
 end
 
 When /^I request the server_variables resource$/ do
-  visit backlogs_project_server_variables_url(@project.id)
+  visit backlogs_project_server_variables_url(@project.id, format: 'js')
 end
 
 When /^I update the impediment$/ do
