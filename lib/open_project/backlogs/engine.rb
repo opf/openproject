@@ -159,7 +159,7 @@ module OpenProject::Backlogs
                if: -> (*) { represented.backlogs_enabled? }
     end
 
-    extend_api_response(:v3, :work_packages, :form, :work_package_payload) do
+    extend_api_response(:v3, :work_packages, :work_package_payload) do
       property :story_points,
                render_nil: true,
                if: -> (*) { backlogs_enabled? && type.story? }
@@ -196,9 +196,11 @@ module OpenProject::Backlogs
              show_if: -> (*) { represented.project.backlogs_enabled? }
     end
 
-    allow_attribute_update :work_package, :story_points
-    allow_attribute_update :work_package, :remaining_hours do
-      if !model.leaf? && model.changed.include?('remaining_hours')
+    allow_attribute_update :work_package, [:create, :update], :story_points
+    allow_attribute_update :work_package, [:create, :update], :remaining_hours do
+      if !model.new_record? &&
+         !model.leaf? &&
+         model.changed.include?('remaining_hours')
         errors.add :error_readonly, 'remaining_hours'
       end
     end
