@@ -35,8 +35,6 @@
 
 module OpenProject::Backlogs::Burndown
   class SeriesRawData < Hash
-    unloadable
-
     def initialize(*args)
       @collect = args.pop
       @sprint = args.pop
