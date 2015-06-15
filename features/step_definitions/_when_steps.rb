@@ -34,23 +34,25 @@
 #++
 
 When /^I create the impediment$/ do
-  page.driver.post url_for(:controller => '/rb_impediments', :action => :create),
-                   @impediment_params
+  page.driver.post backlogs_project_sprint_impediments_url(
+    *@impediment_params.values_at('project_id', 'fixed_version_id')
+  ), @impediment_params
 end
 
 When /^I create the story$/ do
-  page.driver.post url_for(:controller => '/rb_stories', :action => :create),
-                   @story_params
+  page.driver.post backlogs_project_sprint_stories_url(
+    *@story_params.values_at('project_id', 'fixed_version_id')
+  ), @story_params
 end
 
 When /^I create the task$/ do
-  page.driver.post url_for(:controller => '/rb_tasks', :action => :create),
-                   @task_params
+  page.driver.post backlogs_project_sprint_tasks_url(
+    *@task_params.values_at('project_id', 'fixed_version_id')
+  ), @task_params
 end
 
 When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subject, prev_subject|
-  work_package_class, controller_name =
-    if type.strip == "task" then [Task, "rb_tasks"] else [Story, "rb_stories"] end
+  work_package_class = if type.strip == 'task' then Task else Story end
   story = work_package_class.find(:first, :conditions => ["subject=?", story_subject.strip])
   prev  = work_package_class.find(:first, :conditions => ["subject=?", prev_subject.strip])
 
@@ -58,8 +60,12 @@ When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subj
   attributes[:prev]             = prev.id
   attributes[:fixed_version_id] = prev.fixed_version_id unless type == "task"
 
-  page.driver.post url_for(:controller => '/'+controller_name, :action => "update", :id => story),
-                   attributes.merge({ "_method" => "put" })
+  project = Project.find(attributes['project_id'])
+  sprint  = prev.fixed_version
+
+  page.driver.post polymorphic_url(
+    [:backlogs, project, sprint.becomes(Sprint), story]
+  ), attributes.merge('_method' => 'put')
 end
 
 When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, direction, position, sprint_name|
@@ -77,8 +83,9 @@ When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) positio
                         stories[position - (direction=="up" ? 2 : 1)].id
                       end
 
-  page.driver.post url_for(:controller => '/rb_stories', :action => "update", :id => story.id),
-                   attributes.merge({ "_method" => "put" })
+  page.driver.post backlogs_project_sprint_story_url(
+    *attributes.values_at('project_id', 'fixed_version_id', 'id')
+  ), attributes.merge('_method' => 'put')
 end
 
 When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? position$/ do |old_pos, new_pos|
@@ -97,34 +104,41 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
            @story_ids[new_pos.to_i-1]
          end
 
-  page.driver.post url_for(:controller => '/rb_stories', :action => :update, :id => story.text),
-                   {:prev => (prev.nil? ? '' : prev.text), :project_id => @project.id, "_method" => "put"}
-
   @story = Story.find(story.text.to_i)
+
+  page.driver.post backlogs_project_sprint_story_url(
+    @project.id,
+    @story.fixed_version_id,
+    @story.id
+  ), { prev: (prev.nil? ? '' : prev.text), '_method' => 'put' }
 end
 
 When /^I request the server_variables resource$/ do
-  visit url_for(:controller => '/rb_server_variables', :action => :show, :project_id => @project)
+  visit backlogs_project_server_variables_url(@project.id)
 end
 
 When /^I update the impediment$/ do
-  page.driver.post url_for(:controller => '/rb_impediments', :action => :update),
-                   @impediment_params.merge({ "_method" => "put" })
+  page.driver.post backlogs_project_sprint_impediment_url(
+    *@impediment_params.values_at('project_id', 'fixed_version_id', 'id')
+  ), @impediment_params.merge('_method' => 'put')
 end
 
 When /^I update the sprint$/ do
-  page.driver.post url_for(:controller => '/rb_sprints', :action => "update", :sprint_id => @sprint_params['id']),
-                   @sprint_params.merge({ "_method" => "put" })
+  page.driver.post backlogs_project_sprint_url(
+    *@sprint_params.values_at('project_id', 'id')
+  ), @sprint_params.merge('_method' => 'put')
 end
 
 When /^I update the story$/ do
-  page.driver.post url_for(:controller => '/rb_stories', :action => :update, :id => @story_params[:id]),
-                   @story_params.merge({ "_method" => "put" })
+  page.driver.post backlogs_project_sprint_story_url(
+    *@story_params.values_at('project_id', 'fixed_version_id', 'id')
+  ), @story_params.merge('_method' => 'put')
 end
 
 When /^I update the task$/ do
-  page.driver.post url_for(:controller => '/rb_tasks', :action => :update, :id => @task_params[:id]),
-                   @task_params.merge({ "_method" => "put" })
+  page.driver.post backlogs_project_sprint_task_url(
+    *@task_params.values_at('project_id', 'fixed_version_id', 'id')
+  ), @task_params.merge('_method' => 'put')
 end
 
 When /^I view the master backlog$/ do

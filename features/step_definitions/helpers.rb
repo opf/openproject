@@ -49,7 +49,10 @@ end
 def initialize_task_params(project, story, user = User.find(:first))
   params = HashWithIndifferentAccess.new
   params['type_id'] = Task.type
-  params['parent_id']  = story.id if story
+  if story
+    params['fixed_version_id'] = story.fixed_version_id
+    params['parent_id']        = story.id
+  end
   params['status_id'] = Status.find(:first).id
 
   # unsafe attributes that will not be used directly but added for your
