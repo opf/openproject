@@ -51,7 +51,7 @@ class Repository < ActiveRecord::Base
   validates_length_of :password, maximum: 255, allow_nil: true
   validate :validate_enabled_scm, on: :create
 
-  def changes
+  def file_changes
     Change.where(changeset_id: changesets).joins(:changeset)
   end
 

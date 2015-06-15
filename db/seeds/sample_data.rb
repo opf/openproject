@@ -159,7 +159,7 @@ user_count.times do |count|
           change = Change.create(action: Faker::Lorem.characters(1),
                                  path: Faker::Internet.url)
 
-          changeset.changes << change
+          changeset.file_changes << change
         end
 
         repository.changesets << changeset

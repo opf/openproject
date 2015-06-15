@@ -69,7 +69,7 @@ describe Repository::Git, type: :model do
     @repository.reload
 
     assert_equal 22, @repository.changesets.count
-    assert_equal 34, @repository.changes.count
+    assert_equal 34, @repository.file_changes.count
 
     commit = @repository.changesets.reorder('committed_on ASC').first
     assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
@@ -80,8 +80,8 @@ describe Repository::Git, type: :model do
     assert_equal '2007-12-14'.to_date, commit.commit_date
     assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', commit.revision
     assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', commit.scmid
-    assert_equal 3, commit.changes.count
-    change = commit.changes.sort_by(&:path).first
+    assert_equal 3, commit.file_changes.count
+    change = commit.file_changes.sort_by(&:path).first
     assert_equal 'README', change.path
     assert_equal 'A', change.action
   end
