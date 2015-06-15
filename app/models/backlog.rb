@@ -34,8 +34,6 @@
 #++
 
 class Backlog
-  unloadable
-
   attr_accessor :sprint
   attr_accessor :stories
 
