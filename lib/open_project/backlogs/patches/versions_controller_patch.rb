@@ -38,8 +38,6 @@ require_dependency 'versions_controller'
 module OpenProject::Backlogs::Patches::VersionsControllerPatch
   def self.included(base)
     base.class_eval do
-      unloadable
-
       include VersionSettingsHelper
       helper :version_settings
 
