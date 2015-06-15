@@ -3,6 +3,8 @@ module UiComponents
     class Toolbar < UiComponents::Element
       attr_accessor :items, :scrollable
 
+      role :menubar
+
       def initialize(attributes = {})
         @items = attributes.fetch :items, []
         super

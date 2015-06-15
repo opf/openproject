@@ -1,6 +1,7 @@
 module UiComponents
   class Element
     include Renderable
+    include Accessible
 
     attr_accessor :output_buffer, :content
 
@@ -70,11 +71,12 @@ module UiComponents
         tabindex: tabindex,
         title: title,
         translate: determine_translate
-      }
+      }.merge(accessible_attributes)
     end
 
     def determine_accesskey
       return key_for(@accesskey) if @accesskey.is_a? Symbol
+      return key_for(@accesskey.to_sym) if @accesskey.is_a? String
       @accesskey
     end
 

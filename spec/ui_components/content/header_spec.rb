@@ -14,11 +14,11 @@ describe UiComponents::Content::Header do
     it 'should render to a header with an empty toolbar included' do
       expect(header).to be_html_eql %{
         <div class="toolbar-container">
-          <div class="toolbar">
+          <div class="toolbar" role="navigation">
             <div class="title-container">
-              <h2 title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
+              <h2 role="heading" title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
             </div>
-            <ul class="toolbar-items"></ul>
+            <ul class="toolbar-items" role="menubar"></ul>
           </div>
         </div>
       }
@@ -32,14 +32,14 @@ describe UiComponents::Content::Header do
     it 'should draw a header w/ a toolbar containing items' do
       expect(header).to be_html_eql %{
         <div class="toolbar-container">
-          <div class="toolbar">
+          <div class="toolbar" role="navigation">
             <div class="title-container">
-              <h2 title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
+              <h2 role="heading" title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
             </div>
-            <ul class="toolbar-items">
-              <li class="toolbar-item"></li>
-              <li class="toolbar-item"></li>
-              <li class="toolbar-item"></li>
+            <ul class="toolbar-items" role="menubar">
+              <li class="toolbar-item" role="menuitem"></li>
+              <li class="toolbar-item" role="menuitem"></li>
+              <li class="toolbar-item" role="menuitem"></li>
             </ul>
           </div>
         </div>
@@ -56,7 +56,7 @@ describe UiComponents::Content::Header do
         ]
       }
       let(:submenu) {
-        UiComponents::Content::Toolbar::Submenu.new items: submenu_items, last: true, text: 'Foo'
+        UiComponents::Content::Toolbar::Submenu.new items: submenu_items, last: true, title: 'Foo'
       }
       let(:button) {
         UiComponents::Content::Button.new text: 'MC', href: '#Hammer', icon: :glasses
@@ -69,43 +69,43 @@ describe UiComponents::Content::Header do
       it 'should render correctly' do
         expect(header).to be_html_eql %{
           <div class="toolbar-container">
-            <div class="toolbar -scrollable">
+            <div class="toolbar -scrollable" role="navigation">
               <div class="title-container">
-                <h2 title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
+                <h2 role="heading" title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
               </div>
-              <ul class="toolbar-items">
-                <li class="toolbar-item">
-                  <a href="#Hammer" class="button">
+              <ul class="toolbar-items" role="menubar">
+                <li class="toolbar-item" role="menuitem">
+                  <a href="#Hammer" class="button" role="button">
                     <i class="button--icon icon-glasses"></i>
                     <span class="button--text">MC</span>
                   </a>
                 </li>
-                <li class="toolbar-item">
-                  <a href="#Hammer" class="button">
+                <li class="toolbar-item" role="menuitem">
+                  <a href="#Hammer" class="button" role="button">
                     <i class="button--icon icon-glasses"></i>
                     <span class="button--text">MC</span>
                   </a>
                 </li>
-                <li class="toolbar-item -with-submenu">
+                <li class="toolbar-item -with-submenu" aria-haspopup="true" title="Foo" role="menuitem">
                   <a href="#" class="button">
-                    <span class="button--text">MC</span>
+                    <span class="button--text">Foo</span>
                     <i class="button--dropdown-indicator"></i>
                   </a>
-                  <ul class="toolbar-submenu -last">
-                    <li class="toolbar-item">
+                  <ul class="toolbar-submenu -last" aria-hidden="true" role="menu">
+                    <li class="toolbar-item" role="menuitem">
                       <a href="#">
                         <i class="button--icon icon-stop"></i>
                         <span class="button--text">foo</span>
                       </a>
                     </li>
-                    <li class="toolbar-item -divider"></li>
-                    <li class="toolbar-item">
+                    <li class="toolbar-item -divider" role="listitem"></li>
+                    <li class="toolbar-item" role="menuitem">
                       <a href="#">
                         <i class="button--icon icon-hammer"></i>
                         <span class="button--text">bar</span>
                       </a>
                     </li>
-                    <li class="toolbar-item">
+                    <li class="toolbar-item" role="menuitem">
                       <a href="#">
                         <i class="button--icon icon-time"></i>
                         <span class="button--text">baz</span>
@@ -127,11 +127,11 @@ describe UiComponents::Content::Header do
     it 'should add a scrollable modificator' do
       expect(header).to be_html_eql %{
         <div class="toolbar-container">
-          <div class="toolbar -scrollable">
+          <div class="toolbar -scrollable" role="navigation">
             <div class="title-container">
-              <h2 title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
+              <h2 role="heading" title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
             </div>
-            <ul class="toolbar-items"></ul>
+            <ul class="toolbar-items" role="menubar"></ul>
           </div>
         </div>
       }
@@ -144,11 +144,11 @@ describe UiComponents::Content::Header do
     it 'should add a subtitle paragraph' do
       expect(header).to be_html_eql %{
         <div class="toolbar-container">
-          <div class="toolbar">
+          <div class="toolbar" role="navigation">
             <div class="title-container">
-              <h2 title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
+              <h2 role="heading" title="Red Hot Chili Peppers">Red Hot Chili Peppers</h2>
             </div>
-            <ul class="toolbar-items"></ul>
+            <ul class="toolbar-items" role="menubar"></ul>
           </div>
           <p class="subtitle">Stadium arcadium</p>
         </div>

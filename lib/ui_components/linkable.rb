@@ -17,17 +17,19 @@ module UiComponents
         }.each_pair do |var, default|
           send("#{var}=", attributes.fetch(var, default))
         end
+        super
       end
 
       def tag_attributes
+        super.merge(
         {
           href: href,
           hreflang: hreflang,
           media: media,
           rel: rel,
           target: target,
-          type: type,
-        }.merge super
+          type: type
+        })
       end
 
       def text!(attributes = {})

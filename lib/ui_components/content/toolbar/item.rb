@@ -4,6 +4,8 @@ module UiComponents
       class Item < UiComponents::Element
         attr_accessor :element
 
+        role :menuitem
+
         def initialize(attributes = {})
           @element = attributes.fetch :element, ''
           super

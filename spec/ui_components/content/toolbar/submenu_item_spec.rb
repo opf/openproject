@@ -10,7 +10,7 @@ describe UiComponents::Content::Toolbar::SubmenuItem do
       let(:icon) { :time }
       it 'should render a menu item with an icon' do
         expect(submenu_item).to be_html_eql %{
-          <li class="toolbar-item">
+          <li class="toolbar-item" role="menuitem">
             <a href="http://foo.bar.com" class="my very own classes">
               <i class="button--icon icon-time"></i>
               <span class="button--text"></span>
@@ -24,7 +24,7 @@ describe UiComponents::Content::Toolbar::SubmenuItem do
       let(:icon) { false }
       it 'should render a modifier class' do
         expect(submenu_item).to be_html_eql %{
-          <li class="toolbar-item no-icon">
+          <li class="toolbar-item no-icon" role="menuitem">
             <a href="http://foo.bar.com" class="my very own classes">
               <span class="button--text"></span>
             </a>
@@ -39,7 +39,7 @@ describe UiComponents::Content::Toolbar::SubmenuItem do
 
     it 'should render as a menu divider' do
       expect(submenu_item).to be_html_eql %{
-        <li class="toolbar-item -divider"></li>
+        <li class="toolbar-item -divider" role="listitem"></li>
       }
     end
   end

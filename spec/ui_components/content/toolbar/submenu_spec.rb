@@ -2,23 +2,24 @@ require 'spec_helper'
 
 describe UiComponents::Content::Toolbar::Submenu do
   let(:submenu) { described_class.new(attributes).render! }
-  let(:attributes) { { icon: icon, text: text, items: items, last: last } }
+  let(:attributes) { { icon: icon, title: title, items: items, last: last, accesskey: accesskey } }
   let(:icon) { :gear }
-  let(:text) { 'Submenu' }
+  let(:title) { 'Submenu' }
   let(:items) { [] }
+  let(:accesskey) { nil }
+  let(:last) { false }
 
   describe 'default' do
-    let(:last) { false }
 
     it 'should render an empty submenu' do
       expect(submenu).to be_html_eql %{
-        <li class="toolbar-item -with-submenu">
+        <li class="toolbar-item -with-submenu" aria-haspopup="true" role="menuitem" title="Submenu">
           <a class="button" href="#">
             <i class="button--icon icon-gear"></i>
             <span class="button--text">Submenu</span>
             <i class="button--dropdown-indicator"></i>
           </a>
-          <ul class="toolbar-submenu"></ul>
+          <ul class="toolbar-submenu" aria-hidden="true" role="menu"></ul>
         </li>
       }
     end
@@ -29,13 +30,13 @@ describe UiComponents::Content::Toolbar::Submenu do
 
     it 'should render a last modifier' do
       expect(submenu).to be_html_eql %{
-        <li class="toolbar-item -with-submenu">
+        <li class="toolbar-item -with-submenu" aria-haspopup="true" role="menuitem" title="Submenu">
           <a class="button" href="#">
             <i class="button--icon icon-gear"></i>
             <span class="button--text">Submenu</span>
             <i class="button--dropdown-indicator"></i>
           </a>
-          <ul class="toolbar-submenu -last"></ul>
+          <ul class="toolbar-submenu -last" aria-hidden="true" role="menu"></ul>
         </li>
       }
     end
@@ -45,30 +46,62 @@ describe UiComponents::Content::Toolbar::Submenu do
     let(:items) {
       [UiComponents::Content::Toolbar::SubmenuItem.new(icon: :gear, text: 'foo', href: '#bar')] * 2
     }
-    let(:last) { false }
 
     it 'should render the children of the menu' do
       expect(submenu).to be_html_eql %{
-        <li class="toolbar-item -with-submenu">
+        <li class="toolbar-item -with-submenu" aria-haspopup="true" role="menuitem" title="Submenu">
           <a class="button" href="#">
             <i class="button--icon icon-gear"></i>
             <span class="button--text">Submenu</span>
             <i class="button--dropdown-indicator"></i>
           </a>
-          <ul class="toolbar-submenu">
-            <li class="toolbar-item">
+          <ul class="toolbar-submenu" aria-hidden="true" role="menu">
+            <li class="toolbar-item" role="menuitem">
               <a href="#bar">
                 <i class="button--icon icon-gear"></i>
                 <span class="button--text">foo</span>
               </a>
             </li>
-            <li class="toolbar-item">
+            <li class="toolbar-item" role="menuitem">
               <a href="#bar">
                 <i class="button--icon icon-gear"></i>
                 <span class="button--text">foo</span>
               </a>
             </li>
           </ul>
+        </li>
+      }
+    end
+  end
+
+  describe 'w/ accesskey' do
+    let(:accesskey) { :more_menu }
+
+    it 'should add the accesskey to the list item\'s link' do
+      expect(submenu).to be_html_eql %{
+        <li class="toolbar-item -with-submenu" aria-haspopup="true" role="menuitem" title="Submenu">
+          <a accesskey="7" class="button" href="#">
+            <i class="button--icon icon-gear"></i>
+            <span class="button--text">Submenu</span>
+            <i class="button--dropdown-indicator"></i>
+          </a>
+          <ul class="toolbar-submenu" aria-hidden="true" role="menu"></ul>
+        </li>
+      }
+    end
+  end
+
+  describe 'w/o icon' do
+    let(:icon) { false }
+
+    it 'should add the accesskey to the list item\'s link' do
+      expect(submenu).to be_html_eql %{
+        <li class="toolbar-item -with-submenu" aria-haspopup="true" role="menuitem" title="Submenu">
+          <a class="button" href="#">
+            <span class="button--text">Submenu</span>
+            <i class="button--dropdown-indicator"></i>
+          </a>
+          <ul class="toolbar-submenu" aria-hidden="true" role="menu"></ul>
         </li>
       }
     end

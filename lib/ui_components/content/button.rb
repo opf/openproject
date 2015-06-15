@@ -5,6 +5,8 @@ module UiComponents
 
       attr_accessor :highlight
 
+      role :button
+
       def initialize(attributes = {})
         @highlight = attributes.fetch :highlight, nil
         tag attributes

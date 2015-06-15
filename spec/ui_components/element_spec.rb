@@ -19,6 +19,10 @@ describe UiComponents::Element do
         input: :edit,
         expected: 'accesskey="3"'
       },
+      accesskey: {
+        input: 'more_menu',
+        expected: 'accesskey="7"'
+      },
       contenteditable: {
         input: true,
         expected: 'contenteditable="true"'

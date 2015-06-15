@@ -6,7 +6,7 @@ describe UiComponents::Content::Toolbar do
     let(:attributes) { {} }
     it 'should render to an empty toolbar' do
       expect(toolbar).to be_html_eql %{
-        <ul class="toolbar-items"></ul>
+        <ul class="toolbar-items" role="menubar"></ul>
       }
     end
   end

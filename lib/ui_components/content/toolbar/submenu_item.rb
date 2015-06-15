@@ -29,7 +29,7 @@ module UiComponents
         def default_strategy
           return divider_strategy if divider == true
           -> {
-            content_tag :li, class: %w(toolbar-item) + no_icon do
+            content_tag :li, { role: :menuitem }.merge(class: %w(toolbar-item) + no_icon) do
               content_tag :a, icon_and_text, html_options
             end
           }
@@ -37,7 +37,7 @@ module UiComponents
 
         def divider_strategy
           -> {
-            content_tag :li, '', class: %w(toolbar-item -divider)
+            content_tag :li, '', class: %w(toolbar-item -divider), role: :listitem
           }
         end
       end

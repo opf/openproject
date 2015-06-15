@@ -7,7 +7,7 @@ describe UiComponents::Content::Toolbar::Item do
 
   it 'should render an entry for the toolbar' do
     expect(item).to be_html_eql %{
-      <li class="toolbar-item"></li>
+      <li class="toolbar-item" role="menuitem"></li>
     }
   end
 
@@ -16,8 +16,8 @@ describe UiComponents::Content::Toolbar::Item do
 
     it 'should embed other elements' do
       expect(item).to be_html_eql %{
-        <li class="toolbar-item">
-          <a class="button">
+        <li class="toolbar-item" role="menuitem">
+          <a class="button" role="button">
             <i class="button--icon icon-time"></i>
             <span class="button--text">Foo</span>
           </a>
