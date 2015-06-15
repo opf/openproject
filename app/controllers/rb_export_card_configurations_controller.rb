@@ -35,7 +35,6 @@
 
 
 class RbExportCardConfigurationsController < RbApplicationController
-  unloadable
   include OpenProject::PdfExport::ExportCard
 
   before_filter :load_project_and_sprint

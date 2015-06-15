@@ -34,8 +34,6 @@
 #++
 
 class VersionSettingsController < RbApplicationController
-  unloadable
-
   def edit
     @version = Version.find(params[:id])
   end

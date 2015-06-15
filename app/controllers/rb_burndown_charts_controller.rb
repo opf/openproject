@@ -34,8 +34,6 @@
 #++
 
 class RbBurndownChartsController < RbApplicationController
-  unloadable
-
   helper :burndown_charts
 
   def show

@@ -34,8 +34,6 @@
 #++
 
 class RbImpedimentsController < RbApplicationController
-  unloadable
-
   def create
     @impediment = Impediment.create_with_relationships(params, @project.id)
     status = (@impediment.errors.empty? ? 200 : 400)

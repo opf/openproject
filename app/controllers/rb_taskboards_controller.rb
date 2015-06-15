@@ -34,8 +34,6 @@
 #++
 
 class RbTaskboardsController < RbApplicationController
-  unloadable
-
   menu_item :backlogs
 
   helper :taskboards

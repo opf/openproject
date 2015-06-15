@@ -34,7 +34,6 @@
 #++
 
 class RbStoriesController < RbApplicationController
-  unloadable
   include OpenProject::PdfExport::ExportCard
 
   def create
