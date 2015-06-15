@@ -75,17 +75,33 @@ module.exports = function($http,
   }
 
   var WorkPackageService = {
-    initializeWorkPackage: function(projectIdentifier) {
+    initializeWorkPackage: function(projectIdentifier, initialData) {
+      var embedded = {};
+      if (initialData.type) {
+        embedded = {
+          type: {
+            links: {
+              self: {
+                props: {
+                  href: initialData.type
+                }
+              }
+            }
+          }
+        }
+      }
+      var changes = initialData;
       var wp = {
+        embedded: embedded,
         props: {},
-        links: {},
-        embedded: {},
+        links: {}
       };
       var options = { ajax: {
           method: 'POST',
           headers: {
             Accept: 'application/hal+json'
           },
+          data: JSON.stringify(changes),
           contentType: 'application/json; charset=utf-8'
         }};
 
@@ -93,6 +109,7 @@ module.exports = function($http,
         .setup(PathHelper.projectWorkPackagesFormPath(projectIdentifier))
         .fetch(options)
         .then(function(form) {
+          form.pendingChanges = changes;
           wp.form = form;
           EditableFieldsState.workPackage = wp;
           EditableFieldsState.errors = null;
