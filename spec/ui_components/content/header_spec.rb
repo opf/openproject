@@ -86,7 +86,11 @@ describe UiComponents::Content::Header do
                     <span class="button--text">MC</span>
                   </a>
                 </li>
-                <li class="toolbar-item -with-submenu" aria-haspopup="true" title="Foo" role="menuitem">
+                <li class="toolbar-item -with-submenu"
+                    aria-haspopup="true"
+                    title="Foo"
+                    role="menuitem"
+                    >
                   <a href="#" class="button">
                     <span class="button--text">Foo</span>
                     <i class="button--dropdown-indicator"></i>

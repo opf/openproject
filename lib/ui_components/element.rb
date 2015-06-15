@@ -51,7 +51,7 @@ module UiComponents
         title: nil,
         translate: nil
       }.each_pair do |var, default|
-        send("#{var}=", attributes.fetch(var, default))
+        assign var, attributes.fetch(var, default)
       end
     end
 
@@ -59,17 +59,17 @@ module UiComponents
       {
         accesskey: determine_accesskey,
         contenteditable: contenteditable,
-        contextmenu: contextmenu,
-        data: data,
-        dir: dir,
-        draggable: draggable,
-        dropzone: dropzone,
-        id: id,
-        lang: lang,
-        spellcheck: spellcheck,
-        style: style,
-        tabindex: tabindex,
-        title: title,
+        contextmenu: @contextmenu,
+        data: @data,
+        dir: @dir,
+        draggable: @draggable,
+        dropzone: @dropzone,
+        id: @id,
+        lang: @lang,
+        spellcheck: @spellcheck,
+        style: @style,
+        tabindex: @tabindex,
+        title: @title,
         translate: determine_translate
       }.merge(accessible_attributes)
     end
@@ -99,6 +99,10 @@ module UiComponents
       -> {
         content_tag :div, @content, html_options
       }
+    end
+
+    def assig(var, value)
+      send("#{var}=", value)
     end
   end
 end

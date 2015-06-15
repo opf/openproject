@@ -59,7 +59,7 @@ module UiComponents
         def watch_path(object, watched)
           path_name = watched ? 'unwatch_path' : 'watch_path'
           send path_name, object_type: object.class.to_s.underscore.pluralize,
-                                      object_id: object.id
+                          object_id: object.id
         end
 
         def default_strategy

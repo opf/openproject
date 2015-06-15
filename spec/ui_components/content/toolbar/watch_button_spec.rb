@@ -12,7 +12,6 @@ describe UiComponents::Content::Toolbar::WatchButton do
   end
 
   describe 'when the user does not watch a given object' do
-
     it 'should display a watch button' do
       expect(button).to be_html_eql %{
         <a class="button"
@@ -59,5 +58,4 @@ describe UiComponents::Content::Toolbar::WatchButton do
       }
     end
   end
-
 end

@@ -53,9 +53,9 @@ module UiComponents
         end
 
         def submenu_options
-          html_options.merge({
+          html_options.merge(
             class: %w(toolbar-item -with-submenu)
-          }).delete_if do |k, _|
+          ).delete_if do |k, _|
             [:accesskey].include? k
           end
         end

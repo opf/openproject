@@ -1,8 +1,6 @@
 module UiComponents
   module Accessible
-
     module ClassMethods
-
       attr_accessor :accessible_role, :aria_attributes
 
       def role(symbol, &block)
@@ -16,11 +14,9 @@ module UiComponents
           @aria_attributes["aria-#{k}"] = v
         end
       end
-
     end
 
     module InstanceMethods
-
       def role
         if self.class.accessible_role.is_a?(Proc)
           @role = instance_eval(&self.class.accessible_role)
@@ -28,7 +24,6 @@ module UiComponents
           @role = self.class.accessible_role
         end
       end
-
 
       def aria_attributes
         self.class.aria_attributes || {}
@@ -40,11 +35,9 @@ module UiComponents
       end
     end
 
-
     def self.included(receiver)
       receiver.extend ClassMethods
       receiver.send :include, InstanceMethods
     end
   end
 end
-

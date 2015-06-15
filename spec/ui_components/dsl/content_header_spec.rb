@@ -109,7 +109,11 @@ describe UiComponents::Dsl::ContentHeader do
                     <span class="button--text">Edit</span>
                   </a>
                 </li>
-                <li class="toolbar-item -with-submenu" role="menuitem" aria-haspopup="true" title="dolor">
+                <li class="toolbar-item -with-submenu"
+                    role="menuitem"
+                    aria-haspopup="true"
+                    title="dolor"
+                  >
                   <a class="button" href="#" accesskey="7">
                     <i class="button--icon icon-sit"></i>
                     <span class="button--text">dolor</span>

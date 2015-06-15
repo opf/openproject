@@ -1,7 +1,6 @@
 module UiComponents
   module Dsl
     module ContentHeader
-
       def content_header(attributes = {}, &block)
         proxy = HeaderDSL.new(attributes)
         proxy.instance_eval(&block) if block_given?
@@ -59,7 +58,7 @@ module UiComponents
           return unless show? options
           return unless object.respond_to?(:watched_by?)
           return if user.anonymous?
-          button = watch_button_class.new({object: object, user: user}.merge(options))
+          button = watch_button_class.new({ object: object, user: user }.merge(options))
           items << item_class.new(element: button)
         end
 
@@ -77,11 +76,8 @@ module UiComponents
           UiComponents::Content::Toolbar::Submenu
         end
 
-        def build_watch_button(object, user, options)
-          watched = object.watched_by?(user)
-          watch_text = options.delete(:watch_text) || I18n.t(:button_watch)
-          unwatch_text = options.delete(:unwatch_text) || I18n.t(:button_unwatch)
-
+        def watch_button_class
+          UiComponents::Content::Toolbar::WatchButton
         end
 
         class SubmenuDSL

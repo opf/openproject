@@ -10,7 +10,6 @@ describe UiComponents::Content::Toolbar::Submenu do
   let(:last) { false }
 
   describe 'default' do
-
     it 'should render an empty submenu' do
       expect(submenu).to be_html_eql %{
         <li class="toolbar-item -with-submenu" aria-haspopup="true" role="menuitem" title="Submenu">

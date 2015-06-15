@@ -22,14 +22,14 @@ module UiComponents
 
       def tag_attributes
         super.merge(
-        {
+
           href: href,
           hreflang: hreflang,
           media: media,
           rel: rel,
           target: target,
           type: type
-        })
+        )
       end
 
       def text!(attributes = {})
