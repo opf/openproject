@@ -45,7 +45,6 @@ require 'htmldiff'
 #
 # TODO: still being worked on
 class WikiController < ApplicationController
-
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
   before_filter :find_existing_page, only: [:edit_parent_page,
