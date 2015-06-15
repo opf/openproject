@@ -30,6 +30,8 @@
 ##
 # Requires including class to implement #notification_mail.
 module MailNotificationJob
+  mattr_accessor :raise_exceptions
+
   def perform
     notify
   end
@@ -40,6 +42,7 @@ module MailNotificationJob
     # Since we cannot recover from this error we catch it and move on.
     Rails.logger.error "Cannot deliver notification (#{self.inspect})
                         as required record was not found: #{e}".squish
+    raise e if raise_exceptions
   end
 
   def error(_job, e)

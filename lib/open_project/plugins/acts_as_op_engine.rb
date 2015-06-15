@@ -169,12 +169,14 @@ module OpenProject::Plugins
         end
       end
 
-      base.send(:define_method, :allow_attribute_update) do |model, attribute, &block|
+      base.send(:define_method, :allow_attribute_update) do |model, actions, attribute, &block|
         config.to_prepare do
           model_name = model.to_s.camelize
           namespace = model_name.pluralize
-          contract_class = "::API::V3::#{namespace}::#{model_name}Contract".constantize
-          contract_class.attribute attribute, &block
+          Array(actions).each do |action|
+            contract_class = "::API::V3::#{namespace}::#{action.to_s.camelize}Contract".constantize
+            contract_class.attribute attribute, &block
+          end
         end
       end
 
