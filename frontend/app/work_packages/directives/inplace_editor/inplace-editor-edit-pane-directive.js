@@ -187,7 +187,7 @@ module.exports = function(
 
       if (!EditableFieldsState.forcedEditState) {
         element.bind('keydown keypress', function(e) {
-          if (e.keyCode == 27) {
+          if (e.keyCode === 27) {
             scope.$apply(function() {
               scope.editPaneController.discardEditing();
             });
@@ -220,7 +220,7 @@ module.exports = function(
       }, true);
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
-        if (isEditing) {
+        if (isEditing && !EditableFieldsState.forcedEditState) {
           scope.focusInput();
         }
       });

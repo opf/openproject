@@ -256,6 +256,9 @@ module.exports = function() {
     apiV3ProjectCategoriesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/categories';
     },
+    apiV3TypePath: function(typeId) {
+      return PathHelper.apiV3 + '/types/' + typeId;
+    },
     // Static
     staticUserPath: function(userId) {
       return PathHelper.userPath(userId);

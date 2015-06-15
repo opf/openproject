@@ -27,10 +27,5 @@
 //++
 
 module.exports = function($scope, PathHelper) {
-  $scope.workPackageNewPath = function(typeId) {
-    return PathHelper.staticWorkPackageNewWithParametersPath(
-      $scope.projectIdentifier,
-      { 'type_id': typeId }
-    );
-  };
+
 };

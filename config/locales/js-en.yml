@@ -309,6 +309,8 @@ en:
       label_column_select: "Status - Combined dropdown field: Selection with auto-completion."
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
+      create:
+        header: 'New Work Package'
       no_results:
         title: No work packages to display
         description_html: |
@@ -399,6 +401,9 @@ en:
       button_save: "%{attribute}: Save"
       button_save_and_send: "%{attribute}: Save and send email"
       button_cancel: "%{attribute}: Cancel"
+      button_save_all: "Save"
+      button_save_and_send_all: "Save and send email"
+      button_cancel_all: "Cancel"
       link_formatting_help: "Text formatting"
       btn_preview_enable: "Preview"
       btn_preview_disable: "Disable preview"

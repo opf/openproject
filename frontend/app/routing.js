@@ -73,7 +73,7 @@ angular.module('openproject')
       templateUrl: '/templates/work_packages.list.html'
     })
     .state('work-packages.list.new', {
-      url: '/create?query_props',
+      url: '/create?query_props&type',
       controller: 'WorkPackageNewController',
       controllerAs: 'vm',
       templateUrl: '/templates/work_packages.list.new.html'

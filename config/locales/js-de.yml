@@ -306,6 +306,8 @@ de:
       label_options: "Optionen"
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
       message_successful_bulk_delete: Arbeitspakete erfolgreich gelöscht.
+      create:
+        header: 'New Work Package'
       no_results:
         title: Keine Arbeitspakete anzuzeigen
         description_html: |

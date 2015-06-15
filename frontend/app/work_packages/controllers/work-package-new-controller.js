@@ -28,6 +28,8 @@
 
 module.exports = function(
            $scope,
+           $stateParams,
+           PathHelper,
            WorkPackagesOverviewService,
            WorkPackageFieldService,
            WorkPackageService,
@@ -53,6 +55,7 @@ module.exports = function(
   vm.isFieldHideable = isFieldHideable;
   vm.getLabel = getLabel;
   vm.isSpecified = isSpecified;
+  vm.isEditable = isEditable;
   vm.hasNiceStar = hasNiceStar;
   vm.showToggleButton = showToggleButton;
 
@@ -60,7 +63,9 @@ module.exports = function(
 
   function activate() {
     EditableFieldsState.forcedEditState = true;
-    WorkPackageService.initializeWorkPackage($scope.projectIdentifier).then(function(wp) {
+    WorkPackageService.initializeWorkPackage($scope.projectIdentifier, {
+      type: PathHelper.apiV3TypePath($stateParams.type)
+    }).then(function(wp) {
       vm.workPackage = wp;
       $scope.workPackage = wp;
       vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
@@ -85,7 +90,11 @@ module.exports = function(
   }
 
   function isFieldHideable(field) {
-    if (!WorkPackageFieldService.isEditable(vm.workPackage, field)) {
+    if (!isSpecified(field)) {
+      return true;
+    }
+
+    if (!isEditable(field)) {
       return true;
     }
 
@@ -101,6 +110,10 @@ module.exports = function(
 
   function isSpecified(field) {
     return WorkPackageFieldService.isSpecified(vm.workPackage, field);
+  }
+
+  function isEditable(field) {
+    return WorkPackageFieldService.isEditable(vm.workPackage, field);
   }
 
   function hasNiceStar(field) {
