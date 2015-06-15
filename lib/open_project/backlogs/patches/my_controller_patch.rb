@@ -48,7 +48,7 @@ module OpenProject::Backlogs::Patches::MyControllerPatch
 
   module InstanceMethods
     def save_backlogs_preferences
-      if request.put? && flash[:notice] == l(:notice_account_updated)
+      if request.patch? && flash[:notice] == l(:notice_account_updated)
         versions_default_fold_state = (params[:backlogs] && params[:backlogs][:versions_default_fold_state]) ? params[:backlogs][:versions_default_fold_state] : "open"
         User.current.backlogs_preference(:versions_default_fold_state, versions_default_fold_state)
 
