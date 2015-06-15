@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -24,41 +25,44 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
 
-require 'api/v3/projects/project_representer'
+require 'spec_helper'
 
-module API
-  module V3
-    module Projects
-      class ProjectsAPI < ::API::OpenProjectAPI
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+describe ::API::V3::WorkPackages::UpdateContract do
+  let(:work_package) { FactoryGirl.create(:work_package) }
+  let(:member) { FactoryGirl.build(:user) }
 
-          route_param :id do
-            before do
-              @project = Project.find(params[:id])
+  subject(:contract) { described_class.new(work_package, member) }
 
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
-            end
+  before do
+    allow(member).to receive(:allowed_to?).and_return(true)
+  end
 
-            get do
-              ProjectRepresenter.new(@project, current_user: current_user)
-            end
-
-            mount API::V3::Projects::AvailableAssigneesAPI
-            mount API::V3::Projects::AvailableResponsiblesAPI
-            mount API::V3::WorkPackages::WorkPackagesByProjectAPI
-            mount API::V3::Categories::CategoriesByProjectAPI
-            mount API::V3::Versions::VersionsByProjectAPI
-            mount API::V3::Types::TypesByProjectAPI
-          end
-        end
+  describe 'lock_version' do
+    context 'no lock_version present' do
+      before do
+        work_package.lock_version = nil
+        contract.validate
       end
+
+      it { expect(contract.errors).to include(:error_conflict) }
+    end
+
+    context 'lock_version changed' do
+      before do
+        work_package.lock_version += 1
+        contract.validate
+      end
+
+      it { expect(contract.errors).to include(:error_conflict) }
+    end
+
+    context 'lock_version present and unchanged' do
+      before do
+        contract.validate
+      end
+
+      it { expect(contract.errors).not_to include(:error_conflict) }
     end
   end
 end

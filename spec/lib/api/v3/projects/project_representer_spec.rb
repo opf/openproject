@@ -29,8 +29,15 @@
 require 'spec_helper'
 
 describe ::API::V3::Projects::ProjectRepresenter do
-  let(:project) { FactoryGirl.build(:project) }
-  let(:representer) { described_class.new(project) }
+  include ::API::V3::Utilities::PathHelper
+
+  let(:project) { FactoryGirl.create(:project) }
+  let(:representer) { described_class.new(project, current_user: user) }
+  let(:user) do
+    FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
+  end
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:add_work_packages] }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -65,14 +72,40 @@ describe ::API::V3::Projects::ProjectRepresenter do
         expect(subject).to have_json_path('_links/self/title')
       end
 
+      describe 'create work packages' do
+        context 'user allowed to create work packages' do
+          it 'has the correct path for a create form' do
+            is_expected.to be_json_eql(api_v3_paths.create_work_package_form(project.id).to_json)
+              .at_path('_links/createWorkPackage/href')
+          end
+
+          it 'has the correct path to create a work package' do
+            is_expected.to be_json_eql(api_v3_paths.work_packages_by_project(project.id).to_json)
+              .at_path('_links/createWorkPackageImmediate/href')
+          end
+        end
+
+        context 'user not allowed to create work packages' do
+          let(:permissions) { [] }
+
+          it { is_expected.to_not have_json_path('_links/createWorkPackage/href') }
+
+          it { is_expected.to_not have_json_path('_links/createWorkPackageImmediate/href') }
+        end
+      end
+
       describe 'categories' do
-        it { is_expected.to have_json_path('_links/categories')      }
-        it { is_expected.to have_json_path('_links/categories/href') }
+        it 'has the correct link to its categories' do
+          is_expected.to be_json_eql(api_v3_paths.categories(project.id).to_json)
+            .at_path('_links/categories/href')
+        end
       end
 
       describe 'versions' do
-        it { is_expected.to have_json_path('_links/versions')      }
-        it { is_expected.to have_json_path('_links/versions/href') }
+        it 'has the correct link to its versions' do
+          is_expected.to be_json_eql(api_v3_paths.versions_by_project(project.id).to_json)
+            .at_path('_links/versions/href')
+        end
       end
     end
   end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Form::FormRepresenter do
+describe ::API::V3::WorkPackages::FormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) {
@@ -40,66 +40,12 @@ describe ::API::V3::WorkPackages::Form::FormRepresenter do
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }
-  let(:representer)  { described_class.new(work_package, current_user: current_user) }
+  let(:representer) { described_class.new(work_package, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
 
     it { is_expected.to be_json_eql('Form'.to_json).at_path('_type') }
-
-    describe '_links' do
-      it { is_expected.to have_json_path('_links') }
-
-      it { is_expected.to have_json_path('_links/self/href') }
-
-      describe 'validate' do
-        it { is_expected.to have_json_path('_links/validate/href') }
-
-        it { is_expected.to be_json_eql(:post.to_json).at_path('_links/validate/method') }
-      end
-
-      describe 'preview markup' do
-        it { is_expected.to have_json_path('_links/previewMarkup/href') }
-
-        it { is_expected.to be_json_eql(:post.to_json).at_path('_links/previewMarkup/method') }
-
-        it 'contains link to work package' do
-          body = parse_json(subject)
-          actual_preview_link = body['_links']['previewMarkup']['href']
-          expected_preview_link = api_v3_paths.render_markup format: 'textile',
-                                                             link: body['_links']['commit']['href']
-
-          expect(actual_preview_link).to eq(expected_preview_link)
-        end
-      end
-
-      describe 'commit' do
-        context 'valid work package' do
-          it { is_expected.to have_json_path('_links/commit/href') }
-
-          it { is_expected.to be_json_eql(:patch.to_json).at_path('_links/commit/method') }
-        end
-
-        context 'invalid work package' do
-          before { allow(work_package.errors).to receive(:empty?).and_return(false) }
-
-          it { is_expected.not_to have_json_path('_links/commit/href') }
-        end
-
-        context 'user with insufficient permissions' do
-          let(:role) { FactoryGirl.create(:role, permissions: []) }
-          let(:current_user) {
-            FactoryGirl.build(:user,
-                              member_in_project: work_package.project,
-                              member_through_role: role)
-          }
-
-          before { allow(work_package.errors).to receive(:empty?).and_return(true) }
-
-          it { is_expected.not_to have_json_path('_links/commit/href') }
-        end
-      end
-    end
 
     describe 'validation errors' do
       context 'w/o errors' do
@@ -120,14 +66,17 @@ describe ::API::V3::WorkPackages::Form::FormRepresenter do
 
         before do
           allow(work_package).to receive(:errors).and_return(errors)
-          allow(work_package.errors).to receive(:full_message).with(:subject, anything)
-                                                              .and_return(subject_error_message)
-          allow(work_package.errors).to receive(:full_message).with(:status, anything)
-                                                              .and_return(status_error_message)
+          allow(work_package.errors).to(
+            receive(:full_message).with(:subject, anything).and_return(subject_error_message))
+          allow(work_package.errors).to(
+            receive(:full_message).with(:status, anything).and_return(status_error_message))
         end
 
         it { is_expected.to be_json_eql(api_errors.to_json).at_path('_embedded/validationErrors') }
       end
     end
+
+    it { is_expected.to have_json_path('_embedded/payload') }
+    it { is_expected.to have_json_path('_embedded/schema') }
   end
 end

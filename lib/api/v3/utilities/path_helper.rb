@@ -74,6 +74,10 @@ module API
             "#{root}/categories/#{id}"
           end
 
+          def self.create_work_package_form(project_id)
+            "#{work_packages_by_project(project_id)}/form"
+          end
+
           def self.priorities
             "#{root}/priorities"
           end
@@ -198,6 +202,10 @@ module API
 
           def self.work_package_watchers(id)
             "#{work_package(id)}/watchers"
+          end
+
+          def self.work_packages_by_project(project_id)
+            "#{project(project_id)}/work_packages"
           end
 
           def self.root_path

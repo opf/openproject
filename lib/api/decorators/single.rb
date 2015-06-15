@@ -100,6 +100,10 @@ module API
                  if: show_if
       end
 
+      def current_user_allowed_to(permission, context:)
+        current_user && current_user.allowed_to?(permission, context)
+      end
+
       protected
 
       def current_user
