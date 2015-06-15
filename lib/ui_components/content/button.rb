@@ -15,7 +15,7 @@ module UiComponents
         super
       end
 
-      protected
+      private
 
       def css_classes
         %w(button) + highlight + Array(super)
