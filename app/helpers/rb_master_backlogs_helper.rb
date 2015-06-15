@@ -34,8 +34,6 @@
 #++
 
 module RbMasterBacklogsHelper
-  unloadable
-
   include Redmine::I18n
 
   def render_backlog_menu(backlog)
