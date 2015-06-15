@@ -19,16 +19,17 @@
 
 OpenProject::Application.routes.draw do
   scope 'projects/:project_id' do
-    resources :cost_reports do
+    resources :cost_reports, except: :create do
       collection do
         match :index, via: [:get, :post]
       end
     end
   end
 
-  resources :cost_reports do
+  resources :cost_reports, except: :create do
     collection do
       match :index, via: [:get, :post]
+      post :save_as, action: :create
       get :drill_down
       match :available_values, via: [:get, :post]
       get :display_report_list
