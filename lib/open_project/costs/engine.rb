@@ -104,7 +104,7 @@ module OpenProject::Costs
              :ProjectsController, :ApplicationHelper, :UsersHelper, :WorkPackagesHelper]
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :WorkPackageSchema
 
-    allow_attribute_update :work_package, :cost_object_id
+    allow_attribute_update :work_package, [:create, :update], :cost_object_id
 
     add_api_path :cost_entry do |id|
       "#{root}/cost_entries/#{id}"
@@ -153,7 +153,7 @@ module OpenProject::Costs
           href: new_work_packages_cost_entry_path(represented),
           type: 'text/html',
           title: "Log costs on #{represented.subject}"
-        } if represented.costs_enabled? && current_user_allowed_to(:log_costs)
+        } if represented.costs_enabled? && current_user_allowed_to(:log_costs, context: represented.project)
       end
 
       link :timeEntries do
@@ -181,8 +181,8 @@ module OpenProject::Costs
                       embed_as: ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter,
                       show_if: -> (*) {
                         represented.costs_enabled? &&
-                          (current_user_allowed_to(:view_cost_entries) ||
-                          current_user_allowed_to(:view_own_cost_entries))
+                         (current_user_allowed_to(:view_cost_entries, context: represented.project) ||
+                          current_user_allowed_to(:view_own_cost_entries, context: represented.project))
                       }
 
       property :spent_time,
@@ -207,12 +207,12 @@ module OpenProject::Costs
       end
 
       send(:define_method, :user_has_time_entry_permissions?) do
-        current_user_allowed_to(:view_time_entries) ||
-          (current_user_allowed_to(:view_own_time_entries) && represented.costs_enabled?)
+        current_user_allowed_to(:view_time_entries, context: represented.project) ||
+          (current_user_allowed_to(:view_own_time_entries, context: represented.project) && represented.costs_enabled?)
       end
     end
 
-    extend_api_response(:v3, :work_packages, :form, :work_package_attribute_links) do
+    extend_api_response(:v3, :work_packages, :work_package_attribute_links) do
       linked_property :cost_object,
                       path: :budget,
                       namespace: :budgets,
@@ -224,8 +224,8 @@ module OpenProject::Costs
              type: 'Duration',
              writable: false,
              show_if: -> (*) {
-               current_user_allowed_to(:view_time_entries) ||
-                 (current_user_allowed_to(:view_own_time_entries) &&
+               current_user_allowed_to(:view_time_entries, context: represented.project) ||
+                 (current_user_allowed_to(:view_own_time_entries, context: represented.project) &&
                      represented.project.costs_enabled?)
              }
 
@@ -244,8 +244,8 @@ module OpenProject::Costs
              writable: false,
              show_if: -> (*) {
                represented.project.costs_enabled? &&
-                 (current_user_allowed_to(:view_cost_entries) ||
-                 current_user_allowed_to(:view_own_cost_entries))
+                 (current_user_allowed_to(:view_cost_entries, context: represented.project) ||
+                 current_user_allowed_to(:view_own_cost_entries, context: represented.project))
              }
 
       schema_with_allowed_collection :cost_object,
