@@ -56,14 +56,9 @@ module UiComponents
           watched? ? unwatch_text : watch_text
         end
 
-        # TODO: this might be a little bit to much knowledge for a button
-        def url_helpers
-          Rails.application.routes.url_helpers
-        end
-
         def watch_path(object, watched)
           path_name = watched ? 'unwatch_path' : 'watch_path'
-          url_helpers.send path_name, object_type: object.class.to_s.underscore.pluralize,
+          send path_name, object_type: object.class.to_s.underscore.pluralize,
                                       object_id: object.id
         end
 

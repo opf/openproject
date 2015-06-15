@@ -11,6 +11,7 @@ module UiComponents
       private
 
       class HeaderDSL
+        include Dsl::Common
         include Dsl::Conditionable
 
         attr_accessor :header
@@ -31,6 +32,7 @@ module UiComponents
       end
 
       class ToolbarDSL
+        include Dsl::Common
         include Dsl::Conditionable
 
         attr_accessor :items
@@ -83,6 +85,7 @@ module UiComponents
         end
 
         class SubmenuDSL
+          include Dsl::Common
           include Dsl::Conditionable
 
           attr_accessor :items
