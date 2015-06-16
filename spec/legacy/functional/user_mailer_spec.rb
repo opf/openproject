@@ -214,8 +214,8 @@ describe UserMailer, type: :mailer do
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue, user).deliver
     mail = ActionMailer::Base.deliveries.last
-    assert_match /multipart\/mixed/, mail.content_type
-    assert_equal 1, mail.parts.size
+    assert_match /text\/plain/, mail.content_type
+    assert_equal 0, mail.parts.size
     assert !mail.encoded.include?('href')
   end
 

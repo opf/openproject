@@ -27,9 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Register interceptors defined in app/mailers/user_mailer.rb
-# Do this here, so they aren't registered multiple times due to reloading in development mode.
+class BaseMailer < ActionMailer::Base
+  def mail(headers = {}, &block)
+    block ||= method(:default_formats_for_setting)
+    super(headers, &block)
+  end
 
-UserMailer.register_interceptor(DefaultHeadersInterceptor)
-# following needs to be the last interceptor
-UserMailer.register_interceptor(DoNotSendMailsWithoutReceiverInterceptor)
+  private
+
+  def default_formats_for_setting(format)
+    format.html unless Setting.plain_text_mail?
+    format.text
+  end
+end

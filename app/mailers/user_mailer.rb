@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class UserMailer < ActionMailer::Base
+class UserMailer < BaseMailer
   helper :application,  # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
@@ -399,17 +399,6 @@ end
 #
 # Unfortunately, this results in changes on the interceptor classes during development mode
 # not being reflected until a server restart.
-
-class PlainTextInterceptor
-  def self.delivering_email(message)
-    if Setting.plain_text_mail?
-      # HACK: this is a workaround to ensure @html_part ivar is set correctly
-      # on the Mail::Message.
-      message.html_part = message.html_part
-      message.html_part = nil
-    end
-  end
-end
 
 class DefaultHeadersInterceptor
   def self.delivering_email(mail)
