@@ -28,17 +28,10 @@ See doc/COPYRIGHT.md for more details.
 <% html_title(l(:label_overview)) -%>
 
 <%= toolbar title: l(:label_overview) do %>
-  <% if User.current.allowed_to?(:add_subprojects, project) %>
-    <li class="toolbar-item">
-      <%= link_to new_project_path(parent_id: project), class: 'button -alt-highlight' do %>
-        <i class="icon-add"></i> <%= l(:label_subproject_new) %>
-      <% end %>
-    </li>
-  <% end %>
   <% if User.current.allowed_to?(:edit_project, project) %>
-    <li class="toolbar-item">
+    <li class="toolbar-item" title="<%= l(:label_personalize_page) %>">
       <%= link_to my_projects_overview_path(project), class: 'button', accesskey: accesskey(:edit) do %>
-        <i class="icon-edit"></i> <%= l(:label_personalize_page) %>
+        <i class="icon-settings"></i>
       <% end %>
     </li>
   <% end %>
