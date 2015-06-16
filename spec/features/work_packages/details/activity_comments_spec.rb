@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'activity comments', js: true do
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
-  let!(:work_package) { FactoryGirl.create(:work_package, project: project )}
+  let!(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:user) { FactoryGirl.create :admin }
 
   before do
