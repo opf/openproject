@@ -127,9 +127,6 @@ gem 'unicorn'
 
 gem 'rack', '~> 1.5.4' # CVE-2015-3225
 
-gem 'i18n', '~> 0.6.8'
-# see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
-
 gem 'nokogiri', '~> 1.6.6'
 
 gem 'carrierwave', '~> 0.10.0'

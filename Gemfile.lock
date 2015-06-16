@@ -480,7 +480,6 @@ DEPENDENCIES
   grape (~> 0.10.1)
   gravatar_image_tag (~> 1.2.0)
   htmldiff
-  i18n (~> 0.6.8)
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)
