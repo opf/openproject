@@ -92,13 +92,21 @@ module.exports = function(
   }
 
   function isMilestone(workPackage) {
-    var embedded = workPackage.form.embedded,
+    // TODO: this should be written as "only use the form when editing"
+    // otherwise always use the simple way
+    // currently we don't know the context in which this method is called
+    var formAvailable = !_.isUndefined(workPackage.form);
+    if (formAvailable) {
+      var embedded = workPackage.form.embedded,
         allowedValues = embedded.schema.props.type._embedded.allowedValues,
         currentType = embedded.payload.links.type.props.href;
-    return _.some(allowedValues, function(allowedValue) {
-      return allowedValue._links.self.href === currentType && 
-             allowedValue.isMilestone;
-    });
+      return _.some(allowedValues, function(allowedValue) {
+        return allowedValue._links.self.href === currentType &&
+          allowedValue.isMilestone;
+      });
+    } else {
+      return workPackage.embedded.type.isMilestone;
+    }
   }
 
   function getValue(workPackage, field) {
