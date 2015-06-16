@@ -114,7 +114,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_equal %w(6 3 2), changesets.map(&:revision)
 
     # svn properties displayed with svn >= 1.5 only
-    if Redmine::Scm::Adapters::SubversionAdapter.client_version_above?([1, 5, 0])
+    if @repository.scm.client_version_above?([1, 5, 0])
       assert_not_nil assigns(:properties)
       assert_equal 'native', assigns(:properties)['svn:eol-style']
       assert_tag :ul,

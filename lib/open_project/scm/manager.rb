@@ -27,9 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
+module OpenProject
   module Scm
-    class Base
+    class Manager
       class << self
         def all
           @scms

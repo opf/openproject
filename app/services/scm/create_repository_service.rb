@@ -27,44 +27,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+##
+# Implements the asynchronous creation of a local repository.
+class DeleteUserService < Struct.new :repository
+  ##
+  # Deletes the given user if allowed.
+  #
+  # @return True if the user deletion has been initiated, false otherwise.
+  def call
+    if deletion_allowed?
+      # as destroying users is a lengthy process we handle it in the background
+      # and lock the account now so that no action can be performed with it
+      user.lock!
+      Delayed::Job.enqueue DeleteUserJob.new(user)
 
-describe OpenProject::Scm::Manager do
-  describe '.configured' do
-    subject { described_class.configured }
+      logout! if self_delete?
 
-    let(:test_scm_class) do
-      Class.new
-    end
-
-    before do
-      Repository.const_set('TestScm', test_scm_class)
-      OpenProject::Scm::Manager.add 'TestScm'
-    end
-
-    after do
-      Repository.send(:remove_const, :TestScm)
-      OpenProject::Scm::Manager.delete 'TestScm'
-    end
-
-    context 'scm is configured' do
-      before do
-        allow(test_scm_class).to receive(:configured?).and_return(true)
-      end
-
-      it 'is included' do
-        is_expected.to include('TestScm')
-      end
-    end
-
-    context 'scm is not configured' do
-      before do
-        allow(test_scm_class).to receive(:configured?).and_return(false)
-      end
-
-      it 'is included' do
-        is_expected.to_not include('TestScm')
-      end
+      true
+    else
+      false
     end
   end
+
+  ##
+  # Checks if a given repository may be created and managed locally.
+  #
+  # @param repository [Repository] SCM repository to be created
+  def self.allowed?(repository)
+    enabled = config[:git]
+    if repository.managed_by_openproject?
+      Setting.users_deletable_by_self?
+    else
+      actor.admin && Setting.users_deletable_by_admins?
+    end
+  end
+
+  private
+
+  def self.config
+    OpenProject::Configuration[:scm].presence || {}
+  end
+
 end

@@ -185,7 +185,7 @@ module RepositoriesHelper
 
   def scm_select_tag(repository)
     scm_options = [["--- #{l(:actionview_instancetag_blank_option)} ---", '']]
-    Redmine::Scm::Base.configured.each do |scm|
+    OpenProject::Scm::Manager.configured.each do |scm|
     if Setting.enabled_scm.include?(scm) ||
           (repository && repository.class.name.demodulize == scm)
         scm_options << ["Repository::#{scm}".constantize.scm_name, scm]

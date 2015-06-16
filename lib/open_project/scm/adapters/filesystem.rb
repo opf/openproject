@@ -27,37 +27,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/abstract_adapter'
 require 'find'
 
-module Redmine
+module OpenProject
   module Scm
     module Adapters
-      class FilesystemAdapter < AbstractAdapter
-        class << self
-          def client_available
-            true
-          end
-        end
+      class FileSystem < Base
+        include LocalClient
 
-        def initialize(url, _root_url = nil, _login = nil, _password = nil,
-                       path_encoding = nil)
+        def initialize(url, _root_url = nil, _login = nil, _password = nil, path_encoding = nil)
           @url = with_trailling_slash(url)
           @path_encoding = path_encoding || 'UTF-8'
         end
 
         def format_path_ends(path, leading = true, trailling = true)
-          path = leading ? with_leading_slash(path) :
-            without_leading_slash(path)
-          trailling ? with_trailling_slash(path) :
-            without_trailling_slash(path)
+          path = leading ? with_leading_slash(path) : without_leading_slash(path)
+          trailling ? with_trailling_slash(path) : without_trailling_slash(path)
         end
 
         def info
-          info = Info.new(root_url: target,
-                          lastrev: nil
-                          )
-          info
+          Info.new(root_url: target,
+                   lastrev: nil
+                  )
         rescue CommandFailed
           return nil
         end
@@ -81,20 +72,20 @@ module Redmine
               p1         = File.readable?(t1) ? relative_path : ''
               utf_8_path = scm_encode('UTF-8', @path_encoding, p1)
               entries <<
-                Entry.new(name: scm_encode('UTF-8', @path_encoding, File.basename(e1)),
-                          # below : list unreadable files, but dont link them.
-                          path: utf_8_path,
-                          kind: (File.directory?(t1) ? 'dir' : 'file'),
-                          size: (File.directory?(t1) ? nil : [File.size(t1)].pack('l').unpack('L').first),
-                          lastrev:
-                              Revision.new(time: (File.mtime(t1)))
-                        )
+                Entry.new(
+                  name: scm_encode('UTF-8', @path_encoding, File.basename(e1)),
+                  # below : list unreadable files, but dont link them.
+                  path: utf_8_path,
+                  kind: (File.directory?(t1) ? 'dir' : 'file'),
+                  size: (File.directory?(t1) ? nil : [File.size(t1)].pack('l').unpack('L').first),
+                  lastrev: Revision.new(time: (File.mtime(t1)))
+                )
             end
           end
           entries.sort_by_name
         rescue  => err
           logger.error "scm: filesystem: error: #{err.message}"
-          raise CommandFailed.new(err.message)
+          raise CommandFailed.new('filesystem', '', err.message)
         end
 
         def cat(path, _identifier = nil)
@@ -102,7 +93,7 @@ module Redmine
           File.new(p, 'rb').read
         rescue  => err
           logger.error "scm: filesystem: error: #{err.message}"
-          raise CommandFailed.new(err.message)
+          raise CommandFailed.new('filesystem', '', err.message)
         end
 
         private

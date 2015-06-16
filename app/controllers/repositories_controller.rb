@@ -30,6 +30,7 @@
 require 'SVG/Graph/Bar'
 require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
+require_dependency 'open_project/scm/adapters'
 
 class ChangesetNotFound < Exception; end
 class InvalidRevisionParam < Exception; end
@@ -46,14 +47,11 @@ class RepositoriesController < ApplicationController
   before_filter :authorize
   accept_key_auth :revisions
 
-  rescue_from Redmine::Scm::Adapters::CommandFailed, with: :show_error_command_failed
+  rescue_from OpenProject::Scm::Adapters::CommandFailed, with: :show_error_command_failed
 
   def edit
-    @repository = @project.repository
-    if !@repository
-      @repository = Repository.factory(params[:repository_scm])
-      @repository.project = @project if @repository
-    end
+    @repository = @project.repository || build_repository
+
     if request.post? && @repository
       @repository.attributes = params[:repository]
       @repository.save
@@ -138,7 +136,10 @@ class RepositoriesController < ApplicationController
     (show_error_not_found; return) unless @entry
 
     # If the entry is a dir, show the browser
-    (show; return) if @entry.is_dir?
+    if @entry.dir?
+      show
+      return
+    end
 
     @content = @repository.cat(@path, @rev)
     (show_error_not_found; return) unless @content
@@ -276,11 +277,27 @@ class RepositoriesController < ApplicationController
     show_error_not_found
   end
 
+  def build_repository
+    repository = Repository.factory(params[:repository_scm])
+
+    if repository.nil?
+      flash[:error] = l(:repository_factory_error)
+      redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'repository'
+    end
+    repository.project = @project
+
+    if params[:managed_epository] && CreateRepositoryServce.allowed?(repository)
+      CreateRepositoryService.new(repository)
+    end
+
+    repository
+  end
+
   def show_error_not_found
     render_error message: l(:error_scm_not_found), status: 404
   end
 
-  # Handler for Redmine::Scm::Adapters::CommandFailed exception
+  # Handler for OpenProject::Scm::Adapters::CommandFailed exception
   def show_error_command_failed(exception)
     render_error l(:error_scm_command_failed, exception.message)
   end

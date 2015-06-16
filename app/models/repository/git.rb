@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/git_adapter'
+require 'open_project/scm/adapters/git'
 
 class Repository::Git < Repository
   attr_protected :root_url
@@ -41,7 +41,7 @@ class Repository::Git < Repository
   end
 
   def self.scm_adapter_class
-    Redmine::Scm::Adapters::GitAdapter
+    OpenProject::Scm::Adapters::Git
   end
 
   def self.scm_name
