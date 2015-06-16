@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item" title="<%= l(:label_personalize_page) %>">
     <%= link_to({ action: 'page_layout' }, accesskey: accesskey(:edit), class: 'button') do %>
       <i class="button--icon icon-settings"></i>
-      <span class="button--text"></span>
+      <span class="hidden-for-sighted"><%= l(:label_personalize_page) %></span>
     <% end %>
   </li>
 <% end %>
