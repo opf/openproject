@@ -52,6 +52,9 @@ class ApplicationController < ActionController::Base
 
   include Redmine::I18n
 
+  # TODO: move to initializer (currently for autoloading)
+  helper UiComponents::Dsl::ContentHeader
+
   layout 'base'
 
   protect_from_forgery

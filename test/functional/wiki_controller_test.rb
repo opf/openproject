@@ -470,7 +470,7 @@ class WikiControllerTest < ActionController::TestCase
     get :show, project_id: 1
     assert_response :success
     assert_template 'show'
-    assert_tag tag: 'a', attributes: { href: '/projects/1/wiki/CookBook_documentation/edit' }
+    assert_tag tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook_documentation/edit' }
   end
 
   def test_show_page_without_edit_link
@@ -478,7 +478,7 @@ class WikiControllerTest < ActionController::TestCase
     get :show, project_id: 1
     assert_response :success
     assert_template 'show'
-    assert_no_tag tag: 'a', attributes: { href: '/projects/1/wiki/CookBook_documentation/edit' }
+    assert_no_tag tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook_documentation/edit' }
   end
 
   def test_edit_unprotected_page

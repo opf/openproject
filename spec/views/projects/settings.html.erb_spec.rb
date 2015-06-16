@@ -44,7 +44,7 @@ describe 'projects/settings', type: :view do
       end
 
       it 'the copy link should be visible' do
-        expect(rendered).to have_selector 'a.copy'
+        expect(rendered).to have_xpath("//a[contains(.,'Copy')]")
       end
     end
 
@@ -55,7 +55,7 @@ describe 'projects/settings', type: :view do
       end
 
       it 'the copy link should not be visible' do
-        expect(rendered).not_to have_selector 'a.copy'
+        expect(rendered).not_to have_xpath("//a[contains(.,'Copy')]")
       end
     end
   end

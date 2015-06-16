@@ -32,14 +32,11 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <% html_title(l(:label_administration), l(:label_project_plural)) -%>
-<%= toolbar title: l(:label_project_plural) do %>
-  <li class="toolbar-item">
-    <%= link_to new_project_path, class: 'button -alt-highlight' do %>
-      <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l(:label_project_new) %></span>
-    <% end %>
-  </li>
-<% end %>
+<%= content_header title: l(:label_project_plural) do |h|
+    h.toolbar do |t|
+      t.button l(:label_project_new), new_project_path, icon: :add, highlight: :alt
+    end
+end %>
 <%= form_tag({}, :method => :get) do %>
   <fieldset class="simple-filters--container">
     <legend><%= l(:label_filter_plural) %></legend>

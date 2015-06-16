@@ -27,26 +27,28 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: "#{l(:label_revision)} #{format_revision(@changeset)}" do %>
-  <li class="toolbar-item">
-    <% if @changeset.previous.nil? %>
-      <button class="button" disabled="disabled"><%= l(:label_previous) %></button>
-    <% else %>
-      <%= link_to_revision(@changeset.previous, @project, text: l(:label_previous), class: 'button') %>
+<%= content_header title: "#{l(:label_revision)} #{format_revision(@changeset)}" do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.toolbar_item do %>
+      <% if @changeset.previous.nil? %>
+        <% button_tag l(:label_previous), disabled: true, class: 'button' %>
+      <% else %>
+        <% link_to_revision(@changeset.previous, @project, text: l(:label_previous), class: 'button') %>
+      <% end %>
     <% end %>
-  </li>
-  <li class="toolbar-item">
-    <% if @changeset.next.nil? %>
-      <button class="button" disabled="disabled"><%= l(:label_next) %></button>
-    <% else %>
-      <%= link_to_revision(@changeset.next, @project, text: l(:label_next), class: 'button') %>
+    <%= t.toolbar_item do %>
+      <% if @changeset.next.nil? %>
+        <% button_tag l(:label_next), disabled: true, class: 'button' %>
+      <% else %>
+        <% link_to_revision(@changeset.next, @project, text: l(:label_next), class: 'button') %>
+      <% end %>
     <% end %>
-  </li>
-  <li class="toolbar-item">
-    <%= form_tag({:controller => '/repositories', :action => 'revision', :project_id => @project}, :method => :get) do %>
-      <%= text_field_tag :rev, @rev, placeholder: l(:label_revision) %>
+    <%= t.toolbar_item do %>
+      <% form_tag({:controller => '/repositories', :action => 'revision', :project_id => @project}, :method => :get) do %>
+        <% text_field_tag :rev, @rev, placeholder: l(:label_revision) %>
+      <% end %>
     <% end %>
-  </li>
+  <% end %>
 <% end %>
 <p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br />
   <% end %>

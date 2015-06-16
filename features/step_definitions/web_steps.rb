@@ -393,7 +393,7 @@ When /^(?:|I )follow the first link matching "([^"]*)"$/ do |link|
 end
 
 When /^(?:|I )click on the first anchor matching "([^"]*)"$/ do |anchor|
-  find(:xpath, "(//a[text()='#{anchor}'])[1]").click
+  find('.toolbar a > span.button--text', text: anchor).click
 end
 
 def find_lowest_containing_element(text, selector)

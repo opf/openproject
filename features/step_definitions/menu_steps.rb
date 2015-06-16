@@ -81,6 +81,8 @@ def action_menu_selector
     all('.action_menu_specific').first
   elsif has_css?('.contextual')
     all('.contextual').first
+  elsif has_css?('.toolbar')
+    all('.toolbar').first
   else
     raise 'No action menu on the current page'
   end

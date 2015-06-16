@@ -27,15 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: l(:label_user_plural) do %>
-  <% unless OpenProject::Configuration.disable_password_login? %>
-    <%= link_to new_user_path, class: 'button -alt-highlight' do %>
-      <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l(:label_user_new) %></span>
-    <% end %>
+<%= content_header title: l(:label_user_plural) do |header| %>
+  <%= header.toolbar do |toolbar| %>
+    <%= toolbar.button l(:label_user_new), new_user_path, icon: :add, highlight: :alt, accesskey: :edit, unless: OpenProject::Configuration.disable_password_login? %>
+    <%= call_hook(:user_admin_action_menu) %>
   <% end %>
-  <%= call_hook(:user_admin_action_menu) %>
 <% end %>
+
 <%= form_tag({}, :method => :get) do %>
   <fieldset class="simple-filters--container">
     <legend><%= l(:label_filter_plural) %></legend>

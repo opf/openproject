@@ -72,7 +72,8 @@ class WorkPackagesController < ApplicationController
                                 descendants: descendants,
                                 changesets: changesets,
                                 relations: relations,
-                                journals: journals }
+                                journals: journals,
+                                scrollable: params[:layout] != 'false' }
       end
 
       format.js do

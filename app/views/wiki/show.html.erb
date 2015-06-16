@@ -28,34 +28,64 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= call_hook :wiki_navigation %>
-<% content_for :action_menu_main do %>
-  <% if @editable %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_edit), {:action => 'edit', :id => @page}, :class => 'icon icon-edit', :accesskey => accesskey(:edit))) if @content.version == @page.content.version %>
-    <%= li_unless_nil(watcher_link(@page, User.current)) if Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated") %>
-  <% end %>
-<% end %>
-<% content_for :action_menu_more do %>
-  <% if @editable %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_lock), {:action => 'protect', :id => @page, :protected => 1}, :method => :post, :class => 'icon-context icon-locked')) if !@page.protected? %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_unlock), {:action => 'protect', :id => @page, :protected => 0}, :method => :post, :class => 'icon-context icon-unlocked')) if @page.protected? %>
-    <% if User.current.allowed_to? :edit_wiki_pages, @project %>
-      <% if @page %>
-        <%= content_tag(:li, link_to(l(:create_child_page), wiki_new_child_path(:id => @page, :project_id => @project), :class => 'icon-context icon-duplicate')) %>
+<% html_title h(@page.pretty_title) %>
+<%= content_header title: h(@page.pretty_title), scrollable: true do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l(:button_edit), edit_project_wiki_path(@project, @page),
+                 icon: :edit, accesskey: :edit,
+                 if: @editable && @content.version == @page.content.version && authorize_for(:wiki, :edit)
+    %>
+    <%= t.watch_button @page, User.current,
+                       if: Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated")
+    %>
+    <% if User.current.allowed_to?(:export_wiki_pages, @project) %>
+      <%= t.submenu title: '', icon: :rss2 do %>
+        <%= t.submenu_item 'Atom', project_activity_index_path(@project, format: :atom, key: User.current.rss_key, show_wiki_edits: 1),
+                     icon: :'page-atom',
+                     if: Setting.feeds_enabled?
+        %>
+        <%= t.submenu_item 'HTML', url_for(format: :html, version: @content.version, id: @page), icon: :publish %>
+        <%= t.submenu_item 'TXT', url_for(format: :txt, version: @content.version, id: @page), icon: :ticket2 %>
+        <%= call_hook(:view_wiki_show_other_formats) %>
       <% end %>
     <% end %>
-    <% if @content.version == @page.content.version %>
-      <%= li_unless_nil(link_to_if_authorized(t(:button_rename),
-                                              {:action => 'rename', :id => @page},
-                                              :class => 'icon-context icon-rename')) %>
-      <%= li_unless_nil(link_to_if_authorized(t(:button_change_parent_page),
-                                              {:action => 'edit_parent_page', :id => @page},
-                                              :class => 'icon-context icon-link')) %>
+    <%= t.submenu title: l(:more_actions), icon: :'grid-view1', last: true, unless: User.current.anonymous? do %>
+      <%= t.submenu_item l(:button_lock), protect_project_wiki_path(@project, @page, protected: 1),
+                         icon: :locked,
+                         data: { method: :post },
+                         unless: @page.protected? || !authorize_for(:wiki, :protect)
+      %>
+      <%= t.submenu_item l(:button_unlock), protect_project_wiki_path(@project, @page, protected: 0),
+                         icon: :unlocked,
+                         data: { method: :post },
+                         if: @page.protected? && authorize_for(:wiki, :protect)
+      %>
+      <%= t.submenu_item l(:create_child_page), wiki_new_child_path(@project, @page),
+                         icon: :duplicate,
+                         if: User.current.allowed_to?(:edit_wiki_pages, @project)
+      %>
+      <%= t.submenu_item l(:button_rename), rename_project_wiki_path(@project, @page),
+                         icon: :rename,
+                         if: @content.version == @page.content.version && authorize_for(:wiki, :rename)
+      %>
+      <%= t.submenu_item l(:button_change_parent_page), parent_page_project_wiki_path(@project, @page),
+                         icon: :link,
+                         if: @content.version == @page.content.version && authorize_for(:wiki, :edit_parent_page)
+      %>
+      <% if @content.version < @page.content.version && authorize_for(:wiki, :edit) %>
+        <%= t.submenu_divider %>
+        <%= t.submenu_item l(:button_rollback), edit_project_wiki_path(@project, @page, version: @content.version), icon: :cancel %>
+      <% end %>
+      <%= t.submenu_item l(:label_history), history_project_wiki_path(@project, @page), icon: :wiki, if: authorize_for(:wiki, :history)  %>
+      <%= t.submenu_item l(:button_manage_menu_entry), edit_wiki_menu_item_path(@project, @page), icon: :settings, if: authorize_for(:wiki_menu_items, :edit) %>
+      <%= t.submenu_divider %>
+      <%= t.submenu_item l(:button_delete), project_wiki_path(@project, @page),
+                         icon: :delete,
+                         data: { method: :delete, confirm: l(:text_are_you_sure) },
+                         if: authorize_for(:wiki, :destroy)
+      %>
     <% end %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_delete), {:action => 'destroy', :id => @page}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon-context icon-delete')) %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_rollback), {:action => 'edit', :id => @page, :version => @content.version }, :class => 'icon-context icon-cancel')) if @content.version < @page.content.version %>
   <% end %>
-  <%= li_unless_nil(link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page}, :class => 'icon-context icon-wiki')) %>
-  <%= li_unless_nil(link_to_if_authorized(l(:button_manage_menu_entry), {:controller => '/wiki_menu_items', :action => 'edit', :project_id => @project.identifier, :id => @page}, :class => 'icon-context icon-settings')) %>
 <% end %>
 <% breadcrumb_paths(*(@page.ancestors.reverse.collect {|parent| link_to h(parent.breadcrumb_title), {:id => parent, :project_id => parent.project}} + [h(@page.breadcrumb_title)])) %>
 <% if @content.version != @page.content.version %>
@@ -88,15 +118,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </div>
 <% end %>
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => { :controller => '/activities',
-                                  :action => 'index',
-                                  :show_wiki_edits => 1,
-                                  :key => User.current.rss_key } %>
-  <%= f.link_to 'HTML', :url => { version: @content.version, id: @page } %>
-  <%= f.link_to 'TXT', :url => { version: @content.version, id: @page } %>
-  <%= call_hook(:view_wiki_show_other_formats, {:link_builder => f, :url_params => {:id => @page, :version => @content.version}}) %>
-<% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, :controller => '/activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
@@ -106,4 +127,3 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'wiki/sidebar' %>
 <% end %>
 
-<% html_title h(@page.pretty_title) %>

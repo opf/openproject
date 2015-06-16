@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title l(:label_administration), l(:label_plugins) %>
-<%= toolbar title: l(:label_plugins) %>
+<%= content_header title: l(:label_plugins) %>
 <% if @plugins.any? %>
   <table class="list plugins">
     <% @plugins.each do |plugin| %>

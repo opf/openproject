@@ -68,7 +68,7 @@ Feature: User deletion
       | login     | bob |
     And I am already admin
     And I go to the edit page of the user "bob"
-    Then I should not see "Delete" within "#toolbar"
+    Then I should not see "Delete" within ".toolbar"
 
   Scenario: Deletablilty settings can be set in the users tab of the settings
     Given I am already admin

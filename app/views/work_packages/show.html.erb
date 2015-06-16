@@ -29,25 +29,41 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <%= javascript_include_tag("work_packages.js") %>
-<%= render :partial => 'work_packages/action_menu', :locals => { work_package: work_package } %>
+<% html_title h(work_package.to_s) %>
 
 <% work_package_breadcrumb %>
 
-<%= content_tag('h2', h(work_package.to_s), class: 'legacy-heading') %>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
-
-<div class = "details">
-  <div class="profile-wrap">
-    <%= avatar(work_package.author) %>
-  </div>
-
-  <p class="author">
-    <%= authoring work_package.created_at, work_package.author %>.
+<% subtitle =  capture do %>
+   <%= authoring work_package.created_at, work_package.author %>.
     <% if work_package.created_at != work_package.updated_at %>
       <%= l(:label_updated_time, time_tag(work_package.updated_at)).html_safe %>.
     <% end %>
-  </p>
+<% end %>
+
+<%= content_header title: "#{avatar work_package.author} #{h(work_package.to_s)}", subtitle: h(subtitle), scrollable: scrollable do |h| %>
+  <%= h.toolbar do |t| %>
+    <%= t.button l(:button_update), edit_work_package_path(work_package), class: 'edit', accesskey: :edit, icon: :edit, if: authorize_for(:work_packages, :edit) %>
+    <%= t.watch_button work_package, User.current %>
+    <%= t.submenu title: '', icon: :rss2 do || %>
+      <%= t.submenu_item 'Atom', url_for({ format: :atom, :key => User.current.rss_key }), icon: :'page-atom', rel: 'nofollow', if: Setting.feeds_enabled? %>
+      <%= t.submenu_item 'PDF', url_for({ format: :pdf }), icon: :'page-pdf', rel: 'nofollow' %>
+    <% end %>
+    <%= t.submenu title: l(:more_actions), accesskey: :more_menu, icon: :'grid-view1', last: true, unless: User.current.anonymous? do %>
+      <%= t.submenu_item l(:button_log_time), new_work_package_time_entry_path(work_package), icon: :time, if: authorize_for(:timelog, :new) %>
+      <%= t.submenu_item l(:button_duplicate), new_project_work_package_path(@project, copy_from: work_package), icon: :duplicate, if: authorize_for('/work_packages/moves', :new) %>
+      <%= t.submenu_item l(:button_copy), new_work_package_move_path(work_package, copy: ''), icon: :copy, if: authorize_for('/work_packages/moves', :new) %>
+      <%= t.submenu_item l(:button_move), new_work_package_move_path(work_package), icon: :move, if: authorize_for('/work_packages/moves', :new) %>
+      <%= t.submenu_divider %>
+      <%= t.submenu_item l(:button_delete), work_packages_bulk_path(ids: [work_package.id]),
+                         icon: :delete, data: { method: :delete, confirm: l(:text_are_you_sure) },
+                         if: authorize_for('/work_packages/bulk', :destroy)
+      %>
+      <%= call_hook(:view_work_package_show_action_menu, work_package: work_package) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class = "details">
 
   <%= render partial: 'show_attributes', locals: { work_package: work_package } %>
 
@@ -112,13 +128,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'action_menu_with_edit_container' unless current_user.wants_comments_in_reverse_order? %>
 
 <div style="clear: both;"></div>
-
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-  <%= f.link_to 'PDF' %>
-<% end %>
-
-<% html_title h(work_package.to_s) %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
