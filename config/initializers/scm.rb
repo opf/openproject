@@ -27,8 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/base'
+require 'open_project/scm/manager'
 
-Redmine::Scm::Base.add 'Subversion'
-Redmine::Scm::Base.add 'Git'
-Redmine::Scm::Base.add 'Filesystem'
+OpenProject::Scm::Manager.add 'Subversion'
+OpenProject::Scm::Manager.add 'Git'
+OpenProject::Scm::Manager.add 'Filesystem'
