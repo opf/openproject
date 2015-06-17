@@ -28,6 +28,8 @@
 
 module.exports = function(
            $scope,
+           $rootScope,
+           $state,
            $stateParams,
            $timeout,
            PathHelper,
@@ -54,6 +56,8 @@ module.exports = function(
   vm.submit = submit;
   vm.cancel = cancel;
 
+  vm.loaderPromise = null;
+
   vm.isGroupHideable = isGroupHideable;
   vm.isFieldHideable = isFieldHideable;
   vm.getLabel = getLabel;
@@ -66,7 +70,7 @@ module.exports = function(
 
   function activate() {
     EditableFieldsState.forcedEditState = true;
-    WorkPackageService.initializeWorkPackage($scope.projectIdentifier, {
+    vm.loaderPromise = WorkPackageService.initializeWorkPackage($scope.projectIdentifier, {
       type: PathHelper.apiV3TypePath($stateParams.type)
     }).then(function(wp) {
       vm.workPackage = wp;
@@ -96,6 +100,13 @@ module.exports = function(
   }
 
   function cancel() {
+    // previousState set in a $stateChangeSuccess callback
+    // in the .run() sequence
+    if ($rootScope.previousState && $rootScope.previousState.name) {
+      vm.loaderPromise = $state.go($rootScope.previousState.name, $rootScope.previousState.params);
+    } else {
+      vm.loaderPromise = $state.go('^');
+    }
     // angular.element('.work-packages--details--subject:first .inplace-edit--write').controller().cancel();
   }
 

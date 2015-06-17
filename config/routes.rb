@@ -309,6 +309,7 @@ OpenProject::Application.routes.draw do
 
       # states managed by client-side routing on work_package#index
       get '/*state' => 'work_packages#index', on: :member, id: /\d+/
+      get '/create_new' => 'work_packages#index', on: :collection
     end
 
     resources :activity, :activities, only: :index, controller: 'activities'

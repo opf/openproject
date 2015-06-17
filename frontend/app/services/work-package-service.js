@@ -138,9 +138,7 @@ module.exports = function($http,
 
     getWorkPackagesByQueryId: function(projectIdentifier, queryId) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-
       var params = queryId ? { query_id: queryId } : DEFAULT_FILTER_PARAMS;
-
       return WorkPackageService.doQuery(url, params);
     },
 
