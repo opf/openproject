@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,47 +26,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
+# maximizes the window for any given page
+# is needed for certain situations where the details pane must be visible
 
-module OpenProject
-  module VERSION #:nodoc:
-    MAJOR = 4
-    MINOR = 1
-    PATCH = 3
-    TINY  = PATCH # Redmine compat
+shared_context 'maximized window' do
+  def maximize!
+    page.driver.browser.manage.window.maximize
+  end
 
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      ''
-    end
-
-    def self.revision
-      revision = `git rev-parse HEAD`
-      if revision.present?
-        revision.strip[0..8]
-      else
-        nil
-      end
-    end
-
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
-
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
-    end
+  before do
+    maximize!
   end
 end

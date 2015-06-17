@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.21"
+gem "rails", "~> 3.2.22"
 
 gem "coderay", "~> 1.0.9"
 gem "rubytree", "~> 0.8.3"
@@ -125,6 +125,8 @@ gem 'unicorn'
 # Security fixes
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
+
+gem 'rack', '~>1.4.6'
 
 gem 'i18n', '~> 0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
