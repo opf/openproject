@@ -26,5 +26,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
---color
---exclude-pattern spec/legacy/**/*_spec.rb
+# maximizes the window for any given page
+# is needed for certain situations where the details pane must be visible
+
+shared_context 'maximized window' do
+  def maximize!
+    page.driver.browser.manage.window.maximize
+  end
+
+  before do
+    maximize!
+  end
+end
