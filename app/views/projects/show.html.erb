@@ -27,16 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: l(:label_overview) do %>
-  <% if User.current.allowed_to?(:add_subprojects, @project) %>
-    <li class="toolbar-item">
-      <%= link_to({:controller => '/projects', :action => 'new', :parent_id => @project}, :class => 'button -alt-highlight') do %>
-        <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= l(:label_subproject_new) %></span>
-      <% end %>
-    </li>
-  <% end %>
-<% end %>
+<%= toolbar title: l(:label_overview) %>
+
 <% breadcrumb_paths(l(:label_overview)) %>
 
 <div class="grid-block medium-up-2">
