@@ -10,7 +10,7 @@
         <ui-select-match>
           {{$item.title}}
         </ui-select-match>
-        <ui-select-choices repeat="column in vm.unusedColumns | filter: { title: $select.search }"
+        <ui-select-choices repeat="column in vm.unusedColumns | filter: { title: $select.search } | orderBy:'title'"
                            refresh="updateUnusedColumns($select.selected)" refresh-delay="0">
           <div ng-bind-html="column.title | highlight: $select.search"></div>
         </ui-select-choices>
