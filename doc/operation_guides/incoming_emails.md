@@ -1,33 +1,32 @@
-# Incoming E-Mails
+# Incoming Emails
 
-OpenProject is able to receive e-mails and create and update work packages and reply in forums
-depending on the content of the e-mail.
+OpenProject is able to receive emails and create and update work packages and reply in forums depending on the content of the email.
 
 ## Setup
 
-Receiving e-mails is done via a rake task that fetches e-mails from an e-mail server, parses them and performs actions depending on the content of the e-mail. This rake task can be executed manually or automatically, e.g. with the help of a Cron job.
+Receiving emails is done via a rake task that fetches emails from an email server, parses them and performs actions depending on the content of the email. This rake task can be executed manually or automatically, e.g. with the help of a Cron job.
 
 ### IMAP
 
-The rake task `redmine:email:receive_imap` fetches e-mails via IMAP and parses them.
+The rake task `redmine:email:receive_imap` fetches emails via IMAP and parses them.
 Example:
 
 ```bash
 bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true allow_override=type,project project=test_project
 ```
 
-Available arguments for this rake task that specify the e-mail behavior are
+Available arguments for this rake task that specify the email behavior are
 
 |key | description|
 |----|------------|
-| `host` | address of the e-mail server |
-| `username` | the name of the user that is used to connect to the e-mail server|
+| `host` | address of the email server |
+| `username` | the name of the user that is used to connect to the email server|
 | `password` | the password of the user|
-| `port` | the port that is used to connect to the e-mail server|
-| `ssl` | specifies if SSL should be used when connecting to the e-mail server|
-| `folder` | the folder to fetch e-mails from (default: INBOX)|
-| `move_on_success` | the folder e-mails that were successfully parsed are moved to (instead of deleted)|
-| `move_on_failure` | the folder e-mails that were ignored are moved to|
+| `port` | the port that is used to connect to the email server|
+| `ssl` | specifies if SSL should be used when connecting to the email server|
+| `folder` | the folder to fetch emails from (default: INBOX)|
+| `move_on_success` | the folder emails that were successfully parsed are moved to (instead of deleted)|
+| `move_on_failure` | the folder emails that were ignored are moved to|
 
 Available arguments that change how the work packages are handled:
 
@@ -42,18 +41,18 @@ Available arguments that change how the work packages are handled:
 
 ### POP3
 
-The rake task `redmine:email:receive_pop3` fetches e-mails via IMAP and parses them.
+The rake task `redmine:email:receive_pop3` fetches emails via IMAP and parses them.
 Example:
 ```bash
 bundle exec rake redmine:email:receive_pop3 host='pop.gmail.com' username='test_user' password='password' port=995 allow_override=priority
 ```
 
-Available options that specifiy the e-mail behavior are:
+Available options that specifiy the email behavior are:
 
 |key | description|
 |----|------------|
-|`host` | address of the e-mail server (default: 127.0.0.1)|
-| username | name of the user that is used to connect to the e-mail server|
+|`host` | address of the email server (default: 127.0.0.1)|
+| username | name of the user that is used to connect to the email server|
 | password | password of the user|
 | port| POP3 server port (default: 110)|
 | apop | use APOP authentication (default: false)|
@@ -80,16 +79,16 @@ But then no other value is possible (even when you update the work package) unle
 
 #### Attributes
 
-The Attributes you can use in your e-mail are the same whether you create or update a work package. Only the project is a bit special: If you create a work package and do not specify the project via an environment variable you pass along to the rake task you have to put it into the e-mail. If you specify it via an environment variable or you update a work package you do not need to specify it.
+The Attributes you can use in your email are the same whether you create or update a work package. Only the project is a bit special: If you create a work package and do not specify the project via an environment variable you pass along to the rake task you have to put it into the email. If you specify it via an environment variable or you update a work package you do not need to specify it.
 
-The subject of the work package that shall be created is derived from the subject of the e-mail. The body of the e-mail gets parsed and all lines that contain recognized keys are removed. What is left will become the description.
+The subject of the work package that shall be created is derived from the subject of the email. The body of the email gets parsed and all lines that contain recognized keys are removed. What is left will become the description.
 
-Other available keys for the e-mail are:
+Other available keys for the email are:
 
 |Key|Description|Example|
 |---|---|---|
 | Project | sets the project. Use the project identifier | Project:test\_project |
-| Assigne | sets the assignee. Use the e-mail or login of the user | Assignee:test.nutzer@example.org |
+| Assigne | sets the assignee. Use the email or login of the user | Assignee:test.nutzer@example.org |
 | Type | sets the type | type:Milestone |
 | Version | sets the version | version:v4.1.0 |
 | Start date | sets the start date | start date:2015-02-28 |
@@ -104,9 +103,9 @@ If you want to set a custom field just use the name as it is displayed in your b
 
 #### Attachments
 
-If you create or update a work package via e-mail the attachments of the e-mail will be attached to the relevant work package.
+If you create or update a work package via email the attachments of the email will be attached to the relevant work package.
 
 #### Watchers
 
-If you create a work package via e-mail and sent it to another e-mail (to or bcc) OpenProject will search for a user with this e-mail and add it as watcher.
+If you create a work package via email and sent it to another email (to or bcc) OpenProject will search for a user with this email and add it as watcher.
 

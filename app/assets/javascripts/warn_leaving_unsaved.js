@@ -28,11 +28,17 @@
 
 
 var warnLeavingUnsavedMessage;
+
+var removeChangedData = function(){
+  jQuery('textarea').removeData('changed');
+};
+
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
-  jQuery('form').submit(function(){
-    jQuery('textarea').removeData('changed');
-  });
+
+  jQuery('form').submit(removeChangedData);
+  jQuery('form button').click(removeChangedData);
+
   jQuery('textarea').change(function(){
     jQuery(this).data('changed', 'changed');
   });
