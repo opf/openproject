@@ -29,6 +29,7 @@
 module.exports = function(
            $scope,
            $stateParams,
+           $timeout,
            PathHelper,
            WorkPackagesOverviewService,
            WorkPackageFieldService,
@@ -50,6 +51,8 @@ module.exports = function(
   vm.groupedFields = [];
   vm.hideEmptyFields = true;
 
+  vm.submit = submit;
+  vm.cancel = cancel;
 
   vm.isGroupHideable = isGroupHideable;
   vm.isFieldHideable = isFieldHideable;
@@ -80,8 +83,20 @@ module.exports = function(
       otherGroup.attributes.sort(function(a, b) {
         return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
       });
+      $timeout(function() {
+        angular.element('.work-packages--details--subject .focus-input').focus();
+      });
     });
+  }
 
+  function submit(notify) {
+    angular
+      .element('.work-packages--details--subject:first .inplace-edit--write')
+      .scope().editPaneController.submit(notify);
+  }
+
+  function cancel() {
+    // angular.element('.work-packages--details--subject:first .inplace-edit--write').controller().cancel();
   }
 
   function isGroupHideable(groupName) {

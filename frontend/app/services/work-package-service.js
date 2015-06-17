@@ -94,7 +94,11 @@ module.exports = function($http,
       var wp = {
         embedded: embedded,
         props: {},
-        links: {}
+        links: {
+          update: HALAPIResource
+            .setup(PathHelper
+              .projectWorkPackagesFormPath(projectIdentifier))
+        }
       };
       var options = { ajax: {
           method: 'POST',
@@ -105,9 +109,7 @@ module.exports = function($http,
           contentType: 'application/json; charset=utf-8'
         }};
 
-      return HALAPIResource
-        .setup(PathHelper.projectWorkPackagesFormPath(projectIdentifier))
-        .fetch(options)
+      return wp.links.update.fetch(options)
         .then(function(form) {
           form.pendingChanges = changes;
           wp.form = form;
