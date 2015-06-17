@@ -37,9 +37,11 @@
 
 require 'spec_helper'
 
-describe ActiveSupport, type: :model do
+describe ActiveSupport do
+  active_support_default = ActiveSupport.escape_html_entities_in_json
+
   after do
-    ActiveSupport.escape_html_entities_in_json = false
+    ActiveSupport.escape_html_entities_in_json = active_support_default
   end
 
   it 'escapes html entities in json' do
