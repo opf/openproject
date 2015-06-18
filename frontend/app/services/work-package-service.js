@@ -59,7 +59,7 @@ module.exports = function($http,
           }
           if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
             data._links = data._links || {};
-            data._links[field] = value ? value.links.self.props : { href: null };
+            data._links[field] = value ? value.props : { href: null };
           } else {
             data[field] = value;
           }
@@ -76,28 +76,25 @@ module.exports = function($http,
 
   var WorkPackageService = {
     initializeWorkPackage: function(projectIdentifier, initialData) {
-      var embedded = {};
+      var changes = _.clone(initialData);
       if (initialData.type) {
-        embedded = {
-          type: {
-            links: {
-              self: {
-                props: {
-                  href: initialData.type
-                }
-              }
-            }
-          }
+        changes._links = changes.links || {};
+        changes._links.type = {
+          href: initialData.type
         }
+        delete changes.type;
       }
-      var changes = initialData;
       var wp = {
-        embedded: embedded,
+        embedded: {},
         props: {},
         links: {
           update: HALAPIResource
             .setup(PathHelper
-              .projectWorkPackagesFormPath(projectIdentifier))
+              .projectWorkPackagesFormPath(projectIdentifier)),
+          updateImmediately: HALAPIResource.setupLink(
+            PathHelper.projectWorkPackagesPath(projectIdentifier),
+            { method: 'post' }
+          )
         }
       };
       var options = { ajax: {
@@ -263,9 +260,10 @@ module.exports = function($http,
     },
 
     updateWorkPackage: function(workPackage, notify) {
+      console.log(workPackage.links.updateImmediately);
       var options = { ajax: {
-        method: 'PATCH',
-        url: URI(workPackage.links.updateImmediately.href).addSearch('notify', notify).toString(),
+        method: workPackage.links.updateImmediately.props.method,
+        url: URI(workPackage.links.updateImmediately.props.href).addSearch('notify', notify).toString(),
         headers: {
           Accept: 'application/hal+json'
         },

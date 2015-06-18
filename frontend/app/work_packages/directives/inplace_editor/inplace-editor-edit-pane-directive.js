@@ -71,7 +71,8 @@ module.exports = function(
                 EditableFieldsState.workPackage,
                 notify
               );
-              result.then(angular.bind(this, function() {
+              result.then(angular.bind(this, function(updatedWorkPackage) {
+                $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
                 $scope.$emit(
                   'workPackageRefreshRequired',
                   function() {
