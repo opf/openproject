@@ -62,6 +62,22 @@ module.exports = function HALAPIResource($timeout, $q, PathHelper) {
       return new Hyperagent.Resource({
         url: PathHelper.appBasePath + PathHelper.apiV3 + '/' + uri,
       });
+    },
+    setupLink: function(uri, params) {
+      // some monkey-patching here
+      // since the Hyperagent.Link constructor
+      // behaves differently from the links constructed
+      // from the API response
+      HALAPIResource.configure();
+      var url = PathHelper.appBasePath + PathHelper.apiV3 + '/' + uri;
+      var link = new Hyperagent.Resource(_.extend({
+        url: url
+      }, params));
+      link.props.href = url;
+      if (params.method) {
+        link.props.method = params.method;
+      }
+      return link;
     }
   };
 

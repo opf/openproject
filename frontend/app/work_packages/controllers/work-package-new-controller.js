@@ -75,21 +75,33 @@ module.exports = function(
     }).then(function(wp) {
       vm.workPackage = wp;
       $scope.workPackage = wp;
-      vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
-      var schema = WorkPackageFieldService.getSchema(vm.workPackage);
-      var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
-      otherGroup.attributes = [];
-      _.forEach(schema.props, function(prop, propName) {
-        if (propName.match(/^customField/)) {
-          otherGroup.attributes.push(propName);
+      var firstTimeFocused = false;
+      $scope.$watchCollection('vm.workPackage.form', function(form) {
+        vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
+        var schema = WorkPackageFieldService.getSchema(vm.workPackage);
+        var otherGroup = _.find(vm.groupedFields, { groupName: 'other' });
+        otherGroup.attributes = [];
+        _.forEach(schema.props, function(prop, propName) {
+          if (propName.match(/^customField/)) {
+            otherGroup.attributes.push(propName);
+          }
+        });
+        otherGroup.attributes.sort(function(a, b) {
+          return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
+        });
+        if (!firstTimeFocused) {
+          firstTimeFocused = true;
+          $timeout(function() {
+            angular.element('.work-packages--details--subject .focus-input').focus();
+          });
         }
+
       });
-      otherGroup.attributes.sort(function(a, b) {
-        return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
-      });
-      $timeout(function() {
-        angular.element('.work-packages--details--subject .focus-input').focus();
-      });
+
+    });
+
+    $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
+      $state.go('work-packages.list.details.overview', {workPackageId: workPackage.props.id});
     });
   }
 
