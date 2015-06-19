@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,23 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# maximizes the window for any given page
-# is needed for certain situations where the details pane must be visible
+# Extending Capybara to circumvent problems with selecting the focused element:
+# http://opensourcetester.co.uk/2011/07/11/selenium-webdriver-focus/
 
-shared_context 'maximized window' do
-  def maximize!
-    page.driver.browser.manage.window.maximize
-  end
+module Capybara
+  class Session
+    def has_focus_on?(selector)
+      starting_time = Time.now
+      return_value = false
 
-  before do
-    maximize!
-  end
-end
+      while !return_value && Time.now - starting_time < Capybara.default_wait_time
 
-# Ensure the page is completely loaded before the next spec is run.
-# The status filter is loaded very late in the page setup.
-shared_context 'ensure wp table loaded' do
-  after do
-    expect(page).to have_selector('#operators-status_id', visible: false)
+        focused_element = self.driver.browser.switch_to.active_element
+
+        return_value = find(selector).native == focused_element
+      end
+
+      return_value
+    end
   end
 end
