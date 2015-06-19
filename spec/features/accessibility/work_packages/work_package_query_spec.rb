@@ -40,8 +40,8 @@ describe 'Work package index accessibility', type: :feature do
   def visit_index_page
     work_packages_page.visit_index
     # ensure the page is loaded before expecting anything
-    find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
-                                                     visible: false)
+    expect(page).to have_selector('#operators-status_id', visible: false),
+                    "Page was not fully loaded"
   end
 
   before do
