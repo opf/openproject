@@ -40,8 +40,8 @@ describe 'Work package index accessibility', type: :feature do
   def visit_index_page
     work_packages_page.visit_index
     # ensure the page is loaded before expecting anything
-    find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
-                                                     visible: false)
+    expect(page).to have_selector('#operators-status_id', visible: false),
+                    "Page was not fully loaded"
   end
 
   before do
@@ -221,20 +221,20 @@ describe 'Work package index accessibility', type: :feature do
 
     context 'focus' do
       let(:first_link_selector) do
-        'table.list tbody tr:first-child a:focus, table.keyboard-accessible-list tbody tr:first-child a:focus'
+        'table.keyboard-accessible-list tbody tr:first-child td.id a'
       end
       let(:second_link_selector) do
-        'table.list tbody tr:nth-child(2) a:focus, table.keyboard-accessible-list tbody tr:nth-child(2) a:focus'
+        'table.keyboard-accessible-list tbody tr:nth-child(2) td.id a'
       end
 
       it 'navigates with J' do
         find('body').native.send_keys('j')
-        expect(page).to have_selector(first_link_selector)
+        expect(page).to have_focus_on(first_link_selector)
       end
 
       it 'navigates with K' do
         find('body').native.send_keys('k')
-        expect(page).to have_selector(second_link_selector)
+        expect(page).to have_focus_on(second_link_selector)
       end
     end
 
@@ -263,7 +263,7 @@ describe 'Work package index accessibility', type: :feature do
           element.native.send_keys(keys)
         end
 
-        it { expect(page).to have_selector(target_link + ':focus') }
+        it { expect(page).to have_focus_on(target_link) }
 
         describe 'reset' do
           before do
@@ -273,7 +273,7 @@ describe 'Work package index accessibility', type: :feature do
             expect(page).not_to have_selector(target_link)
           end
 
-          it { expect(page).to have_selector(source_link + ':focus') }
+          it { expect(page).to have_focus_on(source_link) }
         end
 
       end
@@ -312,7 +312,7 @@ describe 'Work package index accessibility', type: :feature do
           # expect it to disappear
           expect(page).not_to have_selector('.ng-modal-window')
           # expect the gear to be focused
-          expect(page).to have_selector('#work-packages-settings-button:focus')
+          expect(page).to have_focus_on('#work-packages-settings-button')
         end
       end
     end
