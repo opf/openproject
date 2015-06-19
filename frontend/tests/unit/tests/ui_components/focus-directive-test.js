@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,28 +29,25 @@
 /*jshint expr: true*/
 
 describe('focus Directive', function() {
-  var doc, compile, element, rootScope, scope;
+  var doc, compile, element, rootScope, scope, disabledButton, timeout, body;
+
+  var input = '<input type="text" name="testInput" focus id="focusTest"></input>',
+      button = '<button class="button" focus ng-disabled="true"></button>';
+  element = angular.element(input);
+  disabledButton = angular.element(button);
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(module('templates'));
+  beforeEach(module('openproject.templates'));
 
   beforeEach(inject(function($compile, $rootScope, $document, $timeout) {
-    var html = '<input type="text" name="testInput" focus id="focusTest"></input>';
-
     doc = $document[0];
     rootScope = $rootScope;
     scope = $rootScope.$new();
+    body = angular.element(doc.body);
+    body.append(disabledButton).append(element);
 
-    compile = function() {
-      element = angular.element(html);
-      var body = angular.element(doc.body);
-      body.append(element);
-
-      $compile(element)(scope);
-      scope.$digest();
-
-      $timeout.flush();
-    };
+    compile = $compile;
+    timeout = $timeout;
   }));
 
   afterEach(function() {
@@ -61,10 +58,22 @@ describe('focus Directive', function() {
 
   describe('element', function() {
     it('should focus the element', function() {
-      compile();
+      compile(element)(scope);
+      scope.$digest();
+
+      timeout.flush();
 
       // NOTE: $(element).is(':focus') is broken in PhantomJS
       expect(doc.activeElement).to.equal(element[0]);
+    });
+
+    it('should focus disabled button', function(){
+      compile(disabledButton)(scope);
+      scope.$digest();
+
+      timeout.flush();
+
+      expect(doc.activeElement).to.equal(disabledButton[0]);
     });
   });
 });

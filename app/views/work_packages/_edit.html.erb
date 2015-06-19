@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,8 @@ See doc/COPYRIGHT.rdoc for more details.
                               :url => work_package_path(work_package),
                               :html => {
                                         :id => 'work_package-form',
-                                        :multipart => true
+                                        :multipart => true,
+                                        :class => 'form'
                                        } do |f| %>
 
   <% if defined? back_url %>
@@ -42,14 +43,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= error_messages_for work_package %>
 
   <% if edit_allowed || !allowed_statuses.empty? %>
-    <fieldset class="tabular">
-      <legend class="change_properties">
-        <%= l(:label_change_properties) %>
-      </legend>
-      <% if !work_package.new_record? && !work_package.errors.any? && edit_allowed %>
-        <%= link_to icon_wrapper('icon icon-arrow-right6-3', l(:label_more)), {}, :title => l(:label_more), :class => 'no-decoration-on-hover', :id => 'show_more_wp_properties' %>
-      <% end %>
-
       <% edit_form = (edit_allowed ? 'form' : 'form_update') %>
       <%= render :partial => edit_form,
                  :locals => { :f => f,
@@ -58,59 +51,39 @@ See doc/COPYRIGHT.rdoc for more details.
                               :project => project,
                               :user => user,
                               :time_entry => time_entry } %>
-    </fieldset>
   <% end %>
 
-  <% if authorize_for('timelog', 'edit') %>
-    <fieldset class="tabular">
-      <legend>
-        <%= l(:button_log_time) %>
-      </legend>
+  <div class="form--field -vertical">
+    <%= f.text_area :journal_notes, :cols => 60,
+                                    :rows => 10,
+                                    :class => 'wiki-edit',
+                                    :label => Journal.human_attribute_name(:notes),
+                                    :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => project, :format => :json) %>
 
-      <%= render :partial => 'time_entry',
-                 :locals => { :time_entry => time_entry,
-                              :f => f } %>
-    </fieldset>
-  <% end %>
-
-  <fieldset>
-    <div class="attribute_wrapper">
-      <legend>
-        <%= Journal.human_attribute_name(:notes) %>
-      </legend>
-
-      <%= label_tag "work_package[notes]", Journal.human_attribute_name(:notes),
-                                           :class => 'hidden-for-sighted' %>
-      <%= text_area_tag "work_package[notes]", work_package.journal_notes, :cols => 60,
-                                                                           :rows => 10,
-                                                                           :class => 'wiki-edit',
-                                                                           :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => project, :format => :json) %>
-      <%= wikitoolbar_for 'work_package_notes' %>
-      <%= call_hook(:view_work_packages_edit_notes_bottom, { :issue => work_package,
-                                                      :notes => work_package.journal_notes,
-                                                      :form => f }) %>
-    </div>
-
-  </fieldset>
-
-  <fieldset id="attachments" class="header_collapsible collapsible collapsed">
-    <legend title="<%=l(:description_attachment_toggle)%>", onclick="toggleFieldset(this);">
-      <a href="javascript:"><%=l(:label_attachment_plural)%></a>
-    </legend>
-    <div style="display: none;">
-      <%= render :partial => 'attachments/nested_form',
-                 :locals => { :f => f } %>
-    </div>
-  </fieldset>
-
-  <div class="email_notification attribute_wrapper">
-    <%= send_notification_option %>
+    <%= wikitoolbar_for 'work_package_journal_notes' %>
   </div>
 
+  <%= call_hook(:view_work_packages_edit_notes_bottom, { :issue => work_package,
+                                                         :notes => work_package.journal_notes,
+                                                         :form => f }) %>
+
+  <% if authorize_for('timelog', 'edit') %>
+    <%= render :partial => 'time_entry',
+               :locals => { :time_entry => time_entry,
+                            :f => f } %>
+  <% end %>
+
+  <%= render :partial => 'attachments/nested_form',
+             :locals => { :prefix => 'work_package' } %>
+
+  <hr class="form--separator -invisible">
+
+  <%= send_notification_option(params['send_notification'] != '0') %>
+
   <%= f.hidden_field :lock_version %>
-  <%= submit_tag l(:button_submit), :class => 'button_highlight' %>
+  <%= f.button l(:button_submit), :class => 'button -highlight -with-icon icon-yes' %>
   <%= link_to_work_package_preview(work_package) %>
 <% end %>
 
-<div id="preview" class="wiki">
+<div id="preview">
 </div>

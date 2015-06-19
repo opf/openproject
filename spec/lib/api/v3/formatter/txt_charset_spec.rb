@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe API::V3::Formatter::TxtCharset do
   let(:umlaut_object_utf8) { umlaut_object_ascii.force_encoding('utf-8') }
   let(:env) { {} }
 
-  describe :call do
+  describe '#call' do
     it 'returns the object (string) encoded in the charset defined in env' do
       env['CONTENT_TYPE'] = 'text/plain; charset=UTF-8'
 

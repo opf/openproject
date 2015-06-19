@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-module.exports = function() {
+module.exports = function(PathHelper) {
 
   Project = {
     objectType: 'Project',
@@ -435,12 +435,8 @@ module.exports = function() {
       return this.getParent();
     },
     getUrl: function() {
-      var options = this.timeline.options;
-      var url = options.url_prefix;
+      var url = PathHelper.staticProjectPath(this.identifier);
 
-      url += options.project_prefix;
-      url += "/";
-      url += this.identifier;
       url += "/timelines";
 
       return url;

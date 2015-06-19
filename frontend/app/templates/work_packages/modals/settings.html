@@ -1,0 +1,28 @@
+<div class="ng-modal-window">
+  <div class="ng-modal-inner">
+    <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()" title="{{ ::I18n.t('js.close_popup_title') }}"></i></div>
+
+    <h3>{{ ::I18n.t('js.modals.label_settings') }}</h3>
+
+    <form name="modalSettingsForm" class="form">
+      <div class="form--field -required">
+        <label class="form--label" for="query_name">
+          {{ ::I18n.t('js.modals.label_name') }}
+        </label>
+        <div class="form--field-container">
+          <div class="form--text-field-container">
+            <input class="form--text-field" type="text" name="query_name"
+              ng-model="queryName" focus required id="query_name"></input>
+          </div>
+        </div>
+      </div>
+      <div class="form--space">
+        <button class="button -highlight"
+          ng-click="updateQuery()"
+          ng-disabled="modalSettingsForm.$invalid">{{ ::I18n.t('js.modals.button_submit') }}</button>
+        <button class="button" ng-click="modal.closeMe()">{{ ::I18n.t('js.modals.button_cancel') }}</button>
+      </div>
+    </form>
+
+  </div>
+</div>

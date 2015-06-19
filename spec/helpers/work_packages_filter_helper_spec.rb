@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe WorkPackagesFilterHelper, type: :helper do
   let(:project) { FactoryGirl.create(:project) }
   let(:version) { FactoryGirl.create(:version, project: project) }
 
-  describe :general_path_helpers do
+  describe '#general_path_helpers' do
 
     it 'should give the path to work packages index with property filter' do
       expectedDecoded = '/projects/' + project.identifier + "/work_packages?query_props={\"f\":[{\"v\":2,\"n\":\"status_id\",\"o\":\"=\"}],\"t\":\"updated_at:desc\"}"
@@ -41,7 +41,7 @@ describe WorkPackagesFilterHelper, type: :helper do
 
   end
 
-  describe :my_page_path_helpers do
+  describe '#my_page_path_helpers' do
 
     it 'should give the path to work packages assigned to me' do
       expectedDecoded = "/work_packages?query_props={\"f\":[{\"v\":\"me\",\"n\":\"assigned_to_id\",\"o\":\"=\"},{\"n\":\"status_id\",\"o\":\"o\"}],\"t\":\"priority:desc,updated_at:desc\"}"
@@ -65,7 +65,7 @@ describe WorkPackagesFilterHelper, type: :helper do
 
   end
 
-  describe :project_overview_path_helpers do
+  describe '#project_overview_path_helpers' do
 
     it 'should give the path to closed work packages for a project version' do
       expectedDecoded = '/projects/' + project.identifier + "/work_packages?query_props={\"f\":[{\"n\":\"status_id\",\"o\":\"c\"},{\"v\":" + version.id.to_s + ",\"n\":\"fixed_version_id\",\"o\":\"=\"}]}"
@@ -79,7 +79,7 @@ describe WorkPackagesFilterHelper, type: :helper do
 
   end
 
-  describe :project_reports_path_helpers do
+  describe '#project_reports_path_helpers' do
     let(:property_name) { 'priority_id' }
     let(:property_id) { 5 }
 

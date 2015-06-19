@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -48,9 +48,6 @@ module.exports = function() {
       }
 
       return link;
-    },
-    attachmentPath: function(attachmentId, fileName) {
-      return '/attachments/' + attachmentId + '/' + fileName;
     },
     boardsPath: function(projectIdentifier) {
       return PathHelper.projectPath(projectIdentifier) + '/boards';
@@ -131,6 +128,9 @@ module.exports = function() {
     },
     workPackageAutoCompletePath: function(projectId, workPackageId) {
       return '/work_packages/auto_complete?escape=false&id=' + workPackageId + '&project_id=' + projectId;
+    },
+    workPackageJsonAutoCompletePath: function() {
+      return '/work_packages/auto_complete.json';
     },
     workPackageNewWithParameterPath: function(projectId, parameters) {
       var path = "/projects/" + projectId + '/work_packages/new?';
@@ -250,17 +250,13 @@ module.exports = function() {
     apiV3WorkPackagePath: function(workPackageId) {
       return PathHelper.apiV3 + '/work_packages/' + workPackageId;
     },
-    apiV3TextilePath: function(context) {
-      var textilePath = PathHelper.apiV3 + '/render/textile';
-      if (context) {
-        textilePath += '?context=' + context;
-      }
-      return textilePath;
+    apiV3ProjectsPath: function(projectIdentifier) {
+      return PathHelper.apiV3 + PathHelper.projectsPath() + '/' + projectIdentifier;
+    },
+    apiV3ProjectCategoriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/categories';
     },
     // Static
-    staticAttachmentPath: function(attachmentId, fileName) {
-      return PathHelper.staticBase + PathHelper.attachmentPath(attachmentId, fileName);
-    },
     staticUserPath: function(userId) {
       return PathHelper.userPath(userId);
     },
@@ -291,6 +287,24 @@ module.exports = function() {
     staticWorkPackageAutoCompletePath: function(projectId, workPackageId) {
       return PathHelper.staticBase
         + PathHelper.workPackageAutoCompletePath(projectId, workPackageId);
+    },
+    staticProjectWikiPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/wiki';
+    },
+    staticProjectCalendarPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/calendar';
+    },
+    staticProjectNewsPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/news';
+    },
+    staticProjectTimelinesPath: function(projectId) {
+      return PathHelper.staticProjectPath(projectId) + '/timelines';
+    },
+    staticMyPagePath: function() {
+      return PathHelper.staticBase + '/my/page';
+    },
+    staticKeyboardShortcutsHelpPath: function() {
+      return PathHelper.staticBase + '/help/keyboard_shortcuts';
     }
   };
 

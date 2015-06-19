@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,52 +47,32 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def work_package_added(user, issue)
-    @issue = issue
+  def work_package_added(user, work_package, author)
+    @issue = work_package # instance variable is used in the view
 
-    open_project_headers 'Project'        => @issue.project.identifier,
-                         'Issue-Id'       => @issue.id,
-                         'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'WorkPackage'
-    open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
+    set_work_package_headers(work_package)
 
-    message_id @issue, user
+    message_id work_package, user
 
     with_locale_for(user) do
-      subject = "[#{@issue.project.name} - #{ @issue }]"
-      subject << " (#{@issue.status.name})" if @issue.status
-      subject << " #{@issue.subject}"
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
     end
   end
 
   def work_package_updated(user, journal, author = User.current)
-    # Delayed job does not preserve the closure of the job that is delayed.
-    # Thus, if the method is called within a delayed job, it does contain the
-    # default user (anonymous) and not the original user that called the method.
-    #
-    # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
-    # original user to be available. Otherwise, it cannot fulfill its duty.
-    User.current = author if User.current != author
+    work_package = journal.journable.reload
 
+    # instance variables are used in the view
+    @issue = work_package
     @journal = journal
-    @issue   = journal.journable.reload
 
-    open_project_headers 'Project'        => @issue.project.identifier,
-                         'Issue-Id'       => @issue.id,
-                         'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'WorkPackage'
-    open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
+    set_work_package_headers(work_package)
 
-    message_id @journal, user
-    references @issue, user
+    message_id journal, user
+    references work_package, user
 
     with_locale_for(user) do
-      subject =  "[#{@issue.project.name} - #{@issue.type.name} ##{@issue.id}] "
-      subject << "(#{@issue.status.name}) " if @journal.details[:status_id]
-      subject << @issue.subject
-
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
     end
   end
 
@@ -147,7 +127,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def news_added(user, news)
+  def news_added(user, news, author)
     @news = news
 
     open_project_headers 'Type'    => 'News'
@@ -158,7 +138,7 @@ class UserMailer < ActionMailer::Base
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "[#{@news.project.name}] #{subject}" if @news.project
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
@@ -179,7 +159,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def news_comment_added(user, comment)
+  def news_comment_added(user, comment, author)
     @comment = comment
     @news    = @comment.commented
 
@@ -191,11 +171,11 @@ class UserMailer < ActionMailer::Base
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
-  def wiki_content_added(user, wiki_content)
+  def wiki_content_added(user, wiki_content, author)
     @wiki_content = wiki_content
 
     open_project_headers 'Project'      => @wiki_content.project.identifier,
@@ -206,11 +186,11 @@ class UserMailer < ActionMailer::Base
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.pretty_title)}"
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
-  def wiki_content_updated(user, wiki_content)
+  def wiki_content_updated(user, wiki_content, author)
     @wiki_content  = wiki_content
     @wiki_diff_url = url_for(controller: '/wiki',
                              action:     :diff,
@@ -227,11 +207,11 @@ class UserMailer < ActionMailer::Base
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.pretty_title)}"
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
-  def message_posted(user, message)
+  def message_posted(user, message, author)
     @message     = message
     @message_url = topic_url(@message.root, r: @message.id, anchor: "message-#{@message.id}")
 
@@ -244,7 +224,7 @@ class UserMailer < ActionMailer::Base
 
     with_locale_for(user) do
       subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id}] #{@message.subject}"
-      mail to: user.mail, subject: subject
+      mail_for_author author, to: user.mail, subject: subject
     end
   end
 
@@ -357,6 +337,29 @@ class UserMailer < ActionMailer::Base
 
   private
 
+  def subject_for_work_package(work_package)
+    subject =  "[#{work_package.project.name} - #{work_package.type.name} ##{work_package.id}] "
+    subject << "(#{work_package.status.name}) " << work_package.subject
+  end
+
+  # like #mail, but contains special author based filters
+  # currently only:
+  #  - remove_self_notifications
+  # might be refactored at a later time to be as generic as Interceptors
+  def mail_for_author(author, headers = {}, &block)
+    message = mail headers, &block
+
+    remove_self_notifications(message, author)
+
+    message
+  end
+
+  def remove_self_notifications(message, author)
+    if author.pref && author.pref[:no_self_notified]
+      message.to = message.to.reject { |address| address == author.mail } if message.to.present?
+    end
+  end
+
   def self.mail_timestamp(object)
     if object.respond_to? :created_at
       timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
@@ -394,6 +397,17 @@ class UserMailer < ActionMailer::Base
     headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
   end
 
+  def set_work_package_headers(work_package)
+    open_project_headers 'Project'        => work_package.project.identifier,
+                         'Issue-Id'       => work_package.id,
+                         'Issue-Author'   => work_package.author.login,
+                         'Type'           => 'WorkPackage'
+
+    if work_package.assigned_to
+      open_project_headers 'Issue-Assignee' => work_package.assigned_to.login
+    end
+  end
+
   # Prepends given fields with 'X-OpenProject-' to save some duplication
   def open_project_headers(hash)
     hash.each { |key, value| headers["X-OpenProject-#{key}"] = value.to_s }
@@ -421,21 +435,6 @@ class DefaultHeadersInterceptor
       'Precedence'         => 'bulk',
       'Auto-Submitted'     => 'auto-generated'
     }
-  end
-end
-
-class RemoveSelfNotificationsInterceptor
-  def self.delivering_email(mail)
-    user_mail = User.current.mail
-    # This may be called within a delayed job. Within a delayed job user
-    # preferences may not be loaded. Furthermore, some users don't have
-    # persisted preferences. Thus, we only load user preferences if preferences
-    # are available.
-    user_pref = User.current.pref.reload if User.current.pref.persisted?
-
-    if user_pref && user_pref[:no_self_notified]
-      mail.to = mail.to.reject { |address| address == user_mail } if mail.to.present?
-    end
   end
 end
 

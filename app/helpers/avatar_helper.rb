@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,7 +82,7 @@ module AvatarHelper
 
   def merge_image_options(user, options)
     default_options = { class: 'avatar' }
-    default_options[:title] = user.name if user.respond_to?(:name)
+    default_options[:title] = h(user.name) if user.respond_to?(:name)
 
     options.reverse_merge(default_options)
   end

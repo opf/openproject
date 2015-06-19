@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,14 +57,24 @@ module OpenProject::Plugins
       # This looks for OpenProject::XlsExport::Patches::IssuesControllerPatch
       #  in openproject/xls_export/patches/issues_controller_patch.rb
       base.send(:define_method, :patches) do |patched_classes|
-        plugin_name = engine_name
+        plugin_module = self.class.to_s.deconstantize
         base.config.to_prepare do
           patched_classes.each do |klass_name|
-            plugin_module = plugin_name.sub(/^openproject_/, '').camelcase
-            patch = "OpenProject::#{plugin_module}::Patches::#{klass_name}Patch".constantize
+            patch = "#{plugin_module}::Patches::#{klass_name}Patch".constantize
             klass = klass_name.to_s.constantize
             klass.send(:include, patch) unless klass.included_modules.include?(patch)
           end
+        end
+      end
+
+      base.send(:define_method, :patch_with_namespace) do |*args|
+        plugin_module = self.class.to_s.deconstantize
+        base.config.to_prepare do
+          klass_name = args.last
+          patch = "#{plugin_module}::Patches::#{klass_name}Patch".constantize
+          qualified_class_name = args.map(&:to_s).join('::')
+          klass = qualified_class_name.to_s.constantize
+          klass.send(:include, patch) unless klass.included_modules.include?(patch)
         end
       end
 
@@ -131,11 +141,42 @@ module OpenProject::Plugins
         end
       end
 
+      base.send(:define_method, :add_api_path) do |path_name, &block|
+        config.to_prepare do
+          ::API::V3::Utilities::PathHelper::ApiV3Path.class_eval do
+            singleton_class.instance_eval do
+              define_method path_name, &block
+            end
+          end
+        end
+      end
+
+      base.send(:define_method, :add_api_endpoint) do |base_endpoint, path = nil, &block|
+        config.to_prepare do
+          # we are expecting the base_endpoint as string for two reasons:
+          # 1. it does not seem possible to pass it as constant (auto loader not ready yet)
+          # 2. we can't constantize it here, because that would evaluate
+          #    the API before it can be patched
+          ::API::APIPatchRegistry.add_patch base_endpoint, path, &block
+        end
+      end
+
       base.send(:define_method, :extend_api_response) do |*args, &block|
         config.to_prepare do
           representer_namespace = args.map { |arg| arg.to_s.camelize }.join('::')
           representer_class     = "::API::#{representer_namespace}Representer".constantize
           representer_class.instance_eval(&block)
+        end
+      end
+
+      base.send(:define_method, :allow_attribute_update) do |model, actions, attribute, &block|
+        config.to_prepare do
+          model_name = model.to_s.camelize
+          namespace = model_name.pluralize
+          Array(actions).each do |action|
+            contract_class = "::API::V3::#{namespace}::#{action.to_s.camelize}Contract".constantize
+            contract_class.attribute attribute, &block
+          end
         end
       end
 

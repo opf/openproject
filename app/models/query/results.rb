@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,9 +76,6 @@ class ::Query::Results
   end
 
   def work_packages
-    order_option = [query.group_by_sort_order, options[:order]].reject(&:blank?).join(',')
-    order_option = nil if order_option.blank?
-
     WorkPackage.where(::Query.merge_conditions(query.statement, options[:conditions]))
       .includes([:status, :project] + (options[:include] || []).uniq)
       .joins((query.group_by_column ? query.group_by_column.join : nil))
@@ -98,5 +95,12 @@ class ::Query::Results
 
   def column_group_sums
     query.group_by_column && query.columns.map { |column| grouped_sums(column) }
+  end
+
+  def order_option
+    order_option = [query.group_by_sort_order, options[:order]].reject(&:blank?).join(', ')
+    order_option = nil if order_option.blank?
+
+    order_option
   end
 end

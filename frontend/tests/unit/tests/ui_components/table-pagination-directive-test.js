@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe('tablePagination Directive', function () {
   var compile, element, rootScope, scope;
 
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
-  beforeEach(module('templates'));
+  beforeEach(module('openproject.templates'));
 
   beforeEach(inject(function ($rootScope, $compile, _I18n_) {
     var html, I18n, t;
@@ -62,7 +62,7 @@ describe('tablePagination Directive', function () {
       var range = element.find('.pagination--range');
 
       expect(range.text()).to.equal('(0 - 0/0)');
-      expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.equal(true);
+      expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.be.true;
 
       scope.tableEntries = 11;
       scope.$apply();
@@ -80,12 +80,12 @@ describe('tablePagination Directive', function () {
       // this also covers the case where you clink on the 9th and "next" is  hidden
       for (var i = 0; i <= 9; i++) {
         element.find(".pagination--next-link").click();
-        expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.equal(false);
+        expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.be.false;
       }
 
       //on the last page now, next should be hidden
       element.find(".pagination--next-link").click();
-      expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.equal(true);
+      expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.be.true;
     });
 
     it('should display correct number of page number links', function () {

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,33 @@
 
 require('hyperagent');
 
-module.exports = function HALAPIResource($q, PathHelper) {
+module.exports = function HALAPIResource($timeout, $q, PathHelper) {
   'use strict';
 
   var HALAPIResource = {
     configure: function() {
+      Hyperagent.configure('ajax', function(settings) {
+        var deferred = $q.defer(),
+            resolve = settings.success,
+            reject = settings.error;
+
+        settings.success = deferred.resolve;
+        settings.reject = deferred.reject;
+
+        deferred.promise.then(function(response) {
+          $timeout(function() { resolve(response); });
+        }, function(reason) {
+          $timeout(function() { reject(reason); });
+        });
+
+        return jQuery.ajax(settings);
+      });
       Hyperagent.configure('defer', $q.defer);
+      // keep this if you want null values to not be overwritten by
+      // Hyperagent.js miniscore
+      // this weird line replaces HA miniscore with normal underscore
+      // Freud would be happy with what ('_', _) reminds me of
+      Hyperagent.configure('_', _);
     },
 
     setup: function(uri) {

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,11 +31,11 @@ module API
   module Errors
     module Form
       class InvalidResourceLink < StandardError
-        def initialize(property, expected_resource, actual_resource = :unknown)
-          expected = expected_resource.to_s.singularize.capitalize
-          actual = actual_resource.to_s.singularize.capitalize
-          message = "For property #{property} a resource of type #{expected}" \
-                    " is expected but got a resource of type #{actual}"
+        def initialize(property_name, expected_link, actual_link)
+          message = I18n.t('api_v3.errors.invalid_resource',
+                           property: property_name,
+                           expected: expected_link,
+                           actual: actual_link)
 
           super(message)
         end

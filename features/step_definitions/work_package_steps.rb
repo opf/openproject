@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,6 +89,18 @@ Given(/^the user "([^\"]+)" has the following query menu items in the project "(
   end
 end
 
+When /^the work package table has finished loading$/ do
+  message <<-MESSAGE
+    This is a safeguard to ensure that the work package table is loaded before performing actions
+    on UI items that have not been fully loaded.
+
+    It currently assumes that at least one filter is set, without the necessity of the filter being
+    displayed.
+  MESSAGE
+
+  expect(page).to have_selector('.advanced-filters--filter', visible: false), message
+end
+
 When /^I fill in the id of work package "(.+?)" into "(.+?)"$/ do |wp_name, field_name|
   work_package = InstanceFinder.find(WorkPackage, wp_name)
 
@@ -113,8 +125,8 @@ Then /^the work package should be shown with the following values:$/ do |table|
   end
 
   table_attributes.each do |key, value|
-    label = find('td.work_package_attribute_header', text: key)
-    should have_css("td.#{label[:class].split(' ').last}", text: value)
+    label = find('dt.attributes-key-value--key', text: key)
+    should have_css("dd.#{label[:class].split(' ').last}", text: value)
   end
 
   if table.rows_hash['Type'] || table.rows_hash['Subject']

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory :user do
-    ignore do
+    transient do
       member_in_project nil
       member_in_projects nil
       member_through_role nil
@@ -39,6 +39,8 @@ FactoryGirl.define do
     sequence(:mail) { |n| "bob#{n}.bobbit@bob.com" }
     password 'adminADMIN!'
     password_confirmation 'adminADMIN!'
+    created_on Time.now
+    updated_on Time.now
 
     mail_notification(Redmine::VERSION::MAJOR > 0 ? 'all' : true)
 

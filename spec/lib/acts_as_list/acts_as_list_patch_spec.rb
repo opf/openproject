@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe 'Models acting as list (acts_as_list)' do
     expect(ActiveRecord::Acts::List::InstanceMethods.included_modules).to include(OpenProject::Patches::ActsAsList)
   end
 
-  describe :move_to= do
+  describe '#move_to=' do
     let(:includer) do
       class ActsAsListPatchIncluder
         include OpenProject::Patches::ActsAsList

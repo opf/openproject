@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,4 +27,6 @@
 //++
 
 angular.module('openproject.workPackages.models')
-  .factory('WorkPackageAuthorization', require('./work-package-authorization'));
+  .factory('WorkPackageAuthorization', require('./work-package-authorization'))
+  .factory('Datepicker', ['TimezoneService', 'ConfigurationService', 
+                          '$timeout', require('./datepicker.js')]);

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,9 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= header_tags %>
 
-<%= form_for :project_association,
+
+<%= labelled_tabular_form_for @project_association,
             :url  => project_project_association_path(@project, @project_association),
             :html => {:method => 'put'} do |f| %>
 
@@ -46,6 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
 
-  <%= f.submit l(:button_update), :name => nil %>
-  <%= link_to l(:button_cancel), project_project_associations_path(@project) %>
+  <%= f.button l(:button_update), :name => nil, class: 'button -highlight -with-icon icon-yes' %>
+  <%= link_to l(:button_cancel), project_project_associations_path(@project),
+        class: 'button'%>
 <% end %>

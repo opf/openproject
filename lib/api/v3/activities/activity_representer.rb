@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,34 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+API::V3::Utilities::DateTimeFormatter
 
 module API
   module V3
     module Activities
-      class ActivityRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
-        include OpenProject::TextFormatting
+      class ActivityRepresenter < ::API::Decorators::Single
+        include API::V3::Utilities
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {})
-          @current_user = options[:current_user]
-
-          super(model)
-        end
-
-        property :_type, exec_context: :decorator
-
-        link :self do
-          {
-            href: api_v3_paths.activity(represented.id),
-            title: "#{represented.id}"
-          }
-        end
+        self_link path: :activity,
+                  title_getter: -> (*) { nil }
 
         link :workPackage do
           {
@@ -79,16 +61,26 @@ module API
         end
 
         property :id, render_nil: true
-        property :notes, as: :comment, exec_context: :decorator, render_nil: true
-        property :raw_notes,
-                 as: :rawComment,
-                 getter: -> (*) { notes },
-                 setter: -> (value, *) { self.notes = value },
+        property :comment,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   ::API::Decorators::Formattable.new(represented.notes,
+                                                     object: represented.journable)
+                 },
+                 setter: -> (value, *) { represented.notes = value['raw'] },
                  render_nil: true
-        property :details, exec_context: :decorator, render_nil: true
-        property :html_details, exec_context: :decorator, render_nil: true
+        property :details,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   details = render_details(represented, no_html: true)
+                   html_details = render_details(represented)
+                   formattables = details.zip(html_details)
+
+                   formattables.map { |d| { format: 'custom', raw: d[0], html: d[1] } }
+                 },
+                 render_nil: true
         property :version, render_nil: true
-        property :created_at, getter: -> (*) { created_at.utc.iso8601 }, render_nil: true
+        property :created_at, getter: -> (*) { DateTimeFormatter::format_datetime(created_at) }
 
         def _type
           if represented.notes.blank?
@@ -98,26 +90,14 @@ module API
           end
         end
 
-        def notes
-          format_text(represented.notes, object: represented.journable)
-        end
-
-        def details
-          render_details(represented, no_html: true)
-        end
-
-        def html_details
-          render_details(represented)
-        end
-
         private
 
         def current_user_allowed_to_edit?
-          (current_user_allowed_to(:edit_own_work_package_notes, represented.journable) && represented.editable_by?(@current_user)) || current_user_allowed_to(:edit_work_package_notes, represented.journable)
-        end
-
-        def current_user_allowed_to(permission, work_package)
-          @current_user && @current_user.allowed_to?(permission, work_package.project)
+          (current_user_allowed_to(:edit_own_work_package_notes,
+                                   context: represented.journable.project) &&
+            represented.editable_by?(current_user)) ||
+            current_user_allowed_to(:edit_work_package_notes,
+                                    context: represented.journable.project)
         end
 
         def render_details(journal, no_html: false)

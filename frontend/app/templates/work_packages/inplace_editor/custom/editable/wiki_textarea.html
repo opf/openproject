@@ -1,0 +1,17 @@
+<div class="textarea-wrapper" ng-class="{'-preview': customEditorController.isPreview}">
+    <textarea
+            wiki-toolbar
+            class="focus-input inplace-edit--textarea"
+            ng-hide="customEditorController.isPreview && !fieldController.state.isBusy"
+            preview-toggle="customEditorController.togglePreview()"
+            name="value"
+            ng-disabled="fieldController.state.isBusy"
+            ng-required="editPaneController.isRequired"
+            ng-model="fieldController.writeValue.raw"
+            title="{{ fieldController.editTitle }}"
+            data-wp_autocomplete_url="{{customEditorController.autocompletePath }}">
+    </textarea>
+    <div class="inplace-edit--preview" ng-if="customEditorController.isPreview && !fieldController.state.isBusy">
+        <span ng-bind-html="customEditorController.previewHtml"></span>
+    </div>
+</div>

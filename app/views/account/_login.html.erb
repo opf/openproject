@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,31 +28,32 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div id="nav-login-content">
-  <%= form_tag({:controller => '/account', :action=> "login"},
-               :autocomplete => 'off') do %>
+  <%= styled_form_tag({:controller => '/account', :action=> "login"},
+                      :autocomplete => 'off', class: '-vertical') do %>
     <%= back_url_to_current_page_hidden_field_tag %>
-    <table>
-      <tr>
-        <td><label for="username-pulldown"><%= User.human_attribute_name :login %></label></td>
-        <td><label for="password-pulldown"><%= User.human_attribute_name :password %></label></td>
-      </tr>
-      <tr>
-        <td><%= text_field_tag 'username', nil, :id => 'username-pulldown' %></td>
-        <td><%= password_field_tag 'password',
-                                   nil,
-                                   :id => 'password-pulldown' %></td>
-        <td><input type="submit" name="login" value="<%=l(:button_login)%>" class="button_highlight" /></td>
-      </tr>
-      <tr>
-        <td>
+
+    <div class="grid-block">
+      <div class="form--field -required">
+        <%= styled_label_tag 'username-pulldown', User.human_attribute_name(:login) %>
+        <div class="form--field-container">
+          <%= styled_text_field_tag 'username', nil, id: 'username-pulldown', tabindex: 1 %>
+        </div>
+        <div class="form--field-extra-actions">
           <% if Setting.autologin? %>
-            <label for="autologin"><%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
+            <label class="form--label-with-check-box" for="autologin"><%= styled_check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
           <% elsif Setting.self_registration? %>
             <%# show here if autologin is disabled, otherwise below lost_password link %>
             <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
           <% end %>
-        </td>
-        <td>
+        </div>
+      </div>
+
+      <div class="form--field -required">
+        <%= styled_label_tag 'password-pulldown', User.human_attribute_name(:password) %>
+        <div class="form--field-container">
+          <%= styled_password_field_tag 'password', nil, id: 'password-pulldown', tabindex: 2 %>
+        </div>
+        <div class="form--field-extra-actions">
           <% if Setting.lost_password? %>
             <%= link_to l(:label_password_lost), {:controller => '/account', :action => 'lost_password'} %>
           <% end %>
@@ -61,9 +62,18 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= '<br>'.html_safe if Setting.lost_password? %>
             <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
           <% end %>
-        </td>
-      </tr>
-    </table>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <label class="form--label" for="login-pulldown">
+          &nbsp;
+        </label>
+        <input type="submit" name="login" id="login-pulldown"
+          value="<%=l(:button_login)%>" class="button -highlight" tabindex="3" />
+      </div>
+    </div>
+
     <%= render :partial => 'account/auth_providers' %>
   <% end %>
 </div>

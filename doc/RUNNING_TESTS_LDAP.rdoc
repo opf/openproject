@@ -1,0 +1,11 @@
+
+== Creating a test ldap database
+
+OpenProject supports using LDAP for user authentications.  To test LDAP
+with OpenProject, load the LDAP export from test/fixtures/ldap/test-ldap.ldif
+into a testing LDAP server.  Test that the ldap server can be accessed
+at 127.0.0.1 on port 389.
+
+Setting up the test ldap server is beyond the scope of this documentation.
+The OpenLDAP project provides a simple LDAP implementation that should work
+good as a test server.

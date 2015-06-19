@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout, $animate) {
+module.exports = function(
+  WorkPackageLoadingHelper,
+  QueryService,
+  PaginationService,
+  I18n,
+  OPERATORS_NOT_REQUIRING_VALUES,
+  $timeout,
+  $animate
+) {
 
   var updateResultsJob;
 
@@ -36,6 +44,11 @@ module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationServ
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
       scope.isLoading = false; // shadow isLoading as its used for a different purpose in this context
+
+      scope.filterModelOptions = {
+        updateOn: 'default blur',
+        debounce: { 'default': 400, 'blur': 0 }
+      };
 
       $animate.enabled(false, element);
       scope.showValueOptionsAsSelect = !scope.filter.isSingleInputField();
@@ -48,6 +61,8 @@ module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationServ
             scope.availableFilterValueOptions = options;
           });
       }
+
+      preselectOperator();
 
       scope.$on('openproject.workPackages.updateResults', function() {
         $timeout.cancel(updateResultsJob);
@@ -65,6 +80,7 @@ module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationServ
             PaginationService.resetPage();
             scope.$emit('queryStateChange');
             scope.$emit('workPackagesRefreshRequired');
+            scope.query.dirty = true;
           }
         }
       }, true);
@@ -91,6 +107,18 @@ module.exports = function(WorkPackageLoadingHelper, QueryService, PaginationServ
 
       function valueReset(filter, oldFilter) {
         return oldFilter.hasValues() && !filter.hasValues();
+      }
+
+      function preselectOperator() {
+        if (!scope.filter.operator) {
+          var operatorArray = _.find(
+            scope.operatorsAndLabelsByFilterType[scope.filter.type],
+            function(operator) {
+              return OPERATORS_NOT_REQUIRING_VALUES.indexOf(operator[0]) === -1;
+            }
+          );
+          scope.filter.operator = operatorArray ? operatorArray[0] : undefined;
+        }
       }
     }
   };

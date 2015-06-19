@@ -1,6 +1,6 @@
 <!---- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ EMAIL_DELIVERY_METHOD="smtp"
 SMTP_ADDRESS="smtp.example.net"
 SMTP_PORT="587"
 SMTP_DOMAIN="example.net"
-SMTP_AUTHENTICAITON="plain"
+SMTP_AUTHENTICATION="plain"
 SMTP_USER_NAME="user"
 SMTP_PASSWORD="password"
 SMTP_ENABLE_STARTTLS_AUTO="true"
@@ -78,10 +78,15 @@ storage config above like this:
 * `autologin_cookie_secure` (default: false)
 * `database_cipher_key`     (default: nil)
 * `scm_git_command` (default: 'git')
-* `scm_subversion_command` (default: 'git')
+* `scm_subversion_command` (default: 'svn')
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
+* [`attachments_storage`](#attachments-storage) (default: file)
+* [`hidden_menu_items`](#hidden-menu-items) (default: {})
+* [`disabled_modules`](#disabled-modules) (default: [])
+* [`blacklisted_routes`](#blacklisted-routes) (default: [])
+* [`global_basic_auth`](#global-basic-auth)
 
 ### disable password login
 
@@ -108,6 +113,146 @@ If this option is active /login will lead directly to the configured omniauth pr
 Note that this does not stop a user from manually navigating to any other
 omniauth provider if additional ones are configured.
 
+### attachments storage
+
+*default: file*
+
+Attachments can be stored using fog as well. You will have to add further configuration through `fog`, e.g. for Amazon S3:
+
+```
+attachments_storage: fog
+fog:
+  directory: bucket-name
+  credentials:
+    provider: 'AWS'
+    aws_access_key_id: 'AKIAJ23HC4KNPWHPG3UA'
+    aws_secret_access_key: 'PYZO9phvL5IgyjjcI2wJdkiy6UyxPK87wP/yxPxS'
+    region: 'eu-west-1'
+```
+
+#### backend migration
+
+You can migrate attachments between the available backends. One example would be that you change the configuration from
+the file storage to the fog storage. If you want to put all the present file-based attachments into the cloud,
+you will have to use the following rake task:
+
+```
+rake attachments:copy_to[fog]
+```
+
+It works the other way around too:
+
+```
+rake attachments:copy_to[file]
+```
+
+Note that you have to configure the respective storage (i.e. fog) beforehand as described in the previous section.
+In the case of fog you only have to configure everything under `fog`, however. Don't change `attachments_storage`
+to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source
+for the migration.
+
+### hidden menu items
+
+*default: {}*
+
+You can disable specific menu items in the menu sidebar for each main menu (such as Administration and Projects).
+The following example disables all menu items except 'Users', 'Groups' and 'Custom fields' under 'Administration':
+
+```
+hidden_menu_items:
+  admin_menu:
+    - roles
+    - types
+    - statuses
+    - workflows
+    - enumerations
+    - settings
+    - ldap_authentication
+    - colors
+    - project_types
+    - export_card_configurations
+    - plugins
+    - info
+```
+
+The configuration can be overridden through environment variables.
+You have to define one variable for each menu.
+For instance 'Roles' and 'Types' under 'Administration' can be disabled by defining the following variable:
+
+```
+OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU='roles types'
+```
+
+### blacklisted routes
+
+*default: []*
+
+You can blacklist specific routes
+The following example forbid all routes for above disabled menu:
+
+```
+blacklisted_routes:
+  - 'admin/info'
+  - 'admin/plugins'
+  - 'export_card_configurations'
+  - 'project_types'
+  - 'colors'
+  - 'settings'
+  - 'admin/enumerations'
+  - 'workflows/*'
+  - 'statuses'
+  - 'types'
+  - 'admin/roles'
+```
+
+The configuration can be overridden through environment variables.
+
+```
+OPENPROJECT_BLACKLISTED__ROUTES='admin/info admin/plugins'
+```
+
+### disabled modules
+
+*default: []*
+
+Modules may be disabled through the configuration.
+Just give a list of the module names either as an array or as a string with values separated by spaces.
+
+**Array example:**
+
+```
+disabled_modules:
+  - backlogs
+  - meetings
+```
+
+**String example:**
+
+```
+disabled_modules: backlogs meetings
+```
+
+The option to use a string is mostly relevant for when you want to override the disabled modules via ENV variables:
+
+```
+OPENPROJECT_DISABLED__MODULES='backlogs meetings'
+```
+
+### global basic auth
+
+*default: none*
+
+You can define a global set of credentials used to authenticate towards API v3.
+Example section for `configuration.yml`:
+
+```
+default:
+  authentication:
+    global_basic_auth:
+      user: admin
+      password: admin
+```
+
 ## Email configuration
 
 * `email_delivery_method`: The way emails should be delivered. Possible values: `smtp` or `sendmail`
@@ -129,3 +274,5 @@ omniauth provider if additional ones are configured.
 * `cache_memcache_server`: The memcache server host and IP (default: `127.0.0.1:11211`)
 * `cache_expires_in`: Expiration time for memcache entries (default: `0`, no expiry)
 * `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: none)
+
+

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +46,14 @@ module API
             "#{root}/attachments/#{id}"
           end
 
+          def self.attachment_download(id)
+            Rails.application.routes.url_helpers.attachment_path(id)
+          end
+
+          def self.attachments_by_work_package(id)
+            "#{work_package(id)}/attachments"
+          end
+
           def self.available_assignees(project_id)
             "#{project(project_id)}/available_assignees"
           end
@@ -55,19 +63,27 @@ module API
           end
 
           def self.available_watchers(work_package_id)
-            "#{work_package(work_package_id)}/watchers"
+            "#{work_package(work_package_id)}/available_watchers"
           end
 
           def self.categories(project_id)
             "#{project(project_id)}/categories"
           end
 
-          def self.preview_textile(link)
-            preview_markup(:textile, link)
+          def self.category(id)
+            "#{root}/categories/#{id}"
+          end
+
+          def self.create_work_package_form(project_id)
+            "#{work_packages_by_project(project_id)}/form"
           end
 
           def self.priorities
             "#{root}/priorities"
+          end
+
+          def self.priority(id)
+            "#{priorities}/#{id}"
           end
 
           def self.projects
@@ -82,8 +98,26 @@ module API
             "#{root}/queries/#{id}"
           end
 
+          def self.query_star(id)
+            "#{query(id)}/star"
+          end
+
+          def self.query_unstar(id)
+            "#{query(id)}/unstar"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
+          end
+
+          def self.render_markup(format: nil, link: nil)
+            format = format || Setting.text_formatting
+            format = 'plain' if format == '' # Setting will return '' for plain
+
+            path = "#{root}/render/#{format}"
+            path += "?context=#{link}" if link
+
+            path
           end
 
           def self.statuses
@@ -94,6 +128,22 @@ module API
             "#{statuses}/#{id}"
           end
 
+          def self.string_object(value)
+            "#{root}/string_objects?value=#{::ERB::Util::url_encode(value)}"
+          end
+
+          def self.types
+            "#{root}/types"
+          end
+
+          def self.types_by_project(project_id)
+            "#{project(project_id)}/types"
+          end
+
+          def self.type(id)
+            "#{types}/#{id}"
+          end
+
           def self.users
             "#{root}/users"
           end
@@ -102,8 +152,20 @@ module API
             "#{users}/#{id}"
           end
 
-          def self.versions(project_id)
+          def self.user_lock(id)
+            "#{user(id)}/lock"
+          end
+
+          def self.version(version_id)
+            "#{root}/versions/#{version_id}"
+          end
+
+          def self.versions_by_project(project_id)
             "#{project(project_id)}/versions"
+          end
+
+          def self.projects_by_version(version_id)
+            "#{version(version_id)}/projects"
           end
 
           def self.watcher(id, work_package_id)
@@ -122,6 +184,10 @@ module API
             "#{work_package(id)}/activities"
           end
 
+          def self.work_package_form(id)
+            "#{work_package(id)}/form"
+          end
+
           def self.work_package_relations(id)
             "#{work_package(id)}/relations"
           end
@@ -130,26 +196,22 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
-          def self.work_package_form(id)
-            "#{work_package(id)}/form"
+          def self.work_package_schema(project_id, type_id)
+            "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
 
           def self.work_package_watchers(id)
             "#{work_package(id)}/watchers"
           end
 
+          def self.work_packages_by_project(project_id)
+            "#{project(project_id)}/work_packages"
+          end
+
           def self.root_path
             @@root_path ||= Class.new.tap do |c|
               c.extend(::API::V3::Utilities::PathHelper)
             end.root_path
-          end
-
-          def self.preview_markup(method, link)
-            path = "#{root}/render/#{method}"
-
-            path += "?#{link}" unless link.nil?
-
-            path
           end
         end
 

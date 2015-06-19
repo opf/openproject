@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+/* jshint camelcase: false */
+
 module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content;
 
       if(CustomFieldHelper.isCustomFieldKey(option)){
-        content = WorkPackagesHelper.getRawCustomValue(object, CustomFieldHelper.getCustomFieldId(option));
+        var custom_field_id = CustomFieldHelper.getCustomFieldId(option);
+        content = WorkPackagesHelper.getRawCustomValue(object, custom_field_id);
       } else {
         content = object[option];
       }
 
       switch(typeof(content)) {
         case 'object':
-          if (content === null) return '';
+          if (content === null) { return ''; }
           return content.name || content.subject || '';
         case 'number':
           return content;
@@ -61,7 +64,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
     },
 
     getRawCustomValue: function(object, customFieldId) {
-      if (!object.custom_values) return null;
+      if (!object.custom_values) { return null; }
 
       var values = object.custom_values.filter(function(customValue){
         return customValue && customValue.custom_field_id === customFieldId;
@@ -75,7 +78,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
     },
 
     getFormattedCustomValue: function(object, customField) {
-      if (!object.custom_values) return null;
+      if (!object.custom_values) { return null; }
 
       var values = object.custom_values.filter(function(customValue){
         return customValue && customValue.custom_field_id === customField.id;
@@ -87,23 +90,44 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
     },
 
     getColumnDataId: function(object, column) {
-      var id;
+      var custom_field_id = column.name.match(/^cf_(\d+)$/);
 
+      if (custom_field_id) {
+        custom_field_id = parseInt(custom_field_id[1], 10);
+
+        return WorkPackagesHelper.getCFColumnDataId(object, custom_field_id);
+      }
+      else {
+        return WorkPackagesHelper.getStaticColumnDataId(object, column);
+      }
+    },
+
+    getCFColumnDataId: function(object, custom_field_id) {
+
+      var custom_value = _.find(object.custom_values, function(elem) {
+        return elem && (elem.custom_field_id === custom_field_id);
+      });
+
+      if(custom_value && custom_value.value) {
+        return custom_value.value.id;
+      }
+      else {
+        return null;
+      }
+    },
+
+    getStaticColumnDataId: function(object, column) {
       switch (column.name) {
         case 'parent':
-          id = object.parent_id;
-          break;
+          return object.parent_id;
         case 'project':
-          id = object.project.identifier;
-          break;
+          return object.project.identifier;
+        case 'id':
         case 'subject':
-          id = object.id;
-          break;
+          return object.id;
         default:
-          id = (object[column.name]) ? object[column.name].id : null;
+          return (object[column.name]) ? object[column.name].id : null;
       }
-
-      return id;
     },
 
     getFormattedColumnData: function(object, column) {
@@ -117,7 +141,7 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
         case 'datetime':
           var dateTime;
           if (value) {
-            dateTime = TimezoneService.formattedDate(value) + " " + TimezoneService.formattedTime(value);
+            dateTime = TimezoneService.formattedDatetime(value);
           }
           return dateTime || '';
         case 'date':
@@ -126,23 +150,6 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
           return currencyFilter(value, 'EUR ');
         default:
           return value;
-      }
-    },
-
-    formatWorkPackageProperty: function(value, propertyName) {
-      var mappings = {
-        dueDate: 'date',
-        startDate: 'date',
-        createdAt: 'datetime',
-        updatedAt: 'datetime'
-      };
-
-      if (propertyName === 'estimatedTime' || propertyName === 'spentTime') {
-        var hours = moment.duration(value).asHours();
-
-        return I18n.t('js.units.hour', { count: hours });
-      } else {
-        return this.formatValue(value, mappings[propertyName]);
       }
     },
 
@@ -188,10 +195,11 @@ module.exports =function(TimezoneService, currencyFilter, CustomFieldHelper) {
       return result;
     },
 
-    //Note: The following methods are display helpers and so don't really belong here but are shared between
-    // directives so it's probably the best place for them just now.
+    //Note: The following methods are display helpers and so don't really
+    //belong here but are shared between directives so it's probably the best
+    //place for them just now.
     getState: function(workPackage) {
-      return (workPackage.props.isClosed) ? 'closed' : '';
+      return (workPackage.embedded.status.props.isClosed) ? 'closed' : '';
     },
 
     getFullIdentifier: function(workPackage) {

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,9 +48,9 @@ Feature: Membership
         | Lastname  | Smith    |
 
       And there is 1 User with:
-        | Login     | crash                         |
-        | Firstname | <script>alert('h4x');<script> |
-        | Lastname  | <script>alert('h4x');<script> |
+        | Login     | crash                          |
+        | Firstname | <script>alert('h4x');</script> |
+        | Lastname  | <script>alert('h4x');</script> |
 
       And there is a group named "A-Team" with the following members:
         | peter    |
@@ -96,14 +96,14 @@ Feature: Membership
      When I go to the members tab of the settings page of the project "project1"
      And  I enter the principal name "script"
      Then I should not see an alert dialog
-      And I should see "<script>alert('h4x');<script>"
+      And I should see "<script>alert('h4x');</script>"
 
   @javascript
   Scenario: Escaping should work properly when selecting a user
      When I go to the members tab of the settings page of the project "project1"
      When I select the principal "script"
      Then I should not see an alert dialog
-      And I should see "<script>alert('h4x');<script>"
+      And I should see "<script>alert('h4x');</script>"
 
   @javascript
   Scenario: Adding and Removing a Group as Member, impaired

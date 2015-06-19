@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/users/user_collection_representer'
+
 module API
   module V3
     module Projects
-      class AvailableAssigneesAPI < Grape::API
+      class AvailableAssigneesAPI < ::API::OpenProjectAPI
         resource :available_assignees do
           get do
             authorize(:view_project, context: @project)
@@ -37,9 +39,9 @@ module API
             available_assignees = @project.possible_assignees
             total = available_assignees.count
             self_link = api_v3_paths.available_assignees(@project.id)
-            ::API::V3::Users::UserCollectionRepresenter.new(available_assignees,
-                                                            total,
-                                                            self_link)
+            Users::UserCollectionRepresenter.new(available_assignees,
+                                                 total,
+                                                 self_link)
           end
         end
       end

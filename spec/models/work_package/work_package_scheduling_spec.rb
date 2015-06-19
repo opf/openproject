@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-  describe :overdue do
+  describe '#overdue' do
     let(:work_package) {
       FactoryGirl.create(:work_package,
                          due_date: due_date)
@@ -84,7 +84,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe :behind_schedule? do
+  describe '#behind_schedule?' do
     let(:work_package) {
       FactoryGirl.create(:work_package,
                          start_date: start_date,

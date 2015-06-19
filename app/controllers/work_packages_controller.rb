@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -177,7 +177,11 @@ class WorkPackagesController < ApplicationController
   def update
     safe_params = permitted_params.update_work_package(project: project)
 
-    update_service = UpdateWorkPackageService.new(current_user, work_package, safe_params, send_notifications?)
+    update_service = UpdateWorkPackageService.new(
+      user: current_user,
+      work_package: work_package,
+      permitted_params: safe_params,
+      send_notifications: send_notifications?)
 
     updated = update_service.update
 
@@ -221,11 +225,12 @@ class WorkPackagesController < ApplicationController
                        layout: 'angular' # !request.xhr?
       end
       format.csv do
-        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
+        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @query)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
+        title = @query.new_record? ? l(:label_work_package_plural) : @query.name
 
         send_data(serialized_work_packages, type: "text/csv; #{charset}; header=present",
-                                            filename: 'export.csv')
+                                            filename: "#{title}.csv")
       end
       format.pdf do
         serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
@@ -424,7 +429,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def send_notifications?
-    params[:send_notification] == '0' ? false : true
+    params[:send_notification] != '0'
   end
 
   def per_page_param
@@ -456,6 +461,6 @@ class WorkPackagesController < ApplicationController
   end
 
   def parse_preview_data
-    parse_preview_data_helper :work_package, [:notes, :description]
+    parse_preview_data_helper :work_package, [:journal_notes, :description]
   end
 end

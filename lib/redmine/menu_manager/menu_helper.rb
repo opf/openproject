@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -220,7 +220,7 @@ module Redmine::MenuManager::MenuHelper
   def menu_items_for(menu, project=nil)
     items = []
     Redmine::MenuManager.items(menu).root.children.each do |node|
-      if allowed_node?(node, User.current, project)
+      if allowed_node?(node, User.current, project) && visible_node?(menu, node)
         if block_given?
           yield node
         else
@@ -263,6 +263,16 @@ module Redmine::MenuManager::MenuHelper
     else
       # outside a project, all menu items allowed
       return true
+    end
+  end
+
+  def visible_node?(menu, node)
+    @hidden_menu_items ||= OpenProject::Configuration.hidden_menu_items
+    if @hidden_menu_items.length > 0
+      hidden_nodes = @hidden_menu_items[menu.to_s] || []
+      !hidden_nodes.include? node.name.to_s
+    else
+      true
     end
   end
 end

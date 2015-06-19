@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-  describe :relation do
+  describe '#relation' do
     let(:closed_state) {
       FactoryGirl.create(:status,
                          is_closed: true)
     }
 
-    describe :duplicate do
+    describe '#duplicate' do
       let(:original) { FactoryGirl.create(:work_package) }
       let(:dup_1) {
         FactoryGirl.create(:work_package,
@@ -118,7 +118,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe :blocks do
+    describe '#blocks' do
       let(:user) { FactoryGirl.create(:user) }
       let(:role) { FactoryGirl.create(:role) }
       let(:type) { FactoryGirl.create(:type) }
@@ -147,7 +147,7 @@ describe WorkPackage, type: :model do
 
       before { relation_blocks }
 
-      describe :blocked? do
+      describe '#blocked?' do
         context 'blocked work package' do
           subject { blocked.blocked? }
 
@@ -224,7 +224,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe :precedes do
+    describe '#precedes' do
       let(:start_date) { Date.today }
       let(:due_date) { Date.today + 2 }
       let(:preceding) {
@@ -265,7 +265,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe :soonest_start do
+    describe '#soonest_start' do
       let(:work_package_1) { FactoryGirl.create(:work_package) }
       let(:work_package_2) {
         FactoryGirl.create(:work_package,
@@ -301,7 +301,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe :all_dependant_packages do
+    describe '#all_dependant_packages' do
       let(:work_package_1) { FactoryGirl.create(:work_package) }
       let(:work_package_2) {
         FactoryGirl.create(:work_package,

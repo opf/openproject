@@ -1,0 +1,60 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+// NOTE: these are demo ski
+
+.notification-box
+
+  box-shadow: 1px 2px 3px #ddd
+  border-width: 1px
+  border-style: solid
+  padding: 10px 10px
+
+  &.-error
+    background: #fedada
+    border-color: #ca3f3f
+  &.-success
+    background: #d8fdd1
+    border-color: #35c53f
+  &.-warning
+    background: #f4f4aa
+    border-color: #000
+
+  .notification-box--icon
+    width: 20px
+    height: 20px
+    float: left
+    margin: 3px
+
+    &.-check::after
+      content: '\2714'
+
+  .notification-box--close
+    float: right
+
+

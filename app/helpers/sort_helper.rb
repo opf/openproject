@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -143,8 +143,15 @@ module SortHelper
 
     def normalize!
       @criteria ||= []
-      @criteria = @criteria.map { |s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true] }
-      @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) } if @available_criteria
+      @criteria = @criteria.map { |s|
+        s = s.to_a
+        [s.first, !(s.last == false || s.last == 'desc')]
+      }
+
+      if @available_criteria
+        @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) }
+      end
+
       @criteria.slice!(3)
       self
     end

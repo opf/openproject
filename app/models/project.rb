@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,11 +49,11 @@ class Project < ActiveRecord::Base
   has_many :possible_assignee_members,
            class_name: 'Member',
            include: [:principal, :roles],
-           conditions: Proc.new { self.class.possible_assignees_condition }
+           conditions: Proc.new { self.class.possible_principles_condition }
   has_many :possible_responsible_members,
            class_name: 'Member',
            include: [:principal, :roles],
-           conditions: Proc.new { self.class.possible_responsibles_condition }
+           conditions: Proc.new { self.class.possible_principles_condition }
   has_many :memberships, class_name: 'Member'
   has_many :member_principals, class_name: 'Member',
                                include: :principal,
@@ -117,7 +117,7 @@ class Project < ActiveRecord::Base
   scope :has_module, lambda { |mod| { conditions: ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   scope :active, lambda { |*_args| where(status: STATUS_ACTIVE) }
   scope :public, lambda { |*_args| where(is_public: true) }
-  scope :visible, lambda { { conditions: Project.visible_by(User.current) } }
+  scope :visible, ->(user = User.current) { { conditions: Project.visible_by(user) } }
 
   # timelines stuff
 
@@ -730,7 +730,7 @@ class Project < ActiveRecord::Base
 
   def module_enabled?(module_name)
     module_name = module_name.to_s
-    enabled_modules.detect { |m| m.name == module_name }
+    enabled_modules.any? { |m| m.name == module_name }
   end
 
   def enabled_module_names=(module_names)
@@ -930,7 +930,7 @@ class Project < ActiveRecord::Base
 
   protected
 
-  def self.possible_assignees_condition
+  def self.possible_principles_condition
     condition = Setting.work_package_group_assignment? ?
                   ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
                   ["(#{Principal.table_name}.type=?)", 'User']
@@ -938,13 +938,6 @@ class Project < ActiveRecord::Base
     condition[0] += " AND #{User.table_name}.status=? AND roles.assignable = ?"
     condition << User::STATUSES[:active]
     condition << true
-
-    sanitize_sql_array condition
-  end
-
-  def self.possible_responsibles_condition
-    condition = ["(#{Principal.table_name}.type=? AND #{User.table_name}.status=? AND roles.assignable = ?)",
-                 'User', User::STATUSES[:active], true]
 
     sanitize_sql_array condition
   end

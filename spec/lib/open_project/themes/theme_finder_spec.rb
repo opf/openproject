@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,7 +54,7 @@ module OpenProject
         it 'filters out themes marked as abstract' do
           theme_class = Class.new(Theme) { abstract! }
           theme_classes = ThemeFinder.themes.map(&:class)
-          expect(theme_classes).to_not include theme_class
+          expect(theme_classes).not_to include theme_class
         end
 
         it "subclasses of abstract themes aren't abstract by default" do
@@ -149,7 +149,7 @@ module OpenProject
         it 'removes the theme from the themes list' do
           theme = Theme.new_theme
           ThemeFinder.forget_theme(theme)
-          expect(ThemeFinder.themes).to_not include theme
+          expect(ThemeFinder.themes).not_to include theme
         end
       end
 
@@ -160,7 +160,7 @@ module OpenProject
           end
           ThemeFinder.registered_themes # fill the cache
           ThemeFinder.forget_theme(theme)
-          expect(ThemeFinder.registered_themes).to_not include new_theme: theme
+          expect(ThemeFinder.registered_themes).not_to include new_theme: theme
         end
       end
 
@@ -168,12 +168,12 @@ module OpenProject
         it "abstract themes won't show up in the themes llist" do
           abstract_theme_class = Class.new(Theme) { abstract! }
           theme_classes = ThemeFinder.themes.map(&:class)
-          expect(theme_classes).to_not include abstract_theme_class
+          expect(theme_classes).not_to include abstract_theme_class
         end
 
         it 'the basic theme class is abstract' do
           theme_classes = ThemeFinder.themes.map(&:class)
-          expect(theme_classes).to_not include Theme
+          expect(theme_classes).not_to include Theme
         end
       end
 
@@ -190,7 +190,7 @@ module OpenProject
           end
           ThemeFinder.registered_themes # fill the cache
           ThemeFinder.clear_themes
-          expect(ThemeFinder.registered_themes).to_not include new_theme: theme
+          expect(ThemeFinder.registered_themes).not_to include new_theme: theme
         end
       end
 

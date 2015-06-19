@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,11 +38,11 @@ angular.module('openproject.timelines.directives')
   .directive('timelineGroupingLabel', [require(
     './timeline-grouping-label-directive')])
   .directive('timelineTableContainer', ['TimelineLoaderService',
-    'TimelineTableHelper', 'SvgHelper', require(
+    'TimelineTableHelper', 'SvgHelper', 'PathHelper', require(
       './timeline-table-container-directive')
   ])
   .directive('timelineTable', ['TimelineTableHelper', require(
     './timeline-table-directive')])
   .directive('timelineTableRow', require('./timeline-table-row-directive'))
-  .directive('timelineToolbar', ['TimelineTableHelper', require(
+  .directive('timelineToolbar', ['I18n', require(
     './timeline-toolbar-directive')]);

@@ -1,0 +1,200 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+roles_001:
+  name: Manager
+  id: 1
+  builtin: 0
+  permissions: |
+    ---
+    - :add_project
+    - :edit_project
+    - :select_project_modules
+    - :manage_members
+    - :manage_versions
+    - :manage_categories
+    - :view_work_packages
+    - :add_work_packages
+    - :edit_work_packages
+    - :manage_work_package_relations
+    - :manage_subtasks
+    - :add_work_package_notes
+    - :move_work_package
+    - :move_work_packages
+    - :delete_work_packages
+    - :view_work_package_watchers
+    - :add_work_package_watchers
+    - :delete_work_package_watchers
+    - :manage_public_queries
+    - :save_queries
+    - :view_calendar
+    - :log_time
+    - :view_time_entries
+    - :edit_time_entries
+    - :delete_time_entries
+    - :manage_news
+    - :comment_news
+    - :view_wiki_pages
+    - :export_wiki_pages
+    - :view_wiki_edits
+    - :edit_wiki_pages
+    - :delete_wiki_pages_attachments
+    - :protect_wiki_pages
+    - :delete_wiki_pages
+    - :rename_wiki_pages
+    - :add_messages
+    - :edit_messages
+    - :delete_messages
+    - :manage_boards
+    - :browse_repository
+    - :manage_repository
+    - :view_changesets
+    - :manage_project_activities
+    - :export_work_packages
+    - :list_attachments
+
+  position: 1
+roles_002:
+  name: Developer
+  id: 2
+  builtin: 0
+  permissions: |
+    ---
+    - :edit_project
+    - :manage_members
+    - :manage_versions
+    - :manage_categories
+    - :view_work_packages
+    - :add_work_packages
+    - :edit_work_packages
+    - :manage_work_package_relations
+    - :manage_subtasks
+    - :add_work_package_notes
+    - :move_work_packages
+    - :delete_work_packages
+    - :view_work_package_watchers
+    - :save_queries
+    - :view_calendar
+    - :log_time
+    - :view_time_entries
+    - :edit_own_time_entries
+    - :manage_news
+    - :comment_news
+    - :view_wiki_pages
+    - :view_wiki_edits
+    - :edit_wiki_pages
+    - :protect_wiki_pages
+    - :delete_wiki_pages
+    - :add_messages
+    - :edit_own_messages
+    - :delete_own_messages
+    - :manage_boards
+    - :browse_repository
+    - :view_changesets
+    - :list_attachments
+
+  position: 2
+roles_003:
+  name: Reporter
+  id: 3
+  builtin: 0
+  permissions: |
+    ---
+    - :edit_project
+    - :manage_members
+    - :manage_versions
+    - :manage_categories
+    - :view_work_packages
+    - :add_work_packages
+    - :edit_work_packages
+    - :manage_work_package_relations
+    - :add_work_package_notes
+    - :move_work_packages
+    - :view_work_package_watchers
+    - :save_queries
+    - :view_calendar
+    - :log_time
+    - :view_time_entries
+    - :manage_news
+    - :comment_news
+    - :view_wiki_pages
+    - :view_wiki_edits
+    - :edit_wiki_pages
+    - :delete_wiki_pages
+    - :add_messages
+    - :manage_boards
+    - :browse_repository
+    - :view_changesets
+    - :list_attachments
+
+  position: 3
+roles_004:
+  name: Non member
+  id: 4
+  builtin: 1
+  permissions: |
+    ---
+    - :view_work_packages
+    - :add_work_packages
+    - :edit_work_packages
+    - :manage_work_package_relations
+    - :add_work_package_notes
+    - :move_work_packages
+    - :save_queries
+    - :view_calendar
+    - :log_time
+    - :view_time_entries
+    - :comment_news
+    - :view_wiki_pages
+    - :view_wiki_edits
+    - :edit_wiki_pages
+    - :add_messages
+    - :browse_repository
+    - :view_changesets
+    - :list_attachments
+
+  position: 4
+roles_005:
+  name: Anonymous
+  id: 5
+  builtin: 2
+  permissions: |
+    ---
+    - :view_work_packages
+    - :add_work_package_notes
+    - :view_calendar
+    - :view_time_entries
+    - :view_wiki_pages
+    - :view_wiki_edits
+    - :browse_repository
+    - :view_changesets
+    - :list_attachments
+
+  position: 5
+

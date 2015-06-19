@@ -1,0 +1,14 @@
+<div class="work-packages--details-toolbar">
+  <button class="button" ng-click="editWorkPackage()">
+    <i class="button--icon icon-edit"></i>
+    <span class="button--text" ng-bind="::I18n.t('js.button_edit')"></span>
+  </button>
+  <button class="button dropdown-relative"
+          ng-disabled="!(actionsAvailable || pluginActionsAvailable)"
+          has-dropdown-menu
+          target="DetailsMoreDropdownMenu"
+          locals="permittedActions,actionsAvailable,triggerMoreMenuAction">
+    <span class="button--text" ng-bind="::I18n.t('js.button_more')"></span>
+    <i class="button--dropdown-indicator"></i>
+  </button>
+</div>

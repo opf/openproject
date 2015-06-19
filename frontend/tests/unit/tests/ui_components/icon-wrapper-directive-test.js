@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe('iconWrapper Directive', function() {
     var compile, element, rootScope, scope, html;
 
     beforeEach(angular.mock.module('openproject.uiComponents'));
-    beforeEach(module('templates'));
+    beforeEach(module('openproject.templates'));
 
     beforeEach(inject(function($rootScope, $compile) {
       html = '<icon-wrapper icon-name="cool-icon.png" title="Nice icon"></icon-wrapper>';

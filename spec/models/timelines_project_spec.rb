@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -140,13 +140,13 @@ describe Project, type: :model do
       it 'exposes the via source helper associations' do
         project = FactoryGirl.create(:project)
 
-        expect { project.reportings_via_source }.to_not raise_error
+        expect { project.reportings_via_source }.not_to raise_error
       end
 
       it 'exposes the via target helper associations' do
         project = FactoryGirl.create(:project)
 
-        expect { project.reportings_via_target }.to_not raise_error
+        expect { project.reportings_via_target }.not_to raise_error
       end
     end
 

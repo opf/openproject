@@ -1,0 +1,390 @@
+{
+  "_type": "Form",
+  "_links": {
+    "self": {
+      "href": "/api/v3/work_packages/822/form"
+    },
+    "validate": {
+      "href": "/api/v3/work_packages/822/form",
+      "method": "post"
+    },
+    "previewMarkup": {
+      "href": "/api/v3/render/textile?/api/v3/work_packages/822",
+      "method": "post"
+    },
+    "commit": {
+      "href": "/api/v3/work_packages/822",
+      "method": "patch"
+    }
+  },
+  "_embedded": {
+    "payload": {
+      "_type": "WorkPackage",
+      "_links": {
+        "status": {
+          "href": "/api/v3/statuses/9"
+        },
+        "assignee": {
+          "href": null
+        },
+        "responsible": {
+          "href": "/api/v3/users/1"
+        },
+        "version": {
+          "href": "/api/v3/versions/1"
+        },
+        "priority": {
+          "href": null
+        }
+      },
+      "lockVersion": 145,
+      "subject": "66666os=",
+      "rawDescription": ""
+    },
+    "schema": {
+      "_type": {
+        "type": "MetaType",
+        "required": true,
+        "writable": false
+      },
+      "lockVersion": {
+        "type": "Integer",
+        "required": true,
+        "writable": false
+      },
+      "subject": {
+        "type": "String"
+      },
+      "status": {
+        "_links": {
+          "allowedValues": [
+            {
+              "href": "/api/v3/statuses/1",
+              "title": "new"
+            },
+            {
+              "href": "/api/v3/statuses/2",
+              "title": "specified"
+            },
+            {
+              "href": "/api/v3/statuses/3",
+              "title": "confirmed"
+            },
+            {
+              "href": "/api/v3/statuses/6",
+              "title": "in progress"
+            },
+            {
+              "href": "/api/v3/statuses/7",
+              "title": "tested"
+            },
+            {
+              "href": "/api/v3/statuses/8",
+              "title": "on hold"
+            },
+            {
+              "href": "/api/v3/statuses/9",
+              "title": "rejected"
+            },
+            {
+              "href": "/api/v3/statuses/10",
+              "title": "closed"
+            }
+          ]
+        },
+        "type": "Status",
+        "_embedded": {
+          "allowedValues": [
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/1",
+                  "title": "new"
+                }
+              },
+              "id": 1,
+              "name": "new",
+              "isClosed": false,
+              "isDefault": true,
+              "defaultDoneRatio": null,
+              "position": 1
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/2",
+                  "title": "specified"
+                }
+              },
+              "id": 2,
+              "name": "specified",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 2
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/3",
+                  "title": "confirmed"
+                }
+              },
+              "id": 3,
+              "name": "confirmed",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 3
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/6",
+                  "title": "in progress"
+                }
+              },
+              "id": 6,
+              "name": "in progress",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 6
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/7",
+                  "title": "tested"
+                }
+              },
+              "id": 7,
+              "name": "tested",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 7
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/8",
+                  "title": "on hold"
+                }
+              },
+              "id": 8,
+              "name": "on hold",
+              "isClosed": false,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 8
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/9",
+                  "title": "rejected"
+                }
+              },
+              "id": 9,
+              "name": "rejected",
+              "isClosed": true,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 9
+            },
+            {
+              "_type": "Status",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/statuses/10",
+                  "title": "closed"
+                }
+              },
+              "id": 10,
+              "name": "closed",
+              "isClosed": true,
+              "isDefault": false,
+              "defaultDoneRatio": null,
+              "position": 10
+            }
+          ]
+        }
+      },
+      "assignee": {
+        "_links": {
+          "allowedValues": {
+            "href": "/api/v3/projects/1/available_assignees"
+          }
+        },
+        "type": "User"
+      },
+      "responsible": {
+        "_links": {
+          "allowedValues": {
+            "href": "/api/v3/projects/1/available_responsibles"
+          }
+        },
+        "type": "User"
+      },
+      "version": {
+        "_links": {
+          "allowedValues": [{
+            "href": "/api/v3/versions/1",
+            "title": "alpha"
+          }, {
+            "href": "/api/v3/versions/2",
+            "title": "beta"
+          }]
+        },
+        "type": "Version",
+        "_embedded": {
+          "allowedValues": [{
+            "_type": "Version",
+            "_links": {
+              "self": {
+                "href": "/api/v3/versions/1",
+                "title": "alpha"
+              },
+              "definingProject": {
+                "href": "/api/v3/projects/1",
+                "title": "Seeded Project"
+              },
+              "availableInProjects": {
+                "href": "/api/v3/versions/1/projects"
+              }
+            },
+            "id": 1,
+            "name": "alpha",
+            "description": {
+              "format": "plain",
+              "raw": ""
+            },
+            "startDate": "2014-10-23",
+            "endDate": null,
+            "status": "open",
+            "createdAt": "01/21/2015/ 09:30 AM",
+            "updatedAt": "01/21/2015/ 09:30 AM"
+          }, {
+            "_type": "Version",
+            "_links": {
+              "self": {
+                "href": "/api/v3/versions/2",
+                "title": "beta"
+              },
+              "definingProject": {
+                "href": "/api/v3/projects/1",
+                "title": "Seeded Project"
+              },
+              "availableInProjects": {
+                "href": "/api/v3/versions/2/projects"
+              }
+            },
+            "id": 2,
+            "name": "beta",
+            "description": {
+              "format": "plain",
+              "raw": ""
+            },
+            "startDate": null,
+            "endDate": null,
+            "status": "open",
+            "createdAt": "01/21/2015/ 09:30 AM",
+            "updatedAt": "01/21/2015/ 09:30 AM"
+          }]
+        }
+      },
+      "priority":{
+        "_links":{
+          "allowedValues":[
+            {
+              "href":"/api/v3/priorities/1",
+              "title":"Low"
+            },
+            {
+              "href":"/api/v3/priorities/2",
+              "title":"Normal"
+            },
+            {
+              "href":"/api/v3/priorities/3",
+              "title":"High"
+            },
+            {
+              "href":"/api/v3/priorities/4",
+              "title":"Immediate"
+            }
+          ]
+        },
+        "type":"Priority",
+        "_embedded":{
+          "allowedValues":[
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/1",
+                  "title":"Low"
+                }
+              },
+              "id":1,
+              "name":"Low",
+              "position":1,
+              "isDefault":false,
+              "isActive":true
+            },
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/2",
+                  "title":"Normal"
+                }
+              },
+              "id":2,
+              "name":"Normal",
+              "position":2,
+              "isDefault":true,
+              "isActive":true
+            },
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/3",
+                  "title":"High"
+                }
+              },
+              "id":3,
+              "name":"High",
+              "position":3,
+              "isDefault":false,
+              "isActive":true
+            },
+            {
+              "_type":"Priority",
+              "_links":{
+                "self":{
+                  "href":"/api/v3/priorities/4",
+                  "title":"Immediate"
+                }
+              },
+              "id":4,
+              "name":"Immediate",
+              "position":5,
+              "isDefault":false,
+              "isActive":true
+            }
+          ]
+        }
+      }
+    },
+    "validationErrors": {}
+  }
+}

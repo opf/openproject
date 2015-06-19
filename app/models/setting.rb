@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -186,21 +186,6 @@ class Setting < ActiveRecord::Base
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).map(&:to_i).select { |n| n > 0 }.sort
-  end
-
-  # Deprecation Warning: This method is no longer available. There is no
-  # replacement.
-  def self.check_cache
-    ActiveSupport::Deprecation.warn 'The Setting.check_cache method is ' +
-      'deprecated and will be removed in the future. There should be no ' +
-      'replacement for this functionality needed.'
-  end
-
-  # Clears all of the Setting caches
-  def self.clear_cache
-    ActiveSupport::Deprecation.warn 'The Setting.clear_cache method is ' +
-      'deprecated and will be removed in the future. There should be no ' +
-      'replacement for this functionality needed.'
   end
 
   private

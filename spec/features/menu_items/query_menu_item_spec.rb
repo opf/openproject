@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,13 +27,19 @@
 #++
 
 require 'spec_helper'
+require 'features/work_packages/work_packages_page'
 
 feature 'Query menu items' do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
+  let(:work_packages_page) { WorkPackagesPage.new(project) }
+
+  def visit_index_page(query)
+    work_packages_page.select_query(query)
+  end
 
   before do
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   context 'with identical names' do
@@ -44,7 +50,7 @@ feature 'Query menu items' do
     let!(:menu_item_b) { FactoryGirl.create :query_menu_item, query: query_b }
 
     it 'can be shown' do
-      visit "/projects/#{project.identifier}"
+      visit_index_page(query_a)
 
       expect(page).to have_selector('a', text: query_a.name, count: 2)
     end
@@ -58,7 +64,7 @@ feature 'Query menu items' do
     end
 
     it 'can be added', js: true do
-      visit project_work_packages_path(project, query_id: query.id)
+      visit_index_page(query)
 
       click_on 'Settings'
       click_on 'Share ...'
@@ -76,21 +82,26 @@ feature 'Query menu items' do
 
     let!(:menu_item_a) { FactoryGirl.create :query_menu_item, query: query_a }
     let!(:menu_item_b) { FactoryGirl.create :query_menu_item, query: query_b }
+    let(:new_name) { 'aaaaa' }
 
-    it 'can be renamed and the menu item is sorted', js: true do
-      new_name = 'aaaaa'
-
-      visit project_work_packages_path(project, query_id: query_b.id)
+    before do
+      visit_index_page(query_b)
 
       click_on I18n.t('js.button_settings')
       click_on I18n.t('js.toolbar.settings.page_settings')
       fill_in I18n.t('js.modals.label_name'), with: new_name
       click_on I18n.t('js.modals.button_submit')
+    end
 
+    it 'displaying a success message', js: true do
+      flash_element = page.find('.flash', visible: true)
+      expect(flash_element.text).to eq 'Successful update.'
+    end
+
+    it 'is renaming and reordering the list', js: true do
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
       expect(page).to have_selector('li:nth-child(3) a', text: new_name)
-      expect(page).to have_selector('.flash', text: 'Successful update')
     end
   end
 end

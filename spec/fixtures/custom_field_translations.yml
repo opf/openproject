@@ -1,0 +1,108 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+custom_field_translations_001:
+  name: Database
+  locale: en
+  possible_values:
+  - MySQL
+  - PostgreSQL
+  - Oracle
+  default_value: ""
+  custom_field_id: 1
+  created_at: <%= 2.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
+custom_field_translations_002:
+  name: Searchable field
+  locale: en
+  possible_values: ""
+  default_value: "Default string"
+  custom_field_id: 2
+  created_at: <%= 2.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
+custom_field_translations_003:
+  name: Development status
+  locale: en
+  possible_values:
+  - Stable
+  - Beta
+  - Alpha
+  - Planning
+  default_value: ""
+  custom_field_id: 3
+  created_at: <%= 2.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
+custom_field_translations_004:
+  name: Phone number
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 4
+  created_at: <%= 2.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
+custom_field_translations_005:
+  name: Money
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 5
+  created_at: <%= 2.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
+custom_field_translations_006:
+  name: Float field
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 6
+  created_at: <%= 2.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
+custom_field_translations_007:
+  name: Billable
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 7
+  created_at: <%= 2.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
+custom_field_translations_008:
+  name: Custom date
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 8
+  created_at: <%= 2.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
+custom_field_translations_009:
+  name: Project 1 cf
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 9
+  created_at: <%= 2.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>

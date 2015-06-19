@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,15 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
   $scope.I18n = I18n;
   $scope.focusElementIndex;
 
-  $scope.$watch('watchers.length', fetchAvailableWatchers); fetchAvailableWatchers();
+  $scope.watcher = { selected: null };
+  $scope.watcher.selected =  $scope.watchers;
+
+  fetchAvailableWatchers();
+  $scope.watcherListString = function() {
+    return _.map($scope.watcher.selected, function(item) {
+      return item.props.name;
+    }).join(', ');
+  };
 
   /**
    * @name getResourceIdentifier
@@ -67,27 +75,25 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
   }
 
   function fetchAvailableWatchers() {
+    if ($scope.workPackage.links.availableWatchers === undefined) {
+      $scope.availableWatchers = [];
+      return;
+    }
+
     $scope.workPackage.links.availableWatchers
       .fetch()
       .then(function(data) {
         // Temporarily filter out watchers already assigned to the work package on the client-side
-        $scope.availableWatchers = getFilteredCollection(data.embedded.availableWatchers, $scope.watchers);
-        // TODO do filtering on the API side and replace the update of the available watchers with the code provided in the following line
-        // $scope.availableWatchers = data.embedded.availableWatchers;
+        $scope.availableWatchers = getFilteredCollection(data.embedded.elements, $scope.watchers);
+        // TODO do filtering on the API side and replace the update of the
+        // available watchers with the code provided in the following line
+        // $scope.availableWatchers = data.embedded.elements;
       });
   }
 
-  $scope.getAvailableWatchers = function(term, result) {
-    var watchers = $scope.availableWatchers.map(function(watcher) {
-      return { id: watcher.props.id, name: watcher.props.name };
-    });
-
-    result($filter('filter')(watchers, {name: term}));
-  };
-
   function addWatcher(newValue, oldValue) {
-    if (newValue) {
-      var id = newValue.id;
+    if (newValue && newValue !== oldValue) {
+      var id = newValue[newValue.length -1].props.id;
 
       if (id) {
         $scope.workPackage.link('addWatcher', {user_id: id})
@@ -140,7 +146,6 @@ module.exports = function($scope, $filter, $timeout, I18n, ADD_WATCHER_SELECT_IN
     });
   }
 
-  $scope.watcher = { selected: null };
-
+  $scope.$watch('watchers.length', fetchAvailableWatchers);
   $scope.$watch('watcher.selected', addWatcher);
 };

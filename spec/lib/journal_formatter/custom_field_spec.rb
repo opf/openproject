@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,7 @@ describe OpenProject::JournalFormatter::CustomField do
   let(:custom_field) { FactoryGirl.create(:issue_custom_field) }
   let(:key) { "custom_fields_#{custom_field.id}" }
 
-  describe :render do
+  describe '#render' do
     describe 'WITH the first value beeing nil, and the second a valid value as string' do
       let(:values) { [nil, '1'] }
       let(:formatted_value) { format_value(values.last, custom_field.field_format) }

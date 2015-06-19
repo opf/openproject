@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-module.exports = function() {
+module.exports = function(PathHelper) {
 
   PlanningElement = {
     objectType: 'PlanningElement',
@@ -298,13 +298,7 @@ module.exports = function() {
       };
     },
     getUrl: function() {
-      var options = this.timeline.options;
-      var url = options.url_prefix;
-
-      url += "/work_packages/";
-      url += this.id;
-
-      return url;
+      return PathHelper.staticBase + "/work_packages/" + this.id;
     },
     getColor: function () {
       // if there is a color for this planning element type, use it.

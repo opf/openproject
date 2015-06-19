@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,8 +94,7 @@ module SearchHelper
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
     options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
     options << [@project.name, 'current_project'] unless @project.nil?
-    label_tag('scope', l(:description_project_scope), class: 'hidden-for-sighted') +
-      select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
+    styled_select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
   end
 
   def render_results_by_type(results_by_type)

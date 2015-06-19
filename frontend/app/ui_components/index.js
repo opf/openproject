@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -42,10 +42,9 @@ angular.module('openproject.uiComponents')
   .directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', require(
     './authoring-directive')])
   .directive('backUrl', [require('./back-url-directive')])
-  .directive('date', ['TimezoneService', require('./date/date-directive')])
-  .directive('time', ['TimezoneService', require('./date/time-directive')])
-  .directive('dateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
-  .directive('dropdown', require('./dropdown-directive'))
+  .directive('opDate', ['TimezoneService', require('./date/date-directive')])
+  .directive('opTime', ['TimezoneService', require('./date/time-directive')])
+  .directive('opDateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
   .directive('executeOnEnter', ['ENTER_KEY', require(
@@ -61,24 +60,19 @@ angular.module('openproject.uiComponents')
   .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
     './focus-helper')])
   .directive('hasDropdownMenu', [
+    '$rootScope',
     '$injector',
     '$window',
     '$parse',
+    'FocusHelper',
     require('./has-dropdown-menu-directive')
+  ])
+  .directive('hasPreview', [
+    require('./has-preview-directive')
   ])
   .service('I18n', [require('./i18n')])
   .directive('iconWrapper', [require('./icon-wrapper-directive')])
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
-  .directive('inplaceEditor', [
-      '$timeout',
-      'InplaceEditorDispatcher',
-      require('./inplace-editor-directive')
-  ])
-  .service('InplaceEditorDispatcher', [
-    '$sce',
-    'AutoCompleteHelper',
-    'TextileService',
-    require('./inplace-editor-dispatcher')])
   .directive('modal', [require('./modal-directive')])
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
   .directive('progressBar', ['I18n', require('./progress-bar-directive')])
@@ -88,9 +82,7 @@ angular.module('openproject.uiComponents')
     up: 38,
     down: 40
   })
-  .directive('selectableTitle', ['$sce', 'LABEL_MAX_CHARS', 'KEY_CODES',
-    require('./selectable-title-directive')
-  ])
+  .directive('selectableTitle', [require('./selectable-title-directive')])
   .constant('DOUBLE_CLICK_DELAY', 300)
   // Thanks to http://stackoverflow.com/a/20445344
   .directive('singleClick', [
@@ -108,12 +100,8 @@ angular.module('openproject.uiComponents')
     './toggled-multiselect-directive')])
   .directive('toolbar', require('./toolbar-directive'))
   .constant('ESC_KEY', 27)
+  .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
-  .directive('withDropdown', ['$rootScope',
-    '$window',
-    'ESC_KEY',
-    'FocusHelper', require('./with-dropdown-directive')
-  ])
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .filter('latestItems', require('./filters/latest-items-filter'));

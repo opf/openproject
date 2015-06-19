@@ -1,0 +1,125 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+custom_fields_001:
+  min_length: 0
+  regexp: ""
+  is_for_all: true
+  is_filter: true
+  type: WorkPackageCustomField
+  max_length: 0
+  id: 1
+  is_required: false
+  field_format: list
+  editable: true
+custom_fields_002:
+  min_length: 1
+  regexp: ""
+  is_for_all: true
+  type: WorkPackageCustomField
+  max_length: 100
+  id: 2
+  is_required: false
+  field_format: string
+  searchable: true
+  editable: true
+custom_fields_003:
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: ProjectCustomField
+  max_length: 0
+  id: 3
+  is_required: false
+  field_format: list
+  editable: true
+custom_fields_004:
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  type: UserCustomField
+  max_length: 0
+  id: 4
+  is_required: false
+  field_format: string
+  editable: true
+custom_fields_005:
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  type: UserCustomField
+  max_length: 0
+  id: 5
+  is_required: false
+  field_format: float
+  editable: true
+custom_fields_006:
+  min_length: 0
+  regexp: ""
+  is_for_all: true
+  type: WorkPackageCustomField
+  max_length: 0
+  id: 6
+  is_required: false
+  field_format: float
+  editable: true
+custom_fields_007:
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: TimeEntryActivityCustomField
+  max_length: 0
+  id: 7
+  is_required: false
+  field_format: bool
+  editable: true
+custom_fields_008:
+  min_length: 0
+  regexp: ""
+  is_for_all: true
+  is_filter: false
+  type: WorkPackageCustomField
+  max_length: 0
+  id: 8
+  is_required: false
+  field_format: date
+  editable: true
+custom_fields_009:
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: WorkPackageCustomField
+  max_length: 0
+  id: 9
+  is_required: false
+  field_format: date
+  editable: true

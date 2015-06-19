@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module API
   module Errors
     class Unauthorized < ErrorBase
       def initialize
-        super 403, 'You are not authorized to access this resource.'
+        super 403, I18n.t('api_v3.errors.code_403')
       end
     end
   end

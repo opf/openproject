@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,25 +27,42 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= form_for(:member,
+<%= labelled_tabular_form_for(:member,
              :url => {:controller => '/members', :action => 'create', :project_id => project},
              :method => :post,
              :remote => true,
              :loading => '$(\'member-add-submit\').disable();',
              :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable(); activateFlashError();',
              :html => {:id => "members_add_form"}) do |f| %>
-  <fieldset>
-    <legend><%=l(:label_member_new)%></legend>
-    <p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>
-    <%= observe_field(:principal_search,
-                 :frequency => 0.5,
-                 :update => :principal_results,
-                 :url => { :controller => '/members', :action => 'autocomplete_for_member', :id => project },
-                 :with => 'q')
-                  %>
-
-    <div id="principal_results">
-      <%= render :partial => 'members/autocomplete_for_member', :locals => { :principals => principals, :roles => roles } %>
+  <div class="form--section">
+    <h3 class="form--section-title"><%= l(:label_member_new) %></h3>
+    <div class="grid-block medium-up-2">
+      <div class="form--column">
+        <div class="form--field">
+          <%= styled_label_tag :principal_search, l(:label_principal_search) %>
+          <%= styled_text_field_tag :principal_search, nil %>
+          <%= observe_field(:principal_search,
+                       :frequency => 0.5,
+                       :update => :principal_results,
+                       :url => { :controller => '/members', :action => 'autocomplete_for_member', :id => project },
+                       :with => 'q')
+                        %>
+        </div>
+        <div id="principal_results">
+          <%= render partial: 'members/autocomplete_for_member', locals: { principals: principals, roles: roles } %>
+        </div>
+      </div>
+      <div class="form--column roles">
+        <fieldset class="form--fieldset">
+          <legend class="form--fieldset-legend"><%= l(:label_role_plural) %></legend>
+          <%= labeled_check_box_tags 'member[role_ids][]', roles %>
+        </fieldset>
+      </div>
     </div>
-  </fieldset>
+    <% if roles.any? && (principals.any? && principals.size <= 20) %>
+      <%= f.button l(:button_add), :id => 'member-add-submit',
+            class: 'button -highlight -with-icon icon-yes' %>
+    <% end %>
+  </div>
+
 <% end %>

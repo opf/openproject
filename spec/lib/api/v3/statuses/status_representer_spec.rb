@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ describe ::API::V3::Statuses::StatusRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('Status'.to_json).at_path('_type') }
+    it { is_expected.to include_json('Status'.to_json).at_path('_type') }
 
     describe 'status' do
       it { is_expected.to have_json_path('id') }
@@ -61,13 +61,11 @@ describe ::API::V3::Statuses::StatusRepresenter do
       it { is_expected.to have_json_type(Object).at_path('_links') }
 
       describe 'self' do
-        let(:href) { "/api/v3/statuses/#{status.id}".to_json }
-
-        it { is_expected.to have_json_path('_links/self/href') }
-        it { is_expected.to have_json_path('_links/self/title') }
-
-        it { is_expected.to be_json_eql(href).at_path('_links/self/href') }
-        it { is_expected.to be_json_eql(status.name.to_json).at_path('_links/self/title') }
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'self' }
+          let(:href) { "/api/v3/statuses/#{status.id}" }
+          let(:title) { status.name }
+        end
       end
     end
   end

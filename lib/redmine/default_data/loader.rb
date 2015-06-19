@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -201,32 +201,63 @@ module Redmine
             none = Type.standard_type
 
             # Issue statuses
-            new      = Status.create!(name: l(:default_status_new), is_closed: false, is_default: true, position: 1)
-            specified  = Status.create!(name: l(:default_status_specified), is_closed: false, is_default: false, position: 2)
-            confirmed  = Status.create!(name: l(:default_status_confirmed), is_closed: false, is_default: false, position: 3)
-            to_be_scheduled  = Status.create!(name: l(:default_status_to_be_scheduled), is_closed: false, is_default: false, position: 4)
-            scheduled  = Status.create!(name: l(:default_status_scheduled), is_closed: false, is_default: false, position: 5)
-            in_progress  = Status.create!(name: l(:default_status_in_progress), is_closed: false, is_default: false, position: 6)
-            tested  = Status.create!(name: l(:default_status_tested), is_closed: false, is_default: false, position: 7)
-            on_hold  = Status.create!(name: l(:default_status_on_hold), is_closed: false, is_default: false, position: 8)
-            rejected  = Status.create!(name: l(:default_status_rejected), is_closed: true, is_default: false, position: 9)
-            closed    = Status.create!(name: l(:default_status_closed), is_closed: true, is_default: false, position: 10)
+            new      = Status.create!(name: l(:default_status_new),
+                                      is_closed: false,
+                                      is_default: true,
+                                      position: 1)
+            specified  = Status.create!(name: l(:default_status_specified),
+                                        is_closed: false,
+                                        is_default: false,
+                                        position: 2)
+            confirmed  = Status.create!(name: l(:default_status_confirmed),
+                                        is_closed: false,
+                                        is_default: false,
+                                        position: 3)
+            to_be_scheduled  = Status.create!(name: l(:default_status_to_be_scheduled),
+                                              is_closed: false,
+                                              is_default: false,
+                                              position: 4)
+            scheduled  = Status.create!(name: l(:default_status_scheduled),
+                                        is_closed: false,
+                                        is_default: false,
+                                        position: 5)
+            in_progress  = Status.create!(name: l(:default_status_in_progress),
+                                          is_closed: false,
+                                          is_default: false,
+                                          position: 6)
+            tested  = Status.create!(name: l(:default_status_tested),
+                                     is_closed: false,
+                                     is_default: false,
+                                     position: 7)
+            on_hold  = Status.create!(name: l(:default_status_on_hold),
+                                      is_closed: false,
+                                      is_default: false,
+                                      position: 8)
+            rejected  = Status.create!(name: l(:default_status_rejected),
+                                       is_closed: true,
+                                       is_default: false,
+                                       position: 9)
+            closed    = Status.create!(name: l(:default_status_closed),
+                                       is_closed: true,
+                                       is_default: false,
+                                       position: 10)
 
-            # Workflow
-            statuses_for_task = [new, in_progress, on_hold, rejected, closed]
-            statuses_for_deliverable = [new, specified, in_progress, on_hold, rejected, closed]
-            statuses_for_none = [new, in_progress, rejected, closed]
-            statuses_for_milestone = [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed]
-            statuses_for_phase = statuses_for_milestone
-            statuses_for_bug = [new, confirmed, in_progress, tested, on_hold, rejected, closed]
-            statuses_for_feature = [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed]
-            # Give each type its own workflow. Possible statuses are stored in one of the arrays above.
-            # Every status from the array gets a workflow to every other status from the array.
-            ['task', 'deliverable', 'none', 'milestone', 'phase', 'bug', 'feature'].each { |t|
-              (eval 'statuses_for_'.concat(t)).each { |os|
-                (eval 'statuses_for_'.concat(t)).each { |ns|
+            # Workflow - Each type has its own workflow
+            workflows = { task.id =>        [new, in_progress, on_hold, rejected, closed],
+                          deliverable.id => [new, specified, in_progress, on_hold, rejected, closed],
+                          none.id =>        [new, in_progress, rejected, closed],
+                          milestone.id =>   [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+                          phase.id =>       [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+                          bug.id =>         [new, confirmed, in_progress, tested, on_hold, rejected, closed],
+                          feature.id =>     [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed] }
+            workflows.each { |type_id, statuses_for_type|
+              statuses_for_type.each { |old_status|
+                statuses_for_type.each { |new_status|
                   [manager.id, member.id].each { |role_id|
-                    Workflow.create!(type_id: (eval t).id, role_id: role_id, old_status_id: os.id, new_status_id: ns.id) unless os == ns
+                    Workflow.create!(type_id: type_id,
+                                     role_id: role_id,
+                                     old_status_id: old_status.id,
+                                     new_status_id: new_status.id)
                   }
                 }
               }

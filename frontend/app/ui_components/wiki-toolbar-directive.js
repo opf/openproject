@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,13 +27,24 @@
 //++
 
 module.exports = function() {
-  var HELP_LINK_HTML = '<a href="/help/wiki_syntax" class="icon icon-help" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">' + I18n.t('js.inplace.link_formatting_help') + '</a>',
+  var HELP_LINK_ONCLICK = 'window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, ' +
+                          '&quot;resizable=yes, location=no, width=600, height=640, ' +
+                          'menubar=no, status=no, scrollbars=yes&quot;); return false;',
+      HELP_LINK_HTML = jQuery('<button title="' + I18n.t('js.inplace.link_formatting_help') + '"' +
+                              ' class="jstb_help icon icon-help" ' +
+                              ' type="button" ' +
+                              'onclick="' + HELP_LINK_ONCLICK + '">' +
+                              '<span class="hidden-for-sighted">' +
+                              I18n.t('js.inplace.link_formatting_help') +
+                              '</span></button>')[0],
       PREVIEW_ENABLE_TEXT = I18n.t('js.inplace.btn_preview_enable'),
       PREVIEW_DISABLE_TEXT = I18n.t('js.inplace.btn_preview_disable'),
+      PREVIEW_BUTTON_CLASS = 'jstb_preview',
       PREVIEW_BUTTON_ATTRIBUTES = {
-        "class": 'btn-preview',
+        'class': PREVIEW_BUTTON_CLASS + ' icon-issue-watched',
         type: 'button',
-        text: PREVIEW_ENABLE_TEXT
+        title: PREVIEW_ENABLE_TEXT,
+        text: ''
       };
 
   function link(scope, element) {
@@ -47,13 +58,19 @@ module.exports = function() {
       scope.$apply(function() {
         scope.isPreview = !scope.isPreview;
         scope.previewToggle();
-        element.closest('.ined-input-wrapper').find('.btn-preview').text(scope.isPreview ? PREVIEW_DISABLE_TEXT : PREVIEW_ENABLE_TEXT);
+
+        var title = scope.isPreview ? PREVIEW_DISABLE_TEXT : PREVIEW_ENABLE_TEXT;
+        var toggledClasses = 'icon-issue-watched icon-ticket-edit -active';
+
+        element.closest('.inplace-edit--write-value')
+               .find('.' + PREVIEW_BUTTON_CLASS).attr('title', title)
+                                                .toggleClass(toggledClasses);
       });
     };
 
     element
-      .closest('.ined-input-wrapper')
-      .find('.help')
+      .closest('.inplace-edit--write-value')
+      .find('.jstb_help')
       .after(jQuery('<button>', previewButtonAttributes));
     // changes are made by jQuery, we trigger input event so that
     // ng-model knows that the value changed

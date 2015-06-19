@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::QueryColumn, type: :model do
   let(:instance) { QueryColumn.new(:query_column) }
 
-  describe :groupable do
+  describe '#groupable' do
     it 'is the name if true is provided' do
       instance.groupable = true
 
@@ -57,7 +57,7 @@ describe ::QueryColumn, type: :model do
     end
   end
 
-  describe :sortable do
+  describe '#sortable' do
     it 'is the name if true is provided' do
       instance.sortable = true
 
@@ -83,7 +83,7 @@ describe ::QueryColumn, type: :model do
     end
   end
 
-  describe :groupable? do
+  describe '#groupable?' do
     it 'is false by default' do
       expect(instance.groupable?).to be_falsey
     end
@@ -101,7 +101,7 @@ describe ::QueryColumn, type: :model do
     end
   end
 
-  describe :sortable? do
+  describe '#sortable?' do
     it 'is false by default' do
       expect(instance.sortable?).to be_falsey
     end

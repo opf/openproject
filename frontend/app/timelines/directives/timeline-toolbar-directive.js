@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,54 +26,67 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(TimelineTableHelper) {
+module.exports = function(I18n) {
 
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/templates/timelines/toolbar.html',
-    link: function(scope) {
-      scope.currentScaleName = 'monthly';
+    scope: { timeline: '=' },
+    controller: function() {
+      var vm = this;
 
-      scope.updateToolbar = function() {
-        scope.slider.slider('value', scope.timeline.zoomIndex + 1);
-        scope.currentOutlineLevel = Timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
-        scope.currentScaleName = Timeline.ZOOM_SCALES[scope.timeline.zoomIndex];
+      vm.currentScale = 'monthly';
+
+      vm.updateToolbar = function() {
+        vm.currentOutlineLevel = vm.timeline.OUTLINE_LEVELS[vm.timeline.expansionIndex];
+        vm.currentScale = vm.timeline.ZOOM_SCALES[vm.timeline.zoomIndex];
       };
 
-      scope.increaseZoom = function() {
-        if(scope.currentScaleIndex < Object.keys(Timeline.ZOOM_CONFIGURATIONS).length - 1) {
-          scope.currentScaleIndex++;
+      vm.increaseZoom = function() {
+        var scaleIndex = vm.timeline.ZOOM_SCALES.indexOf(vm.currentScale);
+
+        if(scaleIndex < Object.keys(vm.timeline.ZOOM_CONFIGURATIONS).length - 1) {
+          scaleIndex++;
         }
+        vm.currentScale = vm.timeline.ZOOM_SCALES[scaleIndex];
       };
-      scope.decreaseZoom = function() {
-        if(scope.currentScaleIndex > 0) {
-          scope.currentScaleIndex--;
+
+      vm.decreaseZoom = function() {
+        var scaleIndex = vm.timeline.ZOOM_SCALES.indexOf(vm.currentScale);
+
+        if(scaleIndex > 0) {
+          scaleIndex--;
         }
-      };
-      scope.resetOutline = function(){
-        scope.timeline.expandTo(0);
+        vm.currentScale = vm.timeline.ZOOM_SCALES[scaleIndex];
       };
 
-      scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
-        if (newScaleName !== oldScaleName) {
-          scope.currentScale = Timeline.ZOOM_CONFIGURATIONS[scope.currentScaleName].scale;
-          scope.timeline.scale = scope.currentScale;
+      vm.resetOutline = function(){
+        vm.timeline.expandTo(0);
+        vm.currentOutlineLevel = vm.timeline.OUTLINE_LEVELS[vm.timeline.expansionIndex];
+      };
+    },
+    controllerAs: 'ctrl',
+    bindToController: true,
+    link: function(scope, _element, _attributes, ctrl) {
+      scope.I18n = I18n;
 
-          scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
-          scope.slider.slider('value', scope.currentScaleIndex + 1);
+      scope.$watch('ctrl.currentScale', function(newScale, oldScale){
+        if (newScale !== oldScale) {
+          var scaleIndex = ctrl.timeline.ZOOM_SCALES.indexOf(ctrl.currentScale);
 
-          scope.timeline.zoom(scope.currentScaleIndex); // TODO replace event-driven adaption by bindings
+          ctrl.timeline.zoom(scaleIndex);
         }
       });
 
-      scope.$watch('currentOutlineLevel', function(outlineLevel, formerLevel) {
+      scope.$watch('ctrl.currentOutlineLevel', function(outlineLevel, formerLevel) {
         if (outlineLevel !== formerLevel) {
-          scope.timeline.expansionIndex = Timeline.OUTLINE_LEVELS.indexOf(outlineLevel);
-          scope.timeline.expandToOutlineLevel(outlineLevel); // TODO replace event-driven adaption by bindings
-          TimelineTableHelper.setRowLevelVisibility(scope.rows, scope.timeline.expansionIndex);
+          ctrl.timeline.expansionIndex = ctrl.timeline.OUTLINE_LEVELS.indexOf(outlineLevel);
+          ctrl.timeline.expandToOutlineLevel(outlineLevel); // TODO replace event-driven adaption by bindings
         }
       });
+
+      ctrl.updateToolbar();
     }
   };
 };

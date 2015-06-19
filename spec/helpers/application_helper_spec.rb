@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -168,5 +168,63 @@ describe ApplicationHelper, type: :helper do
       it { expect(@links).to be_nil }
     end
 
+  end
+
+  describe 'time_tag' do
+    around do |example|
+      I18n.with_locale(:en) { example.run }
+    end
+
+    subject { time_tag(time) }
+
+    context 'with project' do
+      before do
+        @project = FactoryGirl.build(:project)
+      end
+
+      context 'right now' do
+        let(:time) { Time.now }
+
+        it { is_expected.to match /^\<a/ }
+        it { is_expected.to match /less than a minute/ }
+        it { is_expected.to be_html_safe }
+      end
+
+      context 'some time ago' do
+        let(:time) {
+          Timecop.travel(2.weeks.ago) do
+            Time.now
+          end
+        }
+
+        it { is_expected.to match /^\<a/ }
+        it { is_expected.to match /14 days/ }
+        it { is_expected.to be_html_safe }
+      end
+    end
+
+    context 'without project' do
+      context 'right now' do
+        let(:time) { Time.now }
+
+        it { is_expected.to match /^\<time/ }
+        it { is_expected.to match /datetime=\"#{Regexp.escape(time.xmlschema)}\"/ }
+        it { is_expected.to match /less than a minute/ }
+        it { is_expected.to be_html_safe }
+      end
+
+      context 'some time ago' do
+        let(:time) {
+          Timecop.travel(1.week.ago) do
+            Time.now
+          end
+        }
+
+        it { is_expected.to match /^\<time/ }
+        it { is_expected.to match /datetime=\"#{Regexp.escape(time.xmlschema)}\"/ }
+        it { is_expected.to match /7 days/ }
+        it { is_expected.to be_html_safe }
+      end
+    end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'open_project/passwords'
 
 describe OpenProject::Passwords::Generator do
-  describe :random_password do
+  describe '#random_password' do
     it 'should create a valid password' do
       with_settings password_active_rules: ['lowercase', 'uppercase', 'numeric', 'special'],
                     password_min_adhered_rules: 3,

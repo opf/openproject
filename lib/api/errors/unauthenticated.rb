@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,8 @@
 module API
   module Errors
     class Unauthenticated < ErrorBase
-      def initialize
-        super 401, 'You need to be authenticated to access this resource.'
+      def initialize(message = I18n.t('api_v3.errors.code_401'))
+        super 401, message
       end
     end
   end

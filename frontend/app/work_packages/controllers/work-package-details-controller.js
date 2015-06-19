@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-    $scope, $state, latestTab, workPackage, I18n,
-    RELATION_TYPES, RELATION_IDENTIFIERS, $q,
-    WorkPackagesHelper, PathHelper, UsersHelper,
-    ConfigurationService, WorkPackageService,
-    CommonRelationsHandler, ChildrenRelationsHandler, ParentRelationsHandler
+module.exports = function($scope,
+    $state,
+    latestTab,
+    workPackage,
+    I18n,
+    RELATION_TYPES,
+    RELATION_IDENTIFIERS,
+    $q,
+    WorkPackagesHelper,
+    PathHelper,
+    UsersHelper,
+    ConfigurationService,
+    WorkPackageService,
+    CommonRelationsHandler,
+    ChildrenRelationsHandler,
+    ParentRelationsHandler
   ) {
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
   });
 
-  $scope.$on('workPackageRefreshRequired', function() {
-    refreshWorkPackage();
+  $scope.$on('workPackageRefreshRequired', function(e, callback) {
+    refreshWorkPackage(callback);
   });
 
   // initialization
@@ -48,12 +58,14 @@ module.exports = function(
   $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
   $scope.maxDescriptionLength = 800;
 
-  function refreshWorkPackage() {
-    workPackage.links.self
-      .fetch({force: true})
-      .then(function() {
-        WorkPackageService.loadWorkPackageForm(workPackage);
+  function refreshWorkPackage(callback) {
+    WorkPackageService.getWorkPackage($scope.workPackage.props.id)
+      .then(function(workPackage) {
         setWorkPackageScopeProperties(workPackage);
+        $scope.$broadcast('workPackageRefreshed');
+        if (callback) {
+          callback(workPackage);
+        }
       });
   }
   $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
@@ -77,7 +89,6 @@ module.exports = function(
 
   function setWorkPackageScopeProperties(workPackage){
     $scope.workPackage = workPackage;
-
     $scope.isWatched = !!workPackage.links.unwatchChanges;
 
     if (workPackage.links.watchChanges === undefined) {
@@ -89,7 +100,7 @@ module.exports = function(
     $scope.watchers = workPackage.embedded.watchers;
 
     // autocomplete path
-    var projectId = workPackage.props.projectId;
+    var projectId = workPackage.embedded.project.props.id;
     $scope.autocompletePath = PathHelper.staticWorkPackagesAutocompletePath(projectId);
 
     // activities and latest activities
@@ -99,13 +110,18 @@ module.exports = function(
     // watchers
     $scope.watchers = workPackage.embedded.watchers;
 
+    $scope.showStaticPagePath = PathHelper.staticWorkPackagePath($scope.workPackage.props.id);
+
+    // Type
+    $scope.type = workPackage.embedded.type;
+
     // Author
     $scope.author = workPackage.embedded.author;
     $scope.authorPath = PathHelper.staticUserPath($scope.author.props.id);
     $scope.authorActive = UsersHelper.isActive($scope.author);
 
     // Attachments
-    $scope.attachments = workPackage.embedded.attachments;
+    $scope.attachments = workPackage.embedded.attachments.embedded.elements;
 
     // relations
     $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
@@ -135,9 +151,6 @@ module.exports = function(
         relationTypeIterator(key);
       }
     }
-
-    // Author
-    $scope.author = workPackage.embedded.author;
   }
 
   $scope.toggleWatch = function() {

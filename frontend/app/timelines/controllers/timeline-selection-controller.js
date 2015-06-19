@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,10 +27,14 @@
 //++
 
 module.exports = function($scope, $window) {
-  $scope.timelines = gon.timelines;
-  $scope.currentTimelineId = gon.current_timeline_id;
+  var vm;
+  $scope.vm = vm = {};
 
-  $scope.switchTimeline = function() {
-    $window.location.href = $scope.timelines[$scope.currentTimelineId].path;
+  vm.timelines = gon.timelines;
+  vm.currentTimelineId = gon.current_timeline_id;
+  vm.currentTimeline = _.find(vm.timelines, { 'id': vm.currentTimelineId });
+
+  vm.switchTimeline = function() {
+    $window.location.href = vm.currentTimeline.path;
   };
 };

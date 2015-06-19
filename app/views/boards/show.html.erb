@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,45 +29,57 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= include_gon %>
 
-<% content_for :action_menu_specific do %>
-  <%= link_to_if_authorized l(:label_message_new),
-                            {:controller => '/messages', :action => 'new', :board_id => @board},
-                            :class => 'icon icon-add',
-                            :onclick => 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
-    <%= watcher_link(@board, User.current) %>
-<% end %>
-
 <div id="add-message" style="display:none;">
-<% if authorize_for('messages', 'new') %>
-<h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
-<%= form_for Message.new,
-             :url => board_topics_path(@board),
-             :html => { :multipart => true,
-                        :id => 'message-form'} do |f| %>
-  <%= render :partial => 'messages/form', :locals => {:f => f} %>
-  <p><%= submit_tag l(:button_create) %>
-  <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
-  <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-message")' %></p>
-<% end %>
-<div id="preview" class="wiki"></div>
-<% end %>
+  <% if authorize_for('messages', 'new') %>
+    <h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
+    <%= labelled_tabular_form_for Message.new,
+                                  url: board_topics_path(@board),
+                                  html: { multipart: true,
+                                          id: 'message-form',
+                                          class: 'form' } do |f| %>
+      <%= render partial: 'messages/form', locals: {f: f} %>
+
+      <hr class="form--separator">
+      <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-yes' %>
+      <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
+      <%= link_to l(:button_cancel), "#", onclick: 'Element.hide("add-message")', class: 'button' %>
+    <% end %>
+    <div id="preview"></div>
+  <% end %>
 </div>
 
-<h2><%=h @board.name %></h2>
-<p class="subtitle"><%=h @board.description %></p>
-<%= render :partial => 'layouts/action_menu_specific' %>
-
+<%= toolbar title: @board.name, subtitle: @board.description do %>
+  <% if authorize_for(:messages, :new) %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: '/messages', action: 'new', board_id: @board},
+                    class: 'button -alt-highlight',
+                    onclick: 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;') do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= l(:label_message_new) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <% unless User.current.anonymous? %>
+    <li class="toolbar-item">
+      <div class="button">
+        <%= watcher_link(@board, User.current) %>
+      </div>
+    </li>
+  <% end %>
+<% end %>
 
 <div ng-controller="MessagesController">
   <% if @topics.any? %>
     <table class="list messages">
-      <thead><tr>
-        <th><%= Message.human_attribute_name(:subject) %></th>
-        <th><%= Message.human_attribute_name(:author) %></th>
-        <th><sort-link sort-attr="created_on" sort-func="loadMessages()"><%= Message.human_attribute_name(:created_on) %></sort-link></th>
-        <th><sort-link sort-attr="replies" sort-func="loadMessages()"><%= l(:label_reply_plural) %></sort-link></th>
-        <th><sort-link sort-attr="updated_on" sort-func="loadMessages()"><%= l(:label_message_last) %></sort-link></th>
-      </tr></thead>
+      <thead>
+        <tr>
+          <th><%= Message.human_attribute_name(:subject) %></th>
+          <th><%= Message.human_attribute_name(:author) %></th>
+          <th><sort-link sort-attr="created_on" sort-func="loadMessages()"><%= Message.human_attribute_name(:created_on) %></sort-link></th>
+          <th><sort-link sort-attr="replies" sort-func="loadMessages()"><%= l(:label_reply_plural) %></sort-link></th>
+          <th><sort-link sort-attr="updated_on" sort-func="loadMessages()"><%= l(:label_message_last) %></sort-link></th>
+        </tr>
+      </thead>
       <tbody>
         <tr ng-repeat="message in messages">
           <td class="subject">
@@ -96,11 +108,9 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
 <% end %>
-
 <% html_title h(@board.name) %>
-
 <% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
+  <%= auto_discovery_link_tag(:atom, {format: 'atom', key: User.current.rss_key}, title: "#{@project}: #{@board}") %>
 <% end %>

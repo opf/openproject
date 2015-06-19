@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require 'diff'
 class JournalsController < ApplicationController
   before_filter :find_journal, except: [:index]
   before_filter :find_optional_project, only: [:index]
-  before_filter :authorize, only: [:edit, :update, :preview]
+  before_filter :authorize, only: [:edit, :update, :preview, :diff]
   accept_key_auth :index
   menu_item :issues
 
@@ -88,7 +88,7 @@ class JournalsController < ApplicationController
   end
 
   def diff
-    if valid_field?(params[:field])
+    if valid_diff?
       field = params[:field].parameterize.underscore.to_sym
       from = @journal.changed_data[field][0]
       to = @journal.changed_data[field][1]
@@ -131,5 +131,10 @@ class JournalsController < ApplicationController
 
   def default_breadcrumb
     I18n.t(:label_journal_diff)
+  end
+
+  def valid_diff?
+    return false unless valid_field?(params[:field])
+    @journal.journable.class == WorkPackage
   end
 end

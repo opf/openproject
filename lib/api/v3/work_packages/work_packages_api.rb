@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,90 +26,64 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/activities/activity_representer'
+require 'api/v3/work_packages/work_package_representer'
+
 module API
   module V3
     module WorkPackages
-      class WorkPackagesAPI < Grape::API
+      class WorkPackagesAPI < ::API::OpenProjectAPI
         resources :work_packages do
-
           params do
             requires :id, desc: 'Work package id'
           end
-          namespace ':id' do
-
+          route_param :id do
+            helpers WorkPackagesSharedHelpers
             helpers do
               attr_reader :work_package
 
-              def write_work_package_attributes
-                if request_body
-                  payload = ::API::V3::WorkPackages::Form::WorkPackagePayloadRepresenter
-                              .new(@work_package, enforce_lock_version_validation: true)
-
-                  begin
-                    payload.from_json(request_body.to_json)
-                  rescue ::API::Errors::Form::InvalidResourceLink => e
-                    fail ::API::Errors::Validation.new(e.message)
-                  end
-                end
-              end
-
-              def request_body
-                env['api.request.body']
-              end
-
-              def write_request_valid?
-                contract = WorkPackageContract.new(@representer.represented, current_user)
-
-                # We need to merge the contract errors with the model errors in
-                # order to have them available at one place.
-                unless contract.validate & @representer.represented.valid?
-                  contract.errors.keys.each do |key|
-                    contract.errors[key].each do |message|
-                      @representer.represented.errors.add(key, message)
-                    end
-                  end
-                end
-
-                @representer.represented.errors.count == 0
+              def work_package_representer
+                WorkPackageRepresenter.create(@work_package,
+                                              current_user: current_user)
               end
             end
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              @representer = ::API::V3::WorkPackages::WorkPackageRepresenter
-                .new(work_package, { current_user: current_user }, :activities, :users)
+
+              authorize(:view_work_packages, context: @work_package.project) do
+                raise API::Errors::NotFound.new
+              end
             end
 
             get do
-              authorize({ controller: :work_packages_api, action: :get }, context: @work_package.project)
-              @representer
+              work_package_representer
             end
 
             patch do
-              write_work_package_attributes
+              write_work_package_attributes(@work_package, reset_lock_version: true)
 
               send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
-              update_service = UpdateWorkPackageService.new(current_user,
-                                                            @representer.represented,
-                                                            nil,
-                                                            send_notifications)
+              update_service = UpdateWorkPackageService.new(
+                user: current_user,
+                work_package: @work_package,
+                send_notifications: send_notifications)
 
-              if write_request_valid? && update_service.save
-                @representer.represented.reload
-                @representer
+              if write_request_valid?(@work_package, UpdateContract) && update_service.save
+                @work_package.reload
+
+                work_package_representer
               else
-                fail ::API::Errors::ErrorBase.create(@representer.represented.errors)
+                fail ::API::Errors::ErrorBase.create(@work_package.errors.dup)
               end
             end
 
             resource :activities do
-
               helpers do
                 def save_work_package(work_package)
                   if work_package.save
-                    representer = ::API::V3::Activities::ActivityRepresenter.new(work_package.journals.last, current_user: current_user)
-
-                    representer
+                    Activities::ActivityRepresenter.new(work_package.journals.last,
+                                                        current_user: current_user)
                   else
                     fail ::API::Errors::Validation.new(work_package)
                   end
@@ -120,21 +94,24 @@ module API
                 requires :comment, type: String
               end
               post do
-                authorize({ controller: :journals, action: :new }, context: @work_package.project)
+                authorize({ controller: :journals, action: :new },
+                          context: @work_package.project) do
+                  raise ::API::Errors::NotFound.new
+                end
 
                 @work_package.journal_notes = params[:comment]
 
                 save_work_package(@work_package)
               end
-
             end
 
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Relations::RelationsAPI
-            mount ::API::V3::WorkPackages::Form::FormAPI
-
+            mount ::API::V3::Attachments::AttachmentsByWorkPackageAPI
+            mount ::API::V3::WorkPackages::UpdateFormAPI
           end
 
+          mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
         end
       end
     end

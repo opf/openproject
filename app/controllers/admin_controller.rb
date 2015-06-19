@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,7 +71,7 @@ class AdminController < ApplicationController
         Redmine::DefaultData::Loader::load(params[:lang])
         flash[:notice] = l(:notice_default_data_loaded)
       rescue => e
-        flash[:error] = l(:error_can_t_load_default_data, e.message)
+        flash[:error] = l(:error_can_t_load_default_data, ERB::Util.h(e.message))
       end
     end
     redirect_to action: 'index'
@@ -83,9 +83,9 @@ class AdminController < ApplicationController
     ActionMailer::Base.raise_delivery_errors = true
     begin
       @test = UserMailer.test_mail(User.current).deliver
-      flash[:notice] = l(:notice_email_sent, User.current.mail)
+      flash[:notice] = l(:notice_email_sent, ERB::Util.h(User.current.mail))
     rescue => e
-      flash[:error] = l(:notice_email_error, e.message)
+      flash[:error] = l(:notice_email_error, ERB::Util.h(Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup)))
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
     redirect_to controller: '/settings', action: 'edit', tab: 'notifications'
@@ -103,9 +103,10 @@ class AdminController < ApplicationController
 
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
+    repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
-      [:text_file_repository_writable, File.writable?(Attachment.storage_path)]
+      [:text_file_repository_writable, repository_writable]
     ]
   end
 

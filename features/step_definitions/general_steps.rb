@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -214,8 +214,8 @@ Given /^there are the following issue status:$/ do |table|
   table.hashes.each_with_index do |t, i|
     status = Status.find_by_name(t['name'])
     status = Status.new name: t['name'] if status.nil?
-    status.is_closed = t['is_closed'] == 'true' ? true : false
-    status.is_default = t['is_default'] == 'true' ? true : false
+    status.is_closed = t['is_closed'] == 'true'
+    status.is_default = t['is_default'] == 'true'
     status.position = t['position'] ? t['position'] : i
     status.default_done_ratio = t['default_done_ratio']
     status.save!
@@ -250,11 +250,11 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
 end
 
 Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
-  within('#s2id_selected_columns_new') do
+  within('.ng-modal-inner') do
     find('input.select2-input').click
   end
 
-  s2_result = find('ul.select2-results li', text: column_name)
+  s2_result = find('ul.select2-result-single li', text: column_name)
   s2_result.click
 end
 
@@ -272,11 +272,11 @@ Given /^I select to see [cC]olumn(?:s)?$/ do |table|
   end
 
   result.each do |column_name|
-    within('#s2id_selected_columns_new') do
+    within('.ng-modal-inner') do
       find('input.select2-input').click
     end
 
-    s2_result = find('ul.select2-results li', text: column_name)
+    s2_result = find('ul.select2-result-single li', text: column_name)
     s2_result.click
   end
 end

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe('toggledMultiselect Directive', function() {
     beforeEach(angular.mock.module('openproject.uiComponents',
                                    'openproject.workPackages.helpers',
                                    'openproject.services'));
-    beforeEach(module('templates', function($provide) {
+    beforeEach(module('openproject.templates', function($provide) {
       var configurationService = {};
 
       configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -70,8 +70,8 @@ describe('toggledMultiselect Directive', function() {
       });
 
       describe('element', function() {
-        it('should render a div', function() {
-          expect(element.prop('tagName')).to.equal('DIV');
+        it('should render a span', function() {
+          expect(element.prop('tagName')).to.equal('SPAN');
         });
 
         it('should render only one select', function() {

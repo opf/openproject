@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,24 @@
 
 module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting, CustomField, CustomFieldHelper) {
 
+  var getInitialValue = function(timelineOptions, property) {
+    var value = timelineOptions[property];
+
+    if (value && value >= 0) {
+      return value;
+    } else {
+      return 0;
+    }
+  };
+
+  var getInitialOutlineExpansion = function(timelineOptions) {
+    return getInitialValue(timelineOptions, 'initial_outline_expansion');
+  };
+
+  var getInitialZoomFactor = function(timelineOptions) {
+    return getInitialValue(timelineOptions, 'zoom_factor');
+  };
+
   Timeline = {};
 
   // model mix ins
@@ -38,11 +56,13 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
   //startup
   angular.extend(Timeline, {
     instances: [],
-    create: function(options) {
+    create: function(id, options) {
+      if (!id) {
+        throw new Error('No timelines id given');
+      }
       if (!options) {
         throw new Error('No configuration options given');
       }
-      this.options = options;
       this.extendOptions();
 
       this.instances = [];
@@ -50,8 +70,13 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
       var timeline = Object.create(Timeline);
 
       // some private fields.
+      timeline.id = id;
+      timeline.options = options;
       timeline.listeners = [];
       timeline.data = {};
+
+      timeline.expansionIndex = parseInt(getInitialOutlineExpansion(options), 10);
+      timeline.zoomIndex = parseInt(getInitialZoomFactor(options), 10);
 
       Timeline.instances.push(timeline);
       return timeline;
@@ -235,13 +260,10 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
     },
     registerTimelineContainer: function(uiRoot) {
       this.uiRoot = uiRoot;
-      this.registerDrawPaper();
     },
     checkPrerequisites: function() {
       if (jQuery === undefined) {
         throw new Error('jQuery seems to be missing (jQuery is undefined)');
-      } else if (jQuery().slider === undefined) {
-        throw new Error('jQuery UI seems to be missing (jQuery().slider is undefined)');
       } else if ((1).month === undefined) {
         throw new Error('date.js seems to be missing ((1).month is undefined)');
       }
@@ -699,8 +721,6 @@ module.exports = function(Constants, TreeNode, UI, Color, HistoricalPlanningElem
       return new F();
     };
   }
-
-
 
   return Timeline;
 };

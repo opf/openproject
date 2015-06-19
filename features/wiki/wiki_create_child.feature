@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,7 @@ Feature: Creating a wiki child page
       And I click "Wikiparentpage"
       And I follow "More functions" within "#content"
       And I click "Create new child page"
-      And I fill in "page_title" with "Todd's wiki"
+      And I fill in "content_page_title" with "Todd's wiki"
       And I press "Save"
     When I go to the wiki index page of the project called "project1"
     Then I should see "Todd's wiki" within "#content"
@@ -65,6 +65,6 @@ Feature: Creating a wiki child page
       | new_wiki_page | true           |
     When I go to the wiki new child page below the "ParentWikiPage" page of the project called "project1"
     And I click "Create new child page"
-    And I fill in "page_title" with "Child Page !@#{$%^&*()_},./<>?;':"
+    And I fill in "content_page_title" with "Child Page !@#{$%^&*()_},./<>?;':"
     And I click "Save"
     Then I should see "Successful creation."

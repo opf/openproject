@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,24 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import global/all
-
 div.wiki
-  font-size: $wiki_default_font_size
+  font-size: $wiki-default-font-size
+  $wiki-max-heading-font-size: 24px
   line-height: 1.6em
+
+  // this should be the same as a normal heading (see toolbar)
   h1
-    font-size: 18px
+    padding: 12px 0 0 0
+    border: 0
+    font-size: $wiki-max-heading-font-size
+    line-height: 1.4
+    height: 45px
   h2
-    font-size: 16px
+    font-size: $wiki-max-heading-font-size * 0.8
   h3
-    font-size: 13px
-    border-bottom: 1px dotted #bbbbbb
-  h1, h2, h3
+    font-size: $wiki-max-heading-font-size * 0.6
+  h4
+    font-size: $wiki-max-heading-font-size * 0.5
+
+  h2, h3
     margin: 1em 0 1em 0
     font-weight: bold
     color: #555555
     text-transform: none
     border-bottom: 1px solid #bbbbbb
+
+  h2
+    padding: 2px 10px 1px 0
+
+  h3
+    padding: 0 10px 1px 0
+    border-bottom: 1px dotted #bbbbbb
 
   table
     border: 1px solid #505050
@@ -58,7 +72,7 @@ div.wiki
     background-position: 0% 60%
     background-repeat: no-repeat
     padding-left: 12px
-    background-image: url(image-path('external.png'))
+    background-image: image-url('external.png')
 
   pre
     margin: 1em 1em 1em 1.6em
@@ -74,7 +88,7 @@ div.wiki
     margin-right: 12px
     margin-left: 0
     display: table
-    font-size: $wiki_toc_ul_font_size
+    font-size: $wiki-toc-ul-font-size
     &.right
       float: right
       margin-left: 12px
@@ -87,7 +101,7 @@ div.wiki
       width: auto
     a
       font-weight: normal
-      background-image: url(image-path('arrow-down.png'))
+      background-image: image-url('arrow-down.png')
       background-repeat: no-repeat
       background-position: 0% 60%
       padding-left: 16px
@@ -112,7 +126,7 @@ div.wiki
     margin-left: 1.5em
   fieldset.collapsible legend
     font-weight: bold
-    font-size: $wiki_toc_header_font_size
+    font-size: $wiki-toc-header-font-size
   img
     vertical-align: middle
 
@@ -148,52 +162,54 @@ h1:hover, h2:hover, h3:hover
       min-height: 24px
 
     &.see-also
-      background: url(image-path('wiki_styles/see-also.png')) 4px 4px no-repeat #f5fffa
+      background: image-url('wiki_styles/see-also.png') 4px 4px no-repeat #f5fffa
       border: 1px solid #AAB1AD
 
     &.smallsee-also
-      background: url(image-path('wiki_styles/see-also_small.png')) 4px 4px no-repeat #f5fffa
+      background: image-url('wiki_styles/see-also_small.png') 4px 4px no-repeat #f5fffa
       border: 1px solid #AAB1AD
 
     &.caution
-      background: url(image-path('wiki_styles/caution.png')) 4px 6px no-repeat #f5fffa
+      background: image-url('wiki_styles/caution.png') 4px 6px no-repeat #f5fffa
       border: 1px solid #AAB1AD
 
     &.smallcaution
-      background: url(image-path('wiki_styles/caution_small.png')) 4px 4px no-repeat #f5fffa
+      background: image-url('wiki_styles/caution_small.png') 4px 4px no-repeat #f5fffa
       border: 1px solid #AAB1AD
 
     &.important
-      background: url(image-path('wiki_styles/important.png')) 4px 7px no-repeat #F0F8FF
+      background: image-url('wiki_styles/important.png') 4px 7px no-repeat #F0F8FF
       border: 1px solid #C1C8CF
 
     &.smallimportant
-      background: url(image-path('wiki_styles/important_small.png')) 4px 6px no-repeat #F0F8FF
+      background: image-url('wiki_styles/important_small.png') 4px 6px no-repeat #F0F8FF
       border: 1px solid #C1C8CF
 
     &.info
-      background: url(image-path('wiki_styles/info.png')) 4px 4px no-repeat #FFFFE0
+      background: image-url('wiki_styles/info.png') 4px 4px no-repeat #FFFFE0
       border: 1px solid #FFFF00
 
     &.smallinfo
-      background: url(image-path('wiki_styles/info_small.png')) 4px 4px no-repeat #FFFFE0
+      background: image-url('wiki_styles/info_small.png') 4px 4px no-repeat #FFFFE0
       border: 1px solid #FFFF00
 
     &.smalltip
-      background: url(image-path('wiki_styles/tip_small.png')) 4px 5px no-repeat #F5FFFA
+      background: image-url('wiki_styles/tip_small.png') 4px 5px no-repeat #F5FFFA
       border: 1px solid #C7CFCA
 
     &.note
-      background: url(image-path('wiki_styles/note.png')) 6px 4px no-repeat #F5FFFA
+      background: image-url('wiki_styles/note.png') 6px 4px no-repeat #F5FFFA
       border: 1px solid #C7CFCA
 
     &.smallnote
-      background: url(image-path('wiki_styles/note_small.png')) 5px 4px no-repeat #F5FFFA
+      background: image-url('wiki_styles/note_small.png') 5px 4px no-repeat #F5FFFA
       border: 1px solid #C7CFCA
+
+  .quick_info .label
+    background: none
+    color: #000
+    font-weight: bold
+    font-size: $wiki-default-font-size
 
 .wiki-content
   width: 700px
-
-.controller-wiki.action-show
-  #content
-    overflow: visible

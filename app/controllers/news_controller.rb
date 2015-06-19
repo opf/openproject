@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,8 +40,6 @@ class NewsController < ApplicationController
   before_filter :authorize, except: [:index, :preview]
   before_filter :find_optional_project, only: [:index]
   accept_key_auth :index
-
-  menu_item :new_news, only: [:new, :create]
 
   def index
     scope = @project ? @project.news.visible : News.visible

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,8 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
+  $scope.availableColumnsData = [];
+  $scope.sortElements = [];
   $scope.initSortation = function(){
     var currentSortation = QueryService.getSortation();
 
@@ -45,21 +47,9 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
 
   function fillUpSortElements() {
     while($scope.sortElements.length < 3) {
-      $scope.sortElements.push([]);
+      $scope.sortElements.push([{}, $scope.availableDirectionsData[1]]);
     }
   }
-
-  // functions exposing available options to select2
-
-  $scope.getAvailableColumnsData = function(term, result) {
-    var filtered = $filter('filter')(getRemainingAvailableColumnsData(), { label: term }),
-        sorted = $filter('orderBy')(filtered, 'label');
-
-    return result(sorted);
-  };
-  $scope.getDirectionsData = function(term, result) {
-    return result($filter('filter')($scope.availableDirectionsData, { label: term }));
-  };
 
   // reduction of column options to columns that haven't been selected
 
@@ -76,6 +66,7 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
     });
   }
 
+  $scope.getRemainingAvailableColumnsData = getRemainingAvailableColumnsData;
   // updates
 
   $scope.updateSortation = function(){
@@ -97,7 +88,7 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
 
   var blankOption = { id: null, label: ' ', other: null };
 
-  QueryService.loadAvailableColumns()
+  $scope.promise = QueryService.loadAvailableColumns()
     .then(function(available_columns){
 
       $scope.availableColumnsData = available_columns
@@ -111,18 +102,4 @@ module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
 
       $scope.initSortation();
     });
-
-  // prune unselected sorting criteria
-
-  function pruneBlankSortElements() {
-    angular.forEach($scope.sortElements, function(sortElement, index) {
-      if (sortElement.length && !sortElement[0].id) {
-        $scope.sortElements.splice(index, 1);
-      }
-    });
-    fillUpSortElements();
-  }
-
-  $scope.$watch('sortElements', pruneBlankSortElements, true);
-
 };

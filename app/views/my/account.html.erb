@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -37,44 +37,43 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'layouts/action_menu_specific' %>
 <%= error_messages_for 'user' %>
 
-<%= form_for @user, :as => :user, :url => { :action => "account" },
-                          :builder => TabularFormBuilder,
+<%= labelled_tabular_form_for @user, :as => :user, :url => { :action => "account" },
                           :lang => current_language,
-                          :html => { :id => 'my_account_form' } do |f| %>
-  <div>
-    <div class="splitcontentleft">
-      <h3><%=l(:label_information_plural)%></h3>
-      <div class="box tabular">
-        <p><%= f.text_field :firstname, :required => true %></p>
-        <p><%= f.text_field :lastname, :required => true %></p>
-        <p><%= f.text_field :mail, :required => true %></p>
-        <p><%= f.select :language, lang_options_for_select %></p>
+                          :html => { :id => 'my_account_form', class: 'form -wide-labels' } do |f| %>
+  <%# @see https://github.com/zurb/foundation-apps/issues/575 -%>
+  <div class="grid-block medium-up-2">
+    <div class="grid-content">
+      <h3 class="form--section-title"><%=l(:label_information_plural)%></h3>
+      <section class="form--section">
+        <div class="form--field"><%= f.text_field :firstname, :required => true %></div>
+        <div class="form--field"><%= f.text_field :lastname, :required => true %></div>
+        <div class="form--field"><%= f.text_field :mail, :required => true %></div>
+        <div class="form--field"><%= f.select :language, lang_options_for_select %></div>
 
-        <% @user.custom_field_values.select(&:editable?).each do |value| %>
-          <p><%= custom_field_tag_with_label :user, value %></p>
-        <% end %>
+        <%= render partial:     'customizable/field',
+                   collection:  @user.custom_field_values.select(&:editable?),
+                   as:          :value,
+                   locals:      { form: f } %>
+
         <%= call_hook(:view_my_account, :user => @user, :form => f) %>
-      </div>
+      </section>
     </div>
 
-    <div class="splitcontentright">
-      <h3><%= User.human_attribute_name(:mail_notification) %></h3>
-      <div class="box">
-      <%= render :partial => 'users/mail_notifications' %>
-      </div>
-
-      <h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
-      <div class="box tabular">
-      <%= render :partial => 'users/impaired_settings' %>
-      </div>
-
-      <h3><%=l(:label_preferences)%></h3>
-      <div class="box tabular">
-      <%= render :partial => 'users/preferences' %>
-      </div>
+    <div class="grid-content">
+      <h3 class="form--section-title"><%= User.human_attribute_name(:mail_notification) %></h3>
+      <section class="form--section">
+        <%= render :partial => 'users/mail_notifications' %>
+      </section>
+      <h3 class="form--section-title"><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
+      <section class="form--section">
+        <%= render :partial => 'users/impaired_settings' %>
+      </section>
+      <h3 class="form--section-title"><%=l(:label_preferences)%></h3>
+      <section class="form--section">
+        <%= render :partial => 'users/preferences' %>
+      </section>
     </div>
-    <br style="clear:both;" />
   </div>
 
-  <%= submit_tag l(:button_save) %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-yes' %>
 <% end %>

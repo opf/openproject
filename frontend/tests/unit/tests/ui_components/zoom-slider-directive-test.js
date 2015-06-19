@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,32 +29,68 @@
 /*jshint expr: true*/
 
 describe('zoomSlider Directive', function() {
-    var compile, element, rootScope, scope;
+  var I18n, compile, element, scope;
 
-    beforeEach(angular.mock.module('openproject.uiComponents'));
-    beforeEach(module('templates'));
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(module('openproject.templates'));
 
-    beforeEach(inject(function($rootScope, $compile) {
-      var html;
-      html = '<div zoom-slider></div>';
+  beforeEach(inject(function($rootScope, $compile, _I18n_) {
+    var html = '<zoom-slider scales="scales" selected-scale="scale"></zoom-slider>';
 
-      element = angular.element(html);
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
+    element = angular.element(html);
+    scope = $rootScope.$new();
+    scope.scales = ['yearly', 'quarterly', 'monthly', 'weekly', 'daily'];
 
-      compile = function() {
-        $compile(element)(scope);
-        scope.$digest();
-      };
-    }));
+    compile = function() {
+      $compile(element)(scope);
+      scope.$digest();
+    };
 
-    xdescribe('element', function() {
-      beforeEach(function() {
-        compile();
-      });
+    I18n = _I18n_;
+    sinon.stub(I18n, 't').returns('Zoom Test');
+  }));
 
-      it('should emit a div', function() {
-        expect(element.prop('tagName')).to.equal('DIV');
-      });
+  afterEach(function() {
+    I18n.t.restore();
+  });
+
+  describe('label element', function() {
+    beforeEach(function() {
+      compile();
     });
+
+    it('provides an accessible label for the slider', function() {
+      var slider = element.find('input[type="range"]');
+      var label = element.find('label[for=' + slider.attr('id') + ']');
+
+      expect(label.text().trim()).to.equal('Zoom Test');
+    });
+  });
+
+  describe('slider element', function() {
+    var slider;
+
+    beforeEach(function() {
+      compile();
+      slider = element.find('input[type="range"]');
+    });
+
+    it('has an initial value set', function() {
+      expect(slider.val()).to.eq('1');
+    });
+
+    it('has its value set based on selectedScale', function() {
+      scope.scale = 'monthly';
+      scope.$apply();
+      expect(slider.val()).to.eq('3');
+    });
+
+    it('updates selectedScale when its value changes', function() {
+      slider.val('2').change();
+      expect(scope.scale).to.eq('quarterly');
+
+      slider.val('5').change();
+      expect(scope.scale).to.eq('daily');
+    });
+  });
 });

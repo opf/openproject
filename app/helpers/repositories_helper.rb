@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -185,7 +185,7 @@ module RepositoriesHelper
 
   def scm_select_tag(repository)
     scm_options = [["--- #{l(:actionview_instancetag_blank_option)} ---", '']]
-    Redmine::Scm::Base.all.each do |scm|
+    Redmine::Scm::Base.configured.each do |scm|
     if Setting.enabled_scm.include?(scm) ||
           (repository && repository.class.name.demodulize == scm)
         scm_options << ["Repository::#{scm}".constantize.scm_name, scm]
@@ -214,29 +214,72 @@ module RepositoriesHelper
   end
 
   def subversion_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, size: 60, required: true, disabled: (repository && !repository.root_url.blank?)) +
-                       '<br />(file:///, http://, https://, svn://, svn+[tunnelscheme]://)'.html_safe) +
-      content_tag('p', form.text_field(:login, size: 30)) +
-      content_tag('p', form.password_field(:password, size: 30, name: 'ignore',
-                                           value: ((repository.new_record? || repository.password.blank?) ? '' : ('x'*15)),
-                                           onfocus: "this.value=''; this.name='repository[password]';",
-                                           onchange: "this.name='repository[password]';"))
+    url = content_tag('div', class: 'form--field') do
+      form.text_field(:url,
+                      size: 60,
+                      required: true,
+                      disabled: (repository && !repository.root_url.blank?)) +
+      content_tag('div',
+                  'file:///, http://, https://, svn://, svn+[tunnelscheme]://',
+                  class: 'form--field-instructions')
+    end
+
+    login = content_tag('div', class: 'form--field') do
+      form.text_field(:login, size: 30)
+    end
+
+    pwd = content_tag('div', class: 'form--field') do
+      form.password_field(:password,
+                          size: 30,
+                          name: 'ignore',
+                          value: ((repository.new_record? || repository.password.blank?) ? '' : ('x' * 15)),
+                          onfocus: "this.value=''; this.name='repository[password]';",
+                          onchange: "this.name='repository[password]';")
+    end
+
+    url + login + pwd
   end
 
   def git_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, label: :label_git_path, size: 60, required: true, disabled: (repository && !repository.root_url.blank?)) +
-                  '<br />'.html_safe + l(:text_git_repo_example)) +
-    content_tag('p', form.select(
-                        :path_encoding, [nil] + Setting::ENCODINGS,
-                        label: l(:label_path_encoding)) +
-                        '<br />'.html_safe + l(:text_default_encoding))
+    url = content_tag('div', class: 'form--field -required') do
+      form.text_field(:url,
+                      label: :label_git_path,
+                      size: 60,
+                      disabled: (repository && !repository.root_url.blank?)) +
+      content_tag('div',
+                  l(:text_git_repo_example),
+                  class: 'form--field-instructions')
+    end
+
+    encoding = content_tag('div', class: 'form--field') do
+      form.select(:path_encoding,
+                  [nil] + Setting::ENCODINGS,
+                  label: l(:label_path_encoding)) +
+      content_tag('div',
+                  l(:text_default_encoding),
+                  class: 'form--field-instructions')
+    end
+
+    url + encoding
   end
 
   def filesystem_field_tags(form, repository)
-    content_tag('p', form.text_field(:url, label: :label_filesystem_path, size: 60, required: true, disabled: (repository && !repository.root_url.blank?))) +
-    content_tag('p', form.select(:path_encoding, [nil] + Setting::ENCODINGS,
-                                 label: (l(:label_path_encoding)) +
-                                 '<br />' + l(:text_default_encoding)).html_safe)
+    url = content_tag('div', class: 'form--field -required') do
+      form.text_field(:url,
+                      label: :label_filesystem_path,
+                      size: 60,
+                      disabled: (repository && !repository.root_url.blank?))
+    end
 
+    encoding = content_tag('div', class: 'form--field') do
+      form.select(:path_encoding,
+                  [nil] + Setting::ENCODINGS,
+                  label: l(:label_path_encoding)) +
+      content_tag('div',
+                  l(:text_default_encoding),
+                  class: 'form--field-instructions')
+    end
+
+    url + encoding
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,6 +60,7 @@ de:
     attributes:
       attachment:
         downloads: "Downloads"
+        file: "Datei"
         filename: "Datei"
         filesize: "Größe"
       auth_source:
@@ -119,7 +120,6 @@ de:
       time_entry:
         activity: "Aktivität"
         hours: "Stunden"
-        issue: "Arbeitspaket"
         spent_on: "Datum"
         type: "Typ"
       type_color:
@@ -194,11 +194,12 @@ de:
         equal_to: "muss genau %{count} sein"
         even: "muss gerade sein"
         exclusion: "ist nicht verfügbar"
+        file_too_large: "ist zu groß (nicht mehr als %{count} Bytes erlaubt)"
         greater_than: "muss größer als %{count} sein"
         greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
         smaller_than_or_equal_to_max_length: "muss kleiner als oder gleich der maximalen Länge sein"
         greater_than_start_date: "muss größer als Anfangsdatum sein"
-        inclusion: "ist kein gültiger Wert"
+        inclusion: "ist nicht auf einen erlaubten Wert gesetzt"
         invalid: "ist nicht gültig"
         less_than: "muss kleiner als %{count} sein"
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
@@ -231,12 +232,20 @@ de:
               not_a_valid_parent: "ist ungültig"
               does_not_exist: "existiert nicht"
             status_id:
-              status_transition_invalid: "es existiert kein valider Übergang vom alten zum neuen Status für die aktuellen Nutzer-Rollen"
+              status_transition_invalid: "ist ungültig da kein valider Übergang vom alten zum neuen Status für die aktuellen Rollen des Nutzers existiert"
             priority_id:
               only_active_priorities_allowed: "muss aktiv sein"
+            category:
+              only_same_project_categories_allowed:
+                "Ein Arbeitpaket und seine Kategorie müssen im selben Projekt sein."
+              does_not_exist: "Die angegebene Kategorie existiert nicht."
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: "Der geschätzte Aufwand muss >= 0 sein."
         project_association:
           identical_projects: "kann nicht von einem Projekt auf sich selbst erstellt werden"
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
+        repository:
+          not_whitelisted: "wird durch die Konfiguration nicht erlaubt"
         user:
           attributes:
             password:
@@ -294,11 +303,13 @@ de:
   attributes:
     active: "Aktiv"
     assigned_to: "Zugewiesen an"
+    assignee: "Zugewiesen an"
     attachments: "Anhänge"
     author: "Autor"
     base: "Allgemeiner Fehler:"
     blocks_ids: "Blockiert"
     category: "Kategorie"
+    comment: "Kommentar"
     comments: "Kommentar"
     content: "Inhalt"
     created_at: "Angelegt"
@@ -309,18 +320,24 @@ de:
     display_sums: "Summen anzeigen"
     due_date: "Abgabedatum"
     estimated_hours: "Geschätzter Aufwand"
+    estimated_time: "Geschätzter Aufwand"
     firstname: "Vorname"
     group: "Gruppe"
     groupname: "Gruppenname"
+    id: "ID"
     is_default: "Standardeinstellung"
     is_for_all: "Für alle Projekte"
     is_public: "Öffentlich"
+    # kept for backwards compatibility
+    issue: "Arbeitspaket"
     lastname: "Nachname"
     login: "Mitgliedsname"
     mail: "E-Mail"
     name: "Name"
     password: "Kennwort"
+    priority: "Priorität"
     project: "Projekt"
+    responsible: "Verantwortlicher"
     role: "Rolle"
     start_date: "Beginn"
     status: "Status"
@@ -562,7 +579,7 @@ de:
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
-  error_unable_delete_status: "Der Arbeitspaket-Status konnte nicht gelöscht werden."
+  error_unable_delete_status: "Der Arbeitspaket-Status konnte nicht gelöscht werden, da er Arbeitspakete enthält."
   error_unable_delete_default_status: "Der Arbeitspaket-Status konnte nicht gelöscht werden, da dieser als Standard-Status markiert ist. Wählen Sie bitte zunächst einen anderen Arbeitspaket-Status als Standard-Status."
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
   error_workflow_copy_source: "Bitte wählen Sie einen Quell-Typ und eine Quell-Rolle."
@@ -707,6 +724,7 @@ de:
   label_downloads_abbr: "D/L"
   label_duplicated_by: "Dupliziert durch"
   label_duplicates: "Duplikat von"
+  label_edit: "Bearbeiten von"
   label_enable_multi_select: "Mehrfachauswahl umschalten"
   label_end_to_end: "Ende - Ende"
   label_end_to_start: "Ende - Anfang"
@@ -733,6 +751,7 @@ de:
   label_generate_key: "Generieren"
   label_git_path: "Pfad zum .git-Verzeichnis"
   label_greater_or_equal: ">="
+  label_group_by: "Gruppiert nach"
   label_group_new: "Neue Gruppe"
   label_group_plural: "Gruppen"
   label_help: "Hilfe"
@@ -769,7 +788,6 @@ de:
   label_work_package_view_all_responsible_for: "Alle von mir verantworteten Arbeitspakete anzeigen"
   label_work_package_view_all_watched: "Alle beobachteten Arbeitspakete anzeigen"
   label_work_package_watchers: "Beobachter"
-  label_work_packages_by: "Arbeitspakete von %{value}"
   label_journal_diff: "Beschreibungsvergleich"
   label_jump_to_a_project: "Zu einem Projekt springen..."
   label_language_based: "Sprachabhängig"
@@ -1044,11 +1062,13 @@ de:
   label_keyboard_shortcut_go_news: "Gehe zu den Projekt News"
   label_keyboard_shortcut_go_timelines: "Gehe zur Zeitpläne Seite"
   label_keyboard_shortcut_new_work_package: "Erstelle neues Arbeitspaket"
+  label_keyboard_shortcut_details_package: "Arbeitspaketdetails anzeigen"
   label_keyboard_shortcut_go_edit: "Gehe zur Bearbeiten-Ansicht (nur auf Detailseiten)"
   label_keyboard_shortcut_open_more_menu: "Öffne 'Weitere-Aktionen' Menü (nur auf Detailseiten)"
   label_keyboard_shortcut_go_preview: "Gehe zur Vorschau (nur auf Editieren-Seiten)"
   label_keyboard_shortcut_focus_previous_item: "Fokussiere vorheriges Listenelement (nur bei einigen Listen)"
   label_keyboard_shortcut_focus_next_item: "Fokussiere nächstes Listenelement (nur bei einigen Listen)"
+  label_visible_elements: Sichtbare Elemente
 
   macro_execution_error: "Das Makro %{macro_name} konnte nicht ausgeführt werden"
   macro_unavailable: "Makro %{macro_name} kann nicht angezeigt werden"
@@ -1415,6 +1435,11 @@ de:
       time: "%H:%M"
     pm: "nachmittags"
 
+  timeframe:
+    show: "Zeitausschnitt bestimmen"
+    end: "bis"
+    start: "von"
+
   timelines:
     admin_menu:
       color: "Farbe"
@@ -1476,7 +1501,8 @@ de:
         absolute: "Absolut"
         none: "Kein Planungsvergleich"
         relative: "Relativ"
-        compare_relative: "Vergleiche aktuelle Planung mit vor %{timespan}"
+        compare_relative_prefix: "Vergleiche aktuelle Planung mit vor"
+        compare_relative_suffix: ""
         compare_absolute: "Vergleiche aktuelle Planung mit %{date}"
       time_relative:
         days: "Tagen"
@@ -1502,8 +1528,7 @@ de:
       work_package_assignee: "Zugewiesen an"
 
       project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
-      project_time_filter_absolute_timeframe: "Absolutes Zeitfenster"
-      project_time_filter_relative_timeframe: "Relatives Zeitfenster"
+      project_time_filter_absolute_timeframe: "Zeitfenster"
       project_time_filter_historical_from: "von"
       project_time_filter_historical_to: "bis"
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
@@ -1656,3 +1681,35 @@ de:
         _Automatisch durch die Änderungen in %{child} aktualisert_
 
   nothing_to_preview: "Keine Inhalte für Vorschau vorhanden"
+
+  api_v3:
+    attributes:
+        lock_version: "Sperrversion"
+    errors:
+      code_401: "Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können."
+      code_401_wrong_credentials: "Die von Ihnen benutzten Zugangsdaten sind nicht korrekt."
+      code_403: "Sie sind nicht berechtigt auf diese Ressource zuzugreifen."
+      code_404: "Die angeforderte Ressource konnte nicht gefunden werden."
+      code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."
+      invalid_content_type: "Es wird der CONTENT-TYPE '%{content_type}' erwartet, es wurde aber der CONTENT-TYP '%{actual}' gesandt."
+      invalid_format: "Ungültiges Format für Eigenschaft '%{property}': Ein Format der Art '%{expected_format}' wurde erwartet, aber '%{actual}' wurde übergeben."
+      invalid_json: "The request could not be parsed as JSON."
+      invalid_user_status_transition: "Für diesen Nutzeraccount ist die angeforderte Statusänderung nicht zulässig."
+      invalid_relation: "Die Beziehung ist ungültig."
+      invalid_resource: "Für die Eigenschaft '%{property}' wird ein Link wie '%{expected}' erwartet. Gesandt wurde '%{actual}'."
+      missing_content_type: "nicht angegeben"
+      multipart_body_error: "Die Anfrage enthielt nicht die erwarteten Multipart Abschnitte."
+      multiple_errors: "Die Integrität mehrerer Eigenschaften wurde verletzt."
+      writing_read_only_attributes: "Nur-lesbare Eigeschaften dürfen nicht geschrieben werden."
+      render:
+        context_not_parsable: "Der übergebene Kontext ist kein Link zu einer Ressource."
+        unsupported_context: "Die übergebene Ressource wird nicht als Kontext unterstützt."
+        context_object_not_found: "Die als Kontext übergebene Ressource konnte nicht gefunden werden."
+      validation:
+        done_ratio: "Der Fortschritt kann nicht gesetzt werden falls es sich um ein Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn er komplett deaktiviert wurde."
+        due_date: "Das Enddatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
+        estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden."
+        invalid_user_assigned_to_work_package: "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
+        start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
+    resources:
+      schema: 'Schema'

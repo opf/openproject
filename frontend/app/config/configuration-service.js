@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -76,13 +76,15 @@ module.exports = function() {
       return this.settings.user_preferences.time_zone;
     },
     dateFormatPresent: function() {
-      return this.displaySettingPresent('date_format') && this.settings.display.date_format != '';
+      return this.displaySettingPresent('date_format') &&
+             this.settings.display.date_format !== '';
     },
     dateFormat: function() {
       return this.settings.display.date_format;
     },
     timeFormatPresent: function() {
-      return this.displaySettingPresent('time_format') && this.settings.display.time_format != '';
+      return this.displaySettingPresent('time_format') &&
+             this.settings.display.time_format !== '';
     },
     timeFormat: function() {
       return this.settings.display.time_format;
@@ -90,5 +92,24 @@ module.exports = function() {
     isModuleEnabled: function(module) {
       return this.settings.enabled_modules.indexOf(module) >= 0;
     },
+    startOfWeekPresent: function() {
+      return this.displaySettingPresent('start_of_week') &&
+             this.settings.display.start_of_week !== '';
+    },
+    startOfWeek: function() {
+      if(this.startOfWeekPresent()) {
+        return this.settings.display.start_of_week;
+      }
+
+      // This if/else statement is used because
+      // jquery regionals have different start day for German locale
+      if(I18n.locale === 'en') {
+        return 1;
+      } else if(I18n.locale === 'de') {
+        return 0;
+      }
+
+      return '';
+    }
   };
 };

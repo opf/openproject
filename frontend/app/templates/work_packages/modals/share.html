@@ -1,0 +1,38 @@
+<div class="ng-modal-window">
+  <div class="ng-modal-inner">
+    <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()" title="{{ ::I18n.t('js.close_popup_title') }}"></i></div>
+
+    <h3>{{ ::I18n.t('js.label_share') }}</h3>
+
+    <div>
+      <label class="checkbox-label">
+        <input type="checkbox"
+               name="is_public"
+               ng-model="query.isPublic"
+               ng-disabled="cannot('query', 'publicize') && cannot('query', 'depublicize')"
+               focus></input>
+        <div class="styled-checkbox"></div>
+        {{ ::I18n.t('js.label_visible_for_others') }}
+      </label>
+    </div>
+    <div>
+      <label class="checkbox-label">
+        <input type="checkbox"
+               name="show_in_menu"
+               ng-model="shareSettings.starred"
+               ng-disabled="query.isGlobal() || cannot('query', 'star')"></input>
+        <div class="styled-checkbox"></div>
+        {{ ::I18n.t('js.label_show_in_menu') }}
+      </label>
+    </div>
+    <div>
+      <button class="button -highlight -with-icon icon-yes" ng-click="saveQuery()">
+        {{ ::I18n.t('js.modals.button_save') }}
+      </button>
+      <button class="button" ng-click="modal.closeMe()">
+        {{ ::I18n.t('js.modals.button_cancel') }}
+      </button>
+    </div>
+
+  </div>
+</div>

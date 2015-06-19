@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ module OpenProject
       describe '.abstract?' do
         it 'is abstract when marked as abstract' do
           theme_class = Class.new(Theme)
-          expect(theme_class).to_not be_abstract
+          expect(theme_class).not_to be_abstract
           theme_class.abstract!
           expect(theme_class).to be_abstract
         end
@@ -135,7 +135,7 @@ module OpenProject
           end
 
           it "doesn't store images which are not present" do
-            expect(theme.overridden_images).to_not include 'missing.rb'
+            expect(theme.overridden_images).not_to include 'missing.rb'
           end
         end
 
@@ -146,7 +146,7 @@ module OpenProject
           end
 
           it 'wont fail' do
-            expect { theme.overridden_images }.to_not raise_error
+            expect { theme.overridden_images }.not_to raise_error
           end
 
           it 'has an empty list' do
@@ -235,7 +235,7 @@ module OpenProject
         end
 
         it "is not equal when the classes don't match" do
-          expect(Class.new(Theme).instance).to_not eq Class.new(Theme).instance
+          expect(Class.new(Theme).instance).not_to eq Class.new(Theme).instance
         end
       end
     end

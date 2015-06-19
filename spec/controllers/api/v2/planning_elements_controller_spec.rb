@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -318,7 +318,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           end
 
           it 'filters out invisible work packages' do
-            expect(assigns(:planning_elements).map(&:id)).to_not include(ticket_e.id)
+            expect(assigns(:planning_elements).map(&:id)).not_to include(ticket_e.id)
           end
         end
       end

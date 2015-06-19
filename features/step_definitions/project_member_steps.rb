@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,7 +76,7 @@ end
 
 def select_principal(principal)
   if !User.current.impaired?
-    select_within_select2(principal.name, '#s2id_member_user_ids')
+    select2(principal.name, css: '#s2id_member_user_ids')
   else
     select_without_select2(principal.name, 'form .principals')
   end
@@ -84,21 +84,9 @@ end
 
 def select_role(role)
   if !User.current.impaired?
-    select_within_select2(role.name, '#s2id_member_role_ids')
+    select2(role.name, css: '#s2id_member_role_ids')
   else
     select_without_select2(role.name, 'form .roles')
-  end
-end
-
-def select_within_select2(to_select, scope)
-  tries = 3
-  begin
-    enter_name_with_select2(to_select, scope)
-    steps %{And I wait 10 seconds for the AJAX requests to finish}
-    find('.select2-results .select2-result').click
-  rescue Capybara::ElementNotFound
-    tries -= 1
-    retry unless tries == 0
   end
 end
 

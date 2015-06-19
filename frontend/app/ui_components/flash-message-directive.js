@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -47,10 +47,13 @@ module.exports = function($rootScope, $timeout, ConfigurationService) {
           scope.flashId = "errorExplanation";
         }
 
-        // fade out after time out
+        // not using $timeout to allow capybara to not wait until timeout is done with
+        // scope apply
         if (!ConfigurationService.accessibilityModeEnabled() && !message.isPermanent) {
-          $timeout(function() {
-            scope.message = undefined;
+          setTimeout(function() {
+            scope.$apply(function() {
+              scope.message = undefined;
+            });
           }, fadeOutTime);
         }
       });

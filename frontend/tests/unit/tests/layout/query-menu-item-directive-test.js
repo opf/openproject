@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ describe('queryMenuItem Directive', function() {
     beforeEach(module('openproject.services', 'openproject.models'));
 
 
-    beforeEach(module('templates', function($provide) {
+    beforeEach(module('openproject.templates', function($provide) {
       $provide.value('$stateParams', stateParams);
 
       var QueryServiceMock = {
@@ -73,7 +73,7 @@ describe('queryMenuItem Directive', function() {
         stateParams.query_id = '1';
 
         compile();
-        rootScope.$broadcast('$stateChangeSuccess');
+        rootScope.$broadcast('openproject.layout.activateMenuItem');
       });
 
       it('does not add the css-class "selected" to the element', function() {
@@ -86,7 +86,7 @@ describe('queryMenuItem Directive', function() {
         stateParams.query_id = queryId;
 
         compile();
-        rootScope.$broadcast('$stateChangeSuccess');
+        rootScope.$broadcast('openproject.layout.activateMenuItem');
       });
 
       it('adds the css-class "selected" to the element', function() {
@@ -104,7 +104,7 @@ describe('queryMenuItem Directive', function() {
           stateParams.query_id = null;
 
           compile();
-          rootScope.$broadcast('$stateChangeSuccess');
+          rootScope.$broadcast('openproject.layout.activateMenuItem');
         });
 
         it('adds the css-class "selected" to the element', function() {
@@ -117,7 +117,7 @@ describe('queryMenuItem Directive', function() {
           stateParams.query_id = '25';
 
           compile();
-          rootScope.$broadcast('$stateChangeSuccess');
+          rootScope.$broadcast('openproject.layout.activateMenuItem');
         });
 
         it('does not add the css-class "selected" to the element', function() {

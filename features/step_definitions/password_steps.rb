@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -143,7 +143,7 @@ def set_user_attribute(login, attribute, value)
 end
 
 Given /^the user "(.+)" is(not |) forced to change his password$/ do |login, disable|
-  set_user_attribute(login, :force_password_change, (disable == 'not ') ? false : true)
+  set_user_attribute(login, :force_password_change, disable != 'not ')
 end
 
 Given /^I use the first existing token to request a password reset$/ do

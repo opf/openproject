@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -111,7 +111,7 @@ namespace :backup do
     private
 
     def database_configuration
-      ActiveRecord::Base.configurations[Rails.env]
+      ActiveRecord::Base.configurations[Rails.env] || Rails.application.config.database_configuration[Rails.env]
     end
 
     def with_pg_config(config, &blk)

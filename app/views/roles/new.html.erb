@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l(:label_administration), l("label_group_new") %>
 
-<h2><%= link_to l(:label_role_plural), roles_path %> &#187; <%=l(:label_role_new)%></h2>
+<%= toolbar title: "#{link_to(l(:label_role_plural), roles_path)} &raquo; #{l(:label_role_new)}" %>
 
 <%= labelled_tabular_form_for @role, :html => {:id => 'role_form'}, :as => :role do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <%= submit_tag l(:button_create) %>
+  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-yes' %>
 <% end %>

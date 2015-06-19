@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -118,7 +118,7 @@ describe Setting, type: :model do
 
     it 'calls a callback when a setting is set' do
       Setting.notified_events = [:some_event]
-      expect(collector).to_not be_empty
+      expect(collector).not_to be_empty
     end
 
     it 'calls no callback on invalid setting' do
@@ -148,7 +148,7 @@ describe Setting, type: :model do
     it 'attaches to the right setting by passing a string' do
       Setting.register_callback('app_title', &callback)
       Setting.app_title = 'some title'
-      expect(collector).to_not be_empty
+      expect(collector).not_to be_empty
     end
 
     it 'passes the new setting value to the callback' do

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 angular.module('openproject.workPackages.helpers')
   .factory('ApiHelper', require('./api-helper'))
   .factory('FiltersHelper', ['I18n', require('./filters-helper')])
-  .constant('ACTIVE_USER_STATUSES', [1, 2])
+  .constant('ACTIVE_USER_STATUSES', ['active', 'registered'])
   .factory('UsersHelper', ['ACTIVE_USER_STATUSES', require('./users-helper')])
   .constant('PERMITTED_BULK_ACTIONS', ['edit', 'watch', 'move', 'copy',
     'delete'

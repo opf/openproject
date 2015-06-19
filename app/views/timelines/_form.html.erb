@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -39,20 +39,20 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="edit_form">
 
-  <%= render :partial => "timelines/general", :locals => {:timeline => @timeline, :f => f}%>
+  <%= render partial: "timelines/general", locals: { timeline: @timeline, f: f }%>
 
-  <%= render :partial => "timelines/comparison", :locals => {:timeline => @timeline} %>
+  <%= render partial: "timelines/comparison", locals: { timeline: @timeline, f: f } %>
 
-  <%= render :partial => "timelines/vertical_planning_elements", :locals => {:timeline => @timeline}%>
+  <%= render partial: "timelines/vertical_planning_elements", locals: { timeline: @timeline, f: f } %>
 
-  <%= render :partial => "timelines/filter/planning_elements", :locals => {:timeline => @timeline} %>
+  <%= render partial: "timelines/filter/planning_elements", locals: { timeline: @timeline, f: f } %>
 
-  <%= render :partial => "timelines/filter/projects", :locals => {:timeline => @timeline} %>
+  <%= render partial: "timelines/filter/projects", locals: { timeline: @timeline, f: f } %>
 
-  <%= render :partial => "timelines/group/grouping", :locals => {:timeline => @timeline} %>
+  <%= render partial: "timelines/group/grouping", locals: { timeline: @timeline, f: f } %>
 
 </div>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'timelines.css', :media => "all" %>
+  <%= stylesheet_link_tag 'timelines.css', media: "all" %>
 <% end %>

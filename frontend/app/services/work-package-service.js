@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,69 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS, DEFAULT_PAGINATION_OPTIONS, $rootScope, $window, WorkPackagesTableService) {
+module.exports = function($http,
+    PathHelper,
+    WorkPackagesHelper,
+    HALAPIResource,
+    DEFAULT_FILTER_PARAMS,
+    DEFAULT_PAGINATION_OPTIONS,
+    $rootScope,
+    $window,
+    $q,
+    AuthorisationService,
+    EditableFieldsState,
+    WorkPackageFieldService
+  ) {
   var workPackage;
+
+  function getPendingChanges(workPackage) {
+    var data = {
+      // _links: {}
+    };
+    if (workPackage.form) {
+      _.forEach(workPackage.form.pendingChanges, function(value, field) {
+        if (WorkPackageFieldService.isSpecified(workPackage, field)) {
+          if(field === 'date') {
+            if(WorkPackageFieldService.isMilestone(workPackage)) {
+              data['startDate'] = data['dueDate'] = value ? value : null;
+              return;  
+            }
+            data['startDate'] = value['startDate'];
+            data['dueDate'] = value['dueDate'];
+            return;
+          }
+          if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
+            data._links = data._links || {};
+            data._links[field] = value ? value.links.self.props : { href: null };
+          } else {
+            data[field] = value;
+          }
+        }
+      });
+    }
+
+    if (_.isEmpty(data)) {
+      return null;
+    } else {
+      return JSON.stringify(data);
+    }
+  }
 
   var WorkPackageService = {
     getWorkPackage: function(id) {
       var resource = HALAPIResource.setup('work_packages/' + id);
       return resource.fetch().then(function (wp) {
-        workPackage = wp;
-        return workPackage;
+        return $q.all([
+          WorkPackageService.loadWorkPackageForm(wp),
+          wp.links.schema.fetch()
+        ]).then(function(result) {
+            wp.form = result[0];
+            wp.schema = result[1];
+            workPackage = wp;
+            EditableFieldsState.workPackage = wp;
+            EditableFieldsState.errors = null;
+            return wp;
+          });
       });
     },
 
@@ -126,31 +180,57 @@ module.exports = function($http, PathHelper, WorkPackagesHelper, HALAPIResource,
     },
 
     loadWorkPackageForm: function(workPackage) {
-      var options = { ajax: {
-        method: 'POST',
-        headers: {
-          Accept: 'application/hal+json'
-        },
-        contentType: 'application/json; charset=utf-8'
-      }, force: true};
-      return workPackage.links.update.fetch(options).then(function(form) {
-        workPackage.form = form;
-        return form;
-      });
+      if (this.authorizedFor(workPackage, 'update')) {
+        var options = { ajax: {
+          method: 'POST',
+          headers: {
+            Accept: 'application/hal+json'
+          },
+          data:getPendingChanges(workPackage),
+          contentType: 'application/json; charset=utf-8'
+        }, force: true};
+
+        return workPackage.links.update.fetch(options).then(function(form) {
+          workPackage.form = form;
+          return form;
+        });
+      }
+
+      return $q.when();
     },
 
-    updateWorkPackage: function(workPackage, data) {
+    authorizedFor: function(workPackage, action) {
+      var modelName = 'work_package' + workPackage.id;
+
+      AuthorisationService.initModelAuth(modelName, workPackage.links);
+
+      return AuthorisationService.can(modelName, action);
+    },
+
+    updateWithPayload: function(workPackage, payload) {
       var options = { ajax: {
         method: 'PATCH',
+        url: workPackage.links.updateImmediately.href,
         headers: {
           Accept: 'application/hal+json'
         },
-        data: JSON.stringify(data),
+        data: JSON.stringify(payload),
         contentType: 'application/json; charset=utf-8'
       }, force: true};
-      return workPackage.links.updateImmediately.fetch(options).then(function(workPackage) {
-        return workPackage;
-      });
+      return workPackage.links.updateImmediately.fetch(options);
+    },
+
+    updateWorkPackage: function(workPackage, notify) {
+      var options = { ajax: {
+        method: 'PATCH',
+        url: URI(workPackage.links.updateImmediately.href).addSearch('notify', notify).toString(),
+        headers: {
+          Accept: 'application/hal+json'
+        },
+        data: getPendingChanges(workPackage),
+        contentType: 'application/json; charset=utf-8'
+      }, force: true};
+      return workPackage.links.updateImmediately.fetch(options);
     },
 
     addWorkPackageRelation: function(workPackage, toId, relationType) {

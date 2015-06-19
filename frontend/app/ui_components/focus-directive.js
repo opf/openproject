@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,10 @@ module.exports = function(FocusHelper) {
   }
 
   function updateFocus(scope, element, attrs) {
+    if (element.hasClass('ui-select-multiple')) {
+      return element.find('input.ui-select-search').focus();
+    }
+
     var condition = (attrs.focus) ? scope.$eval(attrs.focus) : true;
 
     if (condition) {

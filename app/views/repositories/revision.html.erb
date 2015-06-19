@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,60 +27,51 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :action_menu_specific do %>
-  &#171;
-  <% unless @changeset.previous.nil? -%>
-    <%= link_to_revision(@changeset.previous, @project, :text => l(:label_previous)) %>
-  <% else -%>
-    <%= l(:label_previous) %>
-  <% end -%>
-|
-  <% unless @changeset.next.nil? -%>
-    <%= link_to_revision(@changeset.next, @project, :text => l(:label_next)) %>
-  <% else -%>
-    <%= l(:label_next) %>
-  <% end -%>
-  &#187;&nbsp;
-
-  <%= form_tag({:controller => '/repositories', :action => 'revision', :project_id => @project}, :method => :get) do %>
-    <%= text_field_tag 'rev', @rev, :size => 8 %>
-    <%= submit_tag 'OK', :name => nil %>
+<%= toolbar title: "#{l(:label_revision)} #{format_revision(@changeset)}" do %>
+  <li class="toolbar-item">
+    <% if @changeset.previous.nil? %>
+      <button class="button" disabled="disabled"><%= l(:label_previous) %></button>
+    <% else %>
+      <%= link_to_revision(@changeset.previous, @project, text: l(:label_previous), class: 'button') %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <% if @changeset.next.nil? %>
+      <button class="button" disabled="disabled"><%= l(:label_next) %></button>
+    <% else %>
+      <%= link_to_revision(@changeset.next, @project, text: l(:label_next), class: 'button') %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= form_tag({:controller => '/repositories', :action => 'revision', :project_id => @project}, :method => :get) do %>
+      <%= text_field_tag :rev, @rev, placeholder: l(:label_revision) %>
+    <% end %>
+  </li>
+<% end %>
+<p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br />
   <% end %>
-<% end %>
-
-<h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
-
-<p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br /><% end %>
-<span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
-
+  <span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
 <%= format_text @changeset.comments %>
-
 <% if @changeset.work_packages.visible.any? %>
-<h3><%= l(:label_related_work_packages) %></h3>
-<ul>
-<% @changeset.work_packages.visible.each do |work_package| %>
-  <li><%= link_to_work_package work_package %></li>
+  <h3><%= l(:label_related_work_packages) %></h3>
+  <ul>
+    <% @changeset.work_packages.visible.each do |work_package| %>
+      <li><%= link_to_work_package work_package %></li>
+    <% end %>
+  </ul>
 <% end %>
-</ul>
-<% end %>
-
 <% if User.current.allowed_to?(:browse_repository, @project) %>
-<h3><%= l(:label_attachment_plural) %></h3>
-<ul id="changes-legend">
-<li class="change change-A"><%= l(:label_added) %></li>
-<li class="change change-M"><%= l(:label_modified) %></li>
-<li class="change change-C"><%= l(:label_copied) %></li>
-<li class="change change-R"><%= l(:label_renamed) %></li>
-<li class="change change-D"><%= l(:label_deleted) %></li>
-</ul>
-
-<p><%= link_to(l(:label_view_diff), :action => 'diff', :project_id => @project, :path => nil, :rev => @changeset.identifier) if @changeset.changes.any? %></p>
-
-<div class="changeset-changes">
-<%= render_changeset_changes %>
-</div>
+  <h3><%= l(:label_attachment_plural) %></h3>
+  <ul id="changes-legend">
+    <li class="change change-A"><%= l(:label_added) %></li>
+    <li class="change change-M"><%= l(:label_modified) %></li>
+    <li class="change change-C"><%= l(:label_copied) %></li>
+    <li class="change change-R"><%= l(:label_renamed) %></li>
+    <li class="change change-D"><%= l(:label_deleted) %></li>
+  </ul>
+  <p><%= link_to(l(:label_view_diff), :action => 'diff', :project_id => @project, :path => nil, :rev => @changeset.identifier) if @changeset.changes.any? %></p>
+  <div class="changeset-changes">
+    <%= render_changeset_changes %>
+  </div>
 <% end %>
-
 <% html_title("#{l(:label_revision)} #{format_revision(@changeset)}") -%>

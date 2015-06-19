@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,9 +34,9 @@ module.exports = function(I18n, PathHelper, TimezoneService) {
     scope: { createdOn: '=', author: '=', project: '=', activity: '=' },
     templateUrl: '/templates/components/authoring.html',
     link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+      moment.locale(I18n.locale);
 
-      var createdOn = TimezoneService.parseDate(scope.createdOn);
+      var createdOn = TimezoneService.parseDatetime(scope.createdOn);
       var timeago = createdOn.fromNow();
       var time = createdOn.format('LLL');
 

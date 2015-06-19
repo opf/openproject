@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ describe WikiMenuItemsController, type: :controller do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe :edit do
+  describe '#edit' do
     # more wiki pages with menu items
     let(:another_wiki_page) { FactoryGirl.create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
     let!(:another_wiki_page_top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: another_wiki_page.title) }
@@ -100,7 +100,7 @@ describe WikiMenuItemsController, type: :controller do
     let!(:another_child_page) { FactoryGirl.create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
   end
 
-  describe :select_main_menu_item do
+  describe '#select_main_menu_item' do
     include_context 'when there is one more wiki page with a child page'
 
     before { get :select_main_menu_item, project_id: project, id: wiki_page.id }
@@ -114,7 +114,7 @@ describe WikiMenuItemsController, type: :controller do
     end
   end
 
-  describe :replace_main_menu_item do
+  describe '#replace_main_menu_item' do
     include_context 'when there is one more wiki page with a child page'
 
     context 'when another wiki page is selected for replacement' do

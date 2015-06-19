@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -75,7 +75,7 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
 
       function getBackgrounds() {
         return element.find('.work-packages-table--header-background,' +
-          '.work-packages-table--footer-background');
+        '.work-packages-table--footer-background');
       }
 
       function getHeadersFooters() {
@@ -89,7 +89,7 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
       function setTableContainerWidths() {
         // adjust overall containers
         var tableWidth = getTable().width(),
-            scrollBarWidth = 16;
+          scrollBarWidth = 16;
 
         // account for a possible scrollbar
         if (tableWidth > document.documentElement.clientWidth - scrollBarWidth) {
@@ -167,7 +167,7 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
           }).indexOf(groupBy);
 
           scope.groupByColumn = groupableColumns[groupByColumnIndex];
-       }
+        }
       });
 
       scope.$watch(function() {
@@ -179,10 +179,10 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
       // Thanks to http://stackoverflow.com/a/880518
       function clearSelection() {
         if(document.selection && document.selection.empty) {
-            document.selection.empty();
+          document.selection.empty();
         } else if(window.getSelection) {
-            var sel = window.getSelection();
-            sel.removeAllRanges();
+          var sel = window.getSelection();
+          sel.removeAllRanges();
         }
       }
 
@@ -191,20 +191,39 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
         WorkPackagesTableService.setRowSelection(row, selected);
       }
 
+      function mulipleRowsChecked(){
+        var counter = 0;
+        for (var i = 0, l = scope.rows.length; i<l; i++) {
+          if (scope.rows[i].checked) {
+            if (++counter === 2) {
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+
       scope.selectWorkPackage = function(row, $event) {
         if ($event.target.type != 'checkbox') {
           var currentRowCheckState = row.checked;
-          var index = scope.rows.indexOf(row);
+          var multipleChecked = mulipleRowsChecked();
+          var isLink = angular.element($event.target).is('a');
 
           if (!($event.ctrlKey || $event.shiftKey)) {
             scope.setCheckedStateForAllRows(false);
           }
 
+          if(isLink) {
+            return;
+          }
+
           if ($event.shiftKey) {
             clearSelection();
             activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
+          } else if($event.ctrlKey){
+            setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
           } else {
-            setRowSelectionState(row, !currentRowCheckState);
+            setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
 
             scope.activationCallback({ id: row.object.id, force: false });
           }

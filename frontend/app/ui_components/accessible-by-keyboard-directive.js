@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,11 +32,12 @@ module.exports = function() {
     transclude: true,
     scope: {
       execute: '&',
-      linkClass: '@'
+      linkClass: '@',
+      spanClass: '@'
     },
     template: "<a execute-on-enter='execute()' default-event-handling='defaultEventHandling'" +
       " ng-click='execute()' href='' class='{{ linkClass }}'>" +
-      "<span ng-transclude></span>" +
+      "<span ng-transclude class='{{ spanClass }}'></span>" +
       "</a>",
     link: function(scope, element, attrs) {
       scope.defaultEventHandling = !attrs.execute;

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -52,19 +52,38 @@ module.exports = function(app) {
       res.send(text);
     });
   });
+  workPackagesRouter.patch('/:id', function(req, res) {
+    fs.readFile(
+      __dirname + '/work-packages/' +
+        req.params.id +
+      '_patch.json', 'utf8', function(err, text) {
+      res.send(text);
+    });
+  });
+  workPackagesRouter.get('/schemas/:name', function(req, res) {
+    fs.readFile(
+      __dirname + '/work-packages/schemas/' +
+        req.params.name +
+      '.json', 'utf8', function(err, text) {
+      res.send(text);
+    });
+  });
 
   app.use('/api/v3/work_packages', workPackagesRouter);
 
-
   var textileRouter = express.Router();
-  textileRouter.post('/?context=/api/v3/work_packages/:id', function(req, res) {
-    fs.readFile(__dirname + '/work-packages/' + req.params.id + '_textile.html', 'utf8', function(err, text) {
+  textileRouter.post('/', function(req, res) {
+    var workPackageId = req.url.split('/').pop();
+    fs.readFile(
+      __dirname +
+        '/work-packages/' +
+        workPackageId +
+      '_textile.html', 'utf8', function(err, text) {
       res.send(text);
     });
   });
 
   app.use('/api/v3/render/textile', textileRouter);
-
 
   app.get('/work_packages/auto_complete.json*', function(req, res) {
     res.send('[]');

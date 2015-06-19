@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -126,7 +126,7 @@ module OpenProject
       it 'should not set I18n.locale to an invalid language' do
         allow(Setting).to receive(:available_languages).and_return([:en])
 
-        expect(I18n).to_not receive(:locale=).with(:de)
+        expect(I18n).not_to receive(:locale=).with(:de)
       end
     end
 

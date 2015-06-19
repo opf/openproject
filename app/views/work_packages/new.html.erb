@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,13 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title l(:label_work_package_new) %>
-
-<h2><%=l(:label_work_package_new)%></h2>
-
+<%= toolbar title: l(:label_work_package_new) %>
 
 <%= labelled_tabular_form_for work_package,
                               :url => project_work_packages_path(project),
                               :html => { :multipart => true,
                                          :id => 'work_package-form',
-                                         :class => 'tabular new-work_package-form' } do |f| %>
+                                         :class => 'new-work_package-form form' } do |f| %>
 
   <%= error_messages_for :object => work_package %>
 
@@ -45,19 +43,19 @@ See doc/COPYRIGHT.rdoc for more details.
                                               :project => project,
                                               :priorities => priorities,
                                               :user => user } %>
-  <div class="attribute_wrapper">
-    <%= send_notification_option %>
-  </div>
 
-  <%= submit_tag l(:button_create), :class => "button_highlight" %>
+  <hr class="form--separator -invisible">
+
+  <%= send_notification_option(params['send_notification'] != '0') %>
+
+  <%= f.button l(:button_create), :class => "button -highlight -with-icon icon-yes" %>
   <!-- not supported by controller for now -->
-  <%#= submit_tag l(:button_create_and_continue), :name => 'continue' %>
   <%= link_to_work_package_preview(project) %>
 
   <%= javascript_tag "Form.Element.focus('#{f.object_name}_subject');" %>
 <% end %>
 
-<div id="preview" class="wiki"></div>
+<div id="preview"></div>
 
 <% content_for :header_tags do %>
   <%= robot_exclusion_tag %>

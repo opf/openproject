@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ Then /^I should see the dropdown of available widgets$/ do
 end
 
 Then(/^I should see the widget "([^"]*)"$/) do |arg|
-  page.find("#widget_#{arg}").should_not be_nil
+  page.find("#block_#{arg}").should_not be_nil
 end
 
 Then /^"(.+)" should( not)? be disabled in the my page available widgets drop down$/ do |widget_name, neg|

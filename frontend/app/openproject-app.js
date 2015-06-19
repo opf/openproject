@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -36,25 +36,32 @@ I18n.addTranslations = function(locale, translations) {
   I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
 };
 
-
-var angular = require('angular');
 require('angular-animate');
+require('angular-aria');
 require('angular-modal');
+
+// require('angular-i18n/angular-locale_en-us');
+if (I18n.locale === 'de') {
+  require('angular-i18n/angular-locale_de-de');
+}
+
 require('angular-ui-router');
-require('angular-ui-select2');
-require('angular-ui-select2-sortable');
+
 require('angular-ui-date');
-require('angular-sanitize');
 require('angular-truncate');
 require('angular-feature-flags');
-require('angular-busy');
+
+require('angular-busy/dist/angular-busy');
+require('angular-busy/dist/angular-busy.css');
 
 require('angular-context-menu');
-
-require('openproject-ui_components');
-
+require('mousetrap');
 
 // global
+angular.module('openproject.uiComponents', ['ui.select', 'ngSanitize'])
+.run(['$rootScope', function($rootScope){
+  $rootScope.I18n = I18n;
+}]);
 angular.module('openproject.config', []);
 angular.module(
   'openproject.services', [
@@ -154,10 +161,10 @@ angular.module('openproject.layout.controllers', []);
 
 angular.module('openproject.api', []);
 
+angular.module('openproject.templates', []);
+
 // main app
 var openprojectApp = angular.module('openproject', [
-  'ui.select2',
-  'ui.select2.sortable',
   'ui.date',
   'ui.router',
   'openproject.config',
@@ -167,12 +174,14 @@ var openprojectApp = angular.module('openproject', [
   'openproject.messages',
   'openproject.timeEntries',
   'ngAnimate',
+  'ngAria',
   'ngSanitize',
   'truncate',
   'feature-flags',
   'openproject.layout',
   'cgBusy',
-  'openproject.api'
+  'openproject.api',
+  'openproject.templates'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') ||
@@ -194,7 +203,15 @@ openprojectApp
       $httpProvider.interceptors.push(function($q) {
         return {
           'request': function(config) {
-            config.url = window.appBasePath + config.url;
+            // OpenProject can run in a subpath e.g. https://mydomain/open_project.
+            // We append the path found as the base-tag value to all http requests
+            // to the server except:
+            //   * when the path is already appended
+            //   * when we are getting a template
+            if (!config.url.match('(^/templates|\\.html$|^' + window.appBasePath + ')')) {
+              config.url = window.appBasePath + config.url;
+            }
+
             return config || $q.when(config);
           }
         };
@@ -205,8 +222,10 @@ openprojectApp
     '$http',
     '$rootScope',
     '$window',
-    'flags',
-    function($http, $rootScope, $window, flags) {
+    'featureFlags',
+    'TimezoneService',
+    'KeyboardShortcutService',
+    function($http, $rootScope, $window, flags, TimezoneService, KeyboardShortcutService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
       $rootScope.showNavigation =
@@ -214,11 +233,11 @@ openprojectApp
         'collapsed';
 
       flags.set($http.get('/javascripts/feature-flags.json'));
+      TimezoneService.setupLocale();
+      KeyboardShortcutService.activate();
+
     }
-  ])
-  .value('cgBusyDefaults', {
-    templateUrl: '/assets/angular-busy/angular-busy.html'
-  });
+  ]);
 
 require('./api');
 
@@ -235,3 +254,8 @@ require('./time_entries');
 require('./timelines');
 require('./ui_components');
 require('./work_packages');
+
+var requireTemplate = require.context('./templates', true, /\.html$/);
+requireTemplate.keys().forEach(requireTemplate);
+
+require('!ngtemplate?module=openproject.templates!html!angular-busy/angular-busy.html');

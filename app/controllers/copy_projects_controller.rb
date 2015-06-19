@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,8 +41,8 @@ class CopyProjectsController < ApplicationController
     @copy_project.safe_attributes = params[:project]
     if @copy_project.valid?
       modules = params[:project][:enabled_module_names] || params[:enabled_modules]
-      copy_project_job = CopyProjectJob.new(User.current,
-                                            @project,
+      copy_project_job = CopyProjectJob.new(User.current.id,
+                                            @project.id,
                                             params[:project],
                                             modules,
                                             params[:only],

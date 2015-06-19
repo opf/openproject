@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -123,7 +123,7 @@ namespace :copyright do
   task :update_special_files, :arg1 do |_task, args|
     # ruby-like files
     file_list = %w{Gemfile Guardfile Rakefile config.ru .travis.yml
-                   .rspec .gitignore extra/svn/svnserve.wrapper}.map do |f|
+                   .rspec .gitignore}.map do |f|
       File.absolute_path f
     end
     rewrite_copyright('rb', [], :rb, args[:arg1], file_list: file_list)
@@ -131,13 +131,8 @@ namespace :copyright do
 
   desc 'Update the copyright on .rb source files'
   task :update_rb, :arg1 do |_task, args|
-    excluded = (['diff',
-                 'ruby-net-ldap-0.0.4',
-                 'acts_as_tree',
-                 'classic_pagination',
-                 'dynamic_form',
+    excluded = (['acts_as_tree',
                  'rfpdf',
-                 'gravatar',
                  'verification'].map { |dir| "lib/plugins/#{dir}" }) +
                (['redcloth'].map { |dir| "lib/#{dir}" })
 
@@ -176,15 +171,14 @@ namespace :copyright do
 
   desc 'Update the copyright on .css source files'
   task :update_css, :arg1 do |_task, args|
-    excluded = ['app/assets/stylesheets/reset.css',
-                'lib/assets']
+    excluded = []
 
     rewrite_copyright('css', excluded, :css, args[:arg1])
   end
 
   desc 'Update the copyright on .css.erb source files'
   task :update_css_erb, :arg1 do |_task, args|
-    excluded = ['lib/assets/stylesheets/select2.css.erb']
+    excluded = []
 
     rewrite_copyright('css.erb', excluded, :css, args[:arg1])
   end
@@ -204,19 +198,20 @@ namespace :copyright do
 
   desc 'Update the copyright on .js source files'
   task :update_js, :arg1 do |_task, args|
-    excluded = ['lib/assets',
-                'app/assets/javascripts/Bitstream_Vera_Sans_400.font.js',
-                'app/assets/javascripts/date-de-DE.js',
+    excluded = ['app/assets/javascripts/date-de-DE.js',
                 'app/assets/javascripts/date-en-US.js',
-                'app/assets/javascripts/jstoolbar/']
+                'app/assets/javascripts/jstoolbar/',
+                'app/assets/javascripts/lib/',
+                'frontend/bower_components',
+                'frontend/node_modules',
+                'frontend/vendor']
 
     rewrite_copyright('js', excluded, :js, args[:arg1])
   end
 
   desc 'Update the copyright on .js.erb source files'
   task :update_js_erb, :arg1 do |_task, args|
-    excluded = ['lib/assets',
-                'app/assets/javascripts/calendar/',
+    excluded = ['app/assets/javascripts/application.js.erb',
                 'app/assets/javascripts/jstoolbar']
 
     rewrite_copyright('js.erb', excluded, :erb, args[:arg1])
@@ -232,15 +227,6 @@ namespace :copyright do
     rewrite_copyright('rdoc', excluded, :rdoc, args[:arg1], position: :bottom)
   end
 
-  desc 'Update the copyright on .md source files'
-  task :update_md, :arg1 do |_task, args|
-    excluded = ['README.md',
-                'doc/COPYRIGHT.md',
-                'doc/COPYRIGHT_short.md']
-
-    rewrite_copyright('md', excluded, :md, args[:arg1])
-  end
-
   desc 'Update the copyright on .html.erb source files'
   task :update_html_erb, :arg1 do |_task, args|
     rewrite_copyright('html.erb', [], :erb, args[:arg1])
@@ -248,7 +234,16 @@ namespace :copyright do
 
   desc 'Update the copyright on .html source files'
   task :update_html, :arg1 do |_task, args|
-    excluded = ['lib/assets/javascripts/qunit/']
+    excluded = [
+                  'coverage',
+                  'frontend/app/templates/',
+                  'frontend/bower_components',
+                  'frontend/coverage',
+                  'frontend/node_modules',
+                  'frontend/tests/integration/mocks/',
+                  'frontend/tmp',
+                  'frontend/vendor'
+                ]
     rewrite_copyright('html', excluded, :html, args[:arg1])
   end
 
@@ -271,8 +266,7 @@ namespace :copyright do
   task :update, :arg1 do |_task, args|
     %w{
       css rb js js_erb css_erb html_erb json_erb text_erb atom_builder rake
-      feature rdoc rjs md sql html yml yml_example rb_example special_files
-      sass
+      feature rdoc rjs sql html yml yml_example rb_example special_files sass
     }.each do |t|
       Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])
     end

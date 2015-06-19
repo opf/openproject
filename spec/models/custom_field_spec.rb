@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe CustomField, type: :model do
   let(:field)  { FactoryGirl.build :custom_field }
   let(:field2) { FactoryGirl.build :custom_field }
 
-  describe :name do
+  describe '#name' do
     describe 'uniqueness' do
 
       describe 'WHEN value, locale and type are identical' do
@@ -110,7 +110,7 @@ describe CustomField, type: :model do
     end
   end
 
-  describe :translations_attributes do
+  describe '#translations_attributes' do
     describe 'WHEN providing a hash with locale and values' do
       before do
         field.translations_attributes = [{ 'name' => 'Feld',
@@ -186,7 +186,7 @@ describe CustomField, type: :model do
     end
   end
 
-  describe :default_value do
+  describe '#default_value' do
     describe 'localization' do
       before do
         I18n.locale = :de
@@ -201,7 +201,7 @@ describe CustomField, type: :model do
     end
   end
 
-  describe :possible_values do
+  describe '#possible_values' do
     describe 'localization' do
       before do
         I18n.locale = :de
@@ -224,7 +224,7 @@ describe CustomField, type: :model do
     end
   end
 
-  describe :valid? do
+  describe '#valid?' do
     describe "WITH a list field
               WITH two translations
               WITH default_value not included in possible_values in the non current locale translation" do
@@ -397,6 +397,19 @@ describe CustomField, type: :model do
         field.max_length = -2
       end
       it { expect(field).not_to be_valid }
+    end
+  end
+
+  describe '#accessor_name' do
+    # create the custom field to force assignment of an id
+    let(:field)  { FactoryGirl.create :custom_field }
+
+    it 'is formatted as expected' do
+      expect(field.accessor_name).to eql("custom_field_#{field.id}")
+    end
+
+    it 'returns a string' do
+      expect(field.accessor_name).to be_a(String)
     end
   end
 end

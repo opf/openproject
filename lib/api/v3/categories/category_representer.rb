@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,14 +33,27 @@ require 'roar/json/hal'
 module API
   module V3
     module Categories
-      class CategoryRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include OpenProject::StaticRouting::UrlHelpers
+      class CategoryRepresenter < ::API::Decorators::Single
+        link :self do
+          {
+            href: api_v3_paths.category(represented.id),
+            title: "#{represented.name}"
+          }
+        end
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+        link :project do
+          {
+            href: api_v3_paths.project(represented.project.id),
+            title: represented.project.name
+          }
+        end
 
-        property :_type, exec_context: :decorator
+        link :defaultAssignee do
+          {
+            href: api_v3_paths.user(represented.assigned_to.id),
+            title: represented.assigned_to.name
+          } if represented.assigned_to
+        end
 
         property :id, render_nil: true
         property :name, render_nil: true

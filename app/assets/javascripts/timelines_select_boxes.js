@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,10 @@
 //requires 'autocompleter'
 
 jQuery(document).ready(function($) {
+  var formatSelection = function(item) {
+    return OpenProject.Helpers.markupEscape(item.name || (item.project ? item.project.name : ''));
+  };
+
   [
     $("#reporting_reported_project_status_id"),
     $("#timeline_options_initial_outline_expansion"),
@@ -93,14 +97,12 @@ jQuery(document).ready(function($) {
 
   [
     $("#reporting_reporting_to_project_id"),
-    $("#project_association_select_project_b_id")
+    $("#project_association_project_b_id")
   ].forEach(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
     $(item).autocomplete({
       multiple: false,
-      formatSelection: function (item) {
-        return item.name || item.project.name;
-      },
+      formatSelection: formatSelection,
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
@@ -117,9 +119,7 @@ jQuery(document).ready(function($) {
     $(item).autocomplete({
       multiple: true,
       sortable: true,
-      formatSelection: function (item) {
-        return item.name || item.project.name;
-      },
+      formatSelection: formatSelection,
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
@@ -135,9 +135,7 @@ jQuery(document).ready(function($) {
     // Stuff borrowed from Core application.js Project Jump Box
     $(item).autocomplete({
       multiple: true,
-      formatSelection: function (item) {
-        return item.name || item.project.name;
-      },
+      formatSelection: formatSelection,
       formatResult : OpenProject.Helpers.Search.formatter,
       matcher      : OpenProject.Helpers.Search.matcher,
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
@@ -147,24 +145,22 @@ jQuery(document).ready(function($) {
     });
   });
 
-  $("#content").find("input").each(function (index, e) {
-    e = $(e);
-    if (
-        ((e.attr("type") === "text" || e.attr("type") === "hidden") && e.val() !== "" && !e.hasClass("select2-input")) ||
-        (e.attr("type") === "checkbox" && e.attr("checked"))
-    ) {
-      showFieldSet(e);
+  var fields = $("#content").find("input")
+                            .not("[type='radio']")
+                            .not("[class^='select2-']")
+                            .not(".button")
+                            .not("[type='hidden']");
+
+  fields.each(function(idx, element) {
+    var el = $(element);
+    if (el.is(":checked") && el.is("[type='checkbox']")) {
+      showFieldSet(el);
+    }
+    if (el.is("[type='text']") && el.val() !== "") {
+      showFieldSet(el);
     }
   });
-
-  $('#content').find('.cf_boolean_select').each(function (index, field) {
-    field = $(field);
-    if (field.val() !== '') {
-      showFieldSet(field);
-    }
-  });
-
   function showFieldSet(field) {
-    field.closest("fieldset").removeClass('collapsed').children("div").show();
+    field.closest("fieldset").removeClass("collapsed").children("div").show();
   }
 });

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe QueryPolicy, type: :controller do
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:query)   { FactoryGirl.build_stubbed(:query, project: project, user: user) }
 
-  describe :allowed? do
+  describe '#allowed?' do
     let(:subject) { described_class.new(user) }
 
     before do

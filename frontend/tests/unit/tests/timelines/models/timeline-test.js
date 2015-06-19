@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -43,14 +43,20 @@ describe('Timeline', function() {
 
   it('should not create a timeline object without configuration options', function() {
     expect(function() {
-      model.create();
+      model.create(42);
     }).to.throw('No configuration options given');
+  });
+
+  it('should not create a timeline object without id', function() {
+    expect(function() {
+      model.create(null, {});
+    }).to.throw('No timelines id given');
   });
 
   it('should create a timeline object', function () {
     expect(model.instances).to.have.length(0);
 
-    var timeline = model.create({
+    var timeline = model.create(42, {
       project_id: 1
     });
 

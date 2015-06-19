@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,12 +37,16 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+/npm-debug.log
 /tmp
+
+# Ignore RubyMine files
+/.idea
 
 /backup
 /.project
 /.loadpath
-/app/assets/javascripts/bundles/*.js*
+/app/assets/javascripts/bundles/*.*
 /config/additional_environment.rb
 /config/configuration.yml
 /config/database.yml
@@ -53,7 +57,6 @@
 /db/*.sqlite3
 /db/schema.rb
 /files/*
-/frontend/tests/unit/reports
 /log/*.log*
 /log/mongrel_debug
 /public/dispatch.*
@@ -65,21 +68,18 @@
 /tmp/sessions/*
 /tmp/sockets/*
 /tmp/test/*
-/vendor/rails
-/vendor/assets/components
 /*.rbc
 /doc/app
-#/Gemfile.lock
 /Gemfile.local
 /Gemfile.plugins
 /.rvmrc*
 /.ruby-version
 /.ruby-gemset
 /.foreman
+/.env
 
 # coverage in plugins
 /lib/plugins/*/coverage
 
 # asset cache
 /.sass-cache/
-/node_modules/

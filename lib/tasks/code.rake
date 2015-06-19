@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ namespace :code do
     Dir.chdir(File.join(File.dirname(__FILE__), '../..')) do
       files = Dir['**/**{.rb,.html.erb,.rhtml,.rjs,.plain.erb,.rxml,.yml,.rake,.eml}']
       files.reject! { |f|
-        f.include?('vendor') ||
+        f.include?('lib/plugins') ||
           f.include?('lib/redcloth') ||
           f.include?('lib/diff')
       }

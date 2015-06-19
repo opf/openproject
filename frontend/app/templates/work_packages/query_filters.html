@@ -1,0 +1,165 @@
+<fieldset id="filters" class="advanced-filters--container">
+  <legend ng-bind="I18n.t('js.label_selected_filter_list')"></legend>
+
+  <ul class="advanced-filters--filters">
+    <li query-filter
+        ng-repeat="filter in query.filters"
+        ng-show="!filter.deactivated"
+        id="filter_{{filter.name}}"
+        class="advanced-filters--filter">
+
+      <!-- Hidden for form -->
+      <input id="h_{{ filter.name }}" name="f[]" type="hidden" value="{{ filter.name }}" ng-disabled="filter.deactivated"/>
+
+      <!-- Name -->
+      <label for="operators-{{filter.name}}"
+             class="advanced-filters--filter-name"
+             title="{{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}">
+        {{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}
+      </label>
+
+      <!-- Operator -->
+      <div class="advanced-filters--filter-operator">
+        <select require
+                focus="$index == focusElementIndex"
+                class="advanced-filters--select"
+                id="operators-{{filter.name}}"
+                name="op[{{filter.name}}]"
+                ng-model="filter.operator"
+                style="vertical-align: top;"
+                ng-disabled="isLoading">
+
+          <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option[0] }}" ng-selected="option[0] == filter.operator" label="{{ I18n.t('js.' + option[1]) }}">{{ I18n.t('js.' + option[1]) }}</option>
+        </select>
+      </div>
+
+      <!-- Values -->
+      <div class="advanced-filters--filter-value">
+        <div id="div-values-{{filter.name}}"
+             ng-if="!showValueOptionsAsSelect"
+             ng-show="showValuesInput"
+             ng-switch="filter.type">
+
+          <input ng-switch-when="string"
+                 ng-model="filter.textValue"
+                 ng-model-options="::filterModelOptions"
+                 ng-required="true"
+                 class="advanced-filters--text-field"
+                 id="values-{{filter.name}}"
+                 name="v[{{filter.name}}]"
+                 size="30"
+                 type="text"
+                 value=""
+                 ng-disabled="isLoading"/>
+          <label ng-switch-when="string"
+                 for="values_{{name}}"
+                 class="hidden-for-sighted">
+            {{ I18n.t('js.work_packages.description_enter_text') }}
+          </label>
+
+          <input ng-switch-when="text"
+                 ng-model="filter.textValue"
+                 ng-model-options="::filterModelOptions"
+                 ng-required="true"
+                 class="advanced-filters--text-field"
+                 id="values-{{filter.name}}"
+                 name="v[{{filter.name}}]"
+                 size="30"
+                 type="text"
+                 value=""
+                 ng-disabled="isLoading"/>
+          <label ng-switch-when="text" for="values_{{name}}" class="hidden-for-sighted">
+            {{ I18n.t('js.work_packages.description_enter_text') }}
+          </label>
+
+          <input ng-switch-when="integer"
+                 ng-model="filter.textValue"
+                 ng-model-options="::filterModelOptions"
+                 ng-required="true"
+                 class="advanced-filters--number-field"
+                 id="values-{{filter.name}}"
+                 name="v[{{filter.name}}]"
+                 min="0"
+                 type="number"
+                 value=""
+                 ng-disabled="isLoading"/>
+          <label ng-switch-when="integer" for="values_{{name}}" class="hidden-for-sighted">
+            {{ I18n.t('js.work_packages.description_enter_text') }}
+          </label>
+
+          <span class="inline-label" ng-switch-when="date">
+            <input ng-model="filter.textValue"
+                   ng-model-options="::filterModelOptions"
+                   ng-required="true"
+                   class="advanced-filters--text-field"
+                   id="values-{{filter.name}}"
+                   name="v[{{filter.name}}]"
+                   size="3"
+                   type="text"
+                   ng-disabled="isLoading"/>
+            <label for="values_{{name}}" class="form-label -transparent">
+              {{ I18n.t('js.work_packages.time_relative.days') }}
+            </label>
+          </span>
+
+          <span class="inline-label" ng-switch-when="date_past">
+            <input ng-model="filter.textValue"
+                   ng-model-options="::filterModelOptions"
+                   ng-required="true"
+                   class="advanced-filters--text-field"
+                   id="values-{{filter.name}}"
+                   name="v[{{filter.name}}]"
+                   size="3"
+                   type="text"
+                   ng-disabled="isLoading"/>
+            <label ng-switch-when="date_past" for="values_{{name}}" class="form-label -transparent">
+              {{ I18n.t('js.work_packages.time_relative.days') }}
+            </label>
+          </span>
+        </div>
+
+        <div ng-if="showValueOptionsAsSelect"
+             ng-show="showValuesInput">
+          <toggled-multiselect available-options="availableFilterValueOptions"
+                               name="filter.name"
+                               values="filter.values"
+                               is-multiselect="false"
+                               isDisabled="isLoading"/>
+
+        </div>
+      </div>
+
+      <div class="advanced-filters--remove-filter">
+        <accessible-by-keyboard execute="deactivateFilter(filter)">
+          <icon-wrapper icon-name="close"
+                        icon-title="{{I18n.t('js.button_delete')}}"
+                        css-class="advanced-filters--remove-filter-icon"/>
+        </accessible-by-keyboard>
+        <!-- TODO I18n -->
+      </div>
+    </li>
+
+    <li class="advanced-filters--spacer" ng-if="query.getActiveFilters().size() > 0"></li>
+
+    <li class="advanced-filters--add-filter">
+      <!-- Add filters -->
+      <label for="add_filter_select" class="advanced-filters--add-filter-label">
+        <i class="icon-add icon4"></i>
+        {{ I18n.t('js.work_packages.label_filter_add') }}:
+      </label>
+      <div class="advanced-filters--add-filter-value">
+        <select class="advanced-filters--select"
+          id="add_filter_select"
+          focus="focusElementIndex == -1"
+          ng-model="filterToBeAdded"
+          ng-options="filterName as localisedFilterName(query.availableWorkPackageFilters[filterName])
+            for filterName
+            in query.availableWorkPackageFilters | remainingFilterNames:query.filters" />
+        </select>
+        <!-- TODO options | orderObjectBy: 'order' -->
+      </div>
+    </li>
+  </ul>
+
+  <input id="f_" name="f[]" type="hidden" value=""/>
+</fieldset>

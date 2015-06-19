@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,15 +27,6 @@
 //++
 
 module.exports = function($window, Timeline) {
-  var getInitialOutlineExpansion = function(timelineOptions) {
-    var initialOutlineExpansion = timelineOptions.initial_outline_expansion;
-    if (initialOutlineExpansion && initialOutlineExpansion >= 0) {
-      return initialOutlineExpansion;
-    } else {
-      return 0;
-    }
-  };
-
   setTimelinesWidth = function(scope) {
     var contentElement = angular.element('#content');
 
@@ -52,22 +43,14 @@ module.exports = function($window, Timeline) {
           $scope.errorMessage = errorMessage;
         };
       }],
+    scope: { timelineId: '@' },
     transclude: true,
     template: '<div ng-style="{ width: timelineWidth }">' +
               '<div ng-hide="!!errorMessage" ng-transclude id="{{timelineContainerElementId}}"/>' +
               '<div ng-if="!!errorMessage" ng-bind="errorMessage" class="flash error"/>' +
               '</div>',
     link: function(scope) {
-      scope.timelineContainerElementId = 'timeline-container-' + (++scope.timelineContainerCount);
-
-      // Hide charts until tables are drawn
-      scope.underConstruction = true;
-
-      // Create timeline object
-      scope.timeline = Timeline.create(scope.timelineOptions);
-
-      // Set initial expansion index
-      scope.timeline.expansionIndex = getInitialOutlineExpansion(scope.timelineOptions);
+      scope.timelineContainerElementId = 'timeline-container-' + scope.timelineId;
 
       // As part of a wiki the timeline container would have to stick to the wiki's width
       // limitation. We set the timeline width programmatically to bypass the width

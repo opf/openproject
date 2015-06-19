@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe('timelineColumnData Directive', function() {
   var compile, element, rootScope, scope, type;
 
   beforeEach(angular.mock.module('openproject.timelines.directives'));
-  beforeEach(module('templates', 'openproject.uiComponents', 'openproject.helpers'));
+  beforeEach(module('openproject.templates', 'openproject.uiComponents', 'openproject.helpers'));
 
   beforeEach(inject(function($rootScope, $compile) {
     var html;

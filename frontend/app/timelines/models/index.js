@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,10 +33,10 @@ angular.module('openproject.timelines.models')
   .factory('Constants', require('./mixins/constants'))
   .factory('UI', ['$timeout', require('./mixins/ui')])
   .factory('PlanningElementType', require('./planning-element-type'))
-  .factory('PlanningElement', require('./planning-element'))
+  .factory('PlanningElement', ['PathHelper', require('./planning-element')])
   .factory('ProjectAssociation', require('./project-association'))
   .factory('ProjectType', require('./project-type'))
-  .factory('Project', require('./project'))
+  .factory('Project', ['PathHelper', require('./project')])
   .factory('Reporting', require('./reporting'))
   .factory('Status', require('./status'))
   .factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color',

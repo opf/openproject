@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ module OpenProject
       path = (context.is_a? WorkPackage) ? preview_work_package_path(context)
                                          : preview_work_packages_path
 
-      preview_link path, form_id,  class: 'preview button'
+      preview_link path, "#{form_id}-preview"
     end
 
     # Generates a link to an attachment.
@@ -77,9 +77,9 @@ module OpenProject
     def link_to_revision(revision, project, options = {})
       text = options.delete(:text) || format_revision(revision)
       rev = revision.respond_to?(:identifier) ? revision.identifier : revision
-
-      link_to(h(text), { controller: '/repositories', action: 'revision', project_id: project, rev: rev },
-              title: l(:label_revision_id, format_revision(revision)))
+      url_opts = { controller: '/repositories', action: 'revision', project_id: project, rev: rev }
+      html_options = { title: l(:label_revision_id, format_revision(revision)) }.merge(options)
+      link_to(h(text), url_opts, html_options)
     end
 
     # Generates a link to a message

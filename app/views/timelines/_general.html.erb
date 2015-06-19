@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,125 +27,89 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset id="filter_general" class="header_collapsible collapsible">
-  <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
+<fieldset id="filter_general" class="form--fieldset -collapsible">
+  <legend class="form--fieldset-legend" title="<%=l(:description_filter_toggle)%>" onclick="toggleFieldset(this);">
     <a href="javascript:"><%= l('timelines.filter.timeline') %></a>
   </legend>
 
   <div>
-    <div>
+    <div class="form--field">
+      <%= f.text_field :name, required: true %>
+    </div>
+    <%= f.fields_for :options, timeline_options do |ff| %>
+      <%= ff.hidden_field :exist %>
+      <div class="form--field">
+        <%= styled_label_tag :timeline_options_hide_chart,
+                       l('timelines.filter.hide_chart') %>
 
-      <p class="tl-form-overflow">
-        <%= f.label :name %>
-        <%= f.text_field :name, :required => true, :size => 60, :class => "twoBlocks" %>
-        <%= hidden_field_tag 'timeline[options][exist]' %>
-      </p>
+        <span class="form--field-container">
+          <%# need to use check_box_tag as form.check_box would create
+              a hidden field to send the value when the check box is not set.
+              The backend is written so that it expects no value when the checkbox is disabled %>
+          <%= styled_check_box_tag ff.object_name + "[hide_chart]",
+                                   :yes,
+                                   ff.object.hide_chart.present? %>
+        </span>
+      </div>
 
-      <p class="tl-form-overflow">
-        <%= label_tag :timeline_options_hide_chart,
-                      l('timelines.filter.hide_chart') %>
-
-        <%= check_box_tag("timeline[options][hide_chart]",
-                          :yes,
-                          timeline.options["hide_chart"].present?) %>
-      </p>
-
-      <p class="tl-form-overflow">
-        <%= label_tag 'timeline_options_zoom_factor',
-                      l("timelines.filter.zoom") %>
-
-        <%= select("timeline[options]",
-                   :zoom_factor,
+      <div class="form--field">
+        <%= ff.select(:zoom_factor,
                    filter_select_i18n_array_with_index_and_none(
                      timeline.available_zoom_factors,
-                     'timelines.zoom.'),
-                   {:selected => timeline.selected_zoom_factor},
-                   {:multiple => false,
-                    :size => 1}) %>
+                     'timelines.zoom.'), label: l("timelines.filter.zoom")) %>
+      </div>
 
-      </p>
-
-      <p class="tl-form-overflow">
-        <%= label_tag 'timeline_options_initial_outline_expansion',
-                      l("timelines.filter.outline") %>
-
-        <%= select("timeline[options]",
-                   :initial_outline_expansion,
+      <div class="form--field">
+        <%= ff.select(:initial_outline_expansion,
                    filter_select_i18n_array_with_index_and_none(
                      timeline.available_initial_outline_expansions,
                      'timelines.outlines.'),
-                   {:selected => timeline.selected_initial_outline_expansion},
-                   {:multiple => false,
-                    :size => 1}) %>
+                   label: l("timelines.filter.outline")) %>
 
-      </p>
-
-      <p class="tl-form-overflow">
-        <%= label_tag :timeline_options_timeframe_start,
-                      l('timelines.filter.timeframe') %>
-
-        <span>
-          <%= label_tag :timeline_options_timeframe_start,
-                        l('timelines.filter.timeframe_start'),
-                        style: "margin-left:5px; width:auto;" %>
-
-          <%= text_field_tag "timeline[options][timeframe_start]",
-                             timeline.options["timeframe_start"],
-                             :size => 10 %>
-          <%= calendar_for('timeline_options_timeframe_start') %>
-        </span>
-
-        <span>
-          <%= label_tag :timeline_options_timeframe_end,
-                        l('timelines.filter.timeframe_end'),
-                        style: "margin-left:5px; width:auto;" %>
-
-          <%= text_field_tag "timeline[options][timeframe_end]",
-                             timeline.options["timeframe_end"],
-                             :size => 10 %>
-          <%= calendar_for('timeline_options_timeframe_end') %>
-        </span>
-      </p>
-
-      <p class="tl-form-overflow">
-        <% if User.current.impaired? %>
-          <%= label_tag 'timeline_options_columns',
-                        l("timelines.filter.columns") %>
-
-          <%= select("timeline[options]",
-                     :columns,
-                     internationalized_columns_select(timeline.available_columns),
-                     {:selected => timeline.selected_columns},
-                     {:multiple => true,
-                      :size => 12}) %>
-        <% else %>
-          <%= label_tag 'timeline_options_columns_',
-                        l("timelines.filter.columns") %>
-
-          <%= hidden_field_tag("timeline[options][columns][]",
-                  timeline.selected_columns.join(","),
-                  {
-                    :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).to_json
-                  }
-                ) %>
-        <% end %>
-      </p>
-
-      <p class="tl-form-overflow">
-        <%= label_tag :timeline_options_project_sort,
-                      l('timelines.filter.sort.project_sortation') %>
-
-        <span>
-          <%= select("timeline[options]",
-                     :project_sort,
-                     [[l('timelines.filter.sort.date'), 0], [l('timelines.filter.sort.alphabet'), '1']],
-
-                     {:selected => timeline.options['project_sort']},
-                     {:multiple => false,
-                      :size => 1}) %>
-        </span>
-
-      </p>
-    </div>
+      </div>
+      <div class="form--grouping" role="group" aria-labelledby="timeline--form--timeframe">
+        <div id="timeline--form--timeframe"
+             class="form--grouping-label"
+             title="<%= l('timelines.filter.timeframe') %>">
+          <%= l('timelines.filter.timeframe') %>
+        </div>
+        <div class="form--grouping-row">
+          <div class="form--field">
+            <%= ff.text_field :timeframe_start, label: l('timelines.filter.timeframe_start') %>
+            <%= calendar_for('timeline_options_timeframe_start') %>
+          </div>
+          <div class="form--field">
+            <%= ff.text_field :timeframe_end, label: l('timelines.filter.timeframe_end') %>
+            <%= calendar_for('timeline_options_timeframe_end') %>
+          </div>
+        </div>
+      </div>
+      <div class="form--field">
+        <%= ff.label :columns,
+                     l("timelines.filter.columns"),
+                     for: "timeline_options_columns_",
+                     class: "form--label" %>
+        <div class="form--field-container">
+          <div class="form--select-container -wide">
+            <% if User.current.impaired? %>
+              <%= ff.select :columns, internationalized_columns_select(timeline.available_columns),
+                            { selected: timeline.selected_columns,
+                              no_label: true },
+                            { multiple: true,
+                              size: 12 } %>
+            <% else %>
+              <%= ff.hidden_field :columns,
+                                  name: "timeline[options][columns][]",
+                                  id: "timeline_options_columns_",
+                                  value: timeline.selected_columns.join(","),
+                                  :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).to_json %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="form--field">
+        <%= ff.select  :project_sort, [[l('timelines.filter.sort.date'), 0], [l('timelines.filter.sort.alphabet'), '1']], label: l('timelines.filter.sort.project_sortation') %>
+      </div>
+    <% end %>
   </div>
 </fieldset>

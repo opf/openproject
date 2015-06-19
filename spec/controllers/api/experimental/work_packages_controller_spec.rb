@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -131,12 +131,12 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
       before do
         # FIXME: find a better solution does not involve reaching into the internals
         allow(controller).to receive(:retrieve_query).and_return(query)
-        query.stub_chain(:results, :work_packages, :page, :per_page, :changed_since, :all).and_return(work_packages)
-        query.stub_chain(:results, :work_package_count_by_group).and_return([])
-        query.stub_chain(:results, :column_total_sums).and_return([])
-        query.stub_chain(:results, :column_group_sums).and_return([])
-        query.stub_chain(:results, :total_sum_of).and_return(2)
-        query.stub_chain(:results, :total_entries).and_return([])
+        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :changed_since, :all).and_return(work_packages)
+        allow(query).to receive_message_chain(:results, :work_package_count_by_group).and_return([])
+        allow(query).to receive_message_chain(:results, :column_total_sums).and_return([])
+        allow(query).to receive_message_chain(:results, :column_group_sums).and_return([])
+        allow(query).to receive_message_chain(:results, :total_sum_of).and_return(2)
+        allow(query).to receive_message_chain(:results, :total_entries).and_return([])
 
         # FIXME: METADATA TOO TRICKY TO DEAL WITH
         allow(controller).to receive(:set_work_packages_meta_data)
@@ -239,13 +239,13 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
         allow(Setting).to receive(:work_package_list_summable_columns).and_return(
           %w(estimated_hours done_ratio)
         )
-        WorkPackage.stub_chain(:visible, :find) {
+        allow(WorkPackage).to receive_message_chain(:visible, :includes, :find) {
           FactoryGirl.create_list(:work_package, 2, estimated_hours: 5, done_ratio: 33)
         }
       end
 
       it 'handles incorrect column names' do
-        expect { get :column_data, format: 'json', ids: [1, 2], column_names: %w(non_existent status) }.to raise_error(/API Error/)
+        expect { get :column_data, format: 'json', ids: [1, 2], column_names: %w(non_existent) }.to raise_error(/API Error/)
       end
 
       it 'assigns column data' do

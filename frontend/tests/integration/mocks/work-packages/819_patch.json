@@ -82,34 +82,37 @@
       "title": "Add comment"
     },
     "parent": {
-      "href": "/api/v3/work_packages/54",
+      "href": "/api/v3/work_packages/820",
       "title": "asd"
     },
     "timeEntries": {
       "href": "/work_packages/819/time_entries",
       "type": "text/html",
       "title": "Time entries"
+    },
+    "project": {
+      "href": "/api/v3/projects/1",
+      "title": "Seeded Project"
     }
   },
   "id": 819,
   "lockVersion": 119,
   "subject": "66666",
   "type": "Feature",
-  "description": "<p><a href=\"#\" onclick=\"return false;\" class=\"issue work_package status-4 priority-2 parent\" title=\"harum temporibus sit sit autem atque optio vitaelasd22ss2 (to be scheduled)\">#54</a></p>",
-  "rawDescription": "#54",
+  "description": {
+    "format": "textile",
+    "html": "<p><a href=\"#\" onclick=\"return false;\" class=\"issue work_package status-4 priority-2 parent\" title=\"harum temporibus sit sit autem atque optio vitaelasd22ss2 (to be scheduled)\">#54</a></p>",
+    "raw": "#54"
+  },
   "status": "specified",
   "isClosed": false,
   "priority": "Normal",
-  "startDate": "2014-10-23T00:00:00+00:00",
-  "dueDate": "2014-12-27T00:00:00+00:00",
+  "startDate": "2014-10-23",
+  "dueDate": "2014-12-27",
   "estimatedTime": "PT0S",
   "spentTime": "PT0S",
   "percentageDone": 0,
-  "versionId": null,
-  "versionName": null,
-  "projectId": 1,
-  "projectName": "Seeded Project",
-  "parentId": 54,
+  "parentId": 820,
   "createdAt": "2014-11-05T15:56:53Z",
   "updatedAt": "2014-11-21T08:48:57Z",
   "customProperties": [
@@ -144,7 +147,7 @@
       "firstName": "Freida",
       "lastName": "Fay",
       "name": "Freida Fay",
-      "mail": "elwyn_dickens@gulgowskicasper.biz",
+      "email": "elwyn_dickens@gulgowskicasper.biz",
       "avatar": "",
       "createdAt": "2014-11-05T15:56:819Z",
       "updatedAt": "2014-11-05T15:56:819Z",
@@ -2150,8 +2153,43 @@
         "createdAt": "2014-11-21T08:48:57Z"
       }
     ],
+    "project": {
+      "_type": "Project",
+      "_links": {
+        "self": {
+        "href": "/api/v3/projects/1",
+        "title": "No Plugins Project"
+      },
+      "categories": {
+        "href": "/api/v3/projects/1/categories"
+      },
+      "versions": {
+        "href": "/api/v3/projects/1/versions"
+      }
+      },
+      "id": 1,
+      "identifier": "seeded-project",
+      "name": "Seeded Project",
+      "description": "",
+      "homepage": "",
+      "createdAt": "2014-04-30T13:28:51+00:00",
+      "updatedAt": "2014-04-30T13:28:51+00:00",
+      "type": null
+    },
     "watchers": [],
-    "attachments": [],
+    "attachments" : {
+      "_links" : {
+        "self" : {
+          "href" : "/api/v3/work_packages/819/attachments"
+        }
+      },
+      "_type" : "Collection",
+      "total" : 0,
+      "count" : 0,
+      "_embedded" : {
+        "elements" : []
+      }
+    },
     "relations": []
   }
 }

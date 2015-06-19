@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,36 +33,33 @@ require 'roar/json/hal'
 module API
   module V3
     module WorkPackages
-      class WorkPackageRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-        include API::V3::Utilities::PathHelper
-        include OpenProject::TextFormatting
+      class WorkPackageRepresenter < ::API::Decorators::Single
+        class << self
+          def create_class(work_package)
+            injector_class = ::API::V3::Utilities::CustomFieldInjector
+            injector_class.create_value_representer(work_package,
+                                                    WorkPackageRepresenter)
+          end
 
-        self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
-
-        def initialize(model, options = {}, *expand)
-          @current_user = options[:current_user]
-          @expand = expand
-
-          super(model)
+          def create(work_package, context = {})
+            create_class(work_package).new(work_package, context)
+          end
         end
 
-        property :_type, exec_context: :decorator, writeable: false
-
-        link :self do
-          {
-            href: api_v3_paths.work_package(represented.id),
-            title: "#{represented.subject}"
-          }
-        end
+        self_link title_getter: -> (*) { represented.subject }
 
         link :update do
           {
             href: api_v3_paths.work_package_form(represented.id),
             method: :post,
             title: "Update #{represented.subject}"
-          } if current_user_allowed_to(:edit_work_packages)
+          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
+        end
+
+        link :schema do
+          {
+            href: api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
+          }
         end
 
         link :updateImmediately do
@@ -70,7 +67,7 @@ module API
             href: api_v3_paths.work_package(represented.id),
             method: :patch,
             title: "Update #{represented.subject}"
-          } if current_user_allowed_to(:edit_work_packages)
+          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
         end
 
         link :delete do
@@ -78,7 +75,7 @@ module API
             href: work_packages_bulk_path(ids: represented),
             method: :delete,
             title: "Delete #{represented.subject}"
-          } if current_user_allowed_to(:delete_work_packages)
+          } if current_user_allowed_to(:delete_work_packages, context: represented.project)
         end
 
         link :log_time do
@@ -86,7 +83,7 @@ module API
             href: new_work_package_time_entry_path(represented),
             type: 'text/html',
             title: "Log time on #{represented.subject}"
-          } if current_user_allowed_to(:log_time)
+          } if current_user_allowed_to(:log_time, context: represented.project)
         end
 
         link :duplicate do
@@ -94,7 +91,7 @@ module API
             href: new_project_work_package_path(represented.project, copy_from: represented),
             type: 'text/html',
             title: "Duplicate #{represented.subject}"
-          } if current_user_allowed_to(:add_work_packages)
+          } if current_user_allowed_to(:add_work_packages, context: represented.project)
         end
 
         link :move do
@@ -102,55 +99,50 @@ module API
             href: new_work_package_move_path(represented),
             type: 'text/html',
             title: "Move #{represented.subject}"
-          } if current_user_allowed_to(:move_work_packages)
+          } if current_user_allowed_to(:move_work_packages, context: represented.project)
         end
 
-        link :author do
-          {
-            href: api_v3_paths.user(represented.author.id),
-            title: "#{represented.author.name} - #{represented.author.login}"
-          } unless represented.author.nil?
-        end
+        linked_property :type, embed_as: ::API::V3::Types::TypeRepresenter
+        linked_property :status, embed_as: ::API::V3::Statuses::StatusRepresenter
 
-        link :responsible do
-          {
-            href: api_v3_paths.user(represented.responsible.id),
-            title: "#{represented.responsible.name} - #{represented.responsible.login}"
-          } unless represented.responsible.nil?
-        end
+        linked_property :author, path: :user, embed_as: ::API::V3::Users::UserRepresenter
+        linked_property :responsible, path: :user, embed_as: ::API::V3::Users::UserRepresenter
+        linked_property :assignee,
+                        path: :user,
+                        getter: :assigned_to,
+                        embed_as: ::API::V3::Users::UserRepresenter
 
-        link :assignee do
+        link :attachments do
           {
-            href: api_v3_paths.user(represented.assigned_to.id),
-            title: "#{represented.assigned_to.name} - #{represented.assigned_to.login}"
-          } unless represented.assigned_to.nil?
+            href: api_v3_paths.attachments_by_work_package(represented.id)
+          }
         end
 
         link :availableWatchers do
           {
             href: api_v3_paths.available_watchers(represented.id),
             title: 'Available Watchers'
-          }
+          } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
         end
 
         link :watchChanges do
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
-            data: { user_id: @current_user.id },
+            data: { user_id: current_user.id },
             title: 'Watch work package'
-          } if !@current_user.anonymous? &&
-               current_user_allowed_to(:view_work_packages) &&
-               !represented.watcher_users.include?(@current_user)
+          } if !current_user.anonymous? &&
+               current_user_allowed_to(:view_work_packages, context: represented.project) &&
+               !represented.watcher_users.include?(current_user)
         end
 
         link :unwatchChanges do
           {
-            href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{@current_user.id}",
+            href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{current_user.id}",
             method: :delete,
             title: 'Unwatch work package'
-          } if current_user_allowed_to(:view_work_packages) &&
-               represented.watcher_users.include?(@current_user)
+          } if current_user_allowed_to(:view_work_packages, context: represented.project) &&
+               represented.watcher_users.include?(current_user)
         end
 
         link :addWatcher do
@@ -159,7 +151,7 @@ module API
             method: :post,
             title: 'Add watcher',
             templated: true
-          } if current_user_allowed_to(:add_work_package_watchers)
+          } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
         end
 
         link :addRelation do
@@ -167,15 +159,17 @@ module API
             href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
             title: 'Add relation'
-          } if current_user_allowed_to(:manage_work_package_relations)
+          } if current_user_allowed_to(:manage_work_package_relations,
+                                       context: represented.project)
         end
 
         link :addChild do
           {
-            href: new_project_work_package_path(represented.project, work_package: { parent_id: represented }),
+            href: new_project_work_package_path(represented.project,
+                                                work_package: { parent_id: represented }),
             type: 'text/html',
             title: "Add child of #{represented.subject}"
-          } if current_user_allowed_to(:add_work_packages)
+          } if current_user_allowed_to(:add_work_packages, context: represented.project)
         end
 
         link :changeParent do
@@ -183,7 +177,7 @@ module API
             href: api_v3_paths.work_package(represented.id),
             method: :patch,
             title: "Change parent of #{represented.subject}"
-          } if current_user_allowed_to(:manage_subtasks)
+          } if current_user_allowed_to(:manage_subtasks, context: represented.project)
         end
 
         link :addComment do
@@ -191,31 +185,31 @@ module API
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
             title: 'Add comment'
-          } if current_user_allowed_to(:add_work_package_notes)
+          } if current_user_allowed_to(:add_work_package_notes, context: represented.project)
         end
 
-        link :parent do
-          {
-            href: api_v3_paths.work_package(represented.parent.id),
-            title:  represented.parent.subject
-          } unless represented.parent.nil? || !represented.parent.visible?
-        end
+        linked_property :parent,
+                        path: :work_package,
+                        title_getter: -> (*) { represented.parent.subject },
+                        show_if: -> (*) { represented.parent.nil? || represented.parent.visible? }
 
         link :timeEntries do
           {
             href: work_package_time_entries_path(represented.id),
             type: 'text/html',
             title: 'Time entries'
-          } if current_user_allowed_to(:view_time_entries)
+          } if current_user_allowed_to(:view_time_entries, context: represented.project)
         end
 
-        link :version do
-          {
-            href: api_v3_paths.versions(represented.fixed_version),
-            type: 'text/html',
-            title: "#{represented.fixed_version.to_s_for_project(represented.project)}"
-          } if represented.fixed_version && @current_user.allowed_to?({ controller: 'versions', action: 'show' }, represented.fixed_version.project, global: false)
-        end
+        linked_property :category, embed_as: ::API::V3::Categories::CategoryRepresenter
+        linked_property :priority, embed_as: ::API::V3::Priorities::PriorityRepresenter
+        linked_property :project, embed_as: ::API::V3::Projects::ProjectRepresenter
+
+        linked_property :version,
+                        getter: :fixed_version,
+                        title_getter: -> (*) {
+                          represented.fixed_version.to_s_for_project(represented.project)
+                        }
 
         links :children do
           visible_children.map do |child|
@@ -226,94 +220,131 @@ module API
         property :id, render_nil: true
         property :lock_version
         property :subject, render_nil: true
-        property :type, getter: -> (*) { type.try(:name) }, render_nil: true
-        property :description, exec_context: :decorator, render_nil: true, writeable: false
-        property :raw_description,
-                 getter: -> (*) { description },
-                 setter: -> (value, *) { self.description = value },
+        property :description,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   ::API::Decorators::Formattable.new(represented.description, object: represented)
+                 },
+                 setter: -> (value, *) { represented.description = value['raw'] },
                  render_nil: true
-        property :status, getter: -> (*) { status.try(:name) }, render_nil: true
-        property :is_closed, getter: -> (*) { closed? }
-        property :priority, getter: -> (*) { priority.try(:name) }, render_nil: true
-        property :start_date, getter: -> (*) { start_date.to_datetime.utc.iso8601 unless start_date.nil? }, render_nil: true
-        property :due_date, getter: -> (*) { due_date.to_datetime.utc.iso8601 unless due_date.nil? }, render_nil: true
+
+        property :start_date,
+                 exec_context: :decorator,
+                 getter: -> (*) do
+                   datetime_formatter.format_date(represented.start_date, allow_nil: true)
+                 end,
+                 render_nil: true
+        property :due_date,
+                 exec_context: :decorator,
+                 getter: -> (*) do
+                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
+                 end,
+                 render_nil: true
         property :estimated_time,
-                 getter: -> (*) { Duration.new(hours: estimated_hours).iso8601 },
+                 exec_context: :decorator,
+                 getter: -> (*) do
+                   datetime_formatter.format_duration_from_hours(represented.estimated_hours,
+                                                                 allow_nil: true)
+                 end,
                  render_nil: true,
                  writeable: false
         property :spent_time,
-                 getter: -> (*) { Duration.new(hours: represented.spent_hours).iso8601 },
+                 exec_context: :decorator,
+                 getter: -> (*) do
+                   datetime_formatter.format_duration_from_hours(represented.spent_hours)
+                 end,
                  writeable: false,
-                 exec_context: :decorator,
-                 if: -> (_) { current_user_allowed_to(:view_time_entries) }
-        property :percentage_done,
+                 if: -> (_) {
+                   current_user_allowed_to(:view_time_entries, context: represented.project)
+                 }
+        property :done_ratio,
+                 as: :percentageDone,
                  render_nil: true,
-                 exec_context: :decorator,
-                 setter: -> (value, *) { self.done_ratio = value },
-                 writeable: false
-        property :version_id,
-                 getter: -> (*) { fixed_version.try(:id) },
-                 setter: -> (value, *) { self.fixed_version_id = value },
-                 render_nil: true
-        property :version_name,  getter: -> (*) { fixed_version.try(:name) }, render_nil: true
-        property :project_id, getter: -> (*) { project.id }
-        property :project_name, getter: -> (*) { project.try(:name) }
+                 writeable: false,
+                 if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
         property :parent_id, writeable: true
-        property :created_at, getter: -> (*) { created_at.utc.iso8601 }, render_nil: true
-        property :updated_at, getter: -> (*) { updated_at.utc.iso8601 }, render_nil: true
-
-        collection :custom_properties, exec_context: :decorator, render_nil: true
-
-        property :author, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
-        property :responsible, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }
-        property :assigned_to, as: :assignee, embedded: true, class: ::User, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assigned_to.nil? }
-        property :category, embedded: true, class: ::Category, decorator: ::API::V3::Categories::CategoryRepresenter, if: -> (*) { !category.nil? }
+        property :created_at,
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_at) }
+        property :updated_at,
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
 
         property :activities, embedded: true, exec_context: :decorator
-        property :watchers, embedded: true, exec_context: :decorator, if: -> (*) { current_user_allowed_to(:view_work_package_watchers) }
-        collection :attachments, embedded: true, class: ::Attachment, decorator: ::API::V3::Attachments::AttachmentRepresenter
+
+        property :version,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: ->(*) { represented.fixed_version.present? }
+        property :watchers,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: -> (*) {
+                   current_user_allowed_to(:view_work_package_watchers,
+                                           context: represented.project)
+                 }
+
+        property :attachments,
+                 embedded: true,
+                 exec_context: :decorator
+
         property :relations, embedded: true, exec_context: :decorator
 
         def _type
           'WorkPackage'
         end
 
-        def description
-          format_text(represented, :description)
-        end
-
         def activities
-          represented.journals.map { |activity| ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: @current_user) }
+          represented.journals.map do |activity|
+            ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: current_user)
+          end
         end
 
         def watchers
-          watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-          watchers.map { |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented, current_user: @current_user) }
+          watchers =
+            represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
+          watchers.map do |watcher|
+            ::API::V3::Users::UserRepresenter.new(watcher,
+                                                  work_package: represented,
+                                                  current_user: current_user)
+          end
+        end
+
+        def attachments
+          self_path = api_v3_paths.attachments_by_work_package(represented.id)
+          attachments = represented.attachments
+          ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
+                                                                      attachments.count,
+                                                                      self_path)
         end
 
         def relations
           relations = represented.relations
-          visible_relations = relations.select { |relation| relation.other_work_package(represented).visible? }
-          visible_relations.map { |relation| RelationRepresenter.new(relation, work_package: represented, current_user: @current_user) }
-        end
+          visible_relations = relations.select do |relation|
+            relation.other_work_package(represented).visible?
+          end
 
-        def custom_properties
-          values = represented.custom_field_values
-          values.map do |v|
-            { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }
+          visible_relations.map do |relation|
+            Relations::RelationRepresenter.new(relation,
+                                               work_package: represented,
+                                               current_user: current_user)
           end
         end
 
-        def current_user_allowed_to(permission)
-          @current_user && @current_user.allowed_to?(permission, represented.project)
+        def version
+          if represented.fixed_version.present?
+            Versions::VersionRepresenter.new(represented.fixed_version, current_user: current_user)
+          end
         end
 
         def visible_children
-          @visible_children ||= represented.children.select { |child| child.visible? }
+          @visible_children ||= represented.children.select(&:visible?)
         end
 
-        def percentage_done
-          represented.done_ratio unless Setting.work_package_done_ratio == 'disabled'
+        private
+
+        def version_policy
+          @version_policy ||= ::VersionPolicy.new(current_user)
         end
       end
     end

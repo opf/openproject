@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ describe('SortService', function() {
 
   describe('#isDescending', function() {
     it('sort is descending', function() {
-      expect(SortService.isDescending()).to.equal(false);
+      expect(SortService.isDescending()).to.be.false;
     });
 
     describe('set sort direction to descending', function() {
@@ -68,7 +68,7 @@ describe('SortService', function() {
       });
 
       it('sort is descending', function() {
-        expect(SortService.isDescending()).to.equal(true);
+        expect(SortService.isDescending()).to.be.true;
       });
     });
   });

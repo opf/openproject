@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -44,22 +44,32 @@ describe('WorkPackageDetailsController', function() {
       },
       workPackage = {
         props: {
-          status: 'open',
-          versionName: null,
-          customProperties: [
-            { format: 'text', name: 'color', value: 'red' },
-          ]
         },
         embedded: {
           author: {
             props: {
               id: 1,
-              status: 1
+              status: 'active'
+            }
+          },
+          project: {
+            props: {
+              id: 1
             }
           },
           activities: [],
           watchers: [],
-          attachments: [],
+          attachments: {
+            links: {
+              self: { href: "/api/v3/work_packages/820/attachments" }
+            },
+            _type: "Collection",
+            total: 0,
+            count: 0,
+            embedded: {
+              elements: []
+            }
+          },
           relations: [
             {
               props: {
@@ -77,7 +87,7 @@ describe('WorkPackageDetailsController', function() {
           ]
         },
         links: {
-          self: "it's a me, it's... you know...",
+          self: { href: "it's a me, it's... you know..." },
           availableWatchers: {
             fetch: function() { return {then: angular.noop}; }
           }
@@ -96,7 +106,7 @@ describe('WorkPackageDetailsController', function() {
 
   beforeEach(module('openproject.api', 'openproject.layout', 'openproject.services', 'openproject.workPackages.controllers', 'openproject.services'));
 
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -104,7 +114,7 @@ describe('WorkPackageDetailsController', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     var state = { go: function() { return false; } };
     $provide.value('$state', state);
     $provide.constant('$stateParams', stateParams);
@@ -180,5 +190,24 @@ describe('WorkPackageDetailsController', function() {
     });
   });
 
+  describe('showStaticPagePath', function() {
+    it('points to old show page', function() {
+      expect(scope.showStaticPagePath).to.eql('/work_packages/99');
+    });
+  });
 
+  describe('type', function() {
+    var type = { 'type': 'Type',
+                 'name': 'type0815' };
+
+    beforeEach(function() {
+      workPackage.embedded.type = type;
+
+      buildController();
+    });
+
+    it('is the embedded type', function() {
+      expect(scope.type).to.eql(type);
+    });
+  });
 });

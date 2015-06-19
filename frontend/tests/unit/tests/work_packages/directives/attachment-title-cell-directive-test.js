@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe('attachmentTitleCell Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('templates'));
+    beforeEach(module('openproject.templates'));
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;
@@ -55,6 +55,9 @@ describe('attachmentTitleCell Directive', function() {
             id: 1,
             fileName: 'hearmi.now',
             fileSize: '12340'
+          },
+          links: {
+            downloadLocation: { href: "ze link to da file" }
           }
         };
 
@@ -68,7 +71,7 @@ describe('attachmentTitleCell Directive', function() {
       it('should render link to attachment', function() {
         var link = element.find('a');
         expect(link.text()).to.equal('hearmi.now');
-        expect(link.attr('href')).to.equal('/attachments/1/hearmi.now');
+        expect(link.attr('href')).to.equal('ze link to da file');
       });
     });
 });

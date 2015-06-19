@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,8 @@
 module API
   module Errors
     class NotFound < ErrorBase
-      def initialize(message)
-        super 404, message + '.'
+      def initialize(message = I18n.t('api_v3.errors.code_404'))
+        super 404, message
       end
     end
   end

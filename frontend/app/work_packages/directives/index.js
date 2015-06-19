@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,20 +28,6 @@
 
 angular.module('openproject.workPackages.directives')
   .directive('langAttribute', require('./lang-attribute-directive'))
-  .directive('optionsDropdown', ['I18n',
-    'columnsModal',
-    'exportModal',
-    'saveModal',
-    'settingsModal',
-    'shareModal',
-    'sortingModal',
-    'groupingModal',
-    'QueryService',
-    'AuthorisationService',
-    '$window',
-    '$state',
-    '$timeout', require('./options-dropdown-directive')
-  ])
   .directive('queryColumns', [
     'WorkPackagesTableHelper',
     'WorkPackagesTableService',
@@ -53,6 +39,7 @@ angular.module('openproject.workPackages.directives')
     'QueryService',
     'PaginationService',
     'I18n',
+    'OPERATORS_NOT_REQUIRING_VALUES',
     '$timeout',
     '$animate', require('./query-filter-directive')
   ])
@@ -71,6 +58,7 @@ angular.module('openproject.workPackages.directives')
     'UserService',
     require('./work-package-column-directive')
   ])
+  .directive('workPackageField', require('./work-package-field-directive'))
   .constant('PERMITTED_MORE_MENU_ACTIONS', ['log_time', 'duplicate', 'move',
     'delete'
   ])
@@ -78,6 +66,7 @@ angular.module('openproject.workPackages.directives')
     'PERMITTED_MORE_MENU_ACTIONS',
     '$state',
     '$window',
+    '$location',
     'I18n',
     'HookService',
     'WorkPackageService',
@@ -102,7 +91,11 @@ angular.module('openproject.workPackages.directives')
     'WorkPackagesTableService',
     '$window',
     '$timeout',
-    'flags',
+    'featureFlags',
     'PathHelper',
     require('./work-packages-table-directive')
   ]);
+
+  require('./inplace_editor');
+  require('./inplace_editor/custom/display');
+  require('./inplace_editor/custom/editable');

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,8 @@
 #++
 
 module UsersHelper
+  include OpenProject::FormTagHelper
+
   def users_status_options_for_select(selected)
     user_count_by_status = User.count(group: 'status').to_hash
     user_count_by_status.merge! blocked: User.blocked.count,
@@ -103,7 +105,7 @@ module UsersHelper
 
   def change_user_status_buttons(user)
     build_change_user_status_action(user) do |title, name|
-      submit_tag(title, name: name)
+      submit_tag(title, name: name, class: 'button')
     end
   end
 

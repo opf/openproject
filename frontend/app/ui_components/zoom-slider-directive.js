@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,47 +28,43 @@
 
 module.exports = function(I18n) {
 
-  function makeSliderAccessible(slider) {
-    var defaultLabel = angular.element('<span class="hidden-for-sighted">');
-    var sliderLabel = defaultLabel.text(I18n.t('js.timelines.zoom.slider'));
-    var sliderHandle = slider.find('a.ui-slider-handle');
+  var latestId = 0;
 
-    sliderHandle.append(sliderLabel);
-  }
-
-  // TODO pass options to directive and do not refer to timelines
   return {
-    restrict: 'A',
-    link: function(scope, element, attributes) {
-      scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
-      scope.slider = element.slider({
-        min: 1,
-        max: Timeline.ZOOM_SCALES.length,
-        range: 'min',
-        value: scope.currentScaleIndex + 1,
-        slide: function(event, ui) {
-          scope.currentScaleIndex = ui.value - 1;
-          scope.$apply();
-        },
-        change: function(event, ui) {
-          scope.currentScaleIndex = ui.value - 1;
-        }
-      }).css({
-        // top right bottom left
-        'margin': '4px 6px 3px'
+    restrict: 'E',
+    scope: {
+      scales: '=',
+      selectedScale: '='
+    },
+    controller: function() {
+      var vm = this;
+
+      vm.minValue = 1;
+      vm.maxValue = vm.scales.length;
+      vm.sliderId = 'zoom-slider-' + latestId++;
+
+      vm.setSelectedScaleIndex = function(index) {
+        vm.selectedScaleIndex = index;
+        vm.selectedScale = vm.scales[vm.selectedScaleIndex];
+      };
+    },
+    controllerAs: 'ctrl',
+    bindToController: true,
+    templateUrl: '/templates/components/zoom_slider.html',
+    link: function(scope, element, attributes, ctrl) {
+      scope.labelText = I18n.t('js.timelines.zoom.slider');
+
+      var slider = element.find('input');
+      slider.on('change', function() {
+        ctrl.setSelectedScaleIndex(slider.val() - 1);
+        scope.$apply();
       });
 
-      // Slider
-      // TODO integrate angular-ui-slider
+      scope.$watch('ctrl.selectedScale', function(newScale) {
+        var newIndex = ctrl.scales.indexOf(newScale);
 
-      makeSliderAccessible(scope.slider);
-
-      scope.$watch('currentScaleIndex', function(newIndex){
-        scope.currentScaleIndex = newIndex;
-
-        var newScaleName = Timeline.ZOOM_SCALES[newIndex];
-        if (scope.currentScaleName !== newScaleName) {
-          scope.currentScaleName = newScaleName;
+        if (ctrl.selectedScaleIndex !== newIndex) {
+          ctrl.selectedScaleIndex = newIndex;
         }
       });
 

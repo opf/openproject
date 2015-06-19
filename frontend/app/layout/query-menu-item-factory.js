@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -49,8 +49,7 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
         element.toggleClass('selected', $state.includes('work-packages') &&
                                         (scope.queryId == $stateParams.query_id));
       }
-      $timeout(setActiveState);
-      scope.$on('$stateChangeSuccess', setActiveState);
+      scope.$on('openproject.layout.activateMenuItem', setActiveState);
 
       function removeItem() {
         $animate.leave(element.parent(), function () {

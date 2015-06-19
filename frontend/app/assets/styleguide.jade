@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(content="IE=edge,chrome=1", http-equiv="X-UA-Compatible")
+    meta(content="The LivingStyleGuide Gem – http://livingstyleguide.org", name="generator")
+    meta(name="description", content=title)
+    title= title
+    link(rel='stylesheet', type='text/css', href='/assets/bundles/openproject-global.css')
+    != stylesheet
+    script(src='/assets/bundles/openproject-global.js')
+    script.
+      angular.module('openproject-style-guide', ['ui.select', 'ngSanitize'])
+
+  body.livingstyleguide(ng-app='openproject-style-guide', ng-strict-di=true)
+
+    header.livingstyleguide--header
+      .styleguide-banner
+        h1.styleguide-banner--text= title
+
+    nav.styleguide-nav
+      ul.styleguide-nav--menu-items
+        li: a(href="#color-variables") Colors
+        li: a(href="#typography") Typography
+        li: a(href="#forms") Forms
+        li: a(href="#flash-messages") Flash Messages
+        li: a(href="#notifications") Notifications
+        li: a(href="#buttons") Buttons
+        li: a(href="#boxes") Boxes
+        li: a(href="#pagination") Pagination
+
+    section.livingstyleguide--intro
+      p &nbsp;
+
+    .livingstyleguide--container
+      != content
+
+    footer.livingstyleguide--footer
+      Copyright © 2015 OpenProject - All rights reserved.

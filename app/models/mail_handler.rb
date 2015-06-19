@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ class MailHandler < ActionMailer::Base
     # Status overridable by default
     @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
 
-    @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
+    @@handler_options[:no_permission_check] = @@handler_options[:no_permission_check].to_s == '1'
 
     email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
     super email
@@ -233,10 +233,15 @@ class MailHandler < ActionMailer::Base
   def add_attachments(obj)
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
+        file = OpenProject::Files.create_uploaded_file(
+          name: attachment.filename,
+          content_type: attachment.mime_type,
+          content: attachment.decoded,
+          binary: true)
+
         obj.attachments << Attachment.create(
           container: obj,
-          file: attachment.decoded,
-          filename: attachment.filename,
+          file: file,
           author: user,
           content_type: attachment.mime_type)
       end

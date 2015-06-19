@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= call_hook :activity_index_head %>
 
-<h2><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)).html_safe %></h2>
-<p class="subtitle">
-  <%= l(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1)) %>
-</p>
+<%= toolbar title: (@author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)).html_safe),
+            subtitle: l(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1))
+%>
 
 <div id="activity">
   <% @events_by_day.keys.sort.reverse.each do |day| %>
@@ -94,7 +93,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
     <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
     <%= hidden_field_tag('apply', true) %>
-    <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
+    <p><%= submit_tag l(:button_apply), :class => 'button -tiny -round -highlight', :name => nil %></p>
   <% end %>
 <% end %>
 

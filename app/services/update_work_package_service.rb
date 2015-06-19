@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,14 @@
 #++
 
 class UpdateWorkPackageService
-  attr_accessor :user, :work_package, :permitted_params, :send_notifications
+  attr_accessor :user, :work_package, :permitted_params
 
-  def initialize(user, work_package, permitted_params = nil, send_notifications = true)
+  def initialize(user:, work_package:, permitted_params: nil, send_notifications: true)
     self.user = user
     self.work_package = work_package
     self.permitted_params = permitted_params
-    self.send_notifications = send_notifications
 
-    configure_update_notification
+    JournalObserver.instance.send_notification = send_notifications
   end
 
   def update
@@ -49,15 +48,11 @@ class UpdateWorkPackageService
 
   private
 
-  def configure_update_notification
-    JournalObserver.instance.send_notification = send_notifications
-  end
-
   def effective_params
     effective_params = HashWithIndifferentAccess.new
 
-    if permitted_params[:notes]
-      notes = { notes: permitted_params.delete(:notes) }
+    if permitted_params[:journal_notes]
+      notes = { notes: permitted_params.delete(:journal_notes) }
 
       effective_params.merge!(notes) if user.allowed_to?(:add_work_package_notes, work_package.project)
     end

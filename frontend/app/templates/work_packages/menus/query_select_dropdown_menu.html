@@ -1,0 +1,22 @@
+<div class="dropdown dropdown-relative" id="querySelectDropdown">
+  <div class="search-query-wrapper">
+    <input type="search" focus=""
+           ng-model="filterBy"
+           ng-change="filterModels(filterBy)"
+           ng-keydown="handleSelection($event)"
+           id="title-filter"><i id="magnifier" class="icon-search"></i>
+    </input>
+  </div>
+
+  <div class="dropdown-scrollable">
+    <div class="query-menu-container" ng-if="group.models" ng-repeat="group in filteredGroups">
+      <ul class="query-menu">
+        <div class="title-group-header">{{ group.name }}</div>
+        <li ng-repeat="model in group.models"
+            ng-class="{'selected': model.highlighted }">
+          <a href="" ui-sref="work-packages.list({ query_id: model.id, query_props: undefined })" title="{{ model.label }}" ng-bind-html="model.labelHtml"></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,31 +31,34 @@ See doc/COPYRIGHT.rdoc for more details.
                  time_entry,
                  { :builder => TabularFormBuilder,
                  :lang => current_language} do |fields| %>
+  <fieldset id="timelog" class="form--fieldset -collapsible">
+    <legend class="form--fieldset-legend" title="<%=l(:button_log_time)%>" onclick="toggleFieldset(this);">
+      <a href="javascript:"><%=l(:button_log_time)%></a>
+    </legend>
 
-  <div class="clear">
-    <div class="splitcontentleft">
-      <div class="attribute_wrapper">
-        <%= fields.text_field :hours,
-                              :value => number_with_delimiter(time_entry.hours, locale: I18n.locale),
-                              :label => :label_spent_time,
-                              :placeholder => TimeEntry.human_attribute_name(:hours),
-                              :class => 'short' %>
+    <div>
+      <div class="grid-block small-up-2">
+        <div class="form--field">
+          <%= fields.text_field :hours,
+                                :value => number_with_delimiter(time_entry.hours, locale: I18n.locale),
+                                :label => :label_spent_time,
+                                :placeholder => TimeEntry.human_attribute_name(:hours),
+                                :class => 'short' %>
+        </div>
+
+        <div class="form--field">
+          <%= fields.select :activity_id, activity_collection_for_select_options %>
+        </div>
+
+        <div class="form--field">
+          <%= fields.text_field :comments %>
+        </div>
+
+        <%= render partial: "customizable/form",
+                   locals: { form: fields } %>
       </div>
-    </div>
 
-    <div class="splitcontentright">
-      <div class="attribute_wrapper">
-        <%= fields.select :activity_id, activity_collection_for_select_options %>
-      </div>
-    </div>
-  </div>
 
-  <div class="attribute_wrapper">
-    <%= fields.text_field :comments %>
-  </div>
-  <% time_entry.custom_field_values.each do |value| %>
-    <div class="attribute_wrapper">
-      <%= custom_field_tag_with_label :time_entry, value %>
     </div>
-  <% end %>
+  </fieldset>
 <% end %>

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title I18n.t("timelines.delete_timeline", :timeline => @timeline.name) %>
-
-<%= header_tags %>
-
-<%= form_for :timeline,
+<%= toolbar title: h(@timeline.name) %>
+<%= labelled_tabular_form_for @timeline,
             :url  => project_timeline_path(@project, @timeline),
             :html => {:method => 'delete'} do |f| %>
 
@@ -39,20 +37,15 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= l('timelines.really_delete_timeline') %>
   </div>
 
-  <h2>
-    <%=h @timeline.name %>
-  </h2>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
 
-  <fieldset class="tabular">
-    <legend><%= l('timelines.properties') %></legend>
-
-    <p>
-      <%= f.label :name %>
-      <%= f.text_field :name, :disabled => true %>
-    </p>
+    <div class="form--field">
+      <%= f.text_field :name, disabled: true %>
+    </div>
   </fieldset>
 
-  <%= submit_tag l(:button_delete) %>
-  <%= link_to l(:button_cancel), project_timeline_path(@project, @timeline) %>
+  <%= submit_tag l(:button_delete), class: 'button -highlight' %>
+  <%= link_to l(:button_cancel), project_timeline_path(@project, @timeline), class: 'button' %>
 
 <% end %>

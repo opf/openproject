@@ -38,6 +38,7 @@
 <i class="icon-battery1"></i>
 <i class="icon-battery2"></i>
 <i class="icon-battery3"></i>
+<i class="icon-billing-information"></i>
 <i class="icon-bold"></i>
 <i class="icon-book1"></i>
 <i class="icon-book2"></i>
@@ -57,6 +58,7 @@
 <i class="icon-changeset3"></i>
 <i class="icon-clock-reminder"></i>
 <i class="icon-close"></i>
+<i class="icon-close2"></i>
 <i class="icon-code-tag"></i>
 <i class="icon-color-text"></i>
 <i class="icon-color-underline"></i>
@@ -69,6 +71,7 @@
 <i class="icon-copy2"></i>
 <i class="icon-copy3"></i>
 <i class="icon-cup"></i>
+<i class="icon-custom-fields"></i>
 <i class="icon-cut"></i>
 <i class="icon-delete"></i>
 <i class="icon-delete-folder"></i>
@@ -79,6 +82,7 @@
 <i class="icon-download1"></i>
 <i class="icon-duplicate"></i>
 <i class="icon-edit"></i>
+<i class="icon-enumerations2"></i>
 <i class="icon-error"></i>
 <i class="icon-faq"></i>
 <i class="icon-filter"></i>
@@ -156,6 +160,7 @@
 <i class="icon-paragraph"></i>
 <i class="icon-paragraph-left"></i>
 <i class="icon-paragraph-right"></i>
+<i class="icon-payment-history2"></i>
 <i class="icon-phone"></i>
 <i class="icon-pin"></i>
 <i class="icon-play"></i>

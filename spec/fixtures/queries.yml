@@ -1,0 +1,184 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+queries_001:
+  id: 1
+  project_id: 1
+  is_public: true
+  name: Multiple custom fields query
+  filters: |
+    ---
+    cf_1:
+      :values:
+      - MySQL
+      :operator: "="
+    status_id:
+      :values:
+      - "1"
+      :operator: o
+    cf_2:
+      :values:
+      - "125"
+      :operator: "="
+
+  user_id: 1
+  column_names:
+queries_002:
+  id: 2
+  project_id: 1
+  is_public: false
+  name: Private query for cookbook
+  filters: |
+    ---
+    type_id:
+      :values:
+      - "3"
+      :operator: "="
+    status_id:
+      :values:
+      - "1"
+      :operator: o
+
+  user_id: 3
+  column_names:
+queries_003:
+  id: 3
+  project_id:
+  is_public: false
+  name: Private query for all projects
+  filters: |
+    ---
+    type_id:
+      :values:
+      - "3"
+      :operator: "="
+
+  user_id: 3
+  column_names:
+queries_004:
+  id: 4
+  project_id:
+  is_public: true
+  name: Public query for all projects
+  filters: |
+    ---
+    type_id:
+      :values:
+      - "3"
+      :operator: "="
+
+  user_id: 2
+  column_names:
+queries_005:
+  id: 5
+  project_id:
+  is_public: true
+  name: Open issues by priority and type
+  filters: |
+    ---
+    status_id:
+      :values:
+      - "1"
+      :operator: o
+
+  user_id: 1
+  column_names:
+  sort_criteria: |
+    ---
+    - - priority
+      - desc
+    - - type
+      - asc
+queries_006:
+  id: 6
+  project_id:
+  is_public: true
+  name: Open issues grouped by type
+  filters: |
+    ---
+    status_id:
+      :values:
+      - "1"
+      :operator: o
+
+  user_id: 1
+  column_names:
+  group_by: type
+  sort_criteria: |
+    ---
+    - - priority
+      - desc
+queries_007:
+  id: 7
+  project_id: 2
+  is_public: true
+  name: Public query for project 2
+  filters: |
+    ---
+    type_id:
+      :values:
+      - "3"
+      :operator: "="
+
+  user_id: 2
+  column_names:
+queries_008:
+  id: 8
+  project_id: 2
+  is_public: false
+  name: Private query for project 2
+  filters: |
+    ---
+    type_id:
+      :values:
+      - "3"
+      :operator: "="
+
+  user_id: 2
+  column_names:
+queries_009:
+  id: 9
+  project_id:
+  is_public: true
+  name: Open issues grouped by list custom field
+  filters: |
+    ---
+    status_id:
+      :values:
+      - "1"
+      :operator: o
+
+  user_id: 1
+  column_names:
+  group_by: cf_1
+  sort_criteria: |
+    ---
+    - - priority
+      - desc
+

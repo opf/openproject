@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -195,7 +195,12 @@ module.exports = function($timeout) {
         index = this.zoomIndex;
       }
       index = Math.max(Math.min(this.ZOOM_SCALES.length - 1, index), 0);
+      var zoomScale = this.ZOOM_SCALES[index];
+      var scale = this.ZOOM_CONFIGURATIONS[zoomScale].scale;
+
       this.zoomIndex = index;
+      this.scale = scale;
+
       this.resetWidth();
       this.triggerResize();
       this.rebuildAll();
@@ -291,10 +296,6 @@ module.exports = function($timeout) {
     },
     getChart: function() {
       return this.getUiRoot().find('.tl-chart');
-    },
-    registerDrawPaper: function() {
-      // store the paper element for later use.
-      this.paperElement = jQuery('.tl-chart')[0];
     },
     getMeasuredHeight: function() {
       return this.getUiRoot().find('.tl-left-main').height();
@@ -607,8 +608,10 @@ module.exports = function($timeout) {
     bustVerticalOffsetCache: function(tree) {
       tree.iterateWithChildren(function(node) {
         var currentElement = node.getDOMElement();
-        currentElement.removeAttr("data-vertical-offset");
-        currentElement.removeAttr("data-vertical-bottom-offset");
+        if (currentElement) {
+          currentElement.removeAttr("data-vertical-offset");
+          currentElement.removeAttr("data-vertical-bottom-offset");
+        }
       });
     },
     rebuildForeground: function(tree) {
@@ -654,6 +657,9 @@ module.exports = function($timeout) {
 
       tree.iterateWithChildren(function(node, indent, index) {
         var currentElement = node.getDOMElement();
+        if (!currentElement) {
+          return;
+        }
         var currentOffset = timeline.getRelativeVerticalOffset(currentElement);
         var previousElement, previousEnd, groupHeight;
         var groupingChanged = false;

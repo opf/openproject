@@ -71,27 +71,28 @@
       "href": "/api/v3/work_packages/819/activities",
       "method": "post",
       "title": "Add comment"
+    },
+    "project": {
+      "href": "/api/v3/projects/2",
+      "title": "Seeded Project"
     }
   },
   "id": 819,
   "subject": "qui assumenda sed aut sed veniam delectus sunt",
   "type": "Bug",
-  "description": "<p>Sapiente terra dolores tempore debitis stultus. Adeo aduro repellendus. Vereor vulgivagus maxime ulciscor barba deleniti cognomen ustulo. Hic tubineus sumptus argumentum animi arcesso. Voluntarius dolore et. Apostolus vobis ultra delego acervus averto vitae.</p>",
-  "rawDescription": "Sapiente terra dolores tempore debitis stultus. Adeo aduro repellendus. Vereor vulgivagus maxime ulciscor barba deleniti cognomen ustulo. Hic tubineus sumptus argumentum animi arcesso. Voluntarius dolore et. Apostolus vobis ultra delego acervus averto vitae.",
-  "status": "New",
-  "isClosed": false,
+  "description": {
+    "format": "textile",
+    "html": "<p>Sapiente terra dolores tempore debitis stultus. Adeo aduro repellendus. Vereor vulgivagus maxime ulciscor barba deleniti cognomen ustulo. Hic tubineus sumptus argumentum animi arcesso. Voluntarius dolore et. Apostolus vobis ultra delego acervus averto vitae.</p>",
+    "raw": "Sapiente terra dolores tempore debitis stultus. Adeo aduro repellendus. Vereor vulgivagus maxime ulciscor barba deleniti cognomen ustulo. Hic tubineus sumptus argumentum animi arcesso. Voluntarius dolore et. Apostolus vobis ultra delego acervus averto vitae."
+  },
   "priority": "Normal",
-  "startDate": "2014-02-28T00:00:00+00:00",
-  "dueDate": "2014-04-28T00:00:00+00:00",
+  "startDate": "2014-02-28",
+  "dueDate": "2014-04-28",
   "estimatedTime": {
     "units": "hours",
     "value": null
   },
   "percentageDone": 0,
-  "versionId": null,
-  "versionName": null,
-  "projectId": 2,
-  "projectName": "Seeded Project",
   "createdAt": "2014-03-10T16:20:23Z",
   "updatedAt": "2014-03-10T16:20:23Z",
   "customProperties": [
@@ -117,6 +118,10 @@
     }
   ],
   "_embedded": {
+    "status": {
+      "name": "New",
+      "isClosed": false
+    },
     "author": {
       "_type": "User",
       "_links": {
@@ -131,7 +136,7 @@
       "firstName": "Reinhold",
       "lastName": "Weber",
       "name": "Reinhold Weber",
-      "mail": "adaline@kirlin.info",
+      "email": "adaline@kirlin.info",
       "avatar": "http://gravatar.com/avatar/a7d866df193a2a5abf7cfa5f5637cc6b?default=wavatar&secure=false",
       "createdAt": "2014-03-10T16:20:20Z",
       "updatedAt": "2014-03-10T16:20:20Z",
@@ -190,6 +195,29 @@
         "createdAt": "2014-03-10T16:20:23Z"
       }
     ],
+    "project": {
+      "_type": "Project",
+      "_links": {
+        "self": {
+        "href": "/api/v3/projects/2",
+        "title": "Seeded Project"
+      },
+      "categories": {
+        "href": "/api/v3/projects/2/categories"
+      },
+      "versions": {
+        "href": "/api/v3/projects/2/versions"
+      }
+      },
+      "id": 1,
+      "identifier": "seeded-project",
+      "name": "Seeded Project",
+      "description": "",
+      "homepage": "",
+      "createdAt": "2013-04-30T15:02:51+00:00",
+      "updatedAt": "2013-04-30T16:28:51+00:00",
+      "type": null
+    },
     "watchers": [
       {
         "_type": "User",
@@ -210,7 +238,7 @@
         "firstName": "Deron",
         "lastName": "Feil",
         "name": "Deron Feil",
-        "mail": "grayson@walterwilliamson.name",
+        "email": "grayson@walterwilliamson.name",
         "avatar": "http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&secure=false",
         "createdAt": "2014-03-10T16:19:25Z",
         "updatedAt": "2014-03-10T16:19:25Z",
@@ -235,7 +263,7 @@
         "firstName": "Loraine",
         "lastName": "Runolfsdottir",
         "name": "Loraine Runolfsdottir",
-        "mail": "nona@bartellmoriette.info",
+        "email": "nona@bartellmoriette.info",
         "avatar": "http://gravatar.com/avatar/4a261f6edb9ed1de10076982663bffec?default=wavatar&secure=false",
         "createdAt": "2014-03-10T16:18:56Z",
         "updatedAt": "2014-03-10T16:18:56Z",
@@ -260,14 +288,26 @@
         "firstName": "Zena",
         "lastName": "Labadie",
         "name": "Zena Labadie",
-        "mail": "olaf@bednar.info",
+        "email": "olaf@bednar.info",
         "avatar": "http://gravatar.com/avatar/1ac321aa9afb93ad78b52697c93d34f2?default=wavatar&secure=false",
         "createdAt": "2014-03-10T16:18:27Z",
         "updatedAt": "2014-03-10T16:18:27Z",
         "status": 1
       }
     ],
-    "attachments": [],
+    "attachments" : {
+      "_links" : {
+        "self" : {
+          "href" : "/api/v3/work_packages/819/attachments"
+        }
+      },
+      "_type" : "Collection",
+      "total" : 0,
+      "count" : 0,
+      "_embedded" : {
+        "elements" : []
+      }
+    },
     "relations": []
   }
 }

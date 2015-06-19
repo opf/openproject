@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,23 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= form_for @project,
-             :url => { :action => 'modules', :id => @project },
-             :method => :put,
-             :html => {:id => 'modules-form'} do |f| %>
+<%= labelled_tabular_form_for @project,
+                              :url => { :action => 'modules', :id => @project },
+                              :method => :put,
+                              :html => {
+                                :id => 'modules-form'
+                              } do |form| %>
 
-<div class="box">
-<fieldset>
-<legend><%= l(:text_select_project_modules) %></legend>
+  <%= render partial: "projects/form/modules",
+             locals: { form: form } %>
 
-<% Redmine::AccessControl.available_project_modules.each do |m| %>
-<p><label><%= check_box_tag 'enabled_module_names[]', m, @project.module_enabled?(m) -%>
- <%= l_or_humanize(m, :prefix => "project_module_") %></label></p>
-<% end %>
-</fieldset>
-</div>
-
-<p><%= check_all_links 'modules-form' %></p>
-<p><%= submit_tag l(:button_save) %></p>
-
+  <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %></p>
 <% end %>

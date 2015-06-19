@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,11 +58,16 @@ class RepositoriesController < ApplicationController
       @repository.attributes = params[:repository]
       @repository.save
     end
-    render(:update) do |page|
-      page.replace_html 'tab-content-repository', partial: 'projects/settings/repository'
-      if @repository && !@project.repository
-        @project.reload # needed to reload association
-        page.replace_html 'main-menu', render_main_menu(@project)
+
+    menu_reload_required = if @repository.persisted? && !@project.repository
+                             @project.reload # needed to reload association
+                           end
+
+    respond_to do |format|
+      format.js do
+        render template: '/projects/settings/repository',
+               locals: { project: @project,
+                         reload_menu: menu_reload_required }
       end
     end
   end
@@ -93,9 +98,14 @@ class RepositoriesController < ApplicationController
     @entries = @repository.entries(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
     if request.xhr?
-      @entries ? render(partial: 'dir_list_content') : render(nothing: true)
+      if @entries && @repository.valid?
+        render(partial: 'dir_list_content')
+      else
+        render(nothing: true)
+      end
+    elsif @entries.nil? && @repository.invalid?
+      show_error_not_found
     else
-      (show_error_not_found; return) unless @entries
       @changesets = @repository.latest_changesets(@path, @rev)
       @properties = @repository.properties(@path, @rev)
       render action: 'show'

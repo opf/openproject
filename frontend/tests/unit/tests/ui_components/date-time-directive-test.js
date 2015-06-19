@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ describe('date time Directives', function() {
   };
 
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -61,7 +61,15 @@ describe('date time Directives', function() {
     I18n = _I18n_;
 
     I18n.locale = 'en';
+
+    TimezoneService.setupLocale();
   }));
+
+  afterEach(function() {
+    I18n.locale = undefined;
+
+    TimezoneService.setupLocale();
+  });
 
   var shouldBehaveLikeHashTitle = function(title) {
     it('has title', function() {
@@ -70,7 +78,7 @@ describe('date time Directives', function() {
   };
 
   describe('date directive', function() {
-    var html = '<date date-value="testDateTime"></date>';
+    var html = '<op-date date-value="testDateTime"></op-date>';
 
     describe('without configuration', function() {
       beforeEach(function() {
@@ -103,7 +111,7 @@ describe('date time Directives', function() {
   });
 
   describe('time directive', function() {
-    var html = '<time time-value="testDateTime"></time>';
+    var html = '<op-time time-value="testDateTime"></op-time>';
 
     describe('without configuration', function() {
       beforeEach(function() {
@@ -136,7 +144,7 @@ describe('date time Directives', function() {
   });
 
   describe('date time directive', function() {
-    var html = '<date-time date-time-value="testDateTime"></date-time>';
+    var html = '<op-date-time date-time-value="testDateTime"></op-date-time>';
 
     var formattedDateTime = function() {
       var formattedDateElements = [element.children()[0], element.children()[1]];

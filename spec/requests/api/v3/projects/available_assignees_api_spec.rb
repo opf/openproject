@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,8 @@ require 'spec_helper'
 require 'rack/test'
 
 describe API::V3::Projects::ProjectsAPI, type: :request do
+  include API::V3::Utilities::PathHelper
+
   let(:admin) { FactoryGirl.create(:admin) }
 
   describe 'available assignees' do
@@ -38,7 +40,7 @@ describe API::V3::Projects::ProjectsAPI, type: :request do
     before { allow(Project).to receive(:find).and_return(project) }
 
     shared_context 'request available assignees' do
-      before { get "/api/v3/projects/#{project.id}/available_assignees" }
+      before { get api_v3_paths.available_assignees project.id }
     end
 
     it_behaves_like 'safeguarded API' do

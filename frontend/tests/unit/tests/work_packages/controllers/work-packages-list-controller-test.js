@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ describe('WorkPackagesListController', function() {
   var stateParams = {};
 
   beforeEach(module('openproject.api', 'openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.layout', 'openproject.services'));
-  beforeEach(module('templates', function($provide) {
+  beforeEach(module('openproject.templates', function($provide) {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -47,7 +47,7 @@ describe('WorkPackagesListController', function() {
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
     win   = {
-     location: { pathname: "" }
+      location: { pathname: '' }
     };
 
     var defaultWorkPackagesData = {
@@ -206,7 +206,8 @@ describe('WorkPackagesListController', function() {
       testLocation = {
         search: function() {
           return {};
-        }
+        },
+        url: angular.identity
       };
 
       buildController(testParams, testState, testLocation);
@@ -247,7 +248,8 @@ describe('WorkPackagesListController', function() {
       testLocation = {
         search: function() {
           return {};
-        }
+        },
+        url: angular.identity
       };
 
       buildController(testParams, testState, testLocation);
@@ -255,6 +257,41 @@ describe('WorkPackagesListController', function() {
 
     it('should initialise', function() {
       expect(scope.query.id).to.eq(testQueries['2'].id);
+    });
+  });
+
+  describe('getFilterCount', function() {
+    beforeEach(function(){
+      var testState = {
+        params: {
+          query_id: testQueries['2'].id
+        },
+        href: function() { return ''; },
+      };
+      var testLocation = {
+        search: function() {
+          return {};
+        },
+        url: angular.identity
+      };
+
+      buildController({}, testState, testLocation);
+    });
+
+    it('returns 0 with no filters', function() {
+      expect(scope.getFilterCount()).to.eq(0);
+    });
+
+    it('returns the filter count with filters', function() {
+      scope.query.filters = [{}, {}];
+
+      expect(scope.getFilterCount()).to.eq(2);
+    });
+
+    it('returns the filter count with deactivated filters', function() {
+      scope.query.filters = [{}, { deactivated: true }, { deactivated: true }];
+
+      expect(scope.getFilterCount()).to.eq(1);
     });
   });
 });

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,12 +27,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/statuses/status_collection_representer'
+require 'api/v3/statuses/status_representer'
+
 module API
   module V3
     module Statuses
-      class StatusesAPI < Grape::API
+      class StatusesAPI < ::API::OpenProjectAPI
         resources :statuses do
           before do
+            authorize(:view_work_packages, global: true)
+
             @statuses = Status.all
           end
 
@@ -42,10 +47,10 @@ module API
                                             api_v3_paths.statuses)
           end
 
-          namespace ':id' do
+          route_param :id do
             before do
               status = Status.find(params[:id])
-              @representer = ::API::V3::Statuses::StatusRepresenter.new(status)
+              @representer = StatusRepresenter.new(status)
             end
 
             get do

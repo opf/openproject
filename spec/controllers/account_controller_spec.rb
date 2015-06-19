@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,6 +65,11 @@ describe AccountController, type: :controller do
         post :login, username: admin.login,
                      password: 'adminADMIN!',
                      back_url: '//test.foo/fake'
+        expect(response).to redirect_to my_page_path
+      end
+
+      it 'should not redirect to logout' do
+        post :login , :username => admin.login, :password => 'adminADMIN!', :back_url => '/logout'
         expect(response).to redirect_to my_page_path
       end
 

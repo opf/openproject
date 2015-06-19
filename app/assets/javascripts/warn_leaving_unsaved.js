@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,17 @@
 
 
 var warnLeavingUnsavedMessage;
+
+var removeChangedData = function(){
+  jQuery('textarea').removeData('changed');
+};
+
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
-  jQuery('form').submit(function(){
-    jQuery('textarea').removeData('changed');
-  });
+
+  jQuery('form').submit(removeChangedData);
+  jQuery('form button').click(removeChangedData);
+
   jQuery('textarea').change(function(){
     jQuery(this).data('changed', 'changed');
   });

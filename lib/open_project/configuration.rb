@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,16 +37,18 @@ module OpenProject
 
     # Configuration default values
     @defaults = {
+      'attachments_storage'     => 'file',
       'attachments_storage_path' => nil,
       'autologin_cookie_name'   => 'autologin',
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
+      'scm_filesystem_path_whitelist' => [],
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
-      'rails_cache_store'       => nil,
+      'rails_cache_store'       => :file_store,
       'cache_expires_in_seconds' => nil,
       'cache_namespace' => nil,
       # use dalli defaults for memcache
@@ -55,6 +57,7 @@ module OpenProject
       'session_store'           => :cache_store,
       # url-path prefix
       'rails_relative_url_root' => '',
+      'rails_force_ssl' => false,
 
       # email configuration
       'email_delivery_method' => nil,
@@ -72,7 +75,11 @@ module OpenProject
       'disable_password_login' => false,
       'omniauth_direct_login_provider' => nil,
 
-      'disable_password_choice' => false
+      'disable_password_choice' => false,
+
+      'disabled_modules' => [], # allow to disable default modules
+      'hidden_menu_items' => {},
+      'blacklisted_routes' => []
     }
 
     @config = nil
@@ -190,6 +197,8 @@ module OpenProject
           cache_config = [:dalli_store]
           cache_config << @config['cache_memcache_server'] \
             if @config['cache_memcache_server']
+        elsif cache_store == :file_store
+          cache_config = [:file_store, Rails.root.join('tmp/cache')]
         else
           cache_config = [cache_store]
         end
@@ -298,7 +307,7 @@ module OpenProject
             define_method setting do
               self[setting]
             end
-          end
+          end unless respond_to? setting
         end
       end
     end

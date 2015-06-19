@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,45 +28,59 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% disable_accessibility_css! %>
-
-<h2>
-  <%= l(:label_register) %>
-</h2>
+<%= toolbar title: l(:label_register) %>
 
 <%= labelled_tabular_form_for(@user, :url => url_for(:action => 'register')) do |f| %>
   <%= back_url_hidden_field_tag %>
   <%= error_messages_for :user %>
 
-  <div class="box">
+  <section class="form--section">
     <% if @user.auth_source_id.nil? %>
-      <p><%= f.text_field :login, :size => 25, :required => true %></p>
+      <div class="form--field">
+        <%= f.text_field :login, :size => 25, :required => true %>
+      </div>
     <% end %>
+
     <% if @user.change_password_allowed? %>
-      <p>
+      <div class="form--field">
         <%= f.password_field :password,
                              :required => true,
                              :size => 25,
-                             :autocomplete => 'off' %><br />
-        <%= password_complexity_requirements %>
-      </p>
-      <p>
+                             :autocomplete => 'off' %>
+        <div class="form--field-instructions">
+          <%= password_complexity_requirements %>
+        </div>
+      </div>
+      <div class="form--field">
         <%= f.password_field :password_confirmation,
                              :required => true,
                              :size => 25,
                              :autocomplete => 'off'  %>
-      </p>
+      </div>
     <% end %>
 
-    <p><%= f.text_field :firstname, :required => true %></p>
-    <p><%= f.text_field :lastname,  :required => true %></p>
-    <p><%= f.text_field :mail,      :required => true %></p>
+    <div class="form--field">
+      <%= f.text_field :firstname, :required => true %>
+    </div>
+
+    <div class="form--field">
+      <%= f.text_field :lastname,  :required => true %>
+    </div>
+
+    <div class="form--field">
+      <%= f.text_field :mail,      :required => true %>
+    </div>
+
     <%= call_hook :view_account_register_after_basic_information, :f => f %>
-    <p><%= f.select(:language, lang_options_for_select) %></p>
+    <div class="form--field"><%= f.select(:language, lang_options_for_select) %></div>
 
-    <% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>
-      <p><%= custom_field_tag_with_label :user, value %></p>
-    <% end %>
-  </div>
+    <%= render partial:     'customizable/field',
+               collection:  @user.custom_field_values.select { |v|
+                              v.editable? || v.required?
+                            },
+               as:          :value,
+               locals:      { form: f } %>
+  </section>
 
-  <%= submit_tag l(:button_submit) %>
+  <%= styled_button_tag l(:button_submit), class: '-highlight -with-icon icon-yes' %>
 <% end %>

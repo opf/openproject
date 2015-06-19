@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -372,6 +372,14 @@ module NavigationHelpers
     when /^the message page of message "(.+)"$/
       message = Message.find_by_subject($1)
       topic_path(message)
+
+    when /^the show page (for|of) version ('|")(.+)('|")$/
+      version = Version.find_by_name($3)
+      version_path(version)
+
+    when /^the edit page (for|of) version ('|")(.+)('|")$/
+      version = Version.find_by_name($3)
+      edit_version_path(version)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

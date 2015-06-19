@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
   }
   let(:user) { FactoryGirl.create(:user) }
 
-  describe :search do
+  describe '#search' do
     describe "w/ the user being logged in
               w/ searching for a matching string
               w/ beeing member with the appropriate permission" do

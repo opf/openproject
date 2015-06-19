@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@
       <li><a>Menu item text</a></li>
       <li class="drop-down">
         <a class="icon icon-more" href="javascript:">More functions</a>
-        <ul style="display:none;" class="action_menu_more">
+        <ul style="display:none;" class="legacy-actions-more">
           <li><a>Menu item text</a></li>
         </ul>
       </li>

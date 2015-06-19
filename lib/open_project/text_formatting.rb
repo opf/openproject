@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,9 +80,17 @@ module OpenProject
       # don't return html in edit mode when textile or text formatting is enabled
       return text if edit
       project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
-      only_path = options.delete(:only_path) == false ? false : true
+      only_path = options.delete(:only_path) != false
 
-      text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, object: obj, attribute: attr, edit: edit) { |macro, args| exec_macro(macro, obj, args, view: self, edit: edit) }
+      # offer 'plain' as readable version for 'no formatting' to callers
+      options_format = options[:format] == 'plain' ? '' : options[:format]
+      format = options_format || Setting.text_formatting
+      text = Redmine::WikiFormatting.to_html(format, text,
+                                             object: obj,
+                                             attribute: attr,
+                                             edit: edit) do |macro, macro_args|
+        exec_macro(macro, obj, macro_args, view: self, edit: edit, project: project)
+      end
 
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
       @parsed_headings = []
@@ -386,7 +394,8 @@ module OpenProject
           div_class = 'toc'
           div_class << ' right' if $1 == '>'
           div_class << ' left' if $1 == '<'
-          out = "<fieldset class='header_collapsible collapsible'><legend title='" + l(:description_toc_toggle) + "' onclick='toggleFieldset(this);'><a href='javascript:'>#{l(:label_table_of_contents)}</a></legend><div>"
+          out = "<fieldset class='form--fieldset -collapsible'>"
+          out << "<legend class='form--fieldset-legend' title='" + l(:description_toc_toggle) + "' onclick='toggleFieldset(this);'><a href='javascript:'>#{l(:label_table_of_contents)}</a></legend><div>"
           out << "<ul class=\"#{div_class}\"><li>"
           root = headings.map(&:first).min
           current = root

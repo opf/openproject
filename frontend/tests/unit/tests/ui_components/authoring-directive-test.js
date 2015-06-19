@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,10 +34,10 @@ describe('authoring Directive', function() {
     var I18n, t, compile, element, scope, timezoneService;
 
     beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.helpers', 'ngSanitize'));
-    beforeEach(module('templates', function($provide) {
+    beforeEach(module('openproject.templates', function($provide) {
       timezoneService = {};
 
-      timezoneService.parseDate = sinon.stub().returns(createdOn);
+      timezoneService.parseDatetime = sinon.stub().returns(createdOn);
 
       $provide.constant('TimezoneService', timezoneService);
     }));

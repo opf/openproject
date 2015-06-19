@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,10 +33,10 @@ module API
       module LinkToObjectExtractor
         def self.parse_links(links)
           links.keys.each_with_object({}) do |attribute, h|
-            resource = ::API::V3::Utilities::ResourceLinkParser.parse links[attribute]['href']
+            resource = ::API::Utilities::ResourceLinkParser.parse links[attribute]['href']
 
             if resource
-              case resource[:ns]
+              case resource[:namespace]
               when 'statuses'
                 h[:status_id] = resource[:id]
               end

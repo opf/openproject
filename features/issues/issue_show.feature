@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ Feature: Watch issues
     # The space before and after 'Watch' is important as 'Unwatch' includes the
     # string 'watch' if matched case insenstivive.
     And  I should not see " Watch " within "#content > .action_menu_specific"
-     And I should see "Bob Bobbit" within "#watchers > ul"
+     And I should see "Bob Bobbit" within "#watchers ul"
      And the issue "issue1" should have 1 watchers
 
   @javascript
@@ -84,7 +84,7 @@ Feature: Watch issues
     When I click on "Add watcher" within "#watchers"
     And I select "Bob Bobbit" from "watcher_user_id" within "#watchers"
     And I press "Add" within "#watchers"
-    Then I should see "Bob Bobbit" within "#watchers > ul"
+    Then I should see "Bob Bobbit" within "#watchers ul"
      And the issue "issue1" should have 1 watchers
 
   @javascript
@@ -92,7 +92,7 @@ Feature: Watch issues
     Given the issue "issue1" is watched by:
       | bob |
     When I go to the page of the issue "issue1"
-    Then I should see "Bob Bobbit" within "#watchers > ul"
-    When I click on "Delete" within "#watchers > ul"
+    Then I should see "Bob Bobbit" within "#watchers ul"
+    When I click on "Delete" within "#watchers ul"
     Then I should not see "Bob Bobbit" within "#watchers"
      And the issue "issue1" should have 0 watchers

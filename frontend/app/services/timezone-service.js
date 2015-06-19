@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,13 @@
 
 module.exports = function(ConfigurationService, I18n) {
   var TimezoneService = {
-    parseDate: function(date) {
-      var d = moment.utc(date);
+
+    setupLocale: function() {
+      moment.locale(I18n.locale);
+    },
+
+    parseDatetime: function(datetime, format) {
+      var d = moment.utc(datetime, format);
 
       if (ConfigurationService.isTimezoneSet()) {
         d.local();
@@ -39,33 +44,50 @@ module.exports = function(ConfigurationService, I18n) {
       return d;
     },
 
+    parseDate: function(date, format) {
+      return moment(date, format);
+    },
+
+    parseISODate: function(date) {
+      return TimezoneService.parseDate(date, 'YYYY-MM-DD');
+    },
+
     formattedDate: function(date) {
-      var date;
-
-      if (ConfigurationService.dateFormatPresent()) {
-        date = TimezoneService.parseDate(date).format(ConfigurationService.dateFormat());
-      } else {
-        moment.lang(I18n.locale);
-
-        date = TimezoneService.parseDate(date).format('L');
-      }
-
-      return date;
+      var d = TimezoneService.parseDate(date);
+      return d.format(TimezoneService.getDateFormat());
     },
 
-    formattedTime: function(date) {
-      var time;
-
-      if (ConfigurationService.timeFormatPresent()) {
-        time = TimezoneService.parseDate(date).format(ConfigurationService.timeFormat());
-      } else {
-        moment.lang(I18n.locale);
-
-        time = TimezoneService.parseDate(date).format('LT');
-      }
-
-      return time;
+    formattedTime: function(datetimeString) {
+      return TimezoneService.parseDatetime(datetimeString).format(TimezoneService.getTimeFormat());
     },
+
+    formattedDatetime: function(datetimeString) {
+      var d = TimezoneService.parseDatetime(datetimeString);
+      return d.format(TimezoneService.getDateFormat()) + ' ' +
+        d.format(TimezoneService.getTimeFormat());
+    },
+
+    formattedISODate: function(date) {
+      return TimezoneService.parseDate(date).format('YYYY-MM-DD');
+    },
+
+    isValidISODate: function(date) {
+      return TimezoneService.isValid(date, 'YYYY-MM-DD');
+    },
+
+    isValid: function(date, dateFormat) {
+      var format = dateFormat || (ConfigurationService.dateFormatPresent() ?
+                   ConfigurationService.dateFormat() : 'L');
+      return moment(date, [format]).isValid();
+    },
+
+    getDateFormat: function() {
+      return ConfigurationService.dateFormatPresent() ? ConfigurationService.dateFormat() : 'L';
+    },
+
+    getTimeFormat: function() {
+      return ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
+    }
   };
 
   return TimezoneService;

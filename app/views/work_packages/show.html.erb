@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,13 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= header_tags %>
+
 <%= javascript_include_tag("work_packages.js") %>
 <%= render :partial => 'work_packages/action_menu', :locals => { work_package: work_package } %>
 
 <% work_package_breadcrumb %>
 
-<%= content_tag('h2', work_package.to_s) %>
+<%= content_tag('h2', h(work_package.to_s), class: 'legacy-heading') %>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
@@ -52,13 +52,16 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial: 'show_attributes', locals: { work_package: work_package } %>
 
   <% if work_package.description? %>
-    <hr />
-    <div class="description work_package_part">
-      <div class="contextual">
-        <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
+    <div class="description attributes-group">
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text"><%= WorkPackage.human_attribute_name(:description) %></h3>
+        </div>
+        <div class="attributes-group--header-control">
+          <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
+        </div>
       </div>
-      <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
-      <div class="wiki wikicontent" data-user="<%= work_package.author %>" ng-non-bindable>
+      <div class="single-attribute wiki wikicontent" data-user="<%= work_package.author %>" ng-non-bindable>
         <%= format_text work_package, :description, :attachments => work_package.attachments %>
       </div>
     </div>
@@ -70,13 +73,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= call_hook(:view_work_packages_show_description_bottom, :issue => work_package) %>
 
-
   <%= render :partial => 'subwork_packages_paragraph', :locals => { :work_package => work_package,
                                                                     :ancestors => ancestors,
                                                                     :descendants => descendants } %>
 
   <% if authorize_for('work_package_relations', 'create') || relations.present? %>
-    <div id="relations" class="work_package_part">
+    <div id="relations" class="attributes-group">
     <%= render :partial => 'relations', :locals => { :work_package => work_package,
                                                      :relations => relations } %>
     </div>
@@ -84,7 +86,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% if User.current.allowed_to?(:add_work_package_watchers, project) ||
     (work_package.watchers.present? && User.current.allowed_to?(:view_work_package_watchers, project)) %>
-    <div id="watchers" class="work_package_part">
+    <div id="watchers" class="attributes-group">
       <%= render :partial => 'watchers/watchers', :locals => {:watched => work_package} %>
     </div>
   <% end %>
@@ -124,7 +126,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{work_package.project} - #{work_package.to_s}") %>
-  <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
 
 <% #include calendar js files in case they are needed for edit

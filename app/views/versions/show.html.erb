@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,25 +27,33 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :action_menu_specific do %>
-  <%= link_to_if_authorized l(:button_edit), {:controller => '/versions', :action => 'edit', :id => @version}, :class => 'icon icon-edit', accesskey: accesskey(:edit) %>
-  <%= link_to_if_authorized(l(:button_edit_associated_wikipage, :page_title => truncate(@version.wiki_page_title, :length => 50, :separator => ' ')),
-                            {:controller => '/wiki', :action => 'edit',
-                             :project_id => @version.project,
-                             :id => Wiki.titleize(@version.wiki_page_title)},
-                            :title => Wiki.titleize(@version.wiki_page_title),
-                            :class => 'icon icon-edit tooltip') unless @version.wiki_page_title.blank? || @version.project.wiki.nil? %>
+<%= toolbar title: h(@version.name) do %>
+ <% if authorize_for(:versions, :edit) %>
+    <li class="toolbar-item">
+      <%= link_to(edit_version_path(@version), class: 'button') do %>
+        <i class="button--icon icon-edit"></i>
+        <span class="button--text"><%= l(:button_edit) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <% if authorize_for(:wiki, :edit) && !(@version.wiki_page_title.blank? || @version.project.wiki.nil?) %>
+    <li class="toolbar-item">
+      <%= link_to({:controller => '/wiki', :action => 'edit',
+                   :project_id => @version.project,
+                   :id => Wiki.titleize(@version.wiki_page_title)},
+                   class: 'button') do %>
+        <i class="button--icon icon-edit"></i>
+        <span class="button--text"><%= l(:button_edit_associated_wikipage, :page_title => truncate(@version.wiki_page_title, :length => 50, :separator => ' ')) %></span>
+      <% end %>
+    </li>
+  <% end %>
   <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
 <% end %>
 
-<div class="top-page">
-  <%= render :partial => 'layouts/action_menu_specific' %>
-  <h2 title="<%= h(@version.name) %>"><%= h(@version.name) %></h2>
-</div>
 
 <div id="version-summary">
   <% if @version.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
-    <fieldset><legend><%= l(:label_time_tracking) %></legend>
+    <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:label_time_tracking) %></legend>
       <table>
         <tr>
           <td width="130px" align="right"><%= Version.human_attribute_name(:estimated_hours) %></td>
@@ -71,7 +79,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
 
   <% if @issues.present? %>
-    <fieldset class="related-issues"><legend><%= l(:label_related_work_packages) %></legend>
+    <fieldset class="form--fieldset related_issues"><legend class="form--fieldset-legend"><%= l(:label_related_work_packages) %></legend>
       <ul>
         <% @issues.each do |issue| -%>
           <li><%= link_to_work_package(issue, :project => issue.project != @version.project) %></li>

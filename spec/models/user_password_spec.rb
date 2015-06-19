@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe UserPassword, type: :model do
   let(:old_password) { FactoryGirl.create(:old_user_password) }
   let(:password) { FactoryGirl.create(:user_password) }
 
-  describe :expired? do
+  describe '#expired?' do
     it 'should be true for an old password when password expiry is activated' do
       with_settings password_days_valid: 30 do
         expect(old_password.expired?).to be_truthy

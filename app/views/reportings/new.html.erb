@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= header_tags %>
+
 <% unless User.current.impaired? %>
   <%# TODO: Require autocompleter inside select_boxes.js
     For lack of a requiring policy (such as requirejs), just include the
@@ -37,23 +37,22 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= javascript_include_tag "timelines_select_boxes.js" %>
 <% end %>
 
-<h2><%= l('timelines.new_reporting').tap { |t| html_title t } %></h2>
+<% html_title l('timelines.new_reporting') %>
+<%= toolbar title: l('timelines.new_reporting') %>
 
-<%= form_for :reporting,
+<%= labelled_tabular_form_for :reporting,
             :url  => project_reportings_path(@project),
             :html => {:method => 'post'} do |f| %>
 
   <%= error_messages_for 'project' %>
 
-  <fieldset class="timelines-reporting-properties">
-    <legend><%= l('timelines.properties') %></legend>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
 
-    <p>
-      <label for="reporting_reporting_to_project_id">
+    <span class='inline-label'>
+      <label for="reporting_reporting_to_project_id" class="form-label -transparent">
         <%= Reporting.human_attribute_name(:reporting_to_project_id) %>
       </label>
-      <%# f.select(:reporting_to_project_id, @reporting_to_project_candidates.collect { |p| [p.name, p.id] }) %>
-
 
       <% if User.current.impaired? %>
         <%= f.select(:reporting_to_project_id, @reporting_to_project_candidates.collect { |p| [p.name, p.id] }) %>
@@ -68,14 +67,12 @@ See doc/COPYRIGHT.rdoc for more details.
       %>
       <% end %>
 
-    </p>
+    </span>
   </fieldset>
 
-  <br/>
-  <p>
-    <%= f.submit l(:button_create), :name => nil %>
-    <%= link_to l(:button_cancel), project_reportings_path(@project) %>
-  </p>
+  <hr class="form--separator">
+  <%= f.button l(:button_create), :name => nil, class: 'button -highlight -with-icon icon-yes' %>
+  <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
 <% end %>
 
 <% content_for :header_tags do %>

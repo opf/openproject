@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,44 +27,54 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title "#{l('timelines.project_menu.timelines')}: #{@timeline.name}" %>
+<% html_title "#{l('timelines.project_menu.timelines')}: #{h @timeline.name}" %>
+<%= toolbar title: h(@timeline.name) do %>
+  <% if timeline_action_authorized?(:new) %>
+    <li class="toolbar-item">
+      <%= new_timeline_link @project do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= l('timelines.new_timeline') %></span>
+        <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
+      <% end %>
+    </li>
+  <% end %>
 
-<% content_for :action_menu_specific do %>
+  <% if timeline_action_authorized?(:edit) %>
+    <li class="toolbar-item">
+      <%= edit_timeline_link @project, @timeline do %>
+        <i class="button--icon icon-edit"></i>
+        <span class="button--text"><%= l(:button_edit) %></span>
+        <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
+      <% end %>
+    </li>
+  <% end %>
 
-  <%= li_unless_nil(link_to_if_authorized(l('timelines.new_timeline'),
-                                          {:controller => '/timelines', :action => 'new', :project_id => @project},
-                                          :title => l('timelines.new_timeline'),
-                                          :class => 'icon icon-add')) %>
-
-  <%= li_unless_nil(link_to_if_authorized({:controller => '/timelines',
-                                           :action => 'edit',
-                                           :project_id => @project,
-                                           :id => @timeline},
-                                           :class => 'icon icon-edit',
-                                           :accesskey => accesskey(:edit)) do %>
-    <%= l(:button_edit) %><span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
-  <% end) %>
-
-  <%= li_unless_nil(link_to_if_authorized({:controller => '/timelines',
-                                           :action => 'confirm_destroy',
-                                           :project_id => @project,
-                                           :id => @timeline},
-                                          :class => 'icon icon-delete') do %>
-    <%= l(:button_delete) %><span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
-  <% end) %>
+  <% if timeline_action_authorized?(:destroy) %>
+    <li class="toolbar-item">
+      <%= destroy_timeline_link @project, @timeline do %>
+        <i class="button--icon icon-delete"></i>
+        <span class="button--text"><%= l(:button_delete) %></span>
+        <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
+      <% end %>
+    </li>
+  <% end %>
 <% end %>
-
-<h2><%= @timeline.name %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
 
 <div id="timeline">
   <%= form_tag '', {:id => "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
-    <%= label_tag 'timeline_select', l("timelines.timeline") %>
-    <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {ui_select2: 'ui-select2', id: 'timeline_select', ng_model: 'currentTimelineId', ng_change: 'switchTimeline()'}) %>
+    <span class="inline-label">
+      <%= label_tag 'timeline_select', l("timelines.timeline"), class: "form-label -transparent" %>
+      <ui-select ng-model="vm.currentTimeline" theme="select2"
+        on-select="vm.switchTimeline()">
+        <ui-select-match>{{$select.selected.name}}</ui-select-match>
+        <ui-select-choices repeat="timeline in vm.timelines | filter: { name: $select.search } track by timeline.id">
+          <div ng-bind-html="timeline.name | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
+    </span>
   <% end %>
 
-  <% push_visible_timeline_paths @visible_timelines %>
+  <% push_visible_timelines @visible_timelines %>
   <% push_current_timeline_id @timeline.id %>
 
   <%= render :partial => "timeline", :locals => {:timeline => @timeline} %>

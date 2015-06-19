@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe PermittedParams, type: :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:admin) { FactoryGirl.build(:admin) }
 
-  describe :permit do
+  describe '#permit' do
     it 'adds an attribute to be permitted later' do
       # just taking project_type here as an example, could be anything
 
@@ -55,7 +55,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :project_type do
+  describe '#project_type' do
     it 'should return name' do
       params = ActionController::Parameters.new(project_type: { 'name' => 'blubs' })
 
@@ -75,7 +75,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :project_type_move do
+  describe '#project_type_move' do
     it 'should permit move_to' do
       params = ActionController::Parameters.new(project_type: { 'move_to' => '1' })
 
@@ -83,7 +83,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :color do
+  describe '#color' do
     it 'should permit name' do
       params = ActionController::Parameters.new(color: { 'name' => 'blubs' })
 
@@ -97,7 +97,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :color_move do
+  describe '#color_move' do
     it 'should permit move_to' do
       params = ActionController::Parameters.new(color: { 'move_to' => '1' })
 
@@ -105,7 +105,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :custom_field do
+  describe '#custom_field' do
     it 'should permit move_to' do
       params = ActionController::Parameters.new(custom_field: { 'editable' => '0', 'visible' => '0', 'filtered' => 42 })
 
@@ -113,7 +113,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :planning_element_type do
+  describe '#planning_element_type' do
     it 'should permit move_to' do
       hash = { 'name' => 'blubs' }
 
@@ -155,7 +155,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :planning_element_type_move do
+  describe '#planning_element_type_move' do
     it 'should permit move_to' do
       hash = { 'move_to' => '1' }
 
@@ -165,7 +165,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :new_work_package do
+  describe '#new_work_package' do
     it 'should permit subject' do
       hash = { 'subject' => 'blubs' }
 
@@ -327,7 +327,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :update_work_package do
+  describe '#update_work_package' do
     it 'should permit subject' do
       hash = { 'subject' => 'blubs' }
 
@@ -457,7 +457,7 @@ describe PermittedParams, type: :model do
     end
 
     it 'should permit notes' do
-      hash = { 'notes' => 'blubs' }
+      hash = { 'journal_notes' => 'blubs' }
 
       params = ActionController::Parameters.new(work_package: hash)
 
@@ -511,7 +511,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :user do
+  describe '#user' do
     admin_permissions = ['admin',
                          'login',
                          'firstname',
@@ -585,7 +585,7 @@ describe PermittedParams, type: :model do
       end
     end
 
-    describe :user_update_as_admin do
+    describe '#user_update_as_admin' do
       it 'should permit a group_ids list' do
         hash = { 'group_ids' => ['1', '2'] }
         params = ActionController::Parameters.new(user: hash)
@@ -594,7 +594,7 @@ describe PermittedParams, type: :model do
       end
     end
 
-    describe :user_create_as_admin do
+    describe '#user_create_as_admin' do
       it 'should not permit a group_ids list' do
         hash = { 'group_ids' => ['1', '2'] }
         params = ActionController::Parameters.new(user: hash)
@@ -612,7 +612,7 @@ describe PermittedParams, type: :model do
       'custom_fields',
     ]
 
-    describe :user do
+    describe '#user' do
       user_permissions.each do |field|
         it "should permit #{field}" do
           hash = { field => 'test' }
@@ -694,6 +694,15 @@ describe PermittedParams, type: :model do
     it { expect(subject).to eq(hash) }
   end
 
+  shared_examples_for 'allows nested params' do
+    let(:params_key) { (defined? hash_key) ? hash_key : attribute }
+    let(:params) { ActionController::Parameters.new( params_key => { nested_key => hash }) }
+
+    subject { PermittedParams.new(params, user).send attribute }
+
+    it { expect(subject).to eq(hash) }
+  end
+
   shared_examples_for 'forbids params' do
     include_context 'prepare params comparison'
 
@@ -720,7 +729,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :status do
+  describe '#status' do
     let (:attribute) { :status }
 
     describe 'name' do
@@ -752,7 +761,7 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :enumerations do
+  describe '#enumerations' do
     let (:attribute) { :enumeration }
 
     describe 'name' do
@@ -788,18 +797,12 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :wiki_page do
-    let (:hash_key) { :page }
-    let (:attribute) { :wiki_page }
+  describe '#wiki_page_rename' do
+    let(:hash_key) { :page }
+    let (:attribute) { :wiki_page_rename }
 
     describe 'title' do
       let(:hash) { { 'title' => 'blubs' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    describe 'parent_id' do
-      let(:hash) { { 'parent_id' => '1' } }
 
       it_behaves_like 'allows params'
     end
@@ -811,7 +814,31 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe :wiki_content do
+  describe '#wiki_page' do
+    let(:hash_key) { :content }
+    let(:nested_key) { :page }
+    let (:attribute) { :wiki_page }
+
+    describe 'title' do
+      let(:hash) { { 'title' => 'blubs' } }
+
+      it_behaves_like 'allows nested params'
+    end
+
+    describe 'parent_id' do
+      let(:hash) { { 'parent_id' => '1' } }
+
+      it_behaves_like 'allows nested params'
+    end
+
+    describe 'redirect_existing_links' do
+      let(:hash) { { 'redirect_existing_links' => '1' } }
+
+      it_behaves_like 'allows nested params'
+    end
+  end
+
+  describe '#wiki_content' do
     let (:hash_key) { :content }
     let (:attribute) { :wiki_content }
 
@@ -912,7 +939,7 @@ describe PermittedParams, type: :model do
       end
 
       it 'permitted attributes should not include the key and the rails logger should receive a warning' do
-        expect(PermittedParams.permitted_attributes.keys).to_not include(:unknown_key)
+        expect(PermittedParams.permitted_attributes.keys).not_to include(:unknown_key)
       end
     end
 

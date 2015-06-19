@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= header_tags %>
+
 <% unless User.current.impaired? %>
   <%# TODO: Require autocompleter inside select_boxes.js
     For lack of a requiring policy (such as requirejs), just include the
@@ -39,46 +39,33 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l('timelines.reporting_for_project.show',
                 :title => h(@reporting.reporting_to_project.name)) %>
-<h2>
-  <%= l('timelines.reporting_for_project.show',
-        :title => link_to_project(@reporting.reporting_to_project)).html_safe %>
-</h2>
+<%= render partial: 'toolbar', locals: { show_actions: false } %>
 
-<%= form_for :reporting,
+<%= labelled_tabular_form_for :reporting,
             :url  => project_reporting_path(@project, @reporting),
             :html => {:method => 'put'} do |f| %>
 
   <%= error_messages_for 'project' %>
 
-  <fieldset class="timelines-reporting-properties">
-    <legend><%= l('timelines.properties') %></legend>
-
-    <p>
-      <label for="reporting_reported_project_status_id">
-        <%= Reporting.human_attribute_name(:reported_project_status_id) %>:
-      </label>
-        <%= f.select :reported_project_status_id,
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
+    <div class="form--field -required">
+      <%= f.select :reported_project_status_id,
                    @reporting.possible_reported_project_statuses.map { |s|
                       [s.name, s.id]
-                    }.unshift(["-",""]) %>
-    </p>
+                    }.unshift(["-",""]), label: Reporting.human_attribute_name(:reported_project_status_id) %>
+    </div>
 
-    <p>
-      <label for="reporting_reported_project_status_comment">
-        <%= Reporting.human_attribute_name(:reported_project_status_comment) %>:
-      </label><br/>
+    <div class="form--field">
       <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10,
                       :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json),
-                      :'ng-non-bindable' => '') %>
-      <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
-    </p>
+                      :'ng-non-bindable' => '', label: Reporting.human_attribute_name(:reported_project_status_comment)) %>
+    </div>
+    <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
   </fieldset>
-
-  <br/>
-  <p>
-    <%= f.submit l(:button_save), :name => nil %>
-    <%= link_to l(:button_cancel), project_reportings_path(@project) %>
-  </p>
+  <hr class="form--separator">
+  <%= f.button l(:button_save), :name => nil, class: 'button -highlight -with-icon icon-yes' %>
+  <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
 <% end %>
 
 

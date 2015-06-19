@@ -53,7 +53,7 @@ child @work_packages => :work_packages do
   end
 
   node(:custom_values) do |wp|
-    wp.custom_values_display_data @custom_field_column_names
+    wp.custom_values_display_data @custom_field_column_ids
   end
 
   # add parent id by default to make hierarchies transparent

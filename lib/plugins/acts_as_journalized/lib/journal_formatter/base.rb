@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,32 +76,22 @@ class JournalFormatter::Base
   end
 
   def render_ternary_detail_text(label, value, old_value)
-    unless value.blank?
-      unless old_value.blank?
-
-        l(:text_journal_changed, label: label, old: old_value, new: value)
-
-      else
-
-        l(:text_journal_set_to, label: label, value: value)
-
-      end
-    else
-
+    if value.blank?
       l(:text_journal_deleted, label: label, old: old_value)
-
+    else
+      if old_value.blank?
+        l(:text_journal_set_to, label: label, value: value)
+      else
+        l(:text_journal_changed, label: label, old: old_value, new: value)
+      end
     end
   end
 
   def render_binary_detail_text(label, value, old_value)
     if value.blank?
-
       l(:text_journal_deleted, label: label, old: old_value)
-
     else
-
       l(:text_journal_added, label: label, value: value)
-
     end
   end
 end

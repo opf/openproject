@@ -1,0 +1,54 @@
+{
+  "_links": {
+    "self": {
+      "href": "/api/v3/projects/1/available_responsibles"
+    }
+  },
+  "_type": "Collection",
+  "total": 1,
+  "count": 1,
+  "_embedded": {
+    "elements": [
+      {
+        "_type": "User",
+        "_links": {
+          "self": {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin - admin"
+          }
+        },
+        "id": 1,
+        "login": "admin",
+        "subtype": "User",
+        "firstName": "OpenProject",
+        "lastName": "Admin",
+        "name": "OpenProject Admin",
+        "email": "admin@example.com",
+        "avatar": "",
+        "createdAt": "2014-11-05T15:56:23Z",
+        "updatedAt": "2014-12-03T14:58:37Z",
+        "status": 1
+      },
+      {
+        "_type": "User",
+        "_links": {
+          "self": {
+            "href": "/api/v3/users/2",
+            "title": "Some guy"
+          }
+        },
+        "id": 2,
+        "login": "user",
+        "subtype": "User",
+        "firstName": "Some",
+        "lastName": "Guy",
+        "name": "Some Guy",
+        "email": "some.guy@example.com",
+        "avatar": "",
+        "createdAt": "2014-11-05T15:56:23Z",
+        "updatedAt": "2014-12-03T14:58:37Z",
+        "status": 2
+      }
+    ]
+  }
+}

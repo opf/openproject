@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,43 +31,21 @@ module.exports = function($scope, $filter, groupingModal, QueryService, WorkPack
   this.name    = 'GroupBy';
   this.closeMe = groupingModal.deactivate;
 
-  $scope.getGroupableColumnsData = function(term, result) {
-    var filtered = $filter('filter')($scope.groupableColumnsData, { label: term }),
-        sorted = $filter('orderBy')(filtered, 'label');
-
-    return result(sorted);
-  };
+  $scope.vm = {};
 
   $scope.updateGroupBy = function(){
-    QueryService.setGroupBy($scope.selectedGroupByData.id);
+    QueryService.setGroupBy($scope.vm.selectedColumnName);
 
     groupingModal.deactivate();
   };
 
   $scope.workPackageTableData = WorkPackagesTableService.getWorkPackagesTableData();
 
-  function buildOptions() {
-    var blankOption = { id: null, label: ' ', other: null };
-
-    $scope.groupableColumnsData = $scope.groupableColumns.map(function(column){
-      return { id: column.name, label: column.title, other: column.title };
-    });
-    $scope.groupableColumnsData.unshift(blankOption);
-  }
-
-  $scope.$watch('workPackageTableData.groupableColumns', function(groupableColumns){
+  $scope.$watch('workPackageTableData.groupableColumns', function(groupableColumns) {
     if (!groupableColumns) return;
 
-    $scope.groupableColumns = groupableColumns;
-    buildOptions();
-
-    var currentGroupBy = $scope.groupableColumnsData.filter(function(column){
-      return column.id == QueryService.getGroupBy();
-    });
-
-    if(currentGroupBy.length){
-      $scope.selectedGroupByData = currentGroupBy[0];
-    }
+    $scope.vm.groupableColumns   = [{}].concat(groupableColumns);
+    $scope.vm.selectedColumnName = QueryService.getGroupBy();
   });
 
 };

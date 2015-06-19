@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,8 +60,7 @@ describe ProjectAssociationsController, type: :controller do
     let(:project_b) { FactoryGirl.create(:project, is_public: true) }
     def fetch
       post 'create', project_id: project.identifier,
-                     project_association: {},
-                     project_association_select: { project_b_id: project_b.id }
+                     project_association: { project_b_id: project_b.id }
     end
     let(:permission) { :edit_project_associations }
     def expect_redirect_to

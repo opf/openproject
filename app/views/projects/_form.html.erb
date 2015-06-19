@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,33 +29,39 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'project' %>
 
-<div class="box">
-  <!--[form:project]-->
+<!--[form:project]-->
 
-  <%= render :partial => "projects/form/project_attributes", :locals => { :project => project, :form => f } %>
+<section class="form--section">
+  <%= render partial: "projects/form/project_attributes",
+             locals: { project: project,
+                       form: f } %>
 
-  <%# former timelines hook: %>
-  <%= render :partial => 'projects/form/timelines_attributes', :locals => { :project => project, :form => f } %>
-
-  <%= call_hook(:view_projects_form, :project => project, :form => f) %>
-</div>
+  <%= call_hook(:view_projects_form,
+                project: project,
+                form: f) %>
+</section>
 
 <% if project.new_record? %>
-  <div class="form-space">
-    <%= render :partial => "projects/form/modules", :locals => { :project => project } %>
+  <div>
+    <%= render partial: "projects/form/modules",
+               locals: { form: f } %>
+  </div>
+
+  <%= javascript_tag 'observeProjectModules();' %>
+<% end %>
+
+<% if (project.new_record? || project.module_enabled?('work_package_tracking')) && renderTypes %>
+  <div>
+    <%= render partial: 'projects/form/types',
+               locals: { f: f,
+                         project: project } %>
   </div>
 <% end %>
 
-<% if (project.new_record? || project.module_enabled?('work_package_tracking')) %>
-  <% if renderTypes %>
-      <div class="form-space">
-        <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => project } %>
-      </div>
-  <% end %>
-<% end %>
-
 <% unless @issue_custom_fields.empty? %>
-  <%= render :partial => "projects/form/custom_fields", :locals => { :project => project,
-                                                       :issue_custom_fields => @issue_custom_fields } %>
+  <%= render partial: "projects/form/custom_fields",
+             locals: { project: project,
+                       form: f,
+                       work_package_custom_fields: @issue_custom_fields } %>
 <% end %>
 <!--[eoform:project]-->

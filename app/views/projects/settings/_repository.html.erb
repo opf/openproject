@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -30,24 +30,35 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= remote_form_for :repository, @repository,
                    :url => { :controller => '/repositories', :action => 'edit', :id => @project },
                    :builder => TabularFormBuilder,
-                   :lang => current_language do |f| %>
+                   :lang => current_language,
+                   html: { class: 'form' } do |f| %>
 
-<%= error_messages_for 'repository' %>
+  <%= error_messages_for 'repository' %>
 
-<div class="box tabular">
-<p><%= label_tag('repository_scm', l(:label_scm)) %><%= scm_select_tag(@repository) %></p>
-<%= repository_field_tags(f, @repository) if @repository %>
-</div>
+  <div class="form--field -required">
+    <%= label_tag('repository_scm', l(:label_scm), class: "form--label") %>
+    <div class="form--field-container">
+      <div class="form--select-container">
+        <%= scm_select_tag(@repository) %>
+      </div>
+    </div>
+  </div>
 
-<div class="contextual">
-<% if @repository && !@repository.new_record? %>
-<%= link_to(l(:label_user_plural), {:controller => '/repositories', :action => 'committers', :project_id => @project}, :class => 'icon icon-user1') %>
-<%= link_to(l(:button_delete), project_repository_path(@project),
+  <%= repository_field_tags(f, @repository) if @repository %>
+
+  <div class="contextual">
+    <% if @repository && !@repository.new_record? %>
+      <%= link_to(l(:label_user_plural), {:controller => '/repositories', :action => 'committers', :project_id => @project}, :class => 'icon icon-user1') %>
+      <%= link_to(l(:button_delete), project_repository_path(@project),
             :confirm => l(:text_are_you_sure),
             :method => :delete,
             :class => 'icon icon-delete') %>
-<% end %>
-</div>
+    <% end %>
+  </div>
 
-<%= submit_tag((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save), :disabled => @repository.nil?) %>
+  <hr class="form--separator">
+
+  <%= f.button((@repository.nil? || @repository.new_record?) ? l(:button_create) : l(:button_save),
+      :disabled => @repository.nil?,
+      class: 'button -highlight -with-icon icon-yes') %>
 <% end %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,7 +65,7 @@ describe OpenProject::OmniAuth::Authorization do
     end
 
     it 'it optionally passes in a context' do
-      context = stub(:some_context)
+      context = double(:some_context)
       OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, context
       expect(collector).to include(context)
     end

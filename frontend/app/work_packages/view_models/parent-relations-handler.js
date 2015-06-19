@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,10 @@
 
 module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper) {
   function ParentRelationsHandler(workPackage, parents, relationsId) {
-      var handler = new CommonRelationsHandler(workPackage, parents, relationsId);
+      var relations = parents.filter(function(parent) {
+            return parent.props.id !== workPackage.props.id;
+          }),
+          handler = new CommonRelationsHandler(workPackage, relations, relationsId);
 
       handler.type = "parent";
       handler.addRelation = undefined;
@@ -39,18 +42,18 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
       handler.canDeleteRelation = function() { return !!this.workPackage.links.changeParent; };
       handler.getRelatedWorkPackage = function(workPackage, relation) { return relation.fetch(); };
       handler.addRelation = function(scope) {
-          var params = {
-            lockVersion: scope.workPackage.props.lockVersion,
-            parentId: scope.relationToAddId
-          };
+        var params = {
+          lockVersion: scope.workPackage.props.lockVersion,
+          parentId: scope.relationToAddId
+        };
 
-          WorkPackageService.updateWorkPackage(this.workPackage, params).then(function(workPackage) {
-              scope.relationToAddId = '';
-              scope.updateFocus(-1);
-              scope.$emit('workPackageRefreshRequired', '');
-          }, function(error) {
-              ApiHelper.handleError(scope, error);
-          });
+        WorkPackageService.updateWithPayload(this.workPackage, params).then(function() {
+            scope.relationToAddId = '';
+            scope.updateFocus(-1);
+            scope.$emit('workPackageRefreshRequired');
+        }, function(error) {
+            ApiHelper.handleError(scope, error);
+        });
       };
       handler.removeRelation = function(scope) {
           var index = this.relations.indexOf(scope.relation);
@@ -60,10 +63,11 @@ module.exports = function(CommonRelationsHandler, WorkPackageService, ApiHelper)
             parentId: null
           };
 
-          WorkPackageService.updateWorkPackage(scope.workPackage, params).then(function(response){
+          WorkPackageService.updateWithPayload(scope.workPackage, params).then(function(response){
               handler.relations.splice(index, 1);
               scope.workPackage.props.lockVersion = response.props.lockVersion;
               scope.updateFocus(index);
+              scope.$emit('workPackageRefreshRequired');
           }, function(error) {
               ApiHelper.handleError(scope, error);
           });

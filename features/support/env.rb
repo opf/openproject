@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,9 +33,12 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
+require 'simplecov'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
+require 'capybara-select2'
+require 'factory_girl_rails'
 
 # json-spec is used to specifiy our json-apis
 require 'json_spec/cucumber'
@@ -58,6 +61,13 @@ Capybara.configure do |config|
   config.ignore_hidden_elements = true
   config.match = :one
   config.visible_text_only = true
+end
+
+Capybara.register_driver :selenium do |app|
+  require 'selenium/webdriver'
+  Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
+    Selenium::WebDriver::Firefox::Binary.path
+  Capybara::Selenium::Driver.new(app, browser: :firefox)
 end
 
 # By default, any exception happening in your Rails application will bubble up
@@ -114,3 +124,5 @@ end
 #     Capybara::Selenium::Driver.new(app, :browser => :chrome)
 # end
 #
+
+World(Capybara::Select2)

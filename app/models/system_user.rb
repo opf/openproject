@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,7 @@ class SystemUser < User
 
   # There should be only one SystemUser in the database
   def validate_unique_system_user
-    errors.add :base, 'A SystemUser already exists.' if SystemUser.find(:first)
+    errors.add :base, 'A SystemUser already exists.' if SystemUser.any?
   end
 
   # Overrides a few properties

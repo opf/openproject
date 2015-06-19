@@ -1,0 +1,373 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+table
+  &.list
+    border: 1px solid #e4e4e4
+    border-collapse: collapse
+    width: 100%
+    margin-bottom: 4px
+    th
+      background-color: #E6E6E6
+      padding: 4px
+      white-space: nowrap
+    td
+      vertical-align: middle
+      &.id
+        width: 2%
+        text-align: center
+      &.checkbox
+        width: 15px
+        padding: 2px 0 0 0
+        input
+          padding: 0
+      &.buttons
+        width: 15%
+        white-space: nowrap
+        text-align: right
+        a
+          padding-right: 0.6em
+      .form--text-field, .form--select, .form--text-area
+        margin-bottom: 0
+    caption
+      text-align: left
+      padding: 0.5em 0.5em 0.5em 0
+
+tr
+  &.project
+    td.name a
+      white-space: nowrap
+    &.idnt td.name span
+      background: image-url("bullet_arrow_right.png") no-repeat 0 50%
+      padding-left: 16px
+    &.idnt-1 td.name
+      padding-left: 0.5em
+    &.idnt-2 td.name
+      padding-left: 2em
+    &.idnt-3 td.name
+      padding-left: 3.5em
+    &.idnt-4 td.name
+      padding-left: 5em
+    &.idnt-5 td.name
+      padding-left: 6.5em
+    &.idnt-6 td.name
+      padding-left: 8em
+    &.idnt-7 td.name
+      padding-left: 9.5em
+    &.idnt-8 td.name
+      padding-left: 11em
+    &.idnt-9 td.name
+      padding-left: 12.5em
+  &.issue
+    white-space: nowrap
+    &.sum
+      font-weight: bold
+      background-color: #f6f7f8
+    td
+      &.category
+        white-space: normal
+
+tr.issue
+  td
+    &.subject
+      text-align: left
+  &.idnt td.subject a
+    background: image-url("bullet_arrow_right.png") no-repeat 0 50%
+    padding-left: 16px
+
+#content tr.issue
+  &.idnt-1 td.subject
+    padding-left: 0.5em
+  &.idnt-2 td.subject
+    padding-left: 2em
+  &.idnt-3 td.subject
+    padding-left: 3.5em
+  &.idnt-4 td.subject
+    padding-left: 5em
+  &.idnt-5 td.subject
+    padding-left: 6.5em
+  &.idnt-6 td.subject
+    padding-left: 8em
+  &.idnt-7 td.subject
+    padding-left: 9.5em
+  &.idnt-8 td.subject
+    padding-left: 11em
+  &.idnt-9 td.subject
+    padding-left: 12.5em
+
+/* Work Package hierarchy layout */
+
+tr
+  &.work-package
+    text-align: center
+    white-space: nowrap
+    &.sum
+      font-weight: bold
+    td.subject
+      white-space: normal
+  &.issue td.category
+    white-space: normal
+
+tr.work-package
+  td
+    &.subject
+      text-align: left
+    &.done_ratio table.progress
+      margin-left: auto
+      margin-right: auto
+  &.idnt td.subject a
+    background: image-url("bullet_arrow_right.png") no-repeat 0 50%
+    padding-left: 16px
+
+#content tr.work-package
+  &.idnt-1 td.subject
+    padding-left: 0.5em
+  &.idnt-2 td.subject
+    padding-left: 2em
+  &.idnt-3 td.subject
+    padding-left: 3.5em
+  &.idnt-4 td.subject
+    padding-left: 5em
+  &.idnt-5 td.subject
+    padding-left: 6.5em
+  &.idnt-6 td.subject
+    padding-left: 8em
+  &.idnt-7 td.subject
+    padding-left: 9.5em
+  &.idnt-8 td.subject
+    padding-left: 11em
+  &.idnt-9 td.subject
+    padding-left: 12.5em
+
+tr
+  &.entry
+    border: 1px solid #f8f8f8
+    td
+      white-space: nowrap
+      &.filename
+        width: 30%
+      &.size
+        text-align: right
+        font-size: 90%
+      &.revision, &.author
+        text-align: center
+      &.age
+        text-align: right
+  div.expander
+    cursor: pointer
+    float: left
+  &.open span .expand, &.closed span .collapse
+    display: none
+  &.changeset td
+    &.author, &.committed_on
+      text-align: center
+      width: 15%
+
+table
+  &.files tr.file td
+    text-align: center
+    &.filename
+      text-align: left
+      padding-left: 24px
+    &.digest
+      font-size: 80%
+  &.members td.roles, &.memberships td.roles
+    width: 45%
+
+tr
+  &.message
+    height: 2.6em
+    td
+      &.created_on, &.last_message
+        white-space: nowrap
+  &.version
+    td
+      &.closed
+        text-decoration: line-through
+        a
+          text-decoration: line-through
+      &.name
+        padding-left: 20px
+    &.shared td.name
+      background: image-url("link.png") no-repeat 0% 70%
+    td
+      &.date, &.status, &.sharing
+        text-align: left
+        white-space: nowrap
+  &.user
+    td
+      width: 13%
+      &.email
+        width: 18%
+      white-space: nowrap
+    &.locked, &.registered, &.locked a, &.registered a
+      color: #aaa
+  &.wiki-page-version td
+    &.updated_on, &.author
+      text-align: center
+  &.time-entry
+    text-align: center
+    white-space: nowrap
+    td
+      &.subject, &.comments
+        text-align: left
+        white-space: normal
+
+td.hours
+  text-align: right
+  font-weight: bold
+  padding-right: 0.5em
+  .hours-dec
+    font-size: 0.9em
+
+table
+  &.plugins
+    td
+      vertical-align: middle
+      &.configure
+        text-align: right
+        padding-right: 1em
+    span
+      &.name
+        font-weight: bold
+        display: block
+        margin-bottom: 6px
+      &.description, &.url
+        display: block
+        font-size: 0.9em
+  &.list tbody tr.group
+    td
+      padding: 0.8em 0 0.5em 0.3em
+      font-weight: bold
+      border-bottom: 1px solid #ccc
+    span.count
+      color: #aaa
+      font-size: 80%
+
+tr.group
+  a.toggle-all
+    color: #aaa
+    font-size: 80%
+    font-weight: normal
+    display: inline
+    visibility: hidden
+  &:hover a.toggle-all
+    visibility: visible
+
+a.toggle-all:hover
+  text-decoration: none
+
+table
+  &.list
+    tbody tr:hover, tr.keyboard_hover
+      background-color: #ffff99 !important
+    tbody tr.group:hover, tr.group.keyboard_hover
+      background-color: inherit !important
+  td
+    padding: 3px 6px
+  p
+    margin: 0
+  &.attributes
+    width: 100%
+    th
+      vertical-align: top
+      text-align: left
+    td
+      vertical-align: top
+
+td.center, th.center
+  text-align: center
+
+#issue_tree
+  table.issues
+    border: 0
+  td.checkbox
+    display: none
+
+th.hidden
+  display: none
+
+table#time-report
+  td.hours
+    text-align: right
+    padding-right: 0.5em
+  th
+    &.period, &.total
+      text-align: right
+      padding-right: 0.5em
+  tbody tr
+    font-style: italic
+    color: #333
+    &.last-level
+      font-style: normal
+      color: #555
+    &.total
+      font-style: normal
+      font-weight: bold
+      color: #555
+      background-color: #EEEEEE
+  .hours-dec
+    font-size: 0.9em
+
+#content table
+  &.issues
+    width: 100%
+  &.issues td
+    border: 0 none
+    padding: 3px 6px
+    text-align: left
+    position: relative
+    vertical-align: top
+  th
+    a:hover
+    &.current-sort
+      background: white image-url("gradient-up.png") repeat-x
+      a
+        background: image-url("sort_desc.png") no-repeat right center
+        padding-right: 16px
+        display: block
+  tr
+    &.odd
+      background-color: white
+    &.even
+      background-color: #f6f7f8
+      &:hover
+        background-color: #FFD
+    &.odd:hover
+      background-color: #FFD
+    &.context-menu-selection
+      background-color: #FFFFB2
+      &:hover
+        background-color: #FFFFB2
+  td
+    &.issue
+      background: image-url("arrow-bottom-right.png") no-repeat right bottom
+      width: 42px
+      cursor: context-menu
+    &.updated
+      width: 80px

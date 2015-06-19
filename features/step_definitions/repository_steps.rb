@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,16 @@
 #++
 
 Given(/^the project "(.*?)" has a repository$/) do |project_name|
-
   project = Project.find(project_name)
 
+  repo_path = Rails.root.join 'tmp/filesystem_repository'
+
+  FileUtils.mkdir_p repo_path
+
+  OpenProject::Configuration['scm_filesystem_path_whitelist'] = [repo_path]
+
   repo = FactoryGirl.build(:repository,
+                           url: repo_path,
                            project: project)
 
   Setting.enabled_scm = Setting.enabled_scm << repo.scm_name

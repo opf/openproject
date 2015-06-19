@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -44,11 +44,16 @@ module.exports = function($rootScope, $compile, $http, $templateCache, $animate)
 
     var templateUrl = '/templates/layout/menu_item.html',
         type        = options.type,
-        container   = angular.element(options.container),
         linkFn      = options.linkFn,
-        scope;
+        container, scope;
+
+    function getContainer() {
+      return angular.element(options.container);
+
+    }
 
     function generateMenuItem(title, path, objectId) {
+      container = getContainer();
       if(!container) return;
 
       var menuItem;
@@ -60,7 +65,7 @@ module.exports = function($rootScope, $compile, $http, $templateCache, $animate)
       scope.path = path;
       scope.objectId = objectId;
 
-      $http.get(templateUrl, {
+      return $http.get(templateUrl, {
         cache: $templateCache
       }).then(function (response) {
         menuItem = angular.element(response.data);
@@ -70,8 +75,7 @@ module.exports = function($rootScope, $compile, $http, $templateCache, $animate)
         $compile(menuItem)(scope);
 
         var previousItem = previousMenuItem(title);
-
-        $animate.enter(menuItem, container, previousItem);
+        return $animate.enter(menuItem, container, previousItem);
       });
     }
 
@@ -87,7 +91,7 @@ module.exports = function($rootScope, $compile, $http, $templateCache, $animate)
      */
 
     function previousMenuItem(title) {
-      var allItems     = container.find('li'),
+      var allItems     = getContainer().find('li'),
           previousElement = angular.element(allItems[allItems.size() - 1]),
           i = allItems.size() - 2;
 

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module.exports = function($compile, TimezoneService) {
     restrict: 'EA',
     replace: true,
     scope: { dateTimeValue: '=' },
-    template: '<span title="{{ date }} {{ time }}"><date date-value="dateTimeValue" hide-title="true"></date> <time time-value="dateTimeValue" hide-title="true"></time></span>',
+    template: '<span title="{{ date }} {{ time }}"><op-date date-value="dateTimeValue" hide-title="true"></op-date> <op-time time-value="dateTimeValue" hide-title="true"></op-time></span>',
     link: function(scope, element, attrs) {
       scope.date = TimezoneService.formattedDate(scope.dateTimeValue);
       scope.time = TimezoneService.formattedTime(scope.dateTimeValue);

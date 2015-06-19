@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -128,6 +128,22 @@ describe WorkPackage, type: :model do
         it_behaves_like 'work package status transition' do
           let(:invalid_result) { true }
         end
+      end
+
+      describe 'transition to non-existing status' do
+        before do
+          work_package.status_id = -1
+          work_package.valid?
+        end
+
+        it { expect(work_package.errors).not_to have_key(:status_id) }
+
+        it { expect(work_package.errors[:status].count).to eql(1) }
+
+        it {
+          expect(work_package.errors[:status].first)
+            .to eql(I18n.t('activerecord.errors.messages.blank'))
+        }
       end
     end
   end
