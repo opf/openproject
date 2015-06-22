@@ -37,11 +37,11 @@ class WorkPackages::AutoCompletesController < ApplicationController
     q = params[:q].to_s
 
     if q.present?
-      query = (params[:scope] == 'all' && Setting.cross_project_work_package_relations?) ? WorkPackage : @project.work_packages
+      scope = (params[:scope] == 'all' && Setting.cross_project_work_package_relations?) ? WorkPackage : @project.work_packages
 
-      @work_packages |= query.visible.find_all_by_id(q.to_i) if q =~ /\A\d+\z/
+      @work_packages |= scope.visible.find_all_by_id(q.to_i) if q =~ /\A\d+\z/
 
-      @work_packages |= query.visible.find(:all,
+      @work_packages |= scope.visible.find(:all,
                                            limit: 10,
                                            order: "#{WorkPackage.table_name}.id ASC",
                                            conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", { q: "%#{q.downcase}%" }])
