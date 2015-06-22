@@ -37,7 +37,18 @@ class WorkPackages::AutoCompletesController < ApplicationController
     q = params[:q].to_s
 
     if q.present?
-      scope = (params[:scope] == 'all' && Setting.cross_project_work_package_relations?) ? WorkPackage : @project.work_packages
+      if params[:scope] == 'relatable'
+        unless @project
+          render_404
+          return
+        end
+
+        scope = Setting.cross_project_work_package_relations? ? WorkPackage : @project.work_packages
+      elsif @project.nil? || params[:scope] == 'all'
+        scope = WorkPackage
+      else
+        scope = @project.work_packages
+      end
 
       @work_packages |= scope.visible.find_all_by_id(q.to_i) if q =~ /\A\d+\z/
 
@@ -65,8 +76,8 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
   def find_project
     project_id = (params[:work_package] && params[:work_package][:project_id]) || params[:project_id]
-    @project = Project.find(project_id)
+    @project = Project.find(project_id) if project_id
   rescue ActiveRecord::RecordNotFound
-    render_404
+    @project = nil
   end
 end
