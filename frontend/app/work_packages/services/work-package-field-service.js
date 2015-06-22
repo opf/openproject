@@ -146,7 +146,11 @@ module.exports = function(
     });
 
     if (!WorkPackageFieldService.isRequired(workPackage, field)) {
-      var arrayWithEmptyOption = [{ href: null }];
+      var nullValueLabel = I18n.t('js.inplace.null_value_label');
+      var arrayWithEmptyOption = [{
+        href: null,
+        name: nullValueLabel
+      }];
       options = arrayWithEmptyOption.concat(options);
     }
 
