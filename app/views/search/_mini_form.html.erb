@@ -32,13 +32,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= form_tag(search_path(@project), method: :get) do %>
     <%= hidden_field_tag(controller.default_search_scope, 1, :project_id => nil) if controller.default_search_scope %>
 
-    <div class="search-wrapper search-collapsed">
-      <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
-      <a id="top-menu-search-icon" class="search_btn search-form-normal">
+    <div class="search-wrapper">
+      <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder) %>
+      <a id="top-menu-search-icon" class="search_btn search-form-normal"
+         accesskey="<%= accesskey(:quick_search) %>" tabindex="0">
          <i class="icon5 icon-search ellipsis"></i>
       </a>
     </div>
-
   <% end %>
-
 </div>

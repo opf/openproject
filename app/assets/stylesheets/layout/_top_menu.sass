@@ -62,18 +62,15 @@
     @include default-font($header-item-font-color, $header-item-font-size)
     &:hover
       text-decoration: none
-  .search-collapsed
-    .search_field
-      display: none
-    .search_btn
-      &:hover
-        background: $header-item-bg-hover-color
-        color: $header-item-font-hover-color
+      background: $header-item-bg-hover-color
+      color: $header-item-font-hover-color
+  .search_field
+    display: none
   .search-expanded
-    padding-top: 8px
+    padding-top: 9px
     .search_field
       margin: 0
-      padding: 0 10px
+      padding: 0 20px 0 10px
       display: inline-block
       border: $header-search-field-border
       border-radius: 25px
@@ -81,12 +78,20 @@
       width: 180px
       outline: 0
       font-size: 0.75rem
+      &::-ms-clear
+        margin-right: 5px
+        width: 20px
     .search_btn
       position: absolute
       top: 0
       right: 0
       color: $header-drop-down-item-font-color
       background: transparent
+      -webkit-transform: scaleX(-1)
+      -moz-transform: scaleX(-1)
+      -o-transform: scaleX(-1)
+      -ms-transform: scaleX(-1)
+      transform: scaleX(-1)
   ::-webkit-input-placeholder
     color: $header-search-field-font-color
   :-moz-placeholder
