@@ -32,6 +32,7 @@ module.exports = function(
            $state,
            $stateParams,
            $timeout,
+           $window,
            PathHelper,
            WorkPackagesOverviewService,
            WorkPackageFieldService,
@@ -92,6 +93,9 @@ module.exports = function(
         if (!firstTimeFocused) {
           firstTimeFocused = true;
           $timeout(function() {
+            // TODO: figure out a better way to fix the wp table columns bug
+            // where arrows are misplaced when not resizing the window
+            angular.element($window).trigger('resize');
             angular.element('.work-packages--details--subject .focus-input').focus();
           });
         }
