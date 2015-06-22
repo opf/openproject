@@ -50,6 +50,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
         scope = @project.work_packages
       end
 
+      # query for exact ID matches first, to make an exact match the first result of autocompletion
       @work_packages |= scope.visible.find_all_by_id(q.to_i) if q =~ /\A\d+\z/
 
       @work_packages |= scope.visible.find(:all,
