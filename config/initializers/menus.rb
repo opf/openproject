@@ -43,9 +43,6 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :news,
             { controller: '/news' },
             if: Proc.new { User.current.allowed_to?(:view_news, nil, :global => true) }
-  menu.push :activity,
-            { controller: '/activity' },
-            if: Proc.new { User.current.logged? }
   menu.push :time_sheet,
             { controller: '/time_entries' },
             caption: I18n.t('label_time_sheet_menu'),
