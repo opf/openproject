@@ -42,7 +42,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             last: true
   menu.push :help, OpenProject::Info.help_url,
             last: true,
-            caption: I18n.t('label_help'),
+            caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     class: 'icon5 icon-help' }
 end

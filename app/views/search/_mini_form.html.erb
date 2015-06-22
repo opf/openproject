@@ -26,17 +26,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<div id="search">
+<div id="top-menu-search">
   <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
 
   <%= form_tag(search_path(@project), method: :get) do %>
     <%= hidden_field_tag(controller.default_search_scope, 1, :project_id => nil) if controller.default_search_scope %>
 
-    <div id='search_wrap'>
-
+    <div class="search-wrapper search-collapsed">
       <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
-      <span id="magnifier"></span>
-
+      <a id="top-menu-search-icon" class="search_btn search-form-normal">
+         <i class="icon5 icon-search ellipsis"></i>
+      </a>
     </div>
 
   <% end %>

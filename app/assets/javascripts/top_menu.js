@@ -241,8 +241,39 @@
       top_menus.push(new_menu);
     });
   };
+
+  // expands .search_btn inside the given wrapper
+  // to an input .search_field with the button appended to the right.
+  $.fn.expandableSearch = function () {
+    var wrapper = $(this)
+      , form = wrapper.closest('form')
+      , btn = wrapper.find('.search_btn')
+      , input = wrapper.find('.search_field')
+      , evtns = 'click.expandableSearch';
+
+    btn.click(function() {
+      if (wrapper.hasClass('search-collapsed')) {
+        wrapper.toggleClass('search-collapsed search-expanded');
+        input.focus();
+
+        // Hide the input for click on other objects
+        $(document).on(evtns, function(evt) {
+          if(!$(evt.target).closest(wrapper).length) {
+            wrapper.toggleClass('search-collapsed search-expanded');
+            $(document).off(evtns);
+          }
+        });
+
+        return false;
+      } else {
+        form.submit();
+      }
+    });
+  };
+
 }(jQuery));
 
 jQuery(document).ready(function($) {
   $("#top-menu-items").top_menu();
+  $("#top-menu-search .search-wrapper").expandableSearch();
 });
