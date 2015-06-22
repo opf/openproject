@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="search-wrapper">
       <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder) %>
       <a id="top-menu-search-icon" class="search_btn search-form-normal"
+         title="<%= l(:label_search) %>"
          accesskey="<%= accesskey(:quick_search) %>" tabindex="0">
          <i class="icon5 icon-search ellipsis"></i>
       </a>

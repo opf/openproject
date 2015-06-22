@@ -44,6 +44,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             last: true,
             caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
+                    title: I18n.t('label_help'),
                     class: 'icon5 icon-help' }
 end
 
