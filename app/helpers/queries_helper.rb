@@ -89,11 +89,4 @@ module QueriesHelper
     end
     @visible_queries
   end
-
-  def grouped_query_options
-    {
-      l(:label_my_queries)   => visible_queries.select { |query| !query.is_public? }.map { |query| [query.name, query.id] },
-      l(:label_query_plural) => visible_queries.select(&:is_public?).map { |query| [query.name, query.id] }
-    }
-  end
 end
