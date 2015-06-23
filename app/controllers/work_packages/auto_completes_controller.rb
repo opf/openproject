@@ -48,10 +48,14 @@ class WorkPackages::AutoCompletesController < ApplicationController
         @work_packages |= scope.visible.find_all_by_id(query_term.to_i)
       end
 
-      @work_packages |= scope.visible.find(:all,
-                                           limit: 10,
-                                           order: "#{WorkPackage.table_name}.id ASC",
-                                           conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", { q: "%#{query_term.downcase}%" }])
+      sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR
+                    CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
+                   { q: "%#{query_term.downcase}%" }]
+
+      @work_packages |= scope.visible
+                             .where(sql_query)
+                             .order(id: :asc)
+                             .limit(10)
     end
 
     respond_to do |format|
