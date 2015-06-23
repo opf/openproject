@@ -379,12 +379,8 @@ module OpenProject
         item = strip_tags(content).strip
         anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
         @parsed_headings << [level, anchor, item]
-        url = full_url anchor
-        if url
-          "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"#{url}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
-        else
-          "<h#{level} #{attrs}>#{content}</h#{level}>"
-        end
+        url = full_url(anchor)
+        "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"#{url}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
       end
     end
 
@@ -414,11 +410,7 @@ module OpenProject
               out << '</li><li>'
             end
             url = full_url anchor
-            if url
-              out << "<a href=\"#{url}\">#{item}</a>"
-            else
-              out << "#{item}"
-            end
+            out << "<a href=\"#{url}\">#{item}</a>"
             current = level
             started = true
           end
@@ -433,7 +425,7 @@ module OpenProject
     # displays the current url plus an optional anchor
     #
     def full_url(anchor_name = '')
-      return nil if current_request.nil?
+      return "##{anchor_name}" if current_request.nil?
       current = url_for
       return current if anchor_name.blank?
       "#{current}##{anchor_name}"
