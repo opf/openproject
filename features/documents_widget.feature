@@ -50,7 +50,7 @@ Feature: Adding the document widget to personalisable pages
   Scenario: Adding a "Documents" widget to the my page
     Given I am on the My page personalization page
     # Safeguard to ensure the page is loaded
-    And I should see "My page block"
+    And I should see "Reported work packages"
     When I select "Documents" from the available widgets drop down
     And I click on "Add"
     Then the "Documents" widget should be in the top block
