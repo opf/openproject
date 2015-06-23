@@ -27,9 +27,7 @@
 #++
 
 require 'api/v3/activities/activity_representer'
-require 'api/v3/work_packages/work_package_contract'
 require 'api/v3/work_packages/work_package_representer'
-require 'api/v3/work_packages/form/work_package_payload_representer'
 
 module API
   module V3
@@ -40,51 +38,13 @@ module API
             requires :id, desc: 'Work package id'
           end
           route_param :id do
+            helpers WorkPackagesSharedHelpers
             helpers do
               attr_reader :work_package
 
               def work_package_representer
                 WorkPackageRepresenter.create(@work_package,
                                               current_user: current_user)
-              end
-
-              def write_work_package_attributes
-                if request_body
-                  # we need to merge the JSON two times:
-                  # In Pass 1 the representer only has custom fields for the current WP type
-                  # After Pass 1 the correct type information is merged into the WP
-                  # In Pass 2 the representer is created with the new type info and will be able
-                  # to also parse custom fields successfully
-                  merge_hash_into_work_package!(request_body)
-                  merge_hash_into_work_package!(request_body)
-                end
-              end
-
-              # merges the given JSON representation into @work_package
-              def merge_hash_into_work_package!(hash)
-                payload = Form::WorkPackagePayloadRepresenter.create(
-                  @work_package,
-                  enforce_lock_version_validation: true)
-                payload.from_hash(hash)
-              end
-
-              def write_request_valid?
-                contract = WorkPackageContract.new(@work_package, current_user)
-
-                contract_valid = contract.validate
-                represented_valid = @work_package.valid?
-
-                return true if contract_valid && represented_valid
-
-                # We need to merge the contract errors with the model errors in
-                # order to have them available at one place.
-                contract.errors.keys.each do |key|
-                  contract.errors[key].each do |message|
-                    @work_package.errors.add(key, message)
-                  end
-                end
-
-                false
               end
             end
 
@@ -101,15 +61,15 @@ module API
             end
 
             patch do
-              write_work_package_attributes
+              write_work_package_attributes(@work_package, reset_lock_version: true)
 
               send_notifications = !(params.has_key?(:notify) && params[:notify] == 'false')
-              update_service = UpdateWorkPackageService.new(current_user,
-                                                            @work_package,
-                                                            nil,
-                                                            send_notifications)
+              update_service = UpdateWorkPackageService.new(
+                user: current_user,
+                work_package: @work_package,
+                send_notifications: send_notifications)
 
-              if write_request_valid? && update_service.save
+              if write_request_valid?(@work_package, UpdateContract) && update_service.save
                 @work_package.reload
 
                 work_package_representer
@@ -147,8 +107,8 @@ module API
 
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Relations::RelationsAPI
-            mount ::API::V3::WorkPackages::Form::FormAPI
             mount ::API::V3::Attachments::AttachmentsByWorkPackageAPI
+            mount ::API::V3::WorkPackages::UpdateFormAPI
           end
 
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI

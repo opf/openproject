@@ -1,8 +1,11 @@
 require 'spec_helper'
 require 'features/work_packages/details/inplace_editor/shared_examples'
+require 'features/work_packages/details/inplace_editor/shared_contexts'
 require 'features/work_packages/details/inplace_editor/work_package_field'
 
 describe 'description inplace editor', js: true do
+  include_context 'maximized window'
+
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
   let(:property_name) { :description }
   let(:property_title) { 'Description' }
@@ -19,10 +22,10 @@ describe 'description inplace editor', js: true do
 
   before do
     allow(User).to receive(:current).and_return(user)
-    visit project_work_packages_path(project)
-    row = page.find("#work-package-#{work_package.id}")
-    row.double_click
+    visit project_work_packages_path(project) + "/#{work_package.id}/overview"
   end
+
+  include_context 'ensure wp table loaded'
 
   context 'in read state' do
     it 'renders the correct text' do

@@ -100,9 +100,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </td>
           <td class="status"><%= full_user_status(user) %></td>
           <td>
-            <small>
-              <%= change_user_status_links(user) unless user.id == current_user.id %>
-            </small>
+            <%= change_user_status_links(user) unless user.id == current_user.id %>
           </td>
         </tr>
       <% end -%>

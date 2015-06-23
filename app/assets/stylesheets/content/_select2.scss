@@ -114,6 +114,7 @@
 $se2-theme-selectable-color: #f8f8f8;
 //{bgThemeHighlight}
 $se2-theme-selectable-color-highlighted: $drop-down-selected-bg-color;
+$se2-theme-selectable-font-color-highlighted: $drop-down-selected-font-color;
 
 $se2-element-height: 33px;
 $se2-input-height: rem-calc(34px);
@@ -192,6 +193,7 @@ $se2-width: 100%;
 
     .select2-highlighted {
       background-color: $se2-theme-selectable-color-highlighted;
+      color: $se2-theme-selectable-font-color-highlighted;
     }
   }
 }
