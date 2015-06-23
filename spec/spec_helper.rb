@@ -91,6 +91,11 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
+  config.before(:each, js: true) do
+    # maximizes the browser window for all capybara specs
+    Capybara.page.driver.browser.manage.window.maximize
+  end
+
   config.after(:each) do
     DatabaseCleaner.clean
   end

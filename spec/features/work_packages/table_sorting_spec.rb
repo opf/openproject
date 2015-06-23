@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
-require 'features/work_packages/details/inplace_editor/shared_contexts'
 
 describe 'Select work package row', type: :feature do
   let(:user) { FactoryGirl.create(:admin) }
@@ -60,7 +59,6 @@ describe 'Select work package row', type: :feature do
   end
 
   include_context 'ui-select helpers'
-  include_context 'maximized window'
   include_context 'work package table helpers'
 
   context 'sorting by version', js: true do
