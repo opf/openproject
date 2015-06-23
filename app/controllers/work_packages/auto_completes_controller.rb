@@ -81,11 +81,11 @@ class WorkPackages::AutoCompletesController < ApplicationController
     if params[:scope] == 'relatable'
       return nil unless @project
 
-      return Setting.cross_project_work_package_relations? ? WorkPackage : @project.work_packages
+      Setting.cross_project_work_package_relations? ? WorkPackage.scoped : @project.work_packages
     elsif params[:scope] == 'all' || @project.nil?
-      return WorkPackage
+      WorkPackage.scoped
     else
-      return @project.work_packages
+      @project.work_packages
     end
   end
 end
