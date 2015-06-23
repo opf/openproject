@@ -1,3 +1,5 @@
+require 'set'
+
 module OpenProject
   module Authentication
     class Manager < Warden::Manager
@@ -11,7 +13,7 @@ module OpenProject
 
       def initialize(app, options = {}, &configure)
         block = lambda do |config|
-          self.class.configure config
+          self.class.configure_warden config
 
           configure.call config if configure
         end
@@ -20,26 +22,40 @@ module OpenProject
       end
 
       class << self
-        def scope_strategies
-          @scope_strategies ||= {}
+        def config
+          @config ||= Hash.new
         end
 
-        def store_defaults
-          @store_defaults ||= Hash.new false
+        def scope_config(scope)
+          config[scope] ||= ScopeSettings.new false
         end
 
         def failure_handlers
           @failure_handlers ||= {}
         end
 
-        def configure(config)
-          config.default_strategies :session
-          config.failure_app = OpenProject::Authentication::FailureApp.new failure_handlers
+        def auth_scheme(name)
+          auth_schemes[name] ||= AuthSchemeInfo.new Set.new
+        end
 
-          scope_strategies.each do |scope, strategies|
-            config.scope_defaults scope, strategies: strategies, store: store_defaults[scope]
+        def auth_schemes
+          @auth_schemes ||= {}
+        end
+
+        def configure_warden(warden_config)
+          warden_config.default_strategies :session
+          warden_config.failure_app = OpenProject::Authentication::FailureApp.new failure_handlers
+
+          config.each do |scope, cfg|
+            warden_config.scope_defaults scope, strategies: cfg.strategies, store: cfg.store
           end
         end
+      end
+
+      class ScopeSettings < Struct.new(:store, :strategies, :realm)
+      end
+
+      class AuthSchemeInfo < Struct.new(:strategies)
       end
     end
   end
