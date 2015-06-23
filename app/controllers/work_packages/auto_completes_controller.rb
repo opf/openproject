@@ -34,29 +34,24 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
   def index
     @work_packages = []
-    q = params[:q].to_s
+    query_term = params[:q].to_s
 
-    if q.present?
-      if params[:scope] == 'relatable'
-        unless @project
-          render_404
-          return
-        end
-
-        scope = Setting.cross_project_work_package_relations? ? WorkPackage : @project.work_packages
-      elsif @project.nil? || params[:scope] == 'all'
-        scope = WorkPackage
-      else
-        scope = @project.work_packages
+    if query_term.present?
+      scope = determine_scope
+      if scope.nil?
+        render_404
+        return
       end
 
       # query for exact ID matches first, to make an exact match the first result of autocompletion
-      @work_packages |= scope.visible.find_all_by_id(q.to_i) if q =~ /\A\d+\z/
+      if query_term =~ /\A\d+\z/
+        @work_packages |= scope.visible.find_all_by_id(query_term.to_i)
+      end
 
       @work_packages |= scope.visible.find(:all,
                                            limit: 10,
                                            order: "#{WorkPackage.table_name}.id ASC",
-                                           conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", { q: "%#{q.downcase}%" }])
+                                           conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", { q: "%#{query_term.downcase}%" }])
     end
 
     respond_to do |format|
@@ -80,5 +75,17 @@ class WorkPackages::AutoCompletesController < ApplicationController
     @project = Project.find(project_id) if project_id
   rescue ActiveRecord::RecordNotFound
     @project = nil
+  end
+
+  def determine_scope
+    if params[:scope] == 'relatable'
+      return nil unless @project
+
+      return Setting.cross_project_work_package_relations? ? WorkPackage : @project.work_packages
+    elsif params[:scope] == 'all' || @project.nil?
+      return WorkPackage
+    else
+      return @project.work_packages
+    end
   end
 end
