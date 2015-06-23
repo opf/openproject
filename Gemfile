@@ -230,6 +230,10 @@ platforms :jruby do
   end
 end
 
+group :opf_plugins do
+  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
+end
+
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
 Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}", __FILE__) do |file|
   next unless File.readable?(file)
