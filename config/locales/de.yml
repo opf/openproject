@@ -23,7 +23,7 @@ de:
     attributes:
       cost_entry:
         work_package: "Ticket"
-        work_package: "Arbeitspacket"
+        work_package: "Arbeitspaket"
         overridden_costs: "Überschriebene Kosten"
         spent: "Gebucht"
         spent_on: "Datum"
