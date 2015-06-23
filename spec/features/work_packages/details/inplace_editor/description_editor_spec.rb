@@ -5,7 +5,6 @@ require 'features/work_packages/details/inplace_editor/work_package_field'
 
 describe 'description inplace editor', js: true do
   include_context 'maximized window'
-  include_context 'ensure wp table loaded'
 
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
   let(:property_name) { :description }
@@ -25,6 +24,8 @@ describe 'description inplace editor', js: true do
     allow(User).to receive(:current).and_return(user)
     visit project_work_packages_path(project) + "/#{work_package.id}/overview"
   end
+
+  include_context 'ensure wp table loaded'
 
   context 'in read state' do
     it 'renders the correct text' do
