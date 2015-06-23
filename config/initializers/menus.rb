@@ -36,10 +36,17 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new { User.current.logged? }
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
-  menu.push :administration,
-            { controller: '/admin', action: 'projects' },
-            if: Proc.new { User.current.admin? },
-            last: true
+  menu.push :work_packages,
+            { controller: '/work_packages' },
+            caption: I18n.t('label_work_package_plural'),
+            if: Proc.new { User.current.allowed_to?(:view_work_packages, nil, global: true) }
+  menu.push :news,
+            { controller: '/news' },
+            if: Proc.new { User.current.allowed_to?(:view_news, nil, global: true) }
+  menu.push :time_sheet,
+            { controller: '/time_entries' },
+            caption: I18n.t('label_time_sheet_menu'),
+            if: Proc.new { User.current.allowed_to?(:view_time_entries, nil, global: true) }
   menu.push :help, OpenProject::Info.help_url,
             last: true,
             caption: I18n.t('label_help'),
@@ -48,6 +55,9 @@ Redmine::MenuManager.map :top_menu do |menu|
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
+  menu.push :administration,
+            { controller: '/admin', action: 'projects' },
+            if: Proc.new { User.current.admin? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             if: Proc.new { User.current.logged? }
