@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+var path = require('path');
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var gulpWebpack = require('gulp-webpack');
@@ -49,7 +50,8 @@ var paths = {
     'app/**/*.js',
     '!app/vendor/**/*.js'
   ],
-  fonts: '../app/assets/fonts/**/*'
+  fonts: '../app/assets/fonts/**/*',
+  styleguide: '../app/assets/stylesheets/styleguide.html.lsg'
 };
 
 gulp.task('lint', function() {
@@ -96,9 +98,10 @@ gulp.task('styleguide', function () {
     './bower_components/bourbon/app/assets/stylesheets'
   ].join(':');
 
-  var cssFilter = gulpFilter('**/*.css');
+  var cssFilter = gulpFilter('**/*.css'),
+      htmlFilter = gulpFilter('**/*.html');
 
-  gulp.src('../app/assets/stylesheets/styleguide.html.lsg')
+  gulp.src(paths.styleguide)
     .pipe(livingstyleguide({template: 'app/assets/styleguide.jade'}))
     .pipe(cssFilter)
     .pipe(replace(/image\-url\(\"/g, 'url("/assets/'))
@@ -106,6 +109,11 @@ gulp.task('styleguide', function () {
       cascade: false
     }))
     .pipe(cssFilter.restore())
+    .pipe(htmlFilter)
+    .pipe(replace(/STYLEGUIDE_HTML_ID/,
+      path.dirname(path.resolve(paths.styleguide)) + '/styleguide')
+    )
+    .pipe(htmlFilter.restore())
     .pipe(gulp.dest('public/assets/css'));
   });
 
@@ -159,5 +167,5 @@ gulp.task('watch', function() {
 
   gulp.watch('../app/assets/stylesheets/**/*.scss', ['sass', 'styleguide']);
   gulp.watch('../app/assets/stylesheets/**/*.sass', ['sass', 'styleguide']);
-  gulp.watch('../app/assets/stylesheets/**/*.md',   ['styleguide']);
+  gulp.watch('../app/assets/stylesheets/**/*.lsg',  ['styleguide']);
 });

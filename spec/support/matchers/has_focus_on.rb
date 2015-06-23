@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,30 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root + 'spec/support/file_helpers'
+# Extending Capybara to circumvent problems with selecting the focused element:
+# http://opensourcetester.co.uk/2011/07/11/selenium-webdriver-focus/
 
-FactoryGirl.define do
-  factory :attachment do
-    container factory: :work_package
-    author factory: :user
+module Capybara
+  class Session
+    def has_focus_on?(selector)
+      starting_time = Time.now
+      return_value = false
 
-    transient do
-      filename nil
-    end
+      while !return_value && Time.now - starting_time < Capybara.default_wait_time
 
-    content_type 'application/binary'
-    sequence(:file) do |n|
-      FileHelpers.mock_uploaded_file name: filename || "file-#{n}.test",
-                                              content_type: content_type,
-                                              binary: true
-    end
+        focused_element = self.driver.browser.switch_to.active_element
 
-    factory :wiki_attachment do
-      container factory: :wiki_page_with_content
-    end
+        return_value = find(selector).native == focused_element
+      end
 
-    factory :attached_picture do
-      content_type 'image/jpeg'
+      return_value
     end
   end
 end

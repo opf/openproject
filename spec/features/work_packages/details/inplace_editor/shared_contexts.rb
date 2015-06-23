@@ -38,3 +38,12 @@ shared_context 'maximized window' do
     maximize!
   end
 end
+
+# Ensure the page is completely loaded before the spec is run.
+# The status filter is loaded very late in the page setup.
+shared_context 'ensure wp table loaded' do
+  before do
+    expect(page).to have_selector('#operators-status_id', visible: false),
+                    'Work package table page was not loaded in time'
+  end
+end

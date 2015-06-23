@@ -26,34 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.attributes-table
-  width:            100%
-  table-layout:     fixed
-  border-collapse:  collapse
-  margin:           0
-  font-size:        0.9rem
-  line-height:      1.5
-
-  td, th
-    padding:        0.25rem 0.5rem 0.25rem 0
-    text-align:     left
-
-  thead
-    font-weight:    bold
-    text-transform: uppercase
-
-  tbody
-    td
-      white-space:    nowrap
-      overflow:       hidden
-      text-overflow:  ellipsis
-      &.icon
-        white-space: normal
-
-  &.-hidden
-    display: none
-
-.delete-item
-  cursor: pointer
-  float: right
-  height: 1em
+.atwho-view
+  z-index: 25
+  .cur
+    background: $primary-color-dark
+    color: $font-color-on-primary
+    strong
+      color: black
