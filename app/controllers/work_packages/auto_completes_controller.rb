@@ -30,8 +30,6 @@
 require 'rack/utils'
 
 class WorkPackages::AutoCompletesController < ApplicationController
-  before_filter :find_project
-
   def index
     @work_packages = []
     query_term = params[:q].to_s
@@ -77,20 +75,23 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
   def find_project
     project_id = (params[:work_package] && params[:work_package][:project_id]) || params[:project_id]
-    @project = Project.find(project_id) if project_id
+    return nil unless project_id
+    Project.find(project_id)
   rescue ActiveRecord::RecordNotFound
-    @project = nil
+    nil
   end
 
   def determine_scope
-    if params[:scope] == 'relatable'
-      return nil unless @project
+    project = find_project
 
-      Setting.cross_project_work_package_relations? ? WorkPackage.scoped : @project.work_packages
-    elsif params[:scope] == 'all' || @project.nil?
+    if params[:scope] == 'relatable'
+      return nil unless project
+
+      Setting.cross_project_work_package_relations? ? WorkPackage.scoped : project.work_packages
+    elsif params[:scope] == 'all' || project.nil?
       WorkPackage.scoped
     else
-      @project.work_packages
+      project.work_packages
     end
   end
 end
