@@ -31,30 +31,27 @@ require 'rack/utils'
 
 class WorkPackages::AutoCompletesController < ApplicationController
   def index
-    @work_packages = []
-    query_term = params[:q].to_s
-
-    if query_term.present?
-      scope = determine_scope
-      if scope.nil?
-        render_404
-        return
-      end
-
-      # query for exact ID matches first, to make an exact match the first result of autocompletion
-      if query_term =~ /\A\d+\z/
-        @work_packages |= scope.visible.find_all_by_id(query_term.to_i)
-      end
-
-      sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR
-                    CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
-                   { q: "%#{query_term.downcase}%" }]
-
-      @work_packages |= scope.visible
-                             .where(sql_query)
-                             .order(id: :asc)
-                             .limit(10)
+    scope = determine_scope
+    if scope.nil?
+      render_404
+      return
     end
+
+    query_term = params[:q].to_s
+    @work_packages = []
+    # query for exact ID matches first, to make an exact match the first result of autocompletion
+    if query_term =~ /\A\d+\z/
+      @work_packages |= scope.visible.find_all_by_id(query_term.to_i)
+    end
+
+    sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR
+                  CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
+                 { q: "%#{query_term.downcase}%" }]
+
+    @work_packages |= scope.visible
+                           .where(sql_query)
+                           .order(id: :asc)
+                           .limit(10)
 
     respond_to do |format|
       format.html { render layout: false }
