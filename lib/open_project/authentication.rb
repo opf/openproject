@@ -5,26 +5,38 @@ module OpenProject
   # OpenProject uses Warden strategies for request authentication.
   module Authentication
     class << self
+      def add_strategy(name, clazz, auth_scheme)
+        Warden::Strategies.add name, clazz
+
+        info = Manager.auth_scheme auth_scheme
+        info.strategies << name
+      end
+
       ##
       # Updates the used warden strategies for a given scope. The strategies will be tried
       # in the order they are set here. Plugins can call this to add or remove strategies.
       # For available scopes please refer to `OpenProject::Authentication::Scope`.
       #
       # @param [Symbol] scope The scope for which to update the used warden strategies.
-      # @param [Boolean] store Indicates whether the user should be stored in the session
-      #                        for this scope. Optional. If not given, the current store flag
-      #                        for this strategy will remain unchanged what ever it is.
+      # @param [Hash] opts Options for that scope.
+      # @option opts [Boolean] :store Indicates whether the user should be stored in the session
+      #                               for this scope. Optional. If not given, the current store
+      #                               flag for this strategy will remain unchanged what ever it is.
+      # @option opts [String] :realm The WWW-Authenticate realm used for authentication challenges
+      #                              for this scope. The default value ()
       #
       # @yield [strategies] A block returning the strategies to be used for this scope.
       # @yieldparam [Array] strategies The strategies currently used by this scope. May be empty.
       # @yieldreturn [Array] The strategies to be used by this scope.
-      def update_strategies(scope, store: nil, &block)
+      def update_strategies(scope, opts = {}, &block)
         raise ArgumentError, "invalid scope: #{scope}" unless Scope.values.include? scope
 
-        current_strategies = Array(Manager.scope_strategies[scope])
+        config = Manager.scope_config scope
+        current_strategies = Array(config.strategies)
 
-        Manager.store_defaults[scope] = store unless store.nil?
-        Manager.scope_strategies[scope] = block.call current_strategies if block_given?
+        config.store = opts[:store] if opts.include? :store
+        config.realm = opts[:realm] if opts.include? :realm
+        config.strategies = block.call current_strategies if block_given?
       end
 
       ##
@@ -62,33 +74,67 @@ module OpenProject
     end
 
     ##
-    # General options used in the WWW-Authenticate header returned to the user
+    # Options used in the WWW-Authenticate header returned to the user
     # in case authentication failed (401).
     module WWWAuthenticate
       module_function
 
-      ##
-      # Per default the scheme is 'Basic' which is recognized by the browser
-      # which will promt the user to provide basic auth credentials in order
-      # to authenticate.
-      #
-      # When using the APIv3 through Angular, e.g. in the work package view,
-      # this behaviour is not desired, however. If the user is not logged in
-      # the calls should just fail.
-      #
-      # It is impossible to suppress the prompt using Javascript.
-      # Hence we rename the auth scheme in a way that makes it still obvious
-      # to developers that it is basic auth but still unknown to the browser
-      # thereby avoiding the undesired prompt.
+      def pick_auth_scheme(supported_schemes, default_scheme, request_headers = {})
+        key = request_headers.keys.find { |h| h =~ /X-Authentication-Scheme$/i }
+        req_scheme = request_headers[key] if key
+
+        if supported_schemes.include? req_scheme
+          req_scheme
+        else
+          default_scheme
+        end
+      end
+
+      def default_auth_scheme
+        'Basic'
+      end
+
+      def default_realm
+        'OpenProject'
+      end
+
+      def scope_realm(scope = nil)
+        Manager.scope_config(scope).realm || default_realm
+      end
+
+      def response_header(
+        default_auth_scheme: self.default_auth_scheme,
+        scope: nil,
+        request_headers: {}
+      )
+        scheme = pick_auth_scheme auth_schemes(scope), default_auth_scheme, request_headers
+
+        "#{scheme} realm=\"#{scope_realm(scope)}\""
+      end
+
+      def auth_schemes(scope)
+        strategies = Array(Manager.scope_config(scope).strategies)
+
+        Manager.auth_schemes
+          .select { |_, info| scope.nil? or not (info.strategies & strategies).empty? }
+          .keys
+      end
+    end
+
+    module AuthHeaders
+      include WWWAuthenticate
+
+      # #scope available from Warden::Strategies::BasicAuth
+
       def auth_scheme
-        'BasicAuth'
+        pick_auth_scheme auth_schemes(scope), default_auth_scheme, env
       end
 
       def realm
-        'OpenProject API'
+        scope_realm scope
       end
     end
   end
 end
 
-Warden::Strategies::BasicAuth.prepend OpenProject::Authentication::WWWAuthenticate
+Warden::Strategies::BasicAuth.prepend OpenProject::Authentication::AuthHeaders

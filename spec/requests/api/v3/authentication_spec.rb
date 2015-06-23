@@ -67,7 +67,7 @@ describe API::V3, type: :request do
 
         it 'should return the WWW-Authenticate header' do
           expect(response.header['WWW-Authenticate'])
-            .to include 'BasicAuth realm="OpenProject API"'
+            .to include 'Basic realm="OpenProject API"'
         end
       end
 
@@ -92,7 +92,37 @@ describe API::V3, type: :request do
 
         it 'should return the WWW-Authenticate header' do
           expect(response.header['WWW-Authenticate'])
-            .to include 'BasicAuth realm="OpenProject API"'
+            .to include 'Basic realm="OpenProject API"'
+        end
+      end
+
+      context 'with invalid credentials an X-Authentication-Scheme "Session"' do
+        let(:expected_message) { 'You did not provide the correct credentials.' }
+        let(:headers) do
+          auth = basic_auth(username, password.reverse)
+
+          auth.merge('X-Authentication-Scheme' => 'Session')
+        end
+
+        before do
+          get resource, {}, headers
+        end
+
+        it 'should return 401 unauthorized' do
+          expect(response.status).to eq 401
+        end
+
+        it 'should return the correct JSON response' do
+          expect(JSON.parse(response.body)).to eq response_401
+        end
+
+        it 'should return the correct content type header' do
+          expect(response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
+        end
+
+        it 'should return the WWW-Authenticate header' do
+          expect(response.header['WWW-Authenticate'])
+            .to include 'Session realm="OpenProject API"'
         end
       end
 

@@ -100,4 +100,35 @@ describe Api::V2::AuthenticationController, type: :controller do
       end
     end
   end
+
+  describe 'WWW-Authenticate response header upon failure' do
+    let(:api_key) { user.api_key }
+    let(:user) { FactoryGirl.create(:admin) }
+    let(:ttl) { 42 }
+
+    before do
+      allow(Setting).to receive(:login_required?).and_return true
+      allow(Setting).to receive(:rest_api_enabled?).and_return true
+    end
+
+    it 'has Basic auth_scheme per default' do
+      get :index, format: 'xml', key: api_key.reverse
+
+      expect(response.status).to eq 401
+      expect(response.headers['WWW-Authenticate']).to eq 'Basic realm="OpenProject"'
+    end
+
+    context 'with Session auth scheme requested' do
+      before do
+        request.env['X-Authentication-Scheme'] = 'Session'
+      end
+
+      it 'has Session auth scheme' do
+        get :index, format: 'xml', key: api_key.reverse
+
+        expect(response.status).to eq 401
+        expect(response.headers['WWW-Authenticate']).to eq 'Session realm="OpenProject"'
+      end
+    end
+  end
 end
