@@ -242,47 +242,8 @@
     });
   };
 
-  // expands .search_btn inside the given wrapper
-  // to an input .search_field with the button appended to the right.
-  $.fn.expandableSearch = function () {
-    var wrapper = $(this),
-      form = wrapper.closest('form'),
-      btn = wrapper.find('.search_btn'),
-      input = wrapper.find('.search_field');
-
-    $(btn).on('click mousedown focus keypress', function(evt) {
-      if (wrapper.hasClass('search-expanded')) {
-        // Submit only when clicked or enter on btn
-        if (evt.type === 'mousedown' ||
-           (evt.type === 'keypress' && evt.which === 13)) {
-          form.submit();
-        }
-
-      } else {
-        wrapper.addClass('search-expanded');
-        // Avoid access key focus
-        setTimeout(function() { input.focus() });
-
-        // Hide on lost focus
-        $(wrapper).on('focusout', function() {
-          // Allow DOM to propagate new focus
-          setTimeout(function() {
-            // Hide unless icon clicked
-            if (wrapper.find(':active,:focus').length === 0) {
-              wrapper.removeClass('search-expanded');
-              $(wrapper).off('focusout');
-            }
-          }, 10);
-        });
-
-        evt.preventDefault();
-      }
-    });
-  };
-
 }(jQuery));
 
 jQuery(document).ready(function($) {
   $("#top-menu-items").top_menu();
-  $("#top-menu-search .search-wrapper").expandableSearch();
 });

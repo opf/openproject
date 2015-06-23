@@ -51,47 +51,6 @@
   %absolute-layout-mode &
     position: absolute
 
-  #top-menu-search
-    float: left
-  .search-wrapper
-    position: relative
-  .search_btn
-    display: block
-    height: $header-height
-    line-height: $header-height
-    @include default-font($header-item-font-color, $header-item-font-size)
-    &:hover
-      text-decoration: none
-      background: $header-item-bg-hover-color
-      color: $header-item-font-hover-color
-  .search_field
-    display: none
-  .search-expanded
-    padding-top: 9px
-    .search_field
-      margin: 0
-      padding: 0 20px 0 10px
-      display: inline-block
-      border: $header-search-field-border
-      border-radius: 25px
-      border: $header-search-field-border
-      width: 180px
-      outline: 0
-      font-size: 0.75rem
-      &::-ms-clear
-        margin-right: 5px
-        width: 20px
-    .search_btn
-      position: absolute
-      top: 0
-      right: 0
-      color: $header-drop-down-item-font-color
-      background: transparent
-      -webkit-transform: scaleX(-1)
-      -moz-transform: scaleX(-1)
-      -o-transform: scaleX(-1)
-      -ms-transform: scaleX(-1)
-      transform: scaleX(-1)
   ::-webkit-input-placeholder
     color: $header-search-field-font-color
   :-moz-placeholder
@@ -194,6 +153,55 @@
       font-weight: normal
     table td
       padding: 3px
+
+.top-menu-search
+  display: inline-block
+  &:not(.-collapsed) > div
+    position: relative
+    padding-top: 9px
+
+.top-menu-search--wrapper
+  float: left
+
+.top-menu-search--button
+  line-height: $header-height
+  height: $header-height
+  @include default-font($header-item-font-color, $header-item-font-size)
+  background: transparent
+  &:hover
+    text-decoration: none
+
+  .top-menu-search:not(.-collapsed) &
+    position: absolute
+    top: 0
+    right: 0
+    color: $header-drop-down-item-font-color
+    -webkit-transform: scaleX(-1)
+    -moz-transform: scaleX(-1)
+    -o-transform: scaleX(-1)
+    -ms-transform: scaleX(-1)
+    transform: scaleX(-1)
+
+  .top-menu-search.-collapsed &
+    display: block
+    &:hover
+      background: $header-item-bg-hover-color
+      color: $header-item-font-hover-color
+
+input.top-menu-search--input
+  margin: 0
+  padding: 0 20px 0 10px
+  display: inline-block
+  border: $header-search-field-border
+  border-radius: 25px
+  width: 180px
+  outline: 0
+  font-size: 0.75rem
+  &::-ms-clear
+    margin-right: 5px
+    width: 20px
+  .top-menu-search.-collapsed &
+    display: none
 
 #quick-search
   float: right
