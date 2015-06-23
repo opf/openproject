@@ -50,7 +50,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
     @work_packages |= scope.visible
                            .where(sql_query)
-                           .order(id: :asc)
+                           .order(:id)
                            .limit(10)
 
     respond_to do |format|
