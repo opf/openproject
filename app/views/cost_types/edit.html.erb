@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% html_title l(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
 
-<h2><%= CostType.model_name.human %></h2>
+<%= toolbar title: CostType.model_name.human %>
 
 <%= labelled_tabular_form_for @cost_type do |f| %>
   <%= error_messages_for 'cost_type' %>
