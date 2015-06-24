@@ -111,7 +111,6 @@ gem 'autoprefixer-rails'
 gem 'execjs',           '~> 2.4.0'
 gem 'bourbon',          '~> 4.2.0'
 gem 'uglifier',         '>= 1.0.3', require: false
-gem 'livingstyleguide', '~> 1.2.2'
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
@@ -153,9 +152,9 @@ group :test do
   # connection with database cleaner here but setting it to 1.2 fixes the
   # issue.
   gem 'database_cleaner', '~> 1.2.0'
-  gem 'rspec', '~> 3.2.0'
+  gem 'rspec', '~> 3.3.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.2.0', group: :development
+  gem 'rspec-rails', '~> 3.3.0', group: :development
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'rspec-legacy_formatters'

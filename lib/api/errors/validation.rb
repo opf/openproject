@@ -31,7 +31,7 @@ module API
   module Errors
     class Validation < ErrorBase
       def self.create(errors)
-        merge_error_properties(errors)
+        errors = merge_error_properties(errors)
 
         errors.keys.each_with_object({}) do |attribute, hash|
           messages = errors[attribute].each_with_object([]) do |message, message_list|
@@ -53,19 +53,21 @@ module API
 
       # Merges property error messages (e.g. for status and status_id)
       def self.merge_error_properties(errors)
-        properties = errors.keys
+        merged_errors = errors.dup
 
-        properties.each do |p|
-          match = /(?<property>\w+)_id/.match(p)
+        errors.keys.each do |property|
+          match = /(?<property>\w+)_id/.match(property)
 
           if match
             key = match[:property].to_sym
-            error = Array(errors[key]) + errors[p]
+            error = Array(errors[key]) + errors[property]
 
-            errors.set(key, error)
-            errors.delete(p)
+            merged_errors.set(key, error)
+            merged_errors.delete(property)
           end
         end
+
+        merged_errors
       end
 
       def initialize(messages)

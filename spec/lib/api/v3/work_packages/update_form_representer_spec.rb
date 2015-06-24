@@ -31,6 +31,7 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::UpdateFormRepresenter do
   include API::V3::Utilities::PathHelper
 
+  let(:errors) { Hash.new }
   let(:work_package) {
     FactoryGirl.build(:work_package,
                       id: 42,
@@ -40,7 +41,15 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }
-  let(:representer)  { described_class.new(work_package, current_user: current_user) }
+  let(:representer)  {
+    described_class.new(work_package, current_user: current_user, errors: errors)
+  }
+
+  before do
+    # a little trick to ensure mocked properties are present on duplicated instances, too
+    # however, this carries the assumption that the code can handle duplication not happening
+    allow(errors).to receive(:dup).and_return(errors)
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -79,7 +88,11 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
         end
 
         context 'invalid work package' do
-          before { allow(work_package.errors).to receive(:empty?).and_return(false) }
+          let(:errors) { { something: [:broken] } }
+
+          before do
+            allow(errors).to receive(:full_message).and_return ''
+          end
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end
@@ -91,8 +104,6 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
                               member_in_project: work_package.project,
                               member_through_role: role)
           }
-
-          before { allow(work_package.errors).to receive(:empty?).and_return(true) }
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end

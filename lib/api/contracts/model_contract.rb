@@ -55,6 +55,23 @@ module API
       validate :readonly_attributes_unchanged
       validate :run_attribute_validations
 
+      def validate
+        super
+        model.valid?
+
+        # We need to merge the contract errors with the model errors in
+        # order to have them available at one place.
+        # This is something we need as long as we have validations split
+        # among the model and its contract.
+        model.errors.keys.each do |key|
+          model.errors[key].each do |message|
+            errors.add(key, message)
+          end
+        end
+
+        errors.empty?
+      end
+
       private
 
       def readonly_attributes_unchanged

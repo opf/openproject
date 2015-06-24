@@ -69,12 +69,13 @@ module API
                 work_package: @work_package,
                 send_notifications: send_notifications)
 
-              if write_request_valid?(@work_package, UpdateContract) && update_service.save
+              contract = UpdateContract.new(@work_package, current_user)
+              if contract.validate && update_service.save
                 @work_package.reload
 
                 work_package_representer
               else
-                fail ::API::Errors::ErrorBase.create(@work_package.errors.dup)
+                fail ::API::Errors::ErrorBase.create(contract.errors)
               end
             end
 

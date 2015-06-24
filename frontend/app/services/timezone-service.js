@@ -71,6 +71,10 @@ module.exports = function(ConfigurationService, I18n) {
       return TimezoneService.parseDate(date).format('YYYY-MM-DD');
     },
 
+    isValidISODate: function(date) {
+      return TimezoneService.isValid(date, 'YYYY-MM-DD');
+    },
+
     isValid: function(date, dateFormat) {
       var format = dateFormat || (ConfigurationService.dateFormatPresent() ?
                    ConfigurationService.dateFormat() : 'L');
