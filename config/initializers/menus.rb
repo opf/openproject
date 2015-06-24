@@ -240,7 +240,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/timelog', action: 'index' },
             param: :project_id,
             if: -> (project) { User.current.allowed_to?(:view_time_entries, project) },
-            caption: :label_time_entries,
+            caption: :label_time_sheet_menu,
             html: { class: 'icon2 icon-stats' }
 
   menu.push :reportings,
