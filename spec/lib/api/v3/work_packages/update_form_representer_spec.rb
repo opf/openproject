@@ -45,6 +45,12 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
     described_class.new(work_package, current_user: current_user, errors: errors)
   }
 
+  before do
+    # a little trick to ensure mocked properties are present on duplicated instances, too
+    # however, this carries the assumption that the code can handle duplication not happening
+    allow(errors).to receive(:dup).and_return(errors)
+  end
+
   context 'generation' do
     subject(:generated) { representer.to_json }
 
