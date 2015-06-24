@@ -45,10 +45,6 @@ describe ::API::V3::Users::UserRepresenter do
     it { is_expected.to have_json_path('name') }
 
     describe 'email' do
-      it 'shows the users E-Mail address' do
-        is_expected.to be_json_eql(user.mail.to_json).at_path('email')
-      end
-
       context 'user shows his E-Mail address' do
         let(:preference) { FactoryGirl.build(:user_preference, hide_mail: false) }
         let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
