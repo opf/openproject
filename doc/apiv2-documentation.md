@@ -1468,6 +1468,7 @@ _GET_ @/api/v2/projects/:project_id/workflows(.:format)@
 This end-point returns the following HTTP status codes:
 
 | *HTTP Status Code* | *Meaning* | *Response*                                           |
+| ------------------ | --------- | ---------------------------------------------------- |
 | 200                | Success   | Authentication Data                                  |
 | 401                | Unauthorized - cannot find user for given credentials    | empty |
 | 403                | Forbidden - API does not allow authentication (Settings) | empty |
