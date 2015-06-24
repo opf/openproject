@@ -73,12 +73,15 @@ $nm-color-warning-background: #f4f4aa
   font-size: $nm-font-size
   position: relative
   word-wrap: break-word
-  
+
+  & .button
+    margin: rem-calc(10px 10px 0 0)
+
   //@hack adapting to provided styles
   //messy I dont have all the details for a magic resolve, this might change
   & p, & ul
     margin-bottom: 0
-  & p, & ul>li
+  & p, & ul>li, & .button
     font-size: $nm-font-size
 
   &.-error

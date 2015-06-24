@@ -21,6 +21,7 @@
             <li>Fact 2: You <em>really</em> made a mistake</li>
             <li>Fact 3: You <strong>should fix it</strong></li>
         </ul>
+        <button class="button">continue editing</button>
     </div>
 </div>
 ```
