@@ -49,7 +49,7 @@ GIT
 GIT
   remote: https://github.com/tessi/sprockets.git
   revision: 1e56fd0a92a9fda93dab4550ab3cf82138d097ac
-  branch: 2_2_2_backport2
+  ref: 1e56fd0a92a9fda9
   specs:
     sprockets (2.2.2.backport2)
       hike (~> 1.2)
@@ -81,7 +81,7 @@ GEM
       activesupport (= 3.2.22)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activerecord-tableless (1.3.3)
+    activerecord-tableless (1.3.4)
       activerecord (>= 2.3.0)
     activeresource (3.2.22)
       activemodel (= 3.2.22)
@@ -452,7 +452,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.43)
+    tzinfo (0.3.44)
     uber (0.0.13)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
@@ -479,7 +479,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
-  activerecord-tableless (~> 1.0)
+  activerecord-tableless (~> 1.3)
   acts_as_list (~> 0.3.0)
   airbrake (~> 4.1.0)
   autoprefixer-rails

@@ -99,7 +99,7 @@ group :production do
   gem 'dalli', '~> 2.7.2'
 end
 
-gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '2_2_2_backport2'
+gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', ref: '1e56fd0a92a9fda9'
 gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
 gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
@@ -168,7 +168,7 @@ group :test do
   gem 'simplecov', '0.8.0.pre'
   gem "shoulda-matchers", '~> 2.5.0'
   gem "json_spec"
-  gem "activerecord-tableless", "~> 1.0"
+  gem "activerecord-tableless", "~> 1.3"
   gem 'codecov', require: nil
   gem 'equivalent-xml', '~> 0.5.1'
 end
