@@ -39,7 +39,7 @@ module.exports = function($http, PathHelper) {
         }
         var params = {
           q: term,
-          scope: 'all',
+          scope: 'relatable',
           escape: false,
           id: scope.handler.workPackage.props.id,
           'project_id': scope.handler.workPackage.embedded.project.props.id

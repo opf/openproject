@@ -26,10 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :user_preference do
-    user
-    hide_mail true
-    others = {}
+require 'spec_helper'
+
+describe UserPreference do
+  subject { described_class.new }
+
+  describe 'default settings' do
+    it 'hides the email address' do
+      expect(subject.hide_mail).to eql(true)
+    end
+
+    it 'has an empty others hash' do
+      expect(subject.others).to eql({})
+    end
+
+    it 'disables accessibility mode' do
+      expect(subject.impaired).to eql(false)
+    end
   end
 end

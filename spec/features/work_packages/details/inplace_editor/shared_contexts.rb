@@ -47,3 +47,15 @@ shared_context 'ensure wp table loaded' do
                     'Work package table page was not loaded in time'
   end
 end
+
+shared_context 'ensure wp details pane update done' do
+  after do
+    raise "Expect to have a let called 'update_user' defining which user \
+           is doing the update".squish unless update_user
+
+    # safeguard to ensure all backend queries
+    # have been answered before starting a new spec
+    expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+                                  text: update_user.name)
+  end
+end

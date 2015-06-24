@@ -73,7 +73,7 @@ describe Api::V2::CustomFieldsController, type: :controller do
     end
 
     describe 'unauthorized access' do
-      before { get :index, project_id: project.id, format: :xml }
+      before { allow(Setting).to receive(:login_required).and_return false }
 
       it_behaves_like 'a user w/o a project'
     end

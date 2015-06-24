@@ -32,6 +32,7 @@ require 'action_view/helpers/form_helper'
 class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
   include ActionView::Helpers::AssetTagHelper
+  include ERB::Util
 
   (field_helpers - %i(radio_button hidden_field fields_for label) + %i(date_select)).each do |selector|
     define_method selector do |field, options = {}, *args|
@@ -204,7 +205,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_options[:lang] = options[:lang]
     label_options.reject! { |_k, v| v.nil? }
 
-    @template.label(@object_name, field, text.html_safe, label_options)
+    @template.label(@object_name, field, h(text), label_options)
   end
 
   def element_id(translation_form)

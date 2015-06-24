@@ -50,6 +50,11 @@ describe 'subject inplace editor', js: true do
         field.input_element.set 'Aloha'
       end
 
+      # safeguard
+      include_context 'ensure wp details pane update done' do
+        let(:update_user) { user }
+      end
+
       it 'displays the new value after save' do
         field.submit_by_click
         expect(field.read_state_text).to eq 'Aloha'
