@@ -56,7 +56,7 @@ module API
       validate :run_attribute_validations
 
       def validate
-        super.validate
+        super
         model.valid?
 
         # We need to merge the contract errors with the model errors in
