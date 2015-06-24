@@ -307,7 +307,7 @@ de:
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
       message_successful_bulk_delete: Arbeitspakete erfolgreich gelöscht.
       create:
-        header: 'New Work Package'
+        header: 'Neues Arbeitspaket'
       no_results:
         title: Keine Arbeitspakete anzuzeigen
         description_html: |
@@ -398,6 +398,9 @@ de:
       button_save: "%{attribute}: Speichern"
       button_save_and_send: "%{attribute} Speichern mit E-Mail-Benachrichtigung"
       button_cancel: "%{attribute} Abbrechen"
+      button_save_all: "Speichern"
+      button_save_and_send_all: "Speichern mit E-Mail-Benachrichtigung"
+      button_cancel_all: "Abbrechen"
       link_formatting_help: "Textformatierung"
       btn_preview_enable: "Vorschau"
       btn_preview_disable: "Vorschau deaktivieren"
