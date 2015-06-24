@@ -35,8 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% rows = @journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min %>
   <%= text_area_tag :notes, @journal.notes,
                             :class => 'wiki-edit',
-                            :rows => rows,
-                            :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %>
+                            :rows => rows %>
   <%= javascript_tag("enable_textarea_auto_completion(jQuery('#notes'));") %>
 
   <%= call_hook(:view_journals_notes_form_after_notes, { :journal => @journal}) %>

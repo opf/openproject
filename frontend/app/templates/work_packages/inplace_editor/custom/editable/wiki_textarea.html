@@ -8,8 +8,7 @@
             ng-disabled="fieldController.state.isBusy"
             ng-required="editPaneController.isRequired"
             ng-model="fieldController.writeValue.raw"
-            title="{{ fieldController.editTitle }}"
-            data-wp_autocomplete_url="{{customEditorController.autocompletePath }}">
+            title="{{ fieldController.editTitle }}">
     </textarea>
     <div class="inplace-edit--preview" ng-if="customEditorController.isPreview && !fieldController.state.isBusy">
         <span ng-bind-html="customEditorController.previewHtml"></span>
