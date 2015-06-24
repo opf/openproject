@@ -235,7 +235,7 @@ GEM
     omniauth (1.2.1)
       hashie (>= 1.2, < 3)
       rack (~> 1.0)
-    pg (0.17.1)
+    pg (0.18.1)
     polyglot (0.3.5)
     prototype-rails (3.2.1)
       rails (~> 3.2)
@@ -448,7 +448,7 @@ DEPENDENCIES
   object-daddy (~> 1.1.0)
   oj (~> 2.11.4)
   omniauth
-  pg (~> 0.17.1)
+  pg (~> 0.18.1)
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
   pry-byebug

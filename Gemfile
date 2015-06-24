@@ -196,7 +196,7 @@ platforms :mri, :mingw do
   end
 
   group :postgres do
-    gem 'pg', "~> 0.17.1"
+    gem 'pg', "~> 0.18.1"
   end
 
   group :sqlite do
