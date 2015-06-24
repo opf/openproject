@@ -363,8 +363,17 @@ module WorkPackage::PdfExporter
       end
     end
 
-    alias RDMCell Cell
-    alias RDMMultiCell MultiCell
+    def RDMCell(w, h=0, txt='',border=0, ln=0, align='', fill=0, link='')
+      Cell(w,h,fix_text_encoding(txt),border,ln,align,fill,link)
+    end
+
+    def RDMMultiCell(w, h=0, txt='', border=0, align='', fill=0)
+      MultiCell(w,h,fix_text_encoding(txt),border,align,fill)
+    end
+
+    def fix_text_encoding(txt)
+      txt.force_encoding('ASCII-8BIT')
+    end
 
     def Footer
       SetFont(@font_for_footer, 'I', 8)
@@ -420,15 +429,27 @@ module WorkPackage::PdfExporter
     def fix_text_encoding(txt)
       # these quotation marks are not correctly rendered in the pdf
       txt = txt.gsub(/[â€œâ€�]/, '"') if txt
+      encoding = case current_language.to_s.downcase
+        when 'ko'    then 'CP949'
+        when 'ja'    then 'CP932'
+        when 'zh'    then 'gb18030'
+        when 'zh-tw' then 'Big5'
+        when 'th'    then 'cp874'
+        else
+          raise
+        end
       txt = begin
         # 0x5c char handling
         txtar = txt.split('\\')
         txtar << '' if txt[-1] == ?\\
-        txtar.map { |x| x.encode(l(:general_pdf_encoding), 'UTF-8') }.join('\\').gsub(/\\/, '\\\\\\\\')
+        txtar.map {|x|
+          Redmine::CodesetUtil.from_utf8(x, encoding)
+            .force_encoding('ASCII-8BIT')
+        }.join('\\').gsub(/\\/, '\\\\\\\\')
       rescue
-        txt
-      end || ''
-      txt
+        txt.force_encoding('ASCII-8BIT')
+      end || ''.force_encoding('ASCII-8BIT')
+      txt.force_encoding('ASCII-8BIT')
     end
 
     def RDMCell(w, h = 0, txt = '', border = 0, ln = 0, align = '', fill = 0, link = '')
