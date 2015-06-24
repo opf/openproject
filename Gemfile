@@ -31,7 +31,7 @@ source 'https://rubygems.org'
 gem "rails", "~> 3.2.22"
 
 gem "coderay", "~> 1.0.9"
-gem "rubytree", "~> 0.8.3"
+gem "rubytree", "~> 0.9.4"
 gem "rdoc", ">= 2.4.2"
 gem 'globalize', "~> 3.1.0"
 gem 'omniauth'

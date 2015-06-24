@@ -342,9 +342,9 @@ GEM
       iso8601
     ruby-prof (0.13.0)
     ruby-progressbar (1.7.1)
-    rubytree (0.8.3)
-      json (>= 1.7.5)
-      structured_warnings (>= 0.1.3)
+    rubytree (0.9.4)
+      json (~> 1.8)
+      structured_warnings (~> 0.1)
     rubyzip (1.1.6)
     sass (3.3.14)
     selenium-webdriver (2.44.0)
@@ -368,7 +368,7 @@ GEM
       actionpack (~> 3.0)
       activemodel (~> 3.0)
       railties (~> 3.0)
-    structured_warnings (0.1.4)
+    structured_warnings (0.2.0)
     svg-graph (1.0.5)
     syck (1.0.1)
     thin (1.5.1)
@@ -477,7 +477,7 @@ DEPENDENCIES
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar
-  rubytree (~> 0.8.3)
+  rubytree (~> 0.9.4)
   sass (~> 3.3.6)
   sass-rails!
   selenium-webdriver (~> 2.44.0)
