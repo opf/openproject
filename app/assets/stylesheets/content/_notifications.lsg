@@ -40,7 +40,6 @@
 
 ```
 <div class="notification-box -success">
-    <div class="notification-box--icon -check"></div>
     <a href="#" class="notification-box--close">&times;</a>
     <div class="notification-box--content">
         <p>Successful update. <a href="#">A link to the past</a></p>
