@@ -26,7 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'features/work_packages/details/inplace_editor/shared_contexts'
+
 shared_context 'ui-select helpers' do
+  include_context 'maximized window'
   def ui_select_choose(select2_element, option_name)
     select2_element.find('.select2-choice').click
     select2_element.find('ul.select2-result-single li', text: option_name).click
