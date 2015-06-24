@@ -31,7 +31,7 @@ module API
   module V3
     module WorkPackages
       class FormRepresenter < ::API::Decorators::Single
-        def initialize(model, current_user: nil, errors: [])
+        def initialize(model, current_user: nil, errors:)
           @errors = errors
 
           super(model, current_user: current_user)
