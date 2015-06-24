@@ -6,11 +6,13 @@ require 'open_project/authentication/strategies/warden/global_basic_auth'
 require 'open_project/authentication/strategies/warden/user_basic_auth'
 require 'open_project/authentication/strategies/warden/session'
 
+WS = OpenProject::Authentication::Strategies::Warden
+
 strategies = [
-  [:basic_auth_failure, OpenProject::Authentication::Strategies::Warden::BasicAuthFailure, 'Basic'],
-  [:global_basic_auth,  OpenProject::Authentication::Strategies::Warden::GlobalBasicAuth,  'Basic'],
-  [:user_basic_auth,    OpenProject::Authentication::Strategies::Warden::UserBasicAuth,    'Basic'],
-  [:session,            OpenProject::Authentication::Strategies::Warden::Session,          'Session']
+  [:basic_auth_failure, WS::BasicAuthFailure, 'Basic'],
+  [:global_basic_auth,  WS::GlobalBasicAuth,  'Basic'],
+  [:user_basic_auth,    WS::UserBasicAuth,    'Basic'],
+  [:session,            WS::Session,          'Session']
 ]
 
 strategies.each do |name, clazz, auth_scheme|

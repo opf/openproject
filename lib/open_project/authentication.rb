@@ -5,6 +5,13 @@ module OpenProject
   # OpenProject uses Warden strategies for request authentication.
   module Authentication
     class << self
+      ##
+      # Registers a given Warden strategy to be used for authentication.
+      #
+      # @param [Symbol] Name under which the strategy can be referred to.
+      # @param [Class] The strategy class.
+      # @param [String] The authentication scheme implemented by this strategy.
+      #                 Used in the WWW-Authenticate header in 401 responses.
       def add_strategy(name, clazz, auth_scheme)
         Warden::Strategies.add name, clazz
 
@@ -26,17 +33,13 @@ module OpenProject
       #                              for this scope. The default value ()
       #
       # @yield [strategies] A block returning the strategies to be used for this scope.
-      # @yieldparam [Array] strategies The strategies currently used by this scope. May be empty.
-      # @yieldreturn [Array] The strategies to be used by this scope.
+      # @yieldparam [Set] strategies The strategies currently used by this scope. May be empty.
+      # @yieldreturn [Set] The strategies to be used by this scope.
       def update_strategies(scope, opts = {}, &block)
         raise ArgumentError, "invalid scope: #{scope}" unless Scope.values.include? scope
 
         config = Manager.scope_config scope
-        current_strategies = Array(config.strategies)
-
-        config.store = opts[:store] if opts.include? :store
-        config.realm = opts[:realm] if opts.include? :realm
-        config.strategies = block.call current_strategies if block_given?
+        config.update! opts, &block
       end
 
       ##

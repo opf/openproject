@@ -27,7 +27,7 @@ module OpenProject
         end
 
         def scope_config(scope)
-          config[scope] ||= ScopeSettings.new false
+          config[scope] ||= ScopeSettings.new
         end
 
         def failure_handlers
@@ -35,7 +35,7 @@ module OpenProject
         end
 
         def auth_scheme(name)
-          auth_schemes[name] ||= AuthSchemeInfo.new Set.new
+          auth_schemes[name] ||= AuthSchemeInfo.new
         end
 
         def auth_schemes
@@ -52,10 +52,26 @@ module OpenProject
         end
       end
 
-      class ScopeSettings < Struct.new(:store, :strategies, :realm)
+      class ScopeSettings
+        attr_accessor :store, :strategies, :realm
+
+        def initialize
+          @strategies = Set.new
+        end
+
+        def update!(opts, &block)
+          self.store = opts[:store] if opts.include? :store
+          self.realm = opts[:realm] if opts.include? :realm
+          self.strategies = block.call self.strategies if block_given?
+        end
       end
 
-      class AuthSchemeInfo < Struct.new(:strategies)
+      class AuthSchemeInfo
+        attr_accessor :strategies
+
+        def initialize
+          @strategies = Set.new
+        end
       end
     end
   end

@@ -152,7 +152,7 @@ module API
           scope: API_V3,
           request_headers: env)
 
-        {'WWW-Authenticate' => header}
+        { 'WWW-Authenticate' => header }
       end
     end
 
