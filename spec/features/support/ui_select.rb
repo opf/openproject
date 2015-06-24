@@ -31,7 +31,11 @@ require 'features/work_packages/details/inplace_editor/shared_contexts'
 shared_context 'ui-select helpers' do
   include_context 'maximized window'
   def ui_select_choose(select2_element, option_name)
+    # Open the element
     select2_element.find('.select2-choice').click
+    # Insert the text to find
+    select2_element.find('.select2-search input').set(option_name)
+    # click the element to select it
     select2_element.find('ul.select2-result-single li', text: option_name).click
   end
 end
