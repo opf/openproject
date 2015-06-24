@@ -268,6 +268,13 @@ module Redmine #:nodoc:
       end
     end
 
+    # Allows to hide an existing +item+ in a menu.
+    def hide_menu_item(menu_name, item, hide_if: -> { true })
+      Redmine::MenuManager.map(menu_name) do |menu|
+        menu.add_condition(item, -> (project) { !hide_if.call(project) })
+      end
+    end
+
     # Defines a permission called +name+ for the given +actions+.
     #
     # The +actions+ argument is a hash with controllers as keys and actions as values (a single value or an array):
