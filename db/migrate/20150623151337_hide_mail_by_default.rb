@@ -26,10 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :user_preference do
-    user
-    hide_mail true
-    others = {}
+class HideMailByDefault < ActiveRecord::Migration
+  def change
+    change_column_default :user_preferences, :hide_mail, true
   end
 end
