@@ -236,6 +236,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
             html: { class: 'icon2 icon-open-folder' }
 
+  menu.push :time_entries,
+            { controller: '/timelog', action: 'index' },
+            param: :project_id,
+            if: -> (project) { User.current.allowed_to?(:view_time_entries, project) },
+            caption: :label_time_entries,
+            html: { class: 'icon2 icon-stats' }
+
   menu.push :reportings,
             { controller: '/reportings', action: 'index' },
             param: :project_id,

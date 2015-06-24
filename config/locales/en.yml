@@ -963,6 +963,7 @@ en:
   label_this_month: "this month"
   label_this_week: "this week"
   label_this_year: "this year"
+  label_time_entries: "Time sheet"
   label_time_entry_plural: "Spent time"
   label_time_sheet_menu: "Time sheet"
   label_time_tracking: "Time tracking"
