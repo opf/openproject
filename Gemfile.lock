@@ -188,7 +188,7 @@ GEM
       rack-mount
       virtus (>= 1.0.0)
     gravatar_image_tag (1.2.0)
-    hashie (2.1.1)
+    hashie (3.4.0)
     hike (1.2.3)
     hooks (0.3.3)
     htmldiff (0.0.1)
@@ -232,8 +232,8 @@ GEM
     non-stupid-digest-assets (1.0.4)
     object-daddy (1.1.1)
     oj (2.11.4)
-    omniauth (1.2.1)
-      hashie (>= 1.2, < 3)
+    omniauth (1.2.2)
+      hashie (>= 1.2, < 4)
       rack (~> 1.0)
     pg (0.17.1)
     polyglot (0.3.5)
@@ -447,7 +447,7 @@ DEPENDENCIES
   non-stupid-digest-assets
   object-daddy (~> 1.1.0)
   oj (~> 2.11.4)
-  omniauth
+  omniauth (~> 1.2.2)
   pg (~> 0.17.1)
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
