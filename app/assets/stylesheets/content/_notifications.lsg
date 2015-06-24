@@ -47,3 +47,13 @@
     </div>
 </div>
 ```
+
+## Simple
+
+```
+<div class="notification-box -simple">
+    <div class="notification-box--content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse id leo sit amet dui tempor blandit.</p>
+    </div>
+</div>
+```
