@@ -80,8 +80,7 @@ module OpenProject
       module_function
 
       def pick_auth_scheme(supported_schemes, default_scheme, request_headers = {})
-        key = request_headers.keys.find { |h| h =~ /X-Authentication-Scheme$/i }
-        req_scheme = request_headers[key] if key
+        req_scheme = request_headers['X-Authentication-Scheme']
 
         if supported_schemes.include? req_scheme
           req_scheme
