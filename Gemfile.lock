@@ -203,7 +203,7 @@ GEM
     json_spec (1.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
-    kgio (2.9.2)
+    kgio (2.9.3)
     launchy (2.3.0)
       addressable (~> 2.3)
     letter_opener (1.0.0)
