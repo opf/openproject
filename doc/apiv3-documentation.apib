@@ -3049,6 +3049,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | watch               | Add current user to WP watchers                                      | logged in; not watching           |
 | unwatch             | Remove current user from WP watchers                                 | logged in; watching               |
 | addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher       |
+| removeWatcher       | Remove any user from WP watchers                                     | **Permission**: delete watcher    |
 
 ## Linked Properties
 
@@ -3195,6 +3196,11 @@ the human readable name of custom fields.*
                         "payload": {
                             "user": { "href": "/api/v3/users/{user_id}" }
                         },
+                        "templated": true
+                    },
+                    "removeWatcher": {
+                        "href": "/api/v3/work_packages/1528/watchers/{user_id}",
+                        "method": "delete",
                         "templated": true
                     },
                     "addRelation": {

@@ -487,6 +487,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                                api_v3_paths.work_package_watchers(work_package.id).to_json)
             .at_path('_links/addWatcher/href')
         end
+
+        it 'should have a link to remove watcher' do
+          expect(subject).to be_json_eql(
+                               api_v3_paths.watcher('{user_id}', work_package.id).to_json)
+                               .at_path('_links/removeWatcher/href')
+        end
       end
 
       context 'when the user does not have the permission to add watchers' do
@@ -496,6 +502,16 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'should not have a link to add watcher' do
           expect(subject).not_to have_json_path('_links/addWatcher/href')
+        end
+      end
+
+      context 'when the user does not have the permission to remove watchers' do
+        before do
+          role.permissions.delete(:delete_work_package_watchers) and role.save
+        end
+
+        it 'should not have a link to add watcher' do
+          expect(subject).not_to have_json_path('_links/removeWatcher/href')
         end
       end
 

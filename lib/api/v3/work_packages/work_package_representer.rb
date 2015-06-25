@@ -134,7 +134,7 @@ module API
 
         link :unwatch do
           {
-            href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{current_user.id}",
+            href: api_v3_paths.watcher(current_user.id, represented.id),
             method: :delete
           } if represented.watcher_users.include?(current_user)
         end
@@ -152,6 +152,14 @@ module API
             payload: { user: { href: api_v3_paths.user('{user_id}') } },
             templated: true
           } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
+        end
+
+        link :removeWatcher do
+          {
+            href: api_v3_paths.watcher('{user_id}', represented.id),
+            method: :delete,
+            templated: true
+          } if current_user_allowed_to(:delete_work_package_watchers, context: represented.project)
         end
 
         link :addRelation do
