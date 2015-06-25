@@ -203,7 +203,7 @@ GEM
     json_spec (1.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
-    kgio (2.9.2)
+    kgio (2.9.3)
     launchy (2.3.0)
       addressable (~> 2.3)
     letter_opener (1.0.0)
@@ -261,7 +261,7 @@ GEM
       railties (>= 3.1, < 5.0)
     rabl (0.9.3)
       activesupport (>= 2.3.14)
-    rack (1.4.6)
+    rack (1.4.7)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-cache (1.2)
@@ -387,7 +387,7 @@ GEM
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
-    unicorn (4.8.3)
+    unicorn (4.9.0)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
@@ -458,7 +458,6 @@ DEPENDENCIES
   pry-stack_explorer
   quiet_assets
   rabl (= 0.9.3)
-  rack (~> 1.4.6)
   rack-protection!
   rack-test (~> 0.6.2)
   rack_session_access
