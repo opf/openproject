@@ -112,7 +112,7 @@ gem 'cocaine'
 
 # required by Procfile, for deployment on heroku or packaging with packager.io.
 # also, better than thin since we can control worker concurrency.
-gem 'unicorn'
+gem 'unicorn', :platforms => [:mri]
 
 # Security fixes
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
