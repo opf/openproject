@@ -3818,7 +3818,7 @@ Gets a list of users that are able to be watchers of the specified work package.
 
     **Required permission:** add work package watchers
 
-    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
 
     + Body
 
@@ -3830,16 +3830,16 @@ Gets a list of users that are able to be watchers of the specified work package.
 
 + Response 404 (application/hal+json)
 
-    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
-    **Required permission:** view project
+    **Required permission:** view work package
 
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified project does not exist."
+                "message": "The specified work package does not exist."
             }
 
 ## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
