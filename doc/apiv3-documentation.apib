@@ -122,8 +122,8 @@ As of now the API does not indicate the valid replacement values.
 The `method` indicates which HTTP verb the client *must* use when following the link for the intended purpose.
 
 If a `payload` is specified, it needs to be sent as the body of the request to achieve the desired result (e.g. perform the
-action represented by the link). If no `payload` is specified, there is either no payload to send or there are multiple valid
-payloads. A payload might also be templated slightly. If the `templated` property is true, a payload might contain replaceable parts
+action represented by the link). If no `payload` is specified, there is either no payload to send or a valid payload is not specified
+by the link object. A payload might also be templated slightly. If the `templated` property is true, a payload might contain replaceable parts
 in its strings (e.g. `{ "href": "/api/v3/examples/{example_id}" }`).
 
 Note: When writing links (e.g. during a `PATCH` operation) only changes to `href` are accepted.
