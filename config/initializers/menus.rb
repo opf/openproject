@@ -49,8 +49,9 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new { User.current.allowed_to?(:view_time_entries, nil, global: true) }
   menu.push :help, OpenProject::Info.help_url,
             last: true,
-            caption: I18n.t('label_help'),
+            caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
+                    title: I18n.t('label_help'),
                     class: 'icon5 icon-help' }
 end
 

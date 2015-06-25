@@ -200,7 +200,7 @@ module Redmine::MenuManager::MenuHelper
   def render_single_menu_node(item, caption, url, selected)
     link_text    = you_are_here_info(selected) + caption
     html_options = item.html_options(selected: selected)
-    html_options[:title] = caption
+    html_options[:title] ||= caption
 
     html_options[:lang] = menu_item_locale(item)
 

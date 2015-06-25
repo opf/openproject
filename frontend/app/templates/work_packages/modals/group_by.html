@@ -7,7 +7,7 @@
     <div>
       <ui-select ng-model="vm.selectedColumnName" theme="select2" focus id="selected_columns_new" aria-labelledby="column_select_description">
         <ui-select-match>{{$select.selected.title}}</ui-select-match>
-        <ui-select-choices repeat="column.name as column in vm.groupableColumns | filter: { title: $select.search }">
+        <ui-select-choices repeat="column.name as column in vm.groupableColumns | filter: { title: $select.search } | orderBy:'title'">
           <div ng-bind-html="column.title | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select>
