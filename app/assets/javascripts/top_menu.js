@@ -241,6 +241,7 @@
       top_menus.push(new_menu);
     });
   };
+
 }(jQuery));
 
 jQuery(document).ready(function($) {
