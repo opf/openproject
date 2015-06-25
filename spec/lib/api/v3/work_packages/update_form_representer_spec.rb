@@ -41,7 +41,7 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }
-  let(:representer)  {
+  let(:representer) {
     described_class.new(work_package, current_user: current_user, errors: errors)
   }
 
