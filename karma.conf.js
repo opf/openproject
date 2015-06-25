@@ -63,8 +63,6 @@ module.exports = function(config) {
       'vendor/assets/components/select2/select2.js',
       'vendor/assets/components/hyperagent/dist/hyperagent.js',
 
-      "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
-
       "vendor/assets/javascripts/moment-timezone/moment-timezone-data.js",
 
       "app/assets/javascripts/angular/openproject-app.js",
