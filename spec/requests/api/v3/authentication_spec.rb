@@ -107,7 +107,8 @@ describe API::V3, type: :request do
 
     context 'with login required' do
       before do
-        Setting.login_required = 1
+        allow(Setting).to receive(:login_required).and_return(true)
+        allow(Setting).to receive(:login_required?).and_return(true)
       end
 
       context 'with global basic auth configured' do
@@ -144,7 +145,8 @@ describe API::V3, type: :request do
 
     context 'without login required' do
       before do
-        Setting.login_required = 0
+        allow(Setting).to receive(:login_required).and_return(false)
+        allow(Setting).to receive(:login_required?).and_return(false)
       end
 
       context 'with global and user basic auth enabled' do

@@ -55,6 +55,7 @@ angular.module('openproject.uiComponents')
     'ConfigurationService',
     require('./flash-message-directive')
   ])
+  .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
   .directive('focus', ['FocusHelper', require('./focus-directive')])
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
   .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
