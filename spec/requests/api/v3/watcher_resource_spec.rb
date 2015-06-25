@@ -200,17 +200,21 @@ describe 'API v3 Watcher resource', type: :request do
       expect(subject.status).to eql(200)
     end
 
-    it 'has a total of 1' do
+    it 'has a total of 2' do
       expect(subject.body).to be_json_eql(2).at_path('total')
     end
 
-    it 'has a count of 1' do
+    it 'has a count of 2' do
       expect(subject.body).to be_json_eql(2).at_path('count')
     end
 
-    it 'has a user fit for watching embedded' do
+    it 'has users fit for watching embedded' do
       expect(subject.body).to have_json_size(2).at_path('_embedded/elements')
-      expect(subject.body).to be_json_eql(available_watcher.id).at_path('_embedded/elements/1/id')
+
+      watcher_hashes = parse_json(subject.body)['_embedded']['elements']
+      watcher_ids = watcher_hashes.map { |watcher_hash| watcher_hash['id'] }
+
+      expect(watcher_ids).to match_array([current_user.id, available_watcher.id])
     end
 
     context 'when the user does not have the necessary permissions' do
