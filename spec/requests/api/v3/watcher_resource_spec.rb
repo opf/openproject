@@ -35,7 +35,7 @@ describe 'API v3 Watcher resource', type: :request do
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
   let(:current_user) {
-    FactoryGirl.create :user,  member_in_project: project, member_through_role: role
+    FactoryGirl.create :user, member_in_project: project, member_through_role: role
   }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [] }
