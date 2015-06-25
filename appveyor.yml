@@ -1,0 +1,28 @@
+install:
+  - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
+  - ruby --version
+  - gem --version
+  - bundle install --without mysql2 postgres
+
+build: off
+
+before_test:
+  - set RAILS_ENV=production
+  - bundle exec rake ci:travis:prepare
+
+test_script:
+  - set RAILS_ENV=test
+  - bundle exec rake test spec:core
+  - bundle exec rake test spec:legacy
+
+environment:
+  global:
+    DB: sqlite3
+  matrix:
+    - ruby_version: "21"
+    - ruby_version: "21-x64"
+    - ruby_version: "22"
+    - ruby_version: "22-x64"
+    - ruby_version: "193"
+    - ruby_version: "200"
+    - ruby_version: "200-x64"
