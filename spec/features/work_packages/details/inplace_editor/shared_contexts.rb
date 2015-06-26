@@ -41,11 +41,9 @@ end
 
 # Ensure the page is completely loaded before the spec is run.
 # The status filter is loaded very late in the page setup.
-shared_context 'ensure wp table loaded' do
-  before do
-    expect(page).to have_selector('#operators-status_id', visible: false),
-                    'Work package table page was not loaded in time'
-  end
+def ensure_wp_table_loaded
+  expect(page).to have_selector('#operators-status_id', visible: false),
+                  'Work package table page was not loaded in time'
 end
 
 shared_context 'ensure wp details pane update done' do
