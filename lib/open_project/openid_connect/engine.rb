@@ -56,7 +56,7 @@ module OpenProject::OpenIDConnect
 
       provider = OpenProject::Plugins::AuthPlugin.providers.find { |p| p[:sso] }
 
-      if provider
+      if provider && Rails.env != 'test'
         LobbyBoy.configure_provider! name:                 provider[:name],
                                      client_id:            provider[:client_options][:identifier],
                                      issuer:               provider[:issuer],
