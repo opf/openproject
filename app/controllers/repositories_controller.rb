@@ -76,7 +76,7 @@ class RepositoriesController < ApplicationController
     @committers = @repository.committers
     @users = @project.users
     additional_user_ids = @committers.map(&:last).map(&:to_i) - @users.map(&:id)
-    @users += User.find_all_by_id(additional_user_ids) unless additional_user_ids.empty?
+    @users += User.where(id: additional_user_ids) unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
     if request.post? && params[:committers].is_a?(Hash)

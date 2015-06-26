@@ -41,7 +41,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
     @work_packages = []
     # query for exact ID matches first, to make an exact match the first result of autocompletion
     if query_term =~ /\A\d+\z/
-      @work_packages |= scope.visible.find_all_by_id(query_term.to_i)
+      @work_packages |= scope.visible.where(id: query_term.to_i)
     end
 
     sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR

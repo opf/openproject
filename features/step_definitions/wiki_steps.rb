@@ -77,7 +77,7 @@ end
 Given /^the wiki page "([^"]*)" of the project "([^"]*)" has the following contents:$/ do |page, project, table|
   project = Project.find_by name: project
   wiki = project.wiki || Wiki.create
-  wp = wiki.pages.find_or_create_by_title(page)
+  wp = wiki.pages.find_or_create_by(title: page)
   wc = wp.content || wp.create_content
   wc.update_attribute(:text, table.raw.first)
 end
@@ -85,7 +85,7 @@ end
 Given /^the wiki page "([^"]*)" of the project "([^"]*)" has (\d+) versions{0,1}$/ do |page, project, version_count|
   project = Project.find_by name: project
   wiki = project.wiki
-  wp = wiki.pages.find_or_create_by_title(page)
+  wp = wiki.pages.find_or_create_by(title: page)
   wp.save! unless wp.persisted?
   wc = wp.content || FactoryGirl.create(:wiki_content, page: wp)
 

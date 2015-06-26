@@ -101,7 +101,7 @@ class MembersController < ApplicationController
           end
           page.insert_html :top, 'tab-content-members', render_flash_messages
           page << MembersController.tab_scripts
-          page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
+          page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by(id: @member.id).nil?
         end
       end
     end
@@ -164,7 +164,7 @@ class MembersController < ApplicationController
 
   def new_members_from_params
     user_ids = possibly_seperated_ids_for_entity(params[:member], :user)
-    roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(params[:member], :role))
+    roles = Role.where(id: possibly_seperated_ids_for_entity(params[:member], :role))
 
     new_member = lambda do |user_id|
       Member.new(permitted_params.member).tap do |member|

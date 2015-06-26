@@ -210,7 +210,7 @@ describe WorkPackage, type: :model do
           work_package.reload
           work_package.update_by!(current_user, description: 'description v2')
           work_package.reload
-          work_package.journals.find_by_notes('note to be deleted').delete
+          work_package.journals.find_by(notes: 'note to be deleted').delete
 
           work_package.update_by!(current_user, description: 'description v4')
         end

@@ -98,8 +98,8 @@ describe OpenProject::TextFormatting do
 
         changesets.each do |changeset|
           allow(changesets)
-            .to receive(:find_by_repository_id_and_revision)
-            .with(project.repository.id, changeset.revision)
+            .to receive(:find_by)
+            .with(repository_id: project.repository.id, revision: changeset.revision)
             .and_return(changeset)
         end
       end

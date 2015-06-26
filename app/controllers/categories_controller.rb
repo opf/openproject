@@ -85,7 +85,7 @@ class CategoriesController < ApplicationController
       redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'categories'
       return
     elsif params[:todo]
-      reassign_to = @project.categories.find_by_id(params[:reassign_to_id]) if params[:todo] == 'reassign'
+      reassign_to = @project.categories.find_by(id: params[:reassign_to_id]) if params[:todo] == 'reassign'
       @category.destroy(reassign_to)
       redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'categories'
       return

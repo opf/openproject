@@ -36,7 +36,7 @@ describe EnumerationsController, type: :controller do
       let(:enum_to_delete) { FactoryGirl.create(:priority_normal) }
 
       shared_examples_for 'successful delete' do
-        it { expect(Enumeration.find_by_id(enum_to_delete.id)).to be_nil }
+        it { expect(Enumeration.find_by(id: enum_to_delete.id)).to be_nil }
 
         it { expect(response).to redirect_to(enumerations_path) }
       end
@@ -59,7 +59,7 @@ describe EnumerationsController, type: :controller do
 
           it { expect(assigns(:enumerations)).to include(enum_to_reassign) }
 
-          it { expect(Enumeration.find_by_id(enum_to_delete.id)).not_to be_nil }
+          it { expect(Enumeration.find_by(id: enum_to_delete.id)).not_to be_nil }
 
           it { expect(response).to render_template('enumerations/destroy') }
         end

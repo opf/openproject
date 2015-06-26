@@ -108,7 +108,7 @@ module IssuesHelper
   def find_name_by_reflection(field, id)
     association = WorkPackage.reflect_on_association(field.to_sym)
     if association
-      record = association.class_name.constantize.find_by_id(id)
+      record = association.class_name.constantize.find_by(id: id)
       return record.name if record
     end
   end

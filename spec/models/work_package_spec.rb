@@ -310,7 +310,7 @@ describe WorkPackage, type: :model do
       stub_shared_versions
 
       allow(stub_work_package).to receive(:fixed_version_id_was).and_return(5)
-      allow(Version).to receive(:find_by_id).with(5).and_return(stub_version)
+      allow(Version).to receive(:find_by).with(id: 5).and_return(stub_version)
 
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
@@ -668,13 +668,13 @@ describe WorkPackage, type: :model do
     end
 
     context 'work package' do
-      subject { WorkPackage.find_by_id(work_package.id) }
+      subject { WorkPackage.find_by(id: work_package.id) }
 
       it { is_expected.to be_nil }
     end
 
     context 'time entries' do
-      subject { TimeEntry.find_by_work_package_id(work_package.id) }
+      subject { TimeEntry.find_by(work_package_id: work_package.id) }
 
       it { is_expected.to be_nil }
     end

@@ -92,7 +92,7 @@ class AdminController < ApplicationController
   end
 
   def force_user_language
-    available_languages = Setting.find_by_name('available_languages').value
+    available_languages = Setting.find_by(name: 'available_languages').value
     User.find(:all, conditions: ['language not in (?)', available_languages]).each do |u|
       u.language = Setting.default_language
       u.save

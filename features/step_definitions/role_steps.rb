@@ -28,7 +28,7 @@
 #++
 
 Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*)"$/ do |user, role, project|
-  u = User.find_by(login: user)
+  u = User.find_by_login(user)
   r = Role.find_by(name: role)
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin do

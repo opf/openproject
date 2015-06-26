@@ -102,7 +102,7 @@ describe Repository, type: :model do
 
     # issue change
     journal = fixed_work_package.journals.last
-    assert_equal User.find_by(login: 'dlopper'), journal.user
+    assert_equal User.find_by_login('dlopper'), journal.user
     assert_equal 'Applied in changeset r2.', journal.notes
 
     # 2 email notifications to 5 users

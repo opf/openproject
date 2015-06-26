@@ -54,7 +54,7 @@ class RolesController < ApplicationController
     @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
     if @role.save
       # workflow copy
-      if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
+      if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by(id: params[:copy_workflow_from]))
         @role.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)

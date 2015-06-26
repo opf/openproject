@@ -292,7 +292,7 @@ class WorkPackagesController < ApplicationController
     @existing_work_package ||= begin
 
       wp = WorkPackage.includes(:project)
-           .find_by_id(params[:id])
+           .find_by(id: params[:id])
 
       wp && wp.visible?(current_user) ?
         wp :

@@ -244,7 +244,7 @@ class ProjectsController < ApplicationController
 
   def add_current_user_to_project_if_not_admin(project)
     unless User.current.admin?
-      r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
+      r = Role.givable.find_by(id: Setting.new_project_user_role_id.to_i) || Role.givable.first
       m = Member.new do |member|
         member.user = User.current
         member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
@@ -272,7 +272,7 @@ class ProjectsController < ApplicationController
   end
 
   def types_used_by_work_packages
-    @types_used_by_work_packages ||= ::Type.find_all_by_id(WorkPackage.where(project_id: @project.id)
+    @types_used_by_work_packages ||= ::Type.where(id: WorkPackage.where(project_id: @project.id)
                                                                     .select(:type_id)
                                                                     .uniq)
   end
@@ -283,7 +283,7 @@ class ProjectsController < ApplicationController
     return true if User.current.admin?
     parent_id = params[:project] && params[:project][:parent_id]
     if parent_id || @project.new_record?
-      parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)
+      parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)
       unless @project.allowed_parents.include?(parent)
         @project.errors.add :parent_id, :invalid
         return false

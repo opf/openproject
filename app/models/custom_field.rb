@@ -178,7 +178,7 @@ class CustomField < ActiveRecord::Base
       when 'float'
         casted = value.to_f
       when 'user', 'version'
-        casted = (value.blank? ? nil : field_format.classify.constantize.find_by_id(value.to_i))
+        casted = (value.blank? ? nil : field_format.classify.constantize.find_by(id: value.to_i))
       end
     end
     casted

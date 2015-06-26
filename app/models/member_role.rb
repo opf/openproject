@@ -71,7 +71,7 @@ class MemberRole < ActiveRecord::Base
   def add_role_to_group_users
     if member && member.principal.is_a?(Group)
       member.principal.users.each do |user|
-        user_member = Member.find_by_project_id_and_user_id(member.project_id, user.id)
+        user_member = Member.find_by(project_id: member.project_id, user_id: user.id)
 
         if user_member.nil?
           user_member = Member.new.tap do |m|

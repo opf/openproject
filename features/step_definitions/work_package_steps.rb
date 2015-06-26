@@ -63,8 +63,8 @@ Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, 
   except = {}
 
   except['type'] = lambda { |wp, value| wp.type = ::Type.find_by(name: value) if value }
-  except['assigned_to'] = lambda { |wp, value| wp.assigned_to = User.find_by(login: value) if value }
-  except['responsible'] = lambda { |wp, value| wp.responsible = User.find_by(login: value) if value }
+  except['assigned_to'] = lambda { |wp, value| wp.assigned_to = User.find_by_login(value) if value }
+  except['responsible'] = lambda { |wp, value| wp.responsible = User.find_by_login(value) if value }
 
   send_table_to_object(work_package, table, except)
 end

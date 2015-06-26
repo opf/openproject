@@ -83,7 +83,7 @@ class WikiController < ApplicationController
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
-    @related_page = WikiPage.find_by_wiki_id_and_title(@wiki.id, params[:id])
+    @related_page = WikiPage.find_by(wiki_id: @wiki.id, title: params[:id])
 
     load_pages_for_index
     @pages_by_parent_id = @pages.group_by(&:parent_id)
@@ -291,7 +291,7 @@ class WikiController < ApplicationController
         @page.descendants.each(&:destroy)
       when 'reassign'
         # Reassign children to another parent page
-        reassign_to = @wiki.pages.find_by_id(params[:reassign_to_id].to_i)
+        reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].to_i)
         return unless reassign_to
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)

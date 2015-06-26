@@ -215,7 +215,7 @@ class WorkPackage < ActiveRecord::Base
         t << if journal && journal.changed_data.empty? && !journal.initial?
                '-note'
              else
-               status = Status.find_by_id(o.status_id)
+               status = Status.find_by(id: o.status_id)
 
                status.try(:is_closed?) ? '-closed' : '-edit'
              end
@@ -418,7 +418,7 @@ class WorkPackage < ActiveRecord::Base
   #   * the version it was already assigned to
   #     (to make sure, that you can still update closed tickets)
   def assignable_versions
-    @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
+    @assignable_versions ||= (project.shared_versions.open + [Version.find_by(id: fixed_version_id_was)]).compact.uniq.sort
   end
 
   def kind
@@ -688,7 +688,7 @@ class WorkPackage < ActiveRecord::Base
       new_category = if work_package.category.nil?
                        nil
                      else
-                       new_project.categories.find_by_name(work_package.category.name)
+                       new_project.categories.find_by(name: work_package.category.name)
                      end
       work_package.category = new_category
       # Keep the fixed_version if it's still valid in the new_project
@@ -720,7 +720,7 @@ class WorkPackage < ActiveRecord::Base
           h
         end
       work_package.status = if options[:attributes] && options[:attributes][:status_id].present?
-                              Status.find_by_id(options[:attributes][:status_id])
+                              Status.find_by(id: options[:attributes][:status_id])
                             else
                               status
                             end
@@ -763,7 +763,7 @@ class WorkPackage < ActiveRecord::Base
     p = if work_package_id.is_a? WorkPackage
           work_package_id
         else
-          WorkPackage.find_by_id(work_package_id)
+          WorkPackage.find_by(id: work_package_id)
         end
 
     return unless p
@@ -794,7 +794,7 @@ class WorkPackage < ActiveRecord::Base
     # priority = highest priority of children
     if priority_position =
         children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
-      self.priority = IssuePriority.find_by_position(priority_position)
+      self.priority = IssuePriority.find_by(position: priority_position)
     end
   end
 

@@ -377,7 +377,7 @@ class Project < ActiveRecord::Base
     if activity_hash.respond_to?(:has_key?) && activity_hash.has_key?('parent_id')
       create_time_entry_activity_if_needed(activity_hash)
     else
-      activity = project.time_entry_activities.find_by_id(id.to_i)
+      activity = project.time_entry_activities.find_by(id: id.to_i)
       activity.update_attributes(activity_hash) if activity
     end
   end
@@ -418,7 +418,7 @@ class Project < ActiveRecord::Base
 
   def self.find(*args)
     if args.first && args.first.is_a?(String) && !args.first.match(/\A\d*\z/)
-      project = find_by_identifier(*args)
+      project = find_by(identifier: args.first)
       raise ActiveRecord::RecordNotFound, "Couldn't find Project with identifier=#{args.first}" if project.nil?
       project
     else
@@ -489,7 +489,7 @@ class Project < ActiveRecord::Base
       if p.to_s.blank?
         p = nil
       else
-        p = Project.find_by_id(p)
+        p = Project.find_by(id: p)
         return false unless p
       end
     end
@@ -510,7 +510,7 @@ class Project < ActiveRecord::Base
       if p.to_s.blank?
         p = nil
       else
-        p = Project.find_by_id(p)
+        p = Project.find_by(id: p)
         return false unless p
       end
     end

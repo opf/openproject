@@ -104,17 +104,17 @@ class WikiPage < ActiveRecord::Base
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
       # Update redirects that point to the old title
-      wiki.redirects.find_all_by_redirects_to(@previous_title).each do |r|
+      wiki.redirects.where(redirects_to: @previous_title).each do |r|
         r.redirects_to = title
         r.title == r.redirects_to ? r.destroy : r.save
       end
       # Remove redirects for the new title
-      wiki.redirects.find_all_by_title(title).each(&:destroy)
+      wiki.redirects.where(title: title).each(&:destroy)
       # Create a redirect to the new title
       wiki.redirects << WikiRedirect.new(title: @previous_title, redirects_to: title) unless redirect_existing_links == '0'
 
       # Change title of dependent wiki menu item
-      dependent_item = MenuItems::WikiMenuItem.find_by_navigatable_id_and_title(wiki.id, @previous_title)
+      dependent_item = MenuItems::WikiMenuItem.find_by(navigatable_id: wiki.id, title: @previous_title)
       if dependent_item
         dependent_item.title = title
         dependent_item.save!
@@ -126,7 +126,7 @@ class WikiPage < ActiveRecord::Base
 
   # Remove redirects to this page
   def remove_redirects
-    wiki.redirects.find_all_by_redirects_to(title).each(&:destroy)
+    wiki.redirects.where(redirects_to: title).each(&:destroy)
   end
 
   def pretty_title
@@ -134,7 +134,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def content_for_version(version = nil)
-    journal = content.versions.find_by_version(version.to_i) if version
+    journal = content.versions.find_by(version: version.to_i) if version
 
     unless journal.nil? || content.version == journal.version
       content_version = WikiContent.new journal.data.attributes.except('id', 'journal_id')
@@ -151,15 +151,15 @@ class WikiPage < ActiveRecord::Base
     version_from = version_from ? version_from.to_i : version_to - 1
     version_to, version_from = version_from, version_to unless version_from < version_to
 
-    content_to = content.versions.find_by_version(version_to)
-    content_from = content.versions.find_by_version(version_from)
+    content_to = content.versions.find_by(version: version_to)
+    content_from = content.versions.find_by(version: version_from)
 
     (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
   end
 
   def annotate(version = nil)
     version = version ? version.to_i : content.version
-    c = content.versions.find_by_version(version)
+    c = content.versions.find_by(version: version)
     c ? WikiAnnotate.new(c) : nil
   end
 
@@ -210,7 +210,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def menu_item
-    MenuItems::WikiMenuItem.find_by_title_and_navigatable_id(title, wiki_id)
+    MenuItems::WikiMenuItem.find_by(title: title, navigatable_id: wiki_id)
   end
 
   def nearest_menu_item

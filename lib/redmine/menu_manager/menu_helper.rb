@@ -64,7 +64,7 @@ module Redmine::MenuManager::MenuHelper
                   caption: :create_child_page,
                   html:    {class: 'icon2 icon-add'},
                   parent:  "#{main_item.item_class}".to_sym if main_item.new_wiki_page and
-                    WikiPage.find_by_wiki_id_and_title(project_wiki.id, main_item.title)
+                    WikiPage.find_by(wiki_id: project_wiki.id, title: main_item.title)
 
         menu.push :"#{main_item.item_class}_toc",
                   { action: 'index', controller: '/wiki', id: CGI.escape(main_item.title) },

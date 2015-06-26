@@ -654,7 +654,7 @@ describe WorkPackagesController, type: :controller do
         before do
           projects = [stub_project]
           allow(Project).to receive(:visible).and_return projects
-          allow(projects).to receive(:find_by_id).and_return(stub_project)
+          allow(projects).to receive(:find_by).and_return(stub_project)
         end
 
         it 'should return nil' do
