@@ -125,6 +125,7 @@ namespace :spec do
         desc "Run the code examples in spec/legacy/#{type}"
         RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
           t.pattern = "spec/legacy/#{type}/**/*_spec.rb"
+          t.exclude_pattern = ''
         end
       end
     end
