@@ -51,19 +51,17 @@ module OpenProject::OpenIDConnect
     end
 
     config.to_prepare do
-      if Setting.protocol && Setting.host_name
+      provider = OpenProject::Plugins::AuthPlugin.providers.find { |p| p[:sso] }
+
+      if provider && Rails.env != 'test'
         LobbyBoy.configure_client! host: "#{Setting.protocol}://#{Setting.host_name}",
                                    end_session_endpoint: '/logout?script'
-  
-        provider = OpenProject::Plugins::AuthPlugin.providers.find { |p| p[:sso] }
-  
-        if provider && Rails.env != 'test'
-          LobbyBoy.configure_provider! name:                 provider[:name],
-                                       client_id:            provider[:client_options][:identifier],
-                                       issuer:               provider[:issuer],
-                                       end_session_endpoint: provider[:end_session_endpoint],
-                                       check_session_iframe: provider[:check_session_iframe]
-        end
+        
+        LobbyBoy.configure_provider! name:                 provider[:name],
+                                     client_id:            provider[:client_options][:identifier],
+                                     issuer:               provider[:issuer],
+                                     end_session_endpoint: provider[:end_session_endpoint],
+                                     check_session_iframe: provider[:check_session_iframe]
       end
 
       if LobbyBoy.configured?
