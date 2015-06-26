@@ -11,6 +11,8 @@ You will have to add the following lines to your OpenProject's _Gemfile.plugins_
     gem 'omniauth-openid_connect-providers', :git => 'git@github.com:finnlabs/omniauth-openid_connect-providers.git', :branch => 'dev'
     gem 'openproject-openid_connect', :git => 'git@github.com:finnlabs/openproject-openid_connect.git', :branch => 'dev'
 
+    gem 'lobby_boy', :git => 'git@github.com:finnlabs/lobby_boy.git', :branch => 'dev'
+
 ### Development
 
 If you want to run the tests you will have add the following as well:
@@ -41,6 +43,20 @@ They are used to change a provider's look.
 Note that `openid_connect/auth_provider-google.png` is the one custom provider icon this plugin has out of the box. Other icons you will have to add yourself.
 
 `display_name` changes a provider's label shown to the user.
+
+### Single Sign-On
+
+This plugin supports OpenID Connect Session Management. To setup a provider for SSO
+you have to configure the following additional options for the provider:
+
+```yaml
+# example settings for openproject.com
+sso: true
+issuer: 'https://login.openproject.com'
+discovery: false
+end_session_endpoint: '/auth/end_session'
+check_session_iframe: '/auth/check_session'
+```
 
 ### Settings
 
