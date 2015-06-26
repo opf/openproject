@@ -62,14 +62,19 @@ module API
           property property,
                    exec_context: :decorator,
                    getter: -> (*) {
-                     get_path(get_method: association,
-                              path: path)
+                     ::API::Decorators::LinkObject.new(represented,
+                                                       property_name: property,
+                                                       path: path,
+                                                       namespace: namespace,
+                                                       getter: association)
                    },
                    setter: -> (value, *) {
-                     parse_link(property: property,
-                                namespace: namespace,
-                                value: value,
-                                setter_method: :"#{association}=")
+                     link = ::API::Decorators::LinkObject.new(represented,
+                                                              property_name: property,
+                                                              path: path,
+                                                              namespace: namespace,
+                                                              getter: association)
+                     link.from_hash(value)
                    },
                    if: show_if
         end
@@ -88,30 +93,6 @@ module API
         linked_property :version,
                         association: :fixed_version_id
         linked_property :priority
-
-        private
-
-        def get_path(get_method: nil, path: nil)
-          id = represented.send(get_method)
-
-          { href: (api_v3_paths.send(path, id) if id) }
-        end
-
-        def parse_link(property: nil, namespace: nil, value: {}, setter_method: nil)
-          return unless value.has_key?('href')
-          resource = parse_resource(property, namespace, value['href'])
-
-          represented.send(setter_method, resource)
-        end
-
-        def parse_resource(property, ns, href)
-          return nil unless href
-
-          ::API::Utilities::ResourceLinkParser.parse_id href,
-                                                        property: property,
-                                                        expected_version: '3',
-                                                        expected_namespace: ns
-        end
       end
     end
   end

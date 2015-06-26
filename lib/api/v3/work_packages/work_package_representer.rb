@@ -120,38 +120,46 @@ module API
 
         link :availableWatchers do
           {
-            href: api_v3_paths.available_watchers(represented.id),
-            title: 'Available Watchers'
+            href: api_v3_paths.available_watchers(represented.id)
           } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
         end
 
-        link :watchChanges do
+        link :watch do
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
-            data: { user_id: current_user.id },
-            title: 'Watch work package'
-          } if !current_user.anonymous? &&
-               current_user_allowed_to(:view_work_packages, context: represented.project) &&
-               !represented.watcher_users.include?(current_user)
+            payload: { user: { href: api_v3_paths.user(current_user.id) } }
+          } unless current_user.anonymous? || represented.watcher_users.include?(current_user)
         end
 
-        link :unwatchChanges do
+        link :unwatch do
           {
-            href: "#{api_v3_paths.work_package_watchers(represented.id)}/#{current_user.id}",
-            method: :delete,
-            title: 'Unwatch work package'
-          } if current_user_allowed_to(:view_work_packages, context: represented.project) &&
-               represented.watcher_users.include?(current_user)
+            href: api_v3_paths.watcher(current_user.id, represented.id),
+            method: :delete
+          } if represented.watcher_users.include?(current_user)
+        end
+
+        link :watchers do
+          {
+            href: api_v3_paths.work_package_watchers(represented.id)
+          } if current_user_allowed_to(:view_work_package_watchers, context: represented.project)
         end
 
         link :addWatcher do
           {
-            href: "#{api_v3_paths.work_package_watchers(represented.id)}{?user_id}",
+            href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
-            title: 'Add watcher',
+            payload: { user: { href: api_v3_paths.user('{user_id}') } },
             templated: true
           } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
+        end
+
+        link :removeWatcher do
+          {
+            href: api_v3_paths.watcher('{user_id}', represented.id),
+            method: :delete,
+            templated: true
+          } if current_user_allowed_to(:delete_work_package_watchers, context: represented.project)
         end
 
         link :addRelation do
@@ -301,13 +309,18 @@ module API
         end
 
         def watchers
-          watchers =
-            represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-          watchers.map do |watcher|
-            ::API::V3::Users::UserRepresenter.new(watcher,
-                                                  work_package: represented,
-                                                  current_user: current_user)
-          end
+          # TODO/LEGACY: why do we need to ensure a specific order here?
+          watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
+          total = watchers.count
+          self_link = api_v3_paths.work_package_watchers(represented.id)
+
+          # FIXME/LEGACY: we pass the WP as context?!? that makes a difference!!!
+          # tl;dr: the embedded user representer must not be better than any other user representer
+          context = { current_user: current_user, work_package: represented }
+          Users::UserCollectionRepresenter.new(watchers,
+                                               total,
+                                               self_link,
+                                               context: context)
         end
 
         def attachments

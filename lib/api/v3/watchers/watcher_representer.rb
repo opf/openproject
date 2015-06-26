@@ -27,17 +27,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    module Form
-      class InvalidResourceLink < StandardError
-        def initialize(property_name, expected_link, actual_link)
-          message = I18n.t('api_v3.errors.invalid_resource',
-                           property: property_name,
-                           expected: expected_link,
-                           actual: actual_link)
+require 'roar/decorator'
+require 'roar/json/hal'
 
-          super(message)
+module API
+  module V3
+    module Watchers
+      class WatcherRepresenter < ::API::Decorators::Single
+
+        property :user,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   create_link_representer
+                 },
+                 setter: -> (value, *) {
+                   link = create_link_representer
+                   link.from_hash(value)
+                 }
+
+        private
+
+        def create_link_representer
+          ::API::Decorators::LinkObject.new(represented,
+                                            property_name: :user)
         end
       end
     end

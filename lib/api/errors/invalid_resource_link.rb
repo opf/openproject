@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,22 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/users/user_collection_representer'
-
 module API
-  module V3
-    module Projects
-      class AvailableAssigneesAPI < ::API::OpenProjectAPI
-        resource :available_assignees do
-          get do
-            available_assignees = @project.possible_assignees
-            total = available_assignees.count
-            self_link = api_v3_paths.available_assignees(@project.id)
-            Users::UserCollectionRepresenter.new(available_assignees,
-                                                 total,
-                                                 self_link)
-          end
-        end
+  module Errors
+    class InvalidResourceLink < ErrorBase
+      def initialize(property_name, expected_link, actual_link)
+        message = I18n.t('api_v3.errors.invalid_resource',
+                         property: property_name,
+                         expected: expected_link,
+                         actual: actual_link)
+
+        super(422, message)
       end
     end
   end

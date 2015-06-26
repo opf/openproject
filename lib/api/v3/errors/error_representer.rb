@@ -74,6 +74,8 @@ module API
             'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
           when ::API::Errors::InvalidRenderContext
             'urn:openproject-org:api:v3:errors:InvalidRenderContext'
+          when ::API::Errors::InvalidResourceLink
+            'urn:openproject-org:api:v3:errors:ResourceTypeMismatch'
           when ::API::Errors::InvalidUserStatusTransition
             'urn:openproject-org:api:v3:errors:InvalidUserStatusTransition'
           when ::API::Errors::InvalidRequestBody
