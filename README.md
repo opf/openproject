@@ -42,6 +42,20 @@ Note that `openid_connect/auth_provider-google.png` is the one custom provider i
 
 `display_name` changes a provider's label shown to the user.
 
+### Single Sign-On
+
+This plugin supports OpenID Connect Session Management. To setup a provider for SSO
+you have to configure the following additional options for the provider:
+
+```yaml
+# example settings for openproject.com
+sso: true
+issuer: 'https://login.openproject.com'
+discovery: false
+end_session_endpoint: '/auth/end_session'
+check_session_iframe: '/auth/check_session'
+```
+
 ### Settings
 
 There is no UI for the settings just yet. One way to set them until then is the rails console:
