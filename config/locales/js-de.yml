@@ -399,6 +399,7 @@ de:
       btn_preview_enable: "Vorschau"
       btn_preview_disable: "Vorschau deaktivieren"
       null_value_label: "Kein Wert"
+      clear_value_label: "-"
       errors:
         required: '%{field} ist ein Pflichtfeld'
         number: '%{field} ist keine gültige Zahl'
