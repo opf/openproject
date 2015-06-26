@@ -11,6 +11,8 @@ You will have to add the following lines to your OpenProject's _Gemfile.plugins_
     gem 'omniauth-openid_connect-providers', :git => 'git@github.com:finnlabs/omniauth-openid_connect-providers.git', :branch => 'dev'
     gem 'openproject-openid_connect', :git => 'git@github.com:finnlabs/openproject-openid_connect.git', :branch => 'dev'
 
+    gem 'lobby_boy', :git => 'git@github.com:finnlabs/lobby_boy.git', :branch => 'dev'
+
 ### Development
 
 If you want to run the tests you will have add the following as well:
