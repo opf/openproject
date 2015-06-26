@@ -31,6 +31,7 @@ source 'https://rubygems.org'
 gem "rails", "4.0.13"
 gem 'protected_attributes'
 gem 'actionpack-action_caching'
+gem 'activerecord-session_store'
 gem 'rails-observers'
 
 gem "coderay", "~> 1.0.9"
