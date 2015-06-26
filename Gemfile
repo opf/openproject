@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.13'
+gem 'rails', '4.1.11'
 gem 'protected_attributes'
 gem 'actionpack-action_caching'
 gem 'activerecord-session_store'
@@ -222,7 +222,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'feature/rails4'
+  gem 'openproject-translations', git:'https://github.com/myabc/openproject-translations.git', branch: 'feature/rails4.1'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
