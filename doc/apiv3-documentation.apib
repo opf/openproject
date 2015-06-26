@@ -3629,7 +3629,7 @@ In case the user was already watching the work package an `HTTP 200` is returned
 
     Returned if the client does not have sufficient permissions.
 
-    **Required permission:**
+    **Required permissions:**
 
     * view work package (for self)
     * add work package watchers (for other users)
@@ -3710,7 +3710,7 @@ If the request succeeds, the specified user is not watching the work package any
 
 + Response 404 (application/hal+json)
 
-    Returned in one of two cases:
+    Returned in one of the following cases:
 
     Either the work package does not exist or the client does not have sufficient permissions to see it.
 
