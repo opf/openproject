@@ -72,6 +72,13 @@ shared_examples_for 'invalid request body' do |message|
                   message
 end
 
+shared_examples_for 'invalid resource link' do |message|
+  it_behaves_like 'error response',
+                  422,
+                  'ResourceTypeMismatch',
+                  message
+end
+
 shared_examples_for 'unsupported content type' do |message|
   it_behaves_like 'error response',
                   415,

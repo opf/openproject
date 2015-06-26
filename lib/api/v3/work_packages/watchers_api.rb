@@ -43,22 +43,49 @@ module API
         end
 
         resources :watchers do
-
-          params do
-            requires :user_id, desc: 'The watcher\'s user id', type: Integer
+          helpers do
+            def watchers_collection
+              watchers = @work_package.watcher_users
+              total = watchers.count
+              self_link = api_v3_paths.work_package_watchers(@work_package.id)
+              Users::UserCollectionRepresenter.new(watchers,
+                                                   total,
+                                                   self_link,
+                                                   context: { current_user: current_user })
+            end
           end
+
+          get do
+            authorize(:view_work_package_watchers, context: @work_package.project)
+
+            watchers_collection
+          end
+
           post do
-            if current_user.id == params[:user_id]
+            unless request_body
+              fail ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.missing_request_body'))
+            end
+
+            representer = ::API::V3::Watchers::WatcherRepresenter.new(::Hashie::Mash.new)
+            representer.from_hash(request_body)
+            user_id = representer.represented.user_id.to_i
+
+            if current_user.id == user_id
               authorize(:view_work_packages, context: @work_package.project)
             else
               authorize(:add_work_package_watchers, context: @work_package.project)
             end
 
-            user = User.find params[:user_id]
+            user = User.find user_id
 
             Services::CreateWatcher.new(@work_package, user).run(
-              -> (result) { status(200) unless result[:created] },
-              -> (watcher) { raise ::API::Errors::Validation.new(watcher) }
+              success: -> (result) { status(200) unless result[:created] },
+              failure: -> (watcher) {
+                messages = watcher.errors.map do |attribute, message|
+                  watcher.errors.full_message(attribute, message) + '.'
+                end
+                raise ::API::Errors::Validation.new(messages)
+              }
             )
 
             ::API::V3::Users::UserRepresenter.new(user)
@@ -78,12 +105,13 @@ module API
 
               user = User.find_by_id params[:user_id]
 
+              raise ::API::Errors::NotFound unless user
+
               Services::RemoveWatcher.new(@work_package, user).run
 
               status 204
             end
           end
-
         end
       end
     end

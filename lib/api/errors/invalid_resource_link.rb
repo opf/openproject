@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,13 +27,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-shared_context 'ui-select helpers' do
-  def ui_select_choose(select2_element, option_name)
-    # Open the element
-    select2_element.find('.select2-choice').click
-    # Insert the text to find
-    select2_element.find('.select2-search input').set(option_name)
-    # click the element to select it
-    select2_element.find('ul.select2-result-single li', text: option_name).click
+module API
+  module Errors
+    class InvalidResourceLink < ErrorBase
+      def initialize(property_name, expected_link, actual_link)
+        message = I18n.t('api_v3.errors.invalid_resource',
+                         property: property_name,
+                         expected: expected_link,
+                         actual: actual_link)
+
+        super(422, message)
+      end
+    end
   end
 end

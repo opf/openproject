@@ -38,26 +38,21 @@ module API
           env['api.request.body']
         end
 
-        # merges the given JSON representation into @work_package
-        def merge_json_into_work_package!(work_package, json)
+        def merge_hash_into_work_package!(hash, work_package)
           payload = ::API::V3::WorkPackages::WorkPackagePayloadRepresenter.create(work_package)
-          payload.from_json(json)
+          payload.from_hash(hash)
         end
 
         def write_work_package_attributes(work_package, reset_lock_version: false)
           if request_body
-            begin
-              work_package.lock_version = nil if reset_lock_version
-              # we need to merge the JSON two times:
-              # In Pass 1 the representer only has custom fields for the current WP type
-              # After Pass 1 the correct type information is merged into the WP
-              # In Pass 2 the representer is created with the new type info and will be able
-              # to also parse custom fields successfully
-              merge_json_into_work_package!(work_package, request_body.to_json)
-              merge_json_into_work_package!(work_package, request_body.to_json)
-            rescue ::API::Errors::Form::InvalidResourceLink => e
-              fail ::API::Errors::Validation.new(e.message)
-            end
+            work_package.lock_version = nil if reset_lock_version
+            # we need to merge the JSON two times:
+            # In Pass 1 the representer only has custom fields for the current WP type
+            # After Pass 1 the correct type information is merged into the WP
+            # In Pass 2 the representer is created with the new type info and will be able
+            # to also parse custom fields successfully
+            merge_hash_into_work_package!(request_body, work_package)
+            merge_hash_into_work_package!(request_body, work_package)
           end
         end
 
