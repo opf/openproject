@@ -104,7 +104,6 @@ de:
   caption_set_rate: "Aktuellen Satz festlegen"
   caption_show_locked: "Gesperrte Typen anzeigen"
   cost_objects_title: "Budgets"
-  cost_types_title: "Kostenarten"
   currency_delimiter: "."
   currency_separator: ","
 
