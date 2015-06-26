@@ -64,7 +64,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
   end
 
   it 'should search_by_user' do
-    User.current = User.find_by(login: 'rhill')
+    User.current = User.find_by_login('rhill')
     assert User.current.memberships.empty?
 
     r = WorkPackage.search(@issue_keyword).first
@@ -89,7 +89,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
   end
 
   it 'should search_by_allowed_member' do
-    User.current = User.find_by(login: 'jsmith')
+    User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
     r = WorkPackage.search(@issue_keyword).first
@@ -110,7 +110,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     remove_permission Role.find(1), :view_changesets
     remove_permission Role.non_member, :view_changesets
 
-    User.current = User.find_by(login: 'jsmith')
+    User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
     r = WorkPackage.search(@issue_keyword).first

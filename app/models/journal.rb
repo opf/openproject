@@ -112,7 +112,7 @@ class Journal < ActiveRecord::Base
   end
 
   def data
-    @data ||= "Journal::#{journable_type}Journal".constantize.find_by_journal_id(id)
+    @data ||= "Journal::#{journable_type}Journal".constantize.find_by(journal_id: id)
   end
 
   def data=(data)

@@ -29,7 +29,7 @@
 
 # add seeds specific for the production-environment here
 
-standard_type = ::Type.find_by_is_standard(true)
+standard_type = ::Type.find_by(is_standard: true)
 
 # Adds the standard type to all existing projects
 #

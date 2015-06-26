@@ -164,7 +164,7 @@ module Api
           # WTF. Why do we completely skip rewiring in this case and always provide parent_ids?
           # This is totally inconistent.
           identifiers = params[:ids].split(/,/).map(&:strip)
-          @planning_elements = WorkPackage.visible(User.current).find_all_by_id(identifiers)
+          @planning_elements = WorkPackage.visible(User.current).where(id: identifiers)
         elsif params[:project_id] !~ /,/
           find_single_project
         else
@@ -238,7 +238,7 @@ module Api
 
       def timeline_to_project(timeline_id)
         if timeline_id
-          project = Timeline.find_by_id(params[:timeline]).project
+          project = Timeline.find_by(id: params[:timeline]).project
           user_has_access = User.current.allowed_to?({ controller: 'planning_elements',
                                                        action:     'index' },
                                                      project)

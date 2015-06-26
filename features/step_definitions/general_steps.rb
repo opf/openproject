@@ -32,7 +32,7 @@ require 'rack_session_access/capybara'
 
 Before do |scenario|
   unless ScenarioDisabler.empty_if_disabled(scenario)
-    FactoryGirl.create(:admin) unless User.find_by(login: 'admin')
+    FactoryGirl.create(:admin) unless User.find_by_login('admin')
     FactoryGirl.create(:anonymous) unless AnonymousUser.count > 0
     Setting.notified_events = [] # can not test mailer
 
@@ -74,7 +74,7 @@ Given /^(?:|I )am already [aA]dmin$/ do
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
-  user = User.find_by(login: login)
+  user = User.find_by_login(login)
   # see https://github.com/railsware/rack_session_access
   page.set_rack_session(user_id: user.id)
 end
@@ -163,7 +163,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
     t.activity.save!
     send_table_to_object(t, table,
                          user: Proc.new do |o, v|
-                           o.user = User.find_by(login: v)
+                           o.user = User.find_by_login(v)
                            o.save!
                          end,
                          spent_on: Proc.new do |object, value|
@@ -244,7 +244,7 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
     t.work_package = i
     send_table_to_object(t, table,
                          user: Proc.new do |o, v|
-                           o.user = User.find_by(login: v)
+                           o.user = User.find_by_login(v)
                            o.save!
                          end)
   end
@@ -317,7 +317,7 @@ When 'I logout' do
 end
 
 Then /^I should be logged in as "([^\"]*)"?$/ do |username|
-  user = User.find_by(login: username) || User.anonymous
+  user = User.find_by_login(username) || User.anonymous
   page.should have_xpath("//div[contains(., 'Logged in as #{username}')] | //a[contains(.,'#{user.name}')]")
 
   User.current = user
@@ -345,7 +345,7 @@ end
 
 Given(/^the user "(.*?)" is responsible$/) do |user|
   project = get_project
-  project.responsible_id = User.find_by(login: user).id
+  project.responsible_id = User.find_by_login(user).id
   project.save
 end
 
@@ -451,7 +451,7 @@ end
 # Do something as admin
 def as_admin(count = 1)
   cur_user = User.current
-  User.current = User.find_by(login: 'admin')
+  User.current = User.find_by_login('admin')
   retval = nil
   count.to_i.times do
     retval = yield

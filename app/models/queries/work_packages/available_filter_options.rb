@@ -191,7 +191,7 @@ module Queries::WorkPackages::AvailableFilterOptions
 
   def add_global_options
     # global filters for cross project issue list
-    system_shared_versions = Version.visible.find_all_by_sharing('system')
+    system_shared_versions = Version.visible.where(sharing: 'system')
     unless system_shared_versions.empty?
       @available_work_package_filters['fixed_version_id'] = { type: :list_optional, order: 7, values: system_shared_versions.sort.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }, name: WorkPackage.human_attribute_name('fixed_version_id') }
     end

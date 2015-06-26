@@ -211,7 +211,7 @@ module OpenProject
         esc, all, page, title = $1, $2, $3, $5
         if esc.nil?
           if page =~ /\A([^\:]+)\:(.*)\z/
-            link_project = Project.find_by_identifier($1) || Project.find_by_name($1)
+            link_project = Project.find_by(identifier: $1) || Project.find_by(name: $1)
             page = $2
             title ||= $1 if page.blank?
           end
@@ -279,12 +279,12 @@ module OpenProject
         leading, esc, project_prefix, project_identifier, prefix, sep, identifier = $1, $2, $3, $4, $5, $7 || $9, $8 || $10
         link = nil
         if project_identifier
-          project = Project.visible.find_by_identifier(project_identifier)
+          project = Project.visible.find_by(identifier: project_identifier)
         end
         if esc.nil?
           if prefix.nil? && sep == 'r'
             # project.changesets.visible raises an SQL error because of a double join on repositories
-            if project && project.repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(project.repository.id, identifier))
+            if project && project.repository && (changeset = Changeset.visible.find_by(repository_id: project.repository.id, revision: identifier))
               link = link_to(h("#{project_prefix}r#{identifier}"), { only_path: only_path, controller: '/repositories', action: 'revision', project_id: project, rev: changeset.revision },
                              class: 'changeset',
                              title: truncate_single_line(changeset.comments, length: 100))
@@ -293,34 +293,34 @@ module OpenProject
             oid = identifier.to_i
             case prefix
             when nil
-              if work_package = WorkPackage.visible.find_by_id(oid, include: :status)
+              if work_package = WorkPackage.visible.includes(:status).find_by(id: oid)
                 link = link_to("##{oid}",
                                work_package_path(id: oid, only_path: only_path),
                                class: work_package_css_classes(work_package),
                                title: "#{truncate(work_package.subject, length: 100)} (#{work_package.status.try(:name)})")
               end
             when 'version'
-              if version = Version.visible.find_by_id(oid)
+              if version = Version.visible.find_by(id: oid)
                 link = link_to h(version.name), { only_path: only_path, controller: '/versions', action: 'show', id: version },
                                class: 'version'
               end
             when 'message'
-              if message = Message.visible.find_by_id(oid, include: :parent)
+              if message = Message.visible.includes(:parent).find_by(id: oid)
                 link = link_to_message(message, { only_path: only_path }, class: 'message')
               end
             when 'project'
-              if p = Project.visible.find_by_id(oid)
+              if p = Project.visible.find_by(id: oid)
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
               end
             end
           elsif sep == '##'
             oid = identifier.to_i
-            if work_package = WorkPackage.visible.find_by_id(oid, include: :status)
+            if work_package = WorkPackage.visible.includes(:status).find_by(id: oid)
               link = work_package_quick_info(work_package)
             end
           elsif sep == '###'
             oid = identifier.to_i
-            work_package = WorkPackage.visible.find_by_id(oid, include: :status)
+            work_package = WorkPackage.visible.includes(:status).find_by(id: oid)
             if work_package && obj && !(attr == :description && obj.id == work_package.id)
               link = work_package_quick_info_with_description(work_package)
             end
@@ -329,7 +329,7 @@ module OpenProject
             name = identifier.gsub(%r{\A"(.*)"\z}, '\\1')
             case prefix
             when 'version'
-              if project && version = project.versions.visible.find_by_name(name)
+              if project && version = project.versions.visible.find_by(name: name)
                 link = link_to h(version.name), { only_path: only_path, controller: '/versions', action: 'show', id: version },
                                class: 'version'
               end

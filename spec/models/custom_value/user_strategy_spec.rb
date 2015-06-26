@@ -43,7 +43,7 @@ describe CustomValue::UserStrategy do
     let(:user) { FactoryGirl.build(:user) }
 
     before do
-      allow(User).to receive(:find_by_id).with(value).and_return(user)
+      allow(User).to receive(:find_by).with(id: value).and_return(user)
     end
 
     context 'value is some id string' do

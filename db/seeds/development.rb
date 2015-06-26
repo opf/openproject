@@ -51,7 +51,7 @@ user_count = ENV.fetch('SEED_USER_COUNT', 3).to_i
 
 # Careful: The seeding recreates the seeded project before it runs, so any changes on the seeded project will be lost.
 puts 'Creating seeded project...'
-if delete_me = Project.find_by_identifier('seeded_project')
+if delete_me = Project.find_by(identifier: 'seeded_project')
   delete_me.destroy
 end
 

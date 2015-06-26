@@ -180,7 +180,7 @@ class MailHandler < ActionMailer::Base
 
   # Adds a note to an existing issue
   def receive_issue_reply(issue_id)
-    issue = WorkPackage.find_by_id(issue_id)
+    issue = WorkPackage.find_by(id: issue_id)
     return unless issue
     # check permission
     unless @@handler_options[:no_permission_check]
@@ -200,7 +200,7 @@ class MailHandler < ActionMailer::Base
 
   # Reply will be added to the issue
   def receive_issue_journal_reply(journal_id)
-    journal = Journal.find_by_id(journal_id)
+    journal = Journal.find_by(id: journal_id)
     if journal and journal.journable.is_a? WorkPackage
       receive_issue_reply(journal.journable_id)
     end
@@ -208,7 +208,7 @@ class MailHandler < ActionMailer::Base
 
   # Receives a reply to a forum message
   def receive_message_reply(message_id)
-    message = Message.find_by_id(message_id)
+    message = Message.find_by(id: message_id)
     if message
       message = message.root
 
@@ -300,7 +300,7 @@ class MailHandler < ActionMailer::Base
     # TODO: other ways to specify project:
     # * parse the email To field
     # * specific project (eg. Setting.mail_handler_target_project)
-    target = Project.find_by_identifier(get_keyword(:project))
+    target = Project.find_by(identifier: get_keyword(:project))
     raise MissingInformation.new('Unable to determine target project') if target.nil?
     target
   end
@@ -310,12 +310,12 @@ class MailHandler < ActionMailer::Base
     assigned_to = (k = get_keyword(:assigned_to, override: true)) && find_assignee_from_keyword(k, issue)
 
     attrs = {
-      'type_id' => (k = get_keyword(:type)) && issue.project.types.find_by_name(k).try(:id),
-      'status_id' =>  (k = get_keyword(:status)) && Status.find_by_name(k).try(:id),
-      'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by_name(k).try(:id),
-      'category_id' => (k = get_keyword(:category)) && issue.project.categories.find_by_name(k).try(:id),
+      'type_id' => (k = get_keyword(:type)) && issue.project.types.find_by(name: k).try(:id),
+      'status_id' =>  (k = get_keyword(:status)) && Status.find_by(name: k).try(:id),
+      'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by(name: k).try(:id),
+      'category_id' => (k = get_keyword(:category)) && issue.project.categories.find_by(name: k).try(:id),
       'assigned_to_id' => assigned_to.try(:id),
-      'fixed_version_id' => (k = get_keyword(:fixed_version)) && issue.project.shared_versions.find_by_name(k).try(:id),
+      'fixed_version_id' => (k = get_keyword(:fixed_version)) && issue.project.shared_versions.find_by(name: k).try(:id),
       'start_date' => get_keyword(:start_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
       'due_date' => get_keyword(:due_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
       'estimated_hours' => get_keyword(:estimated_hours, override: true),

@@ -245,7 +245,7 @@ class TimelogController < ApplicationController
       work_package_id = params[:time_entry][:work_package_id]
     end
 
-    WorkPackage.find_by_id work_package_id
+    WorkPackage.find_by id: work_package_id
   end
 
   def default_breadcrumb

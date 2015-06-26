@@ -120,7 +120,7 @@ When (/^I show only work packages which have the responsible "(.*?)"$/) do |resp
     When I edit the settings of the current timeline
   }
 
-  responsible = User.find_by(login: responsible)
+  responsible = User.find_by_login(responsible)
   page.execute_script(<<-JavaScript)
     jQuery('#timeline_options_planning_element_responsibles').val('#{responsible.id}')
     jQuery('#content form').submit()
@@ -157,7 +157,7 @@ When (/^I show only projects which have responsible set to "(.*?)"$/) do |respon
 
   page.should have_selector('#timeline_options_project_responsibles', visible: false)
 
-  responsible = User.find_by(login: responsible)
+  responsible = User.find_by_login(responsible)
   page.execute_script("jQuery('#timeline_options_project_responsibles').val('#{responsible.id}')")
   page.execute_script("jQuery('#content form').submit()")
 end

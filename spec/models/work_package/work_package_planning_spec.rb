@@ -343,7 +343,7 @@ describe WorkPackage, type: :model do
     it 'should delete the object permanently when using destroy' do
       @pe1.destroy
 
-      expect(WorkPackage.find_by_id(@pe1.id)).to be_nil
+      expect(WorkPackage.find_by(id: @pe1.id)).to be_nil
     end
 
     it 'destroys all child elements' do
@@ -356,7 +356,7 @@ describe WorkPackage, type: :model do
       pe1.destroy
 
       [pe1, pe11, pe12, pe121].each do |pe|
-        expect(WorkPackage.find_by_id(pe.id)).to be_nil
+        expect(WorkPackage.find_by(id: pe.id)).to be_nil
       end
     end
   end

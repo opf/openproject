@@ -53,7 +53,7 @@ describe AttachmentsController, type: :controller do
     }
 
     shared_examples_for :deleted do
-      subject { Attachment.find_by_id(attachment.id) }
+      subject { Attachment.find_by(id: attachment.id) }
 
       it { is_expected.to be_nil }
     end

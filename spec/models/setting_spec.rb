@@ -58,11 +58,11 @@ describe Setting, type: :model do
       end
 
       it 'stores the setting' do
-        expect(Setting.find_by_name('host_name').value).to eq 'some name'
+        expect(Setting.find_by(name: 'host_name').value).to eq 'some name'
       end
 
       after do
-        Setting.find_by_name('host_name').destroy
+        Setting.find_by(name: 'host_name').destroy
       end
     end
 
@@ -77,11 +77,11 @@ describe Setting, type: :model do
       end
 
       it 'stores the setting' do
-        expect(Setting.find_by_name('host_name').value).to eq 'some other name'
+        expect(Setting.find_by(name: 'host_name').value).to eq 'some other name'
       end
 
       after do
-        Setting.find_by_name('host_name').destroy
+        Setting.find_by(name: 'host_name').destroy
       end
     end
   end
@@ -95,11 +95,11 @@ describe Setting, type: :model do
 
     it 'serializes arrays' do
       expect(Setting.notified_events).to eq ['some_event']
-      expect(Setting.find_by_name('notified_events').value).to eq ['some_event']
+      expect(Setting.find_by(name: 'notified_events').value).to eq ['some_event']
     end
 
     after do
-      Setting.find_by_name('notified_events').destroy
+      Setting.find_by(name: 'notified_events').destroy
     end
   end
 

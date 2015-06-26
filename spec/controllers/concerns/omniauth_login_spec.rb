@@ -375,7 +375,7 @@ describe AccountController, type: :controller do
 
             it 'is approved against any other provider' do
               expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u|
-                new_user = User.find_by_identity_url 'some other:123545'
+                new_user = User.find_by identity_url: 'some other:123545'
 
                 expect(u).to eq new_user
               end

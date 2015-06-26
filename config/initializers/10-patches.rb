@@ -61,7 +61,7 @@ module ActiveModel
       attr_name_override = nil
       match = /\Acustom_field_(?<id>\d+)\z/.match(attribute)
       if match
-        attr_name_override = CustomField.find_by_id(match[:id]).name
+        attr_name_override = CustomField.find_by(id: match[:id]).name
       end
 
       attr_name = attribute.to_s.gsub('.', '_').humanize

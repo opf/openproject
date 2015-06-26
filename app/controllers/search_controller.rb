@@ -54,7 +54,7 @@ class SearchController < ApplicationController
 
     # quick jump to an work_package
     scan_work_package_reference @question do |id|
-      return redirect_to work_package_path(id: id) if WorkPackage.visible.find_by_id(id.to_i)
+      return redirect_to work_package_path(id: id) if WorkPackage.visible.find_by(id: id.to_i)
     end
 
     @object_types = Redmine::Search.available_search_types.dup

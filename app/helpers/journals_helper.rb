@@ -128,7 +128,7 @@ module JournalsHelper
 
   # This may conveniently be used by controllers to find journals referred to in the current request
   def find_optional_journal
-    @journal = Journal.find_by_id(params[:journal_id])
+    @journal = Journal.find_by(id: params[:journal_id])
   end
 
   def render_reply(journal)

@@ -83,7 +83,7 @@ module OpenProject::NestedSet
                                   end
 
         known_node_parents = Hash.new do |hash, ancestor_id|
-          hash[ancestor_id] = find_by_id(ancestor_id)
+          hash[ancestor_id] = find_by(id: ancestor_id)
         end
 
         fix_known_invalid_root_ids = lambda do

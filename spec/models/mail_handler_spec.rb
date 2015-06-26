@@ -215,7 +215,7 @@ describe MailHandler, type: :model do
   #   work_package = submit_email('ticket_with_custom_fields.eml', {:work_package => {'project' => 'onlinestore'}})
   #   work_package_created(work_package)
   #   work_package.subject.should == "New ticket with custom field values"
-  #   work_package.custom_value_for(CustomField.find_by_name('Searchable field')).value.should == 'Value for a custom field'
+  #   work_package.custom_value_for(CustomField.find_by(name: 'Searchable field')).value.should == 'Value for a custom field'
   #   work_package.description.should_not match(/^searchable field:/i)
   # end
 
@@ -392,7 +392,7 @@ describe MailHandler, type: :model do
   #   work_package.start_date.to_s.should == '2010-01-01'
   #   work_package.due_date.to_s.should == '2010-12-31'
   #   work_package.assigned_to.should == user
-  #   #issue.custom_value_for(CustomField.find_by_name('Float field')).value.should == "52.6"
+  #   #issue.custom_value_for(CustomField.find_by(name: 'Float field')).value.should == "52.6"
   #   # keywords should be removed from the email body
   #   journal.notes.should_not match(/^Status:/i)
   #   journal.notes.should_not match(/^Start Date:/i)

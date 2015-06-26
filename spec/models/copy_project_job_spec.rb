@@ -111,7 +111,7 @@ describe CopyProjectJob, type: :model do
     end
 
     it 'copies the project' do
-      expect(Project.find_by_identifier(params[:identifier])).to eq(@copied_project)
+      expect(Project.find_by(identifier: params[:identifier])).to eq(@copied_project)
     end
 
     it 'sets descriptive validation errors' do
@@ -171,7 +171,7 @@ describe CopyProjectJob, type: :model do
           let(:project_to_copy) { subproject }
         end
 
-        subject { Project.find_by_identifier('copy') }
+        subject { Project.find_by(identifier: 'copy') }
 
         it { expect(subject).not_to be_nil }
 

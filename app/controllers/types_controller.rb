@@ -52,7 +52,7 @@ class TypesController < ApplicationController
     @type = ::Type.new(permitted_params.type)
     if @type.save
       # workflow copy
-      if !params[:copy_workflow_from].blank? && (copy_from = ::Type.find_by_id(params[:copy_workflow_from]))
+      if !params[:copy_workflow_from].blank? && (copy_from = ::Type.find_by(id: params[:copy_workflow_from]))
         @type.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)

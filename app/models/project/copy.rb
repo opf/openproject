@@ -224,7 +224,7 @@ module Project::Copy
 
       # Update the omitted attributes for the copied memberships
       memberships.each do |new_member|
-        member = project.memberships.find_by_user_id(new_member.user_id)
+        member = project.memberships.find_by(user_id: new_member.user_id)
         Redmine::Hook.call_hook(:copy_project_add_member, new_member: new_member, member: member)
         new_member.save
       end

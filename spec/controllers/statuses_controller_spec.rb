@@ -51,7 +51,7 @@ describe StatusesController, type: :controller do
   end
 
   shared_examples_for :statuses do
-    subject { Status.find_by_name(name) }
+    subject { Status.find_by(name: name) }
 
     it { is_expected.not_to be_nil }
   end
@@ -146,7 +146,7 @@ describe StatusesController, type: :controller do
     let(:name) { status.name }
 
     shared_examples_for :destroyed do
-      subject { Status.find_by_name(name) }
+      subject { Status.find_by(name: name) }
 
       it { is_expected.to be_nil }
     end

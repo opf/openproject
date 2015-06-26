@@ -77,7 +77,7 @@ describe CategoriesController, type: :controller do
     }
 
     describe '#categories' do
-      subject { Category.find_by_name(category_name) }
+      subject { Category.find_by(name: category_name) }
 
       it { expect(subject.project_id).to eq(project.id) }
 
@@ -142,7 +142,7 @@ describe CategoriesController, type: :controller do
     before { category }
 
     shared_examples_for :delete do
-      subject { Category.find_by_id(category.id) }
+      subject { Category.find_by(id: category.id) }
 
       it { is_expected.to be_nil }
     end
@@ -162,7 +162,7 @@ describe CategoriesController, type: :controller do
         delete :destroy, id: category.id
       end
 
-      subject { Category.find_by_id(category.id) }
+      subject { Category.find_by(id: category.id) }
 
       it { is_expected.not_to be_nil }
 

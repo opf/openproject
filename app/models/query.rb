@@ -386,7 +386,7 @@ class Query < ActiveRecord::Base
           groups = Group.all
           operator = '!' # Override the operator since we want to find by assigned_to
         else
-          groups = Group.find_all_by_id(values)
+          groups = Group.where(id: values)
         end
         groups ||= []
         members_of_groups = groups.inject([]) {|user_ids, group|
@@ -405,7 +405,7 @@ class Query < ActiveRecord::Base
         elsif operator == '!*' # No role
           operator = '!' # Override the operator since we want to find by assigned_to
         else
-          roles = roles.find_all_by_id(values)
+          roles = roles.where(id: values)
         end
         roles ||= []
 

@@ -33,7 +33,7 @@ end
 
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
   issue = WorkPackage.find(:last, conditions: { subject: issue_subject }, order: :created_at)
-  watchers.raw.flatten.each { |w| issue.add_watcher User.find_by(login: w) }
+  watchers.raw.flatten.each { |w| issue.add_watcher User.find_by_login(w) }
   issue.save
 end
 
@@ -101,13 +101,13 @@ Given (/^there are the following issues with attributes:$/) do |table|
     project  = get_project(type_attributes.delete('project'))
     attributes = type_attributes.merge(project_id: project.id) if project
 
-    assignee = User.find_by(login: attributes.delete('assignee'))
+    assignee = User.find_by_login(attributes.delete('assignee'))
     attributes.merge! assigned_to_id: assignee.id if assignee
 
-    author   = User.find_by(login: attributes.delete('author'))
+    author   = User.find_by_login(attributes.delete('author'))
     attributes.merge! author_id: author.id if author
 
-    responsible = User.find_by(login: attributes.delete('responsible'))
+    responsible = User.find_by_login(attributes.delete('responsible'))
     attributes.merge! responsible_id: responsible.id if responsible
 
     watchers = attributes.delete('watched_by')
@@ -124,7 +124,7 @@ Given (/^there are the following issues with attributes:$/) do |table|
     issue = FactoryGirl.create(:work_package, attributes)
 
     if watchers
-      watchers.split(',').each { |w| issue.add_watcher User.find_by(login: w) }
+      watchers.split(',').each { |w| issue.add_watcher User.find_by_login(w) }
       issue.save
     end
 

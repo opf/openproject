@@ -72,10 +72,10 @@ class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
 
     if cache && cache.is_a?(Acts::Journalized::JournalObjectCache)
       cache.fetch(klass, id) do |k, i|
-        k.find_by_id(i)
+        k.find_by(id: i)
       end
     else
-      klass.find_by_id(id)
+      klass.find_by(id: id)
     end
   end
 

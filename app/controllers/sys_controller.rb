@@ -59,7 +59,7 @@ class SysController < ActionController::Base
   def fetch_changesets
     projects = []
     if params[:id]
-      projects << Project.active.has_module(:repository).find_by_identifier!(params[:id])
+      projects << Project.active.has_module(:repository).find_by!(identifier: params[:id])
     else
       projects = Project.active.has_module(:repository).find(:all, include: :repository)
     end
@@ -74,7 +74,7 @@ class SysController < ActionController::Base
   end
 
   def repo_auth
-    @project = Project.find_by_identifier(params[:repository])
+    @project = Project.find_by(identifier: params[:repository])
 
     if (%w(GET PROPFIND REPORT OPTIONS).include?(params[:method]) &&
         @authenticated_user.allowed_to?(:browse_repository, @project)) ||
@@ -126,6 +126,6 @@ class SysController < ActionController::Base
 
     return nil if user_id.blank? or user_id == '-1'
 
-    user || User.find_by_id(user_id.to_i)
+    user || User.find_by(id: user_id.to_i)
   end
 end

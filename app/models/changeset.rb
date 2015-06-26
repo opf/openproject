@@ -196,7 +196,7 @@ class Changeset < ActiveRecord::Base
   # i.e. a work_package that belong to the repository project, a subproject or a parent project
   def find_referenced_work_package_by_id(id)
     return nil if id.blank?
-    work_package = WorkPackage.find_by_id(id.to_i, include: :project)
+    work_package = WorkPackage.includes(:project).find_by(id: id.to_i)
     if work_package
       unless work_package.project && (project == work_package.project || project.is_ancestor_of?(work_package.project) || project.is_descendant_of?(work_package.project))
         work_package = nil
@@ -206,7 +206,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def fix_work_package(work_package)
-    status = Status.find_by_id(Setting.commit_fix_status_id.to_i)
+    status = Status.find_by(id: Setting.commit_fix_status_id.to_i)
     if status.nil?
       logger.warn("No status matches commit_fix_status_id setting (#{Setting.commit_fix_status_id})") if logger
       return work_package
@@ -248,7 +248,7 @@ class Changeset < ActiveRecord::Base
 
   def log_time_activity
     if Setting.commit_logtime_activity_id.to_i > 0
-      TimeEntryActivity.find_by_id(Setting.commit_logtime_activity_id.to_i)
+      TimeEntryActivity.find_by(id: Setting.commit_logtime_activity_id.to_i)
     end
   end
 

@@ -76,7 +76,7 @@ module API
                 authorize(:delete_work_package_watchers, context: @work_package.project)
               end
 
-              user = User.find_by_id params[:user_id]
+              user = User.find_by(id: params[:user_id])
 
               Services::RemoveWatcher.new(@work_package, user).run
 

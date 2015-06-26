@@ -89,7 +89,7 @@ module OpenProject::Concerns::Preview
 
   def parse_previewed_object(klass)
     id = parse_previewed_id
-    id ? klass.find_by_id(id) : nil
+    id ? klass.find_by(id: id) : nil
   end
 
   def parse_previewed_id
