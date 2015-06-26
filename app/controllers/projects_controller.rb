@@ -117,10 +117,6 @@ class ProjectsController < ApplicationController
                                                       include: [:project, :status, :type],
                                                       conditions: cond)
 
-    if User.current.allowed_to?(:view_time_entries, @project)
-      @total_hours = TimeEntry.visible.sum(:hours, include: :project, conditions: cond).to_f
-    end
-
     respond_to do |format|
       format.html
     end

@@ -30,6 +30,8 @@
 module API
   module Errors
     class PropertyFormatError < ErrorBase
+      identifier 'urn:openproject-org:api:v3:errors:PropertyFormatError'
+
       def initialize(property, expected_format, actual_value)
         message = I18n.t('api_v3.errors.invalid_format',
                          property: property,

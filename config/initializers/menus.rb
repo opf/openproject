@@ -37,20 +37,21 @@ Redmine::MenuManager.map :top_menu do |menu|
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
   menu.push :work_packages,
-            { controller: '/work_packages' },
+            { controller: '/work_packages', project_id: nil, action: 'index' },
             caption: I18n.t('label_work_package_plural'),
             if: Proc.new { User.current.allowed_to?(:view_work_packages, nil, global: true) }
   menu.push :news,
-            { controller: '/news' },
+            { controller: '/news', project_id: nil, action: 'index' },
             if: Proc.new { User.current.allowed_to?(:view_news, nil, global: true) }
   menu.push :time_sheet,
-            { controller: '/time_entries' },
+            { controller: '/time_entries', project_id: nil, action: 'show' },
             caption: I18n.t('label_time_sheet_menu'),
             if: Proc.new { User.current.allowed_to?(:view_time_entries, nil, global: true) }
   menu.push :help, OpenProject::Info.help_url,
             last: true,
-            caption: I18n.t('label_help'),
+            caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
+                    title: I18n.t('label_help'),
                     class: 'icon5 icon-help' }
 end
 
@@ -235,6 +236,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
             html: { class: 'icon2 icon-open-folder' }
+
+  menu.push :time_entries,
+            { controller: '/timelog', action: 'index' },
+            param: :project_id,
+            if: -> (project) { User.current.allowed_to?(:view_time_entries, project) },
+            caption: :label_time_sheet_menu,
+            html: { class: 'icon2 icon-stats' }
 
   menu.push :reportings,
             { controller: '/reportings', action: 'index' },

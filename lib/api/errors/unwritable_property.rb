@@ -30,6 +30,8 @@
 module API
   module Errors
     class UnwritableProperty < ErrorBase
+      identifier 'urn:openproject-org:api:v3:errors:PropertyIsReadOnly'
+
       def initialize(invalid_attributes)
         attributes = Array(invalid_attributes)
 

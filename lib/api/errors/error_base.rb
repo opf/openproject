@@ -52,6 +52,13 @@ module API
         ::API::Errors::Validation.new(messages_by_attribute.values.map(&:message))
       end
 
+      ##
+      # Allows defining this error class's identifier once.
+      # Used to read it otherwise.
+      def self.identifier(identifier = nil)
+        @identifier ||= identifier
+      end
+
       def initialize(code, message)
         @code = code
         @message = message

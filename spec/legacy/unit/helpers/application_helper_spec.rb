@@ -393,14 +393,23 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
-  it 'should headings' do
+  it 'should headings without url' do
+    undef request
     raw = 'h1. Some heading'
     expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="#Some-heading" class="wiki-anchor">&para;</a></h1>|
 
     assert_equal expected, format_text(raw)
   end
 
+  it 'should headings with url' do
+    raw = 'h1. Some heading'
+    expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="/issues#Some-heading" class="wiki-anchor">&para;</a></h1>|
+
+    assert_equal expected, format_text(raw)
+  end
+
   it 'should table of content' do
+    undef request
     @project.wiki.start_page = 'Wiki'
     @project.wiki.save!
     FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
@@ -463,6 +472,7 @@ RAW
   end
 
   it 'should table of content should contain included page headings' do
+    undef request
     @project.wiki.start_page = 'Wiki'
     @project.save!
     page  = FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
