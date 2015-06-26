@@ -235,7 +235,7 @@ describe 'API v3 Watcher resource', type: :request do
 
     it_behaves_like 'API V3 collection response', 2, 2, 'User'
 
-    it 'includes a user eligable for watching' do
+    it 'includes a user eligible for watching' do
       expect(subject.body).to be_json_eql(watching_user.id).at_path('_embedded/elements/1/id')
     end
 
