@@ -37,7 +37,7 @@ module.exports = function($scope,
   this.closeMe = groupingModal.deactivate;
 
   var emptyOption = {
-    title: I18n.t('js.inplace.null_value_label')
+    title: I18n.t('js.inplace.clear_value_label')
   };
 
   $scope.vm = {};
