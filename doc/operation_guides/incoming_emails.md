@@ -69,8 +69,11 @@ Available arguments that change how the work packages are handled:
 | `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list|
 
 If you set a default value it will be used when creating a work package.
-
-But then no other value is possible (even when you update the work package) unless you specify this with the use of `allow_override`. Some attributes (like `type, status, priority`) are only changeable if you specify this via `allow_override`. But notice: Some attributes have to specified in another format here, e.g. Assignee can be allowed to be overriden with `allow_override=assigned_to`.
+But then no other value is possible (even when you update the work package) unless you specify this with the use
+of `allow_override`. Some attributes (like `type, status, priority`) are
+only changeable if you specify this via `allow_override`. But notice:
+Some attributes have to specified in another format here, e.g. Assignee
+can be allowed to be overriden with `allow_override=assigned_to`.
 
 
 ## Format of the Emails
@@ -97,9 +100,11 @@ Other available keys for the email are:
 | Status | sets the status | Status:closed |
 | priority | sets the priority | priority:High |
 
-If you want to set a custom field just use the name as it is displayed in your browser, e.g. `Custom field:new value`
+If you want to set a custom field just use the name as it is displayed
+in your browser, e.g. `Custom field:new value`
 
-**Notice: The keys are not case-sensitive but the values you want to set are.**
+**Notice: The keys are not case-sensitive but the values you want to set
+are.**
 
 #### Attachments
 

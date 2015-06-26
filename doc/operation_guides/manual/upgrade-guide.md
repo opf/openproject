@@ -1,14 +1,16 @@
 # OpenProject 4.0 to OpenProject 4.1 Debian/Ubuntu Upgrade Guide
 
-This guide describes the upgrade process from OpenProject 4.0 to 4.1 on Debian 7.7 and Ubuntu 14.04 LTS step by step.
+This guide describes the upgrade process from OpenProject 4.0 to 4.1 on Debian 7.7 and
+Ubuntu 14.04 LTS step by step.
 
-Note: We strongly recommend to update your OpenProject installation to the latest available 4.0 version (currently 4.0.9), before attempting an update to 4.1.
+Note: We strongly recommend to update your OpenProject installation to the latest
+available 4.0 version (currently 4.0.9), before attempting an update to 4.1.
 
 
 ## Preparation
 
-* Backup your current Openproject installation. Typically you should backup the attachment 
-  folder of your installation, the subversion repositories (if applicable) and your database. 
+* Backup your current Openproject installation. Typically you should backup the attachment
+  folder of your installation, the subversion repositories (if applicable) and your database.
   For more information please have a look at our [backup guide](backup-guide.md)
 
 * Before Upgrading, check that all the installed OpenProject plugins support the new
@@ -29,14 +31,18 @@ Note: We strongly recommend to update your OpenProject installation to the lates
 ```
 
 ## Get the new OpenProject Source Code
-Change into the directory where OpenProject is installed and switch to the operating-system-user the OpenProject operates as. We assume that OpenProject is installed in `/home/openproject/openproject` by the `openproject` user.
+Change into the directory where OpenProject is installed and switch to the
+operating-system-user the OpenProject operates as. We assume that OpenProject is
+installed in `/home/openproject/openproject` by the `openproject` user.
 
 ```bash
 [root@debian]# su - openproject -c "bash -l"
 [openproject@debian]# cd ~/openproject/openproject
 ```
 
-Remove manual changes and modifications (If you have modified OpenProject source files and want to preserve those changes, back up your changes, and re-apply them later):
+Remove manual changes and modifications (If you have modified OpenProject source
+files and want to preserve those changes, back up your changes, and re-apply
+them later):
 
 ```bash
 [openproject@debian]# git reset --hard
@@ -45,7 +51,8 @@ Remove manual changes and modifications (If you have modified OpenProject source
 ```
 
 ## Upgrade Ruby
-OpenProject 4.1 requires Ruby to be installed in version 2.1.x. Assuming you have installed Ruby via RVM, do the following to upgrade your Ruby installation:
+OpenProject 4.1 requires Ruby to be installed in version 2.1.x. Assuming you have
+installed Ruby via RVM, do the following to upgrade your Ruby installation:
 
 ```bash
 [openproject@debian]# rvm get stable
@@ -57,9 +64,12 @@ OpenProject 4.1 requires Ruby to be installed in version 2.1.x. Assuming you hav
 ```
 
 ### Update application server configuration
-This sections only applies to you, if you serve OpenProject via Apache and Passenger. If you serve OpenProject in a different way, be sure to check that it still works.
+This sections only applies to you, if you serve OpenProject via Apache and Passenger.
+If you serve OpenProject in a different way, be sure to check that it still works.
 
-During the upgrade of the Ruby version, we have potentially installed a new Ruby and Passenger version. The versions of Ruby and Passenger appear in the Apache configuration like this:
+During the upgrade of the Ruby version, we have potentially installed a new Ruby
+and Passenger version. The versions of Ruby and Passenger appear in the Apache
+configuration like this:
 
 ```apache
 LoadModule passenger_module /home/openproject/.rvm/gems/ruby-2.1.4/gems/passenger-4.0.53/buildout/apache2/mod_passenger.so
@@ -76,7 +86,8 @@ Please run the following commands to upgrade passenger and re-install the Apache
 [openproject@debian]# passenger-install-apache2-module
 ```
 
-The output of passenger-install-apache2-module2 tells you how to configure Apache. It is basically the same as what is already installed, except for the updated version numbers.
+The output of passenger-install-apache2-module2 tells you how to configure Apache.
+It is basically the same as what is already installed, except for the updated version numbers.
 
 Don’t forget to restart apache after the configuration change:
 
@@ -85,7 +96,8 @@ Don’t forget to restart apache after the configuration change:
 ```
 
 ## Node.js installation
-Node.js is necessary to precompile the assets (JavaScript and CSS). We will install the latest 0.12.x version of Node.js via nodeenv:
+Node.js is necessary to precompile the assets (JavaScript and CSS). We will
+install the latest 0.12.x version of Node.js via nodeenv:
 
 ```bash
 [openproject@debian]# exit
@@ -122,7 +134,9 @@ Now that the sources and dependencies are in place, you can migrate the Database
 [openproject@debian]# touch tmp/restart.txt
 ```
 
-*Side note:* If you are using `RAILS_ENV="development"` the task `bundle exec rake assets:webpack` needs to be run. This step is not necessary for `production` because it is part of the `asset:precompile` tasks.
+*Side note:* If you are using `RAILS_ENV="development"` the task `bundle exec rake
+assets:webpack` needs to be run. This step is not necessary for `production`
+because it is part of the `asset:precompile` tasks.
 
 ## The Aftermath
 * Re-enable the `delayed_job` cron job that was disabled in the first step.
@@ -131,7 +145,8 @@ Now that the sources and dependencies are in place, you can migrate the Database
 * Watch for further OpenProject updates in our news, or on twitter.
 
 ## Questions, Comments, and Feedback
-If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate forum.
+If you have any further questions, comments, feedback, or an idea to enhance this guide,
+please tell us at the appropriate forum.
 
 Also, please take a look at the Frequently [Asked Questions](https://www.openproject.org/help/faq/).
 
