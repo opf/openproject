@@ -120,9 +120,9 @@ Then /^the work package "(.+?)" should be shown as the parent$/ do |wp_name|
 end
 
 Then /^the work package should be shown with the following values:$/ do |table|
-  table_attributes = table.raw.select do |k, _v|
+  table_attributes = table.raw.select { |k, _v|
     !['Subject', 'Type', 'Description'].include?(k)
-  end
+  }
 
   table_attributes.each do |key, value|
     label = find('dt.attributes-key-value--key', text: key)

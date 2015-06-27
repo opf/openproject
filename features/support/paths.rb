@@ -71,8 +71,8 @@ module NavigationHelpers
     when /^the lost password page$/
       '/account/lost_password'
 
-     when /^the groups administration page$/
-       '/admin/groups'
+    when /^the groups administration page$/
+      '/admin/groups'
 
     when /^the admin page of pending users$/
       '/users?sort=created_on:desc&status=2'
@@ -149,7 +149,8 @@ module NavigationHelpers
       Rails.application.routes.url_helpers.work_packages_bulk_path
 
     when /^the wiki index page(?: below the (.+) page)? (?:for|of) (?:the)? project(?: called)? (.+)$/
-      parent_page_title, project_identifier = $1, $2
+      parent_page_title = $1
+      project_identifier = $2
       project_identifier.gsub!("\"", '')
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
 
@@ -162,7 +163,8 @@ module NavigationHelpers
       end
 
     when /^the wiki new child page below the (.+) page (?:for|of) (?:the)? project(?: called)? (.+)$/
-      parent_page_title, project_identifier = $1, $2
+      parent_page_title = $1
+      project_identifier = $2
       project_identifier.gsub!("\"", '')
       parent_page_title.gsub!("\"", '')
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
@@ -222,7 +224,8 @@ module NavigationHelpers
       "/admin/groups/#{instance.id}/edit"
 
     when /^the edit page (?:for|of) (?:the )?([^\"]+?)(?: called)? "([^\"]+)"$/
-      model, identifier = $1, $2
+      model = $1
+      identifier = $2
       identifier.gsub!("\"", '')
       model = model.gsub("\"", '').gsub(/\s/, '_')
 
