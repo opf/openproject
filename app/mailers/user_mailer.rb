@@ -445,7 +445,7 @@ class DueIssuesReminder
 
     issues_by_assignee = WorkPackage.find(:all, include: [:status, :assigned_to, :project, :type],
                                                 conditions: s.conditions
-                                   ).group_by(&:assigned_to)
+                                         ).group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
       UserMailer.reminder_mail(assignee, issues, @days).deliver if assignee && assignee.active?
     end
