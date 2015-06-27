@@ -36,7 +36,6 @@ module OpenProject::NestedSet
   module RootIdRebuilding
     def self.included(base)
       base.class_eval do
-
         include RebuildPatch
 
         # find all nodes
@@ -104,7 +103,7 @@ module OpenProject::NestedSet
 
             if invalid_root_ids_to_fix.empty? || invalid_root_ids_to_fix.map(&:id).include?(ancestor.id)
               update_all({ root_id: ancestor.id },
-                         { id: node.id })
+                         id: node.id)
             end
           end
 

@@ -104,10 +104,10 @@ module OpenProject
       def self.rules_description
         return '' if min_adhered_rules == 0
 
-        rules = active_rules.map do |rule|
+        rules = active_rules.map { |rule|
           I18n.t(rule.to_sym,
                  scope: [:activerecord, :errors, :models, :user, :attributes, :password])
-        end
+        }
 
         I18n.t(:weak,
                scope: [:activerecord, :errors, :models, :user, :attributes, :password],

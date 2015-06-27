@@ -86,7 +86,8 @@ module Redmine::Acts::Journalized
       # version number, a symbol representing an association proxy method, a string representing a
       # journal tag or a journal object itself.
       def changes_between(from, to)
-        from_number, to_number = journals.journal_at(from), journals.journal_at(to)
+        from_number = journals.journal_at(from)
+        to_number = journals.journal_at(to)
         return {} if from_number == to_number
         chain = journals.between(from_number, to_number).reject(&:initial?)
         return {} if chain.empty?
@@ -118,11 +119,11 @@ module Redmine::Acts::Journalized
       # creation. Incremental changes are reset when the record is saved because they represent
       # a subset of the dirty attribute changes, which are reset upon save.
       def incremental_journal_changes
-        changed.inject({}) do |h, attr|
+        changed.inject({}) { |h, attr|
           h[attr] = attribute_change(attr) unless !attribute_change(attr).nil? &&
                                                   attribute_change(attr)[0].blank? && attribute_change(attr)[1].blank?
           h
-        end.slice(*journaled_columns)
+        }.slice(*journaled_columns)
       end
 
       # Simply resets the cumulative changes after journal creation.
@@ -156,10 +157,10 @@ module Redmine::Acts::Journalized
       #   "age" => [25, 54]
       # }
       def append_changes(changes)
-        changes.inject(self) do |new_changes, (attribute, change)|
+        changes.inject(self) { |new_changes, (attribute, change)|
           new_change = [new_changes.fetch(attribute, change).first, change.last]
           new_changes.merge(attribute => new_change)
-        end.reject do |_attribute, change|
+        }.reject do |_attribute, change|
           change.first == change.last
         end
       end

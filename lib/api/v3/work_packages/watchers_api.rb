@@ -43,7 +43,6 @@ module API
         end
 
         resources :watchers do
-
           params do
             requires :user_id, desc: 'The watcher\'s user id', type: Integer
           end
@@ -83,7 +82,6 @@ module API
               status 204
             end
           end
-
         end
       end
     end

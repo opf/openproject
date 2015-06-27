@@ -105,7 +105,6 @@ module Redmine::Acts::Journalized
         initial_changes = {}
 
         JournalManager.journal_class(self.class).journaled_attributes.each do |name|
-
           # Set the current attributes as initial attributes
           # This works as a fallback if no prior change is found
           initial_changes[name] = send(name)

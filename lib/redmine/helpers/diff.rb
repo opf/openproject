@@ -63,7 +63,7 @@ module Redmine
             else
               del_at = pos unless del_at
               deleted << ' ' + h(change[2])
-              words_del  += 1
+              words_del += 1
             end
           end
           if add_at

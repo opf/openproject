@@ -66,7 +66,8 @@ module ActiveRecord
         #
         #   subchild1.ancestors # => [child1, root]
         def ancestors
-          node, nodes = self, []
+          node = self
+          nodes = []
           nodes << node = node.parent while node.parent
           nodes
         end

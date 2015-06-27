@@ -56,11 +56,11 @@ module RedmineDiff
       thresh = []
       links = []
 
-      (astart..afinish).each { |aindex|
+      (astart..afinish).each do |aindex|
         aelem = a[aindex]
         next unless bmatches.has_key? aelem
         k = nil
-        bmatches[aelem].reverse.each { |bindex|
+        bmatches[aelem].reverse_each { |bindex|
           if k && (thresh[k] > bindex) && (thresh[k - 1] < bindex)
             thresh[k] = bindex
           else
@@ -68,7 +68,7 @@ module RedmineDiff
           end
           links[k] = [(k == 0) ? nil : links[k - 1], aindex, bindex] if k
         }
-      }
+      end
 
       if !thresh.empty?
         link = links[thresh.length - 1]
@@ -112,7 +112,7 @@ module RedmineDiff
 
     def compactdiffs
       diffs = []
-      @diffs.each { |df|
+      @diffs.each do |df|
         i = 0
         curdiff = []
         while i < df.length
@@ -129,7 +129,7 @@ module RedmineDiff
           curdiff.push [whot, p, s]
         end
         diffs.push curdiff
-      }
+      end
       diffs
     end
 
@@ -184,14 +184,14 @@ module Diffable
 
   def reverse_hash(range = (0...length))
     revmap = {}
-    range.each { |i|
+    range.each do |i|
       elem = self[i]
       if revmap.has_key? elem
         revmap[elem].push i
       else
         revmap[elem] = [i]
       end
-    }
+    end
     revmap
   end
 
@@ -231,7 +231,7 @@ module Diffable
     end
     ai = 0
     bi = 0
-    diff.diffs.each { |d|
+    diff.diffs.each do |d|
       d.each { |mod|
         case mod[0]
         when '-'
@@ -253,7 +253,7 @@ module Diffable
           raise 'Unknown diff action'
         end
       }
-    }
+    end
     while ai < length
       newary << self[ai]
       ai += 1

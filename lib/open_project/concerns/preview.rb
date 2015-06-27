@@ -72,8 +72,7 @@ module OpenProject::Concerns::Preview
     klass ||= param_name.to_s.classify.constantize
 
     texts = Array(attributes).each_with_object({}) do |attribute, list|
-      caption = (attribute == :notes) ? Journal.human_attribute_name(:notes)
-                                      : klass.human_attribute_name(attribute)
+      caption = (attribute == :notes) ? Journal.human_attribute_name(:notes) : klass.human_attribute_name(attribute)
       text = params[param_name][attribute]
       list[caption] = text
     end

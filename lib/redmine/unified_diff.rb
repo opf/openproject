@@ -105,7 +105,8 @@ module Redmine
     end
 
     def each_line
-      prev_line_left, prev_line_right = nil, nil
+      prev_line_left = nil
+      prev_line_right = nil
       each do |line|
         spacing = prev_line_left && prev_line_right && (line.nb_line_left != prev_line_left + 1) && (line.nb_line_right != prev_line_right + 1)
         yield spacing, line

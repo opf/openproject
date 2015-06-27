@@ -70,7 +70,7 @@ module Redmine
       def available_project_modules
         @available_project_modules ||= (
             @permissions.map(&:project_module) + @project_modules_without_permissions
-          ).uniq.compact
+        ).uniq.compact
       end
 
       def modules_permissions(modules)

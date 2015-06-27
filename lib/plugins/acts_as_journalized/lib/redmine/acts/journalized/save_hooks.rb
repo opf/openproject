@@ -82,17 +82,15 @@ module Redmine::Acts::Journalized
     end
 
     def save_journal_with_retry(journal, tries: 2)
-      begin
-        journal.save!
-      rescue ActiveRecord::RecordInvalid => e
-        # TODO: rescue from ActiveRecord::RecordNotUnique as well
-        if e.message =~ /Version has already been taken/ && tries > 0
-          journal.increment(:version)
-          tries -= 1
-          retry
-        else
-          raise
-        end
+      journal.save!
+    rescue ActiveRecord::RecordInvalid => e
+      # TODO: rescue from ActiveRecord::RecordNotUnique as well
+      if e.message =~ /Version has already been taken/ && tries > 0
+        journal.increment(:version)
+        tries -= 1
+        retry
+      else
+        raise
       end
     end
 

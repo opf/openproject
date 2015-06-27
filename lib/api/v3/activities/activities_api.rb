@@ -33,12 +33,10 @@ module API
     module Activities
       class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
-
           params do
             requires :id, desc: 'Activity id'
           end
           route_param :id do
-
             before do
               @activity = Journal.find(params[:id])
               @representer = ActivityRepresenter.new(@activity, current_user: current_user)
@@ -77,9 +75,7 @@ module API
 
               save_activity(@activity)
             end
-
           end
-
         end
       end
     end
