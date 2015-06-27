@@ -61,10 +61,6 @@ describe ApplicationHelper, type: :helper do
     allow(User).to receive(:current).and_return(@project_member)
   end
 
-  def request
-    @request ||= ActionController::TestRequest.new
-  end
-
   it 'should auto links' do
     to_test = {
       'http://foo.bar' => '<a class="external" href="http://foo.bar">http://foo.bar</a>',
@@ -96,12 +92,12 @@ describe ApplicationHelper, type: :helper do
       # wrap in angle brackets
       '<http://foo.bar>' => '&lt;<a class="external" href="http://foo.bar">http://foo.bar</a>&gt;'
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should auto mailto' do
     assert_equal '<p><a class="email" href="mailto:test@foo.bar">test@foo.bar</a></p>',
-                 format_text('test@foo.bar')
+                 helper.format_text('test@foo.bar')
   end
 
   it 'should inline images' do
@@ -114,7 +110,7 @@ describe ApplicationHelper, type: :helper do
       'with title !http://foo.bar/image.jpg(This is a title)!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a title" alt="This is a title" />',
       'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" alt="This is a double-quoted &quot;title&quot;" />',
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should inline images inside tags' do
@@ -126,8 +122,8 @@ Centered image:
 p=. !bar.gif!
 RAW
 
-    assert format_text(raw).include?('<img src="foo.png" alt="" />')
-    assert format_text(raw).include?('<img src="bar.gif" alt="" />')
+    assert helper.format_text(raw).include?('<img src="foo.png" alt="" />')
+    assert helper.format_text(raw).include?('<img src="bar.gif" alt="" />')
   end
 
   it 'should attached images' do
@@ -139,7 +135,7 @@ RAW
       # link image
       '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}/download\" title=\"This is a logo\" alt=\"This is a logo\" /></a>",
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, attachments: [@attachment]) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text, attachments: [@attachment]) }
   end
 
   it 'should textile external links' do
@@ -158,22 +154,19 @@ RAW
       # escaping
       '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>',
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
-  it 'should textile relative to full links in a controller' do
-    # we have a request here
+  it 'should textile relative to full links in a controller', :with_mock_request_for_helper do
     {
       # shouldn't change non-relative links
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
       'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
-    }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, only_path: false) }
+    }.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
   end
 
   it 'should textile relative to full links in the mailer' do
-    # we don't a request here
-    undef request
     # mimic the mailer default_url_options
     @controller.class.class_eval {
       def self.default_url_options
@@ -184,9 +177,9 @@ RAW
     {
       # shouldn't change non-relative links
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
-      'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://localhost:3000/foo/bar">link</a>',
-      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://localhost:3000/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
-    }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, only_path: false) }
+      'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
+      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
+    }.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
   end
 
   it 'should cross project redmine links' do
@@ -236,12 +229,12 @@ RAW
       )
     end
 
-    # format_text "sees" the text is parses from the_other_project (and not @project)
+    # helper.format_text "sees" the text is parses from the_other_project (and not @project)
     the_other_project = FactoryGirl.create :valid_project
 
     to_test.each do |text, result|
       assert_equal "<p>#{result}</p>",
-                   format_text(text, project: the_other_project), "#{text} failed"
+                   helper.format_text(text, project: the_other_project), "#{text} failed"
     end
   end
 
@@ -267,7 +260,7 @@ RAW
                       comments: 'test commit')
     assert(c.save)
     @project.reload
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should attachment links' do
@@ -275,7 +268,7 @@ RAW
     to_test = {
       'attachment:logo.gif' => attachment_link
     }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, attachments: [@attachment]), "#{text} failed" }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text, attachments: [@attachment]), "#{text} failed" }
   end
 
   it 'should html tags' do
@@ -299,7 +292,7 @@ RAW
       '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
       '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
     }
-    to_test.each { |text, result| assert_equal result, format_text(text) }
+    to_test.each { |text, result| assert_equal result, helper.format_text(text) }
   end
 
   it 'should allowed html tags' do
@@ -308,7 +301,7 @@ RAW
       '<notextile>no *textile* formatting</notextile>' => 'no *textile* formatting',
       '<notextile>this is <tag>a tag</tag></notextile>' => 'this is &lt;tag&gt;a tag&lt;/tag&gt;'
     }
-    to_test.each { |text, result| assert_equal result, format_text(text) }
+    to_test.each { |text, result| assert_equal result, helper.format_text(text) }
   end
 
   it 'should pre tags' do
@@ -330,7 +323,7 @@ RAW
 <p>After</p>
 EXPECTED
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
   it 'should syntax highlight' do
@@ -345,7 +338,7 @@ RAW
 </code></pre>
 EXPECTED
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
   it 'should wiki links in tables' do
@@ -360,7 +353,7 @@ EXPECTED
                  "</tr><tr><td>Cell 21</td><td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/Last_page\">Last page</a></td></tr>"
     }
 
-    to_test.each { |text, result| assert_equal "<table>#{result}</table>", format_text(text).gsub(/[\t\n]/, '') }
+    to_test.each { |text, result| assert_equal "<table>#{result}</table>", helper.format_text(text).gsub(/[\t\n]/, '') }
   end
 
   it 'should text formatting' do
@@ -370,12 +363,12 @@ EXPECTED
                 'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
                 'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
               }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should wiki horizontal rule' do
-    assert_equal '<hr />', format_text('---')
-    assert_equal '<p>Dashes: ---</p>', format_text('Dashes: ---')
+    assert_equal '<hr />', helper.format_text('---')
+    assert_equal '<p>Dashes: ---</p>', helper.format_text('Dashes: ---')
   end
 
   it 'should footnotes' do
@@ -390,26 +383,24 @@ RAW
 <p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
 EXPECTED
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
   it 'should headings without url' do
-    undef request
     raw = 'h1. Some heading'
     expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="#Some-heading" class="wiki-anchor">&para;</a></h1>|
 
-    assert_equal expected, format_text(raw)
+    assert_equal expected, helper.format_text(raw)
   end
 
-  it 'should headings with url' do
+  it 'should headings with url', :with_mock_request_for_helper do
     raw = 'h1. Some heading'
     expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="/issues#Some-heading" class="wiki-anchor">&para;</a></h1>|
 
-    assert_equal expected, format_text(raw)
+    assert_equal expected, helper.format_text(raw)
   end
 
   it 'should table of content' do
-    undef request
     @project.wiki.start_page = 'Wiki'
     @project.wiki.save!
     FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
@@ -468,11 +459,10 @@ RAW
                 '</li>' +
                 '</ul>'
 
-    assert format_text(raw).gsub("\n", '').include?(expected), format_text(raw)
+    assert helper.format_text(raw).gsub("\n", '').include?(expected), helper.format_text(raw)
   end
 
   it 'should table of content should contain included page headings' do
-    undef request
     @project.wiki.start_page = 'Wiki'
     @project.save!
     page  = FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
@@ -493,13 +483,13 @@ RAW
                '<li><a href="#Child-page-1">Child page 1</a></li>' +
                '</ul>'
 
-    assert format_text(raw).gsub("\n", '').include?(expected), format_text(raw)
+    assert helper.format_text(raw).gsub("\n", '').include?(expected), helper.format_text(raw)
   end
 
   it 'should default formatter' do
     Setting.text_formatting = 'unknown'
     text = 'a *link*: http://www.example.net/'
-    assert_equal '<p>a *link*: <a href="http://www.example.net/">http://www.example.net/</a></p>', format_text(text)
+    assert_equal '<p>a *link*: <a href="http://www.example.net/">http://www.example.net/</a></p>', helper.format_text(text)
     Setting.text_formatting = 'textile'
   end
 

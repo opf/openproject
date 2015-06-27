@@ -574,8 +574,14 @@ WIKI_TEXT
     subject(:html) { format_text(wiki_text) }
 
     context 'w/ request present' do
-      let(:request) { ActionController::TestRequest.new }
-      let(:url_for) { '/test' }
+      let(:request) {
+        ActionController::TestRequest.new(
+          Rack::MockRequest.env_for('/test',
+            'HTTP_HOST'       => 'test.host',
+            'REMOTE_ADDR'     => '0.0.0.0',
+            'HTTP_USER_AGENT' => 'Rails Testing')
+        )
+      }
 
       it 'emits a table of contents for headings h1-h4 with links present' do
         expect(html).to be_html_eql(%{
