@@ -115,11 +115,9 @@ namespace :ci do
 
   desc 'Dump the environment information to a BUILD_ENVIRONMENT ENV variable for debugging'
   task :dump_environment do
-
-    ENV['BUILD_ENVIRONMENT'] = ['ruby -v', 'gem -v', 'gem list'].collect do |command|
+    ENV['BUILD_ENVIRONMENT'] = ['ruby -v', 'gem -v', 'gem list'].collect { |command|
       result = `#{command}`
       "$ #{command}\n#{result}"
-    end.join("\n")
-
+    }.join("\n")
   end
 end
