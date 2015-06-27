@@ -32,7 +32,7 @@ Given /^there are no issues$/ do
 end
 
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
-  issue = WorkPackage.find(:last, conditions: { subject: issue_subject }, order: :created_at)
+  issue = WorkPackage.where(subject: issue_subject).order(:created_at).last
   watchers.raw.flatten.each do |w| issue.add_watcher User.find_by_login(w) end
   issue.save
 end
@@ -43,7 +43,7 @@ end
 
 Given(/^the issue "(.*?)" has an attachment "(.*?)"$/) do |issue_subject, file_name|
   content_type = 'image/gif'
-  issue = WorkPackage.find(:last, conditions: { subject: issue_subject }, order: :created_at)
+  issue = WorkPackage.where(subject: issue_subject).order(:created_at).last
   file = OpenProject::Files.create_temp_file name: file_name,
                                              content: 'random content which is not actually a gif'
   attachment = FactoryGirl.create :attachment,
