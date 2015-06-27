@@ -40,12 +40,12 @@ module MailNotificationJob
     notification_mail.deliver
   rescue ActiveRecord::RecordNotFound => e
     # Since we cannot recover from this error we catch it and move on.
-    Rails.logger.error "Cannot deliver notification (#{self.inspect})
+    Rails.logger.error "Cannot deliver notification (#{inspect})
                         as required record was not found: #{e}".squish
     raise e if raise_exceptions
   end
 
   def error(_job, e)
-    Rails.logger.error "notification failed (#{self.inspect}): #{e}"
+    Rails.logger.error "notification failed (#{inspect}): #{e}"
   end
 end
