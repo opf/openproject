@@ -128,9 +128,9 @@ module IssuesHelper
   end
 
   def entries_for_filter_select_sorted(query)
-    [['', '']] + query.available_work_package_filters.map { |field| [field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0]) }.compact.sort_by do |el|
+    [['', '']] + query.available_work_package_filters.map { |field| [field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0]) }.compact.sort_by { |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
-    end
+    }
   end
 
   def value_overridden_by_children?(attrib)

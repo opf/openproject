@@ -44,9 +44,9 @@ module BreadcrumbHelper
     cutme_elements = []
     breadcrumb_elements = [content_tag(:li, elements.shift.to_s, class: 'first-breadcrumb-element', style: 'list-style-image:none;')]
 
-    breadcrumb_elements += elements.map do |element|
+    breadcrumb_elements += elements.map { |element|
       content_tag(:li, h(element.to_s)) if element
-    end
+    }
 
     content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'breadcrumb')
   end

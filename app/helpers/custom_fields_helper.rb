@@ -114,8 +114,8 @@ module CustomFieldsHelper
         styled_text_area_tag(field_name, '', id: field_id, rows: 3)
       when 'bool'
         styled_select_tag(field_name, options_for_select([[l(:label_no_change_option), ''],
-                                                   [l(:general_text_yes), '1'],
-                                                   [l(:general_text_no), '0']]), id: field_id)
+                                                          [l(:general_text_yes), '1'],
+                                                          [l(:general_text_no), '0']]), id: field_id)
       when 'list'
         styled_select_tag(field_name, options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values_options), id: field_id)
       else

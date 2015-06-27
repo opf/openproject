@@ -2,9 +2,9 @@ module ToolbarHelper
   def toolbar(title:, subtitle: '')
     content_tag :div, class: 'toolbar-container' do
       toolbar = content_tag :div, id: 'toolbar' do
-        dom_title(title) + dom_toolbar do
+        dom_title(title) + dom_toolbar {
           yield if block_given?
-        end
+        }
       end
       next toolbar if subtitle.blank?
       toolbar + content_tag(:p, subtitle, class: 'subtitle')
