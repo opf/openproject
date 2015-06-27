@@ -31,7 +31,7 @@ module UsersHelper
   include OpenProject::FormTagHelper
 
   def users_status_options_for_select(selected)
-    user_count_by_status = User.count(group: 'status').to_hash
+    user_count_by_status = User.group(:status).count.to_hash
     user_count_by_status.merge! blocked: User.blocked.count,
                                 all: User.not_builtin.count,
                                 User::STATUSES[:active] =>
