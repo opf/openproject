@@ -88,12 +88,12 @@ describe Repository::Git, type: :model do
   it 'should fetch changesets incremental' do
     @repository.fetch_changesets
     # Remove the 3 latest changesets
-    @repository.changesets.find(:all, order: 'committed_on DESC', limit: 8).each(&:destroy)
+    @repository.changesets.order('committed_on DESC').limit(8).each(&:destroy)
     @repository.reload
     cs1 = @repository.changesets
     assert_equal 13, cs1.count
 
-    rev_a_commit = @repository.changesets.find(:first, order: 'committed_on DESC')
+    rev_a_commit = @repository.changesets.order('committed_on DESC').first
     assert_equal '4f26664364207fa8b1af9f8722647ab2d4ac5d43', rev_a_commit.revision
     # Mon Jul 5 22:34:26 2010 +0200
     rev_a_committed_on = Time.gm(2010, 7, 5, 20, 34, 26)

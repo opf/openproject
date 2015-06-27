@@ -131,7 +131,7 @@ module LegacyAssertionsAndHelpers
   end
 
   def change_user_password(login, new_password)
-    user = User.first(conditions: { login: login })
+    user = User.find_by_login(login)
     user.password = new_password
     user.password_confirmation = new_password
     user.save!

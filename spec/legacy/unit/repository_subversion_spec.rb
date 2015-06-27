@@ -52,7 +52,7 @@ describe Repository::Subversion, type: :model do
   it 'should fetch changesets incremental' do
     @repository.fetch_changesets
     # Remove changesets with revision > 5
-    @repository.changesets.find(:all).each do |c| c.destroy if c.revision.to_i > 5 end
+    @repository.changesets.all.each do |c| c.destroy if c.revision.to_i > 5 end
     @repository.reload
     assert_equal 5, @repository.changesets.count
 

@@ -79,7 +79,7 @@ describe Repository, type: :model do
     Setting.notified_events = ['work_package_added', 'work_package_updated']
 
     # choosing a status to apply to fix issues
-    Setting.commit_fix_status_id = Status.find(:first, conditions: ['is_closed = ?', true]).id
+    Setting.commit_fix_status_id = Status.where(['is_closed = ?', true]).first.id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = 'refs , references, IssueID'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -140,7 +140,7 @@ describe Repository, type: :model do
   end
 
   it 'should manual user mapping' do
-    assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
+    assert_no_difference "Changeset.where('user_id <> 2').count" do
       c = Changeset.create!(repository: @repository, committer: 'foo', committed_on: Time.now, revision: 100, comments: 'Committed by foo.')
       assert_nil c.user
       @repository.committer_ids = { 'foo' => '2' }

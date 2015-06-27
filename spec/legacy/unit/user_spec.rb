@@ -42,7 +42,7 @@ describe User, type: :model do
   specify 'object_daddy creation' do
     User.generate_with_protected!(firstname: 'Testing connection')
     User.generate_with_protected!(firstname: 'Testing connection')
-    assert_equal 2, User.count(:all, conditions: { firstname: 'Testing connection' })
+    assert_equal 2, User.where(firstname: 'Testing connection').count
   end
 
   it 'should truth' do

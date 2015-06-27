@@ -271,7 +271,7 @@ describe WorkPackages::MovesController, type: :controller do
           end
 
           it 'redirects to the work package copy' do
-            copy = WorkPackage.first(order: 'id desc')
+            copy = WorkPackage.order('id desc').first
             is_expected.to redirect_to(work_package_path(copy))
           end
         end
@@ -284,7 +284,7 @@ describe WorkPackages::MovesController, type: :controller do
                  new_project_id: target_project.id
           end
 
-          subject { WorkPackage.first(order: 'id desc', conditions: { project_id: project.id }) }
+          subject { WorkPackage.order('id desc').where(project_id: project.id).first }
 
           it 'did not change the type' do
             expect(subject.type_id).to eq(work_package.type_id)
@@ -321,7 +321,7 @@ describe WorkPackages::MovesController, type: :controller do
                  due_date: due_date
           end
 
-          subject { WorkPackage.all(limit: 2, order: 'id desc', conditions: { project_id: target_project.id }) }
+          subject { WorkPackage.limit(2).order('id desc').where(project_id: target_project.id) }
 
           it 'copied two work packages' do
             expect(subject.count).to eq(2)

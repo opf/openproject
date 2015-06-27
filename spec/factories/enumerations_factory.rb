@@ -29,7 +29,7 @@
 FactoryGirl.define do
   factory :default_enumeration, class: Enumeration do
     initialize_with do
-      Enumeration.find(:first, conditions: { type: 'Enumeration', is_default: true }) || Enumeration.new
+      Enumeration.where(type: 'Enumeration', is_default: true).first || Enumeration.new
     end
 
     active true
