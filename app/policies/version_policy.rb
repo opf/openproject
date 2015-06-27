@@ -44,11 +44,11 @@ class VersionPolicy < BasePolicy
     @show_cache ||= Hash.new do |hash, queried_version|
       permissions = [:view_work_packages, :manage_versions]
 
-      hash[queried_version] = permissions.any? do |permission|
+      hash[queried_version] = permissions.any? { |permission|
         allowed_condition = Project.allowed_to_condition(user, permission)
 
         queried_version.projects.where(allowed_condition).exists?
-      end
+      }
     end
 
     @show_cache[version]
