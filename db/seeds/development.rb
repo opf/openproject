@@ -171,7 +171,7 @@ user_count.times do |count|
   end
 
   ## extend user's last issue
-  created_issues = WorkPackage.find :all, conditions: { author_id: user.id }
+  created_issues = WorkPackage.where(author_id: user.id)
 
   if !created_issues.empty?
     issue = created_issues.last
