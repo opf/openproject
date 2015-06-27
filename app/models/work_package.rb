@@ -61,8 +61,9 @@ class WorkPackage < ActiveRecord::Base
   has_many :time_entries, dependent: :delete_all
   has_many :relations_from, class_name: 'Relation', foreign_key: 'from_id', dependent: :delete_all
   has_many :relations_to, class_name: 'Relation', foreign_key: 'to_id', dependent: :delete_all
-  has_and_belongs_to_many :changesets,
-                          order: "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
+  has_and_belongs_to_many :changesets, -> {
+    order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
+  }
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   attr_protected :project_id, :author_id, :lft, :rgt

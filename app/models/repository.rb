@@ -31,7 +31,9 @@ class Repository < ActiveRecord::Base
   include Redmine::Ciphering
 
   belongs_to :project
-  has_many :changesets, order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
+  has_many :changesets, -> {
+    order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
+  }
 
   before_save :sanitize_urls
 
