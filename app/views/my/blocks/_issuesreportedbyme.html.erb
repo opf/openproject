@@ -26,10 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% reported = WorkPackage.visible.all(:conditions => { :author_id => User.current.id },
-                                      :limit => 10,
-                                      :include => [ :status, :project, :type ],
-                                      :order => "#{WorkPackage.table_name}.updated_at DESC") %>
+<% reported = WorkPackage.visible.where(author_id: User.current.id)
+                                 .limit(10)
+                                 .includes(:status, :project, :type)
+                                 .order("#{WorkPackage.table_name}.updated_at DESC")
+%>
 
 <h3><%=l(:label_reported_work_packages)%> (<%= @user.reported_work_package_count %>)</h3>
 
