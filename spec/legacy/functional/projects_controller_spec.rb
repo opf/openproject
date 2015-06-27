@@ -68,17 +68,6 @@ describe ProjectsController, type: :controller do
   end
 
   context '#index' do
-    context 'by non-admin user with view_time_entries permission' do
-      before do
-        session[:user_id] = 3
-      end
-      it 'should show overall spent time link' do
-        get :index
-        assert_template 'index'
-        assert_tag :a, attributes: { href: '/time_entries' }
-      end
-    end
-
     context 'by non-admin user without view_time_entries permission' do
       before do
         Role.find(2).remove_permission! :view_time_entries

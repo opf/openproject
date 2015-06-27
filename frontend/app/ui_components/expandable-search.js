@@ -45,8 +45,13 @@ module.exports = function(ENTER_KEY) {
       btn.on('click mousedown focus keypress', function(evt) {
         if (scope.collapsed === true) {
           setCollapsed(false);
-          // Avoid access key focus
-          setTimeout(function() { input.focus(); });
+          // Force focus to the search input
+          // The somewhat arbitrary delay of 20ms is required
+          // since Firefox blocks focus changing events
+          // immdetiately after an element is focused.
+          // Smaller delays will cause Firefox to ignore that focus
+          // Relevant: http://stackoverflow.com/questions/7046798
+          setTimeout(function() { input.focus(); }, 20);
 
           // Hide on lost focus
           elem.on('focusout', function() {

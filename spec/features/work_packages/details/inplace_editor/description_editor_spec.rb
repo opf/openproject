@@ -22,10 +22,13 @@ describe 'description inplace editor', js: true do
 
   before do
     allow(User).to receive(:current).and_return(user)
-    visit project_work_packages_path(project) + "/#{work_package.id}/overview"
-  end
+    visit project_work_packages_path(project)
 
-  include_context 'ensure wp table loaded'
+    ensure_wp_table_loaded
+
+    row = page.find("#work-package-#{work_package.id}")
+    row.double_click
+  end
 
   context 'in read state' do
     it 'renders the correct text' do
