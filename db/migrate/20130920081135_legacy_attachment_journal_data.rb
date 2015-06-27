@@ -46,7 +46,6 @@ class LegacyAttachmentJournalData < ActiveRecord::Migration
 
   def migrator
     @migrator ||= Migration::LegacyJournalMigrator.new('AttachmentJournal', 'attachment_journals') do
-
       def migrate_key_value_pairs!(to_insert, _legacy_journal, _journal_id)
         rewrite_issue_container_to_work_package(to_insert)
       end

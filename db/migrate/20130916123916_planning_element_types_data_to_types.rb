@@ -171,7 +171,6 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
       return if all_workflow_states.empty?
 
       all_workflow_states.in_groups_of(100, false) do |some_workflow_states|
-
         some_workflow_states = some_workflow_states.join(', ')
 
         execute <<-SQL
