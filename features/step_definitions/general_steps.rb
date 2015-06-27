@@ -80,7 +80,6 @@ Given /^I am already logged in as "(.+?)"$/ do |login|
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
-
   login(username, 'adminADMIN!')
 end
 
@@ -173,7 +172,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
                            object.spent_on = time
                            object.save!
                          end
-    )
+                        )
   end
 end
 
@@ -211,7 +210,6 @@ Given /^there are the following types:$/ do |table|
 end
 
 Given /^there are the following issue status:$/ do |table|
-
   table.hashes.each_with_index do |t, i|
     status = Status.find_by(name: t['name'])
     status = Status.new name: t['name'] if status.nil?
@@ -406,7 +404,7 @@ def modify_user(u, table)
                              r.project    = user.projects.last
                            end.save!
                          end
-    )
+                        )
 
     u.save!
   end

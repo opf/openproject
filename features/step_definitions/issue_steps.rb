@@ -33,7 +33,7 @@ end
 
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
   issue = WorkPackage.find(:last, conditions: { subject: issue_subject }, order: :created_at)
-  watchers.raw.flatten.each { |w| issue.add_watcher User.find_by_login(w) }
+  watchers.raw.flatten.each do |w| issue.add_watcher User.find_by_login(w) end
   issue.save
 end
 
@@ -88,16 +88,14 @@ When(/^I click the first delete attachment link$/) do
 end
 
 Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |project_name, table|
-  table.hashes.map { |h| h['project'] = project_name }
+  table.hashes.map do |h| h['project'] = project_name end
   table = Cucumber::Ast::Table.new table.hashes
   step %{there are the following issues with attributes:}, table
 end
 
 Given (/^there are the following issues with attributes:$/) do |table|
-
   table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each do |type_attributes|
-
     project  = get_project(type_attributes.delete('project'))
     attributes = type_attributes.merge(project_id: project.id) if project
 
@@ -124,10 +122,8 @@ Given (/^there are the following issues with attributes:$/) do |table|
     issue = FactoryGirl.create(:work_package, attributes)
 
     if watchers
-      watchers.split(',').each { |w| issue.add_watcher User.find_by_login(w) }
+      watchers.split(',').each do |w| issue.add_watcher User.find_by_login(w) end
       issue.save
     end
-
   end
-
 end
