@@ -54,7 +54,7 @@ class MembersController < ApplicationController
       if members.present? && members.all?(&:valid?)
         flash.now.notice = l(:notice_successful_create)
 
-        format.html { redirect_to settings_project_path(@project, tab: 'members') }
+        format.html do redirect_to settings_project_path(@project, tab: 'members') end
 
         format.js do
           @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
@@ -88,7 +88,7 @@ class MembersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project, page: params[:page] }
+      format.html do redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project, page: params[:page] end
       format.js do
         @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
 
@@ -113,7 +113,7 @@ class MembersController < ApplicationController
       flash.now.notice = l(:notice_successful_delete)
     end
     respond_to do |format|
-      format.html { redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project }
+      format.html do redirect_to controller: '/projects', action: 'settings', tab: 'members', id: @project end
       format.js do
         @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
         render(:update) do |page|
@@ -172,9 +172,9 @@ class MembersController < ApplicationController
       end
     end
 
-    members = user_ids.map do |user_id|
+    members = user_ids.map { |user_id|
       new_member.call(user_id)
-    end
+    }
     # most likely wrong user input, use a dummy member for error handling
     if !members.present? && roles.present?
       members << new_member.call(nil)
@@ -183,13 +183,13 @@ class MembersController < ApplicationController
   end
 
   def each_comma_seperated(array, &block)
-    array.map do |e|
+    array.map { |e|
       if e.to_s.match /\d(,\d)*/
         block.call(e)
       else
         e
       end
-    end.flatten
+    }.flatten
   end
 
   def transform_array_of_comma_seperated_ids(array)

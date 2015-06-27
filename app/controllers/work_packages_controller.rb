@@ -275,7 +275,7 @@ class WorkPackagesController < ApplicationController
                user: current_user }
 
     respond_to do |format|
-      format.js { render partial: 'edit', locals: locals }
+      format.js do render partial: 'edit', locals: locals end
       format.html { render action: 'edit', locals: locals }
     end
   end

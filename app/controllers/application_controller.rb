@@ -246,7 +246,7 @@ class ApplicationController < ActionController::Base
                       project_id: params[:project_id])
       end
       respond_to do |format|
-        format.any(:html, :atom) { redirect_to signin_path(back_url: url) }
+        format.any(:html, :atom) do redirect_to signin_path(back_url: url) end
 
         authentication_scheme = if request.headers['X-Authentication-Scheme'] == 'Session'
                                   'Session'
@@ -566,7 +566,7 @@ class ApplicationController < ActionController::Base
 
   def render_feed(items, options = {})
     @items = items || []
-    @items.sort! { |x, y| y.event_datetime <=> x.event_datetime }
+    @items.sort! do |x, y| y.event_datetime <=> x.event_datetime end
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render template: 'common/feed', layout: false, content_type: 'application/atom+xml'
@@ -643,9 +643,9 @@ class ApplicationController < ActionController::Base
 
   # Converts the errors on an ActiveRecord object into a common JSON format
   def object_errors_to_json(object)
-    object.errors.map do |attribute, error|
+    object.errors.map { |attribute, error|
       { attribute => error }
-    end.to_json
+    }.to_json
   end
 
   # Renders API response on validation failure

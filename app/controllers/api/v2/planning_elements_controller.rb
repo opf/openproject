@@ -297,7 +297,7 @@ module Api
           else
             raise "Unknown format #{params[:format]} in #render_validation_errors"
           end
-        )
+                      )
         render options
       end
 
@@ -316,7 +316,6 @@ module Api
         filtered_ids = @planning_elements.map(&:id)
 
         @planning_elements.each do |pe|
-
           # re-wire the parent of this pe to the first ancestor found in the filtered set
           # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
           if pe.parent_id && !filtered_ids.include?(pe.parent_id)

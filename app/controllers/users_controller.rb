@@ -99,7 +99,7 @@ class UsersController < ApplicationController
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
     unless User.current.admin?
-      if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
+      if !(@user.active? || @user.registered?) || (@user != User.current && @memberships.empty? && events.empty?)
         render_404
         return
       end
@@ -146,7 +146,7 @@ class UsersController < ApplicationController
           redirect_to(params[:continue] ?
             new_user_path :
             edit_user_path(@user)
-          )
+                     )
         }
       end
     else
@@ -246,7 +246,7 @@ class UsersController < ApplicationController
     @membership.save if request.post?
     respond_to do |format|
       if @membership.valid?
-        format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
+        format.html do redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' end
         format.js {
           render(:update) {|page|
             page.replace_html 'tab-content-memberships', partial: 'users/memberships'
@@ -286,7 +286,7 @@ class UsersController < ApplicationController
       @membership.destroy && @membership = nil
     end
     respond_to do |format|
-      format.html { redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' }
+      format.html do redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' end
       format.js {
         render(:update) { |page|
           page.replace_html 'tab-content-memberships', partial: 'users/memberships'
@@ -319,9 +319,9 @@ class UsersController < ApplicationController
        !User.current.admin?
 
       respond_to do |format|
-        format.html { render_403 }
-        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.html do render_403 end
+        format.xml  do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
+        format.js   do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
         format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
       end
 

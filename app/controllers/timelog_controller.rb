@@ -64,7 +64,7 @@ class TimelogController < ApplicationController
     cond << ['spent_on BETWEEN ? AND ?', @from, @to]
 
     respond_to do |format|
-      format.html {
+      format.html do
         # Paginate results
         @entry_count = TimeEntry.visible.count(include: [:project, :work_package], conditions: cond.conditions)
 
@@ -80,20 +80,20 @@ class TimelogController < ApplicationController
         gon.settings = client_preferences
 
         render layout: !request.xhr?
-      }
-      format.json {
+      end
+      format.json do
         set_entries(cond)
 
         gon.rabl 'app/views/timelog/index.rabl'
-      }
-      format.atom {
+      end
+      format.atom do
         entries = TimeEntry.visible.find(:all,
                                          include: [:project, :activity, :user, { work_package: :type }],
                                          conditions: cond.conditions,
                                          order: "#{TimeEntry.table_name}.created_on DESC",
                                          limit: Setting.feeds_limit.to_i)
         render_feed(entries, title: l(:label_spent_time))
-      }
+      end
       format.csv {
         # Export all entries
         @entries = TimeEntry.visible.find(:all,
@@ -174,18 +174,18 @@ class TimelogController < ApplicationController
   def destroy
     if @time_entry.destroy && @time_entry.destroyed?
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_delete)
           redirect_to :back
-        }
+        end
         format.json { render json: { text: l(:notice_successful_delete) } }
       end
     else
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:error] = l(:notice_unable_delete_time_entry)
           redirect_to :back
-        }
+        end
         format.json { render json: { isError: true, text: l(:notice_unable_delete_time_entry) } }
       end
     end
