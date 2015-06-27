@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe EnumerationsController, type: :controller do
-  before { allow(controller).to receive(:require_admin).and_return(true) }
+  before do allow(controller).to receive(:require_admin).and_return(true) end
 
   describe '#destroy' do
     describe '#priority' do
@@ -42,7 +42,7 @@ describe EnumerationsController, type: :controller do
       end
 
       describe 'not in use' do
-        before { post :destroy, id: enum_to_delete.id }
+        before do post :destroy, id: enum_to_delete.id end
 
         it_behaves_like 'successful delete'
       end
@@ -55,7 +55,7 @@ describe EnumerationsController, type: :controller do
         }
 
         describe 'no reassign' do
-          before { post :destroy, id: enum_to_delete.id }
+          before do post :destroy, id: enum_to_delete.id end
 
           it { expect(assigns(:enumerations)).to include(enum_to_reassign) }
 

@@ -43,11 +43,10 @@ describe SearchController, type: :controller do
     it { expect(response).to render_template('index') }
   end
 
-  before { allow(User).to receive(:current).and_return user }
+  before do allow(User).to receive(:current).and_return user end
 
   describe 'project search' do
-
-    before { get :index }
+    before do get :index end
 
     it_behaves_like 'successful search'
 
@@ -67,7 +66,7 @@ describe SearchController, type: :controller do
   end
 
   describe 'scoped project search' do
-    before { get :index, project_id: project.id }
+    before do get :index, project_id: project.id end
 
     it_behaves_like 'successful search'
 
@@ -87,12 +86,11 @@ describe SearchController, type: :controller do
                          status: FactoryGirl.create(:closed_status))
     }
 
-    before { get :index, q: 'issue', issues: 1 }
+    before do get :index, q: 'issue', issues: 1 end
 
     it_behaves_like 'successful search'
 
     describe '#result' do
-
       it { expect(assigns(:results).count).to be(2) }
 
       it { expect(assigns(:results)).to include(work_package_1) }
@@ -118,7 +116,7 @@ describe SearchController, type: :controller do
                            version: 2
       }
 
-      before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
+      before do allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) end
 
       context 'and second note' do
         let!(:note_2) {
@@ -136,12 +134,11 @@ describe SearchController, type: :controller do
           it { expect(subject.data).not_to be nil }
         end
 
-        before { get :index, q: 'note', issues: 1 }
+        before do get :index, q: 'note', issues: 1 end
 
         it_behaves_like 'successful search'
 
         describe '#result' do
-
           it { expect(assigns(:results).count).to be 1 }
 
           it { expect(assigns(:results)).to include work_package_1 }

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe TypesController, type: :controller do
-
   let(:project) {
     FactoryGirl.create(:project,
                        work_package_custom_fields: [custom_field_2])
@@ -52,7 +51,7 @@ describe TypesController, type: :controller do
 
     describe 'GET index' do
       describe 'the access should be restricted' do
-        before { get 'index' }
+        before do get 'index' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -60,7 +59,7 @@ describe TypesController, type: :controller do
 
     describe 'GET new' do
       describe 'the access should be restricted' do
-        before { get 'new' }
+        before do get 'new' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -68,7 +67,7 @@ describe TypesController, type: :controller do
 
     describe 'GET edit' do
       describe 'the access should be restricted' do
-        before { get 'edit' }
+        before do get 'edit' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -76,7 +75,7 @@ describe TypesController, type: :controller do
 
     describe 'POST create' do
       describe 'the access should be restricted' do
-        before { post 'create' }
+        before do post 'create' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -84,7 +83,7 @@ describe TypesController, type: :controller do
 
     describe 'DELETE destroy' do
       describe 'the access should be restricted' do
-        before { delete 'destroy' }
+        before do delete 'destroy' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -92,7 +91,7 @@ describe TypesController, type: :controller do
 
     describe 'POST update' do
       describe 'the access should be restricted' do
-        before { post 'update' }
+        before do post 'update' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -100,7 +99,7 @@ describe TypesController, type: :controller do
 
     describe 'POST move' do
       describe 'the access should be restricted' do
-        before { post 'move' }
+        before do post 'move' end
 
         it { expect(response.status).to eq(403) }
       end
@@ -115,13 +114,13 @@ describe TypesController, type: :controller do
     end
 
     describe 'GET index' do
-      before { get 'index' }
+      before do get 'index' end
       it { expect(response).to be_success }
       it { expect(response).to render_template 'index' }
     end
 
     describe 'GET new' do
-      before { get 'new' }
+      before do get 'new' end
       it { expect(response).to be_success }
       it { expect(response).to render_template 'new' }
     end

@@ -30,7 +30,6 @@ require 'spec_helper'
 require 'roar/decorator'
 
 describe OpenProject::Plugins::ActsAsOpEngine do
-
   subject(:engine) do
     Class.new(Rails::Engine) do
       include OpenProject::Plugins::ActsAsOpEngine

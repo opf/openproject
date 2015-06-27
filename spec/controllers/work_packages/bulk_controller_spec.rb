@@ -125,7 +125,7 @@ describe WorkPackages::BulkController, type: :controller do
     end
 
     context 'same project' do
-      before { get :edit, ids: [work_package_1.id, work_package_2.id] }
+      before do get :edit, ids: [work_package_1.id, work_package_2.id] end
 
       it_behaves_like :response
 
@@ -192,7 +192,7 @@ describe WorkPackages::BulkController, type: :controller do
       context 'in host' do
         let(:url) { '/work_packages' }
 
-        before { put :update, ids: work_package_ids, back_url: url }
+        before do put :update, ids: work_package_ids, back_url: url end
 
         subject { response }
 
@@ -204,7 +204,7 @@ describe WorkPackages::BulkController, type: :controller do
       context 'of host' do
         let(:url) { 'http://google.com' }
 
-        before { put :update, ids: work_package_ids, back_url: url }
+        before do put :update, ids: work_package_ids, back_url: url end
 
         subject { response }
 
@@ -343,7 +343,7 @@ describe WorkPackages::BulkController, type: :controller do
         let(:work_package_ids) { [work_package_1.id, work_package_2.id, work_package_3.id] }
 
         context 'with permission' do
-          before { member1_p2 }
+          before do member1_p2 end
 
           include_context 'update_request'
 

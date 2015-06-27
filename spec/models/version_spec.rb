@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe Version, type: :model do
-
   subject(:version) { FactoryGirl.build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }

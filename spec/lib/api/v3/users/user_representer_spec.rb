@@ -110,8 +110,8 @@ describe ::API::V3::Users::UserRepresenter do
       context 'when deletion is allowed' do
         before do
           allow(DeleteUserService).to receive(:deletion_allowed?)
-                                      .with(user, current_user)
-                                      .and_return(true)
+            .with(user, current_user)
+            .and_return(true)
         end
 
         it 'should link to delete' do
@@ -122,8 +122,8 @@ describe ::API::V3::Users::UserRepresenter do
       context 'when deletion is not allowed' do
         before do
           allow(DeleteUserService).to receive(:deletion_allowed?)
-                                      .with(user, current_user)
-                                      .and_return(false)
+            .with(user, current_user)
+            .and_return(false)
         end
 
         it 'should not link to delete' do

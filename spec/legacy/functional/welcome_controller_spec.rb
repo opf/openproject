@@ -59,7 +59,7 @@ describe WelcomeController, type: :controller do
     Setting.default_language = 'en'
     request.env['HTTP_ACCEPT_LANGUAGE'] = 'de'
     get :index
-    assert_equal :"de", @controller.current_language
+    assert_equal :de, @controller.current_language
   end
 
   it 'should browser language alternate not valid' do

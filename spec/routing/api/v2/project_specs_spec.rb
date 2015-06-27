@@ -41,5 +41,4 @@ describe ProjectsController, type: :routing do
                                                                action: 'level_list',
                                                                format: 'xml')
   end
-
 end

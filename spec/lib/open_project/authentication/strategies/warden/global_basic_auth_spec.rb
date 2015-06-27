@@ -47,7 +47,7 @@ describe Strategies::GlobalBasicAuth do
       allow(Strategies::UserBasicAuth).to receive(:user).and_return('schluessel')
     end
 
-    it "raises an error" do
+    it 'raises an error' do
       expect(config).to raise_error("global user must not be 'schluessel'")
     end
   end

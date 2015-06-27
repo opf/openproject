@@ -254,7 +254,6 @@ describe VersionsController, type: :controller do
       expect(response).to redirect_to(settings_project_path(project, tab: 'versions'))
       expect { Version.find(@deleted) }.to raise_error ActiveRecord::RecordNotFound
     end
-
   end
 
   describe '#status_by' do

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe ProjectsController, type: :routing do
-
   describe 'index' do
     it { expect(get('/projects')).to route_to(controller: 'projects', action: 'index') }
     it { expect(get('/projects.atom')).to route_to(controller: 'projects', action: 'index', format: 'atom') }
@@ -44,7 +43,6 @@ describe ProjectsController, type: :routing do
 
   describe 'new' do
     it { expect(get('/projects/new')).to route_to(controller: 'projects', action: 'new') }
-
   end
 
   describe 'create' do

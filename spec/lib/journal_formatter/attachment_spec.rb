@@ -29,7 +29,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
 describe OpenProject::JournalFormatter::Attachment do
-
   include ApplicationHelper
   include ActionView::Helpers::TagHelper
   # WARNING: the order of the modules is important to ensure that url_for of

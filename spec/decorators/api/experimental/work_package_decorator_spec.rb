@@ -42,7 +42,6 @@ describe API::Experimental::WorkPackageDecorator, type: :model do
   subject { described_class.new(wp1) }
 
   describe '#decorate' do
-
     it 'returns an array' do
       packages = [wp1, wp2]
 

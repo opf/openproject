@@ -40,7 +40,6 @@ describe AccountController, type: :controller do
     let(:admin) { FactoryGirl.create(:admin) }
 
     describe 'User logging in with back_url' do
-
       it 'should redirect to a relative path' do
         post :login, username: admin.login, password: 'adminADMIN!', back_url: '/'
         expect(response).to redirect_to root_path
@@ -69,7 +68,7 @@ describe AccountController, type: :controller do
       end
 
       it 'should not redirect to logout' do
-        post :login , :username => admin.login, :password => 'adminADMIN!', :back_url => '/logout'
+        post :login, username: admin.login, password: 'adminADMIN!', back_url: '/logout'
         expect(response).to redirect_to my_page_path
       end
 
@@ -141,7 +140,6 @@ describe AccountController, type: :controller do
           expect(response).to redirect_to my_page_path
         end
       end
-
     end
 
     describe 'for a user trying to log in via an API request' do
@@ -443,7 +441,6 @@ describe AccountController, type: :controller do
     end
 
     context 'with on-the-fly registration' do
-
       before do
         allow(Setting).to receive(:self_registration).and_return('0')
         allow(Setting).to receive(:self_registration?).and_return(false)
@@ -502,5 +499,4 @@ describe AccountController, type: :controller do
       end
     end
   end
-
 end

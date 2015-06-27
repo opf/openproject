@@ -102,7 +102,6 @@ describe JournalManager, type: :model do
   end
 
   describe 'self.#update_user_references' do
-
     let!(:work_package) { FactoryGirl.create :work_package }
     let!(:doomed_user) { work_package.author }
     let!(:data1) {

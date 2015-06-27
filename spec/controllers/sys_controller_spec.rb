@@ -211,7 +211,7 @@ module OpenProjectRepositoryAuthenticationSpecs
 
       it 'should return the same as user_login for valid creds' do
         expect(controller.send(:cached_user_login, valid_user.login, valid_user_password)).to eq(
-        controller.send(:user_login, valid_user.login, valid_user_password)
+          controller.send(:user_login, valid_user.login, valid_user_password)
         )
       end
 

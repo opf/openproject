@@ -80,13 +80,13 @@ describe Redmine::MenuManager::MenuItem do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
 
                                          if: ['not_a_proc']
-                                         )
+                                        )
     end
 
     assert Redmine::MenuManager::MenuItem.new(:test_good_if, '/test',
 
                                               if: Proc.new {}
-                                              )
+                                             )
   end
 
   it 'should new menu item should allow a hash for extra html options' do
@@ -94,13 +94,13 @@ describe Redmine::MenuManager::MenuItem do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
 
                                          html: ['not_a_hash']
-                                         )
+                                        )
     end
 
     assert Redmine::MenuManager::MenuItem.new(:test_good_html, '/test',
 
                                               html: { onclick: 'doSomething' }
-                                              )
+                                             )
   end
 
   it 'should new menu item should require a proc to use the children option' do
@@ -108,13 +108,13 @@ describe Redmine::MenuManager::MenuItem do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
 
                                          children: ['not_a_proc']
-                                         )
+                                        )
     end
 
     assert Redmine::MenuManager::MenuItem.new(:test_good_children, '/test',
 
                                               children: Proc.new {}
-                                              )
+                                             )
   end
 
   it 'should new should not allow setting the parent item to the current item' do

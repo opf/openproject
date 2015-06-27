@@ -44,11 +44,11 @@ module ObjectDaddyHelpers
 
   def User.add_to_project(user, project, roles)
     roles = [roles] unless roles.is_a?(Array)
-    member = Member.generate do |m|
+    member = Member.generate { |m|
       m.principal = user
       m.project = project
       m.role_ids = roles.map(&:id)
-    end
+    }
     member.save!
   end
 

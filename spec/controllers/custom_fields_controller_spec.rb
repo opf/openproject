@@ -77,7 +77,6 @@ describe CustomFieldsController, type: :controller do
       it { expect(custom_field.name(:de)).to eq(en_name) }
       it { expect(custom_field.name(:en)).to eq(en_name) }
     end
-
   end
 
   describe 'POST new' do

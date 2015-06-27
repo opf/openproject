@@ -74,7 +74,7 @@ RSpec.configure do |config|
     end
   }, file_path: %r(spec/legacy/integration))
 
-  config.before(:suite) do |example|
+  config.before(:suite) do |_example|
     Delayed::Worker.delay_jobs = false
 
     OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'

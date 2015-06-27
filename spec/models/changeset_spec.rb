@@ -59,7 +59,7 @@ describe Changeset, type: :model do
 
   describe 'assign_openproject user' do
     describe 'w/o user' do
-      before { changeset.save! }
+      before do changeset.save! end
 
       it_behaves_like 'valid changeset' do
         let(:journal_user) { User.anonymous }
@@ -69,7 +69,7 @@ describe Changeset, type: :model do
     describe 'with user is committer' do
       let!(:committer) { FactoryGirl.create(:user, login: email) }
 
-      before { changeset.save! }
+      before do changeset.save! end
 
       it_behaves_like 'valid changeset' do
         let(:journal_user) { committer }

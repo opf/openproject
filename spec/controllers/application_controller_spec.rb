@@ -133,6 +133,5 @@ describe ApplicationController, type: :controller do
         @controller.send :handle_unverified_request
       end
     end
-
   end
 end

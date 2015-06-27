@@ -271,7 +271,6 @@ describe WikiController, type: :controller do
         @other_menu_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
                                                                name:    'Item for other page',
                                                                title:   @unrelated_page.title)
-
       end
 
       shared_examples_for 'all wiki menu items' do

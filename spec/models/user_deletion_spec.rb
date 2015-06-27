@@ -496,5 +496,4 @@ describe User, 'deletion', type: :model do
     it { expect(timeline.options['planning_element_assignee'].index(user.id.to_s)).to be_nil }
     it { expect(timeline.options['project_responsibles'].index(user.id.to_s)).to be_nil }
   end
-
 end

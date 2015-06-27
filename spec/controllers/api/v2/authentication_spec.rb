@@ -40,7 +40,6 @@ describe Api::V2::AuthenticationController, type: :controller do
 
     describe 'REST API disabled' do
       before do
-
         allow(Setting).to receive(:rest_api_enabled?).and_return false
 
         fetch
