@@ -104,8 +104,6 @@ class LegacyJournal < ActiveRecord::Base
       journaled.project
     elsif journaled.is_a? Project
       journaled
-    else
-      nil
     end
   end
 

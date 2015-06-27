@@ -188,7 +188,7 @@ class Repository < ActiveRecord::Base
         new_user_id = h[committer]
         if new_user_id && (new_user_id.to_i != user_id.to_i)
           new_user_id = (new_user_id.to_i > 0 ? new_user_id.to_i : nil)
-          Changeset.update_all("user_id = #{ new_user_id.nil? ? 'NULL' : new_user_id }", ['repository_id = ? AND committer = ?', id, committer])
+          Changeset.update_all("user_id = #{new_user_id.nil? ? 'NULL' : new_user_id}", ['repository_id = ? AND committer = ?', id, committer])
         end
       end
       @committers = nil
@@ -212,7 +212,8 @@ class Repository < ActiveRecord::Base
       if c && c.user
         user = c.user
       elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
-        username, email = $1.strip, $3
+        username = $1.strip
+        email = $3
         u = User.find_by_login(username)
         u ||= User.find_by_mail(email) unless email.blank?
         user = u
@@ -310,7 +311,9 @@ class Repository < ActiveRecord::Base
   end
 
   def clear_changesets
-    cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_work_packages#{table_name_suffix}"
+    cs = Changeset.table_name
+    ch = Change.table_name
+    ci = "#{table_name_prefix}changesets_work_packages#{table_name_suffix}"
     connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
     connection.delete("DELETE FROM #{ci} WHERE #{ci}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
     connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")

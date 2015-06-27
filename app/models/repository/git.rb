@@ -103,30 +103,30 @@ class Repository::Git < Repository
     recent_changesets = changesets.find(:all, conditions: ['committed_on >= ?', since])
 
     # Clean out revisions that are no longer in git
-    recent_changesets.each { |c| c.destroy unless revisions.detect { |r| r.scmid.to_s == c.scmid.to_s } }
+    recent_changesets.each do |c| c.destroy unless revisions.detect { |r| r.scmid.to_s == c.scmid.to_s } end
 
     # Subtract revisions that redmine already knows about
     recent_revisions = recent_changesets.map(&:scmid)
-    revisions.reject! { |r| recent_revisions.include?(r.scmid) }
+    revisions.reject! do |r| recent_revisions.include?(r.scmid) end
 
     # Save the remaining ones to the database
     unless revisions.nil?
       revisions.each do |rev|
         transaction do
           changeset = Changeset.new(
-              repository: self,
-              revision:   rev.identifier,
-              scmid:      rev.scmid,
-              committer:  rev.author,
-              committed_on: rev.time,
-              comments:   rev.message)
+            repository: self,
+            revision:   rev.identifier,
+            scmid:      rev.scmid,
+            committer:  rev.author,
+            committed_on: rev.time,
+            comments:   rev.message)
 
           if changeset.save
             rev.paths.each do |file|
               Change.create(
-                  changeset: changeset,
-                  action:    file[:action],
-                  path:      file[:path])
+                changeset: changeset,
+                action:    file[:action],
+                path:      file[:path])
             end
           end
         end

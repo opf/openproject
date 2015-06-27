@@ -29,7 +29,6 @@
 
 module WorkPackage::StatusTransitions
   include do
-
   end
 
   # Return true if the issue is being reopened

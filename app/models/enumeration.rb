@@ -159,7 +159,7 @@ class Enumeration < ActiveRecord::Base
   def self.sort_by_ancestor_last(entries)
     ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
 
-    ancestor_relationships.sort do |one, two|
+    ancestor_relationships.sort { |one, two|
       if one.last.include?(two.first)
         -1
       elsif two.last.include?(one.first)
@@ -167,7 +167,7 @@ class Enumeration < ActiveRecord::Base
       else
         0
       end
-    end.map(&:first)
+    }.map(&:first)
   end
 
   def check_integrity
@@ -178,6 +178,5 @@ end
 # Force load the subclasses in development mode
 ['time_entry_activity', 'issue_priority',
  'reported_project_status'].each do |enum_subclass|
-
   require_dependency enum_subclass
 end

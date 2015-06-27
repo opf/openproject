@@ -102,10 +102,10 @@ class Group < Principal
     deleted_user = DeletedUser.first
 
     WorkPackage.update_all({ assigned_to_id: deleted_user.id },
-                           { assigned_to_id: id })
+                           assigned_to_id: id)
 
     Journal::WorkPackageJournal.update_all({ assigned_to_id: deleted_user.id },
-                                           { assigned_to_id: id })
+                                           assigned_to_id: id)
   end
 
   def uniqueness_of_groupname

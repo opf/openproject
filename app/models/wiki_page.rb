@@ -281,11 +281,12 @@ class WikiAnnotate
     current_lines = current.journable.text.split(/\r?\n/)
     @lines = current_lines.map { |t| [nil, nil, t] }
     positions = []
-    current_lines.size.times { |i| positions << i }
+    current_lines.size.times do |i| positions << i end
     while current.previous
       d = current.previous.journable.text.split(/\r?\n/).diff(current.journable.text.split(/\r?\n/)).diffs.flatten
       d.each_slice(3) do |s|
-        sign, line = s[0], s[1]
+        sign = s[0]
+        line = s[1]
         if sign == '+' && positions[line] && positions[line] != -1
           if @lines[positions[line]][0].nil?
             @lines[positions[line]][0] = current.version
@@ -294,7 +295,8 @@ class WikiAnnotate
         end
       end
       d.each_slice(3) do |s|
-        sign, line = s[0], s[1]
+        sign = s[0]
+        line = s[1]
         if sign == '-'
           positions.insert(line, -1)
         else

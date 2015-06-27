@@ -92,7 +92,7 @@ class JournalManager
     all_attachable_journal_ids = current.map { |j| j[key] } | predecessor.map { |j| j[key] }
 
     all_attachable_journal_ids.each_with_object({}) { |i, h|
-      h[i] = [predecessor.detect { |j| j[key] == i },
+      h[i] = [predecessor.detect do |j| j[key] == i end,
               current.detect { |j| j[key] == i }]
     }
   end
@@ -213,8 +213,7 @@ class JournalManager
 
   def self.normalize_newlines(data)
     data.each_with_object({}) { |e, h|
-      h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n")
-                                                                        : e[1])
+      h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n") : e[1])
     }
   end
 

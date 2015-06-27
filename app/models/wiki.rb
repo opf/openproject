@@ -89,7 +89,8 @@ class Wiki < ActiveRecord::Base
   def self.find_page(title, options = {})
     project = options[:project]
     if title.to_s =~ %r{\A([^\:]+)\:(.*)\z}
-      project_identifier, title = $1, $2
+      project_identifier = $1
+      title = $2
       project = Project.find_by(identifier: project_identifier) || Project.find_by(name: project_identifier)
     end
     if project && project.wiki
@@ -110,9 +111,9 @@ class Wiki < ActiveRecord::Base
   end
 
   def create_menu_item_for_start_page
-    wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) do |item|
+    wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) { |item|
       item.name = 'Wiki'
-    end
+    }
     wiki_menu_item.new_wiki_page = true
     wiki_menu_item.index_page = true
 

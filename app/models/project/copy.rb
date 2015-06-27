@@ -169,7 +169,7 @@ module Project::Copy
       end
 
       # reload all work_packages in our map, they might be modified by movement in their tree
-      work_packages_map.each { |_, v| v.reload }
+      work_packages_map.each do |_, v| v.reload end
 
       # Relations after in case issues related each other
       project.work_packages.each do |issue|

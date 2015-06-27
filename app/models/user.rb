@@ -623,9 +623,9 @@ class User < Principal
     return true if admin?
 
     candidates_for_project_allowance(project).any? do |candidate|
-      denied = @registered_allowance_evaluators.any? do |filter|
+      denied = @registered_allowance_evaluators.any? { |filter|
         filter.denied_for_project? candidate, action, project, options
-      end
+      }
 
       !denied && @registered_allowance_evaluators.any? do |filter|
         filter.granted_for_project? candidate, action, project, options
@@ -642,9 +642,9 @@ class User < Principal
     initialize_allowance_evaluators
     # authorize if user has at least one membership granting this permission
     candidates_for_global_allowance.any? do |candidate|
-      denied = @registered_allowance_evaluators.any? do |evaluator|
+      denied = @registered_allowance_evaluators.any? { |evaluator|
         evaluator.denied_for_global? candidate, action, options
-      end
+      }
 
       !denied && @registered_allowance_evaluators.any? do |evaluator|
         evaluator.granted_for_global? candidate, action, options
@@ -758,7 +758,7 @@ class User < Principal
     # save. Otherwise, password is nil.
     unless password.nil? or anonymous?
       password_errors = OpenProject::Passwords::Evaluator.errors_for_password(password)
-      password_errors.each { |error| errors.add(:password, error) }
+      password_errors.each do |error| errors.add(:password, error) end
 
       if former_passwords_include?(password)
         errors.add(:password,
@@ -777,9 +777,9 @@ class User < Principal
   private
 
   def initialize_allowance_evaluators
-    @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.map do |evaluator|
+    @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.map { |evaluator|
       evaluator.new(self)
-    end
+    }
   end
 
   def candidates_for_global_allowance

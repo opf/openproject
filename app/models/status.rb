@@ -71,12 +71,12 @@ class Status < ActiveRecord::Base
   def new_statuses_allowed_to(roles, type, author = false, assignee = false)
     if roles && type
       role_ids = roles.map(&:id)
-      transitions = workflows.select do |w|
+      transitions = workflows.select { |w|
         role_ids.include?(w.role_id) &&
         w.type_id == type.id &&
         (author || !w.author) &&
         (assignee || !w.assignee)
-      end
+      }
       transitions.map(&:new_status).uniq.compact.sort
     else
       []

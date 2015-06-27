@@ -82,7 +82,7 @@ class Role < ActiveRecord::Base
   def remove_permission!(*perms)
     return unless permissions.is_a?(Array)
     permissions_will_change!
-    perms.each { |p| permissions.delete(p.to_sym) }
+    perms.each do |p| permissions.delete(p.to_sym) end
     save!
   end
 
