@@ -353,7 +353,7 @@ module OpenProject
                                class: 'version'
               end
             when 'commit'
-              if project && project.repository && (changeset = Changeset.visible.find(:first, conditions: ['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{name}%"]))
+              if project && project.repository && (changeset = Changeset.visible.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{name}%"]).first)
                 link = link_to h("#{project_prefix}#{name}"), { only_path: only_path, controller: '/repositories', action: 'revision', project_id: project, rev: changeset.identifier },
                                class: 'changeset',
                                title: truncate_single_line(changeset.comments, length: 100)
@@ -378,7 +378,7 @@ module OpenProject
                                class: 'attachment'
               end
             when 'project'
-              if p = Project.visible.find(:first, conditions: ['identifier = :s OR LOWER(name) = :s', { s: name.downcase }])
+              if p = Project.visible.where(['identifier = :s OR LOWER(name) = :s', { s: name.downcase }]).first
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
               end
             end
