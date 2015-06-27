@@ -92,7 +92,7 @@ class WatchersController < ApplicationController
 
   def find_watched_by_id
     return false unless params[:id].to_s =~ /\A\d+\z/
-    @watch = Watcher.find(params[:id], include: { watchable: [:project] })
+    @watch = Watcher.includes(watchable: [:project]).find(params[:id])
     @watched = @watch.watchable
   end
 

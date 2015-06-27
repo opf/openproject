@@ -66,9 +66,15 @@ class TimelogController < ApplicationController
     respond_to do |format|
       format.html do
         # Paginate results
-        @entry_count = TimeEntry.visible.count(include: [:project, :work_package], conditions: cond.conditions)
+        @entry_count = TimeEntry.visible
+                       .includes(:project, :work_package)
+                       .where(cond.conditions)
+                       .count
+        @total_hours = TimeEntry.visible
+                       .includes(:project, :work_package)
+                       .where(cond.conditions)
+                       .sum(:hours).to_f
 
-        @total_hours = TimeEntry.visible.sum(:hours, include: [:project, :work_package], conditions: cond.conditions).to_f
         set_entries(cond)
 
         gon.rabl 'app/views/timelog/index.rabl'
@@ -87,19 +93,21 @@ class TimelogController < ApplicationController
         gon.rabl 'app/views/timelog/index.rabl'
       end
       format.atom do
-        entries = TimeEntry.visible.find(:all,
-                                         include: [:project, :activity, :user, { work_package: :type }],
-                                         conditions: cond.conditions,
-                                         order: "#{TimeEntry.table_name}.created_on DESC",
-                                         limit: Setting.feeds_limit.to_i)
+        entries = TimeEntry.visible
+                  .includes(:project, :activity, :user, work_package: :type)
+                  .where(cond.conditions)
+                  .order("#{TimeEntry.table_name}.created_on DESC")
+                  .limit(Setting.feeds_limit.to_i)
+
         render_feed(entries, title: l(:label_spent_time))
       end
       format.csv {
         # Export all entries
-        @entries = TimeEntry.visible.find(:all,
-                                          include: [:project, :activity, :user, { work_package: [:type, :assigned_to, :priority] }],
-                                          conditions: cond.conditions,
-                                          order: sort_clause)
+        @entries = TimeEntry.visible
+                   .includes(:project, :activity, :user, work_package: [:type, :assigned_to, :priority])
+                   .where(cond.conditions)
+                   .order(sort_clause)
+
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
         send_data(

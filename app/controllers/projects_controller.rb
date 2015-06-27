@@ -61,18 +61,19 @@ class ProjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        @projects = Project.visible.find(:all, order: 'lft')
+        @projects = Project.visible.order('lft')
       end
       format.atom {
-        projects = Project.visible.find(:all, order: 'created_on DESC',
-                                              limit: Setting.feeds_limit.to_i)
+        projects = Project.visible
+                   .order('created_on DESC')
+                   .limit(Setting.feeds_limit.to_i)
         render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
   end
 
   def new
-    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
@@ -80,7 +81,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
     @project.safe_attributes = params[:project]
@@ -105,17 +106,19 @@ class ProjectsController < ApplicationController
   def show
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
-    @news = @project.news.find(:all, limit: 5, include: [:author, :project], order: "#{News.table_name}.created_on DESC")
+    @news = @project.news.limit(5).includes(:author, :project).order("#{News.table_name}.created_on DESC")
     @types = @project.rolled_up_types
 
     cond = @project.project_condition(Setting.display_subprojects_work_packages?)
 
-    @open_issues_by_type = WorkPackage.visible.count(group: :type,
-                                                     include: [:project, :status, :type],
-                                                     conditions: ["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
-    @total_issues_by_type = WorkPackage.visible.count(group: :type,
-                                                      include: [:project, :status, :type],
-                                                      conditions: cond)
+    @open_issues_by_type = WorkPackage.visible.group(:type)
+                           .includes(:project, :status, :type)
+                           .where(["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
+                           .count
+    @total_issues_by_type = WorkPackage.visible.group(:type)
+                            .includes(:project, :status, :type)
+                            .where(cond)
+                            .count
 
     respond_to do |format|
       format.html
@@ -230,7 +233,7 @@ class ProjectsController < ApplicationController
   end
 
   def load_project_settings
-    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @category ||= Category.new
     @member ||= @project.members.new
     @types = ::Type.all

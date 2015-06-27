@@ -88,7 +88,7 @@ class EnumerationsController < ApplicationController
         return
       end
     end
-    @enumerations = @enumeration.class.find(:all) - [@enumeration]
+    @enumerations = @enumeration.class.all - [@enumeration]
   end
 
   protected

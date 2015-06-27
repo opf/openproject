@@ -231,7 +231,7 @@ class WikiController < ApplicationController
 
   def edit_parent_page
     return render_403 unless editable?
-    @parent_pages = @wiki.pages.all(include: :parent) - @page.self_and_descendants
+    @parent_pages = @wiki.pages.includes(:parent) - @page.self_and_descendants
   end
 
   def update_parent_page
@@ -241,7 +241,7 @@ class WikiController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
     else
-      @parent_pages = @wiki.pages.all(include: :parent) - @page.self_and_descendants
+      @parent_pages = @wiki.pages.includes(:parent) - @page.self_and_descendants
       render 'edit_parent_page'
     end
   end
@@ -313,7 +313,7 @@ class WikiController < ApplicationController
   # Export wiki to a single html file
   def export
     if User.current.allowed_to?(:export_wiki_pages, @project)
-      @pages = @wiki.pages.find :all, order: 'title'
+      @pages = @wiki.pages.order('title')
       export = render_to_string action: 'export_multiple', layout: false
       send_data(export, type: 'text/html', filename: 'wiki.html')
     else
@@ -395,7 +395,7 @@ class WikiController < ApplicationController
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.all(order: 'title', include: { wiki: :project })
+    @pages = @wiki.pages.with_updated_on.order('title').includes(wiki: :project)
   end
 
   def default_breadcrumb

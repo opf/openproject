@@ -29,8 +29,8 @@
 module Api::V2::Concerns::MultipleProjects
   def load_multiple_projects(ids, identifiers)
     @projects = []
-    @projects |= Project.all(conditions: { id: ids }) unless ids.empty?
-    @projects |= Project.all(conditions: { identifier: identifiers }) unless identifiers.empty?
+    @projects |= Project.where(id: ids) unless ids.empty?
+    @projects |= Project.where(identifier: identifiers) unless identifiers.empty?
   end
 
   def projects_contain_certain_ids_and_identifiers(ids, identifiers)
