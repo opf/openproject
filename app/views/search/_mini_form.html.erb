@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= form_tag(search_path(@project), method: :get) do %>
     <%= hidden_field_tag(controller.default_search_scope, 1, :project_id => nil) if controller.default_search_scope %>
 
-    <expandable-search class="top-menu-search" ng-class="{'-collapsed': collapsed === true}">
+    <expandable-search class="top-menu-search -collapsed" ng-class="{'-collapsed': collapsed === true}">
       <div>
         <%= text_field_tag 'q', @question, :size => 20, :class => 'top-menu-search--input', :placeholder => l(:search_input_placeholder) %>
         <a id="top-menu-search-button"
