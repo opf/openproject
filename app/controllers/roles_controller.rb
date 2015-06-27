@@ -47,7 +47,7 @@ class RolesController < ApplicationController
     @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
 
     @permissions = @role.setable_permissions
-    @roles = Role.find :all, order: 'builtin, position'
+    @roles = Role.order('builtin, position')
   end
 
   def create
@@ -61,7 +61,7 @@ class RolesController < ApplicationController
       redirect_to action: 'index'
     else
       @permissions = @role.setable_permissions
-      @roles = Role.find :all, order: 'builtin, position'
+      @roles = Role.order('builtin, position')
 
       render action: 'new'
     end

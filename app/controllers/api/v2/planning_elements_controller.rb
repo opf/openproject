@@ -84,8 +84,9 @@ module Api
       end
 
       def show
-        @planning_element = @project.work_packages.find params[:id],
-                                                        include: [{ custom_values: [{ custom_field: :translations }] }]
+        @planning_element = @project.work_packages
+                            .includes([{ custom_values: [{ custom_field: :translations }] }])
+                            .find(params[:id])
 
         respond_to do |format|
           format.api
@@ -124,8 +125,8 @@ module Api
 
       def load_multiple_projects(ids, identifiers)
         @projects = []
-        @projects |= Project.all(conditions: { id: ids }) unless ids.empty?
-        @projects |= Project.all(conditions: { identifier: identifiers }) unless identifiers.empty?
+        @projects |= Project.where(id: ids) unless ids.empty?
+        @projects |= Project.where(identifier: identifiers) unless identifiers.empty?
       end
 
       def find_single_project

@@ -38,7 +38,7 @@ class VersionsController < ApplicationController
   include VersionsHelper
 
   def index
-    @types = @project.types.find(:all, order: 'position')
+    @types = @project.types.order('position')
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.map(&:id) : [@project.id]
@@ -51,10 +51,9 @@ class VersionsController < ApplicationController
     @issues_by_version = {}
     unless @selected_type_ids.empty?
       @versions.each do |version|
-        issues = version.fixed_issues.visible.find(:all,
-                                                   include: [:project, :status, :type, :priority],
-                                                   conditions: { type_id: @selected_type_ids, project_id: project_ids },
-                                                   order: "#{Project.table_name}.lft, #{::Type.table_name}.position, #{WorkPackage.table_name}.id")
+        issues = version.fixed_issues.visible.includes(:project, :status, :type, :priority)
+                 .where(type_id: @selected_type_ids, project_id: project_ids)
+                 .order("#{Project.table_name}.lft, #{::Type.table_name}.position, #{WorkPackage.table_name}.id")
         @issues_by_version[version] = issues
       end
     end
@@ -62,9 +61,8 @@ class VersionsController < ApplicationController
   end
 
   def show
-    @issues = @version.fixed_issues.visible.find(:all,
-                                                 include: [:status, :type, :priority],
-                                                 order: "#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
+    @issues = @version.fixed_issues.visible.includes(:status, :type, :priority)
+              .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
   end
 
   def new

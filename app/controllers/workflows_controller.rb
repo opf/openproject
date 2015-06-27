@@ -65,7 +65,7 @@ class WorkflowsController < ApplicationController
     @statuses ||= Status.all
 
     if @type && @role && @statuses.any?
-      workflows = Workflow.all(conditions: { role_id: @role.id, type_id: @type.id })
+      workflows = Workflow.where(role_id: @role.id, type_id: @type.id)
       @workflows = {}
       @workflows['always'] = workflows.select { |w| !w.author && !w.assignee }
       @workflows['author'] = workflows.select(&:author)
@@ -104,10 +104,10 @@ class WorkflowsController < ApplicationController
   private
 
   def find_roles
-    @roles = Role.find(:all, order: 'builtin, position')
+    @roles = Role.order('builtin, position')
   end
 
   def find_types
-    @types = ::Type.find(:all, order: 'position')
+    @types = ::Type.order('position')
   end
 end

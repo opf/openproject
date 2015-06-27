@@ -44,8 +44,8 @@ class TypesController < ApplicationController
 
   def new
     @type = ::Type.new(params[:type])
-    @types = ::Type.find(:all, order: 'position')
-    @projects = Project.find(:all)
+    @types = ::Type.order('position')
+    @projects = Project.all
   end
 
   def create
@@ -58,8 +58,8 @@ class TypesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: 'index'
     else
-      @types = ::Type.find(:all, order: 'position')
-      @projects = Project.find(:all)
+      @types = ::Type.order('position')
+      @projects = Project.all
       render action: 'new'
     end
   end

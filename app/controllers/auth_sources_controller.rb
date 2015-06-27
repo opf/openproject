@@ -84,7 +84,7 @@ class AuthSourcesController < ApplicationController
 
   def destroy
     @auth_source = AuthSource.find(params[:id])
-    unless @auth_source.users.find(:first)
+    unless @auth_source.users.first
       @auth_source.destroy
       flash[:notice] = l(:notice_successful_delete)
     end

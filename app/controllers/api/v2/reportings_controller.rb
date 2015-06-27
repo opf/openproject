@@ -120,15 +120,9 @@ module Api
 
         case params[:only]
         when 'via_source'
-          @reportings = @project.reportings_via_source.find(:all,
-                                                            include: :project,
-                                                            conditions: conditions
-                                                           )
+          @reportings = @project.reportings_via_source.includes(:project).where(conditions)
         when 'via_target'
-          @reportings = @project.reportings_via_target.find(:all,
-                                                            include: :project,
-                                                            conditions: conditions
-                                                           )
+          @reportings = @project.reportings_via_target.includes(:project).where(conditions)
         else
           @reportings = @project.reportings.all
         end
@@ -151,15 +145,9 @@ module Api
 
         case params[:only]
         when 'via_source'
-          @ancestor_reportings = @project.reportings_via_source.find(:all,
-                                                                     include: :project,
-                                                                     conditions: conditions
-                                                                    )
+          @ancestor_reportings = @project.reportings_via_source.includes(:project).where(conditions)
         when 'via_target'
-          @ancestor_reportings = @project.reportings_via_target.find(:all,
-                                                                     include: :project,
-                                                                     conditions: conditions
-                                                                    )
+          @ancestor_reportings = @project.reportings_via_target.includes(:project).where(conditions)
         else
           @ancestor_reportings = @project.reportings.all
         end
