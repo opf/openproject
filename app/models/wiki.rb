@@ -30,8 +30,12 @@
 class Wiki < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  has_many :pages, class_name: 'WikiPage', dependent: :destroy, order: 'title'
-  has_many :wiki_menu_items, class_name: 'MenuItems::WikiMenuItem', dependent: :delete_all, order: 'name', foreign_key: 'navigatable_id'
+  has_many :pages, -> {
+    order('title')
+  }, class_name: 'WikiPage', dependent: :destroy
+  has_many :wiki_menu_items, -> {
+    order('name')
+  }, class_name: 'MenuItems::WikiMenuItem', dependent: :delete_all, foreign_key: 'navigatable_id'
   has_many :redirects, class_name: 'WikiRedirect', dependent: :delete_all
 
   acts_as_watchable

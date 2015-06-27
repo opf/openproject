@@ -45,44 +45,55 @@ class Project < ActiveRecord::Base
 
   # Specific overridden Activities
   has_many :time_entry_activities
-  has_many :members, include: [:user, :roles], conditions: "#{Principal.table_name}.type='User' AND #{User.table_name}.status=#{Principal::STATUSES[:active]}"
-  has_many :possible_assignee_members,
-           class_name: 'Member',
-           include: [:principal, :roles],
-           conditions: Proc.new { self.class.possible_principles_condition }
-  has_many :possible_responsible_members,
-           class_name: 'Member',
-           include: [:principal, :roles],
-           conditions: Proc.new { self.class.possible_principles_condition }
+  has_many :members, -> {
+    includes(:user, :roles)
+      .where("#{Principal.table_name}.type='User' AND #{User.table_name}.status=#{Principal::STATUSES[:active]}")
+  }
+  has_many :possible_assignee_members, -> {
+    includes(:principal, :roles)
+      .where(Project.possible_principles_condition)
+  }, class_name: 'Member'
+  has_many :possible_responsible_members, -> {
+    includes(:principal, :roles)
+      .where(Project.possible_principles_condition)
+  }, class_name: 'Member'
   has_many :memberships, class_name: 'Member'
-  has_many :member_principals, class_name: 'Member',
-                               include: :principal,
-                               conditions: "#{Principal.table_name}.type='Group' OR " +
-                                 "(#{Principal.table_name}.type='User' AND " +
-                                 "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
-                                 "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]}))"
+  has_many :member_principals, -> {
+    includes(:principal)
+      .where("#{Principal.table_name}.type='Group' OR " +
+      "(#{Principal.table_name}.type='User' AND " +
+      "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
+      "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]}))")
+  }, class_name: 'Member'
   has_many :users, through: :members
   has_many :principals, through: :member_principals, source: :principal
 
   has_many :enabled_modules, dependent: :delete_all
-  has_and_belongs_to_many :types, order: "#{::Type.table_name}.position"
-  has_many :work_packages, order: "#{WorkPackage.table_name}.created_at DESC", include: [:status, :type]
+  has_and_belongs_to_many :types, -> {
+    order("#{::Type.table_name}.position")
+  }
+  has_many :work_packages, -> {
+    order("#{WorkPackage.table_name}.created_at DESC")
+      .includes(:status, :type)
+  }
   has_many :work_package_changes, through: :work_packages, source: :journals
-  has_many :versions, dependent: :destroy, order: "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
+  has_many :versions, -> {
+    order("#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC")
+  }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :queries, dependent: :delete_all
-  has_many :news, dependent: :destroy, include: :author
-  has_many :categories, dependent: :delete_all, order: "#{Category.table_name}.name"
-  has_many :boards, dependent: :destroy, order: 'position ASC'
+  has_many :news, -> { includes(:author) }, dependent: :destroy
+  has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
+  has_many :boards, -> { order('position ASC') }, dependent: :destroy
   has_one :repository, dependent: :destroy
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
   # Custom field for the project work units
-  has_and_belongs_to_many :work_package_custom_fields,
-                          class_name: 'WorkPackageCustomField',
-                          order: "#{CustomField.table_name}.position",
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          association_foreign_key: 'custom_field_id'
+  has_and_belongs_to_many :work_package_custom_fields, -> {
+    order("#{CustomField.table_name}.position")
+  }, class_name: 'WorkPackageCustomField',
+     join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+     association_foreign_key: 'custom_field_id'
 
   acts_as_nested_set order_column: :name, dependent: :destroy
 

@@ -37,7 +37,9 @@ class Query < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :user
-  has_one :query_menu_item, class_name: 'MenuItems::QueryMenuItem', dependent: :delete, order: 'name', foreign_key: 'navigatable_id'
+  has_one :query_menu_item, -> { order('name') },
+          class_name: 'MenuItems::QueryMenuItem',
+          dependent: :delete, foreign_key: 'navigatable_id'
   serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names
   serialize :sort_criteria, Array

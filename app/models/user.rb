@@ -88,13 +88,18 @@ class User < Principal
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
-  has_many :passwords, class_name: 'UserPassword',
-                       order: 'id DESC',
-                       dependent: :destroy,
-                       inverse_of: :user
+  has_many :passwords, -> {
+    order('id DESC')
+  }, class_name: 'UserPassword',
+     dependent: :destroy,
+     inverse_of: :user
   has_one :preference, dependent: :destroy, class_name: 'UserPreference'
-  has_one :rss_token, dependent: :destroy, class_name: 'Token', conditions: "action='feeds'"
-  has_one :api_token, dependent: :destroy, class_name: 'Token', conditions: "action='api'"
+  has_one :rss_token, -> {
+    where("action='feeds'")
+  }, dependent: :destroy, class_name: 'Token'
+  has_one :api_token, -> {
+    where("action='api'")
+  }, dependent: :destroy, class_name: 'Token'
   belongs_to :auth_source
 
   # Active non-anonymous users scope
