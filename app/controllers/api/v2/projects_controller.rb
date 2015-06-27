@@ -106,7 +106,6 @@ module Api
 
           @associations_by_id[a.project_b_id] ||= []
           @associations_by_id[a.project_b_id] << a
-
         end
       end
 

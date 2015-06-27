@@ -98,7 +98,7 @@ class VersionsController < ApplicationController
         end
       else
         respond_to do |format|
-          format.html { render action: 'new' }
+          format.html do render action: 'new' end
           format.js do
             render(:update) { |page| page.alert(@version.errors.full_messages.join('\n')) }
           end
@@ -145,7 +145,7 @@ class VersionsController < ApplicationController
 
   def status_by
     respond_to do |format|
-      format.html { render action: 'show' }
+      format.html do render action: 'show' end
       format.js { render_status_by @version, params[:status_by] }
     end
   end

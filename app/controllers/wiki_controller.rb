@@ -330,7 +330,7 @@ class WikiController < ApplicationController
 
   def list_attachments
     respond_to do |format|
-      format.json { render 'common/list_attachments', locals: { attachments: @page.attachments } }
+      format.json do render 'common/list_attachments', locals: { attachments: @page.attachments } end
       format.html {}
     end
   end

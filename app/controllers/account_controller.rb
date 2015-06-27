@@ -71,7 +71,8 @@ class AccountController < ApplicationController
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
-        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+        @user.password = params[:new_password]
+        @user.password_confirmation = params[:new_password_confirmation]
         @user.force_password_change = false
         if @user.save
           @token.destroy

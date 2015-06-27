@@ -36,7 +36,7 @@ class SysController < ActionController::Base
   def projects
     p = Project.active.has_module(:repository).find(:all, include: :repository, order: 'identifier')
     respond_to do |format|
-      format.json { render json: p.to_json(include: :repository) }
+      format.json do render json: p.to_json(include: :repository) end
       format.any(:html, :xml) {  render xml: p.to_xml(include: :repository), content_type: Mime::XML }
     end
   end
@@ -119,10 +119,10 @@ class SysController < ActionController::Base
     end
     user = nil
     user_id = Rails.cache.fetch(OpenProject::RepositoryAuthentication::CACHE_PREFIX + Digest::SHA1.hexdigest("#{username}#{password}"),
-                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) do
+                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) {
       user = user_login(username, password)
       user ? user.id.to_s : '-1'
-    end
+    }
 
     return nil if user_id.blank? or user_id == '-1'
 

@@ -52,7 +52,7 @@ class WatchersController < ApplicationController
     @watcher.save if request.post?
 
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html do redirect_to :back end
       format.js do
         render :update do |page|
           page.replace_html 'watchers', partial: 'watchers/watchers', locals: { watched: @watched }
@@ -69,7 +69,7 @@ class WatchersController < ApplicationController
   def destroy
     @watched.set_watcher(@watch.user, false)
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html do redirect_to :back end
       format.js do
         render :update do |page|
           page.replace_html 'watchers', partial: 'watchers/watchers', locals: { watched: @watched }
@@ -104,7 +104,7 @@ class WatchersController < ApplicationController
     @watched.set_watcher(user, watching)
 
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html do redirect_to :back end
       format.js do
         if params[:replace].present?
           if params[:replace].is_a? Array

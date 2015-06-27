@@ -60,9 +60,9 @@ class ProjectsController < ApplicationController
   # Lists visible projects
   def index
     respond_to do |format|
-      format.html {
+      format.html do
         @projects = Project.visible.find(:all, order: 'lft')
-      }
+      end
       format.atom {
         projects = Project.visible.find(:all, order: 'created_on DESC',
                                               limit: Setting.feeds_limit.to_i)
