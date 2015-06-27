@@ -47,12 +47,10 @@ module API
         end
 
         resources :users do
-
           params do
             requires :id, desc: 'User\'s id'
           end
           route_param :id do
-
             before do
               @user  = User.find(params[:id])
             end
@@ -70,7 +68,6 @@ module API
             end
 
             namespace :lock do
-
               # Authenticate lock transitions
               before do
                 unless current_user.admin?

@@ -75,7 +75,8 @@ module Redmine::Acts::Journalized
     # given by the arguments. If the +from+ value represents a journal before that of the +to+
     # value, the array will be ordered from earliest to latest. The reverse is also true.
     def between(from, to)
-      from_number, to_number = journal_at(from), journal_at(to)
+      from_number = journal_at(from)
+      to_number = journal_at(to)
       return [] if from_number.nil? || to_number.nil?
 
       condition = (from_number == to_number) ? to_number : Range.new(*[from_number, to_number].sort)

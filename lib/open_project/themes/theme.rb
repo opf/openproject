@@ -101,7 +101,7 @@ module OpenProject
       def overridden_images
         @overridden_images ||= \
           begin
-            Dir.chdir(overridden_images_path) { Dir.glob('**/*') }
+            Dir.chdir(overridden_images_path) do Dir.glob('**/*') end
           rescue Errno::ENOENT # overridden_images_path missing
             []
           end.to_set

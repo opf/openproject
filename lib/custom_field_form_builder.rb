@@ -30,7 +30,6 @@
 require 'action_view/helpers/form_helper'
 
 class CustomFieldFormBuilder < TabularFormBuilder
-
   # Return custom field html tag corresponding to its format
   def custom_field(options = {})
     input = custom_field_input(options)
@@ -90,11 +89,11 @@ class CustomFieldFormBuilder < TabularFormBuilder
   end
 
   def custom_field_field_name
-    "#{object_name}[#{ object.custom_field.id }]"
+    "#{object_name}[#{object.custom_field.id}]"
   end
 
   def custom_field_field_id
-    "#{object_name}#{ object.custom_field.id }".gsub(/[\[\]]+/, '_')
+    "#{object_name}#{object.custom_field.id}".gsub(/[\[\]]+/, '_')
   end
 
   # Return custom field label tag

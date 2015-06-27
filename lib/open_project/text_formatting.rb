@@ -88,17 +88,17 @@ module OpenProject
       text = Redmine::WikiFormatting.to_html(format, text,
                                              object: obj,
                                              attribute: attr,
-                                             edit: edit) do |macro, macro_args|
+                                             edit: edit) { |macro, macro_args|
         exec_macro(macro, obj, macro_args, view: self, edit: edit, project: project)
-      end
+      }
 
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
       @parsed_headings = []
-      text = parse_non_pre_blocks(text) do |text|
+      text = parse_non_pre_blocks(text) { |text|
         [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
           send method_name, text, project, obj, attr, only_path, options
         end
-      end
+      }
 
       if @parsed_headings.any?
         replace_toc(text, @parsed_headings)
@@ -115,7 +115,10 @@ module OpenProject
       parsed = ''
       while !s.eos?
         s.scan(/(.*?)(<(\/)?(pre|code)(.*?)>|\z)/im)
-        text, full_tag, closing, tag = s[1], s[2], s[3], s[4]
+        text = s[1]
+        full_tag = s[2]
+        closing = s[3]
+        tag = s[4]
         if tags.empty?
           yield text
         end
@@ -156,16 +159,19 @@ module OpenProject
     def parse_relative_urls(text, _project, _obj, _attr, only_path, _options)
       return if only_path
       text.gsub!(RELATIVE_LINK_RE) do |m|
-        href, relative_url = $1, $2 || $3
+        href = $1
+        relative_url = $2 || $3
         next m unless href.present?
         if defined?(request) && request.present?
           # we have a request!
-          protocol, host_with_port = request.protocol, request.host_with_port
+          protocol = request.protocol
+          host_with_port = request.host_with_port
         elsif @controller
           # use the same methods as url_for in the Mailer
           url_opts = @controller.class.default_url_options
           next m unless url_opts && url_opts[:protocol] && url_opts[:host]
-          protocol, host_with_port = "#{url_opts[:protocol]}://", url_opts[:host]
+          protocol = "#{url_opts[:protocol]}://"
+          host_with_port = url_opts[:host]
         else
           next m
         end
@@ -178,7 +184,10 @@ module OpenProject
       if options[:attachments] || (obj && obj.respond_to?(:attachments))
         attachments = nil
         text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
-          filename, ext, alt, alttext = $1.downcase, $2, $3, $4
+          filename = $1.downcase
+          ext = $2
+          alt = $3
+          alttext = $4
           attachments ||= (options[:attachments] || obj.attachments).sort_by(&:created_on).reverse
           # search for the picture in attachments
           if found = attachments.detect { |att| att.filename.downcase == filename }
@@ -208,7 +217,10 @@ module OpenProject
     def parse_wiki_links(text, project, _obj, _attr, only_path, options)
       text.gsub!(/(!)?(\[\[([^\]\n\|]+)(\|([^\]\n\|]+))?\]\])/) do |_m|
         link_project = project
-        esc, all, page, title = $1, $2, $3, $5
+        esc = $1
+        all = $2
+        page = $3
+        title = $5
         if esc.nil?
           if page =~ /\A([^\:]+)\:(.*)\z/
             link_project = Project.find_by(identifier: $1) || Project.find_by(name: $1)
@@ -220,16 +232,17 @@ module OpenProject
             # extract anchor
             anchor = nil
             if page =~ /\A(.+?)\#(.+)\z/
-              page, anchor = $1, $2
+              page = $1
+              anchor = $2
             end
             # check if page exists
             wiki_page = link_project.wiki.find_page(page)
             url = case options[:wiki_links]
-              when :local; "#{title}.html"
-              when :anchor; "##{title}"   # used for single-file wiki export
-              else
-                wiki_page_id = page.present? ? Wiki.titleize(page) : nil
-                url_for(only_path: only_path, controller: '/wiki', action: 'show', project_id: link_project, id: wiki_page_id, anchor: anchor)
+                  when :local; "#{title}.html"
+                  when :anchor; "##{title}"   # used for single-file wiki export
+                  else
+                    wiki_page_id = page.present? ? Wiki.titleize(page) : nil
+                    url_for(only_path: only_path, controller: '/wiki', action: 'show', project_id: link_project, id: wiki_page_id, anchor: anchor)
               end
             link_to(h(title || page), url, class: ('wiki-page' + (wiki_page ? '' : ' new')))
           else
@@ -276,7 +289,13 @@ module OpenProject
     #     identifier:source:some/file
     def parse_redmine_links(text, project, obj, attr, only_path, options)
       text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |_m|
-        leading, esc, project_prefix, project_identifier, prefix, sep, identifier = $1, $2, $3, $4, $5, $7 || $9, $8 || $10
+        leading = $1
+        esc = $2
+        project_prefix = $3
+        project_identifier = $4
+        prefix = $5
+        sep = $7 || $9
+        identifier = $8 || $10
         link = nil
         if project_identifier
           project = Project.visible.find_by(identifier: project_identifier)
@@ -342,7 +361,9 @@ module OpenProject
             when 'source', 'export'
               if project && project.repository && User.current.allowed_to?(:browse_repository, project)
                 name =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
-                path, rev, anchor = $1, $3, $5
+                path = $1
+                rev = $3
+                anchor = $5
                 link = link_to h("#{project_prefix}#{prefix}:#{name}"), { controller: '/repositories', action: 'entry', project_id: project,
                                                                           path: path.to_s,
                                                                           rev: rev,
@@ -375,7 +396,9 @@ module OpenProject
       return if options[:headings] == false
 
       text.gsub!(HEADING_RE) do
-        level, attrs, content = $1.to_i, $2, $3
+        level = $1.to_i
+        attrs = $2
+        content = $3
         item = strip_tags(content).strip
         anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
         @parsed_headings << [level, anchor, item]

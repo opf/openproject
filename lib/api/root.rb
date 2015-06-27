@@ -130,7 +130,7 @@ module API
         raise ArgumentError if projects.nil? && !global
         projects = Array(projects)
 
-        authorized = permissions.any? do |permission|
+        authorized = permissions.any? { |permission|
           allowed_condition = Project.allowed_to_condition(user, permission)
           allowed_projects = Project.where(allowed_condition)
 
@@ -139,7 +139,7 @@ module API
           else
             !(allowed_projects & projects).empty?
           end
-        end
+        }
 
         raise API::Errors::Unauthorized unless authorized
         authorized

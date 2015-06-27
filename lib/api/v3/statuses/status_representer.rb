@@ -31,7 +31,6 @@ module API
   module V3
     module Statuses
       class StatusRepresenter < ::API::Decorators::Single
-
         self_link
 
         property :id, render_nil: true

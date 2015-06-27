@@ -40,7 +40,7 @@ module OpenProject
             end
 
             if config[:password].blank?
-              raise ArgumentError, "password must not be empty"
+              raise ArgumentError, 'password must not be empty'
             end
 
             @configuration = config

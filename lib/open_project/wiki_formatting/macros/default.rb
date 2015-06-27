@@ -74,7 +74,6 @@ module OpenProject
             pages = ([page] + page.descendants).group_by(&:parent_id)
             render_page_hierarchy(pages, options[:parent] ? page.parent_id : page.id)
           end
-
         end
 
         Redmine::WikiFormatting::Macros.register do

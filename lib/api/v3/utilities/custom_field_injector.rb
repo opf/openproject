@@ -83,9 +83,9 @@ module API
           end
 
           def create_value_representer_for_property_patching(customizable, representer)
-            property_fields = customizable.available_custom_fields.select do |cf|
+            property_fields = customizable.available_custom_fields.select { |cf|
               property_field?(cf)
-            end
+            }
 
             injector = CustomFieldInjector.new(representer)
             property_fields.each do |custom_field|
@@ -96,9 +96,9 @@ module API
           end
 
           def create_value_representer_for_link_patching(customizable, representer)
-            linked_fields = customizable.available_custom_fields.select do |cf|
+            linked_fields = customizable.available_custom_fields.select { |cf|
               linked_field?(cf)
-            end
+            }
 
             injector = CustomFieldInjector.new(representer)
             linked_fields.each do |custom_field|

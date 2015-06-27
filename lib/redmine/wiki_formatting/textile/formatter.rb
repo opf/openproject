@@ -97,7 +97,11 @@ module Redmine
         # Turns all urls into clickable links (code from Rails).
         def inline_auto_link(text)
           text.gsub!(AUTO_LINK_RE) do
-            all, leading, proto, url, post = $&, $1, $2, $3, $6
+            all = $&
+            leading = $1
+            proto = $2
+            url = $3
+            post = $6
             if leading =~ /<a\s/i || leading =~ /![<>=]?/ || leading =~ /\{\{\w+\(/
               # don't replace URLs that are already linked
               # and URLs prefixed with ! !> !< != (textile images)

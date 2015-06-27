@@ -49,12 +49,12 @@ module API
       end
 
       def error_response(rescued_error, error = nil, rescue_subclasses: nil, headers: {})
-        default_response = lambda do |e|
+        default_response = lambda { |e|
           representer = ::API::V3::Errors::ErrorRepresenter.new e
           env['api.format'] = 'hal+json'
 
           error_response status: e.code, message: representer.to_json, headers: headers
-        end
+        }
 
         response =
           if error.nil?

@@ -195,9 +195,9 @@ module Pagination::Controller
 
           search_call = (options.presence ? methods[:search].call(params[:q], options) : methods[:search].call(params[:q]))
           @paginated_items = methods[:pagination].call(
-                                                       search_call,
-                                                       page: page, page_limit: size
-                                                      )
+            search_call,
+            page: page, page_limit: size
+          )
 
           @more = @paginated_items.total_pages > page
           @total = @paginated_items.total_entries

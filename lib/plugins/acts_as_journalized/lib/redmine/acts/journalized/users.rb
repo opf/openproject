@@ -107,8 +107,8 @@ module Redmine::Acts::Journalized
       # +user_name+ string column is populated.
       def user_with_name=(value)
         case value
-          when ActiveRecord::Base then self.user_without_name = value
-          else self.user = User.find_by_login(value)
+        when ActiveRecord::Base then self.user_without_name = value
+        else self.user = User.find_by_login(value)
         end
       end
     end

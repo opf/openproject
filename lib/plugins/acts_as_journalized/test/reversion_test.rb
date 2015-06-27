@@ -32,7 +32,9 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 class RejournalTest < Test::Unit::TestCase
   context 'A model rejournal' do
     setup do
-      @user, @attributes, @times = User.new, {}, {}
+      @user = User.new
+      @attributes = {}
+      @times = {}
       names = ['Steve Richert', 'Stephen Richert', 'Stephen Jobs', 'Steve Jobs']
       time = names.size.hours.ago
       names.each do |name|
@@ -45,7 +47,8 @@ class RejournalTest < Test::Unit::TestCase
         @times[@user.journal] = time
       end
       @user.reload.journals.reload
-      @first_journal, @last_journal = @attributes.keys.min, @attributes.keys.max
+      @first_journal = @attributes.keys.min
+      @last_journal = @attributes.keys.max
     end
 
     should 'return the new journal number' do

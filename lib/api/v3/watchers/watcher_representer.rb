@@ -34,7 +34,6 @@ module API
   module V3
     module Watchers
       class WatcherRepresenter < ::API::Decorators::Single
-
         property :user,
                  exec_context: :decorator,
                  getter: -> (*) {

@@ -56,9 +56,9 @@ module OpenProject::NestedSet::RebuildPatch
                 "#{quoted_table_name}.#{quoted_right_column_name} >= parent.#{quoted_right_column_name}))"
 
       scope :invalid_duplicates_in_columns, lambda {
-        scope_string = Array(acts_as_nested_set_options[:scope]).map do |c|
+        scope_string = Array(acts_as_nested_set_options[:scope]).map { |c|
           "#{quoted_table_name}.#{connection.quote_column_name(c)} = duplicates.#{connection.quote_column_name(c)}"
-        end.join(' AND ')
+        }.join(' AND ')
 
         scope_string = scope_string.size > 0 ? scope_string + ' AND ' : ''
 
@@ -71,9 +71,9 @@ module OpenProject::NestedSet::RebuildPatch
       }
 
       scope :invalid_roots, lambda {
-        scope_string = Array(acts_as_nested_set_options[:scope]).map do |c|
+        scope_string = Array(acts_as_nested_set_options[:scope]).map { |c|
           "#{quoted_table_name}.#{connection.quote_column_name(c)} = other.#{connection.quote_column_name(c)}"
-        end.join(' AND ')
+        }.join(' AND ')
 
         scope_string = scope_string.size > 0 ? scope_string + ' AND ' : ''
 
@@ -132,8 +132,7 @@ module OpenProject::NestedSet::RebuildPatch
         h[k] = 0
       end
 
-      set_left_and_rights = lambda do |node|
-
+      set_left_and_rights = lambda { |node|
         # set left
         node[left_column_name] = indices[scope.call(node)] += 1
         # find
@@ -142,18 +141,18 @@ module OpenProject::NestedSet::RebuildPatch
                                quoted_right_column_name,
                                acts_as_nested_set_options[:order]].compact.join(', '))
 
-        children.each { |n| set_left_and_rights.call(n) }
+        children.each do |n| set_left_and_rights.call(n) end
 
         # set right
         node[right_column_name] = indices[scope.call(node)] += 1
 
-        changes = node.changes.inject({}) do |hash, (attribute, _values)|
+        changes = node.changes.inject({}) { |hash, (attribute, _values)|
           hash[attribute] = node.send(attribute.to_s)
           hash
-        end
+        }
 
         update_all(changes,  id: node.id) unless changes.empty?
-      end
+      }
 
       # Find root node(s)
       # or take provided

@@ -67,11 +67,11 @@ module Redmine::Acts::Journalized
       def register_journal_formatter(formatter, klass = nil, &block)
         if block_given?
           klass = Class.new(JournalFormatter::Proc) do
-                    @proc = block
-                  end
+            @proc = block
+          end
         end
 
-        raise ArgumentError "Provide either a class or a block defining the value formatting" if klass.nil?
+        raise ArgumentError 'Provide either a class or a block defining the value formatting' if klass.nil?
 
         JournalFormatter.register formatter.to_sym => klass
       end
