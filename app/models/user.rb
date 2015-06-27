@@ -473,9 +473,9 @@ class User < Principal
     # force string comparison to be case sensitive on MySQL
     type_cast = (OpenProject::Database.mysql?) ? 'BINARY' : ''
     # First look for an exact match
-    user = first(conditions: ["#{type_cast} login = ?", login])
+    user = where(["#{type_cast} login = ?", login]).first
     # Fail over to case-insensitive if none was found
-    user ||= first(conditions: ["#{type_cast} LOWER(login) = ?", login.to_s.downcase])
+    user ||= where(["#{type_cast} LOWER(login) = ?", login.to_s.downcase]).first
   end
 
   def self.find_by_rss_key(key)
@@ -490,11 +490,11 @@ class User < Principal
 
   # Makes find_by_mail case-insensitive
   def self.find_by_mail(mail)
-    find(:first, conditions: ['LOWER(mail) = ?', mail.to_s.downcase])
+    where(['LOWER(mail) = ?', mail.to_s.downcase]).first
   end
 
   def self.find_all_by_mails(mails)
-    find(:all, conditions: ['LOWER(mail) IN (?)', mails])
+    where(['LOWER(mail) IN (?)', mails])
   end
 
   def to_s
@@ -709,7 +709,7 @@ class User < Principal
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
   def self.anonymous
-    anonymous_user = AnonymousUser.find(:first)
+    anonymous_user = AnonymousUser.first
     if anonymous_user.nil?
       (anonymous_user = AnonymousUser.new.tap do |u|
         u.lastname = 'Anonymous'
@@ -808,7 +808,7 @@ class User < Principal
     timelines_filter = ['planning_element_responsibles', 'planning_element_assignee', 'project_responsibles']
     substitute = DeletedUser.first
 
-    timelines = Timeline.all(conditions: ['options LIKE ?', "%#{id}%"])
+    timelines = Timeline.where(['options LIKE ?', "%#{id}%"])
 
     timelines.each do |timeline|
       timelines_filter.each do |field|
@@ -903,7 +903,7 @@ class AnonymousUser < User
 
   # There should be only one AnonymousUser in the database
   def validate_unique_anonymous_user
-    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.find(:first)
+    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.any?
   end
 
   def available_custom_fields

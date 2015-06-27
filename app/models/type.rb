@@ -108,7 +108,7 @@ class ::Type < ActiveRecord::Base
   private
 
   def check_integrity
-    raise "Can't delete type" if WorkPackage.find(:first, conditions: ['type_id=?', id])
+    raise "Can't delete type" if WorkPackage.where(['type_id=?', id]).any?
   end
 
   def transition_exists?(status_id_a, status_id_b, role_ids)

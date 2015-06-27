@@ -131,13 +131,13 @@ class Role < ActiveRecord::Base
 
   # Find all the roles that can be given to a project member
   def self.find_all_givable
-    find(:all, conditions: { builtin: 0 }, order: 'position')
+    where(builtin: 0).order('position')
   end
 
   # Return the builtin 'non member' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.non_member
-    non_member_role = find(:first, conditions: { builtin: BUILTIN_NON_MEMBER })
+    non_member_role = where(builtin: BUILTIN_NON_MEMBER).first
     if non_member_role.nil?
       non_member_role = create(name: 'Non member', position: 0) do |role|
         role.builtin = BUILTIN_NON_MEMBER
@@ -150,7 +150,7 @@ class Role < ActiveRecord::Base
   # Return the builtin 'anonymous' role.  If the role doesn't exist,
   # it will be created on the fly.
   def self.anonymous
-    anonymous_role = find(:first, conditions: { builtin: BUILTIN_ANONYMOUS })
+    anonymous_role = where(builtin: BUILTIN_ANONYMOUS).first
     if anonymous_role.nil?
       anonymous_role = create(name: 'Anonymous', position: 0) do |role|
         role.builtin = BUILTIN_ANONYMOUS

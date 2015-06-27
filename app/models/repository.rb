@@ -150,25 +150,26 @@ class Repository < ActiveRecord::Base
   def find_changeset_by_name(name)
     name = name.to_s
     return nil if name.blank?
-    changesets.find(:first, conditions: (name.match(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%']))
+    changesets.where((name.match(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%'])).first
   end
 
   def latest_changeset
-    @latest_changeset ||= changesets.find(:first)
+    @latest_changeset ||= changesets.first
   end
 
   # Returns the latest changesets for +path+
   # Default behaviour is to search in cached changesets
   def latest_changesets(path, _rev, limit = 10)
     if path.blank?
-      changesets.find(:all, include: :user,
-                            order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-                            limit: limit)
+      changesets.includes(:user)
+        .order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
+        .limit(limit)
     else
-      changes.find(:all, include: { changeset: :user },
-                         conditions: ['path = ?', path.with_leading_slash],
-                         order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-                         limit: limit).map(&:changeset)
+      changesets.includes(changeset: :user)
+        .where(['path = ?', path.with_leading_slash])
+        .order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
+        .limit(limit)
+        .map(&:changeset)
     end
   end
 
@@ -208,7 +209,7 @@ class Repository < ActiveRecord::Base
       return @found_committer_users[committer] if @found_committer_users.has_key?(committer)
 
       user = nil
-      c = changesets.find(:first, conditions: { committer: committer }, include: :user)
+      c = changesets.includes(:user).find_by(committer: committer)
       if c && c.user
         user = c.user
       elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
@@ -232,7 +233,7 @@ class Repository < ActiveRecord::Base
   # Can be called periodically by an external script
   # eg. ruby script/runner "Repository.fetch_changesets"
   def self.fetch_changesets
-    Project.active.has_module(:repository).find(:all, include: :repository).each do |project|
+    Project.active.has_module(:repository).includes(:repository).each do |project|
       if project.repository
         begin
           project.repository.fetch_changesets

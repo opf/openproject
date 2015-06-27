@@ -98,7 +98,9 @@ class Version < ActiveRecord::Base
 
   # Returns the total reported time for this version
   def spent_hours
-    @spent_hours ||= TimeEntry.sum(:hours, include: :work_package, conditions: ["#{WorkPackage.table_name}.fixed_version_id = ?", id]).to_f
+    @spent_hours ||= TimeEntry.includes(:work_package)
+                     .where(["#{WorkPackage.table_name}.fixed_version_id = ?", id])
+                     .sum(:hours).to_f
   end
 
   def closed?

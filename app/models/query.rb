@@ -190,7 +190,7 @@ class Query < ActiveRecord::Base
     @available_columns = ::Query.available_columns
     @available_columns += (project ?
                             project.all_work_package_custom_fields :
-                            WorkPackageCustomField.find(:all)
+                            WorkPackageCustomField.all
                           ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
     if WorkPackage.done_ratio_disabled?
       @available_columns.select! { |column| column.name != :done_ratio }.length
@@ -454,7 +454,7 @@ class Query < ActiveRecord::Base
             .limit(options[:limit])
             .offset(options[:offset])
 
-    query.find :all
+    query.all
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end

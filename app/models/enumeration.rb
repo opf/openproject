@@ -65,10 +65,10 @@ class Enumeration < ActiveRecord::Base
     # it's type.  STI subclasses will automatically add their own
     # types to the finder.
     if self.descends_from_active_record?
-      find(:first, conditions: { is_default: true, type: 'Enumeration' })
+      where(is_default: true, type: 'Enumeration').first
     else
       # STI classes are
-      find(:first, conditions: { is_default: true })
+      where(is_default: true).first
     end
   end
 

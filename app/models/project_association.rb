@@ -65,7 +65,7 @@ class ProjectAssociation < ActiveRecord::Base
 
     condition = "(#{condition}) AND id != :id" unless new_record?
 
-    c = self.class.count(conditions: [condition, { first: project_a, second: project_b, id: id }])
+    c = self.class.where([condition, { first: project_a, second: project_b, id: id }]).count
 
     errors.add(:base, :project_association_already_exists) if c != 0
 
