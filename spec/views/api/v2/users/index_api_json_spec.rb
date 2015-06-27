@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe '/api/v2/users/index.api.rabl', type: :view do
-
   before do
     params[:format] = 'json'
   end
@@ -67,11 +66,8 @@ describe '/api/v2/users/index.api.rabl', type: :view do
     end
 
     it 'renders both users' do
-
       is_expected.to be_json_eql({ firstname: 'Peter', lastname: 'Test', name: 'Peter Test' }.to_json).at_path('users/0')
       is_expected.to be_json_eql({ firstname: 'Mary', lastname: 'Test', name: 'Mary Test' }.to_json).at_path('users/1')
-
     end
-
   end
 end

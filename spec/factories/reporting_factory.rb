@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory(:reporting, class: Reporting) do
-    project { |e| e.association(:project) }
+    project do |e| e.association(:project) end
     reporting_to_project { |e| e.association(:public_project) }
   end
 end

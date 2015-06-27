@@ -33,7 +33,7 @@ shared_examples_for 'handling anonymous user' do |type, path|
     let(:get_path) { path % [id] }
 
     context 'when access for anonymous user is allowed' do
-      before { get get_path }
+      before do get get_path end
 
       it 'should respond with 200' do
         expect(subject.status).to eq(200)

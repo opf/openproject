@@ -56,12 +56,12 @@ describe Api::V2::ProjectsController, type: :controller do
           @visible_projects = [
             FactoryGirl.create(:project, is_public: false),
             FactoryGirl.create(:project, is_public: false)
-          ].each do |project|
+          ].each { |project|
             FactoryGirl.create(:member,
                                project: project,
                                principal: current_user,
                                roles: [FactoryGirl.create(:role)])
-          end
+          }
           @visible_projects << FactoryGirl.create(:project, is_public: true)
 
           @invisible_projects = [
@@ -93,8 +93,8 @@ describe Api::V2::ProjectsController, type: :controller do
       end
 
       describe 'private project' do
-        before { $debug = true  }
-        after  { $debug = false }
+        before do $debug = true  end
+        after  do $debug = false end
 
         let(:project) { FactoryGirl.create(:project, is_public: false) }
         def fetch

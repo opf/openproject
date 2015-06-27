@@ -65,9 +65,9 @@ describe MembersController, type: :controller do
         u.reload
         expect(u.memberships.size).to be >= 1
 
-        expect(u.memberships.find do |m|
+        expect(u.memberships.find { |m|
           expect(m.roles).to include(role)
-        end).not_to be_nil
+        }).not_to be_nil
       end
     end
   end
@@ -79,10 +79,10 @@ describe MembersController, type: :controller do
     let(:role_2) { FactoryGirl.create(:role) }
     let(:member_2) {
       FactoryGirl.create(
-      :member,
-      project: project_2,
-      user: admin,
-      roles: [role_1])
+        :member,
+        project: project_2,
+        user: admin,
+        roles: [role_1])
     }
 
     before do

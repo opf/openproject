@@ -30,14 +30,14 @@
 # Runs block with settings specified in options.
 # The original settings are restored afterwards.
 def with_settings(options, &_block)
-  saved_settings = options.keys.inject({}) do |h, k|
+  saved_settings = options.keys.inject({}) { |h, k|
     h[k] = Setting[k].is_a?(Symbol) ?
               Setting[k] :
               Setting[k].dup
     h
-  end
+  }
 
-  options.each { |k, v| Setting[k] = v }
+  options.each do |k, v| Setting[k] = v end
   yield
 ensure
   saved_settings.each { |k, v| Setting[k] = v }

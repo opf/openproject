@@ -66,9 +66,9 @@ describe User::Authorization, type: :model do
     end
 
     it 'returns the users that are returned by the block' do
-      returned_users = User.authorize_within(project) do |_|
+      returned_users = User.authorize_within(project) { |_|
         [users.first]
-      end
+      }
 
       expect(returned_users).to match_array [users.first]
     end

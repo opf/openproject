@@ -31,7 +31,6 @@ require 'spec_helper'
 require 'support/shared/previews'
 
 describe WorkPackagesController, type: :controller do
-
   before do
     allow(User).to receive(:current).and_return current_user
     # disables sending mails
@@ -63,7 +62,6 @@ describe WorkPackagesController, type: :controller do
 
     describe 'w/ the permission to see the project
               w/ having the necessary permissions' do
-
       before do
         allow(controller).to receive(:work_package).and_return(stub_work_package)
         expect(controller).to receive(:authorize).and_return(true)
@@ -152,7 +150,7 @@ describe WorkPackagesController, type: :controller do
 
       describe 'html' do
         let(:call_action) { get('index', project_id: project.id) }
-        before { call_action }
+        before do call_action end
 
         describe 'w/o a project' do
           let(:project) { nil }
@@ -174,7 +172,7 @@ describe WorkPackagesController, type: :controller do
             FactoryGirl.build_stubbed(:query).tap { |q| q.filters = [Queries::WorkPackages::Filter.new('done_ratio', operator: '>=', values: [10])] }
           end
 
-          before { allow(session).to receive(:query).and_return query }
+          before do allow(session).to receive(:query).and_return query end
 
           it 'preserves the query' do
             expect(assigns['query'].filters).to eq(query.filters)
@@ -187,17 +185,15 @@ describe WorkPackagesController, type: :controller do
         let(:call_action) { get('index', params.merge(format: 'csv')) }
 
         requires_export_permission do
-
           before do
             mock_csv = double('csv export')
 
             expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, query)
-                                                          .and_return(mock_csv)
+              .and_return(mock_csv)
 
             expect(controller).to receive(:send_data).with(mock_csv,
                                                            type: 'text/csv; charset=utf-8; header=present',
                                                            filename: "#{query.name}.csv") do |_|
-
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
               controller.render text: 'success'
@@ -258,7 +254,7 @@ describe WorkPackagesController, type: :controller do
     describe 'with invalid query' do
       context 'when a non-existant query has been previously selected' do
         let(:call_action) { get('index', project_id: project.id, query_id: 'hokusbogus') }
-        before { call_action }
+        before do call_action end
 
         it 'renders a 404' do
           expect(response.response_code).to be === 404
@@ -305,7 +301,7 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe 'index with a broken project reference' do
-    before { get('index', project_id: 'project_that_doesnt_exist') }
+    before do get('index', project_id: 'project_that_doesnt_exist') end
 
     it { is_expected.to respond_with :not_found }
   end
@@ -364,7 +360,6 @@ describe WorkPackagesController, type: :controller do
       end
 
       it 'renders the new builder template' do
-
         expect(response).to render_template('work_packages/new')
       end
 
@@ -407,7 +402,6 @@ describe WorkPackagesController, type: :controller do
     let(:call_action) { post 'create', params }
 
     requires_permission_in_project do
-
       describe 'w/ having a successful save' do
         before do
           expect(stub_work_package).to receive(:save).and_return(true)
@@ -438,7 +432,6 @@ describe WorkPackagesController, type: :controller do
       end
 
       describe 'w/ having an unsuccessful save' do
-
         before do
           expect(stub_work_package).to receive(:save).and_return(false)
 
@@ -561,7 +554,6 @@ describe WorkPackagesController, type: :controller do
 
       describe 'w/ having a successful save
                 w/ having a faulty attachment' do
-
         before do
           expect(stub_work_package).to receive(:update_by!)
             .with(current_user, wp_params)
@@ -632,9 +624,7 @@ describe WorkPackagesController, type: :controller do
             .and_return(wp_params)
 
           expect(stub_project).to receive(:add_work_package) { |args|
-
             expect(args[:author]).to eql stub_user
-
           }.and_return(stub_issue)
         end
 
@@ -659,7 +649,6 @@ describe WorkPackagesController, type: :controller do
 
         it 'should return nil' do
           expect(controller.work_package).to be_nil
-
         end
       end
     end
@@ -910,7 +899,7 @@ describe WorkPackagesController, type: :controller do
          'updated_at']
       }
 
-      before { post 'create', params }
+      before do post 'create', params end
 
       subject { response }
 
@@ -944,7 +933,7 @@ describe WorkPackagesController, type: :controller do
 
       # see ticket #2009 on OpenProject.org
       context 'new attachment on new work package' do
-        before { post 'create', params }
+        before do post 'create', params end
 
         describe '#journal' do
           let(:attachment_id) { "attachments_#{new_work_package.attachments.first.id}" }
@@ -1060,7 +1049,7 @@ describe WorkPackagesController, type: :controller do
                         journal_notes: notes } }
     }
 
-    before { allow(User).to receive(:current).and_return(user) }
+    before do allow(User).to receive(:current).and_return(user) end
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [description, notes] }
@@ -1075,7 +1064,7 @@ describe WorkPackagesController, type: :controller do
     end
 
     describe 'preview.js' do
-      before { xhr :put, :preview, preview_params }
+      before do xhr :put, :preview, preview_params end
 
       it {
         expect(response).to render_template('common/preview')

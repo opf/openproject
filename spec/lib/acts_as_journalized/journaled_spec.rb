@@ -134,5 +134,4 @@ describe 'Journalized Objects' do
       end
     end
   end
-
 end

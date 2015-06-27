@@ -71,7 +71,7 @@ describe WorkPackages::ReportsController, type: :controller do
 
   describe '#report' do
     describe 'w/o details' do
-      before { get :report, project_id: project.id }
+      before do get :report, project_id: project.id end
 
       subject { response }
 
@@ -96,7 +96,7 @@ describe WorkPackages::ReportsController, type: :controller do
 
     describe 'with details' do
       shared_examples_for 'details view' do
-        before { get :report_details, project_id: project.id, detail: detail }
+        before do get :report_details, project_id: project.id, detail: detail end
 
         subject { response }
 
@@ -162,7 +162,7 @@ describe WorkPackages::ReportsController, type: :controller do
       end
 
       context 'invalid detail' do
-        before { get :report_details, project_id: project.id, detail: 'invalid' }
+        before do get :report_details, project_id: project.id, detail: 'invalid' end
 
         subject { response }
 

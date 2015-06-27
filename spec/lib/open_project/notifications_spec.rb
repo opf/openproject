@@ -56,5 +56,4 @@ describe OpenProject::Notifications do
       }.to raise_error ArgumentError, /provide a block as a callback/
     end
   end
-
 end

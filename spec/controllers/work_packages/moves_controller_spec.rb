@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe WorkPackages::MovesController, type: :controller do
-
   let(:user) { FactoryGirl.create(:user) }
   let(:role) {
     FactoryGirl.create :role,
@@ -64,7 +63,6 @@ describe WorkPackages::MovesController, type: :controller do
     become_admin
 
     describe 'w/o a valid planning element id' do
-
       describe 'w/o being a member or administrator' do
         become_non_member
 
@@ -259,7 +257,6 @@ describe WorkPackages::MovesController, type: :controller do
             let(:moved_work_package) { work_package.reload }
           end
         end
-
       end
 
       describe '&copy' do

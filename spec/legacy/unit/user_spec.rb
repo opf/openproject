@@ -59,18 +59,21 @@ describe User, type: :model do
     user = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
 
     user.login = 'jsmith'
-    user.password, user.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+    user.password = 'adminADMIN!'
+    user.password_confirmation = 'adminADMIN!'
     # login uniqueness
     assert !user.save
     assert_equal 1, user.errors.count
 
     user.login = 'newuser'
-    user.password, user.password_confirmation = 'adminADMIN!', 'NOTadminADMIN!'
+    user.password = 'adminADMIN!'
+    user.password_confirmation = 'NOTadminADMIN!'
     # password confirmation
     assert !user.save
     assert_equal 1, user.errors.count
 
-    user.password, user.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+    user.password = 'adminADMIN!'
+    user.password_confirmation = 'adminADMIN!'
     assert user.save
   end
 
@@ -90,12 +93,14 @@ describe User, type: :model do
     it 'should be case-insensitive.' do
       u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
       u.login = 'newuser'
-      u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+      u.password = 'adminADMIN!'
+      u.password_confirmation = 'adminADMIN!'
       assert u.save
 
       u = User.new(firstname: 'Similar', lastname: 'User', mail: 'similaruser@somenet.foo')
       u.login = 'NewUser'
-      u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+      u.password = 'adminADMIN!'
+      u.password_confirmation = 'adminADMIN!'
       assert !u.save
       assert_includes u.errors[:login], I18n.translate('activerecord.errors.messages.taken')
     end
@@ -104,12 +109,14 @@ describe User, type: :model do
   it 'should mail uniqueness should not be case sensitive' do
     u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
     u.login = 'newuser1'
-    u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+    u.password = 'adminADMIN!'
+    u.password_confirmation = 'adminADMIN!'
     assert u.save
 
     u = User.new(firstname: 'new', lastname: 'user', mail: 'newUser@Somenet.foo')
     u.login = 'newuser2'
-    u.password, u.password_confirmation = 'adminADMIN!', 'adminADMIN!'
+    u.password = 'adminADMIN!'
+    u.password_confirmation = 'adminADMIN!'
     assert !u.save
     assert_includes u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
   end

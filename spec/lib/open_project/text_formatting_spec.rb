@@ -63,7 +63,7 @@ describe OpenProject::TextFormatting do
       allow(Setting).to receive(:text_formatting).and_return('textile')
     end
 
-    context "Changeset links" do
+    context 'Changeset links' do
       let(:repository) do
         FactoryGirl.build_stubbed :repository,
                                   project: project

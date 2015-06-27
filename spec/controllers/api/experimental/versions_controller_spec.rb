@@ -97,7 +97,6 @@ describe Api::Experimental::VersionsController, type: :controller do
         it 'responds with 200' do
           expect(response.response_code).to eql(200)
         end
-
       end
 
       context 'when lacking the necessary permissions' do

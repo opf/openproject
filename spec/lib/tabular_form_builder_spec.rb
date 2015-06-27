@@ -537,7 +537,7 @@ JJ Abrams</textarea>
   # test the label that is generated for various field types
   describe 'labels for fields' do
     let(:options) { {} }
-    shared_examples_for "generated label" do
+    shared_examples_for 'generated label' do
       def expected_label_like(expected_title, expected_classes = 'form--label')
         expect(output).to be_html_eql(%{
           <label class="#{expected_classes}"
@@ -549,7 +549,7 @@ JJ Abrams</textarea>
       end
 
       context 'with a label specified as string' do
-        let(:text) { "My own label" }
+        let(:text) { 'My own label' }
 
         before do
           options[:label] = text
@@ -618,17 +618,16 @@ JJ Abrams</textarea>
           builder.send(input_type, :name, options)
         }
 
-        it_behaves_like "generated label"
+        it_behaves_like 'generated label'
       end
     end
 
-    context "for select" do
+    context 'for select' do
       subject(:output) {
         builder.select :name, [], options
       }
 
-      it_behaves_like "generated label"
+      it_behaves_like 'generated label'
     end
-
   end
 end

@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/project_types/show.api.rabl', type: :view do
-
   before do
     params[:format] = 'json'
   end
@@ -62,6 +61,5 @@ describe 'api/v2/project_types/show.api.rabl', type: :view do
 
       expect(response).to be_json_eql(expected_json).at_path('project_type')
     end
-
   end
 end

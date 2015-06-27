@@ -49,5 +49,4 @@ describe 'account/login', type: :view do
       expect(rendered).not_to include 'Password'
     end
   end
-
 end

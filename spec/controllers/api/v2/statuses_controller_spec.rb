@@ -29,7 +29,6 @@
 require File.expand_path('../../../../spec_helper', __FILE__)
 
 describe Api::V2::StatusesController, type: :controller do
-
   let(:valid_user) { FactoryGirl.create(:user) }
   let(:status)     { FactoryGirl.create(:status) }
 
@@ -48,7 +47,6 @@ describe Api::V2::StatusesController, type: :controller do
       get 'show', id: closed.id, format: 'json'
       expect(assigns(:status)).to eql closed
     end
-
   end
 
   describe 'looking up statuses' do
@@ -62,5 +60,4 @@ describe Api::V2::StatusesController, type: :controller do
       expect(assigns(:statuses)).to include open, in_progress, closed
     end
   end
-
 end

@@ -180,7 +180,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'action on unpersisted' do |action, global|
-      context "for #{action} #{ global ?  'in global context' : 'in project context' }" do
+      context "for #{action} #{ global ? 'in global context' : 'in project context' }" do
         if global
           let(:project) { nil }
         end
@@ -220,7 +220,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'publicize' do |global|
-      context "#{ global ?  'in global context' : 'in project context' }" do
+      context "#{ global ? 'in global context' : 'in project context' }" do
         if global
           let(:project) { nil }
         end
@@ -257,7 +257,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'depublicize' do |global|
-      context "#{ global ?  'in global context' : 'in project context' }" do
+      context "#{ global ? 'in global context' : 'in project context' }" do
         if global
           let(:project) { nil }
         end
@@ -296,7 +296,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'star' do |global|
-      context "#{ global ?  'in global context' : 'in project context' }" do
+      context "#{ global ? 'in global context' : 'in project context' }" do
         if global
           let(:project) { nil }
         end
@@ -307,7 +307,6 @@ describe QueryPolicy, type: :controller do
           expect(subject.allowed?(query, :star)).to be_falsy
         end
       end
-
     end
 
     it_should_behave_like 'action on persisted', :update, global: true

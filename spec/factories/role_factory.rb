@@ -29,7 +29,7 @@
 FactoryGirl.define do
   factory :role do
     permissions []
-    sequence(:name) { |n| "role_#{n}" }
+    sequence(:name) do |n| "role_#{n}" end
     assignable true
 
     factory :non_member do

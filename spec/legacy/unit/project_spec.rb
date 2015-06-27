@@ -189,7 +189,7 @@ describe Project, type: :model do
 
     @ecookbook.destroy
     # make sure that the project non longer exists
-    assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
+    assert_raise(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
     # make sure related data was removed
     assert_nil Member.first(conditions: { project_id: @ecookbook.id })
     assert_nil Board.first(conditions: { project_id: @ecookbook.id })
@@ -854,7 +854,7 @@ describe Project, type: :model do
 
       # Second issue with a cross project relation
       assert_equal 2, copied_second_issue.relations.size, 'Relation not copied'
-      copied_relation = copied_second_issue.relations.select { |r| r.relation_type == 'duplicates' }.first
+      copied_relation = copied_second_issue.relations.find { |r| r.relation_type == 'duplicates' }
       assert_equal 'duplicates', copied_relation.relation_type
       assert_equal 1, copied_relation.from_id, 'Cross project relation not kept'
       assert_not_equal source_relation_cross_project.id, copied_relation.id

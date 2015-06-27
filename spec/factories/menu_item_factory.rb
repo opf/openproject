@@ -28,13 +28,13 @@
 
 FactoryGirl.define do
   factory :menu_item do
-    sequence(:name) { |n| "Item No. #{n}" }
-    sequence(:title) { |n| "Menu item Title #{n}" }
+    sequence(:name) do |n| "Item No. #{n}" end
+    sequence(:title) do |n| "Menu item Title #{n}" end
 
     factory :wiki_menu_item, class: MenuItems::WikiMenuItem do
       wiki
 
-      sequence(:title) { |n| "Wiki Title #{n}" }
+      sequence(:title) do |n| "Wiki Title #{n}" end
 
       trait :with_menu_item_options do
         index_page true
@@ -53,8 +53,8 @@ FactoryGirl.define do
     factory :query_menu_item, class: MenuItems::QueryMenuItem do
       query
 
-      name { query.normalized_name }
-      title { query.name }
+      name do query.normalized_name end
+      title do query.name end
 
       navigatable_id { query.id }
     end

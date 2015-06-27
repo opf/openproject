@@ -30,7 +30,6 @@
 require 'spec_helper'
 
 describe Setting, type: :model do
-
   # OpenProject specific defaults that are set in settings.yml
   describe "OpenProject's default settings" do
     it 'has OpenProject as application title' do
@@ -168,5 +167,4 @@ describe Setting, type: :model do
       Setting.destroy_all
     end
   end
-
 end

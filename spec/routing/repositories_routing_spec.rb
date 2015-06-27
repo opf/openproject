@@ -174,7 +174,6 @@ describe RepositoriesController, type: :routing do
                                                                                                       rev: 'master',
                                                                                                       format: 'raw')
     }
-
   end
 
   describe 'annotate' do

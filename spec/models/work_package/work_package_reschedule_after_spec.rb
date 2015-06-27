@@ -37,7 +37,6 @@ describe WorkPackage, '#reschedule_after', type: :model do
   let(:work_package3) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
 
   [:work_package].each do |subclass|
-
     describe "for a #{subclass}" do
       let(:instance) { send(subclass) }
       let(:child) do
@@ -172,7 +171,6 @@ describe WorkPackage, '#reschedule_after', type: :model do
       end
 
       describe 'with child and grandchild' do
-
         before do
           child.save
           grandchild.start_date = Date.today

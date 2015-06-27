@@ -279,7 +279,6 @@ describe WorkPackage, type: :model do
 
         expect(work_package.errors.get(:base)).to eq([I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: nil)])
       end
-
     end
 
     describe 'w/ an invalid option' do

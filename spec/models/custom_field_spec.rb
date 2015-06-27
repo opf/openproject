@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe CustomField, type: :model do
-  before { CustomField.destroy_all }
+  before do CustomField.destroy_all end
 
   let(:field)  { FactoryGirl.build :custom_field }
   let(:field2) { FactoryGirl.build :custom_field }
@@ -39,7 +39,6 @@ describe CustomField, type: :model do
     it { should validate_length_of(:name).is_at_most(30) }
 
     describe 'uniqueness' do
-
       describe 'WHEN value, locale and type are identical' do
         before do
           field.name = field2.name = 'taken name'
@@ -231,7 +230,6 @@ describe CustomField, type: :model do
     describe "WITH a list field
               WITH two translations
               WITH default_value not included in possible_values in the non current locale translation" do
-
       before do
         field.field_format = 'list'
         field.translations_attributes = [{ 'name' => 'Feld',
@@ -250,7 +248,6 @@ describe CustomField, type: :model do
     describe "WITH a list field
               WITH two translations
               WITH default_value included in possible_values" do
-
       before do
         field.field_format = 'list'
         field.translations_attributes = [{ 'name' => 'Feld',
@@ -269,7 +266,6 @@ describe CustomField, type: :model do
     describe "WITH a list field
               WITH two translations
               WITH default_value not included in possible_values in the current locale translation" do
-
       before do
         field.field_format = 'list'
         field.translations_attributes = [{ 'name' => 'Feld',
@@ -288,7 +284,6 @@ describe CustomField, type: :model do
     describe "WITH a list field
               WITH two translations
               WITH possible_values being empty in a fallbacked translation" do
-
       before do
         field.field_format = 'list'
         field.translations_attributes = [{ 'name' => 'Feld',
@@ -306,7 +301,6 @@ describe CustomField, type: :model do
               WITH the field being required
               WITH two translations
               WITH neither translation defining a default_value" do
-
       before do
         field.field_format = 'list'
         field.is_required = true
@@ -324,7 +318,6 @@ describe CustomField, type: :model do
               WITH the field being required
               WITH two translations being provided
               WITH only one translation specifying a default value" do
-
       before do
         field.field_format = 'bool'
         field.translations_attributes = { '0' => { 'name' => 'name_en',

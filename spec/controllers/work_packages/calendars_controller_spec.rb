@@ -44,7 +44,7 @@ describe WorkPackages::CalendarsController, type: :controller do
                        project: project)
   }
 
-  before { allow(User).to receive(:current).and_return(user) }
+  before do allow(User).to receive(:current).and_return(user) end
 
   describe '#index' do
     shared_examples_for 'calendar#index' do
@@ -62,7 +62,7 @@ describe WorkPackages::CalendarsController, type: :controller do
     end
 
     context 'cross-project' do
-      before { get :index }
+      before do get :index end
 
       it_behaves_like 'calendar#index'
     end
@@ -84,7 +84,7 @@ describe WorkPackages::CalendarsController, type: :controller do
                            user: user)
       }
 
-      before { get :index, query_id: query.id }
+      before do get :index, query_id: query.id end
 
       it_behaves_like 'calendar#index'
     end

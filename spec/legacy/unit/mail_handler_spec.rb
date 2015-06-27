@@ -278,7 +278,7 @@ describe MailHandler, type: :model do
     issue = submit_email(
       'apple_mail_with_attachment.eml',
       issue: { project: 'ecookbook' }
-            )
+    )
     assert_kind_of WorkPackage, issue
     assert_equal 1, issue.attachments.size
 
@@ -294,7 +294,7 @@ describe MailHandler, type: :model do
     issue = submit_email(
       'subject_as_iso-8859-1.eml',
       issue: { project: 'ecookbook' }
-            )
+    )
     assert_kind_of WorkPackage, issue
     assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
   end
@@ -554,7 +554,7 @@ describe MailHandler, type: :model do
         'fullname_of_sender_as_utf8_encoded.eml',
         issue: { project: 'ecookbook' },
         unknown_user: 'create'
-              )
+      )
     end
 
     user = User.first(order: 'id DESC')

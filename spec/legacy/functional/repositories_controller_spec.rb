@@ -58,16 +58,16 @@ describe RepositoriesController, type: :controller do
     assert_template 'revision'
     assert_no_tag tag: 'ul', attributes: { id: 'toolbar-items' },
                   descendant: { tag: 'a', attributes: { href: @controller.url_for(only_path: true,
-                                                                             controller: 'repositories',
-                                                                             action: 'revision',
-                                                                             project_id: 'ecookbook',
-                                                                             rev: '0') } }
+                                                                                  controller: 'repositories',
+                                                                                  action: 'revision',
+                                                                                  project_id: 'ecookbook',
+                                                                                  rev: '0') } }
     assert_tag tag: 'ul', attributes: { id: 'toolbar-items' },
                descendant: { tag: 'a', attributes: { href: @controller.url_for(only_path: true,
-                                                                          controller: 'repositories',
-                                                                          action: 'revision',
-                                                                          project_id: 'ecookbook',
-                                                                          rev: '2') } }
+                                                                               controller: 'repositories',
+                                                                               action: 'revision',
+                                                                               project_id: 'ecookbook',
+                                                                               rev: '2') } }
   end
 
   it 'should graph commits per month' do
@@ -85,7 +85,7 @@ describe RepositoriesController, type: :controller do
       committed_on: Time.now,
       revision: 100,
       comments: 'Committed by foo.'
-     )
+    )
 
     get :committers, project_id: 1
     assert_response :success
@@ -113,7 +113,7 @@ describe RepositoriesController, type: :controller do
       committed_on: Time.now,
       revision: 100,
       comments: 'Committed by foo.'
-          )
+    )
     assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
       post :committers, project_id: 1, committers: { '0' => ['foo', '2'], '1' => ['dlopper', '3'] }
       assert_redirected_to '/projects/ecookbook/repository/committers'

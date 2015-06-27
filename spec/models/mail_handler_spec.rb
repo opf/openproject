@@ -302,7 +302,6 @@ describe MailHandler, type: :model do
       found_user = User.find_by_login(login)
       expect(work_package.author).to eq(found_user)
       expect(found_user.check_password?(password)).to be_truthy
-
     }.to change(User, :count).by(1)
   end
 

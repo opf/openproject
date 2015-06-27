@@ -125,7 +125,6 @@ describe AccountController, type: :controller do
 
         context 'unavailable' do
           it 'keeps the default mapping' do
-
             post :omniauth_login
 
             user = User.find_by_login('whattheheck@example.com')
@@ -178,7 +177,6 @@ describe AccountController, type: :controller do
         end
 
         context 'after a timeout expired' do
-
           before do
             session[:auth_source_registration] = omniauth_hash.merge(
               omniauth: true,
@@ -444,7 +442,6 @@ describe AccountController, type: :controller do
           expect(response).to redirect_to signin_path
         end
       end
-
     end
 
     describe 'with an invalid auth_hash' do
@@ -498,5 +495,4 @@ describe AccountController, type: :controller do
       expect(result).to eql('developer:veryuniqueid')
     end
   end
-
 end

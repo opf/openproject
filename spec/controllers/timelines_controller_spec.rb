@@ -251,7 +251,6 @@ describe TimelinesController, type: :controller do
             expect(response).to redirect_to action: 'show',
                                             id: @created_timelines.last.id,
                                             project_id: project.identifier
-
           end
         end
       end
