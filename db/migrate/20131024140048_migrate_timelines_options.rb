@@ -128,8 +128,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
 
     calling_class.contains_none_element = calling_class.contains_none_element? || pe_types.empty?
 
-    pe_types = pe_types.empty? ? new_ids_of_former_pes
-                               : pe_types.map { |p| pe_type_id_map[p.to_i].to_s }
+    pe_types = pe_types.empty? ? new_ids_of_former_pes : pe_types.map { |p| pe_type_id_map[p.to_i].to_s }
 
     timelines_opts[PE_TYPE_KEY] = pe_types
 
@@ -141,7 +140,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
 
     pe_time_types = timelines_opts[PE_TIME_TYPE_KEY]
 
-    pe_time_types.map! { |p| pe_type_id_map[p.to_i].to_s }
+    pe_time_types.map! do |p| pe_type_id_map[p.to_i].to_s end
 
     timelines_opts[PE_TIME_TYPE_KEY] = pe_time_types
 

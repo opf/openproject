@@ -74,7 +74,6 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
     default_priority_id = get_default_priority_id
 
     with_temporary_legacy_id_column do
-
       insert_legacy_planning_elements_entries_to_work_packages(default_status_id, default_priority_id)
 
       update_legacy_planning_elements_with_new_id
@@ -325,13 +324,13 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
   end
 
   def skip_on_no_planning_elements
-    planning_element = suppress_messages do
+    planning_element = suppress_messages {
       select_one <<-SQL
         SELECT #{db_column('id')}
         FROM #{db_planning_elements_table}
         LIMIT 1
       SQL
-    end
+    }
 
     if planning_element.present?
       false

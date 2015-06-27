@@ -47,7 +47,6 @@ class LegacyWikiContentJournalData < ActiveRecord::Migration
 
   def migrator
     @migrator ||= Migration::LegacyJournalMigrator.new('WikiContentJournal', 'wiki_content_journals') do
-
       def migrate_key_value_pairs!(to_insert, legacy_journal, journal_id)
         # remove once lock_version is no longer a column in the wiki_content_journales table
         if !to_insert.has_key?('lock_version')
@@ -86,7 +85,6 @@ class LegacyWikiContentJournalData < ActiveRecord::Migration
 
         end
       end
-
     end
   end
 end

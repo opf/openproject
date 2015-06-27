@@ -165,10 +165,9 @@ user_count.times do |count|
                                    description: Faker::Lorem.paragraph(5, true, 3),
                                    start_date: s = Date.today - (25 - rand(50)).days,
                                    due_date: s + (1 + rand(120)).days
-    )
+                                  )
     work_package.type = types.sample
     work_package.save!
-
   end
 
   ## extend user's last issue
@@ -231,7 +230,6 @@ user_count.times do |count|
     ## add attachments
 
     3.times do |_attachment_count|
-
       attachment = Attachment.new(container: issue,
                                   author: user,
                                   file: OpenProject::Files.create_uploaded_file(
@@ -239,7 +237,6 @@ user_count.times do |count|
       attachment.save!
 
       issue.attachments << attachment
-
     end
 
     ## add custom values

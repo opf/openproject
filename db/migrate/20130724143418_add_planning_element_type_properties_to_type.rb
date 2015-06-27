@@ -44,7 +44,7 @@ class AddPlanningElementTypePropertiesToType < ActiveRecord::Migration
     add_column :types, :updated_at, :datetime
 
     ::Type.update_all({ created_at: Time.now, updated_at: Time.now },
-                      { created_at: nil, updated_at: nil })
+                      created_at: nil, updated_at: nil)
 
     change_column :types, :created_at, :datetime, null: false
     change_column :types, :updated_at, :datetime, null: false
