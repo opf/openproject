@@ -90,9 +90,9 @@ SQL
     query.add_filters(filter[:f], filter[:op], filter[:v])
 
     WorkPackage.for_projects(projects)
-               .with_query(query)
-               .joins(:status, :project)
-               .pluck(:id)
+      .with_query(query)
+      .joins(:status, :project)
+      .pluck(:id)
   end
 
   def self.unfiltered_work_packages(projects)
