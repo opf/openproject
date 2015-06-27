@@ -136,10 +136,10 @@ module OpenProject::NestedSet::RebuildPatch
         # set left
         node[left_column_name] = indices[scope.call(node)] += 1
         # find
-        children = all(conditions: ["#{quoted_parent_column_name} = ? #{scope.call(node)}", node],
-                       order: [quoted_left_column_name,
-                               quoted_right_column_name,
-                               acts_as_nested_set_options[:order]].compact.join(', '))
+        children = where(["#{quoted_parent_column_name} = ? #{scope.call(node)}", node])
+                   .order([quoted_left_column_name,
+                           quoted_right_column_name,
+                           acts_as_nested_set_options[:order]].compact.join(', '))
 
         children.each do |n| set_left_and_rights.call(n) end
 
@@ -161,10 +161,10 @@ module OpenProject::NestedSet::RebuildPatch
                    elsif roots.present?
                      [roots]
                    else
-                     all(conditions: "#{quoted_parent_column_name} IS NULL",
-                         order: [quoted_left_column_name,
-                                 quoted_right_column_name,
-                                 acts_as_nested_set_options[:order]].compact.join(', '))
+                     where("#{quoted_parent_column_name} IS NULL")
+                     .order([quoted_left_column_name,
+                             quoted_right_column_name,
+                             acts_as_nested_set_options[:order]].compact.join(', '))
                    end
 
       root_nodes.each do |root_node|

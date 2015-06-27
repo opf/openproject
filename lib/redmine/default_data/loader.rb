@@ -38,10 +38,10 @@ module Redmine
         # Returns true if no data is already loaded in the database
         # otherwise false
         def no_data?
-          !Role.find(:first, conditions: { builtin: 0 }) &&
-            !::Type.find(:first, conditions: { is_standard: false }) &&
-            !Status.find(:first) &&
-            !Enumeration.find(:first)
+          !Role.where(builtin: 0).first &&
+            !::Type.where(is_standard: false).first &&
+            !Status.first &&
+            !Enumeration.first
         end
 
         # Loads the default data
@@ -286,8 +286,8 @@ module Redmine
             ProjectType.create!(name: l(:default_project_type_customer))
             ProjectType.create!(name: l(:default_project_type_internal))
 
-            reported_status_ids = ReportedProjectStatus.find(:all).map(&:id)
-            ProjectType.find(:all).each do |project|
+            reported_status_ids = ReportedProjectStatus.all.map(&:id)
+            ProjectType.all.each do |project|
               project.update_attributes(reported_project_status_ids: reported_status_ids)
             end
 
