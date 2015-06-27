@@ -226,14 +226,14 @@ Given /^the type "(.+?)" has the default workflow for the role "(.+?)"$/ do |typ
   type = ::Type.find_by(name: type_name)
   type.workflows = []
 
-  Status.all(order: 'id ASC').map(&:id).combination(2).each do |c|
+  Status.order('id ASC').map(&:id).combination(2).each do |c|
     type.workflows.build(old_status_id: c[0], new_status_id: c[1], role: role)
   end
   type.save!
 end
 
 Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the following:$/ do |issue, count, table|
-  i = WorkPackage.find(:last, conditions: ["subject = '#{issue}'"])
+  i = WorkPackage.where(["subject = '#{issue}'"]).last
   raise "No such issue: #{issue}" unless i
   as_admin count do
     t = TimeEntry.generate
@@ -414,11 +414,12 @@ end
 # Encapsulate the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
   if WorkPackageCustomField.all.map(&:name).include? key.to_s
-    cv = CustomValue.find(:first, conditions: ["customized_id = '#{object.id}'"])
+    cv = CustomValue.where(["customized_id = '#{object.id}'"]).first
     cv ||= CustomValue.new
     cv.customized_type = 'WorkPackage'
     cv.customized_id = object.id
-    cv.custom_field_id = WorkPackageCustomField.first(joins: :translations, conditions: ['custom_field_translations.name = ?', key]).id
+    cv.custom_field_id = WorkPackageCustomField.joins(:translations)
+      .where(['custom_field_translations.name = ?', key]).id
     cv.value = value
     cv.save!
   end
