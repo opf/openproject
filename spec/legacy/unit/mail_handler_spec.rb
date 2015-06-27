@@ -557,7 +557,7 @@ describe MailHandler, type: :model do
       )
     end
 
-    user = User.first(order: 'id DESC')
+    user = User.order('id DESC').first
     assert_equal 'foo@example.org', user.mail
     str1 = "\xc3\x84\xc3\xa4"
     str2 = "\xc3\x96\xc3\xb6"

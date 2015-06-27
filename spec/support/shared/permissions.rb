@@ -90,7 +90,7 @@ shared_examples_for 'a controller action with require_login' do
 end
 
 shared_examples_for 'a controller action with require_admin' do
-  let(:valid_user)   { User.first(conditions: { admin: true }) || FactoryGirl.create(:admin) }
+  let(:valid_user)   { User.where(admin: true).first || FactoryGirl.create(:admin) }
   let(:invalid_user) { FactoryGirl.create(:user) }
 
   extend PermissionSpecHelpers

@@ -118,8 +118,8 @@ describe WikiPage, type: :model do
     # make sure that page content and its history are deleted
     assert WikiContent.where(page_id: 1).empty?
     content_ids.each do |wiki_content_id|
-      assert Journal.find :all, conditions: { journable_type: WikiContent,
-                                              journable_id: wiki_content_id }
+      assert Journal.where(journable_type: WikiContent,
+                           journable_id: wiki_content_id)
     end
   end
 

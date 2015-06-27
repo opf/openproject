@@ -80,6 +80,6 @@ describe WikiRedirect, type: :model do
     assert WikiRedirect.create(wiki: @wiki, title: 'An_old_page', redirects_to: 'Original_title')
 
     @original.destroy
-    assert !@wiki.redirects.find(:first)
+    assert !@wiki.redirects.first
   end
 end

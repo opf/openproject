@@ -45,7 +45,7 @@ describe RolesController, type: :controller do
     assert_template 'index'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.find(:all, order: 'builtin, position'), assigns(:roles)
+    assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
     assert_tag tag: 'a', attributes: { href: edit_role_path(1) },
                content: 'Manager'
@@ -131,7 +131,7 @@ describe RolesController, type: :controller do
     assert_template 'report'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.find(:all, order: 'builtin, position'), assigns(:roles)
+    assert_equal Role.order('builtin, position'), assigns(:roles)
 
     assert_tag tag: 'input', attributes: { type: 'checkbox',
                                            name: 'permissions[3][]',

@@ -134,7 +134,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     i.add_journal User.current, 'Some notes with Redmine links: #2, r2.'
     i.save!
 
-    assert_equal 2, i.journals.count(:all, conditions: "notes LIKE '%notes%'")
+    assert_equal 2, i.journals.where("notes LIKE '%notes%'").count
 
     r = WorkPackage.search('%notes%').first
     assert_equal 1, r.size

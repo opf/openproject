@@ -92,14 +92,14 @@ describe ProjectEnumerationsController, type: :controller do
 
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific',
-      parent: TimeEntryActivity.find(:first),
+      parent: TimeEntryActivity.first,
       project: Project.find(1),
       active: true
     )
     assert project_activity.save
     project_activity_two = TimeEntryActivity.new(
       name: 'Project Specific Two',
-      parent: TimeEntryActivity.find(:last),
+      parent: TimeEntryActivity.last,
       project: Project.find(1),
       active: true
     )
@@ -181,14 +181,14 @@ describe ProjectEnumerationsController, type: :controller do
     session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific',
-      parent: TimeEntryActivity.find(:first),
+      parent: TimeEntryActivity.first,
       project: Project.find(1),
       active: true
     )
     assert project_activity.save
     project_activity_two = TimeEntryActivity.new(
       name: 'Project Specific Two',
-      parent: TimeEntryActivity.find(:last),
+      parent: TimeEntryActivity.last,
       project: Project.find(1),
       active: true
     )
