@@ -76,7 +76,7 @@ class WorkPackage < ActiveRecord::Base
 
   scope :visible, ->(*args) {
     includes(:project)
-    .where(WorkPackage.visible_condition(args.first || User.current))
+      .where(WorkPackage.visible_condition(args.first || User.current))
   }
 
   scope :in_status, -> (*args) do
@@ -98,7 +98,7 @@ class WorkPackage < ActiveRecord::Base
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   scope :open, ->() {
     includes(:status)
-    .where(statuses: { is_closed: false  })
+      .where(statuses: { is_closed: false  })
   }
 
   scope :with_limit, ->(limit) {
@@ -107,7 +107,7 @@ class WorkPackage < ActiveRecord::Base
 
   scope :on_active_project, -> {
     includes(:status, :project, :type)
-    .where(projects: { status: Project::STATUS_ACTIVE })
+      .where(projects: { status: Project::STATUS_ACTIVE })
   }
 
   scope :without_version, -> {
@@ -364,9 +364,9 @@ class WorkPackage < ActiveRecord::Base
 
   def add_time_entry(attributes = {})
     attributes.reverse_merge!(
-        project: project,
-        work_package: self
-      )
+      project: project,
+      work_package: self
+    )
     time_entries.build(attributes)
   end
 
@@ -473,7 +473,7 @@ class WorkPackage < ActiveRecord::Base
       type,
       author == user,
       assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-      )
+    )
     statuses << status unless statuses.empty?
     statuses << Status.default if include_default
     statuses = statuses.uniq.sort
@@ -513,7 +513,7 @@ class WorkPackage < ActiveRecord::Base
     end
     notified.uniq!
     # Remove users that can not view the issue
-    notified.reject! { |user| !visible?(user) }
+    notified.reject! do |user| !visible?(user) end
     notified.map(&:mail)
   end
 
@@ -990,7 +990,7 @@ class WorkPackage < ActiveRecord::Base
 
   def set_default_values
     if new_record? # set default values for new records only
-      self.status   ||= Status.default
+      self.status ||= Status.default
       self.priority ||= IssuePriority.active.default
     end
   end
@@ -1042,7 +1042,7 @@ class WorkPackage < ActiveRecord::Base
         " AND #{Version.table_name}.sharing <> 'system'",
         conditions),
       include: [:project, :fixed_version]
-              ).each do |issue|
+    ).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
       unless issue.project.shared_versions.include?(issue.fixed_version)
         issue.fixed_version = nil

@@ -191,7 +191,7 @@ class Query < ActiveRecord::Base
     @available_columns += (project ?
                             project.all_work_package_custom_fields :
                             WorkPackageCustomField.find(:all)
-                           ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
+                          ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
     if WorkPackage.done_ratio_disabled?
       @available_columns.select! { |column| column.name != :done_ratio }.length
     end
@@ -326,7 +326,7 @@ class Query < ActiveRecord::Base
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
-    project_clauses <<  WorkPackage.visible_condition(User.current)
+    project_clauses << WorkPackage.visible_condition(User.current)
     project_clauses.join(' AND ')
   end
 
@@ -428,7 +428,6 @@ class Query < ActiveRecord::Base
         sql << '(' + sql_for_field(field, operator, values, db_table, db_field) + ')'
       end
       filters_clauses << sql
-
     end if filters.present? and valid?
 
     (filters_clauses << project_statement).join(' AND ')

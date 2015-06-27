@@ -98,7 +98,8 @@ class Member < ActiveRecord::Base
   end
 
   def <=>(member)
-    a, b = roles.sort.first, member.roles.sort.first
+    a = roles.sort.first
+    b = member.roles.sort.first
     a == b ? (principal <=> member.principal) : (a <=> b)
   end
 
@@ -179,7 +180,7 @@ class Member < ActiveRecord::Base
     # Add new roles
     # Do this before destroying them, otherwise the Member is destroyed due to not having any
     # Roles assigned via MemberRoles.
-    new_role_ids.each { |id| do_add_role(id, nil, save_and_possibly_destroy) }
+    new_role_ids.each do |id| do_add_role(id, nil, save_and_possibly_destroy) end
 
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
     member_roles_to_destroy = member_roles.select { |mr| !ids.include?(mr.role_id) }

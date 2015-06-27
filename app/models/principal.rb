@@ -43,13 +43,13 @@ class Principal < ActiveRecord::Base
 
   has_many :members, foreign_key: 'user_id', dependent: :destroy
   has_many :memberships, -> {
-                          includes(:project, :roles)
-                           .where(projects: { status: Project::STATUS_ACTIVE})
-                           .order('projects.name ASC')
-                           # haven't been able to produce the order using hashes
-                        },
-                        class_name: 'Member',
-                        foreign_key: 'user_id'
+    includes(:project, :roles)
+      .where(projects: { status: Project::STATUS_ACTIVE })
+      .order('projects.name ASC')
+    # haven't been able to produce the order using hashes
+  },
+           class_name: 'Member',
+           foreign_key: 'user_id'
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
 
@@ -84,7 +84,7 @@ class Principal < ActiveRecord::Base
              "LOWER(#{lastnamefirstname}) LIKE :s OR " +
              'LOWER(mail) LIKE :s',
            { s: s }])
-    .order(:type, :login, :lastname, :firstname, :mail)
+      .order(:type, :login, :lastname, :firstname, :mail)
   }
 
   scope :visible_by, lambda { |principal| Principal.visible_by_condition(principal) }

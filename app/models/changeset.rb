@@ -138,11 +138,13 @@ class Changeset < ActiveRecord::Base
     referenced_work_packages = []
 
     comments.scan(/([\s\(\[,-]|^)((#{kw_regexp})[\s:]+)?(#\d+(\s+@#{TIMELOG_RE})?([\s,;&]+#\d+(\s+@#{TIMELOG_RE})?)*)(?=[[:punct:]]|\s|<|$)/i) do |match|
-      action, refs = match[2], match[3]
+      action = match[2]
+      refs = match[3]
       next unless action.present? || ref_keywords_any
 
       refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/).each do |m|
-        work_package, hours = find_referenced_work_package_by_id(m[0].to_i), m[2]
+        work_package = find_referenced_work_package_by_id(m[0].to_i)
+        hours = m[2]
         if work_package
           referenced_work_packages << work_package
           fix_work_package(work_package) if fix_keywords.include?(action.to_s.downcase)
@@ -237,7 +239,7 @@ class Changeset < ActiveRecord::Base
       work_package: work_package,
       spent_on: commit_date,
       comments: l(:text_time_logged_by_changeset, value: text_tag, locale: Setting.default_language)
-      )
+    )
     time_entry.activity = log_time_activity unless log_time_activity.nil?
 
     unless time_entry.save

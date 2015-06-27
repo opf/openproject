@@ -546,9 +546,9 @@ class Project < ActiveRecord::Base
   def rolled_up_types
     @rolled_up_types ||=
       ::Type.find(:all, joins: :projects,
-                      select: "DISTINCT #{::Type.table_name}.*",
-                      conditions: ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
-                      order: "#{::Type.table_name}.position")
+                        select: "DISTINCT #{::Type.table_name}.*",
+                        conditions: ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
+                        order: "#{::Type.table_name}.position")
   end
 
   # Closes open and locked project versions that are completed
@@ -575,7 +575,7 @@ class Project < ActiveRecord::Base
       r = root? ? self : root
 
       Version.includes(:project)
-             .where("#{Project.table_name}.id = #{id}" +
+      .where("#{Project.table_name}.id = #{id}" +
                                     " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
                                           " #{Version.table_name}.sharing = 'system'" +
                                           " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
@@ -598,7 +598,8 @@ class Project < ActiveRecord::Base
 
   # Deletes all project's members
   def delete_all_members
-    me, mr = Member.table_name, MemberRole.table_name
+    me = Member.table_name
+    mr = MemberRole.table_name
     connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
     Member.destroy_all(['project_id = ?', id])
   end
@@ -819,7 +820,7 @@ class Project < ActiveRecord::Base
       current_tree      = ancestors.any? ? ancestors.last[:children] : result
 
       current_tree << current_hierarchy
-      ancestors    << current_hierarchy
+      ancestors << current_hierarchy
     end
 
     # at the end the root level must be sorted as well
@@ -828,7 +829,8 @@ class Project < ActiveRecord::Base
 
   def self.project_tree_from_hierarchy(projects_hierarchy, level, &block)
     projects_hierarchy.each do |hierarchy|
-      project, children = hierarchy[:project], hierarchy[:children]
+      project = hierarchy[:project]
+      children = hierarchy[:children]
       yield project, level
       # recursively show children
       project_tree_from_hierarchy(children, level + 1, &block) if children.any?
@@ -844,7 +846,6 @@ class Project < ActiveRecord::Base
   def self.project_level_list(projects)
     list = []
     project_tree(projects) do |project, level|
-
       element = {
         project: project,
         level:   level
