@@ -46,7 +46,7 @@ module QueriesHelper
     if !params[:query_id].blank?
       cond = 'project_id IS NULL'
       cond << " OR project_id = #{@project.id}" if @project
-      @query = Query.find(params[:query_id], conditions: cond)
+      @query = Query.where(cond).find(params[:query_id])
       @query.project = @project
       add_filter_from_params if params[:accept_empty_query_fields]
       session[:query] = { id: @query.id, project_id: @query.project_id }

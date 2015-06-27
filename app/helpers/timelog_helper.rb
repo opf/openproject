@@ -98,7 +98,7 @@ module TimelogHelper
 
   def entries_to_csv(entries)
     decimal_separator = l(:general_csv_decimal_separator)
-    custom_fields = TimeEntryCustomField.find(:all)
+    custom_fields = TimeEntryCustomField.all
     export = CSV.generate(col_sep: l(:general_csv_separator)) { |csv|
       # csv header fields
       headers = [TimeEntry.human_attribute_name(:spent_on),

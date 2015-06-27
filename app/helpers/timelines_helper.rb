@@ -38,7 +38,7 @@ module TimelinesHelper
   end
 
   def parent_id_select_tag(form, planning_element)
-    available_parents = planning_element.project.planning_elements.find(:all, order: 'COALESCE(parent_id, id), parent_id')
+    available_parents = planning_element.project.planning_elements.order('COALESCE(parent_id, id), parent_id')
     available_parents -= [planning_element]
 
     available_options = available_parents.map { |pe|
