@@ -426,7 +426,7 @@ module OpenProject
     #
     def full_url(anchor_name = '')
       return "##{anchor_name}" if current_request.nil?
-      current = url_for
+      current = request.original_fullpath
       return current if anchor_name.blank?
       "#{current}##{anchor_name}"
     end
