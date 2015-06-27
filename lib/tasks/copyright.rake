@@ -65,9 +65,9 @@ namespace :copyright do
   end
 
   def short_copyright_line(sign, options = {})
-    short_copyright = File.readlines(copyright_file(options)).collect do |line|
+    short_copyright = File.readlines(copyright_file(options)).collect { |line|
       "#{sign} #{line}".rstrip
-    end.join("\n")
+    }.join("\n")
 
     "#{sign}-- copyright\n#{short_copyright}\n#{sign}++"
   end
@@ -123,9 +123,9 @@ namespace :copyright do
   task :update_special_files, :arg1 do |_task, args|
     # ruby-like files
     file_list = %w{Gemfile Guardfile Rakefile config.ru .travis.yml
-                   .rspec .gitignore}.map do |f|
+                   .rspec .gitignore}.map { |f|
       File.absolute_path f
-    end
+    }
     rewrite_copyright('rb', [], :rb, args[:arg1], file_list: file_list)
   end
 
@@ -184,7 +184,7 @@ namespace :copyright do
   end
 
   desc 'Update the copyright on .sass source files'
-  task :update_sass, :arg1 do |task, args|
+  task :update_sass, :arg1 do |_task, args|
     excluded = %w(
       app/assets/stylesheets/default.css.sass
     )
@@ -235,15 +235,15 @@ namespace :copyright do
   desc 'Update the copyright on .html source files'
   task :update_html, :arg1 do |_task, args|
     excluded = [
-                  'coverage',
-                  'frontend/app/templates/',
-                  'frontend/bower_components',
-                  'frontend/coverage',
-                  'frontend/node_modules',
-                  'frontend/tests/integration/mocks/',
-                  'frontend/tmp',
-                  'frontend/vendor'
-                ]
+      'coverage',
+      'frontend/app/templates/',
+      'frontend/bower_components',
+      'frontend/coverage',
+      'frontend/node_modules',
+      'frontend/tests/integration/mocks/',
+      'frontend/tmp',
+      'frontend/vendor'
+    ]
     rewrite_copyright('html', excluded, :html, args[:arg1])
   end
 

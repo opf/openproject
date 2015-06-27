@@ -29,7 +29,7 @@
 
 namespace :attachments do
   desc 'Copies all attachments from the current to the given storage.'
-  task :copy_to, [:to] => :environment do |task, args|
+  task :copy_to, [:to] => :environment do |_task, args|
     if args.empty?
       puts 'rake attachments:copy_to[file|fog]'
       exit 1
@@ -79,7 +79,7 @@ namespace :attachments do
         return nil unless attachment.attributes['file'].present? &&
                           File.exists?(attachment.file.path)
 
-        self.new.tap do |target|
+        new.tap do |target|
           target.id = attachment.id
           target.file = attachment.file.local_file
           target.file.store!
