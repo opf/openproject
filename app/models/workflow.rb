@@ -39,8 +39,8 @@ class Workflow < ActiveRecord::Base
   # Returns workflow transitions count by type and role
   def self.count_by_type_and_role
     counts = connection.select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
-    roles = Role.find(:all, order: 'builtin, position')
-    types = ::Type.find(:all, order: 'position')
+    roles = Role.order('builtin, position')
+    types = ::Type.order('position')
 
     result = []
     types.each do |type|
@@ -57,9 +57,8 @@ class Workflow < ActiveRecord::Base
 
   # Find potential statuses the user could be allowed to switch issues to
   def self.available_statuses(project, user = User.current)
-    Workflow.find(:all,
-                  include: :new_status,
-                  conditions: { role_id: user.roles_for_project(project).map(&:id) })
+    Workflow.includes(:new_status)
+      .where(role_id: user.roles_for_project(project).map(&:id))
       .map(&:new_status)
       .compact
       .uniq

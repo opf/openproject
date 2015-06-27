@@ -219,7 +219,7 @@ class Timeline < ActiveRecord::Base
     # that are reporting into the project that this timeline is
     # referencing.
 
-    ::Type.find(:all, order: :name)
+    ::Type.order(:name)
   end
 
   def available_planning_element_status
@@ -256,7 +256,7 @@ class Timeline < ActiveRecord::Base
   end
 
   def available_project_status
-    ReportedProjectStatus.find(:all, order: :name)
+    ReportedProjectStatus.order(:name)
   end
 
   def selected_project_status
@@ -266,7 +266,7 @@ class Timeline < ActiveRecord::Base
   end
 
   def available_responsibles
-    User.find(:all).sort_by(&:name)
+    User.all.sort_by(&:name)
   end
 
   def selected_project_responsibles

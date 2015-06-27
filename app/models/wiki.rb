@@ -72,10 +72,10 @@ class Wiki < ActiveRecord::Base
   def find_page(title, options = {})
     title = start_page if title.blank?
     title = Wiki.titleize(title)
-    page = pages.first(conditions: ['LOWER(title) = LOWER(?)', title])
+    page = pages.where(['LOWER(title) = LOWER(?)', title]).first
     if !page && !(options[:with_redirect] == false)
       # search for a redirect
-      redirect = redirects.first(conditions: ['LOWER(title) = LOWER(?)', title])
+      redirect = redirects.where(['LOWER(title) = LOWER(?)', title]).first
       page = find_page(redirect.redirects_to, with_redirect: false) if redirect
     end
     page

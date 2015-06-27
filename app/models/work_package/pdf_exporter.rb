@@ -258,7 +258,7 @@ module WorkPackage::PdfExporter
     pdf.SetFontStyle('B', 9)
     pdf.RDMCell(190, 5, l(:label_history), 'B')
     pdf.Ln
-    for journal in work_package.journals.find(:all, include: [:user], order: "#{Journal.table_name}.created_at ASC")
+    for journal in work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC")
       next if journal.initial?
       pdf.SetFontStyle('B', 8)
       pdf.RDMCell(190, 5, format_time(journal.created_at) + ' - ' + journal.user.name)

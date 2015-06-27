@@ -254,7 +254,7 @@ class MailHandler < ActionMailer::Base
        user.allowed_to?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
       unless addresses.empty?
-        watchers = User.active.find(:all, conditions: ['LOWER(mail) IN (?)', addresses])
+        watchers = User.active.where(['LOWER(mail) IN (?)', addresses])
         watchers.each do|w| obj.add_watcher(w)end
         # FIXME: somehow the watchable attribute of the new watcher is not set, when the issue is not safed.
         # So we fix that here manually
@@ -322,7 +322,7 @@ class MailHandler < ActionMailer::Base
     }.delete_if { |_, v| v.blank? }
 
     if issue.new_record? && attrs['type_id'].nil?
-      attrs['type_id'] = issue.project.types.find(:first).try(:id)
+      attrs['type_id'] = issue.project.types.first.try(:id)
     end
     attrs
   end

@@ -56,6 +56,6 @@ class ProjectType < ActiveRecord::Base
   def self.available_grouping_project_types
     # this should be all project types to which there are projects to
     # which there are dependencies from projects that the user can see
-    find(:all, order: :name)
+    order(:name)
   end
 end

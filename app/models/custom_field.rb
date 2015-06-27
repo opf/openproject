@@ -220,8 +220,10 @@ class CustomField < ActiveRecord::Base
 
   # to move in project_custom_field
   def self.for_all(options = {})
-    options.merge!(conditions: ['is_for_all=?', true], order: 'position')
-    find :all, options
+    # TODO: investigate removing method
+    warn 'Passing options to CustomField.for_all is disabled' unless options.empty?
+    where(['is_for_all=?', true])
+      .order('position')
   end
 
   def accessor_name

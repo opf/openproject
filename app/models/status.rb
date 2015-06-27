@@ -51,13 +51,13 @@ class Status < ActiveRecord::Base
 
   # Returns the default status for new issues
   def self.default
-    find(:first, conditions: ['is_default=?', true])
+    where(['is_default=?', true]).first
   end
 
   # Update all the +Issues+ setting their done_ratio to the value of their +Status+
   def self.update_work_package_done_ratios
     if WorkPackage.use_status_for_done_ratio?
-      Status.find(:all, conditions: ['default_done_ratio >= 0']).each do |status|
+      Status.where(['default_done_ratio >= 0']).each do |status|
         WorkPackage.update_all(['done_ratio = ?', status.default_done_ratio],
                                ['status_id = ?', status.id])
       end
@@ -91,9 +91,9 @@ class Status < ActiveRecord::Base
       conditions[:author] = false unless author
       conditions[:assignee] = false unless assignee
 
-      workflows.find(:all,
-                     include: :new_status,
-                     conditions: conditions).map(&:new_status).compact.sort
+      workflows.includes(:new_status)
+        .where(conditions)
+        .map(&:new_status).compact.sort
     else
       []
     end
@@ -108,7 +108,7 @@ class Status < ActiveRecord::Base
   private
 
   def check_integrity
-    raise "Can't delete status" if WorkPackage.find(:first, conditions: ['status_id=?', id])
+    raise "Can't delete status" if WorkPackage.where(['status_id=?', id]).any?
   end
 
   # Deletes associated workflows

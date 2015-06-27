@@ -264,7 +264,7 @@ class Project < ActiveRecord::Base
   end
 
   def possible_members(criteria, limit)
-    Principal.active_or_registered.like(criteria).not_in_project(self).find(:all, limit: limit)
+    Principal.active_or_registered.like(criteria).not_in_project(self).limit(limit)
   end
 
   def add_member(user, roles)
@@ -282,7 +282,7 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user = nil, count = 5)
-    find(:all, limit: count, conditions: visible_by(user), order: 'created_on DESC')
+    where(visible_by(user)).limit(count).order('created_on DESC')
   end
 
   def self.latest_for(user, options = {})
@@ -450,9 +450,10 @@ class Project < ActiveRecord::Base
     # Check that there is no issue of a non descendant project that is assigned
     # to one of the project or descendant versions
     v_ids = self_and_descendants.map(&:version_ids).flatten
-    if v_ids.any? && WorkPackage.find(:first, include: :project,
-                                              conditions: ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
-                                                        " AND #{WorkPackage.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
+    if v_ids.any? && WorkPackage.includes(:project)
+                     .where(["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
+                        " AND #{WorkPackage.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
+                     .first
       return false
     end
     Project.transaction do
@@ -472,7 +473,7 @@ class Project < ActiveRecord::Base
   # by the current user
   def allowed_parents
     return @allowed_parents if @allowed_parents
-    @allowed_parents = Project.find(:all, conditions: Project.allowed_to_condition(User.current, :add_subprojects))
+    @allowed_parents = Project.where(Project.allowed_to_condition(User.current, :add_subprojects))
     @allowed_parents = @allowed_parents - self_and_descendants
     if User.current.allowed_to?(:add_project, nil, global: true) || (!new_record? && parent.nil?)
       @allowed_parents << nil
@@ -545,16 +546,16 @@ class Project < ActiveRecord::Base
   # Returns an array of the types used by the project and its active sub projects
   def rolled_up_types
     @rolled_up_types ||=
-      ::Type.find(:all, joins: :projects,
-                        select: "DISTINCT #{::Type.table_name}.*",
-                        conditions: ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
-                        order: "#{::Type.table_name}.position")
+      ::Type.joins(:projects)
+      .select("DISTINCT #{::Type.table_name}.*")
+      .where(["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
+      .order("#{::Type.table_name}.position")
   end
 
   # Closes open and locked project versions that are completed
   def close_completed_versions
     Version.transaction do
-      versions.find(:all, conditions: { status: %w(open locked) }).each do |version|
+      versions.where(status: %w(open locked)).each do |version|
         if version.completed?
           version.update_attribute(:status, 'closed')
         end
@@ -565,8 +566,8 @@ class Project < ActiveRecord::Base
   # Returns a scope of the Versions on subprojects
   def rolled_up_versions
     @rolled_up_versions ||=
-      Version.scoped(include: :project,
-                     conditions: ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
+      Version.scoped.includes(:project)
+      .where(["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
   end
 
   # Returns a scope of the Versions used by the project
@@ -587,7 +588,7 @@ class Project < ActiveRecord::Base
 
   # Returns a hash of project users grouped by role
   def users_by_role
-    members.find(:all, include: [:user, :roles]).inject({}) do |h, m|
+    members.includes(:user, :roles).inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
         h[r] << m.user
@@ -784,7 +785,7 @@ class Project < ActiveRecord::Base
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.find(:first, order: 'created_on DESC')
+    p = Project.order('created_on DESC').first
     p.nil? ? nil : p.identifier.to_s.succ
   end
 
@@ -917,14 +918,12 @@ class Project < ActiveRecord::Base
   # Returns the systemwide active activities merged with the project specific overrides
   def system_activities_and_project_overrides(include_inactive = false)
     if include_inactive
-      return TimeEntryActivity.shared
-        .find(:all,
-              conditions: ['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
+      TimeEntryActivity.shared
+        .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
         time_entry_activities
     else
-      return TimeEntryActivity.shared.active
-        .find(:all,
-              conditions: ['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
+      TimeEntryActivity.shared.active
+        .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
         time_entry_activities.active
     end
   end

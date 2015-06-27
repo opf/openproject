@@ -106,13 +106,13 @@ class TimeEntry < ActiveRecord::Base
   def self.earliest_date_for_project(project = nil)
     scope = TimeEntry.visible(User.current)
     scope = scope.where(project_id: project.hierarchy.map(&:id)) if project
-    scope.minimum(:spent_on, include: :project)
+    scope.includes(:project).minimum(:spent_on)
   end
 
   def self.latest_date_for_project(project = nil)
     scope = TimeEntry.visible(User.current)
     scope = scope.where(project_id: project.hierarchy.map(&:id)) if project
-    scope.maximum(:spent_on, include: :project)
+    scope.includes(:project).maximum(:spent_on)
   end
 
   private

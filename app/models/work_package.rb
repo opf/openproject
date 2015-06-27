@@ -1033,14 +1033,13 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions(conditions = nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
-    WorkPackage.all(
-      conditions: merge_conditions(
+    WorkPackage.where(
+      merge_conditions(
         "#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
         " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
         " AND #{Version.table_name}.sharing <> 'system'",
-        conditions),
-      include: [:project, :fixed_version]
-    ).each do |issue|
+        conditions))
+      .includes(:project, :fixed_version).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
       unless issue.project.shared_versions.include?(issue.fixed_version)
         issue.fixed_version = nil
