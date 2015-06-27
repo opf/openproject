@@ -39,7 +39,7 @@ module VersionsHelper
     begin
       # Total issue count
       WorkPackage.count(group: criteria,
-                        conditions: ["#{WorkPackage.table_name}.fixed_version_id = ?", version.id]).each { |c, s| h[c][0] = s }
+                        conditions: ["#{WorkPackage.table_name}.fixed_version_id = ?", version.id]).each do |c, s| h[c][0] = s end
       # Open issues count
       WorkPackage.count(group: criteria,
                         include: :status,
