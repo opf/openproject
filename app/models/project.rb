@@ -130,8 +130,6 @@ class Project < ActiveRecord::Base
 
   # timelines stuff
 
-  scope :selectable_projects
-
   belongs_to :project_type, class_name: '::ProjectType'
 
   belongs_to :responsible,  class_name: 'User'
