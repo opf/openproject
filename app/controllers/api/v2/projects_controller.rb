@@ -89,8 +89,9 @@ module Api
       protected
 
       def find_project
-        @project = Project.includes([{ custom_values: [{ custom_field: :translations }] }])
-                   .find params[:id]
+        # FIXME: Rails 4.1 Upgrade: restore includes
+        #        include: [{ custom_values: [{ custom_field: :translations }] }]
+        @project = Project.find params[:id]
       end
 
       def build_associations
