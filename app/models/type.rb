@@ -61,10 +61,12 @@ class ::Type < ActiveRecord::Base
 
   validates_inclusion_of :in_aggregation, :is_default, :is_milestone, in: [true, false]
 
-  default_scope order: 'position ASC'
+  default_scope { order('position ASC') }
 
-  scope :without_standard, conditions: { is_standard: false },
-                           order: :position
+  scope :without_standard, -> {
+    where(is_standard: false)
+      .order(:position)
+  }
 
   def to_s; name end
 

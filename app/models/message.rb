@@ -70,9 +70,9 @@ class Message < ActiveRecord::Base
   after_update :update_ancestors
   after_destroy :reset_counters
 
-  scope :visible, lambda {|*args|
-    { include: { board: :project },
-      conditions: Project.allowed_to_condition(args.first || User.current, :view_messages) }
+  scope :visible, -> (*args) {
+    includes(board: :project)
+      .where(Project.allowed_to_condition(args.first || User.current, :view_messages))
   }
 
   safe_attributes 'subject', 'content', 'board_id'

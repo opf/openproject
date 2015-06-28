@@ -30,7 +30,7 @@
 class Enumeration < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  default_scope order: "#{Enumeration.table_name}.position ASC"
+  default_scope { order("#{Enumeration.table_name}.position ASC") }
 
   belongs_to :project
 

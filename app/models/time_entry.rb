@@ -56,11 +56,10 @@ class TimeEntry < ActiveRecord::Base
   validate :validate_project_is_set
   validate :validate_consistency_of_work_package_id
 
-  scope :visible, lambda {|*args|
-                    {
-                      include: :project,
-                      conditions: Project.allowed_to_condition(args.first || User.current, :view_time_entries)
-                    }}
+  scope :visible, -> (*args) {
+    includes(:project)
+      .where(Project.allowed_to_condition(args.first || User.current, :view_time_entries))
+  }
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 

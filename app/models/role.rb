@@ -35,10 +35,13 @@ class Role < ActiveRecord::Base
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
 
-  scope :givable,  conditions: 'builtin = 0', order: 'position'
-  scope :builtin, lambda { |*args|
+  scope :givable, -> {
+    where('builtin = 0')
+      .order('position')
+  }
+  scope :builtin, -> (*args) {
     compare = 'not' if args.first == true
-    { conditions: "#{compare} builtin = 0" }
+    where("#{compare} builtin = 0")
   }
 
   before_destroy :check_deletable
