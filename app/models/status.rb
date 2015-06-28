@@ -31,7 +31,7 @@ class Status < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   extend Pagination::Model
 
-  default_scope order('position ASC')
+  default_scope { order('position ASC') }
   before_destroy :check_integrity
   has_many :workflows, foreign_key: 'old_status_id'
   acts_as_list

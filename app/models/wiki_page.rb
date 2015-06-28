@@ -64,12 +64,13 @@ class WikiPage < ActiveRecord::Base
   before_destroy :remove_redirects
 
   # eager load information about last updates, without loading text
-  scope :with_updated_on,
-        select: "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
-        joins: "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id"
+  scope :with_updated_on, -> {
+    select("#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on")
+      .joins("LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id")
+  }
 
-  scope :main_pages, lambda {|wiki_id|
-    { conditions: { wiki_id: wiki_id, parent_id: nil } }
+  scope :main_pages, -> (wiki_id) {
+    where(wiki_id: wiki_id, parent_id: nil)
   }
 
   # Wiki pages that are protected by default

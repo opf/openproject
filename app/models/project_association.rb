@@ -44,11 +44,11 @@ class ProjectAssociation < ActiveRecord::Base
   validate :validate,
            :validate_projects_not_identical
 
-  scope :with_projects, lambda { |projects|
+  scope :with_projects, -> (projects) {
     projects = [projects] unless  projects.is_a? Array
     project_ids = projects.first.respond_to?(:id) ? projects.map(&:id).join(',') : projects
 
-    { conditions: ["#{table_name}.project_a_id in (?) or #{table_name}.project_b_id in (?)", project_ids, project_ids] }
+    where(["#{table_name}.project_a_id in (?) or #{table_name}.project_b_id in (?)", project_ids, project_ids])
   }
 
   def projects

@@ -35,7 +35,7 @@ class ProjectType < ActiveRecord::Base
   self.table_name = 'project_types'
 
   acts_as_list
-  default_scope order: 'position ASC'
+  default_scope { order('position ASC') }
 
   has_many :projects, class_name:  'Project',
                       foreign_key: 'project_type_id'

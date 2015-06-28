@@ -98,13 +98,14 @@ class User < Principal
   belongs_to :auth_source
 
   # Active non-anonymous users scope
-  scope :not_builtin,
-        conditions: "#{User.table_name}.status <> #{STATUSES[:builtin]}"
+  scope :not_builtin, -> {
+    where("#{User.table_name}.status <> #{STATUSES[:builtin]}")
+  }
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
-  scope :blocked, lambda { create_blocked_scope(true) }
-  scope :not_blocked, lambda { create_blocked_scope(false) }
+  scope :blocked, -> { create_blocked_scope(true) }
+  scope :not_blocked, -> { create_blocked_scope(false) }
 
   def self.create_blocked_scope(blocked)
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
@@ -145,15 +146,15 @@ class User < Principal
   before_destroy :reassign_associated
   before_destroy :remove_from_filter
 
-  scope :in_group, lambda {|group|
+  scope :in_group, -> (group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    { conditions: ["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
+    where(["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }
-  scope :not_in_group, lambda {|group|
+  scope :not_in_group, -> (group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    { conditions: ["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
+    where(["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }
-  scope :admin, conditions: { admin: true }
+  scope :admin, -> { where(admin: true) }
 
   def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if mail_notification.blank?

@@ -67,7 +67,7 @@ class Principal < ActiveRecord::Base
     where("id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})")
   }
 
-  scope :like, lambda { |q|
+  scope :like, -> (q) {
     firstnamelastname = "((firstname || ' ') || lastname)"
     lastnamefirstname = "((lastname || ' ') || firstname)"
 
@@ -87,7 +87,9 @@ class Principal < ActiveRecord::Base
       .order(:type, :login, :lastname, :firstname, :mail)
   }
 
-  scope :visible_by, lambda { |principal| Principal.visible_by_condition(principal) }
+  scope :visible_by, -> (principal) {
+    Principal.visible_by_condition(principal)
+  }
 
   before_create :set_default_empty_values
 

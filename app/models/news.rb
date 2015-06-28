@@ -31,7 +31,9 @@ class News < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-  has_many :comments, as: :commented, dependent: :delete_all, order: 'created_on'
+  has_many :comments, -> {
+    order('created_on')
+  }, as: :commented, dependent: :delete_all
 
   attr_protected :project_id, :author_id
 
@@ -50,11 +52,10 @@ class News < ActiveRecord::Base
 
   after_create :add_author_as_watcher
 
-  scope :visible, lambda {|*args|
-                    {
-                      include: :project,
-                      conditions: Project.allowed_to_condition(args.first || User.current, :view_news)
-                    }}
+  scope :visible, -> (*args) {
+    includes(:project)
+      .where(Project.allowed_to_condition(args.first || User.current, :view_news))
+  }
 
   safe_attributes 'title', 'summary', 'description'
 

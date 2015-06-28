@@ -53,7 +53,7 @@ class Journal < ActiveRecord::Base
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope 'changing', conditions: ['version > 1']
+  scope :changing, -> { where(['version > 1']) }
 
   def changed_data=(changed_attributes)
     attributes = changed_attributes

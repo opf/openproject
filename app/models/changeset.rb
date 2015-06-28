@@ -52,9 +52,9 @@ class Changeset < ActiveRecord::Base
   validates_uniqueness_of :revision, scope: :repository_id
   validates_uniqueness_of :scmid, scope: :repository_id, allow_nil: true
 
-  scope :visible, lambda {|*args|
-    { include: { repository: :project },
-      conditions: Project.allowed_to_condition(args.first || User.current, :view_changesets) }
+  scope :visible, -> (*args) {
+    includes(repository: :project)
+      .where(Project.allowed_to_condition(args.first || User.current, :view_changesets))
   }
 
   def revision=(r)

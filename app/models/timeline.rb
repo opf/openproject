@@ -46,7 +46,7 @@ class Timeline < ActiveRecord::Base
 
   self.table_name = 'timelines'
 
-  default_scope order: 'name ASC'
+  default_scope { order('name ASC') }
 
   belongs_to :project, class_name: 'Project'
 
