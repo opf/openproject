@@ -50,13 +50,15 @@ module OpenProject::NestedSet
         # | 2   | 1         | 2       |
         # | 3   | 2         | 2       |
         # This would only be possible using recursive statements
-        scope :invalid_root_ids,  conditions: "(#{quoted_parent_column_full_name} IS NOT NULL AND " +
+        scope :invalid_root_ids, -> {
+          where("(#{quoted_parent_column_full_name} IS NOT NULL AND " +
           "(#{quoted_table_name}.root_id = #{quoted_table_name}.id OR " +
           "(#{quoted_table_name}.root_id = parents.#{quoted_primary_key} AND parents.#{quoted_parent_column_name} IS NOT NULL) OR " +
           "(#{quoted_table_name}.root_id != parents.root_id))" +
           ') OR ' +
-          "(#{quoted_table_name}.parent_id IS NULL AND #{quoted_table_name}.root_id != #{quoted_table_name}.#{quoted_primary_key})",
-                                  joins: "LEFT OUTER JOIN #{quoted_table_name} parents ON parents.#{quoted_primary_key} = #{quoted_parent_column_full_name}"
+          "(#{quoted_table_name}.parent_id IS NULL AND #{quoted_table_name}.root_id != #{quoted_table_name}.#{quoted_primary_key})")
+            .joins("LEFT OUTER JOIN #{quoted_table_name} parents ON parents.#{quoted_primary_key} = #{quoted_parent_column_full_name}")
+        }
 
         extend ClassMethods
       end
