@@ -41,11 +41,12 @@ module Redmine
 
           # we are validating custom_values manually in :validate_custom_values
           # N.B. the default for validate should be false, however specs seem to think differently
-          has_many :custom_values, as: :customized,
-                                   include: :custom_field,
-                                   order: "#{CustomField.table_name}.position",
-                                   dependent: :delete_all,
-                                   validate: false
+          has_many :custom_values, -> {
+            includes(:custom_field)
+              .order("#{CustomField.table_name}.position")
+          }, as: :customized,
+             dependent: :delete_all,
+             validate: false
           validate :validate_custom_values
           send :include, Redmine::Acts::Customizable::InstanceMethods
           # Save custom values when saving the customized object
