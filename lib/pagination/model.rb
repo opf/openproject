@@ -36,10 +36,10 @@ module Pagination::Model
   end
 
   def self.extended(base)
-    base.scope :like, lambda { |q|
+    base.scope :like, -> (q) {
       s = "%#{q.to_s.strip.downcase}%"
-      { conditions: ['LOWER(name) LIKE :s', { s: s }],
-        order: 'name' }
+      base.where(['LOWER(name) LIKE :s', { s: s }])
+        .order('name')
     }
 
     base.instance_eval do
