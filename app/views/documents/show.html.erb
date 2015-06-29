@@ -30,15 +30,24 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
-<%= link_to_if_authorized l(:button_edit), {:controller => '/documents', :action => 'edit', :id => @document}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
-<%= link_to_if_authorized l(:button_delete), {:controller => '/documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
-</div>
+<% html_title h(@document.title) -%>
+<%= toolbar title: h(@document.title), subtitle: "#{h @document.category.name} - #{format_date @document.created_on}" do %>
+  <% if authorize_for(:documents, :edit) %>
+    <li class="toolbar-item">
+      <%= link_to({:controller => '/documents', :action => 'edit', :id => @document}, class: 'button', accesskey: accesskey(:edit)) do %>
+        <i class="button--icon icon-edit"></i> <%= l(:button_edit) %>
+      <% end %>
+    </li>
+  <% end %>
+  <% if authorize_for(:documents, :destroy) %>
+    <li class="toolbar-item">
+      <%= link_to({:controller => '/documents', :action => 'destroy', :id => @document}, class: 'button', data: { :confirm => l(:text_are_you_sure) }, :method => :delete) do %>
+        <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
 
-<h2><%=h @document.title %></h2>
-
-<p><em><%=h @document.category.name %><br />
-<%= format_date @document.created_on %></em></p>
 <div class="wiki">
 <%= textilizable @document.description, :attachments => @document.attachments %>
 </div>
@@ -53,8 +62,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="box">
   <p><%= render :partial => 'attachments/form' %></p>
   </div>
-  <%= submit_tag l(:button_add) %>
+  <%= styled_button_tag l(:button_add), class: "-highlight -with-icon icon-yes" %>
+
   <% end %>
 <% end %>
 
-<% html_title h(@document.title) -%>
