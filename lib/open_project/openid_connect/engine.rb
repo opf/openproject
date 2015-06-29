@@ -1,3 +1,4 @@
+require 'open_project/openid_connect/lobby_boy_configuration'
 require 'open_project/plugins'
 require 'lobby_boy'
 
@@ -51,18 +52,7 @@ module OpenProject::OpenIDConnect
     end
 
     config.to_prepare do
-      provider = OpenProject::Plugins::AuthPlugin.providers.find { |p| p[:sso] }
-
-      if provider && Rails.env != 'test'
-        LobbyBoy.configure_client! host: "#{Setting.protocol}://#{Setting.host_name}",
-                                   end_session_endpoint: '/logout?script'
-        
-        LobbyBoy.configure_provider! name:                 provider[:name],
-                                     client_id:            provider[:client_options][:identifier],
-                                     issuer:               provider[:issuer],
-                                     end_session_endpoint: provider[:end_session_endpoint],
-                                     check_session_iframe: provider[:check_session_iframe]
-      end
+      OpenProject::OpenIDConnect::LobbyBoyConfiguration.update!
 
       if LobbyBoy.configured?
         require 'open_project/hooks/session_iframes'
@@ -73,6 +63,17 @@ module OpenProject::OpenIDConnect
         require 'open_project/openid_connect/sso_logout'
         ::AccountController.prepend SSOLogout
       end
+    end
+
+    initializer "openid_connect.middleware.lobby_boy_config" do |app|
+      anchor =
+        if defined? ::Multitenancy::Elevators::MappedDomainElevator
+          ::Multitenancy::Elevators::MappedDomainElevator
+        else
+          ActionDispatch::Callbacks
+        end
+
+      app.config.middleware.insert_after anchor, OpenProject::OpenIDConnect::LobbyBoyConfiguration
     end
 
     config.to_prepare do
