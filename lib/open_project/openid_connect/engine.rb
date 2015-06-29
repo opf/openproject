@@ -65,7 +65,7 @@ module OpenProject::OpenIDConnect
       end
     end
 
-    initializer "multitenancy.middleware.apartment" do |app|
+    initializer "openid_connect.middleware.lobby_boy_config" do |app|
       anchor =
         if defined? ::Multitenancy::Elevators::MappedDomainElevator
           ::Multitenancy::Elevators::MappedDomainElevator
