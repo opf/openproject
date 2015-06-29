@@ -22,7 +22,7 @@ When(/^I create a budget with the following:$/) do |table|
   rows = table.rows_hash
 
   steps %Q{And I toggle the "Budgets" submenu
-           And I follow "New Budget" within "#main-menu"
+           And I follow "New budget" within "#main-menu"
            And I fill in "Subject" with "#{rows['subject']}"}
 
   click_button(I18n.t(:button_create), :exact => true)
@@ -37,7 +37,7 @@ When(/^I setup a budget with the following:$/) do |table|
   rows = table.rows_hash
 
   steps %Q{And I toggle the "Budgets" submenu
-           And I follow "New Budget" within "#main-menu"
+           And I follow "New budget" within "#main-menu"
            And I fill in "Subject" with "#{rows['subject']}"}
 end
 
@@ -82,7 +82,7 @@ When(/^I (?:create|update) (?:a|the) (labor|material) item in row (\d+) with the
 end
 
 When(/^I add a new (labor|material) item$/) do | type|
-  steps %Q{ When I click on "Add Planned Costs" within "fieldset##{type}_budget_items_fieldset" }
+  steps %Q{ When I click on "Add planned costs" within "fieldset##{type}_budget_items_fieldset" }
 end
 
 Then (/^the planned (labor|material) costs in row (\d+) should be (.+)$/) do | type, row_nr, amount|
