@@ -21,9 +21,9 @@ Installation
 ------------
 
 For OpenProject PDF Export itself you need to add the following line to the
-`Gemfile.plugins` of the project which is using the plugin:
+`Gemfile.plugins` of the project which is using the plugin (if you use a different OpenProject version than OpenProject 4.1, adapt `:branch => "stable/4.1"` to your OpenProject version):
 
-`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable"`
+`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable/4.1"`
 
 Afterwards, run:
 
@@ -41,7 +41,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable"`
+`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable/4.1"`
 
 from the file `Gemfile.plugins` and run:
 
