@@ -30,13 +30,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
-<%= link_to_if_authorized l(:label_document_new),
-                          {:controller => '/documents', :action => 'new', :project_id => @project},
-                          :class => 'icon icon-add' %>
-</div>
-
-<h2><%=l(:label_document_plural)%></h2>
+<%= toolbar title: l(:label_document_plural) do %>
+  <% if authorize_for(:documents, :new) %>
+    <li class="toolbar-item">
+      <%= link_to({:controller => '/documents', :action => 'new', :project_id => @project}, class: 'button -alt-highlight') do %>
+        <i class="button--icon icon-add"></i> <%= l(:label_document_new) %>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
 
 <% if @grouped.empty? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
