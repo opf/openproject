@@ -23,8 +23,6 @@ class MyProjectsOverviewsController < ApplicationController
 
   menu_item :overview
 
-  unloadable
-
   before_filter :find_project, :find_user
   before_filter :authorize
   before_filter :jump_to_project_menu_item, :only => :index
