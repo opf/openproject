@@ -3,6 +3,10 @@ class WorkPackageField
 
   def initialize(page, property_name)
     @property_name = property_name
+
+    # safeguard to ensure that the details pane has been opened
+    page.find('.work-packages--details-content')
+
     @element = page.find(field_selector)
   end
 
