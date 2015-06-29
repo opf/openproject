@@ -83,8 +83,14 @@ class HourlyRatesController < ApplicationController
       return deny_access unless User.current.admin?
     end
 
-    @user.add_rates(@project, permitted_params.user_rates[:new_rate_attributes])
-    @user.set_existing_rates(@project, permitted_params.user_rates[:existing_rate_attributes])
+    if params.include? 'user'
+      update_rates @user,
+                   @project,
+                   permitted_params.user_rates[:new_rate_attributes],
+                   permitted_params.user_rates[:existing_rate_attributes]
+    else
+      delete_rates @user, @project
+    end
 
     if @user.save
       flash[:notice] = l(:notice_successful_update)
@@ -130,8 +136,21 @@ class HourlyRatesController < ApplicationController
     end
   end
 
+  private
 
-private
+  def update_rates(user, project, added_rates, changed_rates)
+    user.add_rates(project, added_rates)
+    user.set_existing_rates(project, changed_rates)
+  end
+
+  def delete_rates(user, project)
+    if project.present?
+      user.rates.delete_all
+    else
+      user.default_rates.delete_all
+    end
+  end
+
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound

@@ -19,15 +19,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <%= render :partial => 'shared/costs_header' %>
-<% content_for :action_menu_specific do %>
-  <%= link_to l(:button_add_cost_type), new_cost_type_path, :class => 'icon icon-add' %>
+
+<% html_title l(:label_cost_type_plural) %>
+<%= toolbar title: CostType.model_name.human(count: 2) do %>
+  <li class="toolbar-item">
+    <%= link_to new_cost_type_path, class: 'button -alt-highlight' do%>
+      <i class="button--icon icon-add"></i> <%= l(:button_add_cost_type) %>
+    <% end %>
+  </li>
 <% end %>
-
-<% html_title l(:cost_types_title) %>
-
-<h2><%= CostType.model_name.human(:count => 2) %></h2>
-
-<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= styled_form_tag(cost_types_path, { :method => :get, :id => 'query_form' }) do %>
   <fieldset id="filters">
@@ -47,13 +47,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                    { :update => "content",
                      :with => "Form.serialize('query_form')",
                      :method => :get
-                   }, :class => 'button -highlight' %>
+                   }, :class => 'button -with-icon icon-yes' %>
 
 <%= link_to_remote l(:button_clear),
                    { :url => { :clear_filter => true },
                      :method => :get,
                      :update => "content",
-                   }, :class => 'button' %>
+                   }, :class => 'button icon-context icon-undo' %>
 <% end %>
 
 <div id="cost_type_flash_notice_outer" style="display:none">

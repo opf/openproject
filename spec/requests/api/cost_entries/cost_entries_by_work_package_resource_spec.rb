@@ -95,6 +95,7 @@ describe 'API v3 Cost Entry resource' do
 
     context 'user can see own cost entries' do
       let(:cost_entry_permissions) { [:view_own_cost_entries] }
+
       it 'should return HTTP 200' do
         expect(response.status).to eql(200)
       end

@@ -65,35 +65,35 @@ module OpenProject::Costs
       end
 
       # Menu extensions
-      menu :top_menu,
+      menu :admin_menu,
            :cost_types,
-           {:controller => '/cost_types', :action => 'index'},
-           :caption => :cost_types_title,
-           :if => Proc.new { User.current.admin? }
+           { controller: '/cost_types', action: 'index' },
+           html: { class: 'icon2 icon-tracker' },
+           caption: :label_cost_type_plural
 
       menu :project_menu,
            :cost_objects,
-           {:controller => '/cost_objects', :action => 'index'},
-           :param => :project_id,
-           :before => :settings,
-           :caption => :cost_objects_title,
-           :html => {:class => 'icon2 icon-budget'}
+           { controller: '/cost_objects', action: 'index' },
+           param: :project_id,
+           before: :settings,
+           caption: :cost_objects_title,
+           html: { class: 'icon2 icon-budget' }
 
       menu :project_menu,
            :new_budget,
-           {:controller => '/cost_objects', :action => 'new' },
-           :param => :project_id,
-           :caption => :label_cost_object_new,
-           :parent => :cost_objects,
-           :html => {:class => 'icon2 icon-add'}
+           { controller: '/cost_objects', action: 'new' },
+           param: :project_id,
+           caption: :label_cost_object_new,
+           parent: :cost_objects,
+           html: { class: 'icon2 icon-add' }
 
       menu :project_menu,
            :show_all,
-           {:controller => '/cost_objects', :action => 'index' },
-           :param => :project_id,
-           :caption => :label_view_all_cost_objects,
-           :parent => :cost_objects,
-           :html => {:class => 'icon2 icon-list-view1'}
+           { controller: '/cost_objects', action: 'index' },
+           param: :project_id,
+           caption: :label_view_all_cost_objects,
+           parent: :cost_objects,
+           html: { class: 'icon2 icon-list-view1' }
 
       Redmine::Activity.map do |activity|
         activity.register :cost_objects, class_name: 'Activity::CostObjectActivityProvider', default: false
