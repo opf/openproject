@@ -151,7 +151,7 @@ module OpenProject::NestedSet::RebuildPatch
           hash
         }
 
-        update_all(changes,  id: node.id) unless changes.empty?
+        where(id: node.id).update_all(changes) unless changes.empty?
       }
 
       # Find root node(s)

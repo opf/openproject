@@ -452,8 +452,10 @@ class User < Principal
   end
 
   def notified_project_ids=(ids)
-    Member.update_all("mail_notification = #{self.class.connection.quoted_false}", ['user_id = ?', id])
-    Member.update_all("mail_notification = #{self.class.connection.quoted_true}", ['user_id = ? AND project_id IN (?)', id, ids]) if ids && !ids.empty?
+    Member.where(['user_id = ?', id])
+      .update_all("mail_notification = #{self.class.connection.quoted_false}")
+    Member.where(['user_id = ? AND project_id IN (?)', id, ids])
+      .update_all("mail_notification = #{self.class.connection.quoted_true}") if ids && !ids.empty?
     @notified_projects_ids = nil
     notified_projects_ids
   end
@@ -833,11 +835,11 @@ class User < Principal
     substitute = DeletedUser.first
 
     [WorkPackage, Attachment, WikiContent, News, Comment, Message].each do |klass|
-      klass.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+      klass.where(['author_id = ?', id]).update_all ['author_id = ?', substitute.id]
     end
 
     [TimeEntry, Journal, ::Query].each do |klass|
-      klass.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+      klass.where(['user_id = ?', id]).update_all ['user_id = ?', substitute.id]
     end
 
     JournalManager.update_user_references id, substitute.id

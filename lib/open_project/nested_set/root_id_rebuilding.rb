@@ -104,8 +104,7 @@ module OpenProject::NestedSet
             invalid_roots << ancestor
 
             if invalid_root_ids_to_fix.empty? || invalid_root_ids_to_fix.map(&:id).include?(ancestor.id)
-              update_all({ root_id: ancestor.id },
-                         id: node.id)
+              where(id: node.id).update_all(root_id: ancestor.id)
             end
           end
 

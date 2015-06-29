@@ -68,7 +68,7 @@ module WorkPackage::TimeEntries
     end
 
     def update_time_entries(work_packages, action)
-      TimeEntry.update_all(action, ['work_package_id IN (?)', work_packages.map(&:id)])
+      TimeEntry.where(['work_package_id IN (?)', work_packages.map(&:id)]).update_all(action)
     end
   end
 end

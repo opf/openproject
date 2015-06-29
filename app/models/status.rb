@@ -46,7 +46,7 @@ class Status < ActiveRecord::Base
   after_save :unmark_old_default_value, if: :is_default?
 
   def unmark_old_default_value
-    Status.update_all("is_default=#{self.class.connection.quoted_false}", ['id <> ?', id])
+    Status.where(['id <> ?', id]).update_all("is_default=#{self.class.connection.quoted_false}")
   end
 
   # Returns the default status for new issues
@@ -58,8 +58,8 @@ class Status < ActiveRecord::Base
   def self.update_work_package_done_ratios
     if WorkPackage.use_status_for_done_ratio?
       Status.where(['default_done_ratio >= 0']).each do |status|
-        WorkPackage.update_all(['done_ratio = ?', status.default_done_ratio],
-                               ['status_id = ?', status.id])
+        WorkPackage.where(['status_id = ?', status.id])
+          .update_all(['done_ratio = ?', status.default_done_ratio])
       end
     end
 

@@ -410,7 +410,8 @@ class Project < ActiveRecord::Base
         if project_activity.new_record?
           raise ActiveRecord::Rollback, 'Overridding TimeEntryActivity was not successfully saved'
         else
-          time_entries.update_all("activity_id = #{project_activity.id}", ['activity_id = ?', parent_activity.id])
+          time_entries.where(['activity_id = ?', parent_activity.id])
+            .update_all("activity_id = #{project_activity.id}")
         end
       end
     end

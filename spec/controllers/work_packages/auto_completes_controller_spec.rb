@@ -131,7 +131,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
         expected_return = []
         expected.each do |wp|
           new_id = wp.id.to_s + ids
-          WorkPackage.update_all({ id: new_id }, id: wp.id)
+          WorkPackage.where(id: wp.id).update_all(id: new_id)
           expected_return << WorkPackage.find(new_id)
         end
 

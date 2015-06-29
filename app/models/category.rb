@@ -54,7 +54,7 @@ class Category < ActiveRecord::Base
   # If a category is specified, issues are reassigned to this category
   def destroy(reassign_to = nil)
     if reassign_to && reassign_to.is_a?(Category) && reassign_to.project == project
-      WorkPackage.update_all("category_id = #{reassign_to.id}", "category_id = #{id}")
+      WorkPackage.where("category_id = #{id}").update_all("category_id = #{reassign_to.id}")
     end
     destroy_without_reassign
   end

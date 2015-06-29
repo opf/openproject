@@ -117,7 +117,8 @@ class Member < ActiveRecord::Base
 
   # remove category based auto assignments for this member
   def remove_from_category_assignments
-    Category.update_all 'assigned_to_id = NULL', ['project_id = ? AND assigned_to_id = ?', project.id, user.id] if user
+    Category.where(['project_id = ? AND assigned_to_id = ?', project.id, user.id])
+      .update_all 'assigned_to_id = NULL' if user
   end
 
   # Find or initialize a Member with an id, attributes, and for a Principal

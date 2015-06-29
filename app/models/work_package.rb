@@ -739,7 +739,7 @@ class WorkPackage < ActiveRecord::Base
         create_and_save_journal_note work_package, options[:journal_note]
       else
         # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", work_package_id: id)
+        TimeEntry.where(work_package_id: id).update_all("project_id = #{new_project.id}")
 
         work_package.children.each do |child|
           unless child.move_to_project_without_transaction(new_project)

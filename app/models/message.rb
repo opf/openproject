@@ -111,7 +111,8 @@ class Message < ActiveRecord::Base
 
   def update_ancestors
     if board_id_changed?
-      Message.update_all("board_id = #{board_id}", ['id = ? OR parent_id = ?', root.id, root.id])
+      Message.where(['id = ? OR parent_id = ?', root.id, root.id])
+        .update_all("board_id = #{board_id}")
       Board.reset_counters!(board_id_was)
       Board.reset_counters!(board_id)
     end
