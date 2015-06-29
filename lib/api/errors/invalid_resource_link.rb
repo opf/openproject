@@ -30,6 +30,8 @@
 module API
   module Errors
     class InvalidResourceLink < ErrorBase
+      identifier 'urn:openproject-org:api:v3:errors:ResourceTypeMismatch'
+
       def initialize(property_name, expected_link, actual_link)
         message = I18n.t('api_v3.errors.invalid_resource',
                          property: property_name,
