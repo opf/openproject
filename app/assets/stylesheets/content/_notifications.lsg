@@ -2,7 +2,6 @@
 
 ```
 <div class="notification-box">
-  <a href="#" class="notification-box--close">&times;</a>
   <div class="notification-box--content">
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia laudantium ea delectus incidunt accusantium repudiandae deserunt excepturi non esse vero distinctio et reprehenderit, cupiditate quidem consectetur rerum iste magnam voluptatibus.</p>
   </div>
@@ -44,16 +43,6 @@
   <a href="#" class="notification-box--close">&times;</a>
   <div class="notification-box--content">
     <p>Successful update. <a href="#">A link to the past</a></p>
-  </div>
-</div>
-```
-
-## Simple
-
-```
-<div class="notification-box -simple">
-  <div class="notification-box--content">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse id leo sit amet dui tempor blandit.</p>
   </div>
 </div>
 ```

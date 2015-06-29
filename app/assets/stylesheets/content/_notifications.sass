@@ -73,13 +73,13 @@ $nm-padding-simple-box: rem-calc(10px)
 
 .notification-box
   box-shadow: rem-calc(1px 2px 3px) #dddddd
-  border: rem-calc(1px) solid
-  padding: $nm-box-padding
+  border: rem-calc(1px) solid $nm-color-simple-border
+  padding: $nm-padding-simple-box
   border-radius: $nm-border-radius
   font-size: $nm-font-size
   position: relative
   word-wrap: break-word
-  background-color: $nm-default-background
+  background-color: $nm-color-simple-background
   color: $nm-font-color
 
   & .button
@@ -91,6 +91,9 @@ $nm-padding-simple-box: rem-calc(10px)
     margin-bottom: 0
   & p, & ul>li, & .button
     font-size: $nm-font-size
+
+  &.-error, &.-success, &.-warning
+    padding: $nm-box-padding
 
   &.-error
     background-color: $nm-color-error-background
@@ -113,10 +116,6 @@ $nm-padding-simple-box: rem-calc(10px)
       @include messages-icon
       @extend %nm-icon-warning
 
-  &.-simple
-    background-color: $nm-color-simple-background
-    border-color: $nm-color-simple-border
-    padding: $nm-padding-simple-box
 
   .notification-box--close
     position: absolute
