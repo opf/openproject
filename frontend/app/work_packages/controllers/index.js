@@ -159,6 +159,7 @@ angular.module('openproject.workPackages.controllers')
     'groupingModal',
     'QueryService',
     'WorkPackagesTableService',
+    'I18n',
     require('./dialogs/group-by')
   ])
   .factory('saveModal', ['btfModal', function(btfModal) {

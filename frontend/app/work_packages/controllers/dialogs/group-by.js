@@ -26,10 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $filter, groupingModal, QueryService, WorkPackagesTableService) {
+module.exports = function($scope,
+                          $filter,
+                          groupingModal,
+                          QueryService,
+                          WorkPackagesTableService,
+                          I18n) {
 
   this.name    = 'GroupBy';
   this.closeMe = groupingModal.deactivate;
+
+  var emptyOption = {
+    title: I18n.t('js.inplace.clear_value_label')
+  };
 
   $scope.vm = {};
 
@@ -42,9 +51,11 @@ module.exports = function($scope, $filter, groupingModal, QueryService, WorkPack
   $scope.workPackageTableData = WorkPackagesTableService.getWorkPackagesTableData();
 
   $scope.$watch('workPackageTableData.groupableColumns', function(groupableColumns) {
-    if (!groupableColumns) return;
+    if (!groupableColumns) {
+      return;
+    }
 
-    $scope.vm.groupableColumns   = [{}].concat(groupableColumns);
+    $scope.vm.groupableColumns   = [emptyOption].concat(groupableColumns);
     $scope.vm.selectedColumnName = QueryService.getGroupBy();
   });
 
