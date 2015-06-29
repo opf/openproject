@@ -125,7 +125,7 @@ class Project < ActiveRecord::Base
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
   scope :active, -> { where(status: STATUS_ACTIVE) }
-  scope :public, -> { where(is_public: true) }
+  scope :public_projects, -> { where(is_public: true) }
   scope :visible, ->(user = User.current) { where(Project.visible_by(user)) }
 
   # timelines stuff
