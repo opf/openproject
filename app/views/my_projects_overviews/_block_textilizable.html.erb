@@ -42,9 +42,9 @@ See doc/COPYRIGHT.md for more details.
             <p><label><%=l(:label_attachment_plural)%></label><br />
               <%= render :partial => 'attachments/form' %>
             </p>
-            <%= submit_tag l(:button_save),
+            <%= styled_button_tag l(:button_save),
                 :id => "#{block_name}-form-submit",
-                class: 'button -highlight' %>
+                class: '-highlight -with-icon icon-yes' %>
         <% end %>
       </div>
       <div id="<%= block_name %>-preview-div" class="wiki">

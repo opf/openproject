@@ -28,17 +28,11 @@ See doc/COPYRIGHT.md for more details.
 <% html_title(l(:label_overview)) -%>
 
 <%= toolbar title: l(:label_overview) do %>
-  <% if User.current.allowed_to?(:add_subprojects, project) %>
-    <li class="toolbar-item">
-      <%= link_to new_project_path(parent_id: project), class: 'button -alt-highlight' do %>
-        <i class="icon-add"></i> <%= l(:label_subproject_new) %>
-      <% end %>
-    </li>
-  <% end %>
   <% if User.current.allowed_to?(:edit_project, project) %>
-    <li class="toolbar-item">
+    <li class="toolbar-item" title="<%= l(:label_personalize_page) %>">
       <%= link_to my_projects_overview_path(project), class: 'button', accesskey: accesskey(:edit) do %>
-        <i class="icon-edit"></i> <%= l(:label_personalize_page) %>
+        <i class="icon-settings"></i>
+        <span class="hidden-for-sighted"><%= l(:label_personalize_page) %></span>
       <% end %>
     </li>
   <% end %>
@@ -56,19 +50,3 @@ See doc/COPYRIGHT.md for more details.
     <% end %>
   </div>
 </div>
-
-<% content_for :sidebar do %>
-  <% if total_hours.present? %>
-    <h3><%= l(:label_spent_time) %></h3>
-    <p><span class="icon icon-time"><%= l_hours(total_hours) %></span></p>
-    <p>
-      <%= link_to(l(:label_details), {:controller => 'timelog', :action => 'index', :project_id => project}) %> |
-
-      <%= link_to(l(:label_report), {:controller => 'time_entry_reports', :action => 'report', :project_id => project}) %>
-      <% if authorize_for('timelog', 'new') %>
-        | <%= link_to l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => project} %>
-      <% end %>
-    </p>
-  <% end %>
-  <%= call_hook(:view_projects_show_sidebar_bottom, :project => project) %>
-<% end %>
