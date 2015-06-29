@@ -27,16 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-InstanceFinder.register(Version, Proc.new { |name| Version.find_by_name(name) })
+InstanceFinder.register(Version, Proc.new { |name| Version.find_by(name: name) })
 
 Given /^the [Pp]roject (.+) has 1 version with(?: the following)?:$/ do |project, table|
   project.gsub!("\"", '')
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
+  p = Project.find_by(name: project) || Project.find_by(identifier: project)
 
   as_admin do
-    v = FactoryGirl.build(:version) do |v|
+    v = FactoryGirl.build(:version) { |v|
       v.project = p
-    end
+    }
     send_table_to_object(v, table)
   end
 end

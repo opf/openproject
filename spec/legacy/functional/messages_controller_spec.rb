@@ -56,13 +56,13 @@ describe MessagesController, type: :controller do
         message.children << m
       end
     end
-    get :show, board_id: 1, id: 1, per_page: 100, r: message.children.last(order: 'id').id
+    get :show, board_id: 1, id: 1, per_page: 100, r: message.children.order('id').last.id
     assert_response :success
     assert_template 'show'
     replies = assigns(:replies)
     assert_not_nil replies
-    assert !replies.include?(message.children.first(order: 'id'))
-    assert replies.include?(message.children.last(order: 'id'))
+    assert !replies.include?(message.children.order('id').first)
+    assert replies.include?(message.children.order('id').last)
   end
 
   it 'should show with reply permission' do
@@ -94,7 +94,7 @@ describe MessagesController, type: :controller do
     post :create, board_id: 1,
                   message: { subject: 'Test created message',
                              content: 'Message body' }
-    message = Message.find_by_subject('Test created message')
+    message = Message.find_by(subject: 'Test created message')
     assert_not_nil message
     assert_redirected_to topic_path(message)
     assert_equal 'Message body', message.content
@@ -137,16 +137,16 @@ describe MessagesController, type: :controller do
   it 'should reply' do
     session[:user_id] = 2
     post :reply, board_id: 1, id: 1, reply: { content: 'This is a test reply', subject: 'Test reply' }
-    reply = Message.find(:first, order: 'id DESC')
+    reply = Message.order('id DESC').first
     assert_redirected_to topic_path(1, r: reply)
-    assert Message.find_by_subject('Test reply')
+    assert Message.find_by(subject: 'Test reply')
   end
 
   it 'should destroy topic' do
     session[:user_id] = 2
     delete :destroy, id: 1
     assert_redirected_to project_board_path('ecookbook', 1)
-    assert_nil Message.find_by_id(1)
+    assert_nil Message.find_by(id: 1)
   end
 
   it 'should quote' do

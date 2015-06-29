@@ -29,7 +29,7 @@
 
 module Api
   module V2
-    class PlanningElementTypeColorsController < PlanningElementTypeColorsController
+    class PlanningElementTypeColorsController < ::PlanningElementTypeColorsController
       include ::Api::V2::ApiController
 
       def index

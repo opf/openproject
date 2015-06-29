@@ -103,7 +103,7 @@ class ReportingsController < ApplicationController
       condition += ' AND ' unless condition.empty?
 
       project_parents = params[:project_parents].split(/,/).map(&:to_i)
-      nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each { |i| r << i }; r }
+      nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each do |i| r << i end; r }
 
       temp_condition += "#{Project.quoted_table_name}.lft IN (?)"
       condition_params << nested_set_selection
@@ -125,15 +125,9 @@ class ReportingsController < ApplicationController
 
     case params[:only]
     when 'via_source'
-      @reportings = @project.reportings_via_source.find(:all,
-                                                        include: :project,
-                                                        conditions: conditions
-        )
+      @reportings = @project.reportings_via_source.includes(:project).where(conditions)
     when 'via_target'
-      @reportings = @project.reportings_via_target.find(:all,
-                                                        include: :project,
-                                                        conditions: conditions
-        )
+      @reportings = @project.reportings_via_target.includes(:project).where(conditions)
     else
       @reportings = @project.reportings.all
     end
@@ -156,15 +150,9 @@ class ReportingsController < ApplicationController
 
     case params[:only]
     when 'via_source'
-      @ancestor_reportings = @project.reportings_via_source.find(:all,
-                                                                 include: :project,
-                                                                 conditions: conditions
-        )
+      @ancestor_reportings = @project.reportings_via_source.includes(:project).where(conditions)
     when 'via_target'
-      @ancestor_reportings = @project.reportings_via_target.find(:all,
-                                                                 include: :project,
-                                                                 conditions: conditions
-        )
+      @ancestor_reportings = @project.reportings_via_target.includes(:project).where(conditions)
     else
       @ancestor_reportings = @project.reportings.all
     end

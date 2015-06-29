@@ -145,7 +145,7 @@ describe WorkPackage, type: :model do
                            relation_type: Relation::TYPE_BLOCKS)
       }
 
-      before { relation_blocks }
+      before do relation_blocks end
 
       describe '#blocked?' do
         context 'blocked work package' do
@@ -251,7 +251,7 @@ describe WorkPackage, type: :model do
         it { is_expected.to eq(preceding.due_date + 1) }
       end
 
-      before { relation_precedes }
+      before do relation_precedes end
 
       it_behaves_like 'following start date'
 
@@ -365,7 +365,7 @@ describe WorkPackage, type: :model do
                             relation_type: Relation::TYPE_PRECEDES)
         }
 
-        before { relation_3.save(validate: false) }
+        before do relation_3.save(validate: false) end
 
         it_behaves_like 'all dependant work packages visible'
       end

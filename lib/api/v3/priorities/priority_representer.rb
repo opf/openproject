@@ -34,7 +34,6 @@ module API
   module V3
     module Priorities
       class PriorityRepresenter < ::API::Decorators::Single
-
         self_link
 
         property :id, render_nil: true

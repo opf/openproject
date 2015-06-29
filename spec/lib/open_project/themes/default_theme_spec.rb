@@ -123,7 +123,7 @@ module OpenProject
       end
 
       it 'not overridden images are on root level' do
-        expect(helpers.image_tag('missing.png')).to include 'src="/assets/missing.png"'
+        expect(helpers.image_tag('missing.png')).to include 'src="/images/missing.png"'
       end
 
       it 'overridden favicon is on root level' do
@@ -131,7 +131,7 @@ module OpenProject
       end
 
       it 'not overridden favicon is on root level' do
-        expect(helpers.favicon_link_tag('missing.png')).to include 'href="/assets/missing.png"'
+        expect(helpers.favicon_link_tag('missing.png')).to include 'href="/images/missing.png"'
       end
     end
   end

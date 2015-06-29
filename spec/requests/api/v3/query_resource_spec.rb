@@ -84,7 +84,7 @@ describe 'API v3 Query resource', type: :request do
         end
 
         context 'when starring an unstarred query' do
-          before(:each) { patch star_path }
+          before(:each) do patch star_path end
 
           it 'should respond with 200' do
             expect(last_response.status).to eq(200)
@@ -102,7 +102,7 @@ describe 'API v3 Query resource', type: :request do
         end
 
         context 'when starring already starred query' do
-          before(:each) { patch star_path }
+          before(:each) do patch star_path end
 
           it 'should respond with 200' do
             expect(last_response.status).to eq(200)
@@ -121,7 +121,7 @@ describe 'API v3 Query resource', type: :request do
 
         context 'when trying to star nonexistent query' do
           let(:star_path) { api_v3_paths.query_star 999 }
-          before(:each) { patch star_path }
+          before(:each) do patch star_path end
 
           it_behaves_like 'not found' do
             let(:id) { 999 }
@@ -155,7 +155,6 @@ describe 'API v3 Query resource', type: :request do
         end
 
         context 'starring his own query' do
-
           it 'should respond with 200' do
             expect(last_response.status).to eq(200)
           end
@@ -191,7 +190,6 @@ describe 'API v3 Query resource', type: :request do
 
         it_behaves_like 'unauthorized access'
       end
-
     end
   end
 
@@ -260,7 +258,7 @@ describe 'API v3 Query resource', type: :request do
         end
 
         context 'when unstarring an unstarred query' do
-          before(:each) { patch unstar_path }
+          before(:each) do patch unstar_path end
 
           it 'should respond with 200' do
             expect(last_response.status).to eq(200)
@@ -275,16 +273,15 @@ describe 'API v3 Query resource', type: :request do
             parsed_response = JSON.parse(last_response.body)
             expect(parsed_response['isStarred']).to eq('false')
           end
-
         end
 
         context 'when trying to unstar nonexistent query' do
           let(:unstar_path) { api_v3_paths.query_unstar 999 }
-          before(:each) { patch unstar_path }
+          before(:each) do patch unstar_path end
 
           it_behaves_like 'not found' do
-           let(:id) { 999 }
-           let(:type) { 'Query' }
+            let(:id) { 999 }
+            let(:type) { 'Query' }
           end
         end
       end
@@ -314,7 +311,6 @@ describe 'API v3 Query resource', type: :request do
         end
 
         context 'unstarring his own query' do
-
           it 'should respond with 200' do
             expect(last_response.status).to eq(200)
           end
@@ -351,6 +347,5 @@ describe 'API v3 Query resource', type: :request do
         it_behaves_like 'unauthorized access'
       end
     end
-
   end
 end

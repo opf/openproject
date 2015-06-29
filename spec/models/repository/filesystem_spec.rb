@@ -90,8 +90,8 @@ describe Repository::Filesystem, type: :model do
       mock_dirs_exist(whitelisted_urls, ['/this/will/match'])
 
       allow(OpenProject::Configuration).to receive(:[])
-                                       .with('scm_filesystem_path_whitelist')
-                                       .and_return(whitelisted_urls)
+        .with('scm_filesystem_path_whitelist')
+        .and_return(whitelisted_urls)
 
       instance.attributes = valid_args
     end

@@ -171,7 +171,7 @@ class TreeTestWithEagerLoading < Test::Unit::TestCase
   end
 
   def test_eager_association_loading
-    roots = TreeMixin.find(:all, include: :children, conditions: 'mixins.parent_id IS NULL', order: 'mixins.id')
+    roots = TreeMixin.includes(:children).where('mixins.parent_id IS NULL').order('mixins.id')
     assert_equal [@root1, @root2, @root3], roots
     assert_no_queries do
       assert_equal 2, roots[0].children.size
@@ -181,17 +181,17 @@ class TreeTestWithEagerLoading < Test::Unit::TestCase
   end
 
   def test_eager_association_loading_with_recursive_cascading_three_levels_has_many
-    root_node = RecursivelyCascadedTreeMixin.find(:first, include: { children: { children: :children } }, order: 'mixins.id')
+    root_node = RecursivelyCascadedTreeMixin.includes({ children: { children: :children } }).order('mixins.id').first
     assert_equal @rc4, assert_no_queries { root_node.children.first.children.first.children.first }
   end
 
   def test_eager_association_loading_with_recursive_cascading_three_levels_has_one
-    root_node = RecursivelyCascadedTreeMixin.find(:first, include: { first_child: { first_child: :first_child } }, order: 'mixins.id')
+    root_node = RecursivelyCascadedTreeMixin.includes({ first_child: { first_child: :first_child } }).order('mixins.id').first
     assert_equal @rc4, assert_no_queries { root_node.first_child.first_child.first_child }
   end
 
   def test_eager_association_loading_with_recursive_cascading_three_levels_belongs_to
-    leaf_node = RecursivelyCascadedTreeMixin.find(:first, include: { parent: { parent: :parent } }, order: 'mixins.id DESC')
+    leaf_node = RecursivelyCascadedTreeMixin.includes({ parent: { parent: :parent } }).order('mixins.id DESC').first
     assert_equal @rc1, assert_no_queries { leaf_node.parent.parent.parent }
   end
 end

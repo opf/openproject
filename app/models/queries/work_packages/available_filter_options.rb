@@ -94,7 +94,7 @@ module Queries::WorkPackages::AvailableFilterOptions
   # options for available filters
 
   def setup_available_work_package_filters
-    types = project.nil? ? Type.find(:all, order: 'position') : project.rolled_up_types
+    types = project.nil? ? ::Type.order('position') : project.rolled_up_types
 
     @available_work_package_filters = {
       status_id:       { type: :list_status, order: 1, values: Status.all.map { |s| [s.name, s.id.to_s] } },
@@ -191,11 +191,11 @@ module Queries::WorkPackages::AvailableFilterOptions
 
   def add_global_options
     # global filters for cross project issue list
-    system_shared_versions = Version.visible.find_all_by_sharing('system')
+    system_shared_versions = Version.visible.where(sharing: 'system')
     unless system_shared_versions.empty?
       @available_work_package_filters['fixed_version_id'] = { type: :list_optional, order: 7, values: system_shared_versions.sort.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }, name: WorkPackage.human_attribute_name('fixed_version_id') }
     end
-    add_custom_fields_options(WorkPackageCustomField.find(:all, conditions: { is_filter: true, is_for_all: true }))
+    add_custom_fields_options(WorkPackageCustomField.where(is_filter: true, is_for_all: true))
   end
 
   def add_custom_fields_options(custom_fields)

@@ -94,7 +94,6 @@ module Migration
       if legacy_table_exists?
 
         table_names.each do |table_name|
-
           db_delete <<-SQL
           DELETE
           FROM #{quoted_table_name(table_name)}
@@ -102,7 +101,6 @@ module Migration
                                FROM #{quoted_legacy_journals_table_name}
                                WHERE type=#{quote_value(type)})
           SQL
-
         end
 
         db_delete <<-SQL
@@ -179,7 +177,8 @@ module Migration
 
     # fetches specific journal row. might be empty.
     def fetch_journal(legacy_journal)
-      id, version = legacy_journal['journaled_id'], legacy_journal['version']
+      id = legacy_journal['journaled_id']
+      version = legacy_journal['version']
 
       db_select_all <<-SQL
         SELECT *

@@ -86,15 +86,12 @@ SQL
   protected
 
   def self.filtered_work_packages(projects, filter)
-    work_package_scope = WorkPackage.scoped
-                         .joins(:status)
-                         .joins(:project) # query doesn't provide these joins itself...
-                         .for_projects(projects)
-
     query = Query.new name: 'generated-query'
     query.add_filters(filter[:f], filter[:op], filter[:v])
 
-    work_package_scope.with_query(query)
+    WorkPackage.for_projects(projects)
+      .with_query(query)
+      .joins(:status, :project)
       .pluck(:id)
   end
 
@@ -126,7 +123,7 @@ SQL
 
   def self.resolve_types(work_packages)
     type_ids  = work_packages.map(&:type_id).uniq.compact
-    types     = Hash[Type.find(type_ids).map { |type| [type.id, type] }]
+    types     = Hash[::Type.find(type_ids).map { |type| [type.id, type] }]
   end
 
   def self.resolve_statuses(work_packages)

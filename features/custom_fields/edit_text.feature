@@ -66,6 +66,7 @@ Feature: Editing text custom fields
       | locale | name            | default_value |
       | en     | My Custom Field | default       |
 
+  @wip
   @javascript
   Scenario: Changing a localization of one attribute to a non existent localization creates the localization
     When the Custom Field called "My Custom Field" has the following localizations:
@@ -80,5 +81,3 @@ Feature: Editing text custom fields
       | locale  | name            | default_value  |
       | en      | My Custom Field | default        |
       | de      | My Custom Field | nil            |
-
-

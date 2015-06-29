@@ -43,7 +43,6 @@ module API
         end
 
         resources :watchers do
-
           params do
             requires :user_id, desc: 'The watcher\'s user id', type: Integer
           end
@@ -76,14 +75,13 @@ module API
                 authorize(:delete_work_package_watchers, context: @work_package.project)
               end
 
-              user = User.find_by_id params[:user_id]
+              user = User.find_by(id: params[:user_id])
 
               Services::RemoveWatcher.new(@work_package, user).run
 
               status 204
             end
           end
-
         end
       end
     end

@@ -54,7 +54,7 @@ describe TypesController, type: :controller do
   it 'should post create' do
     post :create, type: { name: 'New type', project_ids: ['1', '', ''], custom_field_ids: ['1', '6', ''] }
     assert_redirected_to action: 'index'
-    type = Type.find_by_name('New type')
+    type = ::Type.find_by(name: 'New type')
     assert_equal [1], type.project_ids.sort
     assert_equal [1, 6], type.custom_field_ids
     assert_equal 0, type.workflows.count
@@ -63,13 +63,13 @@ describe TypesController, type: :controller do
   it 'should post create with workflow copy' do
     post :create, type: { name: 'New type' }, copy_workflow_from: 1
     assert_redirected_to action: 'index'
-    type = Type.find_by_name('New type')
+    type = ::Type.find_by(name: 'New type')
     assert_equal 0, type.projects.count
-    assert_equal Type.find(1).workflows.count, type.workflows.count
+    assert_equal ::Type.find(1).workflows.count, type.workflows.count
   end
 
   it 'should get edit' do
-    Type.find(1).project_ids = [1, 3]
+    ::Type.find(1).project_ids = [1, 3]
 
     get :edit, id: 1
     assert_response :success
@@ -92,25 +92,25 @@ describe TypesController, type: :controller do
     post :update, id: 1, type: { name: 'Renamed',
                                  project_ids: ['1', '2', ''] }
     assert_redirected_to action: 'index'
-    assert_equal [1, 2], Type.find(1).project_ids.sort
+    assert_equal [1, 2], ::Type.find(1).project_ids.sort
   end
 
   it 'should post update without projects' do
     post :update, id: 1, type: { name: 'Renamed',
                                  project_ids: [''] }
     assert_redirected_to action: 'index'
-    assert Type.find(1).project_ids.empty?
+    assert ::Type.find(1).project_ids.empty?
   end
 
   it 'should move lower' do
-    type = Type.find_by_position(1)
+    type = ::Type.find_by(position: 1)
     post :move, id: 1, type: { move_to: 'lower' }
     assert_equal 2, type.reload.position
   end
 
   it 'should destroy' do
-    type = Type.create!(name: 'Destroyable')
-    assert_difference 'Type.count', -1 do
+    type = ::Type.create!(name: 'Destroyable')
+    assert_difference '::Type.count', -1 do
       post :destroy, id: type.id
     end
     assert_redirected_to action: 'index'
@@ -118,7 +118,7 @@ describe TypesController, type: :controller do
   end
 
   it 'should destroy type in use' do
-    assert_no_difference 'Type.count' do
+    assert_no_difference '::Type.count' do
       post :destroy, id: 1
     end
     assert_redirected_to action: 'index'

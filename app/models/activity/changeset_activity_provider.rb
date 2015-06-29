@@ -70,8 +70,7 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
 
   def event_datetime(event, _activity)
     committed_on = event['committed_on']
-    committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on)
-                                                : committed_on
+    committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on) : committed_on
   end
 
   def event_path(event, _activity)
@@ -91,8 +90,7 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
   def format_revision(event)
     repository_class = event['repository_type'].constantize
 
-    repository_class.respond_to?(:format_revision) ? repository_class.format_revision(event['revision'])
-                                                   : event['revision']
+    repository_class.respond_to?(:format_revision) ? repository_class.format_revision(event['revision']) : event['revision']
   end
 
   def split_comment(comments)

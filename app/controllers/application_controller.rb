@@ -30,19 +30,6 @@
 require 'uri'
 require 'cgi'
 
-# There is a circular dependency chain between User, Principal, and Project
-# If anybody triggers the loading of User first, Rails fails to autoload
-# the three. Defining class User depends on the resolution of the Principal constant.
-# Triggering autoload of the User class does not immediately define the User constant
-# while Principal and Project dont inherit from something undefined.
-# This means they will be defined as constants right after their autoloading
-# was triggered. When Rails discovers it has to load the undefined class User
-# during the load circle while noticing it has already tried to load it (the
-# first load of user), it will complain about user being an undefined constant.
-# Requiring this dependency here ensures Principal is loaded first in development
-# on each request.
-require_dependency 'principal'
-
 class ApplicationController < ActionController::Base
   class_attribute :_model_object
   class_attribute :_model_scope
@@ -105,6 +92,11 @@ class ApplicationController < ActionController::Base
     render_error status: 422, message: 'Invalid form authenticity token.' unless api_request?
   end
 
+  rescue_from ActionController::ParameterMissing do |exception|
+    render text:   "Required parameter missing: #{exception.param}",
+           status: :bad_request
+  end
+
   before_filter :user_setup,
                 :check_if_login_required,
                 :log_requesting_user,
@@ -165,7 +157,7 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (User.active.find(session[:user_id], include: [:memberships]) rescue nil)
+      User.active.includes(:memberships).find_by(id: session[:user_id])
     elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting.autologin?
       # auto-login feature starts a new session
       user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
@@ -254,7 +246,7 @@ class ApplicationController < ActionController::Base
                       project_id: params[:project_id])
       end
       respond_to do |format|
-        format.any(:html, :atom) { redirect_to signin_path(back_url: url) }
+        format.any(:html, :atom) do redirect_to signin_path(back_url: url) end
 
         authentication_scheme = if request.headers['X-Authentication-Scheme'] == 'Session'
                                   'Session'
@@ -412,7 +404,7 @@ class ApplicationController < ActionController::Base
   # Filter for bulk work package operations
   def find_work_packages
     @work_packages = WorkPackage.includes(:project)
-                     .find_all_by_id(params[:work_package_id] || params[:ids])
+                     .where(id: params[:work_package_id] || params[:ids])
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
     @projects = @work_packages.map(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
@@ -574,7 +566,7 @@ class ApplicationController < ActionController::Base
 
   def render_feed(items, options = {})
     @items = items || []
-    @items.sort! { |x, y| y.event_datetime <=> x.event_datetime }
+    @items.sort! do |x, y| y.event_datetime <=> x.event_datetime end
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render template: 'common/feed', layout: false, content_type: 'application/atom+xml'
@@ -651,9 +643,9 @@ class ApplicationController < ActionController::Base
 
   # Converts the errors on an ActiveRecord object into a common JSON format
   def object_errors_to_json(object)
-    object.errors.map do |attribute, error|
+    object.errors.map { |attribute, error|
       { attribute => error }
-    end.to_json
+    }.to_json
   end
 
   # Renders API response on validation failure

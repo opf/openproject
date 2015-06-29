@@ -36,15 +36,13 @@ module Pagination::Model
   end
 
   def self.extended(base)
-    base.scope :like, lambda { |q|
+    base.scope :like, -> (q) {
       s = "%#{q.to_s.strip.downcase}%"
-      { conditions: ['LOWER(name) LIKE :s', { s: s }],
-        order: 'name' }
+      base.where(['LOWER(name) LIKE :s', { s: s }])
+        .order('name')
     }
 
     base.instance_eval do
-      unloadable
-
       def paginate_scope!(scope, options = {})
         limit = options.fetch(:page_limit) || 10
         page = options.fetch(:page) || 1

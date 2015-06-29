@@ -30,6 +30,6 @@
 class Api::V2::Pagination::TypesController < ApplicationController
   extend Pagination::Controller
 
-  paginate_model Type
-  action_for Type, :index
+  paginate_model ::Type
+  action_for ::Type, :index
 end

@@ -51,12 +51,10 @@ describe Api::Experimental::QueriesController, type: :controller do
       allow(QueryPolicy).to receive(:new).and_return(policy)
 
       expect(policy).to receive(:allowed?) do |received_query, received_action|
-
         if received_query.id == query.id &&
            Array(allowed_actions).include?(received_action)
           called_with_expected_args << received_action
         end
-
       end.at_least(1).times.and_return(true)
     end
 
@@ -81,14 +79,14 @@ describe Api::Experimental::QueriesController, type: :controller do
       it 'assigns available_columns' do
         get :available_columns, format: :json
         expect(assigns(:available_columns)).not_to be_empty
-        expect(assigns(:available_columns).first).to have_key('name')
-        expect(assigns(:available_columns).first).to have_key('meta_data')
+        expect(assigns(:available_columns).first).to have_key(:name)
+        expect(assigns(:available_columns).first).to have_key(:meta_data)
       end
     end
 
     it 'renders the available_columns template' do
       get :available_columns, format: :json
-      expect(response).to render_template('api/experimental/queries/available_columns', formats: %w(api))
+      expect(response).to render_template('api/experimental/queries/available_columns')
     end
 
     context 'without the necessary permissions' do
@@ -116,7 +114,7 @@ describe Api::Experimental::QueriesController, type: :controller do
 
     it 'renders the custom_field template' do
       get :custom_field_filters, format: :json
-      expect(response).to render_template('api/experimental/queries/custom_field_filters', formats: %w(api))
+      expect(response).to render_template('api/experimental/queries/custom_field_filters')
     end
 
     context 'without the necessary permissions' do
@@ -139,7 +137,6 @@ describe Api::Experimental::QueriesController, type: :controller do
       it 'responds with 200' do
         get :grouped, format: :json, project_id: project.id
       end
-
     end
 
     context 'without a project' do
@@ -357,7 +354,6 @@ describe Api::Experimental::QueriesController, type: :controller do
   end
 
   describe '#destroy' do
-
     context 'within a project' do
       let(:query) { FactoryGirl.create(:query, project: project) }
 
@@ -421,5 +417,4 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
     end
   end
-
 end

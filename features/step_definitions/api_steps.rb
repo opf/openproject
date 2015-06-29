@@ -34,7 +34,6 @@ When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
   @unfiltered_benchmark = Benchmark.measure('Unfiltered Results') do
     visit api_v2_project_planning_elements_path(project_id: project_name, format: format)
   end
-
 end
 
 Then(/^the json\-response should include (\d+) work package(s?)$/) do |number_of_wps, _plural|
@@ -47,11 +46,10 @@ Then(/^the json\-response should( not)? contain a work_package "(.*?)"$/) do |ne
   else
     expect(work_package_names).to include work_package_name
   end
-
 end
 
 And(/^the json\-response for work_package "(.*?)" should have the type "(.*?)"$/) do |work_package_name, type_name|
-  type = Type.where(name: type_name).first
+  type = ::Type.where(name: type_name).first
   work_package = lookup_work_package(work_package_name)
   expect(work_package['type_id']).to eql type.id
 end
@@ -98,14 +96,13 @@ When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
 end
 
 Then(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for type "(.*?)"$/) do |project_name, format, type_names|
-  types = Project.find_by_identifier(project_name).types.where(name: type_names.split(','))
+  types = Project.find_by(identifier: project_name).types.where(name: type_names.split(','))
 
   get_filtered_json(project_name: project_name,
                     format: format,
                     filters: [:type_id],
                     operators:  { type_id: '=' },
                     values: { type_id: types.map(&:id) })
-
 end
 
 When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)" filtering for responsible "(.*?)"$/) do |project_name, format, responsible_names|
@@ -116,11 +113,10 @@ When(/^I call the work_package\-api on project "(.*?)" requesting format "(.*?)"
                     filters: [:responsible_id],
                     operators:  { responsible_id: '=' },
                     values: { responsible_id: responsibles.map(&:id) })
-
 end
 
 And(/^I call the work_package\-api on project "(.*?)" at time "(.*?)" and filter for types "(.*?)"$/) do |project_name, at_time, type_names|
-  types = Project.find_by_identifier(project_name).types.where(name: type_names.split(','))
+  types = Project.find_by(identifier: project_name).types.where(name: type_names.split(','))
 
   get_filtered_json(project_name: project_name,
                     format: 'json',
@@ -131,11 +127,10 @@ And(/^I call the work_package\-api on project "(.*?)" at time "(.*?)" and filter
 end
 
 And(/^there are (\d+) work packages of type "(.*?)" in project "(.*?)"$/) do |nr_of_wps, type_name, project_name|
-  project = Project.find_by_identifier(project_name)
-  type = project.types.find_by_name(type_name)
+  project = Project.find_by(identifier: project_name)
+  type = project.types.find_by(name: type_name)
 
   FactoryGirl.create_list(:work_package, nr_of_wps.to_i, project: project, type: type)
-
 end
 
 And(/^the time to get the unfiltered results should not exceed (\d+)\.(\d+)s$/) do |seconds, milliseconds|
@@ -155,7 +150,7 @@ Then(/^the time to get the filtered results should be faster than the time to ge
 end
 
 def lookup_work_package(work_package_name)
-  work_package = decoded_json['planning_elements'].select { |wp| wp['subject'] == work_package_name }.first
+  work_package = decoded_json['planning_elements'].find { |wp| wp['subject'] == work_package_name }
 end
 
 def work_package_names

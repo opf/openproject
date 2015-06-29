@@ -30,13 +30,13 @@ require 'spec_helper'
 
 module OpenProject
   describe Themes do
-    before { Themes.clear_themes }
+    before do Themes.clear_themes end
 
     describe '.new_theme' do
       it 'returns a new theme' do
-        theme = Themes.new_theme do |theme|
+        theme = Themes.new_theme { |theme|
           theme.identifier = :new_theme
-        end
+        }
         expect(theme).to be_kind_of Themes::Theme
         expect(theme.identifier).to eq :new_theme
       end
@@ -59,9 +59,9 @@ module OpenProject
 
     describe '.theme' do
       it 'returns a theme by name' do
-        theme = Themes.new_theme do |theme|
+        theme = Themes.new_theme { |theme|
           theme.identifier = :new_theme
-        end
+        }
         expect(Themes.theme(:new_theme)).to be theme
       end
 
@@ -82,7 +82,7 @@ module OpenProject
           theme.identifier = :new_theme
         end
         themes = []
-        Themes.each { |theme| themes << theme.identifier }
+        Themes.each do |theme| themes << theme.identifier end
         expect(themes).to eq [:new_theme]
       end
     end
@@ -99,9 +99,9 @@ module OpenProject
 
     describe '.current_theme' do
       it 'returns the theme with identifier defined by current theme identifier' do
-        theme = Themes.new_theme do |theme|
+        theme = Themes.new_theme { |theme|
           theme.identifier = :new_theme
-        end
+        }
         allow(Themes).to receive(:application_theme_identifier).and_return :new_theme
         expect(Themes.current_theme).to eq theme
       end

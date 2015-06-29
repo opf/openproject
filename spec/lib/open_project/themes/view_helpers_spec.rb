@@ -58,11 +58,11 @@ module OpenProject
         end
 
         it 'it is nested if overridden' do
-          expect(helpers.favicon_link_tag('add.png')).to include 'href="/assets/new_theme/add.png"'
+          expect(helpers.favicon_link_tag('add.png')).to include 'href="/images/new_theme/add.png"'
         end
 
         it 'it is on root level if not overridden' do
-          expect(helpers.favicon_link_tag('missing.png')).to include 'href="/assets/missing.png"'
+          expect(helpers.favicon_link_tag('missing.png')).to include 'href="/images/missing.png"'
         end
 
         it 'it is unchanged if absolute path' do
@@ -86,11 +86,11 @@ module OpenProject
         end
 
         it 'it is nested if overridden' do
-          expect(helpers.image_tag('add.png')).to include 'src="/assets/new_theme/add.png"'
+          expect(helpers.image_tag('add.png')).to include 'src="/images/new_theme/add.png"'
         end
 
         it 'it is on root level if not overridden' do
-          expect(helpers.image_tag('missing.png')).to include 'src="/assets/missing.png"'
+          expect(helpers.image_tag('missing.png')).to include 'src="/images/missing.png"'
         end
 
         it 'it is unchanged if absolute path' do

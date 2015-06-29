@@ -62,13 +62,13 @@ Given /^(?:|I )am not logged in$/ do
 end
 
 Given /^(?:|I )am [aA]dmin$/ do
-  admin = User.find_by_admin(true)
+  admin = User.find_by(admin: true)
 
   login(admin.login, 'adminADMIN!')
 end
 
 Given /^(?:|I )am already [aA]dmin$/ do
-  admin = User.find_by_admin(true)
+  admin = User.find_by(admin: true)
   # see https://github.com/railsware/rack_session_access
   page.set_rack_session(user_id: admin.id)
 end
@@ -80,12 +80,12 @@ Given /^I am already logged in as "(.+?)"$/ do |login|
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
-
   login(username, 'adminADMIN!')
 end
 
 Given /^(?:|I )am (not )?impaired$/ do |bool|
-  (user = User.current).impaired = !bool
+  user = User.find(page.get_rack_session_key('user_id'))
+  user.impaired = !bool
   user.save
 end
 
@@ -99,7 +99,7 @@ Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
 end
 
 Then /^the project "([^"]*)" is( not)? public$/ do |project_name, negation|
-  p = Project.find_by_name(project_name)
+  p = Project.find_by(name: project_name)
   p.update_attribute(:is_public, !negation)
 end
 
@@ -109,21 +109,21 @@ Given /^the plugin (.+) is loaded$/ do |plugin_name|
 end
 
 Given /^(?:the )?[pP]roject "([^\"]*)" uses the following [mM]odules:$/ do |project, table|
-  p = Project.find_by_name(project)
+  p = Project.find_by(name: project)
 
   p.enabled_module_names += table.raw.map(&:first)
   p.reload
 end
 
 Given /^(?:the )?[pP]roject "([^\"]*)" does not use the following [mM]odules:$/ do |project, table|
-  p = Project.find_by_name(project)
+  p = Project.find_by(name: project)
 
   p.enabled_module_names -= table.raw.map(&:first)
   p.reload
 end
 
 Given /^the [Uu]ser "([^\"]*)" has 1 time [eE]ntry$/ do |user|
-  u = User.find_by_login user
+  u = User.find_by login: user
   p = u.projects.last
   raise 'This user must be member of a project to have issues' unless p
   i = FactoryGirl.create(:work_package, project: p)
@@ -137,14 +137,14 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time [eE]ntry$/ do |user|
 end
 
 Given /^the [Uu]ser "([^\"]*)" has 1 time entry with (\d+\.?\d*) hours? at the project "([^\"]*)"$/ do |user, hours, project|
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
+  p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin do
     t = TimeEntry.generate
     i = FactoryGirl.create(:work_package, project: p)
     t.project = p
     t.issue = i
     t.hours = hours.to_f
-    t.user = User.find_by_login user
+    t.user = User.find_by login: user
     t.activity.project = p
     t.activity.save!
     t.save!
@@ -152,7 +152,7 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time entry with (\d+\.?\d*) hours? at the p
 end
 
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the following:$/ do |project, count, table|
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
+  p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin count do
     t = TimeEntry.generate
     i = FactoryGirl.create(:work_package, project: p)
@@ -172,19 +172,19 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
                            object.spent_on = time
                            object.save!
                          end
-    )
+                        )
   end
 end
 
 Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject$/ do |project|
-  parent = Project.find_by_name(project)
+  parent = Project.find_by(name: project)
   p = Project.generate
   p.set_parent!(parent)
   p.save!
 end
 
 Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject with the following:$/ do |project, table|
-  parent = Project.find_by_name(project)
+  parent = Project.find_by(name: project)
   p = FactoryGirl.build(:project)
   as_admin do
     send_table_to_object(p, table)
@@ -197,8 +197,8 @@ end
 Given /^there are the following types:$/ do |table|
   table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each_with_index do |t, i|
-    type = Type.find_by_name(t['name'])
-    type = Type.new name: t['name'] if type.nil?
+    type = ::Type.find_by(name: t['name'])
+    type = ::Type.new name: t['name'] if type.nil?
     type.position       = t['position'] ? t['position'] : i
     type.is_in_roadmap  = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     type.is_milestone   = t['is_milestone'] ? t['is_milestone'] : true
@@ -210,9 +210,8 @@ Given /^there are the following types:$/ do |table|
 end
 
 Given /^there are the following issue status:$/ do |table|
-
   table.hashes.each_with_index do |t, i|
-    status = Status.find_by_name(t['name'])
+    status = Status.find_by(name: t['name'])
     status = Status.new name: t['name'] if status.nil?
     status.is_closed = t['is_closed'] == 'true'
     status.is_default = t['is_default'] == 'true'
@@ -223,18 +222,18 @@ Given /^there are the following issue status:$/ do |table|
 end
 
 Given /^the type "(.+?)" has the default workflow for the role "(.+?)"$/ do |type_name, role_name|
-  role = Role.find_by_name(role_name)
-  type = Type.find_by_name(type_name)
+  role = Role.find_by(name: role_name)
+  type = ::Type.find_by(name: type_name)
   type.workflows = []
 
-  Status.all(order: 'id ASC').map(&:id).combination(2).each do |c|
+  Status.order('id ASC').map(&:id).combination(2).each do |c|
     type.workflows.build(old_status_id: c[0], new_status_id: c[1], role: role)
   end
   type.save!
 end
 
 Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the following:$/ do |issue, count, table|
-  i = WorkPackage.find(:last, conditions: ["subject = '#{issue}'"])
+  i = WorkPackage.where(["subject = '#{issue}'"]).last
   raise "No such issue: #{issue}" unless i
   as_admin count do
     t = TimeEntry.generate
@@ -335,7 +334,7 @@ When /^I satisfy the "(.+)" plugin to (.+)$/ do |plugin_name, action|
 end
 
 Given /^I am working in [pP]roject "(.+?)"$/ do |project_name|
-  @project = Project.find_by_name(project_name)
+  @project = Project.find_by(name: project_name)
 end
 
 Given /^the [pP]roject uses the following modules:$/ do |table|
@@ -351,8 +350,8 @@ end
 Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_name, table|
   p = get_project(project_name)
   table.hashes.each_with_index do |t, i|
-    type = Type.find_by_name(t['name'])
-    type = Type.new name: t['name'] if type.nil?
+    type = ::Type.find_by(name: t['name'])
+    type = ::Type.new name: t['name'] if type.nil?
     type.position = t['position'] ? t['position'] : i
     type.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
     type.save!
@@ -371,7 +370,7 @@ def get_project(project_name = nil)
   if project_name.blank?
     project = @project
   else
-    project = Project.find_by_name(project_name)
+    project = Project.find_by(name: project_name)
   end
   if project.nil?
     if project_name.blank?
@@ -405,7 +404,7 @@ def modify_user(u, table)
                              r.project    = user.projects.last
                            end.save!
                          end
-    )
+                        )
 
     u.save!
   end
@@ -415,11 +414,12 @@ end
 # Encapsulate the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
   if WorkPackageCustomField.all.map(&:name).include? key.to_s
-    cv = CustomValue.find(:first, conditions: ["customized_id = '#{object.id}'"])
+    cv = CustomValue.where(["customized_id = '#{object.id}'"]).first
     cv ||= CustomValue.new
     cv.customized_type = 'WorkPackage'
     cv.customized_id = object.id
-    cv.custom_field_id = WorkPackageCustomField.first(joins: :translations, conditions: ['custom_field_translations.name = ?', key]).id
+    cv.custom_field_id = WorkPackageCustomField.joins(:translations)
+      .where(['custom_field_translations.name = ?', key]).id
     cv.value = value
     cv.save!
   end

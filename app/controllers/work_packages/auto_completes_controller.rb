@@ -41,7 +41,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
     @work_packages = []
     # query for exact ID matches first, to make an exact match the first result of autocompletion
     if query_term =~ /\A\d+\z/
-      @work_packages |= scope.visible.find_all_by_id(query_term.to_i)
+      @work_packages |= scope.visible.where(id: query_term.to_i)
     end
 
     sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR
@@ -49,12 +49,12 @@ class WorkPackages::AutoCompletesController < ApplicationController
                  { q: "%#{query_term.downcase}%" }]
 
     @work_packages |= scope.visible
-                           .where(sql_query)
-                           .order("#{WorkPackage.table_name}.id ASC") # :id does not work because...
-                           .limit(10)
+                      .where(sql_query)
+                      .order("#{WorkPackage.table_name}.id ASC") # :id does not work because...
+                      .limit(10)
 
     respond_to do |format|
-      format.html { render layout: false }
+      format.html do render layout: false end
       format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string }
     end
   end
@@ -64,7 +64,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
   def wp_hashes_with_string
     @work_packages.map do |work_package|
       wp_hash = Hash.new
-      work_package.attributes.each { |key, value| wp_hash[key] = Rack::Utils.escape_html(value) }
+      work_package.attributes.each do |key, value| wp_hash[key] = Rack::Utils.escape_html(value) end
       wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
       wp_hash
     end

@@ -30,7 +30,6 @@
 require 'action_view/helpers/form_helper'
 
 class CustomFieldFormBuilder < TabularFormBuilder
-
   # Return custom field html tag corresponding to its format
   def custom_field(options = {})
     input = custom_field_input(options)

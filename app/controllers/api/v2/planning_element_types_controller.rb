@@ -40,7 +40,7 @@ module Api
       accept_key_auth :index, :show
 
       def index
-        @types = (@project.nil?) ? Type.all : @project.types
+        @types = (@project.nil?) ? ::Type.all : @project.types
 
         respond_to do |format|
           format.api
@@ -49,9 +49,9 @@ module Api
 
       def show
         @type = if @project.nil?
-                  Type.find_by_id(params[:id])
+                  ::Type.find_by(id: params[:id])
                 else
-                  @project.types.find_by_id(params[:id])
+                  @project.types.find_by(id: params[:id])
                 end
 
         if @type

@@ -27,27 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'sprockets/rails'
-
-module Sprockets
-  module Rails
-    # Workaround to ensure some asset helpers (like #image_path) use the
-    # correct asset prefix.
-    # Helps OpenProject::Themes::ViewHelpers# find theme assets.
-    # NOTE: repercussions of this hack are unknown.
-    module LegacyAssetUrlHelper
-      ASSET_PUBLIC_DIRECTORIES.replace(
-        audio:      '/assets',
-        font:       '/assets',
-        image:      '/assets',
-        javascript: '/assets',
-        stylesheet: '/assets',
-        video:      '/assets'
-      )
-    end
-  end
-end
-
 require 'active_record'
 
 module ActiveRecord
@@ -82,22 +61,26 @@ module ActiveModel
       attr_name_override = nil
       match = /\Acustom_field_(?<id>\d+)\z/.match(attribute)
       if match
-        attr_name_override = CustomField.find_by_id(match[:id]).name
+        attr_name_override = CustomField.find_by(id: match[:id]).name
       end
 
       attr_name = attribute.to_s.gsub('.', '_').humanize
-      attr_name = @base.class.human_attribute_name(attribute, :default => attr_name)
-      I18n.t(:"errors.format", {
-                               :default   => "%{attribute} %{message}",
-                               :attribute => attr_name_override || attr_name,
-                               :message   => message
-                             })
+      attr_name = @base.class.human_attribute_name(attribute, default: attr_name)
+      I18n.t(:"errors.format",                                default: '%{attribute} %{message}',
+                                                              attribute: attr_name_override || attr_name,
+                                                              message: message)
     end
   end
 end
 
 module ActionView
   module Helpers
+    module Tags
+      Base.class_eval do
+        attr_reader :method_name
+      end
+    end
+
     module AccessibleErrors
       def self.included(base)
         base.send(:include, InstanceMethods)
@@ -265,23 +248,6 @@ module ActiveSupport
 
     def reject(*args, &block)
       dup.tap { |hash| hash.reject!(*args, &block) }
-    end
-  end
-end
-
-module CollectiveIdea
-  module Acts
-    module NestedSet
-      module Model
-        # fixes IssueNestedSetTest#test_destroy_parent_work_package_updated_during_children_destroy
-        def destroy_descendants_with_reload
-          destroy_descendants_without_reload
-          # Reload is needed because children may have updated their parent (self) during deletion.
-          # fixes stale object error in issue_nested_set_test
-          reload
-        end
-        alias_method_chain :destroy_descendants, :reload
-      end
     end
   end
 end

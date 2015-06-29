@@ -33,7 +33,7 @@ class PlanningElementTypeColor < ActiveRecord::Base
   self.table_name = 'planning_element_type_colors'
 
   acts_as_list
-  default_scope order: 'position ASC'
+  default_scope { order('position ASC') }
 
   has_many :planning_element_types, class_name:  'Type',
                                     foreign_key: 'color_id',
@@ -50,20 +50,20 @@ class PlanningElementTypeColor < ActiveRecord::Base
 
   def self.colors
     [
-      find_or_initialize_by_name_and_hexcode('Black',      '#000000'),
-      find_or_initialize_by_name_and_hexcode('White',      '#FFFFFF'),
-      find_or_initialize_by_name_and_hexcode('Blue',       '#3399CC'),
-      find_or_initialize_by_name_and_hexcode('Mint',       '#66CCCC'),
-      find_or_initialize_by_name_and_hexcode('Lime',       '#66CC99'),
-      find_or_initialize_by_name_and_hexcode('Green-neon', '#00CC33'),
-      find_or_initialize_by_name_and_hexcode('Green',      '#339933'),
-      find_or_initialize_by_name_and_hexcode('Orange',     '#FFCC00'),
-      find_or_initialize_by_name_and_hexcode('Red',        '#CC3333'),
-      find_or_initialize_by_name_and_hexcode('Red-bright', '#FF3300'),
-      find_or_initialize_by_name_and_hexcode('Yellow',     '#FFFF00'),
-      find_or_initialize_by_name_and_hexcode('Purple',     '#CC0066'),
-      find_or_initialize_by_name_and_hexcode('Grey-dark',  '#666666'),
-      find_or_initialize_by_name_and_hexcode('Grey-light', '#DDDDDD')
+      find_or_initialize_by(name: 'Black',      hexcode: '#000000'),
+      find_or_initialize_by(name: 'White',      hexcode: '#FFFFFF'),
+      find_or_initialize_by(name: 'Blue',       hexcode: '#3399CC'),
+      find_or_initialize_by(name: 'Mint',       hexcode: '#66CCCC'),
+      find_or_initialize_by(name: 'Lime',       hexcode: '#66CC99'),
+      find_or_initialize_by(name: 'Green-neon', hexcode: '#00CC33'),
+      find_or_initialize_by(name: 'Green',      hexcode: '#339933'),
+      find_or_initialize_by(name: 'Orange',     hexcode: '#FFCC00'),
+      find_or_initialize_by(name: 'Red',        hexcode: '#CC3333'),
+      find_or_initialize_by(name: 'Red-bright', hexcode: '#FF3300'),
+      find_or_initialize_by(name: 'Yellow',     hexcode: '#FFFF00'),
+      find_or_initialize_by(name: 'Purple',     hexcode: '#CC0066'),
+      find_or_initialize_by(name: 'Grey-dark',  hexcode: '#666666'),
+      find_or_initialize_by(name: 'Grey-light', hexcode: '#DDDDDD')
     ]
   end
 

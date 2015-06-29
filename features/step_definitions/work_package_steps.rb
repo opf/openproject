@@ -29,14 +29,14 @@
 
 require 'rack_session_access/capybara'
 
-InstanceFinder.register(WorkPackage, Proc.new { |name| WorkPackage.find_by_subject(name) })
+InstanceFinder.register(WorkPackage, Proc.new { |name| WorkPackage.find_by(subject: name) })
 RouteMap.register(WorkPackage, '/work_packages')
 
 Given /^the work package "(.*?)" has the following children:$/ do |work_package_subject, table|
-  parent = WorkPackage.find_by_subject(work_package_subject)
+  parent = WorkPackage.find_by(subject: work_package_subject)
 
   table.raw.flatten.each do |child_subject|
-    child = WorkPackage.find_by_subject(child_subject)
+    child = WorkPackage.find_by(subject: child_subject)
 
     child.parent_id = parent.id
 
@@ -45,24 +45,24 @@ Given /^the work package "(.*?)" has the following children:$/ do |work_package_
 end
 
 Given /^a relation between "(.*?)" and "(.*?)"$/ do |work_package_from, work_package_to|
-  from = WorkPackage.find_by_subject(work_package_from)
-  to = WorkPackage.find_by_subject(work_package_to)
+  from = WorkPackage.find_by(subject: work_package_from)
+  to = WorkPackage.find_by(subject: work_package_to)
 
   FactoryGirl.create :relation, from: from, to: to
 end
 
 Given /^user is already watching "(.*?)"$/  do |work_package_subject|
-  work_package = WorkPackage.find_by_subject(work_package_subject)
+  work_package = WorkPackage.find_by(subject: work_package_subject)
   user = User.find(page.get_rack_session['user_id'])
 
   work_package.add_watcher user
 end
 
 Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, table|
-  work_package = WorkPackage.find_by_subject(subject)
+  work_package = WorkPackage.find_by(subject: subject)
   except = {}
 
-  except['type'] = lambda { |wp, value| wp.type = Type.find_by_name(value) if value }
+  except['type'] = lambda { |wp, value| wp.type = ::Type.find_by(name: value) if value }
   except['assigned_to'] = lambda { |wp, value| wp.assigned_to = User.find_by_login(value) if value }
   except['responsible'] = lambda { |wp, value| wp.responsible = User.find_by_login(value) if value }
 
@@ -70,21 +70,21 @@ Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, 
 end
 
 Given(/^the user "([^\"]+)" has the following queries by type in the project "(.*?)":$/) do |login, project_name, table|
-  u = User.find_by_login login
+  u = User.find_by login: login
   p = get_project(project_name)
 
   table.hashes.each_with_index do |t, _i|
-    types = Type.find_all_by_name(t['type_value']).map { |type| type.id.to_s }
+    types = ::Type.where(name: t['type_value']).map { |type| type.id.to_s }
     p.queries.create(user_id: u.id, name: t['name'], filters: [Queries::WorkPackages::Filter.new(:type_id, operator: '=', values: types)])
   end
 end
 
 Given(/^the user "([^\"]+)" has the following query menu items in the project "(.*?)":$/) do |login, project_name, table|
-  u = User.find_by_login login
+  u = User.find_by login: login
   p = get_project(project_name)
 
   table.hashes.each_with_index do |t, _i|
-    query = p.queries.find_by_name t['navigatable']
+    query = p.queries.find_by name: t['navigatable']
     MenuItems::QueryMenuItem.create name: t['name'], title: t['title'], navigatable_id: query.id
   end
 end
@@ -120,9 +120,9 @@ Then /^the work package "(.+?)" should be shown as the parent$/ do |wp_name|
 end
 
 Then /^the work package should be shown with the following values:$/ do |table|
-  table_attributes = table.raw.select do |k, _v|
+  table_attributes = table.raw.select { |k, _v|
     !['Subject', 'Type', 'Description'].include?(k)
-  end
+  }
 
   table_attributes.each do |key, value|
     label = find('dt.attributes-key-value--key', text: key)
@@ -141,7 +141,7 @@ Then /^the work package should be shown with the following values:$/ do |table|
 end
 
 Then(/^the attribute "(.*?)" of work package "(.*?)" should be "(.*?)"$/) do |attribute, wp_name, value|
-  wp = WorkPackage.find_by_subject(wp_name)
+  wp = WorkPackage.find_by(subject: wp_name)
   wp ||= WorkPackages.where('subject like ?', wp_name).to_sql
   wp.send(attribute).to_s.should == value
 end

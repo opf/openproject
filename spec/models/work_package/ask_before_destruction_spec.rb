@@ -131,7 +131,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'w/o a cleanup beeing necessary' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'reassign') }
 
       before do
         time_entry.destroy
@@ -143,7 +143,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'w/ "destroy" as action' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'destroy') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'destroy') }
 
       it 'should return true' do
         expect(action).to be_truthy
@@ -158,7 +158,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'w/o an action' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user) }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user) }
 
       it 'should return true' do
         expect(action).to be_truthy
@@ -173,7 +173,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'w/ "nullify" as action' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'nullify') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'nullify') }
 
       it 'should return true' do
         expect(action).to be_truthy
@@ -189,37 +189,69 @@ describe WorkPackage, type: :model do
 
     describe 'w/ "reassign" as action
               w/ reassigning to a valid work_package' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: work_package2.id) }
 
-      before do
-        work_package2.save!
-        role2.permissions << :edit_time_entries
-        role2.save!
-        member2.save!
+      context 'with a single work package' do
+        let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: work_package2.id) }
+
+        before do
+          work_package2.save!
+          role2.permissions << :edit_time_entries
+          role2.save!
+          member2.save!
+        end
+
+        it 'should return true' do
+          expect(action).to be_truthy
+        end
+
+        it 'should set the work_package_id of all time entries to the new work package' do
+          action
+
+          time_entry.reload
+          expect(time_entry.work_package_id).to eq(work_package2.id)
+        end
+
+        it "should set the project_id of all time entries to the new work package's project" do
+          action
+
+          time_entry.reload
+          expect(time_entry.project_id).to eq(work_package2.project_id)
+        end
       end
 
-      it 'should return true' do
-        expect(action).to be_truthy
-      end
+      context 'with a collection of work packages' do
+        let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'reassign', reassign_to_id: work_package2.id) }
 
-      it 'should set the work_package_id of all time entries to the new work package' do
-        action
+        before do
+          work_package2.save!
+          role2.permissions << :edit_time_entries
+          role2.save!
+          member2.save!
+        end
 
-        time_entry.reload
-        expect(time_entry.work_package_id).to eq(work_package2.id)
-      end
+        it 'should return true' do
+          expect(action).to be_truthy
+        end
 
-      it "should set the project_id of all time entries to the new work package's project" do
-        action
+        it 'should set the work_package_id of all time entries to the new work package' do
+          action
 
-        time_entry.reload
-        expect(time_entry.project_id).to eq(work_package2.project_id)
+          time_entry.reload
+          expect(time_entry.work_package_id).to eq(work_package2.id)
+        end
+
+        it "should set the project_id of all time entries to the new work package's project" do
+          action
+
+          time_entry.reload
+          expect(time_entry.project_id).to eq(work_package2.project_id)
+        end
       end
     end
 
     describe 'w/ "reassign" as action
               w/ reassigning to a work_package the user is not allowed to see' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: work_package2.id) }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'reassign', reassign_to_id: work_package2.id) }
 
       before do
         work_package2.save!
@@ -239,7 +271,7 @@ describe WorkPackage, type: :model do
 
     describe 'w/ "reassign" as action
               w/ reassigning to a non existing work package' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: 0) }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'reassign', reassign_to_id: 0) }
 
       it 'should return true' do
         expect(action).to be_falsey
@@ -261,7 +293,7 @@ describe WorkPackage, type: :model do
 
     describe 'w/ "reassign" as action
               w/o providing a reassignment id' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'reassign') }
 
       it 'should return true' do
         expect(action).to be_falsey
@@ -279,11 +311,10 @@ describe WorkPackage, type: :model do
 
         expect(work_package.errors.get(:base)).to eq([I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: nil)])
       end
-
     end
 
     describe 'w/ an invalid option' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'bogus') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'bogus') }
 
       it 'should return false' do
         expect(action).to be_falsey
@@ -291,7 +322,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'w/ nil as invalid option' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, nil) }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, nil) }
 
       it 'should return false' do
         expect(action).to be_falsey

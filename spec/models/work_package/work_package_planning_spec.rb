@@ -197,9 +197,7 @@ describe WorkPackage, type: :model do
             expect(planning_element.errors[:parent_id]).to be_present
             expect(planning_element.errors[:parent_id]).to eq([send("#{I18n.locale}_message")])
           end
-
         end
-
       end
     end
   end
@@ -254,7 +252,7 @@ describe WorkPackage, type: :model do
                          responsible_id:                  responsible.id,
                          type_id:                         type.id,
                          status_id:                       pe_status.id
-                                  )
+                        )
     }
 
     it "has an initial journal, so that it's creation shows up in activity" do
@@ -304,7 +302,7 @@ describe WorkPackage, type: :model do
                            due_date:          Date.new(2012, 1, 31),
                            project_id:        project.id,
                            responsible_id:    responsible.id
-                                         )
+                          )
       }
 
       it 'creates a journal in the parent when end date is changed indirectly' do
@@ -327,7 +325,6 @@ describe WorkPackage, type: :model do
         expect(changes.size).to eq(1)
         expect(changes).to include(:start_date)
       end
-
     end
   end
 
@@ -343,7 +340,7 @@ describe WorkPackage, type: :model do
     it 'should delete the object permanently when using destroy' do
       @pe1.destroy
 
-      expect(WorkPackage.find_by_id(@pe1.id)).to be_nil
+      expect(WorkPackage.find_by(id: @pe1.id)).to be_nil
     end
 
     it 'destroys all child elements' do
@@ -356,7 +353,7 @@ describe WorkPackage, type: :model do
       pe1.destroy
 
       [pe1, pe11, pe12, pe121].each do |pe|
-        expect(WorkPackage.find_by_id(pe.id)).to be_nil
+        expect(WorkPackage.find_by(id: pe.id)).to be_nil
       end
     end
   end

@@ -53,7 +53,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:embedded) { true }
 
       context 'when no values are allowed' do
-        before { allow(schema).to receive(allowed_values_method).and_return([]) }
+        before do allow(schema).to receive(allowed_values_method).and_return([]) end
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { json_path }
@@ -64,7 +64,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'when values are allowed' do
         let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
 
-        before { allow(schema).to receive(allowed_values_method).and_return(values) }
+        before do allow(schema).to receive(allowed_values_method).and_return(values) end
 
         it_behaves_like 'links to and embeds allowed values directly' do
           let(:path) { json_path }

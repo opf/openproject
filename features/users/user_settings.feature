@@ -28,19 +28,29 @@
 
 Feature: Update User Information
 
-@javascript
-Scenario: A user is able to change his mail address if the settings permit it
-Given I am admin
-And   I go to the my account page
-And   I fill in "user_mail" with "john@doe.com"
-And   I submit the form by the "Save" button
-Then  I should see "Account was successfully updated."
+  Background:
+    Given I am admin
+    And I go to the my account page
 
-@javascript
-Scenario: A user is able to change his name if the settings permit it
-Given I am admin
-And   I go to the my account page
-And   I fill in "user_firstname" with "Jon"
-And   I fill in "user_lastname" with "Doe"
-And   I submit the form by the "Save" button
-Then  I should see "Account was successfully updated."
+  @javascript
+  Scenario: A user is able to change his mail address if the settings permit it
+    Given I fill in "user_mail" with "john@doe.com"
+    And   I submit the form by the "Save" button
+    Then  I should see "Account was successfully updated."
+
+  @javascript
+  Scenario: A user is able to change his name if the settings permit it
+    Given I fill in "user_firstname" with "Jon"
+    And   I fill in "user_lastname" with "Doe"
+    And   I submit the form by the "Save" button
+    Then  I should see "Account was successfully updated."
+
+  @javascript
+  Scenario: A user is able to reset their API access key
+    Given I click the API access key reset link
+    Then  I should see "Your API access key was reset."
+
+  @javascript
+  Scenario: A user is able to reset their RSS access key
+    Given I click the RSS access key reset link
+    Then  I should see "Your RSS access key was reset."

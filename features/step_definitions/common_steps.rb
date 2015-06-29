@@ -40,13 +40,13 @@ end
 Given /^the [pP]roject(?: "([^\"]+?)")? uses the following types:$/ do |project, table|
   project = get_project(project)
 
-  types = table.raw.map do |line|
+  types = table.raw.map { |line|
     name = line.first
-    type = Type.find_by_name(name)
+    type = ::Type.find_by(name: name)
 
     type = FactoryGirl.create(:type, name: name) if type.blank?
     type
-  end
+  }
 
   project.update_attributes type_ids: types.map(&:id).map(&:to_s)
 end

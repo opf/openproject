@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory(:project_type, class: ProjectType) do
-    sequence(:name) { |n| "Project Type No. #{n}" }
+    sequence(:name) do |n| "Project Type No. #{n}" end
     allows_association true
     sequence(:position) { |n| n }
   end

@@ -28,10 +28,10 @@
 
 FactoryGirl.define do
   factory :type do
-    sequence(:position) { |p| p }
-    name { |a| "Type No. #{a.position}" }
-    created_at { Time.now }
-    updated_at { Time.now }
+    sequence(:position) do |p| p end
+    name do |a| "Type No. #{a.position}" end
+    created_at do Time.now end
+    updated_at do Time.now end
 
     factory :type_with_workflow, class: Type do
       callback(:after_build) do |t|
@@ -40,23 +40,23 @@ FactoryGirl.define do
     end
   end
 
-  factory :type_standard, class: Type do
+  factory :type_standard, class: ::Type do
     name 'None'
     is_standard true
     is_default true
-    created_at { Time.now }
+    created_at do Time.now end
     updated_at { Time.now }
   end
 
-  factory :type_bug, class: Type do
+  factory :type_bug, class: ::Type do
     name 'Bug'
     position 1
-    created_at { Time.now }
-    updated_at { Time.now }
+    created_at do Time.now end
+    updated_at do Time.now end
 
     # reuse existing type with the given name
     # this prevents a validation error (name has to be unique)
-    initialize_with { Type.find_or_create_by_name(name) }
+    initialize_with do ::Type.find_or_create_by(name: name) end
 
     factory :type_feature do
       name 'Feature'

@@ -38,8 +38,8 @@ describe TimeEntryActivity, type: :model do
   end
 
   it 'should objects count' do
-    assert_equal 3, TimeEntryActivity.find_by_name('Design').objects_count
-    assert_equal 1, TimeEntryActivity.find_by_name('Development').objects_count
+    assert_equal 3, TimeEntryActivity.find_by(name: 'Design').objects_count
+    assert_equal 1, TimeEntryActivity.find_by(name: 'Development').objects_count
   end
 
   it 'should option name' do
@@ -47,7 +47,7 @@ describe TimeEntryActivity, type: :model do
   end
 
   it 'should create with custom field' do
-    field = TimeEntryActivityCustomField.find_by_name('Billable')
+    field = TimeEntryActivityCustomField.find_by(name: 'Billable')
     e = TimeEntryActivity.new(name: 'Custom Data')
     e.custom_field_values = { field.id => '1' }
     assert e.save
@@ -57,17 +57,17 @@ describe TimeEntryActivity, type: :model do
   end
 
   it 'should create without required custom field should fail' do
-    field = TimeEntryActivityCustomField.find_by_name('Billable')
+    field = TimeEntryActivityCustomField.find_by(name: 'Billable')
     field.update_attribute(:is_required, true)
 
     e = TimeEntryActivity.new(name: 'Custom Data')
     assert !e.save
-    assert_include e.errors["custom_field_#{field.id}"],
-                   I18n.translate('activerecord.errors.messages.blank')
+    assert_includes e.errors["custom_field_#{field.id}"],
+                    I18n.translate('activerecord.errors.messages.blank')
   end
 
   it 'should create with required custom field should succeed' do
-    field = TimeEntryActivityCustomField.find_by_name('Billable')
+    field = TimeEntryActivityCustomField.find_by(name: 'Billable')
     field.update_attribute(:is_required, true)
 
     e = TimeEntryActivity.new(name: 'Custom Data')
@@ -76,7 +76,7 @@ describe TimeEntryActivity, type: :model do
   end
 
   it 'should update issue with required custom field change' do
-    field = TimeEntryActivityCustomField.find_by_name('Billable')
+    field = TimeEntryActivityCustomField.find_by(name: 'Billable')
     field.update_attribute(:is_required, true)
 
     e = TimeEntryActivity.find(10)

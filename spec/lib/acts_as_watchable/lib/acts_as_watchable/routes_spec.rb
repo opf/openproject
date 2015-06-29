@@ -40,7 +40,6 @@ describe OpenProject::Acts::Watchable::Routes do
 
   describe 'matches?' do
     shared_examples_for 'watched model' do
-
       describe 'for a valid id string' do
         let(:id) { '1' }
 
@@ -64,7 +63,6 @@ describe OpenProject::Acts::Watchable::Routes do
 
         it_should_behave_like 'watched model'
       end
-
     end
 
     describe 'for a non watched model' do

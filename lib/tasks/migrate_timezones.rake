@@ -46,7 +46,7 @@ namespace :migrations do
     def readOldTimezone
       if postgres?
         @old_timezone = ActiveRecord::Base.connection.select_all(
-                    "SELECT current_setting('timezone') AS timezone").first['timezone']
+          "SELECT current_setting('timezone') AS timezone").first['timezone']
       end
     end
 
@@ -107,5 +107,4 @@ namespace :migrations do
       setOldTimezone
     end
   end
-
 end

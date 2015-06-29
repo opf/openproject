@@ -34,9 +34,9 @@ class SysController < ActionController::Base
   before_filter :require_basic_auth, only: [:repo_auth]
 
   def projects
-    p = Project.active.has_module(:repository).find(:all, include: :repository, order: 'identifier')
+    p = Project.active.has_module(:repository).includes(:repository).order('identifier')
     respond_to do |format|
-      format.json { render json: p.to_json(include: :repository) }
+      format.json do render json: p.to_json(include: :repository) end
       format.any(:html, :xml) {  render xml: p.to_xml(include: :repository), content_type: Mime::XML }
     end
   end
@@ -59,9 +59,9 @@ class SysController < ActionController::Base
   def fetch_changesets
     projects = []
     if params[:id]
-      projects << Project.active.has_module(:repository).find_by_identifier!(params[:id])
+      projects << Project.active.has_module(:repository).find_by!(identifier: params[:id])
     else
-      projects = Project.active.has_module(:repository).find(:all, include: :repository)
+      projects = Project.active.has_module(:repository).includes(:repository)
     end
     projects.each do |project|
       if project.repository
@@ -74,7 +74,7 @@ class SysController < ActionController::Base
   end
 
   def repo_auth
-    @project = Project.find_by_identifier(params[:repository])
+    @project = Project.find_by(identifier: params[:repository])
 
     if (%w(GET PROPFIND REPORT OPTIONS).include?(params[:method]) &&
         @authenticated_user.allowed_to?(:browse_repository, @project)) ||
@@ -119,13 +119,13 @@ class SysController < ActionController::Base
     end
     user = nil
     user_id = Rails.cache.fetch(OpenProject::RepositoryAuthentication::CACHE_PREFIX + Digest::SHA1.hexdigest("#{username}#{password}"),
-                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) do
+                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) {
       user = user_login(username, password)
       user ? user.id.to_s : '-1'
-    end
+    }
 
     return nil if user_id.blank? or user_id == '-1'
 
-    user || User.find_by_id(user_id.to_i)
+    user || User.find_by(id: user_id.to_i)
   end
 end

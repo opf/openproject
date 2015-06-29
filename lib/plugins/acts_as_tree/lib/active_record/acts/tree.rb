@@ -51,11 +51,11 @@ module ActiveRecord
             include ActiveRecord::Acts::Tree::InstanceMethods
 
             def self.roots
-              find(:all, :conditions => "#{configuration[:foreign_key]} IS NULL", :order => #{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}})
+              where("#{configuration[:foreign_key]} IS NULL").order(#{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}})
             end
 
             def self.root
-              find(:first, :conditions => "#{configuration[:foreign_key]} IS NULL", :order => #{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}})
+              where("#{configuration[:foreign_key]} IS NULL").order(#{configuration[:order].nil? ? 'nil' : %{"#{configuration[:order]}"}}).first
             end
           EOV
         end
@@ -66,7 +66,8 @@ module ActiveRecord
         #
         #   subchild1.ancestors # => [child1, root]
         def ancestors
-          node, nodes = self, []
+          node = self
+          nodes = []
           nodes << node = node.parent while node.parent
           nodes
         end

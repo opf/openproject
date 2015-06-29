@@ -28,8 +28,8 @@
 #++
 
 Given /^there is a(?:n)? (default )?(?:issue)?status with:$/ do |default, table|
-  name = table.raw.select { |ary| ary.include? 'name' }.first[table.raw.first.index('name') + 1].to_s
-  Status.find_by_name(name) || Status.create(name: name.to_s, is_default: !!default)
+  name = table.raw.find { |ary| ary.include? 'name' }[table.raw.first.index('name') + 1].to_s
+  Status.find_by(name: name) || Status.create(name: name.to_s, is_default: !!default)
 end
 
 Given /^there are the following status:$/ do |table|
@@ -41,4 +41,4 @@ Given /^there are the following status:$/ do |table|
   end
 end
 
-InstanceFinder.register(Status, Proc.new { |name| Status.find_by_name(name) })
+InstanceFinder.register(Status, Proc.new { |name| Status.find_by(name: name) })

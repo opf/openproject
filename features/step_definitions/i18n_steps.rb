@@ -33,7 +33,7 @@ end
 
 Given /^the (.+) called "(.+)" has the following localizations:$/ do |model_name, object_name, table|
   model = model_name.downcase.gsub(/\s/, '_').camelize.constantize
-  object = model.find_by_name(object_name)
+  object = model.find_by(name: object_name)
 
   object.translations = []
 
@@ -55,9 +55,9 @@ When /^I delete the (.+) localization of the "(.+)" attribute$/ do |language, at
   # when choosing the last available option of a select where all other
   # options are disabled. Check scenario 'Deleting a newly added localization'
   # when changing this.
-  span = spans.detect do |span|
+  span = spans.detect { |span|
     span.find(:css, '.locale_selector')['value'] == locale
-  end
+  }
 
   destroy = span.find(:css, 'a.destroy_locale')
 
@@ -106,9 +106,9 @@ def update_localization(container, language, value)
 end
 
 Then /^there should be the following localizations:$/ do |table|
-  cleaned_expectation = table.hashes.map do |x|
+  cleaned_expectation = table.hashes.map { |x|
     x.reject { |_k, v| v == 'nil' }
-  end
+  }
 
   attributes = []
 
@@ -118,16 +118,16 @@ Then /^there should be the following localizations:$/ do |table|
 
   name_regexp = /\[(\d)+\]\[(\w+)\]$/
 
-  attribute_group = attributes.inject({}) do |h, element|
+  attribute_group = attributes.inject({}) { |h, element|
     if element['name'] =~ name_regexp
       h[$1] ||= []
       h[$1] << element
     end
     h
-  end
+  }
 
-  actual_localizations = attribute_group.inject([]) do |a, (_k, group)|
-    a << group.inject({}) do |h, element|
+  actual_localizations = attribute_group.inject([]) { |a, (_k, group)|
+    a << group.inject({}) { |h, element|
       if element['name'] =~ name_regexp
 
         if $2 != 'id' and
@@ -139,10 +139,10 @@ Then /^there should be the following localizations:$/ do |table|
       end
 
       h
-    end
+    }
 
     a
-  end
+  }
 
   actual_localizations = actual_localizations.group_by { |e| e['locale'] }.map { |(_k, v)| v.inject({}) { |a, x| a.merge(x) } }
 

@@ -84,8 +84,9 @@ module Api
       end
 
       def show
-        @planning_element = @project.work_packages.find params[:id],
-                                                        include: [{ custom_values: [{ custom_field: :translations }] }]
+        @planning_element = @project.work_packages
+          .includes([{ custom_values: [{ custom_field: :translations }] }])
+          .find(params[:id])
 
         respond_to do |format|
           format.api
@@ -124,8 +125,8 @@ module Api
 
       def load_multiple_projects(ids, identifiers)
         @projects = []
-        @projects |= Project.all(conditions: { id: ids }) unless ids.empty?
-        @projects |= Project.all(conditions: { identifier: identifiers }) unless identifiers.empty?
+        @projects |= Project.where(id: ids) unless ids.empty?
+        @projects |= Project.where(identifier: identifiers) unless identifiers.empty?
       end
 
       def find_single_project
@@ -164,7 +165,7 @@ module Api
           # WTF. Why do we completely skip rewiring in this case and always provide parent_ids?
           # This is totally inconistent.
           identifiers = params[:ids].split(/,/).map(&:strip)
-          @planning_elements = WorkPackage.visible(User.current).find_all_by_id(identifiers)
+          @planning_elements = WorkPackage.visible(User.current).where(id: identifiers)
         elsif params[:project_id] !~ /,/
           find_single_project
         else
@@ -238,7 +239,7 @@ module Api
 
       def timeline_to_project(timeline_id)
         if timeline_id
-          project = Timeline.find_by_id(params[:timeline]).project
+          project = Timeline.find_by(id: params[:timeline]).project
           user_has_access = User.current.allowed_to?({ controller: 'planning_elements',
                                                        action:     'index' },
                                                      project)
@@ -297,7 +298,7 @@ module Api
           else
             raise "Unknown format #{params[:format]} in #render_validation_errors"
           end
-        )
+                      )
         render options
       end
 
@@ -316,7 +317,6 @@ module Api
         filtered_ids = @planning_elements.map(&:id)
 
         @planning_elements.each do |pe|
-
           # re-wire the parent of this pe to the first ancestor found in the filtered set
           # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
           if pe.parent_id && !filtered_ids.include?(pe.parent_id)

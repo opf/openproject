@@ -32,7 +32,7 @@ When (/^I fill in a (\d+) hash(?:es)? quickinfo link to "([^"]*)" for "([^"]*)"$
 
   raise 'Only values between 1 and 3 are allowed for hashes' if count < 1 || count > 3
 
-  work_package = WorkPackage.find_by_subject(subject)
+  work_package = WorkPackage.find_by(subject: subject)
   text = "#{('#' * count)}#{work_package.id}"
 
   step %{I fill in "#{text}" for "#{container}"}
@@ -42,7 +42,7 @@ When (/^I follow the (\d+) hash(?:es)? work package quickinfo link to "([^"]*)"$
   count = count.to_i
   raise 'Only values between 1 and 3 are allowed for hashes' if count < 1 || count > 3
 
-  work_package = WorkPackage.find_by_subject(subject)
+  work_package = WorkPackage.find_by(subject: subject)
 
   text = case count
          when 1
@@ -58,7 +58,7 @@ Then /^I should (not )?see a (\d+) hash(?:es)? work package quickinfo link to "(
   count = count.to_i
   raise 'Only values between 1 and 3 are allowed for hashes' if count < 1 || count > 3
 
-  work_package = WorkPackage.find_by_subject(subject)
+  work_package = WorkPackage.find_by(subject: subject)
 
   expectation = negate ? :should_not : :should
 

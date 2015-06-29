@@ -46,7 +46,6 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
   end
 
   describe 'with 3 planning elements available' do
-
     let(:project) { FactoryGirl.build(:project_with_types, name: 'Sample Project', identifier: 'sample_project') }
     let(:wp1) { FactoryGirl.build(:work_package, subject: 'Subject #1', project: project) }
     let(:wp2) { FactoryGirl.build(:work_package, subject: 'Subject #2', project: project) }
@@ -76,7 +75,6 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
       expected_json = { name: type.name }.to_json
 
       is_expected.to be_json_eql(type.id.to_json).at_path('planning_elements/0/type_id')
-
     end
 
     it 'should render a status-id' do
@@ -86,7 +84,6 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
     it 'should render a project-id' do
       is_expected.to be_json_eql(project.id.to_json).at_path(('planning_elements/0/project_id'))
     end
-
   end
 
   describe 'with 1 custom field planning element' do

@@ -60,28 +60,29 @@ class ProjectsController < ApplicationController
   # Lists visible projects
   def index
     respond_to do |format|
-      format.html {
-        @projects = Project.visible.find(:all, order: 'lft')
-      }
+      format.html do
+        @projects = Project.visible.order('lft')
+      end
       format.atom {
-        projects = Project.visible.find(:all, order: 'created_on DESC',
-                                              limit: Setting.feeds_limit.to_i)
+        projects = Project.visible
+                   .order('created_on DESC')
+                   .limit(Setting.feeds_limit.to_i)
         render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
   end
 
   def new
-    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
-    @types = Type.all
+    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
+    @types = ::Type.all
     @project = Project.new
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
     @project.safe_attributes = params[:project]
   end
 
   def create
-    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
-    @types = Type.all
+    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
+    @types = ::Type.all
     @project = Project.new
     @project.safe_attributes = params[:project]
 
@@ -105,17 +106,19 @@ class ProjectsController < ApplicationController
   def show
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
-    @news = @project.news.find(:all, limit: 5, include: [:author, :project], order: "#{News.table_name}.created_on DESC")
+    @news = @project.news.limit(5).includes(:author, :project).order("#{News.table_name}.created_on DESC")
     @types = @project.rolled_up_types
 
     cond = @project.project_condition(Setting.display_subprojects_work_packages?)
 
-    @open_issues_by_type = WorkPackage.visible.count(group: :type,
-                                                     include: [:project, :status, :type],
-                                                     conditions: ["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
-    @total_issues_by_type = WorkPackage.visible.count(group: :type,
-                                                      include: [:project, :status, :type],
-                                                      conditions: cond)
+    @open_issues_by_type = WorkPackage.visible.group(:type)
+                           .includes(:project, :status, :type)
+                           .where(["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
+                           .count
+    @total_issues_by_type = WorkPackage.visible.group(:type)
+                            .includes(:project, :status, :type)
+                            .where(cond)
+                            .count
 
     respond_to do |format|
       format.html
@@ -152,7 +155,7 @@ class ProjectsController < ApplicationController
     flash[:notice] = []
 
     unless params.has_key? :project
-      params[:project] = { 'type_ids' => [Type.standard_type.id] }
+      params[:project] = { 'type_ids' => [::Type.standard_type.id] }
       flash[:notice] << l(:notice_automatic_set_of_standard_type)
     end
 
@@ -230,10 +233,10 @@ class ProjectsController < ApplicationController
   end
 
   def load_project_settings
-    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
+    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @category ||= Category.new
     @member ||= @project.members.new
-    @types = Type.all
+    @types = ::Type.all
     @repository ||= @project.repository
     @wiki ||= @project.wiki
   end
@@ -244,7 +247,7 @@ class ProjectsController < ApplicationController
 
   def add_current_user_to_project_if_not_admin(project)
     unless User.current.admin?
-      r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
+      r = Role.givable.find_by(id: Setting.new_project_user_role_id.to_i) || Role.givable.first
       m = Member.new do |member|
         member.user = User.current
         member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
@@ -272,7 +275,7 @@ class ProjectsController < ApplicationController
   end
 
   def types_used_by_work_packages
-    @types_used_by_work_packages ||= Type.find_all_by_id(WorkPackage.where(project_id: @project.id)
+    @types_used_by_work_packages ||= ::Type.where(id: WorkPackage.where(project_id: @project.id)
                                                                     .select(:type_id)
                                                                     .uniq)
   end
@@ -283,7 +286,7 @@ class ProjectsController < ApplicationController
     return true if User.current.admin?
     parent_id = params[:project] && params[:project][:parent_id]
     if parent_id || @project.new_record?
-      parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)
+      parent = parent_id.blank? ? nil : Project.find_by(id: parent_id.to_i)
       unless @project.allowed_parents.include?(parent)
         @project.errors.add :parent_id, :invalid
         return false

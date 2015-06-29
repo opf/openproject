@@ -77,7 +77,7 @@ describe AdminController, type: :controller do
     post :default_configuration, lang: 'de'
     assert_response :redirect
     assert_nil flash[:error]
-    assert Status.find_by_name('neu')
+    assert Status.find_by(name: 'neu')
   end
 
   it 'should test email' do
@@ -146,7 +146,7 @@ describe AdminController, type: :controller do
 
   def delete_configuration_data
     Role.delete_all('builtin = 0')
-    Type.delete_all(is_standard: false)
+    ::Type.delete_all(is_standard: false)
     Status.delete_all
     Enumeration.delete_all
   end

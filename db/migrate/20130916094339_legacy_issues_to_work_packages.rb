@@ -57,7 +57,7 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration
       FROM work_packages
     SQL
 
-    if existing_work_packages.size > 0
+    unless existing_work_packages.empty?
       raise ExistingWorkPackagesError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
         There are already entries in the work_packages table.
         This migration assumes that there are none.

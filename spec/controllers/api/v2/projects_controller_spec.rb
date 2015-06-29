@@ -45,7 +45,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/projects/index', formats: ['api'])
+          expect(response).to render_template('api/v2/projects/index')
         end
       end
 
@@ -56,12 +56,12 @@ describe Api::V2::ProjectsController, type: :controller do
           @visible_projects = [
             FactoryGirl.create(:project, is_public: false),
             FactoryGirl.create(:project, is_public: false)
-          ].each do |project|
+          ].each { |project|
             FactoryGirl.create(:member,
                                project: project,
                                principal: current_user,
                                roles: [FactoryGirl.create(:role)])
-          end
+          }
           @visible_projects << FactoryGirl.create(:project, is_public: true)
 
           @invisible_projects = [
@@ -78,7 +78,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         it 'renders the index template' do
           get 'index', format: 'xml'
-          expect(response).to render_template('api/v2/projects/index', formats: ['api'])
+          expect(response).to render_template('api/v2/projects/index')
         end
       end
     end
@@ -93,8 +93,8 @@ describe Api::V2::ProjectsController, type: :controller do
       end
 
       describe 'private project' do
-        before { $debug = true  }
-        after  { $debug = false }
+        before do $debug = true  end
+        after  do $debug = false end
 
         let(:project) { FactoryGirl.create(:project, is_public: false) }
         def fetch
@@ -121,7 +121,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         it 'renders the show template' do
           get 'show', id: project.identifier, format: 'xml'
-          expect(response).to render_template('api/v2/projects/show', formats: ['api'])
+          expect(response).to render_template('api/v2/projects/show')
         end
       end
     end

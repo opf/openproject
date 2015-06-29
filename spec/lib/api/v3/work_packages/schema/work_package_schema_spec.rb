@@ -82,8 +82,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
         before do
           allow(work_package).to receive(:persisted?).and_return(true)
           allow(work_package).to receive(:status_id_changed?).and_return(true)
-          allow(Status).to receive(:find_by_id)
-            .with(work_package.status_id_was).and_return(stored_status)
+          allow(Status).to receive(:find_by)
+            .with(id: work_package.status_id_was).and_return(stored_status)
         end
 
         it 'calls through to the cloned work package' do

@@ -39,8 +39,8 @@ class Workflow < ActiveRecord::Base
   # Returns workflow transitions count by type and role
   def self.count_by_type_and_role
     counts = connection.select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
-    roles = Role.find(:all, order: 'builtin, position')
-    types = Type.find(:all, order: 'position')
+    roles = Role.order('builtin, position')
+    types = ::Type.order('position')
 
     result = []
     types.each do |type|
@@ -57,9 +57,8 @@ class Workflow < ActiveRecord::Base
 
   # Find potential statuses the user could be allowed to switch issues to
   def self.available_statuses(project, user = User.current)
-    Workflow.find(:all,
-                  include: :new_status,
-                  conditions: { role_id: user.roles_for_project(project).map(&:id) })
+    Workflow.includes(:new_status)
+      .where(role_id: user.roles_for_project(project).map(&:id))
       .map(&:new_status)
       .compact
       .uniq
@@ -68,12 +67,12 @@ class Workflow < ActiveRecord::Base
 
   # Copies workflows from source to targets
   def self.copy(source_type, source_role, target_types, target_roles)
-    unless source_type.is_a?(Type) || source_role.is_a?(Role)
+    unless source_type.is_a?(::Type) || source_role.is_a?(Role)
       raise ArgumentError.new('source_type or source_role must be specified')
     end
 
     target_types = Array(target_types)
-    target_types = Type.all if target_types.empty?
+    target_types = ::Type.all if target_types.empty?
 
     target_roles = Array(target_roles)
     target_roles = Role.all if target_roles.empty?
@@ -90,9 +89,9 @@ class Workflow < ActiveRecord::Base
 
   # Copies a single set of workflows from source to target
   def self.copy_one(source_type, source_role, target_type, target_role)
-    unless source_type.is_a?(Type) && !source_type.new_record? &&
+    unless source_type.is_a?(::Type) && !source_type.new_record? &&
            source_role.is_a?(Role) && !source_role.new_record? &&
-           target_type.is_a?(Type) && !target_type.new_record? &&
+           target_type.is_a?(::Type) && !target_type.new_record? &&
            target_role.is_a?(Role) && !target_role.new_record?
 
       raise ArgumentError.new('arguments can not be nil or unsaved objects')

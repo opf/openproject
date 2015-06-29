@@ -45,7 +45,7 @@ describe RolesController, type: :controller do
     assert_template 'index'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.find(:all, order: 'builtin, position'), assigns(:roles)
+    assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
     assert_tag tag: 'a', attributes: { href: edit_role_path(1) },
                content: 'Manager'
@@ -73,7 +73,7 @@ describe RolesController, type: :controller do
                           assignable: '0' }
 
     assert_redirected_to roles_path
-    role = Role.find_by_name('RoleWithoutWorkflowCopy')
+    role = Role.find_by(name: 'RoleWithoutWorkflowCopy')
     assert_not_nil role
     assert_equal [:add_work_packages, :edit_work_packages, :log_time], role.permissions
     assert !role.assignable?
@@ -86,7 +86,7 @@ describe RolesController, type: :controller do
                   copy_workflow_from: '1'
 
     assert_redirected_to roles_path
-    role = Role.find_by_name('RoleWithWorkflowCopy')
+    role = Role.find_by(name: 'RoleWithWorkflowCopy')
     assert_not_nil role
     assert_equal Role.find(1).workflows.size, role.workflows.size
   end
@@ -115,14 +115,14 @@ describe RolesController, type: :controller do
 
     delete :destroy, id: r
     assert_redirected_to roles_path
-    assert_nil Role.find_by_id(r.id)
+    assert_nil Role.find_by(id: r.id)
   end
 
   it 'should destroy role in use' do
     delete :destroy, id: 1
     assert_redirected_to roles_path
     assert flash[:error] == 'This role is in use and cannot be deleted.'
-    assert_not_nil Role.find_by_id(1)
+    assert_not_nil Role.find_by(id: 1)
   end
 
   it 'should get report' do
@@ -131,7 +131,7 @@ describe RolesController, type: :controller do
     assert_template 'report'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.find(:all, order: 'builtin, position'), assigns(:roles)
+    assert_equal Role.order('builtin, position'), assigns(:roles)
 
     assert_tag tag: 'input', attributes: { type: 'checkbox',
                                            name: 'permissions[3][]',

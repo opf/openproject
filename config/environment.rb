@@ -27,10 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Load the rails application
+# Load the Rails application.
 require File.expand_path('../application', __FILE__)
 
 SimpleBenchmark.bench 'Application.initialize!' do
-  # Initialize the rails application
+  # Initialize the Rails application.
   OpenProject::Application.initialize!
 end

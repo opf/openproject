@@ -88,12 +88,12 @@ describe Repository::Git, type: :model do
   it 'should fetch changesets incremental' do
     @repository.fetch_changesets
     # Remove the 3 latest changesets
-    @repository.changesets.find(:all, order: 'committed_on DESC', limit: 8).each(&:destroy)
+    @repository.changesets.order('committed_on DESC').limit(8).each(&:destroy)
     @repository.reload
     cs1 = @repository.changesets
     assert_equal 13, cs1.count
 
-    rev_a_commit = @repository.changesets.find(:first, order: 'committed_on DESC')
+    rev_a_commit = @repository.changesets.order('committed_on DESC').first
     assert_equal '4f26664364207fa8b1af9f8722647ab2d4ac5d43', rev_a_commit.revision
     # Mon Jul 5 22:34:26 2010 +0200
     rev_a_committed_on = Time.gm(2010, 7, 5, 20, 34, 26)
@@ -252,14 +252,14 @@ describe Repository::Git, type: :model do
   it 'should identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+    c = @repository.changesets.find_by(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal c.scmid, c.identifier
   end
 
   it 'should format identifier' do
     @repository.fetch_changesets
     @repository.reload
-    c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+    c = @repository.changesets.find_by(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal '7234cb27', c.format_identifier
   end
 
@@ -282,7 +282,7 @@ describe Repository::Git, type: :model do
     if str_felix_hex.respond_to?(:force_encoding)
       str_felix_hex.force_encoding('UTF-8')
     end
-    c = @repository.changesets.find_by_revision('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
+    c = @repository.changesets.find_by(revision: 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
     assert_equal "#{str_felix_hex} <felix@fachschaften.org>", c.committer
   end
 

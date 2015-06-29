@@ -64,7 +64,7 @@ describe ProjectsController, type: :controller do
     assert_response :success
     assert_template 'common/feed'
     assert_select 'feed>title', text: 'OpenProject: Latest projects'
-    assert_select 'feed>entry', count: Project.count(conditions: Project.visible_by(User.current))
+    assert_select 'feed>entry', count: Project.where(Project.visible_by(User.current)).count
   end
 
   context '#index' do
@@ -153,7 +153,7 @@ describe ProjectsController, type: :controller do
              }
         assert_redirected_to '/projects/blog/settings'
 
-        project = Project.find_by_name('blog')
+        project = Project.find_by(name: 'blog')
         assert_kind_of Project, project
         assert project.active?
         assert_equal 'weblog', project.description
@@ -176,7 +176,7 @@ describe ProjectsController, type: :controller do
                                 }
         assert_redirected_to '/projects/blog/settings'
 
-        project = Project.find_by_name('blog')
+        project = Project.find_by(name: 'blog')
         assert_kind_of Project, project
         assert_equal Project.find(1), project.parent
       end
@@ -200,7 +200,7 @@ describe ProjectsController, type: :controller do
 
         assert_redirected_to '/projects/blog/settings'
 
-        project = Project.find_by_name('blog')
+        project = Project.find_by(name: 'blog')
         assert_kind_of Project, project
         assert_equal 'weblog', project.description
         assert_equal true, project.is_public?
@@ -245,7 +245,7 @@ describe ProjectsController, type: :controller do
                                  parent_id: 1
                                 }
         assert_redirected_to '/projects/blog/settings'
-        project = Project.find_by_name('blog')
+        project = Project.find_by(name: 'blog')
       end
 
       it 'should fail without parent_id' do
@@ -310,13 +310,13 @@ describe ProjectsController, type: :controller do
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:project)
-    assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
+    assert_equal Project.find_by(identifier: 'ecookbook'), assigns(:project)
 
     assert_tag 'li', content: /Development status/
   end
 
   it 'should show should not display hidden custom fields' do
-    ProjectCustomField.find_by_name('Development status').update_attribute :visible, false
+    ProjectCustomField.find_by(name: 'Development status').update_attribute :visible, false
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
@@ -326,17 +326,17 @@ describe ProjectsController, type: :controller do
   end
 
   it 'should show should not fail when custom values are nil' do
-    project = Project.find_by_identifier('ecookbook')
+    project = Project.find_by(identifier: 'ecookbook')
     project.custom_values.first.update_attribute(:value, nil)
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:project)
-    assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
+    assert_equal Project.find_by(identifier: 'ecookbook'), assigns(:project)
   end
 
   def show_archived_project_should_be_denied
-    project = Project.find_by_identifier('ecookbook')
+    project = Project.find_by(identifier: 'ecookbook')
     project.archive!
 
     get :show, id: 'ecookbook'
@@ -390,14 +390,14 @@ describe ProjectsController, type: :controller do
     get :destroy_info, id: 1
     assert_response :success
     assert_template 'destroy_info'
-    assert_not_nil Project.find_by_id(1)
+    assert_not_nil Project.find_by(id: 1)
   end
 
   it 'should post destroy' do
     session[:user_id] = 1 # admin
     delete :destroy, id: 1, confirm: 1
     assert_redirected_to '/admin/projects'
-    assert_nil Project.find_by_id(1)
+    assert_nil Project.find_by(id: 1)
   end
 
   it 'should archive' do
@@ -445,7 +445,7 @@ describe ProjectsController, type: :controller do
   it 'should hook response' do
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, id: 1
-    assert_tag tag: 'link', attributes: { href: '/assets/ecookbook.css' },
+    assert_tag tag: 'link', attributes: { href: '/stylesheets/ecookbook.css' },
                parent: { tag: 'head' }
 
     Redmine::Hook.clear_listeners

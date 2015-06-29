@@ -41,7 +41,7 @@ describe 'api/v2/versions/index.api.rabl', type: :view do
                                              shared_with)
   }
 
-  before { params[:format] = 'json' }
+  before do params[:format] = 'json' end
 
   shared_context 'assign versions and render' do
     before do

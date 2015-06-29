@@ -30,23 +30,40 @@
 class Principal < ActiveRecord::Base
   extend Pagination::Model
 
+  # Account statuses
+  # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
+  STATUSES = {
+    builtin: 0,
+    active: 1,
+    registered: 2,
+    locked: 3
+  }
+
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
   has_many :members, foreign_key: 'user_id', dependent: :destroy
-  has_many :memberships, class_name: 'Member', foreign_key: 'user_id', include: [:project, :roles], conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", order: "#{Project.table_name}.name"
+  has_many :memberships, -> {
+    includes(:project, :roles)
+      .where(projects: { status: Project::STATUS_ACTIVE })
+      .order('projects.name ASC')
+    # haven't been able to produce the order using hashes
+  },
+           class_name: 'Member',
+           foreign_key: 'user_id'
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
 
-  # TODO: The constants are misplaced in the subclass
-  scope :active, -> { where(status: User::STATUSES[:active]) }
+  scope :active, -> { where(status: STATUSES[:active]) }
 
-  scope :active_or_registered, -> { where(status: [User::STATUSES[:active], User::STATUSES[:registered]]) }
+  scope :active_or_registered, -> { where(status: [STATUSES[:active], STATUSES[:registered]]) }
 
   scope :active_or_registered_like, ->(query) { active_or_registered.like(query) }
 
-  scope :not_in_project, lambda { |project| { conditions: "id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})" } }
+  scope :not_in_project, ->(project) {
+    where("id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})")
+  }
 
-  scope :like, lambda { |q|
+  scope :like, -> (q) {
     firstnamelastname = "((firstname || ' ') || lastname)"
     lastnamefirstname = "((lastname || ' ') || firstname)"
 
@@ -58,17 +75,17 @@ class Principal < ActiveRecord::Base
 
     s = "%#{q.to_s.downcase.strip.tr(',', '')}%"
 
-    {
-      conditions: ['LOWER(login) LIKE :s OR ' +
-        "LOWER(#{firstnamelastname}) LIKE :s OR " +
-        "LOWER(#{lastnamefirstname}) LIKE :s OR " +
-        'LOWER(mail) LIKE :s',
-                   { s: s }],
-      order: 'type, login, lastname, firstname, mail'
-    }
+    where(['LOWER(login) LIKE :s OR ' +
+             "LOWER(#{firstnamelastname}) LIKE :s OR " +
+             "LOWER(#{lastnamefirstname}) LIKE :s OR " +
+             'LOWER(mail) LIKE :s',
+           { s: s }])
+      .order(:type, :login, :lastname, :firstname, :mail)
   }
 
-  scope :visible_by, lambda { |principal| Principal.visible_by_condition(principal) }
+  scope :visible_by, -> (principal) {
+    Principal.visible_by_condition(principal)
+  }
 
   before_create :set_default_empty_values
 
@@ -99,7 +116,7 @@ class Principal < ActiveRecord::Base
     # User defines the status values and other classes like Principal
     # shouldn't know anything about them. Nevertheless, some functions
     # want to know the status for other Principals than User.
-    raise 'Principal has status other than active' unless status == 1
+    raise 'Principal has status other than active' unless status == STATUSES[:active]
     'active'
   end
 

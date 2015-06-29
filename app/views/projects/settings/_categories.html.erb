@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                   :action => 'destroy',
                                   :id => category },
                                 :method => :delete,
-                                :confirm => l(:text_are_you_sure),
+                                data: { confirm: l(:text_are_you_sure) },
                                 :class => 'icon icon-delete' %>
             </td>
           </tr>

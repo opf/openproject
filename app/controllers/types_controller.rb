@@ -35,7 +35,7 @@ class TypesController < ApplicationController
   before_filter :require_admin
 
   def index
-    @types = Type.page(params[:page]).per_page(per_page_param)
+    @types = ::Type.page(params[:page]).per_page(per_page_param)
   end
 
   def type
@@ -43,34 +43,34 @@ class TypesController < ApplicationController
   end
 
   def new
-    @type = Type.new(params[:type])
-    @types = Type.find(:all, order: 'position')
-    @projects = Project.find(:all)
+    @type = ::Type.new(params[:type])
+    @types = ::Type.order('position')
+    @projects = Project.all
   end
 
   def create
-    @type = Type.new(permitted_params.type)
+    @type = ::Type.new(permitted_params.type)
     if @type.save
       # workflow copy
-      if !params[:copy_workflow_from].blank? && (copy_from = Type.find_by_id(params[:copy_workflow_from]))
+      if !params[:copy_workflow_from].blank? && (copy_from = ::Type.find_by(id: params[:copy_workflow_from]))
         @type.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: 'index'
     else
-      @types = Type.find(:all, order: 'position')
-      @projects = Project.find(:all)
+      @types = ::Type.order('position')
+      @projects = Project.all
       render action: 'new'
     end
   end
 
   def edit
     @projects = Project.all
-    @type  = Type.find(params[:id])
+    @type  = ::Type.find(params[:id])
   end
 
   def update
-    @type = Type.find(params[:id])
+    @type = ::Type.find(params[:id])
 
     # forbid renaming if it is a standard type
     params[:type].delete :name if @type.is_standard?
@@ -84,7 +84,7 @@ class TypesController < ApplicationController
   end
 
   def move
-    @type = Type.find(params[:id])
+    @type = ::Type.find(params[:id])
 
     if @type.update_attributes(permitted_params.type_move)
       flash[:notice] = l(:notice_successful_update)
@@ -96,7 +96,7 @@ class TypesController < ApplicationController
   end
 
   def destroy
-    @type = Type.find(params[:id])
+    @type = ::Type.find(params[:id])
     # types cannot be deleted when they have work packages
     # or they are standard types
     # put that into the model and do a `if @type.destroy`

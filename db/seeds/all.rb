@@ -36,17 +36,19 @@
 Project
 
 PlanningElementTypeColor.colors.map(&:save)
-default_color = PlanningElementTypeColor.find_by_name('Grey-light')
+default_color = PlanningElementTypeColor.find_by(name: 'Grey-light')
 
-Type.find_or_create_by_is_standard(true, name: 'none',
-                                         position: 0,
-                                         color_id: default_color.id,
-                                         is_default: true,
-                                         is_in_roadmap: true,
-                                         in_aggregation: true,
-                                         is_milestone: false)
+::Type.find_or_create_by(is_standard: true) do |type|
+  type.name           = 'none'
+  type.position       = 0
+  type.color_id       = default_color.id
+  type.is_default     = true
+  type.is_in_roadmap  = true
+  type.in_aggregation = true
+  type.is_milestone   = false
+end
 
-if Role.find_by_builtin(Role::BUILTIN_NON_MEMBER).nil?
+if Role.find_by(builtin: Role::BUILTIN_NON_MEMBER).nil?
   role = Role.new
 
   role.name = 'Non member'
@@ -55,7 +57,7 @@ if Role.find_by_builtin(Role::BUILTIN_NON_MEMBER).nil?
   role.save!
 end
 
-if Role.find_by_builtin(Role::BUILTIN_ANONYMOUS).nil?
+if Role.find_by(builtin: Role::BUILTIN_ANONYMOUS).nil?
   role = Role.new
 
   role.name = 'Anonymous'

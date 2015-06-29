@@ -39,7 +39,7 @@ module AssociationsMapper
           class_eval %{
             def #{association_name}_with_map_associations_for=(new_value)
               if new_value.present? && new_value.is_a?(Hash) && new_value.has_key?(:id)
-                obj = #{reflection.klass.name}.find_by_id(new_value[:id])
+                obj = #{reflection.klass.name}.find_by(id: new_value[:id])
 
                 if obj.present?
                   self.#{association_name}_without_accepts_nested_attributes_for_apis = obj

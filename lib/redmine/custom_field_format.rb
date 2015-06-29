@@ -64,7 +64,7 @@ module Redmine
 
     ['user', 'version'].each do |name|
       define_method("format_as_#{name}") {|value|
-        return value.blank? ? '' : name.classify.constantize.find_by_id(value.to_i).to_s
+        return value.blank? ? '' : name.classify.constantize.find_by(id: value.to_i).to_s
       }
     end
 

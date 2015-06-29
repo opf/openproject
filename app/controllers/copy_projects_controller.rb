@@ -75,10 +75,9 @@ class CopyProjectsController < ApplicationController
   private
 
   def prepare_for_copy_project
-    @issue_custom_fields = WorkPackageCustomField.find(:all, order: "#{CustomField.table_name}.position")
-    @types = Type.all
-    @root_projects = Project.find(:all,
-                                  conditions: "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
-                                  order: 'name')
+    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
+    @types = ::Type.all
+    @root_projects = Project.where("parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}")
+                     .order('name')
   end
 end

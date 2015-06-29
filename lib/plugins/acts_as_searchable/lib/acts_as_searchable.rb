@@ -94,10 +94,8 @@ module Redmine
             token_clauses = columns.map { |column| "(LOWER(#{column}) LIKE ?)" }
 
             if !options[:titles_only] && searchable_options[:search_custom_fields]
-              searchable_custom_field_ids = CustomField.find(:all,
-                                                             select: 'id',
-                                                             conditions: { type: "#{name}CustomField",
-                                                                           searchable: true }).map(&:id)
+              searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField",
+                                                              searchable: true).pluck(:id)
               if searchable_custom_field_ids.any?
                 custom_field_sql = "#{table_name}.id IN (SELECT customized_id FROM #{CustomValue.table_name}" +
                                    " WHERE customized_type='#{name}' AND customized_id=#{table_name}.id AND LOWER(value) LIKE ?" +

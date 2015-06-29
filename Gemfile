@@ -28,12 +28,16 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.22"
+gem "rails", "4.0.13"
+gem 'protected_attributes'
+gem 'actionpack-action_caching'
+gem 'activerecord-session_store'
+gem 'rails-observers'
 
 gem "coderay", "~> 1.0.9"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
-gem 'globalize', "~> 3.1.0"
+gem 'globalize', '~> 4.0.3'
 gem 'omniauth'
 gem 'request_store', "~> 1.1.0"
 gem 'gravatar_image_tag', '~> 1.2.0'
@@ -46,7 +50,7 @@ gem 'rails_autolink', '~> 1.1.6'
 gem "will_paginate", '~> 3.0'
 gem "acts_as_list", "~> 0.3.0"
 
-gem 'awesome_nested_set'
+gem "awesome_nested_set", '~> 2.1.6'
 
 gem 'color-tools', '~> 1.3.0', :require => 'color'
 
@@ -70,13 +74,7 @@ gem 'rabl', '0.9.3'
 gem 'multi_json', '~> 1.11.0'
 gem 'oj', '~> 2.11.4'
 
-# will need to be removed once we are on rails4 as it will be part of the rails4 core
-gem 'strong_parameters'
-
-# we need the old Version to be compatible with pgsql 8.4
-# see: http://stackoverflow.com/questions/14862144/rake-jobswork-gives-pgerror-error-select-for-update-share-is-not-allowed-in
-# or: https://github.com/collectiveidea/delayed_job/issues/323
-gem 'delayed_job_active_record', '0.3.3'
+gem 'delayed_job_active_record', '~> 4.0.2'
 gem 'daemons'
 
 # include custom rack-protection for now until rkh/rack-protection is fixed and released
@@ -102,10 +100,9 @@ group :production do
   gem 'dalli', '~> 2.7.2'
 end
 
-gem 'sprockets',        git: 'https://github.com/tessi/sprockets.git', branch: '2_2_2_backport2'
-gem 'sprockets-rails',  git: 'https://github.com/finnlabs/sprockets-rails.git', branch: 'backport'
+gem 'sprockets',        '~> 2.12.3'
 gem 'non-stupid-digest-assets'
-gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
+gem 'sass-rails',       '~> 5.0.3'
 gem 'sass',             '~> 3.4.12'
 gem 'autoprefixer-rails'
 gem 'execjs',           '~> 2.4.0'
@@ -128,10 +125,7 @@ gem 'unicorn'
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
 
-gem 'rack', '~>1.4.6'
-
-gem 'i18n', '~> 0.6.8'
-# see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
+gem 'rack', '~> 1.5.4' # CVE-2015-3225
 
 gem 'nokogiri', '~> 1.6.6'
 
@@ -182,7 +176,6 @@ end
 
 group :development do
   gem 'letter_opener', '~> 1.3.0'
-  gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'

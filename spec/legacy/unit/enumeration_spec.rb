@@ -78,7 +78,7 @@ describe Enumeration, type: :model do
   end
 
   it 'should change default' do
-    e = Enumeration.find_by_name(@default_enumeration.name)
+    e = Enumeration.find_by(name: @default_enumeration.name)
     e.update_attributes(name: 'Changed Enumeration', is_default: true)
     assert_equal e, Enumeration.default
   end
@@ -86,7 +86,7 @@ describe Enumeration, type: :model do
   it 'should destroy with reassign' do
     new_priority = FactoryGirl.create :priority
     Enumeration.find(@low_priority).destroy(new_priority)
-    assert_nil WorkPackage.find(:first, conditions: { priority_id: @low_priority.id })
+    assert_nil WorkPackage.find_by(priority_id: @low_priority.id)
     assert_equal @issues.size, new_priority.objects_count
   end
 

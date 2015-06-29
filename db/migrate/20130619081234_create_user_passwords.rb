@@ -28,7 +28,7 @@
 #++
 
 class CreateUserPasswords < ActiveRecord::Migration
-  def initialize
+  def initialize(*)
     super
     @former_passwords_table_exists = ActiveRecord::Base.connection.tables.include? 'former_user_passwords'
   end

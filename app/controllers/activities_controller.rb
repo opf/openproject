@@ -55,10 +55,10 @@ class ActivitiesController < ApplicationController
 
     if events.empty? || stale?(etag: [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
       respond_to do |format|
-        format.html {
+        format.html do
           @events_by_day = events.group_by { |e| e.event_datetime.to_date }
           render layout: false if request.xhr?
-        }
+        end
         format.atom {
           title = l(:label_activity)
           if @author

@@ -46,7 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= link_to(l(:button_delete),
               topic_path(@topic),
               method: :delete,
-              confirm: l(:text_are_you_sure),
+              data: { confirm: l(:text_are_you_sure) },
               class: 'icon icon-delete') if @message.destroyable_by?(User.current) %>
 <% end %>
 
@@ -90,7 +90,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
                   { action: 'destroy', id: message},
                   method: :delete,
-                  confirm: l(:text_are_you_sure),
+                  data: { confirm: l(:text_are_you_sure) },
                   title: l(:button_delete),
                   class: 'no-decoration-on-hover',
                   alt: l(:button_delete)) if message.destroyable_by?(User.current) %>

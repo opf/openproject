@@ -94,7 +94,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'custom_fields' do
-        before { custom_value }
+        before do custom_value end
 
         subject { copy.custom_value_for(custom_field.id) }
 
@@ -119,7 +119,7 @@ describe WorkPackage, type: :model do
           }
           let(:attributes) { { assigned_to_id: target_user.id } }
 
-          before { target_project_member }
+          before do target_project_member end
 
           it_behaves_like 'copied work package'
 
@@ -210,32 +210,32 @@ describe WorkPackage, type: :model do
         }
 
         context 'cross project relations deactivated' do
-          before {
+          before do
             allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
-          }
+          end
 
           it { expect(copy).to be_falsy }
 
           it { expect(child.reload.project).to eql(source_project) }
 
           describe 'grandchild' do
-            before { copy }
+            before do copy end
 
             it { expect(grandchild.reload.project).to eql(source_project) }
           end
         end
 
         context 'cross project relations activated' do
-          before {
+          before do
             allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
-          }
+          end
 
           it { expect(copy).to be_truthy }
 
           it { expect(copy.project).to eql(target_project) }
 
           describe 'grandchild' do
-            before { copy }
+            before do copy end
 
             it { expect(grandchild.reload.project).to eql(target_project) }
           end
@@ -330,8 +330,7 @@ describe WorkPackage, type: :model do
       let(:project_id) { source.project_id }
 
       describe 'should copy project' do
-
-        before { sink.copy_from(source) }
+        before do sink.copy_from(source) end
 
         it_behaves_like 'work package copy with custom field'
       end
@@ -339,7 +338,7 @@ describe WorkPackage, type: :model do
       describe 'should not copy excluded project' do
         let(:project_id) { sink.project_id }
 
-        before { sink.copy_from(source, exclude: [:project_id]) }
+        before do sink.copy_from(source, exclude: [:project_id]) end
 
         it_behaves_like 'work package copy'
       end

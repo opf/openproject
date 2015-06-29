@@ -29,7 +29,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/planning_element_type_colors/index.api.rabl', type: :view do
-
   before do
     params[:format] = 'json'
   end
@@ -60,6 +59,5 @@ describe 'api/v2/planning_element_type_colors/index.api.rabl', type: :view do
     it 'renders a colors document with the size 3 of array' do
       expect(response).to have_json_size(3).at_path('colors')
     end
-
   end
 end

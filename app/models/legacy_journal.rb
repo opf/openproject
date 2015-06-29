@@ -63,7 +63,9 @@ class LegacyJournal < ActiveRecord::Base
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope 'changing', conditions: ['version > 1']
+  scope :changing, -> {
+    where(['version > 1'])
+  }
 
   # let all child classes have Journal as it's model name
   # used to not having to create another route for every subclass of Journal

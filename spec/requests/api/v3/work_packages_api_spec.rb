@@ -57,7 +57,7 @@ describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
       end
 
       it_behaves_like 'invalid activity request' do
-        before { allow_any_instance_of(WorkPackage).to receive(:save).and_return(false) }
+        before do allow_any_instance_of(WorkPackage).to receive(:save).and_return(false) end
 
         include_context 'create activity'
       end

@@ -50,7 +50,7 @@ class NewsController < ApplicationController
              .per_page(per_page_param)
 
     respond_to do |format|
-      format.html { render layout: !request.xhr? }
+      format.html do render layout: !request.xhr? end
       format.atom { render_feed(@newss, title: (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end

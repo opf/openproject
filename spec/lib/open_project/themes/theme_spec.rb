@@ -253,19 +253,19 @@ module OpenProject
       end
 
       it 'overridden images are nested' do
-        expect(helpers.image_tag('add.png')).to include 'src="/assets/new_theme/add.png"'
+        expect(helpers.image_tag('add.png')).to include 'src="/images/new_theme/add.png"'
       end
 
       it 'not overridden images are on root level' do
-        expect(helpers.image_tag('missing.png')).to include 'src="/assets/missing.png"'
+        expect(helpers.image_tag('missing.png')).to include 'src="/images/missing.png"'
       end
 
       it 'overridden favicon is nested' do
-        expect(helpers.favicon_link_tag('add.png')).to include 'href="/assets/new_theme/add.png"'
+        expect(helpers.favicon_link_tag('add.png')).to include 'href="/images/new_theme/add.png"'
       end
 
       it 'not overridden favicon is on root level' do
-        expect(helpers.favicon_link_tag('missing.png')).to include 'href="/assets/missing.png"'
+        expect(helpers.favicon_link_tag('missing.png')).to include 'href="/images/missing.png"'
       end
     end
   end

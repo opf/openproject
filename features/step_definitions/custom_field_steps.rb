@@ -28,7 +28,7 @@
 #++
 
 [CustomField, WorkPackageCustomField].each do |const|
-  InstanceFinder.register(const, Proc.new { |name| const.find_by_name(name) })
+  InstanceFinder.register(const, Proc.new { |name| const.find_by(name: name) })
   RouteMap.register(const, '/custom_fields')
 end
 
@@ -55,7 +55,7 @@ end
 
 Given /^the user "(.+?)" has the user custom field "(.+?)" set to "(.+?)"$/ do |login, field_name, value|
   user = User.find_by_login(login)
-  custom_field = UserCustomField.find_by_name(field_name)
+  custom_field = UserCustomField.find_by(name: field_name)
 
   user.custom_values.build(custom_field: custom_field, value: value)
   user.save!
@@ -84,22 +84,22 @@ Given /^the work package "(.+?)" has the custom user field "(.+?)" set to "(.+?)
 end
 
 Given(/^the custom field "(.*?)" is enabled for the project "(.*?)"$/) do |field_name, project_name|
-  custom_field = WorkPackageCustomField.find_by_name(field_name)
-  project = Project.find_by_name(project_name)
+  custom_field = WorkPackageCustomField.find_by(name: field_name)
+  project = Project.find_by(name: project_name)
 
   project.work_package_custom_fields << custom_field
   project.save!
 end
 
 Given(/^the custom field "(.*?)" is disabled for the project "(.*?)"$/) do |field_name, project_name|
-  custom_field = WorkPackageCustomField.find_by_name(field_name)
-  project = Project.find_by_name(project_name)
+  custom_field = WorkPackageCustomField.find_by(name: field_name)
+  project = Project.find_by(name: project_name)
 
   project.work_package_custom_fields.delete custom_field
 end
 
 Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
-  custom_field = WorkPackageCustomField.find_by_name(field_name)
+  custom_field = WorkPackageCustomField.find_by(name: field_name)
 
   Setting.work_package_list_summable_columns = negative ?
                                           Setting.work_package_list_summable_columns - ["cf_#{custom_field.id}"] :
@@ -107,8 +107,8 @@ Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
 end
 
 Given /^the custom field "(.*?)" is activated for type "(.*?)"$/ do |field_name, type_name|
-  custom_field = WorkPackageCustomField.find_by_name(field_name)
-  type = Type.find_by_name(type_name)
+  custom_field = WorkPackageCustomField.find_by(name: field_name)
+  type = ::Type.find_by(name: type_name)
   custom_field.types << type
 end
 

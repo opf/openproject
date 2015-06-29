@@ -99,13 +99,12 @@ module Redmine::Acts::Journalized
       # of the object. Useful for objects that didn't have an initial journal
       # created (e.g. legacy data)
       def recreate_initial_journal!
-        new_journal = journals.find_by_version(1)
+        new_journal = journals.find_by(version: 1)
         new_journal ||= journals.build
 
         initial_changes = {}
 
         JournalManager.journal_class(self.class).journaled_attributes.each do |name|
-
           # Set the current attributes as initial attributes
           # This works as a fallback if no prior change is found
           initial_changes[name] = send(name)

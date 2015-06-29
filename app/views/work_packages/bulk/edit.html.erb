@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <h2><%= l(:label_bulk_edit_selected_work_packages) %></h2>
 <ul><%= @work_packages.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), work_package_path(i)) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
-<%= styled_form_tag(url_for(controller: '/work_packages/bulk', action: :update, ids: @work_packages),
+<%= styled_form_tag(url_for(controller: '/work_packages/bulk', action: :update),
              method: :put) do %>
   <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
   <section class="form--section">

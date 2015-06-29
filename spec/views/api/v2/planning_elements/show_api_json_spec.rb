@@ -29,12 +29,10 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/v2/planning_elements/show.api.rabl', type: :view do
-
   before do
     allow(view).to receive(:include_journals?).and_return(false)
 
     params[:format] = 'json'
-
   end
 
   subject { response.body }
@@ -59,13 +57,12 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
   }
 
   describe 'with an assigned planning element' do
-
     let(:custom_field) do
       FactoryGirl.create :issue_custom_field,
                          name: 'Belag',
                          field_format: 'text',
                          projects: [planning_element.project],
-                         types: [(Type.find_by_name('None') || FactoryGirl.create(:type_standard))]
+                         types: [(::Type.find_by(name: 'None') || FactoryGirl.create(:type_standard))]
     end
 
     before do
@@ -206,7 +203,6 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     end
 
     it 'renders a responsible node containing the responsible\'s id and name' do
-
       expect(response).to be_json_eql({ name: 'Paul McCartney' }.to_json).at_path('planning_element/responsible')
     end
   end
@@ -288,7 +284,6 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
       expected_json = { name: 'project_id', old: 1, new: 2 }.to_json
       is_expected.to be_json_eql(expected_json).at_path('planning_element/journals/1/changes/0/technical')
-
     end
   end
 end

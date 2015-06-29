@@ -29,7 +29,7 @@
 
 module Api
   module V2
-    class ProjectsController < ProjectsController
+    class ProjectsController < ::ProjectsController
       include ::Api::V2::ApiController
 
       before_filter :find_project, except: [:index, :level_list]
@@ -89,8 +89,9 @@ module Api
       protected
 
       def find_project
-        @project = Project.find params[:id],
-                                include: [{ custom_values: [{ custom_field: :translations }] }]
+        # FIXME: Rails 4.1 Upgrade: restore includes
+        #        include: [{ custom_values: [{ custom_field: :translations }] }]
+        @project = Project.find params[:id]
       end
 
       def build_associations
@@ -106,7 +107,6 @@ module Api
 
           @associations_by_id[a.project_b_id] ||= []
           @associations_by_id[a.project_b_id] << a
-
         end
       end
 

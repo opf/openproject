@@ -161,19 +161,5 @@ module Api::Experimental
 
       deny_access unless allowed
     end
-
-    def visible_queries
-      unless @visible_queries
-        # User can see public queries and his own queries
-        visible = ARCondition.new(['is_public = ? OR user_id = ?', true, (User.current.logged? ? User.current.id : 0)])
-        # Project specific queries and global queries
-        visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id IS NULL OR project_id = ?', @project.id])
-        @visible_queries = Query.find(:all,
-                                      select: 'id, name, is_public',
-                                      order: 'name ASC',
-                                      conditions: visible.conditions)
-      end
-      @visible_queries
-    end
   end
 end

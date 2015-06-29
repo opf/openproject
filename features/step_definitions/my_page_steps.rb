@@ -53,7 +53,6 @@ Then /^"(.+)" should( not)? be disabled in the my page available widgets drop do
     steps %{Then the "block-select" drop-down should have the following options enabled:
             | #{option_name} |}
   end
-
 end
 
 When(/^I click the first delete block link$/) do

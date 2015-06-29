@@ -52,10 +52,10 @@ class Version < ActiveRecord::Base
   validates_inclusion_of :sharing, in: VERSION_SHARINGS
   validate :validate_start_date_before_effective_date
 
-  scope :open, conditions: { status: 'open' }
-  scope :visible, lambda {|*args|
-    { include: :project,
-      conditions: Project.allowed_to_condition(args.first || User.current, :view_work_packages) }
+  scope :open, -> { where(status: 'open') }
+  scope :visible, ->(*args) {
+    includes(:project)
+      .where(Project.allowed_to_condition(args.first || User.current, :view_work_packages))
   }
 
   scope :systemwide, -> { where(sharing: 'system') }
@@ -98,7 +98,9 @@ class Version < ActiveRecord::Base
 
   # Returns the total reported time for this version
   def spent_hours
-    @spent_hours ||= TimeEntry.sum(:hours, include: :work_package, conditions: ["#{WorkPackage.table_name}.fixed_version_id = ?", id]).to_f
+    @spent_hours ||= TimeEntry.includes(:work_package)
+                     .where(["#{WorkPackage.table_name}.fixed_version_id = ?", id])
+                     .sum(:hours).to_f
   end
 
   def closed?

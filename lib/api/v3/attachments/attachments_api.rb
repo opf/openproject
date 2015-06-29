@@ -33,12 +33,10 @@ module API
     module Attachments
       class AttachmentsAPI < ::API::OpenProjectAPI
         resources :attachments do
-
           params do
             requires :id, desc: 'Attachment id'
           end
           route_param :id do
-
             before do
               @attachment = Attachment.find(params[:id])
 

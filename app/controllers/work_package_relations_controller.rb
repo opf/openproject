@@ -32,7 +32,7 @@ class WorkPackageRelationsController < ApplicationController
 
   def create
     @relation = @work_package.new_relation.tap do |r|
-      r.to = WorkPackage.visible.find_by_id(params[:relation][:to_id].match(/\d+/).to_s)
+      r.to = WorkPackage.visible.find_by(id: params[:relation][:to_id].match(/\d+/).to_s)
       r.relation_type = params[:relation][:relation_type]
       r.delay = params[:relation][:delay]
     end
@@ -40,7 +40,7 @@ class WorkPackageRelationsController < ApplicationController
     @relation.save
 
     respond_to do |format|
-      format.html { redirect_to work_package_path(@work_package) }
+      format.html do redirect_to work_package_path(@work_package) end
       format.js {
         render action: 'create', locals: { work_package: work_package,
                                            relation: @relation }
@@ -54,7 +54,7 @@ class WorkPackageRelationsController < ApplicationController
     @relation.destroy
 
     respond_to do |format|
-      format.html { redirect_to work_package_path(@work_package) }
+      format.html do redirect_to work_package_path(@work_package) end
       format.js {}
     end
   end

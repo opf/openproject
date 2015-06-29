@@ -32,7 +32,7 @@ Given /^there is a project named "([^"]*)"(?: of type "([^"]*)")?$/ do |name, pr
                  identifier: name.downcase.gsub(' ', '_') }
 
   if project_type_name
-    attributes.merge!(project_type: ProjectType.find_by_name!(project_type_name))
+    attributes.merge!(project_type: ProjectType.find_by!(name: project_type_name))
   end
 
   FactoryGirl.create(:project, attributes)

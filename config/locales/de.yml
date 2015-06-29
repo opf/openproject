@@ -189,7 +189,7 @@ de:
         blank: "muss ausgefüllt werden"
         cant_link_a_work_package_with_a_descendant: "Ein Arbeitspaket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
-        confirmation: "stimmt nicht mit der Bestätigung überein"
+        confirmation: stimmt nicht mit %{attribute} überein
         empty: "muss ausgefüllt werden"
         equal_to: "muss genau %{count} sein"
         even: "muss gerade sein"
