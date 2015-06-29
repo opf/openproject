@@ -38,7 +38,9 @@ class MailNotificationJob
   end
 
   def perform
-    notify
+    execute_as recipient do
+      notify
+    end
   end
 
   def error(_job, e)
@@ -64,5 +66,13 @@ class MailNotificationJob
     Rails.logger.error "Cannot deliver notification (#{self.inspect})
                         as required record was not found: #{e}".squish
     raise e if raise_exceptions
+  end
+
+  def execute_as(user)
+    previous_user = User.current
+    User.current = user
+    yield
+  ensure
+    User.current = previous_user
   end
 end
