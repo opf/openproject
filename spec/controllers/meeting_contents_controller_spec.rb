@@ -71,6 +71,25 @@ describe MeetingContentsController do
           let(:mail_count) { 3 }
         end
       end
+
+      context 'with an error during deliver' do
+        before do
+          author.pref[:no_self_notified] = false
+          author.save!
+          allow(MeetingMailer).to receive(:content_for_review).and_raise(Net::SMTPError)
+        end
+
+        it 'does not raise an error' do
+          expect { put 'notify', meeting_id: meeting.id }.to_not raise_error
+        end
+
+        it 'produces a flash message containing the mail addresses raising the error' do
+          put 'notify', meeting_id: meeting.id
+          meeting.participants.each do |participant|
+            expect(flash[:error]).to include(participant.name)
+          end
+        end
+      end
     end
   end
 end
