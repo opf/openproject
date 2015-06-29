@@ -88,7 +88,6 @@ class MeetingContentsController < ApplicationController
       recipients.each do |recipient|
         MeetingMailer.content_for_review(@content, @content_type, recipient).deliver
       end
-      flash[:notice] = l(:notice_successful_notification)
     end
     redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
   end

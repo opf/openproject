@@ -21,7 +21,7 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title "#{l(:label_history)}: #{@meeting.title}" %>
 
-<h2><%= l(:"label_#{@content_type}") %>: <%= link_to @meeting, @meeting %></h2>
+<%= toolbar title: "#{l(:"label_#{@content_type}")}: #{link_to @meeting, @meeting}" %>
 
 <h3><%= l(:label_history) %></h3>
 
@@ -53,7 +53,7 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 </tbody>
 </table>
-<%= submit_tag l(:label_view_diff), class: 'button -small -highlight' if show_diff %>
+<%= styled_button_tag l(:label_view_diff), class: '-small -highlight' if show_diff %>
 <%= pagination_links_full @content_versions %>
 <% end %>
 

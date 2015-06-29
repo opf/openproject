@@ -44,7 +44,6 @@ Feature: Delete meetings
               | duration   | 2:30                |
               | start_time | 2011-02-10 11:00:00 |
 
-  @javascript
   Scenario: Navigate to an other-created meeting with no permission to delete meetings
       Given the role "user" may have the following rights:
             | view_meetings |
@@ -53,7 +52,6 @@ Feature: Delete meetings
         And I click on "Bobs Meeting"
        Then I should not see "Delete"
 
-  @javascript
   Scenario: Navigate to a self-created meeting with permission to delete meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -63,7 +61,6 @@ Feature: Delete meetings
         And I click on "Alices Meeting"
        Then I should see "Delete"
 
-  @javascript
   Scenario: Navigate to an other-created meeting with permission to delete meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -73,17 +70,15 @@ Feature: Delete meetings
         And I click on "Bobs Meeting"
        Then I should see "Delete"
 
-  # TODO: kann nicht getestet werden bis die js confirm Geschichte geklärt ist
-  #@javascript
-  #Scenario: Delete an other-created meeting with permission to delete meetings
-  #    Given the role "user" may have the following rights:
-  #          | view_meetings   |
-  #          | delete_meetings |
-  #     When I am already logged in as "alice"
-  #      And I go to the Meetings page for the project called "dingens"
-  #      And I click on "Bobs Meeting"
-  #          # TODO Wie kriegt man das hin?
-  #          # Momentan bleibt das bei mir beim javascript "confirm" Dialog hängen
-  #      And I click on "Delete"
-  #     Then I should see "Meetings"
-  #      But I should not see "Bobs Meeting"
+  @javascript
+  Scenario: Delete a meeting with permission to delete meetings
+      Given the role "user" may have the following rights:
+            | view_meetings   |
+            | delete_meetings |
+       When I am already logged in as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "Bobs Meeting"
+        And I click on "Delete"
+        And I confirm the JS confirm dialog
+       Then I should see "Meetings"
+        But I should not see "Bobs Meeting"
