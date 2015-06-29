@@ -9,7 +9,6 @@ if require_dependency 'cost_reports_controller'
         base.send(:include, InstanceMethods)
 
         base.class_eval do
-          unloadable
 
           alias_method_chain :ensure_project_scope?, :excel_export
         end
