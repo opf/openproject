@@ -23,6 +23,7 @@ class CostTypesController < ApplicationController
   # Allow only admins here
   before_filter :require_admin
   before_filter :find_cost_type, :only => [:edit, :update, :set_rate, :toggle_delete]
+  layout 'admin'
 
   helper :sort
   include SortHelper
