@@ -36,4 +36,4 @@ Feature: Navigating to reports page
     When I login as "bob"
     And I go to the page of the project called "SubProject"
     And I follow "Cost reports" within "#main-menu"
-    Then I should see "Cost Report" within "#content"
+    Then I should see "Cost report" within "#content"
