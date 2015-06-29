@@ -157,7 +157,7 @@ Feature: Managing Budgets
       |    5  | labortestcomment2 | testuser |
     And I go to the show page of the budget "budget1"
     When I click on "Copy"
-    Then I should see "New Budget"
+    Then I should see "New budget"
     And the planned material costs in row 1 should be "400.00 EUR"
     And the planned labor costs in row 1 should be "296.00 EUR"
     And the planned material costs in row 2 should be "240.00 EUR"
