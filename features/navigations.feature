@@ -35,5 +35,5 @@ Feature: Navigating to reports page
     And the user "bob" is a "Testrole" in the project "SubProject"
     When I login as "bob"
     And I go to the page of the project called "SubProject"
-    And I follow "Cost Reports" within "#main-menu"
-    Then I should see "Cost Report" within "#content"
+    And I follow "Cost reports" within "#main-menu"
+    Then I should see "Cost report" within "#content"

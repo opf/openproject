@@ -122,7 +122,7 @@ Feature: Saving Queries
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
     Then I should see "Save" within "#query-icon-save-as"
-    And I click on "Save Report As..."
+    And I click on "Save report as..."
     Then I should see "Public"
     And I check "Public"
     And I fill in "Testreport2" for "query_name"
