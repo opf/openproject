@@ -216,6 +216,10 @@ platforms :mri, :mingw, :x64_mingw do
   group :postgres do
     gem 'pg', "~> 0.17.1"
   end
+
+  group :sqlite3 do
+    gem 'sqlite3'
+  end
 end
 
 platforms :jruby do

@@ -86,7 +86,7 @@ class Principal < ActiveRecord::Base
 
   def self.visible_by_condition(principal)
     if principal.respond_to?(:admin?) && principal.admin?
-      return where('true')
+      return where('1=1')
     end
 
     project_ids = principal.projects.pluck(:id)
