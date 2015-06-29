@@ -38,7 +38,7 @@ class User
 
     module ClassMethods
       def authorize_within(project, &block)
-        base_scope = current_scope || scoped
+        base_scope = current_scope || all
         auth_scope = eager_load_for_project_authorization(base_scope, project)
 
         returned_users = block.call(auth_scope)
@@ -68,7 +68,7 @@ class User
       # (e.g. WHERE members.project_id = 1) of associations for the project
       # authorization.
       def reset_associations_eager_loaded_for_project_authorization(users, project)
-        auth_scope = eager_load_for_project_authorization(scoped, project)
+        auth_scope = eager_load_for_project_authorization(all, project)
 
         to_clear = reflect_on_all_associations.map(&:name) &
                    auth_scope.eager_load_values.map(&:keys).flatten.uniq
