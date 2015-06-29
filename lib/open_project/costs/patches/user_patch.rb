@@ -22,7 +22,6 @@ module OpenProject::Costs::Patches::UserPatch
     base.send(:include, InstanceMethods)
 
     base.class_eval do
-      unloadable
 
       has_many :rates, :class_name => 'HourlyRate'
       has_many :default_rates, :class_name => 'DefaultHourlyRate'

@@ -18,7 +18,6 @@
 #++
 
 class CostsWorkPackageObserver < ActiveRecord::Observer
-  unloadable
   observe :work_package
 
   def after_update(work_package)

@@ -23,7 +23,6 @@ module OpenProject::Costs::Patches::RolePatch
 
     # Same as typing in the class
     base.class_eval do
-      unloadable
 
       alias_method_chain :allowed_to?, :inheritance
     end

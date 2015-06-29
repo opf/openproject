@@ -19,7 +19,6 @@
 
 module OpenProject::Costs::Patches::QueryPatch
   class CurrencyQueryColumn < QueryColumn
-    unloadable
     include ActionView::Helpers::NumberHelper
     alias :super_value :value
 
@@ -47,8 +46,6 @@ module OpenProject::Costs::Patches::QueryPatch
 
     # Same as typing in the class
     base.class_eval do
-      unloadable # Send unloadable so it will not be unloaded in development
-
       add_available_column(QueryColumn.new(:cost_object_subject))
       add_available_column(CurrencyQueryColumn.new(:material_costs))
       add_available_column(CurrencyQueryColumn.new(:labor_costs))
