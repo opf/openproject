@@ -30,27 +30,27 @@
 class DeliverWorkPackageUpdatedJob
   include MailNotificationJob
 
-  def initialize(user_id, journal_id, current_user_id)
-    @user_id         = user_id
-    @journal_id      = journal_id
-    @current_user_id = current_user_id
+  def initialize(recipient_id, journal_id, author_id)
+    @recipient_id = recipient_id
+    @journal_id   = journal_id
+    @author_id    = author_id
   end
 
   private
 
   def notification_mail
-    @notification_mail ||= UserMailer.work_package_updated(user, journal, current_user)
+    @notification_mail ||= UserMailer.work_package_updated(recipient, journal, author)
   end
 
-  def user
-    @user ||= Principal.find(@user_id)
+  def recipient
+    @recipient ||= Principal.find(@recipient_id)
   end
 
   def journal
     @journal ||= Journal.find(@journal_id)
   end
 
-  def current_user
-    @current_user ||= Principal.find(@current_user_id)
+  def author
+    @author ||= Principal.find(@author_id)
   end
 end
