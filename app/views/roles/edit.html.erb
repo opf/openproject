@@ -20,11 +20,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{Role.model_name.human} #{@role.name}" %>
 
-<h2><%= link_to Role.model_name.human(:count => 2), roles_path %> &#187; <%=h @role.name %></h2>
+<%= toolbar title: "#{link_to Role.model_name.human(:count => 2), roles_path} &raquo; #{h @role.name}" %>
 
 <%= labelled_tabular_form_for @role, :url => { :action => 'update' }, :html => {:id => 'role_form'}, :as => :role do |f| %>
 <%= hidden_field_tag :id, @role.id %>
 <%= render :partial => 'form', :locals => { :f => f , :role => @role, :member_permissions => (@role.is_a?(GlobalRole) ? nil : @permissions),
 :global_permissions => (@role.is_a?(GlobalRole) ? @permissions : nil)} %>
-<%= submit_tag l(:button_save), class: 'button -highlight' %>
+<br/>
+<%= styled_button_tag l(:button_save), class: '-with-icon icon-yes' %>
 <% end %>
