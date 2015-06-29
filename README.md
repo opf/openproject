@@ -29,7 +29,9 @@ it already, add the following lines to the `Gemfile.plugins` to your OpenProject
 `gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable/4.1"`
 
 For OpenProject Backlogs itself you need to add the following line to the
+
 `Gemfile.plugins` of OpenProject (if you use a different OpenProject version than OpenProject 4.1, adapt :branch => "stable/4.1" to your OpenProject version):
+
 
 `gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable/4.1"`
 
