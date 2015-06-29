@@ -148,7 +148,7 @@ module.exports = function(
     if (!WorkPackageFieldService.isRequired(workPackage, field)) {
       var arrayWithEmptyOption = [{
         href: null,
-        name: I18n.t('js.inplace.null_value_label')
+        name: I18n.t('js.inplace.clear_value_label')
       }];
       options = arrayWithEmptyOption.concat(options);
     }
@@ -165,7 +165,10 @@ module.exports = function(
         return _.extend({}, item._links.self, { name: item.name });
       });
       if (!WorkPackageFieldService.isRequired(workPackage, field)) {
-        var arrayWithEmptyOption = [{ href: null }];
+        var arrayWithEmptyOption = [{
+          href: null,
+          name: I18n.t('js.inplace.clear_value_label')
+        }];
         options = arrayWithEmptyOption.concat(options);
       }
       return options;
