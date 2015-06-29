@@ -44,7 +44,7 @@ module OpenProject
         end
 
         def client_command
-          @client_command ||= scm_config[:git_client_command]|| 'git'
+          @client_command ||= config[:client_command] || 'git'
         end
 
         def client_version
@@ -64,6 +64,28 @@ module OpenProject
           unless m.nil?
             m[2].scan(%r{\d+}).map(&:to_i)
           end
+        end
+
+        ##
+        # Create a bare repository for the current path
+        def initialize_bare_git
+          capture_git(%w[init --bare])
+        end
+
+        ##
+        # Checks the status of this repository and throws unless it can be accessed
+        # correctly by the adapter.
+        #
+        # @raise [ScmUnavailable] raised when repository is unavailable.
+        def check_availability!
+          out, = Open3.capture2e(client_command, *build_git_cmd(%w[log -- HEAD]))
+          raise Exceptions::ScmEmpty if out.include?("fatal: bad default revision 'HEAD'")
+
+          # If it not empty, it should have at least one readable branch.
+          raise Exceptions::ScmUnavailable unless branches.size > 0
+        rescue Exceptions::CommandFailed => e
+          logger.error("Availability check failed due to failed Git command: #{e.message}")
+          raise Exceptions::ScmUnavailable
         end
 
         def info
@@ -114,7 +136,7 @@ module OpenProject
             type = $1
             size = $3
             name = $4.force_encoding(@path_encoding)
-            path = encode_full_path(name, path)
+            path = encode_full_path(name, path || '')
 
             Entry.new(
               name: scm_encode('UTF-8', @path_encoding, name),
@@ -268,7 +290,7 @@ module OpenProject
           end
           args << '--' << scm_encode(@path_encoding, 'UTF-8', path) unless path.empty?
           capture_git(args).lines.map(&:chomp)
-        rescue CommandFailed
+        rescue Exceptions::CommandFailed
           nil
         end
 
@@ -296,9 +318,11 @@ module OpenProject
             elsif line =~ /^author (.+)/
               authors_by_commit[identifier] = $1.strip
             elsif line =~ /^\t(.*)/
-              blame.add_line($1, Revision.new(
-                                   identifier: identifier,
-                                   author: authors_by_commit[identifier]))
+              blame.add_line(
+                $1,
+                Revision.new(
+                  identifier: identifier,
+                  author: authors_by_commit[identifier]))
               identifier = ''
             end
           end
@@ -342,7 +366,10 @@ module OpenProject
 
             process = wait_thr.value
             if process.exitstatus != 0
-              raise CommandFailed, "git exited with non-zero status: #{$?.exitstatus}"
+              raise Exceptions::CommandFailed.new(
+                'git',
+                "git exited with non-zero status: #{process.exitstatus}"
+              )
             end
           end
         end
@@ -363,7 +390,7 @@ module OpenProject
             args.unshift('-c', 'core.quotepath=false')
           end
 
-          args.unshift('--git-dir', (root_url || url))
+          args.unshift('--git-dir', (root_url.presence || url))
         end
       end
     end

@@ -27,44 +27,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class Scm::DeleteRepositoryJob
+  def initialize(root, managed_path)
+    @managed_root = root
+    @managed_path = managed_path
+  end
 
-describe OpenProject::Scm::Manager do
-  describe '.configured' do
-    subject { described_class.configured }
+  def perform
+    Dir.chdir(@managed_root) do
+      # Delete the repository project itself.
+      FileUtils.remove_dir(@managed_path)
 
-    let(:test_scm_class) do
-      Class.new
+      # Traverse all parent directories within repositories,
+      # searching for empty project directories.
+      parent = Pathname.new(@managed_path).parent
+      remove_empty_parents(parent)
     end
+  end
 
-    before do
-      Repository.const_set('TestScm', test_scm_class)
-      OpenProject::Scm::Manager.add 'TestScm'
-    end
+  def destroy_failed_jobs?
+    true
+  end
 
-    after do
-      Repository.send(:remove_const, :TestScm)
-      OpenProject::Scm::Manager.delete 'TestScm'
-    end
+  private
 
-    context 'scm is configured' do
-      before do
-        allow(test_scm_class).to receive(:configured?).and_return(true)
-      end
+  def remove_empty_parents(parent)
+    managed_root_path = Pathname.new(@managed_root)
+    loop do
+      # Stop deletion upon finding a non-empty parent repository
+      break unless parent.children.empty?
 
-      it 'is included' do
-        is_expected.to include('TestScm')
-      end
-    end
+      # Stop if we're in the project root
+      break if parent == managed_root_path
 
-    context 'scm is not configured' do
-      before do
-        allow(test_scm_class).to receive(:configured?).and_return(false)
-      end
+      FileUtils.rmdir(parent)
 
-      it 'is included' do
-        is_expected.to_not include('TestScm')
-      end
+      parent = parent.parent
     end
   end
 end

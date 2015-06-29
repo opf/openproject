@@ -35,7 +35,7 @@ module OpenProject
       class Base
         def initialize(url, root_url = nil)
           @url = url
-          @root_url = root_url.blank? ? retrieve_root_url : root_url
+          @root_url = root_url
         end
 
         def local?
@@ -46,12 +46,20 @@ module OpenProject
           !local?
         end
 
+        def available?
+          check_availability!
+          true
+        rescue Exceptions::ScmError => e
+          logger.error("Failed to retrieve availability of repository: #{e.message}")
+          false
+        end
+
         def logger
           Rails.logger
         end
 
-        def adapter_name
-          'Base'
+        def vendor
+          self.class.name.demodulize
         end
 
         def root_url

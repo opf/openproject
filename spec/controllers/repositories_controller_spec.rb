@@ -38,7 +38,7 @@ describe RepositoriesController, type: :controller do
     FactoryGirl.create(:user, member_in_project: project,
                               member_through_role: role)
   }
-  let(:repository) { FactoryGirl.create(:repository, project: project) }
+  let(:repository) { FactoryGirl.create(:repository, scm_type: 'local', project: project) }
 
   let(:user) do
     FactoryGirl.create(:user, member_in_project: project,
@@ -48,9 +48,11 @@ describe RepositoriesController, type: :controller do
   let(:repository) do
     allow(Setting).to receive(:enabled_scm).and_return(['Filesystem'])
     repo = FactoryGirl.build_stubbed(:repository,
+                                     scm_type: 'local',
                                      project: project)
     allow(repo).to receive(:default_branch).and_return('master')
     allow(repo).to receive(:branches).and_return(['master'])
+    allow(repo).to receive(:save).and_return(true)
 
     repo
   end
@@ -60,7 +62,7 @@ describe RepositoriesController, type: :controller do
     allow(project).to receive(:repository).and_return(repository)
   end
 
-  describe '#edit' do
+  describe 'manages the repository' do
     let(:role) { FactoryGirl.create(:role, permissions: [:manage_repository]) }
 
     before do
@@ -68,32 +70,41 @@ describe RepositoriesController, type: :controller do
       allow(controller).to receive(:authorize).and_return(true)
     end
 
-    shared_examples_for 'successful response' do
+    shared_examples_for 'successful settings response' do
       it 'is successful' do
         expect(response).to be_success
       end
 
       it 'renders the template' do
-        expect(response).to render_template 'projects/settings/repository'
+        expect(response).to render_template 'repositories/settings/repository_form'
       end
     end
 
-    context 'GET' do
+    context 'with #edit' do
       before do
         xhr :get, :edit
       end
 
-      it_behaves_like 'successful response'
+      it_behaves_like 'successful settings response'
     end
 
-    context 'POST' do
+    context 'with #update' do
       before do
-        allow(repository).to receive(:save).and_return(true)
-
-        xhr :post, :edit
+        xhr :put, :update
       end
 
-      it_behaves_like 'successful response'
+      it_behaves_like 'successful settings response'
+    end
+
+    context 'with #create' do
+      before do
+        xhr :post, :create, scm_vendor: 'filesystem', scm_type: 'local'
+      end
+
+      it 'renders a JS redirect' do
+        expect(response.body)
+          .to match(/window\.location = '\/projects\/(#{project.identifier}|#{project.id})\/settings\/repository'/)
+      end
     end
   end
 

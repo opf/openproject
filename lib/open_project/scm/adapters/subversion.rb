@@ -36,7 +36,11 @@ module OpenProject
         include LocalClient
 
         def client_command
-          @client_command ||= scm_config[:subversion_client_command] || 'svn'
+          @client_command ||= config[:client_command] || 'svn'
+        end
+
+        def svnadmin_command
+          @svnadmin_command ||= (config[:svnadmin_command] || 'svnadmin')
         end
 
         def client_version
@@ -59,6 +63,40 @@ module OpenProject
           super(url, root_url)
           @login = login
           @password = password
+        end
+
+        ##
+        # Checks the status of this repository and throws unless it can be accessed
+        # correctly by the adapter.
+        #
+        # @raise [ScmUnavailable] raised when repository is unavailable.
+        def check_availability!
+          # Check whether we can access svn repository uuid
+          popen3(['info', '--xml', target]) do |stdout, stderr|
+            doc = Nokogiri::XML(stdout.read)
+
+            raise Exceptions::ScmEmpty if doc.at_xpath('/info/entry/commit[@revision="0"]')
+
+            return if doc.at_xpath('/info/entry/repository/uuid')
+
+            raise Exceptions::ScmUnauthorized.new if io_include?(stderr,
+                                                                 'E215004: Authentication failed')
+          end
+
+          raise Exceptions::ScmUnavailable
+        end
+
+        ##
+        # Creates an empty repository using svnadmin
+        #
+        def create_empty_svn
+          _, err, code = Open3.capture3(svnadmin_command, 'create', root_url)
+          if code != 0
+            msg = "Failed to create empty subversion repository with `#{svnadmin_command} create`"
+            logger.error(msg)
+            logger.debug("Error output is #{err}")
+            raise CommandFailed.new(client_command, msg)
+          end
         end
 
         # Get info about the svn repository
@@ -142,7 +180,7 @@ module OpenProject
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
           cmd = ['blame', "#{target(path)}@#{identifier}"]
           blame = Annotate.new
-          popen3(cmd) do |io|
+          popen3(cmd) do |io, _|
             io.each_line do |line|
               next unless line =~ %r{^\s*(\d+)\s*(\S+)\s(.*)$}
               blame.add_line($3.rstrip, Revision.new(identifier: $1.to_i, author: $2.strip))
@@ -188,7 +226,7 @@ module OpenProject
             name: URI.unescape(name),
             path: ((path.empty? ? '' : "#{path}/") + name),
             kind: kind,
-            size: size.nil? ? nil : size.to_i,
+            size: size.empty? ? nil : size.to_i,
             lastrev: revision
           )
         end
@@ -267,13 +305,11 @@ module OpenProject
         # from +Open3#popen3+.
         def popen3(args, &block)
           cmd = build_svn_cmd(args)
-          super(cmd) do |_stdin, stdout, _stderr, wait_thr|
-            block.call(stdout)
+          super(cmd) do |_stdin, stdout, stderr, wait_thr|
+            block.call(stdout, stderr)
 
             process = wait_thr.value
-            if process.exitstatus != 0
-              raise CommandFailed, "git exited with non-zero status: #{$?.exitstatus}"
-            end
+            return process.exitstatus == 0
           end
         end
       end

@@ -53,6 +53,7 @@ describe Repository::Git, type: :model do
     @project = Project.find(3)
     @repository = Repository::Git.create(
       project:       @project,
+      scm_type:      'local',
       url:           git_repository_path,
       path_encoding: 'ISO-8859-1'
     )

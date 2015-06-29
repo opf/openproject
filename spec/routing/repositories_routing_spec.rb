@@ -57,11 +57,21 @@ describe RepositoriesController, type: :routing do
                                                                        action: 'edit',
                                                                        project_id: 'testproject')
     }
+  end
 
+  describe 'create' do
     it {
-      expect(post('/projects/testproject/repository/edit')).to route_to(controller: 'repositories',
-                                                                        action: 'edit',
-                                                                        project_id: 'testproject')
+      expect(post('/projects/testproject/repository/')).to route_to(controller: 'repositories',
+                                                                    action: 'create',
+                                                                    project_id: 'testproject')
+    }
+  end
+
+  describe 'update' do
+    it {
+      expect(put('/projects/testproject/repository/')).to route_to(controller: 'repositories',
+                                                                   action: 'update',
+                                                                   project_id: 'testproject')
     }
   end
 

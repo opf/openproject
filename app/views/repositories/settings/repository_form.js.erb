@@ -1,0 +1,13 @@
+(function($) {
+
+<% content = render partial: 'repositories/settings' %>
+$('#tab-content-repository').html('<%= escape_javascript content %>');
+
+<% unless flash.empty? %>
+    <%# TODO: Double flash from regular flash %>
+    var div_content = $('#content');
+    div_content.find('.flash').remove();
+    div_content.prepend('<%= render_flash_messages %>');
+<% end %>
+
+}(jQuery));

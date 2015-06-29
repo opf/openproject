@@ -32,8 +32,10 @@ require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
 require_dependency 'open_project/scm/adapters'
 
-class ChangesetNotFound < Exception; end
-class InvalidRevisionParam < Exception; end
+class ChangesetNotFound < Exception
+end
+class InvalidRevisionParam < Exception
+end
 
 class RepositoriesController < ApplicationController
   include PaginationHelper
@@ -42,12 +44,14 @@ class RepositoriesController < ApplicationController
   menu_item :settings, only: :edit
   default_search_scope :changesets
 
-  before_filter :find_repository, except: :edit
-  before_filter :find_project, only: :edit
+  before_filter :find_project, only: [:create, :update, :edit]
+  before_filter :find_repository, except: [:edit, :update, :create, :destroy]
+  before_filter :check_repository_availability, only: [:show]
+  before_filter :find_project_by_project_id, only: :destroy
   before_filter :authorize
   accept_key_auth :revisions
 
-  rescue_from OpenProject::Scm::Adapters::CommandFailed, with: :show_error_command_failed
+  rescue_from OpenProject::Scm::Exceptions::CommandFailed, with: :show_error_command_failed
 
   def edit
     @repository = @project.repository || build_repository
@@ -57,17 +61,24 @@ class RepositoriesController < ApplicationController
       @repository.save
     end
 
-    menu_reload_required = if @repository.persisted? && !@project.repository
-                             @project.reload # needed to reload association
-                           end
+    render 'repositories/settings/repository_form'
+  end
 
-    respond_to do |format|
-      format.js do
-        render template: '/projects/settings/repository',
-               locals: { project: @project,
-                         reload_menu: menu_reload_required }
-      end
+  def update
+    @repository = @project.repository
+    update_repository(params.fetch(:repository, {}))
+    render 'repositories/settings/repository_form'
+  end
+
+  def create
+    @repository = Scm::RepositoryFactoryService.new(@project, params).build
+    if @repository.nil?
+      flash[:error] = l('repositories.errors.build_failed')
+    else
+      flash[:notice] = l('repositories.create_successful')
     end
+
+    render js: "window.location = '#{settings_repository_tab_path}'"
   end
 
   def committers
@@ -86,8 +97,16 @@ class RepositoriesController < ApplicationController
   end
 
   def destroy
-    @repository.destroy
-    redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'repository'
+    @repository = @project.repository
+    unless @repository.nil?
+      service = Scm::DeleteRepositoryService.new(@repository)
+      if service.call
+        flash[:notice] = l 'repositories.delete_successful'
+      else
+        flash[:error] = l service.localized_rejected_reason
+      end
+    end
+    redirect_to settings_repository_tab_path
   end
 
   def show
@@ -121,7 +140,8 @@ class RepositoriesController < ApplicationController
   end
 
   def revisions
-    @changesets = @repository.changesets.includes(:user, :repository)
+    @changesets = @repository.changesets
+                  .includes(:user, :repository)
                   .page(params[:page])
                   .per_page(per_page_param)
 
@@ -146,6 +166,7 @@ class RepositoriesController < ApplicationController
     if 'raw' == params[:format] ||
        (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
        !is_entry_text_data?(@content, @path)
+
       # Force the download
       send_opt = { filename: filename_for_content_disposition(@path.split('/').last) }
       send_type = Redmine::MimeType.of(@path)
@@ -175,6 +196,7 @@ class RepositoriesController < ApplicationController
     end
     true
   end
+
   private :is_entry_text_data?
 
   def annotate
@@ -205,9 +227,10 @@ class RepositoriesController < ApplicationController
       (show_error_not_found; return) unless @diff
       filename = "changeset_r#{@rev}"
       filename << "_r#{@rev_to}" if @rev_to
-      send_data @diff.join, filename: "#{filename}.diff",
-                            type: 'text/x-patch',
-                            disposition: 'attachment'
+      send_data @diff.join,
+                filename: "#{filename}.diff",
+                type: 'text/x-patch',
+                disposition: 'attachment'
     else
       @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
       @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
@@ -246,6 +269,7 @@ class RepositoriesController < ApplicationController
       end
       data = graph_commits_per_author(@repository)
     end
+
     if data
       headers['Content-Type'] = 'image/svg+xml'
       send_data(data, type: 'image/svg+xml', disposition: 'inline')
@@ -257,6 +281,20 @@ class RepositoriesController < ApplicationController
   private
 
   REV_PARAM_RE = %r{\A[a-f0-9]*\Z}i
+
+  def update_repository(repo_params)
+    @repository.attributes = @repository.class.permitted_params(repo_params)
+
+    if @repository.save
+      flash.now[:notice] = l('repositories.update_settings_successful')
+    else
+      flash.now[:error] = @repository.errors.full_messages.join('\n')
+    end
+  end
+
+  def settings_repository_tab_path
+    url_for controller: '/projects', action: 'settings', id: @project, tab: 'repository'
+  end
 
   def find_repository
     @project = Project.find(params[:project_id])
@@ -278,7 +316,7 @@ class RepositoriesController < ApplicationController
   end
 
   def build_repository
-    repository = Repository.factory(params[:repository_scm])
+    repository = Repository.build_scm_class(params[:scm_vendor]).new
 
     if repository.nil?
       flash[:error] = l(:repository_factory_error)
@@ -293,11 +331,15 @@ class RepositoriesController < ApplicationController
     repository
   end
 
+  def check_repository_availability
+    @repository.scm.check_availability!
+  end
+
   def show_error_not_found
     render_error message: l(:error_scm_not_found), status: 404
   end
 
-  # Handler for OpenProject::Scm::Adapters::CommandFailed exception
+  # Handler for OpenProject::Scm::Exceptions::CommandFailed exception
   def show_error_command_failed(exception)
     render_error l(:error_scm_command_failed, exception.message)
   end

@@ -26,12 +26,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<% partial = escape_javascript render(partial: 'projects/settings/repository') %>
-jQuery('#tab-content-repository').html("<%= partial %>");
-
-<% if reload_menu %>
-  jQuery('#main-menu').html("<%= escape_javascript(render_main_menu(project)) %>");
-<% end %>
-
-activateFlashError();
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend">
+    <%= l('repositories.subversion.managed_title') %>
+  </legend>
+  <div class="form--field">
+    <%= form.text_field(:url,
+                        label: l('repositories.subversion.managed_url'),
+                        value: repository.managed_repository_url,
+                        size: 60,
+                        disabled: true
+        ) %>
+    <div class="form--field-instructions">
+      <%= l('repositories.subversion.instructions.managed_url') %>
+    </div>
+  </div>
+</fieldset>

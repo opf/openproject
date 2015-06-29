@@ -36,6 +36,7 @@ describe Repository::Filesystem, type: :model do
 
     with_existing_filesystem_scm do |repo_path|
       assert @repository = Repository::Filesystem.create(project: @project,
+                                                         scm_type: 'local',
                                                          url: repo_path)
     end
   end

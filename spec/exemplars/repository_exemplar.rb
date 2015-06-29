@@ -30,6 +30,7 @@
 class Repository < ActiveRecord::Base
   generator_for type: 'Repository::Subversion'
   generator_for :url, method: :next_url
+  generator_for :scm_type, 'local'
 
   def self.next_url
     @last_url ||= 'file:///test/svn'

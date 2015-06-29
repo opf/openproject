@@ -31,27 +31,32 @@ module OpenProject
   module Scm
     class Manager
       class << self
-        def all
-          @scms
+        def registered
+          @scms ||= {}
         end
 
-        def configured
-          @scms.select do |scm_name|
-            klass = Repository.const_get(scm_name)
+        def vendors
+          @scms.keys
+        end
 
-            klass.configured?
-          end
+        ##
+        # Returns all enabled repositories as a Hash
+        # { vendor_name: repository class constant }
+        def enabled
+          registered.select { |scm| Setting.enabled_scm.include?(scm) }
         end
 
         # Add a new SCM adapter and repository
         def add(scm_name)
-          @scms ||= []
-          @scms << scm_name
+          # Force model lookup to avoid
+          # const errors later on.
+          klass = Repository.const_get(scm_name)
+          registered[scm_name] = klass
         end
 
         # Remove a SCM adapter from Redmine's list of supported scms
         def delete(scm_name)
-          @scms.delete(scm_name)
+          registered.delete(scm_name)
         end
       end
     end

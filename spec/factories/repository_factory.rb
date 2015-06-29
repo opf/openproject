@@ -30,6 +30,20 @@ FactoryGirl.define do
   factory :repository, class: Repository::Filesystem do
     # Setting.enabled_scm should include "Filesystem" to successfully save the created repository
     url 'file:///tmp/test_repo'
+    scm_type 'local'
+    project
+  end
+
+  factory :repository_subversion, class: Repository::Subversion do
+    url 'file://tmp/svn_test_repo'
+    scm_type 'existing'
+    project
+  end
+
+  factory :repository_git, class: Repository::Git do
+    url 'file://tmp/git_test_repo'
+    scm_type 'local'
+    path_encoding 'UTF-8'
     project
   end
 end

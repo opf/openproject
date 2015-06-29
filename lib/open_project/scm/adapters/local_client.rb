@@ -41,9 +41,9 @@ module OpenProject
 
         ##
         # Reads the configuration for this strategy from OpenProject's `configuration.yml`.
-        def scm_config
-          OpenProject::Configuration[:scm]
-          %w(scm global_basic_auth).inject(config) do |acc, key|
+        def config
+          scm_config = OpenProject::Configuration
+          ['scm', vendor].inject(scm_config) do |acc, key|
             HashWithIndifferentAccess.new acc[key]
           end
         end
@@ -99,6 +99,19 @@ module OpenProject
           shell_quote("#{base}/#{path}".gsub(/[?<>\*]/, ''))
         end
 
+        ##
+        # Returns true if any line of the IO object
+        # has a line that +include?+ the given part.
+        #
+        # @param [IO] io            An IO object from Open3.
+        # @param [String] part      The string parameter to +contains?+
+        # @return [Boolean or nil]  True iff any line of io includes the part
+        def io_include?(io, part)
+          io.each_line do |l|
+            return true if l.include?(part)
+          end
+        end
+
         # Executes the given arguments for +client_command+ on the shell
         # and returns the resulting stdout.
         #
@@ -113,7 +126,7 @@ module OpenProject
             error_msg = "SCM command failed: Non-zero exit code (#{code}) for `#{client_command}`"
             logger.error(error_msg)
             logger.debug("Error output is #{err}")
-            raise CommandFailed.new(client_command, stripped_command(args), error_msg)
+            raise Exceptions::CommandFailed.new(client_command, error_msg, err)
           end
 
           output
@@ -127,10 +140,12 @@ module OpenProject
         def popen3(args, opts = {}, &block)
           logger.debug "Shelling out: `#{stripped_command(args)}`"
           Open3.popen3(client_command, *args, opts, &block)
+        rescue Exceptions::ScmError => e
+          raise e
         rescue => e
           error_msg = "SCM command for `#{client_command}` failed: #{strip_credential(e.message)}"
           logger.error(error_msg)
-          raise CommandFailed.new(client_command, stripped_command(args), error_msg)
+          raise Exceptions::CommandFailed.new(client_command, error_msg)
         end
 
         ##

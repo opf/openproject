@@ -38,12 +38,38 @@ class Repository::Subversion < Repository
     OpenProject::Scm::Adapters::Subversion
   end
 
-  def self.scm_name
-    'Subversion'
+  def configure(_args)
+    if managed?
+      unless manageable?
+        raise BuildError.new I18n.t('repositories.managed.error_not_manageable')
+      end
+
+      self.root_url = managed_repository_path
+      self.url = managed_repository_url
+    end
+  end
+
+  def self.permitted_params(params)
+    params.permit(:url, :login, :password)
+  end
+
+  def supported_types
+    types = [:existing]
+    types << MANAGED_TYPE if manageable?
+
+    types
+  end
+
+  def managed_repo_created
+    scm.create_empty_svn
   end
 
   def supports_directory_revisions?
     true
+  end
+
+  def repository_identifier
+    "#{super}.svn"
   end
 
   def repo_log_encoding

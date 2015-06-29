@@ -40,6 +40,10 @@ module OpenProject
           @path_encoding = path_encoding || 'UTF-8'
         end
 
+        def check_availability!
+          nil
+        end
+
         def format_path_ends(path, leading = true, trailling = true)
           path = leading ? with_leading_slash(path) : without_leading_slash(path)
           trailling ? with_trailling_slash(path) : without_trailling_slash(path)
@@ -49,7 +53,7 @@ module OpenProject
           Info.new(root_url: target,
                    lastrev: nil
                   )
-        rescue CommandFailed
+        rescue Exceptions::CommandFailed
           return nil
         end
 
@@ -61,7 +65,7 @@ module OpenProject
             e_utf8 = scm_encode('UTF-8', @path_encoding, e1)
             next if e_utf8.blank?
             relative_path_utf8 = format_path_ends(
-                (format_path_ends(path, false, true) + e_utf8), false, false)
+              (format_path_ends(path, false, true) + e_utf8), false, false)
             t1_utf8 = target(relative_path_utf8)
             t1 = scm_encode(@path_encoding, 'UTF-8', t1_utf8)
             relative_path = scm_encode(@path_encoding, 'UTF-8', relative_path_utf8)
@@ -85,7 +89,7 @@ module OpenProject
           entries.sort_by_name
         rescue  => err
           logger.error "scm: filesystem: error: #{err.message}"
-          raise CommandFailed.new('filesystem', '', err.message)
+          raise Exceptions::CommandFailed.new('filesystem', err.message)
         end
 
         def cat(path, _identifier = nil)
@@ -93,7 +97,7 @@ module OpenProject
           File.new(p, 'rb').read
         rescue  => err
           logger.error "scm: filesystem: error: #{err.message}"
-          raise CommandFailed.new('filesystem', '', err.message)
+          raise Exceptions::CommandFailed.new('filesystem', err.message)
         end
 
         private

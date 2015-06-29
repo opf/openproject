@@ -47,6 +47,7 @@ describe RepositoriesController, 'Git', type: :controller do
     User.current = nil
     @repository = Repository::Git.create(
       project: Project.find(3),
+      scm_type: 'local',
       url:     git_repository_path,
       path_encoding: 'ISO-8859-1'
     )
@@ -146,7 +147,7 @@ describe RepositoriesController, 'Git', type: :controller do
     get :changes, project_id: 3, path: 'images/edit.png'
     assert_response :success
     assert_template 'changes'
-    assert_tag tag: 'h2', content: 'edit.png'
+    assert_tag tag: 'h3', content: 'edit.png'
   end
 
   it 'should entry show' do
@@ -223,7 +224,7 @@ describe RepositoriesController, 'Git', type: :controller do
     get :annotate, project_id: 3, rev: 'deff7', path: 'sources/watchers_controller.rb'
     assert_response :success
     assert_template 'annotate'
-    assert_tag tag: 'h2', content: /@ deff712f/
+    assert_tag tag: 'h3', content: /@ deff712f/
   end
 
   it 'should annotate binary file' do

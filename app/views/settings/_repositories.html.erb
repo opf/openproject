@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= link_to_function l(:label_generate_key), "if ($('settings_sys_api_key').disabled == false) { $('settings_sys_api_key').value = randomKey(20) }" %>
       </span>
     </div>
-    <div class="form--field"><%= setting_multiselect(:enabled_scm, OpenProject::Scm::Manager.configured) %></div>
+    <div class="form--field"><%= setting_multiselect(:enabled_scm, OpenProject::Scm::Manager.vendors) %></div>
     <div class="form--field">
       <%= setting_text_field :repositories_encodings, :size => 60 %>
       <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>

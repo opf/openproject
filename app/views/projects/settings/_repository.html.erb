@@ -27,11 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= remote_form_for :repository, @repository,
-                   :url => { :controller => '/repositories', :action => 'edit', :id => @project },
-                   :builder => TabularFormBuilder,
-                   :lang => current_language,
-                   html: { class: 'form' } do |f| %>
+<%= javascript_include_tag "repositories_remote_select.js" %>
+<%= form_for @repository,
+             remote: true,
+             url: { controller: '/repositories', action: 'edit', id: @project },
+             builder: TabularFormBuilder,
+             lang: current_language,
+             html: { class: 'form' } do |f| %>
 
   <%= error_messages_for 'repository' %>
 

@@ -29,43 +29,35 @@
 
 ##
 # Implements the asynchronous creation of a local repository.
-class DeleteUserService < Struct.new :repository
-  ##
-  # Deletes the given user if allowed.
-  #
-  # @return True if the user deletion has been initiated, false otherwise.
-  def call
-    if deletion_allowed?
-      # as destroying users is a lengthy process we handle it in the background
-      # and lock the account now so that no action can be performed with it
-      user.lock!
-      Delayed::Job.enqueue DeleteUserJob.new(user)
-
-      logout! if self_delete?
-
-      true
-    else
-      false
-    end
-  end
-
+Scm::CreateManagedRepositoryService = Struct.new :repository do
   ##
   # Checks if a given repository may be created and managed locally.
+  # Registers an asynchronous job to create the repository on disk.
   #
-  # @param repository [Repository] SCM repository to be created
-  def self.allowed?(repository)
-    enabled = config[:git]
-    if repository.managed_by_openproject?
-      Setting.users_deletable_by_self?
-    else
-      actor.admin && Setting.users_deletable_by_admins?
+  # @return True if the repository creation request has been initiated, false otherwise.
+  def call
+    if repository.managed? && repository.manageable?
+
+      # Create necessary changes to repository to mark
+      # it as managed by OP, but create asynchronously.
+      managed_path = repository.managed_repository_path
+
+      # Cowardly refusing to override existing local repository
+      if File.directory?(managed_path)
+        @rejected = I18n.t('repositories.managed.error_exists_on_filesystem')
+        return false
+      end
+
+      Delayed::Job.enqueue Scm::CreateRepositoryJob.new(repository, managed_path)
+      return true
     end
+
+    false
   end
 
-  private
-
-  def self.config
-    OpenProject::Configuration[:scm].presence || {}
+  ##
+  # Returns the error symbol
+  def localized_rejected_reason
+    @rejected ||= I18n.t('repositories.managed.error_not_manageable')
   end
-
 end

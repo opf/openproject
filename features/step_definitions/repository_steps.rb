@@ -40,7 +40,7 @@ Given(/^the project "(.*?)" has a repository$/) do |project_name|
                            url: repo_path,
                            project: project)
 
-  Setting.enabled_scm = Setting.enabled_scm << repo.scm_name
+  Setting.enabled_scm = Setting.enabled_scm << repo.vendor
 
   repo.save!
 end

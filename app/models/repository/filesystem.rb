@@ -36,19 +36,20 @@ class Repository::Filesystem < Repository
   validate :validate_whitelisted_url,
            :validate_url_is_dir
 
-  ATTRIBUTE_KEY_NAMES = {
-    'url'          => 'Root directory',
-  }
-  def self.human_attribute_name(attribute_key_name, options = {})
-    ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
+  def configure(_args)
+    nil
+  end
+
+  def self.permitted_params(params)
+    params.permit(:url)
+  end
+
+  def supported_types
+    [:local]
   end
 
   def self.scm_adapter_class
     OpenProject::Scm::Adapters::FileSystem
-  end
-
-  def self.scm_name
-    'Filesystem'
   end
 
   def self.configured?

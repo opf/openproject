@@ -42,6 +42,7 @@ describe RepositoriesController, 'Filesystem', type: :controller do
     with_existing_filesystem_scm do |repo_path|
       @repository = Repository::Filesystem.create(project: Project.find(PRJ_ID),
                                                   url:     repo_path,
+                                                  scm_type: 'local',
                                                   path_encoding: nil)
       assert @repository
     end

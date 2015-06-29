@@ -29,32 +29,6 @@
 module OpenProject
   module Scm
     module Adapters
-      class CommandFailed < StandardError
-        attr_reader :program
-        attr_reader :command
-        attr_reader :message
-
-        # Create a +CommandFailed+ exception for the executed program (e.g., 'svn'),
-        # the executed full command string (e.g., 'svn info --xml ...'),
-        # and a meaningful error message
-        #
-        # If the operation throws an exception or the operation we rethrow a
-        # +ShellError+ with a meaningful error message.
-        def initialize(program, command, message)
-          @program = program
-          @command = command
-          @message = message
-        end
-
-        def to_s
-          "CommandFailed(#{@program}) -> #{@message}"
-        end
-      end
-
-      # raised if scm command exited with error, e.g. unknown revision.
-      class ScmCommandAborted < CommandFailed
-      end
-
       class Entries < Array
         def sort_by_name
           sort do |x, y|
@@ -105,13 +79,13 @@ module OpenProject
 
       class Revisions < Array
         def latest
-          sort do |x, y|
+          sort { |x, y|
             if x.time.nil? or y.time.nil?
               0
             else
               x.time <=> y.time
             end
-          end.last
+          }.last
         end
       end
 

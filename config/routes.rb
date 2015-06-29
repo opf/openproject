@@ -333,9 +333,8 @@ OpenProject::Application.routes.draw do
       get :autocomplete, on: :collection
     end
 
-    resource :repository, only: [:destroy] do
+    resource :repository, controller: 'repositories', except: [:new] do
       get :edit # needed as show is configured manually with a wildcard
-      post :edit
       get :committers
       post :committers
       get :graph

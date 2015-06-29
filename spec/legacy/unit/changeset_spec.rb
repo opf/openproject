@@ -187,7 +187,8 @@ describe Changeset, type: :model do
     # repository of child project
     r = Repository::Subversion.create!(
       project: Project.find(3),
-      url:     'svn://localhost/test')
+      scm_type: 'existing',
+      url:      'svn://localhost/test')
 
     c = Changeset.new(repository: r,
                       committed_on: Time.now,
@@ -241,6 +242,7 @@ describe Changeset, type: :model do
         proj = Project.find(3)
         str = File.read(Rails.root.join('spec/fixtures/encoding/iso-8859-1.txt'))
         r = Repository::Filesystem.create!(project: proj,
+                                           scm_type: 'local',
                                            url: repo_url,
                                            log_encoding: 'ISO-8859-1')
         assert r
@@ -261,6 +263,7 @@ describe Changeset, type: :model do
         proj = Project.find(3)
         str = File.read(Rails.root.join('spec/fixtures/encoding/iso-8859-1.txt'))
         r = Repository::Filesystem.create!(project: proj,
+                                           scm_type: 'local',
                                            url: repo_url,
                                            log_encoding: 'UTF-8')
         assert r
@@ -284,6 +287,7 @@ describe Changeset, type: :model do
           str.force_encoding('ASCII-8BIT')
         end
         r = Repository::Filesystem.create!(project: proj,
+                                           scm_type: 'local',
                                            url: repo_url,
                                            log_encoding: 'ISO-2022-JP')
         assert r
@@ -314,6 +318,7 @@ describe Changeset, type: :model do
         end
         proj = Project.find(3)
         r = Repository::Filesystem.create!(project: proj,
+                                           scm_type: 'local',
                                            url: repo_url,
                                            log_encoding: 'ISO-8859-1')
         assert r
@@ -333,6 +338,7 @@ describe Changeset, type: :model do
       with_existing_filesystem_scm do |repo_url|
         proj = Project.find(3)
         r = Repository::Filesystem.create!(project: proj,
+                                           scm_type: 'local',
                                            url: repo_url,
                                            log_encoding: 'ISO-8859-1')
         assert r
@@ -355,6 +361,7 @@ describe Changeset, type: :model do
       with_existing_filesystem_scm do |repo_url|
         proj = Project.find(3)
         r = Repository::Filesystem.create!(project: proj,
+                                           scm_type: 'local',
                                            url: repo_url,
                                            log_encoding: 'ISO-8859-1')
         assert r

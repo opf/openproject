@@ -259,7 +259,7 @@ RAW
     to_test = {
       'commit:abcd' => changeset_link,
     }
-    r = Repository::Git.create!(project: @project, url: '/tmp/test/git')
+    r = Repository::Git.create!(project: @project, scm_type: 'local', url: '/tmp/test/git')
     assert r
     c = Changeset.new(repository: r,
                       committed_on: Time.now,
