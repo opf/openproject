@@ -33,7 +33,7 @@
       "href": "/api/v3/work_packages/820/available_watchers",
       "title": "Available Watchers"
     },
-    "watchChanges": {
+    "watch": {
       "href": "/api/v3/work_packages/820/watchers",
       "method": "post",
       "data": {

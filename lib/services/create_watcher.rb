@@ -34,7 +34,7 @@ class Services::CreateWatcher
     @watcher = Watcher.new(user: user, watchable: work_package)
   end
 
-  def run(success = -> {}, _failure = -> {})
+  def run(success: -> {}, failure: -> {})
     if @work_package.watcher_users.include?(@user)
       success.(created: false)
     else

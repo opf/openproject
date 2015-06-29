@@ -1699,6 +1699,7 @@ de:
       invalid_relation: "Die Beziehung ist ungültig."
       invalid_resource: "Für die Eigenschaft '%{property}' wird ein Link wie '%{expected}' erwartet. Gesandt wurde '%{actual}'."
       missing_content_type: "nicht angegeben"
+      missing_request_body: "Die Abfrage enthielt keinen Inhalt."
       multipart_body_error: "Die Anfrage enthielt nicht die erwarteten Multipart Abschnitte."
       multiple_errors: "Die Integrität mehrerer Eigenschaften wurde verletzt."
       writing_read_only_attributes: "Nur-lesbare Eigeschaften dürfen nicht geschrieben werden."

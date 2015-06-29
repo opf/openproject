@@ -169,7 +169,7 @@ module API
           end
 
           def self.watcher(id, work_package_id)
-            "#{work_package(work_package_id)}/watchers/#{id}"
+            "#{work_package_watchers(work_package_id)}/#{id}"
           end
 
           def self.work_packages
