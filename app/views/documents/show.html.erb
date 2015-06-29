@@ -62,7 +62,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="box">
   <p><%= render :partial => 'attachments/form' %></p>
   </div>
-  <%= submit_tag l(:button_add) %>
+  <%= styled_button_tag l(:button_add), class: "-highlight -with-icon icon-yes" %>
+
   <% end %>
 <% end %>
 
