@@ -545,7 +545,7 @@ class User < Principal
     if admin?
       Project.count
     else
-      Project.public.count + memberships.size
+      Project.public_projects.count + memberships.size
     end
   end
 
