@@ -49,7 +49,7 @@ GIT
 GIT
   remote: https://github.com/tessi/sprockets.git
   revision: 1e56fd0a92a9fda93dab4550ab3cf82138d097ac
-  branch: 2_2_2_backport2
+  ref: 1e56fd0a92a9fda9
   specs:
     sprockets (2.2.2.backport2)
       hike (~> 1.2)
@@ -186,7 +186,7 @@ GEM
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
     eventmachine (1.0.7)
-    excon (0.42.1)
+    excon (0.45.3)
     execjs (2.4.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
