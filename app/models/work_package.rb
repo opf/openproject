@@ -711,7 +711,7 @@ class WorkPackage < ActiveRecord::Base
           h[v.custom_field_id] = v.value
           h
         end
-      work_package.status = if options[:attributes] && options[:attributes][:status_id]
+      work_package.status = if options[:attributes] && options[:attributes][:status_id].present?
                               Status.find_by_id(options[:attributes][:status_id])
                             else
                               status
