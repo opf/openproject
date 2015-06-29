@@ -55,11 +55,11 @@ See doc/COPYRIGHT.rdoc for more details.
   </tbody>
 </table>
 
-<p><%= submit_tag l(:button_save), class: 'button -highlight' %></p>
+<p><%= styled_button_tag l(:button_save), class: '-with-icon icon-yes' %></p>
 <% end %>
 
 <h3><%=l('backlogs.rebuild_positions')%></h3>
 
 <%= styled_form_tag(:controller => '/projects', :action => "rebuild_positions", :id => @project) do %>
-  <p><%= submit_tag l('backlogs.rebuild'), class: 'button' %></p>
+  <p><%= styled_button_tag l('backlogs.rebuild') %></p>
 <% end %>
