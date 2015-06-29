@@ -29,12 +29,33 @@
 
 ##
 # Requires including class to implement #notification_mail.
-module MailNotificationJob
+class MailNotificationJob
   mattr_accessor :raise_exceptions
+
+  def initialize(recipient_id, author_id)
+    @recipient_id = recipient_id
+    @author_id    = author_id
+  end
 
   def perform
     notify
   end
+
+  def error(_job, e)
+    Rails.logger.error "notification failed (#{self.inspect}): #{e}"
+  end
+
+  protected
+
+  def recipient
+    @recipient ||= Principal.find(@recipient_id)
+  end
+
+  def author
+    @author ||= Principal.find(@author_id)
+  end
+
+  private
 
   def notify
     notification_mail.deliver
@@ -43,9 +64,5 @@ module MailNotificationJob
     Rails.logger.error "Cannot deliver notification (#{self.inspect})
                         as required record was not found: #{e}".squish
     raise e if raise_exceptions
-  end
-
-  def error(_job, e)
-    Rails.logger.error "notification failed (#{self.inspect}): #{e}"
   end
 end
