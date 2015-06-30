@@ -41,6 +41,12 @@ class MailNotificationJob
     execute_as recipient do
       notify
     end
+  rescue ActiveRecord::RecordNotFound => e
+    # Expecting this error if recipient user was deleted intermittently.
+    # Since we cannot recover from this error we catch it and move on.
+    Rails.logger.error "Cannot deliver notification (#{self.inspect})
+                        as required record was not found: #{e}".squish
+    raise e if raise_exceptions
   end
 
   def error(_job, e)
@@ -61,11 +67,6 @@ class MailNotificationJob
 
   def notify
     notification_mail.deliver
-  rescue ActiveRecord::RecordNotFound => e
-    # Since we cannot recover from this error we catch it and move on.
-    Rails.logger.error "Cannot deliver notification (#{self.inspect})
-                        as required record was not found: #{e}".squish
-    raise e if raise_exceptions
   end
 
   def execute_as(user)
