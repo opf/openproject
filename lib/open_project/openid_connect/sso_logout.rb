@@ -14,8 +14,8 @@ module OpenProject
       # the new user, and redirect to some page the script the
       # reauthentication doesn't care about.
       def successful_authentication(user)
-        if reauthentication? user, id_token
-          render text: 'reauthenticated'
+        if reauthentication?
+          finish_reauthentication!
         else
           super
         end
@@ -25,7 +25,7 @@ module OpenProject
         if params.include? :script
           logout_user
 
-          return render text: 'bye', status: 200
+          return finish_logout!
         end
 
         # If the user may view the site without being logged in we redirect back to it.
@@ -37,10 +37,6 @@ module OpenProject
         else
           super
         end
-      end
-
-      def reauthentication?(user, id_token)
-        id_token && user.identity_url.ends_with?(":#{id_token.sub}")
       end
     end
   end
