@@ -30,7 +30,7 @@
 class DeliverWorkPackageUpdatedJob < MailNotificationJob
   def initialize(recipient_id, journal_id, author_id)
     super(recipient_id, author_id)
-    @journal_id   = journal_id
+    @journal_id = journal_id
   end
 
   private
