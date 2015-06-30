@@ -63,7 +63,7 @@ shared_examples 'a mail notification job' do
     end
 
     it 'does not raise an error but fails silently' do
-      expect{ job.perform }.not_to raise_error
+      expect { job.perform }.not_to raise_error
     end
 
     context 'raising exceptions' do
@@ -94,7 +94,7 @@ shared_examples 'a mail notification job' do
     end
 
     it 'raises said error' do
-      expect{job.perform}.to raise_error(SocketError)
+      expect { job.perform }.to raise_error(SocketError)
     end
   end
 end
