@@ -28,33 +28,105 @@
 
 // NOTE: these are demo ski
 
-.notification-box
+//nm - notification messages
+$nm-font-size: rem-calc(13px)
+$nm-border-radius: rem-calc(2px)
+$nm-box-padding: rem-calc(10px 35px 10px 35px)
+$nm-font-color: $body-font-color
 
-  box-shadow: 1px 2px 3px #ddd
-  border-width: 1px
-  border-style: solid
-  padding: 10px 10px
+$nm-color-error-border: #ca3f3f
+$nm-color-error-icon: #ca3f3f
+$nm-color-error-background: #fedada
+
+$nm-color-success-border: #35c53f
+$nm-color-success-icon: #35c53f
+$nm-color-success-background: #d8fdd1
+
+$nm-color-warning-border: #b5b078
+$nm-color-warning-icon: #000
+$nm-color-warning-background: #f4f4aa
+
+$nm-color-default-border: #8fc0db
+$nm-color-default-background: #e3f5ff
+$nm-padding-default-box: rem-calc(10px)
+
+%nm-icon-error
+  @extend .icon-attention2:before
+  color: $nm-color-error-icon
+
+%nm-icon-success
+  @extend .icon-yes:before
+  color: $nm-color-success-icon
+
+%nm-icon-warning
+  @extend .icon-attention1:before
+  color: $nm-color-warning-icon
+
+
+@mixin messages-icon
+  @include icon-common
+  position: absolute
+  top: rem-calc(11px)
+  left: rem-calc(10px)
+  font-size: rem-calc(18px)
+
+.notification-box
+  box-shadow: rem-calc(1px 2px 3px) #dddddd
+  border: rem-calc(1px) solid $nm-color-default-border
+  padding: $nm-padding-default-box
+  border-radius: $nm-border-radius
+  font-size: $nm-font-size
+  position: relative
+  word-wrap: break-word
+  background-color: $nm-color-default-background
+  color: $nm-font-color
+
+  & .button
+    margin: rem-calc(10px 10px 0 0)
+
+  //@hack adapting to provided styles
+  //messy I dont have all the details for a magic resolve, this might change
+  & p, & ul
+    margin-bottom: 0
+  & p, & ul>li, & .button
+    font-size: $nm-font-size
+
+  &.-error, &.-success, &.-warning
+    padding: $nm-box-padding
 
   &.-error
-    background: #fedada
-    border-color: #ca3f3f
+    background-color: $nm-color-error-background
+    border-color: $nm-color-error-border
+    &::before
+      @include messages-icon
+      @extend %nm-icon-error
+
   &.-success
-    background: #d8fdd1
-    border-color: #35c53f
+    background-color: $nm-color-success-background
+    border-color: $nm-color-success-border
+    &::before
+      @include messages-icon
+      @extend %nm-icon-success
+
   &.-warning
-    background: #f4f4aa
-    border-color: #000
+    background-color: $nm-color-warning-background
+    border-color: $nm-color-warning-border
+    &::before
+      @include messages-icon
+      @extend %nm-icon-warning
 
-  .notification-box--icon
-    width: 20px
-    height: 20px
-    float: left
-    margin: 3px
-
-    &.-check::after
-      content: '\2714'
 
   .notification-box--close
-    float: right
-
-
+    position: absolute
+    top: rem-calc(10px)
+    right: rem-calc(10px)
+    color: #000000
+    background-color: rgba(0, 0, 0, 0.08)
+    border-radius: rem-calc(50px)
+    width: rem-calc(23px)
+    height: rem-calc(23px)
+    text-align: center
+    font-size: rem-calc(23px)
+    line-height: rem-calc(20px)
+    &:hover
+      text-decoration: none
