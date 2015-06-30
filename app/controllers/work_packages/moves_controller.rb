@@ -53,12 +53,12 @@ class WorkPackages::MovesController < ApplicationController
                                        :responsible_id,
                                        :start_date,
                                        :due_date,
+                                       :status_id,
                                        :priority_id,
                                        :follow,
                                        :new_type_id,
                                        :new_project_id,
-                                       ids: [],
-                                       status_id: [])
+                                       ids: [])
 
       if r = work_package.move_to_project(@target_project, new_type,  copy: @copy,
                                                                       attributes: permitted_params,
