@@ -559,4 +559,8 @@ class Query < ActiveRecord::Base
     end
     s.join(' AND ')
   end
+
+  def connection
+    self.class.connection
+  end
 end
