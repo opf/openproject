@@ -30,5 +30,41 @@
 require 'spec_helper'
 
 describe MailNotificationJob, type: :model do
-  # stub
+  class StubNoticationJob < MailNotificationJob
+    def initialize(recipient_id, author_id, mail_callback)
+      super(recipient_id, author_id)
+      @mail_callback = mail_callback
+    end
+
+    def notification_mail
+      @mail_callback.call
+    end
+  end
+
+  let(:recipient) { FactoryGirl.create(:user) }
+  let(:author) { FactoryGirl.create(:user) }
+  let(:mail) { double('a mail', deliver: nil) }
+  let(:mail_callback) { -> { mail } }
+  subject { StubNoticationJob.new(recipient.id, author.id, mail_callback) }
+
+  describe 'the recipient should become the current user during mail creation' do
+    let(:mail_callback) {
+      -> {
+        expect(User.current).to eql(recipient)
+        mail
+      }
+    }
+
+    it { subject.perform }
+  end
+
+  context 'for a known current user' do
+    let(:current_user) { FactoryGirl.create(:user) }
+
+    it 'resets to the previous current user after running' do
+      User.current = current_user
+      subject.perform
+      expect(User.current).to eql(current_user)
+    end
+  end
 end
