@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/finnlabs/awesome_nested_set.git
-  revision: 08897018fb1429a7676f07550276b20cde966931
-  branch: 2-1-rails4
+  revision: 47a2febba6b371bd7daec7087f8ea86444370c90
+  branch: v2.1.6-rails4
   specs:
-    awesome_nested_set (2.1.7)
+    awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
 
 GIT
