@@ -56,7 +56,7 @@ module OpenProject
         attr_accessor :store, :strategies, :realm
 
         def initialize
-          @store = false
+          @store = true
           @strategies = Set.new
         end
 
