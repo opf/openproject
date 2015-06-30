@@ -894,7 +894,7 @@ class Project < ActiveRecord::Base
 
   def allowed_permissions
     @allowed_permissions ||= begin
-      names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.all(select: :name).map(&:name)
+      names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.pluck(:name)
 
       Redmine::AccessControl.modules_permissions(names).map(&:name)
     end
