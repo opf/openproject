@@ -6,7 +6,6 @@ module OpenProject::XlsExport
 
 
         base.class_eval do
-          unloadable
         end
       end
 
