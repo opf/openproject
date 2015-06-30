@@ -75,9 +75,11 @@ module API
       private
 
       def readonly_attributes_unchanged
-        changed_attributes = model.changed - writable_attributes
+        invalid_changes = model.changed - writable_attributes
 
-        errors.add :error_readonly, changed_attributes unless changed_attributes.empty?
+        invalid_changes.each do |attribute|
+          errors.add attribute, :error_readonly
+        end
       end
 
       def run_attribute_validations

@@ -33,18 +33,14 @@ module API
       attr_reader :code, :message, :details, :errors
 
       def self.create(errors)
-        [:error_not_found, :error_unauthorized, :error_conflict, :error_readonly].each do |key|
-          if errors.has_key?(key)
-            case key
-            when :error_not_found
-              return ::API::Errors::NotFound.new(errors[key].join(' '))
-            when :error_unauthorized
-              return ::API::Errors::Unauthorized
-            when :error_conflict
-              return ::API::Errors::Conflict
-            when :error_readonly
-              return ::API::Errors::UnwritableProperty.new(errors[key].flatten)
-            end
+        if errors.has_key?(:base)
+          base_errors = errors.error_symbols_for(:base)
+          if base_errors.include?(:error_not_found)
+            return ::API::Errors::NotFound.new
+          elsif base_errors.include?(:error_unauthorized)
+            return ::API::Errors::Unauthorized.new
+          elsif base_errors.include?(:error_conflict)
+            return ::API::Errors::Conflict.new
           end
         end
 

@@ -42,7 +42,7 @@ module API
 
         def user_allowed_to_add
           unless @user.allowed_to?(:add_work_packages, model.project)
-            errors.add :error_unauthorized, ''
+            errors.add :base, :error_unauthorized
           end
         end
       end

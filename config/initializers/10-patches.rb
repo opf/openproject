@@ -73,6 +73,20 @@ end
 
 module ActiveModel
   class Errors
+    def add_with_storing_error_symbols(attribute, message = nil, options = {})
+      add_without_storing_error_symbols(attribute, message, options)
+
+      if message.is_a?(Symbol)
+        writable_error_symbols_for(attribute) << message
+      end
+    end
+
+    alias_method_chain :add, :storing_error_symbols
+
+    def error_symbols_for(attribute)
+      writable_error_symbols_for(attribute).dup
+    end
+
     def full_message(attribute, message)
       return message if attribute == :base
 
@@ -93,7 +107,35 @@ module ActiveModel
                                :message   => message
                              })
     end
+
+    private
+
+    def error_symbols
+      @error_symbols ||= Hash.new
+    end
+
+    def writable_error_symbols_for(attribute)
+      error_symbols[attribute] = [] unless error_symbols[attribute]
+
+      error_symbols[attribute]
+    end
   end
+end
+
+require 'reform/contract'
+
+class Reform::Contract::Errors
+  def merge_with_storing_error_symbols!(errors, prefix)
+    merge_without_storing_error_symbols!(errors, prefix)
+
+    errors.keys.each do |attribute|
+      errors.error_symbols_for(attribute).each do |symbol|
+        writable_error_symbols_for(attribute) << symbol
+      end
+    end
+  end
+
+  alias_method_chain :merge!, :storing_error_symbols
 end
 
 module ActionView
