@@ -38,8 +38,6 @@ require_dependency 'work_package'
 module OpenProject::Backlogs::Patches::WorkPackagePatch
   def self.included(base)
     base.class_eval do
-      unloadable
-
       include InstanceMethods
       extend ClassMethods
 

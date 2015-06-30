@@ -34,8 +34,6 @@
 #++
 
 module VersionSettingsHelper
-  unloadable
-
   def version_settings_fields(version, project)
     setting = version_setting_for_project(version, project)
 

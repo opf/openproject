@@ -38,8 +38,6 @@ require_dependency 'project'
 module OpenProject::Backlogs::Patches::ProjectPatch
   def self.included(base)
     base.class_eval do
-      unloadable
-
       has_and_belongs_to_many :done_statuses, :join_table => :done_statuses_for_project, :class_name => "Status"
 
       include InstanceMethods

@@ -38,8 +38,6 @@
 # objects within a sprint. For info about the taskboard, see
 # RbTaskboardsController
 class RbSprintsController < RbApplicationController
-  unloadable
-
   def update
     result  = @sprint.update_attributes(params.slice(:name,
                                                      :start_date,

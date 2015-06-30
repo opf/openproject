@@ -35,8 +35,6 @@
 
 # Base class of all controllers in Backlogs
 class RbApplicationController < ApplicationController
-  unloadable
-
   helper :rb_common
 
   before_filter :load_sprint_and_project, :check_if_plugin_is_configured, :authorize

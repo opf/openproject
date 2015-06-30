@@ -34,12 +34,8 @@
 #++
 
 module OpenProject::Backlogs::List
-  unloadable
-
   def self.included(base)
     base.class_eval do
-      unloadable
-
       acts_as_silent_list
 
       # Reorder list, if work_package is removed from sprint

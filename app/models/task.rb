@@ -36,8 +36,6 @@
 require 'date'
 
 class Task < WorkPackage
-  unloadable
-
   extend OpenProject::Backlogs::Mixins::PreventIssueSti
 
   def self.type

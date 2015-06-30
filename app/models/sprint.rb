@@ -36,8 +36,6 @@
 require 'date'
 
 class Sprint < Version
-  unloadable
-
   scope :open_sprints, lambda { |project|
     {
       :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC",

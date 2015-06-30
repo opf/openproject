@@ -38,8 +38,6 @@ require_dependency 'query'
 module OpenProject::Backlogs::Patches::QueryPatch
   def self.included(base)
     base.class_eval do
-      unloadable
-
       include InstanceMethods
 
       add_available_column(QueryColumn.new(:story_points, :sortable => "#{WorkPackage.table_name}.story_points"))

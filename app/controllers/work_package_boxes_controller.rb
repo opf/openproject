@@ -34,8 +34,6 @@
 #++
 
 class WorkPackageBoxesController < WorkPackagesController
-  unloadable
-
   helper :rb_common
 
   def show

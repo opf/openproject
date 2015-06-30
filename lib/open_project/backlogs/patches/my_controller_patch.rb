@@ -38,8 +38,6 @@ require_dependency 'my_controller'
 module OpenProject::Backlogs::Patches::MyControllerPatch
   def self.included(base)
     base.class_eval do
-      unloadable
-
       include InstanceMethods
 
       after_filter :save_backlogs_preferences, :only => [:account]

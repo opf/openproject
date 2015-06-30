@@ -34,8 +34,6 @@
 #++
 
 module OpenProject::Backlogs::Burndown
-  unloadable
-
   class Series < Array
     def initialize(*args)
       @unit = args.pop

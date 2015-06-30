@@ -34,7 +34,6 @@
 #++
 
 class RbQueriesController < RbApplicationController
-  unloadable
   include WorkPackagesFilterHelper
 
   def show

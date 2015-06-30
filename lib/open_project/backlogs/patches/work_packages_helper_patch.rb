@@ -36,8 +36,6 @@
 module OpenProject::Backlogs::Patches::WorkPackagesHelperPatch
   def self.included(base)
     base.class_eval do
-      unloadable
-
       def work_package_form_all_middle_attributes_with_backlogs(form, work_package, locals = {})
         attributes = work_package_form_all_middle_attributes_without_backlogs(form, work_package, locals)
 

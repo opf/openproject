@@ -34,8 +34,6 @@
 #++
 
 class RbTasksController < RbApplicationController
-  unloadable
-
   def create
     @task = Task.create_with_relationships(params, @project.id)
 

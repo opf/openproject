@@ -34,8 +34,6 @@
 #++
 
 module RbCommonHelper
-  unloadable
-
   def assignee_id_or_empty(story)
     story.assigned_to_id.to_s
   end
