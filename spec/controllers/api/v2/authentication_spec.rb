@@ -115,7 +115,7 @@ describe Api::V2::AuthenticationController, type: :controller do
       get :index, format: 'xml', key: api_key.reverse
 
       expect(response.status).to eq 401
-      expect(response.headers['WWW-Authenticate']).to eq 'Basic realm="OpenProject"'
+      expect(response.headers['WWW-Authenticate']).to eq 'Basic realm="OpenProject API"'
     end
 
     context 'with Session auth scheme requested' do
@@ -127,7 +127,20 @@ describe Api::V2::AuthenticationController, type: :controller do
         get :index, format: 'xml', key: api_key.reverse
 
         expect(response.status).to eq 401
-        expect(response.headers['WWW-Authenticate']).to eq 'Session realm="OpenProject"'
+        expect(response.headers['WWW-Authenticate']).to eq 'Session realm="OpenProject API"'
+      end
+    end
+
+    context 'with another default realm' do
+      before do
+        allow(OpenProject::Authentication::WWWAuthenticate)
+          .to receive(:default_realm).and_return 'Narnia'
+      end
+
+      it 'has another realm' do
+        get :index, format: 'xml', key: api_key.reverse
+
+        expect(response.headers['WWW-Authenticate']).to eq 'Basic realm="Narnia"'
       end
     end
   end
