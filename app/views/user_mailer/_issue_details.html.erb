@@ -37,6 +37,13 @@ See doc/COPYRIGHT.rdoc for more details.
   <li><%= WorkPackage.human_attribute_name(:responsible)   %>: <%= issue.responsible   %></li>
   <li><%= WorkPackage.human_attribute_name(:category)      %>: <%= issue.category      %></li>
   <li><%= WorkPackage.human_attribute_name(:fixed_version) %>: <%= issue.fixed_version %></li>
+  <li><%= WorkPackage.human_attribute_name(:start_date)    %>: <%= issue.start_date    %></li>
+  <li><%= WorkPackage.human_attribute_name(:due_date)      %>: <%= issue.due_date      %></li>
+  <li><%= WorkPackage.human_attribute_name(:estimated_hours)%>: <%= issue.estimated_hours %></li>
+
+  <% if Setting.work_package_done_ratio != 'disabled' %>
+    <li><%= WorkPackage.human_attribute_name(:done_ratio)    %>: <%= issue.done_ratio    %></li>
+  <% end %>
 
   <% issue.custom_field_values.each do |value| %>
     <li><%= value.custom_field.name %>: <%= show_value(value) %></li>
