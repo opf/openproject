@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/finnlabs/awesome_nested_set.git
-  revision: 47a2febba6b371bd7daec7087f8ea86444370c90
+  revision: 787a9cdcd4d11f9c09f4800520f5968c740110f4
   branch: v2.1.6-rails4
   specs:
     awesome_nested_set (2.1.6)
