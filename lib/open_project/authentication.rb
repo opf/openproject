@@ -97,7 +97,7 @@ module OpenProject
       end
 
       def default_realm
-        'OpenProject'
+        'OpenProject API'
       end
 
       def scope_realm(scope = nil)
