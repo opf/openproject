@@ -20,7 +20,6 @@
 #++
 
 class MyProjectsOverview < ActiveRecord::Base
-  unloadable
 
   after_initialize :initialize_default_values
 
