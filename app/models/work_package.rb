@@ -822,7 +822,7 @@ class WorkPackage < ActiveRecord::Base
         if average == 0
           average = 1
         end
-        done = leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+        done = leaves.joins(:status).sum("COALESCE(estimated_hours, #{average}) * (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
         progress = done / (average * leaves_count)
 
         self.done_ratio = progress.round
