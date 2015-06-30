@@ -35,4 +35,4 @@ require File.expand_path('../config/application', __FILE__)
 OpenProject::Application.load_tasks
 
 Rake::Task[:default].clear
-task :default => 'test:suite:run'
+task default: 'test:suite:run'
