@@ -22,7 +22,6 @@ end
 include OpenProject::Authentication::Scope
 
 api_v3_options = {
-  realm: 'OpenProject API',
   store: false
 }
 OpenProject::Authentication.update_strategies(API_V3, api_v3_options) do |_strategies|
