@@ -18,7 +18,6 @@
 #++
 
 class CostTypesController < ApplicationController
-  unloadable
 
   # Allow only admins here
   before_filter :require_admin

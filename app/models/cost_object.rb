@@ -20,7 +20,6 @@
 # A CostObject is an item that is created as part of the project.  These items
 # contain a collection of work packages.
 class CostObject < ActiveRecord::Base
-  unloadable
 
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :project

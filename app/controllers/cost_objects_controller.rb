@@ -18,7 +18,6 @@
 #++
 
 class CostObjectsController < ApplicationController
-  unloadable
 
   before_filter :find_cost_object, :only => [:show, :edit, :update, :copy]
   before_filter :find_cost_objects, :only => :destroy

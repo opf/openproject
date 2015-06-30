@@ -25,7 +25,6 @@ module OpenProject::Costs::Patches::WorkPackagePatch
 
     # Same as typing in the class
     base.class_eval do
-      unloadable
 
       belongs_to :cost_object, :inverse_of => :work_packages
       has_many :cost_entries, :dependent => :delete_all

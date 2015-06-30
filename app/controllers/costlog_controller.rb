@@ -18,7 +18,6 @@
 #++
 
 class CostlogController < ApplicationController
-  unloadable
 
   menu_item :work_packages
   before_filter :find_project, :authorize, :only => [:edit,
