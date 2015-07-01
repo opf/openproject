@@ -85,6 +85,7 @@ class WorkPackage < ActiveRecord::Base
   scope :visible, ->(*args) {
     includes(:project)
       .where(WorkPackage.visible_condition(args.first || User.current))
+      .references(:projects)
   }
 
   scope :in_status, -> (*args) do
@@ -1047,7 +1048,8 @@ class WorkPackage < ActiveRecord::Base
         " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
         " AND #{Version.table_name}.sharing <> 'system'",
         conditions))
-      .includes(:project, :fixed_version).each do |issue|
+      .includes(:project, :fixed_version)
+      .references(:versions).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
       unless issue.project.shared_versions.include?(issue.fixed_version)
         issue.fixed_version = nil

@@ -73,6 +73,7 @@ class Message < ActiveRecord::Base
   scope :visible, -> (*args) {
     includes(board: :project)
       .where(Project.allowed_to_condition(args.first || User.current, :view_messages))
+      .references(:projects)
   }
 
   safe_attributes 'subject', 'content', 'board_id'

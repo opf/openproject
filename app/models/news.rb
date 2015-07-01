@@ -55,6 +55,7 @@ class News < ActiveRecord::Base
   scope :visible, -> (*args) {
     includes(:project)
       .where(Project.allowed_to_condition(args.first || User.current, :view_news))
+      .references(:projects)
   }
 
   safe_attributes 'title', 'summary', 'description'
@@ -69,6 +70,7 @@ class News < ActiveRecord::Base
       .where(Project.allowed_to_condition(user, :view_news))
       .includes(:author, :project)
       .order("#{News.table_name}.created_on DESC")
+      .references(:users, :projects)
   end
 
   def self.latest_for(user, options = {})
@@ -79,6 +81,7 @@ class News < ActiveRecord::Base
     # TODO: remove the includes from here, it's required by Project.allowed_to_condition
     # News has nothing to do with it
     where(conditions).limit(limit).newest_first.includes(:author, :project)
+      .references(:users, :projects)
   end
 
   # table_name shouldn't be needed :(

@@ -455,6 +455,7 @@ class Query < ActiveRecord::Base
             .order(options[:order])
             .limit(options[:limit])
             .offset(options[:offset])
+            .references(:users)
 
     query
   rescue ::ActiveRecord::StatementInvalid => e

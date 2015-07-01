@@ -48,14 +48,17 @@ class Project < ActiveRecord::Base
   has_many :members, -> {
     includes(:user, :roles)
       .where("#{Principal.table_name}.type='User' AND #{User.table_name}.status=#{Principal::STATUSES[:active]}")
+      .references(:users, :roles)
   }
   has_many :possible_assignee_members, -> {
     includes(:principal, :roles)
       .where(Project.possible_principles_condition)
+      .references(:principals, :roles)
   }, class_name: 'Member'
   has_many :possible_responsible_members, -> {
     includes(:principal, :roles)
       .where(Project.possible_principles_condition)
+      .references(:principals, :roles)
   }, class_name: 'Member'
   has_many :memberships, class_name: 'Member'
   has_many :member_principals, -> {
@@ -465,6 +468,7 @@ class Project < ActiveRecord::Base
     if v_ids.any? && WorkPackage.includes(:project)
                      .where(["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
                         " AND #{WorkPackage.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
+                     .references(:projects)
                      .first
       return false
     end
@@ -580,6 +584,7 @@ class Project < ActiveRecord::Base
     @rolled_up_versions ||=
       Version.includes(:project)
       .where(["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
+      .references(:projects)
   end
 
   # Returns a scope of the Versions used by the project
@@ -595,6 +600,7 @@ class Project < ActiveRecord::Base
                                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
                                           " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
                                           '))')
+      .references(:projects)
     end
   end
 
