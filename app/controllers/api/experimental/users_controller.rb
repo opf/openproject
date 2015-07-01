@@ -49,7 +49,7 @@ module Api
       private
 
       def visible_users
-        visible_project_ids = Project.visible.all.map(&:id)
+        visible_project_ids = Project.visible.pluck(:id)
         desired_classes = if Setting.work_package_group_assignment?
                             ['User', 'Group']
                           else
