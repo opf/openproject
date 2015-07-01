@@ -36,7 +36,8 @@ module OpenProject
 
         def update_client!
           LobbyBoy.configure_client! host: host,
-                                     end_session_endpoint: end_session_endpoint
+                                     end_session_endpoint: end_session_endpoint,
+                                     on_logout_js_partial: 'session/warn_logout.js'
         end
 
         def update_provider!
