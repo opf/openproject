@@ -442,7 +442,7 @@ class Project < ActiveRecord::Base
   end
 
   def self.find_visible(user, *args)
-    with_scope(find: where(Project.visible_by(user))) do
+    where(Project.visible_by(user)).scoping do
       find(*args)
     end
   end
