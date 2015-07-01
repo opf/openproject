@@ -44,7 +44,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: '/news', project_id: nil, action: 'index' },
             if: Proc.new { User.current.allowed_to?(:view_news, nil, global: true) }
   menu.push :time_sheet,
-            { controller: '/time_entries', project_id: nil, action: 'show' },
+            { controller: '/time_entries', project_id: nil, action: 'index' },
             caption: I18n.t('label_time_sheet_menu'),
             if: Proc.new { User.current.allowed_to?(:view_time_entries, nil, global: true) }
   menu.push :help, OpenProject::Info.help_url,
