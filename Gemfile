@@ -186,7 +186,7 @@ group :development do
   gem 'thin'
   gem 'faker'
   gem 'quiet_assets'
-  gem 'rubocop', '~> 0.28'
+  gem 'rubocop', '~> 0.32'
 end
 
 group :development, :test do
