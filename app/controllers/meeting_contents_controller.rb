@@ -98,7 +98,8 @@ class MeetingContentsController < ApplicationController
       if recipients_with_errors == []
         flash[:notice] = l(:notice_successful_notification)
       else
-        flash[:error] = l(:error_notification_with_errors) + recipients_with_errors.map(&:name).join("; ")
+        flash[:error] = l(:error_notification_with_errors,
+                          recipients: recipients_with_errors.map(&:name).join('; '))
       end
     end
     redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
