@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
   let(:work_package) { FactoryGirl.create(:work_package) }
   let(:user) { FactoryGirl.build(:admin) }
-  let(:env) { { 'api.request.body' => { subject: 'foo' } } }
+  let(:env) { { 'api.request.body' => { 'subject' => 'foo' } } }
 
   let(:helper_class) {
     Class.new do
@@ -67,19 +67,23 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
       it 'should return a form' do
         expect(subject).to be_a(::API::V3::WorkPackages::CreateFormRepresenter)
       end
+
+      it 'should pass the request body into the form' do
+        expect(subject.to_json).to be_json_eql('foo'.to_json).at_path('_embedded/payload/subject')
+      end
     end
 
     context 'invalid parameters' do
       context 'validation errors' do
-        let(:env) { { 'api.request.body' => { subject: '' } } }
+        let(:env) { { 'api.request.body' => { 'subject' => '' } } }
 
         it 'does not raise for validation errors' do
-          expect(subject.validation_errors.any?).to be_truthy
+          expect(subject.validation_errors).not_to be_empty
         end
       end
 
       context 'other errors' do
-        let(:env) { { 'api.request.body' => { percentageDone: 1 } } }
+        let(:env) { { 'api.request.body' => { 'percentageDone' => 1 } } }
 
         subject do
           lambda do
