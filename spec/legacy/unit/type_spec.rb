@@ -48,8 +48,7 @@ describe ::Type, type: :model do
     Workflow.create!(role_id: 1, type_id: 1, old_status_id: 2, new_status_id: 3)
     Workflow.create!(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 5)
 
-    assert_kind_of Array, type.statuses.all
-    assert_kind_of Status, type.statuses.first
+    expect(type.statuses).to all be_kind_of Status
     assert_equal [2, 3, 5], ::Type.find(1).statuses.map(&:id)
   end
 
