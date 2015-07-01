@@ -156,7 +156,6 @@ describe ::Query::Results, type: :model do
                           .work_packages
                           .page(1)
                           .per_page(10)
-                          .all
 
           expect(work_packages).to match_array([wp_p2, wp2_p2])
         end
@@ -174,7 +173,6 @@ describe ::Query::Results, type: :model do
                           .work_packages
                           .page(1)
                           .per_page(10)
-                          .all
 
           expect(work_packages).to match_array([wp_p2, wp2_p2])
         end

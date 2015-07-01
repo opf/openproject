@@ -374,7 +374,7 @@ describe WorkPackages::MovesController, type: :controller do
                  notes: note
           end
 
-          subject { WorkPackage.all(limit: 1, order: 'id desc').last.journals }
+          subject { WorkPackage.limit(1).order('id desc').last.journals }
 
           it { expect(subject.count).to eq(2) }
 
