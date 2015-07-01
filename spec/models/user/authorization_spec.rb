@@ -59,9 +59,9 @@ describe User::Authorization, type: :model do
 
     it 'takes a block that gets all the users that are members of the project' do
       User.authorize_within(project) do |scope|
-        expect(scope.all).to match_array users
+        expect(scope).to match_array users
 
-        scope.all
+        scope
       end
     end
 
@@ -74,7 +74,7 @@ describe User::Authorization, type: :model do
     end
 
     it 'returns users without the associations being preloaded' do
-      returned_users = User.authorize_within(project) { |scope| scope.all }
+      returned_users = User.authorize_within(project) { |scope| scope }
 
       expect((returned_users.map { |u| u.association_cache.keys }).flatten).to be_empty
     end

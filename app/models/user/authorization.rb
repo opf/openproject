@@ -43,8 +43,8 @@ class User
 
         returned_users = block.call(auth_scope)
 
-        unless returned_users.is_a?(Array) && returned_users.all? { |e| e.is_a?(User) }
-          raise ArgumentError, 'Expect an array of users to be returned by the block'
+        unless returned_users.respond_to?(:each_with_index) && returned_users.all? { |e| e.is_a?(User) }
+          raise ArgumentError, 'Expect a collection of users to be returned by the block'
         end
 
         reset_associations_eager_loaded_for_project_authorization(returned_users, project)
