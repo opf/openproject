@@ -116,10 +116,12 @@ module Redmine
             results = []
             results_count = 0
 
-            with_scope(find: { conditions: project_conditions.join(' AND ') }) do
-              with_scope(find: find_options) do
-                results_count = count(:all)
-                results = find(:all, limit_options)
+            ActiveSupport::Deprecation.silence do
+              with_scope(find: { conditions: project_conditions.join(' AND ') }) do
+                with_scope(find: find_options) do
+                  results_count = count(:all)
+                  results = find(:all, limit_options)
+                end
               end
             end
             [results, results_count]
