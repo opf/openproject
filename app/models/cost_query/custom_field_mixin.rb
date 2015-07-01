@@ -27,7 +27,8 @@ module CostQuery::CustomFieldMixin
     'text'   => mysql? ? 'char' : 'text',
     'bool'   => mysql? ? 'unsigned' : 'boolean',
     'date'  => 'date',
-    'int'   => 'decimal(60,3)', 'float' => 'decimal(60,3)' }
+    'int'   => 'decimal(60,3)',
+    'float' => 'decimal(60,3)' }
 
   def self.extended(base)
     base.inherited_attribute :factory
