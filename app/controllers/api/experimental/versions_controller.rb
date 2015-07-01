@@ -36,7 +36,7 @@ module Api
 
       def index
         @versions = if @project
-                      @project.shared_versions.all
+                      @project.shared_versions
                     else
                       Version.visible.systemwide
                     end

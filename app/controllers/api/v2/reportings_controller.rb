@@ -124,7 +124,7 @@ module Api
         when 'via_target'
           @reportings = @project.reportings_via_target.includes(:project).where(conditions)
         else
-          @reportings = @project.reportings.all
+          @reportings = @project.reportings
         end
 
         # get all reportings for which projects have ancestors.
@@ -149,10 +149,10 @@ module Api
         when 'via_target'
           @ancestor_reportings = @project.reportings_via_target.includes(:project).where(conditions)
         else
-          @ancestor_reportings = @project.reportings.all
+          @ancestor_reportings = @project.reportings
         end
 
-        @reportings = (@reportings + @ancestor_reportings).uniq
+        @reportings = (@reportings.to_a + @ancestor_reportings.to_a).uniq
 
         respond_to do |format|
           format.api do

@@ -141,7 +141,7 @@ describe WorkPackagesController, type: :controller do
 
         # Note: Stubs for methods used to build up the json query results.
         # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
-        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
+        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page).and_return(work_packages)
         allow(query).to receive_message_chain(:results, :work_package_count_by_group).and_return([])
         allow(query).to receive_message_chain(:results, :column_total_sums).and_return([])
         allow(query).to receive_message_chain(:results, :column_group_sums).and_return([])

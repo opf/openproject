@@ -131,7 +131,7 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
       before do
         # FIXME: find a better solution does not involve reaching into the internals
         allow(controller).to receive(:retrieve_query).and_return(query)
-        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :changed_since, :all).and_return(work_packages)
+        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page, :changed_since).and_return(work_packages)
         allow(query).to receive_message_chain(:results, :work_package_count_by_group).and_return([])
         allow(query).to receive_message_chain(:results, :column_total_sums).and_return([])
         allow(query).to receive_message_chain(:results, :column_group_sums).and_return([])

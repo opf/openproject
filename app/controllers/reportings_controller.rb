@@ -154,14 +154,14 @@ class ReportingsController < ApplicationController
     when 'via_target'
       @ancestor_reportings = @project.reportings_via_target.includes(:project).where(conditions)
     else
-      @ancestor_reportings = @project.reportings.all
+      @ancestor_reportings = @project.reportings
     end
 
     @reportings = (@reportings + @ancestor_reportings).uniq
 
     respond_to do |format|
       format.html do
-        @reportings = @project.reportings_via_source.all.select(&:visible?)
+        @reportings = @project.reportings_via_source.select(&:visible?)
       end
     end
   end

@@ -41,19 +41,17 @@ module Api
       end
 
       def index
-        options = { order: 'lft' }
+        @projects = @base.visible
+                    .includes(:types)
+                    .order('lft')
 
         if params[:ids]
           ids, identifiers = params[:ids].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
           ids = ids.map(&:to_i).sort
           identifiers = identifiers.sort
 
-          options[:conditions] = ['id IN (?) OR identifier IN (?)', ids, identifiers]
+          @projects = @projects.where(['id IN (?) OR identifier IN (?)', ids, identifiers])
         end
-
-        @projects = @base.visible
-                    .includes(:types)
-                    .all(options)
 
         @projects_by_id = Hash[@projects.map { |p| [p.id, p] }]
 

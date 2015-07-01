@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.order('lastname ASC').all
+    @groups = Group.order('lastname ASC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -136,7 +136,7 @@ class GroupsController < ApplicationController
   end
 
   def autocomplete_for_user
-    @users = User.active.not_in_group(@group).like(params[:q]).all(limit: 100)
+    @users = User.active.not_in_group(@group).like(params[:q]).limit(100)
     render layout: false
   end
 

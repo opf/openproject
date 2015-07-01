@@ -45,7 +45,7 @@ class TimelinesController < ApplicationController
   end
 
   def show
-    @visible_timelines = @project.timelines.all
+    @visible_timelines = @project.timelines #.all
 
     @timeline = @project.timelines.find(params[:id])
   end

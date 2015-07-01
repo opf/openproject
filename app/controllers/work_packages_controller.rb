@@ -355,7 +355,6 @@ class WorkPackagesController < ApplicationController
     @changesets ||= begin
       changes = work_package.changesets.visible
                 .includes({ repository: { project: :enabled_modules } }, :user)
-                .all
 
       changes.reverse! if current_user.wants_comments_in_reverse_order?
 
@@ -454,7 +453,6 @@ class WorkPackagesController < ApplicationController
     @work_packages = if @query.valid?
                        @results.work_packages.page(page_param)
                        .per_page(per_page_param)
-                       .all
                      else
                        []
                     end

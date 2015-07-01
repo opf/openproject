@@ -33,7 +33,7 @@ module Api
       include ::Api::V2::ApiController
 
       def index
-        @reported_project_statuses = @base.all
+        @reported_project_statuses = @base
         respond_to do |format|
           format.api
         end

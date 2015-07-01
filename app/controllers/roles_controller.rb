@@ -94,12 +94,12 @@ class RolesController < ApplicationController
   end
 
   def report
-    @roles = Role.order('builtin, position').all
+    @roles = Role.order('builtin, position')
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
   end
 
   def bulk_update
-    @roles = Role.order('builtin, position').all
+    @roles = Role.order('builtin, position')
 
     @roles.each do |role|
       role.permissions = params[:permissions][role.id.to_s]

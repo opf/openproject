@@ -105,7 +105,7 @@ class ProjectsController < ApplicationController
   # Show @project
   def show
     @users_by_role = @project.users_by_role
-    @subprojects = @project.children.visible.all
+    @subprojects = @project.children.visible
     @news = @project.news.limit(5).includes(:author, :project).order("#{News.table_name}.created_on DESC")
     @types = @project.rolled_up_types
 

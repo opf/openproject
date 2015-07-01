@@ -58,7 +58,7 @@ describe Api::Experimental::VersionsController, type: :controller do
 
       context 'with versions available' do
         before do
-          allow(project).to receive_message_chain(:shared_versions, :all)
+          allow(project).to receive_message_chain(:shared_versions)
             .and_return(FactoryGirl.build_list(:version, 2))
         end
 
