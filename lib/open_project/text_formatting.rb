@@ -312,7 +312,10 @@ module OpenProject
             oid = identifier.to_i
             case prefix
             when nil
-              if work_package = WorkPackage.visible.includes(:status).find_by(id: oid)
+              if work_package = WorkPackage.visible
+                                .includes(:status)
+                                .references(:statuses)
+                                .find_by(id: oid)
                 link = link_to("##{oid}",
                                work_package_path(id: oid, only_path: only_path),
                                class: work_package_css_classes(work_package),
@@ -334,12 +337,18 @@ module OpenProject
             end
           elsif sep == '##'
             oid = identifier.to_i
-            if work_package = WorkPackage.visible.includes(:status).find_by(id: oid)
+            if work_package = WorkPackage.visible
+                              .includes(:status)
+                              .references(:statuses)
+                              .find_by(id: oid)
               link = work_package_quick_info(work_package)
             end
           elsif sep == '###'
             oid = identifier.to_i
-            work_package = WorkPackage.visible.includes(:status).find_by(id: oid)
+            work_package = WorkPackage.visible
+                           .includes(:status)
+                           .references(:statuses)
+                           .find_by(id: oid)
             if work_package && obj && !(attr == :description && obj.id == work_package.id)
               link = work_package_quick_info_with_description(work_package)
             end
