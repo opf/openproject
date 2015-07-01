@@ -44,7 +44,7 @@ en:
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
 
-  error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: "
+  error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
 
   label_meeting_hour: "Time (hour)"
   label_meeting_minute: "Time (minute)"
