@@ -42,6 +42,10 @@ module API
       end
 
       def self.attribute(*attributes, &block)
+        attributes.each do |attribute|
+          property attribute
+        end
+
         writable_attributes.concat attributes.map(&:to_s)
         if block
           attribute_validations << block
