@@ -34,7 +34,10 @@ class SysController < ActionController::Base
   before_filter :require_basic_auth, only: [:repo_auth]
 
   def projects
-    p = Project.active.has_module(:repository).includes(:repository).order('identifier')
+    p = Project.active.has_module(:repository)
+      .includes(:repository)
+      .references(:repositories)
+      .order('identifier')
     respond_to do |format|
       format.json do render json: p.to_json(include: :repository) end
       format.any(:html, :xml) {  render xml: p.to_xml(include: :repository), content_type: Mime::XML }
@@ -61,7 +64,8 @@ class SysController < ActionController::Base
     if params[:id]
       projects << Project.active.has_module(:repository).find_by!(identifier: params[:id])
     else
-      projects = Project.active.has_module(:repository).includes(:repository)
+      projects = Project.active.has_module(:repository)
+        .includes(:repository).references(:repositories)
     end
     projects.each do |project|
       if project.repository

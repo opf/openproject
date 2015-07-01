@@ -253,6 +253,7 @@ module Api
         work_packages = WorkPackage.for_projects(projects)
                         .changed_since(@since)
                         .includes(:status, :project, :type, :custom_values)
+                        .references(:projects)
 
         wp_ids = parse_work_package_ids
         work_packages = work_packages.where(id: wp_ids) if wp_ids
