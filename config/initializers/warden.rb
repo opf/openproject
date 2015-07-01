@@ -6,19 +6,24 @@ require 'open_project/authentication/strategies/warden/global_basic_auth'
 require 'open_project/authentication/strategies/warden/user_basic_auth'
 require 'open_project/authentication/strategies/warden/session'
 
-strategies = {
-  basic_auth_failure: OpenProject::Authentication::Strategies::Warden::BasicAuthFailure,
-  global_basic_auth:  OpenProject::Authentication::Strategies::Warden::GlobalBasicAuth,
-  user_basic_auth:    OpenProject::Authentication::Strategies::Warden::UserBasicAuth,
-  session:            OpenProject::Authentication::Strategies::Warden::Session
-}
+WS = OpenProject::Authentication::Strategies::Warden
 
-strategies.each do |name, clazz|
-  Warden::Strategies.add name, clazz
+strategies = [
+  [:basic_auth_failure, WS::BasicAuthFailure, 'Basic'],
+  [:global_basic_auth,  WS::GlobalBasicAuth,  'Basic'],
+  [:user_basic_auth,    WS::UserBasicAuth,    'Basic'],
+  [:session,            WS::Session,          'Session']
+]
+
+strategies.each do |name, clazz, auth_scheme|
+  OpenProject::Authentication.add_strategy name, clazz, auth_scheme
 end
 
 include OpenProject::Authentication::Scope
 
-OpenProject::Authentication.update_strategies(API_V3) do |_strategies|
+api_v3_options = {
+  store: false
+}
+OpenProject::Authentication.update_strategies(API_V3, api_v3_options) do |_strategies|
   [:global_basic_auth, :user_basic_auth, :basic_auth_failure, :session]
 end
