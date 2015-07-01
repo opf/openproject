@@ -1,0 +1,83 @@
+#-- copyright
+# OpenProject Reporting Plugin
+#
+# Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# version 3.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+
+require 'spec_helper'
+
+describe CostQuery::Cache do
+  def all_caches
+    [ CostQuery::GroupBy::CustomFieldEntries,
+      CostQuery::GroupBy,
+      CostQuery::Filter::CustomFieldEntries,
+      CostQuery::Filter ]
+  end
+
+  def expect_reset_on_caches
+    all_caches.each do |klass|
+      expect(klass).to receive(:reset!)
+    end
+  end
+
+  def expect_no_reset_on_caches
+    all_caches.each do |klass|
+      expect(klass).to_not receive(:reset!)
+    end
+  end
+
+  def custom_fields_exist
+    allow(WorkPackageCustomField).to receive(:maximum).and_return(Time.now)
+    allow(WorkPackageCustomField).to receive(:sum).and_return(42)
+    allow(WorkPackageCustomField).to receive(:count).and_return(23)
+  end
+
+  def no_custom_fields_exist
+    allow(WorkPackageCustomField).to receive(:maximum).and_return(nil)
+    allow(WorkPackageCustomField).to receive(:sum).and_return(0)
+    allow(WorkPackageCustomField).to receive(:count).and_return(0)
+  end
+
+  describe '.check' do
+    it 'resets the caches on filters and group by' do
+      custom_fields_exist
+
+      expect_reset_on_caches
+
+      described_class.check
+    end
+
+    it 'does not reset the caches if no change if no CustomField exists' do
+      no_custom_fields_exist
+
+      expect_no_reset_on_caches
+
+      described_class.check
+    end
+
+    it 'stores when the last update was made and does not reset again if nothing changed' do
+      custom_fields_exist
+
+      expect_reset_on_caches
+
+      described_class.check
+
+      expect_no_reset_on_caches
+
+      described_class.check
+    end
+  end
+end
