@@ -55,7 +55,10 @@ describe Repository, type: :model do
 
   it 'should destroy' do
     changesets = Changeset.where('repository_id = 10').size
-    changes = Change.includes(:changeset).where("#{Changeset.table_name}.repository_id = 10").size
+    changes = Change.includes(:changeset)
+      .where("#{Changeset.table_name}.repository_id = 10")
+      .references(:changesets)
+      .size
     assert_difference 'Changeset.count', -changesets do
       assert_difference 'Change.count', -changes do
         Repository.find(10).destroy

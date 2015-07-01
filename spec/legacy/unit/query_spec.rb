@@ -57,6 +57,7 @@ describe Query, type: :model do
   def find_issues_with_query(query)
     WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
       .where(query.statement)
+      .references(:projects)
   end
 
   def assert_find_issues_with_query_is_successful(query)
@@ -317,6 +318,7 @@ describe Query, type: :model do
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
       .where(q.statement)
       .order("#{c.sortable} ASC")
+      .references(:projects)
     values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
     assert_equal values.sort, values
@@ -330,6 +332,7 @@ describe Query, type: :model do
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
       .where(q.statement)
       .order("#{c.sortable} DESC")
+      .references(:projects)
     values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
     assert_equal values.sort.reverse, values
@@ -343,6 +346,7 @@ describe Query, type: :model do
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
       .where(q.statement)
       .order("#{c.sortable} ASC")
+      .references(:projects)
     values = issues.map { |i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end }.compact
     assert !values.empty?
     assert_equal values.sort, values
