@@ -329,7 +329,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       def clear_cache
-        CostReportsController.new.check_cache(true)
+        CostQuery::Cache.reset!
         CostQuery::Filter::CustomFieldEntries.all
       end
 

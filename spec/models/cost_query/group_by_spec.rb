@@ -223,7 +223,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       def check_cache
-        CostReportsController.new.check_cache
+        CostQuery::Cache.reset!
         CostQuery::GroupBy::CustomFieldEntries.all
       end
 
