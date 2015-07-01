@@ -35,7 +35,7 @@ module API
       class ProjectsByVersionAPI < ::API::OpenProjectAPI
         resources :projects do
           before do
-            @projects = @version.projects.visible(current_user).all
+            @projects = @version.projects.visible(current_user)
 
             # Authorization for accessing the version is done in the versions
             # endpoint into which this endpoint is embedded.
