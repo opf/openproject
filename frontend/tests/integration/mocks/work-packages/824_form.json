@@ -2,18 +2,18 @@
   "_type": "Form",
   "_links": {
     "self": {
-      "href": "/api/v3/work_packages/819/form"
+      "href": "/api/v3/work_packages/824/form"
     },
     "validate": {
-      "href": "/api/v3/work_packages/819/form",
+      "href": "/api/v3/work_packages/824/form",
       "method": "post"
     },
     "previewMarkup": {
-      "href": "/api/v3/render/textile?context=/api/v3/work_packages/819",
+      "href": "/api/v3/render/textile?context=/api/v3/work_packages/824",
       "method": "post"
     },
     "commit": {
-      "href": "/api/v3/work_packages/819",
+      "href": "/api/v3/work_packages/824",
       "method": "patch"
     }
   },
@@ -36,7 +36,7 @@
           "href": null
         },
         "version": {
-          "href": "/api/v3/versions/1"
+          "href": null
         },
         "priority": {
           "href": "/api/v3/priorities/2"
@@ -63,8 +63,8 @@
         "raw": "Tutis vulgivagus alveus appello. Triginta nostrum sit eum. Enim crudelis tremo adfectus auris nam adiuvo. Terreo absque aegrus decerno aegrotatio sui. Facere candidus illo spiculum. Et voluntarius acidus qui.",
         "html": "<p>Tutis vulgivagus alveus appello. Triginta nostrum sit eum. Enim crudelis tremo adfectus auris nam adiuvo. Terreo absque aegrus decerno aegrotatio sui. Facere candidus illo spiculum. Et voluntarius acidus qui.</p>"
       },
-      "startDate": "2015-02-17",
-      "dueDate": "2015-04-29",
+      "startDate": "2014-10-23",
+      "dueDate": null,
       "storyPoints": null,
       "remainingTime": null,
       "customField1": {
