@@ -47,6 +47,7 @@ module VersionsHelper
       WorkPackage.group(criteria)
         .includes(:status)
         .where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false])
+        .references(:statuses)
         .count.each { |c, s|
         h[c][1] = s
       }
