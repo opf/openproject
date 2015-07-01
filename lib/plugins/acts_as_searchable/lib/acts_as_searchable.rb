@@ -79,14 +79,7 @@ module Redmine
             tokens = [] << tokens unless tokens.is_a?(Array)
             projects = [] << projects unless projects.nil? || projects.is_a?(Array)
 
-            find_options = { include: searchable_options[:include] }
-            find_options[:order] = "#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')
-
-            limit_options = {}
-            limit_options[:limit] = options[:limit] if options[:limit]
-            if options[:offset]
-              limit_options[:conditions] = "(#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')"
-            end
+            find_order = "#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')
 
             columns = searchable_options[:columns]
             columns = columns[0..0] if options[:titles_only]
@@ -106,7 +99,7 @@ module Redmine
 
             sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
 
-            find_options[:conditions] = [sql, * (tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
+            find_conditions = [sql, * (tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
 
             project_conditions = []
             project_conditions << (searchable_options[:permission].nil? ? Project.visible_by(User.current) :
@@ -116,12 +109,19 @@ module Redmine
             results = []
             results_count = 0
 
-            ActiveSupport::Deprecation.silence do
-              with_scope(find: { conditions: project_conditions.join(' AND ') }) do
-                with_scope(find: find_options) do
-                  results_count = count(:all)
-                  results = find(:all, limit_options)
+            where(project_conditions.join(' AND ')).scoping do
+              where(find_conditions)
+                .includes(searchable_options[:include])
+                .order(find_order)
+                .scoping do
+
+                results_count = count
+                results       = all
+
+                if options[:offset]
+                  results = results.where("(#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')")
                 end
+                results = results.limit(options[:limit]) if options[:limit]
               end
             end
             [results, results_count]
