@@ -63,7 +63,8 @@ module API
 
           api_error = ::API::Errors::ErrorBase.create(contract.errors)
 
-          if api_error.is_a? ::API::Errors::Validation
+          # errors for invalid data (e.g. validation errors) are handled inside the form
+          if api_error.code == 422
             status 200
             form_class.new(work_package, current_user: current_user, errors: contract.errors)
           else

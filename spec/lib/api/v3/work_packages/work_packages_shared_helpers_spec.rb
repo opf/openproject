@@ -29,8 +29,11 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
-  let(:work_package) { FactoryGirl.create(:work_package) }
-  let(:user) { FactoryGirl.build(:admin) }
+  let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages, :add_work_packages] }
   let(:env) { { 'api.request.body' => { 'subject' => 'foo' } } }
 
   let(:helper_class) {
@@ -74,32 +77,19 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
     end
 
     context 'invalid parameters' do
-      context 'validation errors' do
+      context 'attribute specific errors' do
         let(:env) { { 'api.request.body' => { 'subject' => '' } } }
 
-        it 'does not raise for validation errors' do
-          expect(subject.validation_errors).not_to be_empty
+        it 'does not raise' do
+          expect(subject.validation_errors).to_not be_empty
         end
       end
 
-      context 'other errors' do
-        let(:env) { { 'api.request.body' => { 'percentageDone' => 1 } } }
+      context 'general errors' do
+        let(:permissions) { [:view_work_packages] }
 
-        subject do
-          lambda do
-            helper.create_work_package_form(
-              work_package,
-              contract_class: ::API::V3::WorkPackages::CreateContract,
-              form_class: ::API::V3::WorkPackages::CreateFormRepresenter)
-          end
-        end
-
-        before do
-          allow(Setting).to receive(:work_package_done_ratio).and_return('status')
-        end
-
-        it 'should return all other errors' do
-          expect(subject).to raise_error(API::Errors::UnwritableProperty)
+        it 'should raise' do
+          expect { subject }.to raise_error(API::Errors::Unauthorized)
         end
       end
     end
