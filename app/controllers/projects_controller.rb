@@ -123,6 +123,7 @@ class ProjectsController < ApplicationController
   end
 
   def settings
+    @altered_project ||= @project
   end
 
   def edit
