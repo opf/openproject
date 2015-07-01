@@ -81,7 +81,7 @@ module API
             # we might have received a (currently) invalid work package
             return [] if @project.nil? || @type.nil?
 
-            project.all_work_package_custom_fields & type.custom_fields
+            project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
           end
 
           def percentage_done_writable?
