@@ -195,7 +195,7 @@ class Project < ActiveRecord::Base
 
   def associated_project_candidates(_user = User.current)
     # TODO: Check if admins shouldn't see all projects here
-    projects = Project.visible.all
+    projects = Project.visible.to_a
     projects.delete(self)
     projects -= associated_projects
     projects.select(&:allows_association?)
@@ -215,7 +215,7 @@ class Project < ActiveRecord::Base
 
   def reporting_to_project_candidates(_user = User.current)
     # TODO: Check if admins shouldn't see all projects here
-    projects = Project.visible.all
+    projects = Project.visible.to_a
     projects.delete(self)
     projects -= reporting_to_projects
     projects

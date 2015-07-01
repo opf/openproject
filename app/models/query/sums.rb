@@ -31,7 +31,7 @@ module ::Query::Sums
   include ActionView::Helpers::NumberHelper
 
   def all_work_packages
-    @all_work_packages ||= work_packages.all
+    @all_work_packages ||= work_packages
   end
 
   def next_in_same_group?(issue = cached_issue)

@@ -456,7 +456,7 @@ class Query < ActiveRecord::Base
             .limit(options[:limit])
             .offset(options[:offset])
 
-    query.all
+    query
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end

@@ -77,7 +77,7 @@ module Queries::WorkPackages::AvailableFilterOptions
   private
 
   def visible_projects
-    @visible_projects ||= Project.visible.all
+    @visible_projects ||= Project.visible
   end
 
   def get_principals
@@ -132,16 +132,16 @@ module Queries::WorkPackages::AvailableFilterOptions
 
   def add_project_options
     # project specific filters
-    categories = project.categories.all
+    categories = project.categories
     unless categories.empty?
       @available_work_package_filters['category_id'] = { type: :list_optional, order: 6, values: categories.map { |s| [s.name, s.id.to_s] } }
     end
-    versions = project.shared_versions.all
+    versions = project.shared_versions
     unless versions.empty?
       @available_work_package_filters['fixed_version_id'] = { type: :list_optional, order: 7, values: versions.sort.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }, name: WorkPackage.human_attribute_name('fixed_version_id') }
     end
     unless project.leaf?
-      subprojects = project.descendants.visible.all
+      subprojects = project.descendants.visible
       unless subprojects.empty?
         @available_work_package_filters['subproject_id'] = { type: :list_subprojects, order: 13, values: subprojects.map { |s| [s.name, s.id.to_s] }, name: I18n.t('query_fields.subproject_id') }
       end

@@ -638,7 +638,7 @@ class WorkPackage < ActiveRecord::Base
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
-    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields.all) : []
+    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields) : []
   end
 
   def status_id=(sid)
@@ -863,10 +863,10 @@ class WorkPackage < ActiveRecord::Base
     projects = []
     if User.current.admin?
       # admin is allowed to move issues to any active (visible) project
-      projects = Project.visible.all
+      projects = Project.visible
     elsif User.current.logged?
       if Role.non_member.allowed_to?(:move_work_packages)
-        projects = Project.visible.all
+        projects = Project.visible
       else
         User.current.memberships.each do |m|
           projects << m.project if m.roles.detect { |r| r.allowed_to?(:move_work_packages) }
