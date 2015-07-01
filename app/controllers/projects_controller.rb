@@ -133,7 +133,9 @@ class ProjectsController < ApplicationController
 
     @altered_project.safe_attributes = params[:project]
     if validate_parent_id && @altered_project.save
-      @altered_project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+      if params[:project].has_key?('parent_id')
+        @altered_project.set_allowed_parent!(params[:project]['parent_id'])
+      end
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
