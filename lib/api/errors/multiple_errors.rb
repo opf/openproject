@@ -27,36 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
-  module V3
-    module Errors
-      class ErrorRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
+  module Errors
+    class MultipleErrors < ErrorBase
+      identifier 'urn:openproject-org:api:v3:errors:MultipleErrors'
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+      def self.create_if_many(errors)
+        raise ArgumentError, 'expected at least one error' unless errors.any?
+        return errors.first if errors.count == 1
 
-        property :_type, exec_context: :decorator
-        property :error_identifier, exec_context: :decorator, render_nil: true
-        property :message, getter: -> (*) { message }, render_nil: true
-        property :details, embedded: true
+        MultipleErrors.new(errors)
+      end
 
-        collection :errors,
-                   embedded: true,
-                   class: ::API::Errors::ErrorBase,
-                   decorator: ::API::V3::Errors::ErrorRepresenter,
-                   if: -> (*) { !Array(errors).empty? }
+      def initialize(errors)
+        super 422, I18n.t('api_v3.errors.multiple_errors')
 
-        def _type
-          'Error'
-        end
-
-        def error_identifier
-          represented.class.identifier
-        end
+        @errors = errors
       end
     end
   end

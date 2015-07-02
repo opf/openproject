@@ -75,7 +75,7 @@ module API
 
                 work_package_representer
               else
-                fail ::API::Errors::ErrorBase.create(contract.errors)
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(contract.errors)
               end
             end
 
@@ -86,7 +86,7 @@ module API
                     Activities::ActivityRepresenter.new(work_package.journals.last,
                                                         current_user: current_user)
                   else
-                    fail ::API::Errors::Validation.new(work_package)
+                    fail ::API::Errors::ErrorBase.create_and_merge_errors(work_package.errors)
                   end
                 end
               end

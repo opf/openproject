@@ -76,9 +76,7 @@ module ActiveModel
     def add_with_storing_error_symbols(attribute, message = nil, options = {})
       add_without_storing_error_symbols(attribute, message, options)
 
-      if message.is_a?(Symbol)
-        writable_error_symbols_for(attribute) << message
-      end
+      writable_error_symbols_for(attribute) << message
     end
 
     alias_method_chain :add, :storing_error_symbols

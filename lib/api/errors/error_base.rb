@@ -30,29 +30,71 @@
 module API
   module Errors
     class ErrorBase < Grape::Exceptions::Base
-      attr_reader :code, :message, :details, :errors
+      attr_reader :code, :message, :details, :errors, :property
 
-      def self.create(errors)
-        if errors.has_key?(:base)
-          base_errors = errors.error_symbols_for(:base)
-          if base_errors.include?(:error_not_found)
-            return ::API::Errors::NotFound.new
-          elsif base_errors.include?(:error_unauthorized)
-            return ::API::Errors::Unauthorized.new
-          elsif base_errors.include?(:error_conflict)
-            return ::API::Errors::Conflict.new
+      class << self
+        ##
+        # Converts the given ActiveRecord errors into an Array of Error objects
+        # (i.e. subclasses of ErrorBase)
+        # In case the given errors contain 'critical' errors, the resulting Array will only
+        # contain the critical error and no non-critical errors (avoiding information disclosure)
+        # That means: The returned errors are always safe for display towards a user
+        def create_errors(errors)
+          if errors.has_key?(:base)
+            base_errors = errors.error_symbols_for(:base)
+            if base_errors.include?(:error_not_found)
+              return [::API::Errors::NotFound.new]
+            elsif base_errors.include?(:error_unauthorized)
+              return [::API::Errors::Unauthorized.new]
+            elsif base_errors.include?(:error_conflict)
+              return [::API::Errors::Conflict.new]
+            end
           end
+
+          convert_ar_to_api_errors(errors)
         end
 
-        messages_by_attribute = ::API::Errors::Validation.create(errors)
-        ::API::Errors::Validation.new(messages_by_attribute.values.map(&:message))
-      end
+        ##
+        # Like :create_errors, but creates a single MultipleErrors error if
+        # more than one error would be returned otherwise.
+        def create_and_merge_errors(errors)
+          ::API::Errors::MultipleErrors.create_if_many(create_errors(errors))
+        end
 
-      ##
-      # Allows defining this error class's identifier once.
-      # Used to read it otherwise.
-      def self.identifier(identifier = nil)
-        @identifier ||= identifier
+        ##
+        # Allows defining this error class's identifier.
+        # Used to read it otherwise.
+        def identifier(identifier = nil)
+          @identifier = identifier if identifier
+
+          @identifier
+        end
+
+        private
+
+        def convert_ar_to_api_errors(errors)
+          api_errors = []
+
+          errors.keys.each do |attribute|
+            errors.error_symbols_for(attribute).each do |symbol_or_message|
+              if symbol_or_message == :error_readonly
+                api_errors << ::API::Errors::UnwritableProperty.new(attribute)
+              else
+                partial_message = if symbol_or_message.is_a?(Symbol)
+                                    errors.generate_message(attribute, symbol_or_message)
+                                  else
+                                    symbol_or_message
+                                  end
+
+                full_message = errors.full_message(attribute, partial_message)
+
+                api_errors << ::API::Errors::Validation.new(attribute, full_message)
+              end
+            end
+          end
+
+          api_errors
+        end
       end
 
       def initialize(code, message)

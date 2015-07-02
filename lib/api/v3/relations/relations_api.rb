@@ -52,7 +52,7 @@ module API
               representer = RelationRepresenter.new(relation, work_package: relation.to)
               representer
             else
-              fail ::API::Errors::Validation.new(I18n.t('api_v3.errors.invalid_relation'))
+              fail ::API::Errors::Validation.new(nil, I18n.t('api_v3.errors.invalid_relation'))
             end
           end
 

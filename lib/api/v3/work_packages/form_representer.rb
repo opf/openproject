@@ -31,7 +31,7 @@ module API
   module V3
     module WorkPackages
       class FormRepresenter < ::API::Decorators::Single
-        def initialize(model, current_user: nil, errors:)
+        def initialize(model, current_user: nil, errors: [])
           @errors = errors
 
           super(model, current_user: current_user)
@@ -59,9 +59,10 @@ module API
         end
 
         def validation_errors
-          ::API::Errors::Validation.create(@errors).inject({}) do |h, (k, v)|
-            h[k] = ::API::V3::Errors::ErrorRepresenter.new(v)
-            h
+          @errors.group_by(&:property).inject({}) do |hash, (property, errors)|
+            error = ::API::Errors::MultipleErrors.create_if_many(errors)
+            hash[property] = ::API::V3::Errors::ErrorRepresenter.new(error)
+            hash
           end
         end
       end
