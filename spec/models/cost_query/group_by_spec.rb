@@ -267,7 +267,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         create_work_package_custom_field("AFreshCustomField")
         name = class_name_for('AFreshCustomField')
         delete_work_package_custom_field("AFreshCustomField")
-        expect(CostQuery::GroupBy.all).not_to include name.constantize
+        expect{name.constantize}.to raise_error NameError
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do

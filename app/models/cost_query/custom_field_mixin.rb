@@ -42,6 +42,8 @@ module CostQuery::CustomFieldMixin
 
   def reset!
     @all = nil
+
+    remove_subclasses
   end
 
   def generate_subclasses
@@ -50,6 +52,14 @@ module CostQuery::CustomFieldMixin
       parent.send(:remove_const, class_name) if parent.const_defined? class_name
       parent.const_set class_name, Class.new(self)
       parent.const_get(class_name).prepare(field, class_name)
+    end
+  end
+
+  def remove_subclasses
+    parent.constants.each do |constant|
+      if constant.to_s.match /^CustomField\d+/
+        parent.send(:remove_const, constant)
+      end
     end
   end
 
