@@ -70,6 +70,9 @@ module.exports = function() {
     projectWorkPackagesPath: function(projectId) {
       return PathHelper.projectPath(projectId) + PathHelper.workPackagesPath();
     },
+    projectWorkPackagesFormPath: function(projectId) {
+      return PathHelper.projectWorkPackagesPath(projectId) + '/form';
+    },
     queryPath: function(queryIdentifier) {
       return '/queries/' + queryIdentifier;
     },
@@ -252,6 +255,9 @@ module.exports = function() {
     },
     apiV3ProjectCategoriesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/categories';
+    },
+    apiV3TypePath: function(typeId) {
+      return PathHelper.apiV3 + '/types/' + typeId;
     },
     // Static
     staticUserPath: function(userId) {

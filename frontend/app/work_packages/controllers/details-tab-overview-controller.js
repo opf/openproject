@@ -29,7 +29,8 @@
 module.exports = function(
            $scope,
            WorkPackagesOverviewService,
-           WorkPackageFieldService
+           WorkPackageFieldService,
+           EditableFieldsState
            ) {
 
   var vm = this;
@@ -48,7 +49,7 @@ module.exports = function(
   activate();
 
   function activate() {
-
+    EditableFieldsState.forcedEditState = false;
     $scope.$watch('workPackage.schema', function(schema) {
       if (schema) {
         vm.workPackage = $scope.workPackage;
