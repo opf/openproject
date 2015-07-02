@@ -76,7 +76,7 @@ module ActiveModel
     def add_with_storing_error_symbols(attribute, message = nil, options = {})
       add_without_storing_error_symbols(attribute, message, options)
 
-      writable_error_symbols_for(attribute) << message
+      writable_error_symbols_for(attribute) << message if store_new_symbols?
     end
 
     alias_method_chain :add, :storing_error_symbols
@@ -113,9 +113,18 @@ module ActiveModel
     end
 
     def writable_error_symbols_for(attribute)
+      attribute = attribute.to_sym # avoid mixed symbol/string keys
       error_symbols[attribute] = [] unless error_symbols[attribute]
 
       error_symbols[attribute]
+    end
+
+    # Kind of a hack: We need the possibility to temporarily disable symbol storing in the subclass
+    # Reform::Contract::Errors, because otherwise we end up with duplicate entries
+    # I feel dirty for doing that, but on the other hand I see no other way out... Please, stop me!
+    def store_new_symbols?
+      @store_new_symbols = true if @store_new_symbols.nil?
+      @store_new_symbols
     end
   end
 end
@@ -124,7 +133,9 @@ require 'reform/contract'
 
 class Reform::Contract::Errors
   def merge_with_storing_error_symbols!(errors, prefix)
+    @store_new_symbols = false
     merge_without_storing_error_symbols!(errors, prefix)
+    @store_new_symbols = true
 
     errors.keys.each do |attribute|
       errors.error_symbols_for(attribute).each do |symbol|
