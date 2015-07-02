@@ -81,14 +81,6 @@ $nm-padding-default-box: rem-calc(10px)
   background-color: $nm-color-default-background
   color: $nm-font-color
 
-  &.-stack-top-center
-    margin-left: auto
-    margin-right: auto
-    left: 0
-    right: 0
-    margin-bottom: rem-calc(3px)
-    z-index: 9999
-
   & .button
     margin: rem-calc(10px 10px 0 0)
 
@@ -138,3 +130,16 @@ $nm-padding-default-box: rem-calc(10px)
     line-height: rem-calc(20px)
     &:hover
       text-decoration: none
+
+.op-message-container-holder
+  position: absolute
+  top: rem-calc(52px) //this value probably will change
+  .op-message-container
+    position: relative
+    .notification-box
+      min-width: rem-calc(250px)
+      max-width: rem-calc(550px)
+      margin-bottom: rem-calc(3px)
+      z-index: 9999
+
+

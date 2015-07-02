@@ -51,15 +51,15 @@
 
 
 ```
-<div class="example" id="example-zx00x">
-  <div class="controls">
-    <button class="button stuck-message" id="test-notifier">click</button>
-  </div>
-  <div class="content" style="height: 200px;"></div>
+<div class="controls">
+  <button class="button stuck-message" id="test-notifier">click</button>
+</div>
+<div class="op-message-container-holder">
+  <div class="op-message-container"></div>
 </div>
 
 <script type="text\template" id="warning-message-zx00x">
-  <div class="notification-box -warning -stack-top-center">
+  <div class="notification-box -warning">
     <a href="#" class="notification-box--close">&times;</a>
     <div class="notification-box--content">
       <p>This is a warning. You may ignore it, but bad things might happen. notificationNo {{number}}</p>
@@ -72,8 +72,7 @@
 @javascript
 (function($){
 
-  var workArea = $('#example-zx00x');
-  var viewArea = workArea.find('.content');
+  var viewArea = $('.op-message-container');
   var notificationMessageTemplate = {
     notificationNumber: 0,
     printNotification: function(){
@@ -95,7 +94,7 @@
                 'padding-bottom': 0,
                 'height': 0,
                 'opacity': 0
-            }, 300, function() {
+            }, 'fast', function() {
                 $(this).remove();
             });
   });
