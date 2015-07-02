@@ -101,6 +101,7 @@ class Version < ActiveRecord::Base
   def spent_hours
     @spent_hours ||= TimeEntry.includes(:work_package)
                      .where(["#{WorkPackage.table_name}.fixed_version_id = ?", id])
+                     .references(:work_packages)
                      .sum(:hours).to_f
   end
 
