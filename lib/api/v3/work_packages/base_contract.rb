@@ -97,9 +97,6 @@ module API
           @can = WorkPackagePolicy.new(user)
         end
 
-        extend Reform::Form::ActiveModel::ModelValidations
-        copy_validations_from WorkPackage
-
         private
 
         def validate_people_visible(attribute, id_attribute, list)

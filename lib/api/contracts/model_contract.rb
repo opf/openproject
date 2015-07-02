@@ -52,6 +52,17 @@ module API
         end
       end
 
+      # we want to add a validation error whenever someone sets a property that we don't know.
+      # However AR will cleverly try to resolve the value for errorneous properties. Thus we need
+      # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
+      def read_attribute_for_validation(attribute)
+        if respond_to? attribute
+          send attribute
+        end
+
+        nil
+      end
+
       def writable_attributes
         collect_ancestor_attributes(:writable_attributes)
       end
