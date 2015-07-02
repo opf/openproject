@@ -43,6 +43,7 @@ class Changeset < ActiveRecord::Base
 
   acts_as_searchable columns: 'comments',
                      include: { repository: :project },
+                     references: [:repositories],
                      project_key: "#{Repository.table_name}.project_id",
                      date_column: 'committed_on'
 

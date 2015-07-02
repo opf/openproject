@@ -62,6 +62,8 @@ module Redmine
           # Should we search custom fields on this model ?
           searchable_options[:search_custom_fields] = !reflect_on_association(:custom_values).nil?
 
+          searchable_options[:references] ||= []
+
           send :include, Redmine::Acts::Searchable::InstanceMethods
         end
       end
@@ -112,6 +114,7 @@ module Redmine
             where(project_conditions.join(' AND ')).scoping do
               where(find_conditions)
                 .includes(searchable_options[:include])
+                .references(searchable_options[:references])
                 .order(find_order)
                 .scoping do
 

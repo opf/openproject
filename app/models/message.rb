@@ -55,6 +55,7 @@ class Message < ActiveRecord::Base
 
   acts_as_searchable columns: ['subject', 'content'],
                      include: { board: :project },
+                     references: [:boards],
                      project_key: 'project_id',
                      date_column: "#{table_name}.created_on"
 

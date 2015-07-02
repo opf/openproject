@@ -46,7 +46,9 @@ class News < ActiveRecord::Base
   acts_as_event url: Proc.new { |o| { controller: '/news', action: 'show', id: o.id } },
                 datetime: :created_on
 
-  acts_as_searchable columns: ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"], include: :project
+  acts_as_searchable columns: ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"],
+    include: :project,
+    references: :projects
 
   acts_as_watchable
 

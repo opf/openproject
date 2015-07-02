@@ -46,6 +46,7 @@ class WikiPage < ActiveRecord::Base
 
   acts_as_searchable columns: ["#{WikiPage.table_name}.title", "#{WikiContent.table_name}.text"],
                      include: [{ wiki: :project }, :content],
+                     references: [:wikis, :wiki_contents],
                      project_key: "#{Wiki.table_name}.project_id"
 
   attr_accessor :redirect_existing_links

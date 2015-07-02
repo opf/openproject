@@ -159,6 +159,7 @@ class WorkPackage < ActiveRecord::Base
                                "#{table_name}.description",
                                "#{Journal.table_name}.notes"],
                      include: [:project, :journals],
+                     references: [:projects, :journals],
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
