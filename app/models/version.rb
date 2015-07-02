@@ -164,17 +164,17 @@ class Version < ActiveRecord::Base
   # Returns the total amount of open issues for this version.
   def open_issues_count
     @open_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, false])
-      .includes(:status)
-      .references(:statuses)
-      .size
+                           .includes(:status)
+                           .references(:statuses)
+                           .size
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
     @closed_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, true])
-      .includes(:status)
-      .references(:statuses)
-      .size
+                             .includes(:status)
+                             .references(:statuses)
+                             .size
   end
 
   def wiki_page
