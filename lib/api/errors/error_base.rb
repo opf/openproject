@@ -76,9 +76,10 @@ module API
           api_errors = []
 
           errors.keys.each do |attribute|
+            api_attribute_name = attribute.to_s.camelize(:lower)
             errors.error_symbols_for(attribute).each do |symbol_or_message|
               if symbol_or_message == :error_readonly
-                api_errors << ::API::Errors::UnwritableProperty.new(attribute)
+                api_errors << ::API::Errors::UnwritableProperty.new(api_attribute_name)
               else
                 partial_message = if symbol_or_message.is_a?(Symbol)
                                     errors.generate_message(attribute, symbol_or_message)
@@ -88,7 +89,7 @@ module API
 
                 full_message = errors.full_message(attribute, partial_message)
 
-                api_errors << ::API::Errors::Validation.new(attribute, full_message)
+                api_errors << ::API::Errors::Validation.new(api_attribute_name, full_message)
               end
             end
           end
