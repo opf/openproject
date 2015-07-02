@@ -39,6 +39,12 @@ describe CostQuery::Cache do
     end
   end
 
+  def reset_cache_keys
+    # resetting internal caching keys to avoid dependencies with other specs
+    described_class.send(:custom_fields_updated_on=, nil)
+    described_class.send(:custom_fields_id_sum=, 0)
+  end
+
   def custom_fields_exist
     allow(WorkPackageCustomField).to receive(:maximum).and_return(Time.now)
     allow(WorkPackageCustomField).to receive(:sum).and_return(42)
@@ -51,31 +57,41 @@ describe CostQuery::Cache do
     allow(WorkPackageCustomField).to receive(:count).and_return(0)
   end
 
+  before do
+    reset_cache_keys
+  end
+
+  after do
+    reset_cache_keys
+  end
+
   describe '.check' do
     it 'resets the caches on filters and group by' do
       custom_fields_exist
-
       expect_reset_on_caches
-
-      described_class.check
-    end
-
-    it 'does not reset the caches if no change if no CustomField exists' do
-      no_custom_fields_exist
-
-      expect_no_reset_on_caches
 
       described_class.check
     end
 
     it 'stores when the last update was made and does not reset again if nothing changed' do
       custom_fields_exist
-
       expect_reset_on_caches
 
       described_class.check
 
       expect_no_reset_on_caches
+
+      described_class.check
+    end
+
+    it 'does reset the cache if last CustomField is removed' do
+      custom_fields_exist
+      expect_reset_on_caches
+
+      described_class.check
+
+      no_custom_fields_exist
+      expect_reset_on_caches
 
       described_class.check
     end

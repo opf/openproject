@@ -42,11 +42,8 @@ module CostQuery::Cache
       updated_on = fetch_custom_field_updated_at
       id_sum = fetch_custom_fields_changed
 
-      custom_fields_exist = updated_on && id_sum
-      custom_fields_changed = custom_fields_updated_on != updated_on ||
-                                custom_fields_id_sum != id_sum
-
-      custom_fields_exist && custom_fields_changed
+      custom_fields_updated_on != updated_on ||
+        custom_fields_id_sum != id_sum
     end
 
     def update_reset_on
@@ -62,4 +59,7 @@ module CostQuery::Cache
       WorkPackageCustomField.sum(:id) + WorkPackageCustomField.count
     end
   end
+
+  # initialize to 0 to avoid forced cache reset on first request
+  self.custom_fields_id_sum = 0
 end
