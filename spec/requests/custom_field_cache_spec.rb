@@ -18,8 +18,9 @@
 #++
 
 require 'spec_helper'
+require File.join(File.dirname(__FILE__), '..', 'support', 'custom_field_filter')
 
-describe 'Custom field filter and group by caching', :type => :request do
+describe 'Custom field filter and group by caching', type: :request do
   let(:project) { FactoryGirl.create(:valid_project) }
   let(:user) { FactoryGirl.create(:admin) }
   let(:custom_field) { FactoryGirl.build(:work_package_custom_field) }
@@ -31,33 +32,63 @@ describe 'Custom field filter and group by caching', :type => :request do
     custom_field.save!
   end
 
+  include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
+
+  def expect_group_by_all_to_include(custom_field)
+    expect(CostQuery::GroupBy.all).to include(group_by_class_name_string(custom_field).constantize)
+  end
+
+  def expect_filter_all_to_include(custom_field)
+    expect(CostQuery::Filter.all).to include(filter_class_name_string(custom_field).constantize)
+  end
+
+  def expect_group_by_all_to_not_exist(custom_field)
+    # can not check for whether the element is included in CostQuery::GroupBy if it does not exist
+    expect { group_by_class_name_string(custom_field).constantize }.to raise_error NameError
+  end
+
+  def expect_filter_all_to_not_exist(custom_field)
+    # can not check for whether the element is included in CostQuery::GroupBy if it does not exist
+    expect { group_by_class_name_string(custom_field).constantize }.to raise_error NameError
+  end
+
+  def visit_cost_reports_index
+    get "projects/#{project.id}/cost_reports"
+  end
+
   it 'removes the filter/group_by if the custom field is removed' do
     custom_field2.save!
 
-    get "projects/#{project.id}/cost_reports"
+    visit_cost_reports_index
 
-    expect(CostQuery::GroupBy.all).to include("CostQuery::GroupBy::CustomField#{custom_field.id}".constantize)
-    expect(CostQuery::GroupBy.all).to include("CostQuery::GroupBy::CustomField#{custom_field2.id}".constantize)
+    expect_group_by_all_to_include(custom_field)
+    expect_group_by_all_to_include(custom_field2)
+
+    expect_filter_all_to_include(custom_field)
+    expect_filter_all_to_include(custom_field2)
 
     custom_field2.destroy
 
-    get "projects/#{project.id}/cost_reports"
+    visit_cost_reports_index
 
-    expect(CostQuery::GroupBy.all).to include("CostQuery::GroupBy::CustomField#{custom_field.id}".constantize)
-    # can not check for whether the element is included in CostQuery::GroupBy if it does not exist
-    expect{"CostQuery::GroupBy::CustomField#{custom_field2.id}".constantize}.to raise_error NameError
+    expect_group_by_all_to_include(custom_field)
+    expect_group_by_all_to_not_exist(custom_field2)
+
+    expect_filter_all_to_include(custom_field)
+    expect_filter_all_to_not_exist(custom_field2)
   end
 
   it 'removes the filter/group_by if the last custom field is removed' do
-    get "projects/#{project.id}/cost_reports"
+    visit_cost_reports_index
 
-    expect(CostQuery::GroupBy.all).to include("CostQuery::GroupBy::CustomField#{custom_field.id}".constantize)
+    expect_group_by_all_to_include(custom_field)
+    expect_filter_all_to_include(custom_field)
 
     custom_field.destroy
 
-    get "projects/#{project.id}/cost_reports"
+    visit_cost_reports_index
 
-    # can not check for whether the element is included in CostQuery::GroupBy if it does not exist
-    expect{"CostQuery::GroupBy::CustomField#{custom_field.id}".constantize}.to raise_error NameError
+    expect_group_by_all_to_not_exist(custom_field)
+    expect_filter_all_to_not_exist(custom_field)
   end
 end

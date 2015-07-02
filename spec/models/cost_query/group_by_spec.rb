@@ -18,6 +18,7 @@
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
 
 describe CostQuery, type: :model, reporting_query_helper: true do
   let!(:type) { FactoryGirl.create(:type) }
@@ -216,9 +217,16 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
     describe CostQuery::GroupBy::CustomFieldEntries do
       let!(:project){ FactoryGirl.create(:project_with_types) }
+      let!(:custom_field) do
+        FactoryGirl.create(:work_package_custom_field)
+      end
+
+      let(:custom_field2) do
+        FactoryGirl.build(:work_package_custom_field)
+      end
 
       before do
-        create_work_package_custom_field("Searchable Field")
+        check_cache
         CostQuery::GroupBy.all.merge CostQuery::GroupBy::CustomFieldEntries.all
       end
 
@@ -227,63 +235,57 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         CostQuery::GroupBy::CustomFieldEntries.all
       end
 
-      def create_work_package_custom_field(name)
-        WorkPackageCustomField.create(name: name,
-                                      min_length: 1,
-                                      regexp: "",
-                                      is_for_all: true,
-                                      max_length: 100,
-                                      possible_values: "",
-                                      is_required: false,
-                                      field_format: "string",
-                                      searchable: true,
-                                      default_value: "Default string",
-                                      editable: true)
+      def delete_work_package_custom_field(custom_field)
+        custom_field.destroy
         check_cache
       end
 
-      def delete_work_package_custom_field(name)
-        WorkPackageCustomField.find_by_name(name).destroy
-        check_cache
-      end
-
-      def class_name_for(name)
-        "CostQuery::GroupBy::CustomField#{WorkPackageCustomField.find_by_name(name).id}"
-      end
+      include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
 
       it "should create classes for custom fields" do
         # Would raise a name error
-        expect { class_name_for('Searchable Field').constantize }.to_not raise_error
+        expect { group_by_class_name_string(custom_field).constantize }.to_not raise_error
       end
 
       it "should create new classes for custom fields that get added after starting the server" do
-        create_work_package_custom_field("AFreshCustomField")
+        custom_field2.save!
+
+        check_cache
+
         # Would raise a name error
-        expect { class_name_for('AFreshCustomField').constantize }.to_not raise_error
-        WorkPackageCustomField.find_by_name("AFreshCustomField").destroy
+        expect { group_by_class_name_string(custom_field2).constantize }.to_not raise_error
+
+        custom_field2.destroy
       end
 
       it "should remove the custom field classes after it is deleted" do
-        create_work_package_custom_field("AFreshCustomField")
-        name = class_name_for('AFreshCustomField')
-        delete_work_package_custom_field("AFreshCustomField")
-        expect{name.constantize}.to raise_error NameError
+        custom_field2.save!
+
+        check_cache
+
+        custom_field2.destroy
+
+        check_cache
+
+        expect { group_by_class_name_string(custom_field2).constantize }.to raise_error NameError
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
         expect(CostQuery::GroupBy::CustomFieldEntries.all).
-          to include(class_name_for('Searchable Field').constantize)
+          to include(group_by_class_name_string(custom_field).constantize)
       end
 
       it "includes custom fields classes in GroupBy.all" do
         expect(CostQuery::GroupBy.all).
-          to include(class_name_for('Searchable Field').constantize)
+          to include(group_by_class_name_string(custom_field).constantize)
       end
 
       it "is usable as filter" do
-        create_work_package_custom_field("Database")
-        id = WorkPackageCustomField.find_by_name('Database').id
-        @query.group_by "custom_field_#{id}".to_sym
+        custom_field2.save!
+
+        check_cache
+
+        @query.group_by "custom_field_#{custom_field2.id}".to_sym
         footprint = @query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
         expect(footprint).to eq([[8, 8]])
       end

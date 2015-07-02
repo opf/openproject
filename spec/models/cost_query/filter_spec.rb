@@ -18,6 +18,7 @@
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
 
 describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
@@ -351,27 +352,25 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         clear_cache
       end
 
-      def class_name_for(cf)
-        "CostQuery::Filter::CustomField#{cf.id}"
-      end
+      include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
 
       it "should create classes for custom fields that get added after starting the server" do
         custom_field
-        expect { class_name_for(custom_field).constantize }.not_to raise_error
+        expect { filter_class_name_string(custom_field).constantize }.not_to raise_error
       end
 
       it "should remove the custom field classes after it is deleted" do
         custom_field
-        class_name = class_name_for(custom_field)
+        class_name = filter_class_name_string(custom_field)
         delete_work_package_custom_field(custom_field)
-        expect { class_name_for(custom_field).constantize }.to raise_error NameError
+        expect { filter_class_name_string(custom_field).constantize }.to raise_error NameError
       end
 
       it "should provide the correct available values" do
         custom_field2.save
 
         clear_cache
-        ao = class_name_for(custom_field2).constantize.available_operators.map(&:name)
+        ao = filter_class_name_string(custom_field2).constantize.available_operators.map(&:name)
         CostQuery::Operator.null_operators.each do |o|
           expect(ao).to include o.name
         end
@@ -381,12 +380,12 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         custom_field2.save
 
         update_work_package_custom_field("Database", field_format: "string")
-        ao = class_name_for(custom_field2).constantize.available_operators.map(&:name)
+        ao = filter_class_name_string(custom_field2).constantize.available_operators.map(&:name)
         CostQuery::Operator.string_operators.each do |o|
           expect(ao).to include o.name
         end
         update_work_package_custom_field("Database", field_format: "int")
-        ao = class_name_for(custom_field2).constantize.available_operators.map(&:name)
+        ao = filter_class_name_string(custom_field2).constantize.available_operators.map(&:name)
         CostQuery::Operator.integer_operators.each do |o|
           expect(ao).to include o.name
         end
@@ -395,13 +394,13 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       it "includes custom fields classes in CustomFieldEntries.all" do
         custom_field
         expect(CostQuery::Filter::CustomFieldEntries.all).
-          to include(class_name_for(custom_field).constantize)
+          to include(filter_class_name_string(custom_field).constantize)
       end
 
       it "includes custom fields classes in Filter.all" do
         custom_field
         expect(CostQuery::Filter.all).
-          to include(class_name_for(custom_field).constantize)
+          to include(filter_class_name_string(custom_field).constantize)
       end
 
       def create_searchable_fields_and_values
