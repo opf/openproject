@@ -25,6 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+/* globals URI */
 
 module.exports = function($http,
     PathHelper,
@@ -81,7 +82,7 @@ module.exports = function($http,
         changes._links = changes.links || {};
         changes._links.type = {
           href: initialData.type
-        }
+        };
         delete changes.type;
       }
       var wp = {
@@ -263,7 +264,8 @@ module.exports = function($http,
       console.log(workPackage.links.updateImmediately);
       var options = { ajax: {
         method: workPackage.links.updateImmediately.props.method,
-        url: URI(workPackage.links.updateImmediately.props.href).addSearch('notify', notify).toString(),
+        url: URI(workPackage.links.updateImmediately.props.href)
+            .addSearch('notify', notify).toString(),
         headers: {
           Accept: 'application/hal+json'
         },

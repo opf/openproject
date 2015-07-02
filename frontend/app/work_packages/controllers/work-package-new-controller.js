@@ -77,7 +77,7 @@ module.exports = function(
       vm.workPackage = wp;
       $scope.workPackage = wp;
       var firstTimeFocused = false;
-      $scope.$watchCollection('vm.workPackage.form', function(form) {
+      $scope.$watchCollection('vm.workPackage.form', function() {
         vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
         var schema = WorkPackageFieldService.getSchema(vm.workPackage);
         var otherGroup = _.find(vm.groupedFields, { groupName: 'other' });
@@ -123,7 +123,6 @@ module.exports = function(
     } else {
       vm.loaderPromise = $state.go('^');
     }
-    // angular.element('.work-packages--details--subject:first .inplace-edit--write').controller().cancel();
   }
 
   function isGroupHideable(groupName) {
