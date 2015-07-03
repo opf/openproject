@@ -32,7 +32,7 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::CreateFormRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:errors) { Hash.new }
+  let(:errors) { [] }
   let(:work_package) {
     FactoryGirl.build(:work_package,
                       id: 42,
@@ -45,12 +45,6 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
   let(:representer) {
     described_class.new(work_package, current_user: current_user, errors: errors)
   }
-
-  before do
-    # a little trick to ensure mocked properties are present on duplicated instances, too
-    # however, this carries the assumption that the code can handle duplication not happening
-    allow(errors).to receive(:dup).and_return(errors)
-  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -105,11 +99,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         end
 
         context 'invalid work package' do
-          let(:errors) { { something: [:broken] } }
-
-          before do
-            allow(errors).to receive(:full_message).and_return ''
-          end
+          let(:errors) { [::API::Errors::Validation.new(:subject, 'it is broken')] }
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end

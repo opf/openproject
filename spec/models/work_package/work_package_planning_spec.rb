@@ -103,7 +103,7 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:subject]).to be_present
-        expect(planning_element.errors[:subject]).to eq(["can't be blank"])
+        expect(planning_element.errors[:subject]).to eq(["can't be blank."])
       end
 
       it 'is invalid w/ a subject longer than 255 characters' do
@@ -113,7 +113,7 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:subject]).to be_present
-        expect(planning_element.errors[:subject]).to eq(['is too long (maximum is 255 characters)'])
+        expect(planning_element.errors[:subject]).to eq(['is too long (maximum is 255 characters).'])
       end
     end
 
@@ -146,7 +146,7 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        expect(planning_element.errors[:due_date]).to eq(['must be greater than start date'])
+        expect(planning_element.errors[:due_date]).to eq(['must be greater than start date.'])
       end
 
       it 'is invalid if planning_element is milestone and due_date is not on start_date' do
@@ -158,7 +158,7 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        expect(planning_element.errors[:due_date]).to eq(['is not on start date, although this is required for milestones'])
+        expect(planning_element.errors[:due_date]).to eq(['is not on start date, although this is required for milestones.'])
       end
     end
 
@@ -170,13 +170,13 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:project]).to be_present
-        expect(planning_element.errors[:project]).to eq(["can't be blank"])
+        expect(planning_element.errors[:project]).to eq(["can't be blank."])
       end
     end
 
     describe 'parent' do
-      let (:de_message) { 'darf kein Meilenstein sein' }
-      let (:en_message) { 'cannot be a milestone' }
+      let (:de_message) { 'darf kein Meilenstein sein.' }
+      let (:en_message) { 'cannot be a milestone.' }
       after(:each) do
         # proper reset of the locale after the test
         I18n.locale = 'en'
@@ -195,7 +195,7 @@ describe WorkPackage, type: :model do
             expect(planning_element).not_to be_valid
 
             expect(planning_element.errors[:parent_id]).to be_present
-            expect(planning_element.errors[:parent_id]).to eq([send("#{I18n.locale}_message")])
+            expect(planning_element.errors[:parent_id]).to eq([send("#{locale}_message")])
           end
 
         end

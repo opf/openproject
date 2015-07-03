@@ -76,7 +76,7 @@ describe AvailableProjectStatus, type: :model do
         expect(available_project_status).not_to be_valid
 
         expect(available_project_status.errors[:project_type]).to be_present
-        expect(available_project_status.errors[:project_type]).to eq(["can't be blank"])
+        expect(available_project_status.errors[:project_type]).to eq(["can't be blank."])
       end
     end
 
@@ -88,7 +88,7 @@ describe AvailableProjectStatus, type: :model do
         expect(available_project_status).not_to be_valid
 
         expect(available_project_status.errors[:reported_project_status]).to be_present
-        expect(available_project_status.errors[:reported_project_status]).to eq(["can't be blank"])
+        expect(available_project_status.errors[:reported_project_status]).to eq(["can't be blank."])
       end
     end
   end

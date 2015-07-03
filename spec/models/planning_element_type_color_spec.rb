@@ -70,7 +70,7 @@ describe PlanningElementTypeColor, type: :model do
         expect(color).not_to be_valid
 
         expect(color.errors[:name]).to be_present
-        expect(color.errors[:name]).to eq(["can't be blank"])
+        expect(color.errors[:name]).to eq(["can't be blank."])
       end
 
       it 'is invalid w/ a name longer than 255 characters' do
@@ -80,7 +80,7 @@ describe PlanningElementTypeColor, type: :model do
         expect(color).not_to be_valid
 
         expect(color.errors[:name]).to be_present
-        expect(color.errors[:name]).to eq(['is too long (maximum is 255 characters)'])
+        expect(color.errors[:name]).to eq(['is too long (maximum is 255 characters).'])
       end
     end
 
@@ -92,7 +92,7 @@ describe PlanningElementTypeColor, type: :model do
         expect(color).not_to be_valid
 
         expect(color.errors[:hexcode]).to be_present
-        expect(color.errors[:hexcode]).to eq(["can't be blank"])
+        expect(color.errors[:hexcode]).to eq(["can't be blank."])
       end
 
       it 'is invalid w/ malformed hexcodes' do

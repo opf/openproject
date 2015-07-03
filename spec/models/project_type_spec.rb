@@ -89,7 +89,7 @@ describe ProjectType, type: :model do
         expect(project_type).not_to be_valid
 
         expect(project_type.errors[:name]).to be_present
-        expect(project_type.errors[:name]).to eq(["can't be blank"])
+        expect(project_type.errors[:name]).to eq(["can't be blank."])
       end
 
       it 'is invalid w/ a name longer than 255 characters' do
@@ -99,7 +99,7 @@ describe ProjectType, type: :model do
         expect(project_type).not_to be_valid
 
         expect(project_type.errors[:name]).to be_present
-        expect(project_type.errors[:name]).to eq(['is too long (maximum is 255 characters)'])
+        expect(project_type.errors[:name]).to eq(['is too long (maximum is 255 characters).'])
       end
     end
 
