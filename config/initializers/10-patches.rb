@@ -74,10 +74,10 @@ end
 module ActiveModel
   class Errors
     ##
-    # ActiveRecord errors do provide no means to access the symbols initially used to create an error.
-    # E.g. errors.add :foo, :bar instantly translates :bar, making it hard to write code dependent on
-    # specific errors (which we use in the APIv3).
-    # We therefore add a second information store that contains pairs of [symbol, translated_message].
+    # ActiveRecord errors do provide no means to access the symbols initially used to create an
+    # error. E.g. errors.add :foo, :bar instantly translates :bar, making it hard to write code
+    # dependent on specific errors (which we use in the APIv3).
+    # We therefore add a second information store containing pairs of [symbol, translated_message].
     def add_with_storing_error_symbols(attribute, message = :invalid, options = {})
       add_without_storing_error_symbols(attribute, message, options)
 

@@ -42,8 +42,8 @@ module API
 
               unless metadata.file_name
                 raise ::API::Errors::Validation.new(
-                        :file_name,
-                        "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
+                  :file_name,
+                  "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
               end
 
               metadata

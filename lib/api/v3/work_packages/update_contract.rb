@@ -32,7 +32,9 @@ module API
     module WorkPackages
       class UpdateContract < BaseContract
         attribute :lock_version do
-          errors.add :base, :error_conflict if model.lock_version.nil? || model.lock_version_changed?
+          if model.lock_version.nil? || model.lock_version_changed?
+            errors.add :base, :error_conflict
+          end
         end
 
         validate :user_allowed_to_access
