@@ -36,7 +36,7 @@ describe ::API::Contracts::ModelContract do
            overwritten_attribute: nil,
            changed: [],
            valid?: true,
-           errors: {})
+           errors: ActiveModel::Errors.new(nil))
   }
   let(:child_contract) { ChildContract.new(model) }
   let(:grand_child_contract) { GrandChildContract.new(model) }
