@@ -1,15 +1,11 @@
 class SessionController < ActionController::Base
   def logout_warning
-    url = login_url back_url: params[:back_url]
+    url = signin_url back_url: params[:back_url]
 
     render 'logout_warning', locals: { message: link_i18n(:logout_warning, url) }
   end
 
   private
-
-  def login_url(params = {})
-    signin_url params
-  end
 
   ##
   # Finds any words enclosed in brackets (like links in Markdown) and
