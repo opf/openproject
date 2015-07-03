@@ -78,11 +78,7 @@ module API
         # order to have them available at one place.
         # This is something we need as long as we have validations split
         # among the model and its contract.
-        model.errors.keys.each do |key|
-          model.errors[key].each do |message|
-            errors.add(key, message)
-          end
-        end
+        errors.merge!(model.errors, [])
 
         errors.empty?
       end
