@@ -44,7 +44,7 @@ describe ::API::V3::WorkPackages::UpdateContract do
         contract.validate
       end
 
-      it { expect(contract.errors.error_symbols_for(:base)).to include(:error_conflict) }
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_conflict) }
     end
 
     context 'lock_version changed' do
@@ -53,7 +53,7 @@ describe ::API::V3::WorkPackages::UpdateContract do
         contract.validate
       end
 
-      it { expect(contract.errors.error_symbols_for(:base)).to include(:error_conflict) }
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_conflict) }
     end
 
     context 'lock_version present and unchanged' do
@@ -61,7 +61,7 @@ describe ::API::V3::WorkPackages::UpdateContract do
         contract.validate
       end
 
-      it { expect(contract.errors.error_symbols_for(:base)).not_to include(:error_conflict) }
+      it { expect(contract.errors.symbols_for(:base)).not_to include(:error_conflict) }
     end
   end
 
@@ -77,13 +77,13 @@ describe ::API::V3::WorkPackages::UpdateContract do
     context 'no read access' do
       let(:permissions) { [:edit_work_packages] }
 
-      it { expect(contract.errors.error_symbols_for(:base)).to include(:error_not_found) }
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_not_found) }
     end
 
     context 'no write access' do
       let(:permissions) { [:view_work_packages] }
 
-      it { expect(contract.errors.error_symbols_for(:base)).to include(:error_unauthorized) }
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
     end
   end
 end

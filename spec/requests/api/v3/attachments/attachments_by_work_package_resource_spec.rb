@@ -115,7 +115,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
       let(:metadata) { Hash.new.to_json }
 
       it_behaves_like 'constraint violation' do
-        let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}." }
+        let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}" }
       end
     end
 
@@ -126,7 +126,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
       }
 
       it_behaves_like 'constraint violation' do
-        let(:message) { "File #{expanded_localization}." }
+        let(:message) { "File #{expanded_localization}" }
       end
     end
   end

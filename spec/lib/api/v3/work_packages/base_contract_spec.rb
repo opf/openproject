@@ -67,7 +67,7 @@ describe ::API::V3::WorkPackages::BaseContract do
       let(:changed_values) { [attribute] }
 
       it('is invalid') do
-        expect(contract.errors.error_symbols_for(:done_ratio)).to match_array([:error_readonly])
+        expect(contract.errors.symbols_for(:done_ratio)).to match_array([:error_readonly])
       end
     end
 
@@ -117,7 +117,7 @@ describe ::API::V3::WorkPackages::BaseContract do
         let(:changed_values) { [attribute] }
 
         it('is invalid (read only)') do
-          expect(contract.errors.error_symbols_for(attribute)).to match_array([:error_readonly])
+          expect(contract.errors.symbols_for(attribute)).to match_array([:error_readonly])
         end
       end
     end

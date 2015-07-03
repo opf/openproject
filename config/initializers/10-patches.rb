@@ -73,16 +73,36 @@ end
 
 module ActiveModel
   class Errors
+    ##
+    # ActiveRecord errors do provide no means to access the symbols initially used to create an error.
+    # E.g. errors.add :foo, :bar instantly translates :bar, making it hard to write code dependent on
+    # specific errors (which we use in the APIv3).
+    # We therefore add a second information store that contains pairs of [symbol, translated_message].
     def add_with_storing_error_symbols(attribute, message = :invalid, options = {})
       add_without_storing_error_symbols(attribute, message, options)
 
-      writable_error_symbols_for(attribute) << message if store_new_symbols?
+      if store_new_symbols?
+        if message.is_a?(Symbol)
+          symbol = message
+          partial_message = normalize_message(attribute, message, options)
+          full_message = full_message(attribute, partial_message)
+        else
+          symbol = :unknown
+          full_message = message
+        end
+
+        writable_symbols_and_messages_for(attribute) << [symbol, full_message]
+      end
     end
 
     alias_method_chain :add, :storing_error_symbols
 
-    def error_symbols_for(attribute)
-      writable_error_symbols_for(attribute).dup
+    def symbols_and_messages_for(attribute)
+      writable_symbols_and_messages_for(attribute).dup
+    end
+
+    def symbols_for(attribute)
+      symbols_and_messages_for(attribute).map(&:first)
     end
 
     def full_message(attribute, message)
@@ -112,7 +132,7 @@ module ActiveModel
       @error_symbols ||= Hash.new
     end
 
-    def writable_error_symbols_for(attribute)
+    def writable_symbols_and_messages_for(attribute)
       attribute = attribute.to_sym # avoid mixed symbol/string keys
       error_symbols[attribute] = [] unless error_symbols[attribute]
 
@@ -138,8 +158,8 @@ class Reform::Contract::Errors
     @store_new_symbols = true
 
     errors.keys.each do |attribute|
-      errors.error_symbols_for(attribute).each do |symbol|
-        writable_error_symbols_for(attribute) << symbol
+      errors.symbols_and_messages_for(attribute).each do |symbol, message|
+        writable_symbols_and_messages_for(attribute) << [symbol, message]
       end
     end
   end

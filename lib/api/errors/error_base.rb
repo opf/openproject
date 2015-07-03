@@ -41,7 +41,7 @@ module API
         # That means: The returned errors are always safe for display towards a user
         def create_errors(errors)
           if errors.has_key?(:base)
-            base_errors = errors.error_symbols_for(:base)
+            base_errors = errors.symbols_for(:base)
             if base_errors.include?(:error_not_found)
               return [::API::Errors::NotFound.new]
             elsif base_errors.include?(:error_unauthorized)
@@ -77,18 +77,10 @@ module API
 
           errors.keys.each do |attribute|
             api_attribute_name = convert_to_api_name(attribute)
-            errors.error_symbols_for(attribute).each do |symbol_or_message|
-              if symbol_or_message == :error_readonly
+            errors.symbols_and_messages_for(attribute).each do |symbol, full_message|
+              if symbol == :error_readonly
                 api_errors << ::API::Errors::UnwritableProperty.new(api_attribute_name)
               else
-                partial_message = if symbol_or_message.is_a?(Symbol)
-                                    errors.generate_message(attribute, symbol_or_message)
-                                  else
-                                    symbol_or_message
-                                  end
-
-                full_message = errors.full_message(attribute, partial_message)
-
                 api_errors << ::API::Errors::Validation.new(api_attribute_name, full_message)
               end
             end
