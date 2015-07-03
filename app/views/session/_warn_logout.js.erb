@@ -1,8 +1,10 @@
 // window.parent == OpenProject window
-var $ = window.parent.jQuery
+var op = window.parent;
+var $ = op.jQuery
+var back_url = encodeURIComponent(op.document.location.href);
 
 $.ajax({
-    url: "/session/logout_warning",
+    url: "/session/logout_warning?back_url=" + back_url,
     cache: false,
     success: function(html) {
       $("#logout-warning").remove();
