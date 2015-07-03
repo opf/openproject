@@ -18,17 +18,14 @@
 #++
 
 module OpenProject::Reporting::SpecHelper
-  module CustomFieldFilterHelper
-    def group_by_class_name_string(custom_field)
-      id = custom_field.is_a?(ActiveRecord::Base) ? custom_field.id : custom_field
-
-      "CostQuery::GroupBy::CustomField#{id}"
-    end
-
-    def filter_class_name_string(custom_field)
-      id = custom_field.is_a?(ActiveRecord::Base) ? custom_field.id : custom_field
-
-      "CostQuery::Filter::CustomField#{id}"
+  module ConfigurationHelper
+    def mock_cache_classes_setting_with(value)
+      allow(OpenProject::Configuration).to receive(:[]).and_call_original
+      allow(OpenProject::Configuration).to receive(:[])
+        .with('cost_reporting_cache_filter_classes')
+        .and_return(value)
+      allow(OpenProject::Configuration).to receive(:cost_reporting_cache_filter_classes)
+        .and_return(value)
     end
   end
 end

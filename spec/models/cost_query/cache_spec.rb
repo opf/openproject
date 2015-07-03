@@ -18,8 +18,11 @@
 #++
 
 require 'spec_helper'
+require File.join(File.dirname(__FILE__), '..', '..', 'support', 'configuration_helper')
 
 describe CostQuery::Cache do
+  include OpenProject::Reporting::SpecHelper::ConfigurationHelper
+
   def all_caches
     [ CostQuery::GroupBy::CustomFieldEntries,
       CostQuery::GroupBy,
@@ -66,34 +69,58 @@ describe CostQuery::Cache do
   end
 
   describe '.check' do
-    it 'resets the caches on filters and group by' do
-      custom_fields_exist
-      expect_reset_on_caches
 
-      described_class.check
+    context 'with cache_classes configuration enabled' do
+      before do
+        mock_cache_classes_setting_with(true)
+      end
+
+      it 'resets the caches on filters and group by' do
+        custom_fields_exist
+        expect_reset_on_caches
+
+        described_class.check
+      end
+
+      it 'stores when the last update was made and does not reset again if nothing changed' do
+        custom_fields_exist
+        expect_reset_on_caches
+
+        described_class.check
+
+        expect_no_reset_on_caches
+
+        described_class.check
+      end
+
+      it 'does reset the cache if last CustomField is removed' do
+        custom_fields_exist
+        expect_reset_on_caches
+
+        described_class.check
+
+        no_custom_fields_exist
+        expect_reset_on_caches
+
+        described_class.check
+      end
     end
 
-    it 'stores when the last update was made and does not reset again if nothing changed' do
-      custom_fields_exist
-      expect_reset_on_caches
+    context 'with_cache_classes configuration disabled' do
+      before do
+        mock_cache_classes_setting_with(false)
+      end
 
-      described_class.check
+      it 'resets the cache again even if nothing changed' do
+        custom_fields_exist
+        expect_reset_on_caches
 
-      expect_no_reset_on_caches
+        described_class.check
 
-      described_class.check
-    end
+        expect_reset_on_caches
 
-    it 'does reset the cache if last CustomField is removed' do
-      custom_fields_exist
-      expect_reset_on_caches
-
-      described_class.check
-
-      no_custom_fields_exist
-      expect_reset_on_caches
-
-      described_class.check
+        described_class.check
+      end
     end
   end
 end

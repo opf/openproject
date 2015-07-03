@@ -19,8 +19,12 @@
 
 require 'spec_helper'
 require File.join(File.dirname(__FILE__), '..', 'support', 'custom_field_filter')
+require File.join(File.dirname(__FILE__), '..', 'support', 'configuration_helper')
 
 describe 'Custom field filter and group by caching', type: :request do
+  include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
+  include OpenProject::Reporting::SpecHelper::ConfigurationHelper
+
   let(:project) { FactoryGirl.create(:valid_project) }
   let(:user) { FactoryGirl.create(:admin) }
   let(:custom_field) { FactoryGirl.build(:work_package_custom_field) }
@@ -31,8 +35,6 @@ describe 'Custom field filter and group by caching', type: :request do
 
     custom_field.save!
   end
-
-  include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
 
   def expect_group_by_all_to_include(custom_field)
     expect(CostQuery::GroupBy.all).to include(group_by_class_name_string(custom_field).constantize)
@@ -90,5 +92,38 @@ describe 'Custom field filter and group by caching', type: :request do
 
     expect_group_by_all_to_not_exist(custom_field)
     expect_filter_all_to_not_exist(custom_field)
+  end
+
+  it 'allows for changing the db table between requests if no caching is done' do
+    old_table_name = WorkPackageCustomField.table_name
+    new_table_name = 'custom_fields_clone'
+    new_id = custom_field.id + 1
+
+    begin
+      mock_cache_classes_setting_with(false)
+
+      visit_cost_reports_index
+
+      expect_group_by_all_to_include(custom_field)
+      expect_filter_all_to_include(custom_field)
+
+      ActiveRecord::Base.connection.execute("CREATE TABLE #{new_table_name} AS SELECT * from custom_fields;")
+      ActiveRecord::Base.connection.execute("UPDATE #{new_table_name} SET id = #{new_id} WHERE id = #{custom_field.id};")
+      CustomField::Translation.where(custom_field_id: custom_field.id).update_all(custom_field_id: new_id)
+
+      WorkPackageCustomField.table_name = new_table_name
+
+      visit_cost_reports_index
+
+      expect_group_by_all_to_not_exist(custom_field)
+      expect_filter_all_to_not_exist(custom_field)
+
+      expect_group_by_all_to_include(new_id)
+      expect_filter_all_to_include(new_id)
+
+    ensure
+      WorkPackageCustomField.table_name = old_table_name
+      ActiveRecord::Base.connection.execute("DROP TABLE IF EXISTS #{new_table_name}")
+    end
   end
 end

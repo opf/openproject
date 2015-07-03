@@ -21,7 +21,7 @@ module CostQuery::Cache
   class << self
 
     def check
-      reset! if invalid?
+      reset! if reset_required?
     end
 
     def reset!
@@ -47,6 +47,8 @@ module CostQuery::Cache
     end
 
     def update_reset_on
+      return if caching_disabled?
+
       self.custom_fields_updated_on = fetch_custom_field_updated_at
       self.custom_fields_id_sum = fetch_custom_fields_changed
     end
@@ -57,6 +59,14 @@ module CostQuery::Cache
 
     def fetch_custom_fields_changed
       WorkPackageCustomField.sum(:id) + WorkPackageCustomField.count
+    end
+
+    def caching_disabled?
+      !OpenProject::Configuration.cost_reporting_cache_filter_classes
+    end
+
+    def reset_required?
+      caching_disabled? || invalid?
     end
   end
 
