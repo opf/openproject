@@ -46,6 +46,14 @@ from your `Gemfile.plugins` in your OpenProject installation folder and run:
 to uninstall the ReportingEngine and the OpenProject Reporting plugin.
 
 
+Configuration
+-------------
+
+* `cost_reporting_cache_filter_classes: true`
+
+OpenProject Reporting, when not configured otherwise, optimizes response time by caching the filters and group by options generated for work package custom fields. Only when the custom fields are invalidated, does reporting recreate the elements by information from the database. In some scenarios, such a behavior might not be desirable. Especially, when databases are switched between requests to serve information from another installation, caching will almost always fail as the information is outdated and in some edge cases, filters and group by options are displayed erroneously. In such a setting, it is advisible to deactivate the caching by setting `cost_reporting_cache_filter_classes` to `false` in OpenProject's `config/configuration.yml`
+
+
 Bug Reporting
 -------------
 
