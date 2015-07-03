@@ -76,7 +76,7 @@ module API
           api_errors = []
 
           errors.keys.each do |attribute|
-            api_attribute_name = attribute.to_s.camelize(:lower)
+            api_attribute_name = convert_to_api_name(attribute)
             errors.error_symbols_for(attribute).each do |symbol_or_message|
               if symbol_or_message == :error_readonly
                 api_errors << ::API::Errors::UnwritableProperty.new(api_attribute_name)
@@ -95,6 +95,15 @@ module API
           end
 
           api_errors
+        end
+
+        # Converts the attribute name as refered to by ActiveRecord to a corresponding API-conform
+        # attribute name:
+        #  * camelCasing the attribute name
+        #  * unifying :status and :status_id to 'status' (and other foo_id fields)
+        #  * TODO: converting totally different attribute names (e.g. createdAt vs createdOn)
+        def convert_to_api_name(attribute)
+          attribute.to_s.sub(/(.+)_id\z/, '\1').camelize(:lower)
         end
       end
 

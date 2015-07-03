@@ -90,8 +90,8 @@ module API
           end
         end
 
-        def initialize(object, user)
-          super(object)
+        def initialize(work_package, user)
+          super(work_package)
 
           @user = user
           @can = WorkPackagePolicy.new(user)

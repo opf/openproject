@@ -73,7 +73,7 @@ end
 
 module ActiveModel
   class Errors
-    def add_with_storing_error_symbols(attribute, message = nil, options = {})
+    def add_with_storing_error_symbols(attribute, message = :invalid, options = {})
       add_without_storing_error_symbols(attribute, message, options)
 
       writable_error_symbols_for(attribute) << message if store_new_symbols?
