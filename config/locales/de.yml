@@ -36,7 +36,7 @@ de:
   description_attended: "teilgenommen"
   description_invite: "eingeladen"
 
-  error_notification_with_errors: "Benachrichtigungversenden fehlgeschlagen. Folgende Empfänger konnten nicht benachrichtigt werden: "
+  error_notification_with_errors: "Benachrichtigungversenden fehlgeschlagen. Folgende Empfänger konnten nicht benachrichtigt werden: %{recipients}"
 
   events:
     meeting: Besprechung bearbeitet
