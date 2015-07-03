@@ -61,7 +61,6 @@ module API
 
         attribute :done_ratio do
           if model.changed.include?('done_ratio')
-            # TODO Allow multiple errors as soon as they have separate messages
             if !model.leaf?
               errors.add :done_ratio, :error_readonly
             elsif Setting.work_package_done_ratio == 'status'
