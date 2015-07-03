@@ -27,19 +27,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWorkPackageCreatedJob < MailNotificationJob
-  def initialize(recipient_id, work_package_id, author_id)
-    super(recipient_id, author_id)
-    @work_package_id = work_package_id
+require 'spec_helper'
+
+describe MailNotificationJob, type: :model do
+  class StubNoticationJob < MailNotificationJob
+    def initialize(recipient_id, author_id, mail_callback)
+      super(recipient_id, author_id)
+      @mail_callback = mail_callback
+    end
+
+    def notification_mail
+      @mail_callback.call
+    end
   end
 
-  private
+  let(:recipient) { FactoryGirl.create(:user) }
+  let(:author) { FactoryGirl.create(:user) }
+  let(:mail) { double('a mail', deliver: nil) }
+  let(:mail_callback) { -> { mail } }
+  subject { StubNoticationJob.new(recipient.id, author.id, mail_callback) }
 
-  def notification_mail
-    @notification_mail ||= UserMailer.work_package_added(recipient, work_package, author)
+  describe 'the recipient should become the current user during mail creation' do
+    let(:mail_callback) {
+      -> {
+        expect(User.current).to eql(recipient)
+        mail
+      }
+    }
+
+    it { subject.perform }
   end
 
-  def work_package
-    @work_package ||= WorkPackage.find(@work_package_id)
+  context 'for a known current user' do
+    let(:current_user) { FactoryGirl.create(:user) }
+
+    it 'resets to the previous current user after running' do
+      User.current = current_user
+      subject.perform
+      expect(User.current).to eql(current_user)
+    end
   end
 end
