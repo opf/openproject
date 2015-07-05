@@ -27,19 +27,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWorkPackageCreatedJob < MailNotificationJob
-  def initialize(recipient_id, work_package_id, author_id)
-    super(recipient_id, author_id)
-    @work_package_id = work_package_id
+require 'spec_helper'
+require 'workers/mail_notification_jobs/shared_examples'
+
+describe DeliverWorkPackageUpdatedJob, type: :model do
+  let(:work_package) do
+    FactoryGirl.create(:work_package).tap do |wp|
+      wp.subject = mail_subject
+      wp.save # create journal
+    end
   end
 
-  private
+  let(:current_user) { FactoryGirl.create :user }
+  let(:journal)      { work_package.journals.last }
+  let(:job)          { DeliverWorkPackageUpdatedJob.new user.id, journal.id, current_user.id }
 
-  def notification_mail
-    @notification_mail ||= UserMailer.work_package_added(recipient, work_package, author)
-  end
+  it_behaves_like 'a mail notification job' do
+    context 'with journal not found' do
+      let(:mail_subject) { 'no journal found! :/' }
 
-  def work_package
-    @work_package ||= WorkPackage.find(@work_package_id)
+      before do
+        journal.destroy
+      end
+
+      it_behaves_like 'job cannot find record'
+    end
+
+    context 'with current user not found' do
+      let(:mail_subject) { 'current user not found! :x' }
+
+      before do
+        current_user.destroy
+      end
+
+      it_behaves_like 'job cannot find record'
+    end
   end
 end

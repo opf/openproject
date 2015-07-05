@@ -27,19 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWorkPackageCreatedJob < MailNotificationJob
-  def initialize(recipient_id, work_package_id, author_id)
-    super(recipient_id, author_id)
-    @work_package_id = work_package_id
-  end
+require 'spec_helper'
+require 'workers/mail_notification_jobs/shared_examples'
 
-  private
+describe DeliverWorkPackageCreatedJob, type: :model do
+  let(:work_package) { FactoryGirl.create :work_package, subject: mail_subject }
+  let(:job)          { DeliverWorkPackageCreatedJob.new user.id, work_package.id, user.id }
 
-  def notification_mail
-    @notification_mail ||= UserMailer.work_package_added(recipient, work_package, author)
-  end
+  it_behaves_like 'a mail notification job' do
+    context 'with work package not found' do
+      let(:mail_subject) { 'no work package found! :o' }
 
-  def work_package
-    @work_package ||= WorkPackage.find(@work_package_id)
+      before do
+        work_package.destroy
+      end
+
+      it_behaves_like 'job cannot find record'
+    end
   end
 end
