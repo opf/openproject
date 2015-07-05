@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </thead>
     <% @project.activities(true).each do |enumeration| %>
       <%= fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>
-        <tr class="<%= cycle('odd', 'even') %>">
+        <tr class="list--row">
           <td align="center">
             <%= label_tag "enumerations_#{enumeration.id}_active", "#{h(enumeration.name)} #{l(:description_active)}", :class => "hidden-for-sighted" %>
             <%= ff.check_box :active %>

@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </thead>
       <tbody>
         <% @project_types.each do |type| %>
-          <tr class="<%= cycle("odd", "even") %>">
+          <tr class="list--row">
             <td class="timelines-pt-name">
               <%= link_to(h(type.name), edit_project_type_path(type)) %>
             </td>
@@ -64,7 +64,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <td class="timelines-pt-allows_association">
               <%= checked_image(type.allows_association) %>
             </td>
-            <td class="timelines-pt-actions buttons">
+            <td class="list--actions-cell">
               <%= link_to(confirm_destroy_project_type_path(type),
                          :class => 'icon icon-delete') do %>
                 <%= l(:button_delete) %>

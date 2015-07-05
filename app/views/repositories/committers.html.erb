@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <tbody>
         <% i = 0 -%>
         <% @committers.each do |committer, user_id| -%>
-          <tr class="<%= cycle 'odd', 'even' %>">
+          <tr class="list--row">
             <td><%=h committer %></td>
             <td>
               <%= hidden_field_tag "committers[#{i}][]", committer %>

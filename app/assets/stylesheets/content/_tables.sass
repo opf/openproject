@@ -26,13 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$tables--font-size: 0.875rem
+$tables--header-font-size: 0.875rem
+
 table
   &.list
+    font-size: $tables--font-size
     border: 1px solid #e4e4e4
     border-collapse: collapse
     width: 100%
     margin-bottom: 4px
     th
+      font-size: $tables--header-font-size
+      line-height: 1.5
       background-color: #E6E6E6
       padding: 4px
       white-space: nowrap
@@ -46,12 +52,6 @@ table
         padding: 2px 0 0 0
         input
           padding: 0
-      &.buttons
-        width: 15%
-        white-space: nowrap
-        text-align: right
-        a
-          padding-right: 0.6em
       .form--text-field, .form--select, .form--text-area
         margin-bottom: 0
     caption
@@ -351,15 +351,7 @@ table#time-report
         background: image-url("sort_desc.png") no-repeat right center
         padding-right: 16px
         display: block
-  tr
-    &.odd
-      background-color: white
-    &.even
-      background-color: #f6f7f8
-      &:hover
-        background-color: #FFD
-    &.odd:hover
-      background-color: #FFD
+
     &.context-menu-selection
       background-color: #FFFFB2
       &:hover
@@ -371,3 +363,39 @@ table#time-report
       cursor: context-menu
     &.updated
       width: 80px
+
+.list--row
+  line-height: $base-line-height
+
+  &:nth-child(odd)
+    background-color: white
+
+    &:hover
+      background-color: #FFD
+
+  &:nth-child(even)
+    background-color: #f6f7f8
+
+    &:hover
+      background-color: #FFD
+
+.list--actions-cell
+  font-size: 0.85em
+  width: 15%
+  white-space: nowrap
+  text-align: right
+
+  & > .icon
+    padding: 0.2em 0.6em 0.2em 0
+    border: 1px solid #e4e4e4
+    border-radius: $button-radius
+    background-color: rgba(255, 255, 255, 0.8)
+    color: $button--highlight-background-color
+
+    &:hover
+      border-color: $button--highlight-background-hover-color
+      background-color: $button--highlight-background-hover-color
+      color: white
+
+    &:hover::before
+      color: white

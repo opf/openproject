@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <tbody>
       <% @project.boards.each do |board|
   next if board.new_record? %>
-        <tr class="<%= cycle 'odd', 'even' %>">
+        <tr class="list--row">
           <td><%=h board.name %></td>
           <td><%=h board.description %></td>
           <td class="small-icons" align="center">
@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <%= reorder_links('board', {:controller => '/boards', :action => 'move', :project_id => @project, :id => board}) %>
             <% end %>
           </td>
-          <td class="buttons">
+          <td class="list--actions-cell">
             <%= link_to_if_authorized l(:button_edit), {:controller => '/boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
             <%= link_to_if_authorized l(:button_delete), {:controller => '/boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
           </td>

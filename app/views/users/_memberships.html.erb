@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <tbody>
         <% @user.memberships.each do |membership| %>
           <% next if membership.new_record? %>
-            <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
+            <tr id="member-<%= membership.id %>" class="list--row class">
               <td class="project">
                 <%= link_to_project membership.project %>
               </td>
@@ -68,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
               class: 'button -small' %></p>
                 <% end %>
               </td>
-              <td class="buttons">
+              <td class="list--actions-cell">
                 <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
                 <%= link_to(l(:button_delete), { :controller => 'users',
                                        :action => 'destroy_membership',
@@ -80,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
               </td>
               <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
             </tr>
-          <% end; reset_cycle %>
+          <% end %>
         </tbody>
       </table>
     <% else %>

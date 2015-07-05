@@ -68,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="timelines-rep-last_change">
             <%= format_date reporting.updated_at %>
           </td>
-          <td>
+          <td class="list--actions-cell">
             <%= link_to_if_authorized({:action => :edit, :project_id => @project, :id => reporting},
                                      :class => 'icon icon-edit') do %>
               <%= l(:button_edit) %>

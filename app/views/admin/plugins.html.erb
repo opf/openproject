@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if @plugins.any? %>
   <table class="list plugins">
     <% @plugins.each do |plugin| %>
-      <tr class="<%= cycle('odd', 'even') %>">
+      <tr class="list--row">
         <td><span class="name"><%=h plugin.name %></span>
           <%= content_tag('span', h(plugin.description), :class => 'description') unless plugin.description.blank? %>
           <%= content_tag('span', link_to(h(plugin.url), plugin.url), :class => 'url') unless plugin.url.blank? %>

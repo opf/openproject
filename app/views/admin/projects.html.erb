@@ -73,11 +73,11 @@ See doc/COPYRIGHT.rdoc for more details.
     </thead>
     <tbody>
       <% project_tree(@projects) do |project, level| %>
-        <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+        <tr class="list--row <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
           <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
           <td align="center"><%= checked_image project.is_public? %></td>
           <td align="center"><%= format_date(project.created_on) %></td>
-          <td class="buttons">
+          <td class="list--actions-cell">
             <%= link_to(l(:button_archive),
                 archive_project_path(project, :status => params[:status]),
                 :confirm => l(:text_are_you_sure),
