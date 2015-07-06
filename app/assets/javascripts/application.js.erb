@@ -344,7 +344,7 @@ function observeParentIssueField(url) {
                            updateElement: function(value) {
                              document.getElementById('issue_parent_id').value = value.id;
                            },
-                           parameters: 'scope=all'
+                           parameters: 'scope=relatable'
                            });
 }
 
@@ -358,7 +358,7 @@ function observeWorkPackageParentField(url) {
                            updateElement: function(value) {
                              document.getElementById('work_package_parent_id').value = value.id;
                            },
-                           parameters: 'scope=all'
+                           parameters: 'scope=relatable'
                            });
 }
 
@@ -372,7 +372,7 @@ function observeRelatedIssueField(url) {
                            updateElement: function(value) {
                              document.getElementById('relation_to_id').value = value.id;
                            },
-                           parameters: 'scope=all'
+                           parameters: 'scope=relatable'
                            });
 }
 

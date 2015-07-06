@@ -57,8 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= f.text_field :subject, required: true %>
 </div>
 <div class="form--field -vertical">
-  <%= f.text_area :description, accesskey: accesskey(:edit), class: 'wiki-edit', rows: 10, :'ng-non-bindable' => '',
-                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(project_id: work_package.project, format: :json) %>
+  <%= f.text_area :description, accesskey: accesskey(:edit), class: 'wiki-edit', rows: 10, :'ng-non-bindable' => '' %>
 </div>
 
 <div id="attributes" class="attributes">
