@@ -261,7 +261,6 @@ module.exports = function($http,
     },
 
     updateWorkPackage: function(workPackage, notify) {
-      console.log(workPackage.links.updateImmediately);
       var options = { ajax: {
         method: workPackage.links.updateImmediately.props.method,
         url: URI(workPackage.links.updateImmediately.props.href)
