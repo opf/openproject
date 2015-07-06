@@ -232,7 +232,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
+  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'release/4.2'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
