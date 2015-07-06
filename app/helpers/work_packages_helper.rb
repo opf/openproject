@@ -29,6 +29,7 @@
 
 module WorkPackagesHelper
   include AccessibilityHelper
+  include ERB::Util
   extend DeprecatedAlias
 
   def work_package_breadcrumb
@@ -656,6 +657,15 @@ module WorkPackagesHelper
     end
 
     ret
+  end
+
+  def truncated_subject(work_package, options = {})
+    return '' unless work_package.is_a? WorkPackage
+    subject = h(work_package.to_s)
+    length = options.fetch :length, 100
+    ellipsis = options.fetch :omission, '...'
+    return subject unless subject.length > length
+    truncate subject, length: length, omission: ellipsis
   end
 
   private
