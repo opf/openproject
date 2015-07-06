@@ -218,9 +218,6 @@ module.exports = function() {
     },
 
     // API V2
-    apiPrioritiesPath: function() {
-      return PathHelper.apiV2 + '/planning_element_priorities';
-    },
     apiProjectWorkPackageTypesPath: function(projectIdentifier) {
       return PathHelper.apiV2ProjectPath(projectIdentifier) + '/planning_element_types';
     },
@@ -243,6 +240,9 @@ module.exports = function() {
     },
     apiV3WorkPackagePath: function(workPackageId) {
       return PathHelper.apiV3 + '/work_packages/' + workPackageId;
+    },
+    apiPrioritiesPath: function() {
+      return PathHelper.apiV3 + '/priorities';
     },
     apiV3ProjectsPath: function(projectIdentifier) {
       return PathHelper.apiV3 + PathHelper.projectsPath() + '/' + projectIdentifier;
