@@ -30,7 +30,6 @@ var I18n = require('./vendor/i18n');
 
 // standard locales
 I18n.translations.en = require("locales/js-en.yml").en;
-I18n.translations.de = require("locales/js-de.yml").de;
 
 I18n.addTranslations = function(locale, translations) {
   I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
