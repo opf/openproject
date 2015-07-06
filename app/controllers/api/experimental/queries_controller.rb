@@ -28,8 +28,6 @@
 
 module Api::Experimental
   class QueriesController < ApplicationController
-    unloadable
-
     include ApiController
     include Api::Experimental::Concerns::GrapeRouting
     include Api::Experimental::Concerns::ColumnData

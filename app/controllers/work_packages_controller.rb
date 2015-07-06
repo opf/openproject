@@ -28,8 +28,6 @@
 #++
 
 class WorkPackagesController < ApplicationController
-  unloadable
-
   DEFAULT_SORT_ORDER = ['parent', 'desc']
   EXPORT_FORMATS = %w[atom rss xls csv pdf]
 

@@ -29,8 +29,6 @@
 module Api
   module Experimental
     class WorkPackagesController < ApplicationController
-      unloadable
-
       DEFAULT_SORT_ORDER = ['parent', 'desc']
 
       include ApiController

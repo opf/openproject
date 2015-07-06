@@ -30,7 +30,6 @@
 module Api
   module V2
     class PlanningElementsController < ApplicationController
-      unloadable
       helper :timelines, :planning_elements
 
       include ::Api::V2::ApiController
