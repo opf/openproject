@@ -217,17 +217,6 @@ module.exports = function() {
       return PathHelper.apiWorkPackagesPath() + '/column_sums';
     },
 
-    // API V2
-    apiProjectWorkPackageTypesPath: function(projectIdentifier) {
-      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/planning_element_types';
-    },
-    apiV2ProjectPath: function(projectIdentifier) {
-      return PathHelper.apiV2 + PathHelper.projectPath(projectIdentifier);
-    },
-    apiWorkPackageTypesPath: function() {
-      return PathHelper.apiV2 + '/planning_element_types';
-    },
-
     // API V3
     apiQueryStarPath: function(queryId) {
       return PathHelper.apiV3QueryPath(queryId) + '/star';
@@ -255,6 +244,12 @@ module.exports = function() {
     },
     apiStatusesPath: function() {
       return PathHelper.apiV3 + '/statuses';
+    },
+    apiProjectWorkPackageTypesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/types';
+    },
+    apiWorkPackageTypesPath: function() {
+      return PathHelper.apiV3 + '/types';
     },
     // Static
     staticUserPath: function(userId) {
