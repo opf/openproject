@@ -37,19 +37,11 @@ module.exports = function(
            WorkPackagesOverviewService,
            WorkPackageFieldService,
            WorkPackageService,
-           EditableFieldsState
+           EditableFieldsState,
+           WorkPackageHelper
            ) {
 
-  var vm = this,
-      unhideableFields = [
-        'subject',
-        'type',
-        'status',
-        'description',
-        'priority',
-        'assignee',
-        'percentageDone'
-      ];
+  var vm = this;
 
   vm.groupedFields = [];
   vm.hideEmptyFields = true;
@@ -59,13 +51,16 @@ module.exports = function(
 
   vm.loaderPromise = null;
 
-  vm.isGroupHideable = isGroupHideable;
-  vm.isFieldHideable = isFieldHideable;
-  vm.getLabel = getLabel;
-  vm.isSpecified = isSpecified;
-  vm.isEditable = isEditable;
-  vm.hasNiceStar = hasNiceStar;
-  vm.showToggleButton = showToggleButton;
+  vm.isFieldHideable = WorkPackageHelper.isFieldHideableOnCreate;
+  vm.isGroupHideable = function(groups, group, wp) {
+    // custom wrapper for injecting a special callback
+    return WorkPackageHelper.isGroupHideable(groups, group, wp, vm.isFieldHideable);
+  }
+  vm.getLabel = WorkPackageHelper.getLabel;
+  vm.isSpecified = WorkPackageHelper.isSpecified;
+  vm.isEditable = WorkPackageHelper.isEditable;
+  vm.hasNiceStar = WorkPackageHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackageHelper.showToggleButton;
 
   activate();
 
@@ -88,7 +83,10 @@ module.exports = function(
           }
         });
         otherGroup.attributes.sort(function(a, b) {
-          return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
+          var getLabel = function(wp) {
+            return function(field) { return vm.getLabel(wp, field); }
+          }(vm.workPackage);
+          return vm.getLabel(vm.workPacakge, a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
         });
         if (!firstTimeFocused) {
           firstTimeFocused = true;
@@ -123,50 +121,5 @@ module.exports = function(
     } else {
       vm.loaderPromise = $state.go('^');
     }
-  }
-
-  function isGroupHideable(groupName) {
-    var group = _.find(vm.groupedFields, {groupName: groupName});
-    return _.every(group.attributes, isFieldHideable);
-  }
-
-  function isFieldHideable(field) {
-    if (!isSpecified(field)) {
-      return true;
-    }
-
-    if (!isEditable(field)) {
-      return true;
-    }
-
-    if (_.contains(unhideableFields, field)) {
-      return !WorkPackageFieldService.isEditable(vm.workPackage, field);
-    }
-
-    if (WorkPackageFieldService.isRequired(vm.workPackage, field)) {
-      return false;
-    }
-    return WorkPackageFieldService.isHideable(vm.workPackage, field);
-  }
-
-  function isSpecified(field) {
-    return WorkPackageFieldService.isSpecified(vm.workPackage, field);
-  }
-
-  function isEditable(field) {
-    return WorkPackageFieldService.isEditable(vm.workPackage, field);
-  }
-
-  function hasNiceStar(field) {
-    return WorkPackageFieldService.isRequired(vm.workPackage, field) &&
-      WorkPackageFieldService.isEditable(vm.workPackage, field);
-  }
-
-  function getLabel(field) {
-    return WorkPackageFieldService.getLabel(vm.workPackage, field);
-  }
-
-  function showToggleButton() {
-    return true;
   }
 };

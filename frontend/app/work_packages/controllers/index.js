@@ -40,6 +40,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackagesOverviewService',
     'WorkPackageFieldService',
     'EditableFieldsState',
+    'WorkPackagesDisplayHelper',
     require('./details-tab-overview-controller')
   ])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
@@ -88,7 +89,21 @@ angular.module('openproject.workPackages.controllers')
     'EditableFieldsState',
     require('./work-package-details-controller')
   ])
-  .controller('WorkPackageNewController', require('./work-package-new-controller'))
+  .controller('WorkPackageNewController', [
+    '$scope',
+    '$rootScope',
+    '$state',
+    '$stateParams',
+    '$timeout',
+    '$window',
+    'PathHelper',
+    'WorkPackagesOverviewService',
+    'WorkPackageFieldService',
+    'WorkPackageService',
+    'EditableFieldsState',
+    'WorkPackagesDisplayHelper',
+    require('./work-package-new-controller')
+  ])
   .controller('WorkPackagesController', [
     '$scope',
     '$state',

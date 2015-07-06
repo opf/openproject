@@ -30,7 +30,8 @@ module.exports = function(
            $scope,
            WorkPackagesOverviewService,
            WorkPackageFieldService,
-           EditableFieldsState
+           EditableFieldsState,
+           WorkPackageHelper
            ) {
 
   var vm = this;
@@ -39,12 +40,12 @@ module.exports = function(
   vm.hideEmptyFields = true;
   vm.workPackage = $scope.workPackage;
 
-  vm.isGroupHideable = isGroupHideable;
-  vm.isFieldHideable = isFieldHideable;
-  vm.getLabel = getLabel;
-  vm.isSpecified = isSpecified;
-  vm.hasNiceStar = hasNiceStar;
-  vm.showToggleButton = showToggleButton;
+  vm.isGroupHideable = WorkPackageHelper.isGroupHideable;
+  vm.isFieldHideable = WorkPackageHelper.isFieldHideable;
+  vm.getLabel = WorkPackageHelper.getLabel;
+  vm.isSpecified = WorkPackageHelper.isSpecified;
+  vm.hasNiceStar = WorkPackageHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackageHelper.showToggleButton;
 
   activate();
 
@@ -67,36 +68,13 @@ module.exports = function(
         }
       });
       otherGroup.attributes.sort(function(a, b) {
-        return getLabel(a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
+        var getLabel = function(wp) {
+          return function(field) { return vm.getLabel(wp, field); }
+        }(vm.workPackage);
+        return vm.getLabel(vm.workPackage, a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
       });
 
     });
 
-  }
-
-  function isGroupHideable(groupName) {
-    var group = _.find(vm.groupedFields, {groupName: groupName});
-    return _.every(group.attributes, isFieldHideable);
-  }
-
-  function isFieldHideable(field) {
-    return WorkPackageFieldService.isHideable(vm.workPackage, field);
-  }
-
-  function isSpecified(field) {
-    return WorkPackageFieldService.isSpecified(vm.workPackage, field);
-  }
-
-  function hasNiceStar(field) {
-    return WorkPackageFieldService.isRequired(vm.workPackage, field) &&
-      WorkPackageFieldService.isEditable(vm.workPackage, field);
-  }
-
-  function getLabel(field) {
-    return WorkPackageFieldService.getLabel(vm.workPackage, field);
-  }
-
-  function showToggleButton() {
-    return true;
   }
 };
