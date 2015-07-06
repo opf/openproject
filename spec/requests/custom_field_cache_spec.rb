@@ -45,13 +45,13 @@ describe 'Custom field filter and group by caching', type: :request do
   end
 
   def expect_group_by_all_to_not_exist(custom_field)
-    # can not check for whether the element is included in CostQuery::GroupBy if it does not exist
+    # can not check for whether the element is included in CostQuery::GroupBy.all if it does not exist
     expect { group_by_class_name_string(custom_field).constantize }.to raise_error NameError
   end
 
   def expect_filter_all_to_not_exist(custom_field)
-    # can not check for whether the element is included in CostQuery::GroupBy if it does not exist
-    expect { group_by_class_name_string(custom_field).constantize }.to raise_error NameError
+    # can not check for whether the element is included in CostQuery::Filter.all if it does not exist
+    expect { filter_class_name_string(custom_field).constantize }.to raise_error NameError
   end
 
   def visit_cost_reports_index
