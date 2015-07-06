@@ -181,7 +181,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
       end
     end
 
-    describe '#cross_project_work_package_relations' do
+    describe 'in different projects' do
       let(:project_2) {
         FactoryGirl.create(:project,
                            parent: project)
@@ -203,38 +203,74 @@ describe WorkPackages::AutoCompletesController, type: :controller do
         work_package_4
       end
 
-      context 'with scope all and cross project relations' do
-        let(:expected_values) { work_package_4 }
+      context 'with cross project relations' do
+        let(:project_id) { project.id }
 
         before do
           allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
 
           get :index,
-              project_id: project.id,
+              project_id: project_id,
               q: work_package_4.id,
-              scope: 'all'
+              scope: scope
         end
 
-        it_behaves_like 'successful response'
+        context 'with scope "relatable"' do
+          let(:scope) { 'relatable' }
+          let(:expected_values) { work_package_4 }
 
-        it_behaves_like 'contains expected values'
+          it_behaves_like 'successful response'
+
+          it_behaves_like 'contains expected values'
+
+          context 'without project_id' do
+            let(:project_id) { nil }
+
+            it 'returns HTTP Not Found' do
+              expect(response.status).to eql(404)
+            end
+          end
+        end
+
+        context 'with scope "all"' do
+          let(:scope) { 'all' }
+          let(:expected_values) { work_package_4 }
+
+          it_behaves_like 'successful response'
+
+          it_behaves_like 'contains expected values'
+        end
       end
 
-      context 'with scope all but w/o cross project relations' do
+      context 'without cross project relations' do
         before do
           allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
 
           get :index,
               project_id: project.id,
               q: work_package_4.id,
-              scope: 'all'
+              scope: scope
         end
 
-        it_behaves_like 'successful response'
+        context 'with scope "relatable"' do
+          let(:scope) { 'relatable' }
+          let(:expected_values) { work_package_4 }
 
-        subject { assigns(:work_packages) }
+          it_behaves_like 'successful response'
 
-        it { is_expected.to eq([]) }
+          subject { assigns(:work_packages) }
+
+          it { is_expected.to eq([]) }
+        end
+
+        context 'with scope "all"' do
+          let(:scope) { 'all' }
+          let(:expected_values) { work_package_4 }
+
+          it_behaves_like 'successful response'
+
+          it_behaves_like 'contains expected values'
+        end
       end
     end
   end

@@ -1,0 +1,21 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    livingstyleguide (2.0.0.alpha.6)
+      minisyntax (>= 0.2.5)
+      redcarpet (~> 3.0.0)
+      sass
+      thor
+      tilt
+    minisyntax (0.2.5)
+    redcarpet (3.0.0)
+    sass (3.4.13)
+    thor (0.19.1)
+    tilt (2.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  livingstyleguide (~> 2.0.0.alpha.6)
+  sass (~> 3.4.12)

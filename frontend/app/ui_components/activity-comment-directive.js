@@ -38,8 +38,7 @@ module.exports = function($timeout,
     require: '^?exclusiveEdit',
     scope: {
       workPackage: '=',
-      activities: '=',
-      autocompletePath: '@'
+      activities: '='
     },
     templateUrl: '/templates/components/activity_comment.html',
     link: function(scope, element, attrs, exclusiveEditController) {
