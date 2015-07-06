@@ -28,7 +28,6 @@
 #++
 
 module JournalsHelper
-  # unloadable
   include ApplicationHelper
   include ERB::Util
   include ActionView::Helpers::TagHelper
