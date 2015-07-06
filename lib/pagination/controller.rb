@@ -228,8 +228,6 @@ module Pagination::Controller
 
   def self.extended(base)
     base.instance_eval do
-      unloadable
-
       def paginate_models(*args)
         args.each do |arg|
           paginate_model(arg)

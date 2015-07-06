@@ -27,8 +27,6 @@
 #++
 
 class JournalFormatter::Attribute < JournalFormatter::Base
-  # unloadable
-
   private
 
   def format_details(key, values)

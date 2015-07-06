@@ -30,8 +30,6 @@ module OpenProject
   module WikiFormatting
     module Macros
       class TimelinesWikiMacro
-        unloadable
-
         def apply(_content, args, options = {})
           timeline = Timeline.find_by(id: args[0])
 

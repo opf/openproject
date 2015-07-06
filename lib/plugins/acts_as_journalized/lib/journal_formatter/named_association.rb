@@ -27,8 +27,6 @@
 #++
 
 class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
-  # unloadable
-
   def render(key, values, options = { no_html: false })
     label, old_value, value = format_details(key, values, options)
 

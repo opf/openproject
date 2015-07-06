@@ -27,8 +27,6 @@
 #++
 
 class JournalFormatter::Proc < JournalFormatter::Attribute
-  # unloadable
-
   class << self
     attr_accessor :proc
   end

@@ -27,8 +27,6 @@
 #++
 
 class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
-  # unloadable
-
   include ApplicationHelper
   include OpenProject::StaticRouting::UrlHelpers
 
