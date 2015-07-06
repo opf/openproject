@@ -221,14 +221,8 @@ module.exports = function() {
     apiPrioritiesPath: function() {
       return PathHelper.apiV2 + '/planning_element_priorities';
     },
-    apiProjectStatusesPath: function(projectIdentifier) {
-      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/statuses';
-    },
     apiProjectWorkPackageTypesPath: function(projectIdentifier) {
       return PathHelper.apiV2ProjectPath(projectIdentifier) + '/planning_element_types';
-    },
-    apiStatusesPath: function() {
-      return PathHelper.apiV2 + '/statuses';
     },
     apiV2ProjectPath: function(projectIdentifier) {
       return PathHelper.apiV2 + PathHelper.projectPath(projectIdentifier);
@@ -258,6 +252,9 @@ module.exports = function() {
     },
     apiV3TypePath: function(typeId) {
       return PathHelper.apiV3 + '/types/' + typeId;
+    },
+    apiStatusesPath: function() {
+      return PathHelper.apiV3 + '/statuses';
     },
     // Static
     staticUserPath: function(userId) {
