@@ -25,40 +25,40 @@ module CostQuery::Cache
     end
 
     def reset!
+      update_reset_on
+
       CostQuery::Filter.reset!
       CostQuery::Filter::CustomFieldEntries.reset!
       CostQuery::GroupBy.reset!
       CostQuery::GroupBy::CustomFieldEntries.reset!
-
-      update_reset_on
     end
 
     protected
 
-    attr_accessor :custom_fields_updated_on,
-                  :custom_fields_id_sum
+    attr_accessor :latest_custom_field_change,
+                  :custom_field_count
 
     def invalid?
-      updated_on = fetch_custom_field_updated_at
-      id_sum = fetch_custom_fields_changed
+      changed_on = fetch_latest_custom_field_change
+      field_count = fetch_current_custom_field_count
 
-      custom_fields_updated_on != updated_on ||
-        custom_fields_id_sum != id_sum
+      latest_custom_field_change != changed_on ||
+        custom_field_count != field_count
     end
 
     def update_reset_on
       return if caching_disabled?
 
-      self.custom_fields_updated_on = fetch_custom_field_updated_at
-      self.custom_fields_id_sum = fetch_custom_fields_changed
+      self.latest_custom_field_change = fetch_latest_custom_field_change
+      self.custom_field_count = fetch_current_custom_field_count
     end
 
-    def fetch_custom_field_updated_at
+    def fetch_latest_custom_field_change
       WorkPackageCustomField.maximum(:updated_at)
     end
 
-    def fetch_custom_fields_changed
-      WorkPackageCustomField.sum(:id) + WorkPackageCustomField.count
+    def fetch_current_custom_field_count
+      WorkPackageCustomField.count
     end
 
     def caching_disabled?
@@ -71,5 +71,5 @@ module CostQuery::Cache
   end
 
   # initialize to 0 to avoid forced cache reset on first request
-  self.custom_fields_id_sum = 0
+  self.custom_field_count = 0
 end

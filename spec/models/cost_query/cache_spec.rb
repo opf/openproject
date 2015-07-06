@@ -44,19 +44,17 @@ describe CostQuery::Cache do
 
   def reset_cache_keys
     # resetting internal caching keys to avoid dependencies with other specs
-    described_class.send(:custom_fields_updated_on=, nil)
-    described_class.send(:custom_fields_id_sum=, 0)
+    described_class.send(:latest_custom_field_change=, nil)
+    described_class.send(:custom_field_count=, 0)
   end
 
   def custom_fields_exist
     allow(WorkPackageCustomField).to receive(:maximum).and_return(Time.now)
-    allow(WorkPackageCustomField).to receive(:sum).and_return(42)
     allow(WorkPackageCustomField).to receive(:count).and_return(23)
   end
 
   def no_custom_fields_exist
     allow(WorkPackageCustomField).to receive(:maximum).and_return(nil)
-    allow(WorkPackageCustomField).to receive(:sum).and_return(0)
     allow(WorkPackageCustomField).to receive(:count).and_return(0)
   end
 
