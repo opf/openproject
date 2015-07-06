@@ -35,8 +35,6 @@ require 'open_project/journal_formatter/custom_field'
 
 # The ActiveRecord model representing journals.
 class LegacyJournal < ActiveRecord::Base
-  # unloadable
-
   include Comparable
   include JournalFormatter
   include JournalDeprecated

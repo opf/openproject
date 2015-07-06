@@ -28,8 +28,6 @@
 #++
 
 class Reporting < ActiveRecord::Base
-  unloadable
-
   self.table_name = 'reportings'
 
   belongs_to :project
