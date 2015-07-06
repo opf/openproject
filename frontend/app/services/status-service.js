@@ -29,7 +29,7 @@
 module.exports = function($http, PathHelper) {
 
   var StatusService = {
-    getStatuses: function(_projectIdentifier) {
+    getStatuses: function() {
       return StatusService.doQuery(PathHelper.apiStatusesPath());
     },
 
