@@ -69,13 +69,6 @@ class WorkPackage < ActiveRecord::Base
   attr_protected :project_id, :author_id, :lft, :rgt
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  # HACK: remove on upgrade to awesome_nested_set 3.
-  # Active Record 4 will, by default, order by id:
-  #   ORDER BY "work_packages"."id" ASC LIMIT 1
-  # this results in the following genre of errors on PostgreSQL:
-  #   …it is not contained in either an aggregate function or the GROUP BY clause
-  default_scope { order('') }
-
   scope :recently_updated, ->() {
     # Specified as a String due to https://github.com/rails/rails/issues/15405
     # TODO: change to Hash on upgrade to Rails 4.1.
