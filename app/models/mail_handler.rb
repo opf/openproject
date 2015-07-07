@@ -255,7 +255,7 @@ class MailHandler < ActionMailer::Base
       addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
       unless addresses.empty?
         watchers = User.active.where(['LOWER(mail) IN (?)', addresses])
-        watchers.each do|w| obj.add_watcher(w)end
+        watchers.each do |w| obj.add_watcher(w) end
         # FIXME: somehow the watchable attribute of the new watcher is not set, when the issue is not safed.
         # So we fix that here manually
         obj.watchers.each { |w| w.watchable = obj }
@@ -289,7 +289,7 @@ class MailHandler < ActionMailer::Base
     keys << all_attribute_translations(Setting.default_language)[attr.to_sym] if Setting.default_language.present?
 
     keys.reject!(&:blank?)
-    keys.map! do|k| Regexp.escape(k)end
+    keys.map! do |k| Regexp.escape(k) end
     format ||= '.+'
     text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
     $2 && $2.strip
