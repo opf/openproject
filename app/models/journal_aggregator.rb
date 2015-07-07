@@ -41,7 +41,7 @@ class JournalAggregator
           result - [journal_a, journal_b]
         end
       end
-      advance = (aggregated_journals - result).empty?
+      advance = (aggregated_journals - result).any?
       aggregated_journals = result
     end
   end

@@ -29,6 +29,22 @@
 
 class AggregatedJournal
   def initialize(*journals)
+    journals.combination(2).each do |journal_a, journal_b|
+      unless JournalAggregator.are_mergeable?(journal_a, journal_b)
+        raise ArgumentError.new('The given journals have to be mergeable.')
+      end
+    end
     @journals = journals
+  end
+
+  def journaled_attributes
+    ordered_journals = @journals.map(&:attributes).sort_by { |journal| journal[:id] }
+
+    combined_journals = {}
+    ordered_journals.each do |journal|
+      combined_journals = combined_journals.merge(journal)
+    end
+
+    combined_journals.symbolize_keys
   end
 end
