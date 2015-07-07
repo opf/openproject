@@ -199,7 +199,7 @@ class MyController < ApplicationController
       if group_items and group_items.is_a? Array
         layout = get_current_layout
         # remove group blocks if they are presents in other groups
-        %w(top left right).each do|f|
+        %w(top left right).each do |f|
           layout[f] = (layout[f] || []) - group_items
         end
         layout[group] = group_items
