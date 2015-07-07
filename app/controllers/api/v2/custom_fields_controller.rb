@@ -36,12 +36,12 @@ module Api
 
       def index
         wp_fields = WorkPackageCustomField.visible_by_user(User.current)
-                    .includes([:translations, :projects, :types])
+                    .includes(:translations, :projects, :types)
                     .order(:id)
                     .uniq
         other_fields = CustomField.includes(:translations)
                        .where("type != 'WorkPackageCustomField'")
-                       .order([:type, :id])
+                       .order(:type, :id)
 
         @custom_fields = wp_fields + other_fields
 
