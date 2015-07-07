@@ -85,7 +85,7 @@ module.exports = function() {
       return path;
     },
     timeEntryPath: function(timeEntryIdentifier) {
-      return '/time_entries/' + timeEntryIdentifier;
+      return PathHelper.staticBase + '/time_entries/' + timeEntryIdentifier;
     },
     timeEntryNewPath: function(workPackageId) {
       return PathHelper.timeEntriesPath(null, workPackageId) + '/new';
