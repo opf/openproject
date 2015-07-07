@@ -294,10 +294,10 @@ class RepositoriesController < ApplicationController
     commits_by_day.each do |c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last end
 
     changes_by_day = Change.includes(:changeset)
-      .where(["#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to])
-      .references(:changesets)
-      .group(:commit_date)
-      .size
+                     .where(["#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to])
+                     .references(:changesets)
+                     .group(:commit_date)
+                     .size
     changes_by_month = [0] * 12
     changes_by_day.each do |c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last end
 
@@ -334,10 +334,10 @@ class RepositoriesController < ApplicationController
     commits_by_author.to_a.sort! do |x, y| x.last <=> y.last end
 
     changes_by_author = Change.includes(:changeset)
-      .where(["#{Changeset.table_name}.repository_id = ?", repository.id])
-      .references(:changesets)
-      .group(:committer)
-      .size
+                        .where(["#{Changeset.table_name}.repository_id = ?", repository.id])
+                        .references(:changesets)
+                        .group(:committer)
+                        .size
     h = changes_by_author.inject({}) { |o, i| o[i.first] = i.last; o }
 
     fields = commits_by_author.map(&:first)
