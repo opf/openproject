@@ -147,7 +147,13 @@ module API
     end
 
     def self.auth_headers
-      { 'WWW-Authenticate' => %(Basic realm="#{OpenProject::Authentication::Realm.realm}") }
+      lambda do
+        header = OpenProject::Authentication::WWWAuthenticate.response_header(
+          scope: API_V3,
+          request_headers: env)
+
+        { 'WWW-Authenticate' => header }
+      end
     end
 
     ##

@@ -1,3 +1,5 @@
+require 'set'
+
 module OpenProject
   module Authentication
     class Manager < Warden::Manager
@@ -9,7 +11,7 @@ module OpenProject
 
       def initialize(app, options = {}, &configure)
         block = lambda { |config|
-          self.class.configure config
+          self.class.configure_warden config
 
           configure.call config if configure
         }
@@ -18,25 +20,56 @@ module OpenProject
       end
 
       class << self
-        def scope_strategies
-          @scope_strategies ||= {}
+        def config
+          @config ||= Hash.new
         end
 
-        def store_defaults
-          @store_defaults ||= Hash.new false
+        def scope_config(scope)
+          config[scope] ||= ScopeSettings.new
         end
 
         def failure_handlers
           @failure_handlers ||= {}
         end
 
-        def configure(config)
-          config.default_strategies :session
-          config.failure_app = OpenProject::Authentication::FailureApp.new failure_handlers
+        def auth_scheme(name)
+          auth_schemes[name] ||= AuthSchemeInfo.new
+        end
 
-          scope_strategies.each do |scope, strategies|
-            config.scope_defaults scope, strategies: strategies, store: store_defaults[scope]
+        def auth_schemes
+          @auth_schemes ||= {}
+        end
+
+        def configure_warden(warden_config)
+          warden_config.default_strategies :session
+          warden_config.failure_app = OpenProject::Authentication::FailureApp.new failure_handlers
+
+          config.each do |scope, cfg|
+            warden_config.scope_defaults scope, strategies: cfg.strategies, store: cfg.store
           end
+        end
+      end
+
+      class ScopeSettings
+        attr_accessor :store, :strategies, :realm
+
+        def initialize
+          @store = true
+          @strategies = Set.new
+        end
+
+        def update!(opts, &block)
+          self.store = opts[:store] if opts.include? :store
+          self.realm = opts[:realm] if opts.include? :realm
+          self.strategies = block.call self.strategies if block_given?
+        end
+      end
+
+      class AuthSchemeInfo
+        attr_accessor :strategies
+
+        def initialize
+          @strategies = Set.new
         end
       end
     end

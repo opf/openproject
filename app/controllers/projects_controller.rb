@@ -128,19 +128,24 @@ class ProjectsController < ApplicationController
   end
 
   def settings
+    @altered_project ||= @project
   end
 
   def edit
   end
 
   def update
-    @project.safe_attributes = params[:project]
-    if validate_parent_id && @project.save
-      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+    @altered_project = Project.find(@project.id)
+
+    @altered_project.safe_attributes = params[:project]
+    if validate_parent_id && @altered_project.save
+      if params[:project].has_key?('parent_id')
+        @altered_project.set_allowed_parent!(params[:project]['parent_id'])
+      end
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
-          redirect_to action: 'settings', id: @project
+          redirect_to action: 'settings', id: @altered_project
         }
       end
     else
