@@ -56,7 +56,6 @@ module.exports = function HALAPIResource($timeout, $q, PathHelper) {
     Hyperagent.configure('_', _);
   };
   return {
-
     setup: function(uri, params) {
       if (!params) {
         params = {};

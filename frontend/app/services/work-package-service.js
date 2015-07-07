@@ -78,13 +78,6 @@ module.exports = function($http,
   var WorkPackageService = {
     initializeWorkPackage: function(projectIdentifier, initialData) {
       var changes = _.clone(initialData);
-      if (initialData.type) {
-        changes._links = changes.links || {};
-        changes._links.type = {
-          href: initialData.type
-        };
-        delete changes.type;
-      }
       var wp = {
         embedded: {},
         props: {},
