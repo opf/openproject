@@ -582,6 +582,3 @@ DEPENDENCIES
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.0)
   will_paginate (~> 3.0)
-
-BUNDLED WITH
-   1.10.5
