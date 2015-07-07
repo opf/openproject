@@ -30,7 +30,6 @@ var I18n = require('./vendor/i18n');
 
 // standard locales
 I18n.translations.en = require("locales/js-en.yml").en;
-I18n.translations.de = require("locales/js-de.yml").de;
 
 I18n.addTranslations = function(locale, translations) {
   I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
@@ -195,7 +194,7 @@ openprojectApp
       $locationProvider.html5Mode(true);
       $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery(
         'meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
-
+      $httpProvider.defaults.headers.common['X-Authentication-Scheme'] = 'Session';
       // prepend a given base path to requests performed via $http
       //
       // NOTE: this does not apply to Hyperagent-based queries, which instead use
