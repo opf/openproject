@@ -42,7 +42,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render xml: @groups }
+      format.xml  do render xml: @groups end
     end
   end
 
@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
   def show
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render xml: @group }
+      format.xml  do render xml: @group end
     end
   end
 
@@ -62,7 +62,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @group }
+      format.xml  do render xml: @group end
     end
   end
 
@@ -80,10 +80,10 @@ class GroupsController < ApplicationController
       if @group.save
         flash[:notice] = l(:notice_successful_create)
         format.html do redirect_to(groups_path) end
-        format.xml  { render xml: @group, status: :created, location: @group }
+        format.xml  do render xml: @group, status: :created, location: @group end
       else
         format.html do render action: 'new' end
-        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
+        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
       end
     end
   end
@@ -97,10 +97,10 @@ class GroupsController < ApplicationController
       if @group.update_attributes(permitted_params.group)
         flash[:notice] = l(:notice_successful_update)
         format.html do redirect_to(groups_path) end
-        format.xml  { head :ok }
+        format.xml  do head :ok end
       else
         format.html do render action: 'edit' end
-        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
+        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
       end
     end
   end
@@ -112,7 +112,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html do redirect_to(groups_url) end
-      format.xml  { head :ok }
+      format.xml  do head :ok end
     end
   end
 
@@ -122,7 +122,7 @@ class GroupsController < ApplicationController
     @group.users << @users
     respond_to do |format|
       format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' end
-      format.js { render action: 'change_members' }
+      format.js   do render action: 'change_members' end
     end
   end
 
@@ -131,7 +131,7 @@ class GroupsController < ApplicationController
     @group.users.delete(User.includes(:memberships).find(params[:user_id]))
     respond_to do |format|
       format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' end
-      format.js { render action: 'change_members' }
+      format.js   do render action: 'change_members' end
     end
   end
 
@@ -147,7 +147,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' end
-      format.js { render action: 'change_memberships' }
+      format.js   do render action: 'change_memberships' end
     end
   end
 
@@ -158,7 +158,7 @@ class GroupsController < ApplicationController
     Member.find(membership_params[:membership_id]).destroy
     respond_to do |format|
       format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' end
-      format.js { render action: 'destroy_memberships' }
+      format.js   do render action: 'destroy_memberships' end
     end
   end
 

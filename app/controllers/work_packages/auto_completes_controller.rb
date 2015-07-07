@@ -54,8 +54,12 @@ class WorkPackages::AutoCompletesController < ApplicationController
                       .limit(10)
 
     respond_to do |format|
-      format.html do render layout: false end
-      format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string }
+      format.html do
+        render layout: false
+      end
+      format.any(:xml, :json) do
+        render request.format.to_sym => wp_hashes_with_string
+      end
     end
   end
 

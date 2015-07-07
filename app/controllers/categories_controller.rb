@@ -55,7 +55,9 @@ class CategoriesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html do render action: :new end
+        format.html do
+          render action: :new
+        end
         format.js do
           render(:update) { |page| page.alert(@category.errors.full_messages.join('\n')) }
         end

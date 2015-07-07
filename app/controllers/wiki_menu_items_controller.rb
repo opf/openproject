@@ -81,7 +81,9 @@ class WikiMenuItemsController < ApplicationController
       redirect_back_or_default(action: 'edit', id: @page)
     else
       respond_to do |format|
-        format.html { render action: 'edit', id: @page }
+        format.html do
+          render action: 'edit', id: @page
+        end
       end
     end
   end

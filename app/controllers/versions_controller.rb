@@ -118,7 +118,9 @@ class VersionsController < ApplicationController
         redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
       else
         respond_to do |format|
-          format.html { render action: 'edit' }
+          format.html do
+            render action: 'edit'
+          end
         end
       end
     end
@@ -144,7 +146,7 @@ class VersionsController < ApplicationController
   def status_by
     respond_to do |format|
       format.html do render action: 'show' end
-      format.js { render_status_by @version, params[:status_by] }
+      format.js do render_status_by @version, params[:status_by] end
     end
   end
 

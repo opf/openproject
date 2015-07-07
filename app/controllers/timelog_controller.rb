@@ -101,7 +101,7 @@ class TimelogController < ApplicationController
 
         render_feed(entries, title: l(:label_spent_time))
       end
-      format.csv {
+      format.csv do
         # Export all entries
         @entries = TimeEntry.visible
                    .includes(:project, :activity, :user, work_package: [:type, :assigned_to, :priority])
@@ -114,14 +114,14 @@ class TimelogController < ApplicationController
           entries_to_csv(@entries),
           type: "text/csv; #{charset}; header=present",
           filename: 'timelog.csv')
-      }
+      end
     end
   end
 
   def show
     respond_to do |format|
       # TODO: Implement html response
-      format.html { render nothing: true, status: 406 }
+      format.html do render nothing: true, status: 406 end
     end
   end
 
@@ -142,14 +142,16 @@ class TimelogController < ApplicationController
 
     if @time_entry.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_back_or_default action: 'index', project_id: @time_entry.project
-        }
+        end
       end
     else
       respond_to do |format|
-        format.html { render action: 'edit' }
+        format.html do
+          render action: 'edit'
+        end
       end
     end
   end
@@ -167,14 +169,16 @@ class TimelogController < ApplicationController
 
     if @time_entry.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_back_or_default action: 'index', project_id: @time_entry.project
-        }
+        end
       end
     else
       respond_to do |format|
-        format.html { render action: 'edit' }
+        format.html do
+          render action: 'edit'
+        end
       end
     end
   end
@@ -186,7 +190,9 @@ class TimelogController < ApplicationController
           flash[:notice] = l(:notice_successful_delete)
           redirect_to :back
         end
-        format.json { render json: { text: l(:notice_successful_delete) } }
+        format.json do
+          render json: { text: l(:notice_successful_delete) }
+        end
       end
     else
       respond_to do |format|
@@ -194,7 +200,9 @@ class TimelogController < ApplicationController
           flash[:error] = l(:notice_unable_delete_time_entry)
           redirect_to :back
         end
-        format.json { render json: { isError: true, text: l(:notice_unable_delete_time_entry) } }
+        format.json do
+          render json: { isError: true, text: l(:notice_unable_delete_time_entry) }
+        end
       end
     end
   rescue ::ActionController::RedirectBackError

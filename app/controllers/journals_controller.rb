@@ -83,7 +83,9 @@ class JournalsController < ApplicationController
         redirect_to controller: "/#{@journal.journable.class.name.pluralize.downcase}",
                     action: 'show', id: @journal.journable_id
       end
-      format.js { render action: 'update' }
+      format.js do
+        render action: 'update'
+      end
     end
   end
 
@@ -96,8 +98,10 @@ class JournalsController < ApplicationController
       @diff = Redmine::Helpers::Diff.new(to, from)
       @journable = @journal.journable
       respond_to do |format|
-        format.html {}
-        format.js { render partial: 'diff', locals: { diff: @diff } }
+        format.html
+        format.js do
+          render partial: 'diff', locals: { diff: @diff }
+        end
       end
     else
       render_404
@@ -108,10 +112,10 @@ class JournalsController < ApplicationController
     @journal.notes = params[:notes]
 
     respond_to do |format|
-      format.any(:html, :js) {
+      format.any(:html, :js) do
         render locals: { journal: @journal },
                layout: false
-      }
+      end
     end
   end
 

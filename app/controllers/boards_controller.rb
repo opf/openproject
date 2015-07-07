@@ -79,13 +79,13 @@ class BoardsController < ApplicationController
 
         render template: 'messages/index'
       end
-      format.atom {
+      format.atom do
         @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                     .includes(:author, :board)
                     .limit(Setting.feeds_limit.to_i)
 
         render_feed(@messages, title: "#{@project}: #{@board}")
-      }
+      end
     end
   end
 

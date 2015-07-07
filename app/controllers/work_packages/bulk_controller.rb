@@ -78,7 +78,9 @@ class WorkPackages::BulkController < ApplicationController
           render locals: { work_packages: @work_packages,
                            associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
         end
-        format.json { render json: { error_message: 'Clean up of associated objects required' }, status: 420 }
+        format.json do
+          render json: { error_message: 'Clean up of associated objects required' }, status: 420
+        end
       end
 
     else
@@ -86,8 +88,12 @@ class WorkPackages::BulkController < ApplicationController
       destroy_work_packages(@work_packages)
 
       respond_to do |format|
-        format.html do redirect_back_or_default(project_work_packages_path(@work_packages.first.project)) end
-        format.json { head :ok }
+        format.html do
+          redirect_back_or_default(project_work_packages_path(@work_packages.first.project))
+        end
+        format.json do
+          head :ok
+        end
       end
     end
   end

@@ -41,10 +41,10 @@ class WorkPackageRelationsController < ApplicationController
 
     respond_to do |format|
       format.html do redirect_to work_package_path(@work_package) end
-      format.js {
+      format.js do
         render action: 'create', locals: { work_package: work_package,
                                            relation: @relation }
-      }
+      end
     end
   end
 
@@ -55,7 +55,7 @@ class WorkPackageRelationsController < ApplicationController
 
     respond_to do |format|
       format.html do redirect_to work_package_path(@work_package) end
-      format.js {}
+      format.js
     end
   end
 

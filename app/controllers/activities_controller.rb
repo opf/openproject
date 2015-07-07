@@ -59,7 +59,7 @@ class ActivitiesController < ApplicationController
           @events_by_day = events.group_by { |e| e.event_datetime.to_date }
           render layout: false if request.xhr?
         end
-        format.atom {
+        format.atom do
           title = l(:label_activity)
           if @author
             title = @author.name
@@ -67,7 +67,7 @@ class ActivitiesController < ApplicationController
             title = l("label_#{@activity.scope.first.singularize}_plural")
           end
           render_feed(events, title: "#{@project || Setting.app_title}: #{title}")
-        }
+        end
       end
     end
 

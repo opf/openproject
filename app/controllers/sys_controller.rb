@@ -39,8 +39,12 @@ class SysController < ActionController::Base
       .references(:repositories)
       .order('identifier')
     respond_to do |format|
-      format.json do render json: p.to_json(include: :repository) end
-      format.any(:html, :xml) {  render xml: p.to_xml(include: :repository), content_type: Mime::XML }
+      format.json do
+        render json: p.to_json(include: :repository)
+      end
+      format.any(:html, :xml) do
+        render xml: p.to_xml(include: :repository), content_type: Mime::XML
+      end
     end
   end
 

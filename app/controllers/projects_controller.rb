@@ -63,12 +63,12 @@ class ProjectsController < ApplicationController
       format.html do
         @projects = Project.visible.order('lft')
       end
-      format.atom {
+      format.atom do
         projects = Project.visible
                    .order('created_on DESC')
                    .limit(Setting.feeds_limit.to_i)
         render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
-      }
+      end
     end
   end
 
@@ -90,14 +90,14 @@ class ProjectsController < ApplicationController
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
       add_current_user_to_project_if_not_admin(@project)
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_create)
           redirect_to controller: '/projects', action: 'settings', id: @project
-        }
+        end
       end
     else
       respond_to do |format|
-        format.html { render action: 'new' }
+        format.html do render action: 'new' end
       end
     end
   end
@@ -143,17 +143,17 @@ class ProjectsController < ApplicationController
         @altered_project.set_allowed_parent!(params[:project]['parent_id'])
       end
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to action: 'settings', id: @altered_project
-        }
+        end
       end
     else
       respond_to do |format|
-        format.html {
+        format.html do
           load_project_settings
           render action: 'settings'
-        }
+        end
       end
     end
   end
@@ -205,7 +205,7 @@ class ProjectsController < ApplicationController
     if params[:confirm]
       @project_to_destroy.destroy
       respond_to do |format|
-        format.html { redirect_to controller: '/admin', action: 'projects' }
+        format.html do redirect_to controller: '/admin', action: 'projects' end
       end
     else
       flash[:error] = l(:notice_project_not_deleted)

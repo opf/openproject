@@ -84,10 +84,10 @@ class UsersController < ApplicationController
              .per_page(per_page_param)
 
     respond_to do |format|
-      format.html {
+      format.html do
         @groups = Group.all.sort
         render layout: !request.xhr?
-      }
+      end
     end
   end
 
@@ -106,7 +106,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render layout: 'base' }
+      format.html do render layout: 'base' end
     end
   end
 
@@ -141,13 +141,13 @@ class UsersController < ApplicationController
       UserMailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_create)
           redirect_to(params[:continue] ?
             new_user_path :
             edit_user_path(@user)
                      )
-        }
+        end
       end
     else
       @auth_sources = AuthSource.all
@@ -155,7 +155,7 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render action: 'new' }
+        format.html do render action: 'new' end
       end
     end
   end
@@ -192,10 +192,10 @@ class UsersController < ApplicationController
       end
 
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to :back
-        }
+        end
       end
     else
       @auth_sources = AuthSource.all
@@ -204,7 +204,7 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render action: :edit }
+        format.html do render action: :edit end
       end
     end
   rescue ::ActionController::RedirectBackError
@@ -247,20 +247,20 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @membership.valid?
         format.html do redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' end
-        format.js {
+        format.js do
           render(:update) {|page|
             page.replace_html 'tab-content-memberships', partial: 'users/memberships'
             page.insert_html :top, 'tab-content-memberships', partial: 'members/common_notice', locals: { message: l(:notice_successful_update) }
             page.visual_effect(:highlight, "member-#{@membership.id}")
           }
-        }
+        end
       else
-        format.js {
+        format.js do
           render(:update) {|page|
             page.replace_html 'tab-content-memberships', partial: 'users/memberships'
             page.insert_html :top, 'tab-content-memberships', partial: 'members/member_errors', locals: { member: @membership }
           }
-        }
+        end
       end
     end
   end
@@ -287,12 +287,12 @@ class UsersController < ApplicationController
     end
     respond_to do |format|
       format.html do redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships' end
-      format.js {
+      format.js do
         render(:update) { |page|
           page.replace_html 'tab-content-memberships', partial: 'users/memberships'
           page.insert_html :top, 'tab-content-memberships', partial: 'members/common_notice', locals: { message: l(:notice_successful_delete) }
         }
-      }
+      end
     end
   end
 
@@ -322,7 +322,7 @@ class UsersController < ApplicationController
         format.html do render_403 end
         format.xml  do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
         format.js   do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
-        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.json do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
       end
 
       false

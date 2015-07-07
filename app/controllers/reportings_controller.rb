@@ -47,7 +47,7 @@ class ReportingsController < ApplicationController
   def available_projects
     available_projects = @project.reporting_to_project_candidates
     respond_to do |format|
-      format.html { render_404 }
+      format.html do render_404 end
     end
   end
 

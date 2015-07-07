@@ -129,7 +129,7 @@ class RepositoriesController < ApplicationController
 
     respond_to do |format|
       format.html do render layout: false if request.xhr? end
-      format.atom { render_feed(@changesets, title: "#{@project.name}: #{l(:label_revision_plural)}") }
+      format.atom do render_feed(@changesets, title: "#{@project.name}: #{l(:label_revision_plural)}") end
     end
   end
 
@@ -192,7 +192,7 @@ class RepositoriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js { render layout: false }
+      format.js do render layout: false end
     end
   rescue ChangesetNotFound
     show_error_not_found

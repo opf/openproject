@@ -107,12 +107,12 @@ class WorkPackagesController < ApplicationController
 
   def new
     respond_to do |format|
-      format.html {
+      format.html do
         render locals: { work_package: work_package,
                          project: project,
                          priorities: priorities,
                          user: current_user }
-      }
+      end
     end
   end
 
@@ -121,12 +121,12 @@ class WorkPackagesController < ApplicationController
     work_package.update_by(current_user, safe_params)
 
     respond_to do |format|
-      format.js {
+      format.js do
         render locals: { work_package: work_package,
                          project: project,
                          priorities: priorities,
                          user: current_user }
-      }
+      end
     end
   end
 
@@ -145,12 +145,12 @@ class WorkPackagesController < ApplicationController
       redirect_to(work_package_path(work_package))
     else
       respond_to do |format|
-        format.html {
+        format.html do
           render action: 'new', locals: { work_package: work_package,
                                           project: project,
                                           priorities: priorities,
                                           user: current_user }
-        }
+        end
       end
     end
   end
@@ -275,8 +275,8 @@ class WorkPackagesController < ApplicationController
                user: current_user }
 
     respond_to do |format|
-      format.js do render partial: 'edit', locals: locals end
-      format.html { render action: 'edit', locals: locals }
+      format.js   do render partial: 'edit', locals: locals end
+      format.html do render action: 'edit', locals: locals end
     end
   end
 

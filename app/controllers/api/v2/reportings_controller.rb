@@ -39,10 +39,10 @@ module Api
       def available_projects
         available_projects = @project.reporting_to_project_candidates
         respond_to do |format|
-          format.api {
+          format.api do
             @elements = Project.project_level_list(Project.visible)
             @disabled = Project.visible - available_projects
-          }
+          end
         end
       end
 

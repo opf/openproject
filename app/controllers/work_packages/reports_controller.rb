@@ -50,9 +50,9 @@ class WorkPackages::ReportsController < ApplicationController
 
     respond_to do |format|
       if @report
-        format.html {}
+        format.html
       else
-        format.html { redirect_to report_project_work_packages_path(@project) }
+        format.html do redirect_to report_project_work_packages_path(@project) end
       end
     end
   end
