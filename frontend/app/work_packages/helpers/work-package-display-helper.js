@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService) {
+module.exports = function(WorkPackageFieldService, $window, $timeout) {
 
   // specifies unhideable (during creation)
   var unhideableFields = [
@@ -38,7 +38,7 @@ module.exports = function(WorkPackageFieldService) {
     'assignee',
     'percentageDone'
   ];
-
+  var firstTimeFocused = false;
   var isGroupHideable = function (groupedFields, groupName, workPackage, cb) {
         if (!workPackage) {
           return true;
@@ -94,10 +94,21 @@ module.exports = function(WorkPackageFieldService) {
           WorkPackageFieldService.isEditable(workPackage, field);
       },
       getLabel = function (workPackage, field) {
-        if (!workPackage) {
+        if (!(workPackage && typeof field === 'string')) {
           return '';
         }
         return WorkPackageFieldService.getLabel(workPackage, field);
+      },
+      setFocus = function() {
+        if (!firstTimeFocused) {
+          firstTimeFocused = true;
+          $timeout(function() {
+            // TODO: figure out a better way to fix the wp table columns bug
+            // where arrows are misplaced when not resizing the window
+            angular.element($window).trigger('resize');
+            angular.element('.work-packages--details--subject .focus-input').focus();
+          });
+        }
       },
       showToggleButton = function () {
         return true;
@@ -111,6 +122,7 @@ module.exports = function(WorkPackageFieldService) {
     isEditable: isEditable,
     hasNiceStar: hasNiceStar,
     getLabel: getLabel,
+    setFocus: setFocus,
     showToggleButton: showToggleButton
   };
 };

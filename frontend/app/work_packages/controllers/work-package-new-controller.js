@@ -38,7 +38,7 @@ module.exports = function(
            WorkPackageFieldService,
            WorkPackageService,
            EditableFieldsState,
-           WorkPackageHelper
+           WorkPackageDisplayHelper
            ) {
 
   var vm = this;
@@ -51,16 +51,16 @@ module.exports = function(
 
   vm.loaderPromise = null;
 
-  vm.isFieldHideable = WorkPackageHelper.isFieldHideableOnCreate;
+  vm.isFieldHideable = WorkPackageDisplayHelper.isFieldHideableOnCreate;
   vm.isGroupHideable = function(groups, group, wp) {
     // custom wrapper for injecting a special callback
-    return WorkPackageHelper.isGroupHideable(groups, group, wp, vm.isFieldHideable);
+    return WorkPackageDisplayHelper.isGroupHideable(groups, group, wp, vm.isFieldHideable);
   };
-  vm.getLabel = WorkPackageHelper.getLabel;
-  vm.isSpecified = WorkPackageHelper.isSpecified;
-  vm.isEditable = WorkPackageHelper.isEditable;
-  vm.hasNiceStar = WorkPackageHelper.hasNiceStar;
-  vm.showToggleButton = WorkPackageHelper.showToggleButton;
+  vm.getLabel = WorkPackageDisplayHelper.getLabel;
+  vm.isSpecified = WorkPackageDisplayHelper.isSpecified;
+  vm.isEditable = WorkPackageDisplayHelper.isEditable;
+  vm.hasNiceStar = WorkPackageDisplayHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackageDisplayHelper.showToggleButton;
 
   activate();
 
@@ -70,8 +70,8 @@ module.exports = function(
       type: PathHelper.apiV3TypePath($stateParams.type)
     }).then(function(wp) {
       vm.workPackage = wp;
+      WorkPackageDisplayHelper.setFocus();
       $scope.workPackage = wp;
-      var firstTimeFocused = false;
       $scope.$watchCollection('vm.workPackage.form', function() {
         vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
         var schema = WorkPackageFieldService.getSchema(vm.workPackage);
@@ -90,20 +90,9 @@ module.exports = function(
           }(vm.workPackage));
           var left = getLabel(vm.workPackage, a).toLowerCase(),
               right = getLabel(vm.WorkPackage, b).toLowerCase();
-          return left.localecompare(right);
+          return left.localeCompare(right);
         });
-        if (!firstTimeFocused) {
-          firstTimeFocused = true;
-          $timeout(function() {
-            // TODO: figure out a better way to fix the wp table columns bug
-            // where arrows are misplaced when not resizing the window
-            angular.element($window).trigger('resize');
-            angular.element('.work-packages--details--subject .focus-input').focus();
-          });
-        }
-
       });
-
     });
 
     $scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {

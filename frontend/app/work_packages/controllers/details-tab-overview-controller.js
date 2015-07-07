@@ -31,7 +31,7 @@ module.exports = function(
            WorkPackagesOverviewService,
            WorkPackageFieldService,
            EditableFieldsState,
-           WorkPackageHelper
+           WorkPackageDisplayHelper
            ) {
 
   var vm = this;
@@ -40,12 +40,12 @@ module.exports = function(
   vm.hideEmptyFields = true;
   vm.workPackage = $scope.workPackage;
 
-  vm.isGroupHideable = WorkPackageHelper.isGroupHideable;
-  vm.isFieldHideable = WorkPackageHelper.isFieldHideable;
-  vm.getLabel = WorkPackageHelper.getLabel;
-  vm.isSpecified = WorkPackageHelper.isSpecified;
-  vm.hasNiceStar = WorkPackageHelper.hasNiceStar;
-  vm.showToggleButton = WorkPackageHelper.showToggleButton;
+  vm.isGroupHideable = WorkPackageDisplayHelper.isGroupHideable;
+  vm.isFieldHideable = WorkPackageDisplayHelper.isFieldHideable;
+  vm.getLabel = WorkPackageDisplayHelper.getLabel;
+  vm.isSpecified = WorkPackageDisplayHelper.isSpecified;
+  vm.hasNiceStar = WorkPackageDisplayHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackageDisplayHelper.showToggleButton;
 
   activate();
 
@@ -53,6 +53,7 @@ module.exports = function(
     EditableFieldsState.forcedEditState = false;
     $scope.$watch('workPackage.schema', function(schema) {
       if (schema) {
+        WorkPackageDisplayHelper.setFocus();
         vm.workPackage = $scope.workPackage;
       }
     });
@@ -77,8 +78,6 @@ module.exports = function(
             right = getLabel(vm.workPackage, b).toLowerCase();
         return left.localeCompare(right);
       });
-
     });
-
   }
 };

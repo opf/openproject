@@ -47,6 +47,8 @@ angular.module('openproject.workPackages.helpers')
   ])
   .factory('WorkPackagesDisplayHelper', [
     'WorkPackageFieldService',
+    '$window',
+    '$timeout',
     require(
     './work-package-display-helper')
   ]);
