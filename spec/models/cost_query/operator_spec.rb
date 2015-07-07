@@ -41,7 +41,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
     def create_project(options = {})
       parent = options.delete :parent
-      p = Project.mock! options
+      p = FactoryGirl.create(:project, options)
       p.set_parent! parent if parent
       p
     end
@@ -115,66 +115,66 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       #somehow this test doesn't work on sundays
       n = query('projects', 'created_on', 'w').size
       day_in_this_week = Time.now.at_beginning_of_week + 1.day
-      Project.mock! created_on: day_in_this_week
+      FactoryGirl.create(:project, created_on: day_in_this_week)
       expect(query('projects', 'created_on', 'w').size).to eq(n + 1)
-      Project.mock! created_on: day_in_this_week + 7.days
-      Project.mock! created_on: day_in_this_week - 7.days
+      FactoryGirl.create(:project, created_on: day_in_this_week + 7.days)
+      FactoryGirl.create(:project, created_on: day_in_this_week - 7.days)
       expect(query('projects', 'created_on', 'w').size).to eq(n + 1)
     end
 
     it "does t (today)" do
       s = query('projects', 'created_on', 't').size
-      Project.mock! created_on: Date.yesterday
+      FactoryGirl.create(:project, created_on: Date.yesterday)
       expect(query('projects', 'created_on', 't').size).to eq(s)
-      Project.mock! created_on: Time.now
+      FactoryGirl.create(:project, created_on: Time.now)
       expect(query('projects', 'created_on', 't').size).to eq(s + 1)
     end
 
     it "does <t+ (before the day which is n days in the future)" do
       n = query('projects', 'created_on', '<t+', 2).size
-      Project.mock! created_on: Date.tomorrow + 1
+      FactoryGirl.create(:project, created_on: Date.tomorrow + 1)
       expect(query('projects', 'created_on', '<t+', 2).size).to eq(n + 1)
-      Project.mock! created_on: Date.tomorrow + 2
+      FactoryGirl.create(:project, created_on: Date.tomorrow + 2)
       expect(query('projects', 'created_on', '<t+', 2).size).to eq(n + 1)
     end
 
     it "does t+ (n days in the future)" do
       n = query('projects', 'created_on', 't+', 1).size
-      Project.mock! created_on: Date.tomorrow
+      FactoryGirl.create(:project, created_on: Date.tomorrow)
       expect(query('projects', 'created_on', 't+', 1).size).to eq(n + 1)
-      Project.mock! created_on: Date.tomorrow + 2
+      FactoryGirl.create(:project, created_on: Date.tomorrow + 2)
       expect(query('projects', 'created_on', 't+', 1).size).to eq(n + 1)
     end
 
     it "does >t+ (after the day which is n days in the furure)" do
       n = query('projects', 'created_on', '>t+', 1).size
-      Project.mock! created_on: Time.now
+      FactoryGirl.create(:project, created_on: Time.now)
       expect(query('projects', 'created_on', '>t+', 1).size).to eq(n)
-      Project.mock! created_on: Date.tomorrow + 1
+      FactoryGirl.create(:project, created_on: Date.tomorrow + 1)
       expect(query('projects', 'created_on', '>t+', 1).size).to eq(n + 1)
     end
 
     it "does >t- (after the day which is n days ago)" do
       n = query('projects', 'created_on', '>t-', 1).size
-      Project.mock! created_on: Date.today
+      FactoryGirl.create(:project, created_on: Date.today)
       expect(query('projects', 'created_on', '>t-', 1).size).to eq(n + 1)
-      Project.mock! created_on: Date.yesterday - 1
+      FactoryGirl.create(:project, created_on: Date.yesterday - 1)
       expect(query('projects', 'created_on', '>t-', 1).size).to eq(n + 1)
     end
 
     it "does t- (n days ago)" do
       n = query('projects', 'created_on', 't-', 1).size
-      Project.mock! created_on: Date.yesterday
+      FactoryGirl.create(:project, created_on: Date.yesterday)
       expect(query('projects', 'created_on', 't-', 1).size).to eq(n + 1)
-      Project.mock! created_on: Date.yesterday - 2
+      FactoryGirl.create(:project, created_on: Date.yesterday - 2)
       expect(query('projects', 'created_on', 't-', 1).size).to eq(n + 1)
     end
 
     it "does <t- (before the day which is n days ago)" do
       n = query('projects', 'created_on', '<t-', 1).size
-      Project.mock! created_on: Date.today
+      FactoryGirl.create(:project, created_on: Date.today)
       expect(query('projects', 'created_on', '<t-', 1).size).to eq(n)
-      Project.mock! created_on: Date.yesterday - 1
+      FactoryGirl.create(:project, created_on: Date.yesterday - 1)
       expect(query('projects', 'created_on', '<t-', 1).size).to eq(n + 1)
     end
 

@@ -17,12 +17,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class Project
-  def self.mock!(options = {})
-    time = Time.now
-    options = options.reverse_merge({created_on: time,
-                                     identifier: "#{Project.all.size}project#{time.to_i}"[0..19],
-                                     name: "Project#{Project.all.size}"})
-    generate! options
+module OpenProject::Reporting::SpecHelper
+  module ConfigurationHelper
+    def mock_cache_classes_setting_with(value)
+      allow(OpenProject::Configuration).to receive(:[]).and_call_original
+      allow(OpenProject::Configuration).to receive(:[])
+        .with('cost_reporting_cache_filter_classes')
+        .and_return(value)
+      allow(OpenProject::Configuration).to receive(:cost_reporting_cache_filter_classes)
+        .and_return(value)
+    end
   end
 end

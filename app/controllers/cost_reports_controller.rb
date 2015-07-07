@@ -46,29 +46,12 @@ class CostReportsController < ApplicationController
   helper_method :private_queries
 
   attr_accessor :cost_types, :unit_id, :cost_type
-  cattr_accessor :custom_fields_updated_on, :custom_fields_id_sum
 
   # Checks if custom fields have been updated, added or removed since we
   # last saw them, to rebuild the filters and group bys.
   # Called once per request.
-  def check_cache(force_update = false)
-    custom_fields_updated_on = WorkPackageCustomField.maximum(:updated_at)
-    custom_fields_id_sum = WorkPackageCustomField.sum(:id) + WorkPackageCustomField.count
-
-    if force_update or (custom_fields_updated_on && custom_fields_id_sum)
-      if force_update or (
-          self.class.custom_fields_updated_on != custom_fields_updated_on ||
-          self.class.custom_fields_id_sum != custom_fields_id_sum)
-
-        self.class.custom_fields_updated_on = custom_fields_updated_on
-        self.class.custom_fields_id_sum = custom_fields_id_sum
-
-        CostQuery::Filter.reset!
-        CostQuery::Filter::CustomFieldEntries.reset!
-        CostQuery::GroupBy.reset!
-        CostQuery::GroupBy::CustomFieldEntries.reset!
-      end
-    end
+  def check_cache
+    CostQuery::Cache.check
   end
 
   ##

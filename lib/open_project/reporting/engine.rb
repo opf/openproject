@@ -84,6 +84,10 @@ module OpenProject::Reporting
       )
     end
 
+    initializer 'reporting.register_test_path' do |app|
+      require File.join(File.dirname(__FILE__), 'disabled_specs')
+    end
+
     config.to_prepare do
       require_dependency 'report/walker'
       require_dependency 'report/transformer'
@@ -94,6 +98,9 @@ module OpenProject::Reporting
       require_dependency 'cost_query/group_by'
     end
 
-    patches [:CostlogController, :TimelogController, :CustomFieldsController]
+    patches [:CostlogController,
+             :TimelogController,
+             :CustomFieldsController,
+             :'OpenProject::Configuration']
   end
 end
