@@ -22,13 +22,13 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 99f40603ca7778855eddf9510538070827254423
-  branch: release/4.2
+  revision: 88c14fc8b86e72ef12739581aca8d97a6e8b7939
+  branch: feature/rails4
   specs:
-    openproject-translations (4.2.0.pre.alpha)
+    openproject-translations (4.3.0.pre.alpha)
       crowdin-api (~> 0.2.4)
       mixlib-shellout (~> 2.1.0)
-      rails (~> 3.2.14)
+      rails (~> 4.0.13)
       rubyzip
 
 GIT
@@ -244,7 +244,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
-    mime-types (2.5)
+    mime-types (1.25.1)
     mini_portile (0.6.2)
     minitest (4.7.5)
     mixlib-shellout (2.1.0)
