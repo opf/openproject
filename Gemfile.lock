@@ -30,7 +30,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 88c14fc8b86e72ef12739581aca8d97a6e8b7939
+  revision: 565aba98972bbf607136f6d258e54714b3102164
   branch: feature/rails4
   specs:
     openproject-translations (4.3.0.pre.alpha)
