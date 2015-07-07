@@ -98,6 +98,9 @@ module OpenProject::Reporting
       require_dependency 'cost_query/group_by'
     end
 
-    patches [:CostlogController, :TimelogController, :CustomFieldsController]
+    patches [:CostlogController,
+             :TimelogController,
+             :CustomFieldsController,
+             :'OpenProject::Configuration']
   end
 end
