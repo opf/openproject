@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= labelled_tabular_form_for @project do |f| %>
+<%= labelled_tabular_form_for @altered_project, url: project_path(@project) do |f| %>
   <%= render partial: 'form', locals: { f: f,
-                                        project: @project,
+                                        project: @altered_project,
                                         renderTypes: false } %>
 
   <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-yes' %>
