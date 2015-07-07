@@ -33,9 +33,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// standard locales
-I18n.addTranslations('en', require('../../config/locales/js-en.yml').en);
-I18n.addTranslations('de', require('../../config/locales/js-de.yml').de);
+// load all js locales
+var localeFiles = require.context('../../config/locales', false, /js-[\w|-]{2,5}\.yml$/);
+localeFiles.keys().forEach(function(localeFile) {
+  var locale = localeFile.match(/js-([\w|-]{2,5})\.yml/)[1];
+  I18n.addTranslations(locale, localeFiles(localeFile)[locale]);
+});
 
 // main app
 var openprojectBacklogsApp = angular.module('openproject');
