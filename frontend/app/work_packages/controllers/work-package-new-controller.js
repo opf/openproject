@@ -83,13 +83,11 @@ module.exports = function(
           }
         });
         otherGroup.attributes.sort(function(a, b) {
-          var getLabel = (function(wp) {
-            return function(field) {
-              return vm.getLabel(wp, field);
-            };
-          }(vm.workPackage));
-          var left = getLabel(vm.workPackage, a).toLowerCase(),
-              right = getLabel(vm.WorkPackage, b).toLowerCase();
+          var getLabel = function(field) {
+            return vm.getLabel(vm.workPackage, field);
+          };
+          var left = getLabel(a).toLowerCase(),
+              right = getLabel(b).toLowerCase();
           return left.localeCompare(right);
         });
       });
