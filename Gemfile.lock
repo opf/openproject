@@ -558,7 +558,7 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicorn
   warden (~> 1.2)
-  warden-basic_auth (~> 0.2.0)
+  warden-basic_auth (~> 0.2.1)
   will_paginate (~> 3.0)
 
 BUNDLED WITH
