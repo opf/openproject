@@ -28,7 +28,7 @@
 
 /* jshint camelcase: false */
 
-module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper, WorkPackageFieldService) {
+module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
 
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {

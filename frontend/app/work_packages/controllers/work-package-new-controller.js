@@ -55,7 +55,7 @@ module.exports = function(
   vm.isGroupHideable = function(groups, group, wp) {
     // custom wrapper for injecting a special callback
     return WorkPackageHelper.isGroupHideable(groups, group, wp, vm.isFieldHideable);
-  }
+  };
   vm.getLabel = WorkPackageHelper.getLabel;
   vm.isSpecified = WorkPackageHelper.isSpecified;
   vm.isEditable = WorkPackageHelper.isEditable;
@@ -83,10 +83,14 @@ module.exports = function(
           }
         });
         otherGroup.attributes.sort(function(a, b) {
-          var getLabel = function(wp) {
-            return function(field) { return vm.getLabel(wp, field); }
-          }(vm.workPackage);
-          return vm.getLabel(vm.workPacakge, a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
+          var getLabel = (function(wp) {
+            return function(field) {
+              return vm.getLabel(wp, field);
+            };
+          }(vm.workPackage));
+          var left = getLabel(vm.workPackage, a).toLowerCase(),
+              right = getLabel(vm.WorkPackage, b).toLowerCase();
+          return left.localecompare(right);
         });
         if (!firstTimeFocused) {
           firstTimeFocused = true;

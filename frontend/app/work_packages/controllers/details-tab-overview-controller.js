@@ -68,10 +68,14 @@ module.exports = function(
         }
       });
       otherGroup.attributes.sort(function(a, b) {
-        var getLabel = function(wp) {
-          return function(field) { return vm.getLabel(wp, field); }
-        }(vm.workPackage);
-        return vm.getLabel(vm.workPackage, a).toLowerCase().localeCompare(getLabel(b).toLowerCase());
+        var getLabel = (function(wp) {
+          return function(field) {
+            return vm.getLabel(wp, field);
+          };
+        }(vm.workPackage));
+        var left = getLabel(vm.workPackage, a).toLowerCase(),
+            right = getLabel(vm.workPackage, b).toLowerCase();
+        return left.localeCompare(right);
       });
 
     });

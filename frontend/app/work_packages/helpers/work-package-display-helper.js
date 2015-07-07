@@ -42,7 +42,7 @@ module.exports = function(WorkPackageFieldService) {
   var isGroupHideable = function (groupedFields, groupName, workPackage, cb) {
         if (!workPackage) {
           return true;
-        };
+        }
         var group = _.find(groupedFields, {groupName: groupName});
         var isHideable = typeof cb === 'undefined' ? isFieldHideable : cb;
         return _.every(group.attributes, function(field) {
@@ -52,7 +52,7 @@ module.exports = function(WorkPackageFieldService) {
       isFieldHideable = function (workPackage, field) {
         if (!workPackage) {
           return true;
-        };
+        }
         return WorkPackageFieldService.isHideable(workPackage, field);
       },
       isFieldHideableOnCreate = function(workPackage, field) {
@@ -80,7 +80,7 @@ module.exports = function(WorkPackageFieldService) {
       isSpecified = function (workPackage, field) {
         if (!workPackage) {
           return false;
-        };
+        }
         return WorkPackageFieldService.isSpecified(workPackage, field);
       },
       isEditable = function(workPackage, field) {
@@ -89,14 +89,14 @@ module.exports = function(WorkPackageFieldService) {
       hasNiceStar = function (workPackage, field) {
         if (!workPackage) {
           return false;
-        };
+        }
         return WorkPackageFieldService.isRequired(workPackage, field) &&
           WorkPackageFieldService.isEditable(workPackage, field);
       },
       getLabel = function (workPackage, field) {
         if (!workPackage) {
           return '';
-        };
+        }
         return WorkPackageFieldService.getLabel(workPackage, field);
       },
       showToggleButton = function () {
@@ -112,5 +112,5 @@ module.exports = function(WorkPackageFieldService) {
     hasNiceStar: hasNiceStar,
     getLabel: getLabel,
     showToggleButton: showToggleButton
-  }
-}
+  };
+};
