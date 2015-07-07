@@ -39,7 +39,7 @@ gem 'request_store', "~> 1.1.0"
 gem 'gravatar_image_tag', '~> 1.2.0'
 
 gem 'warden', '~> 1.2'
-gem 'warden-basic_auth', '~> 0.2.0'
+gem 'warden-basic_auth', '~> 0.2.1'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink', '~> 1.1.6'
