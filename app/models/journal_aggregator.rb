@@ -35,7 +35,7 @@ class JournalAggregator
     journal_queue = journals_array.dup.sort_by &:created_at
 
     while current_journal = journal_queue.shift
-      journal_queue.each do |merge_candidate|
+      journal_queue.dup.each do |merge_candidate|
         if are_compatible?(current_journal, merge_candidate)
           if are_mergeable?(current_journal, merge_candidate)
             current_journal = merge(current_journal, merge_candidate)
