@@ -30,65 +30,69 @@
 class JournalAggregator
   MAX_TEMPORAL_DISTANCE = 300 # Maximum time between two journals in seconds
 
-  def self.merge_journals(journals_array)
-    aggregated_journals = []
-    journal_queue = journals_array.dup.sort_by &:created_at
+  class << self
+    def merge_journals(journals_array)
+      aggregated_journals = []
+      journal_queue = journals_array.dup.sort_by &:created_at
 
-    while current_journal = journal_queue.shift
-      journal_queue.dup.each do |merge_candidate|
-        if are_compatible?(current_journal, merge_candidate)
-          if are_mergeable?(current_journal, merge_candidate)
-            current_journal = merge(current_journal, merge_candidate)
-            journal_queue.delete(merge_candidate)
-          else
-            aggregated_journals << current_journal
-            next
+      while current_journal = journal_queue.shift
+        journal_queue.dup.each do |merge_candidate|
+          if are_compatible?(current_journal, merge_candidate)
+            if are_mergeable?(current_journal, merge_candidate)
+              current_journal = merge(current_journal, merge_candidate)
+              journal_queue.delete(merge_candidate)
+            else
+              aggregated_journals << current_journal
+              next
+            end
           end
         end
+
+        aggregated_journals << current_journal
       end
 
-      aggregated_journals << current_journal
+      aggregated_journals
     end
 
-    aggregated_journals
-  end
+    private
 
-  def self.merge(journal_a, journal_b)
-    if !are_mergeable?(journal_a, journal_b)
-      raise ArgumentError.new('The given journals cannot be merged.')
+    def merge(journal_a, journal_b)
+      if !are_mergeable?(journal_a, journal_b)
+        raise ArgumentError.new('The given journals cannot be merged.')
+      end
+
+      AggregatedJournal.new(journal_a, journal_b)
     end
 
-    AggregatedJournal.new(journal_a, journal_b)
-  end
-
-  def self.are_compatible?(journal_a, journal_b)
-    journal_a.journable_id == journal_b.journable_id
-  end
-
-  def self.are_mergeable?(journal_a, journal_b)
-    if journal_a.equal?(journal_b)
-      return true
+    def are_compatible?(journal_a, journal_b)
+      journal_a.journable_id == journal_b.journable_id
     end
 
-    if journal_a.user_id != journal_b.user_id
-      return false
-    end
+    def are_mergeable?(journal_a, journal_b)
+      if journal_a.equal?(journal_b)
+        return true
+      end
 
-    # The journals need to be consecutive
-    if (journal_a.id - journal_b.id).abs != 1
-      return false
-    end
+      if journal_a.user_id != journal_b.user_id
+        return false
+      end
 
-    # Never merge comments
-    if !nil_or_empty?(journal_a.notes) && !nil_or_empty?(journal_b.notes)
-      return false
-    end
+      # The journals need to be consecutive
+      if (journal_a.id - journal_b.id).abs != 1
+        return false
+      end
 
-    if (journal_a.created_at - journal_b.created_at).abs > MAX_TEMPORAL_DISTANCE
-      return false
-    end
+      # Never merge comments
+      if !nil_or_empty?(journal_a.notes) && !nil_or_empty?(journal_b.notes)
+        return false
+      end
 
-    true
+      if (journal_a.created_at - journal_b.created_at).abs > MAX_TEMPORAL_DISTANCE
+        return false
+      end
+
+      true
+    end
   end
 
   private
