@@ -92,7 +92,7 @@ class JournalManager
     all_attachable_journal_ids = current.map { |j| j[key] } | predecessor.map { |j| j[key] }
 
     all_attachable_journal_ids.each_with_object({}) { |i, h|
-      h[i] = [predecessor.detect do |j| j[key] == i end,
+      h[i] = [predecessor.detect { |j| j[key] == i },
               current.detect { |j| j[key] == i }]
     }
   end
