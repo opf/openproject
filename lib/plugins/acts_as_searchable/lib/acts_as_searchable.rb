@@ -117,15 +117,14 @@ module Redmine
                 .references(searchable_options[:references])
                 .order(find_order)
                 .scoping do
+                  results_count = count
+                  results       = all
 
-                results_count = count
-                results       = all
-
-                if options[:offset]
-                  results = results.where("(#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')")
+                  if options[:offset]
+                    results = results.where("(#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')")
+                  end
+                  results = results.limit(options[:limit]) if options[:limit]
                 end
-                results = results.limit(options[:limit]) if options[:limit]
-              end
             end
             [results, results_count]
           end
