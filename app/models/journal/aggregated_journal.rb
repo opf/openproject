@@ -45,6 +45,8 @@ class AggregatedJournal
       combined_journals = combined_journals.merge(journal)
     end
 
+    combined_journals['notes'] =
+      @journals.map(&:attributes).map { |hash| hash['notes'] }.compact.first
     combined_journals.symbolize_keys
   end
 end
