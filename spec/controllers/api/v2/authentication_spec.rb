@@ -120,7 +120,7 @@ describe Api::V2::AuthenticationController, type: :controller do
 
     context 'with Session auth scheme requested' do
       before do
-        request.env['X-Authentication-Scheme'] = 'Session'
+        request.env['HTTP_X_AUTHENTICATION_SCHEME'] = 'Session'
       end
 
       it 'has Session auth scheme' do
