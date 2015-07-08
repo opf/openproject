@@ -83,7 +83,7 @@ class JournalAggregator
       end
 
       # Never merge comments
-      if !nil_or_empty?(journal_a.notes) && !nil_or_empty?(journal_b.notes)
+      if journal_a.notes.present? && journal_b.notes.present?
         return false
       end
 
@@ -93,11 +93,5 @@ class JournalAggregator
 
       true
     end
-  end
-
-  private
-
-  def self.nil_or_empty?(variable)
-    variable.nil? || variable.empty?
   end
 end
