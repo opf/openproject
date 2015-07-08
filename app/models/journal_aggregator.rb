@@ -36,12 +36,15 @@ class JournalAggregator
 
     while current_journal = journal_queue.shift
       journal_queue.each do |merge_candidate|
-        if are_mergeable?(current_journal, merge_candidate)
-          current_journal = merge(current_journal, merge_candidate)
-          journal_queue.delete(merge_candidate)
+        if are_compatible?(current_journal, merge_candidate)
+          if are_mergeable?(current_journal, merge_candidate)
+            current_journal = merge(current_journal, merge_candidate)
+            journal_queue.delete(merge_candidate)
+          else
+            aggregated_journals << current_journal
+            next
+          end
         end
-
-        # TODO: early exit when no further merges for this WP are possible
       end
 
       aggregated_journals << current_journal
@@ -58,13 +61,13 @@ class JournalAggregator
     AggregatedJournal.new(journal_a, journal_b)
   end
 
+  def self.are_compatible?(journal_a, journal_b)
+    journal_a.journable_id == journal_b.journable_id
+  end
+
   def self.are_mergeable?(journal_a, journal_b)
     if journal_a.equal?(journal_b)
       return true
-    end
-
-    if journal_a.journable_id != journal_b.journable_id
-      return false
     end
 
     if journal_a.user_id != journal_b.user_id
