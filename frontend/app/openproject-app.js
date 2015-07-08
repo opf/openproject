@@ -32,7 +32,12 @@ var I18n = require('./vendor/i18n');
 I18n.translations.en = require("locales/js-en.yml").en;
 
 I18n.addTranslations = function(locale, translations) {
-  I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
+  if (I18n.translations[locale] === undefined) {
+    I18n.translations[locale] = translations;
+  }
+  else {
+    I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
+  }
 };
 
 require('angular-animate');
