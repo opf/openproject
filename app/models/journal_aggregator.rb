@@ -63,7 +63,7 @@ class JournalAggregator
       return false
     end
 
-    if journal_a.author != journal_b.author
+    if journal_a.user_id != journal_b.user_id
       return false
     end
 
@@ -73,7 +73,7 @@ class JournalAggregator
     end
 
     # Never merge comments
-    unless nil_or_empty?(journal_a.notes) && nil_or_empty?(journal_b.notes)
+    if !nil_or_empty?(journal_a.notes) && !nil_or_empty?(journal_b.notes)
       return false
     end
 
