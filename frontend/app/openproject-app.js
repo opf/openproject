@@ -235,6 +235,15 @@ openprojectApp
       TimezoneService.setupLocale();
       KeyboardShortcutService.activate();
 
+      // at the moment of adding this code it was mostly used to
+      // keep the previous state for the code to know where
+      // to redirect the user on cancel new work package form
+      $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+          $rootScope.previousState = {
+            name: from.name,
+            params: fromParams
+          };
+      });
     }
   ]);
 

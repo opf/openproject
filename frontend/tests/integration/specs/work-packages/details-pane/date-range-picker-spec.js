@@ -106,9 +106,9 @@ describe('details pane', function() {
 
         it('changes date to current day', function() {
           var currentDate = new Date(),
-              dateStr = 
-                currentDate.getFullYear() + '-' + 
-                ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' + 
+              dateStr =
+                currentDate.getFullYear() + '-' +
+                ("0" + (currentDate.getMonth() + 1)).slice(-2) + '-' +
                 ("0" + currentDate.getDate()).slice(-2);
           todayBtn.click();
           datepicker.expectedDate(startDate, dateStr);
@@ -197,7 +197,7 @@ describe('details pane', function() {
 
           it('changes when selected start date is greater', function() {
             datepicker.selectMonth(startDateDatepicker, 5, 2015).then(function() {
-              datepicker.clickDate(startDateDatepicker, startDate, '30').then(function() { 
+              datepicker.clickDate(startDateDatepicker, startDate, '30').then(function() {
                 datepicker.expectedDate(startDate, '2015-05-30');
                 datepicker.expectedDate(endDate, '2015-05-30');
               });
@@ -206,7 +206,7 @@ describe('details pane', function() {
 
           it('does not change when selected start date is lower', function() {
             datepicker.selectMonth(startDateDatepicker, 4).then(function() {
-              datepicker.clickDate(startDateDatepicker, startDate, '28').then(function() { 
+              datepicker.clickDate(startDateDatepicker, startDate, '28').then(function() {
                 datepicker.expectedDate(startDate, '2015-04-28');
                 datepicker.expectedDate(endDate, '2015-04-29');
               });
@@ -215,7 +215,7 @@ describe('details pane', function() {
 
           it('does not change when selected start date is equal', function() {
             datepicker.selectMonth(startDateDatepicker, 5).then(function() {
-              datepicker.clickDate(startDateDatepicker, startDate, '29').then(function() { 
+              datepicker.clickDate(startDateDatepicker, startDate, '29').then(function() {
                 datepicker.expectedDate(startDate, '2015-05-29');
                 datepicker.expectedDate(endDate, '2015-05-29');
               });
@@ -245,7 +245,7 @@ describe('details pane', function() {
 
           it('does not change when selected end date is greater', function() {
             datepicker.selectMonthAndYear(endDateDatepicker, 5, 2015).then(function() {
-              datepicker.clickDate(endDateDatepicker, endDate, '30').then(function() { 
+              datepicker.clickDate(endDateDatepicker, endDate, '30').then(function() {
                 datepicker.expectedDate(startDate, '2015-02-17');
                 datepicker.expectedDate(endDate, '2015-05-30');
               });
@@ -254,7 +254,7 @@ describe('details pane', function() {
 
           it('changes when selected end date is lower', function() {
             datepicker.selectMonth(endDateDatepicker, 2).then(function() {
-              datepicker.clickDate(endDateDatepicker, endDate, '16').then(function() { 
+              datepicker.clickDate(endDateDatepicker, endDate, '16').then(function() {
                 datepicker.expectedDate(startDate, '2015-02-16');
                 datepicker.expectedDate(endDate, '2015-02-16');
               });
@@ -263,7 +263,7 @@ describe('details pane', function() {
 
           it('does not change when selected start date is equal', function() {
             datepicker.selectMonthAndYear(endDateDatepicker, 2, 2015).then(function() {
-              datepicker.clickDate(endDateDatepicker, endDate, '17').then(function() { 
+              datepicker.clickDate(endDateDatepicker, endDate, '17').then(function() {
                 datepicker.expectedDate(startDate, '2015-02-17');
                 datepicker.expectedDate(endDate, '2015-02-17');
               });
