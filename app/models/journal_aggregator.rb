@@ -31,19 +31,23 @@ class JournalAggregator
   MAX_TEMPORAL_DISTANCE = 300 # Maximum time between two journals in seconds
 
   def self.merge_journals(journals_array)
-    aggregated_journals = journals_array.dup
-    advance = journals_array.count == 0
-    while advance
-      result = aggregated_journals.dup
-      aggregated_journals.combination(2).each do |journal_a, journal_b|
-        if are_mergeable?(journal_a, journal_b)
-          result + [merge(journal_a, journal_b)]
-          result - [journal_a, journal_b]
+    aggregated_journals = []
+    journal_queue = journals_array.dup.sort_by &:created_at
+
+    while current_journal = journal_queue.shift
+      journal_queue.each do |merge_candidate|
+        if are_mergeable?(current_journal, merge_candidate)
+          current_journal = merge(current_journal, merge_candidate)
+          journal_queue.delete(merge_candidate)
         end
+
+        # TODO: early exit when no further merges for this WP are possible
       end
-      advance = (aggregated_journals - result).any?
-      aggregated_journals = result
+
+      aggregated_journals << current_journal
     end
+
+    aggregated_journals
   end
 
   def self.merge(journal_a, journal_b)
