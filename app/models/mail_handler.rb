@@ -258,7 +258,7 @@ class MailHandler < ActionMailer::Base
         watchers.each do |w| obj.add_watcher(w) end
         # FIXME: somehow the watchable attribute of the new watcher is not set, when the issue is not safed.
         # So we fix that here manually
-        obj.watchers.each { |w| w.watchable = obj }
+        obj.watchers.each do |w| w.watchable = obj end
       end
     end
   end
