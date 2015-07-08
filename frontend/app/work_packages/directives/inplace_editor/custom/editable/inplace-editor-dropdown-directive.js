@@ -48,9 +48,11 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $t
       ).then(function(values) {
         scope.customEditorController.allowedValues = values;
         scope.fieldController.state.isBusy = false;
-        $timeout(function() {
-          element.find('.ui-select-match').trigger('click');
-        });
+        if (!EditableFieldsState.forcedEditState) {
+          $timeout(function() {
+            element.find('.ui-select-match').trigger('click');
+          });
+        }
       });
     }
   };

@@ -45,8 +45,7 @@ module.exports = function($uiViewScroll,
       workPackage: '=',
       activity: '=',
       activityNo: '=',
-      inputElementId: '=',
-      autocompletePath: '@'
+      inputElementId: '='
     },
     link: function(scope, element, attrs, exclusiveEditController) {
       exclusiveEditController.addEditable(scope);

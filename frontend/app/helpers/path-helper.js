@@ -70,6 +70,9 @@ module.exports = function() {
     projectWorkPackagesPath: function(projectId) {
       return PathHelper.projectPath(projectId) + PathHelper.workPackagesPath();
     },
+    projectWorkPackagesFormPath: function(projectId) {
+      return PathHelper.projectWorkPackagesPath(projectId) + '/form';
+    },
     queryPath: function(queryIdentifier) {
       return '/queries/' + queryIdentifier;
     },
@@ -125,9 +128,6 @@ module.exports = function() {
     },
     workPackagesBulkDeletePath: function() {
       return PathHelper.workPackagesPath() + '/bulk';
-    },
-    workPackageAutoCompletePath: function(projectId, workPackageId) {
-      return '/work_packages/auto_complete?escape=false&id=' + workPackageId + '&project_id=' + projectId;
     },
     workPackageJsonAutoCompletePath: function() {
       return '/work_packages/auto_complete.json';
@@ -256,6 +256,9 @@ module.exports = function() {
     apiV3ProjectCategoriesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/categories';
     },
+    apiV3TypePath: function(typeId) {
+      return PathHelper.apiV3 + '/types/' + typeId;
+    },
     // Static
     staticUserPath: function(userId) {
       return PathHelper.userPath(userId);
@@ -283,10 +286,6 @@ module.exports = function() {
     },
     staticWorkPackagesAutocompletePath: function(projectId) {
       return PathHelper.staticBase + '/work_packages/auto_complete.json?project_id=' + projectId;
-    },
-    staticWorkPackageAutoCompletePath: function(projectId, workPackageId) {
-      return PathHelper.staticBase
-        + PathHelper.workPackageAutoCompletePath(projectId, workPackageId);
     },
     staticProjectWikiPath: function(projectId) {
       return PathHelper.staticProjectPath(projectId) + '/wiki';
