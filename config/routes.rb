@@ -295,7 +295,7 @@ OpenProject::Application.routes.draw do
       resources :calendar, controller: 'calendars', only: [:index]
     end
 
-    resources :work_packages, only: [:new, :create, :index] do
+    resources :work_packages, only: [:new, :create] do
       get :new_type, on: :collection
 
       collection do
@@ -305,6 +305,12 @@ OpenProject::Application.routes.draw do
 
       # states managed by client-side routing on work_package#index
       get '/*state' => 'work_packages#index', on: :member, id: /\d+/
+
+      # explicitly define index for preserving the order in which
+      # the path helpers are created - this otherwise leads to
+      # link_to { controller: ... } to point to the create_new path
+      get '/' => 'work_packages#index', on: :collection
+      get '/create_new' => 'work_packages#index', on: :collection
     end
 
     resources :activity, :activities, only: :index, controller: 'activities'

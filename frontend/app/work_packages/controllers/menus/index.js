@@ -79,15 +79,10 @@ angular.module('openproject.workPackages')
     'ngContextMenu',
     function(ngContextMenu) {
       return ngContextMenu({
-        controller: 'TasksDropdownMenuController',
         templateUrl: '/templates/work_packages/menus/tasks_dropdown_menu.html',
         container: '#toolbar'
       });
     }
-  ])
-  .controller('TasksDropdownMenuController', [
-    '$scope',
-    'PathHelper', require('./tasks-dropdown-menu-controller')
   ])
   .constant('PERMITTED_CONTEXT_MENU_ACTIONS', [
     'edit', 'watch', 'log_time',

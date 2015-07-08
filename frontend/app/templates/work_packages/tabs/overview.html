@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(group.groupName)" class="attributes-group">
+<div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage)" class="attributes-group">
 
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
@@ -31,15 +31,15 @@
 
   <dl class="attributes-key-value">
     <dt
-        ng-hide="vm.hideEmptyFields && vm.isFieldHideable(field)"
-        ng-if="vm.isSpecified(field)"
+        ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+        ng-if="vm.isSpecified(vm.workPackage, field)"
         ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
-        {{vm.getLabel(field)}}
-        <span class="required" ng-if="vm.hasNiceStar(field)"> *</span>
+        {{vm.getLabel(vm.workPackage, field)}}
+        <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
     </dt>
     <dd
-        ng-hide="vm.hideEmptyFields && vm.isFieldHideable(field)"
-        ng-if="vm.isSpecified(field)"
+        ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+        ng-if="vm.isSpecified(vm.workPackage, field)"
         ng-repeat-end
         class="attributes-key-value--value-container">
       <work-package-field field="field"></work-package-field>
