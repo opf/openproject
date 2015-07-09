@@ -14,7 +14,7 @@ de:
         created_on: Erstellt
         description: Beschreibung
         fixed_date: Referenzdatum
-        spent: Verbraucht
+        spent: Gebucht
         status: Status
         subject: Thema
         type: Kostenart
@@ -73,7 +73,7 @@ de:
   caption_labor_costs: Ist-Personaleinzelkosten
   caption_locked_on: Gesperrt am
   caption_material_costs: Ist-Stückkosten
-  caption_materials: Stücke
+  caption_materials: Einheiten
   caption_rate_history: Stundensatz-Historie
   caption_rate_history_for: 'Stundensatz-Historie für %{user}'
   caption_rate_history_for_project: 'Stundensatz-Historie für %{user} in Projekt %{project}'
