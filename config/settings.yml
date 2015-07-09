@@ -261,3 +261,6 @@ users_deletable_by_admins:
   default: 0
 users_deletable_by_self:
   default: 0
+journal_aggregation_time:
+  default: 300
+  format: int
