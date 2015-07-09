@@ -318,6 +318,17 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # Returns a ActiveRecord::Relation to find all projects for which +user+ has the given +permission+
+  #
+  # Valid options:
+  # * :project => limit the condition to project
+  # * :with_subprojects => limit the condition to project and its subprojects
+  # * :member => limit the condition to the user projects
+  def self.allowed_to(user, permission, options = {})
+    where(allowed_to_condition(user, permission, options))
+      .references(:projects)
+  end
+
   # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
   #
   # Valid options:
@@ -479,7 +490,7 @@ class Project < ActiveRecord::Base
   # by the current user
   def allowed_parents
     return @allowed_parents if @allowed_parents
-    @allowed_parents = Project.where(Project.allowed_to_condition(User.current, :add_subprojects))
+    @allowed_parents = Project.allowed_to(User.current, :add_subprojects)
     @allowed_parents = @allowed_parents - self_and_descendants
     if User.current.allowed_to?(:add_project, nil, global: true) || (!new_record? && parent.nil?)
       @allowed_parents << nil
