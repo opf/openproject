@@ -68,21 +68,15 @@ class News < ActiveRecord::Base
 
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
-    limit(count)
-      .where(Project.allowed_to_condition(user, :view_news))
-      .includes(:author, :project)
-      .order("#{News.table_name}.created_on DESC")
-      .references(:users, :projects)
+    latest_for(user, count: count)
   end
 
-  def self.latest_for(user, options = {})
-    limit = options.fetch(:count) { 5 }
-
+  def self.latest_for(user, count: 5)
     conditions = Project.allowed_to_condition(user, :view_news)
 
     # TODO: remove the includes from here, it's required by Project.allowed_to_condition
     # News has nothing to do with it
-    where(conditions).limit(limit).newest_first.includes(:author, :project)
+    where(conditions).limit(count).newest_first.includes(:author, :project)
       .references(:users, :projects)
   end
 
