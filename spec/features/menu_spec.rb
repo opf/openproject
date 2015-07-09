@@ -65,7 +65,7 @@ describe 'project menu', type: :feature do
         end
 
         it 'leads to cost reports' do
-          click_on 'Cost Reports'
+          click_on 'Cost reports'
 
           expect(page).to have_selector('.breadcrumb', text: 'HomePonyoCost Reports')
         end
@@ -93,7 +93,7 @@ describe 'project menu', type: :feature do
         it 'leads to cost reports' do
           click_on 'Modules'
           within '#more-menu ul' do
-            click_on 'Cost Reports'
+            click_on 'Cost reports'
           end
 
           expect(page).to have_selector('.breadcrumb', text: 'Cost Reports')
