@@ -83,7 +83,6 @@ describe Api::Experimental::VersionsController, type: :controller do
         let(:shared_versions) { FactoryGirl.build_list(:version, 2) }
 
         before do
-          # TODO: rename to receive_message_chain once on rspec 3.0
           allow(Version).to receive_message_chain(:visible, :systemwide)
             .and_return(shared_versions)
 
