@@ -290,15 +290,11 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user = nil, count = 5)
-    where(visible_by(user)).limit(count).order('created_on DESC')
+    latest_for(user, count: count)
   end
 
-  def self.latest_for(user, options = {})
-    limit = options.fetch(:count) { 5 }
-
-    conditions = visible_by(user)
-
-    where(conditions).limit(limit).newest_first
+  def self.latest_for(user, count: 5)
+    where(visible_by(user)).limit(count).newest_first
   end
 
   # table_name shouldn't be needed :(
