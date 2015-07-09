@@ -119,11 +119,16 @@ describe Api::V2::AuthenticationController, type: :controller do
     end
 
     context 'with Session auth scheme requested' do
-      before do
-        request.env['X-Authentication-Scheme'] = 'Session'
+      it 'has Session auth scheme' do
+        request.env['HTTP_X_AUTHENTICATION_SCHEME'] = 'Session'
+        get :index, format: 'xml', key: api_key.reverse
+
+        expect(response.status).to eq 401
+        expect(response.headers['WWW-Authenticate']).to eq 'Session realm="OpenProject API"'
       end
 
-      it 'has Session auth scheme' do
+      it 'has Session auth scheme in deprecated format' do
+        request.env['X-Authentication-Scheme'] = 'Session'
         get :index, format: 'xml', key: api_key.reverse
 
         expect(response.status).to eq 401
