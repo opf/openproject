@@ -45,9 +45,7 @@ class VersionPolicy < BasePolicy
       permissions = [:view_work_packages, :manage_versions]
 
       hash[queried_version] = permissions.any? { |permission|
-        allowed_condition = Project.allowed_to_condition(user, permission)
-
-        queried_version.projects.where(allowed_condition).exists?
+        queried_version.projects.allowed_to(user, permission).exists?
       }
     end
 

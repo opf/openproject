@@ -55,8 +55,7 @@ class Changeset < ActiveRecord::Base
 
   scope :visible, -> (*args) {
     includes(repository: :project)
-      .where(Project.allowed_to_condition(args.first || User.current, :view_changesets))
-      .references(:projects)
+      .merge(Project.allowed_to(args.first || User.current, :view_changesets))
   }
 
   def revision=(r)

@@ -56,8 +56,7 @@ class News < ActiveRecord::Base
 
   scope :visible, -> (*args) {
     includes(:project)
-      .where(Project.allowed_to_condition(args.first || User.current, :view_news))
-      .references(:projects)
+      .merge(Project.allowed_to(args.first || User.current, :view_news))
   }
 
   safe_attributes 'title', 'summary', 'description'
@@ -72,12 +71,10 @@ class News < ActiveRecord::Base
   end
 
   def self.latest_for(user, count: 5)
-    conditions = Project.allowed_to_condition(user, :view_news)
-
-    # TODO: remove the includes from here, it's required by Project.allowed_to_condition
-    # News has nothing to do with it
-    where(conditions).limit(count).newest_first.includes(:author, :project)
-      .references(:users, :projects)
+    limit(count)
+      .newest_first
+      .includes(:project, :author)
+      .merge(Project.allowed_to(user, :view_news))
   end
 
   # table_name shouldn't be needed :(

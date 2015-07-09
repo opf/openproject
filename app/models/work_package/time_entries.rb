@@ -50,8 +50,7 @@ module WorkPackage::TimeEntries
       when 'reassign'
         work_packages = Array(work_packages)
         reassign_to = WorkPackage.includes(:project)
-                      .where(Project.allowed_to_condition(user, :edit_time_entries))
-                      .references(:projects)
+                      .merge(Project.allowed_to(user, :edit_time_entries))
                       .find_by(id: to_do[:reassign_to_id])
 
         if reassign_to.nil?

@@ -55,8 +55,7 @@ class Version < ActiveRecord::Base
   scope :open, -> { where(status: 'open') }
   scope :visible, ->(*args) {
     includes(:project)
-      .where(Project.allowed_to_condition(args.first || User.current, :view_work_packages))
-      .references(:projects)
+      .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
   }
 
   scope :systemwide, -> { where(sharing: 'system') }
