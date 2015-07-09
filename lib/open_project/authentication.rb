@@ -83,7 +83,12 @@ module OpenProject
       module_function
 
       def pick_auth_scheme(supported_schemes, default_scheme, request_headers = {})
-        req_scheme = request_headers['X-Authentication-Scheme']
+        # Check two keys in case rack or some other middleware translates the
+        # deprecated 'X-Header-Format'. This will be obsolete with rails 4 (and its
+        # more recent rack version) where the deprecated headers will all be mapped to
+        # the HTTP_HEADER_FORMAT.
+        keys = ['X-Authentication-Scheme', 'HTTP_X_AUTHENTICATION_SCHEME']
+        req_scheme = keys.map { |k| request_headers[k] }.first
 
         if supported_schemes.include? req_scheme
           req_scheme
