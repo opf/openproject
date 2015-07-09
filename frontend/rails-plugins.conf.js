@@ -36,7 +36,8 @@ var path = require('path'),
 var PLUGIN_INFO_CMD_PATH = path.join(__dirname, '..', 'bin', 'plugin_info');
 
 function runPluginsInfo() {
-  var fullCmd = exec(PLUGIN_INFO_CMD_PATH, { silent: true });
+  process.chdir(path.join(__dirname, '..'));
+  var fullCmd = exec(PLUGIN_INFO_CMD_PATH, { silent: false });
   return fullCmd.code === 0 ? fullCmd.output : '{}';
 }
 
