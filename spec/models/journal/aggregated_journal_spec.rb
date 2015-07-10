@@ -76,4 +76,18 @@ describe Journal::AggregatedJournal, type: :model do
       end
     end
   end
+
+  context 'WP updated after aggregation timeout expired' do
+    before do
+      work_package.status = FactoryGirl.build(:status)
+      work_package.save!
+      work_package.journals.second.created_at += 1.day # one day delay should always be long enough
+      work_package.journals.second.save!
+    end
+
+    it 'returns both journals' do
+      is_expected.to match_array [aggregated_journal_for(work_package.journals.first),
+                                  aggregated_journal_for(work_package.journals.second)]
+    end
+  end
 end
