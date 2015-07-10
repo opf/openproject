@@ -48,7 +48,6 @@ require('angular-ui-router');
 
 require('angular-ui-date');
 require('angular-truncate');
-require('angular-feature-flags');
 
 require('angular-busy/dist/angular-busy');
 require('angular-busy/dist/angular-busy.css');
@@ -176,7 +175,6 @@ var openprojectApp = angular.module('openproject', [
   'ngAria',
   'ngSanitize',
   'truncate',
-  'feature-flags',
   'openproject.layout',
   'cgBusy',
   'openproject.api',
@@ -221,17 +219,15 @@ openprojectApp
     '$http',
     '$rootScope',
     '$window',
-    'featureFlags',
     'TimezoneService',
     'KeyboardShortcutService',
-    function($http, $rootScope, $window, flags, TimezoneService, KeyboardShortcutService) {
+    function($http, $rootScope, $window, TimezoneService, KeyboardShortcutService) {
       $http.defaults.headers.common.Accept = 'application/json';
 
       $rootScope.showNavigation =
         $window.sessionStorage.getItem('openproject:navigation-toggle') !==
         'collapsed';
 
-      flags.set($http.get('/javascripts/feature-flags.json'));
       TimezoneService.setupLocale();
       KeyboardShortcutService.activate();
 

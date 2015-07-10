@@ -91,7 +91,6 @@ angular.module('openproject.workPackages.directives')
     'WorkPackagesTableService',
     '$window',
     '$timeout',
-    'featureFlags',
     'PathHelper',
     require('./work-packages-table-directive')
   ]);

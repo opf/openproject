@@ -1,8 +1,0 @@
-[
-    {
-        "key":        "detailsView",
-        "active":     true,
-        "name":       "Details View",
-        "description": "Displays details for individual work packages."
-    }
-]
