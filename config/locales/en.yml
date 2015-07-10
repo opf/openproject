@@ -1234,6 +1234,7 @@ en:
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_time_tracking: "Time tracking"
+  project_module_timelines: "Timelines"
   project_module_wiki: "Wiki"
 
   # possible query parameters (e.g. issue queries),
