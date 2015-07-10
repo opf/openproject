@@ -59,6 +59,19 @@ We will then review your pull request.
 Please note that you can add commits after the pull request has been created by pushing
 to the branch in your fork.
 
+## Translations
+
+Beginning with OpenProject 4.2.0 the OpenProject core only holds the
+english locales and all other locales are stored in
+OpenProject-Translations. But since this plugin is hardwired in the
+Gemfile, german and other locales are available again.
+
+If you want to contribute to the localization of OpenProject and its
+plugins you can do so on [Crowdin](https://crowdin.com/projects/opf).
+Once a day we will fetch those locales and upload them to GitHub.
+
+More on this topic can be found [in our blog](https://www.openproject.org/2015/07/10/help-translate-openproject-into-your-language/).
+
 ## Important notes
 
 To ensure a smooth workflow for everyone, please take note of the following:
