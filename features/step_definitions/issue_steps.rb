@@ -32,8 +32,8 @@ Given /^there are no issues$/ do
 end
 
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
-  issue = WorkPackage.find(:last, conditions: { subject: issue_subject }, order: :created_at)
-  watchers.raw.flatten.each { |w| issue.add_watcher User.find_by(login: w) }
+  issue = WorkPackage.where(subject: issue_subject).order(:created_at).last
+  watchers.raw.flatten.each do |w| issue.add_watcher User.find_by_login(w) end
   issue.save
 end
 
@@ -43,7 +43,7 @@ end
 
 Given(/^the issue "(.*?)" has an attachment "(.*?)"$/) do |issue_subject, file_name|
   content_type = 'image/gif'
-  issue = WorkPackage.find(:last, conditions: { subject: issue_subject }, order: :created_at)
+  issue = WorkPackage.where(subject: issue_subject).order(:created_at).last
   file = OpenProject::Files.create_temp_file name: file_name,
                                              content: 'random content which is not actually a gif'
   attachment = FactoryGirl.create :attachment,
@@ -88,26 +88,24 @@ When(/^I click the first delete attachment link$/) do
 end
 
 Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |project_name, table|
-  table.hashes.map { |h| h['project'] = project_name }
+  table.hashes.map do |h| h['project'] = project_name end
   table = Cucumber::Ast::Table.new table.hashes
   step %{there are the following issues with attributes:}, table
 end
 
 Given (/^there are the following issues with attributes:$/) do |table|
-
   table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each do |type_attributes|
-
     project  = get_project(type_attributes.delete('project'))
     attributes = type_attributes.merge(project_id: project.id) if project
 
-    assignee = User.find_by(login: attributes.delete('assignee'))
+    assignee = User.find_by_login(attributes.delete('assignee'))
     attributes.merge! assigned_to_id: assignee.id if assignee
 
-    author   = User.find_by(login: attributes.delete('author'))
+    author   = User.find_by_login(attributes.delete('author'))
     attributes.merge! author_id: author.id if author
 
-    responsible = User.find_by(login: attributes.delete('responsible'))
+    responsible = User.find_by_login(attributes.delete('responsible'))
     attributes.merge! responsible_id: responsible.id if responsible
 
     watchers = attributes.delete('watched_by')
@@ -124,10 +122,8 @@ Given (/^there are the following issues with attributes:$/) do |table|
     issue = FactoryGirl.create(:work_package, attributes)
 
     if watchers
-      watchers.split(',').each { |w| issue.add_watcher User.find_by(login: w) }
+      watchers.split(',').each do |w| issue.add_watcher User.find_by_login(w) end
       issue.save
     end
-
   end
-
 end

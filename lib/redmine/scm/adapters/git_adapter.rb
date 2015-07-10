@@ -43,7 +43,7 @@ module Redmine
 
         class << self
           def client_command
-            @@bin    ||= GIT_BIN
+            @@bin ||= GIT_BIN
           end
 
           def sq_bin
@@ -141,7 +141,7 @@ module Redmine
                                      kind: (type == 'tree') ? 'dir' : 'file',
                                      size: (type == 'tree') ? nil : size,
                                      lastrev: @flag_report_last_commit ? lastrev(full_path, identifier) : Revision.new
-                ) unless entries.detect { |entry| entry.name == name }
+                                    ) unless entries.detect { |entry| entry.name == name }
               end
             end
           end
@@ -156,7 +156,7 @@ module Redmine
           cmd_args << rev if rev
           cmd_args << '--' << path unless path.empty?
           lines = []
-          scm_cmd(*cmd_args) { |io| lines = io.readlines }
+          scm_cmd(*cmd_args) do |io| lines = io.readlines end
           begin
             id = lines[0].split[1]
             author = lines[1].match('Author:\s+(.*)$')[1]
@@ -169,7 +169,7 @@ module Redmine
               time: time,
               message: nil,
               paths: nil
-              )
+            )
         rescue NoMethodError => e
           logger.error("The revision '#{path}' has a wrong format")
           return nil
@@ -230,15 +230,13 @@ module Redmine
               elsif (parsing_descr == 0) && line.chomp.to_s == ''
                 parsing_descr = 1
                 changeset[:description] = ''
-              elsif (parsing_descr == 1 || parsing_descr == 2) \
-                  && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/
+              elsif (parsing_descr == 1 || parsing_descr == 2) && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/
                 parsing_descr = 2
                 fileaction    = $1
                 filepath      = $2
                 p = scm_encode('UTF-8', @path_encoding, filepath)
                 files << { action: fileaction, path: p }
-              elsif (parsing_descr == 1 || parsing_descr == 2) \
-                  && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
+              elsif (parsing_descr == 1 || parsing_descr == 2) && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
                 parsing_descr = 2
                 fileaction    = $1
                 filepath      = $3
@@ -277,11 +275,11 @@ module Redmine
           path ||= ''
           cmd_args = []
           if identifier_to
-            cmd_args << 'diff' << '--no-color' <<  identifier_to << identifier_from
+            cmd_args << 'diff' << '--no-color' << identifier_to << identifier_from
           else
             cmd_args << 'show' << '--no-color' << identifier_from
           end
-          cmd_args << '--' <<  scm_encode(@path_encoding, 'UTF-8', path) unless path.empty?
+          cmd_args << '--' << scm_encode(@path_encoding, 'UTF-8', path) unless path.empty?
           diff = []
           scm_cmd *cmd_args do |io|
             io.each_line do |line|
@@ -296,10 +294,10 @@ module Redmine
         def annotate(path, identifier = nil)
           identifier = 'HEAD' if identifier.blank?
           cmd_args = %w|blame|
-          cmd_args << '-p' << identifier << '--' <<  scm_encode(@path_encoding, 'UTF-8', path)
+          cmd_args << '-p' << identifier << '--' << scm_encode(@path_encoding, 'UTF-8', path)
           blame = Annotate.new
           content = nil
-          scm_cmd(*cmd_args) { |io| io.binmode; content = io.read }
+          scm_cmd(*cmd_args) do |io| io.binmode; content = io.read end
           # git annotates binary files
           if content.respond_to?('is_binary_data?') && content.is_binary_data? # Ruby 1.8.x and <1.9.2
             return nil
@@ -317,8 +315,8 @@ module Redmine
               authors_by_commit[identifier] = $1.strip
             elsif line =~ /^\t(.*)/
               blame.add_line($1, Revision.new(
-                                    identifier: identifier,
-                                    author: authors_by_commit[identifier]))
+                                   identifier: identifier,
+                                   author: authors_by_commit[identifier]))
               identifier = ''
               author = ''
             end

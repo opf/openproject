@@ -37,7 +37,7 @@ class Reports::PriorityReport < Reports::Report
   end
 
   def rows
-    @rows ||=  IssuePriority.all
+    @rows ||= IssuePriority.all
   end
 
   def data

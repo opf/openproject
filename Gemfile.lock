@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/finnlabs/awesome_nested_set.git
+  revision: 7bd473e845e2f17f5287e8b7534bd88d4bbbf7d6
+  branch: v2.1.6-rails4
+  specs:
+    awesome_nested_set (2.1.6)
+      activerecord (>= 3.0.0)
+
+GIT
   remote: git://github.com/goodwill/capybara-select2.git
   revision: c0826f33707b85fd39a838c6909ee12d0bff64a1
   specs:
@@ -22,7 +30,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 88c14fc8b86e72ef12739581aca8d97a6e8b7939
+  revision: 565aba98972bbf607136f6d258e54714b3102164
   branch: feature/rails4
   specs:
     openproject-translations (4.3.0.pre.alpha)
@@ -85,8 +93,6 @@ GEM
     autoprefixer-rails (5.1.11)
       execjs
       json
-    awesome_nested_set (2.1.6)
-      activerecord (>= 3.0.0)
     awesome_print (1.6.1)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
@@ -461,7 +467,7 @@ DEPENDENCIES
   acts_as_list (~> 0.3.0)
   airbrake (~> 4.1.0)
   autoprefixer-rails
-  awesome_nested_set (~> 2.1.6)
+  awesome_nested_set!
   bourbon (~> 4.2.0)
   capybara (~> 2.3.0)
   capybara-ng (~> 0.2.1)

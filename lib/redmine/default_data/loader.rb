@@ -38,10 +38,10 @@ module Redmine
         # Returns true if no data is already loaded in the database
         # otherwise false
         def no_data?
-          !Role.find(:first, conditions: { builtin: 0 }) &&
-            !::Type.find(:first, conditions: { is_standard: false }) &&
-            !Status.find(:first) &&
-            !Enumeration.find(:first)
+          !Role.where(builtin: 0).first &&
+            !::Type.where(is_standard: false).first &&
+            !Status.first &&
+            !Enumeration.first
         end
 
         # Loads the default data
@@ -143,11 +143,11 @@ module Redmine
 
             # Colors
             colors_list = PlanningElementTypeColor.colors
-            colors = Hash[*(colors_list.map do |color|
+            colors = Hash[*(colors_list.map { |color|
               color.save
               color.reload
               [color.name.to_sym, color.id]
-            end).flatten]
+            }).flatten]
 
             # Types
             task = ::Type.create! name:         l(:default_type_task),
@@ -250,7 +250,7 @@ module Redmine
                           phase.id =>       [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
                           bug.id =>         [new, confirmed, in_progress, tested, on_hold, rejected, closed],
                           feature.id =>     [new, specified, confirmed, in_progress, tested, on_hold, rejected, closed] }
-            workflows.each { |type_id, statuses_for_type|
+            workflows.each do |type_id, statuses_for_type|
               statuses_for_type.each { |old_status|
                 statuses_for_type.each { |new_status|
                   [manager.id, member.id].each { |role_id|
@@ -261,7 +261,7 @@ module Redmine
                   }
                 }
               }
-            }
+            end
 
             # Enumerations
 
@@ -286,10 +286,10 @@ module Redmine
             ProjectType.create!(name: l(:default_project_type_customer))
             ProjectType.create!(name: l(:default_project_type_internal))
 
-            reported_status_ids = ReportedProjectStatus.find(:all).map(&:id)
-            ProjectType.find(:all).each { |project|
+            reported_status_ids = ReportedProjectStatus.all.map(&:id)
+            ProjectType.all.each do |project|
               project.update_attributes(reported_project_status_ids: reported_status_ids)
-            }
+            end
 
             Setting['notified_events'] = ['work_package_added', \
                                           'work_package_updated',\

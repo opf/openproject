@@ -41,19 +41,17 @@ module Api
       end
 
       def index
-        options = { order: 'lft' }
+        @projects = @base.visible
+                    .includes(:types)
+                    .order('lft')
 
         if params[:ids]
           ids, identifiers = params[:ids].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
           ids = ids.map(&:to_i).sort
           identifiers = identifiers.sort
 
-          options[:conditions] = ['id IN (?) OR identifier IN (?)', ids, identifiers]
+          @projects = @projects.where(['id IN (?) OR identifier IN (?)', ids, identifiers])
         end
-
-        @projects = @base.visible
-                    .includes(:types)
-                    .all(options)
 
         @projects_by_id = Hash[@projects.map { |p| [p.id, p] }]
 
@@ -89,8 +87,9 @@ module Api
       protected
 
       def find_project
-        @project = Project.find params[:id],
-                                include: [{ custom_values: [{ custom_field: :translations }] }]
+        # FIXME: Rails 4.1 Upgrade: restore includes
+        #        include: [{ custom_values: [{ custom_field: :translations }] }]
+        @project = Project.find params[:id]
       end
 
       def build_associations
@@ -106,7 +105,6 @@ module Api
 
           @associations_by_id[a.project_b_id] ||= []
           @associations_by_id[a.project_b_id] << a
-
         end
       end
 

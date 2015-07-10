@@ -53,7 +53,7 @@ class Journal < ActiveRecord::Base
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope 'changing', conditions: ['version > 1']
+  scope :changing, -> { where(['version > 1']) }
 
   def changed_data=(changed_attributes)
     attributes = changed_attributes
@@ -88,8 +88,6 @@ class Journal < ActiveRecord::Base
       journable.project
     elsif journable.is_a? Project
       journable
-    else
-      nil
     end
   end
 
@@ -112,7 +110,7 @@ class Journal < ActiveRecord::Base
   end
 
   def data
-    @data ||= "Journal::#{journable_type}Journal".constantize.find_by_journal_id(id)
+    @data ||= "Journal::#{journable_type}Journal".constantize.find_by(journal_id: id)
   end
 
   def data=(data)
@@ -149,11 +147,11 @@ class Journal < ActiveRecord::Base
         normalized_data = JournalManager.normalize_newlines(data.journaled_attributes)
         normalized_predecessor_data = JournalManager.normalize_newlines(predecessor.data.journaled_attributes)
 
-        normalized_data.select do |k, v|
+        normalized_data.select { |k, v|
           # we dont record changes for changes from nil to empty strings and vice versa
           pred = normalized_predecessor_data[k]
           v != pred && (v.present? || pred.present?)
-        end.each do |k, v|
+        }.each do |k, v|
           @changes[k] = [normalized_predecessor_data[k], v]
         end
       end

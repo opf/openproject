@@ -32,9 +32,7 @@ module API
     module Versions
       class VersionsAPI < ::API::OpenProjectAPI
         resources :versions do
-
           route_param :id do
-
             before do
               @version = Version.find(params[:id])
 

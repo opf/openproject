@@ -38,12 +38,19 @@ module VersionsHelper
     h = Hash.new { |k, v| k[v] = [0, 0] }
     begin
       # Total issue count
-      WorkPackage.count(group: criteria,
-                        conditions: ["#{WorkPackage.table_name}.fixed_version_id = ?", version.id]).each { |c, s| h[c][0] = s }
+      WorkPackage.group(criteria)
+        .where(["#{WorkPackage.table_name}.fixed_version_id = ?", version.id])
+        .count.each do |c, s|
+        h[c][0] = s
+      end
       # Open issues count
-      WorkPackage.count(group: criteria,
-                        include: :status,
-                        conditions: ["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false]).each { |c, s| h[c][1] = s }
+      WorkPackage.group(criteria)
+        .includes(:status)
+        .where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false])
+        .references(:statuses)
+        .count.each { |c, s|
+        h[c][1] = s
+      }
     rescue ActiveRecord::RecordNotFound
       # When grouping by an association, Rails throws this exception if there's no result (bug)
     end

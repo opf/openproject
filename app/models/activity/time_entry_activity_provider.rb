@@ -54,8 +54,7 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
   protected
 
   def event_title(event, _activity)
-    time_entry_object_name = event['work_package_id'].blank? ? event['project_name']
-                                                             : work_package_title(event)
+    time_entry_object_name = event['work_package_id'].blank? ? event['project_name'] : work_package_title(event)
     "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
   end
 

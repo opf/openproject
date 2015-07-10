@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-InstanceFinder.register(User, Proc.new { |name| User.find_by(login: name) })
+InstanceFinder.register(User, Proc.new { |name| User.find_by_login(name) })
 
 ##
 # Editing/creating users (admin UI)
@@ -43,7 +43,7 @@ When /^I create a new user$/ do
 end
 
 When /^I edit the user "([^\"]*)"$/ do |user|
-  user_id = User.find_by(login: user).id
+  user_id = User.find_by_login(user).id
   visit "/users/#{user_id}/edit"
 end
 
@@ -70,7 +70,7 @@ end
 #
 Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
   login = table.rows_hash[:Login].to_s + table.rows_hash[:login].to_s
-  user = User.find_by(login: login) unless login.blank?
+  user = User.find_by_login(login) unless login.blank?
 
   if !user
     user = FactoryGirl.create(:user)
@@ -82,27 +82,27 @@ Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
 end
 
 Given /^the [Uu]ser "([^\"]*)" has:$/ do |user, table|
-  u = User.find_by(login: user)
+  u = User.find_by_login(user)
   raise "No such user: #{user}" unless u
   modify_user(u, table)
 end
 
 Given /^the [Uu]ser "([^\"]*)" has the following preferences$/ do |user, table|
-  u = User.find_by(login: user)
+  u = User.find_by_login(user)
 
   send_table_to_object(u.pref, table)
 end
 
 Given /^the user "([^\"]*)" is locked$/ do |user|
-  User.find_by(login: user).lock!
+  User.find_by_login(user).lock!
 end
 
 Given /^the user "([^\"]*)" is registered and not activated$/ do |user|
-  User.find_by(login: user).register!
+  User.find_by_login(user).register!
 end
 
 Given /^the user "([^\"]*)" had too many recently failed logins$/ do |user|
-  user = User.find_by(login: user)
+  user = User.find_by_login(user)
   user.failed_login_count = 100
   user.last_failed_login_on = Time.now
   user.save
@@ -124,7 +124,7 @@ end
 Then /^there should be a user with the following:$/ do |table|
   expected = table.rows_hash
 
-  user = User.find_by(login: expected['login'])
+  user = User.find_by_login(expected['login'])
 
   user.should_not be_nil
 

@@ -51,12 +51,10 @@ describe Api::Experimental::QueriesController, type: :controller do
       allow(QueryPolicy).to receive(:new).and_return(policy)
 
       expect(policy).to receive(:allowed?) do |received_query, received_action|
-
         if received_query.id == query.id &&
            Array(allowed_actions).include?(received_action)
           called_with_expected_args << received_action
         end
-
       end.at_least(1).times.and_return(true)
     end
 
@@ -139,7 +137,6 @@ describe Api::Experimental::QueriesController, type: :controller do
       it 'responds with 200' do
         get :grouped, format: :json, project_id: project.id
       end
-
     end
 
     context 'without a project' do
@@ -357,7 +354,6 @@ describe Api::Experimental::QueriesController, type: :controller do
   end
 
   describe '#destroy' do
-
     context 'within a project' do
       let(:query) { FactoryGirl.create(:query, project: project) }
 
@@ -421,5 +417,4 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
     end
   end
-
 end

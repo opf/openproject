@@ -81,20 +81,26 @@ class WikiMenuItemsController < ApplicationController
       redirect_back_or_default(action: 'edit', id: @page)
     else
       respond_to do |format|
-        format.html { render action: 'edit', id: @page }
+        format.html do
+          render action: 'edit', id: @page
+        end
       end
     end
   end
 
   def select_main_menu_item
     @page = WikiPage.find params[:id]
-    @possible_wiki_pages = @project.wiki.pages.all(include: :parent).reject { |page| page != @page && page.menu_item.present? && page.menu_item.is_main_item? }
+    @possible_wiki_pages = @project.wiki.pages.includes(:parent)
+                           .reject { |page|
+                             page != @page && page.menu_item.present? &&
+                             page.menu_item.is_main_item?
+                           }
   end
 
   def replace_main_menu_item
     current_page = WikiPage.find params[:id]
 
-    if (current_menu_item = current_page.menu_item) && (page = WikiPage.find_by_id(params[:wiki_page][:id])) && current_menu_item != page.menu_item
+    if (current_menu_item = current_page.menu_item) && (page = WikiPage.find_by(id: params[:wiki_page][:id])) && current_menu_item != page.menu_item
       create_main_menu_item_for_wiki_page(page, current_menu_item.options)
       current_menu_item.destroy
     end
@@ -112,8 +118,8 @@ class WikiMenuItemsController < ApplicationController
     @page_title = params[:id]
     wiki_id = @project.wiki.id
 
-    @page = WikiPage.find_by_title_and_wiki_id(@page_title, wiki_id)
-    @wiki_menu_item = MenuItems::WikiMenuItem.find_or_initialize_by_navigatable_id_and_title(@page.wiki.id, @page_title)
+    @page = WikiPage.find_by(title: @page_title, wiki_id: wiki_id)
+    @wiki_menu_item = MenuItems::WikiMenuItem.find_or_initialize_by(navigatable_id: @page.wiki.id, title: @page_title)
     possible_parent_menu_items = MenuItems::WikiMenuItem.main_items(wiki_id) - [@wiki_menu_item]
 
     @parent_menu_item_options = possible_parent_menu_items.map { |item| [item.name, item.id] }

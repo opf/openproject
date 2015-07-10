@@ -54,7 +54,7 @@ class Group < Principal
     members.each do |member|
       next if member.project.nil?
 
-      user_member = Member.find_by_project_id_and_user_id(member.project_id, user.id)
+      user_member = Member.find_by(project_id: member.project_id, user_id: user.id)
 
       if user_member.nil?
         user_member = Member.new.tap do |m|
@@ -77,11 +77,10 @@ class Group < Principal
 
   def user_removed(user)
     members.each do |member|
-      MemberRole.find(:all,
-                      include: :member,
-                      conditions:
-                        ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)",
-                         user.id, member.member_role_ids]).each do |member_role|
+      MemberRole.includes(:member)
+        .where(["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)",
+                user.id, member.member_role_ids])
+        .references(:members).each do |member_role|
         member_role.member.remove_member_role_and_destroy_member_if_last(member_role)
       end
     end
@@ -101,11 +100,10 @@ class Group < Principal
 
     deleted_user = DeletedUser.first
 
-    WorkPackage.update_all({ assigned_to_id: deleted_user.id },
-                           { assigned_to_id: id })
+    WorkPackage.where(assigned_to_id: id).update_all(assigned_to_id: deleted_user.id)
 
-    Journal::WorkPackageJournal.update_all({ assigned_to_id: deleted_user.id },
-                                           { assigned_to_id: id })
+    Journal::WorkPackageJournal.where(assigned_to_id: id)
+      .update_all(assigned_to_id: deleted_user.id)
   end
 
   def uniqueness_of_groupname

@@ -51,7 +51,7 @@ shared_context 'Toggable fieldset examples' do
     end
 
     describe 'after click' do
-      before { toggable_title.click }
+      before do toggable_title.click end
 
       it_behaves_like 'expanded fieldset'
     end
@@ -65,7 +65,7 @@ shared_context 'Toggable fieldset examples' do
     end
 
     describe 'after click' do
-      before { toggable_title.click }
+      before do toggable_title.click end
 
       it_behaves_like 'collapsed fieldset'
     end

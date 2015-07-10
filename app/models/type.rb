@@ -61,10 +61,12 @@ class ::Type < ActiveRecord::Base
 
   validates_inclusion_of :in_aggregation, :is_default, :is_milestone, in: [true, false]
 
-  default_scope order: 'position ASC'
+  default_scope { order('position ASC') }
 
-  scope :without_standard, conditions: { is_standard: false },
-                           order: :position
+  scope :without_standard, -> {
+    where(is_standard: false)
+      .order(:position)
+  }
 
   def to_s; name end
 
@@ -74,9 +76,9 @@ class ::Type < ActiveRecord::Base
 
   def self.statuses(types)
     workflow_table, status_table = [Workflow, Status].map(&:arel_table)
-    old_id_subselect, new_id_subselect = [:old_status_id, :new_status_id].map do |foreign_key|
+    old_id_subselect, new_id_subselect = [:old_status_id, :new_status_id].map { |foreign_key|
       workflow_table.project(workflow_table[foreign_key]).where(workflow_table[:type_id].in(types))
-    end
+    }
     Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
   end
 
@@ -108,7 +110,7 @@ class ::Type < ActiveRecord::Base
   private
 
   def check_integrity
-    raise "Can't delete type" if WorkPackage.find(:first, conditions: ['type_id=?', id])
+    raise "Can't delete type" if WorkPackage.where(['type_id=?', id]).any?
   end
 
   def transition_exists?(status_id_a, status_id_b, role_ids)

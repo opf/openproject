@@ -98,7 +98,11 @@ module Redmine
 
           prepare_journaled_options(journal_hash)
 
-          has_many :journals, journal_hash, &block
+          journable_type = to_s
+          has_many :journals, -> {
+            where(journable_type: journable_type)
+              .order("#{Journal.table_name}.version ASC")
+          }, journal_hash, &block
         end
 
         def journal_class

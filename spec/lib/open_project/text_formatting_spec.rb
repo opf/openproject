@@ -63,7 +63,7 @@ describe OpenProject::TextFormatting do
       allow(Setting).to receive(:text_formatting).and_return('textile')
     end
 
-    context "Changeset links" do
+    context 'Changeset links' do
       let(:repository) do
         FactoryGirl.build_stubbed :repository,
                                   project: project
@@ -98,8 +98,8 @@ describe OpenProject::TextFormatting do
 
         changesets.each do |changeset|
           allow(changesets)
-            .to receive(:find_by_repository_id_and_revision)
-            .with(project.repository.id, changeset.revision)
+            .to receive(:find_by)
+            .with(repository_id: project.repository.id, revision: changeset.revision)
             .and_return(changeset)
         end
       end

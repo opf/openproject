@@ -178,7 +178,7 @@ class CustomField < ActiveRecord::Base
       when 'float'
         casted = value.to_f
       when 'user', 'version'
-        casted = (value.blank? ? nil : field_format.classify.constantize.find_by_id(value.to_i))
+        casted = (value.blank? ? nil : field_format.classify.constantize.find_by(id: value.to_i))
       end
     end
     casted
@@ -192,22 +192,20 @@ class CustomField < ActiveRecord::Base
     klass = (customized_class.superclass && !(customized_class.superclass == ActiveRecord::Base)) ? customized_class.superclass : customized_class
 
     case field_format
-      when 'string', 'text', 'list', 'date', 'bool'
-        # COALESCE is here to make sure that blank and NULL values are sorted equally
-        "COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort" +
-          " WHERE cv_sort.customized_type='#{klass.name}'" +
-          " AND cv_sort.customized_id=#{klass.table_name}.id" +
-          " AND cv_sort.custom_field_id=#{id} LIMIT 1), '')"
-      when 'int', 'float'
-        # Make the database cast values into numeric
-        # Postgresql will raise an error if a value can not be casted!
-        # CustomValue validations should ensure that it doesn't occur
-        "(SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort" +
-          " WHERE cv_sort.customized_type='#{klass.name}'" +
-          " AND cv_sort.customized_id=#{klass.table_name}.id" +
-          " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
-      else
-        nil
+    when 'string', 'text', 'list', 'date', 'bool'
+      # COALESCE is here to make sure that blank and NULL values are sorted equally
+      "COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort" +
+        " WHERE cv_sort.customized_type='#{klass.name}'" +
+        " AND cv_sort.customized_id=#{klass.table_name}.id" +
+        " AND cv_sort.custom_field_id=#{id} LIMIT 1), '')"
+    when 'int', 'float'
+      # Make the database cast values into numeric
+      # Postgresql will raise an error if a value can not be casted!
+      # CustomValue validations should ensure that it doesn't occur
+      "(SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort" +
+        " WHERE cv_sort.customized_type='#{klass.name}'" +
+        " AND cv_sort.customized_id=#{klass.table_name}.id" +
+        " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
     end
   end
 
@@ -222,8 +220,9 @@ class CustomField < ActiveRecord::Base
 
   # to move in project_custom_field
   def self.for_all(options = {})
-    options.merge!(conditions: ['is_for_all=?', true], order: 'position')
-    find :all, options
+    where(['is_for_all=?', true])
+      .includes(options[:include])
+      .order('position')
   end
 
   def accessor_name

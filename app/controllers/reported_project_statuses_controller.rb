@@ -36,16 +36,16 @@ class ReportedProjectStatusesController < ApplicationController
   accept_key_auth :index, :show
 
   def index
-    @reported_project_statuses = @base.all
+    @reported_project_statuses = @base
     respond_to do |format|
-      format.html { render_404 }
+      format.html do render_404 end
     end
   end
 
   def show
     @reported_project_status = @base.find(params[:id])
     respond_to do |format|
-      format.html { render_404 }
+      format.html do render_404 end
     end
   end
 

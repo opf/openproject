@@ -29,7 +29,7 @@
 FactoryGirl.define do
   factory :default_enumeration, class: Enumeration do
     initialize_with do
-      Enumeration.find(:first, conditions: { type: 'Enumeration', is_default: true }) || Enumeration.new
+      Enumeration.where(type: 'Enumeration', is_default: true).first || Enumeration.new
     end
 
     active true
@@ -39,7 +39,7 @@ FactoryGirl.define do
   end
 
   factory :activity, class: TimeEntryActivity do
-    sequence(:name) { |i| "Activity #{i}" }
+    sequence(:name) do |i| "Activity #{i}" end
     active true
     is_default false
 
@@ -52,7 +52,7 @@ FactoryGirl.define do
   end
 
   factory :priority, class: IssuePriority do
-    sequence(:name) { |i| "Priority #{i}" }
+    sequence(:name) do |i| "Priority #{i}" end
     active true
 
     factory :priority_low do
@@ -60,7 +60,7 @@ FactoryGirl.define do
 
       # reuse existing priority with the given name
       # this prevents a validation error (name has to be unique)
-      initialize_with { IssuePriority.find_or_create_by_name(name) }
+      initialize_with do IssuePriority.find_or_create_by(name: name) end
 
       factory :priority_normal do
         name 'Normal'

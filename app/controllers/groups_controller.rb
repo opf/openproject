@@ -38,11 +38,11 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.order('lastname ASC').all
+    @groups = Group.order('lastname ASC')
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render xml: @groups }
+      format.xml  do render xml: @groups end
     end
   end
 
@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
   def show
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render xml: @group }
+      format.xml  do render xml: @group end
     end
   end
 
@@ -62,7 +62,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render xml: @group }
+      format.xml  do render xml: @group end
     end
   end
 
@@ -79,11 +79,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         flash[:notice] = l(:notice_successful_create)
-        format.html { redirect_to(groups_path) }
-        format.xml  { render xml: @group, status: :created, location: @group }
+        format.html do redirect_to(groups_path) end
+        format.xml  do render xml: @group, status: :created, location: @group end
       else
-        format.html { render action: 'new' }
-        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
+        format.html do render action: 'new' end
+        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
       end
     end
   end
@@ -96,11 +96,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update_attributes(permitted_params.group)
         flash[:notice] = l(:notice_successful_update)
-        format.html { redirect_to(groups_path) }
-        format.xml  { head :ok }
+        format.html do redirect_to(groups_path) end
+        format.xml  do head :ok end
       else
-        format.html { render action: 'edit' }
-        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
+        format.html do render action: 'edit' end
+        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
       end
     end
   end
@@ -111,8 +111,8 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
-      format.html { redirect_to(groups_url) }
-      format.xml  { head :ok }
+      format.html do redirect_to(groups_url) end
+      format.xml  do head :ok end
     end
   end
 
@@ -121,8 +121,8 @@ class GroupsController < ApplicationController
     @users = User.includes(:memberships).where(id: params[:user_ids])
     @group.users << @users
     respond_to do |format|
-      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' }
-      format.js { render action: 'change_members' }
+      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' end
+      format.js   do render action: 'change_members' end
     end
   end
 
@@ -130,13 +130,13 @@ class GroupsController < ApplicationController
     @group = Group.includes(:users).find(params[:id])
     @group.users.delete(User.includes(:memberships).find(params[:user_id]))
     respond_to do |format|
-      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' }
-      format.js { render action: 'change_members' }
+      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' end
+      format.js   do render action: 'change_members' end
     end
   end
 
   def autocomplete_for_user
-    @users = User.active.not_in_group(@group).like(params[:q]).all(limit: 100)
+    @users = User.active.not_in_group(@group).like(params[:q]).limit(100)
     render layout: false
   end
 
@@ -146,8 +146,8 @@ class GroupsController < ApplicationController
     @membership.save
 
     respond_to do |format|
-      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' }
-      format.js { render action: 'change_memberships' }
+      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' end
+      format.js   do render action: 'change_memberships' end
     end
   end
 
@@ -157,8 +157,8 @@ class GroupsController < ApplicationController
     membership_params = permitted_params.group_membership
     Member.find(membership_params[:membership_id]).destroy
     respond_to do |format|
-      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' }
-      format.js { render action: 'destroy_memberships' }
+      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' end
+      format.js   do render action: 'destroy_memberships' end
     end
   end
 

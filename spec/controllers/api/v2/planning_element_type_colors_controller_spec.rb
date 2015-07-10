@@ -119,5 +119,4 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
       end
     end
   end
-
 end

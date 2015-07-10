@@ -117,7 +117,6 @@ describe Principal, type: :model do
 
       expect(Principal.active_or_registered_like(user.lastname[0, -1])).to eq([user])
     end
-
   end
 
   describe 'visible_by' do

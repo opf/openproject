@@ -168,11 +168,11 @@ RAW
 
   it 'should textile relative to full links in the mailer' do
     # mimic the mailer default_url_options
-    @controller.class.class_eval {
+    @controller.class.class_eval do
       def self.default_url_options
         ::UserMailer.default_url_options
       end
-    }
+    end
 
     {
       # shouldn't change non-relative links

@@ -33,13 +33,13 @@ class AddWikiListAttachments < ActiveRecord::Migration
 
   class AddViewWikiEditsPermission < ActiveRecord::Migration
     def self.up
-      Role.find(:all).each do |r|
+      Role.all.each do |r|
         r.add_permission!(:list_attachments) if r.has_permission?(:view_wiki_pages) || r.has_permission?(:view_issues)
       end
     end
 
     def self.down
-      Role.find(:all).each do |r|
+      Role.all.each do |r|
         r.remove_permission!(:list_attachments)
       end
     end

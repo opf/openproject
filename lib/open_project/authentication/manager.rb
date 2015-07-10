@@ -3,20 +3,18 @@ require 'set'
 module OpenProject
   module Authentication
     class Manager < Warden::Manager
-      serialize_into_session do |user|
-        user.id
-      end
+      serialize_into_session(&:id)
 
       serialize_from_session do |id|
         User.find id
       end
 
       def initialize(app, options = {}, &configure)
-        block = lambda do |config|
+        block = lambda { |config|
           self.class.configure_warden config
 
           configure.call config if configure
-        end
+        }
 
         super app, options, &block
       end

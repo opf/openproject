@@ -31,7 +31,7 @@ require 'securerandom'
 FactoryGirl.define do
   factory :token do
     user
-    value { SecureRandom.hex(16) }
+    value do SecureRandom.hex(16) end
 
     factory :api_key do
       action 'api'

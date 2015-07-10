@@ -61,16 +61,14 @@ module ActiveModel
       attr_name_override = nil
       match = /\Acustom_field_(?<id>\d+)\z/.match(attribute)
       if match
-        attr_name_override = CustomField.find_by_id(match[:id]).name
+        attr_name_override = CustomField.find_by(id: match[:id]).name
       end
 
       attr_name = attribute.to_s.gsub('.', '_').humanize
-      attr_name = @base.class.human_attribute_name(attribute, :default => attr_name)
-      I18n.t(:"errors.format", {
-                               :default   => "%{attribute} %{message}",
-                               :attribute => attr_name_override || attr_name,
-                               :message   => message
-                             })
+      attr_name = @base.class.human_attribute_name(attribute, default: attr_name)
+      I18n.t(:"errors.format",                                default: '%{attribute} %{message}',
+                                                              attribute: attr_name_override || attr_name,
+                                                              message: message)
     end
   end
 end
@@ -162,9 +160,9 @@ module ActionView
 
         I18n.with_options locale: options[:locale], scope: :'datetime.distance_in_words' do |locale|
           case distance_in_days
-            when 0..60     then locale.t :x_days,             count: distance_in_days.round
-            when 61..720   then locale.t :about_x_months,     count: (distance_in_days / 30).round
-            else                locale.t :over_x_years,       count: (distance_in_days / 365).floor
+          when 0..60     then locale.t :x_days,             count: distance_in_days.round
+          when 61..720   then locale.t :about_x_months,     count: (distance_in_days / 30).round
+          else                locale.t :over_x_years,       count: (distance_in_days / 365).floor
           end
         end
       end

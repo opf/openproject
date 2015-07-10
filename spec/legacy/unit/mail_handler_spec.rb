@@ -48,12 +48,12 @@ describe MailHandler, type: :model do
     assert_equal Project.find(2), issue.project
     assert_equal issue.project.types.first, issue.type
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by(login: 'jsmith'), issue.author
+    assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Status.find_by(name: 'Resolved'), issue.status
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
-    assert_equal User.find_by(login: 'jsmith'), issue.assigned_to
+    assert_equal User.find_by_login('jsmith'), issue.assigned_to
     assert_equal Version.find_by(name: 'alpha'), issue.fixed_version
     assert_equal 2.5, issue.estimated_hours
     assert_equal 30, issue.done_ratio
@@ -94,7 +94,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by(login: 'jsmith'), issue.author
+    assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'Feature request', issue.type.to_s
     assert_equal 'Stock management', issue.category.to_s
@@ -120,7 +120,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by(login: 'jsmith'), issue.author
+    assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'Feature request', issue.type.to_s
     assert_nil issue.category
@@ -134,7 +134,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by(login: 'jsmith'), issue.author
+    assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'Feature request', issue.type.to_s
     assert_equal 'Stock management', issue.category.to_s
@@ -148,7 +148,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'Ticket created by email with attachment', issue.subject
-    assert_equal User.find_by(login: 'jsmith'), issue.author
+    assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'This is  a new ticket with attachments', issue.description
     # Attachment properties
@@ -258,7 +258,7 @@ describe MailHandler, type: :model do
     assert !issue.new_record?
     issue.reload
     assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by(login: 'jsmith'), issue.author
+    assert_equal User.find_by_login('jsmith'), issue.author
     assert_equal Project.find(2), issue.project
     assert_equal 'Feature request', issue.type.to_s
     assert_equal 'Stock management', issue.category.to_s
@@ -278,7 +278,7 @@ describe MailHandler, type: :model do
     issue = submit_email(
       'apple_mail_with_attachment.eml',
       issue: { project: 'ecookbook' }
-            )
+    )
     assert_kind_of WorkPackage, issue
     assert_equal 1, issue.attachments.size
 
@@ -294,7 +294,7 @@ describe MailHandler, type: :model do
     issue = submit_email(
       'subject_as_iso-8859-1.eml',
       issue: { project: 'ecookbook' }
-            )
+    )
     assert_kind_of WorkPackage, issue
     assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
   end
@@ -344,7 +344,7 @@ describe MailHandler, type: :model do
   it 'should add work package note' do
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
-    assert_equal User.find_by(login: 'jsmith'), journal.user
+    assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
@@ -358,7 +358,7 @@ describe MailHandler, type: :model do
                            journable_id: issue.id
     journal = submit_email('ticket_reply_by_message_id.eml')
     assert journal.data.is_a?(Journal::WorkPackageJournal), "Email was a #{journal.data.class}"
-    assert_equal User.find_by(login: 'jsmith'), journal.user
+    assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
@@ -370,14 +370,14 @@ describe MailHandler, type: :model do
     journal = submit_email('ticket_reply_with_status.eml')
     assert journal.data.is_a?(Journal::WorkPackageJournal)
     issue = WorkPackage.find(journal.journable.id)
-    assert_equal User.find_by(login: 'jsmith'), journal.user
+    assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal WorkPackage.find(2), journal.journable
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.journable.type.name
     assert_equal Status.find_by(name: 'Resolved'), issue.status
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
-    assert_equal User.find_by(login: 'jsmith'), issue.assigned_to
+    assert_equal User.find_by_login('jsmith'), issue.assigned_to
     assert_equal '52.6', issue.custom_value_for(CustomField.find_by(name: 'Float field')).value
     # keywords should be removed from the email body
     assert !journal.notes.match(/^Status:/i)
@@ -554,10 +554,10 @@ describe MailHandler, type: :model do
         'fullname_of_sender_as_utf8_encoded.eml',
         issue: { project: 'ecookbook' },
         unknown_user: 'create'
-              )
+      )
     end
 
-    user = User.first(order: 'id DESC')
+    user = User.order('id DESC').first
     assert_equal 'foo@example.org', user.mail
     str1 = "\xc3\x84\xc3\xa4"
     str2 = "\xc3\x96\xc3\xb6"

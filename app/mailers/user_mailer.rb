@@ -430,8 +430,8 @@ end
 class DueIssuesReminder
   def initialize(days = nil, project_id = nil, type_id = nil, user_ids = [])
     @days     = days ? days.to_i : 7
-    @project  = Project.find_by_id(project_id)
-    @type  = ::Type.find_by_id(type_id)
+    @project  = Project.find_by(id: project_id)
+    @type  = ::Type.find_by(id: type_id)
     @user_ids = user_ids
   end
 
@@ -443,9 +443,10 @@ class DueIssuesReminder
     s << "#{WorkPackage.table_name}.project_id = #{@project.id}" if @project
     s << "#{WorkPackage.table_name}.type_id = #{@type.id}" if @type
 
-    issues_by_assignee = WorkPackage.find(:all, include: [:status, :assigned_to, :project, :type],
-                                                conditions: s.conditions
-                                   ).group_by(&:assigned_to)
+    issues_by_assignee = WorkPackage.includes(:status, :assigned_to, :project, :type)
+                         .where(s.conditions)
+                         .references(:projects)
+                         .group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
       UserMailer.reminder_mail(assignee, issues, @days).deliver if assignee && assignee.active?
     end

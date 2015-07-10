@@ -55,9 +55,9 @@ describe Query, type: :model do
   end
 
   def find_issues_with_query(query)
-    WorkPackage.find :all,
-                     include: [:assigned_to, :status, :type, :project, :priority],
-                     conditions: query.statement
+    WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
+      .where(query.statement)
+      .references(:projects)
   end
 
   def assert_find_issues_with_query_is_successful(query)
@@ -222,7 +222,7 @@ describe Query, type: :model do
 
     query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:assigned_to_id, operator: '=', values: ['me'])])
     result = query.results.work_packages
-    assert_equal WorkPackage.visible.all(conditions: { assigned_to_id: ([2] + user.reload.group_ids) }).sort_by(&:id), result.sort_by(&:id)
+    assert_equal WorkPackage.visible.where(assigned_to_id: ([2] + user.reload.group_ids)).sort_by(&:id), result.sort_by(&:id)
 
     assert result.include?(i1)
     assert result.include?(i2)
@@ -315,10 +315,10 @@ describe Query, type: :model do
     c = q.available_columns.find { |col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
-    issues = WorkPackage.find :all,
-                              include: [:assigned_to, :status, :type, :project, :priority],
-                              conditions: q.statement,
-                              order: "#{c.sortable} ASC"
+    issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
+      .where(q.statement)
+      .order("#{c.sortable} ASC")
+      .references(:projects)
     values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
     assert_equal values.sort, values
@@ -329,10 +329,10 @@ describe Query, type: :model do
     c = q.available_columns.find { |col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
-    issues = WorkPackage.find :all,
-                              include: [:assigned_to, :status, :type, :project, :priority],
-                              conditions: q.statement,
-                              order: "#{c.sortable} DESC"
+    issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
+      .where(q.statement)
+      .order("#{c.sortable} DESC")
+      .references(:projects)
     values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
     assert_equal values.sort.reverse, values
@@ -343,10 +343,10 @@ describe Query, type: :model do
     c = q.available_columns.find { |col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float' }
     assert c
     assert c.sortable
-    issues = WorkPackage.find :all,
-                              include: [:assigned_to, :status, :type, :project, :priority],
-                              conditions: q.statement,
-                              order: "#{c.sortable} ASC"
+    issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
+      .where(q.statement)
+      .order("#{c.sortable} ASC")
+      .references(:projects)
     values = issues.map { |i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end }.compact
     assert !values.empty?
     assert_equal values.sort, values
@@ -355,7 +355,7 @@ describe Query, type: :model do
   it 'should invalid query should raise query statement invalid error' do
     q = Query.new name: '_'
     assert_raise ActiveRecord::StatementInvalid do
-      q.results(conditions: 'foo = 1').work_packages.all
+      q.results(conditions: 'foo = 1').work_packages.to_a
     end
   end
 

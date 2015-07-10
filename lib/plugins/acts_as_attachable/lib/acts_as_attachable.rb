@@ -40,9 +40,11 @@ module Redmine
           attachable_options[:view_permission] = options.delete(:view_permission) || "view_#{name.pluralize.underscore}".to_sym
           attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{name.pluralize.underscore}".to_sym
 
-          has_many :attachments, options.reverse_merge!(as: :container,
-                                                        order: "#{Attachment.table_name}.created_on",
-                                                        dependent: :destroy)
+          attachments_order = options.delete(:order) || "#{Attachment.table_name}.created_on"
+          has_many :attachments, -> {
+            order(attachments_order)
+          }, options.reverse_merge!(as: :container, dependent: :destroy)
+
           attr_accessor :unsaved_attachments
           after_initialize :initialize_unsaved_attachments
           send :include, Redmine::Acts::Attachable::InstanceMethods

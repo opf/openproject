@@ -303,7 +303,7 @@ module Redmine #:nodoc:
     #   permission :say_hello, { :example => :say_hello }, :require => :member
     def permission(name, actions, options = {})
       if @project_module
-        Redmine::AccessControl.map { |map| map.project_module(@project_module) { |map|map.permission(name, actions, options) } }
+        Redmine::AccessControl.map { |map| map.project_module(@project_module) { |map| map.permission(name, actions, options) } }
       else
         Redmine::AccessControl.map { |map| map.permission(name, actions, options) }
       end

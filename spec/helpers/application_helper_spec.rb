@@ -167,7 +167,6 @@ describe ApplicationHelper, type: :helper do
       end
       it { expect(@links).to be_nil }
     end
-
   end
 
   describe 'time_tag' do

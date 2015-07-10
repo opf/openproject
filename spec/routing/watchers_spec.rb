@@ -42,7 +42,6 @@ describe WatchersController, type: :routing do
     end
 
     it 'should connect DELETE /:object_type/:id/unwatch to watchers#unwatch' do
-
       expect(delete("/#{type}/1/unwatch")).to route_to(controller: 'watchers',
                                                        action: 'unwatch',
                                                        object_type: type,

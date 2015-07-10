@@ -96,7 +96,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         end
 
         context 'invalid work package' do
-          before { allow(work_package.errors).to receive(:empty?).and_return(false) }
+          before do allow(work_package.errors).to receive(:empty?).and_return(false) end
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end
@@ -109,7 +109,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
                               member_through_role: role)
           }
 
-          before { allow(work_package.errors).to receive(:empty?).and_return(true) }
+          before do allow(work_package.errors).to receive(:empty?).and_return(true) end
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end

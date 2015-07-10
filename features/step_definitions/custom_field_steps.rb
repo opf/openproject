@@ -54,7 +54,7 @@ Given /^the following (user|issue|work package) custom fields are defined:$/ do 
 end
 
 Given /^the user "(.+?)" has the user custom field "(.+?)" set to "(.+?)"$/ do |login, field_name, value|
-  user = User.find_by(login: login)
+  user = User.find_by_login(login)
   custom_field = UserCustomField.find_by(name: field_name)
 
   user.custom_values.build(custom_field: custom_field, value: value)
@@ -77,7 +77,7 @@ Given /^the work package "(.+?)" has the custom field "(.+?)" set to "(.+?)"$/ d
 end
 
 Given /^the work package "(.+?)" has the custom user field "(.+?)" set to "(.+?)"$/ do |wp_name, field_name, username|
-  user = User.find_by(login: username)
+  user = User.find_by_login(username)
   steps %{
     Given the work package "#{wp_name}" has the custom field "#{field_name}" set to "#{user.id}"
   }

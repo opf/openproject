@@ -62,7 +62,7 @@ module TimelogHelper
     else
       collection << ["--- #{l(:actionview_instancetag_blank_option)} ---", ''] unless activities.detect(&:is_default)
     end
-    activities.each { |a| collection << [a.name, a.id] }
+    activities.each do |a| collection << [a.name, a.id] end
     collection
   end
 
@@ -98,8 +98,8 @@ module TimelogHelper
 
   def entries_to_csv(entries)
     decimal_separator = l(:general_csv_decimal_separator)
-    custom_fields = TimeEntryCustomField.find(:all)
-    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
+    custom_fields = TimeEntryCustomField.all
+    export = CSV.generate(col_sep: l(:general_csv_separator)) { |csv|
       # csv header fields
       headers = [TimeEntry.human_attribute_name(:spent_on),
                  TimeEntry.human_attribute_name(:user),
@@ -131,7 +131,7 @@ module TimelogHelper
 
         csv << encode_csv_columns(fields)
       end
-    end
+    }
     export
   end
 
@@ -139,7 +139,7 @@ module TimelogHelper
     if value.blank?
       l(:label_none)
     elsif k = @available_criterias[criteria][:klass]
-      obj = k.find_by_id(value.to_i)
+      obj = k.find_by(id: value.to_i)
       if obj.is_a?(WorkPackage)
         obj.visible? ? h("#{obj.type} ##{obj.id}: #{obj.subject}") : h("##{obj.id}")
       else
@@ -151,12 +151,12 @@ module TimelogHelper
   end
 
   def report_to_csv(criterias, periods, hours)
-    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) { |csv|
       # Column headers
-      headers = criterias.map do |criteria|
+      headers = criterias.map { |criteria|
         label = @available_criterias[criteria][:label]
         label.is_a?(Symbol) ? l(label) : label
-      end
+      }
       headers += periods
       headers << l(:label_total)
       csv << headers.map { |c| to_utf8_for_timelogs(c) }
@@ -172,7 +172,7 @@ module TimelogHelper
       end
       row << '%.2f' % total
       csv << row
-    end
+    }
     export
   end
 
@@ -216,7 +216,8 @@ module TimelogHelper
   # Retrieves the date range based on predefined ranges or specific from/to param dates
   def retrieve_date_range
     @free_period = false
-    @from, @to = nil, nil
+    @from = nil
+    @to = nil
 
     if params[:period_type] == '1' || (params[:period_type].nil? && !params[:period].nil?)
       case params[:period].to_s
@@ -250,13 +251,12 @@ module TimelogHelper
       begin; @from = params[:from].to_s.to_date unless params[:from].blank?; rescue; end
       begin; @to = params[:to].to_s.to_date unless params[:to].blank?; rescue; end
       @free_period = true
-    else
       # default
     end
 
     @from, @to = @to, @from if @from && @to && @from > @to
     @from ||= (TimeEntry.earliest_date_for_project(@project) || Date.today)
-    @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
+    @to ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
   end
 
   def find_optional_project

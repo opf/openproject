@@ -39,11 +39,10 @@ task extract_fixtures: :environment do
     File.open(Rails.root.join("#{table_name}.yml"), 'w') do |file|
       data = ActiveRecord::Base.connection.select_all(sql % table_name)
       file.write data.inject({}) { |hash, record|
-
         # cast extracted values
-        ActiveRecord::Base.connection.columns(table_name).each { |col|
+        ActiveRecord::Base.connection.columns(table_name).each do |col|
           record[col.name] = col.type_cast(record[col.name]) if record[col.name]
-        }
+        end
 
         hash["#{table_name}_#{i.succ!}"] = record
         hash

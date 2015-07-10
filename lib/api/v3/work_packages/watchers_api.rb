@@ -81,9 +81,9 @@ module API
             Services::CreateWatcher.new(@work_package, user).run(
               success: -> (result) { status(200) unless result[:created] },
               failure: -> (watcher) {
-                messages = watcher.errors.map do |attribute, message|
+                messages = watcher.errors.map { |attribute, message|
                   watcher.errors.full_message(attribute, message) + '.'
-                end
+                }
                 raise ::API::Errors::Validation.new(messages)
               }
             )
@@ -103,7 +103,7 @@ module API
                 authorize(:delete_work_package_watchers, context: @work_package.project)
               end
 
-              user = User.find_by_id params[:user_id]
+              user = User.find_by(id: params[:user_id])
 
               raise ::API::Errors::NotFound unless user
 

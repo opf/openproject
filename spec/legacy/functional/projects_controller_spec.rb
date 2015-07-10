@@ -64,7 +64,7 @@ describe ProjectsController, type: :controller do
     assert_response :success
     assert_template 'common/feed'
     assert_select 'feed>title', text: 'OpenProject: Latest projects'
-    assert_select 'feed>entry', count: Project.count(conditions: Project.visible_by(User.current))
+    assert_select 'feed>entry', count: Project.where(Project.visible_by(User.current)).count
   end
 
   context '#index' do

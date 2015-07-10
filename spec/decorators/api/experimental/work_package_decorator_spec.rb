@@ -42,7 +42,6 @@ describe API::Experimental::WorkPackageDecorator, type: :model do
   subject { described_class.new(wp1) }
 
   describe '#decorate' do
-
     it 'returns an array' do
       packages = [wp1, wp2]
 
@@ -79,8 +78,8 @@ describe API::Experimental::WorkPackageDecorator, type: :model do
       let(:value) { user.id.to_s }
 
       before do
-        allow(User).to receive(:find_by_id).with(user.id).and_return(user)
-        allow(User).to receive(:find_by_id).with(user.id.to_s).and_return(user)
+        allow(User).to receive(:find_by).with(id: user.id).and_return(user)
+        allow(User).to receive(:find_by).with(id: user.id.to_s).and_return(user)
       end
 
       it 'returns a hash with a subset of information about a custom value' do

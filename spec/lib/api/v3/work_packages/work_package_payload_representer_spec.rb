@@ -38,7 +38,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   end
   let(:representer) { described_class.create(work_package) }
 
-  before { allow(work_package).to receive(:lock_version).and_return(1) }
+  before do allow(work_package).to receive(:lock_version).and_return(1) end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -88,7 +88,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'percentage done disabled' do
-          before { allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') }
+          before do allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') end
 
           it { is_expected.to_not have_json_path('percentageDone') }
         end
@@ -143,7 +143,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       describe 'status' do
         let(:status) { FactoryGirl.build_stubbed(:status) }
 
-        before { work_package.status = status }
+        before do work_package.status = status end
 
         it_behaves_like 'linked property' do
           let(:property) { 'status' }
@@ -156,7 +156,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:link) { "/api/v3/users/#{user.id}" }
 
         describe 'assignee' do
-          before { work_package.assigned_to = user }
+          before do work_package.assigned_to = user end
 
           it_behaves_like 'linked property' do
             let(:property) { 'assignee' }
@@ -164,7 +164,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         describe 'responsible' do
-          before { work_package.responsible = user }
+          before do work_package.responsible = user end
 
           it_behaves_like 'linked property' do
             let(:property) { 'responsible' }
@@ -175,7 +175,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       describe 'version' do
         let(:version) { FactoryGirl.build_stubbed(:version) }
 
-        before { work_package.fixed_version = version }
+        before do work_package.fixed_version = version end
 
         it_behaves_like 'linked property' do
           let(:property) { 'version' }
@@ -186,7 +186,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       describe 'category' do
         let(:category) { FactoryGirl.build_stubbed(:category) }
 
-        before { work_package.category = category }
+        before do work_package.category = category end
 
         it_behaves_like 'linked property' do
           let(:property) { 'category' }
@@ -197,7 +197,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       describe 'priority' do
         let(:priority) { FactoryGirl.build_stubbed(:priority) }
 
-        before { work_package.priority = priority }
+        before do work_package.priority = priority end
 
         it_behaves_like 'linked property' do
           let(:property) { 'priority' }

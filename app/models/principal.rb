@@ -43,19 +43,15 @@ class Principal < ActiveRecord::Base
 
   has_many :members, foreign_key: 'user_id', dependent: :destroy
   has_many :memberships, -> {
-                          includes(:project, :roles)
-                           .where(projects: { status: Project::STATUS_ACTIVE})
-                           .order('projects.name ASC')
-                           # haven't been able to produce the order using hashes
-                        },
-                        class_name: 'Member',
-                        foreign_key: 'user_id'
+    includes(:project, :roles)
+      .where(projects: { status: Project::STATUS_ACTIVE })
+      .order('projects.name ASC')
+    # haven't been able to produce the order using hashes
+  },
+           class_name: 'Member',
+           foreign_key: 'user_id'
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
-
-  has_many :members, foreign_key: 'user_id', dependent: :destroy
-  has_many :memberships, class_name: 'Member', foreign_key: 'user_id', include: [:project, :roles], conditions: "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", order: "#{Project.table_name}.name"
-  has_many :projects, through: :memberships
 
   scope :active, -> { where(status: STATUSES[:active]) }
 
@@ -67,7 +63,7 @@ class Principal < ActiveRecord::Base
     where("id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})")
   }
 
-  scope :like, lambda { |q|
+  scope :like, -> (q) {
     firstnamelastname = "((firstname || ' ') || lastname)"
     lastnamefirstname = "((lastname || ' ') || firstname)"
 
@@ -84,10 +80,12 @@ class Principal < ActiveRecord::Base
              "LOWER(#{lastnamefirstname}) LIKE :s OR " +
              'LOWER(mail) LIKE :s',
            { s: s }])
-    .order(:type, :login, :lastname, :firstname, :mail)
+      .order(:type, :login, :lastname, :firstname, :mail)
   }
 
-  scope :visible_by, lambda { |principal| Principal.visible_by_condition(principal) }
+  scope :visible_by, -> (principal) {
+    Principal.visible_by_condition(principal)
+  }
 
   before_create :set_default_empty_values
 

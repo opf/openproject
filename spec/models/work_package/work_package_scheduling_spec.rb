@@ -78,7 +78,7 @@ describe WorkPackage, type: :model do
                            is_closed: true)
       }
 
-      before { work_package.status = status }
+      before do work_package.status = status end
 
       it_behaves_like 'on time'
     end

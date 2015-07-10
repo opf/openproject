@@ -55,8 +55,6 @@ module OpenProject
       revision = `git rev-parse HEAD`
       if revision.present?
         revision.strip[0..8]
-      else
-        nil
       end
     end
 

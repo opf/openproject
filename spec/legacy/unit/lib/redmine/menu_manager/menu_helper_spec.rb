@@ -125,7 +125,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
                                                        end
                                                        children
                                                      }
-                                                     )
+                                                    )
     @response.body = render_menu_node(parent_node, Project.find(1))
 
     html_node = HTML::Document.new(@response.body)
@@ -152,7 +152,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
                                                        end
                                                        children
                                                      }
-                                                     )
+                                                    )
 
     parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
                                                       { controller: 'issues', action: 'index' },
@@ -164,7 +164,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
                                                         end
                                                         children
                                                       }
-                                                      )
+                                                     )
 
     @response.body = render_menu_node(parent_node, Project.find(1))
 
@@ -193,7 +193,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
                                                      { controller: 'issues', action: 'index' },
 
                                                      children: Proc.new { |_p| Redmine::MenuManager::MenuItem.new('test_child', { controller: 'issues', action: 'index' }, {}) },
-                                                     )
+                                                    )
 
     assert_raises Redmine::MenuManager::MenuError, ':children must be an array of MenuItems' do
       @response.body = render_menu_node(parent_node, Project.find(1))
@@ -205,7 +205,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
                                                      { controller: 'issues', action: 'index' },
 
                                                      children: Proc.new { |_p| ['a string'] }
-                                                     )
+                                                    )
 
     assert_raises Redmine::MenuManager::MenuError, ':children must be an array of MenuItems' do
       @response.body = render_menu_node(parent_node, Project.find(1))

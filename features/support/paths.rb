@@ -71,8 +71,8 @@ module NavigationHelpers
     when /^the lost password page$/
       '/account/lost_password'
 
-     when /^the groups administration page$/
-       '/admin/groups'
+    when /^the groups administration page$/
+      '/admin/groups'
 
     when /^the admin page of pending users$/
       '/users?sort=created_on:desc&status=2'
@@ -149,7 +149,8 @@ module NavigationHelpers
       Rails.application.routes.url_helpers.work_packages_bulk_path
 
     when /^the wiki index page(?: below the (.+) page)? (?:for|of) (?:the)? project(?: called)? (.+)$/
-      parent_page_title, project_identifier = $1, $2
+      parent_page_title = $1
+      project_identifier = $2
       project_identifier.gsub!("\"", '')
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
 
@@ -162,7 +163,8 @@ module NavigationHelpers
       end
 
     when /^the wiki new child page below the (.+) page (?:for|of) (?:the)? project(?: called)? (.+)$/
-      parent_page_title, project_identifier = $1, $2
+      parent_page_title = $1
+      project_identifier = $2
       project_identifier.gsub!("\"", '')
       parent_page_title.gsub!("\"", '')
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
@@ -179,18 +181,18 @@ module NavigationHelpers
 
     when /^the edit page (?:for |of )(the )?user(?: called)? (.+)$/
       user_identifier = $2.gsub("\"", '')
-      user_identifier = User.find_by(login: user_identifier).id
+      user_identifier = User.find_by_login(user_identifier).id
       "/users/#{user_identifier}/edit"
 
     when /^the (.+) tab of the edit page (?:for |of )(the )?user(?: called)? (.+)$/
       tab = $1
       user_identifier = $3.gsub("\"", '')
-      user_identifier = User.find_by(login: user_identifier).id
+      user_identifier = User.find_by_login(user_identifier).id
       "/users/#{user_identifier}/edit/#{tab}"
 
     when /^the show page (?:for |of )(the )?user(?: called)? (.+)$/
       user_identifier = $2.gsub("\"", '')
-      user_identifier = User.find_by(login: user_identifier).id
+      user_identifier = User.find_by_login(user_identifier).id
       "/users/#{user_identifier}"
 
     when /^the index page (?:for|of) users$/
@@ -222,7 +224,8 @@ module NavigationHelpers
       "/admin/groups/#{instance.id}/edit"
 
     when /^the edit page (?:for|of) (?:the )?([^\"]+?)(?: called)? "([^\"]+)"$/
-      model, identifier = $1, $2
+      model = $1
+      identifier = $2
       identifier.gsub!("\"", '')
       model = model.gsub("\"", '').gsub(/\s/, '_')
 
@@ -247,7 +250,7 @@ module NavigationHelpers
       selection = $2.dup
       name.gsub!("\"", '')
       selection.gsub!("\"", '')
-      u = User.find_by(login: name)
+      u = User.find_by_login(name)
       "/account/#{u.id}/activate?#{selection}"
 
     when /^the My page$/
@@ -374,18 +377,18 @@ module NavigationHelpers
       topic_path(message)
 
     when /^the show page (for|of) version ('|")(.+)('|")$/
-      version = Version.find_by_name($3)
+      version = Version.find_by(name: $3)
       version_path(version)
 
     when /^the edit page (for|of) version ('|")(.+)('|")$/
-      version = Version.find_by_name($3)
+      version = Version.find_by(name: $3)
       edit_version_path(version)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
     #   when /^(.*)'s profile page$/i
-    #     user_profile_path(User.find_by(login: $1))
+    #     user_profile_path(User.find_by_login($1))
     else
       begin
         page_name =~ /^the (.*) page$/

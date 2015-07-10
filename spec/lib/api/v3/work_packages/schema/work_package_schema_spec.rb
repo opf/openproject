@@ -82,8 +82,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
         before do
           allow(work_package).to receive(:persisted?).and_return(true)
           allow(work_package).to receive(:status_id_changed?).and_return(true)
-          allow(Status).to receive(:find_by_id)
-            .with(work_package.status_id_was).and_return(stored_status)
+          allow(Status).to receive(:find_by)
+            .with(id: work_package.status_id_was).and_return(stored_status)
         end
 
         it 'calls through to the cloned work package' do
@@ -99,20 +99,20 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
       let(:cf2) { double }
       let(:cf3) { double }
 
-      before do
-        scope_double = double
-        allow(scope_double).to receive(:all).and_return([cf1, cf2])
-        allow(type).to receive(:custom_fields).and_return(scope_double)
-        allow(project).to receive(:all_work_package_custom_fields).and_return([cf2, cf3])
-      end
-
       it 'is expected to return custom fields available in project AND type' do
+        allow(type).to receive_message_chain(:custom_fields, :to_a).and_return([cf1, cf2])
+        allow(project).to receive_message_chain(:all_work_package_custom_fields, :to_a)
+          .and_return([cf2, cf3])
+
         expect(subject.available_custom_fields).to eql([cf2])
       end
 
       context 'type missing' do
         let(:type) { nil }
         it 'returns an empty list' do
+          allow(project).to receive_message_chain(:all_work_package_custom_fields, :to_a)
+            .and_return([cf2, cf3])
+
           expect(subject.available_custom_fields).to eql([])
         end
       end
@@ -120,6 +120,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchema do
       context 'project missing' do
         let(:project) { nil }
         it 'returns an empty list' do
+          allow(type).to receive_message_chain(:custom_fields, :to_a).and_return([cf1, cf2])
+
           expect(subject.available_custom_fields).to eql([])
         end
       end

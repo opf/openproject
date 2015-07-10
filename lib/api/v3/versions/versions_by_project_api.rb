@@ -35,7 +35,7 @@ module API
       class VersionsByProjectAPI < ::API::OpenProjectAPI
         resources :versions do
           before do
-            @versions = @project.shared_versions.all
+            @versions = @project.shared_versions
 
             authorize_any [:view_work_packages, :manage_versions], projects: @project
           end

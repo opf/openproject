@@ -153,7 +153,7 @@ describe Project, type: :model do
     # Assign an issue of a project to a version of a child project
     WorkPackage.find(4).update_attribute :fixed_version_id, 4
 
-    assert_no_difference "Project.count(:all, :conditions => 'status = #{Project::STATUS_ARCHIVED}')" do
+    assert_no_difference "Project.where('status = #{Project::STATUS_ARCHIVED}').count" do
       assert_equal false, @ecookbook.archive
     end
     @ecookbook.reload
@@ -183,17 +183,17 @@ describe Project, type: :model do
     # 2 active members
     assert_equal 2, @ecookbook.members.size
     # and 1 is locked
-    assert_equal 3, Member.find(:all, conditions: ['project_id = ?', @ecookbook.id]).size
+    assert_equal 3, Member.where(['project_id = ?', @ecookbook.id]).size
     # some boards
     assert @ecookbook.boards.any?
 
     @ecookbook.destroy
     # make sure that the project non longer exists
-    assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
+    assert_raise(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
     # make sure related data was removed
-    assert_nil Member.first(conditions: { project_id: @ecookbook.id })
-    assert_nil Board.first(conditions: { project_id: @ecookbook.id })
-    assert_nil WorkPackage.first(conditions: { project_id: @ecookbook.id })
+    assert_equal 0, Member.where(project_id: @ecookbook.id).count
+    assert_equal 0, Board.where(project_id: @ecookbook.id).count
+    assert_equal 0, WorkPackage.where(project_id: @ecookbook.id).count
   end
 
   it 'should destroying root projects should clear data' do
@@ -213,7 +213,7 @@ describe Project, type: :model do
     assert_equal 0, Board.count
     assert_equal 0, Message.count
     assert_equal 0, News.count
-    assert_equal 0, Query.count(conditions: 'project_id IS NOT NULL')
+    assert_equal 0, Query.where('project_id IS NOT NULL').count
     assert_equal 0, Repository.count
     assert_equal 0, Changeset.count
     assert_equal 0, Change.count
@@ -226,7 +226,7 @@ describe Project, type: :model do
     assert_equal 0, WikiContent.count
     assert_equal 0, Project.connection.select_all('SELECT * FROM projects_types').to_a.size
     assert_equal 0, Project.connection.select_all('SELECT * FROM custom_fields_projects').to_a.size
-    assert_equal 0, CustomValue.count(conditions: { customized_type: ['Project', 'Issue', 'TimeEntry', 'Version'] })
+    assert_equal 0, CustomValue.where(customized_type: ['Project', 'Issue', 'TimeEntry', 'Version']).count
   end
 
   it 'should move an orphan project to a root project' do
@@ -663,7 +663,7 @@ describe Project, type: :model do
 
   it 'should activities should use the system activities' do
     project = Project.find(1)
-    assert_equal project.activities, TimeEntryActivity.find(:all, conditions: { active: true })
+    assert_equal project.activities, TimeEntryActivity.where(active: true).to_a
   end
 
   it 'should activities should use the project specific activities' do
@@ -676,7 +676,7 @@ describe Project, type: :model do
 
   it 'should activities should not include the inactive project specific activities' do
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.find(:first), active: false)
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.first, active: false)
     assert overridden_activity.save!
 
     assert !project.activities.include?(overridden_activity), 'Inactive Project specific Activity found'
@@ -691,7 +691,7 @@ describe Project, type: :model do
   end
 
   it 'should activities should handle nils' do
-    overridden_activity = TimeEntryActivity.new(name: 'Project', project: Project.find(1), parent: TimeEntryActivity.find(:first))
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: Project.find(1), parent: TimeEntryActivity.first)
     TimeEntryActivity.delete_all
 
     # No activities
@@ -706,7 +706,7 @@ describe Project, type: :model do
 
   it 'should activities should override system activities with project activities' do
     project = Project.find(1)
-    parent_activity = TimeEntryActivity.find(:first)
+    parent_activity = TimeEntryActivity.first
     overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: parent_activity)
     assert overridden_activity.save!
 
@@ -716,7 +716,7 @@ describe Project, type: :model do
 
   it 'should activities should include inactive activities if specified' do
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.find(:first), active: false)
+    overridden_activity = TimeEntryActivity.new(name: 'Project', project: project, parent: TimeEntryActivity.first, active: false)
     assert overridden_activity.save!
 
     assert project.activities(true).include?(overridden_activity), 'Inactive Project specific Activity not found'
@@ -776,7 +776,7 @@ describe Project, type: :model do
         assert_equal @project, issue.project
       end
 
-      copied_issue = @project.work_packages.first(conditions: { subject: 'copy issue status' })
+      copied_issue = @project.work_packages.find_by(subject: 'copy issue status')
       assert copied_issue
       assert copied_issue.status
       assert_equal 'Closed', copied_issue.status.name
@@ -854,7 +854,7 @@ describe Project, type: :model do
 
       # Second issue with a cross project relation
       assert_equal 2, copied_second_issue.relations.size, 'Relation not copied'
-      copied_relation = copied_second_issue.relations.select { |r| r.relation_type == 'duplicates' }.first
+      copied_relation = copied_second_issue.relations.find { |r| r.relation_type == 'duplicates' }
       assert_equal 'duplicates', copied_relation.relation_type
       assert_equal 1, copied_relation.from_id, 'Cross project relation not kept'
       assert_not_equal source_relation_cross_project.id, copied_relation.id

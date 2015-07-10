@@ -46,7 +46,6 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
   end
 
   describe 'with project scope' do
-
     describe 'index.xml' do
       let(:current_user) { non_admin_user }
       let(:permission) { :view_work_packages }

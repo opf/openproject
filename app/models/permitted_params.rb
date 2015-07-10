@@ -271,7 +271,7 @@ class PermittedParams < Struct.new(:params, :current_user)
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
-    values.reject! { |k, v| k.to_i < 1 || !v.is_a?(String) }
+    values.reject! do |k, v| k.to_i < 1 || !v.is_a?(String) end
 
     values.empty? ?
       {} :
@@ -281,13 +281,13 @@ class PermittedParams < Struct.new(:params, :current_user)
   def permitted_attributes(key, additions = {})
     merged_args = { params: params, current_user: current_user }.merge(additions)
 
-    self.class.permitted_attributes[key].map do |permission|
+    self.class.permitted_attributes[key].map { |permission|
       if permission.respond_to?(:call)
         permission.call(merged_args)
       else
         permission
       end
-    end.compact
+    }.compact
   end
 
   def self.permitted_attributes

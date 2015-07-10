@@ -29,7 +29,7 @@
 
 # add seeds specific for the production-environment here
 
-standard_type = ::Type.find_by_is_standard(true)
+standard_type = ::Type.find_by(is_standard: true)
 
 # Adds the standard type to all existing projects
 #
@@ -54,5 +54,5 @@ end
 # (from todays standpoint) the assignment is done covertedly.
 
 [WorkPackage, Journal::WorkPackageJournal].each do |klass|
-  klass.update_all({ type_id: standard_type.id }, { type_id: [0, nil] })
+  klass.where(type_id: [0, nil]).update_all(type_id: standard_type.id)
 end

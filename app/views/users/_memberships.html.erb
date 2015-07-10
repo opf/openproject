@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% roles = Role.find_all_givable %>
-<% projects = Project.active.find(:all, :order => 'lft') %>
+<% projects = Project.active.order('lft') %>
 
 <div class="grid-block">
   <div class="grid-content">

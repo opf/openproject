@@ -92,17 +92,17 @@ describe ProjectEnumerationsController, type: :controller do
 
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific',
-      parent: TimeEntryActivity.find(:first),
+      parent: TimeEntryActivity.first,
       project: Project.find(1),
       active: true
-                                             )
+    )
     assert project_activity.save
     project_activity_two = TimeEntryActivity.new(
       name: 'Project Specific Two',
-      parent: TimeEntryActivity.find(:last),
+      parent: TimeEntryActivity.last,
       project: Project.find(1),
       active: true
-                                                 )
+    )
     assert project_activity_two.save
 
     put :update, project_id: 1, enumerations: {
@@ -181,17 +181,17 @@ describe ProjectEnumerationsController, type: :controller do
     session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new(
       name: 'Project Specific',
-      parent: TimeEntryActivity.find(:first),
+      parent: TimeEntryActivity.first,
       project: Project.find(1),
       active: true
-                                             )
+    )
     assert project_activity.save
     project_activity_two = TimeEntryActivity.new(
       name: 'Project Specific Two',
-      parent: TimeEntryActivity.find(:last),
+      parent: TimeEntryActivity.last,
       project: Project.find(1),
       active: true
-                                                 )
+    )
     assert project_activity_two.save
 
     delete :destroy, project_id: 1
@@ -209,9 +209,10 @@ describe ProjectEnumerationsController, type: :controller do
       parent: TimeEntryActivity.find(9),
       project: Project.find(1),
       active: true
-                                             )
+    )
     assert project_activity.save
-    assert TimeEntry.update_all("activity_id = '#{project_activity.id}'", ['project_id = ? AND activity_id = ?', 1, 9])
+    assert TimeEntry.where(['project_id = ? AND activity_id = ?', 1, 9])
+      .update_all("activity_id = '#{project_activity.id}'")
     assert_equal 3, TimeEntry.where(activity_id: project_activity.id, project_id: 1).size
 
     delete :destroy, project_id: 1

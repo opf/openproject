@@ -213,8 +213,7 @@ class JournalManager
 
   def self.normalize_newlines(data)
     data.each_with_object({}) { |e, h|
-      h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n")
-                                                                        : e[1])
+      h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n") : e[1])
     }
   end
 

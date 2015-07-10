@@ -38,13 +38,13 @@ class User
 
     module ClassMethods
       def authorize_within(project, &block)
-        base_scope = current_scope || scoped
+        base_scope = current_scope || all
         auth_scope = eager_load_for_project_authorization(base_scope, project)
 
         returned_users = block.call(auth_scope)
 
-        unless returned_users.is_a?(Array) && returned_users.all? { |e| e.is_a?(User) }
-          raise ArgumentError, 'Expect an array of users to be returned by the block'
+        unless returned_users.respond_to?(:each_with_index) && returned_users.all? { |e| e.is_a?(User) }
+          raise ArgumentError, 'Expect a collection of users to be returned by the block'
         end
 
         reset_associations_eager_loaded_for_project_authorization(returned_users, project)
@@ -68,7 +68,7 @@ class User
       # (e.g. WHERE members.project_id = 1) of associations for the project
       # authorization.
       def reset_associations_eager_loaded_for_project_authorization(users, project)
-        auth_scope = eager_load_for_project_authorization(scoped, project)
+        auth_scope = eager_load_for_project_authorization(all, project)
 
         to_clear = reflect_on_all_associations.map(&:name) &
                    auth_scope.eager_load_values.map(&:keys).flatten.uniq

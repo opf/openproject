@@ -99,9 +99,9 @@ module Redmine
                        possible_watcher_ids = watchers.pluck(:id)
 
                        User.where(id: possible_watcher_ids)
-                           .authorize_within(project) do |scope|
-                             scope.select { |user| visible?(user) }
-                           end
+                       .authorize_within(project) do |scope|
+                         scope.select { |user| visible?(user) }
+                       end
                      end
 
           watchers
@@ -149,7 +149,7 @@ module Redmine
         # Returns an array of watchers' email addresses
         def watcher_recipients
           notified = watcher_users.active.where(['mail_notification != ?', 'none'])
-          notified.select! { |user| possible_watcher?(user) }
+          notified.select! do |user| possible_watcher?(user) end
 
           notified.map(&:mail).compact
         end

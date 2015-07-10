@@ -64,7 +64,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
   end
 
   it 'should search_by_user' do
-    User.current = User.find_by(login: 'rhill')
+    User.current = User.find_by_login('rhill')
     assert User.current.memberships.empty?
 
     r = WorkPackage.search(@issue_keyword).first
@@ -89,7 +89,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
   end
 
   it 'should search_by_allowed_member' do
-    User.current = User.find_by(login: 'jsmith')
+    User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
     r = WorkPackage.search(@issue_keyword).first
@@ -110,7 +110,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     remove_permission Role.find(1), :view_changesets
     remove_permission Role.non_member, :view_changesets
 
-    User.current = User.find_by(login: 'jsmith')
+    User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
     r = WorkPackage.search(@issue_keyword).first
@@ -134,7 +134,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
     i.add_journal User.current, 'Some notes with Redmine links: #2, r2.'
     i.save!
 
-    assert_equal 2, i.journals.count(:all, conditions: "notes LIKE '%notes%'")
+    assert_equal 2, i.journals.where("notes LIKE '%notes%'").count
 
     r = WorkPackage.search('%notes%').first
     assert_equal 1, r.size

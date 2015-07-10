@@ -44,7 +44,7 @@ def with_created_filesystem_repository(&block)
   end
 
   before do
-    allow(Setting).to receive(:enabled_scm).and_return(["Filesystem"])
+    allow(Setting).to receive(:enabled_scm).and_return(['Filesystem'])
   end
 
   block.call

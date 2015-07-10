@@ -29,10 +29,10 @@
 
 class RenameAuthSourceLdap < ActiveRecord::Migration
   def self.up
-    AuthSource.update_all ['type = ?', 'LdapAuthSource'], ['type = ?', 'AuthSourceLdap']
+    AuthSource.where(['type = ?', 'AuthSourceLdap']).update_all ['type = ?', 'LdapAuthSource']
   end
 
   def self.down
-    AuthSource.update_all ['type = ?', 'AuthSourceLdap'], ['type = ?', 'LdapAuthSource']
+    AuthSource.where(['type = ?', 'LdapAuthSource']).update_all ['type = ?', 'AuthSourceLdap']
   end
 end

@@ -138,7 +138,7 @@ describe VersionsController, type: :controller do
 
       it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
       it 'generates the new version' do
-        version = Version.find_by_name('test_add_version')
+        version = Version.find_by(name: 'test_add_version')
         expect(version).not_to be_nil
         expect(version.project).to eq(project)
       end
@@ -153,13 +153,13 @@ describe VersionsController, type: :controller do
       end
 
       it 'generates the new version' do
-        version = Version.find_by_name('test_add_version_from_issue_form')
+        version = Version.find_by(name: 'test_add_version_from_issue_form')
         expect(version).not_to be_nil
         expect(version.project).to eq(project)
       end
 
       it 'returns updated select box with new version' do
-        version = Version.find_by_name('test_add_version_from_issue_form')
+        version = Version.find_by(name: 'test_add_version_from_issue_form')
 
         expect(response.body).to include(
           "option selected=\\\"selected\\\" value=\\\"#{version.id}\\\""
@@ -200,7 +200,7 @@ describe VersionsController, type: :controller do
     end
 
     it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
-    it { expect(Version.find_by_status('closed')).to eq(version3) }
+    it { expect(Version.find_by(status: 'closed')).to eq(version3) }
   end
 
   describe '#update' do
@@ -213,7 +213,7 @@ describe VersionsController, type: :controller do
       end
 
       it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
-      it { expect(Version.find_by_name('New version name')).to eq(version1) }
+      it { expect(Version.find_by(name: 'New version name')).to eq(version1) }
       it { expect(version1.reload.effective_date).to eq(Date.today) }
     end
 
@@ -254,7 +254,6 @@ describe VersionsController, type: :controller do
       expect(response).to redirect_to(settings_project_path(project, tab: 'versions'))
       expect { Version.find(@deleted) }.to raise_error ActiveRecord::RecordNotFound
     end
-
   end
 
   describe '#status_by' do

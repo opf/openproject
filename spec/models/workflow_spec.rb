@@ -39,7 +39,7 @@ describe Workflow, type: :model do
     let(:type_target) { FactoryGirl.create(:type) }
 
     shared_examples_for 'copied workflow' do
-      before { Workflow.copy(type, role, type_target, role_target) }
+      before do Workflow.copy(type, role, type_target, role_target) end
 
       subject { Workflow.order('id DESC').first }
 

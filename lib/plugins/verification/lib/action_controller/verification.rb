@@ -121,9 +121,9 @@ module ActionController #:nodoc:
 
     def apply_remaining_actions(options) # :nodoc:
       case
-        when options[:render]; render(options[:render])
-        when options[:redirect_to]; redirect_to(apply_redirect_to(options[:redirect_to]))
-        else head(:bad_request)
+      when options[:render]; render(options[:render])
+      when options[:redirect_to]; redirect_to(apply_redirect_to(options[:redirect_to]))
+      else head(:bad_request)
       end
     end
   end

@@ -33,7 +33,7 @@ namespace :migrations do
   namespace :timelines do
     desc "Fixes missing 'none' type in timelines configuration"
     task fix_missing_none_type_in_timelines_config: :environment do |_task|
-      standard_type = Type.find_by_is_standard(true)
+      standard_type = Type.find_by(is_standard: true)
 
       if standard_type.nil?
         raise 'No standard type exists! You have to run the production seed '\
@@ -87,7 +87,7 @@ namespace :migrations do
 
             # Compare strings instead of plain integers because timelines
             # options may contain strings or integers.
-            pe_types.map! { |t| (t.to_s == '0') ? @standard_type.id.to_s : t.to_s }
+            pe_types.map! do |t| (t.to_s == '0') ? @standard_type.id.to_s : t.to_s end
 
             options[key] = pe_types
           end

@@ -80,5 +80,4 @@ describe 'api/experimental/queries/grouped.api.rabl', type: :view do
     it { is_expected.to have_json_type(Array).at_path('queries') }
     it { is_expected.to have_json_size(2).at_path('queries') }
   end
-
 end

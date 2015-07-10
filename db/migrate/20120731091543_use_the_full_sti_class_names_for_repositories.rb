@@ -36,7 +36,7 @@ class UseTheFullStiClassNamesForRepositories < ActiveRecord::Migration
       concatenation = "CONCAT('Repository::', type)"
     end
 
-    Repository.update_all "type = #{concatenation}", "type NOT LIKE 'Repository::%'"
+    Repository.where("type NOT LIKE 'Repository::%'").update_all "type = #{concatenation}"
   end
 
   def self.down

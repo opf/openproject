@@ -63,8 +63,8 @@ Given(/^the work_package "(.+?)" is updated with the following:$/) do |subject, 
   except = {}
 
   except['type'] = lambda { |wp, value| wp.type = ::Type.find_by(name: value) if value }
-  except['assigned_to'] = lambda { |wp, value| wp.assigned_to = User.find_by(login: value) if value }
-  except['responsible'] = lambda { |wp, value| wp.responsible = User.find_by(login: value) if value }
+  except['assigned_to'] = lambda { |wp, value| wp.assigned_to = User.find_by_login(value) if value }
+  except['responsible'] = lambda { |wp, value| wp.responsible = User.find_by_login(value) if value }
 
   send_table_to_object(work_package, table, except)
 end
@@ -120,9 +120,9 @@ Then /^the work package "(.+?)" should be shown as the parent$/ do |wp_name|
 end
 
 Then /^the work package should be shown with the following values:$/ do |table|
-  table_attributes = table.raw.select do |k, _v|
+  table_attributes = table.raw.select { |k, _v|
     !['Subject', 'Type', 'Description'].include?(k)
-  end
+  }
 
   table_attributes.each do |key, value|
     label = find('dt.attributes-key-value--key', text: key)

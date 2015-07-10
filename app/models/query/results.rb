@@ -42,7 +42,7 @@ class ::Query::Results
 
   # Returns the work package count
   def work_package_count
-    WorkPackage.count(include: [:status, :project], conditions: query.statement)
+    WorkPackage.includes(:status, :project).where(query.statement).count
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
@@ -54,9 +54,11 @@ class ::Query::Results
       if query.grouped?
         begin
           # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
-          r = WorkPackage.count(group: query.group_by_statement,
-                                include: [:status, :project],
-                                conditions: query.statement)
+          r = WorkPackage.group(query.group_by_statement)
+              .includes(:status, :project)
+              .where(query.statement)
+              .references(:statuses, :projects)
+              .count
         rescue ActiveRecord::RecordNotFound
           r = { nil => work_package_count }
         end
@@ -80,11 +82,13 @@ class ::Query::Results
       .includes([:status, :project] + (options[:include] || []).uniq)
       .joins((query.group_by_column ? query.group_by_column.join : nil))
       .order(order_option)
+      .references(:projects)
   end
 
   def versions
-    Version.find :all, include: :project,
-                       conditions: ::Query.merge_conditions(query.project_statement, options[:conditions])
+    Version.includes(:project)
+      .where(::Query.merge_conditions(query.project_statement, options[:conditions]))
+      .references(:projects)
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end

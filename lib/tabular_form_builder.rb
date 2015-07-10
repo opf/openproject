@@ -132,7 +132,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def localize_field(field, options, meth)
-    localized_field = Proc.new do |translation_form, multiple|
+    localized_field = Proc.new do |translation_form, _multiple|
       localized_field(translation_form, meth, field, options)
     end
 
@@ -203,7 +203,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                             id.sub(/\_id$/, "_#{field}")
                           end
     label_options[:lang] = options[:lang]
-    label_options.reject! { |_k, v| v.nil? }
+    label_options.reject! do |_k, v| v.nil? end
 
     @template.label(@object_name, field, h(text), label_options)
   end
@@ -262,9 +262,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       object.translations.build locale: user_locale
       object.translations
     else
-      translations = object.translations.select do |t|
+      translations = object.translations.select { |t|
         t.send(field).present?
-      end
+      }
 
       if translations.size > 0
         translations
