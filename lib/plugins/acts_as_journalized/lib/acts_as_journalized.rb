@@ -89,9 +89,14 @@ module Redmine
           (journal_hash[:except] ||= []) << primary_key << inheritance_column <<
             :updated_on << :updated_at << :lock_version << :lft << :rgt
 
-          prepare_journaled_options(journal_hash)
+          journals_options = prepare_journaled_options(journal_hash)
+          aggregated_journals_options = prepare_journaled_options(journal_hash.merge(
+                                            journal_class: Journal::AggregatedJournal
+                                            # TODO: override :dependent attribute
+                                          ))
 
-          has_many :journals, journal_hash, &block
+          has_many :journals, journals_options, &block
+          has_many :aggregated_journals, aggregated_journals_options, &block
         end
 
         private
