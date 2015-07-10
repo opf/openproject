@@ -32,7 +32,12 @@ var I18n = require('./vendor/i18n');
 I18n.translations.en = require("locales/js-en.yml").en;
 
 I18n.addTranslations = function(locale, translations) {
-  I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
+  if (I18n.translations[locale] === undefined) {
+    I18n.translations[locale] = translations;
+  }
+  else {
+    I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
+  }
 };
 
 require('angular-animate');
@@ -235,6 +240,15 @@ openprojectApp
       TimezoneService.setupLocale();
       KeyboardShortcutService.activate();
 
+      // at the moment of adding this code it was mostly used to
+      // keep the previous state for the code to know where
+      // to redirect the user on cancel new work package form
+      $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+          $rootScope.previousState = {
+            name: from.name,
+            params: fromParams
+          };
+      });
     }
   ]);
 

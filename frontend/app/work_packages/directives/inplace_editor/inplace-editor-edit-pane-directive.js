@@ -71,7 +71,8 @@ module.exports = function(
                 EditableFieldsState.workPackage,
                 notify
               );
-              result.then(angular.bind(this, function() {
+              result.then(angular.bind(this, function(updatedWorkPackage) {
+                $scope.$emit('workPackageUpdatedInEditor', updatedWorkPackage);
                 $scope.$emit(
                   'workPackageRefreshRequired',
                   function() {
@@ -111,6 +112,9 @@ module.exports = function(
       };
 
       this.isActive = function() {
+        if (EditableFieldsState.forcedEditState) {
+          return false;
+        }
         return $scope.fieldController.field === EditableFieldsState.activeField;
       };
 
@@ -182,13 +186,15 @@ module.exports = function(
         });
       };
 
-      element.bind('keydown keypress', function(e) {
-        if (e.keyCode == 27) {
-          scope.$apply(function() {
-            scope.editPaneController.discardEditing();
-          });
-        }
-      });
+      if (!EditableFieldsState.forcedEditState) {
+        element.bind('keydown keypress', function(e) {
+          if (e.keyCode === 27) {
+            scope.$apply(function() {
+              scope.editPaneController.discardEditing();
+            });
+          }
+        });
+      }
 
       scope.$watch('fieldController.writeValue', function(writeValue) {
         if (scope.fieldController.isEditing) {
@@ -215,7 +221,7 @@ module.exports = function(
       }, true);
 
       scope.$watch('fieldController.isEditing', function(isEditing) {
-        if (isEditing) {
+        if (isEditing && !EditableFieldsState.forcedEditState) {
           scope.focusInput();
         }
       });
