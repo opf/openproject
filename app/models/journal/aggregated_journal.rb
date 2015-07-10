@@ -48,7 +48,7 @@ class Journal::AggregatedJournal < Journal
     def sql_beyond_aggregation_time?
       aggregation_time = 3600.to_i
 
-      if mysql?
+      if OpenProject::Database.mysql?
         difference = "TIMESTAMPDIFF(second, #{table_name}.created_at, successor.created_at)"
         threshold = aggregation_time
       else
