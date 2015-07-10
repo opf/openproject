@@ -36,6 +36,10 @@ describe 'Custom field filter and group by caching', type: :request do
     custom_field.save!
   end
 
+  after do
+    CostQuery::Cache.reset!
+  end
+
   def expect_group_by_all_to_include(custom_field)
     expect(CostQuery::GroupBy.all).to include(group_by_class_name_string(custom_field).constantize)
   end
@@ -94,36 +98,25 @@ describe 'Custom field filter and group by caching', type: :request do
     expect_filter_all_to_not_exist(custom_field)
   end
 
-  it 'allows for changing the db table between requests if no caching is done' do
-    old_table_name = WorkPackageCustomField.table_name
-    new_table_name = 'custom_fields_clone'
-    new_id = custom_field.id + 1
+  it 'allows for changing the db entries directly via SQL between requests \
+      if no caching is done (this could also mean switching dbs)' do
+    new_label = "our new label"
+    mock_cache_classes_setting_with(false)
 
-    begin
-      mock_cache_classes_setting_with(false)
+    visit_cost_reports_index
 
-      visit_cost_reports_index
+    expect_group_by_all_to_include(custom_field)
+    expect_filter_all_to_include(custom_field)
 
-      expect_group_by_all_to_include(custom_field)
-      expect_filter_all_to_include(custom_field)
+    CustomField::Translation.where(custom_field_id: custom_field.id)
+                            .update_all(name: new_label)
 
-      ActiveRecord::Base.connection.execute("CREATE TABLE #{new_table_name} AS SELECT * from custom_fields;")
-      ActiveRecord::Base.connection.execute("UPDATE #{new_table_name} SET id = #{new_id} WHERE id = #{custom_field.id};")
-      CustomField::Translation.where(custom_field_id: custom_field.id).update_all(custom_field_id: new_id)
+    visit_cost_reports_index
 
-      WorkPackageCustomField.table_name = new_table_name
+    expect_group_by_all_to_include(custom_field)
+    expect_filter_all_to_include(custom_field)
 
-      visit_cost_reports_index
-
-      expect_group_by_all_to_not_exist(custom_field)
-      expect_filter_all_to_not_exist(custom_field)
-
-      expect_group_by_all_to_include(new_id)
-      expect_filter_all_to_include(new_id)
-
-    ensure
-      WorkPackageCustomField.table_name = old_table_name
-      ActiveRecord::Base.connection.execute("DROP TABLE IF EXISTS #{new_table_name}")
-    end
+    expect(group_by_class_name_string(custom_field).constantize.label).to eql(new_label)
+    expect(filter_class_name_string(custom_field).constantize.label).to eql(new_label)
   end
 end
