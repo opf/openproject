@@ -1,0 +1,20 @@
+pl:
+  label_hidden_elements: Ukryte elementy
+  label_visible_elements: Elementy widoczne
+  label_project_description: Opis projektu
+  label_project_details: Szczegóły Projektu
+  label_project_homepage: Strona główna
+  label_custom_element: Dodać zapowiedź...
+  info_custom_text: Tekst niestandardowy/użytkownika
+  label_confirm_delete: Naprawdę usunąć ten element?
+  label_save_or_reset_teaser: Zapisz zmiany dokonane w zapowiedzi?
+  label_work_packages_reported_by_me: Zadania zgłoszone przeze mnie
+  label_work_packages_responsible_for: Zadania, za które jestem odpowiedzialny
+  label_work_packages_assigned_to_me: Zadania przypisane do mnie
+  label_work_packages_watched: Obserwowane zadania
+  label_work_package_tracking: Śledzenie zadania
+  label_members: Członkowie
+  label_subprojects: Podprojekty
+  project_page:
+    all: Pokaż wszystkie
+    x_more: '... (%{count} więcej)'
