@@ -1,12 +1,12 @@
-# Installation of OpenProject 4.1 with Apache on Debian 7.7 or Ubuntu 14.04 LTS
+# Installation of OpenProject 4.2 with Apache on Debian 7.7 or Ubuntu 14.04 LTS
 
-**This tutorial helps you to deploy OpenProject 4.1. Please, aware that:**
+**This tutorial helps you to deploy OpenProject 4.2. Please, aware that:**
 
 1. This guide requires that you have a clean **Debian 7.7 x64** or **Ubuntu 14.04 x64** installation with administrative rights. We have tested the installation guide on a Debian minimal netinstall image and on an Ubuntu Server image, but it should work on any derivative.
 2. OpenProject will be installed with a MySQL database (the guide should work analogous with PostgreSQL).
 3. OpenProject will be served in a production environment with Apache (this guide should work analogous with other servers, like nginx and others)
 
-In this guide, we will install **OpenProject 4.1** with a **MySQL** database. Openproject will be served with the **Apache** web server. When your server needs to reboot, OpenProject should start automatically with your server.
+In this guide, we will install **OpenProject 4.2** with a **MySQL** database. Openproject will be served with the **Apache** web server. When your server needs to reboot, OpenProject should start automatically with your server.
 
 Note: We have highlighted commands to execute like this
 ```bash
@@ -154,7 +154,7 @@ As a reference, the following Node.js and NPM versions have been installed on ou
 [openproject@all] cd ~
 [openproject@all] git clone https://github.com/opf/openproject.git
 [openproject@all] cd openproject
-[openproject@all] git checkout v4.1.0 # please use actual current stable version v4.1.X
+[openproject@all] git checkout v4.2.0 # please use actual current stable version v4.2.X
 [openproject@all] bundle install
 [openproject@all] npm install
 ```

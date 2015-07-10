@@ -1,3 +1,7 @@
+# OpenProject 4.1 to OpenProject 4.2 Debian/Ubuntu Upgrade Guide
+
+Please look at the steps in the section about the upgrade to OpenProject 4.1. Just exchange `v4.1.0` to `v4.2.0` when checking out the git repository.
+
 # OpenProject 4.0 to OpenProject 4.1 Debian/Ubuntu Upgrade Guide
 
 This guide describes the upgrade process from OpenProject 4.0 to 4.1 on Debian 7.7 and Ubuntu 14.04 LTS step by step.
@@ -7,8 +11,8 @@ Note: We strongly recommend to update your OpenProject installation to the lates
 
 ## Preparation
 
-* Backup your current Openproject installation. Typically you should backup the attachment 
-  folder of your installation, the subversion repositories (if applicable) and your database. 
+* Backup your current Openproject installation. Typically you should backup the attachment
+  folder of your installation, the subversion repositories (if applicable) and your database.
   For more information please have a look at our [backup guide](backup-guide.md)
 
 * Before Upgrading, check that all the installed OpenProject plugins support the new
