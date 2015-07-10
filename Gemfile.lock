@@ -429,9 +429,6 @@ GEM
     timecop (0.7.3)
     tzinfo (0.3.44)
     uber (0.0.13)
-    uglifier (2.7.1)
-      execjs (>= 0.3.0)
-      json (>= 1.8.0)
     unicorn (4.9.0)
       kgio (~> 2.6)
       rack
@@ -549,7 +546,6 @@ DEPENDENCIES
   syck
   thin
   timecop (~> 0.7.1)
-  uglifier (>= 1.0.3)
   unicorn
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
