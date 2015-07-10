@@ -33,14 +33,14 @@ The following steps have to be performed to initiate the actual installation of 
     apt-get install apt-transport-https
 
     sudo wget -qO - https://deb.packager.io/key | apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject wheezy stable" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject wheezy stable/4.2" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
 
 ## Ubuntu 14.04 Trusty 64bits server
 
     wget -qO - https://deb.packager.io/key | sudo apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject trusty stable" |
+    echo "deb https://deb.packager.io/gh/opf/openproject trusty stable/4.2" |
     sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
@@ -50,7 +50,7 @@ The following steps have to be performed to initiate the actual installation of 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/fedora20/stable
+    baseurl=https://rpm.packager.io/gh/opf/openproject/fedora20/stable/4.2
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
@@ -59,7 +59,7 @@ The following steps have to be performed to initiate the actual installation of 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject/centos6/stable
+    baseurl=https://rpm.packager.io/gh/opf/openproject/centos6/stable/4.2
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
