@@ -30,14 +30,37 @@
 class Journal::AggregatedJournal < Journal
   self.table_name = 'journals'
 
-  def self.default_scope
-    joins("LEFT OUTER JOIN journals successor ON successor.version = #{self.table_name}.version+1 AND
-										  successor.journable_id = #{self.table_name}.journable_id AND
-                                          successor.journable_type = #{self.table_name}.journable_type")
-    .where("#{self.table_name}.user_id != successor.user_id OR
-            (successor.created_at - #{self.table_name}.created_at) > 3600 OR
-            #{self.table_name}.notes != '' OR
-            successor.user_id is NULL")
-    .select("#{self.table_name}.*")
+  class << self
+    def default_scope
+      joins("LEFT OUTER JOIN journals successor
+              ON successor.version = #{table_name}.version+1 AND
+                 successor.journable_id = #{table_name}.journable_id AND
+                 successor.journable_type = #{table_name}.journable_type")
+        .where("#{table_name}.user_id != successor.user_id OR
+                #{sql_beyond_aggregation_time?} OR
+                #{table_name}.notes != '' OR
+                successor.user_id is NULL")
+        .select("#{table_name}.*")
+    end
+
+    private
+
+    def sql_beyond_aggregation_time?
+      aggregation_time = 3600.to_i
+
+      if mysql?
+        difference = "TIMESTAMPDIFF(second, #{table_name}.created_at, successor.created_at)"
+        threshold = aggregation_time
+      else
+        difference = "(successor.created_at - #{table_name}.created_at)"
+        threshold = "interval '#{aggregation_time} second'"
+      end
+
+      "#{difference} > #{threshold}"
+    end
+
+    def mysql?
+      ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'mysql2'
+    end
   end
 end
