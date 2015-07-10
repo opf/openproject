@@ -35,7 +35,7 @@ module Api
       unloadable
 
       AuthorizationData = Struct.new(:authorized, :authenticated_user_id)
-      skip_before_filter :require_login
+      skip_before_filter :require_login, :check_if_login_required
       before_filter :api_allows_login, :require_login
 
       def index
