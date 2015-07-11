@@ -122,6 +122,6 @@ describe TypesController, type: :controller do
       post :destroy, id: 1
     end
     assert_redirected_to action: 'index'
-    assert_not_nil flash[:error]
+    refute_nil flash[:error]
   end
 end

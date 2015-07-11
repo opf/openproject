@@ -140,7 +140,7 @@ describe WikiPage, type: :model do
   it 'should updated on eager load' do
     page = WikiPage.with_updated_on.first
     assert page.is_a?(WikiPage)
-    assert_not_nil page.read_attribute(:updated_on)
+    refute_nil page.read_attribute(:updated_on)
     assert_equal page.content.updated_on, page.updated_on
   end
 end

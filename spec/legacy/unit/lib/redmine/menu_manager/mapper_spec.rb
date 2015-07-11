@@ -72,7 +72,7 @@ describe Redmine::MenuManager::Mapper do
     root = menu_mapper.find(:root)
     assert_equal 5, root.children.size
     { 0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth, 4 => :test_fifth }.each do |position, name|
-      assert_not_nil root.children[position]
+      refute_nil root.children[position]
       assert_equal name, root.children[position].name
     end
   end
@@ -88,7 +88,7 @@ describe Redmine::MenuManager::Mapper do
     root = menu_mapper.find(:root)
     assert_equal 5, root.children.size
     { 0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth, 4 => :test_fifth }.each do |position, name|
-      assert_not_nil root.children[position]
+      refute_nil root.children[position]
       assert_equal name, root.children[position].name
     end
   end
@@ -104,7 +104,7 @@ describe Redmine::MenuManager::Mapper do
     root = menu_mapper.find(:root)
     assert_equal 5, root.children.size
     { 0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth, 4 => :test_fifth }.each do |position, name|
-      assert_not_nil root.children[position]
+      refute_nil root.children[position]
       assert_equal name, root.children[position].name
     end
   end
@@ -120,7 +120,7 @@ describe Redmine::MenuManager::Mapper do
     root = menu_mapper.find(:root)
     assert_equal 5, root.children.size
     { 0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth, 4 => :test_fifth }.each do |position, name|
-      assert_not_nil root.children[position]
+      refute_nil root.children[position]
       assert_equal name, root.children[position].name
     end
   end
@@ -160,7 +160,7 @@ describe Redmine::MenuManager::Mapper do
   it 'should delete' do
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_overview, { controller: 'projects', action: 'show' }, {}
-    assert_not_nil menu_mapper.delete(:test_overview)
+    refute_nil menu_mapper.delete(:test_overview)
 
     assert_nil menu_mapper.find(:test_overview)
   end

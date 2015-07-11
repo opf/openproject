@@ -65,7 +65,7 @@ describe MailHandler, type: :model do
     assert !issue.description.match(/^Start Date:/i)
     # Email notification should be sent
     mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
+    refute_nil mail
     assert mail.subject.include?('New ticket on a given project')
   end
 

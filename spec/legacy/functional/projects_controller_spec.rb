@@ -45,7 +45,7 @@ describe ProjectsController, type: :controller do
     get :index
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:projects)
+    refute_nil assigns(:projects)
 
     assert_tag :ul, child: { tag: 'li',
                              descendant: { tag: 'a', content: 'eCookbook' },
@@ -302,14 +302,14 @@ describe ProjectsController, type: :controller do
     get :show, id: 1
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:project)
+    refute_nil assigns(:project)
   end
 
   it 'should show by identifier' do
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:project)
+    refute_nil assigns(:project)
     assert_equal Project.find_by(identifier: 'ecookbook'), assigns(:project)
 
     assert_tag 'li', content: /Development status/
@@ -320,7 +320,7 @@ describe ProjectsController, type: :controller do
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:project)
+    refute_nil assigns(:project)
 
     assert_no_tag 'li', content: /Development status/
   end
@@ -331,7 +331,7 @@ describe ProjectsController, type: :controller do
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:project)
+    refute_nil assigns(:project)
     assert_equal Project.find_by(identifier: 'ecookbook'), assigns(:project)
   end
 
@@ -390,7 +390,7 @@ describe ProjectsController, type: :controller do
     get :destroy_info, id: 1
     assert_response :success
     assert_template 'destroy_info'
-    assert_not_nil Project.find_by(id: 1)
+    refute_nil Project.find_by(id: 1)
   end
 
   it 'should post destroy' do

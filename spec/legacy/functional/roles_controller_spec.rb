@@ -44,7 +44,7 @@ describe RolesController, type: :controller do
     assert_response :success
     assert_template 'index'
 
-    assert_not_nil assigns(:roles)
+    refute_nil assigns(:roles)
     assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
     assert_tag tag: 'a', attributes: { href: edit_role_path(1) },
@@ -74,7 +74,7 @@ describe RolesController, type: :controller do
 
     assert_redirected_to roles_path
     role = Role.find_by(name: 'RoleWithoutWorkflowCopy')
-    assert_not_nil role
+    refute_nil role
     assert_equal [:add_work_packages, :edit_work_packages, :log_time], role.permissions
     assert !role.assignable?
   end
@@ -87,7 +87,7 @@ describe RolesController, type: :controller do
 
     assert_redirected_to roles_path
     role = Role.find_by(name: 'RoleWithWorkflowCopy')
-    assert_not_nil role
+    refute_nil role
     assert_equal Role.find(1).workflows.size, role.workflows.size
   end
 
@@ -122,7 +122,7 @@ describe RolesController, type: :controller do
     delete :destroy, id: 1
     assert_redirected_to roles_path
     assert flash[:error] == 'This role is in use and cannot be deleted.'
-    assert_not_nil Role.find_by(id: 1)
+    refute_nil Role.find_by(id: 1)
   end
 
   it 'should get report' do
@@ -130,7 +130,7 @@ describe RolesController, type: :controller do
     assert_response :success
     assert_template 'report'
 
-    assert_not_nil assigns(:roles)
+    refute_nil assigns(:roles)
     assert_equal Role.order('builtin, position'), assigns(:roles)
 
     assert_tag tag: 'input', attributes: { type: 'checkbox',

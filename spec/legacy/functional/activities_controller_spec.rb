@@ -65,7 +65,7 @@ describe ActivitiesController, type: :controller do
     get :index, id: 1, with_subprojects: 0
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:events_by_day)
+    refute_nil assigns(:events_by_day)
 
     assert_tag tag: 'h3',
                content: /#{1.day.ago.to_date.day}/,
@@ -93,7 +93,7 @@ describe ActivitiesController, type: :controller do
     get :index, id: 1, from: 3.days.ago.to_date
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:events_by_day)
+    refute_nil assigns(:events_by_day)
 
     assert_tag tag: 'h3',
                content: /#{3.day.ago.to_date.day}/,
@@ -122,7 +122,7 @@ describe ActivitiesController, type: :controller do
     get :index, user_id: 2
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:events_by_day)
+    refute_nil assigns(:events_by_day)
 
     assert_tag tag: 'h3',
                content: /#{3.day.ago.to_date.day}/,

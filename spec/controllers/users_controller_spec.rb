@@ -237,7 +237,7 @@ describe UsersController, type: :controller do
 
       it 'should send an email to the correct user in the correct language' do
         mail = ActionMailer::Base.deliveries.last
-        assert_not_nil mail
+        refute_nil mail
         assert_equal [registered_user.mail], mail.to
         mail.parts.each do |part|
           assert part.body.encoded.include?(I18n.t(:notice_account_activated,

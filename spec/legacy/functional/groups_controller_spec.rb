@@ -114,7 +114,7 @@ describe GroupsController, type: :controller do
     get :autocomplete_for_user, id: 10, q: 'mis'
     assert_response :success
     users = assigns(:users)
-    assert_not_nil users
+    refute_nil users
     assert users.any?
     assert !users.include?(Group.find(10).users.first)
   end

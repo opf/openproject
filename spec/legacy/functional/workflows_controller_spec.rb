@@ -53,8 +53,8 @@ describe WorkflowsController, type: :controller do
     get :edit
     assert_response :success
     assert_template 'edit'
-    assert_not_nil assigns(:roles)
-    assert_not_nil assigns(:types)
+    refute_nil assigns(:roles)
+    refute_nil assigns(:types)
   end
 
   it 'should get edit with role and type' do
@@ -67,7 +67,7 @@ describe WorkflowsController, type: :controller do
     assert_template 'edit'
 
     # used status only
-    assert_not_nil assigns(:statuses)
+    refute_nil assigns(:statuses)
     assert_equal [2, 3, 5], assigns(:statuses).map(&:id)
 
     # allowed transitions
@@ -92,7 +92,7 @@ describe WorkflowsController, type: :controller do
     assert_response :success
     assert_template 'edit'
 
-    assert_not_nil assigns(:statuses)
+    refute_nil assigns(:statuses)
     assert_equal Status.count, assigns(:statuses).size
 
     assert_tag tag: 'input', attributes: { type: 'checkbox',
@@ -110,7 +110,7 @@ describe WorkflowsController, type: :controller do
     assert_redirected_to '/workflows/edit?role_id=2&type_id=1'
 
     assert_equal 3, Workflow.where(type_id: 1, role_id: 2).count
-    assert_not_nil Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2).first
+    refute_nil Workflow.where(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 2).first
     assert_nil Workflow.where(role_id: 2, type_id: 1, old_status_id: 5, new_status_id: 4).first
   end
 

@@ -63,7 +63,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, columns: 'week', from: '2007-04-01', to: '2007-04-30', criterias: ['project']
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '8.65', '%.2f' % assigns(:total_hours)
   end
 
@@ -71,7 +71,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, project_id: 1, criterias: ['project', 'issue']
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
   end
 
@@ -79,7 +79,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, project_id: 1, criterias: ['project', 'issue'], columns: 'day'
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     assert_tag tag: 'th', content: '2007-03-12'
   end
@@ -88,7 +88,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, project_id: 1, columns: 'week', from: '2007-04-01', to: '2007-04-30', criterias: ['project']
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '8.65', '%.2f' % assigns(:total_hours)
   end
 
@@ -96,7 +96,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, project_id: 1, columns: 'month', from: '2007-01-01', to: '2007-12-31', criterias: ['member', 'activity']
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
   end
 
@@ -104,7 +104,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, project_id: 1, columns: 'day', from: '2007-03-23', to: '2007-03-23', criterias: ['member', 'activity']
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '4.25', '%.2f' % assigns(:total_hours)
   end
 
@@ -112,7 +112,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, project_id: 1, work_package_id: 1, columns: 'month', from: '2007-01-01', to: '2007-12-31', criterias: ['member', 'activity']
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '154.25', '%.2f' % assigns(:total_hours)
     assert_tag :form,
                attributes: { action: work_package_time_entries_report_path(1), id: 'query_form' }
@@ -122,8 +122,8 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, project_id: 1, criterias: ['project', 'cf_1', 'cf_7']
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_not_nil assigns(:total_hours)
-    assert_not_nil assigns(:criterias)
+    refute_nil assigns(:total_hours)
+    refute_nil assigns(:criterias)
     assert_equal 3, assigns(:criterias).size
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     # Custom field column
@@ -141,7 +141,7 @@ describe TimeEntries::ReportsController, type: :controller do
     get :show, project_id: 1, columns: 'week', from: '1998-04-01', to: '1998-04-30', criterias: ['project']
     assert_response :success
     assert_template 'time_entries/reports/show'
-    assert_not_nil assigns(:total_hours)
+    refute_nil assigns(:total_hours)
     assert_equal '0.00', '%.2f' % assigns(:total_hours)
   end
 

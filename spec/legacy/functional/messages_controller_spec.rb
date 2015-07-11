@@ -42,9 +42,9 @@ describe MessagesController, type: :controller do
     get :show, board_id: 1, id: 1
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:board)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:topic)
+    refute_nil assigns(:board)
+    refute_nil assigns(:project)
+    refute_nil assigns(:topic)
   end
 
   it 'should show with pagination' do
@@ -60,7 +60,7 @@ describe MessagesController, type: :controller do
     assert_response :success
     assert_template 'show'
     replies = assigns(:replies)
-    assert_not_nil replies
+    refute_nil replies
     assert !replies.include?(message.children.order('id').first)
     assert replies.include?(message.children.order('id').last)
   end
@@ -95,7 +95,7 @@ describe MessagesController, type: :controller do
                   message: { subject: 'Test created message',
                              content: 'Message body' }
     message = Message.find_by(subject: 'Test created message')
-    assert_not_nil message
+    refute_nil message
     assert_redirected_to topic_path(message)
     assert_equal 'Message body', message.content
     assert_equal 2, message.author_id

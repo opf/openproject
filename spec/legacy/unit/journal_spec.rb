@@ -95,7 +95,7 @@ describe Journal, type: :model do
       @issue.save
     end
 
-    assert_not_equal start, @issue.reload.updated_at
+    refute_equal start, @issue.reload.updated_at
   end
 
   specify 'accessing #journaled on a Journal should not error (parent class)' do

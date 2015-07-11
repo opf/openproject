@@ -40,8 +40,8 @@ describe BoardsController, type: :controller do
     get :index, project_id: 1
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:boards)
-    assert_not_nil assigns(:project)
+    refute_nil assigns(:boards)
+    refute_nil assigns(:project)
   end
 
   it 'should index not found' do
@@ -55,7 +55,7 @@ describe BoardsController, type: :controller do
     get :index, project_id: 1
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:topics)
+    refute_nil assigns(:topics)
   end
 
   it 'should create' do
@@ -70,18 +70,18 @@ describe BoardsController, type: :controller do
     get :show, project_id: 1, id: 1
     assert_response :success
     assert_template 'show'
-    assert_not_nil assigns(:board)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:topics)
+    refute_nil assigns(:board)
+    refute_nil assigns(:project)
+    refute_nil assigns(:topics)
   end
 
   it 'should show atom' do
     get :show, project_id: 1, id: 1, format: 'atom'
     assert_response :success
     assert_template 'common/feed'
-    assert_not_nil assigns(:board)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:messages)
+    refute_nil assigns(:board)
+    refute_nil assigns(:project)
+    refute_nil assigns(:messages)
   end
 
   it 'should update' do

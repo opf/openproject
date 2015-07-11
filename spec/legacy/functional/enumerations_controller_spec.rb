@@ -52,7 +52,7 @@ describe EnumerationsController, type: :controller do
     post :destroy, id: 4
     assert_response :success
     assert_template 'destroy'
-    assert_not_nil Enumeration.find_by(id: 4)
+    refute_nil Enumeration.find_by(id: 4)
   end
 
   it 'should destroy enumeration in use with reassignment' do

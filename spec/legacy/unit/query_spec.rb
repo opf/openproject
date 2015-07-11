@@ -48,7 +48,7 @@ describe Query, type: :model do
     # User.current should be anonymous here
     query = Query.new(project: nil, name: '_')
     project_filter = query.available_work_package_filters['project_id']
-    assert_not_nil project_filter
+    refute_nil project_filter
     project_ids = project_filter[:values].map { |p| p[1] }
     assert project_ids.include?('1')  # public project
     assert !project_ids.include?('2') # private project anonymous user cannot see
@@ -235,7 +235,7 @@ describe Query, type: :model do
     User.current = User.find(1)
     query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '=', values: ['me'])])
     result = find_issues_with_query(query)
-    assert_not_nil result
+    refute_nil result
     assert !result.empty?
     assert_equal WorkPackage.visible.watched_by(User.current).sort_by(&:id), result.sort_by(&:id)
     User.current = nil
@@ -245,7 +245,7 @@ describe Query, type: :model do
     User.current = User.find(1)
     query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '!', values: ['me'])])
     result = find_issues_with_query(query)
-    assert_not_nil result
+    refute_nil result
     assert !result.empty?
     assert_equal((WorkPackage.visible - WorkPackage.watched_by(User.current)).sort_by(&:id).size, result.sort_by(&:id).size)
     User.current = nil
@@ -272,9 +272,9 @@ describe Query, type: :model do
   it 'should grouped with valid column' do
     q = Query.new(group_by: 'status', name: '_')
     assert q.grouped?
-    assert_not_nil q.group_by_column
+    refute_nil q.group_by_column
     assert_equal :status, q.group_by_column.name
-    assert_not_nil q.group_by_statement
+    refute_nil q.group_by_statement
     assert_equal 'status', q.group_by_statement
   end
 
@@ -427,13 +427,13 @@ describe Query, type: :model do
 
     it 'should include users of visible projects in cross-project view' do
       users = @query.available_work_package_filters['assigned_to_id']
-      assert_not_nil users
+      refute_nil users
       assert users[:values].map { |u| u[1] }.include?('3')
     end
 
     it 'should include visible projects in cross-project view' do
       projects = @query.available_work_package_filters['project_id']
-      assert_not_nil projects
+      refute_nil projects
       assert projects[:values].map { |u| u[1] }.include?('1')
     end
 

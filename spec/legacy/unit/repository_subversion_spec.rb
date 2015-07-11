@@ -83,7 +83,7 @@ describe Repository::Subversion, type: :model do
     @repository.reload
 
     entries = @repository.entries('subversion_test/[folder_with_brackets]')
-    assert_not_nil entries, 'Expect to find entries in folder_with_brackets'
+    refute_nil entries, 'Expect to find entries in folder_with_brackets'
     assert_equal 1, entries.size, 'Expect one entry in folder_with_brackets'
     assert_equal 'README.txt', entries.first.name
   end
@@ -102,7 +102,7 @@ describe Repository::Subversion, type: :model do
     assert_equal 2, @repository.file_changes.count, 'Expected to see 2 changes, dir add and file add'
 
     entries = @repository.entries('')
-    assert_not_nil entries, 'Expect to find entries'
+    refute_nil entries, 'Expect to find entries'
     assert_equal 1, entries.size, 'Expect a single entry'
     assert_equal 'README.txt', entries.first.name
   end
