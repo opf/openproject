@@ -354,7 +354,7 @@ describe Query, type: :model do
 
   it 'should invalid query should raise query statement invalid error' do
     q = Query.new name: '_'
-    assert_raise ActiveRecord::StatementInvalid do
+    assert_raises ActiveRecord::StatementInvalid do
       q.results(conditions: 'foo = 1').work_packages.to_a
     end
   end

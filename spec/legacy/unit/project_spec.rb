@@ -189,7 +189,7 @@ describe Project, type: :model do
 
     @ecookbook.destroy
     # make sure that the project non longer exists
-    assert_raise(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
+    assert_raises(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
     # make sure related data was removed
     assert_equal 0, Member.where(project_id: @ecookbook.id).count
     assert_equal 0, Board.where(project_id: @ecookbook.id).count
