@@ -178,12 +178,12 @@ describe Redmine::MenuManager::Mapper do
       menu.push :help, OpenProject::Info.help_url, last: true
     end
 
-    assert_nothing_raised do
+    expect {
       Redmine::MenuManager.map :test_menu do |menu|
         menu.delete(:administration)
         menu.delete(:help)
         menu.push :test_overview, { controller: 'projects', action: 'show' }, {}
       end
-    end
+    }.not_to raise_error
   end
 end

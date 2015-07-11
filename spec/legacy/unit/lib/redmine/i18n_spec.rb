@@ -54,13 +54,13 @@ describe Redmine::I18n do
     Setting.date_format = ''
     valid_languages.each do |lang|
       set_language_if_valid lang
-      assert_nothing_raised "#{lang} failure" do
+      expect {
         format_date(Date.today)
         format_time(Time.now)
         format_time(Time.now, false)
         refute_equal 'default', ::I18n.l(Date.today, format: :default), "date.formats.default missing in #{lang}"
         refute_equal 'time',    ::I18n.l(Time.now, format: :time),      "time.formats.time missing in #{lang}"
-      end
+      }.not_to raise_error
       assert l('date.day_names').is_a?(Array)
       assert_equal 7, l('date.day_names').size
 
@@ -126,9 +126,9 @@ describe Redmine::I18n do
   it 'should number to human size for each language' do
     valid_languages.each do |lang|
       set_language_if_valid lang
-      assert_nothing_raised "#{lang} failure" do
+      expect {
         number_to_human_size(1024 * 1024 * 4)
-      end
+      }.not_to raise_error
     end
   end
 

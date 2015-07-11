@@ -100,9 +100,9 @@ describe Journal, type: :model do
 
   specify 'accessing #journaled on a Journal should not error (parent class)' do
     journal = Journal.new
-    assert_nothing_raised do
+    expect {
       assert_equal nil, journal.journable
-    end
+    }.not_to raise_error
   end
 
   specify 'setting journal fields through the journaled object for creation' do

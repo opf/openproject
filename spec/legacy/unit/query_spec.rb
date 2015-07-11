@@ -61,9 +61,9 @@ describe Query, type: :model do
   end
 
   def assert_find_issues_with_query_is_successful(query)
-    assert_nothing_raised do
+    expect {
       find_issues_with_query(query)
-    end
+    }.not_to raise_error
   end
 
   def assert_query_statement_includes(query, condition)
