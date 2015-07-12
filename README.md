@@ -12,7 +12,7 @@ The OpenProject PDF Export plugin requires the [OpenProject Core](https://github
 version greater or equal to *3.0.0*.
 
 Tests for this plugin require `pdf-inspector`, so just add the following line to
-OpenProject's `Gemfile.plugin`:
+OpenProject's `Gemfile.plugin` :
 
 `gem "pdf-inspector", "~>1.0.0", :group => :test`
 
