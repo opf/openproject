@@ -235,7 +235,7 @@ class Repository < ActiveRecord::Base
       if project.repository
         begin
           project.repository.fetch_changesets
-        rescue Redmine::Scm::Adapters::CommandFailed => e
+        rescue OpenProject::Scm::Adapters::CommandFailed => e
           logger.error "scm: error during fetching changesets: #{e.message}"
         end
       end
@@ -270,7 +270,7 @@ class Repository < ActiveRecord::Base
     ret = ''
     begin
       ret = scm_adapter_class.client_command if scm_adapter_class
-    rescue Redmine::Scm::Adapters::CommandFailed => e
+    rescue OpenProject::Scm::Adapters::CommandFailed => e
       logger.error "scm: error during get command: #{e.message}"
     end
     ret
@@ -280,7 +280,7 @@ class Repository < ActiveRecord::Base
     ret = ''
     begin
       ret = scm_adapter_class.client_version_string if scm_adapter_class
-    rescue Redmine::Scm::Adapters::CommandFailed => e
+    rescue OpenProject::Scm::Adapters::CommandFailed => e
       logger.error "scm: error during get version string: #{e.message}"
     end
     ret
@@ -290,7 +290,7 @@ class Repository < ActiveRecord::Base
     ret = false
     begin
       ret = scm_adapter_class.client_available if scm_adapter_class
-    rescue Redmine::Scm::Adapters::CommandFailed => e
+    rescue OpenProject::Scm::Adapters::CommandFailed => e
       logger.error "scm: error during get scm available: #{e.message}"
     end
     ret

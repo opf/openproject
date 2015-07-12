@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/subversion_adapter'
+require 'open_project/scm/adapters/subversion'
 
 class Repository::Subversion < Repository
   attr_protected :root_url
@@ -35,7 +35,7 @@ class Repository::Subversion < Repository
   validates_format_of :url, with: /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i
 
   def self.scm_adapter_class
-    Redmine::Scm::Adapters::SubversionAdapter
+    OpenProject::Scm::Adapters::Subversion
   end
 
   def self.scm_name

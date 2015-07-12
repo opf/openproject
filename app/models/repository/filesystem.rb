@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/filesystem_adapter'
+require 'open_project/scm/adapters/filesystem'
 
 class Repository::Filesystem < Repository
   attr_protected :root_url
@@ -44,7 +44,7 @@ class Repository::Filesystem < Repository
   end
 
   def self.scm_adapter_class
-    Redmine::Scm::Adapters::FilesystemAdapter
+    OpenProject::Scm::Adapters::FileSystem
   end
 
   def self.scm_name

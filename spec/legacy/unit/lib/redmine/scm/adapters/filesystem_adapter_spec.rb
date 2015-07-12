@@ -29,13 +29,13 @@
 
 require 'legacy_spec_helper'
 
-describe Redmine::Scm::Adapters::FilesystemAdapter, type: :model do
+describe OpenProject::Scm::Adapters::FileSystem, type: :model do
   let(:fs_repository_path) { Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository' }
 
   before do
     skip 'Filesystem test repository NOT FOUND. Skipping unit tests !!! See doc/RUNNING_TESTS.' unless File.directory?(fs_repository_path)
 
-    @adapter = Redmine::Scm::Adapters::FilesystemAdapter.new(fs_repository_path)
+    @adapter = OpenProject::Scm::Adapters::FileSystem.new(fs_repository_path)
   end
 
   it 'should entries' do

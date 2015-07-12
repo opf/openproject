@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe Redmine::Scm::Base do
+describe OpenProject::Scm::Manager do
   describe '.configured' do
     subject { described_class.configured }
 
@@ -39,12 +39,12 @@ describe Redmine::Scm::Base do
 
     before do
       Repository.const_set('TestScm', test_scm_class)
-      Redmine::Scm::Base.add 'TestScm'
+      OpenProject::Scm::Manager.add 'TestScm'
     end
 
     after do
       Repository.send(:remove_const, :TestScm)
-      Redmine::Scm::Base.delete 'TestScm'
+      OpenProject::Scm::Manager.delete 'TestScm'
     end
 
     context 'scm is configured' do

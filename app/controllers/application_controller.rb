@@ -118,11 +118,6 @@ class ApplicationController < ActionController::Base
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
 
-  # TODO: needed? redmine doesn't
-  Redmine::Scm::Base.all.each do |scm|
-    require "repository/#{scm.underscore}"
-  end
-
   def default_url_options(_options = {})
     { layout: params['layout'] }
   end
