@@ -27,5 +27,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
-World(ObjectDaddyHelpers)
+# require File.expand_path('../../../spec/legacy/support/object_daddy_helpers', __FILE__)
+# World(ObjectDaddyHelpers)
