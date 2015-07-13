@@ -27,4 +27,3 @@
 #++
 
 --color
---exclude-pattern spec/legacy/**/*_spec.rb
