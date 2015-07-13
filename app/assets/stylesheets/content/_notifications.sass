@@ -131,10 +131,14 @@ $nm-padding-box: rem-calc(10px)
   & p, & ul>li, & .button
     font-size: $nm-font-size
 
-.op-message-container-holder
+.notification-box--wrapper
   position: absolute
   top: rem-calc(52px) //this value probably will change
-  .op-message-container
+  width: 100%
+  display: flex
+  align-items: center
+  justify-content: center
+  .notification-box--casing
     position: relative
     .notification-box
       min-width: rem-calc(250px)
