@@ -22,12 +22,12 @@ class CostQuery < Report
 
   User.before_destroy do |user|
     CostQuery.delete_all ['user_id = ? AND is_public = ?', user.id, false]
-    CostQuery.update_all ['user_id = ?', DeletedUser.first.id], ['user_id = ?', user.id]
+    CostQuery.where(['user_id = ?', user.id]).update_all ['user_id = ?', DeletedUser.first.id]
 
     max_query_id = 0
-    while((current_queries = CostQuery.all(limit: 1000,
-                                           conditions: ["id > ?", max_query_id],
-                                           order: "id ASC")).size > 0) do
+    while((current_queries = CostQuery.limit(1000)
+                             .where(["id > ?", max_query_id])
+                             .order("id ASC")).size > 0) do
 
       current_queries.each do |query|
         serialized = query.serialized
@@ -40,7 +40,7 @@ class CostQuery < Report
             nil
         end.compact
 
-        CostQuery.update_all ["serialized = ?", YAML::dump(serialized)], ["id = ?", query.id]
+        CostQuery.where(["id = ?", query.id]).update_all ["serialized = ?", YAML::dump(serialized)]
 
         max_query_id = query.id
       end
