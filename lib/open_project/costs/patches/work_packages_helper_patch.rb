@@ -20,7 +20,6 @@
 module OpenProject::Costs::Patches::WorkPackagesHelperPatch
   def self.included(base)
     base.class_eval do
-
       def work_package_form_all_middle_attributes_with_costs(form, work_package, locals = {})
         attributes = work_package_form_all_middle_attributes_without_costs(form, work_package, locals)
 
@@ -31,20 +30,18 @@ module OpenProject::Costs::Patches::WorkPackagesHelperPatch
         attributes.compact
       end
 
-      def work_package_form_budget_attribute(form, work_package, locals)
-        field = work_package_form_field do
-          options = CostObject.find_all_by_project_id(@project, :order => 'subject ASC').collect { |d| [d.subject, d.id] }
+      def work_package_form_budget_attribute(form, _work_package, _locals)
+        field = work_package_form_field {
+          options = CostObject.find_all_by_project_id(@project, order: 'subject ASC').map { |d| [d.subject, d.id] }
           form.select(:cost_object_id, options, include_blank: true)
-        end
+        }
 
         WorkPackagesHelper::WorkPackageAttribute.new(:cost_object_id, field)
       end
 
-
       alias_method_chain :work_package_form_all_middle_attributes, :costs
     end
   end
-
 end
 
 WorkPackagesHelper.send(:include, OpenProject::Costs::Patches::WorkPackagesHelperPatch)

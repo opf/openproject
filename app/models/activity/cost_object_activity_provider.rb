@@ -28,19 +28,19 @@ class Activity::CostObjectActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
-  def event_type(event, activity)
+  def event_type(_event, _activity)
     'cost_object'
   end
 
-  def event_title(event, activity)
+  def event_title(event, _activity)
     "#{l(:label_cost_object)} ##{event['journable_id']}: #{event['cost_object_subject']}"
   end
 
-  def event_path(event, activity)
+  def event_path(event, _activity)
     url_helpers.cost_object_path(url_helper_parameter(event))
   end
 
-  def event_url(event, activity)
+  def event_url(event, _activity)
     url_helpers.cost_object_url(url_helper_parameter(event))
   end
 

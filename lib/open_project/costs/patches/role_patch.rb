@@ -23,7 +23,6 @@ module OpenProject::Costs::Patches::RolePatch
 
     # Same as typing in the class
     base.class_eval do
-
       alias_method_chain :allowed_to?, :inheritance
     end
   end
@@ -37,7 +36,7 @@ module OpenProject::Costs::Patches::RolePatch
       allowed_to_with_caching(action)
     end
 
-  private
+    private
 
     def allowed_to_with_caching(action)
       @allowed_to_with_inheritance ||= {}
@@ -63,7 +62,7 @@ module OpenProject::Costs::Patches::RolePatch
 
         return if permission.blank?
 
-        (permission.inherited_by + [permission]).map(&:name).detect {|parent| allowed_inherited_permissions.include? parent}
+        (permission.inherited_by + [permission]).map(&:name).detect { |parent| allowed_inherited_permissions.include? parent }
 
       end
     end
@@ -71,16 +70,16 @@ module OpenProject::Costs::Patches::RolePatch
     def allowed_inherited_permissions
       @allowed_inherited_permissions ||= begin
         all_permissions = allowed_permissions || []
-        (all_permissions | allowed_permissions.collect do |sym|
+        (all_permissions | allowed_permissions.map { |sym|
           p = Redmine::AccessControl.permission(sym)
-          p ? p.inherits.collect(&:name) : []
-        end.flatten).uniq
+          p ? p.inherits.map(&:name) : []
+        }.flatten).uniq
       end
     end
 
     def allowed_inherited_actions
       @actions_allowed_inherited ||= begin
-        allowed_inherited_permissions.inject({}){|actions, p| actions[p] = Redmine::AccessControl.allowed_actions(p); actions}
+        allowed_inherited_permissions.inject({}) { |actions, p| actions[p] = Redmine::AccessControl.allowed_actions(p); actions }
       end
     end
   end

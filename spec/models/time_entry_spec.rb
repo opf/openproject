@@ -19,16 +19,20 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe TimeEntry, :type => :model do
+describe TimeEntry, type: :model do
   include Cost::PluginSpecHelper
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
   let(:project2) { FactoryGirl.create(:project_with_types, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                       :type => project.types.first,
-                                       :author => user) }
-  let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
-                                       :type => project2.types.first,
-                                       :author => user2) }
+  let(:work_package) {
+    FactoryGirl.create(:work_package, project: project,
+                                      type: project.types.first,
+                                      author: user)
+  }
+  let(:work_package2) {
+    FactoryGirl.create(:work_package, project: project2,
+                                      type: project2.types.first,
+                                      author: user2)
+  }
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:date) { Date.today }
@@ -41,27 +45,26 @@ describe TimeEntry, :type => :model do
   let!(:default_hourly_five) { FactoryGirl.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
   let(:hours) { 5.0 }
   let(:time_entry) do
-    FactoryGirl.create(:time_entry, :project => project,
-                               :work_package => work_package,
-                               :spent_on => date,
-                               :hours => hours,
-                               :user => user,
-                               :rate => hourly_one,
-                               :comments => "lorem")
+    FactoryGirl.create(:time_entry, project: project,
+                                    work_package: work_package,
+                                    spent_on: date,
+                                    hours: hours,
+                                    user: user,
+                                    rate: hourly_one,
+                                    comments: 'lorem')
   end
 
   let(:time_entry2) do
-    FactoryGirl.create(:time_entry, :project => project,
-                               :work_package => work_package,
-                               :spent_on => date,
-                               :hours => hours,
-                               :user => user,
-                               :rate => hourly_one,
-                               :comments => "lorem")
+    FactoryGirl.create(:time_entry, project: project,
+                                    work_package: work_package,
+                                    spent_on: date,
+                                    hours: hours,
+                                    user: user,
+                                    rate: hourly_one,
+                                    comments: 'lorem')
   end
 
-
-  it "should always prefer overridden_costs" do
+  it 'should always prefer overridden_costs' do
     allow(User).to receive(:current).and_return(user)
 
     value = rand(500)
@@ -71,13 +74,13 @@ describe TimeEntry, :type => :model do
     time_entry.save!
   end
 
-  describe "given rate" do
+  describe 'given rate' do
     before(:each) do
       allow(User).to receive(:current).and_return(user)
       @default_example = time_entry2
     end
 
-    it "should return the current costs depending on the number of hours" do
+    it 'should return the current costs depending on the number of hours' do
       (0..100).each do |hours|
         time_entry.hours = hours
         time_entry.save!
@@ -85,7 +88,7 @@ describe TimeEntry, :type => :model do
       end
     end
 
-    it "should update cost if a new rate is added at the end" do
+    it 'should update cost if a new rate is added at the end' do
       time_entry.user = User.current
       time_entry.spent_on = Time.now
       time_entry.hours = 1
@@ -102,7 +105,7 @@ describe TimeEntry, :type => :model do
       expect(time_entry.costs).to eq(hourly.rate)
     end
 
-    it "should update cost if a new rate is added in between" do
+    it 'should update cost if a new rate is added in between' do
       time_entry.user = User.current
       time_entry.spent_on = 3.days.ago.to_date
       time_entry.hours = 1
@@ -119,7 +122,7 @@ describe TimeEntry, :type => :model do
       expect(time_entry.costs).to eq(hourly.rate)
     end
 
-    it "should update cost if a spent_on changes" do
+    it 'should update cost if a spent_on changes' do
       time_entry.hours = 1
       (5.days.ago.to_date..Date.today).each do |time|
         time_entry.spent_on = time.to_date
@@ -128,7 +131,7 @@ describe TimeEntry, :type => :model do
       end
     end
 
-    it "should update cost if a rate is removed" do
+    it 'should update cost if a rate is removed' do
       time_entry.spent_on = hourly_one.valid_from
       time_entry.hours = 1
       time_entry.save!
@@ -141,7 +144,7 @@ describe TimeEntry, :type => :model do
       expect(time_entry.costs).to eq(hourly_five.rate)
     end
 
-    it "should be able to change order of rates (sorted by valid_from)" do
+    it 'should be able to change order of rates (sorted by valid_from)' do
       time_entry.spent_on = hourly_one.valid_from
       time_entry.save!
       expect(time_entry.rate).to eq(hourly_one)
@@ -150,16 +153,15 @@ describe TimeEntry, :type => :model do
       time_entry.reload
       expect(time_entry.rate).to eq(hourly_three)
     end
-
   end
 
-  describe "default rate" do
+  describe 'default rate' do
     before(:each) do
       allow(User).to receive(:current).and_return(user)
       @default_example = time_entry2
     end
 
-    it "should return the current costs depending on the number of hours" do
+    it 'should return the current costs depending on the number of hours' do
       (0..100).each do |hours|
         @default_example.hours = hours
         @default_example.save!
@@ -167,7 +169,7 @@ describe TimeEntry, :type => :model do
       end
     end
 
-    it "should update cost if a new rate is added at the end" do
+    it 'should update cost if a new rate is added at the end' do
       @default_example.user = user2
       @default_example.spent_on = Time.now.to_date
       @default_example.hours = 1
@@ -183,7 +185,7 @@ describe TimeEntry, :type => :model do
       expect(@default_example.costs).to eq(hourly.rate)
     end
 
-    it "should update cost if a new rate is added in between" do
+    it 'should update cost if a new rate is added in between' do
       @default_example.user = user2
       @default_example.spent_on = 3.days.ago.to_date
       @default_example.hours = 1
@@ -199,7 +201,7 @@ describe TimeEntry, :type => :model do
       expect(@default_example.costs).to eq(hourly.rate)
     end
 
-    it "should update cost if a spent_on changes" do
+    it 'should update cost if a spent_on changes' do
       @default_example.hours = 1
       (5.days.ago.to_date..Date.today).each do |time|
         @default_example.spent_on = time.to_date
@@ -208,7 +210,7 @@ describe TimeEntry, :type => :model do
       end
     end
 
-    it "should update cost if a rate is removed" do
+    it 'should update cost if a rate is removed' do
       @default_example.spent_on = default_hourly_one.valid_from
       @default_example.hours = 1
       @default_example.save!
@@ -221,7 +223,7 @@ describe TimeEntry, :type => :model do
       expect(@default_example.costs).to eq(default_hourly_five.rate)
     end
 
-    it "shoud be able to switch between default hourly rate and hourly rate" do
+    it 'shoud be able to switch between default hourly rate and hourly rate' do
       @default_example.user = user2
       @default_example.rate = default_hourly_one
       @default_example.save!
@@ -244,12 +246,11 @@ describe TimeEntry, :type => :model do
 
     describe '#costs_visible_by?' do
       before do
-        project.enabled_module_names = project.enabled_module_names << "costs_module"
+        project.enabled_module_names = project.enabled_module_names << 'costs_module'
       end
 
       describe "WHEN the time_entry is assigned to the user
                 WHEN the user has the view_own_hourly_rate permission" do
-
         before do
           is_member(project, user, [:view_own_hourly_rate])
 
@@ -261,7 +262,6 @@ describe TimeEntry, :type => :model do
 
       describe "WHEN the time_entry is assigned to the user
                 WHEN the user lacks permissions" do
-
         before do
           is_member(project, user, [])
 
@@ -273,7 +273,6 @@ describe TimeEntry, :type => :model do
 
       describe "WHEN the time_entry is assigned to another user
                 WHEN the user has the view_hourly_rates permission" do
-
         before do
           is_member(project, user2, [:view_hourly_rates])
 
@@ -285,7 +284,6 @@ describe TimeEntry, :type => :model do
 
       describe "WHEN the time_entry is assigned to another user
                 WHEN the user has the view_hourly_rates permission in another project" do
-
         before do
           is_member(project2, user2, [:view_hourly_rates])
 
@@ -297,7 +295,7 @@ describe TimeEntry, :type => :model do
     end
   end
 
-  describe "class" do
+  describe 'class' do
     describe '#visible' do
       describe "WHEN having the view_time_entries permission
                 WHEN querying for a project

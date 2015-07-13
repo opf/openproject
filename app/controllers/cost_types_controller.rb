@@ -18,7 +18,6 @@
 #++
 
 class CostTypesController < ApplicationController
-
   # Allow only admins here
   before_filter :require_admin
   before_filter :find_cost_type, only: [:edit, :update, :set_rate, :destroy, :restore]
@@ -31,12 +30,12 @@ class CostTypesController < ApplicationController
 
   def index
     sort_init 'name', 'asc'
-    sort_columns = { "name" => "#{CostType.table_name}.name",
-                     "unit" => "#{CostType.table_name}.unit",
-                     "unit_plural" => "#{CostType.table_name}.unit_plural" }
+    sort_columns = { 'name' => "#{CostType.table_name}.name",
+                     'unit' => "#{CostType.table_name}.unit",
+                     'unit_plural' => "#{CostType.table_name}.unit_plural" }
     sort_update sort_columns
 
-    @cost_types = CostType.find :all, :order => sort_clause
+    @cost_types = CostType.find :all, order: sort_clause
 
     unless params[:clear_filter]
       @fixed_date = Date.parse(params[:fixed_date]) rescue Date.today
@@ -46,11 +45,11 @@ class CostTypesController < ApplicationController
       @include_deleted = nil
     end
 
-    render :action => 'index', :layout => !request.xhr?
+    render action: 'index', layout: !request.xhr?
   end
 
   def edit
-    render :action => "edit", :layout => !request.xhr?
+    render action: 'edit', layout: !request.xhr?
   end
 
   def update
@@ -58,9 +57,9 @@ class CostTypesController < ApplicationController
 
     if @cost_type.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default(:action => 'index')
+      redirect_back_or_default(action: 'index')
     else
-      render :action => "edit", :layout => !request.xhr?
+      render action: 'edit', layout: !request.xhr?
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
@@ -68,11 +67,11 @@ class CostTypesController < ApplicationController
   end
 
   def new
-    @cost_type = CostType.new()
+    @cost_type = CostType.new
 
-    @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
+    @cost_type.rates.build(valid_from: Date.today) if @cost_type.rates.empty?
 
-    render :action => "edit", :layout => !request.xhr?
+    render action: 'edit', layout: !request.xhr?
   end
 
   def create
@@ -80,10 +79,10 @@ class CostTypesController < ApplicationController
 
     if @cost_type.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default(:action => 'index')
+      redirect_back_or_default(action: 'index')
     else
-      @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
-      render :action => "edit", :layout => !request.xhr?
+      @cost_type.rates.build(valid_from: Date.today) if @cost_type.rates.empty?
+      render action: 'edit', layout: !request.xhr?
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
@@ -97,7 +96,7 @@ class CostTypesController < ApplicationController
     if @cost_type.save
       flash[:notice] = l(:notice_successful_delete)
 
-      redirect_back_or_default(:action => 'index')
+      redirect_back_or_default(action: 'index')
     end
   end
 
@@ -108,7 +107,7 @@ class CostTypesController < ApplicationController
     if @cost_type.save
       flash[:notice] = l(:notice_successful_restore)
 
-      redirect_back_or_default(:action => 'index')
+      redirect_back_or_default(action: 'index')
     end
   end
 
@@ -124,15 +123,16 @@ class CostTypesController < ApplicationController
     rate.rate = clean_currency(params[:rate])
     if rate.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
     else
       # FIXME: Do some real error handling here
       flash[:error] = l(:notice_something_wrong)
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
     end
   end
 
-private
+  private
+
   def find_cost_type
     @cost_type = CostType.find(params[:id])
   rescue ActiveRecord::RecordNotFound
@@ -140,6 +140,6 @@ private
   end
 
   def default_breadcrumb
-    CostType.model_name.human(:count=>2)
+    CostType.model_name.human(count: 2)
   end
 end

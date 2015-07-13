@@ -49,7 +49,6 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to eql('/api/v3/work_packages/42/summarized_costs_by_type') }
   end
 
-
   describe '#cost_type' do
     subject { helper.cost_type 42 }
 
