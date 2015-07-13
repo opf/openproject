@@ -28,7 +28,7 @@ class MeetingParticipant < ActiveRecord::Base
   attr_accessible :email, :name, :invited, :attended, :user, :user_id, :meeting
 
   User.before_destroy do |user|
-    MeetingParticipant.update_all ['user_id = ?', DeletedUser.first], ['user_id = ?', user.id]
+    MeetingParticipant.where(['user_id = ?', user.id]).update_all ['user_id = ?', DeletedUser.first]
   end
 
   def name

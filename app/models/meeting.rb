@@ -69,7 +69,7 @@ class Meeting < ActiveRecord::Base
   after_initialize :set_initial_values
 
   User.before_destroy do |user|
-    Meeting.update_all ['author_id = ?', DeletedUser.first.id], ['author_id = ?', user.id]
+    Meeting.where(['author_id = ?', user.id]).update_all ['author_id = ?', DeletedUser.first.id]
   end
 
   def start_date
@@ -116,7 +116,7 @@ class Meeting < ActiveRecord::Base
     changeable_participants = participants.select(&:invited).collect(&:user)
     changeable_participants = changeable_participants + participants.select(&:attended).collect(&:user)
     changeable_participants = changeable_participants + \
-                              project.users.all(include: { memberships: [:roles, :project] }).select { |u| self.visible?(u) }
+                              project.users.includes(memberships: [:roles, :project]).select { |u| self.visible?(u) }
 
     changeable_participants.uniq(&:id)
   end
