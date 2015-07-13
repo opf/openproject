@@ -37,9 +37,8 @@ class HourlyRatesController < ApplicationController
     if @project
       return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, for: @user)
 
-      @rates = HourlyRate.all(
-        conditions:  { user_id: @user, project_id: @project },
-        order: "#{HourlyRate.table_name}.valid_from desc")
+      @rates = HourlyRate.where(user_id: @user, project_id: @project)
+               .order("#{HourlyRate.table_name}.valid_from desc")
     else
       @rates = HourlyRate.history_for_user(@user, true)
       @rates_default = @rates.delete(nil)
@@ -58,9 +57,8 @@ class HourlyRatesController < ApplicationController
     end
 
     if @project.nil?
-      @rates = DefaultHourlyRate.all(
-        conditions: { user_id: @user },
-        order: "#{DefaultHourlyRate.table_name}.valid_from desc")
+      @rates = DefaultHourlyRate.where(user_id: @user)
+               .order("#{DefaultHourlyRate.table_name}.valid_from desc")
       @rates << @user.default_rates.build(valid_from: Date.today) if @rates.empty?
     else
       @rates = @user.rates.select { |r| r.project_id == @project.id }.sort { |a, b| b.valid_from <=> a.valid_from }
