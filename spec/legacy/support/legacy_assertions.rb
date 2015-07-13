@@ -294,7 +294,7 @@ module LegacyAssertionsAndHelpers
       context "should not send www authenticate when header accept auth is session #{http_method} #{url}" do
         context 'without credentials' do
           before do
-            send(http_method, url, parameters, 'X-Authentication-Scheme' => 'Session')
+            send(http_method, url, parameters, 'HTTP_X_AUTHENTICATION_SCHEME' => 'Session')
           end
           it { should respond_with failure_code }
           it { should_respond_with_content_type_based_on_url(url) }
