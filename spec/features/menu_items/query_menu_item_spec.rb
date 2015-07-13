@@ -64,7 +64,7 @@ feature 'Query menu items' do
       find(:css, "input[name=#{input_name}]").set true
     end
 
-    it 'can be added', js: true do
+    it 'can be added', js: true, selenium: true do
       visit_index_page(query)
 
       click_on 'Settings'

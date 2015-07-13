@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-require 'features/work_packages/shared_contexts'
-
-describe 'activity comments', js: true do
+describe 'activity comments', js: true, selenium: true do
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
   let!(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:user) { FactoryGirl.create :admin }

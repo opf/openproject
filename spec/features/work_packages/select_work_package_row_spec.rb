@@ -29,21 +29,12 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Select work package row', type: :feature do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package_1) {
-    FactoryGirl.create(:work_package,
-                       project: project)
-  }
-  let(:work_package_2) {
-    FactoryGirl.create(:work_package,
-                       project: project)
-  }
-  let(:work_package_3) {
-    FactoryGirl.create(:work_package,
-                       project: project)
-  }
+describe 'Select work package row', type: :feature, selenium: true do
+  let(:user)               { FactoryGirl.create(:admin) }
+  let(:project)            { FactoryGirl.create(:project) }
+  let(:work_package_1)     { FactoryGirl.create(:work_package, project: project) }
+  let(:work_package_2)     { FactoryGirl.create(:work_package, project: project) }
+  let(:work_package_3)     { FactoryGirl.create(:work_package, project: project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   include_context 'work package table helpers'
