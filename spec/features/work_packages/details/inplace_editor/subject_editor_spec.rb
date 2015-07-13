@@ -3,7 +3,7 @@ require 'features/work_packages/details/inplace_editor/shared_examples'
 require 'features/work_packages/details/inplace_editor/shared_contexts'
 require 'features/work_packages/details/inplace_editor/work_package_field'
 
-describe 'subject inplace editor', js: true do
+describe 'subject inplace editor', js: true, selenium: true do
   include_context 'maximized window'
 
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }

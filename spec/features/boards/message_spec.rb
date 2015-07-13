@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'messages', type: :feature do
+describe 'messages', type: :feature, selenium: true do
   let(:user) { FactoryGirl.create :admin, firstname: 'Hugo', lastname: 'Hungrig' }
 
   before do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'attachments', type: :feature do
+describe 'attachments', type: :feature, selenium: true do
   let(:project) { FactoryGirl.create :valid_project }
   let(:current_user) { FactoryGirl.create :admin }
   let!(:priority) { FactoryGirl.create :priority_normal }
