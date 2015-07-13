@@ -104,4 +104,9 @@ angular.module('openproject.services')
     'EditableFieldsState',
     'WorkPackageFieldService',
     require('./work-package-service')
+  ])
+  .service('NotificationsService', [
+    'I18n',
+    '$rootScope',
+    require('./notifications-service.js')
   ]);

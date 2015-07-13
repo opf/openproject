@@ -1,0 +1,6 @@
+<div class="notifications">
+  <a data-ng-click="add()" class="">Add</a>
+  <div data-ng-if="stack.length > 0">
+    <notification-box data-content="notification" data-ng-repeat="notification in stack"></notification-box>
+  </div>
+</div>

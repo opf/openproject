@@ -1,0 +1,17 @@
+<div class="notification-box{{' -' + content.className}}">
+  <a data-ng-click="remove" data-ng-if="removable()" class="notification-box--close">&times;</a>
+  <div class="notification-box--content">
+    <p>{{content.message}}</p>
+    <div data-ng-switch="content.type" data-ng-if="typeable()">
+      <div data-ng-switch-when="upload">
+        <!-- show the uploads -->
+      </div>
+      <div data-ng-switch-when="success">
+        <!-- create another button -->
+      </div>
+      <div data-ng-switch-when="error">
+        <!-- continue editing button -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -104,5 +104,7 @@ angular.module('openproject.uiComponents')
   .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
+  .directive('notifications', ['NotificationsService', require('./notifications-directive')])
+  .directive('notificationBox', [require('./notification-box-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .filter('latestItems', require('./filters/latest-items-filter'));
