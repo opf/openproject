@@ -96,7 +96,7 @@ angular.module('openproject.workPackages.directives')
     require('./work-packages-table-directive')
   ])
   .directive('workPackageAttachments', [
-    'Upload', // 'Upload' is provided by ngFileUpload
+    'WorkPackageAttachmentsService',
     require('./work-package-attachments-directive')
   ]);
 

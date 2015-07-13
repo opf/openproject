@@ -11,7 +11,7 @@
     <p class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
     <p class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
   </div>
-  <div class="work-pacakge--attachments-files" data-ng-show="files.length > 0">
+  <div class="work-pacakge--attachments--files" data-ng-show="files.length > 0">
     <ul>
       <li data-ng-repeat="file in files | filter:{type:'!directory'}">
         <attachment-icon type="file.type"></attachment-icon>

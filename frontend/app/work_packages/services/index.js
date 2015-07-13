@@ -70,4 +70,9 @@ angular.module('openproject.workPackages.services')
   ])
   .service('EditableFieldsState',
     require('./editable-fields-state')
-  );
+  )
+  .service('WorkPackageAttachmentsService', [
+    'Upload', // 'Upload' is provided by ngFileUpload
+    'PathHelper',
+    require('./work-package-attachments-service')
+  ]);

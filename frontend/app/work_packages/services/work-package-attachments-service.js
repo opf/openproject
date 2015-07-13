@@ -25,32 +25,38 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+// TODO: Inject/work with notification service
+module.exports = function(Upload, PathHelper) {
 
-module.exports = function(workPackageAttachmentsService) {
-
-  var attachmentsController = function(scope) {
-
-    scope.remove = function(file) {
-      _.remove(scope.files, function(element) {
-        return file === element;
+  var upload = function(workPackage, files) {
+    var uploadPath = PathHelper.apiV3WorkPackageAttachmentsPath(workPackage.props.id)
+    // for file in files build some promises, create a notification per WP,
+    // notify the noticiation (wat?) about progress
+    angular.forEach(files, function(file) {
+      var options = {
+        url: uploadPath,
+        fields: {
+          metadata: {
+            fileName: file.name,
+            description: file.description
+          }
+        },
+        file: file
+      }
+      Upload.upload(options)
+      .progress(function() {
+        console.log('this is progress', arguments);
       })
-    }
-
-    scope.removeAll = function() {
-      scope.files = []
-    }
-
-    scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
-      var files = angular.copy(scope.files);
-      workPackageAttachmentsService.upload(workPackage, scope.files);
-      scope.files = [];
+      .error(function() {
+        console.log('this is an error', arguments);
+      })
+      .success(function() {
+        console.log('this is success', arguments);
+      });
     });
   }
 
   return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/templates/work_packages/attachments.html',
-    link: attachmentsController
+    upload: upload
   }
 }
