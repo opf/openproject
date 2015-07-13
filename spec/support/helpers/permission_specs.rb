@@ -27,8 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../shared/become_member', __FILE__)
-
 module PermissionSpecs
   def self.included(base)
     base.class_eval do
