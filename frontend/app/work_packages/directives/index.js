@@ -94,6 +94,10 @@ angular.module('openproject.workPackages.directives')
     'featureFlags',
     'PathHelper',
     require('./work-packages-table-directive')
+  ])
+  .directive('workPackageAttachments', [
+    'Upload', // 'Upload' is provided by ngFileUpload
+    require('./work-package-attachments-directive')
   ]);
 
   require('./inplace_editor');

@@ -44,7 +44,6 @@ require('angular-animate');
 require('angular-aria');
 require('angular-modal');
 
-// require('angular-i18n/angular-locale_en-us');
 if (I18n.locale === 'de') {
   require('angular-i18n/angular-locale_de-de');
 }
@@ -60,6 +59,7 @@ require('angular-busy/dist/angular-busy.css');
 
 require('angular-context-menu');
 require('mousetrap');
+require('ngFileUpload')
 
 // global
 angular.module('openproject.uiComponents', ['ui.select', 'ngSanitize'])
@@ -113,7 +113,8 @@ angular.module('openproject.workPackages', [
   'openproject.workPackages.directives',
   'openproject.workPackages.tabs',
   'openproject.uiComponents',
-  'ng-context-menu'
+  'ng-context-menu',
+  'ngFileUpload'
 ]);
 angular.module('openproject.workPackages.services', []);
 angular.module(
