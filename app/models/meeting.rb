@@ -28,10 +28,14 @@ class Meeting < ActiveRecord::Base
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
   has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
 
-  default_scope order("#{Meeting.table_name}.start_time DESC")
-  scope :from_tomorrow, conditions: ['start_time >= ?', Date.tomorrow.beginning_of_day]
-  scope :with_users_by_date, order("#{Meeting.table_name}.title ASC")
-    .includes({ participants: :user }, :author)
+  default_scope {
+    order("#{Meeting.table_name}.start_time DESC")
+  }
+  scope :from_tomorrow, -> { where(['start_time >= ?', Date.tomorrow.beginning_of_day]) }
+  scope :with_users_by_date, -> {
+    order("#{Meeting.table_name}.title ASC")
+      .includes({ participants: :user }, :author)
+  }
 
   attr_accessible :title, :location, :start_time, :duration
 

@@ -22,8 +22,8 @@ class MeetingParticipant < ActiveRecord::Base
   belongs_to :meeting
   belongs_to :user
 
-  scope :invited, conditions: { invited: true }
-  scope :attended, conditions: { attended: true }
+  scope :invited, -> { where(invited: true) }
+  scope :attended, -> { where(attended: true) }
 
   attr_accessible :email, :name, :invited, :attended, :user, :user_id, :meeting
 
