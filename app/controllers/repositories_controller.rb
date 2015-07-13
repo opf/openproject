@@ -46,20 +46,20 @@ class RepositoriesController < ApplicationController
 
   before_filter :find_project, only: [:create, :update, :edit]
   before_filter :find_repository, except: [:edit, :update, :create, :destroy]
-  before_filter :check_repository_availability, only: [:show]
   before_filter :find_project_by_project_id, only: :destroy
   before_filter :authorize
   accept_key_auth :revisions
 
-  rescue_from OpenProject::Scm::Exceptions::CommandFailed, with: :show_error_command_failed
+  rescue_from OpenProject::Scm::Exceptions::ScmError, with: :show_error_command_failed
 
   def edit
-    @repository = @project.repository || build_repository
-
-    if request.post? && @repository
-      @repository.attributes = params[:repository]
-      @repository.save
-    end
+    service = Scm::RepositoryFactoryService.new(@project, params)
+    if service.configure
+      @repository = service.repository
+    else
+      logger.error("Cannot create repository for #{params[:scm_vendor]}")
+      flash.now[:error] = service.build_error
+     end
 
     render 'repositories/settings/repository_form'
   end
@@ -71,11 +71,12 @@ class RepositoriesController < ApplicationController
   end
 
   def create
-    @repository = Scm::RepositoryFactoryService.new(@project, params).build
-    if @repository.nil?
-      flash[:error] = l('repositories.errors.build_failed')
-    else
+    service = Scm::RepositoryFactoryService.new(@project, params)
+    if service.build
+      @repository = service.repository
       flash[:notice] = l('repositories.create_successful')
+    else
+      flash[:error] = service.build_error
     end
 
     render js: "window.location = '#{settings_repository_tab_path}'"
@@ -293,13 +294,16 @@ class RepositoriesController < ApplicationController
   end
 
   def settings_repository_tab_path
-    url_for controller: '/projects', action: 'settings', id: @project, tab: 'repository'
+    settings_project_path(id: @project.id, tab: 'repository')
   end
 
   def find_repository
     @project = Project.find(params[:project_id])
     @repository = @project.repository
     (render_404; return false) unless @repository
+
+    @repository.scm.check_availability!
+
     @path = params[:path] || ''
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
     @rev_to = params[:rev_to]
@@ -315,31 +319,10 @@ class RepositoriesController < ApplicationController
     show_error_not_found
   end
 
-  def build_repository
-    repository = Repository.build_scm_class(params[:scm_vendor]).new
-
-    if repository.nil?
-      flash[:error] = l(:repository_factory_error)
-      redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'repository'
-    end
-    repository.project = @project
-
-    if params[:managed_epository] && CreateRepositoryServce.allowed?(repository)
-      CreateRepositoryService.new(repository)
-    end
-
-    repository
-  end
-
-  def check_repository_availability
-    @repository.scm.check_availability!
-  end
-
   def show_error_not_found
     render_error message: l(:error_scm_not_found), status: 404
   end
 
-  # Handler for OpenProject::Scm::Exceptions::CommandFailed exception
   def show_error_command_failed(exception)
     render_error l(:error_scm_command_failed, exception.message)
   end

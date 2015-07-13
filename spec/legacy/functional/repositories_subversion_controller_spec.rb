@@ -302,6 +302,6 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :annotate, project_id: PRJ_ID, rev: 8, path: 'subversion_test/helloworld.c'
     assert_response :success
     assert_template 'annotate'
-    assert_tag tag: 'h2', content: /@ 8/
+    assert_tag tag: 'h3', content: /@ 8/
   end
 end

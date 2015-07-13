@@ -30,20 +30,21 @@
 ##
 # Implements a repository factory for building temporary and permanent repositories.
 Scm::RepositoryFactoryService = Struct.new :project, :params do
+
+  attr_reader :repository
+
   ##
   # Build a full repository from a given scm_type
   #
   # @return [Boolean] true iff the repository was built
   def build
-    @repository = Repository.build(project,
-                                   params[:scm_vendor],
-                                   params.fetch(:repository, {}),
-                                   params.fetch(:scm_type).to_sym
-                                  )
-
-    @repository
-  rescue Repository::BuildFailed
-    nil
+    build_guarded do
+      Repository.build(project,
+       params[:scm_vendor],
+       params.fetch(:repository, {}),
+       params.fetch(:scm_type).to_sym
+      )
+    end
   end
 
   ##
@@ -51,13 +52,27 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
   # of that particular vendor.
   #
   # @return [Boolean] true iff the repository was built
-  def build_temporary
-    @repository = Repository.build_scm_class(params[:scm_vendor]).new
-    @repository.project = project
-    @repository.scm_type = params[:scm_type]
+  def configure
+    build_guarded do
+      repo = Repository.build_scm_class(params[:scm_vendor]).new
+      repo.project = project
+      repo.scm_type = params[:scm_type]
 
-    @repository
-  rescue Repository::BuildFailed
-    nil
+      repo
+    end
   end
+
+  def build_error
+    I18n.t('repositories.errors.build_failed', reason: @build_failed_msg)
+  end
+
+  private
+
+  def build_guarded(&block)
+    @repository = block.call
+    @repository.present?
+  rescue Repository::BuildFailed => e
+    @build_failed_msg = e.message
+    nil
+ end
 end

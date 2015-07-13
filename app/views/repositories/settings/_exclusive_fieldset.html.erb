@@ -1,0 +1,17 @@
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend">
+    <input type="radio"
+           value="<%= type %>"
+           name="scm_type"
+           <%= exclusive ? 'disabled checked' : '' %>>
+    <%= l("repositories.#{vendor}.#{type}_title") %>
+  </legend>
+  <p><%= l("repositories.#{vendor}.#{type}_introduction") %></p>
+  <div id="exclusive-fieldset--content-<%= type %>"
+       class="exclusive-fieldset--content"
+       <%= exclusive ? '' : 'hidden' %>>
+
+    <%= render partial: "/repositories/settings/#{vendor}/#{type}",
+               locals: { form: form, repository: repository } %>
+  </div>
+</fieldset>

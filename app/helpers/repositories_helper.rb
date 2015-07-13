@@ -192,8 +192,16 @@ module RepositoriesHelper
       scms[vendor] = vendor
     end
 
-    scms = [["--- #{l(:actionview_instancetag_blank_option)} ---", '']] + scms.keys
+    scms = [default_selected_option] + scms.keys
     options_for_select(scms, vendor)
+  end
+
+  def default_selected_option
+    [
+      "--- #{l(:actionview_instancetag_blank_option)} ---",
+      '',
+      { disabled: true, selected: true}
+    ]
   end
 
   def vendor_name(repository)
@@ -204,25 +212,12 @@ module RepositoriesHelper
     select_tag('scm_vendor',
                scm_options(repository),
                class: 'form--select repositories--remote-select',
-               data: { exclusive: true,
-                       url: url_for(controller: '/repositories', action: 'edit', id: @project)
+               data: {
+                  remote: true,
+                  url: url_for(controller: '/repositories', action: 'edit', id: @project.id),
                },
                disabled: (repository && !repository.new_record?)
               )
-  end
-
-  def scm_type_tag(repository, current)
-    types = [["--- #{l(:actionview_instancetag_blank_option)} ---", '']]
-    repository.supported_types.each do |t|
-      types << [l("repositories.scm_types.#{t}"), t]
-    end
-    select_tag(
-      'scm_type',
-      options_for_select(types, current),
-      class: 'form--select repositories--remote-select',
-      data: { url: url_for(controller: '/repositories', action: 'edit', id: @project) },
-      disabled: (repository && !repository.new_record?)
-    )
   end
 
   def with_leading_slash(path)

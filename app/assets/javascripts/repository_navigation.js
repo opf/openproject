@@ -26,38 +26,48 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-Event.observe(window,'load',function() {
-  /*
-  If we're viewing a tag or branch, don't display it in the
-  revision box
-  */
-  var branch_selected = $('branch') && $('rev').getValue() == $('branch').getValue();
-  var tag_selected = $('tag') && $('rev').getValue() == $('tag').getValue();
-  if (branch_selected || tag_selected) {
-    $('rev').setValue('');
-  }
+(function($) {
+  $(function() {
+    var revision = $('#revision-identifier-input'),
+      form = revision.closest('form'),
+      tag = $('#revision-tag-select'),
+      branch = $('#revision-branch-select'),
+      selects = tag.add(branch),
+      branch_selected = branch.length > 0 && revision.val() == branch.val(),
+      tag_selected = tag.length > 0 && revision.val() == tag.getValue();
 
-  /*
-  Copy the branch/tag value into the revision box, then disable
-  the dropdowns before submitting the form
-  */
-  $$('#branch,#tag').each(function(e) {
-    e.observe('change',function(e) {
-      $('rev').setValue(e.element().getValue());
-      $$('#branch,#tag').invoke('disable');
-      e.element().parentNode.submit();
-      $$('#branch,#tag').invoke('enable');
+    var sendForm = function() {
+      selects.prop('disable', true);
+      form.submit();
+      selects.prop('disable', false);
+    }
+
+    /*
+    If we're viewing a tag or branch, don't display it in the
+    revision box
+    */
+    if (branch_selected || tag_selected) {
+      revision.val('');
+    }
+
+    /*
+    Copy the branch/tag value into the revision box, then disable
+    the dropdowns before submitting the form
+    */
+    selects.on('change', function() {
+      var select = $(this);
+      revision.val(select.val());
+      sendForm();
+    });
+
+    /*
+    Disable the branch/tag dropdowns before submitting the revision form
+    */
+    revision.on('keydown', function(e) {
+      if (e.keyCode == 13) {
+        sendForm();
+      }
     });
   });
+}(jQuery));
 
-  /*
-  Disable the branch/tag dropdowns before submitting the revision form
-  */
-  $('rev').observe('keydown', function(e) {
-    if (e.keyCode == 13) {
-      $$('#branch,#tag').invoke('disable');
-      e.element().parentNode.submit();
-      $$('#branch,#tag').invoke('enable');
-    }
-  });
-});
