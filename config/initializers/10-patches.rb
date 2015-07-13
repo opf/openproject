@@ -219,38 +219,5 @@ module ActiveRecord
   end
 end
 
-# Patches to fix Hash subclasses not preserving the class on reject and select
-# on Ruby 2.1.1. Apparently this will be standard behavior in Ruby 2.2, so
-# check please verify things work as expected before removing this.
-#
-# Rails 3.2 won't receive a fix for this, but Rails 4.x has this fixed.
-# Once we're using Rails 4, we can probably remove this.
-#
-# See
-# * https://www.ruby-lang.org/en/news/2014/03/10/regression-of-hash-reject-in-ruby-2-1-1/
-# * https://github.com/rails/rails/issues/14188
-# * https://github.com/rails/rails/pull/14198/files
-module ActiveSupport
-  class HashWithIndifferentAccess
-    def select(*args, &block)
-      dup.tap { |hash| hash.select!(*args, &block) }
-    end
-
-    def reject(*args, &block)
-      dup.tap { |hash| hash.reject!(*args, &block) }
-    end
-  end
-
-  class OrderedHash
-    def select(*args, &block)
-      dup.tap { |hash| hash.select!(*args, &block) }
-    end
-
-    def reject(*args, &block)
-      dup.tap { |hash| hash.reject!(*args, &block) }
-    end
-  end
-end
-
 # Patch acts_as_list before any class includes the module
 require 'open_project/patches/acts_as_list'
