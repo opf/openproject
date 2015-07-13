@@ -620,14 +620,22 @@ module ApplicationHelper
     link_to(text, url_params, html_options)
   end
 
-  def password_complexity_requirements
-    rules = OpenProject::Passwords::Evaluator.rules_description
+  def password_complexity_requirements(html = false)
+    html_list = html ? password_rules_html_format : nil
+    rules = OpenProject::Passwords::Evaluator.rules_description(html_list)
     # use 0..0, so this doesn't fail if rules is an empty string
     rules[0] = rules[0..0].upcase
 
     s = raw '<em>' + OpenProject::Passwords::Evaluator.min_length_description + '</em>'
     s += raw '<br /><em>' + rules + '</em>' unless rules.empty?
     s
+  end
+
+  def password_rules_html_format
+    rules = OpenProject::Passwords::Evaluator.active_rules_locales
+    content_tag :ul do
+      rules.map { |item| concat(content_tag(:li, item)) }
+    end
   end
 
   def icon_wrapper(icon_class, label)

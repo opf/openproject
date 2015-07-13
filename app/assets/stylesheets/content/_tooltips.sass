@@ -182,3 +182,48 @@ table
       padding: 4px
       font-size: 0.8em
       color: #505050
+
+// tooltips with html support
+span.op_tooltip
+  visibility: hidden
+  opacity: 0
+  transition: visibility 0s linear 0.2s, opacity 0.2s linear
+  position: absolute
+  border: 2px solid #a7cbe1
+  background: #e3f5ff
+  padding: 15px
+  font-style: italic
+  line-height: 18px
+  width: 353px
+  margin-left: 10px
+  ul
+    margin-top:  20px
+    padding-left: 20px
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    top: 10px
+    left: -20px
+    width: 0
+    height: 0
+    border-color: transparent #e3f5ff transparent transparent
+    border-style: solid
+    border-width: 10px
+  &:before
+    content: ''
+    display: block
+    position: absolute
+    top: 9px
+    left: -24px
+    width: 0
+    height: 0
+    border-color: transparent #a7cbe1 transparent transparent
+    border-style: solid
+    border-width: 11px
+
+div.form--field-container.tooltip-visible
+  .op_tooltip
+    visibility: visible
+    opacity: 1
+    transition-delay: 0.10s
