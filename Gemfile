@@ -141,6 +141,7 @@ gem 'fog', '~> 1.23.0', require: "fog/aws/storage"
 group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda-context', '~> 1.2'
+  gem "shoulda-matchers", '~> 2.8', require: nil
 
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
@@ -152,12 +153,9 @@ group :test do
   # connection with database cleaner here but setting it to 1.2 fixes the
   # issue.
   gem 'database_cleaner', '~> 1.2.0'
-  gem 'rspec', '~> 3.3.0'
-  # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.3.0', group: :development
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
-  gem 'rspec-legacy_formatters'
+
   gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
@@ -170,7 +168,7 @@ group :test do
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', '0.8.0.pre'
-  gem "shoulda-matchers", '~> 2.8', require: nil
+
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
   gem 'codecov', require: nil
@@ -191,6 +189,8 @@ group :development do
 end
 
 group :development, :test do
+  gem 'rspec-rails', '~> 3.3.0'
+
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
