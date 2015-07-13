@@ -162,6 +162,7 @@ group :test do
   gem 'capybara-ng', '~> 0.2.1'
   gem 'selenium-webdriver', '~> 2.45.0'
   gem 'capybara-webkit'
+  gem 'poltergeist'
   gem 'timecop', '~> 0.7.1'
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
