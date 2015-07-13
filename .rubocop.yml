@@ -1,7 +1,6 @@
 AllCops:
   Exclude:
-    - db/schema.rb
-    - lib/plugins/rfpdf/**/*
+    "*.gemspec"
 
 AccessorMethodName:
   Enabled: false
