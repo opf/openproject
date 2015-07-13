@@ -141,6 +141,9 @@ GEM
       capybara (>= 1.0, < 3)
       colored
       launchy
+    capybara-webkit (1.5.1)
+      capybara (>= 2.3.0, < 2.5.0)
+      json
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -496,6 +499,7 @@ DEPENDENCIES
   capybara-ng (~> 0.2.1)
   capybara-screenshot (~> 1.0.4)
   capybara-select2!
+  capybara-webkit
   carrierwave (~> 0.10.0)
   cocaine
   codecov
@@ -582,6 +586,3 @@ DEPENDENCIES
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   will_paginate (~> 3.0)
-
-BUNDLED WITH
-   1.10.5
