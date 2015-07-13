@@ -27,36 +27,102 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# Similar to regular Journals, but under the following circumstances journals are aggregated:
+#  * they are in temporal proximity
+#  * they belong to the same resource
+#  * they were performed by the same user
+#  * no other user has an own journal on the same object between the aggregated ones
+# When a user commented (added a note) twice within a short time, the second comment will
+# "open" a new aggregation, since we do not want to merge comments in any way.
+# The term "aggregation" means the following when applied to our journaling:
+#  * ignore/hide old journal rows (since every journal row contains a full copy of the journaled)
+#    object, dropping intermediate rows will just increase the diff of the following journal
+#  * in case an older row had notes, take the notes from the older row, since they shall not
+#    be dropped
 class Journal::AggregatedJournal < Journal
   self.table_name = 'journals'
 
   class << self
     def default_scope
-      joins("LEFT OUTER JOIN journals successor
-              ON successor.version = #{table_name}.version+1 AND
-                 successor.journable_id = #{table_name}.journable_id AND
-                 successor.journable_type = #{table_name}.journable_type")
-        .where("#{table_name}.user_id != successor.user_id OR
-                #{sql_beyond_aggregation_time?} OR
-                #{table_name}.notes != '' OR
-                successor.user_id is NULL")
-        .select("#{table_name}.*")
+      # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
+      # where an entry with empty notes follows an entry containing notes, so that the notes
+      # from the main entry are taken, while the remaining information from the more recent entry
+      # are taken. We therefore join the rough groups with itself _wherever a merge would be valid_.
+      # Since the results are already pre-merged, this can only happen if Our first entry (master)
+      # had a comment and its successor (addition) had no comment, but can be merged.
+      # This alone would, however, leave the addition in the result set, leaving a "no change"
+      # journal entry back. By an additional self-join towards the predecessor, we can make sure
+      # that our own row (master) would not already have been merged by its predecessor. If it is
+      # (that means if we can find a valid predecessor), we drop our current row, because it will
+      # already be present (in a merged form) in the row of our predecessor.
+      from("(#{sql_rough_group(1)}) #{table_name}")
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(2)}) addition
+                              ON #{sql_on_groups_belong_condition(table_name, 'addition')}")
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(3)}) predecessor
+                         ON #{sql_on_groups_belong_condition('predecessor', table_name)}")
+      .where('predecessor.id IS NULL')
+      .select("#{table_name}.journable_id,
+               #{table_name}.journable_type,
+               #{table_name}.user_id,
+               #{table_name}.notes,
+               #{table_name}.activity_type,
+               COALESCE(addition.created_at, #{table_name}.created_at) created_at,
+               COALESCE(addition.id, #{table_name}.id) id,
+               COALESCE(addition.version, #{table_name}.version) version")
     end
 
     private
 
-    def sql_beyond_aggregation_time?
+    # Provides a full SQL statement that returns journals that are aggregated on a basic level:
+    #  * a row is dropped as soon as its successor is eligible to be merged with it
+    #  * rows with a comment are never dropped (we _might_ need the comment later)
+    # Thereby the result already has aggregation performed, but will still have too many rows:
+    #  Changes without notes after changes containing notes (even if both were performed by
+    #  the same user). Those need to be filtered out later.
+    # To be able to self-join results of this statement, we add an additional column called
+    # "group_number" to the result. This allows to compare a group resulting from this query with
+    # its predecessor and successor.
+    def sql_rough_group(uid)
+      row_counter = "@aggregated_journal_row_counter_#{uid}"
+      "SELECT predecessor.*, (#{row_counter} := #{row_counter} + 1) AS group_number
+      FROM (journals predecessor, (SELECT #{row_counter} := 0) number_initializer)
+      LEFT OUTER JOIN journals successor
+        ON predecessor.version + 1 = successor.version AND
+           predecessor.journable_type = successor.journable_type AND
+           predecessor.journable_id = successor.journable_id
+      WHERE predecessor.user_id != successor.user_id OR
+            (predecessor.notes != '' AND predecessor.notes IS NOT NULL) OR
+            #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
+            successor.id IS NULL"
+    end
+
+    # Similar to the WHERE statement used in :sql_rough_group. However, this condition will
+    # match (return true) for all pairs where a merge/aggregation IS possible.
+    def sql_on_groups_belong_condition(predecessor, successor)
+      "#{predecessor}.group_number + 1 = #{successor}.group_number AND
+      (NOT #{sql_beyond_aggregation_time?(predecessor, successor)} AND
+      #{predecessor}.user_id = #{successor}.user_id AND
+      #{successor}.journable_type = #{predecessor}.journable_type AND
+      #{successor}.journable_id = #{predecessor}.journable_id AND
+      NOT ((#{predecessor}.notes != '' AND #{predecessor}.notes IS NOT NULL) AND
+      (#{successor}.notes != '' AND #{successor}.notes IS NOT NULL)))"
+    end
+
+    # Returns a SQL condition that will determine whether two entries are too far apart (temporal)
+    # to be considered for aggregation. This takes the current instance settings for temporal
+    # proximity into account.
+    def sql_beyond_aggregation_time?(predecessor, successor)
       aggregation_time = 3600.to_i
 
       if OpenProject::Database.mysql?
-        difference = "TIMESTAMPDIFF(second, #{table_name}.created_at, successor.created_at)"
+        difference = "TIMESTAMPDIFF(second, #{predecessor}.created_at, #{successor}.created_at)"
         threshold = aggregation_time
       else
-        difference = "(successor.created_at - #{table_name}.created_at)"
+        difference = "(#{successor}.created_at - #{predecessor}.created_at)"
         threshold = "interval '#{aggregation_time} second'"
       end
 
-      "#{difference} > #{threshold}"
+      "(#{difference} > #{threshold})"
     end
   end
 end
