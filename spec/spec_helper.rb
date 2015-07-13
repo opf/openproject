@@ -43,12 +43,8 @@ require 'rspec/example_disabler'
 require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 
-Capybara.register_driver :selenium do |app|
-  require 'selenium/webdriver'
-  Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
-    Selenium::WebDriver::Firefox::Binary.path
-  Capybara::Selenium::Driver.new(app, browser: :firefox)
-end
+Capybara.javascript_driver = :webkit
+Capybara.default_wait_time = 2
 
 require 'factory_girl'
 FactoryGirl.find_definitions
@@ -121,15 +117,15 @@ RSpec.configure do |config|
 
   config.include ::Angular::DSL
 
-  Capybara.default_wait_time = 4
-
   config.after(:each) do
     OpenProject::RspecCleanup.cleanup
   end
 
   config.after(:suite) do
     [User, Project, WorkPackage].each do |cls|
-      raise "your specs leave a #{cls} in the DB\ndid you use before(:all) instead of before or forget to kill the instances in a after(:all)?" if cls.count > 0
+      if cls.count > 0
+        raise "your specs leave a #{cls} in the DB\ndid you use before(:all) instead of before or forget to kill the instances in a after(:all)?"
+      end
     end
   end
 
