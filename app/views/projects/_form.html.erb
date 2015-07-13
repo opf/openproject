@@ -58,10 +58,4 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 <% end %>
 
-<% unless @issue_custom_fields.empty? %>
-  <%= render partial: "projects/form/custom_fields",
-             locals: { project: project,
-                       form: f,
-                       work_package_custom_fields: @issue_custom_fields } %>
-<% end %>
 <!--[eoform:project]-->

@@ -183,6 +183,13 @@ class ProjectsController < ApplicationController
     redirect_to action: 'settings', id: @project, tab: 'modules'
   end
 
+  def custom_fields
+    @project.update_attributes(params[:project])
+    flash[:notice] = l(:notice_successful_update)
+
+    redirect_to action: 'settings', id: @project, tab: 'custom_fields'
+  end
+
   def archive
     flash[:error] = l(:error_can_not_archive_project) unless @project.archive
     redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))
