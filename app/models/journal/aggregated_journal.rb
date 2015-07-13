@@ -58,9 +58,5 @@ class Journal::AggregatedJournal < Journal
 
       "#{difference} > #{threshold}"
     end
-
-    def mysql?
-      ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'mysql2'
-    end
   end
 end
