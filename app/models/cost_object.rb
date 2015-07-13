@@ -21,27 +21,27 @@
 # contain a collection of work packages.
 class CostObject < ActiveRecord::Base
 
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   belongs_to :project
-  has_many :work_packages, :dependent => :nullify
+  has_many :work_packages, dependent: :nullify
 
-  has_many :cost_entries, :through => :work_packages
-  has_many :time_entries, :through => :work_packages
+  has_many :cost_entries, through: :work_packages
+  has_many :time_entries, through: :work_packages
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  acts_as_attachable :after_remove => :attachment_removed
+  acts_as_attachable after_remove: :attachment_removed
 
   acts_as_journalized
 
   acts_as_event type: 'cost-objects',
                 title: Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
-                url: Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}}
+                url: Proc.new {|o| {controller: 'cost_objects', action: 'show', id: o.id}}
 
 
   validates_presence_of :subject, :project, :author, :kind, :fixed_date
-  validates_length_of :subject, :maximum => 255
-  validates_length_of :subject, :minimum => 1
+  validates_length_of :subject, maximum: 255
+  validates_length_of :subject, minimum: 1
 
   User.before_destroy do |user|
     CostObject.replace_author_with_deleted_user user

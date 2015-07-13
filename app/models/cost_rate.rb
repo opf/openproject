@@ -20,7 +20,7 @@
 class CostRate < Rate
   belongs_to :cost_type
 
-  validates_uniqueness_of :valid_from, :scope => :cost_type_id
+  validates_uniqueness_of :valid_from, scope: :cost_type_id
   validate :change_of_cost_type_only_on_first_creation
 
   def previous(reference_date = self.valid_from)
@@ -31,9 +31,9 @@ class CostRate < Rate
   def next(reference_date = self.valid_from)
     CostRate.find(
       :first,
-      :conditions => [ "cost_type_id = ? and valid_from > ?",
+      conditions: [ "cost_type_id = ? and valid_from > ?",
         self.cost_type_id, reference_date],
-      :order => "valid_from ASC"
+      order: "valid_from ASC"
     )
   end
 

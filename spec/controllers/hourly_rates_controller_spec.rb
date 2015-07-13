@@ -22,14 +22,14 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 describe HourlyRatesController do
   let(:user) { FactoryGirl.create(:user) }
   let(:admin) { FactoryGirl.create(:admin) }
-  let(:default_rate) { FactoryGirl.create(:default_hourly_rate, :user => user) }
+  let(:default_rate) { FactoryGirl.create(:default_hourly_rate, user: user) }
 
   describe "PUT update" do
     describe "WHEN trying to update with an invalid rate value" do
       let(:params) {
         {
-          :id => user.id,
-          :user => {"existing_rate_attributes" => {"#{default_rate.id}" => {"valid_from" => "#{default_rate.valid_from}", "rate" => "2d5" }}}
+          id: user.id,
+          user: {"existing_rate_attributes" => {"#{default_rate.id}" => {"valid_from" => "#{default_rate.valid_from}", "rate" => "2d5" }}}
         }
       }
       before do

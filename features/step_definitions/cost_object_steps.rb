@@ -25,11 +25,11 @@ When(/^I create a budget with the following:$/) do |table|
            And I follow "New budget" within "#main-menu"
            And I fill in "Subject" with "#{rows['subject']}"}
 
-  click_button(I18n.t(:button_create), :exact => true)
+  click_button(I18n.t(:button_create), exact: true)
 end
 
 When(/^I create the budget$/) do
-  click_button(I18n.t(:button_create), :exact => true)
+  click_button(I18n.t(:button_create), exact: true)
 end
 
 When(/^I setup a budget with the following:$/) do |table|

@@ -55,21 +55,21 @@ class RateObserver < ActiveRecord::Observer
       # return conditions for all entries between date1 and date2 - 1 day
       if @rate.is_a?(HourlyRate)
         { date_column => date1..(date2 - 1),
-          :user_id => @rate.user_id,
-          :project_id => @rate.project_id
+          user_id: @rate.user_id,
+          project_id: @rate.project_id
         }
       else
         { date_column => date1..(date2 - 1),
-          :cost_type_id => @rate.cost_type_id,
+          cost_type_id: @rate.cost_type_id,
         }
       end
     end
 
     def find_entries(date1, date2 = nil)
       if @rate.is_a?(HourlyRate)
-        TimeEntry.find(:all, :conditions => conditions_between(date1, date2), :include => :rate)
+        TimeEntry.find(:all, conditions: conditions_between(date1, date2), include: :rate)
       else
-        CostEntry.find(:all, :conditions => conditions_between(date1, date2), :include => :rate)
+        CostEntry.find(:all, conditions: conditions_between(date1, date2), include: :rate)
       end
     end
 
@@ -84,7 +84,7 @@ class RateObserver < ActiveRecord::Observer
     end
 
     def count_rates(date1, date2 = nil)
-      (@rate.class).count(:conditions => conditions_between(date1, date2, :valid_from))
+      (@rate.class).count(conditions: conditions_between(date1, date2, :valid_from))
     end
 
     def orphaned_child_entries(date1, date2 = nil)
@@ -96,7 +96,7 @@ class RateObserver < ActiveRecord::Observer
       (date1, date2) = order_dates(date1, date2)
 
       # This gets an array of all the ids of the DefaultHourlyRates
-      default_rates = DefaultHourlyRate.find(:all, :select => :id).inject([]){|r,d|r<<d.id}
+      default_rates = DefaultHourlyRate.find(:all, select: :id).inject([]){|r,d|r<<d.id}
 
       if date1.nil? || date2.nil?
         # we have only one date, query >=
@@ -112,7 +112,7 @@ class RateObserver < ActiveRecord::Observer
         ]
       end
 
-      TimeEntry.find(:all, :conditions => conditions, :include => :rate)
+      TimeEntry.find(:all, conditions: conditions, include: :rate)
     end
 
     def child_entries(date1, date2 = nil)
@@ -137,7 +137,7 @@ class RateObserver < ActiveRecord::Observer
         ]
       end
 
-      TimeEntry.find(:all, :conditions => conditions, :include => :rate)
+      TimeEntry.find(:all, conditions: conditions, include: :rate)
     end
   end
 
@@ -191,6 +191,6 @@ class RateObserver < ActiveRecord::Observer
 
   def after_destroy(rate)
     entry_class = rate.is_a?(HourlyRate) ? TimeEntry : CostEntry
-    entry_class.find(:all, :conditions => {:rate_id => rate.id}).each{|e| e.update_costs!}
+    entry_class.find(:all, conditions: {rate_id: rate.id}).each{|e| e.update_costs!}
   end
 end

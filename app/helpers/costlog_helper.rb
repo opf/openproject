@@ -22,9 +22,9 @@ module CostlogHelper
 
   def render_costlog_breadcrumb
     links = []
-    links << link_to(l(:label_project_all), {:project_id => nil, :work_package_id => nil})
-    links << link_to(h(@project), {:project_id => @project, :work_package_id => nil}) if @project
-    links << link_to_work_package(@work_package, :subject => false) if @work_package
+    links << link_to(l(:label_project_all), {project_id: nil, work_package_id: nil})
+    links << link_to(h(@project), {project_id: @project, work_package_id: nil}) if @project
+    links << link_to_work_package(@work_package, subject: false) if @work_package
     breadcrumb links
   end
 
@@ -55,10 +55,10 @@ module CostlogHelper
     legend = options[:legend] || ''
     content_tag('table',
       content_tag('tr',
-        content_tag('td', '', :style => "width: #{((100.0 / pcts) * 100).round}%;", :class => 'closed') +
-        content_tag('td', '', :style => "width: #{100.0 - ((100.0 / pcts) * 100).round}%;", :class => 'exceeded')
-      ), :class => 'progress', :style => "width: #{width};") +
-      content_tag('p', legend, :class => 'pourcent')
+        content_tag('td', '', style: "width: #{((100.0 / pcts) * 100).round}%;", class: 'closed') +
+        content_tag('td', '', style: "width: #{100.0 - ((100.0 / pcts) * 100).round}%;", class: 'exceeded')
+      ), class: 'progress', style: "width: #{width};") +
+      content_tag('p', legend, class: 'pourcent')
   end
 
   def clean_currency(value)

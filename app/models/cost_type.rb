@@ -19,8 +19,8 @@
 
 class CostType < ActiveRecord::Base
   has_many :material_budget_items
-  has_many :cost_entries, :dependent => :destroy
-  has_many :rates, :class_name => "CostRate", :foreign_key => "cost_type_id", :dependent => :destroy
+  has_many :cost_entries, dependent: :destroy
+  has_many :rates, class_name: "CostRate", foreign_key: "cost_type_id", dependent: :destroy
 
   validates_presence_of :name, :unit, :unit_plural
   validates_uniqueness_of :name
@@ -29,11 +29,11 @@ class CostType < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  scope :active, :conditions => { :deleted_at => nil }
+  scope :active, conditions: { deleted_at: nil }
 
   # finds the default CostType
   def self.default
-    result = CostType.find(:first, :conditions => { :default => true})
+    result = CostType.find(:first, conditions: { default: true})
     result ||= CostType.find(:first)
     result
   rescue ActiveRecord::RecordNotFound
@@ -53,7 +53,7 @@ class CostType < ActiveRecord::Base
   end
 
   def rate_at(date)
-    CostRate.find(:first, :conditions => [ "cost_type_id = ? and valid_from <= ?", id, date], :order => "valid_from DESC")
+    CostRate.find(:first, conditions: [ "cost_type_id = ? and valid_from <= ?", id, date], order: "valid_from DESC")
   rescue ActiveRecord::RecordNotFound
     return nil
   end

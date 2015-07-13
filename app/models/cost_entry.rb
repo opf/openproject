@@ -25,13 +25,13 @@ class CostEntry < ActiveRecord::Base
   include ::OpenProject::Costs::DeletedUserFallback
   belongs_to :cost_type
   belongs_to :cost_object
-  belongs_to :rate, :class_name => "CostRate"
+  belongs_to :rate, class_name: "CostRate"
 
   include ActiveModel::ForbiddenAttributesProtection
 
   validates_presence_of :work_package_id, :project_id, :user_id, :cost_type_id, :units, :spent_on
-  validates_numericality_of :units, :allow_nil => false, :message => :invalid
-  validates_length_of :comments, :maximum => 255, :allow_nil => true
+  validates_numericality_of :units, allow_nil: false, message: :invalid
+  validates_length_of :comments, maximum: 255, allow_nil: true
 
   before_save :before_save
   before_validation :before_validation
@@ -39,24 +39,24 @@ class CostEntry < ActiveRecord::Base
   validate :validate
 
   scope :visible, lambda{|*args|
-    { :include => [:project, :user],
-      :conditions => CostEntry.visible_condition(args[0] || User.current, args[1])
+    { include: [:project, :user],
+      conditions: CostEntry.visible_condition(args[0] || User.current, args[1])
     }
   }
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
   def self.visible_condition(user, project)
-    %Q{ (#{Project.allowed_to_condition(user, :view_cost_entries, :project => project)} OR
-         (#{Project.allowed_to_condition(user, :view_own_cost_entries, :project => project)} AND #{CostEntry.table_name}.user_id = #{user.id})) }
+    %Q{ (#{Project.allowed_to_condition(user, :view_cost_entries, project: project)} OR
+         (#{Project.allowed_to_condition(user, :view_own_cost_entries, project: project)} AND #{CostEntry.table_name}.user_id = #{user.id})) }
   end
 
   scope :visible_costs, lambda{|*args|
-    view_cost_rates = Project.allowed_to_condition((args.first || User.current), :view_cost_rates, :project => args[1])
+    view_cost_rates = Project.allowed_to_condition((args.first || User.current), :view_cost_rates, project: args[1])
     view_cost_entries = CostEntry.visible_condition((args.first || User.current), args[1])
 
-    { :include => [:project, :user],
-      :conditions => [view_cost_entries, view_cost_rates].join(" AND ")
+    { include: [:project, :user],
+      conditions: [view_cost_entries, view_cost_rates].join(" AND ")
     }
   }
 

@@ -29,7 +29,7 @@ module CostObjectsHelper
   end
 
   def cost_objects_to_csv(cost_objects)
-    CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [ "#",
                   Project.model_name.human,

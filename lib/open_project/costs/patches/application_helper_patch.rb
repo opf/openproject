@@ -26,14 +26,14 @@ module OpenProject::Costs::Patches::ApplicationHelperPatch
         subject = nil
         if options[:subject] == false
           subject = "#{l(:label_cost_object)} ##{cost_object.id}"
-          title = truncate(cost_object.subject, :length => 60)
+          title = truncate(cost_object.subject, length: 60)
         else
           subject = cost_object.subject
           if options[:truncate]
-            subject = truncate(subject, :length => options[:truncate])
+            subject = truncate(subject, length: options[:truncate])
           end
         end
-        s = link_to subject, cost_object_path(cost_object), :class => cost_object.css_classes, :title => title
+        s = link_to subject, cost_object_path(cost_object), class: cost_object.css_classes, title: title
         s = "#{h cost_object.project} - " + s if options[:project]
         s
       end

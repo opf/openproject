@@ -19,11 +19,11 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe DefaultHourlyRate, :type => :model do
+describe DefaultHourlyRate, type: :model do
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:user) }
-  let(:rate) { FactoryGirl.build(:default_hourly_rate, :project => project,
-                                                   :user => user) }
+  let(:rate) { FactoryGirl.build(:default_hourly_rate, project: project,
+                                                   user: user) }
 
   describe '#user' do
     describe "WHEN an existing user is provided" do

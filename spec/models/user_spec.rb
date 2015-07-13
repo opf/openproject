@@ -19,15 +19,15 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User, :type => :model do
+describe User, type: :model do
   include Cost::PluginSpecHelper
   let(:klass) { User }
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.build(:valid_project) }
   let(:project2) { FactoryGirl.build(:valid_project) }
-  let(:project_hourly_rate) { FactoryGirl.build(:hourly_rate, :user => user,
-                                                              :project => project) }
-  let(:default_hourly_rate) { FactoryGirl.build(:default_hourly_rate, :user => user) }
+  let(:project_hourly_rate) { FactoryGirl.build(:hourly_rate, user: user,
+                                                              project: project) }
+  let(:default_hourly_rate) { FactoryGirl.build(:default_hourly_rate, user: user) }
 
   describe '#allowed_to' do
     describe "WITH querying for a non existent permission" do
@@ -105,8 +105,8 @@ describe User, :type => :model do
     describe "WHEN providing a project
               WHEN providing attributes for an existing rate in the project" do
 
-      let(:new_attributes) { { project_hourly_rate.id.to_s => { :valid_from => (Date.today + 1.day).to_s,
-                                                                :rate => (project_hourly_rate.rate + 5).to_s } } }
+      let(:new_attributes) { { project_hourly_rate.id.to_s => { valid_from: (Date.today + 1.day).to_s,
+                                                                rate: (project_hourly_rate.rate + 5).to_s } } }
 
       before do
         project_hourly_rate.save!
@@ -131,8 +131,8 @@ describe User, :type => :model do
     describe "WHEN providing a project
               WHEN providing attributes for an existing rate in another project" do
 
-      let(:new_attributes) { { project_hourly_rate.id.to_s => { :valid_from => (Date.today + 1.day).to_s,
-                                                                :rate => (project_hourly_rate.rate + 5).to_s } } }
+      let(:new_attributes) { { project_hourly_rate.id.to_s => { valid_from: (Date.today + 1.day).to_s,
+                                                                rate: (project_hourly_rate.rate + 5).to_s } } }
 
       before do
         project_hourly_rate.save!

@@ -23,8 +23,8 @@ module OpenProject::Costs::Patches::UserPatch
 
     base.class_eval do
 
-      has_many :rates, :class_name => 'HourlyRate'
-      has_many :default_rates, :class_name => 'DefaultHourlyRate'
+      has_many :rates, class_name: 'HourlyRate'
+      has_many :default_rates, class_name: 'DefaultHourlyRate'
 
       before_save :save_rates
     end
@@ -32,8 +32,8 @@ module OpenProject::Costs::Patches::UserPatch
 
   module InstanceMethods
     def allowed_to_condition_with_project_id(permission, projects = nil)
-      ids = Project.all(:select => :id,
-                        :conditions => Project.allowed_to_condition(self, permission, :project => projects)).map(&:id)
+      ids = Project.all(select: :id,
+                        conditions: Project.allowed_to_condition(self, permission, project: projects)).map(&:id)
 
       ids.empty? ?
         "1=0" :

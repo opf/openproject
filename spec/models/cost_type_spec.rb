@@ -19,11 +19,11 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
-describe CostType, :type => :model do
+describe CostType, type: :model do
   let(:klass) { CostType }
-  let(:cost_type) { klass.new :name => "ct1",
-                              :unit => "singular",
-                              :unit_plural => "plural" }
+  let(:cost_type) { klass.new name: "ct1",
+                              unit: "singular",
+                              unit_plural: "plural" }
   before do
     # as the spec_helper loads fixtures and they are probably needed by other tests
     # we delete them here so they do not interfere.

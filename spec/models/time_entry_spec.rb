@@ -19,16 +19,16 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe TimeEntry, :type => :model do
+describe TimeEntry, type: :model do
   include Cost::PluginSpecHelper
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
   let(:project2) { FactoryGirl.create(:project_with_types, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                       :type => project.types.first,
-                                       :author => user) }
-  let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
-                                       :type => project2.types.first,
-                                       :author => user2) }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project,
+                                       type: project.types.first,
+                                       author: user) }
+  let(:work_package2) { FactoryGirl.create(:work_package, project: project2,
+                                       type: project2.types.first,
+                                       author: user2) }
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:date) { Date.today }
@@ -41,23 +41,23 @@ describe TimeEntry, :type => :model do
   let!(:default_hourly_five) { FactoryGirl.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
   let(:hours) { 5.0 }
   let(:time_entry) do
-    FactoryGirl.create(:time_entry, :project => project,
-                               :work_package => work_package,
-                               :spent_on => date,
-                               :hours => hours,
-                               :user => user,
-                               :rate => hourly_one,
-                               :comments => "lorem")
+    FactoryGirl.create(:time_entry, project: project,
+                               work_package: work_package,
+                               spent_on: date,
+                               hours: hours,
+                               user: user,
+                               rate: hourly_one,
+                               comments: "lorem")
   end
 
   let(:time_entry2) do
-    FactoryGirl.create(:time_entry, :project => project,
-                               :work_package => work_package,
-                               :spent_on => date,
-                               :hours => hours,
-                               :user => user,
-                               :rate => hourly_one,
-                               :comments => "lorem")
+    FactoryGirl.create(:time_entry, project: project,
+                               work_package: work_package,
+                               spent_on: date,
+                               hours: hours,
+                               user: user,
+                               rate: hourly_one,
+                               comments: "lorem")
   end
 
 

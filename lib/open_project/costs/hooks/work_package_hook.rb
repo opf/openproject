@@ -23,9 +23,9 @@ class OpenProject::Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   # render_on :view_work_packages_show_details_bottom, :partial => 'hooks/costs/view_work_packages_show_details_bottom'
 
   # Renders a select tag with all the Cost Objects for the bulk edit page
-  render_on :view_work_packages_bulk_edit_details_bottom, :partial => 'hooks/costs/view_work_packages_bulk_edit_details_bottom'
+  render_on :view_work_packages_bulk_edit_details_bottom, partial: 'hooks/costs/view_work_packages_bulk_edit_details_bottom'
 
-  render_on :view_work_packages_move_bottom, :partial => 'hooks/costs/view_work_packages_move_bottom'
+  render_on :view_work_packages_move_bottom, partial: 'hooks/costs/view_work_packages_move_bottom'
 
   render_on :view_work_package_overview_attributes, partial: 'hooks/costs/view_work_package_overview_attributes'
 

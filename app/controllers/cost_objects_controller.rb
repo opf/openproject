@@ -19,16 +19,16 @@
 
 class CostObjectsController < ApplicationController
 
-  before_filter :find_cost_object, :only => [:show, :edit, :update, :copy]
-  before_filter :find_cost_objects, :only => :destroy
-  before_filter :find_project, :only => [
+  before_filter :find_cost_object, only: [:show, :edit, :update, :copy]
+  before_filter :find_cost_objects, only: :destroy
+  before_filter :find_project, only: [
     :new, :create,
     :update_material_budget_item, :update_labor_budget_item
   ]
-  before_filter :find_optional_project, :only => :index
+  before_filter :find_optional_project, only: :index
 
-  before_filter :authorize_global, :only => :index
-  before_filter :authorize, :except => [
+  before_filter :authorize_global, only: :index
+  before_filter :authorize, except: [
     # unrestricted actions
     :index,
     :update_material_budget_item, :update_labor_budget_item
@@ -47,8 +47,8 @@ class CostObjectsController < ApplicationController
   include WorkPackage::PdfExporter
   include PaginationHelper
 
-  menu_item :new_budget, :only => [:new]
-  menu_item :show_all, :only => [:index]
+  menu_item :new_budget, only: [:new]
+  menu_item :show_all, only: [:index]
 
   def index
     respond_to do |format|
@@ -66,7 +66,7 @@ class CostObjectsController < ApplicationController
 
     condition = Project.allowed_to_condition(User.current,
                                              :view_cost_objects,
-                                             :project => @project)
+                                             project: @project)
 
 
     @cost_objects = CostObject.order(sort_clause)
@@ -76,15 +76,15 @@ class CostObjectsController < ApplicationController
                               .per_page(per_page_param)
 
     respond_to do |format|
-      format.html { render :action => 'index', :layout => !request.xhr? }
-      format.csv  { send_data(cost_objects_to_csv(@cost_objects), :type => 'text/csv; header=present', :filename => 'export.csv') }
+      format.html { render action: 'index', layout: !request.xhr? }
+      format.csv  { send_data(cost_objects_to_csv(@cost_objects), type: 'text/csv; header=present', filename: 'export.csv') }
     end
   end
 
   def show
     @edit_allowed = User.current.allowed_to?(:edit_cost_objects, @project)
     respond_to do |format|
-      format.html { render :action => 'show', :layout => !request.xhr?  }
+      format.html { render action: 'show', layout: !request.xhr?  }
     end
   end
 
@@ -94,7 +94,7 @@ class CostObjectsController < ApplicationController
     @cost_object.project_id = @project.id
     @cost_object.fixed_date ||= Date.today
 
-    render :layout => !request.xhr?
+    render layout: !request.xhr?
   end
 
   def copy
@@ -108,7 +108,7 @@ class CostObjectsController < ApplicationController
     @cost_object ||= VariableCostObject.new
     @cost_object.fixed_date ||= Date.today
 
-    render :action => :new, :layout => !request.xhr?
+    render action: :new, layout: !request.xhr?
   end
 
   def create
@@ -135,11 +135,11 @@ class CostObjectsController < ApplicationController
       render_attachment_warning_if_needed(@cost_object)
 
       flash[:notice] = l(:notice_successful_create)
-      redirect_to(params[:continue] ? { :action => 'new' } :
-                                      { :action => 'show', :id => @cost_object })
+      redirect_to(params[:continue] ? { action: 'new' } :
+                                      { action: 'show', id: @cost_object })
       return
     else
-      render :action => 'new', :layout => !request.xhr?
+      render action: 'new', layout: !request.xhr?
     end
   end
 
@@ -166,9 +166,9 @@ class CostObjectsController < ApplicationController
       render_attachment_warning_if_needed(@cost_object)
 
       flash[:notice] = l(:notice_successful_update)
-      redirect_to(params[:back_to] || {:action => 'show', :id => @cost_object})
+      redirect_to(params[:back_to] || {action: 'show', id: @cost_object})
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
@@ -178,7 +178,7 @@ class CostObjectsController < ApplicationController
   def destroy
     @cost_objects.each(&:destroy)
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to :action => 'index', :project_id => @project
+    redirect_to action: 'index', project_id: @project
   end
 
   def update_material_budget_item
@@ -211,7 +211,7 @@ class CostObjectsController < ApplicationController
 
     if request.xhr?
       render :update do |page|
-        if User.current.allowed_to?(:view_hourly_rates, @project, :for => user)
+        if User.current.allowed_to?(:view_hourly_rates, @project, for: user)
           page.replace_html "#{element_id}_costs", number_to_currency(costs)
         end
       end
@@ -236,7 +236,7 @@ private
 
   def find_cost_object
     # This function comes directly from issues_controller.rb (Redmine 0.8.4)
-    @cost_object = CostObject.find_by_id(params[:id].to_i, :include => [:project, :author])
+    @cost_object = CostObject.find_by_id(params[:id].to_i, include: [:project, :author])
     @project = @cost_object.project if @cost_object
   rescue ActiveRecord::RecordNotFound
     render_404

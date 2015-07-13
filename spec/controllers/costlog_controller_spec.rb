@@ -19,29 +19,29 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
-describe CostlogController, :type => :controller do
+describe CostlogController, type: :controller do
   include Cost::PluginSpecHelper
   let (:project) { FactoryGirl.create(:project_with_types) }
-  let (:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                       :author => user,
-                                       :type => project.types.first) }
+  let (:work_package) { FactoryGirl.create(:work_package, project: project,
+                                       author: user,
+                                       type: project.types.first) }
   let (:user) { FactoryGirl.create(:user) }
   let (:user2) { FactoryGirl.create(:user) }
-  let (:controller) { FactoryGirl.build(:role, :permissions => [:log_costs, :edit_cost_entries]) }
+  let (:controller) { FactoryGirl.build(:role, permissions: [:log_costs, :edit_cost_entries]) }
   let (:cost_type) { FactoryGirl.build(:cost_type) }
-  let (:cost_entry) { FactoryGirl.build(:cost_entry, :work_package => work_package,
-                                                 :project => project,
-                                                 :spent_on => Date.today,
-                                                 :overridden_costs => 400,
-                                                 :units => 100,
-                                                 :user => user,
-                                                 :comments => "") }
-  let(:work_package_status) { FactoryGirl.create(:work_package_status, :is_default => true) }
+  let (:cost_entry) { FactoryGirl.build(:cost_entry, work_package: work_package,
+                                                 project: project,
+                                                 spent_on: Date.today,
+                                                 overridden_costs: 400,
+                                                 units: 100,
+                                                 user: user,
+                                                 comments: "") }
+  let(:work_package_status) { FactoryGirl.create(:work_package_status, is_default: true) }
 
   def grant_current_user_permissions user, permissions
-    member = FactoryGirl.build(:member, :project => project,
-                                    :principal => user)
-    member.roles << FactoryGirl.build(:role, :permissions => permissions)
+    member = FactoryGirl.build(:member, project: project,
+                                    principal: user)
+    member.roles << FactoryGirl.build(:role, permissions: permissions)
     member.principal = user
     member.save!
     user.reload # in order to refresh the member/membership associations
@@ -143,7 +143,7 @@ describe CostlogController, :type => :controller do
     let(:params) { { "id" => cost_entry.id.to_s } }
 
     before do
-      cost_entry.save(:validate => false)
+      cost_entry.save(validate: false)
     end
 
     shared_examples_for "successful edit" do
@@ -179,7 +179,7 @@ describe CostlogController, :type => :controller do
         grant_current_user_permissions user, [:edit_cost_entries]
 
         cost_entry.user = FactoryGirl.create(:user)
-        cost_entry.save(:validate => false)
+        cost_entry.save(validate: false)
       end
 
       it_should_behave_like "successful edit"
@@ -199,7 +199,7 @@ describe CostlogController, :type => :controller do
         grant_current_user_permissions user, [:edit_own_cost_entries]
 
         cost_entry.user = FactoryGirl.create(:user)
-        cost_entry.save(:validate => false)
+        cost_entry.save(validate: false)
       end
 
       it_should_behave_like "forbidden edit"
@@ -219,9 +219,9 @@ describe CostlogController, :type => :controller do
         grant_current_user_permissions user, [:edit_cost_entries]
 
         cost_entry.project = FactoryGirl.create(:project_with_types)
-        cost_entry.work_package = FactoryGirl.create(:work_package, :project => cost_entry.project,
-                                                  :type => cost_entry.project.types.first,
-                                                  :author => user)
+        cost_entry.work_package = FactoryGirl.create(:work_package, project: cost_entry.project,
+                                                  type: cost_entry.project.types.first,
+                                                  author: user)
         cost_entry.save!
       end
 
@@ -274,7 +274,7 @@ describe CostlogController, :type => :controller do
       end
 
       # is this really usefull, shouldn't it redirect to the creating work_package by default?
-      it { expect(response).to redirect_to(:controller => "costlog", :action => "index", :project_id => project) }
+      it { expect(response).to redirect_to(controller: "costlog", action: "index", project_id: project) }
       it { expect(assigns(:cost_entry)).not_to be_new_record }
       it_should_behave_like "assigns"
       it { expect(flash[:notice]).to eql I18n.t(:notice_successful_create) }
@@ -349,7 +349,7 @@ describe CostlogController, :type => :controller do
       let(:expected_cost_type) { nil }
 
       before do
-        FactoryGirl.create(:cost_type, :default => true)
+        FactoryGirl.create(:cost_type, default: true)
 
         grant_current_user_permissions user, [:log_costs]
         params["cost_entry"]["cost_type_id"] = 1
@@ -365,7 +365,7 @@ describe CostlogController, :type => :controller do
       let(:expected_cost_type) { nil }
 
       before do
-        FactoryGirl.create(:cost_type, :default => true)
+        FactoryGirl.create(:cost_type, default: true)
 
         grant_current_user_permissions user, [:log_costs]
         params["cost_entry"].delete("cost_type_id")
@@ -431,9 +431,9 @@ describe CostlogController, :type => :controller do
               WHEN the id of an work_package not included in the provided project is provided" do
 
       let(:project2) { FactoryGirl.create(:project_with_types) }
-      let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
-                                            :type => project2.types.first,
-                                            :author => user) }
+      let(:work_package2) { FactoryGirl.create(:work_package, project: project2,
+                                            type: project2.types.first,
+                                            author: user) }
       let(:expected_work_package) { work_package2 }
 
       before do
@@ -492,7 +492,7 @@ describe CostlogController, :type => :controller do
                                        "cost_type_id" => cost_entry.cost_type.id.to_s } } }
 
     before do
-      cost_entry.save(:validate => false)
+      cost_entry.save(validate: false)
     end
 
     let(:expected_work_package) { cost_entry.work_package }
@@ -508,7 +508,7 @@ describe CostlogController, :type => :controller do
         put :update, params
       end
 
-      it { expect(response).to redirect_to(:controller => "costlog", :action => "index", :project_id => project) }
+      it { expect(response).to redirect_to(controller: "costlog", action: "index", project_id: project) }
       it { expect(assigns(:cost_entry)).to eq(cost_entry) }
       it_should_behave_like "assigns"
       it { expect(assigns(:cost_entry)).not_to be_changed }
@@ -540,9 +540,9 @@ describe CostlogController, :type => :controller do
                 overridden_costs
                 spent_on" do
 
-      let(:expected_work_package) { FactoryGirl.create(:work_package, :project => project,
-                                                    :type => project.types.first,
-                                                    :author => user) }
+      let(:expected_work_package) { FactoryGirl.create(:work_package, project: project,
+                                                    type: project.types.first,
+                                                    author: user) }
       let(:expected_user) { FactoryGirl.create(:user) }
       let(:expected_spent_on) { cost_entry.spent_on + 4.days }
       let(:expected_units) { cost_entry.units + 20 }
@@ -608,8 +608,8 @@ describe CostlogController, :type => :controller do
               WHEN the new work_package isn't an work_package of the current project" do
 
       let(:project2) { FactoryGirl.create(:project_with_types) }
-      let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
-                                            :type => project2.types.first) }
+      let(:work_package2) { FactoryGirl.create(:work_package, project: project2,
+                                            type: project2.types.first) }
       let(:expected_work_package) { work_package2 }
 
       before do
@@ -641,7 +641,7 @@ describe CostlogController, :type => :controller do
               WHEN updating the cost_type
               WHEN the new cost_type is deleted" do
 
-      let(:expected_cost_type) { FactoryGirl.create(:cost_type, :deleted_at => Date.today) }
+      let(:expected_cost_type) { FactoryGirl.create(:cost_type, deleted_at: Date.today) }
 
       before do
         grant_current_user_permissions user, [:edit_cost_entries]

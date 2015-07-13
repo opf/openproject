@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   let(:user) { FactoryGirl.create(:admin) }
   let(:role) { FactoryGirl.create(:role) }
   let(:project) do
@@ -29,9 +29,9 @@ describe WorkPackage, :type => :model do
   end
 
   let(:project2) { FactoryGirl.create(:project_with_types, types: project.types) }
-  let(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                          :type => project.types.first,
-                                          :author => user) }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project,
+                                          type: project.types.first,
+                                          author: user) }
   let!(:cost_entry) { FactoryGirl.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user, comments: "test entry") }
   let!(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
 

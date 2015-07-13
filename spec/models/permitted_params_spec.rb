@@ -19,36 +19,36 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe PermittedParams, :type => :model do
+describe PermittedParams, type: :model do
   let(:user) { FactoryGirl.build(:user) }
 
   describe '#cost_entry' do
     it "should return comments" do
-      params = ActionController::Parameters.new(:cost_entry => { "comments" => "blubs" } )
+      params = ActionController::Parameters.new(cost_entry: { "comments" => "blubs" } )
 
       expect(PermittedParams.new(params, user).cost_entry).to eq({ "comments" => "blubs" })
     end
 
     it "should return units" do
-      params = ActionController::Parameters.new(:cost_entry => { "units" => "5.0" } )
+      params = ActionController::Parameters.new(cost_entry: { "units" => "5.0" } )
 
       expect(PermittedParams.new(params, user).cost_entry).to eq({ "units" => "5.0" })
     end
 
     it "should return overridden_costs" do
-      params = ActionController::Parameters.new(:cost_entry => { "overridden_costs" => "5.0" } )
+      params = ActionController::Parameters.new(cost_entry: { "overridden_costs" => "5.0" } )
 
       expect(PermittedParams.new(params, user).cost_entry).to eq({ "overridden_costs" => "5.0" })
     end
 
     it "should return spent_on" do
-      params = ActionController::Parameters.new(:cost_entry => { "spent_on" => Date.today.to_s } )
+      params = ActionController::Parameters.new(cost_entry: { "spent_on" => Date.today.to_s } )
 
       expect(PermittedParams.new(params, user).cost_entry).to eq({ "spent_on" => Date.today.to_s })
     end
 
     it "should not return project_id" do
-      params = ActionController::Parameters.new(:cost_entry => { "project_id" => 42 } )
+      params = ActionController::Parameters.new(cost_entry: { "project_id" => 42 } )
 
       expect(PermittedParams.new(params, user).cost_entry).to eq({ })
     end
@@ -56,25 +56,25 @@ describe PermittedParams, :type => :model do
 
   describe '#cost_object' do
     it "should return comments" do
-      params = ActionController::Parameters.new(:cost_object => { "subject" => "subject_test" } )
+      params = ActionController::Parameters.new(cost_object: { "subject" => "subject_test" } )
 
       expect(PermittedParams.new(params, user).cost_object).to eq({ "subject" => "subject_test" })
     end
 
     it "should return description" do
-      params = ActionController::Parameters.new(:cost_object => { "description" => "description_test" } )
+      params = ActionController::Parameters.new(cost_object: { "description" => "description_test" } )
 
       expect(PermittedParams.new(params, user).cost_object).to eq({ "description" => "description_test" })
     end
 
     it "should return fixed_date" do
-      params = ActionController::Parameters.new(:cost_object => { "fixed_date" => "2013-05-06" } )
+      params = ActionController::Parameters.new(cost_object: { "fixed_date" => "2013-05-06" } )
 
       expect(PermittedParams.new(params, user).cost_object).to eq({ "fixed_date" => "2013-05-06" })
     end
 
     it "should not return project_id" do
-      params = ActionController::Parameters.new(:cost_object => { "project_id" => 42 } )
+      params = ActionController::Parameters.new(cost_object: { "project_id" => 42 } )
 
       expect(PermittedParams.new(params, user).cost_object).to eq({ })
     end
@@ -140,43 +140,43 @@ describe PermittedParams, :type => :model do
 
   describe '#cost_type' do
     it "should return name" do
-      params = ActionController::Parameters.new(:cost_type => { "name" => "name_test" } )
+      params = ActionController::Parameters.new(cost_type: { "name" => "name_test" } )
 
       expect(PermittedParams.new(params, user).cost_type).to eq({ "name" => "name_test" })
     end
 
     it "should return unit" do
-      params = ActionController::Parameters.new(:cost_type => { "unit" => "unit_test" } )
+      params = ActionController::Parameters.new(cost_type: { "unit" => "unit_test" } )
 
       expect(PermittedParams.new(params, user).cost_type).to eq({ "unit" => "unit_test" })
     end
 
     it "should return unit_plural" do
-      params = ActionController::Parameters.new(:cost_type => { "unit_plural" => "unit_plural_test" } )
+      params = ActionController::Parameters.new(cost_type: { "unit_plural" => "unit_plural_test" } )
 
       expect(PermittedParams.new(params, user).cost_type).to eq({ "unit_plural" => "unit_plural_test" })
     end
 
     it "should return default" do
-      params = ActionController::Parameters.new(:cost_type => { "default" => 7 } )
+      params = ActionController::Parameters.new(cost_type: { "default" => 7 } )
 
       expect(PermittedParams.new(params, user).cost_type).to eq({ "default" => 7 })
     end
 
     it "should return new_rate_attributes" do
-      params = ActionController::Parameters.new(:cost_type => { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" }, "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } } )
+      params = ActionController::Parameters.new(cost_type: { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" }, "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } } )
 
       expect(PermittedParams.new(params, user).cost_type).to eq({ "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" }, "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } })
     end
 
     it "should return existing_rate_attributes" do
-      params = ActionController::Parameters.new(:cost_type => { "existing_rate_attributes" => { "9" => { "valid_from" => "2013-05-05", "rate" => "50.0" } } } )
+      params = ActionController::Parameters.new(cost_type: { "existing_rate_attributes" => { "9" => { "valid_from" => "2013-05-05", "rate" => "50.0" } } } )
 
       expect(PermittedParams.new(params, user).cost_type).to eq({ "existing_rate_attributes" => { "9" => { "valid_from" => "2013-05-05", "rate" => "50.0" } } })
     end
 
     it "should not return project_id" do
-      params = ActionController::Parameters.new(:cost_type => { "project_id" => 42 } )
+      params = ActionController::Parameters.new(cost_type: { "project_id" => 42 } )
 
       expect(PermittedParams.new(params, user).cost_type).to eq({ })
     end
@@ -184,7 +184,7 @@ describe PermittedParams, :type => :model do
 
   describe '#user_rates' do
     it "should return new_rate_attributes" do
-      params = ActionController::Parameters.new(:user => { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
+      params = ActionController::Parameters.new(user: { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
                                                                                       "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } } )
 
       expect(PermittedParams.new(params, user).user_rates).to eq({ "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
@@ -192,7 +192,7 @@ describe PermittedParams, :type => :model do
     end
 
     it "should return existing_rate_attributes" do
-      params = ActionController::Parameters.new(:user => { "existing_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
+      params = ActionController::Parameters.new(user: { "existing_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
                                                                                            "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } } )
 
       expect(PermittedParams.new(params, user).user_rates).to eq({ "existing_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
@@ -205,7 +205,7 @@ describe PermittedParams, :type => :model do
     it "should permit cost_object_id" do
       hash = { "cost_object_id" => "1" }
 
-      params = ActionController::Parameters.new(:work_package => hash)
+      params = ActionController::Parameters.new(work_package: hash)
 
       expect(PermittedParams.new(params, user).new_work_package).to eq(hash)
     end

@@ -34,15 +34,15 @@ Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ 
     hr = FactoryGirl.create(:hourly_rate)
   end
   send_table_to_object(hr, table, {
-    :user => Proc.new do |rate, value|
+    user: Proc.new do |rate, value|
       unless rate.project.nil? || User.find_by_login(value).projects.include?(rate.project)
-        Rate.update_all({ :project_id =>  User.find_by_login(value).projects(:order => "id ASC").last.id },
-                        { :id => rate.id })
+        Rate.update_all({ project_id:  User.find_by_login(value).projects(order: "id ASC").last.id },
+                        { id: rate.id })
       end
-      Rate.update_all({ :user_id => User.find_by_login(value).id },
-                      { :id => rate.id })
+      Rate.update_all({ user_id: User.find_by_login(value).id },
+                      { id: rate.id })
     end,
-    :valid_from => Proc.new do |rate, value|
+    valid_from: Proc.new do |rate, value|
       # This works for definitions like "2 years ago"
       number, time_unit, tempus = value.split
       time = number.to_i.send(time_unit.to_sym).send(tempus.to_sym)
@@ -76,14 +76,14 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the 
 end
 
 Given /^the work package "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |work_package, count, table|
-  i = WorkPackage.find(:last, :conditions => ["subject = '#{work_package}'"])
+  i = WorkPackage.find(:last, conditions: ["subject = '#{work_package}'"])
   as_admin count do
-    ce = FactoryGirl.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
-                                    :units => table.rows_hash["units"],
-                                    :project => i.project,
-                                    :work_package => i,
-                                    :user => User.find_by_login(table.rows_hash["user"]),
-                                    :comments => "lorem")
+    ce = FactoryGirl.build(:cost_entry, spent_on: (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
+                                    units: table.rows_hash["units"],
+                                    project: i.project,
+                                    work_package: i,
+                                    user: User.find_by_login(table.rows_hash["user"]),
+                                    comments: "lorem")
 
     ce.cost_type = CostType.find_by_name(table.rows_hash["cost type"]) if table.rows_hash["cost type"]
 
@@ -139,7 +139,7 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
 end
 
 Given /^users have times and the cost type "([^\"]*)" logged on the work package "([^\"]*)" with:$/ do |cost_type, work_package, table|
-  i = WorkPackage.find(:last, :conditions => ["subject = '#{work_package}'"])
+  i = WorkPackage.find(:last, conditions: ["subject = '#{work_package}'"])
   raise "No such work_package: #{work_package}" unless i
 
   table.rows_hash.collect do |k,v|
@@ -198,7 +198,7 @@ Given /^the (?:variable cost object|budget) "(.+)" has the following labor items
 
   table.hashes.each do | hash |
     user = User.find_by_login(hash['user']) || User.find_by_name(hash['user']) || cost_object.project.members.first.principal
-    FactoryGirl.create(:labor_budget_item, :user => user, :cost_object => cost_object, :comments => hash['comment'], :hours => hash['hours'])
+    FactoryGirl.create(:labor_budget_item, user: user, cost_object: cost_object, comments: hash['comment'], hours: hash['hours'])
   end
 end
 
@@ -207,6 +207,6 @@ Given /^the (?:variable cost object|budget) "(.+)" has the following material it
 
   table.hashes.each do | hash |
     cost_type = CostType.find_by_name(hash['cost_type']) || Cost_type.first
-    FactoryGirl.create(:material_budget_item, :cost_type => cost_type, :cost_object => cost_object, :comments => hash['comment'], :units => hash['units'])
+    FactoryGirl.create(:material_budget_item, cost_type: cost_type, cost_object: cost_object, comments: hash['comment'], units: hash['units'])
   end
 end

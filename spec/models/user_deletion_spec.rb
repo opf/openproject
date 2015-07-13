@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User, "#destroy", :type => :model do
+describe User, "#destroy", type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:substitute_user) { DeletedUser.first }
@@ -130,7 +130,7 @@ describe User, "#destroy", :type => :model do
   end
 
   describe "WHEN the user has a labor_budget_item associated" do
-    let(:item) { FactoryGirl.build(:labor_budget_item, :user => user) }
+    let(:item) { FactoryGirl.build(:labor_budget_item, user: user) }
 
     before do
       item.save!
@@ -144,17 +144,17 @@ describe User, "#destroy", :type => :model do
 
   describe "WHEN the user has a cost entry" do
     let(:work_package) { FactoryGirl.create(:work_package) }
-    let(:entry) { FactoryGirl.build(:cost_entry, :user => user,
-                                             :project => work_package.project,
-                                             :units => 100.0,
-                                             :spent_on => Date.today,
-                                             :work_package => work_package,
-                                             :comments => "") }
+    let(:entry) { FactoryGirl.build(:cost_entry, user: user,
+                                             project: work_package.project,
+                                             units: 100.0,
+                                             spent_on: Date.today,
+                                             work_package: work_package,
+                                             comments: "") }
 
     before do
-      FactoryGirl.create(:member, :project => work_package.project,
-                              :user => user,
-                              :roles => [FactoryGirl.build(:role)])
+      FactoryGirl.create(:member, project: work_package.project,
+                              user: user,
+                              roles: [FactoryGirl.build(:role)])
       entry.save!
 
       user.destroy
@@ -166,8 +166,8 @@ describe User, "#destroy", :type => :model do
   end
 
   describe "WHEN the user is assigned an hourly rate" do
-    let(:hourly_rate) { FactoryGirl.build(:hourly_rate, :user => user,
-                                                    :project => project) }
+    let(:hourly_rate) { FactoryGirl.build(:hourly_rate, user: user,
+                                                    project: project) }
 
     before do
       hourly_rate.save!
@@ -179,8 +179,8 @@ describe User, "#destroy", :type => :model do
   end
 
   describe "WHEN the user is assigned a default hourly rate" do
-    let(:default_hourly_rate) { FactoryGirl.build(:default_hourly_rate, :user => user,
-                                                                    :project => project) }
+    let(:default_hourly_rate) { FactoryGirl.build(:default_hourly_rate, user: user,
+                                                                    project: project) }
 
     before do
       default_hourly_rate.save!

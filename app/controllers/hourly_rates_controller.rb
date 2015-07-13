@@ -25,22 +25,22 @@ class HourlyRatesController < ApplicationController
   helper :hourly_rates
   include HourlyRatesHelper
 
-  before_filter :find_user, :only => [:show, :edit, :update, :set_rate]
+  before_filter :find_user, only: [:show, :edit, :update, :set_rate]
 
-  before_filter :find_optional_project, :only => [:show, :edit, :update]
-  before_filter :find_project, :only => [:set_rate]
+  before_filter :find_optional_project, only: [:show, :edit, :update]
+  before_filter :find_project, only: [:set_rate]
 
   # #show, #edit have their own authorization
-  before_filter :authorize, :except => [:show, :edit, :update]
+  before_filter :authorize, except: [:show, :edit, :update]
 
   # TODO: this should be an index
   def show
     if @project
-      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, :for => @user)
+      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, for: @user)
 
       @rates = HourlyRate.all(
-          :conditions =>  { :user_id => @user, :project_id => @project },
-          :order => "#{HourlyRate.table_name}.valid_from desc")
+          conditions:  { user_id: @user, project_id: @project },
+          order: "#{HourlyRate.table_name}.valid_from desc")
     else
       @rates = HourlyRate.history_for_user(@user, true)
       @rates_default = @rates.delete(nil)
@@ -60,15 +60,15 @@ class HourlyRatesController < ApplicationController
 
     if @project.nil?
       @rates = DefaultHourlyRate.all(
-        :conditions => {:user_id => @user},
-        :order => "#{DefaultHourlyRate.table_name}.valid_from desc")
-      @rates << @user.default_rates.build({:valid_from => Date.today}) if @rates.empty?
+        conditions: {user_id: @user},
+        order: "#{DefaultHourlyRate.table_name}.valid_from desc")
+      @rates << @user.default_rates.build({valid_from: Date.today}) if @rates.empty?
     else
       @rates = @user.rates.select{|r| r.project_id == @project.id}.sort { |a,b| b.valid_from <=> a.valid_from }
-      @rates << @user.rates.build({:valid_from => Date.today, :project => @project}) if @rates.empty?
+      @rates << @user.rates.build({valid_from: Date.today, project: @project}) if @rates.empty?
     end
 
-    render :action => "edit", :layout => !request.xhr?
+    render action: "edit", layout: !request.xhr?
   end
 
   def update
@@ -94,19 +94,19 @@ class HourlyRatesController < ApplicationController
     if @user.save
       flash[:notice] = l(:notice_successful_update)
       if @project.nil?
-        redirect_back_or_default(:controller => 'users', :action => 'edit', :id => @user)
+        redirect_back_or_default(controller: 'users', action: 'edit', id: @user)
       else
-        redirect_back_or_default(:action => 'show', :id => @user, :project_id => @project)
+        redirect_back_or_default(action: 'show', id: @user, project_id: @project)
       end
     else
       if @project.nil?
         @rates = @user.default_rates
-        @rates << @user.default_rates.build({:valid_from => Date.today}) if @rates.empty?
+        @rates << @user.default_rates.build({valid_from: Date.today}) if @rates.empty?
       else
         @rates = @user.rates.select{|r| r.project_id == @project.id}.sort { |a,b| b.valid_from <=> a.valid_from }
-        @rates << @user.rates.build({:valid_from => Date.today, :project => @project}) if @rates.empty?
+        @rates << @user.rates.build({valid_from: Date.today, project: @project}) if @rates.empty?
       end
-      render :action => "edit", :layout => !request.xhr?
+      render action: "edit", layout: !request.xhr?
     end
   end
 
@@ -126,11 +126,11 @@ class HourlyRatesController < ApplicationController
     if rate.save
       if request.xhr?
         render :update do |page|
-          page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), :action => 'edit', :id => @user, :project_id => @project)
+          page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), action: 'edit', id: @user, project_id: @project)
         end
       else
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => 'index'
+        redirect_to action: 'index'
       end
     end
   end

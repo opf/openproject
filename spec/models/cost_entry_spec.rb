@@ -19,39 +19,39 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe CostEntry, :type => :model do
+describe CostEntry, type: :model do
   include Cost::PluginSpecHelper
 
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:project2) { FactoryGirl.create(:project_with_types) }
-  let(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                       :type => project.types.first,
-                                       :author => user) }
-  let(:work_package2) { FactoryGirl.create(:work_package, :project => project2,
-                                        :type => project2.types.first,
-                                        :author => user) }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project,
+                                       type: project.types.first,
+                                       author: user) }
+  let(:work_package2) { FactoryGirl.create(:work_package, project: project2,
+                                        type: project2.types.first,
+                                        author: user) }
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:klass) { CostEntry }
   let(:cost_entry) do
     member
-    FactoryGirl.build(:cost_entry, :cost_type => cost_type,
-                               :project => project,
-                               :work_package => work_package,
-                               :spent_on => date,
-                               :units => units,
-                               :user => user,
-                               :comments => "lorem")
+    FactoryGirl.build(:cost_entry, cost_type: cost_type,
+                               project: project,
+                               work_package: work_package,
+                               spent_on: date,
+                               units: units,
+                               user: user,
+                               comments: "lorem")
   end
 
   let(:cost_entry2) do
-    FactoryGirl.build(:cost_entry, :cost_type => cost_type,
-                               :project => project,
-                               :work_package => work_package,
-                               :spent_on => date,
-                               :units => units,
-                               :user => user,
-                               :comments => "lorem")
+    FactoryGirl.build(:cost_entry, cost_type: cost_type,
+                               project: project,
+                               work_package: work_package,
+                               spent_on: date,
+                               units: units,
+                               user: user,
+                               comments: "lorem")
   end
 
   let(:cost_type) do
@@ -63,16 +63,16 @@ describe CostEntry, :type => :model do
     cost_type.reload
     cost_type
   end
-  let(:first_rate) { FactoryGirl.build(:cost_rate, :valid_from => 6.days.ago,
-                                               :rate => 10.0) }
-  let(:second_rate) { FactoryGirl.build(:cost_rate, :valid_from => 4.days.ago,
-                                                :rate => 100.0) }
-  let(:third_rate) { FactoryGirl.build(:cost_rate, :valid_from => 2.days.ago,
-                                               :rate => 1000.0) }
-  let(:member) { FactoryGirl.create(:member, :project => project,
-                                         :roles => [role],
-                                         :principal => user) }
-  let(:role) { FactoryGirl.create(:role, :permissions => []) }
+  let(:first_rate) { FactoryGirl.build(:cost_rate, valid_from: 6.days.ago,
+                                               rate: 10.0) }
+  let(:second_rate) { FactoryGirl.build(:cost_rate, valid_from: 4.days.ago,
+                                                rate: 100.0) }
+  let(:third_rate) { FactoryGirl.build(:cost_rate, valid_from: 2.days.ago,
+                                               rate: 1000.0) }
+  let(:member) { FactoryGirl.create(:member, project: project,
+                                         roles: [role],
+                                         principal: user) }
+  let(:role) { FactoryGirl.create(:role, permissions: []) }
   let(:units) { 5.0 }
   let(:date) { Date.today }
 
@@ -130,9 +130,9 @@ describe CostEntry, :type => :model do
 
   describe "instance" do
     describe '#costs' do
-      let(:fourth_rate) { FactoryGirl.build(:cost_rate, :valid_from => 1.days.ago,
-                                                    :rate => 10000.0,
-                                                    :cost_type => cost_type) }
+      let(:fourth_rate) { FactoryGirl.build(:cost_rate, valid_from: 1.days.ago,
+                                                    rate: 10000.0,
+                                                    cost_type: cost_type) }
 
       describe "WHEN updating the number of units" do
         before do
@@ -210,7 +210,7 @@ describe CostEntry, :type => :model do
           (5.days.ago.to_date..Date.today).each do |time|
             cost_entry.spent_on = time
             cost_entry.save!
-            expect(cost_entry.costs).to eq(cost_entry.units * CostRate.first(:conditions => ["cost_type_id = ? AND valid_from <= ?", cost_entry.cost_type.id, cost_entry.spent_on], :order => "valid_from DESC").rate)
+            expect(cost_entry.costs).to eq(cost_entry.units * CostRate.first(conditions: ["cost_type_id = ? AND valid_from <= ?", cost_entry.cost_type.id, cost_entry.spent_on], order: "valid_from DESC").rate)
           end
         end
       end

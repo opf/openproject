@@ -19,14 +19,14 @@
 
 class VariableCostObject < CostObject
 
-  has_many :material_budget_items, :include => :cost_type,
-                                   :foreign_key => 'cost_object_id',
-                                   :dependent => :destroy,
-                                   :order => 'material_budget_items.id ASC'
-  has_many :labor_budget_items, :include => :user,
-                                :foreign_key => 'cost_object_id',
-                                :dependent => :destroy,
-                                :order => 'labor_budget_items.id ASC'
+  has_many :material_budget_items, include: :cost_type,
+                                   foreign_key: 'cost_object_id',
+                                   dependent: :destroy,
+                                   order: 'material_budget_items.id ASC'
+  has_many :labor_budget_items, include: :user,
+                                foreign_key: 'cost_object_id',
+                                dependent: :destroy,
+                                order: 'labor_budget_items.id ASC'
 
   validates_associated :material_budget_items
   validates_associated :labor_budget_items
@@ -116,7 +116,7 @@ class VariableCostObject < CostObject
 
   def save_material_budget_items
     material_budget_items.each do |material_budget_item|
-      material_budget_item.save(:validate => false)
+      material_budget_item.save(validate: false)
     end
   end
 
@@ -148,7 +148,7 @@ class VariableCostObject < CostObject
 
   def save_labor_budget_items
     labor_budget_items.each do |labor_budget_item|
-      labor_budget_item.save(:validate =>false)
+      labor_budget_item.save(validate:false)
     end
   end
 end

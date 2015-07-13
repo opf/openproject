@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Rate, :type => :model do
+describe Rate, type: :model do
   let(:rate) { FactoryGirl.build(:rate) }
 
   describe '#valid?' do

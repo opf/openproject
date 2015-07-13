@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe VariableCostObject, :type => :model do
+describe VariableCostObject, type: :model do
   let(:cost_object) { FactoryGirl.build(:variable_cost_object) }
   let(:type) { FactoryGirl.create(:type_feature) }
   let(:project) { FactoryGirl.create(:project_with_types) }
@@ -29,8 +29,8 @@ describe VariableCostObject, :type => :model do
     before do
       allow(User).to receive(:current).and_return(user)
 
-      @variable_cost_object = FactoryGirl.create(:variable_cost_object , :project => project,
-                                                                     :author => user)
+      @variable_cost_object = FactoryGirl.create(:variable_cost_object , project: project,
+                                                                     author: user)
 
       @initial_journal = @variable_cost_object.journals.first
       @recreated_journal = @variable_cost_object.recreate_initial_journal!
