@@ -86,7 +86,7 @@ module OpenProject::Backlogs::Burndown
     def collected_days
       @collected_days ||= begin
         days = sprint.days(nil)
-        days.sort.select{ |d| d <= Date.today }
+        days.sort.select { |d| d <= Date.today }
       end
     end
 
@@ -155,9 +155,9 @@ module OpenProject::Backlogs::Burndown
     def dates_of_interest_join_table(dates)
       raise 'dates must not be empty!' if dates.empty?
 
-      @date_join ||= dates.map do |date|
+      @date_join ||= dates.map { |date|
         "SELECT CAST('#{date}' AS DATE) AS date"
-      end.join(" UNION ")
+      }.join(' UNION ')
     end
 
     def status_query
@@ -189,7 +189,7 @@ module OpenProject::Backlogs::Burndown
     end
 
     def collected_from_children?(key, story)
-      key == "remaining_hours" && story_has_children?(story)
+      key == 'remaining_hours' && story_has_children?(story)
     end
 
     def collected_types

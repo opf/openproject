@@ -33,4 +33,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require "open_project/backlogs"
+require 'open_project/backlogs'

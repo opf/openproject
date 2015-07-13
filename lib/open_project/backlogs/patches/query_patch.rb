@@ -59,20 +59,20 @@ module OpenProject::Backlogs::Patches::QueryPatch
     def available_work_package_filters_with_backlogs_work_package_type
       available_work_package_filters_without_backlogs_work_package_type.tap do |filters|
         if backlogs_configured? and backlogs_enabled?
-          filters["backlogs_work_package_type"] = {
+          filters['backlogs_work_package_type'] = {
             type: :list,
-            values: [[l(:story, scope: [:backlogs]), "story"],
-                        [l(:task, scope: [:backlogs]), "task"],
-                        [l(:impediment, scope: [:backlogs]), "impediment"],
-                        [l(:any, scope: [:backlogs]), "any"]],
+            values: [[l(:story, scope: [:backlogs]), 'story'],
+                     [l(:task, scope: [:backlogs]), 'task'],
+                     [l(:impediment, scope: [:backlogs]), 'impediment'],
+                     [l(:any, scope: [:backlogs]), 'any']],
             order: 20
           }
         end
       end
     end
 
-    def sql_for_field_with_backlogs_work_package_type(field, operator, v, db_table, db_field, is_custom_filter=false)
-      if field == "backlogs_work_package_type"
+    def sql_for_field_with_backlogs_work_package_type(field, operator, v, db_table, db_field, is_custom_filter = false)
+      if field == 'backlogs_work_package_type'
         db_table = WorkPackage.table_name
 
         sql = []
@@ -80,16 +80,16 @@ module OpenProject::Backlogs::Patches::QueryPatch
         selected_values = values_for(field)
         selected_values = ['story', 'task'] if selected_values.include?('any')
 
-        story_types = Story.types.collect { |val| "#{val}" }.join(",")
-        all_types = (Story.types + [Task.type]).collect { |val| "#{val}" }.join(",")
+        story_types = Story.types.collect { |val| "#{val}" }.join(',')
+        all_types = (Story.types + [Task.type]).collect { |val| "#{val}" }.join(',')
 
         selected_values.each do |val|
           case val
-          when "story"
+          when 'story'
             sql << "(#{db_table}.type_id IN (#{story_types}))"
-          when "task"
+          when 'task'
             sql << "(#{db_table}.type_id = #{Task.type} AND NOT #{db_table}.parent_id IS NULL)"
-          when "impediment"
+          when 'impediment'
             sql << "(#{db_table}.id IN (
                   select from_id
                   FROM relations ir
@@ -103,10 +103,10 @@ module OpenProject::Backlogs::Patches::QueryPatch
         end
 
         case operator
-        when "="
-          sql = sql.join(" OR ")
-        when "!"
-          sql = "NOT (" + sql.join(" OR ") + ")"
+        when '='
+          sql = sql.join(' OR ')
+        when '!'
+          sql = 'NOT (' + sql.join(' OR ') + ')'
         end
 
         sql

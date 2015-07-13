@@ -40,11 +40,11 @@ describe WorkPackagesController, type: :controller do
     allow(User).to receive(:current).and_return current_user
     # disables sending mails
     allow(UserMailer).to receive(:new).and_return(double('mailer').as_null_object)
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"points_burn_direction" => "down",
-                                                              "wiki_template"         => "",
-                                                              "card_spec"             => "Sattleford VM-5040",
-                                                              "story_types"           => [story_type.id.to_s],
-                                                              "task_type"             => task_type.id.to_s })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
+                                                                       'wiki_template'         => '',
+                                                                       'card_spec'             => 'Sattleford VM-5040',
+                                                                       'story_types'           => [story_type.id.to_s],
+                                                                       'task_type'             => task_type.id.to_s)
     [task, story, closed_task].collect(&:reload)
   end
 
@@ -61,14 +61,16 @@ describe WorkPackagesController, type: :controller do
 
   describe 'show' do
     let(:story_points) { 42 }
-    let(:story_with_sp) { FactoryGirl.create(:story,
-                                             type: story_type,
-                                             author: current_user,
-                                             project: project,
-                                             status: status,
-                                             story_points: story_points) }
+    let(:story_with_sp) {
+      FactoryGirl.create(:story,
+                         type: story_type,
+                         author: current_user,
+                         project: project,
+                         status: status,
+                         story_points: story_points)
+    }
 
-    before { get 'show', id: story_with_sp.id }
+    before do get 'show', id: story_with_sp.id end
 
     subject { response }
 
@@ -86,41 +88,43 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe 'create with copy_from' do
-    describe do 'copying no tasks'
+    describe do
+      'copying no tasks'
       before do
-        post('create', params.merge({copy_tasks: "none"}))
+        post('create', params.merge(copy_tasks: 'none'))
       end
 
       subject { response }
 
-      it { expect(assigns["new_work_package"].children(true)).to be_empty }
+      it { expect(assigns['new_work_package'].children(true)).to be_empty }
     end
 
-    describe do 'copying no tasks'
+    describe do
+      'copying no tasks'
       before do
-        post('create', params.merge({copy_tasks: "open:#{story.id}"}))
+        post('create', params.merge(copy_tasks: "open:#{story.id}"))
       end
 
       subject { response }
 
       it do
-        expect(assigns["new_work_package"].children(true)).not_to be_empty
-        expect(assigns["new_work_package"].children(true).count).to eq(1)
+        expect(assigns['new_work_package'].children(true)).not_to be_empty
+        expect(assigns['new_work_package'].children(true).count).to eq(1)
       end
     end
 
-    describe do 'copying no tasks'
+    describe do
+      'copying no tasks'
       before do
-        post('create', params.merge({copy_tasks: "all:#{story.id}"}))
+        post('create', params.merge(copy_tasks: "all:#{story.id}"))
       end
 
       subject { response }
 
       it do
-        expect(assigns["new_work_package"].children(true)).not_to be_empty
-        expect(assigns["new_work_package"].children(true).count).to eq(2)
+        expect(assigns['new_work_package'].children(true)).not_to be_empty
+        expect(assigns['new_work_package'].children(true).count).to eq(2)
       end
     end
   end
-
 end

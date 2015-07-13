@@ -42,11 +42,11 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       extend ClassMethods
 
       alias_method_chain :recalculate_attributes_for, :remaining_hours
-      before_validation :backlogs_before_validation, if: lambda {|i| i.backlogs_enabled?}
+      before_validation :backlogs_before_validation, if: lambda { |i| i.backlogs_enabled? }
 
       before_save :inherit_version_from_closest_story_or_impediment, if: lambda { |i| i.is_task? }
-      after_save  :inherit_version_to_descendants, if: lambda {|i| (i.fixed_version_id_changed? && i.backlogs_enabled? && i.closest_story_or_impediment == i) }
-      after_move  :inherit_version_to_descendants, if: lambda {|i| i.is_task? }
+      after_save :inherit_version_to_descendants, if: lambda { |i| (i.fixed_version_id_changed? && i.backlogs_enabled? && i.closest_story_or_impediment == i) }
+      after_move :inherit_version_to_descendants, if: lambda { |i| i.is_task? }
 
       register_on_journal_formatter(:fraction, 'remaining_hours')
       register_on_journal_formatter(:decimal, 'story_points')
@@ -62,7 +62,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
                                                   allow_nil: true,
                                                   greater_than_or_equal_to: 0,
                                                   if: lambda { |i| i.project && i.project.module_enabled?('backlogs') }
-
 
       validates_each :parent_id do |record, attr, value|
         validate_parent_work_package_relation(record, attr, value)
@@ -99,9 +98,9 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       parent = WorkPackage.find_by_id(value)
       if parent && parent_work_package_relationship_spanning_projects?(parent, work_package)
         work_package.errors.add(parent_attr,
-                         :parent_child_relationship_across_projects,
-                         work_package_name: work_package.subject,
-                         parent_name: parent.subject)
+                                :parent_child_relationship_across_projects,
+                                work_package_name: work_package.subject,
+                                parent_name: parent.subject)
       end
     end
 
@@ -112,7 +111,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
   module InstanceMethods
     def done?
-      self.project.done_statuses.include?(self.status)
+      project.done_statuses.include?(status)
     end
 
     def to_story
@@ -120,7 +119,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def is_story?
-      backlogs_enabled? && Story.types.include?(self.type_id)
+      backlogs_enabled? && Story.types.include?(type_id)
     end
 
     def to_task
@@ -128,11 +127,11 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def is_task?
-      backlogs_enabled? && (self.parent_id && self.type_id == Task.type && Task.type.present?)
+      backlogs_enabled? && (parent_id && type_id == Task.type && Task.type.present?)
     end
 
     def is_impediment?
-      backlogs_enabled? && (self.parent_id.nil? && self.type_id == Task.type && Task.type.present?)
+      backlogs_enabled? && (parent_id.nil? && type_id == Task.type && Task.type.present?)
     end
 
     def types
@@ -148,11 +147,11 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def story
       if self.is_story?
-        return Story.find(self.id)
+        return Story.find(id)
       elsif self.is_task?
         # Make sure to get the closest ancestor that is a Story, i.e. the one with the highest lft
         # otherwise, the highest parent that is a Story is returned
-        story_work_package = self.ancestors.find_by_type_id(Story.types, order: 'lft DESC')
+        story_work_package = ancestors.find_by_type_id(Story.types, order: 'lft DESC')
         return Story.find(story_work_package.id) if story_work_package
       end
       nil
@@ -161,13 +160,13 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     def blocks
       # return work_packages that I block that aren't closed
       return [] if closed?
-      relations_from.collect {|ir| ir.relation_type == 'blocks' && !ir.to.closed? ? ir.to : nil}.compact
+      relations_from.collect { |ir| ir.relation_type == 'blocks' && !ir.to.closed? ? ir.to : nil }.compact
     end
 
     def blockers
       # return work_packages that block me
       return [] if closed?
-      relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.from.closed? ? ir.from : nil}.compact
+      relations_to.collect { |ir| ir.relation_type == 'blocks' && !ir.from.closed? ? ir.from : nil }.compact
     end
 
     def recalculate_attributes_for_with_remaining_hours(work_package_id)
@@ -182,7 +181,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
            p.left != (p.right + 1) # this node has children
 
           p.remaining_hours = p.leaves.sum(:remaining_hours).to_f
-          p.remaining_hours = nil if p.remaining_hours  == 0.0
+          p.remaining_hours = nil if p.remaining_hours == 0.0
         end
 
         recalculate_attributes_for_without_remaining_hours(p)
@@ -190,27 +189,27 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def inherit_version_from(source)
-      self.fixed_version_id = source.fixed_version_id if source && self.project_id == source.project_id
+      self.fixed_version_id = source.fixed_version_id if source && project_id == source.project_id
     end
 
     def backlogs_enabled?
-      !!self.project.try(:module_enabled?, "backlogs")
+      !!project.try(:module_enabled?, 'backlogs')
     end
 
     def in_backlogs_type?
-      backlogs_enabled? && WorkPackage.backlogs_types.include?(self.type.try(:id))
+      backlogs_enabled? && WorkPackage.backlogs_types.include?(type.try(:id))
     end
 
     # ancestors array similar to Module#ancestors
     # i.e. returns immediate ancestors first
     def ancestor_chain
       ancestors = []
-      unless self.parent_id.nil?
+      unless parent_id.nil?
 
         # Unfortunately the nested set is only build on save hence, the #parent
         # method is not always correct. Therefore we go to the parent the hard
         # way and use nested set from there
-        real_parent = WorkPackage.find_by_id(self.parent_id)
+        real_parent = WorkPackage.find_by_id(parent_id)
 
         # Sort immediate ancestors first
         ancestors = ([real_parent] + real_parent.ancestors.all(include: { project: :enabled_modules })).sort_by(&:right)
@@ -220,12 +219,12 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def closest_story_or_impediment
       return nil unless in_backlogs_type?
-      return self if (self.is_story? || self.is_impediment?)
+      return self if self.is_story? || self.is_impediment?
       closest = nil
       ancestor_chain.each do |i|
         # break if we found an element in our chain that is not relevant in backlogs
         break unless i.in_backlogs_type?
-        if (i.is_story? || i.is_impediment?)
+        if i.is_story? || i.is_impediment?
           closest = i
           break
         end
@@ -236,9 +235,9 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     private
 
     def backlogs_before_validation
-      if self.type_id == Task.type
-        self.estimated_hours = self.remaining_hours if self.estimated_hours.blank? && ! self.remaining_hours.blank?
-        self.remaining_hours = self.estimated_hours if self.remaining_hours.blank? && ! self.estimated_hours.blank?
+      if type_id == Task.type
+        self.estimated_hours = remaining_hours if estimated_hours.blank? && !remaining_hours.blank?
+        self.remaining_hours = estimated_hours if remaining_hours.blank? && !estimated_hours.blank?
       end
     end
 
@@ -252,8 +251,8 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
         begin
           WorkPackage.take_child_update_semaphore
 
-          descendant_tasks, stop_descendants = self.descendants.all(include: { project: :enabled_modules }).partition { |d| d.is_task? }
-          descendant_tasks.reject!{ |t| stop_descendants.any? { |s| s.left < t.left && s.right > t.right } }
+          descendant_tasks, stop_descendants = descendants.all(include: { project: :enabled_modules }).partition(&:is_task?)
+          descendant_tasks.reject! do |t| stop_descendants.any? { |s| s.left < t.left && s.right > t.right } end
 
           descendant_tasks.each do |task|
             task.inherit_version_from(self)

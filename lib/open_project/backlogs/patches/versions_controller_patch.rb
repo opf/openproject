@@ -63,7 +63,6 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
         end
       end
 
-
       def find_project_and_version
         find_model_object
         if params[:project_id]
@@ -76,9 +75,9 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
       # This forces the current project for the nested version settings in order
       # to prevent it from being set through firebug etc. #mass_assignment
       def add_project_to_version_settings_attributes
-        if params["version"]["version_settings_attributes"]
-          params["version"]["version_settings_attributes"].each do |attr_hash|
-            attr_hash["project"] = @project
+        if params['version']['version_settings_attributes']
+          params['version']['version_settings_attributes'].each do |attr_hash|
+            attr_hash['project'] = @project
           end
         end
       end

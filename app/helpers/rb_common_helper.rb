@@ -39,7 +39,7 @@ module RbCommonHelper
   end
 
   def assignee_name_or_empty(story)
-    story.blank? || story.assigned_to.blank? ? "" : "#{story.assigned_to.firstname} #{story.assigned_to.lastname}"
+    story.blank? || story.assigned_to.blank? ? '' : "#{story.assigned_to.firstname} #{story.assigned_to.lastname}"
   end
 
   def blocks_ids(ids)
@@ -57,11 +57,11 @@ module RbCommonHelper
   end
 
   def color_contrast_class(task)
-     if is_assigned_task?(task)
-       color_contrast(background_color_hex(task)) ? 'light' : 'dark'
-     else
-       ''
-     end
+    if is_assigned_task?(task)
+      color_contrast(background_color_hex(task)) ? 'light' : 'dark'
+    else
+      ''
+    end
   end
 
   def is_assigned_task?(task)
@@ -98,11 +98,11 @@ module RbCommonHelper
   def sprint_link_or_empty(item)
     item_id = item.id.to_s
     text = (item_id.length > 8 ? "#{item_id[0..1]}...#{item_id[-4..-1]}" : item_id)
-    item.new_record? ? "" : link_to(text, {controller: '/sprint', action: "show", id: item}, {class: "prevent_edit"})
+    item.new_record? ? '' : link_to(text, { controller: '/sprint', action: 'show', id: item }, class: 'prevent_edit')
   end
 
   def mark_if_closed(story)
-    !story.new_record? && work_package_status_for_id(story.status_id).is_closed? ? "closed" : ""
+    !story.new_record? && work_package_status_for_id(story.status_id).is_closed? ? 'closed' : ''
   end
 
   def story_points_or_empty(story)
@@ -137,14 +137,13 @@ module RbCommonHelper
     date_string_with_milliseconds(story.updated_on, 0.001) unless story.blank?
   end
 
-  def date_string_with_milliseconds(d, add=0)
+  def date_string_with_milliseconds(d, add = 0)
     return '' if d.blank?
-    d.strftime("%B %d, %Y %H:%M:%S") + '.' + (d.to_f % 1 + add).to_s.split('.')[1]
+    d.strftime('%B %d, %Y %H:%M:%S') + '.' + (d.to_f % 1 + add).to_s.split('.')[1]
   end
 
-
   def remaining_hours(item)
-    item.remaining_hours.blank? || item.remaining_hours==0 ? "" : item.remaining_hours
+    item.remaining_hours.blank? || item.remaining_hours == 0 ? '' : item.remaining_hours
   end
 
   def available_story_types
@@ -176,12 +175,11 @@ module RbCommonHelper
   end
 
   def show_burndown_link(sprint)
-    ret = ""
+    ret = ''
 
     ret += link_to(l('backlogs.show_burndown_chart'),
                    {},
                    class: 'show_burndown_chart button')
-
 
     ret += javascript_tag "
             jQuery(document).ready(function(){
@@ -215,7 +213,7 @@ module RbCommonHelper
   def all_workflows
     @all_workflows ||= Workflow.all(include: [:new_status, :old_status],
                                     conditions: { role_id: User.current.roles_for_project(@project).collect(&:id),
-                                                     type_id: story_types.collect(&:id) })
+                                                  type_id: story_types.collect(&:id) })
   end
 
   def all_work_package_status
@@ -224,12 +222,12 @@ module RbCommonHelper
 
   def backlogs_types
     @backlogs_types ||= begin
-      backlogs_ids = Setting.plugin_openproject_backlogs["story_types"]
-      backlogs_ids << Setting.plugin_openproject_backlogs["task_type"]
+      backlogs_ids = Setting.plugin_openproject_backlogs['story_types']
+      backlogs_ids << Setting.plugin_openproject_backlogs['task_type']
 
       Type.find(:all,
-                   conditions: { id: backlogs_ids },
-                   order: 'position ASC')
+                conditions: { id: backlogs_ids },
+                order: 'position ASC')
     end
   end
 
@@ -244,9 +242,9 @@ module RbCommonHelper
 
   def story_types
     @story_types ||= begin
-      backlogs_type_ids = Setting.plugin_openproject_backlogs["story_types"].map(&:to_i)
+      backlogs_type_ids = Setting.plugin_openproject_backlogs['story_types'].map(&:to_i)
 
-      backlogs_types.select{ |t| backlogs_type_ids.include?(t.id) }
+      backlogs_types.select { |t| backlogs_type_ids.include?(t.id) }
     end
   end
 

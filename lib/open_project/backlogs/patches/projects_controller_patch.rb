@@ -51,9 +51,9 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
     end
 
     def project_done_statuses
-      selected_statuses = (params[:statuses] || []).map do |work_package_status|
+      selected_statuses = (params[:statuses] || []).map { |work_package_status|
         Status.find(work_package_status[:status_id].to_i)
-      end.compact
+      }.compact
 
       @project.done_statuses = selected_statuses
       @project.save!

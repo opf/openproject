@@ -38,43 +38,52 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'rb_burndown_charts/show', type: :view do
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
-  let(:role_allowed) { FactoryGirl.create(:role,
-    permissions: [:create_impediments, :create_tasks, :update_impediments, :update_tasks])
+  let(:role_allowed) {
+    FactoryGirl.create(:role,
+                       permissions: [:create_impediments, :create_tasks, :update_impediments, :update_tasks])
   }
   let(:role_forbidden) { FactoryGirl.create(:role) }
   # We need to create these as some view helpers access the database
-  let(:statuses) { [FactoryGirl.create(:status),
-                    FactoryGirl.create(:status),
-                    FactoryGirl.create(:status)] }
+  let(:statuses) {
+    [FactoryGirl.create(:status),
+     FactoryGirl.create(:status),
+     FactoryGirl.create(:status)]
+  }
 
   let(:type_task) { FactoryGirl.create(:type_task) }
   let(:type_feature) { FactoryGirl.create(:type_feature) }
   let(:issue_priority) { FactoryGirl.create(:priority) }
   let(:project) do
     project = FactoryGirl.create(:project, types: [type_feature, type_task])
-    project.members = [FactoryGirl.create(:member, principal: user1,project: project,roles: [role_allowed]),
-                       FactoryGirl.create(:member, principal: user2,project: project,roles: [role_forbidden])]
+    project.members = [FactoryGirl.create(:member, principal: user1, project: project, roles: [role_allowed]),
+                       FactoryGirl.create(:member, principal: user2, project: project, roles: [role_forbidden])]
     project
   end
 
-  let(:story_a) { FactoryGirl.create(:story, status: statuses[0],
-                                             project: project,
-                                             type: type_feature,
-                                             fixed_version: sprint,
-                                             priority: issue_priority
-                                             )}
-  let(:story_b) { FactoryGirl.create(:story, status: statuses[1],
-                                             project: project,
-                                             type: type_feature,
-                                             fixed_version: sprint,
-                                             priority: issue_priority
-                                             )}
-  let(:story_c) { FactoryGirl.create(:story, status: statuses[2],
-                                             project: project,
-                                             type: type_feature,
-                                             fixed_version: sprint,
-                                             priority: issue_priority
-                                             )}
+  let(:story_a) {
+    FactoryGirl.create(:story, status: statuses[0],
+                               project: project,
+                               type: type_feature,
+                               fixed_version: sprint,
+                               priority: issue_priority
+                      )
+  }
+  let(:story_b) {
+    FactoryGirl.create(:story, status: statuses[1],
+                               project: project,
+                               type: type_feature,
+                               fixed_version: sprint,
+                               priority: issue_priority
+                      )
+  }
+  let(:story_c) {
+    FactoryGirl.create(:story, status: statuses[2],
+                               project: project,
+                               type: type_feature,
+                               fixed_version: sprint,
+                               priority: issue_priority
+                      )
+  }
   let(:stories) { [story_a, story_b, story_c] }
   let(:sprint)   { FactoryGirl.create(:sprint, project: project, start_date: Date.today - 1.week, effective_date: Date.today + 1.week) }
   let(:task) do
@@ -87,7 +96,7 @@ describe 'rb_burndown_charts/show', type: :view do
   end
 
   before :each do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => type_task.id})
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id], 'task_type' => type_task.id })
     view.extend BurndownChartsHelper
 
     # We directly force the creation of stories,statuses by calling the method
@@ -95,13 +104,12 @@ describe 'rb_burndown_charts/show', type: :view do
   end
 
   describe 'burndown chart' do
-
     it 'renders a version with dates' do
       assign(:sprint, sprint)
       assign(:burndown, sprint.burndown(project))
       render
 
-      expect(view).to render_template(partial: "_burndown", count: 1)
+      expect(view).to render_template(partial: '_burndown', count: 1)
     end
 
     it 'renders a version without dates' do
@@ -113,7 +121,7 @@ describe 'rb_burndown_charts/show', type: :view do
 
       render
 
-      expect(view).to render_template(partial: "_burndown", count: 0)
+      expect(view).to render_template(partial: '_burndown', count: 0)
       expect(rendered).to include(I18n.translate 'backlogs.no_burndown_data')
     end
   end

@@ -40,10 +40,10 @@ describe VersionSetting, type: :model do
 
   it { is_expected.to belong_to(:project) }
   it { is_expected.to belong_to(:version) }
-  it { expect(VersionSetting.column_names).to include("display") }
+  it { expect(VersionSetting.column_names).to include('display') }
 
-  describe "Instance Methods" do
-    describe "WITH display set to left" do
+  describe 'Instance Methods' do
+    describe 'WITH display set to left' do
       before(:each) do
         version_setting.display_left!
       end
@@ -51,7 +51,7 @@ describe VersionSetting, type: :model do
       it { expect(version_setting.display_left?).to be_truthy }
     end
 
-    describe "WITH display set to right" do
+    describe 'WITH display set to right' do
       before(:each) do
         version_setting.display_right!
       end
@@ -59,7 +59,7 @@ describe VersionSetting, type: :model do
       it { expect(version_setting.display_right?).to be_truthy }
     end
 
-    describe "WITH display set to none" do
+    describe 'WITH display set to none' do
       before(:each) do
         version_setting.display_none!
       end

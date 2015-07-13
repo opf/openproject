@@ -41,18 +41,18 @@ describe Version, type: :model do
   describe 'rebuild positions' do
     def build_work_package(options = {})
       FactoryGirl.build(:work_package, options.reverse_merge(fixed_version_id: version.id,
-                                                  priority_id:      priority.id,
-                                                  project_id:       project.id,
-                                                  status_id:        status.id))
+                                                             priority_id:      priority.id,
+                                                             project_id:       project.id,
+                                                             status_id:        status.id))
     end
 
     def create_work_package(options = {})
-      build_work_package(options).tap { |i| i.save! }
+      build_work_package(options).tap(&:save!)
     end
 
     let(:status)   { FactoryGirl.create(:status)    }
     let(:priority) { FactoryGirl.create(:priority_normal) }
-    let(:project)  { FactoryGirl.create(:project, name: "Project 1", types: [epic_type, story_type, task_type, other_type])}
+    let(:project)  { FactoryGirl.create(:project, name: 'Project 1', types: [epic_type, story_type, task_type, other_type]) }
 
     let(:epic_type)  { FactoryGirl.create(:type, name: 'Epic') }
     let(:story_type) { FactoryGirl.create(:type, name: 'Story') }
@@ -74,8 +74,8 @@ describe Version, type: :model do
       Version.delete_all
 
       # Enable and configure backlogs
-      project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [epic_type.id, story_type.id], "task_type" => task_type.id})
+      project.enabled_module_names = project.enabled_module_names + ['backlogs']
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [epic_type.id, story_type.id], 'task_type' => task_type.id })
 
       # Otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)
@@ -85,8 +85,8 @@ describe Version, type: :model do
     end
 
     it 'moves an work_package to a project where backlogs is disabled while using versions' do
-      project2 = FactoryGirl.create(:project, name: "Project 2", types: [epic_type, story_type, task_type, other_type])
-      project2.enabled_module_names = project2.enabled_module_names - ["backlogs"]
+      project2 = FactoryGirl.create(:project, name: 'Project 2', types: [epic_type, story_type, task_type, other_type])
+      project2.enabled_module_names = project2.enabled_module_names - ['backlogs']
       project2.save!
       project2.reload
 
@@ -143,7 +143,7 @@ describe Version, type: :model do
 
       version.rebuild_positions(project)
 
-      work_packages = version.fixed_issues.find(:all, conditions: {project_id: project}, order: 'COALESCE(position, 0) ASC, id ASC')
+      work_packages = version.fixed_issues.find(:all, conditions: { project_id: project }, order: 'COALESCE(position, 0) ASC, id ASC')
 
       expect(work_packages.map(&:position)).to eq([nil, nil, 1, 2, 3, 4, 5])
       expect(work_packages.map(&:subject)).to eq([t3, o9, e1, s2, s5, s3, s4].map(&:subject))

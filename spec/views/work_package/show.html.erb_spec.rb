@@ -30,20 +30,26 @@ require 'spec_helper'
 
 describe 'work_packages/show', type: :view do
   let(:story_points) { 42 }
-  let(:project) { FactoryGirl.build(:public_project,
-                                    enabled_module_names: %w[work_package_tracking backlogs]) }
-  let(:user) { FactoryGirl.build(:user,
-                                 member_in_project: project) }
+  let(:project) {
+    FactoryGirl.build(:public_project,
+                      enabled_module_names: %w[work_package_tracking backlogs])
+  }
+  let(:user) {
+    FactoryGirl.build(:user,
+                      member_in_project: project)
+  }
   let(:story_type) { FactoryGirl.build(:type_feature) }
   let(:status) { FactoryGirl.build(:default_status) }
-  let(:story) { FactoryGirl.build(:story,
-                                  author: user,
-                                  type: story_type,
-                                  project: project,
-                                  status: status,
-                                  story_points: story_points) }
+  let(:story) {
+    FactoryGirl.build(:story,
+                      author: user,
+                      type: story_type,
+                      project: project,
+                      status: status,
+                      story_points: story_points)
+  }
 
-  before  { allow(User).to receive(:current).and_return(user) }
+  before  do allow(User).to receive(:current).and_return(user) end
 
   describe 'work_packages/attributes' do
     before do

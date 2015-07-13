@@ -43,7 +43,7 @@ class RbStoriesController < RbApplicationController
     status = (story.id ? 200 : 400)
 
     respond_to do |format|
-      format.html { render partial: "story", object: story, status: status }
+      format.html { render partial: 'story', object: story, status: status }
     end
   end
 
@@ -54,8 +54,7 @@ class RbStoriesController < RbApplicationController
     status = (result ? 200 : 400)
 
     respond_to do |format|
-      format.html { render partial: "story", object: story, status: status }
+      format.html { render partial: 'story', object: story, status: status }
     end
   end
-
 end

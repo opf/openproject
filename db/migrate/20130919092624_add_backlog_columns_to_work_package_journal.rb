@@ -42,7 +42,7 @@ class AddBacklogColumnsToWorkPackageJournal < ActiveRecord::Migration
                                        :status_id,
                                        :project_id,
                                        :type_id],
-                                       :name => 'work_package_journal_on_burndown_attributes'
+              name: 'work_package_journal_on_burndown_attributes'
     Journal::WorkPackageJournal.reset_column_information
   end
 end

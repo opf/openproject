@@ -51,7 +51,7 @@ module VersionSettingsHelper
 
   def version_hidden_id_field(setting)
     return '' unless setting.id
-    hidden_field_tag(name_for_setting_attributes("id"), setting.id)
+    hidden_field_tag(name_for_setting_attributes('id'), setting.id)
   end
 
   def version_setting_for_project(version, project)
@@ -71,17 +71,17 @@ module VersionSettingsHelper
     options = [::VersionSetting::DISPLAY_NONE,
                ::VersionSetting::DISPLAY_LEFT,
                ::VersionSetting::DISPLAY_RIGHT]
-    options.collect {|s| [humanize_display_option(s), s]}
+    options.collect { |s| [humanize_display_option(s), s] }
   end
 
   def humanize_display_option(option)
     case option
     when ::VersionSetting::DISPLAY_NONE
-      t("version_settings_display_option_none")
+      t('version_settings_display_option_none')
     when ::VersionSetting::DISPLAY_LEFT
-      t("version_settings_display_option_left")
+      t('version_settings_display_option_left')
     when ::VersionSetting::DISPLAY_RIGHT
-      t("version_settings_display_option_right")
+      t('version_settings_display_option_right')
     end
   end
 end

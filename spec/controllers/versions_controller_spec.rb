@@ -42,7 +42,7 @@ describe VersionsController, type: :controller do
     # Create a version assigned to a project
     @version = FactoryGirl.create(:version)
     @oldVersionName = @version.name
-    @newVersionName = "NewVersionName"
+    @newVersionName = 'NewVersionName'
     # Create another project
     @project = FactoryGirl.create(:project)
     # Create params to update version

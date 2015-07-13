@@ -63,7 +63,7 @@ module OpenProject::Backlogs::Hooks
     end
 
     def work_package_show_remaining_hours_attribute(work_package)
-      work_package_show_table_row(:"remaining_hours") do
+      work_package_show_table_row(:remaining_hours) do
         work_package.remaining_hours ? l_hours(work_package.remaining_hours) : empty_element_tag
       end
     end
@@ -78,7 +78,7 @@ module OpenProject::Backlogs::Hooks
     render_on :view_work_packages_form_details_bottom,
               partial: 'hooks/backlogs/view_work_packages_form_details_bottom'
 
-    def view_versions_show_bottom(context={ })
+    def view_versions_show_bottom(context = {})
       version = context[:version]
       project = version.project
 
@@ -88,7 +88,7 @@ module OpenProject::Backlogs::Hooks
 
       if User.current.allowed_to?(:edit_wiki_pages, project)
         snippet += '<span id="edit_wiki_page_action">'
-        snippet += link_to l(:button_edit_wiki), {controller: '/rb_wikis', action: 'edit', project_id: project.id, sprint_id: version.id }, class: 'icon icon-edit'
+        snippet += link_to l(:button_edit_wiki), { controller: '/rb_wikis', action: 'edit', project_id: project.id, sprint_id: version.id }, class: 'icon icon-edit'
         snippet += '</span>'
 
         # This wouldn't be necesary if the schedules plugin didn't disable the
@@ -103,14 +103,12 @@ module OpenProject::Backlogs::Hooks
       end
     end
 
-    def view_my_account(context={ })
-      return context[:controller].send(:render_to_string, {
-          partial: 'shared/view_my_account',
-          locals: {user: context[:user], color: context[:user].backlogs_preference(:task_color), versions_default_fold_state: context[:user].backlogs_preference(:versions_default_fold_state) }
-        })
+    def view_my_account(context = {})
+      context[:controller].send(:render_to_string,           partial: 'shared/view_my_account',
+                                                             locals: { user: context[:user], color: context[:user].backlogs_preference(:task_color), versions_default_fold_state: context[:user].backlogs_preference(:versions_default_fold_state) })
     end
 
-    def controller_work_package_new_after_save(context={ })
+    def controller_work_package_new_after_save(context = {})
       params = context[:params]
       work_package = context[:work_package]
 
@@ -132,15 +130,15 @@ module OpenProject::Backlogs::Hooks
 
           story = (id.nil? ? nil : Story.find(Integer(id)))
 
-          if ! story.nil? && action != 'none'
+          if !story.nil? && action != 'none'
             tasks = story.tasks
             case action
-              when 'open'
-                tasks = tasks.select{|t| !t.closed?}
-              when 'all', 'none'
-                #
-              else
-                raise "Unexpected value #{params[:copy_tasks]}"
+            when 'open'
+              tasks = tasks.select { |t| !t.closed? }
+            when 'all', 'none'
+            #
+            else
+              raise "Unexpected value #{params[:copy_tasks]}"
             end
 
             tasks.each {|t|

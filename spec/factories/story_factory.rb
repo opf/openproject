@@ -36,8 +36,8 @@
 FactoryGirl.define do
   factory :story do
     association :priority, factory: :priority
-    sequence(:subject) { |n| "story#{n}" }
-    description "story story story"
+    sequence(:subject) do |n| "story#{n}" end
+    description 'story story story'
     association :type, factory: :type_feature
     association :author, factory: :user
   end
