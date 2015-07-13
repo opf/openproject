@@ -52,11 +52,14 @@ describe Journal::AggregatedJournal, type: :model do
     is_expected.to match_array [aggregated_journal_for(work_package.journals.first)]
   end
 
-  context 'WP updated immediately after last change' do
+  context 'WP updated immediately after uncommented change' do
+    let(:notes) { nil }
+
     before do
-      allow(User).to receive(:current).and_return(new_author)
-      work_package.status = FactoryGirl.build(:status)
-      work_package.save!
+      changes = { status: FactoryGirl.build(:status) }
+      changes[:notes] = notes if notes
+
+      expect(work_package.update_by!(new_author, changes)).to be_truthy
     end
 
     context 'by author of last change' do
@@ -64,6 +67,25 @@ describe Journal::AggregatedJournal, type: :model do
 
       it 'returns a single aggregated journal' do
         is_expected.to match_array [aggregated_journal_for(work_package.journals.second)]
+      end
+
+      context 'with a comment' do
+        let(:notes) { 'This is why I changed it.' }
+
+        it 'returns a single aggregated journal' do
+          is_expected.to match_array [aggregated_journal_for(work_package.journals.second)]
+        end
+
+        context 'adding a second comment' do
+          before do
+            expect(work_package.update_by!(new_author, notes: notes)).to be_truthy
+          end
+
+          it 'returns two journals' do
+            is_expected.to match_array [aggregated_journal_for(work_package.journals.second),
+                                        aggregated_journal_for(work_package.journals.last)]
+          end
+        end
       end
     end
 
