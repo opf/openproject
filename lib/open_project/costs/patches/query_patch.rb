@@ -79,7 +79,7 @@ module OpenProject::Costs::Patches::QueryPatch
           'cost_object_id' => {
             type: :list_optional,
             order: 14,
-            values: CostObject.all(conditions: ['project_id IN (?)', project], order: 'subject ASC').collect { |d| [d.subject, d.id.to_s] }
+            values: CostObject.all(conditions: ['project_id IN (?)', project], order: 'subject ASC').map { |d| [d.subject, d.id.to_s] }
           },
         }
       else

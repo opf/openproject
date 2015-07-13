@@ -70,9 +70,9 @@ module OpenProject::Costs::Patches::RolePatch
     def allowed_inherited_permissions
       @allowed_inherited_permissions ||= begin
         all_permissions = allowed_permissions || []
-        (all_permissions | allowed_permissions.collect { |sym|
+        (all_permissions | allowed_permissions.map { |sym|
           p = Redmine::AccessControl.permission(sym)
-          p ? p.inherits.collect(&:name) : []
+          p ? p.inherits.map(&:name) : []
         }.flatten).uniq
       end
     end

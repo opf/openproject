@@ -141,7 +141,7 @@ Given /^users have times and the cost type "([^\"]*)" logged on the work package
   i = WorkPackage.find(:last, conditions: ["subject = '#{work_package}'"])
   raise "No such work_package: #{work_package}" unless i
 
-  table.rows_hash.collect do |k, v|
+  table.rows_hash.map do |k, v|
     user = k.split.first
     if k.end_with? 'hours'
       steps %{

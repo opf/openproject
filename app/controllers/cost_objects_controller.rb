@@ -244,7 +244,7 @@ class CostObjectsController < ApplicationController
 
     @cost_objects = CostObject.find_all_by_id(params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @cost_objects.empty?
-    projects = @cost_objects.collect(&:project).compact.uniq
+    projects = @cost_objects.map(&:project).compact.uniq
     if projects.size == 1
       @project = projects.first
     else

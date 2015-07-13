@@ -42,8 +42,8 @@ class VariableCostObject < CostObject
     cost_object = (arg.is_a?(VariableCostObject) ? arg : self.class.find(arg))
     attrs = cost_object.attributes.dup
     super(attrs)
-    self.labor_budget_items = cost_object.labor_budget_items.collect(&:dup)
-    self.material_budget_items = cost_object.material_budget_items.collect(&:dup)
+    self.labor_budget_items = cost_object.labor_budget_items.map(&:dup)
+    self.material_budget_items = cost_object.material_budget_items.map(&:dup)
   end
 
   # Label of the current cost_object type for display in GUI.
