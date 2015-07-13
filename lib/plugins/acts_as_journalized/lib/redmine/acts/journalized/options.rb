@@ -89,17 +89,16 @@ module Redmine::Acts::Journalized
       # standard +has_many+ associations.
       def prepare_journaled_options(options)
         result_options =  options.symbolize_keys
-        journal_class = result_options.delete(:journal_class) || Journal
         result_options.reverse_merge!(Configuration.options)
         result_options.reverse_merge!(
-          class_name: journal_class.name,
+          class_name: Journal.name,
           dependent: :delete_all,
           foreign_key: :journable_id,
           conditions: { journable_type: to_s },
           as: :journable
         )
         result_options.reverse_merge!(
-          order: "#{journal_class.table_name}.version ASC"
+          order: "#{Journal.table_name}.version ASC"
         )
 
         class_attribute :vestal_journals_options
