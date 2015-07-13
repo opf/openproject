@@ -34,19 +34,6 @@ module.exports = function(NotificationsService) {
     scope.$on('notification.add', function(_, notification) {
       scope.stack.push(notification);
     });
-
-    scope.$on('notification.remove', function(notification) {
-      _.remove(scope.stack, function(element) {
-        return element === notifcation;
-      })
-    });
-
-    scope.$on('notification.update', function(notification) {
-    });
-
-    scope.add = function() {
-      NotificationsService.addSuccess('Woho.', []);
-    }
   }
 
   return {
