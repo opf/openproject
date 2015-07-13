@@ -68,7 +68,7 @@ class Impediment < Task
   end
 
   def blocks_ids
-    @blocks_ids_list ||= relations_from.select { |rel| rel.relation_type == Relation::TYPE_BLOCKS }.collect(&:to_id)
+    @blocks_ids_list ||= relations_from.select { |rel| rel.relation_type == Relation::TYPE_BLOCKS }.map(&:to_id)
   end
 
   private
@@ -84,7 +84,7 @@ class Impediment < Task
   end
 
   def add_to_blocks_list
-    currently_blocking = relations_from.select { |rel| rel.relation_type == Relation::TYPE_BLOCKS }.collect(&:to_id)
+    currently_blocking = relations_from.select { |rel| rel.relation_type == Relation::TYPE_BLOCKS }.map(&:to_id)
 
     (blocks_ids - currently_blocking).each{ |id|
       rel = Relation.new(relation_type: Relation::TYPE_BLOCKS, from: self)

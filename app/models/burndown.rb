@@ -45,7 +45,7 @@ class Burndown
                                                                      sprint,
                                                                      points: ['story_points'])
 
-    series_data.collect
+    series_data.map
 
     calculate_series series_data
 
@@ -70,16 +70,16 @@ class Burndown
   end
 
   def calculate_series(series_data)
-    series_data.collect_names.each do |c|
+    series_data.map_names.each do |c|
       # need to differentiate between hours and sp
-      make_series c.to_sym, series_data.unit_for(c), series_data[c].to_a.sort_by(&:first).collect(&:last)
+      make_series c.to_sym, series_data.unit_for(c), series_data[c].to_a.sort_by(&:first).map(&:last)
     end
 
     calculate_ideals(series_data)
   end
 
   def calculate_ideals(data)
-    (['story_points'] & data.collect_names).each do |ideal|
+    (['story_points'] & data.map_names).each do |ideal|
       calculate_ideal(ideal, data.unit_for(ideal))
     end
   end

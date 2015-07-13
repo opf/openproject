@@ -45,7 +45,7 @@ describe WorkPackagesController, type: :controller do
                                                                        'card_spec'             => 'Sattleford VM-5040',
                                                                        'story_types'           => [story_type.id.to_s],
                                                                        'task_type'             => task_type.id.to_s)
-    [task, story, closed_task].collect(&:reload)
+    [task, story, closed_task].map(&:reload)
   end
 
   let(:current_user) { FactoryGirl.create(:admin) }

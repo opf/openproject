@@ -71,7 +71,7 @@ module VersionSettingsHelper
     options = [::VersionSetting::DISPLAY_NONE,
                ::VersionSetting::DISPLAY_LEFT,
                ::VersionSetting::DISPLAY_RIGHT]
-    options.collect { |s| [humanize_display_option(s), s] }
+    options.map { |s| [humanize_display_option(s), s] }
   end
 
   def humanize_display_option(option)

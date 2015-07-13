@@ -80,8 +80,8 @@ module OpenProject::Backlogs::Patches::QueryPatch
         selected_values = values_for(field)
         selected_values = ['story', 'task'] if selected_values.include?('any')
 
-        story_types = Story.types.collect { |val| "#{val}" }.join(',')
-        all_types = (Story.types + [Task.type]).collect { |val| "#{val}" }.join(',')
+        story_types = Story.types.map { |val| "#{val}" }.join(',')
+        all_types = (Story.types + [Task.type]).map { |val| "#{val}" }.join(',')
 
         selected_values.each do |val|
           case val

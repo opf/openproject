@@ -212,8 +212,8 @@ module RbCommonHelper
 
   def all_workflows
     @all_workflows ||= Workflow.all(include: [:new_status, :old_status],
-                                    conditions: { role_id: User.current.roles_for_project(@project).collect(&:id),
-                                                  type_id: story_types.collect(&:id) })
+                                    conditions: { role_id: User.current.roles_for_project(@project).map(&:id),
+                                                  type_id: story_types.map(&:id) })
   end
 
   def all_work_package_status

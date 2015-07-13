@@ -47,7 +47,7 @@ module OpenProject::Backlogs::Burndown
     attr_reader :project
 
     def collect_names
-      @names ||= @collect.to_a.collect(&:last).flatten
+      @names ||= @collect.to_a.map(&:last).flatten
     end
 
     def unit_for(name)

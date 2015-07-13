@@ -204,7 +204,7 @@ end
 
 When /^I fill in the ids of the (tasks|work_packages|stories) "(.+?)" for "(.+?)"$/ do |model_name, subjects, field|
   model = Kernel.const_get(model_name.classify)
-  ids = subjects.split(/,/).collect { |subject| model.find_by_subject(subject).id }
+  ids = subjects.split(/,/).map { |subject| model.find_by_subject(subject).id }
 
   step %{I fill in "#{ids.join(', ')}" for "#{field}"}
 end
