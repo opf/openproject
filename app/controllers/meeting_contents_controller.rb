@@ -112,7 +112,8 @@ class MeetingContentsController < ApplicationController
   private
 
   def find_meeting
-    @meeting = Meeting.find(params[:meeting_id], include: [:project, :author, :participants, :agenda, :minutes])
+    @meeting = Meeting.includes(:project, :author, :participants, :agenda, :minutes)
+               .find(params[:meeting_id])
     @project = @meeting.project
     @author = User.current
   rescue ActiveRecord::RecordNotFound
