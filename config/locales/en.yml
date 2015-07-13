@@ -257,6 +257,9 @@ en:
               reused:
                 one: "has been used before. Please choose one that is different from your last one."
                 other: "has been used before. Please choose one that is different from your last %{count}."
+              match: >
+                Confirm new password.
+                Password should match with the one you have typed in New password field.
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "Please choose at least one role."
