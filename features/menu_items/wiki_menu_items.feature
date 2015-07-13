@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Wiki menu items
   Background:
     Given there is 1 project with the following:

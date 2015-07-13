@@ -101,7 +101,7 @@ Feature: User session
     Then there should be a flash error message
     And the flash message should contain "Invalid user or password"
 
-  @javascript
+  @javascript @selenium
   Scenario: A deleted block is always visible in My page block list
     Given I am already admin
     When I go to the My page personalization page

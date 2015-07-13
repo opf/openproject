@@ -61,7 +61,7 @@ Feature: Issue edit
     And I should see "Successful update." within ".notice"
     And I should see "human Horn" within "#history"
 
-  @javascript
+  @javascript @selenium
   Scenario: User updates an issue with previewing the stuff before
     When I go to the page of the issue "issue1"
     And I select "Update" from the action menu

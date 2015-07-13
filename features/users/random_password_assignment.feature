@@ -40,7 +40,7 @@ Feature: User Status
     Then there should be a flash error message
     And there should be a "New password" field
 
-  @javascript
+  @javascript @selenium
   Scenario: New user can be assigned a random password
     When I create a new user
     And I check the assign random password to user field

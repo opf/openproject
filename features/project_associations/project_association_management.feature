@@ -140,7 +140,7 @@ Feature: Project Association Management
       And I click on "Dependencies"
       And I should not be able to add new project associations
 
-  @javascript
+  @javascript @selenium
   Scenario: Editor is able to add associations
     Given I am already logged in as "Editor"
      When I go to the   page of the project called "My Project"

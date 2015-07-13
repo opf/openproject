@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Timeline View Tests
 	As a Project Member
 	I want edit planning elements via a modal window

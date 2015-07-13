@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Localized list custom fields can be created
 
   Background:

@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Relating issues to each other
 
   Background:

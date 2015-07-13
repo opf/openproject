@@ -65,7 +65,7 @@ Feature: Attachments on work packages
     Then I should not see ".icon-attachment"
 
   # see ticket #1916 on OpenProject.org
-  @javascript
+  @javascript @selenium
   Scenario: Deleting attachment while editing a work package
     When I go to the page for the work package "work package 1"
      And I select "Update" from the action menu

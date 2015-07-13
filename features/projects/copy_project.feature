@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Project Settings
   Background:
     Given there are the following project types:

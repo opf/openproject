@@ -59,7 +59,7 @@ Feature: User Status
     And I should see "admin" within ".list tbody"
     And I should not see "Anonymous" within ".list tbody"
 
-  @javascript
+  @javascript @selenium
   Scenario: User can be unlocked on the index page
     Given the user "bobby" is locked
     When I filter the users list by status "locked permanently (1)"

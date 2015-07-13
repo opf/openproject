@@ -63,7 +63,7 @@ Capybara.configure do |config|
   config.visible_text_only = true
 end
 
-Capybara.javascript_driver = :webkit
+Capybara.default_driver = :webkit
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how

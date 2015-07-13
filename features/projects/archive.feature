@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Navigating to reports page
   Background:
     Given there is 1 project with the following:
