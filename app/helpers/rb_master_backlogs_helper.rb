@@ -37,15 +37,13 @@ module RbMasterBacklogsHelper
   include Redmine::I18n
 
   def render_backlog_menu(backlog)
-    content_tag(:div, :class => 'menu') do
+    content_tag(:div, class: 'menu') do
       [
-        content_tag(:div, '', :class => "ui-icon ui-icon-carat-1-s"),
-        content_tag(:ul, :class => 'items') do
-
-          backlog_menu_items_for(backlog).map do |item|
-            content_tag(:li, item, :class => 'item')
-          end.join.html_safe
-
+        content_tag(:div, '', class: 'ui-icon ui-icon-carat-1-s'),
+        content_tag(:ul, class: 'items') do
+          backlog_menu_items_for(backlog).map { |item|
+            content_tag(:li, item, class: 'item')
+          }.join.html_safe
         end
       ].join.html_safe
     end
@@ -71,14 +69,14 @@ module RbMasterBacklogsHelper
 
     items[:new_story] = content_tag(:a,
                                     l('backlogs.add_new_story'),
-                                    :href => '#',
-                                    :class => 'add_new_story')
+                                    href: '#',
+                                    class: 'add_new_story')
 
     items[:stories_tasks] = link_to(l(:label_stories_tasks),
-                                    :controller => '/rb_queries',
-                                    :action => 'show',
-                                    :project_id => @project,
-                                    :sprint_id => backlog.sprint)
+                                    controller: '/rb_queries',
+                                    action: 'show',
+                                    project_id: @project,
+                                    sprint_id: backlog.sprint)
 
     if @export_card_config_meta[:count] > 0
       items[:configs] = export_export_cards_link(backlog)
@@ -94,12 +92,12 @@ module RbMasterBacklogsHelper
   def export_export_cards_link(backlog)
     if @export_card_config_meta[:count] == 1
       link_to(l(:label_backlogs_export_card_export),
-        :controller => '/rb_export_card_configurations',
-        :action => 'show',
-        :project_id => @project,
-        :sprint_id => backlog.sprint,
-        :id => @export_card_config_meta[:default],
-        :format => :pdf)
+              controller: '/rb_export_card_configurations',
+              action: 'show',
+              project_id: @project,
+              sprint_id: backlog.sprint,
+              id: @export_card_config_meta[:default],
+              format: :pdf)
     else
       export_modal_link(backlog)
     end
@@ -108,7 +106,7 @@ module RbMasterBacklogsHelper
   def properties_link(backlog)
     back_path = backlogs_project_backlogs_path(@project)
 
-    version_path = edit_version_path(backlog.sprint, :back_url => back_path)
+    version_path = edit_version_path(backlog.sprint, back_url: back_path)
 
     link_to(l(:'backlogs.properties'), version_path)
   end
@@ -116,31 +114,31 @@ module RbMasterBacklogsHelper
   def export_modal_link(backlog, options = {})
     path = backlogs_project_sprint_export_card_configurations_path(@project.id, backlog.sprint.id)
     html_id = "modal_work_package_#{SecureRandom.hex(10)}"
-    link_to(l(:label_backlogs_export_card_export), path, options.merge(:id => html_id, :'data-modal' => ''))
+    link_to(l(:label_backlogs_export_card_export), path, options.merge(id: html_id, :'data-modal' => ''))
   end
 
   def sprint_backlog_menu_items_for(backlog)
     items = {}
 
     items[:task_board] = link_to(l(:label_task_board),
-                                 :controller => '/rb_taskboards',
-                                 :action => 'show',
-                                 :project_id => @project,
-                                 :sprint_id => backlog.sprint)
+                                 controller: '/rb_taskboards',
+                                 action: 'show',
+                                 project_id: @project,
+                                 sprint_id: backlog.sprint)
 
     if backlog.sprint.has_burndown?
       items[:burndown] = content_tag(:a,
                                      l('backlogs.show_burndown_chart'),
-                                     :href => '#',
-                                     :class => 'show_burndown_chart')
+                                     href: '#',
+                                     class: 'show_burndown_chart')
     end
 
-    if @project.module_enabled? "wiki"
+    if @project.module_enabled? 'wiki'
       items[:wiki] = link_to(l(:label_wiki),
-                             :controller => '/rb_wikis',
-                             :action => 'edit',
-                             :project_id => @project,
-                             :sprint_id => backlog.sprint)
+                             controller: '/rb_wikis',
+                             action: 'edit',
+                             project_id: @project,
+                             sprint_id: backlog.sprint)
     end
 
     items

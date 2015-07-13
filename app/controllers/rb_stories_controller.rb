@@ -38,12 +38,12 @@ class RbStoriesController < RbApplicationController
 
   def create
     params['author_id'] = User.current.id
-    story = Story.create_and_position(params, :project => @project,
-                                              :author => User.current)
+    story = Story.create_and_position(params, project: @project,
+                                              author: User.current)
     status = (story.id ? 200 : 400)
 
     respond_to do |format|
-      format.html { render :partial => "story", :object => story, :status => status }
+      format.html { render partial: 'story', object: story, status: status }
     end
   end
 
@@ -54,8 +54,7 @@ class RbStoriesController < RbApplicationController
     status = (result ? 200 : 400)
 
     respond_to do |format|
-      format.html { render :partial => "story", :object => story, :status => status }
+      format.html { render partial: 'story', object: story, status: status }
     end
   end
-
 end

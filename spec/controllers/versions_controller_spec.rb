@@ -35,20 +35,20 @@
 
 require 'spec_helper'
 
-describe VersionsController, :type => :controller do
+describe VersionsController, type: :controller do
   before do
     allow(@controller).to receive(:authorize)
 
     # Create a version assigned to a project
     @version = FactoryGirl.create(:version)
     @oldVersionName = @version.name
-    @newVersionName = "NewVersionName"
+    @newVersionName = 'NewVersionName'
     # Create another project
     @project = FactoryGirl.create(:project)
     # Create params to update version
     @params = {}
     @params[:id] = @version.id
-    @params[:version] = { :name => @newVersionName }
+    @params[:version] = { name: @newVersionName }
   end
 
   describe 'update' do
@@ -57,7 +57,7 @@ describe VersionsController, :type => :controller do
       patch 'update', @params
       @version.reload
 
-      expect(response).to redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
+      expect(response).to redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
       expect(@version.name).to eq(@oldVersionName)
     end
 
@@ -66,7 +66,7 @@ describe VersionsController, :type => :controller do
       patch 'update', @params
       @version.reload
 
-      expect(response).to redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @version.project
+      expect(response).to redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @version.project
       expect(@version.name).to eq(@newVersionName)
     end
   end

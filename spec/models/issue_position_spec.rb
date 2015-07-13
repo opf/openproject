@@ -35,47 +35,51 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe 'Story positions' do
     def build_work_package(options)
-      FactoryGirl.build(:work_package, options.reverse_merge(:fixed_version_id => sprint_1.id,
-                                                  :priority_id      => priority.id,
-                                                  :project_id       => project.id,
-                                                  :status_id        => status.id,
-                                                  :type_id       => story_type.id))
+      FactoryGirl.build(:work_package, options.reverse_merge(fixed_version_id: sprint_1.id,
+                                                             priority_id:      priority.id,
+                                                             project_id:       project.id,
+                                                             status_id:        status.id,
+                                                             type_id:       story_type.id))
     end
 
     def create_work_package(options)
-      build_work_package(options).tap { |i| i.save! }
+      build_work_package(options).tap(&:save!)
     end
 
     let(:status)   { FactoryGirl.create(:status)    }
     let(:priority) { FactoryGirl.create(:priority_normal) }
     let(:project)  { FactoryGirl.create(:project)         }
 
-    let(:story_type) { FactoryGirl.create(:type, :name => 'Story')    }
-    let(:epic_type)  { FactoryGirl.create(:type, :name => 'Epic')     }
-    let(:task_type)  { FactoryGirl.create(:type, :name => 'Task')     }
-    let(:other_type) { FactoryGirl.create(:type, :name => 'Feedback') }
+    let(:story_type) { FactoryGirl.create(:type, name: 'Story')    }
+    let(:epic_type)  { FactoryGirl.create(:type, name: 'Epic')     }
+    let(:task_type)  { FactoryGirl.create(:type, name: 'Task')     }
+    let(:other_type) { FactoryGirl.create(:type, name: 'Feedback') }
 
-    let(:sprint_1) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Sprint 1') }
-    let(:sprint_2) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Sprint 2') }
+    let(:sprint_1) { FactoryGirl.create(:version, project_id: project.id, name: 'Sprint 1') }
+    let(:sprint_2) { FactoryGirl.create(:version, project_id: project.id, name: 'Sprint 2') }
 
-    let(:work_package_1) { create_work_package(:subject => 'WorkPackage 1', :fixed_version_id => sprint_1.id) }
-    let(:work_package_2) { create_work_package(:subject => 'WorkPackage 2', :fixed_version_id => sprint_1.id) }
-    let(:work_package_3) { create_work_package(:subject => 'WorkPackage 3', :fixed_version_id => sprint_1.id) }
-    let(:work_package_4) { create_work_package(:subject => 'WorkPackage 4', :fixed_version_id => sprint_1.id) }
-    let(:work_package_5) { create_work_package(:subject => 'WorkPackage 5', :fixed_version_id => sprint_1.id) }
+    let(:work_package_1) { create_work_package(subject: 'WorkPackage 1', fixed_version_id: sprint_1.id) }
+    let(:work_package_2) { create_work_package(subject: 'WorkPackage 2', fixed_version_id: sprint_1.id) }
+    let(:work_package_3) { create_work_package(subject: 'WorkPackage 3', fixed_version_id: sprint_1.id) }
+    let(:work_package_4) { create_work_package(subject: 'WorkPackage 4', fixed_version_id: sprint_1.id) }
+    let(:work_package_5) { create_work_package(subject: 'WorkPackage 5', fixed_version_id: sprint_1.id) }
 
-    let(:work_package_a) { create_work_package(:subject => 'WorkPackage a', :fixed_version_id => sprint_2.id) }
-    let(:work_package_b) { create_work_package(:subject => 'WorkPackage b', :fixed_version_id => sprint_2.id) }
-    let(:work_package_c) { create_work_package(:subject => 'WorkPackage c', :fixed_version_id => sprint_2.id) }
+    let(:work_package_a) { create_work_package(subject: 'WorkPackage a', fixed_version_id: sprint_2.id) }
+    let(:work_package_b) { create_work_package(subject: 'WorkPackage b', fixed_version_id: sprint_2.id) }
+    let(:work_package_c) { create_work_package(subject: 'WorkPackage c', fixed_version_id: sprint_2.id) }
 
-    let(:feedback_1)  { create_work_package(:subject => 'Feedback 1', :fixed_version_id => sprint_1.id,
-                                                               :type_id => other_type.id) }
+    let(:feedback_1)  {
+      create_work_package(subject: 'Feedback 1', fixed_version_id: sprint_1.id,
+                          type_id: other_type.id)
+    }
 
-    let(:task_1)  { create_work_package(:subject => 'Task 1', :fixed_version_id => sprint_1.id,
-                                                       :type_id => task_type.id) }
+    let(:task_1)  {
+      create_work_package(subject: 'Task 1', fixed_version_id: sprint_1.id,
+                          type_id: task_type.id)
+    }
 
     before do
       # We had problems while writing these specs, that some elements kept
@@ -90,8 +94,8 @@ describe WorkPackage, :type => :model do
       Version.delete_all
 
       # Enable and configure backlogs
-      project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [story_type.id, epic_type.id], "task_type"   => task_type.id})
+      project.enabled_module_names = project.enabled_module_names + ['backlogs']
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [story_type.id, epic_type.id], 'task_type'   => task_type.id })
 
       # Otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)
@@ -114,14 +118,14 @@ describe WorkPackage, :type => :model do
 
     describe '- Creating a work_package in a sprint' do
       it 'adds it to the bottom of the list' do
-        new_work_package = create_work_package(:subject => 'Newest WorkPackage', :fixed_version_id => sprint_1.id)
+        new_work_package = create_work_package(subject: 'Newest WorkPackage', fixed_version_id: sprint_1.id)
 
         expect(new_work_package).not_to be_new_record
         expect(new_work_package).to be_last
       end
 
       it 'does not reorder the existing work_packages' do
-        new_work_package = create_work_package(:subject => 'Newest WorkPackage', :fixed_version_id => sprint_1.id)
+        new_work_package = create_work_package(subject: 'Newest WorkPackage', fixed_version_id: sprint_1.id)
 
         expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
       end
@@ -132,8 +136,8 @@ describe WorkPackage, :type => :model do
         work_package_2.fixed_version = sprint_2
         work_package_2.save!
 
-        expect(sprint_1.fixed_issues.all(:order => 'id')).to eq([work_package_1, work_package_3, work_package_4, work_package_5])
-        expect(sprint_1.fixed_issues.all(:order => 'id').each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
+        expect(sprint_1.fixed_issues.all(order: 'id')).to eq([work_package_1, work_package_3, work_package_4, work_package_5])
+        expect(sprint_1.fixed_issues.all(order: 'id').each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
       end
     end
 
@@ -245,18 +249,22 @@ describe WorkPackage, :type => :model do
       let(:project_wo_backlogs) { FactoryGirl.create(:project) }
       let(:sub_project_wo_backlogs) { FactoryGirl.create(:project) }
 
-      let(:shared_sprint)   { FactoryGirl.create(:version,
-                                             :project_id => project.id,
-                                             :name => 'Shared Sprint',
-                                             :sharing => 'descendants') }
+      let(:shared_sprint)   {
+        FactoryGirl.create(:version,
+                           project_id: project.id,
+                           name: 'Shared Sprint',
+                           sharing: 'descendants')
+      }
 
-      let(:version_go_live) { FactoryGirl.create(:version,
-                                             :project_id => project_wo_backlogs.id,
-                                             :name => 'Go-Live') }
+      let(:version_go_live) {
+        FactoryGirl.create(:version,
+                           project_id: project_wo_backlogs.id,
+                           name: 'Go-Live')
+      }
 
       before do
-        project_wo_backlogs.enabled_module_names = project_wo_backlogs.enabled_module_names - ["backlogs"]
-        sub_project_wo_backlogs.enabled_module_names = sub_project_wo_backlogs.enabled_module_names - ["backlogs"]
+        project_wo_backlogs.enabled_module_names = project_wo_backlogs.enabled_module_names - ['backlogs']
+        sub_project_wo_backlogs.enabled_module_names = sub_project_wo_backlogs.enabled_module_names - ['backlogs']
 
         project_wo_backlogs.types = [story_type, task_type, other_type]
         sub_project_wo_backlogs.types = [story_type, task_type, other_type]
@@ -269,9 +277,11 @@ describe WorkPackage, :type => :model do
 
       describe '- Moving an work_package from a project without backlogs to a backlogs_enabled project' do
         describe 'if the fixed_version may not be kept' do
-          let(:work_package_i) { create_work_package(:subject => 'WorkPackage I',
-                                       :fixed_version_id => version_go_live.id,
-                                       :project_id => project_wo_backlogs.id) }
+          let(:work_package_i) {
+            create_work_package(subject: 'WorkPackage I',
+                                fixed_version_id: version_go_live.id,
+                                project_id: project_wo_backlogs.id)
+          }
           before do
             work_package_i
           end
@@ -294,9 +304,11 @@ describe WorkPackage, :type => :model do
         end
 
         describe 'if the fixed_version may be kept' do
-          let(:work_package_i) { create_work_package(:subject => 'WorkPackage I',
-                                       :fixed_version_id => shared_sprint.id,
-                                       :project_id => sub_project_wo_backlogs.id) }
+          let(:work_package_i) {
+            create_work_package(subject: 'WorkPackage I',
+                                fixed_version_id: shared_sprint.id,
+                                project_id: sub_project_wo_backlogs.id)
+          }
 
           before do
             work_package_i
@@ -348,12 +360,18 @@ describe WorkPackage, :type => :model do
         end
 
         describe 'if the fixed_version may be kept' do
-          let(:work_package_i)   { create_work_package(:subject => 'WorkPackage I',
-                                         :fixed_version_id => shared_sprint.id) }
-          let(:work_package_ii)  { create_work_package(:subject => 'WorkPackage II',
-                                         :fixed_version_id => shared_sprint.id) }
-          let(:work_package_iii) { create_work_package(:subject => 'WorkPackage III',
-                                         :fixed_version_id => shared_sprint.id) }
+          let(:work_package_i)   {
+            create_work_package(subject: 'WorkPackage I',
+                                fixed_version_id: shared_sprint.id)
+          }
+          let(:work_package_ii)  {
+            create_work_package(subject: 'WorkPackage II',
+                                fixed_version_id: shared_sprint.id)
+          }
+          let(:work_package_iii) {
+            create_work_package(subject: 'WorkPackage III',
+                                fixed_version_id: shared_sprint.id)
+          }
 
           before do
             work_package_i.move_to_bottom

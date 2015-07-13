@@ -35,28 +35,28 @@
 
 Then /^(.+) should be in the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, position, sprint_name|
   position = position.to_i
-  story = Story.find(:first, :conditions => ["subject=? and name=?", story_subject, sprint_name], :joins => :fixed_version)
+  story = Story.find(:first, conditions: ['subject=? and name=?', story_subject, sprint_name], joins: :fixed_version)
   story_position(story).should == position.to_i
 end
 
 Then /^I should see (\d+) (?:product )?owner backlogs$/ do |count|
-  sprint_backlogs = page.all(:css, "#owner_backlogs_container .sprint")
+  sprint_backlogs = page.all(:css, '#owner_backlogs_container .sprint')
   sprint_backlogs.length.should == count.to_i
 end
 
 Then /^I should see (\d+) sprint backlogs$/ do |count|
-  sprint_backlogs = page.all(:css, "#sprint_backlogs_container .sprint")
+  sprint_backlogs = page.all(:css, '#sprint_backlogs_container .sprint')
   sprint_backlogs.length.should == count.to_i
 end
 
 Then /^I should see the burndown chart for sprint "(.+?)"$/ do |sprint|
   sprint = Sprint.find_by_name(sprint)
 
-  page.should have_css("#burndown_#{sprint.id.to_s}")
+  page.should have_css("#burndown_#{sprint.id}")
 end
 
 Then /^I should see the WorkPackages page$/ do
-  page.should have_css(".workpackages-table")
+  page.should have_css('.workpackages-table')
 end
 
 Then /^I should see the taskboard$/ do
@@ -78,7 +78,7 @@ Then /^the velocity of "(.+?)" should be "(.+?)"$/ do |backlog_name, velocity|
 end
 
 Then /^show me the list of sprints$/ do
-  sprints = Sprint.find(:all, :conditions => ["project_id=?", @project.id])
+  sprints = Sprint.find(:all, conditions: ['project_id=?', @project.id])
 
   puts "\n"
   puts "\t| #{'id'.ljust(3)} | #{'name'.ljust(18)} | #{'start_date'.ljust(18)} | #{'effective_date'.ljust(18)} | #{'updated_on'.ljust(20)}"
@@ -89,15 +89,15 @@ Then /^show me the list of sprints$/ do
 end
 
 Then /^show me the list of stories$/ do
-  stories = Story.find(:all, :conditions => "project_id=#{@project.id}", :order => "position ASC")
-  subject_max = (stories.map{|s| s.subject} << "subject").sort{|a,b| a.length <=> b.length}.last.length
+  stories = Story.find(:all, conditions: "project_id=#{@project.id}", order: 'position ASC')
+  subject_max = (stories.map(&:subject) << 'subject').sort { |a, b| a.length <=> b.length }.last.length
   sprints = @project.versions.find(:all)
-  sprint_max = (sprints.map{|s| s.name} << "sprint").sort{|a,b| a.length <=> b.length}.last.length
+  sprint_max = (sprints.map(&:name) << 'sprint').sort { |a, b| a.length <=> b.length }.last.length
 
   puts "\n"
   puts "\t| #{'id'.ljust(5)} | #{'position'.ljust(8)} | #{'status'.ljust(12)} | #{'rank'.ljust(4)} | #{'subject'.ljust(subject_max)} | #{'sprint'.ljust(sprint_max)} |"
   stories.each do |story|
-    puts "\t| #{story.id.to_s.ljust(5)} | #{story.position.to_s.ljust(8)} | #{story.status.name[0,12].ljust(12)} | #{story.rank.to_s.ljust(4)} | #{story.subject.ljust(subject_max)} | #{(story.fixed_version_id.nil? ? Sprint.new : Sprint.find(story.fixed_version_id)).name.ljust(sprint_max)} |"
+    puts "\t| #{story.id.to_s.ljust(5)} | #{story.position.to_s.ljust(8)} | #{story.status.name[0, 12].ljust(12)} | #{story.rank.to_s.ljust(4)} | #{story.subject.ljust(subject_max)} | #{(story.fixed_version_id.nil? ? Sprint.new : Sprint.find(story.fixed_version_id)).name.ljust(sprint_max)} |"
   end
   puts "\n\n"
 end
@@ -105,13 +105,13 @@ end
 Then /^(.+) should be the higher (story|item|task) of (.+)$/ do |higher_subject, type, lower_subject|
   work_package_class = (type == 'task') ? Task : Story
 
-  higher = work_package_class.find(:all, :conditions => { :subject => higher_subject })
+  higher = work_package_class.find(:all, conditions: { subject: higher_subject })
   higher.length.should == 1
 
-  lower = work_package_class.find(:all, :conditions => { :subject => lower_subject })
+  lower = work_package_class.find(:all, conditions: { subject: lower_subject })
   lower.length.should == 1
 
-  if type == "task"
+  if type == 'task'
     lower.first.id.should == higher.first.right_sibling.id
   else
     lower.first.higher_item.id.should == higher.first.id
@@ -152,7 +152,7 @@ Then /^all positions should be unique for each version$/ do
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|
-  story = Story.find(:first, :conditions => ["subject=?", story_subject])
+  story = Story.find(:first, conditions: ['subject=?', story_subject])
   story.children[position.to_i - 1].subject.should == task_subject
 end
 
@@ -165,16 +165,16 @@ Then /^the server should return (\d+) updated (.+)$/ do |count, object_type|
 end
 
 Then /^the sprint named (.+) should have (\d+) impediments? named (.+)$/ do |sprint_name, count, impediment_subject|
-  sprints = Sprint.find(:all, :conditions => { :name => sprint_name })
+  sprints = Sprint.find(:all, conditions: { name: sprint_name })
   sprints.length.should == 1
 
-  sprints.first.impediments.map{ |i| i.subject==impediment_subject}.length.should == count.to_i
+  sprints.first.impediments.map { |i| i.subject == impediment_subject }.length.should == count.to_i
 end
 
 Then /^the impediment "(.+)" should signal( | un)successful saving$/ do |impediment_subject, negative|
   pos_or_neg_should = !negative.blank? ? :should : :should_not
 
-  page.send(pos_or_neg_should, have_selector("div.impediment.error", :text => impediment_subject))
+  page.send(pos_or_neg_should, have_selector('div.impediment.error', text: impediment_subject))
 end
 
 Then /^the sprint should be updated accordingly$/ do
@@ -182,7 +182,7 @@ Then /^the sprint should be updated accordingly$/ do
 
   sprint.attributes.each_key do |key|
     unless ['updated_on', 'created_on'].include?(key)
-      (key.include?('_date') ? sprint[key].strftime("%Y-%m-%d") : sprint[key]).should == @sprint_params[key]
+      (key.include?('_date') ? sprint[key].strftime('%Y-%m-%d') : sprint[key]).should == @sprint_params[key]
     end
   end
 end
@@ -193,10 +193,10 @@ Then /^the status of the story should be set as (.+)$/ do |status|
 end
 
 Then /^the story named (.+) should have 1 task named (.+)$/ do |story_subject, task_subject|
-  stories = Story.find(:all, :conditions => { :subject => story_subject })
+  stories = Story.find(:all, conditions: { subject: story_subject })
   stories.length.should == 1
 
-  tasks = Task.find(:all, :conditions => { :parent_id => stories.first.id, :subject => task_subject })
+  tasks = Task.find(:all, conditions: { parent_id: stories.first.id, subject: task_subject })
   tasks.length.should == 1
 end
 
@@ -214,9 +214,9 @@ end
 
 Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
   @story.reload
-  if attribute=="type"
-    attribute="type_id"
-    value = Type.find(:first, :conditions => ["name=?", value]).id
+  if attribute == 'type'
+    attribute = 'type_id'
+    value = Type.find(:first, conditions: ['name=?', value]).id
   end
   @story[attribute].should == value
 end
@@ -229,19 +229,19 @@ Then /^the wiki page (.+) should contain (.+)$/ do |title, content|
   raise "\"#{content}\" not found on page \"#{title}\"" unless page.content.text.match(/#{content}/)
 end
 
-Then /^(work_package|task|story) (.+) should have (.+) set to (.+)$/ do |type, subject, attribute, value|
+Then /^(work_package|task|story) (.+) should have (.+) set to (.+)$/ do |_type, subject, attribute, value|
   work_package = WorkPackage.find_by_subject(subject)
   work_package[attribute].should == value.to_i
 end
 
 Then /^the error alert should show "(.+?)"$/ do |msg|
-  step %Q{I should see "#{msg}" within "#msgBox"}
+  step %{I should see "#{msg}" within "#msgBox"}
 end
 
 Then /^the start date of "(.+?)" should be "(.+?)"$/ do |sprint_name, date|
   version = Version.find_by_name(sprint_name)
 
-  step %Q{I should see "#{date}" within "div#sprint_#{version.id} div.start_date"}
+  step %{I should see "#{date}" within "div#sprint_#{version.id} div.start_date"}
 end
 
 Then /^I should see "(.+?)" as a task to story "(.+?)"$/ do |task_name, story_name|
@@ -259,12 +259,12 @@ end
 
 Then /^there should not be a saving error on task "(.+?)"$/ do |task_name|
   elements = all(:xpath, "//*[contains(., \"#{task_name}\")]")
-  task_div = elements.find{|e| e.tag_name == "div" && e[:class].include?("task")}
-  task_div[:class].should_not include("error")
+  task_div = elements.find { |e| e.tag_name == 'div' && e[:class].include?('task') }
+  task_div[:class].should_not include('error')
 end
 
 Then /^I should be notified that the work_package "(.+?)" is an invalid parent to the work_package "(.+?)" because of cross project limitations$/ do |parent_name, child_name|
-  step %Q{I should see "Parent is invalid because the work_package '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it's parent as long as the story is in a different project" within "#errorExplanation"}
+  step %{I should see "Parent is invalid because the work_package '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it's parent as long as the story is in a different project" within "#errorExplanation"}
 end
 
 Then /^the PDF download dialog should be displayed$/ do

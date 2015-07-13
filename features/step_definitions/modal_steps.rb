@@ -60,9 +60,9 @@ end
 
 When(/^I switch the modal window into edit mode$/) do
   browser = page.driver.browser
-  browser.switch_to.frame("modalIframe")
-  within("#content > .action_menu_specific") do
-    click_link("Update")
+  browser.switch_to.frame('modalIframe')
+  within('#content > .action_menu_specific') do
+    click_link('Update')
   end
   safeguard_backlogs_modal_in_edit_mode
 end
@@ -73,5 +73,5 @@ And(/^I switch out of the modal$/) do
 end
 
 def safeguard_backlogs_modal_in_edit_mode
-  find_field("work_package[description]")
+  find_field('work_package[description]')
 end

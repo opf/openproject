@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe 'behavior for #3200' do
     let(:empty_work_package) { WorkPackage.new }
 
@@ -55,7 +55,7 @@ describe WorkPackage, :type => :model do
 
     describe 'story points' do
       before(:each) do
-        work_package.project.enabled_module_names += ["backlogs"]
+        work_package.project.enabled_module_names += ['backlogs']
       end
 
       it 'allows empty values' do
@@ -100,7 +100,6 @@ describe WorkPackage, :type => :model do
       end
     end
 
-
     describe 'remaining hours' do
       it 'allows empty values' do
         expect(work_package.remaining_hours).to be_nil
@@ -134,14 +133,14 @@ describe WorkPackage, :type => :model do
 
   describe 'definition of done' do
     before(:each) do
-      @status_resolved = FactoryGirl.build(:status, :name => "Resolved", :is_default => false)
-      @status_open = FactoryGirl.build(:status, :name => "Open", :is_default => true)
+      @status_resolved = FactoryGirl.build(:status, name: 'Resolved', is_default: false)
+      @status_open = FactoryGirl.build(:status, name: 'Open', is_default: true)
       @project = FactoryGirl.build(:project)
       @project.done_statuses = [@status_resolved]
 
-      @work_package = FactoryGirl.build(:work_package, :project => @project,
-                                        :status  => @status_open,
-                                        :type => FactoryGirl.build(:type_feature))
+      @work_package = FactoryGirl.build(:work_package, project: @project,
+                                                       status:  @status_open,
+                                                       type: FactoryGirl.build(:type_feature))
     end
 
     it 'should not be done when having the initial status "open"' do
@@ -153,30 +152,30 @@ describe WorkPackage, :type => :model do
       expect(@work_package.done?).to be_truthy
     end
 
-   it 'should not be done when removing done status from "resolved"' do
-     @work_package.status = @status_resolved
-     @project.done_statuses = Array.new
-     expect(@work_package.done?).to be_falsey
+    it 'should not be done when removing done status from "resolved"' do
+      @work_package.status = @status_resolved
+      @project.done_statuses = Array.new
+      expect(@work_package.done?).to be_falsey
     end
   end
 
-  describe "backlogs_enabled?" do
+  describe 'backlogs_enabled?' do
     let(:project) { FactoryGirl.build(:project) }
     let(:work_package) { FactoryGirl.build(:work_package) }
 
-    it "should be false without a project" do
+    it 'should be false without a project' do
       work_package.project = nil
       expect(work_package).not_to be_backlogs_enabled
     end
 
-    it "should be true with a project having the backlogs module" do
-      project.enabled_module_names = project.enabled_module_names + ["backlogs"]
+    it 'should be true with a project having the backlogs module' do
+      project.enabled_module_names = project.enabled_module_names + ['backlogs']
       work_package.project = project
 
       expect(work_package).to be_backlogs_enabled
     end
 
-    it "should be false with a project not having the backlogs module" do
+    it 'should be false with a project not having the backlogs module' do
       work_package.project = project
       work_package.project.enabled_module_names = nil
 

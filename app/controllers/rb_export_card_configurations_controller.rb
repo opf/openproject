@@ -33,7 +33,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 class RbExportCardConfigurationsController < RbApplicationController
   include OpenProject::PdfExport::ExportCard
 
@@ -48,12 +47,14 @@ class RbExportCardConfigurationsController < RbApplicationController
 
     cards_document = OpenProject::PdfExport::ExportCard::DocumentGenerator.new(config, @sprint.stories(@project))
 
-    filename = "#{@project.to_s}-#{@sprint.to_s}-#{Time.now.strftime("%B-%d-%Y")}.pdf"
+    filename = "#{@project}-#{@sprint}-#{Time.now.strftime('%B-%d-%Y')}.pdf"
     respond_to do |format|
-      format.pdf { send_data(cards_document.render,
-        :disposition => 'attachment',
-        :type => 'application/pdf',
-        :filename => filename) }
+      format.pdf {
+        send_data(cards_document.render,
+                  disposition: 'attachment',
+                  type: 'application/pdf',
+                  filename: filename)
+      }
     end
   end
 

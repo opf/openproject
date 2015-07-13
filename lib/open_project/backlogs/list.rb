@@ -42,7 +42,6 @@ module OpenProject::Backlogs::List
       before_update :fix_other_work_package_positions
       before_update :fix_own_work_package_position
 
-
       # Used by acts_as_silent_list to limit the list to a certain subset within
       # the table.
       #
@@ -50,7 +49,7 @@ module OpenProject::Backlogs::List
       # we're using send to circumvent visibility work_packages.
       def scope_condition
         self.class.send(:sanitize_sql, ['project_id = ? AND fixed_version_id = ? AND type_id IN (?)',
-                                        self.project_id, self.fixed_version_id, self.types])
+                                        project_id, fixed_version_id, types])
       end
 
       include InstanceMethods
@@ -58,8 +57,6 @@ module OpenProject::Backlogs::List
   end
 
   module InstanceMethods
-
-
     def move_after(prev_id)
       # Remove so the potential 'prev' has a correct position
       remove_from_list
@@ -91,8 +88,8 @@ module OpenProject::Backlogs::List
     def fix_other_work_package_positions
       if changes.slice('project_id', 'type_id', 'fixed_version_id').present?
         if changes.slice('project_id', 'fixed_version_id').blank? and
-                            Story.types.include?(type_id.to_i) and
-                            Story.types.include?(type_id_was.to_i)
+           Story.types.include?(type_id.to_i) and
+           Story.types.include?(type_id_was.to_i)
           return
         end
 
@@ -135,8 +132,8 @@ module OpenProject::Backlogs::List
     def fix_own_work_package_position
       if changes.slice('project_id', 'type_id', 'fixed_version_id').present?
         if changes.slice('project_id', 'fixed_version_id').blank? and
-                            Story.types.include?(type_id.to_i) and
-                            Story.types.include?(type_id_was.to_i)
+           Story.types.include?(type_id.to_i) and
+           Story.types.include?(type_id_was.to_i)
           return
         end
 

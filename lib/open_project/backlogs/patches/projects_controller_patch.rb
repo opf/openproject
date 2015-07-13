@@ -51,23 +51,23 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
     end
 
     def project_done_statuses
-      selected_statuses = (params[:statuses] || []).map do |work_package_status|
+      selected_statuses = (params[:statuses] || []).map { |work_package_status|
         Status.find(work_package_status[:status_id].to_i)
-      end.compact
+      }.compact
 
       @project.done_statuses = selected_statuses
       @project.save!
 
       flash[:notice] = l(:notice_successful_update)
 
-      redirect_to :action => 'settings', :id => @project, :tab => 'backlogs_settings'
+      redirect_to action: 'settings', id: @project, tab: 'backlogs_settings'
     end
 
     def rebuild_positions
       @project.rebuild_positions
       flash[:notice] = l('backlogs.positions_rebuilt_successfully')
 
-      redirect_to :action => 'settings', :id => @project, :tab => 'backlogs_settings'
+      redirect_to action: 'settings', id: @project, tab: 'backlogs_settings'
     rescue ActiveRecord::ActiveRecordError
       flash[:error] = l('backlogs.positions_could_not_be_rebuilt')
 
@@ -75,7 +75,7 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
       logger.error($!)
       logger.error($@)
 
-      redirect_to :action => 'settings', :id => @project, :tab => 'backlogs_settings'
+      redirect_to action: 'settings', id: @project, tab: 'backlogs_settings'
     end
   end
 end

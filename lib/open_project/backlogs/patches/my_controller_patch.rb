@@ -40,14 +40,14 @@ module OpenProject::Backlogs::Patches::MyControllerPatch
     base.class_eval do
       include InstanceMethods
 
-      after_filter :save_backlogs_preferences, :only => [:account]
+      after_filter :save_backlogs_preferences, only: [:account]
     end
   end
 
   module InstanceMethods
     def save_backlogs_preferences
       if request.patch? && flash[:notice] == l(:notice_account_updated)
-        versions_default_fold_state = (params[:backlogs] && params[:backlogs][:versions_default_fold_state]) ? params[:backlogs][:versions_default_fold_state] : "open"
+        versions_default_fold_state = (params[:backlogs] && params[:backlogs][:versions_default_fold_state]) ? params[:backlogs][:versions_default_fold_state] : 'open'
         User.current.backlogs_preference(:versions_default_fold_state, versions_default_fold_state)
 
         color = (params[:backlogs] ? params[:backlogs][:task_color] : '').to_s

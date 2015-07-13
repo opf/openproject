@@ -40,8 +40,7 @@ class RbBurndownChartsController < RbApplicationController
     @burndown = @sprint.burndown(@project)
 
     respond_to do |format|
-      format.html { render :layout => false }
+      format.html { render layout: false }
     end
   end
-
 end
