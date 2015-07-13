@@ -56,7 +56,7 @@ class RbApplicationController < ApplicationController
     settings = Setting.plugin_openproject_backlogs
     if settings["story_types"].blank? || settings["task_type"].blank?
       respond_to do |format|
-        format.html { render :file => "shared/not_configured" }
+        format.html { render file: "shared/not_configured" }
       end
     end
   end

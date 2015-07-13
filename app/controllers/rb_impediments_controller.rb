@@ -40,7 +40,7 @@ class RbImpedimentsController < RbApplicationController
     @include_meta = true
 
     respond_to do |format|
-      format.html { render :partial => "impediment", :object => @impediment, :status => status }
+      format.html { render partial: "impediment", object: @impediment, status: status }
     end
   end
 
@@ -51,7 +51,7 @@ class RbImpedimentsController < RbApplicationController
     @include_meta = true
 
     respond_to do |format|
-      format.html { render :partial => "impediment", :object => @impediment, :status => status }
+      format.html { render partial: "impediment", object: @impediment, status: status }
     end
   end
 

@@ -41,7 +41,7 @@ class Impediment < Task
   validate :validate_blocks_list
 
   safe_attributes "blocks_ids",
-                  :if => lambda {|impediment, user|
+                  if: lambda {|impediment, user|
                             (impediment.new_record? && user.allowed_to?(:create_impediments, impediment.project)) ||
                             user.allowed_to?(:update_impediments, impediment.project)
                           }
@@ -55,7 +55,7 @@ class Impediment < Task
         args[1][:conditions][0] += " AND parent_id is NULL AND type_id = #{self.type}"
       end
     else
-      args << {:conditions => {:parent_id => nil, :type_id => self.type}}
+      args << {conditions: {parent_id: nil, type_id: self.type}}
     end
 
     super
@@ -87,7 +87,7 @@ class Impediment < Task
     currently_blocking = relations_from.select{|rel| rel.relation_type == Relation::TYPE_BLOCKS}.collect(&:to_id)
 
     (self.blocks_ids - currently_blocking).each{ |id|
-      rel = Relation.new(:relation_type => Relation::TYPE_BLOCKS, :from => self)
+      rel = Relation.new(relation_type: Relation::TYPE_BLOCKS, from: self)
       rel.to_id = id
       self.relations_from << rel
     }

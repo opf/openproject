@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe 'behavior for #3200' do
     let(:empty_work_package) { WorkPackage.new }
 
@@ -134,14 +134,14 @@ describe WorkPackage, :type => :model do
 
   describe 'definition of done' do
     before(:each) do
-      @status_resolved = FactoryGirl.build(:status, :name => "Resolved", :is_default => false)
-      @status_open = FactoryGirl.build(:status, :name => "Open", :is_default => true)
+      @status_resolved = FactoryGirl.build(:status, name: "Resolved", is_default: false)
+      @status_open = FactoryGirl.build(:status, name: "Open", is_default: true)
       @project = FactoryGirl.build(:project)
       @project.done_statuses = [@status_resolved]
 
-      @work_package = FactoryGirl.build(:work_package, :project => @project,
-                                        :status  => @status_open,
-                                        :type => FactoryGirl.build(:type_feature))
+      @work_package = FactoryGirl.build(:work_package, project: @project,
+                                        status:  @status_open,
+                                        type: FactoryGirl.build(:type_feature))
     end
 
     it 'should not be done when having the initial status "open"' do

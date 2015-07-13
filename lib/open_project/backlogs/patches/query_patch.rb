@@ -40,13 +40,13 @@ module OpenProject::Backlogs::Patches::QueryPatch
     base.class_eval do
       include InstanceMethods
 
-      add_available_column(QueryColumn.new(:story_points, :sortable => "#{WorkPackage.table_name}.story_points"))
-      add_available_column(QueryColumn.new(:remaining_hours, :sortable => "#{WorkPackage.table_name}.remaining_hours"))
+      add_available_column(QueryColumn.new(:story_points, sortable: "#{WorkPackage.table_name}.story_points"))
+      add_available_column(QueryColumn.new(:remaining_hours, sortable: "#{WorkPackage.table_name}.remaining_hours"))
 
       add_available_column(QueryColumn.new(:position,
-                                           :default_order => 'asc',
+                                           default_order: 'asc',
                                            # Sort by position only, always show work_packages without a position at the end
-                                           :sortable => "CASE WHEN #{WorkPackage.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, #{WorkPackage.table_name}.position"
+                                           sortable: "CASE WHEN #{WorkPackage.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, #{WorkPackage.table_name}.position"
                                           ))
       Queries::WorkPackages::Filter.add_filter_type_by_field('backlogs_work_package_type', 'list')
 
@@ -60,12 +60,12 @@ module OpenProject::Backlogs::Patches::QueryPatch
       available_work_package_filters_without_backlogs_work_package_type.tap do |filters|
         if backlogs_configured? and backlogs_enabled?
           filters["backlogs_work_package_type"] = {
-            :type => :list,
-            :values => [[l(:story, :scope => [:backlogs]), "story"],
-                        [l(:task, :scope => [:backlogs]), "task"],
-                        [l(:impediment, :scope => [:backlogs]), "impediment"],
-                        [l(:any, :scope => [:backlogs]), "any"]],
-            :order => 20
+            type: :list,
+            values: [[l(:story, scope: [:backlogs]), "story"],
+                        [l(:task, scope: [:backlogs]), "task"],
+                        [l(:impediment, scope: [:backlogs]), "impediment"],
+                        [l(:any, scope: [:backlogs]), "any"]],
+            order: 20
           }
         end
       end

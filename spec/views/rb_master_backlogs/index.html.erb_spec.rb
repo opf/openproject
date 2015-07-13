@@ -36,10 +36,10 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe 'rb_master_backlogs/index', :type => :view do
+describe 'rb_master_backlogs/index', type: :view do
   let(:user) { FactoryGirl.create(:user) }
   let(:role_allowed) { FactoryGirl.create(:role,
-    :permissions => [:view_master_backlog, :view_taskboards])
+    permissions: [:view_master_backlog, :view_taskboards])
   }
   let(:statuses) { [FactoryGirl.create(:status, is_default: true),
                     FactoryGirl.create(:status),
@@ -48,30 +48,30 @@ describe 'rb_master_backlogs/index', :type => :view do
   let(:type_feature) { FactoryGirl.create(:type_feature) }
   let(:issue_priority) { FactoryGirl.create(:priority) }
   let(:project) do
-    project = FactoryGirl.create(:project, :types => [type_feature, type_task])
-    project.members = [FactoryGirl.create(:member, :principal => user,:project => project,:roles => [role_allowed])]
+    project = FactoryGirl.create(:project, types: [type_feature, type_task])
+    project.members = [FactoryGirl.create(:member, principal: user,project: project,roles: [role_allowed])]
     project
   end
-  let(:story_a) { FactoryGirl.create(:story, :status => statuses[0],
-                                             :project => project,
-                                             :type => type_feature,
-                                             :fixed_version => sprint,
-                                             :priority => issue_priority
+  let(:story_a) { FactoryGirl.create(:story, status: statuses[0],
+                                             project: project,
+                                             type: type_feature,
+                                             fixed_version: sprint,
+                                             priority: issue_priority
                                              )}
-  let(:story_b) { FactoryGirl.create(:story, :status => statuses[1],
-                                             :project => project,
-                                             :type => type_feature,
-                                             :fixed_version => sprint,
-                                             :priority => issue_priority
+  let(:story_b) { FactoryGirl.create(:story, status: statuses[1],
+                                             project: project,
+                                             type: type_feature,
+                                             fixed_version: sprint,
+                                             priority: issue_priority
                                              )}
-  let(:story_c) { FactoryGirl.create(:story, :status => statuses[2],
-                                             :project => project,
-                                             :type => type_feature,
-                                             :fixed_version => sprint,
-                                             :priority => issue_priority
+  let(:story_c) { FactoryGirl.create(:story, status: statuses[2],
+                                             project: project,
+                                             type: type_feature,
+                                             fixed_version: sprint,
+                                             priority: issue_priority
                                              )}
   let(:stories) { [story_a, story_b, story_c] }
-  let(:sprint)   { FactoryGirl.create(:sprint, :project => project) }
+  let(:sprint)   { FactoryGirl.create(:sprint, project: project) }
 
   before :each do
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => type_task.id})

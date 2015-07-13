@@ -38,8 +38,8 @@ class Story < WorkPackage
 
   def self.backlogs(project_id, sprint_ids, options = {})
 
-    options.reverse_merge!({ :order => Story::ORDER,
-                             :conditions => Story.condition(project_id, sprint_ids) })
+    options.reverse_merge!({ order: Story::ORDER,
+                             conditions: Story.condition(project_id, sprint_ids) })
 
     candidates = Story.all(options)
 
@@ -77,11 +77,11 @@ class Story < WorkPackage
 
   def self.at_rank(project_id, sprint_id, rank)
     return Story.find(:first,
-                      :order => Story::ORDER,
-                      :conditions => Story.condition(project_id, sprint_id),
-                      :joins => :status,
-                      :limit => 1,
-                      :offset => rank - 1)
+                      order: Story::ORDER,
+                      conditions: Story.condition(project_id, sprint_id),
+                      joins: :status,
+                      limit: 1,
+                      offset: rank - 1)
   end
 
   def self.types
@@ -142,7 +142,7 @@ class Story < WorkPackage
       end
     end
 
-    {:open => open, :closed => closed}
+    {open: open, closed: closed}
   end
 
   def update_and_position!(params)
@@ -168,7 +168,7 @@ class Story < WorkPackage
       extras = ["and not #{WorkPackage.table_name}.position is NULL and #{WorkPackage.table_name}.position <= ?", self.position]
     end
 
-    @rank ||= WorkPackage.count(:conditions => Story.condition(self.project.id, self.fixed_version_id, extras), :joins => :status)
+    @rank ||= WorkPackage.count(conditions: Story.condition(self.project.id, self.fixed_version_id, extras), joins: :status)
 
     return @rank
   end

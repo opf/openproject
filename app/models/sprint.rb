@@ -38,17 +38,17 @@ require 'date'
 class Sprint < Version
   scope :open_sprints, lambda { |project|
     {
-      :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC",
-      :conditions => [ "versions.status = 'open' and versions.project_id = ?", project.id ]
+      order: "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC",
+      conditions: [ "versions.status = 'open' and versions.project_id = ?", project.id ]
     }
   }
 
   # null last ordering
-  scope :order_by_date, :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"
-  scope :order_by_name, :order => "#{Version.table_name}.name ASC"
+  scope :order_by_date, order: "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"
+  scope :order_by_name, order: "#{Version.table_name}.name ASC"
 
-  scope :apply_to, lambda { |project| {:include => :project,
-                                             :conditions => ["#{Version.table_name}.project_id = #{project.id}" +
+  scope :apply_to, lambda { |project| {include: :project,
+                                             conditions: ["#{Version.table_name}.project_id = #{project.id}" +
                                                " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
                                                " #{Version.table_name}.sharing = 'system'" +
                                                " OR (#{Project.table_name}.lft >= #{project.root.lft} AND #{Project.table_name}.rgt <= #{project.root.rgt} AND #{Version.table_name}.sharing = 'tree')" +
@@ -56,16 +56,16 @@ class Sprint < Version
                                                " OR (#{Project.table_name}.lft > #{project.lft} AND #{Project.table_name}.rgt < #{project.rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
                                                "))"]}}
 
-  scope :displayed_left, lambda { |project| { :joins => sanitize_sql_array(["LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
+  scope :displayed_left, lambda { |project| { joins: sanitize_sql_array(["LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
                                                                                   " WHERE project_id = ? ) version_settings" +
                                                                                   " ON version_settings.version_id = versions.id",
                                                                                   project.id]),
-                                                    :conditions => ["(version_settings.project_id = ? AND version_settings.display = ?)" +
+                                                    conditions: ["(version_settings.project_id = ? AND version_settings.display = ?)" +
                                                                     " OR (version_settings.project_id is NULL)",
                                                                     project.id, VersionSetting::DISPLAY_LEFT] } }
 
-  scope :displayed_right, lambda { |project| {:include => :version_settings,
-                                                    :conditions => ["version_settings.project_id = ? AND version_settings.display = ?",
+  scope :displayed_right, lambda { |project| {include: :version_settings,
+                                                    conditions: ["version_settings.project_id = ? AND version_settings.display = ?",
                                                                     project.id, VersionSetting::DISPLAY_RIGHT]} }
 
   def stories(project, options = {} )
@@ -97,8 +97,8 @@ class Sprint < Version
     template = project.wiki.find_page(Setting.plugin_openproject_backlogs["wiki_template"])
 
     if template and not page
-      page = project.wiki.pages.build(:title => self.wiki_page_title)
-      page.build_content(:text => "h1. #{self.name}\n\n#{template.text}")
+      page = project.wiki.pages.build(title: self.wiki_page_title)
+      page.build_content(text: "h1. #{self.name}\n\n#{template.text}")
       page.save!
     end
 
@@ -141,13 +141,13 @@ class Sprint < Version
       conditions = "1 = 1"
     end
 
-    Version.find(:all, :conditions => conditions).each { |sprint|
+    Version.find(:all, conditions: conditions).each { |sprint|
       sprint.burndown
     }
   end
 
   def impediments(project)
-    Impediment.find(:all, :conditions => {:fixed_version_id => self, :project_id => project})
+    Impediment.find(:all, conditions: {fixed_version_id: self, project_id: project})
   end
 
 end

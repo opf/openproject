@@ -58,7 +58,7 @@ module VersionSettingsHelper
     setting = version.version_settings.detect { |vs| vs.project_id == project.id || vs.project_id.nil? }
 
     # nil? because some settings in the active codebase do have that right now
-    setting ||= version.version_settings.new(:display => VersionSetting::DISPLAY_LEFT, :project => project)
+    setting ||= version.version_settings.new(display: VersionSetting::DISPLAY_LEFT, project: project)
 
     setting
   end

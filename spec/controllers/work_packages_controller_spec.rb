@@ -35,7 +35,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesController, :type => :controller do
+describe WorkPackagesController, type: :controller do
   before do
     allow(User).to receive(:current).and_return current_user
     # disables sending mails
@@ -49,7 +49,7 @@ describe WorkPackagesController, :type => :controller do
   end
 
   let(:current_user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => true) }
+  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: true) }
   let(:status) { FactoryGirl.create :default_status }
   let(:closed) { FactoryGirl.create :closed_status }
   let(:story_type) { FactoryGirl.create(:type_feature) }

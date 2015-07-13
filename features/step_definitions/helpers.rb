@@ -111,6 +111,6 @@ def story_position(story)
 end
 
 def logout
-  visit url_for(:controller => '/account', :action=>'logout')
+  visit url_for(controller: '/account', action:'logout')
   @user = nil
 end

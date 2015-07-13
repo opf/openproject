@@ -83,7 +83,7 @@ module RbCommonHelper
   end
 
   def work_package_link_or_empty(work_package)
-    modal_link_to_work_package(work_package.id, work_package, :class => 'prevent_edit') unless work_package.new_record?
+    modal_link_to_work_package(work_package.id, work_package, class: 'prevent_edit') unless work_package.new_record?
   end
 
   def modal_link_to_work_package(title, work_package, options = {})
@@ -92,13 +92,13 @@ module RbCommonHelper
 
   def modal_link_to(title, path, options = {})
     html_id = "modal_work_package_#{SecureRandom.hex(10)}"
-    link_to(title, path, options.merge(:id => html_id, :'data-modal' => ''))
+    link_to(title, path, options.merge(id: html_id, :'data-modal' => ''))
   end
 
   def sprint_link_or_empty(item)
     item_id = item.id.to_s
     text = (item_id.length > 8 ? "#{item_id[0..1]}...#{item_id[-4..-1]}" : item_id)
-    item.new_record? ? "" : link_to(text, {:controller => '/sprint', :action => "show", :id => item}, {:class => "prevent_edit"})
+    item.new_record? ? "" : link_to(text, {controller: '/sprint', action: "show", id: item}, {class: "prevent_edit"})
   end
 
   def mark_if_closed(story)
@@ -213,13 +213,13 @@ module RbCommonHelper
   end
 
   def all_workflows
-    @all_workflows ||= Workflow.all(:include => [:new_status, :old_status],
-                                    :conditions => { :role_id => User.current.roles_for_project(@project).collect(&:id),
-                                                     :type_id => story_types.collect(&:id) })
+    @all_workflows ||= Workflow.all(include: [:new_status, :old_status],
+                                    conditions: { role_id: User.current.roles_for_project(@project).collect(&:id),
+                                                     type_id: story_types.collect(&:id) })
   end
 
   def all_work_package_status
-    @all_work_package_status ||= Status.all(:order => 'position ASC')
+    @all_work_package_status ||= Status.all(order: 'position ASC')
   end
 
   def backlogs_types
@@ -228,8 +228,8 @@ module RbCommonHelper
       backlogs_ids << Setting.plugin_openproject_backlogs["task_type"]
 
       Type.find(:all,
-                   :conditions => { :id => backlogs_ids },
-                   :order => 'position ASC')
+                   conditions: { id: backlogs_ids },
+                   order: 'position ASC')
     end
   end
 

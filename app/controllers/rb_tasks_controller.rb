@@ -41,7 +41,7 @@ class RbTasksController < RbApplicationController
     @include_meta = true
 
     respond_to do |format|
-      format.html { render :partial => "task", :object => @task, :status => status }
+      format.html { render partial: "task", object: @task, status: status }
     end
   end
 
@@ -52,7 +52,7 @@ class RbTasksController < RbApplicationController
     @include_meta = true
 
     respond_to do |format|
-      format.html { render :partial => "task", :object => @task, :status => status }
+      format.html { render partial: "task", object: @task, status: status }
     end
   end
 

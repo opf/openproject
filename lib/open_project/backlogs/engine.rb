@@ -42,19 +42,19 @@ module OpenProject::Backlogs
     engine_name :openproject_backlogs
 
     def self.settings
-      { :default => { "story_types"  => nil,
+      { default: { "story_types"  => nil,
                       "task_type"    => nil,
                       "card_spec"    => nil
       },
-      :partial => 'shared/settings' }
+      partial: 'shared/settings' }
     end
 
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-backlogs',
-             :author_url => 'http://finn.de',
-             :requires_openproject => '>= 4.0.0',
-             :settings => settings do
+             author_url: 'http://finn.de',
+             requires_openproject: '>= 4.0.0',
+             settings: settings do
 
       Redmine::AccessControl.permission(:edit_project).actions << "projects/project_done_statuses"
       Redmine::AccessControl.permission(:edit_project).actions << "projects/rebuild_positions"
@@ -64,59 +64,59 @@ module OpenProject::Backlogs
 
         # Master backlog permissions
         permission :view_master_backlog, {
-          :rb_master_backlogs  => :index,
-          :rb_sprints          => [:index, :show],
-          :rb_wikis            => :show,
-          :rb_stories          => [:index, :show],
-          :rb_queries          => :show,
-          :rb_server_variables => :show,
-          :rb_burndown_charts  => :show,
-          :rb_export_card_configurations => [:index, :show]
+          rb_master_backlogs:  :index,
+          rb_sprints:          [:index, :show],
+          rb_wikis:            :show,
+          rb_stories:          [:index, :show],
+          rb_queries:          :show,
+          rb_server_variables: :show,
+          rb_burndown_charts:  :show,
+          rb_export_card_configurations: [:index, :show]
         }
 
         permission :view_taskboards,     {
-          :rb_taskboards       => :show,
-          :rb_sprints          => :show,
-          :rb_stories          => :show,
-          :rb_tasks            => [:index, :show],
-          :rb_impediments      => [:index, :show],
-          :rb_wikis            => :show,
-          :rb_server_variables => :show,
-          :rb_burndown_charts  => :show,
-          :rb_export_card_configurations => [:index, :show]
+          rb_taskboards:       :show,
+          rb_sprints:          :show,
+          rb_stories:          :show,
+          rb_tasks:            [:index, :show],
+          rb_impediments:      [:index, :show],
+          rb_wikis:            :show,
+          rb_server_variables: :show,
+          rb_burndown_charts:  :show,
+          rb_export_card_configurations: [:index, :show]
         }
 
         # Sprint permissions
         # :show_sprints and :list_sprints are implicit in :view_master_backlog permission
         permission :update_sprints,      {
-          :rb_sprints => [:edit, :update],
-          :rb_wikis   => [:edit, :update]
+          rb_sprints: [:edit, :update],
+          rb_wikis:   [:edit, :update]
         }
 
         # Story permissions
         # :show_stories and :list_stories are implicit in :view_master_backlog permission
-        permission :create_stories,         { :rb_stories => :create }
-        permission :update_stories,         { :rb_stories => :update }
+        permission :create_stories,         { rb_stories: :create }
+        permission :update_stories,         { rb_stories: :update }
 
         # Task permissions
         # :show_tasks and :list_tasks are implicit in :view_sprints
-        permission :create_tasks,           { :rb_tasks => [:new, :create]  }
-        permission :update_tasks,           { :rb_tasks => [:edit, :update] }
+        permission :create_tasks,           { rb_tasks: [:new, :create]  }
+        permission :update_tasks,           { rb_tasks: [:edit, :update] }
 
         # Impediment permissions
         # :show_impediments and :list_impediments are implicit in :view_sprints
-        permission :create_impediments,     { :rb_impediments => [:new, :create]  }
-        permission :update_impediments,     { :rb_impediments => [:edit, :update] }
+        permission :create_impediments,     { rb_impediments: [:new, :create]  }
+        permission :update_impediments,     { rb_impediments: [:edit, :update] }
       end
 
       menu :project_menu,
         :backlogs,
-        {:controller => '/rb_master_backlogs', :action => :index},
-        :caption => :project_module_backlogs,
-        :before => :calendar,
-        :param => :project_id,
-        :if => proc { not(User.current.respond_to?(:impaired?) and User.current.impaired?) },
-        :html => {:class => 'icon2 icon-backlogs-icon'}
+        {controller: '/rb_master_backlogs', action: :index},
+        caption: :project_module_backlogs,
+        before: :calendar,
+        param: :project_id,
+        if: proc { not(User.current.respond_to?(:impaired?) and User.current.impaired?) },
+        html: {class: 'icon2 icon-backlogs-icon'}
     end
 
     assets %w(

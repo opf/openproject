@@ -54,75 +54,75 @@ describe WorkPackage, 'parent-child relationships between backlogs stories and b
   let(:role) { FactoryGirl.build(:role) }
   let(:user) { FactoryGirl.build(:user) }
   let(:issue_priority) { FactoryGirl.build(:priority) }
-  let(:status) { FactoryGirl.build(:status, :name => "status 1", :is_default => true) }
+  let(:status) { FactoryGirl.build(:status, name: "status 1", is_default: true) }
 
   let(:parent_project) do
-    p = FactoryGirl.build(:project, :name => "parent_project",
-                                :members => [FactoryGirl.build(:member,
-                                                           :principal => user,
-                                                           :roles => [role])],
-                                :types => [type_feature, type_task, type_bug])
+    p = FactoryGirl.build(:project, name: "parent_project",
+                                members: [FactoryGirl.build(:member,
+                                                           principal: user,
+                                                           roles: [role])],
+                                types: [type_feature, type_task, type_bug])
 
-    p.versions << FactoryGirl.build(:version, :name => "Version1", :project => p)
-    p.versions << FactoryGirl.build(:version, :name => "Version2", :project => p)
+    p.versions << FactoryGirl.build(:version, name: "Version1", project: p)
+    p.versions << FactoryGirl.build(:version, name: "Version2", project: p)
 
     p
   end
 
   let(:child_project) do
-    p = FactoryGirl.build(:project, :name => "child_project",
-                                :members => [FactoryGirl.build(:member,
-                                                           :principal => user,
-                                                           :roles => [role])],
-                                :types => [type_feature, type_task, type_bug])
+    p = FactoryGirl.build(:project, name: "child_project",
+                                members: [FactoryGirl.build(:member,
+                                                           principal: user,
+                                                           roles: [role])],
+                                types: [type_feature, type_task, type_bug])
 
-    p.versions << FactoryGirl.build(:version, :name => "Version1", :project => p)
-    p.versions << FactoryGirl.build(:version, :name => "Version2", :project => p)
+    p.versions << FactoryGirl.build(:version, name: "Version1", project: p)
+    p.versions << FactoryGirl.build(:version, name: "Version2", project: p)
 
     p
   end
 
   let(:story) { FactoryGirl.build(:work_package,
-                                  :subject => "Story",
-                                  :type => type_feature,
-                                  :status => status,
-                                  :author => user,
-                                  :priority => issue_priority) }
+                                  subject: "Story",
+                                  type: type_feature,
+                                  status: status,
+                                  author: user,
+                                  priority: issue_priority) }
 
   let(:story2) { FactoryGirl.build(:work_package,
-                                   :subject => "Story2",
-                                   :type => type_feature,
-                                   :status => status,
-                                   :author => user,
-                                   :priority => issue_priority) }
+                                   subject: "Story2",
+                                   type: type_feature,
+                                   status: status,
+                                   author: user,
+                                   priority: issue_priority) }
 
   let(:task) { FactoryGirl.build(:work_package,
-                                 :subject => "Task",
-                                 :type => type_task,
-                                 :status => status,
-                                 :author => user,
-                                 :priority => issue_priority) }
+                                 subject: "Task",
+                                 type: type_task,
+                                 status: status,
+                                 author: user,
+                                 priority: issue_priority) }
 
    let(:task2) { FactoryGirl.build(:work_package,
-                                   :subject => "Task2",
-                                   :type => type_task,
-                                   :status => status,
-                                   :author => user,
-                                   :priority => issue_priority) }
+                                   subject: "Task2",
+                                   type: type_task,
+                                   status: status,
+                                   author: user,
+                                   priority: issue_priority) }
 
    let(:bug) { FactoryGirl.build(:work_package,
-                                 :subject => "Bug",
-                                 :type => type_bug,
-                                 :status => status,
-                                 :author => user,
-                                 :priority => issue_priority) }
+                                 subject: "Bug",
+                                 type: type_bug,
+                                 status: status,
+                                 author: user,
+                                 priority: issue_priority) }
 
    let(:bug2) { FactoryGirl.build(:work_package,
-                                  :subject => "Bug2",
-                                  :type => type_bug,
-                                  :status => status,
-                                  :author => user,
-                                  :priority => issue_priority) }
+                                  subject: "Bug2",
+                                  type: type_bug,
+                                  status: status,
+                                  author: user,
+                                  priority: issue_priority) }
 
   before do
     allow(Setting).to receive(:cross_project_work_package_relations).and_return("1")

@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Burndown, :type => :model do
+describe Burndown, type: :model do
   def set_attribute_journalized(story, attribute, value, day)
     story.reload
     story.send(attribute, value)
@@ -47,24 +47,24 @@ describe Burndown, :type => :model do
   let(:role) { @role ||= FactoryGirl.create(:role) }
   let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
   let(:type_task) { @type_task ||= FactoryGirl.create(:type_task) }
-  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, :is_default => true) }
-  let(:version) { @version ||= FactoryGirl.create(:version, :project => project) }
+  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, is_default: true) }
+  let(:version) { @version ||= FactoryGirl.create(:version, project: project) }
   let(:sprint) { @sprint ||= Sprint.find(version.id) }
 
   let(:project) do
     unless @project
       @project = FactoryGirl.build(:project)
-      @project.members = [FactoryGirl.build(:member, :principal => user,
-                                                     :project => @project,
-                                                     :roles => [role])]
+      @project.members = [FactoryGirl.build(:member, principal: user,
+                                                     project: @project,
+                                                     roles: [role])]
       @project.versions << version
     end
     @project
   end
 
-  let(:issue_open) { @status1 ||= FactoryGirl.create(:status, :name => "status 1", :is_default => true) }
-  let(:issue_closed) { @status2 ||= FactoryGirl.create(:status, :name => "status 2", :is_closed => true) }
-  let(:issue_resolved) { @status3 ||= FactoryGirl.create(:status, :name => "status 3", :is_closed => false) }
+  let(:issue_open) { @status1 ||= FactoryGirl.create(:status, name: "status 1", is_default: true) }
+  let(:issue_closed) { @status2 ||= FactoryGirl.create(:status, name: "status 2", is_closed: true) }
+  let(:issue_resolved) { @status3 ||= FactoryGirl.create(:status, name: "status 3", is_closed: false) }
 
   before(:each) do
     Rails.cache.clear
@@ -117,14 +117,14 @@ describe Burndown, :type => :model do
 
         describe "WITH 1 story assigned to the sprint" do
           before(:each) do
-            @story = FactoryGirl.build(:story, :subject => "Story 1",
-                                               :project => project,
-                                               :fixed_version => version,
-                                               :type => type_feature,
-                                               :status => issue_open,
-                                               :priority => issue_priority,
-                                               :created_at => Date.today - 20.days,
-                                               :updated_at => Date.today - 20.days)
+            @story = FactoryGirl.build(:story, subject: "Story 1",
+                                               project: project,
+                                               fixed_version: version,
+                                               type: type_feature,
+                                               status: issue_open,
+                                               priority: issue_priority,
+                                               created_at: Date.today - 20.days,
+                                               updated_at: Date.today - 20.days)
           end
 
           describe "WITH the story having story_point defined on creation" do
@@ -169,14 +169,14 @@ describe Burndown, :type => :model do
             @stories = []
 
             (0..9).each do |i|
-              @stories[i] = FactoryGirl.create(:story, :subject => "Story #{i}",
-                                               :project => project,
-                                               :fixed_version => version,
-                                               :type => type_feature,
-                                               :status => issue_open,
-                                               :priority => issue_priority,
-                                               :created_at => Date.today - (20 - i).days,
-                                               :updated_at => Date.today - (20 - i).days)
+              @stories[i] = FactoryGirl.create(:story, subject: "Story #{i}",
+                                               project: project,
+                                               fixed_version: version,
+                                               type: type_feature,
+                                               status: issue_open,
+                                               priority: issue_priority,
+                                               created_at: Date.today - (20 - i).days,
+                                               updated_at: Date.today - (20 - i).days)
               @stories[i].current_journal.update_attribute(:created_at, @stories[i].created_at)
             end
           end

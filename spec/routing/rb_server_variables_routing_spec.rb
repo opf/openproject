@@ -35,11 +35,11 @@
 
 require 'spec_helper'
 
-describe RbServerVariablesController, :type => :routing do
+describe RbServerVariablesController, type: :routing do
   describe "routing" do
-    it { expect(get('/projects/project_42/server_variables.js')).to route_to(:controller => 'rb_server_variables',
-                                                                         :action => 'show',
-                                                                         :format => 'js',
-                                                                         :project_id => 'project_42') }
+    it { expect(get('/projects/project_42/server_variables.js')).to route_to(controller: 'rb_server_variables',
+                                                                         action: 'show',
+                                                                         format: 'js',
+                                                                         project_id: 'project_42') }
   end
 end

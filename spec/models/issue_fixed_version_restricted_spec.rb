@@ -44,16 +44,16 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
   let(:role) { FactoryGirl.build(:role) }
   let(:user) { FactoryGirl.build(:user) }
   let(:issue_priority) { FactoryGirl.build(:priority) }
-  let(:status) { FactoryGirl.build(:status, :name => "status 1", :is_default => true) }
+  let(:status) { FactoryGirl.build(:status, name: "status 1", is_default: true) }
 
   let(:project) do
-    p = FactoryGirl.build(:project, :members => [FactoryGirl.build(:member,
-                                                           :principal => user,
-                                                           :roles => [role])],
-                                :types => [type_feature, type_task, type_bug])
+    p = FactoryGirl.build(:project, members: [FactoryGirl.build(:member,
+                                                           principal: user,
+                                                           roles: [role])],
+                                types: [type_feature, type_task, type_bug])
 
-    p.versions << FactoryGirl.build(:version, :name => "Version1", :project => p)
-    p.versions << FactoryGirl.build(:version, :name => "Version2", :project => p)
+    p.versions << FactoryGirl.build(:version, name: "Version1", project: p)
+    p.versions << FactoryGirl.build(:version, name: "Version2", project: p)
 
     p
   end
@@ -61,66 +61,66 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
 
   let(:story) do
     story = FactoryGirl.build(:work_package,
-                              :subject => "Story",
-                              :project => project,
-                              :type => type_feature,
-                              :fixed_version => version1,
-                              :status => status,
-                              :author => user,
-                              :priority => issue_priority)
+                              subject: "Story",
+                              project: project,
+                              type: type_feature,
+                              fixed_version: version1,
+                              status: status,
+                              author: user,
+                              priority: issue_priority)
     story.project.enabled_module_names += ["backlogs"]
     story
   end
 
   let(:story2) do
     story = FactoryGirl.build(:work_package,
-                              :subject => "Story2",
-                              :project => project,
-                              :type => type_feature,
-                              :fixed_version => version1,
-                              :status => status,
-                              :author => user,
-                              :priority => issue_priority)
+                              subject: "Story2",
+                              project: project,
+                              type: type_feature,
+                              fixed_version: version1,
+                              status: status,
+                              author: user,
+                              priority: issue_priority)
     story.project.enabled_module_names += ["backlogs"]
     story
   end
 
 
   let(:task) { FactoryGirl.build(:work_package,
-                                 :subject => "Task",
-                                 :type => type_task,
-                                 :fixed_version => version1,
-                                 :project => project,
-                                 :status => status,
-                                 :author => user,
-                                 :priority => issue_priority) }
+                                 subject: "Task",
+                                 type: type_task,
+                                 fixed_version: version1,
+                                 project: project,
+                                 status: status,
+                                 author: user,
+                                 priority: issue_priority) }
 
   let(:task2) { FactoryGirl.build(:work_package,
-                                  :subject => "Task2",
-                                  :type => type_task,
-                                  :fixed_version => version1,
-                                  :project => project,
-                                  :status => status,
-                                  :author => user,
-                                  :priority => issue_priority) }
+                                  subject: "Task2",
+                                  type: type_task,
+                                  fixed_version: version1,
+                                  project: project,
+                                  status: status,
+                                  author: user,
+                                  priority: issue_priority) }
 
   let(:bug) { FactoryGirl.build(:work_package,
-                                :subject => "Bug",
-                                :type => type_bug,
-                                :fixed_version => version1,
-                                :project => project,
-                                :status => status,
-                                :author => user,
-                                :priority => issue_priority) }
+                                subject: "Bug",
+                                type: type_bug,
+                                fixed_version: version1,
+                                project: project,
+                                status: status,
+                                author: user,
+                                priority: issue_priority) }
 
   let(:bug2) { FactoryGirl.build(:work_package,
-                                 :subject => "Bug2",
-                                 :type => type_bug,
-                                 :fixed_version => version1,
-                                 :project => project,
-                                 :status => status,
-                                 :author => user,
-                                 :priority => issue_priority) }
+                                 subject: "Bug2",
+                                 type: type_bug,
+                                 fixed_version: version1,
+                                 project: project,
+                                 status: status,
+                                 author: user,
+                                 priority: issue_priority) }
 
   shared_examples_for "fixed version beeing inherited from the parent" do
 

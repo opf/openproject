@@ -66,7 +66,7 @@ class Task < WorkPackage
   end
 
   def self.tasks_for(story_id)
-    Task.find_all_by_parent_id(story_id, :order => :lft).each_with_index do |task, i|
+    Task.find_all_by_parent_id(story_id, order: :lft).each_with_index do |task, i|
       task.rank = i + 1
     end
   end
@@ -99,7 +99,7 @@ class Task < WorkPackage
   end
 
   def rank
-    @rank ||= WorkPackage.count(:conditions => ['type_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.type, story_id, self.lft])
+    @rank ||= WorkPackage.count(conditions: ['type_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.type, story_id, self.lft])
     return @rank
   end
 end

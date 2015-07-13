@@ -53,8 +53,8 @@ end
 
 When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subject, prev_subject|
   work_package_class = if type.strip == 'task' then Task else Story end
-  story = work_package_class.find(:first, :conditions => ["subject=?", story_subject.strip])
-  prev  = work_package_class.find(:first, :conditions => ["subject=?", prev_subject.strip])
+  story = work_package_class.find(:first, conditions: ["subject=?", story_subject.strip])
+  prev  = work_package_class.find(:first, conditions: ["subject=?", prev_subject.strip])
 
   attributes = story.attributes
   attributes[:prev]             = prev.id
@@ -70,15 +70,15 @@ end
 
 When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, direction, position, sprint_name|
   position = position.to_i
-  story = Story.find(:first, :conditions => ["subject=?", story_subject])
-  sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
+  story = Story.find(:first, conditions: ["subject=?", story_subject])
+  sprint = Sprint.find(:first, conditions: ["name=?", sprint_name])
   story.fixed_version = sprint
 
   attributes = story.attributes
   attributes[:prev] = if position == 1
                         ''
                       else
-                        stories = Story.find(:all, :conditions => ["fixed_version_id=? AND type_id IN (?)", sprint.id, Story.types], :order => "position ASC")
+                        stories = Story.find(:all, conditions: ["fixed_version_id=? AND type_id IN (?)", sprint.id, Story.types], order: "position ASC")
                         raise "You indicated an invalid position (#{position}) in a sprint with #{stories.length} stories" if 0 > position or position > stories.length
                         stories[position - (direction=="up" ? 2 : 1)].id
                       end
@@ -142,7 +142,7 @@ When /^I update the task$/ do
 end
 
 When /^I view the master backlog$/ do
-  visit url_for(:controller => '/projects', :action => :show, :id => @project)
+  visit url_for(controller: '/projects', action: :show, id: @project)
   click_link("Backlogs")
 end
 
@@ -158,13 +158,13 @@ end
 # WARN: Depends on deprecated behavior of path_for('the task board for
 #       "sprint name"')
 When /^I view the sprint notes$/ do
-  visit url_for(:controller => '/rb_wikis', :action => 'show', :sprint_id => @sprint)
+  visit url_for(controller: '/rb_wikis', action: 'show', sprint_id: @sprint)
 end
 
 # WARN: Depends on deprecated behavior of path_for('the task board for
 #       "sprint name"')
 When /^I edit the sprint notes$/ do
-  visit url_for(:controller => '/rb_wikis', :action => 'edit', :sprint_id => @sprint)
+  visit url_for(controller: '/rb_wikis', action: 'edit', sprint_id: @sprint)
 end
 
 When /^I follow "(.+?)" of the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|

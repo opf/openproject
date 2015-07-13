@@ -162,7 +162,7 @@ module OpenProject::Backlogs::Burndown
 
     def status_query
       @status_query ||= begin
-        non_closed_statuses = Status.where(:is_closed => false).select(:id).map(&:id)
+        non_closed_statuses = Status.where(is_closed: false).select(:id).map(&:id)
 
         done_statuses_for_project = project.done_statuses.select(:id).map(&:id)
 

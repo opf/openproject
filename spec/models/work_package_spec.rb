@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, :type => :model do
+describe WorkPackage, type: :model do
   describe '#backlogs_types' do
     it "should return all the ids of types that are configures to be considered backlogs types" do
       allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [1], "task_type" => 2})

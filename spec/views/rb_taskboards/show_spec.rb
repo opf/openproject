@@ -35,11 +35,11 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe 'rb_taskboards/show', :type => :view do
+describe 'rb_taskboards/show', type: :view do
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:role_allowed) { FactoryGirl.create(:role,
-    :permissions => [:create_impediments, :create_tasks, :update_impediments, :update_tasks])
+    permissions: [:create_impediments, :create_tasks, :update_impediments, :update_tasks])
   }
   let(:role_forbidden) { FactoryGirl.create(:role) }
   # We need to create these as some view helpers access the database
@@ -51,41 +51,41 @@ describe 'rb_taskboards/show', :type => :view do
   let(:type_feature) { FactoryGirl.create(:type_feature) }
   let(:issue_priority) { FactoryGirl.create(:priority) }
   let(:project) do
-    project = FactoryGirl.create(:project, :types => [type_feature, type_task])
-    project.members = [FactoryGirl.create(:member, :principal => user1,:project => project,:roles => [role_allowed]),
-                       FactoryGirl.create(:member, :principal => user2,:project => project,:roles => [role_forbidden])]
+    project = FactoryGirl.create(:project, types: [type_feature, type_task])
+    project.members = [FactoryGirl.create(:member, principal: user1,project: project,roles: [role_allowed]),
+                       FactoryGirl.create(:member, principal: user2,project: project,roles: [role_forbidden])]
     project
   end
 
-  let(:story_a) { FactoryGirl.create(:story, :status => statuses[0],
-                                             :project => project,
-                                             :type => type_feature,
-                                             :fixed_version => sprint,
-                                             :priority => issue_priority
+  let(:story_a) { FactoryGirl.create(:story, status: statuses[0],
+                                             project: project,
+                                             type: type_feature,
+                                             fixed_version: sprint,
+                                             priority: issue_priority
                                              )}
-  let(:story_b) { FactoryGirl.create(:story, :status => statuses[1],
-                                             :project => project,
-                                             :type => type_feature,
-                                             :fixed_version => sprint,
-                                             :priority => issue_priority
+  let(:story_b) { FactoryGirl.create(:story, status: statuses[1],
+                                             project: project,
+                                             type: type_feature,
+                                             fixed_version: sprint,
+                                             priority: issue_priority
                                              )}
-  let(:story_c) { FactoryGirl.create(:story, :status => statuses[2],
-                                             :project => project,
-                                             :type => type_feature,
-                                             :fixed_version => sprint,
-                                             :priority => issue_priority
+  let(:story_c) { FactoryGirl.create(:story, status: statuses[2],
+                                             project: project,
+                                             type: type_feature,
+                                             fixed_version: sprint,
+                                             priority: issue_priority
                                              )}
   let(:stories) { [story_a, story_b, story_c] }
-  let(:sprint)   { FactoryGirl.create(:sprint, :project => project) }
+  let(:sprint)   { FactoryGirl.create(:sprint, project: project) }
   let(:task) do
-    task = FactoryGirl.create(:task, :project => project, :status => statuses[0], :fixed_version => sprint, :type => type_task)
+    task = FactoryGirl.create(:task, project: project, status: statuses[0], fixed_version: sprint, type: type_task)
     # This is necessary as for some unknown reason passing the parent directly
     # leads to the task searching for the parent with 'root_id' is NULL, which
     # is not the case as the story has its own id as root_id
     task.parent_id = story_a.id
     task
   end
-  let(:impediment) { FactoryGirl.create(:impediment, :project => project, :status => statuses[0], :fixed_version => sprint, :blocks_ids => task.id.to_s, :type => type_task) }
+  let(:impediment) { FactoryGirl.create(:impediment, project: project, status: statuses[0], fixed_version: sprint, blocks_ids: task.id.to_s, type: type_task) }
 
   before :each do
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => type_task.id})

@@ -51,9 +51,9 @@ class RbExportCardConfigurationsController < RbApplicationController
     filename = "#{@project.to_s}-#{@sprint.to_s}-#{Time.now.strftime("%B-%d-%Y")}.pdf"
     respond_to do |format|
       format.pdf { send_data(cards_document.render,
-        :disposition => 'attachment',
-        :type => 'application/pdf',
-        :filename => filename) }
+        disposition: 'attachment',
+        type: 'application/pdf',
+        filename: filename) }
     end
   end
 

@@ -40,7 +40,7 @@ module OpenProject::Backlogs::Patches::MyControllerPatch
     base.class_eval do
       include InstanceMethods
 
-      after_filter :save_backlogs_preferences, :only => [:account]
+      after_filter :save_backlogs_preferences, only: [:account]
     end
   end
 

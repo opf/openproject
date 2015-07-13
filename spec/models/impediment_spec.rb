@@ -35,47 +35,47 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Impediment, :type => :model do
+describe Impediment, type: :model do
   let(:user) { @user ||= FactoryGirl.create(:user) }
   let(:role) { @role ||= FactoryGirl.create(:role) }
   let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
   let(:type_task) { @type_task ||= FactoryGirl.create(:type_task) }
-  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, :is_default => true) }
-  let(:task) { FactoryGirl.build(:task, :type => type_task,
-                                    :project => project,
-                                    :author => user,
-                                    :priority => issue_priority,
-                                    :status => status1) }
-  let(:feature) { FactoryGirl.build(:work_package, :type => type_feature,
-                                        :project => project,
-                                        :author => user,
-                                        :priority => issue_priority,
-                                        :status => status1) }
-  let(:version) { FactoryGirl.create(:version, :project => project) }
+  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, is_default: true) }
+  let(:task) { FactoryGirl.build(:task, type: type_task,
+                                    project: project,
+                                    author: user,
+                                    priority: issue_priority,
+                                    status: status1) }
+  let(:feature) { FactoryGirl.build(:work_package, type: type_feature,
+                                        project: project,
+                                        author: user,
+                                        priority: issue_priority,
+                                        status: status1) }
+  let(:version) { FactoryGirl.create(:version, project: project) }
 
   let(:project) do
     unless @project
-      @project = FactoryGirl.build(:project, :types => [type_feature, type_task])
-      @project.members = [FactoryGirl.build(:member, :principal => user,
-                                                 :project => @project,
-                                                 :roles => [role])]
+      @project = FactoryGirl.build(:project, types: [type_feature, type_task])
+      @project.members = [FactoryGirl.build(:member, principal: user,
+                                                 project: @project,
+                                                 roles: [role])]
     end
     @project
   end
 
-  let(:status1) { @status1 ||= FactoryGirl.create(:status, :name => "status 1", :is_default => true) }
-  let(:status2) { @status2 ||= FactoryGirl.create(:status, :name => "status 2") }
-  let(:type_workflow) { @workflow ||= Workflow.create(:type_id => type_task.id,
-                                                 :old_status => status1,
-                                                 :new_status => status2,
-                                                 :role => role) }
-  let(:impediment) { FactoryGirl.build(:impediment, :author => user,
-                                                :fixed_version => version,
-                                                :assigned_to => user,
-                                                :priority => issue_priority,
-                                                :project => project,
-                                                :type => type_task,
-                                                :status => status1)}
+  let(:status1) { @status1 ||= FactoryGirl.create(:status, name: "status 1", is_default: true) }
+  let(:status2) { @status2 ||= FactoryGirl.create(:status, name: "status 2") }
+  let(:type_workflow) { @workflow ||= Workflow.create(type_id: type_task.id,
+                                                 old_status: status1,
+                                                 new_status: status2,
+                                                 role: role) }
+  let(:impediment) { FactoryGirl.build(:impediment, author: user,
+                                                fixed_version: version,
+                                                assigned_to: user,
+                                                priority: issue_priority,
+                                                project: project,
+                                                type: type_task,
+                                                status: status1)}
 
   before(:each) do
     ActionController::Base.perform_caching = false
@@ -129,11 +129,11 @@ describe Impediment, :type => :model do
           before(:each) do
             feature.fixed_version = version
             feature.save
-            @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
-                                                                :assigned_to_id => user.id,
-                                                                :blocks_ids => feature.id.to_s,
-                                                                :status_id => status1.id,
-                                                                :fixed_version_id => version.id},
+            @impediment = Impediment.create_with_relationships({subject: @impediment_subject,
+                                                                assigned_to_id: user.id,
+                                                                blocks_ids: feature.id.to_s,
+                                                                status_id: status1.id,
+                                                                fixed_version_id: version.id},
                                                                 project.id)
 
           end
@@ -145,50 +145,50 @@ describe Impediment, :type => :model do
 
         describe "WITH the story having another version" do
           before(:each) do
-            feature.fixed_version = FactoryGirl.create(:version, :project => project, :name => "another version")
+            feature.fixed_version = FactoryGirl.create(:version, project: project, name: "another version")
             feature.save
-            @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
-                                                                :assigned_to_id => user.id,
-                                                                :blocks_ids => feature.id.to_s,
-                                                                :status_id => status1.id,
-                                                                :fixed_version_id => version.id},
+            @impediment = Impediment.create_with_relationships({subject: @impediment_subject,
+                                                                assigned_to_id: user.id,
+                                                                blocks_ids: feature.id.to_s,
+                                                                status_id: status1.id,
+                                                                fixed_version_id: version.id},
                                                                 project.id)
           end
 
           it_should_behave_like "impediment creation with no blocking relationship"
           it { expect(@impediment).to be_new_record }
-          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story being non existent" do
           before(:each) do
-            @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
-                                                                :assigned_to_id => user.id,
-                                                                :blocks_ids => "0",
-                                                                :status_id => status1.id,
-                                                                :fixed_version_id => version.id},
+            @impediment = Impediment.create_with_relationships({subject: @impediment_subject,
+                                                                assigned_to_id: user.id,
+                                                                blocks_ids: "0",
+                                                                status_id: status1.id,
+                                                                fixed_version_id: version.id},
                                                                 project.id)
           end
 
           it_should_behave_like "impediment creation with no blocking relationship"
           it { expect(@impediment).to be_new_record }
-          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
       end
 
       describe "WITHOUT a blocking relationship defined" do
         before(:each) do
-          @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
-                                                              :assigned_to_id => user.id,
-                                                              :blocks_ids => "",
-                                                              :status_id => status1.id,
-                                                              :fixed_version_id => version.id},
+          @impediment = Impediment.create_with_relationships({subject: @impediment_subject,
+                                                              assigned_to_id: user.id,
+                                                              blocks_ids: "",
+                                                              status_id: status1.id,
+                                                              fixed_version_id: version.id},
                                                               project.id)
         end
 
         it_should_behave_like "impediment creation with no blocking relationship"
         it { expect(@impediment).to be_new_record }
-        it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+        it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
       end
     end
   end
@@ -235,12 +235,12 @@ describe Impediment, :type => :model do
 
       describe "WHEN changing the blocking relationship to another story" do
         before(:each) do
-          @story = FactoryGirl.build(:work_package, :subject => "another story",
-                                         :type => type_feature,
-                                         :project => project,
-                                         :author => user,
-                                         :priority => issue_priority,
-                                         :status => status1)
+          @story = FactoryGirl.build(:work_package, subject: "another story",
+                                         type: type_feature,
+                                         project: project,
+                                         author: user,
+                                         priority: issue_priority,
+                                         status: status1)
         end
 
         describe "WITH the story having the same version" do
@@ -248,8 +248,8 @@ describe Impediment, :type => :model do
             @story.fixed_version = version
             @story.save
             @blocks = @story.id.to_s
-            @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                   :status_id => status1.id.to_s})
+            @impediment.update_with_relationships({blocks_ids: @blocks,
+                                                   status_id: status1.id.to_s})
           end
 
           it_should_behave_like "impediment update with changed blocking relationship"
@@ -258,40 +258,40 @@ describe Impediment, :type => :model do
 
         describe "WITH the story having another version" do
           before(:each) do
-            @story.fixed_version = FactoryGirl.create(:version, :project => project, :name => "another version")
+            @story.fixed_version = FactoryGirl.create(:version, project: project, name: "another version")
             @story.save
             @blocks = @story.id.to_s
-            @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                            :status_id => status1.id.to_s})
+            @saved = @impediment.update_with_relationships({blocks_ids: @blocks,
+                                                            status_id: status1.id.to_s})
           end
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
           it "should not be saved successfully" do
             expect(@saved).to be_falsey
           end
-          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story beeing non existent" do
           before(:each) do
             @blocks = "0"
-            @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                            :status_id => status1.id.to_s})
+            @saved = @impediment.update_with_relationships({blocks_ids: @blocks,
+                                                            status_id: status1.id.to_s})
           end
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
           it "should not be saved successfully" do
             expect(@saved).to be_falsey
           end
-          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
         end
       end
 
       describe "WITHOUT a blocking relationship defined" do
         before(:each) do
           @blocks = ""
-          @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                          :status_id => status1.id.to_s})
+          @saved = @impediment.update_with_relationships({blocks_ids: @blocks,
+                                                          status_id: status1.id.to_s})
         end
 
         it_should_behave_like "impediment update with unchanged blocking relationship"
@@ -299,7 +299,7 @@ describe Impediment, :type => :model do
           expect(@saved).to be_falsey
         end
 
-        it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, :scope => [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+        it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
       end
     end
 
@@ -332,8 +332,8 @@ describe Impediment, :type => :model do
           task.fixed_version = version
           task.save
 
-          impediment.relations_from = [Relation.new(:from => impediment, :to => feature, :relation_type => Relation::TYPE_BLOCKS),
-                                       Relation.new(:from => impediment, :to => task, :relation_type => Relation::TYPE_BLOCKS)]
+          impediment.relations_from = [Relation.new(from: impediment, to: feature, relation_type: Relation::TYPE_BLOCKS),
+                                       Relation.new(from: impediment, to: task, relation_type: Relation::TYPE_BLOCKS)]
           true
         end
 

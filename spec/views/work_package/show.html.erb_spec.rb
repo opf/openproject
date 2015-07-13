@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'work_packages/show', :type => :view do
+describe 'work_packages/show', type: :view do
   let(:story_points) { 42 }
   let(:project) { FactoryGirl.build(:public_project,
                                     enabled_module_names: %w[work_package_tracking backlogs]) }

@@ -38,7 +38,7 @@ require_dependency 'version'
 module OpenProject::Backlogs::Patches::VersionPatch
   def self.included(base)
     base.class_eval do
-      has_many :version_settings, :dependent => :destroy
+      has_many :version_settings, dependent: :destroy
       accepts_nested_attributes_for :version_settings
 
       include Redmine::SafeAttributes
@@ -54,13 +54,13 @@ module OpenProject::Backlogs::Patches::VersionPatch
 
       WorkPackage.transaction do
         # Remove position from all non-stories
-        WorkPackage.update_all({:position => nil}, ['project_id = ? AND type_id NOT IN (?) AND position IS NOT NULL', project, Story.types])
+        WorkPackage.update_all({position: nil}, ['project_id = ? AND type_id NOT IN (?) AND position IS NOT NULL', project, Story.types])
 
         # Add work_packages w/o position to the top of the list and add
         # work_packages, that have a position, at the end
-        stories_wo_position = self.fixed_issues.find(:all, :conditions => {:project_id => project, :type_id => Story.types, :position => nil}, :order => 'id')
+        stories_wo_position = self.fixed_issues.find(:all, conditions: {project_id: project, type_id: Story.types, position: nil}, order: 'id')
 
-        stories_w_position = self.fixed_issues.find(:all, :conditions => ['project_id = ? AND type_id IN (?) AND position IS NOT NULL', project, Story.types], :order => 'COALESCE(position, 0), id')
+        stories_w_position = self.fixed_issues.find(:all, conditions: ['project_id = ? AND type_id IN (?) AND position IS NOT NULL', project, Story.types], order: 'COALESCE(position, 0), id')
 
         (stories_w_position + stories_wo_position).each_with_index do |story, index|
           story.send(:update_attribute_silently, 'position', index + 1)
