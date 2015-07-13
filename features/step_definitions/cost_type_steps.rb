@@ -19,17 +19,16 @@
 
 Given /^there is 1 cost type with the following:$/ do |table|
   ct = FactoryGirl.build(:cost_type)
-  send_table_to_object(ct, table, {
-    cost_rate: Proc.new do |o,v|
-      FactoryGirl.create(:cost_rate, rate: v,
-                                     cost_type: o)
-    end,
-    name: Proc.new do |o,v|
-      o.name = v
-      o.unit = v
-      o.unit_plural = "#{v}s"
-      o.save!
-    end})
+  send_table_to_object(ct, table,     cost_rate: Proc.new do |o, v|
+    FactoryGirl.create(:cost_rate, rate: v,
+                                   cost_type: o)
+  end,
+                                      name: Proc.new do |o, v|
+                                        o.name = v
+                                        o.unit = v
+                                        o.unit_plural = "#{v}s"
+                                        o.save!
+                                      end)
 end
 
 When(/^I delete the cost type "(.*?)"$/) do |name|
@@ -61,19 +60,18 @@ When /^I expect to click "([^"]*)" on a confirmation box saying "([^"]*)"$/ do |
     document.cookie = msg
     return #{retval}
   }")
-  @expected_message = message.gsub("\\n", "\n")
+  @expected_message = message.gsub('\\n', "\n")
 end
 
 When /^the confirmation box should have been displayed$/ do
   assert page.evaluate_script('document.cookie').include?(@expected_message),
          "Expected confirm box with message: '#{@expected_message}'" +
-             " got: '#{page.evaluate_script('document.cookie')}'"
+           " got: '#{page.evaluate_script('document.cookie')}'"
 end
 
 Then(/^the cost type "(.*?)" should not be listed on the index page$/) do |name|
-
-  if has_css?(".cost_types")
-    within ".cost_types" do
+  if has_css?('.cost_types')
+    within '.cost_types' do
       should_not have_link(name)
     end
   end
@@ -84,7 +82,7 @@ Then(/^the cost type "(.*?)" should be listed as deleted on the index page$/) do
 
   click_link(I18n.t(:button_apply))
 
-  within ".deleted_cost_types" do
+  within '.deleted_cost_types' do
     should have_text(name)
   end
 end

@@ -58,7 +58,6 @@ module OpenProject::Costs::Patches::QueryPatch
   end
 
   module ClassMethods
-
     # Setter for +available_columns+ that isn't provided by the core.
     def available_columns=(v)
       self.available_columns = (v)
@@ -66,28 +65,27 @@ module OpenProject::Costs::Patches::QueryPatch
 
     # Method to add a column to the +available_columns+ that isn't provided by the core.
     def add_available_column(column)
-      self.available_columns << (column)
+      available_columns << (column)
     end
   end
 
   module InstanceMethods
-
     # Wrapper around the +available_filters+ to add a new Cost Object filter
     def available_work_package_filters_with_costs
       @available_filters = available_work_package_filters_without_costs
 
       if project && project.module_enabled?(:costs_module)
         openproject_costs_filters = {
-          "cost_object_id" => {
+          'cost_object_id' => {
             type: :list_optional,
             order: 14,
-            values: CostObject.all(conditions: ["project_id IN (?)", project], order: 'subject ASC').collect { |d| [d.subject, d.id.to_s]}
+            values: CostObject.all(conditions: ['project_id IN (?)', project], order: 'subject ASC').collect { |d| [d.subject, d.id.to_s] }
           },
         }
       else
-        openproject_costs_filters = { }
+        openproject_costs_filters = {}
       end
-      return @available_filters.merge(openproject_costs_filters)
+      @available_filters.merge(openproject_costs_filters)
     end
   end
 end

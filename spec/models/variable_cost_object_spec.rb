@@ -29,8 +29,8 @@ describe VariableCostObject, type: :model do
     before do
       allow(User).to receive(:current).and_return(user)
 
-      @variable_cost_object = FactoryGirl.create(:variable_cost_object , project: project,
-                                                                     author: user)
+      @variable_cost_object = FactoryGirl.create(:variable_cost_object, project: project,
+                                                                        author: user)
 
       @initial_journal = @variable_cost_object.journals.first
       @recreated_journal = @variable_cost_object.recreate_initial_journal!
@@ -39,7 +39,7 @@ describe VariableCostObject, type: :model do
     it { expect(@initial_journal).to be_identical(@recreated_journal) }
   end
 
-  describe "initialization" do
+  describe 'initialization' do
     let(:cost_object) { VariableCostObject.new }
 
     before do
@@ -49,7 +49,7 @@ describe VariableCostObject, type: :model do
     it { expect(cost_object.author).to eq(user) }
   end
 
-  describe "destroy" do
+  describe 'destroy' do
     let(:work_package) { FactoryGirl.create(:work_package) }
 
     before do

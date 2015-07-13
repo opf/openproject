@@ -21,7 +21,7 @@ module OpenProject::Costs::Patches::ApplicationHelperPatch
   def self.included(base) # :nodoc:
     # Same as typing in the class
     base.class_eval do
-      def link_to_cost_object(cost_object, options={})
+      def link_to_cost_object(cost_object, options = {})
         title = nil
         subject = nil
         if options[:subject] == false

@@ -24,7 +24,6 @@ module OpenProject::Costs::Patches::ProjectsControllerPatch
     base.class_eval do
       before_filter :own_total_hours, only: [:show]
     end
-
   end
 
   module InstanceMethods

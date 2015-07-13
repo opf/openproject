@@ -32,12 +32,11 @@ describe WorkPackages::BulkController, type: :controller do
 
   describe '#update' do
     context 'when a cost report is assigned' do
-      before { put :update, ids: [work_package.id], work_package: {cost_object_id: cost_object.id} }
+      before do put :update, ids: [work_package.id], work_package: { cost_object_id: cost_object.id } end
 
       subject { work_package.reload.cost_object.try :id }
 
       it { is_expected.to eq(cost_object.id) }
     end
   end
-
 end

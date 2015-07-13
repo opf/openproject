@@ -19,7 +19,6 @@
 
 module OpenProject::Costs
   class AttributesHelper
-
     def initialize(work_package, user = User.current)
       @work_package = work_package
       @user = user
@@ -55,12 +54,12 @@ module OpenProject::Costs
     end
 
     def material_costs
-      cost_entries_with_rate = cost_entries.select{|c| c.costs_visible_by?(@user)}
+      cost_entries_with_rate = cost_entries.select { |c| c.costs_visible_by?(@user) }
       cost_entries_with_rate.blank? ? nil : cost_entries_with_rate.collect(&:real_costs).sum
     end
 
     def labor_costs
-      time_entries_with_rate = time_entries.select{|c| c.costs_visible_by?(@user)}
+      time_entries_with_rate = time_entries.select { |c| c.costs_visible_by?(@user) }
       time_entries_with_rate.blank? ? nil : time_entries_with_rate.collect(&:real_costs).sum
     end
 

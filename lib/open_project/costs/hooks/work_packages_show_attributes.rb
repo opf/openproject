@@ -42,28 +42,28 @@ module OpenProject::Costs::Hooks
 
       attributes_helper = OpenProject::Costs::AttributesHelper.new(@work_package)
 
-      attributes << work_package_show_table_row(:cost_object) do
+      attributes << work_package_show_table_row(:cost_object) {
         @work_package.cost_object ?
           link_to_cost_object(@work_package.cost_object) :
           empty_element_tag
-      end
+      }
 
-      attributes << work_package_show_table_row(:overall_costs) do
+      attributes << work_package_show_table_row(:overall_costs) {
         attributes_helper.overall_costs ?
           number_to_currency(attributes_helper.overall_costs) :
           empty_element_tag
-      end
+      }
 
       if attributes_helper.summarized_cost_entries
-        attributes << work_package_show_table_row(:spent_units) do
+        attributes << work_package_show_table_row(:spent_units) {
           summarized_cost_entry_links(attributes_helper.summarized_cost_entries, @work_package)
-        end
+        }
       end
 
       attributes
     end
 
-    def summarized_cost_entry_links(cost_entries, work_package, create_link=true)
+    def summarized_cost_entry_links(cost_entries, work_package, create_link = true)
       str_array = []
       cost_entries.each do |cost_type, units|
         txt = pluralize(units, cost_type.unit, cost_type.unit_plural)
@@ -74,12 +74,12 @@ module OpenProject::Costs::Hooks
                                       project_id: work_package.project,
                                       work_package_id: work_package,
                                       cost_type_id: cost_type },
-                                      { title: cost_type.name })
+                               title: cost_type.name)
         else
           str_array << "<span title=\"#{h(cost_type.name)}\">#{txt}</span>"
         end
       end
-      str_array.join(", ").html_safe
+      str_array.join(', ').html_safe
     end
   end
 end

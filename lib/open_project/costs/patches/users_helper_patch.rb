@@ -32,8 +32,8 @@ module OpenProject::Costs::Patches::UsersHelperPatch
     def user_settings_tabs_with_rate_tab
       # Core defined data
       tabs = user_settings_tabs_without_rate_tab
-      tabs << { name: 'rates', partial: 'users/rates', label: :caption_rate_history}
-      return tabs
+      tabs << { name: 'rates', partial: 'users/rates', label: :caption_rate_history }
+      tabs
     end
   end
 end

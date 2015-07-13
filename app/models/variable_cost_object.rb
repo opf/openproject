@@ -18,7 +18,6 @@
 #++
 
 class VariableCostObject < CostObject
-
   has_many :material_budget_items, include: :cost_type,
                                    foreign_key: 'cost_object_id',
                                    dependent: :destroy,
@@ -33,7 +32,6 @@ class VariableCostObject < CostObject
 
   after_update :save_material_budget_items
   after_update :save_labor_budget_items
-
 
   # override acts_as_journalized method
   def activity_type
@@ -50,15 +48,15 @@ class VariableCostObject < CostObject
 
   # Label of the current cost_object type for display in GUI.
   def type_label
-    return l(:label_variable_cost_object)
+    l(:label_variable_cost_object)
   end
 
   def material_budget
-    @material_budget ||= material_budget_items.visible_costs.inject(BigDecimal.new("0.0000")){|sum, i| sum += i.costs}
+    @material_budget ||= material_budget_items.visible_costs.inject(BigDecimal.new('0.0000')) { |sum, i| sum += i.costs }
   end
 
   def labor_budget
-    @labor_budget ||= labor_budget_items.visible_costs.inject(BigDecimal.new("0.0000")){|sum, i| sum += i.costs}
+    @labor_budget ||= labor_budget_items.visible_costs.inject(BigDecimal.new('0.0000')) { |sum, i| sum += i.costs }
   end
 
   def spent
@@ -68,9 +66,9 @@ class VariableCostObject < CostObject
   def spent_material
     @spent_material ||= begin
       if cost_entries.blank?
-        BigDecimal.new("0.0000")
+        BigDecimal.new('0.0000')
       else
-        cost_entries.visible_costs(User.current, self.project).sum("CASE
+        cost_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
             #{CostEntry.table_name}.costs
           ELSE
@@ -82,9 +80,9 @@ class VariableCostObject < CostObject
   def spent_labor
     @spent_labor ||= begin
       if time_entries.blank?
-        BigDecimal.new("0.0000")
+        BigDecimal.new('0.0000')
       else
-        time_entries.visible_costs(User.current, self.project).sum("CASE
+        time_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
             #{TimeEntry.table_name}.costs
           ELSE
@@ -94,7 +92,7 @@ class VariableCostObject < CostObject
   end
 
   def new_material_budget_item_attributes=(material_budget_item_attributes)
-    material_budget_item_attributes.each do |index, attributes|
+    material_budget_item_attributes.each do |_index, attributes|
       material_budget_items.build(attributes) if attributes[:units].to_i > 0
     end
   end
@@ -121,7 +119,7 @@ class VariableCostObject < CostObject
   end
 
   def new_labor_budget_item_attributes=(labor_budget_item_attributes)
-    labor_budget_item_attributes.each do |index, attributes|
+    labor_budget_item_attributes.each do |_index, attributes|
       if attributes[:hours].to_i > 0 &&
          attributes[:user_id].to_i > 0 &&
          project.possible_assignees.map(&:id).include?(attributes[:user_id].to_i)
@@ -148,7 +146,7 @@ class VariableCostObject < CostObject
 
   def save_labor_budget_items
     labor_budget_items.each do |labor_budget_item|
-      labor_budget_item.save(validate:false)
+      labor_budget_item.save(validate: false)
     end
   end
 end

@@ -17,4 +17,4 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-ScenarioDisabler.disable(feature: "Logging time on work package update", scenario: "Logging time")
+ScenarioDisabler.disable(feature: 'Logging time on work package update', scenario: 'Logging time')

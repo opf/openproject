@@ -24,9 +24,8 @@ describe CostObjectsHelper, type: :helper do
   let(:cost_object) { FactoryGirl.build(:cost_object, project: project) }
 
   describe '#cost_objects_to_csv' do
-    describe "WITH a list of one cost object" do
-
-      it "should output the cost objects attributes" do
+    describe 'WITH a list of one cost object' do
+      it 'should output the cost objects attributes' do
         expected = [cost_object.id,
                     cost_object.project.name,
                     cost_object.subject,
@@ -38,13 +37,13 @@ describe CostObjectsHelper, type: :helper do
                     helper.format_time(cost_object.created_on),
                     helper.format_time(cost_object.updated_on),
                     cost_object.description
-                  ].join(I18n.t(:general_csv_separator))
+                   ].join(I18n.t(:general_csv_separator))
 
         expect(cost_objects_to_csv([cost_object]).include?(expected)).to be_truthy
       end
 
-      it "should start with a header explaining the fields" do
-        expected = ["#",
+      it 'should start with a header explaining the fields' do
+        expected = ['#',
                     Project.model_name.human,
                     CostObject.human_attribute_name(:subject),
                     CostObject.human_attribute_name(:author),
@@ -55,7 +54,7 @@ describe CostObjectsHelper, type: :helper do
                     CostObject.human_attribute_name(:created_on),
                     CostObject.human_attribute_name(:updated_on),
                     CostObject.human_attribute_name(:description)
-                    ].join(I18n.t(:general_csv_separator))
+                   ].join(I18n.t(:general_csv_separator))
 
         expect(cost_objects_to_csv([cost_object]).start_with?(expected)).to be_truthy
       end

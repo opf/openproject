@@ -23,7 +23,6 @@ module OpenProject::Costs::Patches::ProjectPatch
     base.include(InstanceMethods)
 
     base.class_eval do
-
       has_many :cost_objects, dependent: :destroy
       has_many :rates, class_name: 'HourlyRate'
 

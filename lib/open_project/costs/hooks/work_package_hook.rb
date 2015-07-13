@@ -36,16 +36,16 @@ class OpenProject::Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   # * work_package => WorkPackage to move
   # * target_project => Target of the move
   # * copy => true, if the work_packages are copied rather than moved
-  def controller_work_packages_move_before_save(context={})
+  def controller_work_packages_move_before_save(context = {})
     # FIXME: In case of copy==true, this will break stuff if the original work_package is saved
 
     cost_object_id = context[:params] && context[:params][:cost_object_id]
     case cost_object_id
-    when "" # a.k.a "(No change)"
+    when '' # a.k.a "(No change)"
       # cost objects HAVE to be changed if move is performed across project boundaries
       # as the are project specific
       context[:work_package].cost_object_id = nil unless (context[:work_package].project == context[:target_project])
-    when "none"
+    when 'none'
       context[:work_package].cost_object_id = nil
     else
       context[:work_package].cost_object_id = cost_object_id
@@ -58,7 +58,7 @@ class OpenProject::Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   # * :work_package => WorkPackage being saved
   # * :params => HTML parameters
   #
-  def controller_work_packages_bulk_edit_before_save(context = { })
+  def controller_work_packages_bulk_edit_before_save(context = {})
     case true
 
     when context[:params][:cost_object_id].blank?
@@ -70,7 +70,7 @@ class OpenProject::Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
       context[:work_package].cost_object = CostObject.find(context[:params][:cost_object_id])
     end
 
-    return ''
+    ''
   end
 
   # Cost Object changes for the journal use the Cost Object subject
@@ -79,7 +79,7 @@ class OpenProject::Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   # Context:
   # * :detail => Detail about the journal change
   #
-  def helper_work_packages_show_detail_after_setting(context = { })
+  def helper_work_packages_show_detail_after_setting(context = {})
     # FIXME: Overwritting the caller is bad juju
     if (context[:detail].prop_key == 'cost_object_id')
       if context[:detail].value.to_i.to_s == context[:detail].value.to_s

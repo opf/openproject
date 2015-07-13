@@ -18,14 +18,13 @@
 #++
 
 class CostEntry < ActiveRecord::Base
-
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
   include ::OpenProject::Costs::DeletedUserFallback
   belongs_to :cost_type
   belongs_to :cost_object
-  belongs_to :rate, class_name: "CostRate"
+  belongs_to :rate, class_name: 'CostRate'
 
   include ActiveModel::ForbiddenAttributesProtection
 
@@ -47,7 +46,7 @@ class CostEntry < ActiveRecord::Base
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
   def self.visible_condition(user, project)
-    %Q{ (#{Project.allowed_to_condition(user, :view_cost_entries, project: project)} OR
+    %{ (#{Project.allowed_to_condition(user, :view_cost_entries, project: project)} OR
          (#{Project.allowed_to_condition(user, :view_own_cost_entries, project: project)} AND #{CostEntry.table_name}.user_id = #{user.id})) }
   end
 
@@ -56,12 +55,12 @@ class CostEntry < ActiveRecord::Base
     view_cost_entries = CostEntry.visible_condition((args.first || User.current), args[1])
 
     { include: [:project, :user],
-      conditions: [view_cost_entries, view_cost_rates].join(" AND ")
+      conditions: [view_cost_entries, view_cost_rates].join(' AND ')
     }
   }
 
   def after_initialize
-    if new_record? && self.cost_type.nil?
+    if new_record? && cost_type.nil?
       if default_cost_type = CostType.default
         self.cost_type_id = default_cost_type.id
       end
@@ -110,7 +109,7 @@ class CostEntry < ActiveRecord::Base
 
   def real_costs
     # This methods returns the actual assigned costs of the entry
-    self.overridden_costs || self.costs || self.calculated_costs
+    overridden_costs || costs || calculated_costs
   end
 
   def calculated_costs(rate_attr = nil)
@@ -128,19 +127,18 @@ class CostEntry < ActiveRecord::Base
       return
     end
 
-    self.costs = self.calculated_costs(rate_attr)
+    self.costs = calculated_costs(rate_attr)
     self.rate = rate_attr
   end
 
   def update_costs!(rate_attr = nil)
-    self.update_costs(rate_attr)
+    update_costs(rate_attr)
     self.save!
   end
 
   def current_rate
-    self.cost_type.rate_at(self.spent_on)
+    cost_type.rate_at(self.spent_on)
   end
-
 
   # Returns true if the cost entry can be edited by usr, otherwise false
   def editable_by?(usr)

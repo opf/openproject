@@ -43,18 +43,18 @@ class DefaultHourlyRateObserver < ActiveRecord::Observer
       (date1, date2) = order_dates(date1, date2)
 
       # This gets an array of all the ids of the DefaultHourlyRates
-      default_rates = DefaultHourlyRate.find(:all, select: :id).inject([]){|r,d|r<<d.id}
+      default_rates = DefaultHourlyRate.find(:all, select: :id).inject([]) { |r, d| r << d.id }
 
       if date1.nil? || date2.nil?
         # we have only one date, query >=
         conditions = [
-          "user_id = ? AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on >= ?",
+          'user_id = ? AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on >= ?',
           @rate.user_id, default_rates, date1 || date2
         ]
       else
         # we have two dates, query between
         conditions = [
-          "user_id = ? AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?",
+          'user_id = ? AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?',
           @rate.user_id, default_rates, date1, date2 - 1
         ]
       end
@@ -100,6 +100,6 @@ class DefaultHourlyRateObserver < ActiveRecord::Observer
   def after_destroy(rate)
     o = Methods.new(rate)
 
-    o.update_entries(TimeEntry.find(:all, conditions: {rate_id: rate.id}))
+    o.update_entries(TimeEntry.find(:all, conditions: { rate_id: rate.id }))
   end
 end

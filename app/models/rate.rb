@@ -39,7 +39,6 @@ class Rate < ActiveRecord::Base
     end
   end
 
-
   private
 
   def convert_valid_from_to_date

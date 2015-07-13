@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User, "#destroy", type: :model do
+describe User, '#destroy', type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:substitute_user) { DeletedUser.first }
@@ -34,18 +34,18 @@ describe User, "#destroy", type: :model do
     User.current = nil
   end
 
-  shared_examples_for "costs updated journalized associated object" do
+  shared_examples_for 'costs updated journalized associated object' do
     before do
       User.current = user2
       associations.each do |association|
-        associated_instance.send(association.to_s + "=", user2)
+        associated_instance.send(association.to_s + '=', user2)
       end
       associated_instance.save!
 
       User.current = user # in order to have the content journal created by the user
       associated_instance.reload
       associations.each do |association|
-        associated_instance.send(association.to_s + "=", user)
+        associated_instance.send(association.to_s + '=', user)
       end
       associated_instance.save!
 
@@ -54,37 +54,37 @@ describe User, "#destroy", type: :model do
     end
 
     it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
-    it "should replace the user on all associations" do
+    it 'should replace the user on all associations' do
       associations.each do |association|
         expect(associated_instance.send(association)).to eq(substitute_user)
       end
     end
     it { expect(associated_instance.journals.first.user).to eq(user2) }
-    it "should update first journal changed_data" do
+    it 'should update first journal changed_data' do
       associations.each do |association|
         expect(associated_instance.journals.first.changed_data["#{association}_id".to_sym].last).to eq(user2.id)
       end
     end
     it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
-    it "should update second journal changed_data" do
+    it 'should update second journal changed_data' do
       associations.each do |association|
         expect(associated_instance.journals.last.changed_data["#{association}_id".to_sym].last).to eq(substitute_user.id)
       end
     end
   end
 
-  shared_examples_for "costs created journalized associated object" do
+  shared_examples_for 'costs created journalized associated object' do
     before do
       User.current = user # in order to have the content journal created by the user
       associations.each do |association|
-        associated_instance.send(association.to_s + "=", user)
+        associated_instance.send(association.to_s + '=', user)
       end
       associated_instance.save!
 
       User.current = user2
       associated_instance.reload
       associations.each do |association|
-        associated_instance.send(association.to_s + "=", user2)
+        associated_instance.send(association.to_s + '=', user2)
       end
       associated_instance.save!
 
@@ -93,19 +93,19 @@ describe User, "#destroy", type: :model do
     end
 
     it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
-    it "should keep the current user on all associations" do
+    it 'should keep the current user on all associations' do
       associations.each do |association|
         expect(associated_instance.send(association)).to eq(user2)
       end
     end
     it { expect(associated_instance.journals.first.user).to eq(substitute_user) }
-    it "should update the first journal" do
+    it 'should update the first journal' do
       associations.each do |association|
         expect(associated_instance.journals.first.changed_data["#{association}_id".to_sym].last).to eq(substitute_user.id)
       end
     end
     it { expect(associated_instance.journals.last.user).to eq(user2) }
-    it "should update the last journal" do
+    it 'should update the last journal' do
       associations.each do |association|
         expect(associated_instance.journals.last.changed_data["#{association}_id".to_sym].first).to eq(substitute_user.id)
         expect(associated_instance.journals.last.changed_data["#{association}_id".to_sym].last).to eq(user2.id)
@@ -113,23 +113,23 @@ describe User, "#destroy", type: :model do
     end
   end
 
-  describe "WHEN the user updated a cost object" do
+  describe 'WHEN the user updated a cost object' do
     let(:associations) { [:author] }
     let(:associated_instance) { FactoryGirl.build(:variable_cost_object) }
     let(:associated_class) { CostObject }
 
-    it_should_behave_like "costs updated journalized associated object"
+    it_should_behave_like 'costs updated journalized associated object'
   end
 
-  describe "WHEN the user created a cost object" do
+  describe 'WHEN the user created a cost object' do
     let(:associations) { [:author] }
     let(:associated_instance) { FactoryGirl.build(:variable_cost_object) }
     let(:associated_class) { CostObject }
 
-    it_should_behave_like "costs created journalized associated object"
+    it_should_behave_like 'costs created journalized associated object'
   end
 
-  describe "WHEN the user has a labor_budget_item associated" do
+  describe 'WHEN the user has a labor_budget_item associated' do
     let(:item) { FactoryGirl.build(:labor_budget_item, user: user) }
 
     before do
@@ -142,19 +142,21 @@ describe User, "#destroy", type: :model do
     it { expect(item.user_id).to eq(user.id) }
   end
 
-  describe "WHEN the user has a cost entry" do
+  describe 'WHEN the user has a cost entry' do
     let(:work_package) { FactoryGirl.create(:work_package) }
-    let(:entry) { FactoryGirl.build(:cost_entry, user: user,
-                                             project: work_package.project,
-                                             units: 100.0,
-                                             spent_on: Date.today,
-                                             work_package: work_package,
-                                             comments: "") }
+    let(:entry) {
+      FactoryGirl.build(:cost_entry, user: user,
+                                     project: work_package.project,
+                                     units: 100.0,
+                                     spent_on: Date.today,
+                                     work_package: work_package,
+                                     comments: '')
+    }
 
     before do
       FactoryGirl.create(:member, project: work_package.project,
-                              user: user,
-                              roles: [FactoryGirl.build(:role)])
+                                  user: user,
+                                  roles: [FactoryGirl.build(:role)])
       entry.save!
 
       user.destroy
@@ -165,9 +167,11 @@ describe User, "#destroy", type: :model do
     it { expect(entry.user_id).to eq(user.id) }
   end
 
-  describe "WHEN the user is assigned an hourly rate" do
-    let(:hourly_rate) { FactoryGirl.build(:hourly_rate, user: user,
-                                                    project: project) }
+  describe 'WHEN the user is assigned an hourly rate' do
+    let(:hourly_rate) {
+      FactoryGirl.build(:hourly_rate, user: user,
+                                      project: project)
+    }
 
     before do
       hourly_rate.save!
@@ -178,9 +182,11 @@ describe User, "#destroy", type: :model do
     it { expect(hourly_rate.reload.user_id).to eq(user.id) }
   end
 
-  describe "WHEN the user is assigned a default hourly rate" do
-    let(:default_hourly_rate) { FactoryGirl.build(:default_hourly_rate, user: user,
-                                                                    project: project) }
+  describe 'WHEN the user is assigned a default hourly rate' do
+    let(:default_hourly_rate) {
+      FactoryGirl.build(:default_hourly_rate, user: user,
+                                              project: project)
+    }
 
     before do
       default_hourly_rate.save!
