@@ -28,8 +28,6 @@
 #++
 
 class ProjectAssociation < ActiveRecord::Base
-  unloadable
-
   self.table_name = 'project_associations'
 
   belongs_to :project_a, class_name:  'Project',

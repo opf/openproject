@@ -28,8 +28,6 @@
 #++
 
 class ProjectType < ActiveRecord::Base
-  unloadable
-
   extend Pagination::Model
 
   self.table_name = 'project_types'

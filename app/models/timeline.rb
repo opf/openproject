@@ -40,8 +40,6 @@ class Timeline < ActiveRecord::Base
     end
   end
 
-  unloadable
-
   serialize :options
 
   self.table_name = 'timelines'

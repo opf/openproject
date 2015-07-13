@@ -27,8 +27,6 @@
 #++
 
 class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
-  # unloadable
-
   include CustomFieldsHelper
 
   private

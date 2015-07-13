@@ -27,8 +27,6 @@
 #++
 
 class JournalFormatter::Base
-  # unloadable
-
   include Redmine::I18n
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::UrlHelper

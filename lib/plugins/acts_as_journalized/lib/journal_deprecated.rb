@@ -50,7 +50,6 @@
 # It provides the hooks to apply different formatting to the details
 # of a specific journal.
 module JournalDeprecated
-  # unloadable
   # Old timestamps. created_at is what t.timestamps creates in recent Rails journals
   def created_on
     created_at

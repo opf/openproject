@@ -28,8 +28,6 @@
 #++
 
 class PlanningElementTypeColor < ActiveRecord::Base
-  unloadable
-
   self.table_name = 'planning_element_type_colors'
 
   acts_as_list

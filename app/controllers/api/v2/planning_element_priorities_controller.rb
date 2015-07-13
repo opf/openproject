@@ -37,8 +37,6 @@ module Api
 
       include ::Api::V2::ApiController
 
-      unloadable
-
       accept_key_auth :index
 
       def index

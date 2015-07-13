@@ -27,8 +27,6 @@
 #++
 
 class JournalFormatter::Fraction < JournalFormatter::Attribute
-  # unloadable
-
   def format_values(values)
     values.map do |v|
       v.nil? ?

@@ -28,7 +28,6 @@
 #++
 
 class PlanningElementJournalsController < ApplicationController
-  unloadable
   helper :timelines
 
   include ExtendedHTTP

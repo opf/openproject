@@ -38,8 +38,6 @@ module Api
       include ::Api::V2::ApiController
       rescue_from ActiveRecord::RecordNotFound, with: lambda { render_404 }
 
-      unloadable
-
       before_filter :resolve_project
       accept_key_auth :index, :show
 
