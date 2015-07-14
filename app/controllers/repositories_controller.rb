@@ -59,15 +59,19 @@ class RepositoriesController < ApplicationController
     else
       logger.error("Cannot create repository for #{params[:scm_vendor]}")
       flash.now[:error] = service.build_error
-     end
+    end
 
-    render 'repositories/settings/repository_form'
+    respond_to do |format|
+      format.js { render 'repositories/settings/repository_form' }
+    end
   end
 
   def update
     @repository = @project.repository
     update_repository(params.fetch(:repository, {}))
-    render 'repositories/settings/repository_form'
+    respond_to do |format|
+      format.js { render 'repositories/settings/repository_form' }
+    end
   end
 
   def create

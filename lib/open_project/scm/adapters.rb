@@ -39,16 +39,12 @@ module OpenProject
             end
           end
         end
-
-        def revisions
-          Revisions.new(map(&:lastrev).compact)
-        end
       end
 
       class Info
         attr_accessor :root_url, :lastrev
         def initialize(attributes = {})
-          self.root_url = attributes[:root_url] if attributes[:root_url]
+          self.root_url = attributes[:root_url]
           self.lastrev = attributes[:lastrev]
         end
       end
@@ -70,10 +66,6 @@ module OpenProject
 
         def dir?
           'dir' == kind
-        end
-
-        def text?
-          Redmine::MimeType.is_type?('text', name)
         end
       end
 

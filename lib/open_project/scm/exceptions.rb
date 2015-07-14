@@ -51,7 +51,10 @@ module OpenProject
         end
 
         def to_s
-          "CommandFailed(#{@program}) -> #{@message} (#{@stderr})"
+          s = "CommandFailed(#{@program}) -> #{@message}"
+          s << "(#{@stderr})" unless @stderr.nil?
+
+          s
         end
       end
 

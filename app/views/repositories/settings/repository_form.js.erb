@@ -1,6 +1,6 @@
 (function($) {
 
-	<% content = render partial: 'repositories/settings'
+	<% content = render partial: 'repositories/settings' %>
 	$('#tab-content-repository').html('<%= escape_javascript content %>');
 
 	<% unless flash.empty? %>

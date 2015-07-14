@@ -200,7 +200,7 @@ module RepositoriesHelper
     [
       "--- #{l(:actionview_instancetag_blank_option)} ---",
       '',
-      { disabled: true, selected: true}
+      { disabled: true, selected: true }
     ]
   end
 
@@ -213,8 +213,8 @@ module RepositoriesHelper
                scm_options(repository),
                class: 'form--select repositories--remote-select',
                data: {
-                  remote: true,
-                  url: url_for(controller: '/repositories', action: 'edit', id: @project.id),
+                 remote: true,
+                 url: url_for(controller: '/repositories', action: 'edit', id: @project.id),
                },
                disabled: (repository && !repository.new_record?)
               )

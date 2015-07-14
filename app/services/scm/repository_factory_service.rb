@@ -30,7 +30,6 @@
 ##
 # Implements a repository factory for building temporary and permanent repositories.
 Scm::RepositoryFactoryService = Struct.new :project, :params do
-
   attr_reader :repository
 
   ##
@@ -39,10 +38,11 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
   # @return [Boolean] true iff the repository was built
   def build
     build_guarded do
-      Repository.build(project,
-       params[:scm_vendor],
-       params.fetch(:repository, {}),
-       params.fetch(:scm_type).to_sym
+      Repository.build(
+        project,
+        params[:scm_vendor],
+        params.fetch(:repository, {}),
+        params.fetch(:scm_type).to_sym
       )
     end
   end
@@ -74,5 +74,5 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
   rescue Repository::BuildFailed => e
     @build_failed_msg = e.message
     nil
- end
+  end
 end

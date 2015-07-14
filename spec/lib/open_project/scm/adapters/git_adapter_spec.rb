@@ -30,7 +30,7 @@
 require 'spec_helper'
 
 describe OpenProject::Scm::Adapters::Git do
-  let(:url) { '/tmp/bar.git' }
+  let(:url) { Rails.root.join('/tmp/does/not/exist.git').to_s }
   let(:config) { {} }
   let(:encoding) { nil }
   let(:adapter) {
@@ -72,6 +72,42 @@ describe OpenProject::Scm::Adapters::Git do
     it_behaves_like 'correct client version', "git version 1.7.3.4\n", [1, 7, 3, 4]
     it_behaves_like 'correct client version', "1.6.1\n1.7\n1.8", [1, 6, 1]
     it_behaves_like 'correct client version', "1.6.2\r\n1.8.1\r\n1.9.1", [1, 6, 2]
+  end
+
+  describe 'invalid repository' do
+    describe '.check_availability!' do
+      it 'should not be available' do
+        expect(Dir.exists?(url)).to be false
+        expect(adapter).not_to be_available
+        expect { adapter.check_availability! }
+          .to raise_error(OpenProject::Scm::Exceptions::ScmUnavailable)
+      end
+
+      it 'should raise a meaningful error if shell output fails' do
+        expect(adapter).to receive(:branches)
+          .and_raise OpenProject::Scm::Exceptions::CommandFailed.new('git', '')
+
+        expect { adapter.check_availability! }
+          .to raise_error(OpenProject::Scm::Exceptions::ScmUnavailable)
+      end
+    end
+  end
+
+  describe 'empty repository' do
+    Dir.mktmpdir do |dir|
+      let(:url) { dir }
+
+      before do
+        adapter.initialize_bare_git
+      end
+
+      describe '.check_availability!' do
+        it 'should be marked empty' do
+          expect { adapter.check_availability! }
+            .to raise_error(OpenProject::Scm::Exceptions::ScmEmpty)
+        end
+      end
+    end
   end
 
   describe 'local repository' do
@@ -168,6 +204,12 @@ describe OpenProject::Scm::Adapters::Git do
           expect(rev.length).to eq(21)
         end
 
+        it 'should retrieve the latest revision' do
+          rev = adapter.revisions('', nil, nil, all: true)
+          expect(rev.latest.identifier).to eq('1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127')
+          expect(rev.latest.format_identifier).to eq('1ca7f5ed')
+        end
+
         it 'should retrieve a certain revisions' do
           rev = adapter.revisions('', '899a15d^', '899a15d')
           expect(rev.length).to eq(1)
@@ -246,6 +288,10 @@ describe OpenProject::Scm::Adapters::Git do
             rev = entries[3].lastrev
             expect(rev.identifier).to eq('83ca5fd546063a3c7dc2e568ba3355661a9e2b2c')
             expect(rev.author).to eq('Felix Schäfer <felix@fachschaften.org>')
+          end
+
+          it 'retrieves associated revisions' do
+            entries = adapter.entries('', '83ca5fd')
           end
 
           it 'can be retrieved by tag' do
@@ -332,6 +378,7 @@ describe OpenProject::Scm::Adapters::Git do
         it 'should annotate moved file' do
           annotate = adapter.annotate('renamed_test.txt')
           expect(annotate.lines.length).to eq(2)
+          expect(annotate.content).to eq("This is a test\nLet's pretend I'm adding a new feature!")
           expect(annotate.lines).to match_array(['This is a test',
                                                  "Let's pretend I'm adding a new feature!"])
 
@@ -343,6 +390,8 @@ describe OpenProject::Scm::Adapters::Git do
         it 'should annotate with identifier' do
           annotate = adapter.annotate('README', 'HEAD~10')
           expect(annotate.lines.length).to eq(1)
+          expect(annotate.empty?).to be false
+          expect(annotate.content).to eq("Mercurial test repository\r")
           expect(annotate.revisions.length).to eq(1)
           expect(annotate.revisions[0].identifier).to eq('899a15dba03a3b350b89c3f537e4bbe02a03cdc9')
           expect(annotate.revisions[0].author).to eq('jsmith')
