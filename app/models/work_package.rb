@@ -444,7 +444,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def update_by(user, attributes)
-    add_journal(user, attributes.delete(:notes)) if attributes[:notes]
+    add_journal(user, attributes.delete(:notes) || '')
 
     add_time_entry_for(user, attributes.delete(:time_entry))
     attributes.delete(:attachments)
