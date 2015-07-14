@@ -1,0 +1,14 @@
+tr:
+  activerecord:
+    models:
+      document: Belge
+  default_doc_category_tech: Teknik belgeler
+  default_doc_category_user: Kullanıcı belgeleri
+  enumeration_doc_categories: Belge kategorileri
+  label_document_added: Belge eklendi
+  label_document_new: Yeni belge
+  label_document_plural: Belgeler
+  label_documents: Belgeler
+  permission_manage_documents: Belgeleri yönetme
+  permission_view_documents: Belgeleri görüntüleme
+  project_module_documents: Belgeler
