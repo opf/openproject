@@ -134,14 +134,10 @@ $nm-padding-box: rem-calc(10px)
 .notification-box--wrapper
   position: absolute
   top: rem-calc(52px) //this value probably will change
-  width: 100%
-  display: flex
-  align-items: center
-  justify-content: center
+  width: $nm-notification-width
+  margin-left: -($nm-notification-width / 2)
+  left: 50%
   .notification-box--casing
     position: relative
     .notification-box
-      min-width: rem-calc(250px)
-      max-width: $nm-notification-width
       margin-bottom: rem-calc(3px)
-      z-index: 9999
