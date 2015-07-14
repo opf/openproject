@@ -41,6 +41,6 @@ describe Principal, :type => :model do
     end
 
     it { expect(Role.find_by_id(role.id)).to eq(role) }
-    it { expect(PrincipalRole.find_all_by_principal_id(principal.id)).to eq([]) }
+    it { expect(PrincipalRole.where(id: principal.id)).to eq([]) }
   end
 end
