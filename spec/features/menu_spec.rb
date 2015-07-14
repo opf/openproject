@@ -67,7 +67,8 @@ describe 'project menu', type: :feature do
         it 'leads to cost reports' do
           click_on 'Cost reports'
 
-          expect(page).to have_selector('.breadcrumb', text: 'HomePonyoCost reports')
+          expect(page).to have_selector('.breadcrumb > li', text: 'Ponyo')
+          expect(page).to have_selector('.breadcrumb > li', text: 'Cost reports')
         end
       end
 
@@ -96,7 +97,7 @@ describe 'project menu', type: :feature do
             click_on 'Cost reports'
           end
 
-          expect(page).to have_selector('.breadcrumb', text: 'Cost reports')
+          expect(page).to have_selector('.breadcrumb > li', text: 'Cost reports')
 
           # to make sure we're not seeing the project cost reports:
           expect(page).not_to have_text('Ponyo')
