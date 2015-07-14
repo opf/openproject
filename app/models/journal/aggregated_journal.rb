@@ -84,8 +84,8 @@ class Journal::AggregatedJournal < Journal
     # its predecessor and successor.
     def sql_rough_group(uid)
       row_counter = "@aggregated_journal_row_counter_#{uid}"
-      "SELECT predecessor.*, (#{row_counter} := #{row_counter} + 1) AS group_number
-      FROM (journals predecessor, (SELECT #{row_counter} := 0) number_initializer)
+      "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
+      FROM (journals predecessor #{sql_group_count_initializer(uid)})
       LEFT OUTER JOIN journals successor
         ON predecessor.version + 1 = successor.version AND
            predecessor.journable_type = successor.journable_type AND
@@ -94,6 +94,33 @@ class Journal::AggregatedJournal < Journal
             (predecessor.notes != '' AND predecessor.notes IS NOT NULL) OR
             #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
             successor.id IS NULL"
+    end
+
+    # The "group_number" required in :sql_rough_group has to be generated differently depending on
+    # the DBMS used. This method returns the apropriate statement to be used inside a select to
+    # obtain the current group number.
+    # The :uid parameter allows to define non-conflicting variable names (for MySQL).
+    def sql_group_counter(uid)
+      if OpenProject::Database.mysql?
+        group_counter = mysql_group_count_variable(uid)
+        "(#{group_counter} := #{group_counter} + 1)"
+      else
+        'row_number() OVER ()'
+      end
+    end
+
+    # MySQL requires some initialization to be performed before being able to count the groups.
+    # This method allows to inject further FROM sources to achieve that in a single SQL statement.
+    def sql_group_count_initializer(uid)
+      if OpenProject::Database.mysql?
+        ", (SELECT #{mysql_group_count_variable(uid)} := 0) number_initializer"
+      else
+        ''
+      end
+    end
+
+    def mysql_group_count_variable(uid)
+      "@aggregated_journal_row_counter_#{uid}"
     end
 
     # Similar to the WHERE statement used in :sql_rough_group. However, this condition will
