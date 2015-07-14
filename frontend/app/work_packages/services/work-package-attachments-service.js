@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 // TODO: Inject/work with notification service
-module.exports = function(Upload, PathHelper) {
+module.exports = function(Upload, PathHelper, I18n, NotificationsService) {
 
   var upload = function(workPackage, files) {
     var uploadPath = PathHelper.apiV3WorkPackageAttachmentsPath(workPackage.props.id)
     // for file in files build some promises, create a notification per WP,
     // notify the noticiation (wat?) about progress
-    angular.forEach(files, function(file) {
+    var uploads = _.map(files, function(file) {
       var options = {
         url: uploadPath,
         fields: {
@@ -43,17 +43,15 @@ module.exports = function(Upload, PathHelper) {
         },
         file: file
       }
-      Upload.upload(options)
-      .progress(function() {
-        console.log('this is progress', arguments);
-      })
-      .error(function() {
-        console.log('this is an error', arguments);
-      })
-      .success(function() {
-        console.log('this is success', arguments);
-      });
+      return Upload.upload(options);
     });
+
+    // notify the user
+    var message = I18n.t('js.label_upload_notification', {
+      id: workPackage.props.id,
+      subject: workPackage.props.subject
+    });
+    NotificationsService.addWorkPackageUpload(message, uploads);
   }
 
   return {

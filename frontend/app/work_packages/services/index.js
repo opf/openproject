@@ -74,5 +74,7 @@ angular.module('openproject.workPackages.services')
   .service('WorkPackageAttachmentsService', [
     'Upload', // 'Upload' is provided by ngFileUpload
     'PathHelper',
+    'I18n',
+    'NotificationsService',
     require('./work-package-attachments-service')
   ]);

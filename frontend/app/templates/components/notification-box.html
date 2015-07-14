@@ -4,7 +4,9 @@
     <p>{{content.message}}</p>
     <div data-ng-switch="content.type" data-ng-if="typeable()">
       <div data-ng-switch-when="upload">
-        <!-- show the uploads -->
+        <ul class="notification-box--uploads" data-ng-show="content.uploads.length > 0">
+          <upload-notification data-upload="upload" data-ng-repeat="upload in content.uploads"></upload-notification>
+        </ul>
       </div>
       <div data-ng-switch-when="success">
         <!-- create another button -->

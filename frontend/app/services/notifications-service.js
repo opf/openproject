@@ -36,17 +36,17 @@ module.exports = function(I18n, $rootScope) {
     return message;
   },
   createSuccessNotification = function(message) {
-    return _.extend(createNotification(message), { className: 'success' });
+    return _.extend(createNotification(message), { type: 'success' });
   },
   createWarningNotification = function(message) {
-    return _.extend(createNotification(message), { className: 'warning' });
+    return _.extend(createNotification(message), { type: 'warning' });
   },
   createErrorNotification = function(message, errors) {
     if(!errors) {
       throw new Error('Cannot create an error notification without errors!');
     }
     return _.extend(createNotification(message), {
-      className: 'error',
+      type: 'error',
       errors: errors
     });
   },
@@ -55,7 +55,7 @@ module.exports = function(I18n, $rootScope) {
       throw new Error('Cannot create an upload notification without uploads!');
     }
     return _.extend(createNotification(message), {
-      className: 'upload',
+      type: 'upload',
       uploads: uploads
     });
   },

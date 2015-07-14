@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(NotificationsService) {
+module.exports = function() {
 
   var notificationsController = function(scope) {
     scope.stack = [];
