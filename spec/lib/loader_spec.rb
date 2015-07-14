@@ -39,7 +39,7 @@ describe Redmine::DefaultData::Loader do
     end
 
     it 'expects all generated roles to have the type \'Role\'' do
-      expect(Role.select(:type).all.map(&:type).uniq).to match_array ['Role']
+      expect(Role.pluck(:type).uniq).to match_array ['Role']
     end
   end
 end
