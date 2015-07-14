@@ -1289,7 +1289,7 @@ en:
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_export_limit: "Work packages export limit"
-  setting_journal_aggregation_time: "Display journals as aggregated within"
+  setting_journal_aggregation_time_minutes: "Display journals as aggregated within"
   setting_log_requesting_user: "Log user login, name, and mail address for all requests"
   setting_login_required: "Authentication required"
   setting_mail_from: "Emission email address"
