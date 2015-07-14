@@ -38,7 +38,7 @@ module OpenProject::GlobalRoles::Patches
 
     module ClassMethods
       def find_all_givable_with_no_global_roles
-        givable.all
+        givable
       end
     end
 
