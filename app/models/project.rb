@@ -190,9 +190,9 @@ class Project < ActiveRecord::Base
                                       :reportings_via_target],
                                 leave_public: true
 
-  def associated_project_candidates(_user = User.current)
+  def associated_project_candidates(user = User.current)
     # TODO: Check if admins shouldn't see all projects here
-    projects = Project.visible.to_a
+    projects = Project.visible(user).to_a
     projects.delete(self)
     projects -= associated_projects
     projects.select(&:allows_association?)
@@ -203,16 +203,16 @@ class Project < ActiveRecord::Base
     associated_project_candidates(user).group_by(&:project_type)
   end
 
-  def project_associations_by_type(_user = User.current)
+  def project_associations_by_type(user = User.current)
     # TODO: values need sorting by project tree
-    project_associations.visible.group_by do |a|
+    project_associations.visible(user).group_by do |a|
       a.project(self).project_type
     end
   end
 
-  def reporting_to_project_candidates(_user = User.current)
+  def reporting_to_project_candidates(user = User.current)
     # TODO: Check if admins shouldn't see all projects here
-    projects = Project.visible.to_a
+    projects = Project.visible(user).to_a
     projects.delete(self)
     projects -= reporting_to_projects
     projects
