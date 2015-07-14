@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <div class="form--field"><%= setting_select :gravatar_default, [["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid'], ["Retro", 'retro'], ["Mystery man", 'mm']], :blank => :label_none %></div>
 
-    <div class="form--field"><%= setting_text_field :journal_aggregation_time, unit: l(:label_minute_plural) %>
+    <div class="form--field"><%= setting_text_field :journal_aggregation_time_minutes, unit: l(:label_minute_plural) %>
       <span class="form--field-instructions">
         <%= l(:text_journal_aggregation_time_explanation) %><br/>
         <%= l(:text_hint_disable_with_0) %>
