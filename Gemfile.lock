@@ -210,6 +210,8 @@ GEM
       fog-core
       fog-json
     formatador (0.2.5)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     gherkin (2.12.2)
       multi_json (~> 1.3)
     globalize (4.0.3)
@@ -489,6 +491,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.5)
   faker
   fog (~> 1.23.0)
+  friendly_id (~> 5.1.0)
   globalize (~> 4.0.3)
   gon (~> 4.0)
   grape (~> 0.10.1)

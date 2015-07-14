@@ -50,6 +50,8 @@ gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.0'
 gem 'acts_as_list', '~> 0.3.0'
 
+gem 'friendly_id', '~> 5.1.0'
+
 gem 'awesome_nested_set', github: 'finnlabs/awesome_nested_set', branch: 'v2.1.6-rails4'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'

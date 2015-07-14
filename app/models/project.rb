@@ -30,6 +30,7 @@
 class Project < ActiveRecord::Base
   include Redmine::SafeAttributes
   extend Pagination::Model
+  extend FriendlyId
 
   include Project::Copy
 
@@ -125,6 +126,8 @@ class Project < ActiveRecord::Base
             if: -> (p) { p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, in: RESERVED_IDENTIFIERS
+
+  friendly_id :identifier, use: :finders
 
   before_destroy :delete_all_members
   before_destroy :destroy_all_work_packages
@@ -425,25 +428,10 @@ class Project < ActiveRecord::Base
     cond
   end
 
-  def self.find(*args)
-    if args.first && args.first.is_a?(String) && !args.first.match(/\A\d*\z/)
-      project = find_by(identifier: args.first)
-      raise ActiveRecord::RecordNotFound, "Couldn't find Project with identifier=#{args.first}" if project.nil?
-      project
-    else
-      super
-    end
-  end
-
   def self.find_visible(user, *args)
     where(Project.visible_by(user)).scoping do
       find(*args)
     end
-  end
-
-  def to_param
-    # id is used for projects with a numeric identifier (compatibility)
-    @to_param ||= (identifier.to_s =~ %r{\A\d*\z} ? id.to_s : identifier)
   end
 
   def active?
