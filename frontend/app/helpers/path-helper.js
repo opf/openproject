@@ -217,26 +217,6 @@ module.exports = function() {
       return PathHelper.apiWorkPackagesPath() + '/column_sums';
     },
 
-    // API V2
-    apiPrioritiesPath: function() {
-      return PathHelper.apiV2 + '/planning_element_priorities';
-    },
-    apiProjectStatusesPath: function(projectIdentifier) {
-      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/statuses';
-    },
-    apiProjectWorkPackageTypesPath: function(projectIdentifier) {
-      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/planning_element_types';
-    },
-    apiStatusesPath: function() {
-      return PathHelper.apiV2 + '/statuses';
-    },
-    apiV2ProjectPath: function(projectIdentifier) {
-      return PathHelper.apiV2 + PathHelper.projectPath(projectIdentifier);
-    },
-    apiWorkPackageTypesPath: function() {
-      return PathHelper.apiV2 + '/planning_element_types';
-    },
-
     // API V3
     apiQueryStarPath: function(queryId) {
       return PathHelper.apiV3QueryPath(queryId) + '/star';
@@ -250,6 +230,9 @@ module.exports = function() {
     apiV3WorkPackagePath: function(workPackageId) {
       return PathHelper.apiV3 + '/work_packages/' + workPackageId;
     },
+    apiPrioritiesPath: function() {
+      return PathHelper.apiV3 + '/priorities';
+    },
     apiV3ProjectsPath: function(projectIdentifier) {
       return PathHelper.apiV3 + PathHelper.projectsPath() + '/' + projectIdentifier;
     },
@@ -258,6 +241,15 @@ module.exports = function() {
     },
     apiV3TypePath: function(typeId) {
       return PathHelper.apiV3 + '/types/' + typeId;
+    },
+    apiStatusesPath: function() {
+      return PathHelper.apiV3 + '/statuses';
+    },
+    apiProjectWorkPackageTypesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectsPath(projectIdentifier) + '/types';
+    },
+    apiWorkPackageTypesPath: function() {
+      return PathHelper.apiV3 + '/types';
     },
     // Static
     staticUserPath: function(userId) {
