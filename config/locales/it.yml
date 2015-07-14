@@ -1,0 +1,14 @@
+it:
+  activerecord:
+    models:
+      document: Documento
+  default_doc_category_tech: Documentazione tecnica
+  default_doc_category_user: Documentazione utente
+  enumeration_doc_categories: Categorie di documenti
+  label_document_added: Documento aggiunto
+  label_document_new: Nuovo Documento
+  label_document_plural: Documenti
+  label_documents: Documenti
+  permission_manage_documents: Gestione documenti
+  permission_view_documents: Visualizzare i documenti
+  project_module_documents: Documenti
