@@ -66,9 +66,9 @@ class Journal::AggregatedJournal < Journal
                #{table_name}.user_id,
                #{table_name}.notes,
                #{table_name}.activity_type,
-               COALESCE(addition.created_at, #{table_name}.created_at) created_at,
-               COALESCE(addition.id, #{table_name}.id) id,
-               COALESCE(addition.version, #{table_name}.version) version")
+               COALESCE(addition.created_at, #{table_name}.created_at) \"created_at\",
+               COALESCE(addition.id, #{table_name}.id) \"id\",
+               COALESCE(addition.version, #{table_name}.version) \"version\"")
     end
 
     private
@@ -83,9 +83,8 @@ class Journal::AggregatedJournal < Journal
     # "group_number" to the result. This allows to compare a group resulting from this query with
     # its predecessor and successor.
     def sql_rough_group(uid)
-      row_counter = "@aggregated_journal_row_counter_#{uid}"
       "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
-      FROM (journals predecessor #{sql_group_count_initializer(uid)})
+      FROM #{sql_rough_group_from_clause(uid)}
       LEFT OUTER JOIN journals successor
         ON predecessor.version + 1 = successor.version AND
            predecessor.journable_type = successor.journable_type AND
@@ -111,11 +110,13 @@ class Journal::AggregatedJournal < Journal
 
     # MySQL requires some initialization to be performed before being able to count the groups.
     # This method allows to inject further FROM sources to achieve that in a single SQL statement.
-    def sql_group_count_initializer(uid)
+    # Sadly MySQL requires the whole statement to be wrapped in parenthesis, while PostreSQL
+    # prohibits that.
+    def sql_rough_group_from_clause(uid)
       if OpenProject::Database.mysql?
-        ", (SELECT #{mysql_group_count_variable(uid)} := 0) number_initializer"
+        "(journals predecessor, (SELECT #{mysql_group_count_variable(uid)}:=0) number_initializer)"
       else
-        ''
+        'journals predecessor'
       end
     end
 
