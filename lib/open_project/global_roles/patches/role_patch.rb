@@ -25,7 +25,9 @@ module OpenProject::GlobalRoles::Patches
 
 
       base.class_eval do
-        scope :givable, where(:builtin => 0, :type => 'Role').order('position')
+        scope :givable, -> {
+          where(builtin: 0, type: 'Role').order('position')
+        }
 
         class << self
           alias_method :find_all_givable_without_no_global_roles, :find_all_givable unless method_defined?(:find_all_givable_without_no_global_roles)
