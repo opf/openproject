@@ -39,8 +39,10 @@ describe Journal::AggregatedJournal, type: :model do
 
   subject { described_class.all }
 
-  def aggregated_journal_for(journal)
-    Journal::AggregatedJournal.new(journal.attributes, without_protection: true)
+  def aggregated_journal_for(journal, attribute_overrides = {})
+    result = Journal::AggregatedJournal.new(journal.attributes, without_protection: true)
+    result.update_attributes(attribute_overrides, without_protection: true)
+    result
   end
 
   before do
@@ -86,6 +88,20 @@ describe Journal::AggregatedJournal, type: :model do
                                         aggregated_journal_for(work_package.journals.last)]
           end
         end
+
+        context 'adding another change without comment' do
+          before do
+            work_package.reload # need to update the lock_version, avoiding StaleObjectError
+            expect(work_package.update_by!(new_author, subject: 'foo')).to be_truthy
+          end
+
+          it 'returns an aggregated journal, taking notes from the earlier journal' do
+            expected_journal = aggregated_journal_for(
+              work_package.journals.last,
+              notes: work_package.journals.second)
+            is_expected.to match_array [expected_journal]
+          end
+        end
       end
     end
 
@@ -110,6 +126,18 @@ describe Journal::AggregatedJournal, type: :model do
     it 'returns both journals' do
       is_expected.to match_array [aggregated_journal_for(work_package.journals.first),
                                   aggregated_journal_for(work_package.journals.second)]
+    end
+  end
+
+  context 'different WP updated immediately after change' do
+    let(:other_wp) { FactoryGirl.build(:work_package) }
+    before do
+      other_wp.save!
+    end
+
+    it 'returns both journals' do
+      is_expected.to match_array [aggregated_journal_for(work_package.journals.first),
+                                  aggregated_journal_for(other_wp.journals.first)]
     end
   end
 end
