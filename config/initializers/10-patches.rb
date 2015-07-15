@@ -133,10 +133,7 @@ module ActiveModel
     end
 
     def writable_symbols_and_messages_for(attribute)
-      attribute = attribute.to_sym # avoid mixed symbol/string keys
-      error_symbols[attribute] = [] unless error_symbols[attribute]
-
-      error_symbols[attribute]
+      error_symbols[attribute.to_sym] ||= []
     end
 
     # Kind of a hack: We need the possibility to temporarily disable symbol storing in the subclass
