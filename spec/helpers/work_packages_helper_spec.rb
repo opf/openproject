@@ -494,4 +494,30 @@ describe WorkPackagesHelper, type: :helper do
       expect(attribute.field).to have_text(status1.name)
     end
   end
+
+  describe '#truncated_subject' do
+    let(:work_package) { FactoryGirl.build(:work_package, subject: seriously_long_subject) }
+    let(:type) { work_package.type.name }
+    let(:seriously_long_subject) {
+      %{Loremipsumdolorsitamet,consecteturadipisicingelit,
+        seddoeiusmodtemporincididuntutlaboreetdoloremagnaaliqua.
+        Utenimadminimveniam,Excepteursintoccaecatcupidatatnonproident,
+        suntinculpaquiofficiadeseruntmollitanimidestlaborum}.squish
+    }
+    it 'should should truncate the work package\'s subject' do
+      expected_subject = %{#{type} #: Loremipsumdolorsitamet,consecteturadipisicingelit,
+        seddoeiusmodtemporincididuntutla...}.squish
+      expect(truncated_subject(work_package)).to eql(expected_subject)
+    end
+
+    it 'should be able to truncate with a different ellipsis' do
+      expected_subject = %{#{type} #: Loremipsumdolorsitamet,consecteturadipisicingelit,
+        seddoeiusmodtemporincididuntutla---}.squish
+      expect(truncated_subject(work_package, omission: '---')).to eql(expected_subject)
+    end
+    it 'should be able to truncate with a different length' do
+      expected_subject = %{#{type} #: Lor...}
+      expect(truncated_subject(work_package, length: 20)).to eql(expected_subject)
+    end
+  end
 end

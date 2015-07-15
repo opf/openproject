@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% work_package_breadcrumb %>
 
-<%= content_tag('h2', h(work_package.to_s), class: 'legacy-heading') %>
+<%= content_tag('h2', truncated_subject(work_package, length: 120), class: 'legacy-heading', title: h(work_package.to_s)) %>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
