@@ -293,15 +293,11 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user = nil, count = 5)
-    where(visible_by(user)).limit(count).order('created_on DESC')
+    latest_for(user, count: count)
   end
 
-  def self.latest_for(user, options = {})
-    limit = options.fetch(:count) { 5 }
-
-    conditions = visible_by(user)
-
-    where(conditions).limit(limit).newest_first
+  def self.latest_for(user, count: 5)
+    where(visible_by(user)).limit(count).newest_first
   end
 
   # table_name shouldn't be needed :(
@@ -323,6 +319,17 @@ class Project < ActiveRecord::Base
     else
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
     end
+  end
+
+  # Returns a ActiveRecord::Relation to find all projects for which +user+ has the given +permission+
+  #
+  # Valid options:
+  # * :project => limit the condition to project
+  # * :with_subprojects => limit the condition to project and its subprojects
+  # * :member => limit the condition to the user projects
+  def self.allowed_to(user, permission, options = {})
+    where(allowed_to_condition(user, permission, options))
+      .references(:projects)
   end
 
   # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
@@ -471,7 +478,7 @@ class Project < ActiveRecord::Base
   # by the current user
   def allowed_parents
     return @allowed_parents if @allowed_parents
-    @allowed_parents = Project.where(Project.allowed_to_condition(User.current, :add_subprojects))
+    @allowed_parents = Project.allowed_to(User.current, :add_subprojects)
     @allowed_parents = @allowed_parents - self_and_descendants
     if User.current.allowed_to?(:add_project, nil, global: true) || (!new_record? && parent.nil?)
       @allowed_parents << nil

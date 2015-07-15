@@ -56,8 +56,7 @@ class News < ActiveRecord::Base
 
   scope :visible, -> (*args) {
     includes(:project)
-      .where(Project.allowed_to_condition(args.first || User.current, :view_news))
-      .references(:projects)
+      .merge(Project.allowed_to(args.first || User.current, :view_news))
   }
 
   safe_attributes 'title', 'summary', 'description'
@@ -68,22 +67,14 @@ class News < ActiveRecord::Base
 
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
-    limit(count)
-      .where(Project.allowed_to_condition(user, :view_news))
-      .includes(:author, :project)
-      .order("#{News.table_name}.created_on DESC")
-      .references(:users, :projects)
+    latest_for(user, count: count)
   end
 
-  def self.latest_for(user, options = {})
-    limit = options.fetch(:count) { 5 }
-
-    conditions = Project.allowed_to_condition(user, :view_news)
-
-    # TODO: remove the includes from here, it's required by Project.allowed_to_condition
-    # News has nothing to do with it
-    where(conditions).limit(limit).newest_first.includes(:author, :project)
-      .references(:users, :projects)
+  def self.latest_for(user, count: 5)
+    limit(count)
+      .newest_first
+      .includes(:project, :author)
+      .merge(Project.allowed_to(user, :view_news))
   end
 
   # table_name shouldn't be needed :(

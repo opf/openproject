@@ -131,8 +131,7 @@ module API
         projects = Array(projects)
 
         authorized = permissions.any? { |permission|
-          allowed_condition = Project.allowed_to_condition(user, permission)
-          allowed_projects = Project.where(allowed_condition)
+          allowed_projects = Project.allowed_to(user, permission)
 
           if global
             allowed_projects.any?

@@ -77,8 +77,7 @@ class WorkPackage < ActiveRecord::Base
 
   scope :visible, ->(*args) {
     includes(:project)
-      .where(WorkPackage.visible_condition(args.first || User.current))
-      .references(:projects)
+      .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
   }
 
   scope :in_status, -> (*args) do
