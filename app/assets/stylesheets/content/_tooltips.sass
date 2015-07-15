@@ -35,6 +35,7 @@ $tooltip--border: none
 $tooltip--height: 22px
 $tooltip--font-color: $body-font-color
 $tooltip--arrow-size: 6px
+$advanced-tooltip--border: 2px solid #a7cbe1
 
 %tooltip--top-bottom
   &:before, &:after
@@ -184,13 +185,13 @@ table
       color: #505050
 
 // tooltips with html support
-span.op_tooltip
+span.advanced--tooltip
   visibility: hidden
   opacity: 0
   transition: visibility 0s linear 0.2s, opacity 0.2s linear
   position: absolute
-  border: 2px solid #a7cbe1
-  background: #e3f5ff
+  border: $advanced-tooltip--border
+  background: $tooltip--background-color
   padding: 15px
   font-style: italic
   line-height: 18px

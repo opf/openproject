@@ -107,15 +107,24 @@ These can contain simple texts but are not suitable for HTML within the Tooltip.
 
 Note that the tabindex has to be set manually on the `<span>` and not the containing element. `tabindex="0"` makes the item tabbable at all.
 
-### Html tooltips
+### HTML tooltips
 
 ```
 <div class="form--field">
   <label class="form--label" for="new_password" title="New password">New password</label>
   <div class="form--field-container tooltip-visible">
-    <span class="form--text-field-container"><input class="form--text-field -password" id="new_password" name="new_password" size="25" type="password"></span>
+    <span class="form--text-field-container">
+      <input class="form--text-field -password" id="new_password" name="new_password" size="25" type="password">
+    </span>
     <span class="op_tooltip">
-      <em>Must be at least 10 characters long.</em><br><em>Must contain characters of the following classes (at least 2 of 4): <ul><li>lowercase (e.g. 'a')</li><li>uppercase (e.g. 'A')</li></ul></em>
+      <em>Must be at least 10 characters long.</em><br>
+      <em>
+        Must contain characters of the following classes (at least 2 of 4):
+        <ul>
+          <li>lowercase (e.g. 'a')</li>
+          <li>uppercase (e.g. 'A')</li>
+        </ul>
+      </em>
     </span>
   </div>
 </div>
