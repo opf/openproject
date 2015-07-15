@@ -178,16 +178,6 @@ class WorkPackage < ActiveRecord::Base
                                        },
                                        method(:cleanup_time_entries_before_destruction_of)
 
-  # Mapping attributes, that are passed in as id's onto their respective associations
-  # (eg. type=4711 onto type=::Type.find(4711))
-  include AssociationsMapper
-  # recovered this from planning-element: is it still needed?!
-  map_associations_for :parent,
-                       :status,
-                       :type,
-                       :project,
-                       :priority
-
   acts_as_journalized except: ['root_id']
 
   # This one is here only to ease reading
