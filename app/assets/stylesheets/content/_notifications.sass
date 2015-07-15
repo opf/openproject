@@ -33,6 +33,7 @@ $nm-font-size: rem-calc(13px)
 $nm-border-radius: rem-calc(2px)
 $nm-box-padding: rem-calc(10px 35px 10px 35px)
 $nm-font-color: $body-font-color
+$nm-notification-width: rem-calc(550)
 
 $nm-color-error-border: #ca3f3f
 $nm-color-error-icon: #ca3f3f
@@ -46,9 +47,9 @@ $nm-color-warning-border: #b5b078
 $nm-color-warning-icon: #000
 $nm-color-warning-background: #f4f4aa
 
-$nm-color-default-border: #8fc0db
-$nm-color-default-background: #e3f5ff
-$nm-padding-default-box: rem-calc(10px)
+$nm-color-border: #8fc0db
+$nm-color-background: #e3f5ff
+$nm-padding-box: rem-calc(10px)
 
 %nm-icon-error
   @extend .icon-attention2:before
@@ -63,33 +64,41 @@ $nm-padding-default-box: rem-calc(10px)
   color: $nm-color-warning-icon
 
 
-@mixin messages-icon
+@mixin messages-icon($top:rem-calc(11), $left:rem-calc(10), $size:rem-calc(18))
   @include icon-common
   position: absolute
-  top: rem-calc(11px)
-  left: rem-calc(10px)
-  font-size: rem-calc(18px)
+  top: $top
+  left: $left
+  font-size: $size
 
 .notification-box
+  @extend %notification
+  +notification-layout($x: left, $y: top, $size: auto, $offset: rem-calc(0))
+  +notification-style($background: $nm-color-background, $color: $nm-font-color, $padding: $nm-padding-box, $radius: $nm-border-radius)
+  .notification-icon
+    +notification-icon($size: $notification-icon-size, $margin: $notification-icon-margin, $align: $notification-icon-align)
+  display: flex
   box-shadow: rem-calc(1px 2px 3px) #dddddd
-  border: rem-calc(1px) solid $nm-color-default-border
-  padding: $nm-padding-default-box
-  border-radius: $nm-border-radius
+  border: rem-calc(1px) solid $nm-color-border
   font-size: $nm-font-size
-  position: relative
   word-wrap: break-word
-  background-color: $nm-color-default-background
-  color: $nm-font-color
-
   & .button
     margin: rem-calc(10px 10px 0 0)
 
-  //@hack adapting to provided styles
-  //messy I dont have all the details for a magic resolve, this might change
-  & p, & ul
-    margin-bottom: 0
-  & p, & ul>li, & .button
-    font-size: $nm-font-size
+  .notification-box--close
+    position: absolute
+    top: rem-calc(10px)
+    right: rem-calc(10px)
+    color: #000000
+    background-color: rgba(0, 0, 0, 0.08)
+    border-radius: rem-calc(50px)
+    width: rem-calc(23px)
+    height: rem-calc(23px)
+    text-align: center
+    font-size: rem-calc(23px)
+    line-height: rem-calc(20px)
+    &:hover
+      text-decoration: none
 
   &.-error, &.-success, &.-warning
     padding: $nm-box-padding
@@ -115,18 +124,20 @@ $nm-padding-default-box: rem-calc(10px)
       @include messages-icon
       @extend %nm-icon-warning
 
+  //@hack adapting to provided styles
+  //messy I dont have all the details for a magic resolve, this might change
+  & p, & ul
+    margin-bottom: 0
+  & p, & ul>li, & .button
+    font-size: $nm-font-size
 
-  .notification-box--close
-    position: absolute
-    top: rem-calc(10px)
-    right: rem-calc(10px)
-    color: #000000
-    background-color: rgba(0, 0, 0, 0.08)
-    border-radius: rem-calc(50px)
-    width: rem-calc(23px)
-    height: rem-calc(23px)
-    text-align: center
-    font-size: rem-calc(23px)
-    line-height: rem-calc(20px)
-    &:hover
-      text-decoration: none
+.notification-box--wrapper
+  position: absolute
+  top: rem-calc(52px) //this value probably will change
+  width: $nm-notification-width
+  margin-left: -($nm-notification-width / 2)
+  left: 50%
+  .notification-box--casing
+    position: relative
+    .notification-box
+      margin-bottom: rem-calc(3px)
