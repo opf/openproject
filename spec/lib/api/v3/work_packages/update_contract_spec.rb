@@ -29,14 +29,13 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::UpdateContract do
-  let(:work_package) { FactoryGirl.create(:work_package) }
-  let(:member) { FactoryGirl.build(:user) }
+  let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages, :edit_work_packages] }
 
-  subject(:contract) { described_class.new(work_package, member) }
-
-  before do
-    allow(member).to receive(:allowed_to?).and_return(true)
-  end
+  subject(:contract) { described_class.new(work_package, user) }
 
   describe 'lock_version' do
     context 'no lock_version present' do
@@ -45,7 +44,7 @@ describe ::API::V3::WorkPackages::UpdateContract do
         contract.validate
       end
 
-      it { expect(contract.errors).to include(:error_conflict) }
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_conflict) }
     end
 
     context 'lock_version changed' do
@@ -54,7 +53,7 @@ describe ::API::V3::WorkPackages::UpdateContract do
         contract.validate
       end
 
-      it { expect(contract.errors).to include(:error_conflict) }
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_conflict) }
     end
 
     context 'lock_version present and unchanged' do
@@ -62,7 +61,29 @@ describe ::API::V3::WorkPackages::UpdateContract do
         contract.validate
       end
 
-      it { expect(contract.errors).not_to include(:error_conflict) }
+      it { expect(contract.errors.symbols_for(:base)).not_to include(:error_conflict) }
+    end
+  end
+
+  describe 'authorization' do
+    before do
+      contract.validate
+    end
+
+    context 'full access' do
+      it { expect(contract.errors).to be_empty }
+    end
+
+    context 'no read access' do
+      let(:permissions) { [:edit_work_packages] }
+
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_not_found) }
+    end
+
+    context 'no write access' do
+      let(:permissions) { [:view_work_packages] }
+
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
     end
   end
 end

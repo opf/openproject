@@ -29,9 +29,17 @@
 require 'spec_helper'
 
 describe ::API::Contracts::ModelContract do
-  let(:work_package) { FactoryGirl.build(:work_package) }
-  let(:child_contract) { ChildContract.new(work_package) }
-  let(:grand_child_contract) { GrandChildContract.new(work_package) }
+  let(:model) {
+    double('The model',
+           child_attribute: nil,
+           grand_child_attribute: nil,
+           overwritten_attribute: nil,
+           changed: [],
+           valid?: true,
+           errors: ActiveModel::Errors.new(nil))
+  }
+  let(:child_contract) { ChildContract.new(model) }
+  let(:grand_child_contract) { GrandChildContract.new(model) }
 
   before do
     child_contract.child_value = 0

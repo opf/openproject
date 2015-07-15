@@ -55,7 +55,27 @@ describe ::API::V3::WorkPackages::BaseContract do
   subject(:contract) { described_class.new(work_package, current_user) }
 
   before do
-    allow(work_package).to receive(:changed).and_return(changed_values)
+    allow(work_package).to receive(:changed).and_return(changed_values.map(&:to_s))
+  end
+
+  shared_examples_for 'invalid if changed' do |attribute|
+    before do
+      contract.validate
+    end
+
+    context 'has changed' do
+      let(:changed_values) { [attribute] }
+
+      it('is invalid') do
+        expect(contract.errors.symbols_for(:done_ratio)).to match_array([:error_readonly])
+      end
+    end
+
+    context 'has not changed' do
+      let(:changed_values) { [] }
+
+      it('is valid') { expect(contract.errors).to be_empty }
+    end
   end
 
   shared_examples 'a parent unwritable property' do |attribute|
@@ -65,13 +85,15 @@ describe ::API::V3::WorkPackages::BaseContract do
       end
 
       context 'has not changed' do
-        it('is valid') { expect(contract.errors.empty?).to be true }
+        let(:changed_values) { [] }
+
+        it('is valid') { expect(contract.errors).to be_empty }
       end
 
       context 'has changed' do
         let(:changed_values) { [attribute] }
 
-        it('is valid') { expect(contract.errors.empty?).to be true }
+        it('is valid') { expect(contract.errors).to be_empty }
       end
     end
 
@@ -86,86 +108,52 @@ describe ::API::V3::WorkPackages::BaseContract do
       end
 
       context 'has not changed' do
-        it('is valid') { expect(contract.errors.empty?).to be true }
+        let(:changed_values) { [] }
+
+        it('is valid') { expect(contract.errors).to be_empty }
       end
 
       context 'has changed' do
         let(:changed_values) { [attribute] }
 
-        it('is invalid') do
-          expect(contract.errors[:error_readonly]).to match_array(changed_values)
+        it('is invalid (read only)') do
+          expect(contract.errors.symbols_for(attribute)).to match_array([:error_readonly])
         end
       end
     end
   end
 
   describe 'estimated hours' do
-    it_behaves_like 'a parent unwritable property', 'estimated_hours'
+    it_behaves_like 'a parent unwritable property', :estimated_hours
   end
 
   describe 'start date' do
-    it_behaves_like 'a parent unwritable property', 'start_date'
+    it_behaves_like 'a parent unwritable property', :start_date
   end
 
   describe 'due date' do
-    it_behaves_like 'a parent unwritable property', 'due_date'
+    it_behaves_like 'a parent unwritable property', :due_date
   end
 
   describe 'percentage done' do
-    context 'has not changed' do
+    it_behaves_like 'a parent unwritable property', :done_ratio
+
+    context 'done ratio inferred by status' do
       before do
-        contract.validate
+        allow(Setting).to receive(:work_package_done_ratio).and_return('status')
       end
 
-      it('is valid') { expect(contract.errors.empty?).to be true }
+      it_behaves_like 'invalid if changed', :done_ratio
     end
 
-    context 'has changed' do
+    context 'done ratio disabled' do
+      let(:changed_values) { [:done_ratio] }
+
       before do
-        contract.validate
+        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
       end
 
-      let(:changed_values) { ['done_ratio'] }
-
-      it('is valid') { expect(contract.errors.empty?).to be true }
-
-      context 'is parent' do
-        before do
-          child
-          work_package.reload
-          contract.validate
-        end
-
-        let(:child) do
-          FactoryGirl.create(:work_package, parent_id: work_package.id, project: project)
-        end
-
-        it('is invalid') do
-          expect(contract.errors[:error_readonly]).to match_array(changed_values)
-        end
-      end
-
-      context 'done ratio inferred by status' do
-        before do
-          allow(Setting).to receive(:work_package_done_ratio).and_return('status')
-          contract.validate
-        end
-
-        it('is invalid') do
-          expect(contract.errors[:error_readonly]).to match_array(changed_values)
-        end
-      end
-
-      context 'done ratio disabled' do
-        before do
-          allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
-          contract.validate
-        end
-
-        it('is invalid') do
-          expect(contract.errors[:error_readonly]).to match_array(changed_values)
-        end
-      end
+      it_behaves_like 'invalid if changed', :done_ratio
     end
   end
 end

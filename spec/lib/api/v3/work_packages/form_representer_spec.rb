@@ -31,6 +31,7 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::FormRepresenter do
   include API::V3::Utilities::PathHelper
 
+  let(:errors) { [] }
   let(:work_package) {
     FactoryGirl.build(:work_package,
                       id: 42,
@@ -40,7 +41,9 @@ describe ::API::V3::WorkPackages::FormRepresenter do
   let(:current_user) {
     FactoryGirl.build(:user, member_in_project: work_package.project)
   }
-  let(:representer) { described_class.new(work_package, current_user: current_user) }
+  let(:representer) {
+    described_class.new(work_package, current_user: current_user, errors: errors)
+  }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -55,22 +58,12 @@ describe ::API::V3::WorkPackages::FormRepresenter do
       context 'with errors' do
         let(:subject_error_message) { 'Subject can\'t be blank!' }
         let(:status_error_message) { 'Status can\'t be blank!' }
-        let(:errors) {
-          { subject: [subject_error_message], status: [status_error_message] }
-        }
-        let(:subject_error) { ::API::Errors::Validation.new(subject_error_message) }
-        let(:status_error) { ::API::Errors::Validation.new(status_error_message) }
+        let(:errors) { [subject_error, status_error] }
+        let(:subject_error) { ::API::Errors::Validation.new(:subject, subject_error_message) }
+        let(:status_error) { ::API::Errors::Validation.new(:status, status_error_message) }
         let(:api_subject_error) { ::API::V3::Errors::ErrorRepresenter.new(subject_error) }
         let(:api_status_error) { ::API::V3::Errors::ErrorRepresenter.new(status_error) }
         let(:api_errors) { { subject: api_subject_error, status: api_status_error } }
-
-        before do
-          allow(work_package).to receive(:errors).and_return(errors)
-          allow(work_package.errors).to(
-            receive(:full_message).with(:subject, anything).and_return(subject_error_message))
-          allow(work_package.errors).to(
-            receive(:full_message).with(:status, anything).and_return(status_error_message))
-        end
 
         it { is_expected.to be_json_eql(api_errors.to_json).at_path('_embedded/validationErrors') }
       end

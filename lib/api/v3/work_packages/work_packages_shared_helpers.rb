@@ -56,36 +56,19 @@ module API
           end
         end
 
-        def write_request_valid?(work_package, contract_class)
-          contract = contract_class.new(work_package, current_user)
-
-          contract_valid = contract.validate
-          represented_valid = work_package.valid?
-
-          return true if contract_valid && represented_valid
-
-          # We need to merge the contract errors with the model errors in
-          # order to have them available at one place.
-          contract.errors.keys.each do |key|
-            contract.errors[key].each do |message|
-              work_package.errors.add(key, message)
-            end
-          end
-
-          false
-        end
-
         def create_work_package_form(work_package, contract_class:, form_class:)
           write_work_package_attributes(work_package, reset_lock_version: true)
-          write_request_valid?(work_package, contract_class)
+          contract = contract_class.new(work_package, current_user)
+          contract.validate
 
-          error = ::API::Errors::ErrorBase.create(work_package.errors)
+          api_errors = ::API::Errors::ErrorBase.create_errors(contract.errors)
 
-          if error.is_a? ::API::Errors::Validation
+          # errors for invalid data (e.g. validation errors) are handled inside the form
+          if api_errors.all? { |error| error.code == 422 }
             status 200
-            form_class.new(work_package, current_user: current_user)
+            form_class.new(work_package, current_user: current_user, errors: api_errors)
           else
-            fail error
+            fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
           end
         end
       end
