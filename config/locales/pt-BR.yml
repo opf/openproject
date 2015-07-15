@@ -3,7 +3,7 @@ pt-BR:
     models:
       document: Documento
   default_doc_category_tech: Documentação técnica
-  default_doc_category_user: Documentação de usuário
+  default_doc_category_user: Documentação do usuário
   enumeration_doc_categories: Categorias de documento
   label_document_added: Documento adicionado
   label_document_new: Novo documento
