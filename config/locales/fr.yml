@@ -4,13 +4,13 @@ fr:
       meeting:
         location: Lieu
         duration: Durée
-        participants: Participants
-        participants_attended: Participants
+        participants: Participant(s)
+        participants_attended: Présent(s)
         participants_invited: Invités
         start_time: Heure 
     models:
       meeting_agenda: Ordre du jour
-      meeting_minutes: Procès-verbal
+      meeting_minutes: Compte-rendu
   description_attended: ont participé
   description_invite: invité
   events:
@@ -18,9 +18,9 @@ fr:
     meeting_agenda: Ordre du jour de la réunion modifié
     meeting_agenda_closed: Ordre du jour de la réunion fermé
     meeting_agenda_opened: Ordre du jour de la réunion ouvert
-    meeting_minutes: Procès-verbal de la réunion modifié
-    meeting_minutes_created: Procès-verbal de la réunion créé
-  error_notification_with_errors: "Échec de l'envoi de notifications. Les destinataires suivant n'ont pas pu être notifiés : %{recipients}"
+    meeting_minutes: Compte-rendu de la réunion modifié
+    meeting_minutes_created: Compte-rendu de la réunion créé
+  error_notification_with_errors: "L'envoi de notifications a échoué. Les destinataires suivant n'ont pas pu être notifiés : %{recipients}"
   label_meeting_hour: Temps (heure)
   label_meeting_minute: Temps (minutes)
   label_meeting: Réunion
@@ -28,7 +28,7 @@ fr:
   label_meeting_new: Nouvelle réunion
   label_meeting_edit: Modifier la réunion
   label_meeting_agenda: Ordre du jour
-  label_meeting_minutes: Procès-verbal
+  label_meeting_minutes: Compte-rendu
   label_meeting_close: Fermer
   label_meeting_open: Ouvrir
   label_meeting_agenda_close: "Fermer l'ordre du jour pour commencer les procès-verbaux"
@@ -45,12 +45,12 @@ fr:
   permission_create_meeting_agendas: Gérer les ordres du jour
   permission_close_meeting_agendas: Fermer les ordres du jour
   permission_send_meeting_agendas_notification: Envoyer une notification de révision pour les ordres du jour
-  permission_create_meeting_minutes: Gérer les procès-verbaux
-  permission_send_meeting_minutes_notification: Envoyer une notification de révision pour les procès-verbaux
+  permission_create_meeting_minutes: Gérer les minutes
+  permission_send_meeting_minutes_notification: Envoyer une notification de révision pour les minutes
   project_module_meetings: Réunions
   text_in_hours: en heures
   text_meeting_agenda_for_meeting: 'ordre du jour de la réunion «%{meeting} »'
-  text_meeting_agenda_open_are_you_sure: "Le contenu non enregistrée dans l'ordre du jour sera perdue ! Continuer ?"
-  text_meeting_minutes_for_meeting: 'Ordres du jour pour la réunion "%{meeting}"'
-  text_review_meeting_agenda: "%{author} à mis le %{link} à l'examen."
-  text_review_meeting_minutes: "%{author} à mis le %{link} à l'examen."
+  text_meeting_agenda_open_are_you_sure: Le contenu non enregistré des minutes de la réunion sera perdu ! Continuer ?
+  text_meeting_minutes_for_meeting: 'Minutes de la réunion "%{meeting}"'
+  text_review_meeting_agenda: '%{author} à marqué le %{link} pour vérification.'
+  text_review_meeting_minutes: '%{author} à marqué le %{link} pour vérification.'
