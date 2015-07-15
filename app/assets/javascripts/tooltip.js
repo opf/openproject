@@ -1,17 +1,15 @@
 (function($) {
 
   var showTooltips = function(options) {
-    settings = $.extend(true,
-                                  {},
-                                  { element  : '' },
-                                  options);
+    var settings = $.extend(true,
+                                        {},
+                                        { element  : '' },
+                                        options);
 
-    jQuery(settings.element)
-    .focusin(function () {
-      jQuery(this).parent().parent().addClass('tooltip-visible');
-    })
-    .focusout(function () {
-      jQuery(this).parent().parent().removeClass('tooltip-visible');
+    $(settings.element).focusin(function () {
+      $(this).parent().parent().addClass('tooltip-visible');
+    }).focusout(function () {
+      $(this).parent().parent().removeClass('tooltip-visible');
     });
   }
 }(jQuery))
