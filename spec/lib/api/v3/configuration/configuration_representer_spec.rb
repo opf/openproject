@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,31 +26,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'spec_helper'
 
-module API
-  module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+describe ::API::V3::Configuration::ConfigurationRepresenter do
+  include ::API::V3::Utilities::PathHelper
 
-      get '/' do
-        RootRepresenter.new({})
+  let(:represented) {
+    double('Settings',
+           attachment_max_size: '1024')
+  }
+  let(:current_user) { FactoryGirl.build_stubbed(:user) }
+  let(:representer) { described_class.new(represented, current_user: current_user) }
+
+  context 'generation' do
+    subject { representer.to_json }
+
+    describe '_links' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.configuration }
       end
+    end
+
+    it 'indicates its type' do
+      is_expected.to be_json_eql('Configuration'.to_json).at_path('_type')
+    end
+
+    it 'indicates maximumAttachmentFileSize in Bytes' do
+      is_expected.to be_json_eql((1024 * 1024).to_json).at_path('maximumAttachmentFileSize')
     end
   end
 end

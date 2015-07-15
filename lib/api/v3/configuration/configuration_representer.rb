@@ -27,30 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'api/decorators/single'
 
 module API
   module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+    module Configuration
+      class ConfigurationRepresenter < ::API::Decorators::Single
 
-      get '/' do
-        RootRepresenter.new({})
+        link :self do
+          {
+            href: api_v3_paths.configuration
+          }
+        end
+
+        property :maximum_attachment_file_size,
+                 getter: -> (*) { attachment_max_size.to_i.kilobyte }
+
+        private
+
+        def _type
+          'Configuration'
+        end
       end
     end
   end
