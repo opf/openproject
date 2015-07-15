@@ -53,7 +53,7 @@ en:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the story's version"
             parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work_package '%{work_package_name}' is a backlogs task and as such can not have the backlogs story '%{parent_name}' as it's parent as long as the story is in a different project"
+              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and as such can not have the backlog story '%{parent_name}' as its parent as long as the story is in a different project"
               type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}"
         sprint:
           cannot_end_before_it_starts: "Sprint cannot end before it starts"
