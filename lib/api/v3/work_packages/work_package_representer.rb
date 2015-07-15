@@ -118,6 +118,13 @@ module API
           }
         end
 
+        link :addAttachment do
+          {
+            href: api_v3_paths.attachments_by_work_package(represented.id),
+            method: :post
+          }
+        end
+
         link :availableWatchers do
           {
             href: api_v3_paths.available_watchers(represented.id)
