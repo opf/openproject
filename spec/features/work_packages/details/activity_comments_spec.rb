@@ -1,16 +1,23 @@
 require 'spec_helper'
 
+require 'features/work_packages/details/inplace_editor/shared_contexts'
+
 describe 'activity comments', js: true do
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
   let!(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:user) { FactoryGirl.create :admin }
 
+  include_context 'maximized window'
+
   before do
     allow(User).to receive(:current).and_return(user)
     visit project_work_packages_path(project)
-    current_window.resize_to(1440, 800)
+
+    ensure_wp_table_loaded
+
     row = page.find("#work-package-#{work_package.id}")
     row.double_click
+
     expect(find('#add-comment-text')).to be_present
   end
 

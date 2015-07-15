@@ -39,14 +39,23 @@ describe Api::V2::AuthenticationController, type: :controller do
     it_should_behave_like 'a controller action with require_login'
 
     describe 'REST API disabled' do
-      before do
+      before { allow(Setting).to receive(:rest_api_enabled?).and_return false }
 
-        allow(Setting).to receive(:rest_api_enabled?).and_return false
+      context 'without login_required' do
+        before { fetch }
 
-        fetch
+        it { expect(response.status).to eq(403) }
       end
 
-      it { expect(response.status).to eq(403) }
+      context 'with login_required' do
+        before do
+          allow(Setting).to receive(:login_required?).and_return true
+
+          fetch
+        end
+
+        it { expect(response.status).to eq(403) }
+      end
     end
 
     describe 'authorization data' do
@@ -120,7 +129,7 @@ describe Api::V2::AuthenticationController, type: :controller do
 
     context 'with Session auth scheme requested' do
       before do
-        request.env['X-Authentication-Scheme'] = 'Session'
+        request.env['HTTP_X_AUTHENTICATION_SCHEME'] = 'Session'
       end
 
       it 'has Session auth scheme' do
