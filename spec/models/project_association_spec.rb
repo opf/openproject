@@ -102,7 +102,7 @@ describe ProjectAssociation, type: :model do
 
         expect(project_association).not_to be_valid
 
-        expect(project_association.errors[:project_a]).to eq(["can't be blank"])
+        expect(project_association.errors[:project_a]).to eq(["can't be blank."])
       end
     end
 
@@ -113,7 +113,7 @@ describe ProjectAssociation, type: :model do
 
         expect(project_association).not_to be_valid
 
-        expect(project_association.errors[:project_b]).to eq(["can't be blank"])
+        expect(project_association.errors[:project_b]).to eq(["can't be blank."])
       end
     end
   end

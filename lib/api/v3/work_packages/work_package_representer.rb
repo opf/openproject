@@ -107,10 +107,7 @@ module API
 
         linked_property :author, path: :user, embed_as: ::API::V3::Users::UserRepresenter
         linked_property :responsible, path: :user, embed_as: ::API::V3::Users::UserRepresenter
-        linked_property :assignee,
-                        path: :user,
-                        getter: :assigned_to,
-                        embed_as: ::API::V3::Users::UserRepresenter
+        linked_property :assigned_to, path: :user, embed_as: ::API::V3::Users::UserRepresenter
 
         link :attachments do
           {

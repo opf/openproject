@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,23 +26,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class CreateContract < BaseContract
-        # These attributes need to be set during creation and cannot be modified via representer.
-        # Hence making them writable here is unproblematic.
-        attribute :project_id
-        attribute :author_id
+require 'spec_helper'
 
-        validate :user_allowed_to_add
+describe ::API::Utilities::PropertyNameConverter do
+  describe '#from_ar_name' do
+    let(:attribute_name) { :an_attribute }
 
-        private
+    subject { described_class.from_ar_name(attribute_name) }
 
-        def user_allowed_to_add
-          unless @user.allowed_to?(:add_work_packages, model.project)
-            errors.add :base, :error_unauthorized
-          end
+    it 'stringifies attribute names' do
+      is_expected.to be_a(String)
+    end
+
+    it 'camelizes attribute names' do
+      is_expected.to eql('anAttribute')
+    end
+
+    context 'foreign keys' do
+      let(:attribute_name) { :thing_id }
+
+      it 'eliminates the id suffix' do
+        is_expected.to eql('thing')
+      end
+    end
+
+    # N.B. not re-iterating all existing known replacements here. Just using a single example
+    # to verify that it is done at all
+    context 'special replacements' do
+      let(:attribute_name) { :assigned_to }
+
+      it 'performs special replacements' do
+        is_expected.to eql('assignee')
+      end
+
+      context 'foreign keys' do
+        let(:attribute_name) { :assigned_to_id }
+
+        it 'sanitizes id-suffix before replacement lookup' do
+          is_expected.to eql('assignee')
         end
       end
     end

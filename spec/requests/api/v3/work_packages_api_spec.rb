@@ -57,7 +57,13 @@ describe API::V3::WorkPackages::WorkPackagesAPI, type: :request do
       end
 
       it_behaves_like 'invalid activity request' do
-        before { allow_any_instance_of(WorkPackage).to receive(:save).and_return(false) }
+        before do
+          work_package.errors.add :base, :invalid
+
+          # Using allow_any_instance because we don't control the WP returned to the API
+          allow_any_instance_of(WorkPackage).to receive(:save).and_return(false)
+          allow_any_instance_of(WorkPackage).to receive(:errors).and_return(work_package.errors)
+        end
 
         include_context 'create activity'
       end

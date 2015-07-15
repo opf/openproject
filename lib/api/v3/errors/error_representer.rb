@@ -55,9 +55,7 @@ module API
         end
 
         def error_identifier
-          return 'urn:openproject-org:api:v3:errors:MultipleErrors' unless Array(represented.errors).empty?
-
-          represented.class.identifier if represented.class.respond_to?(:identifier)
+          represented.class.identifier
         end
       end
     end

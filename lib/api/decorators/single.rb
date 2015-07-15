@@ -71,7 +71,7 @@ module API
                                title_getter: -> (*) { call_or_send_to_represented(getter).name },
                                show_if: -> (*) { true },
                                embed_as: nil)
-        link property.to_s.camelize(:lower) do
+        link ::API::Utilities::PropertyNameConverter.from_ar_name(property) do
           next unless instance_eval(&show_if)
 
           value = call_or_send_to_represented(getter)
@@ -92,7 +92,8 @@ module API
       end
 
       def self.embed_property(property, getter: property, decorator:, show_if: true)
-        property property,
+        property_name = ::API::Utilities::PropertyNameConverter.from_ar_name(property)
+        property property_name,
                  exec_context: :decorator,
                  getter: -> (*) { call_or_send_to_represented(getter) },
                  embedded: true,
