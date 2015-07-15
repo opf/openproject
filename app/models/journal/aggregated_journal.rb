@@ -65,6 +65,7 @@ class Journal::AggregatedJournal < Journal
                #{table_name}.journable_type,
                #{table_name}.user_id,
                #{table_name}.notes,
+               #{table_name}.id \"notes_id\",
                #{table_name}.activity_type,
                COALESCE(addition.created_at, #{table_name}.created_at) \"created_at\",
                COALESCE(addition.id, #{table_name}.id) \"id\",

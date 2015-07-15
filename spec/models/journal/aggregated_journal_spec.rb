@@ -29,6 +29,32 @@
 
 require 'spec_helper'
 
+RSpec::Matchers.define :be_equivalent_to_journal do |expected|
+  expected_attributes = expected.attributes.symbolize_keys
+  if expected_attributes[:created_at]
+    # µs are not stored in DB
+    expected_attributes[:created_at] = expected_attributes[:created_at].change(usec: 0)
+  end
+
+  ignored_attributes = [:notes_id]
+
+  match do |actual|
+    actual_attributes = actual.attributes.symbolize_keys
+    expected_attributes.except(*ignored_attributes) == actual_attributes.except(*ignored_attributes)
+  end
+
+  def display_sorted_hash(hash)
+    '{ ' + hash.sort.map { |k, v| "#{k.inspect}=>#{v.inspect}" }.join(', ') + ' }'
+  end
+
+  failure_message do |actual|
+    actual_attributes = actual.attributes.symbolize_keys
+    ["expected attributes: #{display_sorted_hash(expected_attributes.except(*ignored_attributes))}",
+     "actual attributes:   #{display_sorted_hash(actual_attributes.except(*ignored_attributes))}"]
+      .join($/)
+  end
+end
+
 describe Journal::AggregatedJournal, type: :model do
   let(:work_package) {
     FactoryGirl.build(:work_package)
@@ -39,19 +65,18 @@ describe Journal::AggregatedJournal, type: :model do
 
   subject { described_class.all }
 
-  def aggregated_journal_for(journal, attribute_overrides = {})
-    result = Journal::AggregatedJournal.new(journal.attributes, without_protection: true)
-    result.update_attributes(attribute_overrides, without_protection: true)
-    result
-  end
-
   before do
     allow(User).to receive(:current).and_return(initial_author)
     work_package.save!
   end
 
   it 'returns the one and only journal' do
-    is_expected.to match_array [aggregated_journal_for(work_package.journals.first)]
+    expect(subject.count).to eql 1
+    expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+  end
+
+  it 'also indicates its ID via notes_id' do
+    expect(subject.first.notes_id).to eql work_package.journals.first.id
   end
 
   context 'WP updated immediately after uncommented change' do
@@ -68,14 +93,16 @@ describe Journal::AggregatedJournal, type: :model do
       let(:new_author) { initial_author }
 
       it 'returns a single aggregated journal' do
-        is_expected.to match_array [aggregated_journal_for(work_package.journals.second)]
+        expect(subject.count).to eql 1
+        expect(subject.first).to be_equivalent_to_journal work_package.journals.second
       end
 
       context 'with a comment' do
         let(:notes) { 'This is why I changed it.' }
 
         it 'returns a single aggregated journal' do
-          is_expected.to match_array [aggregated_journal_for(work_package.journals.second)]
+          expect(subject.count).to eql 1
+          expect(subject.first).to be_equivalent_to_journal work_package.journals.second
         end
 
         context 'adding a second comment' do
@@ -84,8 +111,9 @@ describe Journal::AggregatedJournal, type: :model do
           end
 
           it 'returns two journals' do
-            is_expected.to match_array [aggregated_journal_for(work_package.journals.second),
-                                        aggregated_journal_for(work_package.journals.last)]
+            expect(subject.count).to eql 2
+            expect(subject.first).to be_equivalent_to_journal work_package.journals.second
+            expect(subject.second).to be_equivalent_to_journal work_package.journals.last
           end
         end
 
@@ -95,11 +123,19 @@ describe Journal::AggregatedJournal, type: :model do
             expect(work_package.update_by!(new_author, subject: 'foo')).to be_truthy
           end
 
-          it 'returns an aggregated journal, taking notes from the earlier journal' do
-            expected_journal = aggregated_journal_for(
-              work_package.journals.last,
-              notes: work_package.journals.second)
-            is_expected.to match_array [expected_journal]
+          it 'returns a single journal' do
+            expect(subject.count).to eql 1
+          end
+
+          it 'combines the notes of the earlier journal with attributes of the later journal' do
+            expected_journal = work_package.journals.last
+            expected_journal.notes = work_package.journals.second.notes
+
+            expect(subject.first).to be_equivalent_to_journal expected_journal
+          end
+
+          it 'indicates the ID of the earlier journal via notes_id' do
+            expect(subject.first.notes_id).to eql work_package.journals.second.id
           end
         end
       end
@@ -109,8 +145,9 @@ describe Journal::AggregatedJournal, type: :model do
       let(:new_author) { user2 }
 
       it 'returns both journals' do
-        is_expected.to match_array [aggregated_journal_for(work_package.journals.first),
-                                    aggregated_journal_for(work_package.journals.second)]
+        expect(subject.count).to eql 2
+        expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+        expect(subject.second).to be_equivalent_to_journal work_package.journals.second
       end
     end
   end
@@ -124,8 +161,9 @@ describe Journal::AggregatedJournal, type: :model do
     end
 
     it 'returns both journals' do
-      is_expected.to match_array [aggregated_journal_for(work_package.journals.first),
-                                  aggregated_journal_for(work_package.journals.second)]
+      expect(subject.count).to eql 2
+      expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+      expect(subject.second).to be_equivalent_to_journal work_package.journals.second
     end
   end
 
@@ -136,8 +174,9 @@ describe Journal::AggregatedJournal, type: :model do
     end
 
     it 'returns both journals' do
-      is_expected.to match_array [aggregated_journal_for(work_package.journals.first),
-                                  aggregated_journal_for(other_wp.journals.first)]
+      expect(subject.count).to eql 2
+      expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+      expect(subject.second).to be_equivalent_to_journal other_wp.journals.first
     end
   end
 end
