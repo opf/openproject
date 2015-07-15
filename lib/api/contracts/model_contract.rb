@@ -59,8 +59,6 @@ module API
         if respond_to? attribute
           send attribute
         end
-
-        nil
       end
 
       def writable_attributes
