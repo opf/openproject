@@ -1,0 +1,20 @@
+pt-BR:
+  label_hidden_elements: Elementos ocultos
+  label_visible_elements: Elementos visíveis
+  label_project_description: Descrição do projeto
+  label_project_details: Detalhes do projeto
+  label_project_homepage: Página inicial
+  label_custom_element: Adicionar amostra...
+  info_custom_text: Texto personalizado
+  label_confirm_delete: Confirma a exclusão deste elemento?
+  label_save_or_reset_teaser: Salvar as alterações feitas para a amostra?
+  label_work_packages_reported_by_me: Pacotes de trabalho criados por mim
+  label_work_packages_responsible_for: Pacotes de trabalho sob minha responsabilidade
+  label_work_packages_assigned_to_me: Pacotes de trabalho atribuídos a mim
+  label_work_packages_watched: Pacotes de trabalho observados
+  label_work_package_tracking: Acompanhamento de pacote de trabalho
+  label_members: Membros
+  label_subprojects: Subprojetos
+  project_page:
+    all: Mostrar todos
+    x_more: '... (%{count} mais)'
