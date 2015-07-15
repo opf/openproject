@@ -59,7 +59,7 @@ require('angular-busy/dist/angular-busy.css');
 
 require('angular-context-menu');
 require('mousetrap');
-require('ngFileUpload')
+require('ngFileUpload');
 
 // global
 angular.module('openproject.uiComponents', ['ui.select', 'ngSanitize'])

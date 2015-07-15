@@ -145,3 +145,17 @@ $nm-padding-box: rem-calc(10px)
     position: relative
     .notification-box
       margin-bottom: rem-calc(3px)
+
+// awesome animations
+.notification-box
+  &.ng-enter
+    +transition(opacity 0.5s ease)
+    opacity: 0
+  &.ng-enter.ng-enter-active
+    opacity: 1
+  &.ng-leave
+    +transition(opacity 0.5s ease)
+    opacity: 1
+  &.ng-leave.ng-leave-active
+    opacity: 0
+

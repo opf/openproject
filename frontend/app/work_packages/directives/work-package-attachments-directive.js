@@ -33,16 +33,16 @@ module.exports = function(workPackageAttachmentsService) {
     scope.remove = function(file) {
       _.remove(scope.files, function(element) {
         return file === element;
-      })
-    }
+      });
+    };
 
     scope.removeAll = function() {
-      scope.files = []
-    }
+      scope.files = [];
+    };
 
     scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
       var files = angular.copy(scope.files);
-      workPackageAttachmentsService.upload(workPackage, scope.files);
+      workPackageAttachmentsService.upload(workPackage, files);
       scope.files = [];
     });
   }
@@ -52,5 +52,5 @@ module.exports = function(workPackageAttachmentsService) {
     replace: true,
     templateUrl: '/templates/work_packages/attachments.html',
     link: attachmentsController
-  }
-}
+  };
+};

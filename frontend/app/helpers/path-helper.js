@@ -230,9 +230,6 @@ module.exports = function() {
     apiV3WorkPackagePath: function(workPackageId) {
       return PathHelper.apiV3 + '/work_packages/' + workPackageId;
     },
-    apiV3WorkPackageAttachmentsPath: function(workPackageId) {
-      return PathHelper.apiV3WorkPackagePath(workPackageId) + '/attachments';
-    },
     apiPrioritiesPath: function() {
       return PathHelper.apiV3 + '/priorities';
     },

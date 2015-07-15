@@ -29,13 +29,36 @@
 module.exports = function() {
 
   var notificationBoxController = function(scope) {
+    scope.uploadCount = 0;
+    scope.show = false;
+
+    scope.canBeHidden = function() {
+      return scope.content.uploads.length > 5;
+    };
+
     scope.removable = function() {
-      return !(scope.content.type === 'upload');
-    }
+      return scope.content.type !== 'upload';
+    };
 
     scope.typeable = function() {
       return !!scope.content.type;
-    }
+    };
+
+    scope.remove = function() {
+      if (scope.removable()) {
+        scope.$emit('notification.remove', scope.content);
+      }
+    };
+
+    scope.$on('upload.error', function() {
+      if (scope.content.type === 'upload') {
+        scope.content.type = 'error';
+      }
+    });
+
+    scope.$on('upload.finished', function() {
+      scope.uploadCount += 1;
+    });
   };
 
   return {
@@ -46,5 +69,5 @@ module.exports = function() {
       content: '='
     },
     link: notificationBoxController
-  }
-}
+  };
+};

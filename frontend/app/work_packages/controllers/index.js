@@ -41,6 +41,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageFieldService',
     'EditableFieldsState',
     'WorkPackagesDisplayHelper',
+    'NotificationsService',
     require('./details-tab-overview-controller')
   ])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)

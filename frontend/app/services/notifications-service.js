@@ -30,7 +30,7 @@ module.exports = function(I18n, $rootScope) {
 
   // private
   var createNotification = function(message) {
-    if (typeof message === 'string') {
+    if(typeof message === 'string') {
       return { message: message };
     }
     return message;
@@ -61,31 +61,36 @@ module.exports = function(I18n, $rootScope) {
   },
   broadcast = function(event, data) {
     $rootScope.$broadcast(event, data);
-  }
+  };
 
   // public
   var add = function(message) {
     var notification = createNotification(message);
     broadcast('notification.add', notification);
+    return notification;
   },
   addError = function(message, errors) {
-    add(createErrorNotification(message, errors));
+    return add(createErrorNotification(message, errors));
   },
   addWarning = function(message) {
-    add(createWarningNotification(message));
+    return add(createWarningNotification(message));
   },
   addSuccess = function(message) {
-    add(createSuccessNotification(message));
+    return add(createSuccessNotification(message));
   },
   addWorkPackageUpload = function(message, uploads) {
-    add(createWorkPackageUploadNotification(message, uploads));
+    return add(createWorkPackageUploadNotification(message, uploads));
+  },
+  remove = function(notification) {
+    broadcast('notification.remove', notification);
   };
 
   return {
     add: add,
+    remove: remove,
     addError: addError,
     addWarning: addWarning,
     addSuccess: addSuccess,
     addWorkPackageUpload: addWorkPackageUpload
-  }
-}
+  };
+};

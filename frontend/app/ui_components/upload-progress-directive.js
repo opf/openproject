@@ -26,44 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q) {
-  var currentUploads = [];
+module.exports = function() {
+  var uploadProgressController = function(scope) {
 
-  var upload = function(workPackage, files) {
-    var uploadPath = workPackage.links.addAttachment.url();
-    // for file in files build some promises, create a notification per WP,
-    // notify the noticiation (wat?) about progress
-    var uploads = _.map(files, function(file) {
-      var options = {
-        url: uploadPath,
-        fields: {
-          metadata: {
-            fileName: file.name,
-            description: file.description
-          }
-        },
-        file: file
-      };
-      return Upload.upload(options);
+    scope.upload.progress(function(details) {
+      scope.file = details.config.file.name;
+      if (details.lengthComputable) {
+        scope.value = Math.round(details.loaded / details.total * 100);
+      } else {
+        // dummy value if not computable
+        scope.value = 10;
+      }
+    }).success(function() {
+      scope.value = 100;
+      scope.completed = true;
+      scope.$emit('upload.finished');
+    }).error(function() {
+      scope.error = true;
+      scope.$emit('upload.error');
     });
-
-    // notify the user
-    var message = I18n.t('js.label_upload_notification', {
-      id: workPackage.props.id,
-      subject: workPackage.props.subject
-    });
-
-    var notification = NotificationsService.addWorkPackageUpload(message, uploads);
-    currentUploads.push(notification);
-    $q.all(uploads).then(function() { NotificationsService.remove(notification); });
-  },
-  getCurrentNotification = function(notification) {
-    return _.find(currentUploads, notification);
   };
 
-
   return {
-    upload: upload,
-    getCurrentNotification: getCurrentNotification
+    scope: {
+      upload: '='
+    },
+    link: uploadProgressController,
+    replace: true,
+    templateUrl: '/templates/components/upload-progress.html'
   };
 };

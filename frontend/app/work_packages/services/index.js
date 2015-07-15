@@ -76,5 +76,6 @@ angular.module('openproject.workPackages.services')
     'PathHelper',
     'I18n',
     'NotificationsService',
+    '$q',
     require('./work-package-attachments-service')
   ]);

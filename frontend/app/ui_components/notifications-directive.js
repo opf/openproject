@@ -31,10 +31,16 @@ module.exports = function() {
   var notificationsController = function(scope) {
     scope.stack = [];
 
-    scope.$on('notification.add', function(_, notification) {
+    scope.$on('notification.add', function(_e, notification) {
       scope.stack.push(notification);
     });
-  }
+
+    scope.$on('notification.remove', function(_e, notification) {
+      _.remove(scope.stack, function(element) {
+        return element === notification;
+      });
+    });
+  };
 
   return {
     scope: true,
@@ -42,5 +48,5 @@ module.exports = function() {
     replace: true,
     templateUrl: '/templates/components/notifications.html',
     link: notificationsController
-  }
-}
+  };
+};
