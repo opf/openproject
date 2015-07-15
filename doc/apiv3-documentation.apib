@@ -461,6 +461,57 @@ Cursor based pagination is therefore less suited for use cases where you want to
                 }
             }
 
+# Group Root
+
+The root resource contains links to available resources in the API. By following these links
+a client should be able to discover further resources in the API.
+
+*Note: Currently there are no list actions for projects and work packages available.*
+*A client will therefore have to know links to these resources and can't (yet) discover them.*
+
+| Link                | Description                                      | Type          | Nullable | Supported operations |
+|:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
+| configuration       | The configuration of this OpenProject instance   | Configuration |          | READ                 |
+| priorities          | List of available priorities                     | Collection    |          | READ                 |
+| statuses            | List of available work package statuses          | Collection    |          | READ                 |
+| types               | List of available work package types             | Collection    |          | READ                 |
+
+## Local Properties
+| Property                  | Description                                          | Type       | Condition                         | Supported operations |
+| :-----------------------: | ---------------------------------------------------- | ---------- | --------------------------------- | -------------------- |
+| instanceName              | The name of the OpenProject instance                 | String     |                                   | READ                 |
+| coreVersion               | The OpenProject core version number for the instance | String     |                                   | READ                 |
+
+## Root [/api/v3]
+
++ Model
+    + Body
+
+            {
+                "_links" : {
+                    "configuration" : {
+                        "href" : "/api/v3/configuration"
+                    },
+                    "priorities" : {
+                        "href" : "/api/v3/priorities"
+                    },
+                    "statuses" : {
+                        "href" : "/api/v3/statuses"
+                    },
+                    "types" : {
+                        "href" : "/api/v3/types"
+                    }
+                },
+                "instanceName" : "My own OpenProject",
+                "coreVersion" : "4.3.0"
+            }
+
+## View root [GET]
+
++ Response 200 (application/hal+json)
+
+    [Root][]
+
 # Group Activities
 
 ## Local Properties
