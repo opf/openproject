@@ -101,19 +101,29 @@ module OpenProject
 
       # Returns a text describing the active password complexity rules,
       # the minimum number of rules to adhere to and the total number of rules.
-      def self.rules_description
+      # if receive true as parameter, the rules will be displayed as html list
+      def self.rules_description(html_list = nil)
         return '' if min_adhered_rules == 0
-
-        rules = active_rules.map do |rule|
-          I18n.t(rule.to_sym,
-                 scope: [:activerecord, :errors, :models, :user, :attributes, :password])
-        end
 
         I18n.t(:weak,
                scope: [:activerecord, :errors, :models, :user, :attributes, :password],
-               rules: rules.join(', '),
+               rules: html_list ? html_list : plain_text_password_rules,
                min_count: min_adhered_rules,
                all_count: active_rules.size)
+      end
+
+      # Return an password coplexity rules in plain text
+      def self.plain_text_password_rules
+        rules = active_rules_locales
+        rules.join(', ')
+      end
+
+      # Returns a text describing the password complexity
+      def self.active_rules_locales
+        active_rules.map do |rule|
+          I18n.t(rule.to_sym,
+                 scope: [:activerecord, :errors, :models, :user, :attributes, :password])
+        end
       end
 
       # Returns a text describing the minimum length of a password.
