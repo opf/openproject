@@ -101,7 +101,7 @@ describe API::V3, type: :request do
         let(:headers) do
           auth = basic_auth(username, password.reverse)
 
-          auth.merge('X-Authentication-Scheme' => 'Session')
+          auth.merge('HTTP_X_AUTHENTICATION_SCHEME' => 'Session')
         end
 
         before do

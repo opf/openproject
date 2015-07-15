@@ -45,7 +45,7 @@ GIT
   revision: c42bac8f2bca7850a89b67e753368f5f52d13c25
   branch: dev
   specs:
-    openproject-translations (4.3.0.pre.alpha)
+    openproject-translations (4.3.0)
       crowdin-api (~> 0.2.4)
       mixlib-shellout (~> 2.1.0)
       rails (~> 3.2.14)
