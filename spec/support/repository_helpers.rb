@@ -26,41 +26,38 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+def with_filesystem_repository(vendor, command = nil, &block)
+  repo_dir = File.join(Rails.root, 'tmp', 'test', "#{vendor}_repository")
+  fixture = File.join(Rails.root, "spec/fixtures/repositories/#{vendor}_repository.tar.gz")
 
-describe Repository::Filesystem, type: :model do
-  fixtures :all
+  before(:all) do
+    ['tar', command].compact.each do |cmd|
+      begin
+        # Avoid `which`, as it's not POSIX
+        Open3.capture2e(cmd, '--version')
+      rescue Errno::ENOENT
+        skip "#{cmd} was not found in PATH. Skipping local repository specs"
+      end
+    end
+
+    # Create repository
+    FileUtils.mkdir_p repo_dir
+    system "tar -xzf #{fixture} -C #{repo_dir}"
+  end
+
+  after(:all) do
+    FileUtils.remove_dir repo_dir
+  end
+
+  block.call(repo_dir)
+end
+
+def with_created_subversion_repository(&block)
+  let(:repository) { FactoryGirl.create(:repository_subversion) }
 
   before do
-    @project = Project.find(3)
-
-    with_existing_filesystem_scm do |repo_path|
-      assert @repository = Repository::Filesystem.create(project: @project,
-                                                         scm_type: 'local',
-                                                         url: repo_path)
-    end
+    allow(Setting).to receive(:enabled_scm).and_return(['Subversion'])
   end
 
-  it 'should fetch changesets' do
-    with_existing_filesystem_scm do
-      @repository.fetch_changesets
-      @repository.reload
-
-      assert_equal 0, @repository.changesets.count
-      assert_equal 0, @repository.changes.count
-    end
-  end
-
-  it 'should entries' do
-    with_existing_filesystem_scm do
-      assert_equal 3, @repository.entries('', 2).size
-      assert_equal 2, @repository.entries('dir', 3).size
-    end
-  end
-
-  it 'should cat' do
-    with_existing_filesystem_scm do
-      assert_equal "TEST CAT\n", @repository.scm.cat('test')
-    end
-  end
+  block.call
 end

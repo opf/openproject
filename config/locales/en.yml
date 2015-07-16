@@ -743,7 +743,6 @@ en:
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_file_added: "File added"
   label_file_plural: "Files"
-  label_filesystem_path: "Root directory"
   label_filter_add: "Add filter"
   label_filter_plural: "Filters"
   label_float: "Float"

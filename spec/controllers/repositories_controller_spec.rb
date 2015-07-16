@@ -38,17 +38,13 @@ describe RepositoriesController, type: :controller do
     FactoryGirl.create(:user, member_in_project: project,
                               member_through_role: role)
   }
-  let(:repository) { FactoryGirl.create(:repository, scm_type: 'local', project: project) }
-
-  let(:user) do
-    FactoryGirl.create(:user, member_in_project: project,
-                              member_through_role: role)
-  end
+  let (:url) { 'file:///tmp/something/does/not/exist.svn' }
 
   let(:repository) do
-    allow(Setting).to receive(:enabled_scm).and_return(['Filesystem'])
-    repo = FactoryGirl.build_stubbed(:repository,
+    allow(Setting).to receive(:enabled_scm).and_return(['Subversion'])
+    repo = FactoryGirl.build_stubbed(:repository_subversion,
                                      scm_type: 'local',
+                                     url: url,
                                      project: project)
     allow(repo).to receive(:default_branch).and_return('master')
     allow(repo).to receive(:branches).and_return(['master'])
@@ -98,7 +94,7 @@ describe RepositoriesController, type: :controller do
 
     context 'with #create' do
       before do
-        xhr :post, :create, scm_vendor: 'filesystem', scm_type: 'local'
+        xhr :post, :create, scm_vendor: 'Subversion', scm_type: 'local', url: 'file:///tmp/repo.svn/'
       end
 
       it 'renders a JS redirect' do
@@ -108,56 +104,62 @@ describe RepositoriesController, type: :controller do
     end
   end
 
-  describe 'commits per author graph' do
-    before do
-      get :graph, project_id: project.identifier, graph: 'commits_per_author'
-    end
+  describe 'with filesystem repository' do
+    with_filesystem_repository('subversion', 'svn') do |repo_dir|
+      let(:url) { "file://#{repo_dir}" }
 
-    context 'requested by an authorized user' do
-      let(:role) {
-        FactoryGirl.create(:role, permissions: [:browse_repository,
-                                                :view_commit_author_statistics])
-      }
+      describe 'commits per author graph' do
+        before do
+          get :graph, project_id: project.identifier, graph: 'commits_per_author'
+        end
 
-      it 'should be successful' do
-        expect(response).to be_success
+        context 'requested by an authorized user' do
+          let(:role) {
+            FactoryGirl.create(:role, permissions: [:browse_repository,
+                                                    :view_commit_author_statistics])
+          }
+
+          it 'should be successful' do
+            expect(response).to be_success
+          end
+
+          it 'should have the right content type' do
+            expect(response.content_type).to eq('image/svg+xml')
+          end
+        end
+
+        context 'requested by an unauthorized user' do
+          let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+
+          it 'should return 403' do
+            expect(response.code).to eq('403')
+          end
+        end
       end
 
-      it 'should have the right content type' do
-        expect(response.content_type).to eq('image/svg+xml')
-      end
-    end
+      describe 'stats' do
+        before do
+          get :stats, project_id: project.identifier
+        end
 
-    context 'requested by an unauthorized user' do
-      let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+        describe 'requested by a user with view_commit_author_statistics permission' do
+          let(:role) {
+            FactoryGirl.create(:role, permissions: [:browse_repository,
+                                                    :view_commit_author_statistics])
+          }
 
-      it 'should return 403' do
-        expect(response.code).to eq('403')
-      end
-    end
-  end
+          it 'show the commits per author graph' do
+            expect(assigns(:show_commits_per_author)).to eq(true)
+          end
+        end
 
-  describe 'stats' do
-    before do
-      get :stats, project_id: project.identifier
-    end
+        describe 'requested by a user without view_commit_author_statistics permission' do
+          let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
 
-    describe 'requested by a user with view_commit_author_statistics permission' do
-      let(:role) {
-        FactoryGirl.create(:role, permissions: [:browse_repository,
-                                                :view_commit_author_statistics])
-      }
-
-      it 'show the commits per author graph' do
-        expect(assigns(:show_commits_per_author)).to eq(true)
-      end
-    end
-
-    describe 'requested by a user without view_commit_author_statistics permission' do
-      let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
-
-      it 'should NOT show the commits per author graph' do
-        expect(assigns(:show_commits_per_author)).to eq(false)
+          it 'should NOT show the commits per author graph' do
+            expect(assigns(:show_commits_per_author)).to eq(false)
+          end
+        end
       end
     end
   end

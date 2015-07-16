@@ -36,7 +36,6 @@
 #
 # - Repository::SVN: existing
 # - Repository::Git: local
-# - otherwise        local (e.g., Repository::Filesystem)
 #
 class AddScmTypeToRepositories < ActiveRecord::Migration
   def up

@@ -48,7 +48,7 @@ namespace :test do
         FileUtils.mkdir_p Rails.root + '/tmp/test'
       end
 
-      supported_scms = [:subversion, :git, :filesystem]
+      supported_scms = [:subversion, :git]
 
       desc 'Creates a test subversion repository'
       supported_scms.each do |scm|

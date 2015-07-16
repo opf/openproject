@@ -107,30 +107,6 @@ time_entry_activities = []
   time_entry_activities << time_entry_activity
 end
 
-repo_url_setting = OpenProject::Configuration['scm_filesystem_path_whitelist']
-repository = if repo_url_setting.empty?
-               puts <<-MESSAGE
-* = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + =
-
-Filesystem based repositories are not configured. No repository and no changeset will be created.
-
-In case you want those, define whitelisted repositories in your configuration.yml.
-See config/configuration.yml.example for details.
-
-* = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + = * = + =
-
-               MESSAGE
-
-               nil
-             else
-               Setting.enabled_scm = (Setting.enabled_scm.dup << 'Filesystem').uniq
-
-               repo_url = Dir.glob(repo_url_setting).first
-
-               Repository::Filesystem.create! project: project,
-                                              url: repo_url
-             end
-
 print 'Creating objects for...'
 user_count.times do |count|
   login = "#{Faker::Name.first_name}#{rand(10000)}"

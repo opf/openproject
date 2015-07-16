@@ -32,92 +32,133 @@ require 'repositories_controller'
 describe RepositoriesController, type: :controller do
   render_views
 
+  # We load legacy fixtures and repository
+  # but now have to override them with the temporary subversion
+  # repository, as the filesystem repository has been stripped.
   fixtures :all
+  with_filesystem_repository('subversion', 'svn') do |repo_dir|
 
-  before do
-    User.current = nil
-  end
+    let(:project) { Project.find(1) }
+    let(:repository) {
+      FactoryGirl.create(:repository_subversion,
+                         url: "file://#{repo_dir}",
+                         project: project
+                        )
+    }
 
-  it 'should revisions' do
-    get :revisions, project_id: 1
-    assert_response :success
-    assert_template 'revisions'
-    assert_not_nil assigns(:changesets)
-  end
+    before do
+      User.current = nil
+      allow(project).to receive(:repository).and_return repository
+    end
 
-  it 'should revision' do
-    get :revision, project_id: 1, rev: 1
-    assert_response :success
-    assert_not_nil assigns(:changeset)
-    assert_equal '1', assigns(:changeset).revision
-  end
+    it 'should revisions' do
+      get :revisions, project_id: 1
+      assert_response :success
+      assert_template 'revisions'
+      assert_not_nil assigns(:changesets)
+    end
 
-  it 'should revision with before nil and after normal' do
-    get :revision, project_id: 1, rev: 1
-    assert_response :success
-    assert_template 'revision'
-    assert_no_tag tag: 'ul', attributes: { id: 'toolbar-items' },
-                  descendant: { tag: 'a', attributes: { href: @controller.url_for(only_path: true,
-                                                                             controller: 'repositories',
-                                                                             action: 'revision',
-                                                                             project_id: 'ecookbook',
-                                                                             rev: '0') } }
-    assert_tag tag: 'ul', attributes: { id: 'toolbar-items' },
-               descendant: { tag: 'a', attributes: { href: @controller.url_for(only_path: true,
-                                                                          controller: 'repositories',
-                                                                          action: 'revision',
-                                                                          project_id: 'ecookbook',
-                                                                          rev: '2') } }
-  end
+    it 'should revision' do
+      get :revision, project_id: 1, rev: 1
+      assert_response :success
+      assert_not_nil assigns(:changeset)
+      assert_equal '1', assigns(:changeset).revision
+    end
 
-  it 'should graph commits per month' do
-    get :graph, project_id: 1, graph: 'commits_per_month'
-    assert_response :success
-    assert_equal 'image/svg+xml', response.content_type
-  end
+    it 'should revision with before nil and after normal' do
+      get :revision, project_id: 1, rev: 1
+      assert_response :success
+      assert_template 'revision'
+      assert_no_tag tag: 'ul',
+                    attributes: { id: 'toolbar-items' },
+                    descendant: { tag: 'a',
+                                  attributes: {
+                                    href: @controller.url_for(
+                                      only_path: true,
+                                      controller: 'repositories',
+                                      action: 'revision',
+                                      project_id: 'ecookbook',
+                                      rev: '0'
+                                    )
+                                  }
+                                }
+      assert_tag tag: 'ul',
+                 attributes: { id: 'toolbar-items' },
+                 descendant: { tag: 'a',
+                               attributes: {
+                                 href: @controller.url_for(
+                                   only_path: true,
+                                   controller: 'repositories',
+                                   action: 'revision',
+                                   project_id: 'ecookbook',
+                                   rev: '2'
+                                 )
+                               }
+                             }
+    end
 
-  it 'should committers' do
-    session[:user_id] = 2
-    # add a commit with an unknown user
-    Changeset.create!(
-      repository: Project.find(1).repository,
-      committer:  'foo',
-      committed_on: Time.now,
-      revision: 100,
-      comments: 'Committed by foo.'
-     )
+    it 'should graph commits per month' do
+      get :graph, project_id: 1, graph: 'commits_per_month'
+      assert_response :success
+      assert_equal 'image/svg+xml', response.content_type
+    end
 
-    get :committers, project_id: 1
-    assert_response :success
-    assert_template 'committers'
+    it 'should committers' do
+      session[:user_id] = 2
+      # add a commit with an unknown user
+      Changeset.create!(
+        repository: Project.find(1).repository,
+        committer:  'foo',
+        committed_on: Time.now,
+        revision: 100,
+        comments: 'Committed by foo.'
+      )
 
-    assert_tag :td, content: 'dlopper',
-                    sibling: { tag: 'td',
-                               child: { tag: 'select', attributes: { name: %r{^committers\[\d+\]\[\]$} },
-                                        child: { tag: 'option', content: 'Dave Lopper',
-                                                 attributes: { value: '3', selected: 'selected' } } } }
-    assert_tag :td, content: 'foo',
-                    sibling: { tag: 'td',
-                               child: { tag: 'select', attributes: { name: %r{^committers\[\d+\]\[\]$} } } }
-    assert_no_tag :td, content: 'foo',
-                       sibling: { tag: 'td',
-                                  descendant: { tag: 'option', attributes: { selected: 'selected' } } }
-  end
+      get :committers, project_id: 1
+      assert_response :success
+      assert_template 'committers'
 
-  it 'should map committers' do
-    session[:user_id] = 2
-    # add a commit with an unknown user
-    c = Changeset.create!(
-      repository: Project.find(1).repository,
-      committer:  'foo',
-      committed_on: Time.now,
-      revision: 100,
-      comments: 'Committed by foo.'
-          )
-    assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
-      post :committers, project_id: 1, committers: { '0' => ['foo', '2'], '1' => ['dlopper', '3'] }
-      assert_redirected_to '/projects/ecookbook/repository/committers'
-      assert_equal User.find(2), c.reload.user
+      assert_tag :td,
+                 content: 'dlopper',
+                 sibling: {
+                   tag: 'td',
+                   child: { tag: 'select', attributes: { name: %r{^committers\[\d+\]\[\]$ } },
+                            child: { tag: 'option', content: 'Dave Lopper',
+                                     attributes: { value: '3', selected: 'selected' } }
+                          }
+                 }
+      assert_tag :td,
+                 content: 'foo',
+                 sibling: {
+                   tag: 'td',
+                   child: { tag: 'select',
+                            attributes: { name: %r{^committers\[\d+\]\[\]$} }
+                          }
+                 }
+      assert_no_tag :td,
+                    content: 'foo',
+                    sibling: {
+                      tag: 'td',
+                      descendant: { tag: 'option', attributes: { selected: 'selected' } }
+                    }
+    end
+
+    it 'should map committers' do
+      session[:user_id] = 2
+      # add a commit with an unknown user
+      c = Changeset.create!(
+        repository: Project.find(1).repository,
+        committer:  'foo',
+        committed_on: Time.now,
+        revision: 100,
+        comments: 'Committed by foo.'
+      )
+      assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
+        post :committers, project_id: 1,
+                          committers: { '0' => ['foo', '2'], '1' => ['dlopper', '3'] }
+        assert_redirected_to '/projects/ecookbook/repository/committers'
+        assert_equal User.find(2), c.reload.user
+      end
     end
   end
 end

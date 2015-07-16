@@ -221,23 +221,6 @@ default:
   # scm_subversion_command:
   # scm_git_command:
   #
-  # Enable filesystem base SCM by specifying the directories that are available
-  # to serve as an SCM directory. The format in which the available directories
-  # can be specified is close to a shell glob.  Please see
-  # http://ruby-doc.org/core-2.2.0/Dir.html#method-c-glob for details.
-  #
-  # Multiple patterns can be configured.
-  #
-  # If no directory is specified, there will be no option to configure a
-  # filesystem based SCM within OpenProject.
-  #
-  # Please note that this allows users to browse the filesystem which could
-  # lead to sensitive information (e.g. db credentials) being made accessible
-  # to them.
-  #
-  # scm_filesystem_path_whitelist:
-  #   - "/opt/app/openproject/repositories/*"
-  #   - "/tmp/**/*"
 
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.

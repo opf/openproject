@@ -39,8 +39,10 @@ require 'factory_girl_rails'
 
 require_relative './support/file_helpers'
 require_relative './legacy/support/legacy_assertions'
+require_relative './support/repository_helpers'
 
 require_relative './legacy/support/object_daddy_helpers'
+
 include ObjectDaddyHelpers
 
 require 'rspec/rails'

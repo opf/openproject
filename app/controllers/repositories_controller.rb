@@ -41,7 +41,7 @@ class RepositoriesController < ApplicationController
   include PaginationHelper
 
   menu_item :repository
-  menu_item :settings, only: [:edit, :destroy_info, :committers]
+  menu_item :settings, only: [:edit, :destroy_info]
   default_search_scope :changesets
 
   before_filter :find_project, only: [:create, :update, :edit]

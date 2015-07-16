@@ -31,4 +31,3 @@ require 'open_project/scm/manager'
 
 OpenProject::Scm::Manager.add 'Subversion'
 OpenProject::Scm::Manager.add 'Git'
-OpenProject::Scm::Manager.add 'Filesystem'

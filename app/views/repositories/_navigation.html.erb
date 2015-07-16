@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <% merge ||= {} %>
 <%= toolbar title: l(:label_repository) do %>
-  <% if User.current.allowed_to?(:manage_repository, @project) %>
+  <% if User.current.allowed_to?(:browse_repository, @project) %>
   <li class="toolbar-item">
     <%= link_to stats_project_repository_path(@project), class: 'button' do %>
       <i class="button--icon icon-stats1"></i>
