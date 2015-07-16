@@ -29,6 +29,7 @@
 class WorkPackagesPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
+  include RSpec::Matchers
 
   def initialize(project = nil)
     @project = project
@@ -36,6 +37,8 @@ class WorkPackagesPage
 
   def visit_index
     visit index_path
+
+    ensure_index_page_loaded
   end
 
   def visit_new
@@ -64,6 +67,8 @@ class WorkPackagesPage
 
   def select_query(query)
     visit query_path(query)
+
+    ensure_index_page_loaded
   end
 
   def find_filter(filter_name)
@@ -78,5 +83,11 @@ class WorkPackagesPage
 
   def query_path(query)
     "#{index_path}?query_id=#{query.id}"
+  end
+
+  def ensure_index_page_loaded
+    if Capybara.current_driver == Capybara.javascript_driver
+      expect(page).to have_selector('.advanced-filters--filter', visible: false)
+    end
   end
 end
