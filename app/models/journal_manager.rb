@@ -138,7 +138,11 @@ class JournalManager
                              activity_type: journable.send(:activity_type),
                              changed_data: journable.attributes.symbolize_keys }
 
-      create_journal journable, journal_attributes, user, notes
+      journal = create_journal journable, journal_attributes, user, notes
+
+      OpenProject::Notifications.send('journal_created', journal)
+
+      journal
     end
   end
 
