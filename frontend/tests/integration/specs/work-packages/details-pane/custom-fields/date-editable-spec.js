@@ -37,7 +37,7 @@ var expect = require('../../../../spec_helper.js').expect,
 describe('details pane', function() {
   describe('custom fields', function() {
     var dateInput, datePicker;
-    describe('date editbale', function() {
+    describe('date editable', function() {
       beforeEach(function() {
         detailsPaneHelper.loadPane(819, 'overview');
         dateInput = element(by.css('.inplace-edit.attribute-customField9'));
@@ -53,7 +53,8 @@ describe('details pane', function() {
         });
 
         it('shows date range', function() {
-          expect(dateInput.getText()).to.eventually.equal('04/12/2015');
+          var read_value = dateInput.$('.inplace-edit--read-value');
+          expect(read_value.getText()).to.eventually.equal('04/12/2015');
         });
       });
 
