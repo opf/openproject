@@ -897,7 +897,9 @@ h4. things we like
 
           it_behaves_like 'multiple errors of the same type with messages' do
             let(:message) {
-              [child_1.id, child_2.id].map { |id| "##{id} cannot be in another project." }
+              [child_1.id, child_2.id].map { |id|
+                "Child element ##{id}: Parent cannot be in another project."
+              }
             }
           end
         end

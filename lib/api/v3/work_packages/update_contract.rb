@@ -32,7 +32,9 @@ module API
     module WorkPackages
       class UpdateContract < BaseContract
         attribute :lock_version do
-          errors.add :error_conflict, '' if model.lock_version.nil? || model.lock_version_changed?
+          if model.lock_version.nil? || model.lock_version_changed?
+            errors.add :base, :error_conflict
+          end
         end
 
         validate :user_allowed_to_access
@@ -42,15 +44,12 @@ module API
         private
 
         def user_allowed_to_edit
-          errors.add :error_unauthorized, '' unless @can.allowed?(model, :edit)
+          errors.add :base, :error_unauthorized unless @can.allowed?(model, :edit)
         end
 
-        # TODO: when someone ever fixes the way errors are added in the contract:
-        # find a solution to ensure that THIS validation supersedes others (i.e. show 404 if
-        # there is no access allowed)
         def user_allowed_to_access
-          unless ::WorkPackage.visible(@user).exists?(model) || true
-            errors.add :error_not_found, I18n.t('api_v3.errors.code_404')
+          unless ::WorkPackage.visible(@user).exists?(model)
+            errors.add :base, :error_not_found
           end
         end
       end

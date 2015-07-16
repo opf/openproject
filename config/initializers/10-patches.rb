@@ -52,6 +52,38 @@ end
 
 module ActiveModel
   class Errors
+    ##
+    # ActiveRecord errors do provide no means to access the symbols initially used to create an
+    # error. E.g. errors.add :foo, :bar instantly translates :bar, making it hard to write code
+    # dependent on specific errors (which we use in the APIv3).
+    # We therefore add a second information store containing pairs of [symbol, translated_message].
+    def add_with_storing_error_symbols(attribute, message = :invalid, options = {})
+      add_without_storing_error_symbols(attribute, message, options)
+
+      if store_new_symbols?
+        if message.is_a?(Symbol)
+          symbol = message
+          partial_message = normalize_message(attribute, message, options)
+          full_message = full_message(attribute, partial_message)
+        else
+          symbol = :unknown
+          full_message = message
+        end
+
+        writable_symbols_and_messages_for(attribute) << [symbol, full_message]
+      end
+    end
+
+    alias_method_chain :add, :storing_error_symbols
+
+    def symbols_and_messages_for(attribute)
+      writable_symbols_and_messages_for(attribute).dup
+    end
+
+    def symbols_for(attribute)
+      symbols_and_messages_for(attribute).map(&:first)
+    end
+
     def full_message(attribute, message)
       return message if attribute == :base
 
@@ -70,7 +102,43 @@ module ActiveModel
                                                               attribute: attr_name_override || attr_name,
                                                               message: message)
     end
+
+    private
+
+    def error_symbols
+      @error_symbols ||= Hash.new
+    end
+
+    def writable_symbols_and_messages_for(attribute)
+      error_symbols[attribute.to_sym] ||= []
+    end
+
+    # Kind of a hack: We need the possibility to temporarily disable symbol storing in the subclass
+    # Reform::Contract::Errors, because otherwise we end up with duplicate entries
+    # I feel dirty for doing that, but on the other hand I see no other way out... Please, stop me!
+    def store_new_symbols?
+      @store_new_symbols = true if @store_new_symbols.nil?
+      @store_new_symbols
+    end
   end
+end
+
+require 'reform/contract'
+
+class Reform::Contract::Errors
+  def merge_with_storing_error_symbols!(errors, prefix)
+    @store_new_symbols = false
+    merge_without_storing_error_symbols!(errors, prefix)
+    @store_new_symbols = true
+
+    errors.keys.each do |attribute|
+      errors.symbols_and_messages_for(attribute).each do |symbol, message|
+        writable_symbols_and_messages_for(attribute) << [symbol, message]
+      end
+    end
+  end
+
+  alias_method_chain :merge!, :storing_error_symbols
 end
 
 module ActionView

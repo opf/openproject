@@ -81,10 +81,7 @@ module API
             Services::CreateWatcher.new(@work_package, user).run(
               success: -> (result) { status(200) unless result[:created] },
               failure: -> (watcher) {
-                messages = watcher.errors.map { |attribute, message|
-                  watcher.errors.full_message(attribute, message) + '.'
-                }
-                raise ::API::Errors::Validation.new(messages)
+                raise ::API::Errors::ErrorBase.create_and_merge_errors(watcher.errors)
               }
             )
 

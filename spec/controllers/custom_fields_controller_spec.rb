@@ -98,7 +98,7 @@ describe CustomFieldsController, type: :controller do
       end
 
       it { expect(response).to render_template 'new' }
-      it { expect(assigns(:custom_field).errors.messages[:name].first).to eq "can't be blank" }
+      it { expect(assigns(:custom_field).errors.messages[:name].first).to eq "can't be blank." }
       it { expect(assigns(:custom_field).translations(true)).to be_empty }
     end
 

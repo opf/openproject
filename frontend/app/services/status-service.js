@@ -29,22 +29,14 @@
 module.exports = function($http, PathHelper) {
 
   var StatusService = {
-    getStatuses: function(projectIdentifier) {
-      var url;
-
-      if(projectIdentifier) {
-        url = PathHelper.apiProjectStatusesPath(projectIdentifier);
-      } else {
-        url = PathHelper.apiStatusesPath();
-      }
-
-      return StatusService.doQuery(url);
+    getStatuses: function() {
+      return StatusService.doQuery(PathHelper.apiStatusesPath());
     },
 
     doQuery: function(url, params) {
       return $http.get(url, { params: params })
         .then(function(response){
-          return response.data.statuses;
+          return response.data._embedded.elements;
         });
     }
   };

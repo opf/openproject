@@ -131,8 +131,9 @@ module WorkPackage::Validations
 
   def validate_children
     children.select { |c| !c.valid? }.each do |child|
-      child.errors.each do |_, value|
-        errors.add(:"##{child.id}", value)
+      child.errors.each do |attribute, message|
+        full_message = child.errors.full_message(attribute, message)
+        errors.add(:base, "#{I18n.t('label_child_element')} ##{child.id}: #{full_message}")
       end
     end
   end

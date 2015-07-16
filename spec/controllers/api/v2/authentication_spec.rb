@@ -39,13 +39,23 @@ describe Api::V2::AuthenticationController, type: :controller do
     it_should_behave_like 'a controller action with require_login'
 
     describe 'REST API disabled' do
-      before do
-        allow(Setting).to receive(:rest_api_enabled?).and_return false
+      before { allow(Setting).to receive(:rest_api_enabled?).and_return false }
 
-        fetch
+      context 'without login_required' do
+        before { fetch }
+
+        it { expect(response.status).to eq(403) }
       end
 
-      it { expect(response.status).to eq(403) }
+      context 'with login_required' do
+        before do
+          allow(Setting).to receive(:login_required?).and_return true
+
+          fetch
+        end
+
+        it { expect(response.status).to eq(403) }
+      end
     end
 
     describe 'authorization data' do

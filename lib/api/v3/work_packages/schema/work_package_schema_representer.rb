@@ -52,9 +52,8 @@ module API
           end
 
           link :self do
-            path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
-
             unless form_embedded
+              path = api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
               { href: path }
             end
           end

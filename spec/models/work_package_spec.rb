@@ -1245,10 +1245,28 @@ describe WorkPackage, type: :model do
       expect(instance.subject).to eq('New subject')
     end
 
-    it "should create a journal with the journal's 'notes' attribute set to the supplied" do
-      instance.update_by!(user,  notes: 'blubs')
+    describe 'creates a journal entry' do
+      it 'with the supplied notes' do
+        instance.update_by!(user, notes: 'blubs')
+        expect(instance.journals.last.notes).to eq('blubs')
+      end
 
-      expect(instance.journals.last.notes).to eq('blubs')
+      it 'by the given user' do
+        instance.update_by!(user, notes: 'blubs')
+        expect(instance.journals.last.user).to eq(user)
+      end
+
+      context 'without supplying journal notes' do
+        it 'creates an entry by the given user' do
+          instance.update_by!(user, subject: 'blubs')
+          expect(instance.journals.last.user).to eq(user)
+        end
+
+        it 'has empty journal notes' do
+          instance.update_by!(user, subject: 'blubs')
+          expect(instance.journals.last.notes).to eq('')
+        end
+      end
     end
 
     it 'should attach an attachment' do

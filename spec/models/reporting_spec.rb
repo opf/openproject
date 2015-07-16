@@ -85,7 +85,7 @@ describe Reporting, type: :model do
         expect(reporting).not_to be_valid
 
         expect(reporting.errors[:project]).to be_present
-        expect(reporting.errors[:project]).to eq(["can't be blank"])
+        expect(reporting.errors[:project]).to eq(["can't be blank."])
       end
     end
 
@@ -98,7 +98,7 @@ describe Reporting, type: :model do
         expect(reporting).not_to be_valid
 
         expect(reporting.errors[:reporting_to_project]).to be_present
-        expect(reporting.errors[:reporting_to_project]).to eq(["can't be blank"])
+        expect(reporting.errors[:reporting_to_project]).to eq(["can't be blank."])
       end
     end
   end

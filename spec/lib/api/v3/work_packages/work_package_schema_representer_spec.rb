@@ -81,6 +81,26 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'self link' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'self' }
+        let(:href) {
+          api_v3_paths.work_package_schema(work_package.project.id, work_package.type.id)
+        }
+      end
+
+      context 'embedded in a form' do
+        let(:embedded) { true }
+
+        # In a form there is no guarantee that the current state contains a valid WP
+        let(:work_package) { FactoryGirl.build(:work_package, type: nil) }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'self' }
+        end
+      end
+    end
+
     describe '_type' do
       it 'is indicated as Schema' do
         is_expected.to be_json_eql('Schema'.to_json).at_path('_type')

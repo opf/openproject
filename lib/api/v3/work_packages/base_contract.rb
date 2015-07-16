@@ -43,7 +43,7 @@ module API
 
         attribute :parent_id do
           if model.changed.include? 'parent_id'
-            errors.add :error_unauthorized, '' unless @can.allowed?(model, :manage_subtasks)
+            errors.add :base, :error_unauthorized unless @can.allowed?(model, :manage_subtasks)
           end
         end
 
@@ -61,44 +61,40 @@ module API
 
         attribute :done_ratio do
           if model.changed.include?('done_ratio')
-            # TODO Allow multiple errors as soon as they have separate messages
             if !model.leaf?
-              errors.add :error_readonly, 'done_ratio'
+              errors.add :done_ratio, :error_readonly
             elsif Setting.work_package_done_ratio == 'status'
-              errors.add :error_readonly, 'done_ratio'
+              errors.add :done_ratio, :error_readonly
             elsif Setting.work_package_done_ratio == 'disabled'
-              errors.add :error_readonly, 'done_ratio'
+              errors.add :done_ratio, :error_readonly
             end
           end
         end
 
         attribute :estimated_hours do
           if !model.leaf? && model.changed.include?('estimated_hours')
-            errors.add :error_readonly, 'estimated_hours'
+            errors.add :estimated_hours, :error_readonly
           end
         end
 
         attribute :start_date do
           if !model.leaf? && model.changed.include?('start_date')
-            errors.add :error_readonly, 'start_date'
+            errors.add :start_date, :error_readonly
           end
         end
 
         attribute :due_date do
           if !model.leaf? && model.changed.include?('due_date')
-            errors.add :error_readonly, 'due_date'
+            errors.add :due_date, :error_readonly
           end
         end
 
-        def initialize(object, user)
-          super(object)
+        def initialize(work_package, user)
+          super(work_package)
 
           @user = user
           @can = WorkPackagePolicy.new(user)
         end
-
-        extend Reform::Form::ActiveModel::ModelValidations
-        copy_validations_from WorkPackage
 
         private
 

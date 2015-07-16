@@ -42,6 +42,7 @@ module API
 
               unless metadata.file_name
                 raise ::API::Errors::Validation.new(
+                  :file_name,
                   "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
               end
 
@@ -80,7 +81,7 @@ module API
 
             attachment = make_attachment(metadata, file)
             unless attachment.save
-              raise ::API::Errors::ErrorBase.create(attachment.errors)
+              raise ::API::Errors::ErrorBase.create_and_merge_errors(attachment.errors)
             end
 
             ::API::V3::Attachments::AttachmentRepresenter.new(attachment)
