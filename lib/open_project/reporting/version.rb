@@ -19,6 +19,6 @@
 
 module OpenProject
   module Reporting
-    VERSION = "4.3.0"
+    VERSION = "4.4.0-alpha"
   end
 end
