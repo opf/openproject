@@ -154,4 +154,8 @@ class Journal::AggregatedJournal < Journal
       "(#{difference} > #{threshold})"
     end
   end
+
+  def initial?
+    predecessor.nil?
+  end
 end

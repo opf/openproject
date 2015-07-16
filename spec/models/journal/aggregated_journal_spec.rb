@@ -79,6 +79,10 @@ describe Journal::AggregatedJournal, type: :model do
     expect(subject.first.notes_id).to eql work_package.journals.first.id
   end
 
+  it 'is the initial journal' do
+    expect(subject.first.initial?).to be_truthy
+  end
+
   context 'WP updated immediately after uncommented change' do
     let(:notes) { nil }
 
@@ -95,6 +99,10 @@ describe Journal::AggregatedJournal, type: :model do
       it 'returns a single aggregated journal' do
         expect(subject.count).to eql 1
         expect(subject.first).to be_equivalent_to_journal work_package.journals.second
+      end
+
+      it 'is the initial journal' do
+        expect(subject.first.initial?).to be_truthy
       end
 
       context 'with a comment' do
@@ -114,6 +122,11 @@ describe Journal::AggregatedJournal, type: :model do
             expect(subject.count).to eql 2
             expect(subject.first).to be_equivalent_to_journal work_package.journals.second
             expect(subject.second).to be_equivalent_to_journal work_package.journals.last
+          end
+
+          it 'has one initial journal and one non-initial journal' do
+            expect(subject.first.initial?).to be_truthy
+            expect(subject.second.initial?).to be_falsey
           end
         end
 
