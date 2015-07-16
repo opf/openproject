@@ -41,6 +41,10 @@ in the [Collections Section](#collections).
 # Authentication
 
 For now the API only supports two authentication schemes: session based authentication and basic auth.
+Depending on the settings of the OpenProject instance many resources can be accessed without being authenticated.
+In case the instance requires authentication on all requests the client will receive an **HTTP 401** status code
+in response to any request.
+Otherwise unauthenticated clients have all the permissions of the anonymous user.
 
 ## Session-based Authentication
 
