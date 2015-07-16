@@ -1,0 +1,50 @@
+# Table component
+
+## style emulation from 
+[WP tables](http://localhost:8080/assets/css/styleguide.html#with-work-packages)
+
+```
+<div class="table-component--wrapper">
+<table role="grid" class="table-component">
+  <thead>
+    <tr>
+      <th>First</th>
+      <th>Second</th>
+      <th >Third</th>
+      <th>Forth</th>
+      <th >Fifth</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+      <td>Nullam a sem et metus congue placerat.</td>
+      <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+      <td>Maecenas elementum orci a varius suscipit.</td>
+      <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+    </tr>
+    <tr>
+      <td>Nullam a sem et metus congue placerat.</td>
+      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+      <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+      <td>Maecenas elementum orci a varius suscipit.</td>
+      <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+    </tr>
+    <tr>
+      <td>Nullam a sem et metus congue placerat.</td>
+      <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+      <td>Maecenas elementum orci a varius suscipit.</td>
+      <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+    </tr>
+    <tr>
+      <td>Nullam a sem et metus congue placerat.</td>
+      <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+      <td>Maecenas elementum orci a varius suscipit.</td>
+      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+      <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+```

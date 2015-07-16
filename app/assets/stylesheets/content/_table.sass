@@ -1,0 +1,68 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+//tc - table-component
+$tc-header-font-size: rem-calc(14)
+$tc-header-cell-padding: rem-calc(8 10 10)
+$tc-cells-font-size: rem-calc(16)
+$tc-cell-padding: rem-calc(3 6)
+$tc-font-family: Lato, 'Lucida Grande', Helvetica, Arial, sans-serif
+$tc-header-text-transformation: uppercase
+$tc-background-color: inherit
+$tc-header-cell-hover-background-color: #f8f8f8
+$tc-row-bottom-border-color: #ddd
+$tc-row-bottom-border-height: rem-calc(1)
+$tc-row-hover-line-background-color: #e4f7fb
+
+.table-component--wrapper
+  position: relative
+  overflow-x: auto
+
+.table-component
+  border-collapse: collapse
+  margin: 0
+  font-size: $tc-header-font-size
+  font-family: $tc-font-family
+
+  tbody
+    &>tr:first-child
+      background-color: $tc-background-color
+      background-image: image-url("gradient-up.png")
+      background-repeat: repeat-x
+    tr:hover
+      background: $tc-row-hover-line-background-color
+  tr
+    border-bottom: $tc-row-bottom-border-height solid $tc-row-bottom-border-color
+    th
+      text-transform: $tc-header-text-transformation
+      padding: $tc-header-cell-padding
+      &:hover
+        background-color: $tc-header-cell-hover-background-color
+    td
+      font-size: $tc-cells-font-size
+      padding: $tc-cell-padding
