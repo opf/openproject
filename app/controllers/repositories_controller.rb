@@ -41,12 +41,12 @@ class RepositoriesController < ApplicationController
   include PaginationHelper
 
   menu_item :repository
-  menu_item :settings, only: :edit
+  menu_item :settings, only: [:edit, :destroy_info, :committers]
   default_search_scope :changesets
 
   before_filter :find_project, only: [:create, :update, :edit]
-  before_filter :find_repository, except: [:edit, :update, :create, :destroy]
-  before_filter :find_project_by_project_id, only: :destroy
+  before_filter :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
+  before_filter :find_project_by_project_id, only: [:destroy, :destroy_info]
   before_filter :authorize
   accept_key_auth :revisions
 
@@ -54,7 +54,7 @@ class RepositoriesController < ApplicationController
 
   def edit
     service = Scm::RepositoryFactoryService.new(@project, params)
-    if service.configure
+    if service.build
       @repository = service.repository
     else
       logger.error("Cannot create repository for #{params[:scm_vendor]}")
@@ -76,7 +76,7 @@ class RepositoriesController < ApplicationController
 
   def create
     service = Scm::RepositoryFactoryService.new(@project, params)
-    if service.build
+    if service.build_and_save
       @repository = service.repository
       flash[:notice] = l('repositories.create_successful')
     else
@@ -101,12 +101,17 @@ class RepositoriesController < ApplicationController
     end
   end
 
+  def destroy_info
+    @repository = @project.repository
+    @back_link = settings_repository_tab_path
+  end
+
   def destroy
     @repository = @project.repository
     unless @repository.nil?
       service = Scm::DeleteRepositoryService.new(@repository)
       if service.call
-        flash[:notice] = l 'repositories.delete_successful'
+        flash[:notice] = l 'repositories.delete_sucessful'
       else
         flash[:error] = l service.localized_rejected_reason
       end

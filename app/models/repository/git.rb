@@ -37,8 +37,8 @@ class Repository::Git < Repository
     OpenProject::Scm::Adapters::Git
   end
 
-  def configure(_args)
-    if managed?
+  def configure(scm_type, args)
+    if scm_type == MANAGED_TYPE
       unless manageable?
         raise BuildError.new I18n.t('repositories.managed.error_not_manageable')
       end

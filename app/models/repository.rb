@@ -275,12 +275,20 @@ class Repository < ActiveRecord::Base
   #                                  given the parameters.
   # @raise [::NameError] Raised when the given +vendor+ could not be resolved to a class.
   def self.build(project, vendor, params, type)
-    repository = build_and_configure(project, vendor, params, type)
-    if repository.save
-      repository
-    else
-      raise BuildFailed.new repository.errors.full_messages.join("\n")
-    end
+    klass = build_scm_class(vendor)
+
+    # We can't possibly know the form fields this particular vendor
+    # desires, so we allow it to filter them from raw params
+    # before building the instance with it.
+    args = klass.permitted_params(params)
+
+    repository = klass.new(args)
+    repository.project = project
+    repository.scm_type = type
+
+    repository.configure(type, args)
+
+    repository
   end
 
   ##
@@ -304,24 +312,6 @@ class Repository < ActiveRecord::Base
   def self.vendor
     name.demodulize
   end
-
-  def self.build_and_configure(project, vendor, params, type)
-    klass = build_scm_class(vendor)
-
-    # We can't possibly know the form fields this particular vendor
-    # desires, so we allow it to filter them from raw params
-    # before building the instance with it.
-    args = klass.permitted_params(params)
-
-    repository = klass.new(args)
-    repository.project = project
-    repository.scm_type = type
-
-    repository.configure(args)
-
-    repository
-  end
-
 
   # Strips url and root_url
   def sanitize_urls

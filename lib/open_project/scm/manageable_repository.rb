@@ -55,7 +55,7 @@ module OpenProject
       # Determines whether this repository IS currently managed
       # by openproject
       def managed?
-        scm_type == MANAGED_TYPE
+        scm_type.to_sym == MANAGED_TYPE
       end
 
       ##

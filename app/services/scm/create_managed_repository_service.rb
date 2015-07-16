@@ -44,7 +44,7 @@ Scm::CreateManagedRepositoryService = Struct.new :repository do
 
       # Cowardly refusing to override existing local repository
       if File.directory?(managed_path)
-        @rejected = I18n.t('repositories.managed.error_exists_on_filesystem')
+        @rejected = I18n.t('repositories.errors.exists_on_filesystem')
         return false
       end
 
@@ -58,6 +58,6 @@ Scm::CreateManagedRepositoryService = Struct.new :repository do
   ##
   # Returns the error symbol
   def localized_rejected_reason
-    @rejected ||= I18n.t('repositories.managed.error_not_manageable')
+    @rejected ||= I18n.t('repositories.errors.not_manageable')
   end
 end

@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <%= form.text_field(:url,
                       label: l('repositories.git.managed_path'),
-                      value: repository.managed_repository_path,
+                      value: repository.new_record? ? repository.managed_repository_path : repository.root_url,
                       size: 60,
                       disabled: true,
                       'aria-disabled' => true

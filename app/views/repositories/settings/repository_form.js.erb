@@ -11,7 +11,7 @@
 	<% end %>
 
 	var toggleContent = function(content, selected) {
-		var targetName = '#exclusive-fieldset--content-' + selected,
+		var targetName = '#toggleable-attribute-group--content-' + selected,
 				oldTargets = content.not(targetName),
 				newTarget  = $(targetName);
 
@@ -35,22 +35,22 @@
 	};
 
 	$('#tab-content-repository')
-		.find('.exclusive-fieldset')
+		.find('.toggleable-attribute-group')
 		.each(function(_i, el) {
 
 		var fs = $(el),
-			name = fs.attr('data-exclusive-switch'),
+			name = fs.attr('data-switch'),
 			switches = fs.find('[name="' + name + '"]'),
-			legends = fs.find('.form--fieldset-legend'),
-			content = fs.find('.exclusive-fieldset--content');
+			headers = fs.find('.attributes-group--header-text'),
+			content = fs.find('.toggleable-attribute-group--content');
 
 		// If only one choice, skip setup
 		if (switches.length === 1) {
 			return;
 		}
 
-		// Clickable legends
-		legends.click(function() {
+		// Clickable headers
+		headers.click(function() {
 			var input = $(this).find('input');
 			if (!input.prop('checked')) {
 				input

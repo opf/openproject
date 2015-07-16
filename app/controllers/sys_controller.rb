@@ -51,11 +51,9 @@ class SysController < ActionController::Base
 
       if service.build
         project.repository = service.repository
-        if project.repository.present? && project.repository.save
-          render xml: project.repository, status: 201
-        else
-          render nothing: true, status: 422
-        end
+        render xml: project.repository, status: 201
+      else
+        render nothing: true, status: 422
       end
     end
   end

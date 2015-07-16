@@ -335,6 +335,9 @@ OpenProject::Application.routes.draw do
 
     resource :repository, controller: 'repositories', except: [:new] do
       get :edit # needed as show is configured manually with a wildcard
+
+      # Destroy uses a get request to prompt the user before the actual DELETE request
+      get :destroy_info
       get :committers
       post :committers
       get :graph

@@ -95,7 +95,7 @@ module OpenProject
             msg = "Failed to create empty subversion repository with `#{svnadmin_command} create`"
             logger.error(msg)
             logger.debug("Error output is #{err}")
-            raise CommandFailed.new(client_command, msg)
+            raise Exceptions::CommandFailed.new(client_command, msg)
           end
         end
 

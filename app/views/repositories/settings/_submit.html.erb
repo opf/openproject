@@ -1,24 +1,6 @@
-<hr class="form--separator">
 <button type="submit" class="button -highlight">
   <i class="button--icon icon-yes"></i>
     <span class="button--text">
       <%= is_creation_form ? l(:button_create) : l(:button_save) %>
     </span>
 </button>
-<% unless is_creation_form %>
-<fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= l('repositories.delete_repository') %></legend>
-   <div class="notification-box -warning">
-    <div class="notification-box--content">
-      <p><%= l('repositories.delete_repository_warning') %></p>
-    </div>
-    <%= link_to project_repository_path(project),
-            :confirm => l(:text_are_you_sure),
-            :method => :delete,
-            :class => 'button' do %>
-      <i class="button--icon icon-delete"></i>
-      <span class="button--text"><%= l(:button_delete) %></span>
-    <% end %>
-  </div>
-</fieldset>
-<% end %>

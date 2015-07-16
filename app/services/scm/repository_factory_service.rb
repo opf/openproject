@@ -34,16 +34,17 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
 
   ##
   # Build a full repository from a given scm_type
+  # and persists it.
   #
   # @return [Boolean] true iff the repository was built
-  def build
+  def build_and_save
     build_guarded do
-      Repository.build(
-        project,
-        params[:scm_vendor],
-        params.fetch(:repository, {}),
-        params.fetch(:scm_type).to_sym
-      )
+      build(params.fetch(:scm_type).to_sym)
+      if @repository.save
+        @repository
+      else
+        raise Repository::BuildFailed.new @repository.errors.full_messages.join("\n")
+      end
     end
   end
 
@@ -51,14 +52,16 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
   # Build a temporary repository used only for determining availabe settings and types
   # of that particular vendor.
   #
+  # @param  [Symbol]  scm_type determines the repository type. May be nil during configuration
   # @return [Boolean] true iff the repository was built
-  def configure
+  def build(scm_type = nil)
     build_guarded do
-      repo = Repository.build_scm_class(params[:scm_vendor]).new
-      repo.project = project
-      repo.scm_type = params[:scm_type]
-
-      repo
+      Repository.build(
+        project,
+        params[:scm_vendor],
+        params.fetch(:repository, {}),
+        scm_type
+      )
     end
   end
 
@@ -68,8 +71,11 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
 
   private
 
-  def build_guarded(&block)
-    @repository = block.call
+  def build_repository
+  end
+
+  def build_guarded
+    @repository = yield
     @repository.present?
   rescue Repository::BuildFailed => e
     @build_failed_msg = e.message

@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <hr class="form--separator">
     <p>
       <%= submit_tag l(:button_update), class: 'button -highlight' %>
-      <%= link_to project_repository_path(@project), class: 'button' do %>
+      <%= link_to settings_project_path(id: @project.id, tab: 'repository'), class: 'button' do %>
         <span class="button--text"><%= l(:button_cancel) %></span>
       <% end %>
     </p>

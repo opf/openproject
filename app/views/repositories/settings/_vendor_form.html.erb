@@ -28,15 +28,16 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% if repository.new_record? %>
   <% scm_types = repository.supported_types %>
-  <div class="exclusive-fieldset" data-exclusive-switch="scm_type">
+  <div class="toggleable-attribute-group" data-switch="scm_type">
     <% scm_types.each do |type|%>
-      <%= render partial: "/repositories/settings/exclusive_fieldset",
-                 locals: { exclusive: scm_types.length == 1, vendor: vendor, type: type,
+      <%= render partial: "/repositories/settings/vendor_attribute_groups",
+                 locals: { existing: false, alone: scm_types.length == 1,
+                           vendor: vendor, type: type,
                            form: form, repository: repository } %>
     <% end %>
   </div>
 <% else %>
-  <%= render partial: "/repositories/settings/exclusive_fieldset",
-             locals: { exclusive: true, vendor: repository.vendor.underscore, type: repository.scm_type,
+  <%= render partial: "/repositories/settings/vendor_attribute_groups",
+             locals: { existing: true, alone: true, vendor: repository.vendor.underscore, type: repository.scm_type,
                        form: form, repository: repository } %>
 <% end %>

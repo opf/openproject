@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <%= form.text_field(:url,
                       label: l('repositories.subversion.managed_url'),
-                      value: repository.managed_repository_url,
+                      value: repository.new_record? ? repository.managed_repository_url : repository.url,
                       size: 60,
                       disabled: true,
                       'aria-disabled' => true
