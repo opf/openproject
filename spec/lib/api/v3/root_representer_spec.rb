@@ -32,12 +32,15 @@ describe ::API::V3::RootRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:representer)  { described_class.new({}) }
+  let(:app_title) { 'Foo Project' }
+  let(:version) { 'The version is over 9000!' }
 
   context 'generation' do
     subject { representer.to_json }
 
     before do
-      allow(Setting).to receive(:app_title).and_return 'Foo Project'
+      allow(Setting).to receive(:app_title).and_return app_title
+      allow(OpenProject::VERSION).to receive(:to_semver).and_return version
     end
 
     describe '_links' do
@@ -63,11 +66,11 @@ describe ::API::V3::RootRepresenter do
     end
 
     it 'shows the name of the instance' do
-      is_expected.to be_json_eql('Foo Project'.to_json).at_path('instanceName')
+      is_expected.to be_json_eql(app_title.to_json).at_path('instanceName')
     end
 
     it 'indicates the OpenProject version number' do
-      is_expected.to be_json_eql(Redmine::VERSION.to_semver.to_json).at_path('coreVersion')
+      is_expected.to be_json_eql(version.to_json).at_path('coreVersion')
     end
   end
 end

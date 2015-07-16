@@ -33,7 +33,6 @@ module API
   module V3
     module Configuration
       class ConfigurationRepresenter < ::API::Decorators::Single
-
         link :self do
           {
             href: api_v3_paths.configuration

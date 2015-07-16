@@ -60,7 +60,7 @@ module API
                getter: ->(*) { Setting.app_title }
 
       property :core_version,
-               getter: ->(*) { Redmine::VERSION.to_semver }
+               getter: ->(*) { OpenProject::VERSION.to_semver }
     end
   end
 end
