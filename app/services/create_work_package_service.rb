@@ -34,7 +34,7 @@ class CreateWorkPackageService
     self.user = user
     self.project = project
 
-    WorkPackageObserver.instance.send_notification = send_notifications
+    JournalListener.send_notification = send_notifications
   end
 
   def create

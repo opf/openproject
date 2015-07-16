@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe JournalObserver, type: :model do
+describe JournalListener, type: :model do
   before do
     @type = FactoryGirl.create :type_with_workflow
     @project = FactoryGirl.create :project,

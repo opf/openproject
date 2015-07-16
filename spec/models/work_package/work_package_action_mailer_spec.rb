@@ -73,7 +73,7 @@ describe WorkPackage, type: :model do
       before do
         ActionMailer::Base.deliveries.clear
 
-        WorkPackageObserver.instance.send_notification = false
+        JournalListener.send_notification = false
 
         work_package.save!
       end

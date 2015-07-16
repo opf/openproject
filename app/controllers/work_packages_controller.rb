@@ -133,7 +133,7 @@ class WorkPackagesController < ApplicationController
   def create
     call_hook(:controller_work_package_new_before_save,  params: params, work_package: work_package)
 
-    WorkPackageObserver.instance.send_notification = send_notifications?
+    JournalListener.send_notification = send_notifications?
 
     work_package.attach_files(params[:attachments])
 
