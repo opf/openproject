@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 <% else %>
   <%= render partial: "/repositories/settings/vendor_attribute_groups",
-             locals: { existing: true, alone: true, vendor: repository.vendor.underscore, type: repository.scm_type,
+             locals: { existing: true, alone: true, vendor: repository.vendor.underscore,
+                       type: repository.scm_type,
                        form: form, repository: repository } %>
 <% end %>
