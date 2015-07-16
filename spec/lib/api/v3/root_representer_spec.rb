@@ -29,35 +29,48 @@
 require 'spec_helper'
 
 describe ::API::V3::RootRepresenter do
+  include ::API::V3::Utilities::PathHelper
+
   let(:representer)  { described_class.new({}) }
+  let(:app_title) { 'Foo Project' }
+  let(:version) { 'The version is over 9000!' }
 
   context 'generation' do
-    subject(:generated) { representer.to_json }
+    subject { representer.to_json }
+
+    before do
+      allow(Setting).to receive(:app_title).and_return app_title
+      allow(OpenProject::VERSION).to receive(:to_semver).and_return version
+    end
 
     describe '_links' do
-      it { is_expected.to have_json_type(Object).at_path('_links') }
-
-      describe 'priorities' do
-        it { is_expected.to have_json_path('_links/priorities') }
-        it { is_expected.to have_json_path('_links/priorities/href') }
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'configuration' }
+        let(:href) { api_v3_paths.configuration }
       end
 
-      describe 'project' do
-        it { is_expected.to have_json_path('_links/project') }
-        it { is_expected.to have_json_path('_links/project/href') }
-        it { is_expected.to have_json_path('_links/project/templated') }
-
-        it {
-          is_expected.to be_json_eql('/api/v3/projects/{project_id}'.to_json)
-            .at_path('_links/project/href')
-        }
-        it { is_expected.to be_json_eql(true.to_json).at_path('_links/project/templated') }
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'priorities' }
+        let(:href) { api_v3_paths.priorities }
       end
 
-      describe 'statuses' do
-        it { is_expected.to have_json_path('_links/statuses') }
-        it { is_expected.to have_json_path('_links/statuses/href') }
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'statuses' }
+        let(:href) { api_v3_paths.statuses }
       end
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'types' }
+        let(:href) { api_v3_paths.types }
+      end
+    end
+
+    it 'shows the name of the instance' do
+      is_expected.to be_json_eql(app_title.to_json).at_path('instanceName')
+    end
+
+    it 'indicates the OpenProject version number' do
+      is_expected.to be_json_eql(version.to_json).at_path('coreVersion')
     end
   end
 end

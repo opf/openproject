@@ -31,36 +31,23 @@ require 'api/decorators/single'
 
 module API
   module V3
-    class RootRepresenter < ::API::Decorators::Single
-      link :configuration do
-        {
-          href: api_v3_paths.configuration
-        }
+    module Configuration
+      class ConfigurationRepresenter < ::API::Decorators::Single
+        link :self do
+          {
+            href: api_v3_paths.configuration
+          }
+        end
+
+        property :maximum_attachment_file_size,
+                 getter: -> (*) { attachment_max_size.to_i.kilobyte }
+
+        private
+
+        def _type
+          'Configuration'
+        end
       end
-
-      link :priorities do
-        {
-          href: api_v3_paths.priorities
-        }
-      end
-
-      link :statuses do
-        {
-          href: api_v3_paths.statuses
-        }
-      end
-
-      link :types do
-        {
-          href: api_v3_paths.types
-        }
-      end
-
-      property :instance_name,
-               getter: ->(*) { Setting.app_title }
-
-      property :core_version,
-               getter: ->(*) { OpenProject::VERSION.to_semver }
     end
   end
 end

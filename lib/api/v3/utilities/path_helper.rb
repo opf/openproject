@@ -74,6 +74,10 @@ module API
             "#{root}/categories/#{id}"
           end
 
+          def self.configuration
+            "#{root}/configuration"
+          end
+
           def self.create_work_package_form(project_id)
             "#{work_packages_by_project(project_id)}/form"
           end
