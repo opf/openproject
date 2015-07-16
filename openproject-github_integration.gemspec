@@ -17,5 +17,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.2.14"
 
-  s.add_dependency "openproject-webhooks", "~> 4.3.0-alpha"
+  s.add_dependency "openproject-webhooks", "~> 4.4.0-alpha"
 end
