@@ -85,16 +85,17 @@ describe 'project menu', type: :feature do
       end
     end
 
-    describe 'link to global cost reports', js: true do
+    describe 'link to global cost reports' do
       shared_examples 'it leads to the cost reports' do
         before do
           visit current_path
         end
 
         it 'leads to cost reports' do
-          click_on 'Modules'
-          within '#more-menu ul' do
-            click_on 'Cost reports'
+          # doing what no human can - click on invisible items.
+          # This way, we avoid having to use selenium and by that increase stability.
+          within '#more-menu ul', visible: false do
+            click_on 'Cost reports', visible: false
           end
 
           expect(page).to have_selector('.breadcrumb > li', text: 'Cost reports')
