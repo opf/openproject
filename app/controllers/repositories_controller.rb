@@ -54,7 +54,7 @@ class RepositoriesController < ApplicationController
 
   def edit
     service = Scm::RepositoryFactoryService.new(@project, params)
-    if service.build
+    if service.build_temporary
       @repository = service.repository
     else
       logger.error("Cannot create repository for #{params[:scm_vendor]}")

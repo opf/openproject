@@ -39,11 +39,11 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
   # @return [Boolean] true iff the repository was built
   def build_and_save
     build_guarded do
-      build(params.fetch(:scm_type).to_sym)
-      if @repository.save
-        @repository
+      repository = build_with_type(params.fetch(:scm_type).to_sym)
+      if repository.save
+        repository
       else
-        raise Repository::BuildFailed.new @repository.errors.full_messages.join("\n")
+        raise Repository::BuildFailed.new repository.errors.full_messages.join("\n")
       end
     end
   end
@@ -52,16 +52,10 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
   # Build a temporary repository used only for determining availabe settings and types
   # of that particular vendor.
   #
-  # @param  [Symbol]  scm_type determines the repository type. May be nil during configuration
   # @return [Boolean] true iff the repository was built
-  def build(scm_type = nil)
+  def build_temporary
     build_guarded do
-      Repository.build(
-        project,
-        params[:scm_vendor],
-        params.fetch(:repository, {}),
-        scm_type
-      )
+     build_with_type(nil)
     end
   end
 
@@ -71,7 +65,19 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
 
   private
 
-  def build_repository
+  ##
+  # Helper to actually build the repository and return it.
+  # May raise +Repository::BuildFailed+ internally.
+  #
+  # @param [Symbol] scm_type Type to build the repository with. May be nil
+  #                          during temporary build
+  def build_with_type(scm_type)
+    Repository.build(
+      project,
+      params[:scm_vendor],
+      params.fetch(:repository, {}),
+      scm_type
+    )
   end
 
   def build_guarded

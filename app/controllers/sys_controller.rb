@@ -49,7 +49,7 @@ class SysController < ActionController::Base
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
       service = Scm::RepositoryFactoryService.new(project, params)
 
-      if service.build
+      if service.build_and_save
         project.repository = service.repository
         render xml: project.repository, status: 201
       else
