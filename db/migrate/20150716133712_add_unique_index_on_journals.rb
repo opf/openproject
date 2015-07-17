@@ -75,7 +75,15 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
   end
 
   def journals_equivalent?(a, b)
-    records_equivalent?(a, b) && records_equivalent?(a.data, b.data)
+    a_attachments = a.attachable_journals.pluck(:attachment_id).sort
+    b_attachments = b.attachable_journals.pluck(:attachment_id).sort
+    a_custom_fields = customizable_journals_to_hash a.customizable_journals
+    b_custom_fields = customizable_journals_to_hash b.customizable_journals
+
+    records_equivalent?(a, b) &&
+      records_equivalent?(a.data, b.data) &&
+      a_attachments == b_attachments &&
+      a_custom_fields == b_custom_fields
   end
 
   def records_equivalent?(a, b)
@@ -85,6 +93,13 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
 
     ignored = [:id, :journal_id, :created_at, :updated_at]
     a.attributes.symbolize_keys.except(*ignored) == b.attributes.symbolize_keys.except(*ignored)
+  end
+
+  def customizable_journals_to_hash(customizable_journals)
+    customizable_journals.inject({}) { |hash, custom_journal|
+      hash[custom_journal.custom_field_id] = custom_journal.value
+      hash
+    }
   end
 
   def abort_migration(current, duplicate)
