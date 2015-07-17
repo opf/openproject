@@ -1,5 +1,5 @@
 jQuery(function($) {
-  var tooltipElements = $('.advanced--tooltip');
+  var tooltipElements = $('.advanced-tooltip');
   var input = $('input[id^="new_password"]');
   if(tooltipElements.length){
     tooltipElements.each(function createTooltip() {

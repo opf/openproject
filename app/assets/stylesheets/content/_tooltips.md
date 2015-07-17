@@ -116,7 +116,7 @@ Note that the tabindex has to be set manually on the `<span>` and not the contai
     <span class="form--text-field-container">
       <input class="form--text-field -password" id="new_password" name="new_password" size="25" type="password">
     </span>
-    <span class="op_tooltip">
+    <span class="advanced-tooltip">
       <em>Must be at least 10 characters long.</em><br>
       <em>
         Must contain characters of the following classes (at least 2 of 4):
