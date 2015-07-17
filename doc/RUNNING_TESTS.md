@@ -94,9 +94,8 @@ You can run the specs with the following commands:
 
 * `bundle exec rake spec:core` Run all core specs with a random seed
 * `bundle exec rake spec:legacy` Run all legacy specs with a random seed
+* `bundle exec rake spec:plugins` Run plugin specs with a random seed
 * `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
-
-TODO: how to run plugins specs.
 
 ### Cucumber [DEPRECATED]
 
