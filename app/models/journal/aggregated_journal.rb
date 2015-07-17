@@ -158,4 +158,11 @@ class Journal::AggregatedJournal < Journal
   def initial?
     predecessor.nil?
   end
+
+  # ARs automagic addition of dynamic columns (those not present in the physical table) seems
+  # not to work with PostgreSQL and simply return a string for unknown columns.
+  # Thus we need to ensure manually that this column is correctly casted.
+  def notes_id
+    ActiveRecord::ConnectionAdapters::Column.value_to_integer(attributes['notes_id'])
+  end
 end

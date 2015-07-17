@@ -30,28 +30,35 @@
 require 'spec_helper'
 
 RSpec::Matchers.define :be_equivalent_to_journal do |expected|
-  expected_attributes = expected.attributes.symbolize_keys
-  if expected_attributes[:created_at]
-    # µs are not stored in DB
-    expected_attributes[:created_at] = expected_attributes[:created_at].change(usec: 0)
-  end
-
   ignored_attributes = [:notes_id]
 
   match do |actual|
-    actual_attributes = actual.attributes.symbolize_keys
+    expected_attributes = get_normalized_attributes expected
+    actual_attributes = get_normalized_attributes actual
+
     expected_attributes.except(*ignored_attributes) == actual_attributes.except(*ignored_attributes)
   end
 
-  def display_sorted_hash(hash)
-    '{ ' + hash.sort.map { |k, v| "#{k.inspect}=>#{v.inspect}" }.join(', ') + ' }'
-  end
-
   failure_message do |actual|
+    expected_attributes = get_normalized_attributes expected
     actual_attributes = actual.attributes.symbolize_keys
     ["expected attributes: #{display_sorted_hash(expected_attributes.except(*ignored_attributes))}",
      "actual attributes:   #{display_sorted_hash(actual_attributes.except(*ignored_attributes))}"]
       .join($/)
+  end
+
+  def get_normalized_attributes(journal)
+    result = journal.attributes.symbolize_keys
+    if result[:created_at]
+      # µs are not stored in all DBMS
+      result[:created_at] = result[:created_at].change(usec: 0)
+    end
+
+    result
+  end
+
+  def display_sorted_hash(hash)
+    '{ ' + hash.sort.map { |k, v| "#{k.inspect}=>#{v.inspect}" }.join(', ') + ' }'
   end
 end
 
@@ -63,7 +70,7 @@ describe Journal::AggregatedJournal, type: :model do
   let(:user2) { FactoryGirl.create(:user) }
   let(:initial_author) { user1 }
 
-  subject { described_class.all }
+  subject { described_class.order('id ASC').to_a }
 
   before do
     allow(User).to receive(:current).and_return(initial_author)
