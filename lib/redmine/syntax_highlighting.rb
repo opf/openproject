@@ -53,7 +53,11 @@ module Redmine
         # the correct source encoding before passing it to ERB::Util.html_escape
         def highlight_by_filename(text, filename)
           language = ::CodeRay::FileType[filename]
-          language ? ::CodeRay.scan(text, language).html.html_safe : ERB::Util.h(::CodeRay.scan(text, :text).text)
+          if language
+            ::CodeRay.scan(text, language).html.html_safe
+          else
+            ERB::Util.h(::CodeRay.scan(text, :text).text)
+          end
         end
 
         # Highlights +text+ using +language+ syntax
