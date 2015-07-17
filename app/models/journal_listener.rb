@@ -28,20 +28,17 @@
 #++
 
 class JournalListener
-  mattr_accessor :send_notification, instance_accessor: false
-
   OpenProject::Notifications.subscribe('journal_created') do |payload|
-    distinguish_journals(payload)
+    distinguish_journals(payload[:journal], payload[:send_notification])
   end
 
   class << self
-    def distinguish_journals(journal)
+    def distinguish_journals(journal, send_notification)
       if journal.journable_type == 'WorkPackage' && send_notification && journal.initial?
         handle_create(journal.journable)
       elsif journal.journable_type == 'WorkPackage' && send_notification
         handle_update(journal)
       end
-      clear_notification
     end
 
     def handle_create(work_package)
@@ -87,19 +84,6 @@ class JournalListener
     def notify_for_priority(journal)
       Setting.notified_events.include?('work_package_priority_updated') &&
         journal.changed_data.has_key?(:priority_id)
-    end
-
-    # Wrap send_notification so it defaults to true, when it's nil
-    def send_notification
-      return true if @send_notification.nil?
-      @send_notification
-    end
-
-    private
-
-    # Need to clear the notification setting after each usage otherwise it might be cached
-    def clear_notification
-      @send_notification = true
     end
   end
 end

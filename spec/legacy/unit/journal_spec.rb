@@ -56,7 +56,7 @@ describe Journal, type: :model do
     issue = WorkPackage.find(:first)
     user = User.find(:first)
     journal = issue.add_journal(user, 'A note')
-    JournalListener.send_notification = false
+    JournalManager.send_notification = false
 
     assert_difference('Journal.count') do
       assert issue.save

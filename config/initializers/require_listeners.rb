@@ -27,38 +27,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class UpdateWorkPackageService
-  attr_accessor :user, :work_package, :permitted_params
-
-  def initialize(user:, work_package:, permitted_params: nil, send_notifications: true)
-    self.user = user
-    self.work_package = work_package
-    self.permitted_params = permitted_params
-
-    JournalManager.send_notification = send_notifications
-  end
-
-  def update
-    work_package.update_by!(user, effective_params)
-  end
-
-  def save
-    work_package.save
-  end
-
-  private
-
-  def effective_params
-    effective_params = HashWithIndifferentAccess.new
-
-    if permitted_params[:journal_notes]
-      notes = { notes: permitted_params.delete(:journal_notes) }
-
-      effective_params.merge!(notes) if user.allowed_to?(:add_work_package_notes, work_package.project)
-    end
-
-    effective_params.merge!(permitted_params) if user.allowed_to?(:edit_work_packages, work_package.project)
-
-    effective_params
-  end
-end
+require 'journal_listener'
