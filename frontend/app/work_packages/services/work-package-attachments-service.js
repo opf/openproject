@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q) {
+module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $timeout) {
   var currentUploads = [];
 
   var upload = function(workPackage, files) {
@@ -55,7 +55,11 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q) {
 
     var notification = NotificationsService.addWorkPackageUpload(message, uploads);
     currentUploads.push(notification);
-    $q.all(uploads).then(function() { NotificationsService.remove(notification); });
+    $q.all(uploads).then(function() {
+      $timeout(function() {
+        NotificationsService.remove(notification);
+      }, 700);
+    });
   },
   getCurrentNotification = function(notification) {
     return _.find(currentUploads, notification);
