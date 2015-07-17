@@ -78,31 +78,41 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
   end
 
   def journals_equivalent?(a, b)
-    unless records_equivalent?(a, b)
-      say 'Difference found in table journals', subitem: true
-      return false
-    end
+    base_journals_equivalent?(a, b) &&
+      specific_journals_equivalent?(a, b) &&
+      attachable_journals_equivalent?(a, b) &&
+      customizable_journals_equivalent?(a, b)
+  end
 
-    unless records_equivalent?(a.data, b.data)
+  def base_journals_equivalent?(a, b)
+    result = records_equivalent?(a, b)
+    say 'Difference found in table journals', subitem: true unless result
+    result
+  end
+
+  def specific_journals_equivalent?(a, b)
+    result = records_equivalent?(a.data, b.data)
+    unless result
       say 'Difference found in related data table (e.g. work_package_journals)', subitem: true
-      return false
     end
 
+    result
+  end
+
+  def attachable_journals_equivalent?(a, b)
     a_attachments = a.attachable_journals.pluck(:attachment_id).sort
     b_attachments = b.attachable_journals.pluck(:attachment_id).sort
-    unless a_attachments == b_attachments
-      say 'Difference found in attachable_journals', subitem: true
-      return false
-    end
+    result = a_attachments == b_attachments
+    say 'Difference found in attachable_journals', subitem: true unless result
+    result
+  end
 
+  def customizable_journals_equivalent?(a, b)
     a_custom_fields = customizable_journals_to_hash a.customizable_journals
     b_custom_fields = customizable_journals_to_hash b.customizable_journals
-    unless a_custom_fields == b_custom_fields
-      say 'Difference found in customizable_journals', subitem: true
-      return false
-    end
-
-    true
+    result = a_custom_fields == b_custom_fields
+    say 'Difference found in customizable_journals', subitem: true unless result
+    result
   end
 
   def records_equivalent?(a, b)
