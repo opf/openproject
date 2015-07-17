@@ -46,13 +46,13 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
       say_with_time 'Safely removing duplicates...' do
         undeleted_pairs = []
         duplicate_pairs.each do |current_id, duplicate_id|
-          say "Comparing journals ##{current_id} & ##{duplicate_id} for equality", subitem: true
+          sub_say "Comparing journals ##{current_id} & ##{duplicate_id} for equality"
 
           current = MigrationHelperJournal.find(current_id)
           duplicate = MigrationHelperJournal.find(duplicate_id)
 
           if journals_equivalent?(current, duplicate)
-            say "Deleting journal ##{current.id}...", subitem: true
+            sub_say "Deleting journal ##{current.id}..."
             current.destroy
           else
             undeleted_pairs << [current_id, duplicate_id]
@@ -86,16 +86,13 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
 
   def base_journals_equivalent?(a, b)
     result = records_equivalent?(a, b)
-    say 'Difference found in table journals', subitem: true unless result
+    sub_say 'Difference found in table journals' unless result
     result
   end
 
   def specific_journals_equivalent?(a, b)
     result = records_equivalent?(a.data, b.data)
-    unless result
-      say 'Difference found in related data table (e.g. work_package_journals)', subitem: true
-    end
-
+    sub_say 'Difference found in related data table (e.g. work_package_journals)' unless result
     result
   end
 
@@ -103,7 +100,7 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
     a_attachments = a.attachable_journals.pluck(:attachment_id).sort
     b_attachments = b.attachable_journals.pluck(:attachment_id).sort
     result = a_attachments == b_attachments
-    say 'Difference found in attachable_journals', subitem: true unless result
+    sub_say 'Difference found in attachable_journals' unless result
     result
   end
 
@@ -111,7 +108,7 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
     a_custom_fields = customizable_journals_to_hash a.customizable_journals
     b_custom_fields = customizable_journals_to_hash b.customizable_journals
     result = a_custom_fields == b_custom_fields
-    say 'Difference found in customizable_journals', subitem: true unless result
+    sub_say 'Difference found in customizable_journals' unless result
     result
   end
 
@@ -134,29 +131,32 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
   def abort_on_undeleted_pairs(undeleted_pairs)
     return unless undeleted_pairs.any?
 
-    say '', subitem: true
-    say 'There were journals that had a duplicate, but were not deleted.', subitem: true
-    say 'You have to manually decide how to proceed with these journals.', subitem: true
-    say 'Please compare the corresponding entries in the following tables:', subitem: true
-    say ' * journals', subitem: true
-    say ' * attachable_journals', subitem: true
-    say ' * customizable_journals', subitem: true
-    say ' * {type}_journals, with {type} being indicated by the journable_type', subitem: true
-    say '', subitem: true
-    say 'The following table lists the remaining duplicate pairs,', subitem: true
-    say 'note that only one entry per pair is supposed to be deleted:', subitem: true
+    sub_say ''
+    sub_say 'There were journals that had a duplicate, but were not deleted.'
+    sub_say 'You have to manually decide how to proceed with these journals.'
+    sub_say 'Please compare the corresponding entries in the following tables:'
+    sub_say ' * journals'
+    sub_say ' * attachable_journals'
+    sub_say ' * customizable_journals'
+    sub_say ' * {type}_journals, with {type} being indicated by the journable_type'
+    sub_say ''
+    sub_say 'The following table lists the remaining duplicate pairs,'
+    sub_say 'note that only one entry per pair is supposed to be deleted:'
 
     column_width = 20
-    say '-' * (column_width *  2 + 7), subitem: true
-    say "| #{'journal 1'.rjust(column_width)} | #{'journal 2'.rjust(column_width)} |", subitem: true
-    say '-' * (column_width *  2 + 7), subitem: true
-    undeleted_pairs.each do |undeleted_id, duplicate_id|
-      say "| #{undeleted_id.to_s.rjust(column_width)} | #{duplicate_id.to_s.rjust(column_width)} |",
-          subitem: true
+    sub_say '-' * (column_width *  2 + 7)
+    sub_say "| #{'journal 1'.rjust(column_width)} | #{'journal 2'.rjust(column_width)} |"
+    sub_say '-' * (column_width *  2 + 7)
+    undeleted_pairs.each do |dup_a, dup_b|
+      sub_say "| #{dup_a.to_s.rjust(column_width)} | #{dup_b.to_s.rjust(column_width)} |"
     end
-    say '-' * (column_width *  2 + 7), subitem: true
+    sub_say '-' * (column_width *  2 + 7)
 
     raise "Can't continue migration safely because of duplicate journals!"
+  end
+
+  def sub_say(message)
+    say message, subitem: true
   end
 
   # Using a custom (light weight) implementation of Journal here, because we don't know
