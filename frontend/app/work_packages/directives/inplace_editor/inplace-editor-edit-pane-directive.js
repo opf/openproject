@@ -82,6 +82,7 @@ module.exports = function(
                     EditableFieldsState.errors = null;
                   }
                 );
+                $scope.$emit('uploadPendingAttachments', updatedWorkPackage);
               })).catch(setFailure);
             } else {
               afterError();

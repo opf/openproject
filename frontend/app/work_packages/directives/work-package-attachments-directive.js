@@ -40,9 +40,8 @@ module.exports = function(workPackageAttachmentsService) {
       scope.files = [];
     };
 
-    scope.$on('workPackageUpdatedInEditor', function(e, workPackage) {
-      var files = angular.copy(scope.files);
-      workPackageAttachmentsService.upload(workPackage, files);
+    scope.$on('uploadPendingAttachments', function(e, workPackage) {
+      workPackageAttachmentsService.upload(workPackage, scope.files);
       scope.files = [];
     });
   }
