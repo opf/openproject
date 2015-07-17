@@ -47,8 +47,8 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
         duplicate_pairs.each do |current_id, duplicate_id|
           say "Comparing journals ##{current_id} & ##{duplicate_id} for equality", subitem: true
 
-          current = Journal.find(current_id)
-          duplicate = Journal.find(duplicate_id)
+          current = MigrationHelperJournal.find(current_id)
+          duplicate = MigrationHelperJournal.find(duplicate_id)
 
           if journals_equivalent?(current, duplicate)
             say "Deleting journal ##{current.id}...", subitem: true
@@ -62,8 +62,8 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
   end
 
   def find_duplicate_journal_ids
-    this = Journal.table_name
-    Journal
+    this = MigrationHelperJournal.table_name
+    MigrationHelperJournal
       .joins("INNER JOIN #{this} other
       ON #{this}.journable_id = other.journable_id AND
          #{this}.journable_type = other.journable_type AND
@@ -95,5 +95,25 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
     say 'Aborting migration...', subitem: true
 
     raise "Can't continue migration safely because of duplicate journals!"
+  end
+
+  # Using a custom (light weight) implementation of Journal here, because we don't know
+  # how the original might change in the future. Changes could potentially break our untested
+  # migrations. By providing a minimal custom implementation, I hope to reduce that risk.
+  class MigrationHelperJournal < ActiveRecord::Base
+    self.table_name = 'journals'
+
+    has_many :attachable_journals,
+             class_name: Journal::AttachableJournal,
+             foreign_key: :journal_id,
+             dependent: :destroy
+    has_many :customizable_journals,
+             class_name: Journal::CustomizableJournal,
+             foreign_key: :journal_id,
+             dependent: :destroy
+
+    def data
+      @data ||= "Journal::#{journable_type}Journal".constantize.where(journal_id: id).first
+    end
   end
 end
