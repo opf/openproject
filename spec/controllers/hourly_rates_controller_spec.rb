@@ -43,7 +43,8 @@ describe HourlyRatesController do
       end
 
       it "should display an error message" do
-        expect(assigns(:user).default_rates.first.errors.messages[:rate].first).to eq("is not a number")
+        actual_message = assigns(:user).default_rates.first.errors.messages[:rate].first
+        expect(actual_message).to eq(I18n.t('activerecord.errors.messages.not_a_number'))
       end
     end
   end
