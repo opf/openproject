@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'work_package'
+# require 'work_package'
 
 describe UsersController, type: :controller do
   before do

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe 'api/v2/planning_element_type_colors/show.api.rabl', type: :view do
 
