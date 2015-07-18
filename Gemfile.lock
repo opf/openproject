@@ -293,7 +293,6 @@ GEM
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     non-stupid-digest-assets (1.0.4)
-    object-daddy (1.1.1)
     oj (2.11.4)
     omniauth (1.2.1)
       hashie (>= 1.2, < 3)
@@ -537,7 +536,6 @@ DEPENDENCIES
   net-ldap (~> 0.8.0)
   nokogiri (~> 1.6.6)
   non-stupid-digest-assets
-  object-daddy (~> 1.1.0)
   oj (~> 2.11.4)
   omniauth
   openproject-translations!
