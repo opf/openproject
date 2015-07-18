@@ -1,0 +1,145 @@
+ja:
+  activerecord:
+    attributes:
+      work_package:
+        position: ポジション
+        remaining_hours: 残り時間
+        story_points: ストーリーポイント
+        backlogs_work_package_type: バックログの種類
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: では現在のスプリントの作業パッケージＩＤのみを含めることができます。
+              must_block_at_least_one_work_package: は少なくとも 1 つのチケットの ID を含める必要があります。
+            fixed_version_id:
+              task_version_must_be_the_same_as_story_version: はストーリーのバージョンと同じである必要があります。
+            parent_id:
+              parent_child_relationship_across_projects: "は無効です。作業パッケージ'%{work_package_name}' は バックログタスクであり、バックログストーリー '%{parent_name}'は別のプロジェクトである限り、ストーリーは親にすることができません。"
+              type_must_be_one_of_the_following: '型は次のいずれかである必要があります: %{type_names}'
+        sprint:
+          cannot_end_before_it_starts: スプリントは開始する前に終了できません。
+  backlogs:
+    add_new_story: 新しいストーリー
+    any: 全て
+    backlog_settings: バックログの設定
+    burndown_graph: バーンダウングラフ
+    card_paper_size: カード印刷用の用紙サイズ
+    chart_options: アクティブシリーズ
+    close: 終了する
+    column_width: '列の幅:'
+    date: 日
+    definition_of_done: 「終了」の定義
+    generating_chart: グラフを生成中...
+    hours: 時間
+    impediment: 障害（スクラム）
+    label_versions_default_fold_state: バージョンを折り畳んで表示
+    work_package_is_closed: 作業パッケージが終了するには
+    label_is_done_status: 'ステータス%{status_name}は完了として扱う'
+    no_burndown_data: バーンダウンのデータがありません。スプリントの開始日と終了日を設定する必要があります。
+    points: ポイント
+    positions_could_not_be_rebuilt: 位置は再構築されませんでした。
+    positions_rebuilt_successfully: 位置情報は再構築しました。
+    properties: プロパティ
+    rebuild: 再構築
+    rebuild_positions: 位置情報を再構築
+    remaining_hours: 残り時間
+    remaining_hours_ideal: 残り時間 (理想)
+    show_burndown_chart: バーンダウングラフ
+    story: ストーリー
+    story_points: ストーリーポイント
+    story_points_ideal: ストーリーポイント (理想)
+    task: タスク
+    task_color: タスクの色
+    unassigned: 未割り当て
+    x_more: '残%{count}件...'
+  backlogs_active: アクティブ
+  backlogs_any: 全て
+  backlogs_card_specification: カード印刷用ラベルの種類
+  backlogs_inactive: プロジェクトの活動がありません。
+  backlogs_points_burn_direction: ポイントのバーンアップ/バーンダウン
+  backlogs_product_backlog: プロダクトバックログ
+  backlogs_product_backlog_is_empty: プロダクトバックログはありません。
+  backlogs_product_backlog_unsized: プロダクトバックログの最上部にはサイズ化されてないストーリーがあります。
+  backlogs_sizing_inconsistent: Story sizes vary against their estimates
+  backlogs_sprint_notes_missing: Closed sprints without retrospective/review notes
+  backlogs_sprint_unestimated: Closed or active sprints with unestimated stories
+  backlogs_sprint_unsized: Project has stories on active or recently closed sprints that were not sized
+  backlogs_sprints: Sprints
+  backlogs_story: ストーリー
+  backlogs_story_type: Story types
+  backlogs_task: タスク
+  backlogs_task_type: Task type
+  backlogs_velocity_missing: No velocity could be calculated for this project
+  backlogs_velocity_varies: Velocity varies significantly over sprints
+  backlogs_wiki_template: Template for sprint wiki page
+  button_edit_wiki: Edit wiki page
+  error_intro_plural: 'The following errors were encountered:'
+  error_intro_singular: 'The following error was encountered:'
+  error_outro: Please correct the above errors before submitting again.
+  event_sprint_description: |
+    %{summary}: %{url}
+    %{description}
+  event_sprint_summary: '%{project}: %{summary}'
+  ideal: ideal
+  inclusion: is not included in the list
+  label_back_to_project: Back to project page
+  label_backlog: Backlog
+  label_backlogs: Backlogs
+  label_backlogs_unconfigured: 'You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool.'
+  label_blocks_ids: Blocks (IDs)
+  label_burndown: Burndown
+  label_chart_options: Chart Options
+  label_column_in_backlog: Column in backlog
+  label_hours: hours
+  label_work_package_hierarchy: Work package Hierarchy
+  label_master_backlog: Master Backlog
+  label_not_prioritized: not prioritized
+  label_points: points
+  label_points_burn_down: Down
+  label_points_burn_up: Up
+  label_product_backlog: product backlog
+  label_select_all: Select all
+  label_sprint_backlog: sprint backlog
+  label_sprint_cards: Export cards
+  label_sprint_impediments: Sprint Impediments
+  label_sprint_name: 'Sprint "%{name}"'
+  label_sprint_velocity: 'Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days'
+  label_stories: Stories
+  label_stories_tasks: Stories/Tasks
+  label_task_board: Task board
+  label_version_setting: Versions
+  label_webcal: Webcal Feed
+  label_wiki: Wiki
+  permission_view_master_backlog: View master backlog
+  permission_view_taskboards: View taskboards
+  permission_update_sprints: Update sprints
+  permission_create_stories: Create stories
+  permission_update_stories: Update stories
+  permission_create_tasks: Create tasks
+  permission_update_tasks: Update tasks
+  permission_create_impediments: Create impediments
+  permission_update_impediments: Update impediments
+  points_accepted: points accepted
+  points_committed: points committed
+  points_resolved: points resolved
+  points_to_accept: points not accepted
+  points_to_resolve: points not resolved
+  project_module_backlogs: Backlogs
+  rb_label_copy_tasks: Copy work packages
+  rb_label_copy_tasks_all: All
+  rb_label_copy_tasks_none: None
+  rb_label_copy_tasks_open: Open
+  rb_label_link_to_original: Include link to original story
+  remaining_hours: remaining hours
+  required_burn_rate_hours: required burn rate (hours)
+  required_burn_rate_points: required burn rate (points)
+  todo_work_package_description: |
+    %{summary}: %{url}
+    %{description}
+  todo_work_package_summary: '%{type}: %{summary}'
+  version_settings_display_label: Column in backlog
+  version_settings_display_option_left: left
+  version_settings_display_option_none: none
+  version_settings_display_option_right: right
