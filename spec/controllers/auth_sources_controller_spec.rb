@@ -74,7 +74,7 @@ describe AuthSourcesController, type: :controller do
 
   describe 'edit' do
     before do
-      @auth_source = AuthSource.generate!(name: 'TestEdit')
+      @auth_source = FactoryGirl.create(:auth_source, name: 'TestEdit')
       get :edit, id: @auth_source.id
     end
 
@@ -85,7 +85,7 @@ describe AuthSourcesController, type: :controller do
 
   describe 'update' do
     before do
-      @auth_source = AuthSource.generate!(name: 'TestEdit')
+      @auth_source = FactoryGirl.create(:auth_source, name: 'TestEdit')
       post :update, id: @auth_source.id, auth_source: { name: 'TestUpdate' }
     end
 
@@ -96,7 +96,7 @@ describe AuthSourcesController, type: :controller do
 
   describe 'destroy' do
     before do
-      @auth_source = AuthSource.generate!(name: 'TestEdit')
+      @auth_source = FactoryGirl.create(:auth_source, name: 'TestEdit')
     end
 
     context 'without users' do
@@ -111,11 +111,12 @@ describe AuthSourcesController, type: :controller do
 
     context 'with users' do
       before do
-        User.generate!(auth_source: @auth_source)
+        FactoryGirl.create(:user, auth_source: @auth_source)
         post :destroy, id: @auth_source.id
       end
 
       it { is_expected.to respond_with :redirect }
+
       it 'doesn not destroy the AuthSource' do
         expect(AuthSource.find(@auth_source.id)).not_to be_nil
       end
