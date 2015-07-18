@@ -41,6 +41,9 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
 
+require 'factory_girl'
+FactoryGirl.find_definitions
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
