@@ -1,0 +1,56 @@
+pl:
+  activerecord:
+    attributes:
+      meeting:
+        location: Lokalizacja
+        duration: Czas trwania
+        participants: Uczestnicy
+        participants_attended: Uczestnicy
+        participants_invited: Zaproszone osoby
+        start_time: Czas
+    models:
+      meeting_agenda: Plan spotkania
+      meeting_minutes: Minuty
+  description_attended: Obecny
+  description_invite: Zaproszony
+  events:
+    meeting: Spotkanie zmienione
+    meeting_agenda: Zmieniono plan spotkania
+    meeting_agenda_closed: Zamknięto plan spotkania
+    meeting_agenda_opened: Otwarto plan spotkania
+    meeting_minutes: Meeting minutes edited
+    meeting_minutes_created: Meeting minutes created
+  error_notification_with_errors: 'Nie udało się wysłać powiadomienie do adresatów: %{recipients}'
+  label_meeting_hour: Czas (godziny)
+  label_meeting_minute: Czasu (minuty)
+  label_meeting: Spotkanie
+  label_meeting_plural: Spotkania
+  label_meeting_new: Nowe spotkanie
+  label_meeting_edit: Edycja spotkania
+  label_meeting_agenda: Plan spotkania
+  label_meeting_minutes: Minuty
+  label_meeting_close: Zamknij
+  label_meeting_open: Otwórz
+  label_meeting_agenda_close: Close the agenda to begin the Minutes
+  label_meeting_date_time: Data/Czas
+  label_meeting_diff: Różnice
+  label_notify: Wyślij do przeglądu
+  label_version: Wersja
+  notice_successful_notification: Powiadomienia wysłane pomyślnie
+  notice_timezone_missing: 'No time zone is set and %{zone} is assumed. To choose your time zone, please click here.'
+  permission_create_meetings: Utwórz spotkanie
+  permission_edit_meetings: Modyfikuj spotkania
+  permission_delete_meetings: Usuń spotkania
+  permission_view_meetings: Zobacz spotkania
+  permission_create_meeting_agendas: Zarządzaj planami
+  permission_close_meeting_agendas: Zamknij plany
+  permission_send_meeting_agendas_notification: Wyślij powiadomienie o przeglądzie planów
+  permission_create_meeting_minutes: Zarządzaj minutami
+  permission_send_meeting_minutes_notification: Send review notification for minutes
+  project_module_meetings: Spotkania
+  text_in_hours: in hours
+  text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
+  text_meeting_agenda_open_are_you_sure: Unsaved content in the minutes will be lost! Continue?
+  text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
+  text_review_meeting_agenda: '%{author} has put the %{link} up for review.'
+  text_review_meeting_minutes: '%{author} has put the %{link} up for review.'
