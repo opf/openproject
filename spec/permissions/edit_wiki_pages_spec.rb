@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'support/permission_specs'
 
 describe WikiController, 'edit_wiki_pages permission', type: :controller do
   include PermissionSpecs
