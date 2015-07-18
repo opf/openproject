@@ -27,7 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 
 require 'spec_helper'
-require 'rack/test'
 
 describe ::API::V3::WorkPackages::CreateFormAPI do
   include Rack::Test::Methods

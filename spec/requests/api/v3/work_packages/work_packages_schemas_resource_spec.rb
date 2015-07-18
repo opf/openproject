@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'rack/test'
 
 describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
   include Rack::Test::Methods

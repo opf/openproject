@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'rack/test'
 
 describe "API v3 project's versions resource" do
   include Rack::Test::Methods

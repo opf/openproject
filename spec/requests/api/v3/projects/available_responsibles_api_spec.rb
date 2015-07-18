@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'rack/test'
 
 describe API::V3::Projects::ProjectsAPI do
   include API::V3::Utilities::PathHelper

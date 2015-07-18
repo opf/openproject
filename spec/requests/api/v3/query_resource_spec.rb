@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'rack/test'
 
 describe 'API v3 Query resource', type: :request do
   include Rack::Test::Methods

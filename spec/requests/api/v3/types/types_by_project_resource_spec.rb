@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'rack/test'
 
 describe '/api/v3/projects/:id/types' do
   include Rack::Test::Methods
