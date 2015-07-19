@@ -26,8 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@wip
 Feature: Exporting work packages
-
   Background:
     Given there is 1 user with the following:
       | login | bob |
@@ -45,14 +45,14 @@ Feature: Exporting work packages
       | subject | Some Issue |
     And I am already logged in as "bob"
 
-    @wip @javascript
+  @javascript
   Scenario: No export links on project work packages index if user has no "export_work_packages" permission
     When I go to the work packages index page of the project called "project1"
     And I choose "Export" from the toolbar "settings" dropdown
     Then I should not see "CSV"
     And I should not see "PDF"
 
-    @wip @javascript
+  @javascript
   Scenario: Export links on project issues work packages if user has the "export_work_packages" permission
     Given the role "member" may have the following rights:
      | export_work_packages |
@@ -61,14 +61,14 @@ Feature: Exporting work packages
     Then I should see "CSV" within ".other-formats"
     And I should see "PDF" within ".other-formats"
 
-    @wip @javascript
+  @javascript
   Scenario: No export links on global issues index if user has no "export_work_packages" permission
     When I go to the global index page of work packages
     And I choose "Export" from the toolbar "settings" dropdown
     Then I should not see "CSV"
     And I should not see "PDF"
 
-    @wip @javascript
+  @javascript
   Scenario: Export links on global issues index if user has the "export_work_packages" permission
     Given the role "member" may have the following rights:
      | export_work_packages |
@@ -76,7 +76,3 @@ Feature: Exporting work packages
     And I choose "Export" from the toolbar "settings" dropdown
     Then I should see "CSV" within ".other-formats"
     And I should see "PDF" within ".other-formats"
-
-
-
-
