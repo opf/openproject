@@ -30,7 +30,7 @@
 require_features = '--require features'
 rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
 rerun_opts = rerun.to_s.strip.empty? ? "#{require_features} --format #{ENV['CUCUMBER_FORMAT'] || 'progress'} features" : "#{require_features} --format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} #{rerun}"
-std_opts = "#{require_features} --format #{ENV['CUCUMBER_FORMAT'] || 'progress'} --strict --tags ~@wip"
+std_opts = "#{require_features} --format #{ENV['CUCUMBER_FORMAT'] || 'progress'} --tags ~@wip"
 %>
 default: <%= std_opts %> features
 wip: --tags @wip:3 --wip features
