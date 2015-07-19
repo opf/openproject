@@ -68,6 +68,7 @@ Capybara.configure do |config|
 end
 
 Capybara.default_driver = :webkit
+Capybara.javascript_driver = :webkit
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -112,16 +113,18 @@ end
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
-Cucumber::Rails::Database.javascript_strategy = :truncation
+# Cucumber::Rails::Database.javascript_strategy = :truncation
 
 # Remove any modal dialog remaining from the scenarios which finish in an unclean state
-Before do |_scenario|
-  page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
-end
+# Before do |_scenario|
+#   page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
+# end
 
 # Capybara.register_driver :selenium do |app|
-#     Capybara::Selenium::Driver.new(app, :browser => :chrome)
+#   Capybara::Selenium::Driver.new(app, :browser => :chrome)
+
+#   # overwrite selenium driver to ensure capybara webkit is being used
+#   # Capybara::Webkit::Driver.new(app)
 # end
-#
 
 World(Capybara::Select2)
