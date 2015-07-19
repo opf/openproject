@@ -52,7 +52,8 @@ describe('details pane', function() {
       });
 
       it('shows date range', function() {
-        expect(dateRangePicker.getText()).to.eventually.equal('02/17/2015\n  -  \n04/29/2015');
+        var read_value = dateRangePicker.$('.inplace-edit--read-value');
+        expect(read_value.getText()).to.eventually.equal('02/17/2015\n  -  \n04/29/2015');
       });
     });
 
@@ -330,7 +331,8 @@ describe('details pane', function() {
       });
 
       it('shows date range', function() {
-        expect(dateRangePicker.getText()).to.eventually.equal('no start date\n  -  \n12/27/2014');
+        var read_value = dateRangePicker.$('.inplace-edit--read-value');
+        expect(read_value.getText()).to.eventually.equal('no start date\n  -  \n12/27/2014');
       });
     });
 
@@ -392,7 +394,8 @@ describe('details pane', function() {
       });
 
       it('shows date range', function() {
-        expect(dateRangePicker.getText()).to.eventually.equal('10/23/2014\n  -  \nno end date');
+        var read_value = dateRangePicker.$('.inplace-edit--read-value');
+        expect(read_value.getText()).to.eventually.equal('10/23/2014\n  -  \nno end date');
       });
     });
 

@@ -319,7 +319,10 @@ module ApplicationHelper
   end
 
   def syntax_highlight(name, content)
-    Redmine::SyntaxHighlighting.highlight_by_filename(content, name)
+    highlighted = Redmine::SyntaxHighlighting.highlight_by_filename(content, name)
+    highlighted.each_line do |line|
+      yield highlighted.html_safe? ? line.html_safe : line
+    end
   end
 
   def to_path_param(path)

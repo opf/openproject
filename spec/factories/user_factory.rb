@@ -42,7 +42,7 @@ FactoryGirl.define do
     created_on Time.now
     updated_on Time.now
 
-    mail_notification(Redmine::VERSION::MAJOR > 0 ? 'all' : true)
+    mail_notification(OpenProject::VERSION::MAJOR > 0 ? 'all' : true)
 
     language 'en'
     status User::STATUSES[:active]

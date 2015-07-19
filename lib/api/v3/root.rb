@@ -37,6 +37,7 @@ module API
       mount ::API::V3::Activities::ActivitiesAPI
       mount ::API::V3::Attachments::AttachmentsAPI
       mount ::API::V3::Categories::CategoriesAPI
+      mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::Priorities::PrioritiesAPI
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI

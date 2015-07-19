@@ -133,7 +133,7 @@ GEM
       json
       simplecov
       url
-    coderay (1.0.9)
+    coderay (1.1.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     color-tools (1.3.0)
@@ -478,7 +478,7 @@ DEPENDENCIES
   carrierwave (~> 0.10.0)
   cocaine
   codecov
-  coderay (~> 1.0.9)
+  coderay (~> 1.1.0)
   color-tools (~> 1.3.0)
   cucumber-rails (~> 1.4.2)
   daemons

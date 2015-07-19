@@ -27,47 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
-  module SyntaxHighlighting
-    class << self
-      attr_reader :highlighter
-      delegate :highlight_by_filename, :highlight_by_language, to: :highlighter
+require 'api/decorators/single'
 
-      def highlighter=(name)
-        if name.is_a?(Module)
-          @highlighter = name
-        else
-          @highlighter = const_get(name)
-        end
-      end
-    end
-
-    module CodeRay
-      require 'coderay'
-      require 'coderay/helpers/file_type'
-
-      class << self
-        # Highlights +text+ as the content of +filename+
-        # Should not return line numbers nor outer pre tag
-        # use CodeRay to scan normal text, since it's smart enough to find
-        # the correct source encoding before passing it to ERB::Util.html_escape
-        def highlight_by_filename(text, filename)
-          language = ::CodeRay::FileType[filename]
-          if language
-            ::CodeRay.scan(text, language).html.html_safe
-          else
-            ERB::Util.h(::CodeRay.scan(text, :text).text)
-          end
+module API
+  module V3
+    module Configuration
+      class ConfigurationRepresenter < ::API::Decorators::Single
+        link :self do
+          {
+            href: api_v3_paths.configuration
+          }
         end
 
-        # Highlights +text+ using +language+ syntax
-        # Should not return outer pre tag
-        def highlight_by_language(text, language)
-          ::CodeRay.scan(text, language).html(line_numbers: :inline, wrap: :span)
+        property :maximum_attachment_file_size,
+                 getter: -> (*) { attachment_max_size.to_i.kilobyte }
+
+        private
+
+        def _type
+          'Configuration'
         end
       end
     end
   end
-
-  SyntaxHighlighting.highlighter = 'CodeRay'
 end

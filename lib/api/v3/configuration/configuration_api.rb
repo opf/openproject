@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,40 +26,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/decorators/single'
+require 'api/v3/configuration/configuration_representer'
 
 module API
   module V3
-    class RootRepresenter < ::API::Decorators::Single
-      link :configuration do
-        {
-          href: api_v3_paths.configuration
-        }
+    module Configuration
+      class ConfigurationAPI < ::API::OpenProjectAPI
+        resources :configuration do
+          get do
+            ConfigurationRepresenter.new(Setting, current_user: current_user)
+          end
+        end
       end
-
-      link :priorities do
-        {
-          href: api_v3_paths.priorities
-        }
-      end
-
-      link :statuses do
-        {
-          href: api_v3_paths.statuses
-        }
-      end
-
-      link :types do
-        {
-          href: api_v3_paths.types
-        }
-      end
-
-      property :instance_name,
-               getter: ->(*) { Setting.app_title }
-
-      property :core_version,
-               getter: ->(*) { OpenProject::VERSION.to_semver }
     end
   end
 end
