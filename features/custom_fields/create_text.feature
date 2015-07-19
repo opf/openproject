@@ -26,8 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Text custom fields can be created
-
   Background:
     Given I am already admin
     And the following languages are active:
@@ -36,8 +36,7 @@ Feature: Text custom fields can be created
     When I go to the custom fields page
     When I follow "New custom field" within "#tab-content-WorkPackageCustomField"
 
-  @wip
-  @javascript
+  @wip @javascript
   Scenario: Creating a text custom field with multiple name and default_value localizations
     When I select "Text" from "custom_field_field_format"
     And I set the english localization of the "name" attribute to "New Field"

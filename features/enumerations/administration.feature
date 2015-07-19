@@ -28,6 +28,7 @@
 
 Feature: Administering the enumerations
 
+  @selenium
   Scenario: Creating an enumeration
     Given I am already admin
 

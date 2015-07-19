@@ -70,6 +70,7 @@ Feature: User deletion
     And I go to the edit page of the user "bob"
     Then I should not see "Delete" within "#toolbar"
 
+  @selenium
   Scenario: Deletablilty settings can be set in the users tab of the settings
     Given I am already admin
     And the "users_deletable_by_admins" setting is set to false

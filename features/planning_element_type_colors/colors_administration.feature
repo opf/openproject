@@ -59,6 +59,7 @@ Feature: Color Administration
       And I should see that "White" is a color
       And "White" should be the last element in the list
 
+  @selenium
   Scenario: Nice error messages help fixing them
      When I go to the admin page
       And I follow "Colors"

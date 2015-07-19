@@ -53,6 +53,7 @@ Feature: Issue edit
       |  description  | Aioli Sali Grande  |
     And I am already logged in as "bob"
 
+  @selenium
   Scenario: User updates an issue successfully
     When I go to the page of the issue "issue1"
     And I select "Update" from the action menu

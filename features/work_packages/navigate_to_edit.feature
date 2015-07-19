@@ -55,6 +55,7 @@ Feature: Navigating to the work package edit page
     When I go to the edit page of the work package called "pe1"
     Then I should be on the edit page of the work package called "pe1"
 
+  @selenium
   Scenario: From the show page of a work package
     When I go to the page of the work package called "pe1"
     And I select "Update" from the action menu

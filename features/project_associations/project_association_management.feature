@@ -155,6 +155,7 @@ Feature: Project Association Management
      Then I should see a notice flash stating "Successful creation."
       And I should see "Visible" below "Waterfall Project"
 
+  @selenium
   Scenario: Editor is able to edit associations
     Given I am already logged in as "Editor"
       And there are the following project associations:
@@ -181,8 +182,9 @@ Feature: Project Association Management
       And I follow "Dependencies"
 
      Then I should not see "Delete Visible"
-
-   Scenario: Project-Admin may delete associations
+     
+  @selenium
+  Scenario: Project-Admin may delete associations
     Given I am already logged in as "Project-Admin"
       And there are the following project associations:
           | Project A  | Project B | Description   |

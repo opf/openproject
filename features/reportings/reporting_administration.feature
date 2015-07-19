@@ -70,6 +70,7 @@ Feature: General Reporting administration
       And I should see "World Domination"
       And I should see "How to stay sane and drink lemonade"
 
+  @selenium
   Scenario: Editing a reporting
     Given there are the following reportings:
           | Project        | Reporting To Project | Reported Project Status Comment |
@@ -89,6 +90,7 @@ Feature: General Reporting administration
      Then I should see "Successful update."
       And I should see "So'n Feuerball"
 
+  @selenium
   Scenario: Editing a reporting with another reporting present
     Given there is 1 project with the following:
           | Name | Careful Boy |
@@ -115,6 +117,7 @@ Feature: General Reporting administration
       And I should see "World Domination"
       And I should see "Hallo Junge"
 
+  @selenium
   Scenario: Deleting a reporting with another reporting present
     Given there are the following reportings:
           | Project        | Reporting To Project | Reported Project Status Comment |
@@ -129,6 +132,7 @@ Feature: General Reporting administration
       And I should not see "World Domination"
       And I should not see "Hallo Junge"
 
+  @selenium
   Scenario: Not confirming Delete
     Given there are the following reportings:
           | Project        | Reporting To Project | Reported Project Status Comment |

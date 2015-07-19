@@ -26,8 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Localized boolean custom fields can be created
-
   Background:
     Given I am already admin
     And the following languages are active:
@@ -41,7 +41,7 @@ Feature: Localized boolean custom fields can be created
     When I go to the custom fields page
     When I follow "New custom field" within "#tab-content-WorkPackageCustomField"
 
-  @javascript @selenium
+  @javascript
   Scenario: Available fields
     When I select "Boolean" from "custom_field_field_format"
     Then there should be the following localizations:

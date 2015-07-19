@@ -52,6 +52,7 @@ Feature: Logging time on work package update
     And there is an activity "design"
     And I am already logged in as "manager"
 
+  @selenium
   Scenario: Logging time
     When I go to the edit page of the work package called "pe1"
      And I fill in the following:

@@ -67,6 +67,7 @@ Feature: Creating work packages
     And the type "Phase2" has the default workflow for the role "manager"
     And I am already logged in as "manager"
 
+  @selenium
   Scenario: Creating a new work package without required fields should give an error-message
     When I go to the new work_package page of the project called "ecookbook"
     And I submit the form by the "Create" button

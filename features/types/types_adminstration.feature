@@ -59,6 +59,7 @@ Feature: Type Administration
       And I should see that "New Phase" is not a milestone and shown in aggregation
       And "New Phase" should be the last element in the list
 
+  @selenium
   Scenario: Nice error messages help fixing them
      When I go to the global index page of types
       And I follow "New type"
@@ -87,6 +88,7 @@ Feature: Type Administration
      When I move "Minor Phase" down by one
      Then "Phase" should be the first element in the list
 
+  @selenium
   Scenario: A standard type cannot be deleted
      When I go to the global index page of types
      Then "Standard" should be the last element in the list

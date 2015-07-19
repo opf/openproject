@@ -48,6 +48,7 @@ Feature: User session
     And I click on "t:button_login" within "#login-form" [i18n]
     Then I should be on the my account page
 
+  @selenium
   Scenario: Autologin works if enabled
     Given the "autologin" setting is set to 1
     Given the "session_ttl_enabled" setting is set to true
@@ -57,6 +58,7 @@ Feature: User session
     And I go to the home page
     Then I should be logged in as "bob"
 
+  @selenium
   Scenario: Autologin does not work if disabled
     Given the "autologin" setting is set to 0
     Given the "session_ttl_enabled" setting is set to true

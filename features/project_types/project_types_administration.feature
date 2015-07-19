@@ -117,6 +117,7 @@ Feature: Administering Project Types
      Then I should see "Successful creation."
       And "Another Project Type" should be the last element in the list
 
+  @selenium
   Scenario: Nice error messages on create to help fixing them
      When I go to the admin page
       And I follow "Project types"
@@ -130,6 +131,7 @@ Feature: Administering Project Types
      Then I should see a notice flash stating "Successful creation."
       And I should see "Some other Project"
 
+  @selenium
   Scenario: Nice error messages on update to help fixing them
      When I go to the admin page
       And I follow "Project types"

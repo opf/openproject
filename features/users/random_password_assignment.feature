@@ -31,6 +31,7 @@ Feature: User Status
     Given I am already admin
     Given there is a user named "bobby"
 
+  @selenium
   Scenario: Existing user can be assigned a random password
     When I assign the user "bobby" a random password
     Then an e-mail should be sent containing "Password"

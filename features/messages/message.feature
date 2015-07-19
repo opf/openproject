@@ -72,6 +72,7 @@ Feature: Issue textile quickinfo links
     When I go to the message page of message "message #1"
     Then I should see "Replies (2)"
 
+  @selenium
   Scenario: Check field value after error message raise when title is empty
     When I go to the boards page of the project called "parent"
     And I follow "New message"
@@ -80,6 +81,7 @@ Feature: Issue textile quickinfo links
     Then there should be an error message
     Then the "message_subject" field should contain "New relase FAQ"
 
+  @selenium
   Scenario: Check field value after error message raise when description is empty
     When I go to the boards page of the project called "parent"
     And I follow "New message"

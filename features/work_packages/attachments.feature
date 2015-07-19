@@ -59,6 +59,7 @@ Feature: Attachments on work packages
     When I go to the page for the issue "work package 1"
     Then I should see "logo.gif" within ".icon-attachment"
 
+  @selenium
   Scenario: Deleting a work package's attachment is possible
     When I go to the page for the issue "work package 1"
     When I click the first delete attachment link

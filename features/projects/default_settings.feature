@@ -52,6 +52,7 @@ Feature: Project Default Settings
     And the "Activity" checkbox should not be checked
     And the "Forums" checkbox should be checked
 
+  @selenium
   Scenario: Creating a new project with default settings
     When I go to the projects admin page
     And I follow "New project"

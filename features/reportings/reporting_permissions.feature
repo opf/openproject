@@ -109,6 +109,7 @@ Feature: Reporting Permissions
 
      Then I should see "Successful creation."
 
+  @selenium
   Scenario: Editing a reporting as a privileged user
     Given I am already logged in as "privileged"
       And there are the following reportings:
@@ -132,7 +133,8 @@ Feature: Reporting Permissions
       And I toggle the "Timelines" submenu
       And I click on "Status reportings"
      Then I should not see "New reporting"
-
+     
+  @selenium
   Scenario: Can see reportings as a privileged user
     Given the user "editor" is a "random guy" in the Project "World Domination"
       And the user "editor" is a "view and edit reportings" in the project "Santas Project"
