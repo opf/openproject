@@ -29,7 +29,7 @@
 
 ##
 # Implements the asynchronous deletion of a local repository.
-Scm::DeleteRepositoryService = Struct.new :repository do
+Scm::DeleteManagedRepositoryService = Struct.new :repository do
   ##
   # Checks if a given repository may be deleted
   # Registers an asynchronous job to delete the repository on disk.
@@ -38,15 +38,17 @@ Scm::DeleteRepositoryService = Struct.new :repository do
     if repository.manageable? && repository.managed?
 
       # Create necessary changes to repository to mark
-      # it as managed by OP, but create asynchronously.
+      # it as managed by OP, but delete asynchronously.
       managed_path = repository.managed_repository_path
       managed_root = repository.managed_root
 
       if File.directory?(managed_path)
         Delayed::Job.enqueue Scm::DeleteRepositoryJob.new(managed_root, managed_path)
       end
+
+      true
+    else
+      false
     end
-    repository.destroy
-    true
   end
 end

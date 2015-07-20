@@ -33,17 +33,15 @@ module OpenProject
   module Scm
     module Adapters
       class Base
+        attr_accessor :url, :root_url
+
         def initialize(url, root_url = nil)
-          @url = url
-          @root_url = root_url
+          self.url = url
+          self.root_url = root_url
         end
 
         def local?
           false
-        end
-
-        def remote?
-          !local?
         end
 
         def available?
@@ -60,14 +58,6 @@ module OpenProject
 
         def vendor
           self.class.name.demodulize
-        end
-
-        def root_url
-          @root_url
-        end
-
-        def url
-          @url
         end
 
         def info
@@ -147,11 +137,6 @@ module OpenProject
         def without_trailling_slash(path)
           path ||= ''
           (path[-1, 1] == '/') ? path[0..-2] : path
-        end
-
-        def retrieve_root_url
-          info = self.info
-          info ? info.root_url : nil
         end
       end
 

@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Changeset, type: :model do
   let(:email) { 'bob@bobbit.org' }
 
-  with_created_subversion_repository do
+  with_virtual_subversion_repository do
     let(:changeset) {
       FactoryGirl.build(:changeset,
                         repository: repository,

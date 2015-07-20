@@ -66,6 +66,8 @@ describe OpenProject::Scm::Adapters::Git do
           .and_return(git_string)
 
         expect(adapter.client_version).to eq(expected_version)
+        expect(adapter.client_available).to be true
+        expect(adapter.client_version_string).to eq(expected_version.join('.'))
       end
     end
 
@@ -94,24 +96,23 @@ describe OpenProject::Scm::Adapters::Git do
   end
 
   describe 'empty repository' do
-    Dir.mktmpdir do |dir|
-      let(:url) { dir }
+    include_context 'with tmpdir'
+    let(:url) { tmpdir }
 
-      before do
-        adapter.initialize_bare_git
-      end
+    before do
+      adapter.initialize_bare_git
+    end
 
-      describe '.check_availability!' do
-        it 'should be marked empty' do
-          expect { adapter.check_availability! }
-            .to raise_error(OpenProject::Scm::Exceptions::ScmEmpty)
-        end
+    describe '.check_availability!' do
+      it 'should be marked empty' do
+        expect { adapter.check_availability! }
+          .to raise_error(OpenProject::Scm::Exceptions::ScmEmpty)
       end
     end
   end
 
   describe 'local repository' do
-    with_filesystem_repository('git', 'git') do |repo_dir|
+    with_git_repository do |repo_dir|
       let(:url) { repo_dir }
 
       it 'reads the git version' do
@@ -288,10 +289,6 @@ describe OpenProject::Scm::Adapters::Git do
             rev = entries[3].lastrev
             expect(rev.identifier).to eq('83ca5fd546063a3c7dc2e568ba3355661a9e2b2c')
             expect(rev.author).to eq('Felix Schäfer <felix@fachschaften.org>')
-          end
-
-          it 'retrieves associated revisions' do
-            entries = adapter.entries('', '83ca5fd')
           end
 
           it 'can be retrieved by tag' do

@@ -85,7 +85,7 @@ describe Repository::Git, type: :model do
   end
 
   describe 'with an actual repository' do
-    with_filesystem_repository('git', 'git') do |repo_dir|
+    with_git_repository do |repo_dir|
       let(:url)      { repo_dir }
       let(:instance) { FactoryGirl.create(:repository_git, path_encoding: encoding, url: url) }
 

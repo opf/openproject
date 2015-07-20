@@ -33,6 +33,10 @@ module OpenProject
       class ScmError < StandardError
       end
 
+      # Exception marking an error in the repository build process
+      class RepositoryBuildError < ScmError
+      end
+
       # Exception marking an error in the execution of a local command.
       class CommandFailed < ScmError
         attr_reader :program

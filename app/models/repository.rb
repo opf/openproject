@@ -31,9 +31,6 @@ class Repository < ActiveRecord::Base
   include Redmine::Ciphering
   include OpenProject::Scm::ManageableRepository
 
-  class BuildFailed < StandardError
-  end
-
   belongs_to :project
   has_many :changesets, order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
 
@@ -83,7 +80,7 @@ class Repository < ActiveRecord::Base
   def scm
     @scm ||= scm_adapter.new(url, root_url,
                              login, password, path_encoding)
-    self.root_url = @scm.root_url if root_url.blank?
+    @scm.root_url = @scm.root_url.presence || root_url
     @scm
   end
 
@@ -271,7 +268,8 @@ class Repository < ActiveRecord::Base
   #
   # @param [Symbol] type     SCM tag to determine the type this repository should be built as
   #
-  # @raise [Repository::BuildFailed] Raised when the instance could not be built
+  # @raise [OpenProject::Scm::RepositoryBuildError]
+  #                                  Raised when the instance could not be built
   #                                  given the parameters.
   # @raise [::NameError] Raised when the given +vendor+ could not be resolved to a class.
   def self.build(project, vendor, params, type)
@@ -298,8 +296,9 @@ class Repository < ActiveRecord::Base
     klass = OpenProject::Scm::Manager.registered[vendor]
 
     if klass.nil?
-      raise BuildFailed.new I18n.t('repositories.errors.disabled_or_unknown_vendor',
-                                   vendor: vendor)
+      raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+        I18n.t('repositories.errors.disabled_or_unknown_vendor', vendor: vendor)
+      )
     else
       klass
     end
@@ -337,7 +336,9 @@ class Repository < ActiveRecord::Base
     if service.call
       true
     else
-      raise BuildFailed.new service.localized_rejected_reason
+      raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+        service.localized_rejected_reason
+      )
     end
   end
 end

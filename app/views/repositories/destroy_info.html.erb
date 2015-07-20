@@ -28,30 +28,32 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: l(:label_confirmation) %>
 <div class="notification-box <%= @repository.managed? ? '-error' : '-warning' %>">
-  <p><strong><%= l('repositories.destroy.title') %></strong><br /></p>
-  <p>
-    <% if @repository.managed? %>
-      <%= l('repositories.destroy.managed_text', project_name: @project.identifier) %>
-      <br/>
-      <%= l('repositories.destroy.managed_path_note', path: @repository.root_url) %>
-    <% else %>
-      <%= simple_format l('repositories.destroy.linked_text',
-                        project_name: @project.identifier, url: @repository.url) %>
-    <% end %>
-  </p>
-  <p>
-    <%= link_to project_repository_path(@project),
-      :confirm => l(:text_are_you_sure),
-      :method => :delete,
-      :class => 'button -highlight' do %>
-      <i class="button--icon icon-delete"></i>
-      <span class="button--text"><%= l(:button_delete) %></span>
-    <% end %>
-    <%= link_to @back_link,
-      :class => 'button' do %>
-      <i class="button--icon icon-close"></i>
-      <span class="button--text"><%= l(:button_cancel) %></span>
-    <% end %>
-  </p>
+  <div class="notification-box--content">
+    <p><strong><%= l('repositories.destroy.title') %></strong><br /></p>
+    <p>
+      <% if @repository.managed? %>
+        <%= l('repositories.destroy.managed_text', project_name: @project.identifier) %>
+        <br/>
+        <%= l('repositories.destroy.managed_path_note', path: @repository.root_url) %>
+      <% else %>
+        <%= simple_format l('repositories.destroy.linked_text',
+                          project_name: @project.identifier, url: @repository.url) %>
+      <% end %>
+    </p>
+    <p>
+      <%= link_to project_repository_path(@project),
+        :confirm => l(:text_are_you_sure),
+        :method => :delete,
+        :class => 'button -highlight' do %>
+        <i class="button--icon icon-delete"></i>
+        <span class="button--text"><%= l(:button_delete) %></span>
+      <% end %>
+      <%= link_to @back_link,
+        :class => 'button' do %>
+        <i class="button--icon icon-close"></i>
+        <span class="button--text"><%= l(:button_cancel) %></span>
+      <% end %>
+    </p>
+  </div>
 </div>
 

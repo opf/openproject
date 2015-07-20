@@ -43,7 +43,9 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
       if repository.save
         repository
       else
-        raise Repository::BuildFailed.new repository.errors.full_messages.join("\n")
+        raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+          repository.errors.full_messages.join("\n")
+        )
       end
     end
   end
@@ -55,7 +57,7 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
   # @return [Boolean] true iff the repository was built
   def build_temporary
     build_guarded do
-     build_with_type(nil)
+      build_with_type(nil)
     end
   end
 
@@ -67,7 +69,7 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
 
   ##
   # Helper to actually build the repository and return it.
-  # May raise +Repository::BuildFailed+ internally.
+  # May raise +OpenProject::Scm::Exceptions::RepositoryBuildError+ internally.
   #
   # @param [Symbol] scm_type Type to build the repository with. May be nil
   #                          during temporary build
@@ -83,7 +85,7 @@ Scm::RepositoryFactoryService = Struct.new :project, :params do
   def build_guarded
     @repository = yield
     @repository.present?
-  rescue Repository::BuildFailed => e
+  rescue OpenProject::Scm::Exceptions::RepositoryBuildError => e
     @build_failed_msg = e.message
     nil
   end

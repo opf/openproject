@@ -26,6 +26,14 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
+##
+# Create a temporary +vendor+ repository from the stored fixture.
+# Automatically extracts and destroys said repository,
+# however does not provide single example isolation
+# due to performance.
+# As we do not write to the repository, we don't need this kind
+# of isolation.
 def with_filesystem_repository(vendor, command = nil, &block)
   repo_dir = File.join(Rails.root, 'tmp', 'test', "#{vendor}_repository")
   fixture = File.join(Rails.root, "spec/fixtures/repositories/#{vendor}_repository.tar.gz")
@@ -52,7 +60,21 @@ def with_filesystem_repository(vendor, command = nil, &block)
   block.call(repo_dir)
 end
 
-def with_created_subversion_repository(&block)
+def with_subversion_repository(&block)
+  with_filesystem_repository('subversion', 'svn', &block)
+end
+
+def with_git_repository(&block)
+  with_filesystem_repository('git', 'git', &block)
+end
+
+##
+# Many specs required any repository to be available,
+# often Filesystem adapter was used, even though
+# no actual filesystem access occured.
+# Instead, we wrap these repository specs in a virtual
+# subversion repository which does not exist on disk.
+def with_virtual_subversion_repository(&block)
   let(:repository) { FactoryGirl.create(:repository_subversion) }
 
   before do

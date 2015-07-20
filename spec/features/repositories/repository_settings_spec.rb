@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/repositories/repository_settings_page'
 
-describe 'Manage repository', type: :feature, js: true do
+describe 'Repository Settings', type: :feature, js: true do
   let(:current_user) { FactoryGirl.create (:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
@@ -62,10 +62,11 @@ describe 'Manage repository', type: :feature, js: true do
     end
 
     it 'deletes the repository' do
+      expect(Repository.exists?(repository)).to be true
       find('a.icon-delete', text: I18n.t(:button_delete)).click
 
       # Confirm the notification warning
-      warning = type == 'managed' ? '-error' : '-warning'
+      warning = (type == 'managed') ? '-error' : '-warning'
       expect(page).to have_selector(".notification-box.#{warning}")
       find('a', text: I18n.t(:button_delete)).click
 
@@ -79,6 +80,9 @@ describe 'Manage repository', type: :feature, js: true do
       expect(selected.text).to eq('--- Please select ---')
       expect(selected[:disabled]).to be_truthy
       expect(selected[:selected]).to be_truthy
+
+      # Project should have no repository
+      expect(Repository.exists?(repository)).to be false
     end
   end
 
@@ -95,37 +99,35 @@ describe 'Manage repository', type: :feature, js: true do
   it_behaves_like 'manages the repository with', 'Git', 'local'
 
   context 'managed repositories' do
-    Dir.mktmpdir do |dir|
-      let(:config) {
-        {
-          Subversion: { manages: File.join(dir, 'svn') },
-          Git:        { manages: File.join(dir, 'git') }
-        }
+    include_context 'with tmpdir'
+    let(:config) {
+      {
+        Subversion: { manages: File.join(tmpdir, 'svn') },
+        Git:        { manages: File.join(tmpdir, 'git') }
       }
+    }
 
-      let(:repository) {
-        repo = Repository.build(
-          project,
-          managed_vendor,
-          # Need to pass AC params here manually to simulate a regular repository build
-          ActionController::Parameters.new({}),
-          :managed
-        )
+    let(:repository) {
+      repo = Repository.build(
+        project,
+        managed_vendor,
+        # Need to pass AC params here manually to simulate a regular repository build
+        ActionController::Parameters.new({}),
+        :managed
+      )
 
-        repo.save!
-        repo
-      }
+      repo.save!
+      repo
+    }
 
-      context 'Subversion' do
-        let(:managed_vendor) { 'Subversion' }
-        it_behaves_like 'manages the repository', 'Subversion', 'managed'
-      end
+    context 'Subversion' do
+      let(:managed_vendor) { 'Subversion' }
+      it_behaves_like 'manages the repository', 'Subversion', 'managed'
+    end
 
-      context 'Git' do
-        let(:managed_vendor) { 'Git' }
-        it_behaves_like 'manages the repository', 'Git', 'managed'
-      end
+    context 'Git' do
+      let(:managed_vendor) { 'Git' }
+      it_behaves_like 'manages the repository', 'Git', 'managed'
     end
   end
-
 end

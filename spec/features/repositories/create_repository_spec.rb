@@ -39,7 +39,8 @@ describe 'Create repository', type: :feature, js: true do
   let(:enabled_scms) { %w[Subversion Git] }
   let(:config) { nil }
 
-  let(:scm_vendor_input) { find('select[name="scm_vendor"]') }
+  let(:scm_vendor_input_css) { 'select[name="scm_vendor"]' }
+  let(:scm_vendor_input) { find(scm_vendor_input_css) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -76,19 +77,26 @@ describe 'Create repository', type: :feature, js: true do
   end
 
   describe 'with submitted vendor form' do
-    let(:scm_types) { page.all('input[name="scm_type"]') }
     before do
       settings_page.visit_repository_settings
-      scm_vendor_input.find('option', text: vendor).select_option
+      find("option[value='#{vendor}']").select_option
     end
 
-    shared_examples "displays only the type" do |type|
+    shared_examples 'displays only the type' do |type|
       it 'should display one type, but expanded' do
-        expect(scm_vendor_input.value).to eq(vendor)
-        expect(scm_types.length).to eq(1)
-        expect(scm_types[0].value).to eq(type)
-        expect(scm_types[0][:selected]).to be_truthy
-        expect(scm_types[0][:disabled]).to be_falsey
+        # There seems to be an issue with how the
+        # select is accessed after the async form loading
+        # Thus we explitly find it here to allow some wait
+        # even though it is available in let
+        scm_vendor = find(scm_vendor_input_css)
+        expect(scm_vendor.value).to eq(vendor)
+
+        page.assert_selector('input[name="scm_type"]', :count => 1)
+        scm_type = find('input[name="scm_type"]')
+
+        expect(scm_type.value).to eq(type)
+        expect(scm_type[:selected]).to be_truthy
+        expect(scm_type[:disabled]).to be_falsey
 
         content = find("#toggleable-attribute-group--content-#{type}")
         expect(content).not_to be_nil
@@ -121,7 +129,7 @@ describe 'Create repository', type: :feature, js: true do
         expect(content[:hidden]).to be_falsey
 
         find('input[type="radio"][value="managed"]').set(true)
-        content = find("#toggleable-attribute-group--content-managed")
+        content = find('#toggleable-attribute-group--content-managed')
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
       end
@@ -155,16 +163,15 @@ describe 'Create repository', type: :feature, js: true do
       it_behaves_like 'displays only the type', 'existing'
 
       context 'and managed repositories' do
-        Dir.mktmpdir do |dir|
-          let(:config) {
-            { Subversion: { manages: dir } }
-          }
-          it_behaves_like 'has managed and other type', 'existing'
-          it_behaves_like 'it can create the managed repository'
-          it_behaves_like 'it can create the repository of type with url',
-                          'existing',
-                          'file:///tmp/svn/foo.svn'
-        end
+        include_context 'with tmpdir'
+        let(:config) {
+          { Subversion: { manages: tmpdir } }
+        }
+        it_behaves_like 'has managed and other type', 'existing'
+        it_behaves_like 'it can create the managed repository'
+        it_behaves_like 'it can create the repository of type with url',
+                        'existing',
+                        'file:///tmp/svn/foo.svn'
       end
     end
 
@@ -180,17 +187,16 @@ describe 'Create repository', type: :feature, js: true do
       end
 
       context 'and managed repositories' do
-        Dir.mktmpdir do |dir|
-          let(:config) {
-            { Git: { manages: dir } }
-          }
+        include_context 'with tmpdir'
+        let(:config) {
+          { Git: { manages: tmpdir } }
+        }
 
-          it_behaves_like 'has managed and other type', 'local'
-          it_behaves_like 'it can create the managed repository'
-          it_behaves_like 'it can create the repository of type with url',
-                          'local',
-                          '/tmp/git/foo.git'
-        end
+        it_behaves_like 'has managed and other type', 'local'
+        it_behaves_like 'it can create the managed repository'
+        it_behaves_like 'it can create the repository of type with url',
+                        'local',
+                        '/tmp/git/foo.git'
       end
     end
   end

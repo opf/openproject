@@ -84,6 +84,17 @@ describe RepositoriesController, type: :controller do
       it_behaves_like 'successful settings response'
     end
 
+    context 'with #destroy' do
+      before do
+        allow(repository).to receive(:destroy).and_return(true)
+        xhr :delete, :destroy
+      end
+
+      it 'redirects to settings' do
+        expect(response).to redirect_to(settings_project_path(id: project.id, tab: 'repository'))
+      end
+    end
+
     context 'with #update' do
       before do
         xhr :put, :update
@@ -94,12 +105,13 @@ describe RepositoriesController, type: :controller do
 
     context 'with #create' do
       before do
-        xhr :post, :create, scm_vendor: 'Subversion', scm_type: 'local', url: 'file:///tmp/repo.svn/'
+        xhr :post, :create, scm_vendor: 'Subversion',
+            scm_type: 'local', url: 'file:///tmp/repo.svn/'
       end
 
       it 'renders a JS redirect' do
-        expect(response.body)
-          .to match(/window\.location = '\/projects\/(#{project.identifier}|#{project.id})\/settings\/repository'/)
+        path = "\/projects\/(#{project.identifier}|#{project.id})\/settings\/repository"
+        expect(response.body).to match(/window\.location = '#{path}'/)
       end
     end
   end

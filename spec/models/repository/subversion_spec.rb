@@ -98,7 +98,7 @@ describe Repository::Subversion, type: :model do
   end
 
   describe 'with an actual repository' do
-    with_filesystem_repository('subversion', 'svn') do |repo_dir|
+    with_subversion_repository do |repo_dir|
       let(:url)      { "file://#{repo_dir}" }
       let(:instance) { FactoryGirl.create(:repository_subversion, url: url) }
 

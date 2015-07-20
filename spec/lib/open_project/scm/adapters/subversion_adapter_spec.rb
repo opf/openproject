@@ -30,9 +30,10 @@
 require 'spec_helper'
 
 describe OpenProject::Scm::Adapters::Subversion do
-  let(:url) { '/tmp/bar.svn' }
+  let(:root_url) { '/tmp/bar.svn' }
+  let(:url) { "file://#{root_url}" }
   let(:config) { {} }
-  let(:adapter) { OpenProject::Scm::Adapters::Subversion.new url }
+  let(:adapter) { OpenProject::Scm::Adapters::Subversion.new url, root_url }
 
   before do
     allow(adapter).to receive(:config).and_return(config)
@@ -57,6 +58,8 @@ describe OpenProject::Scm::Adapters::Subversion do
           .and_return(svn_string)
 
         expect(adapter.client_version).to eq(expected_version)
+        expect(adapter.client_available).to be true
+        expect(adapter.client_version_string).to eq(expected_version.join('.'))
       end
     end
 
@@ -66,9 +69,71 @@ describe OpenProject::Scm::Adapters::Subversion do
     it_behaves_like 'correct client version', "1.6.2\r\n1.8.1\r\n1.9.1", [1, 6, 2]
   end
 
+  describe 'invalid repository' do
+    describe '.check_availability!' do
+      it 'should not be available' do
+        expect(Dir.exists?(url)).to be false
+        expect(adapter).not_to be_available
+        expect { adapter.check_availability! }
+          .to raise_error(OpenProject::Scm::Exceptions::ScmUnavailable)
+      end
+
+      it 'should raise a meaningful error if shell output fails' do
+        error_string = <<-ERR.strip_heredoc
+          svn: E215004: Authentication failed and interactive prompting is disabled; see the --force-interactive option
+          svn: E215004: Unable to connect to a repository at URL 'file:///tmp/bar.svn'
+          svn: E215004: No more credentials or we tried too many times.
+          Authentication failed
+        ERR
+
+        allow(adapter).to receive(:popen3)
+          .and_yield(StringIO.new(''), StringIO.new(error_string))
+
+        expect { adapter.check_availability! }
+          .to raise_error(OpenProject::Scm::Exceptions::ScmUnauthorized)
+      end
+    end
+  end
+
+  describe 'empty repository' do
+    include_context 'with tmpdir'
+    let(:root_url) { tmpdir }
+
+    describe '.create_empty_svn' do
+      context 'with valid root_url' do
+        it 'should create the repository' do
+          expect(Dir.exists?(root_url)).to be true
+          expect(Dir.entries(root_url).length).to eq 2
+          expect { adapter.create_empty_svn }.not_to raise_error
+
+          expect(Dir.exists?(root_url)).to be true
+          expect(Dir.entries(root_url).length).to be >= 5
+        end
+      end
+      context 'with non-existing root_url' do
+        let(:root_url) { File.join(tmpdir, 'foo', 'bar') }
+
+        it 'should fail' do
+          expect { adapter.create_empty_svn }
+            .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+
+          expect(Dir.exists?(root_url)).to be false
+        end
+      end
+    end
+
+    describe '.check_availability!' do
+      it 'should be marked empty' do
+        adapter.create_empty_svn
+        expect { adapter.check_availability! }
+          .to raise_error(OpenProject::Scm::Exceptions::ScmEmpty)
+      end
+    end
+  end
+
   describe 'local repository' do
-    with_filesystem_repository('subversion', 'svn') do |repo_dir|
-      let(:url) { "file://#{repo_dir}" }
+    with_subversion_repository do |repo_dir|
+      let(:root_url) { repo_dir }
 
       it 'reads the Subversion version' do
         expect(adapter.client_version.length).to be >= 3
@@ -202,6 +267,7 @@ describe OpenProject::Scm::Adapters::Subversion do
 
           expect(revisions.length).to eq(1)
           expect(revisions[0].identifier).to eq('11')
+          expect(revisions[0].format_identifier).to eq('11')
 
           paths = revisions[0].paths
           expect(paths.length).to eq(2)
