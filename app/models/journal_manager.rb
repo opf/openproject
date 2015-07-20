@@ -28,7 +28,9 @@
 #++
 
 class JournalManager
-  cattr_accessor :send_notification, instance_accessor: false
+  cattr_accessor :send_notification, instance_accessor: false do
+    true
+  end
 
   def self.is_journalized?(obj)
     not obj.nil? and obj.respond_to? :journals
