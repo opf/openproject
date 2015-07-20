@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,40 +26,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/decorators/single'
+require 'spec_helper'
 
-module API
-  module V3
-    class RootRepresenter < ::API::Decorators::Single
-      link :configuration do
-        {
-          href: api_v3_paths.configuration
-        }
+describe ::API::V3::Configuration::ConfigurationRepresenter do
+  include ::API::V3::Utilities::PathHelper
+
+  let(:represented) {
+    double('Settings',
+           attachment_max_size: '1024')
+  }
+  let(:current_user) { FactoryGirl.build_stubbed(:user) }
+  let(:representer) { described_class.new(represented, current_user: current_user) }
+
+  context 'generation' do
+    subject { representer.to_json }
+
+    describe '_links' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.configuration }
       end
+    end
 
-      link :priorities do
-        {
-          href: api_v3_paths.priorities
-        }
-      end
+    it 'indicates its type' do
+      is_expected.to be_json_eql('Configuration'.to_json).at_path('_type')
+    end
 
-      link :statuses do
-        {
-          href: api_v3_paths.statuses
-        }
-      end
-
-      link :types do
-        {
-          href: api_v3_paths.types
-        }
-      end
-
-      property :instance_name,
-               getter: ->(*) { Setting.app_title }
-
-      property :core_version,
-               getter: ->(*) { OpenProject::VERSION.to_semver }
+    it 'indicates maximumAttachmentFileSize in Bytes' do
+      is_expected.to be_json_eql((1024 * 1024).to_json).at_path('maximumAttachmentFileSize')
     end
   end
 end

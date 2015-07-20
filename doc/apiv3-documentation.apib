@@ -41,6 +41,10 @@ in the [Collections Section](#collections).
 # Authentication
 
 For now the API only supports two authentication schemes: session based authentication and basic auth.
+Depending on the settings of the OpenProject instance many resources can be accessed without being authenticated.
+In case the instance requires authentication on all requests the client will receive an **HTTP 401** status code
+in response to any request.
+Otherwise unauthenticated clients have all the permissions of the anonymous user.
 
 ## Session-based Authentication
 
@@ -460,6 +464,57 @@ Cursor based pagination is therefore less suited for use cases where you want to
                     ]
                 }
             }
+
+# Group Root
+
+The root resource contains links to available resources in the API. By following these links
+a client should be able to discover further resources in the API.
+
+*Note: Currently there are no list actions for projects and work packages available.*
+*A client will therefore have to know links to these resources and can't (yet) discover them.*
+
+| Link                | Description                                      | Type          | Nullable | Supported operations |
+|:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
+| configuration       | The configuration of this OpenProject instance   | Configuration |          | READ                 |
+| priorities          | List of available priorities                     | Collection    |          | READ                 |
+| statuses            | List of available work package statuses          | Collection    |          | READ                 |
+| types               | List of available work package types             | Collection    |          | READ                 |
+
+## Local Properties
+| Property                  | Description                                          | Type       | Condition                         | Supported operations |
+| :-----------------------: | ---------------------------------------------------- | ---------- | --------------------------------- | -------------------- |
+| instanceName              | The name of the OpenProject instance                 | String     |                                   | READ                 |
+| coreVersion               | The OpenProject core version number for the instance | String     |                                   | READ                 |
+
+## Root [/api/v3]
+
++ Model
+    + Body
+
+            {
+                "_links" : {
+                    "configuration" : {
+                        "href" : "/api/v3/configuration"
+                    },
+                    "priorities" : {
+                        "href" : "/api/v3/priorities"
+                    },
+                    "statuses" : {
+                        "href" : "/api/v3/statuses"
+                    },
+                    "types" : {
+                        "href" : "/api/v3/types"
+                    }
+                },
+                "instanceName" : "My own OpenProject",
+                "coreVersion" : "4.3.0"
+            }
+
+## View root [GET]
+
++ Response 200 (application/hal+json)
+
+    [Root][]
 
 # Group Activities
 
@@ -1068,6 +1123,41 @@ Instead the `fileName` inside the JSON of the metadata part will be used.
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified category does not exist."
             }
+
+# Group Configuration
+
+The configuration endpoint allows to read certain configuration parameters of the OpenProject instance.
+Note that there is no 1:1 relationship between this endpoint and the settings you can find in your settings.yml.
+
+For now this endpoint will only allow access to settings deemed useful for a client to know in general.
+
+| Link                | Description                                      | Type          | Nullable | Supported operations |
+|:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
+| self                | The configuration                                | Configuration |          | READ                 |
+
+## Local Properties
+| Property                  | Description                                        | Type       | Condition                         | Supported operations |
+| :-----------------------: | -------------------------------------------------- | ---------- | --------------------------------- | -------------------- |
+| maximumAttachmentFileSize | The maximum allowed size of an attachment in Bytes | Integer    |                                   | READ                 |
+
+## Configuration [/api/v3/configuration]
+
++ Model
+    + Body
+
+            {
+                "_type": "Configuration",
+                "_links": {
+                    "href": "/api/v3/configuration"
+                },
+                "maximumAttachmentFileSize": 5242880
+            }
+
+## View configuration [GET]
+
++ Response 200 (application/hal+json)
+
+    [Configuration][]
 
 # Group Forms
 
@@ -3050,6 +3140,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | unwatch             | Remove current user from WP watchers                                 | logged in; watching               |
 | addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher       |
 | removeWatcher       | Remove any user from WP watchers                                     | **Permission**: delete watcher    |
+| addAttachment       | Attach a file to the WP                                              | **Permission**: edit work package |
 
 ## Linked Properties
 
@@ -3147,6 +3238,10 @@ the human readable name of custom fields.*
                     },
                     "attachments": {
                         "href": "/api/v3/work_packages/1528/attachments"
+                    },
+                    "addAttachment": {
+                        "href": "/api/v3/work_packages/1528/attachments",
+                        "method": "post"
                     },
                     "author": {
                         "href": "/api/v3/users/1",

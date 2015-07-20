@@ -435,6 +435,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it 'embeds the attachments as collection' do
           is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/attachments/_type')
         end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'addAttachment' }
+          let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
+        end
+
+        it 'addAttachments is a post link' do
+          is_expected.to be_json_eql('post'.to_json).at_path('_links/addAttachment/method')
+        end
       end
 
       context 'when the user is not watching the work package' do

@@ -38,7 +38,7 @@ module OpenProject
         'https://www.openproject.org/help'
       end
 
-      def versioned_name; "#{app_name} #{Redmine::VERSION.to_semver}" end
+      def versioned_name; "#{app_name} #{OpenProject::VERSION.to_semver}" end
 
       # Creates the url string to a specific Redmine issue
       def issue(issue_id)
