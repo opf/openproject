@@ -15,7 +15,7 @@
     <ul>
       <li data-ng-repeat="file in files | filter:{type:'!directory'}">
         <attachment-icon type="file.type"></attachment-icon>
-        <input type="text" data-ng-model="file.description" placeholder="{{::file.name}}" title="{{::I18n.t('js.label_add_description', {file: file.name})}}">
+        {{file.name}}
         <a data-ng-click="remove(file)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</a>
       </li>
     </ul>

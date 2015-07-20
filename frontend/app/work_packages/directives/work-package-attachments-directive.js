@@ -58,10 +58,9 @@ module.exports = function(workPackageAttachmentsService, I18n) {
     }
 
     scope.remove = function(file) {
-      workPackageAttachmentsService.remove().then(function() {
-        _.remove(scope.files, function(element) {
-          return file === element;
-        });
+      workPackageAttachmentsService.remove(file).then(function(file) {
+        _.remove(scope.attachments, file);
+        _.remove(scope.files, file);
       });
     };
 

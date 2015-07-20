@@ -75,10 +75,18 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
     return attachments.promise;
   },
   remove = function(fileOrAttachment) {
+
     var removal = $q.defer();
-    $timeout(function() {
-      removal.resolve();
-    }, 1000);
+    if (angular.isObject(fileOrAttachment._links)) {
+      var path = fileOrAttachment._links.self.href;
+      $http.delete(path).success(function() {
+        removal.resolve(fileOrAttachment);
+      }).error(function(err) {
+        removal.reject(err);
+      })
+    } else {
+      removal.resolve(fileOrAttachment);
+    }
     return removal.promise;
   };
 
