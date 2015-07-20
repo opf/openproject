@@ -29,6 +29,8 @@
 // NOTE: these are demo ski
 
 //nm - notification messages
+//pb - progress bar
+
 $nm-font-size: rem-calc(13px)
 $nm-border-radius: rem-calc(2px)
 $nm-box-padding: rem-calc(10px 35px 10px 35px)
@@ -50,6 +52,14 @@ $nm-color-warning-background: #f4f4aa
 $nm-color-border: #8fc0db
 $nm-color-background: #e3f5ff
 $nm-padding-box: rem-calc(10px)
+
+$nm-pb-border-color: $nm-color-border
+$nm-pb-color: $primary-color-dark
+$nm-pb-regress-color: whiteSmoke
+$nm-pb-border-radius: rem-calc(6)
+$nm-pb-height: rem-calc(20)
+
+$nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 %nm-icon-error
   @extend .icon-attention2:before
@@ -159,3 +169,45 @@ $nm-padding-box: rem-calc(10px)
   &.ng-leave.ng-leave-active
     opacity: 0
 
+// upload notification styles
+%progress-styles
+  appearance: none
+  border-radius: $nm-pb-border-radius
+  height: $nm-pb-height
+  animation: animate-stripes 5s linear infinite
+  background-color: $nm-pb-regress-color
+  border: rem-calc(1) solid $nm-pb-border-color
+  color: $nm-pb-color
+  margin: 0
+
+.notification-box--toggle-message
+  font-size: rem-calc(16)
+  margin: rem-calc(5 0 15 0)
+
+.notification-box--uploads
+  list-style: none
+  padding: 0
+  margin: 0
+
+.notification-box--uploads-element
+  margin: rem-calc(5 0)
+  .filename
+    font-weight: bold
+
+.notification-box--upload-status
+  font-size: rem-calc(18)
+
+.notification-box.-upload
+  padding: $nm-upload-box-padding
+
+.notification-box--content
+  width: 100%
+  progress[value]
+    @extend %progress-styles
+    &::-moz-progress-bar
+      border-radius: $nm-pb-border-radius
+    &::-webkit-progress-bar
+      background-color: $nm-pb-regress-color
+      border-radius: $nm-pb-border-radius
+    &::-webkit-progress-value
+      border-radius: $nm-pb-border-radius
