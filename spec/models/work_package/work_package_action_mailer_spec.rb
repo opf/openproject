@@ -31,14 +31,17 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe ActionMailer::Base do
     let(:user_1) {
-      FactoryGirl.create(:user,
-                         mail: 'dlopper@somenet.foo')
+      FactoryGirl.build(:user,
+                        mail: 'dlopper@somenet.foo',
+                        member_in_project: project)
     }
     let(:user_2) {
-      FactoryGirl.create(:user,
-                         mail: 'jsmith@somenet.foo')
+      FactoryGirl.build(:user,
+                        mail: 'jsmith@somenet.foo',
+                        member_in_project: project)
     }
-    let(:work_package) { FactoryGirl.build(:work_package) }
+    let(:project) { FactoryGirl.create(:project) }
+    let(:work_package) { FactoryGirl.build(:work_package, project: project) }
 
     before do
       ActionMailer::Base.deliveries.clear
