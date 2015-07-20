@@ -27,7 +27,6 @@
 //++
 
 module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $timeout, $http) {
-  var currentUploads = [];
 
   var upload = function(workPackage, files) {
     var uploadPath = workPackage.links.addAttachment.url();
@@ -54,13 +53,16 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
     });
 
     var notification = NotificationsService.addWorkPackageUpload(message, uploads);
-    currentUploads.push(notification);
+    var allUploadsDone = $q.defer();
     $q.all(uploads).then(function() {
       $timeout(function() { // let the notification linger for a bit
         NotificationsService.remove(notification);
+        allUploadsDone.resolve();
       }, 700);
-      _.remove(currentUploads, notification);
+    }, function(err) {
+      allUploadsDone.reject();
     });
+    return allUploadsDone.promise;
   },
   load = function(workPackage) {
     var path = workPackage.links.attachments.url(),

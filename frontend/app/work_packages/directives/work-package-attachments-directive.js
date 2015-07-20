@@ -37,9 +37,9 @@ module.exports = function(workPackageAttachmentsService, I18n) {
     var workPackage = scope.workPackage(),
         upload = function(event, workPackage) {
           event.stopPropagation();
-          workPackageAttachmentsService.upload(workPackage, scope.files);
-          scope.files = [];
-          loadAttachments();
+          workPackageAttachmentsService.upload(workPackage, scope.files).then(function() {
+            scope.files = [];
+          }).finally(loadAttachments);
         },
         loadAttachments = function() {
           if (!editMode(attrs)) {
