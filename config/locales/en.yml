@@ -1287,8 +1287,9 @@ en:
       local: "Link existing local repository"
       existing: "Link existing repository"
       managed: "Create new repository in OpenProject"
-    update_settings_successful: "The settings have been sucessfully saved."
-    url: "URL to repository"
+    storage:
+      not_available: "Disk storage consumption is not available for this repository."
+      title: "Required disk storage"
     subversion:
       existing_title: "Existing Subversion repository"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
@@ -1300,6 +1301,8 @@ en:
       managed_url: "Managed URL"
       password: "Repository Password"
       username: "Repository username"
+    update_settings_successful: "The settings have been sucessfully saved."
+    url: "URL to repository"
 
   search_input_placeholder: "search ..."
 

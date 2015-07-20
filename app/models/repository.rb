@@ -49,6 +49,10 @@ class Repository < ActiveRecord::Base
   validates_length_of :password, maximum: 255, allow_nil: true
   validate :validate_enabled_scm, on: :create
 
+  acts_as_countable :required_project_storage,
+                    label: :label_repository,
+                    countable: :updated_required_storage
+
   def changes
     Change.where(changeset_id: changesets).joins(:changeset)
   end
@@ -163,6 +167,13 @@ class Repository < ActiveRecord::Base
   # Returns a path relative to the url of the repository
   def relative_path(path)
     path
+  end
+
+  def updated_required_storage
+    if scm.has_storage?
+      storage = scm.updated_storage_information(self)
+      storage[:bytes_used] unless storage.nil?
+    end
   end
 
   # Finds and returns a revision with a number or the beginning of a hash

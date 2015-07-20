@@ -34,6 +34,7 @@ module OpenProject
     module Adapters
       class Subversion < Base
         include LocalClient
+        include Quota::RepoSize
 
         def client_command
           @client_command ||= self.class.config[:client_command] || 'svn'
@@ -59,8 +60,23 @@ module OpenProject
           capture_out('--version')
         end
 
+        ##
+        # Subversion may be local or remote,
+        # for now determine it by the URL type.
+        def local?
+          url.start_with?('file://')
+        end
+
+        ##
+        # Returns the local repository path
+        # (if applicable).
+        def local_repository_path
+          root_url.sub('file://', '')
+        end
+
         def initialize(url, root_url = nil, login = nil, password = nil, _path_encoding = nil)
           super(url, root_url)
+
           @login = login
           @password = password
         end

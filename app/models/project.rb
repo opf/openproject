@@ -93,6 +93,9 @@ class Project < ActiveRecord::Base
                 author: nil,
                 datetime: :created_on
 
+  acts_as_countable :required_project_storage,
+                    countable: [:work_packages, :repository]
+
   attr_protected :status
 
   validates_presence_of :name, :identifier
@@ -927,6 +930,19 @@ class Project < ActiveRecord::Base
       subproject.send :archive!
     end
     update_attribute :status, STATUS_ARCHIVED
+  end
+
+  def required_storage
+    Rails.cache.fetch("project##{id}/project_storage", expires_in: 1.hour) do
+      storage, = count_for(:required_project_storage)
+      storage
+    end
+  end
+
+  def self.total_projects_size
+    Rails.cache.fetch('projects/total_projects_size', expires_in: 1.hour) do
+      Project.all.map{ |p| p.required_storage[:total] }.sum
+    end
   end
 
   protected

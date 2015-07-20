@@ -60,13 +60,36 @@ See doc/COPYRIGHT.rdoc for more details.
   </fieldset>
 <% end %>
 &nbsp;
-
+<div class="attributes-group">
+  <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text"><%= l(:label_information) %></h3>
+      </div>
+  </div>
+  <dl class="attributes-key-value">
+      <dt class="attributes-key-value--key">Count</dt>
+      <dd class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value -text">
+              <span title="Count"><%= Project.count %> projects</span>
+          </div>
+      </dd>
+      <dt class="attributes-key-value--key">Storage</dt>
+      <dd class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value -text">
+              <span title="0">
+                <%= number_to_human_size(Project.total_projects_size, precision: 2) %>
+              </span>
+          </div>
+      </dd>
+  </dl>
+</div>
 <div class="autoscroll">
   <table class="list">
     <thead>
       <tr>
         <th><%=  Project.model_name.human %></th>
         <th><%=  Project.human_attribute_name(:is_public) %></th>
+        <th><%=  l('repositories.storage.title') %></th>
         <th><%=  Project.human_attribute_name(:created_on) %></th>
         <th></th>
       </tr>
@@ -76,6 +99,8 @@ See doc/COPYRIGHT.rdoc for more details.
         <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
           <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
           <td align="center"><%= checked_image project.is_public? %></td>
+          <td align="center"><%= render partial: '/storage/required_storage',
+                                        locals: { storage: project.required_storage} %></td>
           <td align="center"><%= format_date(project.created_on) %></td>
           <td class="buttons">
             <%= link_to(l(:button_archive),

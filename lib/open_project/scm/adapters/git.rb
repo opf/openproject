@@ -34,6 +34,7 @@ module OpenProject
     module Adapters
       class Git < Base
         include LocalClient
+        include Quota::RepoSize
 
         SCM_GIT_REPORT_LAST_COMMIT = true
 
