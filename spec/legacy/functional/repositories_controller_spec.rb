@@ -119,15 +119,6 @@ describe RepositoriesController, type: :controller do
       assert_template 'committers'
 
       assert_tag :td,
-                 content: 'dlopper',
-                 sibling: {
-                   tag: 'td',
-                   child: { tag: 'select', attributes: { name: %r{^committers\[\d+\]\[\]$ } },
-                            child: { tag: 'option', content: 'Dave Lopper',
-                                     attributes: { value: '3', selected: 'selected' } }
-                          }
-                 }
-      assert_tag :td,
                  content: 'foo',
                  sibling: {
                    tag: 'td',

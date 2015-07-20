@@ -107,15 +107,13 @@ class RepositoriesController < ApplicationController
   end
 
   def destroy
-    @repository = @project.repository
-    unless @repository.nil?
-      service = Scm::DeleteRepositoryService.new(@repository)
-      if service.call
-        flash[:notice] = l 'repositories.delete_sucessful'
-      else
-        flash[:error] = l service.localized_rejected_reason
-      end
+    begin
+      @project.repository.destroy
+      flash[:notice] = I18n.t('repositories.delete_sucessful')
+    rescue OpenProject::Scm::Exceptions::RepositoryUnlinkError => e
+      flash[:error] = e.message
     end
+
     redirect_to settings_repository_tab_path
   end
 

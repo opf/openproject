@@ -37,6 +37,10 @@ module OpenProject
       class RepositoryBuildError < ScmError
       end
 
+      # Exception marking an error in the repository teardown process
+      class RepositoryUnlinkError < ScmError
+      end
+
       # Exception marking an error in the execution of a local command.
       class CommandFailed < ScmError
         attr_reader :program

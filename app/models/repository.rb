@@ -35,7 +35,10 @@ class Repository < ActiveRecord::Base
   has_many :changesets, order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
 
   before_save :sanitize_urls
+
+  # Managed repository lifetime
   after_save :create_managed_repository, if: Proc.new { |repo| repo.managed? }
+  after_destroy :delete_managed_repository, if: Proc.new { |repo| repo.managed? }
 
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
@@ -337,6 +340,20 @@ class Repository < ActiveRecord::Base
       true
     else
       raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+        service.localized_rejected_reason
+      )
+    end
+  end
+
+  ##
+  # Destroy local managed repository request when the built instance
+  # is managed by OpenProject
+  def delete_managed_repository
+    service = Scm::DeleteManagedRepositoryService.new(self)
+    if service.call
+      true
+    else
+      raise OpenProject::Scm::Exceptions::RepositoryUnlinkError.new(
         service.localized_rejected_reason
       )
     end
