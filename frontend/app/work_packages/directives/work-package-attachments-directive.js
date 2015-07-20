@@ -26,30 +26,64 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(workPackageAttachmentsService) {
+module.exports = function(workPackageAttachmentsService, I18n) {
 
-  var attachmentsController = function(scope) {
+  var editMode = function(attrs) {
+    return typeof attrs.edit !== 'undefined';
+  }
+
+  var attachmentsController = function(scope, element, attrs, fieldCtrl) {
+
+    var workPackage = scope.workPackage(),
+        upload = function(event, workPackage) {
+          event.stopPropagation();
+          workPackageAttachmentsService.upload(workPackage, scope.files);
+          scope.files = [];
+          loadAttachments();
+        },
+        loadAttachments = function() {
+          if (!editMode(attrs)) {
+            return;
+          }
+          scope.loading = true;
+          workPackageAttachmentsService.load(workPackage).then(function(attachments) {
+            scope.attachments = attachments;
+          }).finally(function() {
+            scope.loading = false;
+          });
+        }
+
+    scope.instantUpload = function() {
+      scope.$emit('uploadPendingAttachments', workPackage);
+    }
 
     scope.remove = function(file) {
-      _.remove(scope.files, function(element) {
-        return file === element;
+      workPackageAttachmentsService.remove().then(function() {
+        _.remove(scope.files, function(element) {
+          return file === element;
+        });
       });
     };
 
-    scope.removeAll = function() {
-      scope.files = [];
-    };
+    scope.$on('uploadPendingAttachments', upload);
+    scope.I18n = I18n;
 
-    scope.$on('uploadPendingAttachments', function(e, workPackage) {
-      workPackageAttachmentsService.upload(workPackage, scope.files);
-      scope.files = [];
-    });
+    loadAttachments();
   }
 
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/attachments.html',
+    reqire: '^workPackageField',
+    scope: {
+      workPackage: '&'
+    },
+    templateUrl: function(element, attrs) {
+      if (editMode(attrs)) {
+        return '/templates/work_packages/attachments-edit.html';
+      }
+      return '/templates/work_packages/attachments.html';
+    },
     link: attachmentsController
   };
 };

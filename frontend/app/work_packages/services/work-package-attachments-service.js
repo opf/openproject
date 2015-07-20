@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $timeout) {
+module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $timeout, $http) {
   var currentUploads = [];
 
   var upload = function(workPackage, files) {
@@ -56,18 +56,34 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
     var notification = NotificationsService.addWorkPackageUpload(message, uploads);
     currentUploads.push(notification);
     $q.all(uploads).then(function() {
-      $timeout(function() {
+      $timeout(function() { // let the notification linger for a bit
         NotificationsService.remove(notification);
       }, 700);
+      _.remove(currentUploads, notification);
     });
   },
-  getCurrentNotification = function(notification) {
-    return _.find(currentUploads, notification);
+  load = function(workPackage) {
+    var path = workPackage.links.attachments.url(),
+        attachments = $q.defer();
+    $http.get(path).success(function(response) {
+      attachments.resolve(response._embedded.elements)
+    }).error(function(err) {
+      attachments.reject(err);
+    });
+    return attachments.promise;
+  },
+  remove = function(fileOrAttachment) {
+    var removal = $q.defer();
+    $timeout(function() {
+      removal.resolve();
+    }, 1000);
+    return removal.promise;
   };
 
 
   return {
     upload: upload,
-    getCurrentNotification: getCurrentNotification
+    remove: remove,
+    load: load
   };
 };

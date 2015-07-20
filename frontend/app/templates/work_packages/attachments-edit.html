@@ -1,0 +1,24 @@
+<div class="work-packages--attachments">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">
+        {{ ::I18n.t('js.label_attachments') }}
+        <span class="loading" data-ng-show="loading">loading</span>
+      </h3>
+    </div>
+  </div>
+  <div data-ngf-drop data-ng-model="files" data-ngf-select class="work-package--attachments--drop-box"
+       data-ngf-multiple="true" data-ngf-change="instantUpload()">
+    <p class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
+    <p class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
+  </div>
+  <div class="work-package--attachments--files" data-ng-show="attachments.length > 0">
+    <ul>
+      <li data-ng-repeat="attachment in attachments">
+        <attachment-icon type="attachment.contentType"></attachment-icon>
+        {{attachment.fileName}}
+        <a data-ng-click="remove(attachment)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</a>
+      </li>
+    </ul>
+  </div>
+</div>

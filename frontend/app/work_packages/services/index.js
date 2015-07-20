@@ -78,5 +78,6 @@ angular.module('openproject.workPackages.services')
     'NotificationsService',
     '$q',
     '$timeout',
+    '$http',
     require('./work-package-attachments-service')
   ]);

@@ -97,6 +97,7 @@ angular.module('openproject.workPackages.directives')
   ])
   .directive('workPackageAttachments', [
     'WorkPackageAttachmentsService',
+    'I18n',
     require('./work-package-attachments-directive')
   ]);
 
