@@ -30,6 +30,7 @@
     "karma-junit-reporter": "~0.2.2",
     "karma-mocha": "~0.1.3",
     "karma-phantomjs-launcher": "~0.1.4",
+    "karma-sauce-launcher": "^0.2.10",
     "karma-webpack": "^1.5.0",
     "mocha": "~1.18.2",
     "mocha-jenkins-reporter": "^0.1.2",
@@ -63,7 +64,7 @@
   },
   "scripts": {
     "test": "npm run karma && npm run protractor",
-    "karma": "./node_modules/karma/bin/karma start --single-run --browsers Firefox,PhantomJS",
+    "karma": "./node_modules/karma/bin/karma start karma.conf-ci.js",
     "protractor": "./node_modules/gulp/bin/gulp.js tests:protractor",
     "postinstall": "./node_modules/bower/bin/bower install --config.interactive=false"
   }

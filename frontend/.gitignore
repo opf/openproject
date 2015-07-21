@@ -4,5 +4,6 @@
 /node_modules
 /npm-debug.log
 /public/**/*
+/sauce.json
 /tests/unit/reports
 /tmp
