@@ -5,28 +5,28 @@ pt-BR:
         position: Posição
         remaining_hours: Horas restantes
         story_points: Pontos de história
-        backlogs_work_package_type: Backlog type
+        backlogs_work_package_type: Tipo de backlog
     errors:
       models:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: can only contain the IDs of work packages in the current sprint
-              must_block_at_least_one_work_package: must contain the ID of at least one ticket
+              can_only_contain_work_packages_of_current_sprint: Só pode conter as identificações dos pacotes de trabalho do sprint atual
+              must_block_at_least_one_work_package: deve conter a identificação de pelo menos um tíquete
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the story's version"
+              task_version_must_be_the_same_as_story_version: deve ser o mesmo que a versão da história
             parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: 'Type must be one of the following: %{type_names}'
+              parent_child_relationship_across_projects: "é inválido porque o pacote de trabalho '%{work_package_name}' é uma tarefa do backlog e, portanto, não pode ter um pai fora do projeto atual."
+              type_must_be_one_of_the_following: 'Tipo deve ser um dos seguintes: %{type_names}'
         sprint:
-          cannot_end_before_it_starts: Sprint cannot end before it starts
+          cannot_end_before_it_starts: Sprint não pode terminar antes de começar
   backlogs:
     add_new_story: Nova história
     any: qualquer
-    backlog_settings: Backlog Settings
+    backlog_settings: Configurações de backlog
     burndown_graph: Gráfico de Burndown
     card_paper_size: Tamanho do papel para impressão de cartões
-    chart_options: Active series
+    chart_options: Séries ativas
     close: Fechar
     column_width: 'Largura da Coluna:'
     date: Dia
@@ -34,19 +34,19 @@ pt-BR:
     generating_chart: Gerando gráfico...
     hours: Horas
     impediment: Impedimento
-    label_versions_default_fold_state: Show versions folded
+    label_versions_default_fold_state: Mostrar versões de modo fechado
     work_package_is_closed: Pacote de trabalho está pronto, quando
-    label_is_done_status: 'Status %{status_name} means done'
-    no_burndown_data: 'No burndown data available. It is necessary to have the sprint start- and end dates set.'
+    label_is_done_status: 'O estado %{status_name} significa pronto'
+    no_burndown_data: Não há dados de burndown disponíveis. É necessário ter o conjunto de datas de início e fim de sprint.
     points: Pontos
-    positions_could_not_be_rebuilt: Positions could not be rebuilt.
-    positions_rebuilt_successfully: Positions rebuilt successfully.
+    positions_could_not_be_rebuilt: Posições não poderiam ser reconstruídas.
+    positions_rebuilt_successfully: Posições reconstruídas com sucesso.
     properties: Propriedades
     rebuild: Reconstruir
-    rebuild_positions: Rebuild positions
+    rebuild_positions: Reconstruir as posições
     remaining_hours: Horas restantes
     remaining_hours_ideal: Horas restantes (ideal)
-    show_burndown_chart: Burndown Chart
+    show_burndown_chart: Gráfico de Burndown
     story: História
     story_points: Pontos de história
     story_points_ideal: Pontos de história (ideal)
@@ -56,24 +56,24 @@ pt-BR:
     x_more: '%{count} mais...'
   backlogs_active: ativo
   backlogs_any: qualquer
-  backlogs_card_specification: Label types for card printing
-  backlogs_inactive: Project shows no activity
-  backlogs_points_burn_direction: Points burn up/down
-  backlogs_product_backlog: Product backlog
-  backlogs_product_backlog_is_empty: Product backlog is empty
-  backlogs_product_backlog_unsized: The top of the product backlog has unsized stories
-  backlogs_sizing_inconsistent: Story sizes vary against their estimates
-  backlogs_sprint_notes_missing: Closed sprints without retrospective/review notes
-  backlogs_sprint_unestimated: Closed or active sprints with unestimated stories
-  backlogs_sprint_unsized: Project has stories on active or recently closed sprints that were not sized
+  backlogs_card_specification: Tipos de etiqueta para impressão de cartões
+  backlogs_inactive: Projeto não mostra nenhuma atividade
+  backlogs_points_burn_direction: Pontos burn up/down
+  backlogs_product_backlog: Backlog do produto
+  backlogs_product_backlog_is_empty: Backlog do produto está vazio
+  backlogs_product_backlog_unsized: O topo do backlog de produto tem histórias não dimensionadas
+  backlogs_sizing_inconsistent: Tamanhos das histórias contrastam com suas estimativas
+  backlogs_sprint_notes_missing: Sprints fechados sem notas de revisão/retrospectiva
+  backlogs_sprint_unestimated: Sprints ativos ou fechados com histórias não estimadas
+  backlogs_sprint_unsized: Projeto tem histórias em sprints ativos ou recentemente fechados que não tem tamanho
   backlogs_sprints: Sprints
   backlogs_story: História
-  backlogs_story_type: Story types
+  backlogs_story_type: Tipos de história
   backlogs_task: Tarefa
   backlogs_task_type: Tipo de tarefa
-  backlogs_velocity_missing: No velocity could be calculated for this project
-  backlogs_velocity_varies: Velocity varies significantly over sprints
-  backlogs_wiki_template: Template for sprint wiki page
+  backlogs_velocity_missing: Nenhuma velocidade foi calculada para este projeto
+  backlogs_velocity_varies: Velocidade varia significativamente ao longo de sprints
+  backlogs_wiki_template: Modelo para a página de wiki da sprint
   button_edit_wiki: Editar página wiki
   error_intro_plural: 'Foram encontrados os seguintes erros :'
   error_intro_singular: 'Foi encontrado o seguinte erro:'
@@ -85,14 +85,14 @@ pt-BR:
   label_back_to_project: Voltar à página do projeto
   label_backlog: Backlog
   label_backlogs: Backlogs
-  label_backlogs_unconfigured: 'You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool.'
+  label_backlogs_unconfigured: 'Você ainda não configurou o Backlog. Por favor, vá para %{administration} > %{plugins} e, em seguida, clique em %{configure} o link para este plugin. Uma vez que você definiu os campos, volte a esta página para começar a usar a ferramenta.'
   label_blocks_ids: Blocks (IDs)
   label_burndown: Burndown
-  label_chart_options: Chart Options
-  label_column_in_backlog: Column in backlog
+  label_chart_options: Opções de gráfico
+  label_column_in_backlog: Coluna no backlog
   label_hours: horas
   label_work_package_hierarchy: Hierarquia de Pacote de Trabalho
-  label_master_backlog: Master Backlog
+  label_master_backlog: Backlog principal
   label_not_prioritized: Não priorizado
   label_points: pontos
   label_points_burn_down: Abaixo
@@ -100,7 +100,7 @@ pt-BR:
   label_product_backlog: Backlog do produto
   label_select_all: Selecionar tudo
   label_sprint_backlog: Backlog do sprint
-  label_sprint_cards: Export cards
+  label_sprint_cards: Exportar cartões
   label_sprint_impediments: Impedimentos do Sprint
   label_sprint_name: 'Sprint "%{name}"'
   label_sprint_velocity: 'Velocidade %{velocity}, baseado em %{sprints} sprints, com uma média de %{days} dias'
@@ -110,32 +110,32 @@ pt-BR:
   label_version_setting: Versões
   label_webcal: Webcal Feed
   label_wiki: Wiki
-  permission_view_master_backlog: View master backlog
-  permission_view_taskboards: View taskboards
-  permission_update_sprints: Update sprints
-  permission_create_stories: Create stories
-  permission_update_stories: Update stories
-  permission_create_tasks: Create tasks
-  permission_update_tasks: Update tasks
-  permission_create_impediments: Create impediments
-  permission_update_impediments: Update impediments
-  points_accepted: points accepted
+  permission_view_master_backlog: Visualizar backlog principal
+  permission_view_taskboards: Visualizar quadro de tarefas
+  permission_update_sprints: Editar sprints
+  permission_create_stories: Criar histórias
+  permission_update_stories: Editar histórias
+  permission_create_tasks: Criar tarefas
+  permission_update_tasks: Editar tarefas
+  permission_create_impediments: Criar impedimentos
+  permission_update_impediments: Editar impedimentos
+  points_accepted: pontos aceitos
   points_committed: points committed
-  points_resolved: points resolved
-  points_to_accept: points not accepted
-  points_to_resolve: points not resolved
+  points_resolved: pontos resolvidos
+  points_to_accept: pontos não aceitos
+  points_to_resolve: pontos não resolvidos
   project_module_backlogs: Backlogs
-  rb_label_copy_tasks: Copy work packages
+  rb_label_copy_tasks: Copiar pacotes de trabalho
   rb_label_copy_tasks_all: Todos
   rb_label_copy_tasks_none: Nenhum
-  rb_label_copy_tasks_open: Open
-  rb_label_link_to_original: Include link to original story
+  rb_label_copy_tasks_open: Aberto
+  rb_label_link_to_original: Incluir link para a história original
   remaining_hours: Horas restantes
   required_burn_rate_hours: required burn rate (hours)
   required_burn_rate_points: required burn rate (points)
   todo_work_package_description: '%{summary}: %{url}%{description}'
   todo_work_package_summary: '%{type}: %{summary}'
-  version_settings_display_label: Column in backlog
+  version_settings_display_label: Coluna no backlog
   version_settings_display_option_left: esquerda
   version_settings_display_option_none: nenhum
   version_settings_display_option_right: direta
