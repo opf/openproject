@@ -27,7 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= javascript_include_tag "repositories_remote_select.js" %>
 <%= form_for @repository,
              remote: true,
              url: { controller: '/repositories', action: 'edit', id: @project },
