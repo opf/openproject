@@ -170,3 +170,33 @@
   #attributes
     .form--field-container
       max-width: 400px
+
+
+%flex-grow-basis-zero
+  flex-grow: 0
+  flex-basis: 0
+
+.work-package--attachments--files
+  ul
+    list-style: none
+    margin: 0
+    li
+      margin: rem-calc(5 0)
+      display: flex
+      flex-direction: row
+      align-items: baseline
+      attachment-icon
+        @extend %flex-grow-basis-zero
+      .filename
+        margin: rem-calc(0 5)
+        flex-grow: 1
+        flex-basis: auto
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+      .filesize
+        @extend %flex-grow-basis-zero
+        margin: rem-calc(0 10)
+      .button
+        @extend %flex-grow-basis-zero
+        margin: 0
