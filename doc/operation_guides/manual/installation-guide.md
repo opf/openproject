@@ -3,8 +3,8 @@
 This tutorial helps you to deploy OpenProject 4.2. Please, aware that:
 
 This guide requires that you have a clean Ubuntu 14.04 x64 installation
-with administrative rights. We have tested the installation guide on a
-on an Ubuntu Server image, but it should work on any derivative.
+with administrative rights. We have tested the installation guide on an
+Ubuntu Server image, but it should work on any derivative.
 
 OpenProject will be installed with a MySQL database (the guide should
 work analogous with PostgreSQL).
@@ -19,13 +19,13 @@ Note: We have highlighted commands to execute like this
 [user@host] command to execute
 ```
 
-Where the user is the operating system user the command is executed with.
+The `user` is the operating system user the command is executed with.
 In our case it will be `root` for most of the time or `openproject`.
 
 If you find any bugs or you have any recommendations for improving this
 tutorial, please, feel free to create a pull request against this guide.
 
-# Prepare Your Envoironment
+# Prepare Your Environment
 
 Create a dedicated user for OpenProject:
 
@@ -134,7 +134,7 @@ something very similar to:
 v0.12.7
 ```
 
-## Installation of OpenProoject
+## Installation of OpenProject
 
 ```bash
 [openproject@host] cd ~
@@ -146,7 +146,7 @@ v0.12.7
 [openproject@host] npm install
 ```
 
-## Configure Openproject
+## Configure OpenProject
 
 Create and configure the database configuration file in config/database.yml
 (relative to the openproject-directory).
@@ -157,7 +157,7 @@ Create and configure the database configuration file in config/database.yml
 
 Now we edit the `config/database.yml` file and insert our database credentials.
 It should look like this (please keep in mind that you have to use the values
-you used above as you user, database and password):
+you used above: user, database and password):
 
 ```yaml
 production:
@@ -183,7 +183,7 @@ Next we configure email notifications (this example uses a gmail account) by cre
 [openproject@host] cp config/configuration.yml.example config/configuration.yml
 ```
 
-Now we edit the `configuration.yml` file to siut out needs.
+Now we edit the `configuration.yml` file to suit our needs.
 
 ```yaml
 production:                          #main level
@@ -197,17 +197,17 @@ production:                          #main level
   smtp_authentication: plain
 ```
 
-Add this line into `configuration.yml` file at the of of file for better
-performance of OpenProject:
+Add this line into `configuration.yml` file at the end of the file for
+a better performance of OpenProject:
 
 ```yaml
 rails_cache_store: :memcache
 ```
 
-__NOTE:__ You should validate your .yml-files, for example with
-http://www.yamllint.com/. Both, the database.yml and `configuration.yml`
+__NOTE:__ You should validate your `yml` files, for example with
+http://www.yamllint.com/. Both, the `database.yml` and `configuration.yml`
 file are sensitive to whitespace. It is pretty easy to write
-`invalid .yml` files without seeing the error. Validating those files
+invalid `yml` files without seeing the error. Validating those files
 prevents you from such errors.
 
 
