@@ -99,6 +99,8 @@ describe News, type: :model do
 
       user = FactoryGirl.create(:user)
       become_member_with_permissions(project, user)
+      # reload
+      project.members(true)
 
       with_settings notified_events: ['news_added'] do
         FactoryGirl.create(:news, project: project)
