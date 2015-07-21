@@ -255,8 +255,13 @@ openprojectApp
 
 require('./api');
 
-angular.module('openproject.config').service('ConfigurationService', require(
-  './config/configuration-service'));
+angular.module('openproject.config')
+  .service('ConfigurationService', [
+    'PathHelper',
+    '$q',
+    '$http',
+    require('./config/configuration-service')
+  ]);
 
 require('./helpers');
 require('./layout');

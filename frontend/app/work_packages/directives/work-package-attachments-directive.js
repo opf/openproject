@@ -26,11 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(workPackageAttachmentsService, I18n) {
+module.exports = function(workPackageAttachmentsService, I18n, ConfigurationService) {
 
   var editMode = function(attrs) {
     return typeof attrs.edit !== 'undefined';
   }
+
+  var settings;
+
+  ConfigurationService.api().then(function(data) {
+    settings = data;
+  });
 
   var attachmentsController = function(scope, element, attrs, fieldCtrl) {
 

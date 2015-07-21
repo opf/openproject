@@ -31,7 +31,28 @@
 
 /* jshint camelcase: false */
 
-module.exports = function() {
+module.exports = function(PathHelper, $q, $http) {
+
+  // fetches configuration from the ApiV3 endpoint
+  // TODO: this currently saves the request between page reloads,
+  // but could easily be stored in localStorage
+  var cache = false,
+      path = PathHelper.apiConfigurationPath(),
+      fetchSettings = function() {
+        return $http.get(path);
+      }
+      api = function() {
+        var settings = $q.defer();
+        if (cache) {
+          settings.resolve(cache);
+        } else {
+          fetchSettings().then(function(data) {
+            cache = data;
+            settings.resolve(data);
+          });
+        }
+        return settings.promise;
+      }
 
   var initSettings = function() {
     var settings = {},
@@ -56,6 +77,7 @@ module.exports = function() {
 
   return {
     settings: initSettings(),
+    api: api,
     userPreferencesPresent: function() {
       return this.settings.hasOwnProperty('user_preferences');
     },
