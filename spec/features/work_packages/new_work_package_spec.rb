@@ -37,7 +37,7 @@ describe 'New work package', type: :feature do
   before { allow(User).to receive(:current).and_return(user) }
 
   describe 'Datepicker', js: true do
-    shared_examples_for 'first week day set' do |locale: 'de'|
+    shared_examples_for 'first week day set' do |locale: :de|
       let(:datepicker_selector) { '#ui-datepicker-div table.ui-datepicker-calendar thead tr th:nth-of-type(2)' }
 
       before do
@@ -48,13 +48,9 @@ describe 'New work package', type: :feature do
 
         # Fill in the date, as a simple click does not seem to trigger the datepicker here
         fill_in 'Start date', with: DateTime.now.strftime('%Y-%m-%d')
-
-        expect(page).to have_selector(datepicker_selector)
       end
 
-      subject { page.find(datepicker_selector).text }
-
-      it { expect(subject).to eql(day_acronym) }
+      it { expect(page).to have_selector(datepicker_selector, text: day_acronym) }
     end
 
     context 'Monday' do
@@ -84,7 +80,7 @@ describe 'New work package', type: :feature do
         let(:day_acronym) { 'Mo' }
       end
 
-      it_behaves_like 'first week day set', locale: 'en' do
+      it_behaves_like 'first week day set', locale: :en do
         let(:day_of_week) { nil  }
         let(:day_acronym) { 'Su' }
       end
