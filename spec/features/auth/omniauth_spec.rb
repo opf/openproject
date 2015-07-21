@@ -167,6 +167,7 @@ describe 'Omniauth authentication', type: :feature do
     before do
       allow(Setting).to receive(:self_registration?).and_return(true)
       allow(Setting).to receive(:self_registration).and_return('3')
+      allow(Setting).to receive(:available_languages).and_return([:en])
     end
 
     it_behaves_like 'omniauth user registration'
