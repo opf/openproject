@@ -84,7 +84,7 @@ describe('OpenProject', function(){
       });
 
       describe('read state', function() {
-        it('should render the link to another work package', function() {
+        it('should render the link to another work package in the text', function() {
           expect(
             descriptionEditor
               .$('.inplace-edit--read a.work_package')
@@ -92,14 +92,19 @@ describe('OpenProject', function(){
           ).to.eventually.be.true;
         });
 
-        it('should render the textarea', function() {
+        it('should render the textarea after clicking on the trigger link', function() {
           descriptionEditor.$('.inplace-editing--trigger-link').click();
           expect(descriptionEditor.$('textarea').isDisplayed()).to.eventually.be.true;
         });
 
-        it('should not render the textarea if click is on the link', function() {
+        xit('should not render the textarea if click is on the link', function() {
+          // This needs to be disabled as clicking on the link would currently load
+          // a new page that is not part of what we control with our mocks.
+          //
+          // It can be reenabled once clicking on the link would actually show the
+          // clicked on work package in the already open details pane or something
+          // similar.
           descriptionEditor.$('.inplace-edit--read a.work_package').click();
-          // browser.waitForAngular();
           expect(descriptionEditor.$('textarea').isPresent()).to.eventually.be.false;
         });
       });
