@@ -83,7 +83,7 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
         removal.resolve(fileOrAttachment);
       }).error(function(err) {
         removal.reject(err);
-      })
+      });
     } else {
       removal.resolve(fileOrAttachment);
     }

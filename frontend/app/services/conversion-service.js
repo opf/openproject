@@ -33,6 +33,12 @@ module.exports = function() {
         return Math.round(bytes / 1000000);
       }
       return bytes;
+    },
+    kilobytes: function(bytes) {
+      if (angular.isNumber(bytes)) {
+        return Math.round(bytes / 1000);
+      }
+      return bytes;
     }
   };
 };

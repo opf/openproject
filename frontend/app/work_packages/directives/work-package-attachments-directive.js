@@ -71,6 +71,7 @@ module.exports = function(
     scope.$on('uploadPendingAttachments', upload);
     scope.I18n = I18n;
     scope.megabytes = ConversionService.megabytes;
+    scope.kilobytes = ConversionService.kilobytes;
 
     scope.fetchingConfiguration = true;
     ConfigurationService.api().then(function(settings) {
