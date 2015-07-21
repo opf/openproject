@@ -40,7 +40,6 @@ module.exports = function(
 
     var workPackage = scope.workPackage(),
         upload = function(event, workPackage) {
-          event.stopPropagation();
           workPackageAttachmentsService.upload(workPackage, scope.files).then(function() {
             scope.files = [];
           }).finally(loadAttachments);
