@@ -27,6 +27,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# add seeds specific for the production-environment here
+if TimeEntryActivity.any?
+  puts '***** Skipping activities as there are already some configured'
+else
+  TimeEntryActivity.transaction do
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_management)
+      activity.position = 1
+      activity.is_default = true
+    end.save!
 
-require "#{Rails.root}/db/seeds/basic_setup"
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_specification)
+      activity.position = 2
+    end.save!
+
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_development)
+      activity.position = 3
+    end.save!
+
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_testing)
+      activity.position = 4
+    end.save!
+
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_support)
+      activity.position = 5
+    end.save!
+
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_other)
+      activity.position = 6
+    end.save!
+  end
+end
