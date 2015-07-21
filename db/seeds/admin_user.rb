@@ -27,6 +27,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# add seeds specific for the production-environment here
+if User.admin.empty?
+  user = User.new
 
-require "#{Rails.root}/db/seeds/basic_setup"
+  old_password_length = Setting.password_min_length
+  Setting.password_min_length = 0
+
+  user.admin = true
+  user.login = 'admin'
+  user.password = 'admin'
+  # force password change on first login
+  user.force_password_change = true
+  user.firstname = 'OpenProject'
+  user.lastname = 'Admin'
+  user.mail = ENV.fetch('ADMIN_EMAIL') { 'admin@example.net' }
+  user.mail_notification = User::USER_MAIL_OPTION_NON.first
+  user.language = 'en'
+  user.status = 1
+  user.save!
+
+  Setting.password_min_length = old_password_length
+end

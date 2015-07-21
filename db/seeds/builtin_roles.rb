@@ -27,6 +27,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# add seeds specific for the production-environment here
+if Role.find_by_builtin(Role::BUILTIN_NON_MEMBER).nil?
+  role = Role.new
 
-require "#{Rails.root}/db/seeds/basic_setup"
+  role.name = 'Non member'
+  role.position = 0
+  role.builtin = Role::BUILTIN_NON_MEMBER
+  role.save!
+end
+
+if Role.find_by_builtin(Role::BUILTIN_ANONYMOUS).nil?
+  role = Role.new
+
+  role.name = 'Anonymous'
+  role.position = 1
+  role.builtin = Role::BUILTIN_ANONYMOUS
+  role.save!
+end
