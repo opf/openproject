@@ -26,17 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(workPackageAttachmentsService, I18n, ConfigurationService) {
-
+module.exports = function(
+  workPackageAttachmentsService,
+  I18n,
+  ConfigurationService,
+  ConversionService
+) {
   var editMode = function(attrs) {
     return typeof attrs.edit !== 'undefined';
   }
-
-  var settings;
-
-  ConfigurationService.api().then(function(data) {
-    settings = data;
-  });
 
   var attachmentsController = function(scope, element, attrs, fieldCtrl) {
 
@@ -72,9 +70,18 @@ module.exports = function(workPackageAttachmentsService, I18n, ConfigurationServ
 
     scope.$on('uploadPendingAttachments', upload);
     scope.I18n = I18n;
+    scope.megabytes = ConversionService.megabytes;
+
+    scope.fetchingConfiguration = true;
+    ConfigurationService.api().then(function(settings) {
+      scope.maximumFileSize = settings.maximumAttachmentFileSize;
+      // somehow, I18n cannot interpolate function results, so we need to cache this once
+      scope.maxFileSizeMB = scope.megabytes(settings.maximumAttachmentFileSize);
+      scope.fetchingConfiguration = false;
+    });
 
     loadAttachments();
-  }
+  };
 
   return {
     restrict: 'E',

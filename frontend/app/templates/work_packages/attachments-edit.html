@@ -7,8 +7,8 @@
       </h3>
     </div>
   </div>
-  <div data-ngf-drop data-ng-model="files" data-ngf-select class="work-package--attachments--drop-box"
-       data-ngf-multiple="true" data-ngf-change="instantUpload()">
+  <div data-ngf-drop data-ng-model="files" data-ng-model-rejected="rejectedFiles" data-ngf-select class="work-package--attachments--drop-box"
+       data-ngf-multiple="true" data-ngf-change="instantUpload()" data-ngf-max-size="{{::smaximumFileSize}}">
     <p class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
     <p class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
   </div>
@@ -18,6 +18,14 @@
         <attachment-icon type="attachment.contentType"></attachment-icon>
         {{attachment.fileName}}
         <a data-ng-click="remove(attachment)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="work-package--attachments--files -rejected" data-ng-show="rejectedFiles.length > 0">
+    <h4>{{::I18n.t('js.label_rejected_files')}}</h4>
+    <ul>
+      <li data-ng-repeat="file in rejectedFiles">
+        {{file.name}}
       </li>
     </ul>
   </div>

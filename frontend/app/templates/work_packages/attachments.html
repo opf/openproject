@@ -6,19 +6,30 @@
       </h3>
     </div>
   </div>
-  <div data-ngf-drop data-ng-model="files" data-ngf-select class="work-package--attachments--drop-box"
-       data-ngf-multiple="true" data-ngf-allow-dir="true" data-ng-keep-distinct>
-    <p class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
-    <p class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
+  <div data-ngf-drop data-ng-model="files" data-ng-model-rejected="rejectedFiles" data-ngf-select class="work-package--attachments--drop-box"
+       data-ngf-multiple="true" data-ngf-allow-dir="true" data-ngf-keep-distinct data-ngf-max-size="{{::maximumFileSize}}"
+       data-ng-disabled="fetchingConfiguration" data-ngf-keep>
+    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_drop_files') }}</p>
+    <p data-ng-hide="fetchingConfiguration" class="work-package--attachments--hint">{{ ::I18n.t('js.label_drop_files_hint') }}</p>
+    <p data-ng-show="fetchingConfiguration" class="work-package--attachments--label">{{ ::I18n.t('js.label_wait') }}</p>
   </div>
-  <div class="work-pacakge--attachments--files" data-ng-show="files.length > 0">
+  <div class="work-package--attachments--files" data-ng-show="files.length > 0">
+    <h4>{{::I18n.t('js.label_files_to_upload')}}</h4>
     <ul>
-      <li data-ng-repeat="file in files | filter:{type:'!directory'}">
+      <li data-ng-repeat="file in files">
         <attachment-icon type="file.type"></attachment-icon>
-        {{file.name}}
+        <span class="filename">{{::file.name}}</span> <span class="filesize">({{::megabytes(file.size)}}MB)</span>
         <a data-ng-click="remove(file)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</a>
       </li>
     </ul>
-    <a data-ng-click="removeAll()">{{::I18n.t('js.label_remove_all_files')}}</a>
+  </div>
+  <div class="work-package--attachments--files -rejected" data-ng-show="rejectedFiles.length > 0">
+    <h4>{{::I18n.t('js.label_rejected_files')}}</h4>
+    <p>{{I18n.t('js.label_rejected_files_reason', { maximumFilesizeInMegaBytes: maxFileSizeMB })}}</p>
+    <ul>
+      <li data-ng-repeat="file in rejectedFiles">
+        <span class="filename">{{::file.name}}</span> <span class="filesize">({{::megabytes(file.size)}}MB)</span>
+      </li>
+    </ul>
   </div>
 </div>

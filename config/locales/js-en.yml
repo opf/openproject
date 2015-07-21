@@ -159,6 +159,11 @@ en:
     label_remove_all_files: Delete all files
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_files_to_upload: "These files will be uploaded:"
+    label_rejected_files: "These files cannot be uploaded:"
+    label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesizeInMegaBytes}MB"
+    label_wait: "Please wait for configuration..."
+
 
     text_are_you_sure: "Are you sure?"
 

@@ -109,4 +109,5 @@ angular.module('openproject.services')
     'I18n',
     '$rootScope',
     require('./notifications-service.js')
-  ]);
+  ])
+  .service('ConversionService', require('./conversion-service.js'));

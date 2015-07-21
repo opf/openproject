@@ -99,6 +99,7 @@ angular.module('openproject.workPackages.directives')
     'WorkPackageAttachmentsService',
     'I18n',
     'ConfigurationService',
+    'ConversionService',
     require('./work-package-attachments-directive')
   ]);
 

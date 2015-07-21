@@ -39,8 +39,14 @@ module.exports = function(PathHelper, $q, $http) {
   var cache = false,
       path = PathHelper.apiConfigurationPath(),
       fetchSettings = function() {
-        return $http.get(path);
-      }
+        var data = $q.defer();
+        $http.get(path).success(function(settings) {
+          data.resolve(settings);
+        }).error(function(err) {
+          data.reject(err);
+        });
+        return data.promise;
+      },
       api = function() {
         var settings = $q.defer();
         if (cache) {
@@ -52,7 +58,7 @@ module.exports = function(PathHelper, $q, $http) {
           });
         }
         return settings.promise;
-      }
+      };
 
   var initSettings = function() {
     var settings = {},
