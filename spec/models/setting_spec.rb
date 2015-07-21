@@ -169,4 +169,40 @@ describe Setting, type: :model do
     end
   end
 
+  describe ".clear_cache!" do
+    before do
+      # prime the cache
+      Setting.host_name = 'foo'
+    end
+
+    it "doesn't fetch the setting from the database again" do
+      expect(Setting).to receive(:find_by_name).with('host_name').once
+
+      Setting.host_name
+      Setting.host_name
+    end
+
+    it "fetches the setting again when the cache was cleared" do
+      expect(Setting).to receive(:find_by_name).with('host_name').twice
+
+      Setting.host_name
+      Setting.clear_cache!
+      Setting.host_name
+    end
+
+    it "it doesn't affected any other cached values" do
+      Rails.cache.write('foo', 'bar')
+      Setting.clear_cache!
+      expect(Rails.cache.read('foo')).to eq 'bar'
+    end
+
+    it "falls back to clearing everything if partial deletion is unsupported" do
+      expect(Rails.cache).to receive(:delete_matched).and_raise(NotImplementedError)
+
+      Rails.cache.write('foo', 'bar')
+      Setting.clear_cache!
+      expect(Rails.cache.read('foo')).to be_nil
+    end
+  end
+
 end
