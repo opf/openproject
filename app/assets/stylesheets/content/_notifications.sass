@@ -59,6 +59,9 @@ $nm-pb-regress-color: whiteSmoke
 $nm-pb-border-radius: rem-calc(6)
 $nm-pb-height: rem-calc(20)
 
+$nm-upload-status-font-size: rem-calc(18)
+$nm-upload-file-status-icon-size: rem-calc(12)
+
 $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 %nm-icon-error
@@ -72,6 +75,18 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 %nm-icon-warning
   @extend .icon-attention1:before
   color: $nm-color-warning-icon
+
+%error-placeholder
+  background-color: $nm-color-error-background
+  border-color: $nm-color-error-border
+
+%success-placeholder
+  background-color: $nm-color-success-background
+  border-color: $nm-color-success-border
+
+%warning-placeholder
+  background-color: $nm-color-warning-background
+  border-color: $nm-color-warning-border
 
 
 @mixin messages-icon($top:rem-calc(11), $left:rem-calc(10), $size:rem-calc(18))
@@ -114,29 +129,28 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     padding: $nm-box-padding
 
   &.-error
-    background-color: $nm-color-error-background
-    border-color: $nm-color-error-border
+    @extend %error-placeholder
     &::before
       @include messages-icon
       @extend %nm-icon-error
 
   &.-success
-    background-color: $nm-color-success-background
-    border-color: $nm-color-success-border
+    @extend %success-placeholder
     &::before
       @include messages-icon
       @extend %nm-icon-success
 
   &.-warning
-    background-color: $nm-color-warning-background
-    border-color: $nm-color-warning-border
+    @extend %warning-placeholder
     &::before
       @include messages-icon
       @extend %nm-icon-warning
-
     &.-severe
       background-color: $nm-color-error-background
       border-color: $nm-color-error-border
+
+  &.-upload
+    padding: $nm-upload-box-padding
 
   //@hack adapting to provided styles
   //messy I dont have all the details for a magic resolve, this might change
@@ -144,6 +158,15 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     margin-bottom: 0
   & p, & ul>li, & .button
     font-size: $nm-font-size
+
+
+[class^="icon-"]
+  &.-error
+    color: $nm-color-error-icon
+  &.-success
+    color: $nm-color-success-icon
+  &.-warning
+    color: $nm-color-warning-icon
 
 .notification-box--wrapper
   position: absolute
@@ -193,12 +216,12 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   margin: rem-calc(5 0)
   .filename
     font-weight: bold
+  [class^="icon-"]
+    font-size: $nm-upload-file-status-icon-size
 
 .notification-box--upload-status
-  font-size: rem-calc(18)
-
-.notification-box.-upload
-  padding: $nm-upload-box-padding
+  font-size: $nm-upload-status-font-size !important
+  line-height: $nm-upload-status-font-size !important
 
 .notification-box--content
   width: 100%
@@ -211,3 +234,16 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       border-radius: $nm-pb-border-radius
     &::-webkit-progress-value
       border-radius: $nm-pb-border-radius
+
+.notification-box--notice
+  border-radius: $nm-border-radius
+  border-style: solid
+  border-width: rem-calc(1)
+  padding: rem-calc(5)
+  margin: rem-calc(5 0)
+  &.-error
+    @extend %error-placeholder
+  &.-success
+    @extend %success-placeholder
+  &.-warning
+    @extend %warning-placeholder

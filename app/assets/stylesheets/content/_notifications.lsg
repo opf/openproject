@@ -119,22 +119,100 @@
 
 ```
 <div class="notification-box -upload">
-  <div class="notification-box--content"><span class="notification-box--upload-status">Uploading files ...</span>
-    <div class="notification-box--toggle-message"> Here goes the toggle message, when more than 5 files are uploaded at
-      once
+  <div class="notification-box--content">
+    <p class="notification-box--upload-status">Uploading files ...</p>
+    <div>
+      <div>
+        <div class="notification-box--toggle-message">
+          <a href="#"><i class="icon-arrow-right5-2"></i></a> 2 of 3 files finished
+        </div>
+        <div class="notification-box--uploads-wrapper">
+          <ul class="notification-box--uploads">
+            <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape1.png</span>
+              <progress max="100" value="20">20%</progress>
+            </li>
+            <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape2.png</span>
+              <progress max="100" value="50">50%</progress>
+            </li>
+            <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape3.png</span>
+              <progress max="100" value="100">100%</progress>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="notification-box--uploads-wrapper">
-      <ul class="notification-box--uploads">
-        <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape1.png</span>
-          <progress max="100" value="20">20%</progress>
-        </li>
-        <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape2.png</span>
-          <progress max="100" value="50">50%</progress>
-        </li>
-        <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape3.png</span>
-          <progress max="100" value="100">100%</progress>
-        </li>
-      </ul>
+  </div>
+</div>
+```
+
+### Upload progress done
+
+```
+<div class="notification-box -upload">
+  <div class="notification-box--content">
+    <p class="notification-box--upload-status">Uploading files ...</p>
+    <div>
+      <div>
+        <div class="notification-box--toggle-message">
+          <a href="#"><i class="icon-arrow-right5-2"></i></a> 5 of 5 files finished
+        </div>
+        <div class="notification-box--uploads-wrapper">
+          <ul class="notification-box--uploads">
+            <li class="notification-box--uploads-element">
+              <span class="filename">Awesome_Landscape1.png</span><i class="icon-yes -success"></i>
+            </li>
+            <li class="notification-box--uploads-element">
+              <span class="filename">Awesome_Landscape2.png</span><i class="icon-close -error"></i>
+              <p class="notification-box--notice -error">Something went wrong!...</p>
+            </li>
+            <li class="notification-box--uploads-element">
+              <span class="filename">Awesome_Landscape3.png</span><i class="icon-yes -success"></i>
+            </li>
+            <li class="notification-box--uploads-element">
+              <span class="filename">Awesome_Landscape3.png</span><i class="icon-yes -success"></i>
+            </li>
+            <li class="notification-box--uploads-element">
+              <span class="filename">Awesome_Landscape3.png</span><i class="icon-yes -success"></i>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+### Upload progress more then five files simultaneously
+
+```
+<div class="notification-box -upload">
+  <div class="notification-box--content">
+    <p class="notification-box--upload-status">Uploading files ...</p>
+    <div>
+      <div>
+        <div class="notification-box--toggle-message">
+          <a href="#"><i class="icon-arrow-right5"></i></a> 3 of 5 files finished
+        </div>
+        <div class="notification-box--uploads-wrapper hide">
+          <ul class="notification-box--uploads">
+            <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape1.png</span>
+              <progress max="100" value="20">20%</progress>
+            </li>
+            <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape2.png</span>
+              <progress max="100" value="50">50%</progress>
+            </li>
+            <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape3.png</span>
+              <progress max="100" value="100">100%</progress>
+            </li>
+            <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape4.png</span>
+              <progress max="100" value="100">100%</progress>
+            </li>
+            <li class="notification-box--uploads-element"><span class="filename">Awesome_Landscape5.png</span>
+              <progress max="100" value="100">100%</progress>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>
