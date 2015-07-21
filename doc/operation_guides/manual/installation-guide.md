@@ -7,10 +7,10 @@ with administrative rights. We have tested the installation guide on an
 Ubuntu Server image, but it should work on any derivative.
 
 OpenProject will be installed with a MySQL database (the guide should
-work analogous with PostgreSQL).
+work similarly with PostgreSQL).
 
 OpenProject will be served in a production environment with Apache
-(this guide should work analogous with other servers, like nginx and others)
+(this guide should work similarly with other servers, like nginx and others)
 
 Note: We have highlighted commands to execute like this
 
