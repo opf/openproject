@@ -24,6 +24,8 @@ describe 'subject inplace editor', js: true do
 
     row = page.find("#work-package-#{work_package.id}")
     row.double_click
+
+    ng_wait
   end
 
   context 'in read state' do
