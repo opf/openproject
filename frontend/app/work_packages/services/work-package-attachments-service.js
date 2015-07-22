@@ -75,7 +75,6 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
     return attachments.promise;
   },
   remove = function(fileOrAttachment) {
-
     var removal = $q.defer();
     if (angular.isObject(fileOrAttachment._links)) {
       var path = fileOrAttachment._links.self.href;
@@ -88,12 +87,20 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
       removal.resolve(fileOrAttachment);
     }
     return removal.promise;
+  },
+  download = function(attachment) {
+    if (angular.isUndefined(attachment._links)) {
+      return;
+    }
+    var path = attachment._links.downloadLocation.href;
+
   };
 
 
   return {
     upload: upload,
     remove: remove,
-    load: load
+    load: load,
+    download: download
   };
 };

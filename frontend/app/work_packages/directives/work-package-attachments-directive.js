@@ -60,6 +60,7 @@ module.exports = function(
       scope.$emit('uploadPendingAttachments', workPackage);
     }
 
+
     scope.remove = function(file) {
       workPackageAttachmentsService.remove(file).then(function(file) {
         _.remove(scope.attachments, file);
@@ -71,6 +72,7 @@ module.exports = function(
     scope.I18n = I18n;
     scope.megabytes = ConversionService.megabytes;
     scope.kilobytes = ConversionService.kilobytes;
+    scope.download = workPackageAttachmentsService.download
 
     scope.fetchingConfiguration = true;
     ConfigurationService.api().then(function(settings) {

@@ -17,8 +17,7 @@
     <h4>{{::I18n.t('js.label_files_to_upload')}}</h4>
     <ul>
       <li data-ng-repeat="file in files">
-        <attachment-icon type="file.type"></attachment-icon>
-        <span class="filename">{{::file.name}}</span> <span class="filesize">({{::kilobytes(file.size)}}kB)</span>
+        <attachment-icon type="file.type"></attachment-icon> <span class="filename">{{::file.name}}</span> <span class="filesize">({{::kilobytes(file.size)}}kB)</span>
         <a data-ng-click="remove(file)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</a>
       </li>
     </ul>
