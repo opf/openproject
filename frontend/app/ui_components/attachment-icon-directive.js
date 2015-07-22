@@ -39,7 +39,8 @@ module.exports = function() {
       switch(type) {
         // images
         case 'image/png':
-        case 'image/jpg':
+        case 'image/jpeg':
+        case 'image/pjpeg':
         case 'image/gif':
           icon = 'image1';
           break;
