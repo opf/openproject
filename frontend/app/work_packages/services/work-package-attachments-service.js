@@ -87,7 +87,7 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
       removal.resolve(fileOrAttachment);
     }
     return removal.promise;
-  }
+  };
 
   return {
     upload: upload,

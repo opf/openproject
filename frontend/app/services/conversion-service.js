@@ -48,7 +48,7 @@ module.exports = function() {
       if (bytes > 1000000) {
         return ConversionService.megabytes(bytes) + 'MB';
       }
-      return bytes + 'B'
+      return bytes + 'B';
     }
   };
 

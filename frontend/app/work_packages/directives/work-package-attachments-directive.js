@@ -40,9 +40,12 @@ module.exports = function(
 
     var workPackage = scope.workPackage(),
         upload = function(event, workPackage) {
-          workPackageAttachmentsService.upload(workPackage, scope.files).then(function() {
-            scope.files = [];
-          }).finally(loadAttachments);
+          if (scope.files.length > 0) {
+            workPackageAttachmentsService.upload(workPackage, scope.files).then(function() {
+              scope.files = [];
+              loadAttachments()
+            });
+          };
         },
         loadAttachments = function() {
           if (!editMode(attrs)) {
