@@ -35,7 +35,7 @@ module.exports = function(
 ) {
   var editMode = function(attrs) {
     return typeof attrs.edit !== 'undefined';
-  }
+  };
 
   var attachmentsController = function(scope, element, attrs, fieldCtrl) {
 
@@ -46,7 +46,7 @@ module.exports = function(
               scope.files = [];
               loadAttachments();
             });
-          };
+          }
         },
         loadAttachments = function() {
           if (!editMode(attrs)) {
@@ -62,11 +62,11 @@ module.exports = function(
 
     scope.I18n = I18n;
     scope.rejectedFiles = [];
-    scope.size = ConversionService.fileSize
+    scope.size = ConversionService.fileSize;
 
     scope.instantUpload = function() {
       scope.$emit('uploadPendingAttachments', workPackage);
-    }
+    };
 
     var currentlyRemoving = [];
     scope.remove = function(file) {
