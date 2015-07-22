@@ -1316,7 +1316,7 @@ en:
   setting_session_ttl_enabled: "Session expires"
   setting_start_of_week: "Start calendars on"
   setting_sys_api_enabled: "Enable repository management web service"
-  setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing local Subversion repositories."
+  setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_text_formatting: "Text formatting"
   setting_time_format: "Time format"
   setting_ui_theme: "Theme"
