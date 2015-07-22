@@ -27,6 +27,8 @@
 //++
 
 module.exports = function() {
+  var imageRegExp = new RegExp(/^image\/.*$/),
+      excelRegExp = new RegExp(/.*excel$/);
   return {
     restrict: 'E',
     replace: true,
@@ -35,28 +37,17 @@ module.exports = function() {
     },
     template: '<i class="icon-{{icon}}"></i>',
     link: function(scope) {
-      var icon, type = scope.type();
-      switch(type) {
-        // images
-        case 'image/png':
-        case 'image/jpeg':
-        case 'image/pjpeg':
-        case 'image/gif':
-          icon = 'image1';
-          break;
-        // documents
-        case 'application/pdf':
-          icon = 'page-pdf';
-          break;
-        case 'application/excel':
-        case 'application/vnd.ms-excel':
-        case 'application/x-excel':
-        case 'application/x-msexcel':
-          icon = 'page-xls';
-          break;
-        default:
-          icon = 'ticket';
-          break;
+      var icon = 'ticket',
+          type = scope.type();
+
+      if (imageRegExp.text(type)) {
+        icon = 'image1';
+      }
+      if (excelRegExp.test(type)) {
+        icon = 'page-xls';
+      }
+      if (type === 'application/pdf') {
+        icon = 'page-pdf';
       }
 
       scope.icon = icon;
