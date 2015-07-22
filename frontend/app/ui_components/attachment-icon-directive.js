@@ -40,7 +40,7 @@ module.exports = function() {
       var icon = 'ticket',
           type = scope.type();
 
-      if (imageRegExp.text(type)) {
+      if (imageRegExp.test(type)) {
         icon = 'image1';
       }
       if (excelRegExp.test(type)) {
