@@ -70,7 +70,7 @@ describe Journal::AggregatedJournal, type: :model do
   let(:user2) { FactoryGirl.create(:user) }
   let(:initial_author) { user1 }
 
-  subject { described_class.order('id ASC').to_a }
+  subject { described_class.aggregated_journals.order('id ASC').to_a }
 
   before do
     allow(User).to receive(:current).and_return(initial_author)

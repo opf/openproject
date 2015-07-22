@@ -40,10 +40,10 @@
 #  * in case an older row had notes, take the notes from the older row, since they shall not
 #    be dropped
 class Journal::AggregatedJournal < Journal
-  self.table_name = 'journals'
+  self.table_name = Journal.table_name
 
   class << self
-    def default_scope
+    def aggregated_journals(journable: nil)
       # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
       # where an entry with empty notes follows an entry containing notes, so that the notes
       # from the main entry are taken, while the remaining information is taken from the
@@ -56,10 +56,10 @@ class Journal::AggregatedJournal < Journal
       # that our own row (master) would not already have been merged by its predecessor. If it is
       # (that means if we can find a valid predecessor), we drop our current row, because it will
       # already be present (in a merged form) in the row of our predecessor.
-      from("(#{sql_rough_group(1)}) #{table_name}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(2)}) addition
+      from("(#{sql_rough_group(journable, 1)}) #{table_name}")
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, 2)}) addition
                               ON #{sql_on_groups_belong_condition(table_name, 'addition')}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(3)}) predecessor
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, 3)}) predecessor
                          ON #{sql_on_groups_belong_condition('predecessor', table_name)}")
       .where('predecessor.id IS NULL')
       .select("#{table_name}.journable_id,
@@ -84,17 +84,24 @@ class Journal::AggregatedJournal < Journal
     # To be able to self-join results of this statement, we add an additional column called
     # "group_number" to the result. This allows to compare a group resulting from this query with
     # its predecessor and successor.
-    def sql_rough_group(uid)
-      "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
+    def sql_rough_group(journable, uid)
+      sql = "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
       FROM #{sql_rough_group_from_clause(uid)}
       LEFT OUTER JOIN journals successor
         ON predecessor.version + 1 = successor.version AND
            predecessor.journable_type = successor.journable_type AND
            predecessor.journable_id = successor.journable_id
-      WHERE predecessor.user_id != successor.user_id OR
+      WHERE (predecessor.user_id != successor.user_id OR
             (predecessor.notes != '' AND predecessor.notes IS NOT NULL) OR
             #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
-            successor.id IS NULL"
+            successor.id IS NULL)"
+
+      if journable
+        sql += " AND predecessor.journable_type = '#{journable.class.name}' AND
+                     predecessor.journable_id = #{journable.id}"
+      end
+
+      sql
     end
 
     # The "group_number" required in :sql_rough_group has to be generated differently depending on
@@ -154,6 +161,13 @@ class Journal::AggregatedJournal < Journal
 
       "(#{difference} > #{threshold})"
     end
+  end
+
+  def predecessor
+    @predecessor ||= self.class.aggregated_journals(journable: journable)
+                       .where("#{self.class.table_name}.version < ?", version)
+                       .order("#{self.class.table_name}.version DESC")
+                       .first
   end
 
   def initial?

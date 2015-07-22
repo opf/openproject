@@ -132,12 +132,6 @@ module Redmine
           { description: :notes }.reverse_merge options
         end
       end
-
-      # We can't use a :has_many relation as this would try to delete journals upon deleting the
-      # journalized object (there is nothing like "dependent: ignore").
-      def aggregated_journals
-        Journal::AggregatedJournal.where(journable_type: self.class.name, journable_id: id)
-      end
     end
   end
 end
