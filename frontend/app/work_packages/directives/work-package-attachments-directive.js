@@ -70,15 +70,13 @@ module.exports = function(
 
     scope.$on('uploadPendingAttachments', upload);
     scope.I18n = I18n;
-    scope.megabytes = ConversionService.megabytes;
-    scope.kilobytes = ConversionService.kilobytes;
-    scope.download = workPackageAttachmentsService.download
+    scope.size = ConversionService.fileSize
 
     scope.fetchingConfiguration = true;
     ConfigurationService.api().then(function(settings) {
       scope.maximumFileSize = settings.maximumAttachmentFileSize;
       // somehow, I18n cannot interpolate function results, so we need to cache this once
-      scope.maxFileSizeMB = scope.megabytes(settings.maximumAttachmentFileSize);
+      scope.maxFileSize = scope.size(settings.maximumAttachmentFileSize);
       scope.fetchingConfiguration = false;
     });
 

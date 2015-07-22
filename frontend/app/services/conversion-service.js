@@ -27,7 +27,8 @@
 //++
 
 module.exports = function() {
-  return {
+  var ConversionService = {
+    //TODO: not sure if we need GigaBytes
     megabytes: function(bytes) {
       if (angular.isNumber(bytes)) {
         return Math.round(bytes / 1000000);
@@ -39,6 +40,17 @@ module.exports = function() {
         return Math.round(bytes / 1000);
       }
       return bytes;
+    },
+    fileSize: function(bytes) {
+      if (1000 < bytes && bytes < 1000000) {
+        return ConversionService.kilobytes(bytes) + 'kB';
+      }
+      if (bytes > 1000000) {
+        return ConversionService.megabytes(bytes) + 'MB';
+      }
+      return bytes + 'B'
     }
   };
+
+  return ConversionService;
 };

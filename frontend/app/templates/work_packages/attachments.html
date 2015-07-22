@@ -17,17 +17,17 @@
     <h4>{{::I18n.t('js.label_files_to_upload')}}</h4>
     <ul>
       <li data-ng-repeat="file in files">
-        <attachment-icon type="file.type"></attachment-icon> <span class="filename">{{::file.name}}</span> <span class="filesize">({{::kilobytes(file.size)}}kB)</span>
+        <attachment-icon type="file.type"></attachment-icon> <span class="filename">{{::file.name}}</span> <span class="filesize">({{::size(file.size)}})</span>
         <a data-ng-click="remove(file)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</a>
       </li>
     </ul>
   </div>
   <div class="work-package--attachments--files -rejected" data-ng-show="rejectedFiles.length > 0">
     <h4>{{::I18n.t('js.label_rejected_files')}}</h4>
-    <p>{{I18n.t('js.label_rejected_files_reason', { maximumFilesizeInMegaBytes: maxFileSizeMB })}}</p>
+    <p>{{I18n.t('js.label_rejected_files_reason', { maximumFilesize: maxFileSize })}}</p>
     <ul>
       <li data-ng-repeat="file in rejectedFiles">
-        <span class="filename">{{::file.name}}</span> <span class="filesize">({{::megabytes(file.size)}}MB)</span>
+        <span class="filename">{{::file.name}}</span> <span class="filesize">({{::size(file.size)}})</span>
       </li>
     </ul>
   </div>

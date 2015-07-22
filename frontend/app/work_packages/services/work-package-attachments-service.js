@@ -87,20 +87,11 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
       removal.resolve(fileOrAttachment);
     }
     return removal.promise;
-  },
-  download = function(attachment) {
-    if (angular.isUndefined(attachment._links)) {
-      return;
-    }
-    var path = attachment._links.downloadLocation.href;
-
-  };
-
+  }
 
   return {
     upload: upload,
     remove: remove,
-    load: load,
-    download: download
+    load: load
   };
 };

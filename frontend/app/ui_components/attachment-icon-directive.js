@@ -60,5 +60,5 @@ module.exports = function() {
 
       scope.icon = icon;
     }
-  }
-}
+  };
+};
