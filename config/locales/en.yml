@@ -1264,7 +1264,7 @@ en:
       not_manageable: "This repository vendor cannot be managed by OpenProject."
       unauthorized: "You're not authorized to access the repository or the credentials are invalid."
       unavailable: "The repository is unavailable."
-      unlink_failed_unmanageable: "The repository could not be deleted, because it is no longer manageable by OpenProject."
+      unlink_failed_unmanageable: "The repository was deleted, but its directory could not be removed, because it is no longer manageable by OpenProject."
       exception_title: "Cannot access the repository: %{message}"
       disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
     git:

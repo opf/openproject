@@ -52,11 +52,7 @@ describe 'Repository Settings', type: :feature, js: true do
 
   shared_examples 'manages the repository' do |name, type|
     it 'displays the repository' do
-      vendor = find('select[name="scm_vendor"]')
-      expect(vendor).not_to be_nil
-      expect(vendor.value).to eq(name)
-      expect(vendor[:disabled]).to be_truthy
-
+      expect(page).not_to have_selector('select[name="scm_vendor"]')
       expect(find("#toggleable-attribute-group--content-#{type}", visible: true))
         .not_to be_nil
     end

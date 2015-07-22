@@ -346,12 +346,10 @@ class Repository < ActiveRecord::Base
   # is managed by OpenProject
   def delete_managed_repository
     service = Scm::DeleteManagedRepositoryService.new(self)
-    if service.call
-      true
-    else
-      raise OpenProject::Scm::Exceptions::RepositoryUnlinkError.new(
-         I18n.t('repositories.errors.unlink_failed_unmanageable')
-      )
-    end
+    # Even if the service can't remove the physical repository,
+    # we should continue removing the associated instance.
+    service.call
+
+    true
   end
 end

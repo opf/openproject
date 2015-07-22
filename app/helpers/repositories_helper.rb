@@ -214,7 +214,8 @@ module RepositoriesHelper
                class: 'form--select repositories--remote-select',
                data: {
                  remote: true,
-                 url: url_for(controller: '/repositories', action: 'edit', id: @project.id),
+                 url: url_for(controller: '/repositories',
+                              action: 'edit', project_id: @project.id),
                },
                disabled: (repository && !repository.new_record?)
               )

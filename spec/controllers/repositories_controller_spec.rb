@@ -91,7 +91,7 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(settings_project_path(id: project.id, tab: 'repository'))
+        expect(response).to redirect_to(settings_project_path(project, tab: 'repository'))
       end
     end
 

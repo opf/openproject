@@ -44,9 +44,8 @@ class RepositoriesController < ApplicationController
   menu_item :settings, only: [:edit, :destroy_info]
   default_search_scope :changesets
 
-  before_filter :find_project, only: [:create, :update, :edit]
+  before_filter :find_project_by_project_id
   before_filter :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
-  before_filter :find_project_by_project_id, only: [:destroy, :destroy_info]
   before_filter :authorize
   accept_key_auth :revisions
 
@@ -110,13 +109,13 @@ class RepositoriesController < ApplicationController
   end
 
   def destroy
-    begin
-      @project.repository.destroy
+    if @project.repository.manageable?
       flash[:notice] = I18n.t('repositories.delete_sucessful')
-    rescue OpenProject::Scm::Exceptions::RepositoryUnlinkError => e
-      flash[:error] = e.message
+    else
+      flash[:warning] = I18n.t('repositories.errors.unlink_failed_unmanageable')
     end
 
+    @project.repository.destroy
     redirect_to settings_repository_tab_path
   end
 
@@ -304,11 +303,10 @@ class RepositoriesController < ApplicationController
   end
 
   def settings_repository_tab_path
-    settings_project_path(id: @project.id, tab: 'repository')
+    settings_project_path(@project, tab: 'repository')
   end
 
   def find_repository
-    @project = Project.find(params[:project_id])
     @repository = @project.repository
     (render_404; return false) unless @repository
 
