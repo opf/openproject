@@ -15,7 +15,7 @@
   <div class="work-package--attachments--files" data-ng-show="attachments.length > 0">
     <ul>
       <li data-ng-repeat="attachment in attachments">
-        <attachment-icon type="attachment.contentType"></attachment-icon> <a data-ng-href="{{attachment._links.downloadLocation.href}}" download>{{attachment.fileName}}</a><span class="filesize">({{::size(attachment.fileSize)}})</span>
+        <attachment-icon type="attachment.contentType"></attachment-icon> <a class="filename" data-ng-href="{{attachment._links.downloadLocation.href}}" download>{{attachment.fileName}}</a><span class="filesize">({{::size(attachment.fileSize)}})</span>
         <a data-ng-click="remove(attachment)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</a>
       </li>
     </ul>

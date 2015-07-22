@@ -172,9 +172,9 @@
       max-width: 400px
 
 
-%flex-grow-basis-zero
+%flex-grow-shrink-zero
   flex-grow: 0
-  flex-basis: 0
+  flex-shrink: 0
 
 .work-package--attachments--files
   ul
@@ -184,9 +184,7 @@
       margin: rem-calc(5 0)
       display: flex
       flex-direction: row
-      align-items: baseline
-      attachment-icon
-        @extend %flex-grow-basis-zero
+      align-items: center
       .filename
         margin: rem-calc(0 5)
         flex-grow: 1
@@ -195,8 +193,16 @@
         white-space: nowrap
         text-overflow: ellipsis
       .filesize
-        @extend %flex-grow-basis-zero
+        @extend %flex-grow-shrink-zero
         margin: rem-calc(0 10)
       .button
-        @extend %flex-grow-basis-zero
+        @extend %flex-grow-shrink-zero
         margin: 0
+        flex-basis: rem-calc(65)
+
+//an workaround for ie10
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  //IE10+ specific styles go here
+  .work-package--attachments--files ul li .filename
+    width: rem-calc(354)
+    display: block
