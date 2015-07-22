@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
 feature 'Query menu items' do
@@ -74,6 +75,10 @@ feature 'Query menu items' do
       expect(page).to have_selector('.flash', text: 'Successful update')
       expect(page).to have_selector('a', text: query.name)
     end
+
+    after do
+      ensure_wp_table_loaded
+    end
   end
 
   describe 'renaming a menu item' do
@@ -91,6 +96,10 @@ feature 'Query menu items' do
       click_on I18n.t('js.toolbar.settings.page_settings')
       fill_in I18n.t('js.modals.label_name'), with: new_name
       click_on I18n.t('js.modals.button_submit')
+    end
+
+    after do
+      ensure_wp_table_loaded
     end
 
     it 'displaying a success message', js: true do
