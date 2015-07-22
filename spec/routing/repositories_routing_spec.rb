@@ -257,4 +257,12 @@ describe RepositoriesController, type: :routing do
                                                                      project_id: 'testproject')
     }
   end
+
+  describe 'destroy_info' do
+    it {
+      expect(get('/projects/testproject/repository/destroy_info')).to route_to(controller: 'repositories',
+                                                                     action: 'destroy_info',
+                                                                     project_id: 'testproject')
+    }
+  end
 end

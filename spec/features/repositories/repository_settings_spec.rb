@@ -66,12 +66,10 @@ describe 'Repository Settings', type: :feature, js: true do
       find('a.icon-delete', text: I18n.t(:button_delete)).click
 
       # Confirm the notification warning
-      warning = (type == 'managed') ? '-error' : '-warning'
+      warning = (type == 'managed') ? '-warning.-severe' : '-warning'
       expect(page).to have_selector(".notification-box.#{warning}")
       find('a', text: I18n.t(:button_delete)).click
 
-      # Confirm the popup
-      page.driver.browser.switch_to.alert.accept
       vendor = find('select[name="scm_vendor"]')
       expect(vendor).not_to be_nil
       expect(vendor.value).to be_empty

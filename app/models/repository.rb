@@ -170,18 +170,14 @@ class Repository < ActiveRecord::Base
   # Default behaviour is to search in cached changesets
   def latest_changesets(path, _rev, limit = 10)
     if path.blank?
-      changesets.find(:all,
-                      include: :user,
-                      order: "#{Changeset.table_name}.committed_on DESC, "\
-                             "#{Changeset.table_name}.id DESC",
-                      limit: limit)
+      changesets.find(:all, include: :user,
+                            order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
+                            limit: limit)
     else
-      changes.find(:all,
-                   include: { changeset: :user },
-                   conditions: ['path = ?', path.with_leading_slash],
-                   order: "#{Changeset.table_name}.committed_on DESC, "\
-                          "#{Changeset.table_name}.id DESC",
-                   limit: limit).map(&:changeset)
+      changes.find(:all, include: { changeset: :user },
+                         conditions: ['path = ?', path.with_leading_slash],
+                         order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
+                         limit: limit).map(&:changeset)
     end
   end
 
@@ -354,7 +350,7 @@ class Repository < ActiveRecord::Base
       true
     else
       raise OpenProject::Scm::Exceptions::RepositoryUnlinkError.new(
-        service.localized_rejected_reason
+         I18n.t('repositories.errors.unlink_failed_unmanageable')
       )
     end
   end

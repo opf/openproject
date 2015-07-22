@@ -79,11 +79,14 @@ class RepositoriesController < ApplicationController
     if service.build_and_save
       @repository = service.repository
       flash[:notice] = l('repositories.create_successful')
+      flash[:notice] << (' ' + l('repositories.create_managed_delay')) if @repository.managed?
     else
       flash[:error] = service.build_error
     end
 
-    render js: "window.location = '#{settings_repository_tab_path}'"
+    respond_to do |format|
+      format.js { render js: "window.location = '#{settings_repository_tab_path}'" }
+    end
   end
 
   def committers
@@ -320,6 +323,8 @@ class RepositoriesController < ApplicationController
         raise InvalidRevisionParam
       end
     end
+  rescue OpenProject::Scm::Exceptions::ScmEmpty
+    render 'empty'
   rescue ActiveRecord::RecordNotFound
     render_404
   rescue InvalidRevisionParam

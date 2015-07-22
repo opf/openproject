@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: l(:label_confirmation) %>
-<div class="notification-box <%= @repository.managed? ? '-error' : '-warning' %>">
+<div class="notification-box -warning <%= @repository.managed? ? '-severe' : '' %>">
   <div class="notification-box--content">
     <p><strong><%= l('repositories.destroy.title') %></strong><br /></p>
     <p>
@@ -42,16 +42,10 @@ See doc/COPYRIGHT.rdoc for more details.
     </p>
     <p>
       <%= link_to project_repository_path(@project),
-        :confirm => l(:text_are_you_sure),
         :method => :delete,
-        :class => 'button -highlight' do %>
+        :class => 'button' do %>
         <i class="button--icon icon-delete"></i>
         <span class="button--text"><%= l(:button_delete) %></span>
-      <% end %>
-      <%= link_to @back_link,
-        :class => 'button' do %>
-        <i class="button--icon icon-close"></i>
-        <span class="button--text"><%= l(:button_cancel) %></span>
       <% end %>
     </p>
   </div>

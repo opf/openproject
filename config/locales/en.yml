@@ -1249,7 +1249,8 @@ en:
 
   repositories:
     checkout_instructions: "Checkout instructions"
-    create_successful: "The repository has been registered. If the repository is managed, it will be available shortly."
+    create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
+    create_successful: "The repository has been registered."
     delete_sucessful: "The repository has been deleted."
     destroy:
       title: "Are you absolutely sure?"
@@ -1258,11 +1259,12 @@ en:
       linked_text: "You're about to remove the linked repository %{url} from the project %{project_name}.\nNote: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
     errors:
       build_failed: "Unable to create the repository with the selected configuration. %{reason}"
-      empty_repository: "The repository exists, but is empty. It does not contain any revisions."
+      empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."
       exists_on_filesystem: "The repository directory exists already on filesystem."
       not_manageable: "This repository vendor cannot be managed by OpenProject."
-      unauthorized: "You're not authorized to acecss the repository or the credentials are invalid."
+      unauthorized: "You're not authorized to access the repository or the credentials are invalid."
       unavailable: "The repository is unavailable."
+      unlink_failed_unmanageable: "The repository could not be deleted, because it is no longer manageable by OpenProject."
       exception_title: "Cannot access the repository: %{message}"
       disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
     git:
