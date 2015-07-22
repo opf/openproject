@@ -35,14 +35,14 @@
 	};
 
 	$('#tab-content-repository')
-		.find('.toggleable-attribute-group')
+		.find('.attribute-group.-toggleable')
 		.each(function(_i, el) {
 
 		var fs = $(el),
 			name = fs.attr('data-switch'),
 			switches = fs.find('[name="' + name + '"]'),
 			headers = fs.find('.attributes-group--header-text'),
-			content = fs.find('.toggleable-attribute-group--content');
+			content = fs.find('.attribute-group--content.-toggleable');
 
 		// If only one choice, skip setup
 		if (switches.length === 1) {
