@@ -31,43 +31,46 @@ if PlanningElementTypeColor.any?
   puts '***** Skipping colors as there are already some configured'
 else
   PlanningElementTypeColor.transaction do
-    PlanningElementTypeColor.create(name: 'Blue',
-                                    hexcode: '#3493B3')
-
-    PlanningElementTypeColor.create(name: 'Blue-dark',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_blue_dark),
                                     hexcode: '#06799F')
 
-    PlanningElementTypeColor.create(name: 'Green-light',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_blue),
+                                    hexcode: '#3493B3')
+
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_blue_light),
+                                    hexcode: '#00B0F0')
+
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_green_light),
                                     hexcode: '#35C53F')
 
-    PlanningElementTypeColor.create(name: 'Green-dark',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_green_dark),
                                     hexcode: '#339933')
 
-    PlanningElementTypeColor.create(name: 'Yellow',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_yellow),
                                     hexcode: '#FFFF00')
 
-    PlanningElementTypeColor.create(name: 'Orange',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_orange),
                                     hexcode: '#FFCC00')
 
-    PlanningElementTypeColor.create(name: 'Red',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_red),
                                     hexcode: '#CC3333')
 
-    PlanningElementTypeColor.create(name: 'Magenta',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_magenta),
                                     hexcode: '#E20074')
 
-    PlanningElementTypeColor.create(name: 'White',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_white),
                                     hexcode: '#FFFFFF')
 
-    PlanningElementTypeColor.create(name: 'Grey-light',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_grey_light),
                                     hexcode: '#F8F8F8')
 
-    PlanningElementTypeColor.create(name: 'Grey-medium',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_grey_medium),
                                     hexcode: '#EAEAEA')
 
-    PlanningElementTypeColor.create(name: 'Grey-dark',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_grey_dark),
                                     hexcode: '#878787')
 
-    PlanningElementTypeColor.create(name: 'Grey-dark',
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_black),
                                     hexcode: '#000000')
   end
 end
