@@ -37,7 +37,7 @@ module.exports = function(
     return typeof attrs.edit !== 'undefined';
   };
 
-  var attachmentsController = function(scope, element, attrs, fieldCtrl) {
+  var attachmentsController = function(scope, element, attrs) {
 
     var workPackage = scope.workPackage(),
         upload = function(event, workPackage) {

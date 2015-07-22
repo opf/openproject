@@ -26,31 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
-  var ConversionService = {
-    //TODO: not sure if we need GigaBytes
-    megabytes: function(bytes) {
-      if (angular.isNumber(bytes)) {
-        return Number((bytes / 1000000).toFixed(1));
-      }
-      return bytes;
-    },
-    kilobytes: function(bytes) {
-      if (angular.isNumber(bytes)) {
-        return Number((bytes / 1000).toFixed(1));
-      }
-      return bytes;
-    },
-    fileSize: function(bytes) {
-      if (1000 <= bytes && bytes < 1000000) {
-        return ConversionService.kilobytes(bytes) + 'kB';
-      }
-      if (bytes >= 1000000) {
-        return ConversionService.megabytes(bytes) + 'MB';
-      }
-      return bytes + 'B';
-    }
-  };
+describe('ConversionService', function() {
+  var ConversionService;
 
-  return ConversionService;
-};
+  beforeEach(module('openproject.services'));
+
+  beforeEach(inject(function(_ConversionService_){
+    ConversionService = _ConversionService_;
+  }));
+
+  it('be able to turn bytes into KiloBytes', function() {
+    var kiloBytes = ConversionService.kilobytes(1000);
+    expect(kiloBytes).to.eql(1);
+  });
+
+  it('be able to turn bytes into MegaBytes', function() {
+    var megabytes = ConversionService.megabytes(1000000);
+    expect(megabytes).to.eql(1);
+  });
+
+  it('should dynamically convert bytes into Mega- and Kilobytes', function() {
+    var result = ConversionService.fileSize(1000000);
+    expect(result).to.eql('1MB');
+
+    var result = ConversionService.fileSize(1000);
+    expect(result).to.eql('1kB');
+
+    var result = ConversionService.fileSize(1234);
+    expect(result).to.eql('1.2kB');
+
+    var result = ConversionService.fileSize(1874234);
+    expect(result).to.eql('1.9MB');
+  });
+})
