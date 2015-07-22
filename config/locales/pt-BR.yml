@@ -4,10 +4,10 @@ pt-BR:
   label_project_description: Descrição do projeto
   label_project_details: Detalhes do projeto
   label_project_homepage: Página inicial
-  label_custom_element: Adicionar amostra...
+  label_custom_element: Adicionar chamada...
   info_custom_text: Texto personalizado
   label_confirm_delete: Confirma a exclusão deste elemento?
-  label_save_or_reset_teaser: Salvar as alterações feitas para a amostra?
+  label_save_or_reset_teaser: Salvar as alterações feitas para a chamada?
   label_work_packages_reported_by_me: Pacotes de trabalho criados por mim
   label_work_packages_responsible_for: Pacotes de trabalho sob minha responsabilidade
   label_work_packages_assigned_to_me: Pacotes de trabalho atribuídos a mim
