@@ -34,16 +34,16 @@ pt-BR:
     generating_chart: Gerando gráfico...
     hours: Horas
     impediment: Impedimento
-    label_versions_default_fold_state: Mostrar versões de modo fechado
+    label_versions_default_fold_state: Mostrar versões em modo fechado
     work_package_is_closed: Pacote de trabalho está pronto, quando
-    label_is_done_status: 'O estado %{status_name} significa pronto'
+    label_is_done_status: 'Situação %{status_name} significa pronto'
     no_burndown_data: Não há dados de burndown disponíveis. É necessário ter o conjunto de datas de início e fim de sprint.
     points: Pontos
     positions_could_not_be_rebuilt: Posições não poderiam ser reconstruídas.
     positions_rebuilt_successfully: Posições reconstruídas com sucesso.
     properties: Propriedades
     rebuild: Reconstruir
-    rebuild_positions: Reconstruir as posições
+    rebuild_positions: Reconstruir posições
     remaining_hours: Horas restantes
     remaining_hours_ideal: Horas restantes (ideal)
     show_burndown_chart: Gráfico de Burndown
@@ -86,7 +86,7 @@ pt-BR:
   label_backlog: Backlog
   label_backlogs: Backlogs
   label_backlogs_unconfigured: 'Você ainda não configurou o Backlog. Por favor, vá para %{administration} > %{plugins} e, em seguida, clique em %{configure} o link para este plugin. Uma vez que você definiu os campos, volte a esta página para começar a usar a ferramenta.'
-  label_blocks_ids: Blocks (IDs)
+  label_blocks_ids: Bloqueios (IDs)
   label_burndown: Burndown
   label_chart_options: Opções de gráfico
   label_column_in_backlog: Coluna no backlog
@@ -130,7 +130,7 @@ pt-BR:
   rb_label_copy_tasks_none: Nenhum
   rb_label_copy_tasks_open: Aberto
   rb_label_link_to_original: Incluir link para a história original
-  remaining_hours: Horas restantes
+  remaining_hours: horas restantes
   required_burn_rate_hours: required burn rate (hours)
   required_burn_rate_points: required burn rate (points)
   todo_work_package_description: '%{summary}: %{url}%{description}'
