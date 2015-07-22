@@ -30,13 +30,13 @@
 # Similar to regular Journals, but under the following circumstances journals are aggregated:
 #  * they are in temporal proximity
 #  * they belong to the same resource
-#  * they were performed by the same user
+#  * they were created by the same user (i.e. the same user edited the journable)
 #  * no other user has an own journal on the same object between the aggregated ones
 # When a user commented (added a note) twice within a short time, the second comment will
 # "open" a new aggregation, since we do not want to merge comments in any way.
 # The term "aggregation" means the following when applied to our journaling:
-#  * ignore/hide old journal rows (since every journal row contains a full copy of the journaled)
-#    object, dropping intermediate rows will just increase the diff of the following journal
+#  * ignore/hide old journal rows (since every journal row contains a full copy of the journaled
+#    object, dropping intermediate rows will just increase the diff of the following journal)
 #  * in case an older row had notes, take the notes from the older row, since they shall not
 #    be dropped
 class Journal::AggregatedJournal < Journal
@@ -46,8 +46,9 @@ class Journal::AggregatedJournal < Journal
     def default_scope
       # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
       # where an entry with empty notes follows an entry containing notes, so that the notes
-      # from the main entry are taken, while the remaining information from the more recent entry
-      # are taken. We therefore join the rough groups with itself _wherever a merge would be valid_.
+      # from the main entry are taken, while the remaining information is taken from the
+      # more recent entry. We therefore join the rough groups with itself
+      # _wherever a merge would be valid_.
       # Since the results are already pre-merged, this can only happen if Our first entry (master)
       # had a comment and its successor (addition) had no comment, but can be merged.
       # This alone would, however, leave the addition in the result set, leaving a "no change"
@@ -97,7 +98,7 @@ class Journal::AggregatedJournal < Journal
     end
 
     # The "group_number" required in :sql_rough_group has to be generated differently depending on
-    # the DBMS used. This method returns the apropriate statement to be used inside a select to
+    # the DBMS used. This method returns the appropriate statement to be used inside a SELECT to
     # obtain the current group number.
     # The :uid parameter allows to define non-conflicting variable names (for MySQL).
     def sql_group_counter(uid)
@@ -111,7 +112,7 @@ class Journal::AggregatedJournal < Journal
 
     # MySQL requires some initialization to be performed before being able to count the groups.
     # This method allows to inject further FROM sources to achieve that in a single SQL statement.
-    # Sadly MySQL requires the whole statement to be wrapped in parenthesis, while PostreSQL
+    # Sadly MySQL requires the whole statement to be wrapped in parenthesis, while PostgreSQL
     # prohibits that.
     def sql_rough_group_from_clause(uid)
       if OpenProject::Database.mysql?
