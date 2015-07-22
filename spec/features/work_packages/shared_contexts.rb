@@ -42,7 +42,7 @@ end
 # Ensure the page is completely loaded before the spec is run.
 # The status filter is loaded very late in the page setup.
 def ensure_wp_table_loaded
-  expect(page).to have_selector('#operators-status_id', visible: false),
+  expect(page).to have_selector('.advanced-filters--filter', visible: false),
                   'Work package table page was not loaded in time'
 end
 
