@@ -112,19 +112,21 @@ Note that the tabindex has to be set manually on the `<span>` and not the contai
 ```
 <div class="form--field">
   <label class="form--label" for="new_password" title="New password">New password</label>
-  <div class="form--field-container tooltip-visible">
+  <div class="form--field-container">
     <span class="form--text-field-container">
-      <input class="form--text-field -password" id="new_password" name="new_password" size="25" type="password">
-    </span>
-    <span class="advanced-tooltip">
-      <em>Must be at least 10 characters long.</em><br>
-      <em>
-        Must contain characters of the following classes (at least 2 of 4):
-        <ul>
-          <li>lowercase (e.g. 'a')</li>
-          <li>uppercase (e.g. 'A')</li>
-        </ul>
-      </em>
+      <div class="advanced-tooltip-wraper">
+        <input class="form--text-field -password advanced-tooltip-trigger" id="new_password" name="new_password" size="25" type="password" data-tooltip-target="#new_password_tooltip">
+        <div class="advanced-tooltip-content" id="new_password_tooltip" style="left: 545px; top: 0px;">
+          <em>Must be at least 10 characters long.</em><br>
+          <em>
+            Must contain characters of the following classes (at least 2 of 4):
+            <ul>
+              <li>lowercase (e.g. 'a')</li>
+              <li>uppercase (e.g. 'A')</li>
+            </ul>
+          </em>
+        </div>
+      </div>
     </span>
   </div>
 </div>

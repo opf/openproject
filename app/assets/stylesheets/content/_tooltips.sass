@@ -185,7 +185,7 @@ table
       color: #505050
 
 // tooltips with html support
-.advanced-tooltip
+.advanced-tooltip-content
   visibility: hidden
   opacity: 0
   transition: visibility 0s linear 0.2s, opacity 0.2s linear
@@ -223,8 +223,10 @@ table
     border-style: solid
     border-width: 11px
 
-.tooltip-visible
-  .advanced-tooltip
+.advanced-tooltip-wraper
+  position: relative
+  z-index: 99999
+  .advanced-tooltip-content
     visibility: visible
     opacity: 1
     transition-delay: 0.10s

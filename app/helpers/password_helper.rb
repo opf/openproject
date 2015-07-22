@@ -30,12 +30,9 @@
 module PasswordHelper
   def render_password_complexity_tooltip
     rules = password_rules_description
-    # use 0..0, so this doesn't fail if rules is an empty string
-    rules[0] = rules[0..0].upcase
 
-    s = raw '<em>' + OpenProject::Passwords::Evaluator.min_length_description + '</em>'
-    s += raw '<em>' + rules + '</em>' unless rules.empty?
-    s
+    s = raw "<em>#{OpenProject::Passwords::Evaluator.min_length_description}</em>"
+    s += raw "<em>#{rules.capitalize}</em>" if rules.present?
   end
 
   private
