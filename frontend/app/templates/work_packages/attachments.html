@@ -22,13 +22,4 @@
       </li>
     </ul>
   </div>
-  <div class="work-package--attachments--files -rejected" data-ng-show="rejectedFiles.length > 0">
-    <h4>{{::I18n.t('js.label_rejected_files')}}</h4>
-    <p>{{I18n.t('js.label_rejected_files_reason', { maximumFilesize: maxFileSize })}}</p>
-    <ul>
-      <li data-ng-repeat="file in rejectedFiles">
-        <span class="filename">{{::file.name}}</span> <span class="filesize">({{::size(file.size)}})</span>
-      </li>
-    </ul>
-  </div>
 </div>

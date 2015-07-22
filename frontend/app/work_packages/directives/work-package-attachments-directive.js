@@ -28,6 +28,7 @@
 
 module.exports = function(
   workPackageAttachmentsService,
+  NotificationsService,
   I18n,
   ConfigurationService,
   ConversionService
@@ -43,7 +44,7 @@ module.exports = function(
           if (scope.files.length > 0) {
             workPackageAttachmentsService.upload(workPackage, scope.files).then(function() {
               scope.files = [];
-              loadAttachments()
+              loadAttachments();
             });
           };
         },
@@ -59,21 +60,42 @@ module.exports = function(
           });
         }
 
+    scope.I18n = I18n;
+    scope.rejectedFiles = [];
+    scope.size = ConversionService.fileSize
+
     scope.instantUpload = function() {
       scope.$emit('uploadPendingAttachments', workPackage);
     }
 
-
+    var currentlyRemoving = [];
     scope.remove = function(file) {
+      currentlyRemoving.push(file);
       workPackageAttachmentsService.remove(file).then(function(file) {
         _.remove(scope.attachments, file);
         _.remove(scope.files, file);
+      }).finally(function() {
+        _.remove(currentlyRemoving, file);
       });
     };
 
+    scope.deleting = function(attachment) {
+      return _.findIndex(currentlyRemoving, attachment) > -1;
+    }
+
     scope.$on('uploadPendingAttachments', upload);
-    scope.I18n = I18n;
-    scope.size = ConversionService.fileSize
+    scope.$watch('rejectedFiles', function(rejectedFiles) {
+      if (rejectedFiles.length === 0) {
+        return;
+      }
+      var errors = _.map(rejectedFiles, function(file) {
+            return file.name + ' (' + scope.size(file.size) + ')';
+          }),
+          message = I18n.t('js.label_rejected_files_reason',
+            { maximumFilesize: scope.size(scope.maximumFileSize) }
+          );
+      NotificationsService.addError(message, errors);
+    });
 
     scope.fetchingConfiguration = true;
     ConfigurationService.api().then(function(settings) {

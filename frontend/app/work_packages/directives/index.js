@@ -97,6 +97,7 @@ angular.module('openproject.workPackages.directives')
   ])
   .directive('workPackageAttachments', [
     'WorkPackageAttachmentsService',
+    'NotificationsService',
     'I18n',
     'ConfigurationService',
     'ConversionService',

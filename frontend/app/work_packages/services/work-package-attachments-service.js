@@ -60,7 +60,7 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
         allUploadsDone.resolve();
       }, 700);
     }, function(err) {
-      allUploadsDone.reject();
+      allUploadsDone.reject(err);
     });
     return allUploadsDone.promise;
   },
@@ -68,7 +68,7 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
     var path = workPackage.links.attachments.url(),
         attachments = $q.defer();
     $http.get(path).success(function(response) {
-      attachments.resolve(response._embedded.elements)
+      attachments.resolve(response._embedded.elements);
     }).error(function(err) {
       attachments.reject(err);
     });

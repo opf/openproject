@@ -16,15 +16,7 @@
     <ul>
       <li data-ng-repeat="attachment in attachments">
         <attachment-icon type="attachment.contentType"></attachment-icon> <a class="filename" data-ng-href="{{attachment._links.downloadLocation.href}}" download>{{attachment.fileName}}</a><span class="filesize">({{::size(attachment.fileSize)}})</span>
-        <a data-ng-click="remove(attachment)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</a>
-      </li>
-    </ul>
-  </div>
-  <div class="work-package--attachments--files -rejected" data-ng-show="rejectedFiles.length > 0">
-    <h4>{{::I18n.t('js.label_rejected_files')}}</h4>
-    <ul>
-      <li data-ng-repeat="file in rejectedFiles">
-         <span class="filename">{{::file.name}}</span> <span class="filesize">({{::size(file.size)}})</span>
+        <button data-ng-click="remove(attachment)" data-ng-disabled="deleting(attachment)" class="button -with-icon icon-delete -tiny" title="{{::I18n.t('js.label_remove_file')}}">{{::I18n.t('js.label_remove_file')}}</button>
       </li>
     </ul>
   </div>

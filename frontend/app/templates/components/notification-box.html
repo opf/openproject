@@ -25,6 +25,9 @@
         <!-- "create another" button -->
       </div>
       <div data-ng-switch-when="error">
+        <ul class="notification-box--errors">
+          <li data-ng-repeat="error in content.errors">{{error}}</li>
+        </ul>
         <!-- "continue editing" button -->
       </div>
     </div>
