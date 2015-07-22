@@ -111,10 +111,6 @@ angular.module('openproject')
       controller: 'DetailsTabWatchersController',
       templateUrl: '/templates/work_packages/tabs/watchers.html'
     })
-    .state('work-packages.list.details.attachments', {
-      url: '/attachments',
-      templateUrl: '/templates/work_packages/tabs/attachments.html'
-    });
 }])
 
 .run([
