@@ -28,8 +28,9 @@
 #++
 
 class JournalManager
-  cattr_accessor :send_notification, instance_accessor: false do
-    true
+  class << self
+    attr_accessor :send_notification
+    @send_notification = true
   end
 
   def self.is_journalized?(obj)
@@ -261,12 +262,12 @@ class JournalManager
 
   # Wrap send_notification so it defaults to true, when it's nil
   def send_notification
-    return true if @@send_notification.nil?
-    @@send_notification
+    return true if @send_notification.nil?
+    @send_notification
   end
 
   # Need to clear the notification setting after each usage otherwise it might be cached
   def self.clear_notification
-    @@send_notification = true
+    @send_notification = true
   end
 end
