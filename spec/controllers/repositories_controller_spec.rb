@@ -105,12 +105,15 @@ describe RepositoriesController, type: :controller do
 
     context 'with #create' do
       before do
-        xhr :post, :create, scm_vendor: 'Subversion',
-            scm_type: 'local', url: 'file:///tmp/repo.svn/'
+        xhr :post,
+            :create,
+            scm_vendor: 'Subversion',
+            scm_type: 'local',
+            url: 'file:///tmp/repo.svn/'
       end
 
       it 'renders a JS redirect' do
-        path = "\/projects\/(#{project.identifier}|#{project.id})\/settings\/repository"
+        path = "\/projects\/#{project.identifier}/settings\/repository"
         expect(response.body).to match(/window\.location = '#{path}'/)
       end
     end

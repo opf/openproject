@@ -50,7 +50,7 @@ describe 'Repository Settings', type: :feature, js: true do
     settings_page.visit_repository_settings
   end
 
-  shared_examples 'manages the repository' do |name, type|
+  shared_examples 'manages the repository' do |type|
     it 'displays the repository' do
       expect(page).not_to have_selector('select[name="scm_vendor"]')
       expect(find("#toggleable-attribute-group--content-#{type}", visible: true))
@@ -86,7 +86,7 @@ describe 'Repository Settings', type: :feature, js: true do
                          scm_type: type,
                          project: project)
     }
-    it_behaves_like 'manages the repository', name, type
+    it_behaves_like 'manages the repository', type
   end
 
   it_behaves_like 'manages the repository with', 'Subversion', 'existing'
@@ -116,12 +116,12 @@ describe 'Repository Settings', type: :feature, js: true do
 
     context 'Subversion' do
       let(:managed_vendor) { 'Subversion' }
-      it_behaves_like 'manages the repository', 'Subversion', 'managed'
+      it_behaves_like 'manages the repository', 'managed'
     end
 
     context 'Git' do
       let(:managed_vendor) { 'Git' }
-      it_behaves_like 'manages the repository', 'Git', 'managed'
+      it_behaves_like 'manages the repository', 'managed'
     end
   end
 end

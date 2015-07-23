@@ -75,7 +75,7 @@ describe Scm::RepositoryFactoryService do
 
     it 'should not allow to temporary build repository' do
       expect { service.build_temporary }.not_to raise_error
-      
+
       expect(service.repository).to be_nil
       expect(service.build_error).to include('The SCM vendor NotSubversion is disabled')
     end
@@ -113,7 +113,7 @@ describe Scm::RepositoryFactoryService do
       expect(service.build_and_save).not_to be true
 
       expect(service.repository).to be_nil
-      expect(service.build_error).to include("URL is invalid")
+      expect(service.build_error).to include('URL is invalid')
     end
   end
 

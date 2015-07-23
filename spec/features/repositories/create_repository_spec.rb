@@ -91,7 +91,7 @@ describe 'Create repository', type: :feature, js: true do
         scm_vendor = find(scm_vendor_input_css)
         expect(scm_vendor.value).to eq(vendor)
 
-        page.assert_selector('input[name="scm_type"]', :count => 1)
+        page.assert_selector('input[name="scm_type"]', count: 1)
         scm_type = find('input[name="scm_type"]')
 
         expect(scm_type.value).to eq(type)

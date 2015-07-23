@@ -54,7 +54,6 @@ describe Scm::CreateManagedRepositoryService do
   end
 
   context 'with managed repository' do
-
     # Must not .create a managed repository, or it will call this service itself!
     let(:repository) {
       repo = Repository::Subversion.new(scm_type: :managed)
