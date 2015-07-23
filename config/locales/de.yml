@@ -5,7 +5,7 @@ de:
         position: Position
         remaining_hours: Verbleibende Stunden
         story_points: Story Punkte
-        backlogs_work_package_type: Backlog type
+        backlogs_work_package_type: Backlog Typ
     errors:
       models:
         work_package:
