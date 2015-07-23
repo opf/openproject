@@ -34,16 +34,15 @@
 # repositories.
 # We thus add the following types:
 #
-# - Repository::SVN: existing
+# - Repository::*: existing
 # - Repository::Git: local
 #
 class AddScmTypeToRepositories < ActiveRecord::Migration
   def up
     add_column :repositories, :scm_type, :string, null: true
 
-    Repository.all.each do |repo|
-      repo.update_attribute :scm_type, (repo.is_a?(Repository::Subversion) ? 'existing' : 'local')
-    end
+    Repository.update_all(scm_type: 'existing')
+    Repository.where(type: 'Repository::Git').update_all(scm_type: 'local')
 
     change_column_null :repositories, :scm_type, false
   end

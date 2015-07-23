@@ -27,10 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+##
+# Provides an asynchronous job to create a managed repository on the filesystem.
+# Currently, this is run synchronously due to potential issues
+# with error handling.
+# We envision a repository management wrapper that covers transactional
+# creation and deletion of repositories BOTH on the database and filesystem.
+# Until then, a synchronous process is more failsafe.
 class Scm::CreateRepositoryJob
-  def initialize(repository, managed_path)
+  def initialize(repository)
     @id = repository.id
-    @managed_path = managed_path
   end
 
   def perform
@@ -53,22 +59,22 @@ class Scm::CreateRepositoryJob
   private
 
   ##
-  # Creates the repository at the +@managed_path+.
+  # Creates the repository at the +managed_repository_path+.
   # Accepts an overriden permission mode mask from the scm config,
   # or sets a sensible default of 0700.
   def create(mode)
-    FileUtils.mkdir_p(@managed_path, mode: mode)
+    FileUtils.mkdir_p(repository.managed_repository_path, mode: mode)
   end
 
   ##
   # Overrides the owner/group permission of the created repository
   # after the adapter was able to work in the directory.
   def ensure_ownership(mode, owner, group)
-    FileUtils.chmod_R(mode, @managed_path)
+    FileUtils.chmod_R(mode, repository.managed_repository_path)
 
     # Note that this is effectively a noop when owner or group is nil,
     # and then permissions remain OPs runuser/-group
-    FileUtils.chown_R(owner, group, @managed_path)
+    FileUtils.chown_R(owner, group, repository.managed_repository_path)
   end
 
   def config

@@ -40,10 +40,17 @@ Scm::DeleteManagedRepositoryService = Struct.new :repository do
       # Create necessary changes to repository to mark
       # it as managed by OP, but delete asynchronously.
       managed_path = repository.managed_repository_path
-      managed_root = repository.managed_root
+      parents = repository.parent_projects
 
       if File.directory?(managed_path)
-        Delayed::Job.enqueue Scm::DeleteRepositoryJob.new(managed_root, managed_path)
+        ##
+        # We want to move this functionality in a Delayed Job,
+        # but this heavily interferes with the error handling of the whole
+        # repository management process.
+        # Instead, this will be refactored into a single service wrapper for
+        # creating and deleting repositories, which provides transactional DB access
+        # as well as filesystem access.
+        Scm::DeleteRepositoryJob.new(managed_path, parents).perform
       end
 
       true

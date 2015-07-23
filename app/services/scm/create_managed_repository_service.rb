@@ -28,28 +28,31 @@
 #++
 
 ##
-# Implements the asynchronous creation of a local repository.
+# Implements the creation of a local repository.
 Scm::CreateManagedRepositoryService = Struct.new :repository do
   ##
   # Checks if a given repository may be created and managed locally.
-  # Registers an asynchronous job to create the repository on disk.
+  # Registers an job to create the repository on disk.
   #
   # @return True if the repository creation request has been initiated, false otherwise.
   def call
     if repository.managed? && repository.manageable?
 
-      # Create necessary changes to repository to mark
-      # it as managed by OP, but create asynchronously.
-      managed_path = repository.managed_repository_path
-
       # Cowardly refusing to override existing local repository
-      if File.directory?(managed_path)
+      if File.directory?(repository.managed_repository_path)
         @rejected = I18n.t('repositories.errors.exists_on_filesystem')
         return false
       end
 
-      Delayed::Job.enqueue Scm::CreateRepositoryJob.new(repository, managed_path)
-      return true
+      ##
+      # We want to move this functionality in a Delayed Job,
+      # but this heavily interferes with the error handling of the whole
+      # repository management process.
+      # Instead, this will be refactored into a single service wrapper for
+      # creating and deleting repositories, which provides transactional DB access
+      # as well as filesystem access.
+      Scm::CreateRepositoryJob.new(repository).perform
+      true
     end
 
     false

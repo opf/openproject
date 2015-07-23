@@ -27,22 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+##
+# Provides an asynchronous job to delete a managed repository on the filesystem.
+# Currently, this is run synchronously due to potential issues
+# with error handling.
+# We envision a repository management wrapper that covers transactional
+# creation and deletion of repositories BOTH on the database and filesystem.
+# Until then, a synchronous process is more failsafe.
 class Scm::DeleteRepositoryJob
-  def initialize(root, managed_path)
-    @managed_root = root
+  def initialize(managed_path, parents)
     @managed_path = managed_path
+    @parents = parents
   end
 
   def perform
-    Dir.chdir(@managed_root) do
-      # Delete the repository project itself.
-      FileUtils.remove_dir(@managed_path)
+    # Delete the repository project itself.
+    FileUtils.remove_dir(@managed_path)
 
-      # Traverse all parent directories within repositories,
-      # searching for empty project directories.
-      parent = Pathname.new(@managed_path).parent
-      remove_empty_parents(parent)
-    end
+    # Traverse all parent directories within repositories,
+    # searching for empty project directories.
+    remove_empty_parents
   end
 
   def destroy_failed_jobs?
@@ -51,18 +55,25 @@ class Scm::DeleteRepositoryJob
 
   private
 
-  def remove_empty_parents(parent)
-    managed_root_path = Pathname.new(@managed_root)
-    loop do
+  def remove_empty_parents
+
+    parent_path = Pathname.new(@managed_path).parent
+
+    ##
+    # Iterate the hierarchy in reverse, looking
+    # for empty directories that equal the parent identifier name
+    # but are empty.
+    @parents.reverse_each do |parent|
+
+      # Stop unless the given parent path is the parent project path
+      break unless parent_path.basename.to_s == parent
+
       # Stop deletion upon finding a non-empty parent repository
-      break unless parent.children.empty?
+      break unless parent_path.exist? && parent_path.children.empty?
 
-      # Stop if we're in the project root
-      break if parent == managed_root_path
+      FileUtils.rmdir(parent_path)
 
-      FileUtils.rmdir(parent)
-
-      parent = parent.parent
+      parent_path = parent_path.parent
     end
   end
 end

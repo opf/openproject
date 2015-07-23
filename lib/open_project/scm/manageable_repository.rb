@@ -81,6 +81,26 @@ module OpenProject
         "file://#{managed_repository_path}"
       end
 
+      ##
+      # Determine the parent path of the given project
+      def parent_projects_path
+        File.join(*parent_projects)
+      end
+
+      ##
+      # Determine all parent projects of this repository
+      def parent_projects
+        parent_parts = []
+        p = project
+        while p.parent
+          parent_id = p.parent.identifier.to_s
+          parent_parts.unshift(parent_id)
+          p = p.parent
+        end
+
+        parent_parts
+      end
+
       protected
 
       ##
@@ -103,20 +123,6 @@ module OpenProject
         else
           File.join(parent_path, repository_identifier)
         end
-      end
-
-      ##
-      # Determine the parent path of the given project
-      def parent_projects_path
-        parent_parts = []
-        p = project
-        while p.parent
-          parent_id = p.parent.identifier.to_s
-          parent_parts.unshift(parent_id)
-          p = p.parent
-        end
-
-        File.join(*parent_parts)
       end
     end
   end
