@@ -39,11 +39,15 @@
 #    object, dropping intermediate rows will just increase the diff of the following journal)
 #  * in case an older row had notes, take the notes from the older row, since they shall not
 #    be dropped
-class Journal::AggregatedJournal < Journal
-  self.table_name = Journal.table_name
-
+class Journal::AggregatedJournal
   class << self
     def aggregated_journals(journable: nil)
+      query_aggregated_journals(journable: journable).map { |journal|
+        Journal::AggregatedJournal.new(journal)
+      }
+    end
+
+    def query_aggregated_journals(journable: nil)
       # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
       # where an entry with empty notes follows an entry containing notes, so that the notes
       # from the main entry are taken, while the remaining information is taken from the
@@ -56,7 +60,7 @@ class Journal::AggregatedJournal < Journal
       # that our own row (master) would not already have been merged by its predecessor. If it is
       # (that means if we can find a valid predecessor), we drop our current row, because it will
       # already be present (in a merged form) in the row of our predecessor.
-      from("(#{sql_rough_group(journable, 1)}) #{table_name}")
+      Journal.from("(#{sql_rough_group(journable, 1)}) #{table_name}")
       .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, 2)}) addition
                               ON #{sql_on_groups_belong_condition(table_name, 'addition')}")
       .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, 3)}) predecessor
@@ -161,13 +165,44 @@ class Journal::AggregatedJournal < Journal
 
       "(#{difference} > #{threshold})"
     end
+
+    def table_name
+      Journal.table_name
+    end
+  end
+
+  delegate :journable_type,
+           :journable_id,
+           :journable,
+           :user_id,
+           :user,
+           :notes,
+           :activity_type,
+           :created_at,
+           :id,
+           :version,
+           :attributes,
+           to: :journal
+
+  def initialize(journal)
+    @journal = journal
+  end
+
+  def user
+    @user ||= User.find(user_id)
   end
 
   def predecessor
-    @predecessor ||= self.class.aggregated_journals(journable: journable)
-                       .where("#{self.class.table_name}.version < ?", version)
-                       .order("#{self.class.table_name}.version DESC")
-                       .first
+    unless defined? @predecessor
+      raw_journal = self.class.query_aggregated_journals(journable: journable)
+                    .where("#{Journal.table_name}.version < ?", version)
+                    .order("#{Journal.table_name}.version DESC")
+                    .first
+
+      @predecessor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
+    end
+
+    @predecessor
   end
 
   def initial?
@@ -178,6 +213,10 @@ class Journal::AggregatedJournal < Journal
   # not to work with PostgreSQL and simply return a string for unknown columns.
   # Thus we need to ensure manually that this column is correctly casted.
   def notes_id
-    ActiveRecord::ConnectionAdapters::Column.value_to_integer(attributes['notes_id'])
+    ActiveRecord::ConnectionAdapters::Column.value_to_integer(journal.notes_id)
   end
+
+  private
+
+  attr_reader :journal
 end
