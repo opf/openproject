@@ -28,10 +28,6 @@
 #++
 
 class JournalListener
-  OpenProject::Notifications.subscribe('journal_created') do |payload|
-    distinguish_journals(payload[:journal], payload[:send_notification])
-  end
-
   class << self
     def distinguish_journals(journal, send_notification)
       if journal.journable_type == 'WorkPackage' && send_notification && journal.initial?

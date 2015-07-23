@@ -27,4 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'journal_listener'
+OpenProject::Notifications.subscribe('journal_created') do |payload|
+  JournalListener.distinguish_journals(payload[:journal], payload[:send_notification])
+end
