@@ -22,8 +22,8 @@
   </div>
 
   <p><%= l("repositories.#{vendor}.#{type}_introduction") %></p>
-  <div id="toggleable-attribute-group--content-<%= type %>"
-       class="attribute-group--content -toggleable single-attribute"
+  <div id="toggleable-attributes-group--content-<%= type %>"
+       class="attributes-group--content -toggleable single-attribute"
        <%= alone ? '' : 'hidden' %>>
 
     <%= render partial: "/repositories/settings/#{vendor}/#{type}",

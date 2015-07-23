@@ -53,7 +53,7 @@ describe 'Repository Settings', type: :feature, js: true do
   shared_examples 'manages the repository' do |type|
     it 'displays the repository' do
       expect(page).not_to have_selector('select[name="scm_vendor"]')
-      expect(find("#toggleable-attribute-group--content-#{type}", visible: true))
+      expect(find("#toggleable-attributes-group--content-#{type}", visible: true))
         .not_to be_nil
     end
 

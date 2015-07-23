@@ -98,7 +98,7 @@ describe 'Create repository', type: :feature, js: true do
         expect(scm_type[:selected]).to be_truthy
         expect(scm_type[:disabled]).to be_falsey
 
-        content = find("#toggleable-attribute-group--content-#{type}")
+        content = find("#toggleable-attributes-group--content-#{type}")
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
       end
@@ -112,7 +112,7 @@ describe 'Create repository', type: :feature, js: true do
         expect(selector[:selected]).to be_falsey
         expect(selector[:disabled]).to be_falsey
 
-        content = find("#toggleable-attribute-group--content-#{type}", visible: false)
+        content = find("#toggleable-attributes-group--content-#{type}", visible: false)
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_truthy
       end
@@ -124,12 +124,12 @@ describe 'Create repository', type: :feature, js: true do
 
       it 'can toggle between the two' do
         find("input[name='scm_type'][value='#{type}']").set(true)
-        content = find("#toggleable-attribute-group--content-#{type}")
+        content = find("#toggleable-attributes-group--content-#{type}")
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
 
         find('input[type="radio"][value="managed"]').set(true)
-        content = find('#toggleable-attribute-group--content-managed')
+        content = find('#toggleable-attributes-group--content-managed')
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
       end

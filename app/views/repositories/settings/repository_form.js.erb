@@ -11,7 +11,7 @@
 	<% end %>
 
 	var toggleContent = function(content, selected) {
-		var targetName = '#toggleable-attribute-group--content-' + selected,
+		var targetName = '#toggleable-attributes-group--content-' + selected,
 				oldTargets = content.not(targetName),
 				newTarget  = $(targetName);
 
@@ -35,14 +35,14 @@
 	};
 
 	$('#tab-content-repository')
-		.find('.attribute-group.-toggleable')
+		.find('.attributes-group.-toggleable')
 		.each(function(_i, el) {
 
 		var fs = $(el),
 			name = fs.attr('data-switch'),
 			switches = fs.find('[name="' + name + '"]'),
 			headers = fs.find('.attributes-group--header-text'),
-			content = fs.find('.attribute-group--content.-toggleable');
+			content = fs.find('.attributes-group--content.-toggleable');
 
 		// If only one choice, skip setup
 		if (switches.length === 1) {
