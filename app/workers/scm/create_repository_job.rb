@@ -36,7 +36,7 @@
 # Until then, a synchronous process is more failsafe.
 class Scm::CreateRepositoryJob
   def initialize(repository)
-    @id = repository.id
+    @repository = repository
   end
 
   def perform
@@ -59,22 +59,22 @@ class Scm::CreateRepositoryJob
   private
 
   ##
-  # Creates the repository at the +managed_repository_path+.
+  # Creates the repository at the +root_url+.
   # Accepts an overriden permission mode mask from the scm config,
   # or sets a sensible default of 0700.
   def create(mode)
-    FileUtils.mkdir_p(repository.managed_repository_path, mode: mode)
+    FileUtils.mkdir_p(repository.root_url, mode: mode)
   end
 
   ##
   # Overrides the owner/group permission of the created repository
   # after the adapter was able to work in the directory.
   def ensure_ownership(mode, owner, group)
-    FileUtils.chmod_R(mode, repository.managed_repository_path)
+    FileUtils.chmod_R(mode, repository.root_url)
 
     # Note that this is effectively a noop when owner or group is nil,
     # and then permissions remain OPs runuser/-group
-    FileUtils.chown_R(owner, group, repository.managed_repository_path)
+    FileUtils.chown_R(owner, group, repository.root_url)
   end
 
   def config
@@ -82,7 +82,7 @@ class Scm::CreateRepositoryJob
   end
 
   def repository
-    @repository ||= Repository.find @id
+    @repository
   end
 
   def default_mode

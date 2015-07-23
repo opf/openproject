@@ -56,9 +56,9 @@ describe Scm::DeleteManagedRepositoryService do
   context 'with managed repository, but no config' do
     let(:repository) { FactoryGirl.build(:repository_subversion, scm_type: :managed) }
 
-    it 'does not delete the repository' do
+    it 'does allow to delete the repository' do
       expect(repository.managed?).to be true
-      expect(service.call).to be false
+      expect(service.call).to be true
     end
   end
 
@@ -71,7 +71,6 @@ describe Scm::DeleteManagedRepositoryService do
       }
     }
 
-    # Must not .create a managed repository, or it will call this service itself!
     let(:repository) {
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project
@@ -87,9 +86,9 @@ describe Scm::DeleteManagedRepositoryService do
     end
 
     it 'deletes the repository' do
-      expect(File.directory?(repository.managed_repository_path)).to be true
+      expect(File.directory?(repository.root_url)).to be true
       expect(service.call).to be true
-      expect(File.directory?(repository.managed_repository_path)).to be false
+      expect(File.directory?(repository.root_url)).to be false
     end
 
     context 'and parent project' do
@@ -101,7 +100,7 @@ describe Scm::DeleteManagedRepositoryService do
 
       it 'deletes the parent path when empty' do
         expect(service.call).to be true
-        path = Pathname.new(repository.managed_repository_path)
+        path = Pathname.new(repository.root_url)
         expect(path).to eq(repo_path)
 
         expect(path.exist?).to be false

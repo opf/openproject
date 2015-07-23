@@ -92,7 +92,7 @@ describe Scm::CreateManagedRepositoryService do
 
     it 'creates the repository' do
       expect(service.call).to be true
-      expect(File.directory?(repository.managed_repository_path)).to be true
+      expect(File.directory?(repository.root_url)).to be true
     end
 
     context 'with pre-existing path on filesystem' do
@@ -104,6 +104,33 @@ describe Scm::CreateManagedRepositoryService do
         expect(service.call).to be false
         expect(service.localized_rejected_reason)
           .to eq(I18n.t('repositories.errors.exists_on_filesystem'))
+      end
+    end
+
+    context 'with a permission error occuring in the Job' do
+      before do
+        allow(Scm::CreateRepositoryJob)
+          .to receive(:new).and_raise(Errno::EACCES)
+      end
+
+      it 'returns the correct error' do
+        expect(service.call).to be false
+        expect(service.localized_rejected_reason)
+          .to eq(I18n.t('repositories.errors.path_permission_failed',
+                        path: repository.root_url))
+      end
+    end
+
+    context 'with an OS error occuring in the Job' do
+      before do
+        allow(Scm::CreateRepositoryJob)
+          .to receive(:new).and_raise(Errno::ENOENT)
+      end
+
+      it 'returns the correct error' do
+        expect(service.call).to be false
+        expect(service.localized_rejected_reason)
+          .to include('An error occurred while creating the repository on filesystem')
       end
     end
   end

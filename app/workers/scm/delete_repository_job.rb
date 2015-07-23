@@ -56,7 +56,6 @@ class Scm::DeleteRepositoryJob
   private
 
   def remove_empty_parents
-
     parent_path = Pathname.new(@managed_path).parent
 
     ##
@@ -64,7 +63,6 @@ class Scm::DeleteRepositoryJob
     # for empty directories that equal the parent identifier name
     # but are empty.
     @parents.reverse_each do |parent|
-
       # Stop unless the given parent path is the parent project path
       break unless parent_path.basename.to_s == parent
 

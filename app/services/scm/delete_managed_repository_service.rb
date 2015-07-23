@@ -39,7 +39,7 @@ Scm::DeleteManagedRepositoryService = Struct.new :repository do
 
       # Create necessary changes to repository to mark
       # it as managed by OP, but delete asynchronously.
-      managed_path = repository.managed_repository_path
+      managed_path = repository.root_url
       parents = repository.parent_projects
 
       if File.directory?(managed_path)

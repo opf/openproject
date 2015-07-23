@@ -70,6 +70,8 @@ module OpenProject
       # Returns the absolute path to the repository
       # under the +managed_root+ path defined in the configuration
       # of this adapter.
+      # Used only in the creation of a repository, at a later point
+      # in time, it is referred to in the root_url
       def managed_repository_path
         File.join(managed_root, repository_path)
       end
@@ -77,6 +79,8 @@ module OpenProject
       ##
       # Returns the access url to the repository
       # May be overridden by descendants
+      # Used only in the creation of a repository, at a later point
+      # in time, it is referred to in the url
       def managed_repository_url
         "file://#{managed_repository_path}"
       end
