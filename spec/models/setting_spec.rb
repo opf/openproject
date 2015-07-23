@@ -197,11 +197,20 @@ describe Setting, type: :model do
     end
 
     it "falls back to clearing everything if partial deletion is unsupported" do
-      expect(Rails.cache).to receive(:delete_matched).and_raise(NotImplementedError)
+      expected = lambda do |exception|
+        expect(Rails.cache).to receive(:delete_matched).and_raise(exception)
 
-      Rails.cache.write('foo', 'bar')
-      Setting.clear_cache!
-      expect(Rails.cache.read('foo')).to be_nil
+        Rails.cache.write('foo', 'bar')
+        Setting.clear_cache!
+        expect(Rails.cache.read('foo')).to be_nil
+      end
+
+      # base implementation of ActiveSupport::Cache::Store raises NotImplementedError
+      # https://github.com/rails/rails/blob/v3.2.22/activesupport/lib/active_support/cache.rb#L399
+      expected.call(NotImplementedError)
+
+      # when implementation doesn't decend from ActiveSupport::Cache::Store
+      expected.call(NoMethodError)
     end
   end
 

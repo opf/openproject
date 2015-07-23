@@ -206,7 +206,7 @@ class Setting < ActiveRecord::Base
   # cache. if #clear is also not supported we just yawn and fail together.
   def self.clear_cache!
     Rails.cache.delete_matched /\/openproject\/settings\/.*/
-  rescue NotImplementedError
+  rescue NotImplementedError, NoMethodError
     Rails.cache.clear
   end
 
