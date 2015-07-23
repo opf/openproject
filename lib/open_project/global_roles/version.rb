@@ -19,6 +19,6 @@
 
 module OpenProject
   module GlobalRoles
-    VERSION = "4.2.3"
+    VERSION = "4.2.4"
   end
 end
