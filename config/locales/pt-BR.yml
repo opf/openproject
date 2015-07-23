@@ -11,7 +11,7 @@ pt-BR:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: Só pode conter as identificações dos pacotes de trabalho do sprint atual
+              can_only_contain_work_packages_of_current_sprint: pode conter somente as identificações dos pacotes de trabalho do sprint atual
               must_block_at_least_one_work_package: deve conter a identificação de pelo menos um tíquete
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: deve ser o mesmo que a versão da história
@@ -93,7 +93,7 @@ pt-BR:
   label_hours: horas
   label_work_package_hierarchy: Hierarquia de Pacote de Trabalho
   label_master_backlog: Backlog principal
-  label_not_prioritized: Não priorizado
+  label_not_prioritized: não priorizado
   label_points: pontos
   label_points_burn_down: Abaixo
   label_points_burn_up: Acima
@@ -120,7 +120,7 @@ pt-BR:
   permission_create_impediments: Criar impedimentos
   permission_update_impediments: Editar impedimentos
   points_accepted: pontos aceitos
-  points_committed: points committed
+  points_committed: pontos comprometidos
   points_resolved: pontos resolvidos
   points_to_accept: pontos não aceitos
   points_to_resolve: pontos não resolvidos
@@ -131,8 +131,8 @@ pt-BR:
   rb_label_copy_tasks_open: Aberto
   rb_label_link_to_original: Incluir link para a história original
   remaining_hours: horas restantes
-  required_burn_rate_hours: required burn rate (hours)
-  required_burn_rate_points: required burn rate (points)
+  required_burn_rate_hours: burn rate necessário (horas)
+  required_burn_rate_points: burn rate necessário (pontos)
   todo_work_package_description: '%{summary}: %{url}%{description}'
   todo_work_package_summary: '%{type}: %{summary}'
   version_settings_display_label: Coluna no backlog
