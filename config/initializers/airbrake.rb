@@ -29,6 +29,8 @@
 airbrake = OpenProject::Configuration['airbrake']
 
 if airbrake && airbrake['api_key']
+  require 'airbrake'
+
   Airbrake.configure do |config|
     config.api_key = airbrake['api_key']
     config.host = airbrake['host'] if airbrake['host']
