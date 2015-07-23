@@ -65,7 +65,7 @@ class ProjectsController < ApplicationController
       }
       format.atom {
         projects = Project.visible.find(:all, order: 'created_on DESC',
-                                              limit: Setting.feeds_limit.to_i)
+                                              limit: Setting.feeds_limit)
         render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
@@ -249,7 +249,7 @@ class ProjectsController < ApplicationController
 
   def add_current_user_to_project_if_not_admin(project)
     unless User.current.admin?
-      r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
+      r = Role.givable.find_by_id(Setting.new_project_user_role_id) || Role.givable.first
       m = Member.new do |member|
         member.user = User.current
         member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works

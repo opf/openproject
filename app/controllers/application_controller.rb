@@ -573,7 +573,7 @@ class ApplicationController < ActionController::Base
   def render_feed(items, options = {})
     @items = items || []
     @items.sort! { |x, y| y.event_datetime <=> x.event_datetime }
-    @items = @items.slice(0, Setting.feeds_limit.to_i)
+    @items = @items.slice(0, Setting.feeds_limit)
     @title = options[:title] || Setting.app_title
     render template: 'common/feed', layout: false, content_type: 'application/atom+xml'
   end
@@ -751,11 +751,11 @@ class ApplicationController < ActionController::Base
   def session_expired?
     !api_request? && current_user.logged? &&
       (session_ttl_enabled? && (session[:updated_at].nil? ||
-                               (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
+                               (session[:updated_at] + Setting.session_ttl.minutes) < Time.now))
   end
 
   def session_ttl_enabled?
-    Setting.session_ttl_enabled? && Setting.session_ttl.to_i >= 5
+    Setting.session_ttl_enabled? && Setting.session_ttl >= 5
   end
 
   def permitted_params

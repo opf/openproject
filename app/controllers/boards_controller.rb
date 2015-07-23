@@ -82,7 +82,7 @@ class BoardsController < ApplicationController
       format.atom {
         @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                     .includes(:author, :board)
-                    .limit(Setting.feeds_limit.to_i)
+                    .limit(Setting.feeds_limit)
 
         render_feed(@messages, title: "#{@project}: #{@board}")
       }

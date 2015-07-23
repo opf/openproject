@@ -33,7 +33,7 @@ class ActivitiesController < ApplicationController
   accept_key_auth :index
 
   def index
-    @days = Setting.activity_days_default.to_i
+    @days = Setting.activity_days_default
 
     if params[:from]
       begin; @date_to = params[:from].to_date + 1; rescue; end

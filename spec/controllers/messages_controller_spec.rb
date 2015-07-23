@@ -112,7 +112,7 @@ describe MessagesController, type: :controller do
       end
 
       context 'invalid attachment' do
-        let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
+        let(:max_filesize) { Setting.attachment_max_size.kilobytes }
 
         before do
           allow_any_instance_of(Attachment).to receive(:filesize).and_return(max_filesize + 1)

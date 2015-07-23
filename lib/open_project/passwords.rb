@@ -89,14 +89,14 @@ module OpenProject
       # to be accepted, as specified in settings and checked to be within
       # reasonable bounds (>= 0, <= number of active rules).
       def self.min_adhered_rules
-        min = Setting.password_min_adhered_rules.to_i
+        min = Setting.password_min_adhered_rules
         # ensure value is in interval [0, active_rules.size]
         [[0, min].max, active_rules.size].min
       end
 
       # Returns the minimum password length as specified in settings.
       def self.min_length
-        Setting.password_min_length.to_i
+        Setting.password_min_length
       end
 
       # Returns a text describing the active password complexity rules,
