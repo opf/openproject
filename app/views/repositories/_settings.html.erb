@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
              url: { controller: '/repositories',
                     action: is_creation_form ? 'create' : 'update',
                     project_id: @project },
+             method: is_creation_form ? 'POST' : 'PUT',
              builder: TabularFormBuilder,
              html: { class: 'form' } do |f| %>
   <%= error_messages_for 'repository' %>

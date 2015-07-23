@@ -124,4 +124,22 @@ describe 'Repository Settings', type: :feature, js: true do
       it_behaves_like 'manages the repository', 'managed'
     end
   end
+
+  describe 'update repositories' do
+    let(:repository) {
+      FactoryGirl.create(:repository_subversion,
+                         scm_type: :existing,
+                         project: project)
+    }
+
+    it 'can set login and password' do
+      fill_in('repository[login]', with: 'foobar')
+      fill_in('repository_password', with: 'password')
+
+      click_button(I18n.t(:button_save))
+      expect(page).to have_selector('[name="repository[login]"][value="foobar"]')
+      expect(page).to have_selector('.flash',
+                                    text: I18n.t('repositories.update_settings_successful'))
+    end
+  end
 end
