@@ -119,6 +119,25 @@ describe RepositoriesController, type: :controller do
     end
   end
 
+  describe 'with empty repository' do
+    let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+    before do
+      allow(repository.scm)
+        .to receive(:check_availability!)
+        .and_raise(OpenProject::Scm::Exceptions::ScmEmpty)
+    end
+
+    context 'with #show' do
+      before do
+        get :show, project_id: project.identifier
+      end
+      it 'renders an empty warning view' do
+        expect(response).to render_template 'repositories/empty'
+        expect(response.code).to eq('200')
+      end
+    end
+  end
+
   describe 'with filesystem repository' do
     with_filesystem_repository('subversion', 'svn') do |repo_dir|
       let(:url) { "file://#{repo_dir}" }

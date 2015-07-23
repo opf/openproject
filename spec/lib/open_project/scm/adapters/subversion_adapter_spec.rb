@@ -95,6 +95,38 @@ describe OpenProject::Scm::Adapters::Subversion do
     end
   end
 
+  describe 'repository with authorization' do
+    let(:adapter) { OpenProject::Scm::Adapters::Subversion.new url, root_url, login, password }
+    let(:login) { 'whatever@example.org' }
+    let(:svn_cmd) { adapter.send :build_svn_cmd, ['info'] }
+
+    context 'without password' do
+      let(:password) { nil }
+
+      it 'creates the subversion command' do
+        idx = svn_cmd.index('--username')
+        expect(idx).not_to be_nil
+        expect(svn_cmd[idx + 1]).to eq(login)
+        expect(svn_cmd).not_to include('--password')
+      end
+    end
+
+    context 'with password' do
+      let(:password) { 'VG%\';rm -rf /;},Y<lo>^m\+DuE,vJP/9' }
+
+      it 'creates the subversion command' do
+        idx = svn_cmd.index('--username')
+        expect(idx).not_to be_nil
+        expect(svn_cmd[idx + 1]).to eq(login)
+
+        idx = svn_cmd.index('--password')
+        expect(idx).not_to be_nil
+        expect(svn_cmd[idx + 1])
+          .to eq("VG\\%\\'\\;rm\\ -rf\\ /\\;\\},Y\\<lo\\>\\^m\\\\\\+DuE,vJP/9")
+      end
+    end
+  end
+
   describe 'empty repository' do
     include_context 'with tmpdir'
     let(:root_url) { tmpdir }
