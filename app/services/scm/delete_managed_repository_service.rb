@@ -35,7 +35,7 @@ Scm::DeleteManagedRepositoryService = Struct.new :repository do
   # Registers an asynchronous job to delete the repository on disk.
   #
   def call
-    if repository.manageable? && repository.managed?
+    if repository.managed?
 
       # Create necessary changes to repository to mark
       # it as managed by OP, but delete asynchronously.
