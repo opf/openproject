@@ -29,32 +29,59 @@
 require 'spec_helper'
 
 describe AddAttachmentService do
-  let(:user) { FactoryGirl.build(:user) }
+  let(:user) { FactoryGirl.create(:user) }
   let(:work_package) { FactoryGirl.build(:work_package) }
-  let(:container) { work_package}
+  let(:container) { work_package }
   let(:description) { 'a fancy description' }
 
   subject { described_class.new(work_package, author: user) }
 
   describe '#add_attachment' do
-    before do
+    def call_tested_method
       subject.add_attachment uploaded_file: FileHelpers.mock_uploaded_file(name: 'foobar.txt'),
                              description: description
     end
 
-    it 'should save the attachment' do
-      attachment = Attachment.first
-      expect(attachment.filename).to eq 'foobar.txt'
-      expect(attachment.description).to eq description
+    context 'happy path' do
+      before do
+        call_tested_method
+      end
+
+      it 'should save the attachment' do
+        attachment = Attachment.first
+        expect(attachment.filename).to eq 'foobar.txt'
+        expect(attachment.description).to eq description
+      end
+
+      it 'should add the attachment to the WP' do
+        work_package.reload
+        expect(work_package.attachments).to include Attachment.first
+      end
+
+      it 'should add a journal entry on the WP' do
+        expect(work_package.journals.count).to eq 2 # 1 for WP creation + 1 for the attachment
+      end
     end
 
-    it 'should add the attachment to the WP' do
-      work_package.reload
-      expect(work_package.attachments).to include Attachment.first
-    end
+    context "can't save work package" do
+      before do
+        allow(work_package).to receive(:save!)
+          .and_raise(ActiveRecord::RecordInvalid.new(work_package))
+      end
 
-    it 'should add a journal entry on the WP' do
-      expect(work_package.journals.count).to eq 2 # 1 for WP creation + 1 for the attachment
+      it 'should raise the exception' do
+        expect { call_tested_method }.to raise_error ActiveRecord::RecordInvalid
+      end
+
+      it 'should not save the attachment' do
+        begin
+          call_tested_method
+        rescue ActiveRecord::RecordInvalid
+          # we expect that to happen
+        end
+
+        expect(Attachment.count).to eq 0
+      end
     end
   end
 end
