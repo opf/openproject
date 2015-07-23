@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -24,40 +25,36 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
 
-class AddAttachmentService
-  attr_reader :container, :author
+require 'spec_helper'
 
-  def initialize(container, author:)
-    @container = container
-    @author = author
-  end
+describe AddAttachmentService do
+  let(:user) { FactoryGirl.build(:user) }
+  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:container) { work_package}
+  let(:description) { 'a fancy description' }
 
-  ##
-  # Adds and saves the uploaded file as attachment of the given container.
-  # In case the container supports it, a journal will be written.
-  #
-  # An ActiveRecord::RecordInvalid error is raised if any record can't be saved.
-  def add_attachment(uploaded_file:, description:)
-    attachment = Attachment.new(file: uploaded_file,
-                                container: container,
-                                description: description,
-                                author: author)
-    save attachment
+  subject { described_class.new(work_package, author: user) }
 
-    attachment
-  end
+  describe '#add_attachment' do
+    before do
+      subject.add_attachment uploaded_file: FileHelpers.mock_uploaded_file(name: 'foobar.txt'),
+                             description: description
+    end
 
-  private
+    it 'should save the attachment' do
+      attachment = Attachment.first
+      expect(attachment.filename).to eq 'foobar.txt'
+      expect(attachment.description).to eq description
+    end
 
-  def save(attachment)
-    ActiveRecord::Base.transaction do
-      attachment.save!
-      if container.respond_to? :add_journal
-        container.add_journal author
-        container.save!
-      end
+    it 'should add the attachment to the WP' do
+      work_package.reload
+      expect(work_package.attachments).to include Attachment.first
+    end
+
+    it 'should add a journal entry on the WP' do
+      expect(work_package.journals.count).to eq 2 # 1 for WP creation + 1 for the attachment
     end
   end
 end
