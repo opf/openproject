@@ -31,9 +31,14 @@
 # The original settings are restored afterwards.
 def with_settings(options, &_block)
   saved_settings = options.keys.inject({}) do |h, k|
-    h[k] = Setting[k].is_a?(Symbol) ?
-              Setting[k] :
-              Setting[k].dup
+    begin
+      # try to store a duplicate, but use the original where :dup is not available (int, bool, sym)
+      # apparently this is the only way to determine if dup will work
+      h[k] = Setting[k].dup
+    rescue
+      h[k] = Setting[k]
+    end
+
     h
   end
 
