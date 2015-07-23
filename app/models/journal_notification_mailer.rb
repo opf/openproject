@@ -74,7 +74,8 @@ class JournalNotificationMailer
     end
 
     def notify_for_status?(journal)
-      Setting.notified_events.include?('status_updated') && journal.changed_data.has_key?(:status_id)
+      Setting.notified_events.include?('status_updated') &&
+        journal.changed_data.has_key?(:status_id)
     end
 
     def notify_for_priority(journal)
