@@ -26,11 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+module.exports = function(I18n) {
 
   var notificationBoxController = function(scope) {
     scope.uploadCount = 0;
     scope.show = false;
+    scope.I18n = I18n;
 
     scope.canBeHidden = function() {
       return scope.content.uploads.length > 5;

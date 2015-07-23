@@ -32,7 +32,8 @@ module.exports = function(
            WorkPackageFieldService,
            EditableFieldsState,
            WorkPackageDisplayHelper,
-           NotificationsService
+           NotificationsService,
+           I18n
            ) {
 
   var vm = this;
@@ -79,7 +80,7 @@ module.exports = function(
       });
     });
     $scope.$on('workPackageUpdatedInEditor', function() {
-      NotificationsService.addSuccess('Successful update');
+      NotificationsService.addSuccess(I18n.t('js.label_successful_update'));
     });
   }
 };
