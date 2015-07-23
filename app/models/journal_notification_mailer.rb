@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class JournalListener
+class JournalNotificationMailer
   class << self
     def distinguish_journals(journal, send_notification)
       if journal.journable_type == 'WorkPackage' && send_notification && journal.initial?
