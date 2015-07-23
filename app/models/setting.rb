@@ -103,7 +103,12 @@ class Setting < ActiveRecord::Base
 
       def self.#{name}?
         # when running too early, there is no settings table. do nothing
-        self[:#{name}].to_i > 0 if settings_table_exists_yet?
+        if settings_table_exists_yet?
+          value = self[:#{name}]
+          # not all boolean settings indicate their type correctly
+          return value if value.is_a?(TrueClass) || value.is_a?(FalseClass)
+          value.to_i > 0
+        end
       end
 
       def self.#{name}=(value)
@@ -135,8 +140,19 @@ class Setting < ActiveRecord::Base
     v = read_attribute(:value)
     # Unserialize serialized settings
     v = YAML::load(v) if @@available_settings[name]['serialized'] && v.is_a?(String)
-    v = v.to_sym if @@available_settings[name]['format'] == 'symbol' && !v.blank?
-    v
+
+    case @@available_settings[name]['format']
+    when 'symbol'
+      v.blank? ? v : v.to_sym
+    when 'int'
+      v.to_i
+    when 'float'
+      v.to_f
+    when 'bool'
+      v == 'true' || v == '1'
+    else
+      v
+    end
   end
 
   def value=(v)

@@ -110,6 +110,7 @@ host_name:
 protocol:
   default: http
 feeds_enabled:
+  format: bool
   default: 1
 feeds_limit:
   format: int
