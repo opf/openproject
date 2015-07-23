@@ -12,7 +12,7 @@
             <i class="icon-arrow-right5-2"></i>
           </a>
           <span>
-            {{uploadCount}} of {{content.uploads.length}} files finished
+            {{::I18n.t('js.label_upload_counter', { done: uploadCount, count: content.uploads.length})}}
           </span>
         </div>
         <div data-ng-show="show || !canBeHidden()">

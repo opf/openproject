@@ -163,6 +163,7 @@ en:
     label_rejected_files: "These files cannot be uploaded:"
     label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
     label_wait: "Please wait for configuration..."
+    label_upload_counter: "%{done} of %{count} files finished"
 
 
     text_are_you_sure: "Are you sure?"
