@@ -210,7 +210,7 @@ default:
   # airbrake:
   #   api_key: <your_api_key>
   #   host: errbit.example.org
-  #   post: 443
+  #   port: 443 (default)
 
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
