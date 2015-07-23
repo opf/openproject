@@ -21,8 +21,6 @@ fr:
     meeting_minutes: Compte-rendu de la réunion modifié
     meeting_minutes_created: Compte-rendu de la réunion créé
   error_notification_with_errors: "L'envoi de notifications a échoué. Les destinataires suivant n'ont pas pu être notifiés : %{recipients}"
-  label_meeting_hour: Temps (heure)
-  label_meeting_minute: Temps (minutes)
   label_meeting: Réunion
   label_meeting_plural: Réunions
   label_meeting_new: Nouvelle réunion

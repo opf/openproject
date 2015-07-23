@@ -21,8 +21,6 @@ he:
     meeting_minutes: דקות פגישה נערך
     meeting_minutes_created: דקות פגישה נוצר
   error_notification_with_errors: 'שליחת ההודעה נכשלה. הנמענים הבאים לא יקבלו את ההודעה: %{recipients}'
-  label_meeting_hour: זמן (שעה)
-  label_meeting_minute: זמן (דקה)
   label_meeting: פגישה
   label_meeting_plural: פגישות
   label_meeting_new: פגישה חדשה
