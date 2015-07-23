@@ -121,6 +121,8 @@ describe Journal::AggregatedJournal, type: :model do
         end
 
         context 'adding a second comment' do
+          let(:notes) { 'Another comment, unrelated to the first one.' }
+
           before do
             expect(work_package.update_by!(new_author, notes: notes)).to be_truthy
           end
@@ -173,10 +175,12 @@ describe Journal::AggregatedJournal, type: :model do
   end
 
   context 'WP updated after aggregation timeout expired' do
+    let(:delay) { (Setting.journal_aggregation_time_minutes.to_i + 1).minutes }
+
     before do
       work_package.status = FactoryGirl.build(:status)
       work_package.save!
-      work_package.journals.second.created_at += 1.day # one day delay should always be long enough
+      work_package.journals.second.created_at += delay
       work_package.journals.second.save!
     end
 
