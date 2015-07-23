@@ -33,9 +33,13 @@ var expect = require('../../../spec_helper.js').expect,
     datepicker = detailsPaneHelper.datepicker,
     elements = detailsPaneHelper.elements;
 
-
 describe('details pane', function() {
   var dateRangePicker;
+
+  var normalizeString = function(string) {
+    return string.replace(/\r?\n|\r/g, "").replace(/  /g, " ")
+  };
+
   describe('date range picker', function() {
     beforeEach(function() {
       detailsPaneHelper.loadPane(819, 'overview');
@@ -53,7 +57,9 @@ describe('details pane', function() {
 
       it('shows date range', function() {
         var read_value = dateRangePicker.$('.inplace-edit--read-value');
-        expect(read_value.getText()).to.eventually.equal('02/17/2015\n  -  \n04/29/2015');
+        var text = read_value.getText().then(function(value) { return normalizeString(value) } );
+
+        expect(text).to.eventually.equal('02/17/2015 - 04/29/2015');
       });
     });
 
@@ -332,7 +338,9 @@ describe('details pane', function() {
 
       it('shows date range', function() {
         var read_value = dateRangePicker.$('.inplace-edit--read-value');
-        expect(read_value.getText()).to.eventually.equal('no start date\n  -  \n12/27/2014');
+        var text = read_value.getText().then(function(value) { return normalizeString(value) });
+
+        expect(text).to.eventually.equal('no start date - 12/27/2014');
       });
     });
 
@@ -395,7 +403,9 @@ describe('details pane', function() {
 
       it('shows date range', function() {
         var read_value = dateRangePicker.$('.inplace-edit--read-value');
-        expect(read_value.getText()).to.eventually.equal('10/23/2014\n  -  \nno end date');
+        var text = read_value.getText().then(function(value) { return normalizeString(value) });
+
+        expect(text).to.eventually.equal('10/23/2014 - no end date');
       });
     });
 
