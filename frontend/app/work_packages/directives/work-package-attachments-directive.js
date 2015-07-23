@@ -58,7 +58,7 @@ module.exports = function(
           }).finally(function() {
             scope.loading = false;
           });
-        }
+        };
 
     scope.I18n = I18n;
     scope.rejectedFiles = [];
@@ -81,7 +81,7 @@ module.exports = function(
 
     scope.deleting = function(attachment) {
       return _.findIndex(currentlyRemoving, attachment) > -1;
-    }
+    };
 
     scope.$on('uploadPendingAttachments', upload);
     scope.$watch('rejectedFiles', function(rejectedFiles) {
