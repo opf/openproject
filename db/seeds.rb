@@ -27,8 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
+# This file should contain all the record creation needed to seed the database
+# with its default values.  The data can then be loaded with the rake db:seed
+# (or created alongside the db with db:setup).
 #
 # Examples:
 #
@@ -54,7 +55,7 @@ end
 # would mean to circumvent the default settings
 # for valid_languages.
 include Redmine::I18n
-desired_lang = ENV['LOCALE'].to_sym || :en
+desired_lang = (ENV['LOCALE'] || :en).to_sym
 
 if all_languages.include?(desired_lang)
   I18n.locale = desired_lang
@@ -75,4 +76,3 @@ Rails::Application::Railties.engines.each do |engine|
   puts "*** Loading #{engine.engine_name} seed data"
   engine.load_seed
 end
-
