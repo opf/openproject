@@ -264,7 +264,7 @@ Then /^there should not be a saving error on task "(.+?)"$/ do |task_name|
 end
 
 Then /^I should be notified that the work_package "(.+?)" is an invalid parent to the work_package "(.+?)" because of cross project limitations$/ do |parent_name, child_name|
-  step %Q{I should see "Parent is invalid because the work package '#{child_name}' is a backlog task and as such can not have the backlog story '#{parent_name}' as its parent as long as the story is in a different project" within "#errorExplanation"}
+  step %Q{I should see "Parent is invalid because the work package '#{child_name}' is a backlog task and therefore cannot have a parent outside of the current project." within "#errorExplanation"}
 end
 
 Then /^the PDF download dialog should be displayed$/ do
