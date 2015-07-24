@@ -48,16 +48,14 @@ module API
 
         link :user do
           {
-            href: api_v3_paths.user(represented.user.id),
-            title: "#{represented.user.name} - #{represented.user.login}"
+            href: api_v3_paths.user(represented.user.id)
           }
         end
 
         link :update do
           {
-            href: api_v3_paths.activity(represented.id),
-            method: :patch,
-            title: "#{represented.id}"
+            href: api_v3_paths.activity(represented.notes_id),
+            method: :patch
           } if current_user_allowed_to_edit?
         end
 
