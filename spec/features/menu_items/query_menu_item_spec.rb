@@ -96,6 +96,8 @@ feature 'Query menu items' do
       click_on I18n.t('js.toolbar.settings.page_settings')
       fill_in I18n.t('js.modals.label_name'), with: new_name
       click_on I18n.t('js.modals.button_submit')
+
+      ng_wait
     end
 
     after do
