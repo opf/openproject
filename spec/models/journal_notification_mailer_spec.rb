@@ -37,7 +37,6 @@ describe JournalNotificationMailer do
   end
   let(:work_package) do
     FactoryGirl.create(:work_package,
-                       project_id: project.id,
                        project: project,
                        author: user,
                        type: project.types.first)
