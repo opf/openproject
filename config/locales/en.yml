@@ -156,6 +156,7 @@ en:
         hexcode: Hex code
       project_association:
         description: Cause
+        project_b: 'Dependent project'
       project_type:
         allows_association: Allows association
         name: Name
@@ -221,7 +222,7 @@ en:
         could_not_be_copied: "could not be (fully) copied."
       models:
         project_association:
-          identical_projects: "can not be created from one project to itself."
+          identical_projects: "Dependency cannot be created between one project and itself."
           project_association_not_allowed: "does not allow associations."
         repository:
           not_whitelisted: "is not allowed by the configuration."

@@ -26,6 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# Adds a unique index over three columns of the journals table that should form a composite key.
+# Because we know that production data will not fit that assumption, we perform an automatic cleanup
+# before adding the Index:
+#  1. remove perfectly identical duplicates:
+#     Those may appear by clicking multiple times on the submit button of a form
+#  2. issue new version numbers for duplicates with different content
+#     May arise due to quick automated updates (e.g. bots posting comments)
+# In general we learned that up until now OpenProject was not very good at handling concurrent
+# updates to journables. By adding the index we ensure data consistency, but at the same time
+# provoke errors in those update scenarios.
 class AddUniqueIndexOnJournals < ActiveRecord::Migration
   def up
     cleanup_duplicate_journals
@@ -43,8 +53,9 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
 
     if duplicate_pairs.any?
       say "Found #{duplicate_pairs.count} journals with at least one duplicate!"
+
+      inconsistent_journables = []
       say_with_time 'Safely removing duplicates...' do
-        undeleted_pairs = []
         duplicate_pairs.each do |current_id, duplicate_id|
           sub_say "Comparing journals ##{current_id} & ##{duplicate_id} for equality"
 
@@ -55,12 +66,12 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
             sub_say "Deleting journal ##{current.id}..."
             current.destroy
           else
-            undeleted_pairs << [current_id, duplicate_id]
+            inconsistent_journables << [current.journable_type, current.journable_id]
           end
         end
-
-        abort_on_undeleted_pairs undeleted_pairs
       end
+
+      reorder_journals_for inconsistent_journables
     end
   end
 
@@ -75,6 +86,24 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
       .select("#{this}.id id, other.id duplicate_id")
       .uniq_by(&:id)
       .map { |pair| [pair.id, pair.duplicate_id] }
+  end
+
+  def reorder_journals_for(journables)
+    if journables.any?
+      say_with_time 'Reordering journables with duplicate journals...' do
+        journables.uniq!
+        journables.each do |type, id|
+          sub_say "Reordering journals for #{type} ##{id}"
+          journals = Journal
+                       .where(journable_type: type, journable_id: id)
+                       .order('version ASC, created_at ASC')
+          journals.each_with_index do |journal, index|
+            version = index + 1
+            Journal.where(id: journal.id).update_all(version: version)
+          end
+        end
+      end
+    end
   end
 
   def journals_equivalent?(a, b)
@@ -126,33 +155,6 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration
       hash[custom_journal.custom_field_id] = custom_journal.value
       hash
     }
-  end
-
-  def abort_on_undeleted_pairs(undeleted_pairs)
-    return unless undeleted_pairs.any?
-
-    sub_say ''
-    sub_say 'There were journals that had a duplicate, but were not deleted.'
-    sub_say 'You have to manually decide how to proceed with these journals.'
-    sub_say 'Please compare the corresponding entries in the following tables:'
-    sub_say ' * journals'
-    sub_say ' * attachable_journals'
-    sub_say ' * customizable_journals'
-    sub_say ' * {type}_journals, with {type} being indicated by the journable_type'
-    sub_say ''
-    sub_say 'The following table lists the remaining duplicate pairs,'
-    sub_say 'note that only one entry per pair is supposed to be deleted:'
-
-    column_width = 20
-    sub_say '-' * (column_width *  2 + 7)
-    sub_say "| #{'journal 1'.rjust(column_width)} | #{'journal 2'.rjust(column_width)} |"
-    sub_say '-' * (column_width *  2 + 7)
-    undeleted_pairs.each do |dup_a, dup_b|
-      sub_say "| #{dup_a.to_s.rjust(column_width)} | #{dup_b.to_s.rjust(column_width)} |"
-    end
-    sub_say '-' * (column_width *  2 + 7)
-
-    raise "Can't continue migration safely because of duplicate journals!"
   end
 
   def sub_say(message)
