@@ -41,8 +41,7 @@ class JournalNotificationMailer
 
     def handle_work_package_create(work_package)
       if Setting.notified_events.include?('work_package_added')
-        recipients = work_package.recipients + work_package.watcher_recipients
-        recipients.uniq.each do |user|
+        notification_receivers(work_package).uniq.each do |user|
           job = DeliverWorkPackageCreatedJob.new(user.id, work_package.id, User.current.id)
 
           Delayed::Job.enqueue job
@@ -53,8 +52,7 @@ class JournalNotificationMailer
     def handle_work_package_update(journal)
       if send_update_notification?(journal)
         issue = journal.journable
-        recipients = issue.recipients + issue.watcher_recipients
-        recipients.uniq.each do |user|
+        notification_receivers(issue).uniq.each do |user|
           job = DeliverWorkPackageUpdatedJob.new(user.id, journal.id, User.current.id)
           Delayed::Job.enqueue job
         end
@@ -80,6 +78,10 @@ class JournalNotificationMailer
     def notify_for_priority(journal)
       Setting.notified_events.include?('work_package_priority_updated') &&
         journal.changed_data.has_key?(:priority_id)
+    end
+
+    def notification_receivers(work_package)
+      work_package.recipients + work_package.watcher_recipients
     end
   end
 end
