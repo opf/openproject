@@ -41,23 +41,6 @@ class SysController < ActionController::Base
     end
   end
 
-  def create_project_repository
-    project = Project.find(params[:id])
-    if project.repository
-      render nothing: true, status: 409
-    else
-      logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
-      service = Scm::RepositoryFactoryService.new(project, params)
-
-      if service.build_and_save
-        project.repository = service.repository
-        render xml: project.repository, status: 201
-      else
-        render nothing: true, status: 422
-      end
-    end
-  end
-
   def fetch_changesets
     projects = []
     if params[:id]

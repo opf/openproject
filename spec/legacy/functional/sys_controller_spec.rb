@@ -47,20 +47,6 @@ describe SysController, type: :controller do
     end
   end
 
-  it 'should create project repository' do
-    assert_nil Project.find(4).repository
-
-    post :create_project_repository, id: 4,
-                                     scm_vendor: 'Subversion',
-                                     scm_type: 'existing',
-                                     repository: { url: 'file:///create/project/repository/subproject2' }
-    assert_response :created
-
-    r = Project.find(4).repository
-    assert r.is_a?(Repository::Subversion)
-    assert_equal 'file:///create/project/repository/subproject2', r.url
-  end
-
   it 'should fetch changesets' do
     expect_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
     get :fetch_changesets
