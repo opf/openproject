@@ -70,17 +70,7 @@ describe JournalNotificationMailer do
         FactoryGirl.create(:work_package, project: project)
       end
 
-      context 'sends a notification' do
-        let(:notifications) { ['work_package_added'] }
-
-        it do
-          expect(ActionMailer::Base.deliveries.size).to eq(1)
-        end
-      end
-
-      it 'sends no notification' do
-        expect(ActionMailer::Base.deliveries.size).to eq(0)
-      end
+      it_behaves_like 'handles deliveries', 'work_package_added'
     end
 
     context 'work_package_updated' do
