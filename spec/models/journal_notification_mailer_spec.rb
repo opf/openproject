@@ -35,12 +35,12 @@ describe JournalNotificationMailer do
                       mail_notification: 'all',
                       member_in_project: project)
   end
-  let(:work_package) do
+  let(:work_package) {
     FactoryGirl.create(:work_package,
                        project: project,
                        author: user,
                        type: project.types.first)
-  end
+  }
   let(:notifications) { [] }
 
   before do
