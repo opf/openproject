@@ -46,8 +46,8 @@ describe WorkPackage, type: :model do
     before do
       ActionMailer::Base.deliveries.clear
 
-      allow(work_package).to receive(:recipients).and_return([user_1.mail])
-      allow(work_package).to receive(:watcher_recipients).and_return([user_2.mail])
+      allow(work_package).to receive(:recipients).and_return([user_1])
+      allow(work_package).to receive(:watcher_recipients).and_return([user_2])
 
       work_package.save
     end
@@ -94,7 +94,7 @@ describe WorkPackage, type: :model do
 
       subject { work_package.recipients }
 
-      it { is_expected.to include(user_1.mail) }
+      it { is_expected.to include(user_1) }
     end
   end
 end

@@ -42,9 +42,7 @@ class JournalNotificationMailer
     def handle_work_package_create(work_package)
       if Setting.notified_events.include?('work_package_added')
         recipients = work_package.recipients + work_package.watcher_recipients
-        users = User.find_all_by_mails(recipients.uniq)
-
-        users.each do |user|
+        recipients.uniq.each do |user|
           job = DeliverWorkPackageCreatedJob.new(user.id, work_package.id, User.current.id)
 
           Delayed::Job.enqueue job
@@ -56,8 +54,7 @@ class JournalNotificationMailer
       if send_update_notification?(journal)
         issue = journal.journable
         recipients = issue.recipients + issue.watcher_recipients
-        users = User.find_all_by_mails(recipients.uniq)
-        users.each do |user|
+        recipients.uniq.each do |user|
           job = DeliverWorkPackageUpdatedJob.new(user.id, journal.id, User.current.id)
           Delayed::Job.enqueue job
         end

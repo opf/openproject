@@ -92,12 +92,11 @@ module Redmine
           end
         end
 
-        # Returns the mail adresses of users that should be notified
+        # Returns users that should be notified
         def recipients
           notified = []
           notified = project.notified_users if project
-          notified.reject! { |user| !visible?(user) }
-          notified.map(&:mail)
+          notified.reject { |user| !visible?(user) }
         end
 
         module ClassMethods

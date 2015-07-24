@@ -34,8 +34,7 @@ class CommentObserver < ActiveRecord::Observer
     if comment.commented.is_a?(News)
       news = comment.commented
       recipients = news.recipients + news.watcher_recipients
-      users = User.find_all_by_mails(recipients)
-      users.each do |user|
+      recipients.each do |user|
         UserMailer.news_comment_added(user, comment, User.current).deliver
       end
     end

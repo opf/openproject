@@ -490,7 +490,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  # Returns the mail addresses of users that should be notified
+  # Returns users that should be notified
   def recipients
     notified = project.notified_users
     # Author and assignee are always notified unless they have been
@@ -505,8 +505,7 @@ class WorkPackage < ActiveRecord::Base
     end
     notified.uniq!
     # Remove users that can not view the issue
-    notified.reject! { |user| !visible?(user) }
-    notified.map(&:mail)
+    notified.reject { |user| !visible?(user) }
   end
 
   def done_ratio
