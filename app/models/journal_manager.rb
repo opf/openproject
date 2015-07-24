@@ -261,7 +261,7 @@ class JournalManager
     end
   end
 
-  def self.clear_notification
+  def self.reset_notification
     @send_notification = true
   end
 end

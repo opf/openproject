@@ -77,7 +77,7 @@ module Redmine::Acts::Journalized
       end
 
       # Need to clear the notification setting after each usage otherwise it might be cached
-      JournalManager.clear_notification
+      JournalManager.reset_notification
 
       @journal_user = nil
       @journal_notes = nil
