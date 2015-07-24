@@ -32,14 +32,14 @@ class JournalNotificationMailer
     def distinguish_journals(journal, send_notification)
       if send_notification
         if journal.journable_type == 'WorkPackage' && journal.initial?
-          handle_create(journal.journable)
+          handle_work_package_create(journal.journable)
         elsif journal.journable_type == 'WorkPackage'
-          handle_update(journal)
+          handle_work_package_update(journal)
         end
       end
     end
 
-    def handle_create(work_package)
+    def handle_work_package_create(work_package)
       if Setting.notified_events.include?('work_package_added')
         recipients = work_package.recipients + work_package.watcher_recipients
         users = User.find_all_by_mails(recipients.uniq)
@@ -52,7 +52,7 @@ class JournalNotificationMailer
       end
     end
 
-    def handle_update(journal)
+    def handle_work_package_update(journal)
       if send_update_notification?(journal)
         issue = journal.journable
         recipients = issue.recipients + issue.watcher_recipients
