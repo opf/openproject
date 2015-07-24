@@ -33,7 +33,7 @@ require('shelljs/global');
 var path = require('path'),
     _    = require('lodash');
 
-var PLUGIN_INFO_CMD_PATH = path.join(__dirname, '..', 'bin', 'plugin_info');
+var PLUGIN_INFO_CMD_PATH = 'bundle exec rails runner ' + path.join(__dirname, '..', 'bin', 'plugin_info.rb');
 
 function runPluginsInfo() {
   var currentWorkingDir = process.cwd();
