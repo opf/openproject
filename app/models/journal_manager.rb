@@ -30,8 +30,9 @@
 class JournalManager
   class << self
     attr_accessor :send_notification
-    @send_notification = true
   end
+
+  self.send_notification = true
 
   def self.is_journalized?(obj)
     not obj.nil? and obj.respond_to? :journals
@@ -258,12 +259,6 @@ class JournalManager
     journable.custom_values.select { |c| c.value.present? || c.value == false }.each do |cv|
       journal.customizable_journals.build custom_field_id: cv.custom_field_id, value: cv.value
     end
-  end
-
-  # Wrap send_notification so it defaults to true, when it's nil
-  def send_notification
-    return true if @send_notification.nil?
-    @send_notification
   end
 
   # Need to clear the notification setting after each usage otherwise it might be cached
