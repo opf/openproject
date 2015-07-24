@@ -27,6 +27,7 @@
 //++
 
 describe('ConversionService', function() {
+  'use strict';
   var ConversionService;
 
   beforeEach(module('openproject.services'));
@@ -49,13 +50,13 @@ describe('ConversionService', function() {
     var result = ConversionService.fileSize(1000000);
     expect(result).to.eql('1MB');
 
-    var result = ConversionService.fileSize(1000);
+    result = ConversionService.fileSize(1000);
     expect(result).to.eql('1kB');
 
-    var result = ConversionService.fileSize(1234);
+    result = ConversionService.fileSize(1234);
     expect(result).to.eql('1.2kB');
 
-    var result = ConversionService.fileSize(1874234);
+    result = ConversionService.fileSize(1874234);
     expect(result).to.eql('1.9MB');
   });
-})
+});

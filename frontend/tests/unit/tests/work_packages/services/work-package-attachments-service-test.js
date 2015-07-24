@@ -26,13 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 /* jshint expr: true */
+/* globals WebKitBlobBuilder */
 
-describe.only('workPacakgeAttachmentsService', function() {
+describe('workPackageAttachmentsService', function() {
+  'use strict';
   var WorkPackageAttachmentsService, $httpBackend;
 
   // mock me a work package
   // TODO: remove that hyperagent.js nonsense asap
-  var work_package = {
+  var workPackage = {
     props: {
       id: 1
     },
@@ -48,7 +50,7 @@ describe.only('workPacakgeAttachmentsService', function() {
         }
       }
     }
-  }
+  };
 
   // mock me an attachment
   var attachment = {
@@ -57,7 +59,7 @@ describe.only('workPacakgeAttachmentsService', function() {
         href: '/attachments/1234'
       }
     }
-  }
+  };
 
   beforeEach(module('openproject.workPackages'));
 
@@ -81,7 +83,7 @@ describe.only('workPacakgeAttachmentsService', function() {
     });
 
     it('should retrieve attachments for a given work pacakge', function () {
-      WorkPackageAttachmentsService.load(work_package).then(function(result) {
+      WorkPackageAttachmentsService.load(workPackage).then(function(result) {
         expect(result).to.eql([1,2,3]);
       });
       $httpBackend.flush();
@@ -93,8 +95,21 @@ describe.only('workPacakgeAttachmentsService', function() {
       $httpBackend.expectPOST('/api/v3/work_packages/1/attachments').respond({});
     });
 
+    function createFiles() {
+      var blob;
+      try {
+        var builder = new WebKitBlobBuilder();
+        builder.append(['I am a TestFile for WebKit browsers']);
+        blob = builder.getBlob();
+      } catch(Error) {
+        blob = new Blob(['I am a testfile']);
+      }
+      return [blob];
+    }
+
     it('should create an attachment for a given work package', function () {
-      WorkPackageAttachmentsService.upload(work_package, attachment);
+      var files = createFiles();
+      WorkPackageAttachmentsService.upload(workPackage, files);
       $httpBackend.flush();
     });
   });
@@ -108,6 +123,5 @@ describe.only('workPacakgeAttachmentsService', function() {
       WorkPackageAttachmentsService.remove(attachment);
       $httpBackend.flush();
     });
-  })
-
+  });
 });

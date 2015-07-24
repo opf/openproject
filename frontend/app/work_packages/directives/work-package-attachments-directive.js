@@ -33,6 +33,7 @@ module.exports = function(
   ConfigurationService,
   ConversionService
 ) {
+  'use strict';
   var editMode = function(attrs) {
     return typeof attrs.edit !== 'undefined';
   };

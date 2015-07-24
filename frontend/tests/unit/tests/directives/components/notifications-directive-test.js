@@ -28,6 +28,7 @@
 //++
 
 describe('NotificationsDirective', function() {
+  'use strict';
   var $compile, $rootScope;
 
   beforeEach(module('openproject.uiComponents'));

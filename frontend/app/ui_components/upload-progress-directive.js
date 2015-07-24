@@ -27,6 +27,7 @@
 //++
 
 module.exports = function() {
+  'use strict';
   var uploadProgressController = function(scope) {
 
     scope.upload.progress(function(details) {

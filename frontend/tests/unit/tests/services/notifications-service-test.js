@@ -27,6 +27,7 @@
 //++
 
 describe('NotificationsService', function() {
+  'use strict';
   var NotificationsService;
 
   beforeEach(module('openproject.services'));

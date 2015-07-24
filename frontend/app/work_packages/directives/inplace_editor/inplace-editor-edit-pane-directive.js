@@ -47,7 +47,7 @@ module.exports = function(
       // go full retard
       var uploadPendingAttachments = function(wp) {
         $rootScope.$broadcast('uploadPendingAttachments', wp);
-      }
+      };
 
       this.submit = function(notify) {
         var fieldController = $scope.fieldController;

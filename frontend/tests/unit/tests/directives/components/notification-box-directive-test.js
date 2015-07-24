@@ -28,33 +28,33 @@
 //++
 
 describe('NotificationBoxDirective', function() {
-  var $compile, $rootScope, Upload;
+  'use strict';
+  var $compile, $rootScope;
 
   beforeEach(module('openproject.uiComponents'));
   beforeEach(module('openproject.templates')); // see karmaConfig
 
-  beforeEach(inject(function(_$compile_, _$rootScope_, _Upload_) {
+  beforeEach(inject(function(_$compile_, _$rootScope_) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
-    Upload = _Upload_;
   }));
 
   it('should need a content to properly work', function() {
     expect(function() {
-      var element = $compile('<notification-box></notification-box>')($rootScope);
+      $compile('<notification-box></notification-box>')($rootScope);
       $rootScope.$digest();
-    }).to.throw(Error)
+    }).to.throw;
   });
 
   it('should render with content set', function() {
-    $rootScope.warning = { message: 'warning!' }
+    $rootScope.warning = { message: 'warning!' };
     var element = $compile('<notification-box content="warning"></notification-box>')($rootScope);
     $rootScope.$digest();
     expect(element.html()).to.contain('warning!');
   });
 
   it('should render with the appropiate type', function() {
-    $rootScope.error = { message: 'error!', type: 'error' }
+    $rootScope.error = { message: 'error!', type: 'error' };
     var element = $compile('<notification-box content="error"></notification-box>')($rootScope);
     $rootScope.$digest();
     expect(element.html()).to.contain('-error');
