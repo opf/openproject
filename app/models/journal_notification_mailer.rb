@@ -51,8 +51,8 @@ class JournalNotificationMailer
 
     def handle_work_package_update(journal)
       if send_update_notification?(journal)
-        issue = journal.journable
-        notification_receivers(issue).uniq.each do |user|
+        work_package = journal.journable
+        notification_receivers(work_package).uniq.each do |user|
           job = DeliverWorkPackageUpdatedJob.new(user.id, journal.id, User.current.id)
           Delayed::Job.enqueue job
         end
