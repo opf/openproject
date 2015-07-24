@@ -158,7 +158,7 @@ Feature: Scrum Master
     And I press "OK"
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
-    And the error alert should show "Blocks can only contain the IDs of work packages in the current sprint"
+    And the error alert should show "IDs of blocked work packages can only contain IDs of work packages in the current sprint."
 
   @javascript
   Scenario: Create an impediment blocking a non existent work_package
@@ -170,7 +170,7 @@ Feature: Scrum Master
     And I press "OK"
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
-    And the error alert should show "Blocks can only contain the IDs of work packages in the current sprint"
+    And the error alert should show "IDs of blocked work packages can only contain IDs of work packages in the current sprint."
 
   @javascript
   Scenario: Create an impediment without specifying what it blocks
@@ -182,7 +182,7 @@ Feature: Scrum Master
     And I press "OK"
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
-    And the error alert should show "Blocks must contain the ID of at least one ticket"
+    And the error alert should show "IDs of blocked work packages must contain the ID of at least one ticket"
 
   @javascript
   Scenario: Update an impediment
@@ -203,7 +203,7 @@ Feature: Scrum Master
     And I press "OK"
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
-    And the error alert should show "Blocks can only contain the IDs of work packages in the current sprint"
+    And the error alert should show "IDs of blocked work packages can only contain IDs of work packages in the current sprint."
 
   @javascript
   Scenario: Update an impediment to block a non existent work_package
@@ -214,7 +214,7 @@ Feature: Scrum Master
     And I press "OK"
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
-    And the error alert should show "Blocks can only contain the IDs of work packages in the current sprint"
+    And the error alert should show "IDs of blocked work packages can only contain IDs of work packages in the current sprint."
 
   @javascript
   Scenario: Update an impediment to not block anything
@@ -225,7 +225,7 @@ Feature: Scrum Master
     And I press "OK"
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
-    And the error alert should show "Blocks must contain the ID of at least one ticket"
+    And the error alert should show "IDs of blocked work packages must contain the ID of at least one ticket"
 
   Scenario: Update sprint details
     Given I am on the master backlog
