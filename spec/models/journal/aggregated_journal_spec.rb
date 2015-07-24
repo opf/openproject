@@ -203,4 +203,17 @@ describe Journal::AggregatedJournal, type: :model do
       expect(subject.second).to be_equivalent_to_journal other_wp.journals.first
     end
   end
+
+  context 'passing a journable as parameter' do
+    subject { described_class.aggregated_journals(journable: work_package).sort_by &:id }
+    let(:other_wp) { FactoryGirl.build(:work_package) }
+    before do
+      other_wp.save!
+    end
+
+    it 'only returns the journal for the requested work package' do
+      expect(subject.count).to eq 1
+      expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+    end
+  end
 end
