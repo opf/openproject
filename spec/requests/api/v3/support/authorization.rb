@@ -28,27 +28,16 @@
 
 require 'spec_helper'
 
-shared_examples_for 'handling anonymous user' do |type, path|
+shared_examples_for 'handling anonymous user' do
   context 'anonymous user' do
-    let(:get_path) { path % [id] }
-
-    context 'when access for anonymous user is allowed' do
-      before { get get_path }
-
-      it 'should respond with 200' do
-        expect(subject.status).to eq(200)
-      end
-
-      it 'should respond with correct type' do
-        expect(subject.body).to include_json(type.to_json).at_path('_type')
-        expect(subject.body).to be_json_eql(id.to_json).at_path('id')
-      end
+    before do
+      allow(User).to receive(:current).and_return(User.anonymous)
     end
 
     context 'when access for anonymous user is not allowed' do
       before do
         allow(Setting).to receive(:login_required?).and_return(true)
-        get get_path
+        get path
       end
 
       it_behaves_like 'unauthenticated access'

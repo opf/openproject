@@ -41,6 +41,14 @@
 #    be dropped
 class Journal::AggregatedJournal
   class << self
+    def with_notes_id(notes_id)
+      raw_journal = query_aggregated_journals
+                      .where("#{table_name}.id = ?", notes_id)
+                      .first
+
+      raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
+    end
+
     def aggregated_journals(journable: nil)
       query_aggregated_journals(journable: journable).map { |journal|
         Journal::AggregatedJournal.new(journal)
@@ -66,6 +74,7 @@ class Journal::AggregatedJournal
       .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, 3)}) predecessor
                          ON #{sql_on_groups_belong_condition('predecessor', table_name)}")
       .where('predecessor.id IS NULL')
+      .order("COALESCE(addition.created_at, #{table_name}.created_at) ASC")
       .select("#{table_name}.journable_id,
                #{table_name}.journable_type,
                #{table_name}.user_id,
@@ -171,6 +180,16 @@ class Journal::AggregatedJournal
     end
   end
 
+  include JournalChanges
+  include JournalFormatter
+  include Redmine::Acts::Journalized::FormatHooks
+
+  register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
+  register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
+  register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
+
+  alias_method :details, :get_changes
+
   delegate :journable_type,
            :journable_id,
            :journable,
@@ -182,10 +201,18 @@ class Journal::AggregatedJournal
            :id,
            :version,
            :attributes,
+           :attachable_journals,
+           :customizable_journals,
+           :editable_by?,
            to: :journal
 
   def initialize(journal)
     @journal = journal
+  end
+
+  # returns an instance of this class that is reloaded from the database
+  def reloaded
+    self.class.with_notes_id(notes_id)
   end
 
   def user
@@ -207,6 +234,10 @@ class Journal::AggregatedJournal
 
   def initial?
     predecessor.nil?
+  end
+
+  def data
+    @data ||= "Journal::#{journable_type}Journal".constantize.find_by_journal_id(id)
   end
 
   # ARs automagic addition of dynamic columns (those not present in the physical table) seems

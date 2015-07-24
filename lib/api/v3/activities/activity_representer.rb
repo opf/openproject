@@ -36,6 +36,7 @@ module API
         include API::V3::Utilities
 
         self_link path: :activity,
+                  id_attribute: :notes_id,
                   title_getter: -> (*) { nil }
 
         link :workPackage do
@@ -60,7 +61,9 @@ module API
           } if current_user_allowed_to_edit?
         end
 
-        property :id, render_nil: true
+        property :id,
+                 getter: -> (*) { notes_id },
+                 render_nil: true
         property :comment,
                  exec_context: :decorator,
                  getter: -> (*) {

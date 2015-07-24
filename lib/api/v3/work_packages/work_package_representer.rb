@@ -307,7 +307,7 @@ module API
         end
 
         def activities
-          represented.journals.map do |activity|
+          ::Journal::AggregatedJournal.aggregated_journals(journable: represented).map do |activity|
             ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: current_user)
           end
         end

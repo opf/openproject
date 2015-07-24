@@ -31,11 +31,16 @@ require 'spec_helper'
 describe ::API::V3::Activities::ActivityRepresenter do
   let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
   let(:work_package) { FactoryGirl.build(:work_package) }
-  let(:journal) { FactoryGirl.build(:work_package_journal, journable: work_package, user: current_user) }
+  let(:journal) { Journal::AggregatedJournal.aggregated_journals.first }
   let(:project) { work_package.project }
   let(:permissions) { %i(edit_own_work_package_notes) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
   let(:representer) { described_class.new(journal, current_user: current_user) }
+
+  before do
+    allow(User).to receive(:current).and_return(current_user)
+    work_package.save!
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
