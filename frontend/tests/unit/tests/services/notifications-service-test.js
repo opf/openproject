@@ -76,4 +76,4 @@ describe('NotificationsService', function() {
       uploads: [0, 1, 2]
     });
   });
-})
+});
