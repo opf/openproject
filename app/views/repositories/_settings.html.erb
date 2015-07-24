@@ -54,7 +54,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <% unless @repository.nil? %>
       <%= render partial: "/repositories/settings/vendor_form",
                  locals: { form: f, repository: @repository, vendor: vendor_name(@repository) } %>
-      <%= render partial: "/repositories/settings/submit",
-                 locals: { form: f, is_creation_form: is_creation_form, project: @project } %>
+
+      <%# Hide the save button for existing managed repositories %>
+      <% if is_creation_form || !@repository.managed? %>
+        <%= render partial: "/repositories/settings/submit",
+                   locals: { form: f, is_creation_form: is_creation_form, project: @project } %>
+      <% end %>
   <% end %>
 <% end %>
