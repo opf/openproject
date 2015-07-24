@@ -280,6 +280,7 @@ class Repository < ActiveRecord::Base
     args = klass.permitted_params(params)
 
     repository = klass.new(args)
+    repository.attributes = args
     repository.project = project
     repository.scm_type = type
 
@@ -301,6 +302,12 @@ class Repository < ActiveRecord::Base
     else
       klass
     end
+  end
+
+  ##
+  # Allow global permittible params. May be overridden by plugins
+  def self.permitted_params(params)
+    params.permit(:url)
   end
 
   def self.scm_adapter_class

@@ -51,7 +51,7 @@ class Repository::Git < Repository
   end
 
   def self.permitted_params(params)
-    params.permit(:url)
+    super(params)
   end
 
   def supported_types

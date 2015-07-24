@@ -221,6 +221,15 @@ module RepositoriesHelper
               )
   end
 
+  ##
+  # Determines whether the repository settings save button should be shown.
+  # By default, it is not shown when repository exists and is managed.
+  def show_settings_save_button?(repository)
+    @repository.nil? ||
+      @repository.new_record? ||
+      !@repository.managed?
+  end
+
   def with_leading_slash(path)
     path.to_s.starts_with?('/') ? path : "/#{path}"
   end
