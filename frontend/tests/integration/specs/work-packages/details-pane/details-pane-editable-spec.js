@@ -33,45 +33,42 @@ var expect = require('../../../spec_helper.js').expect,
 describe('OpenProject', function(){
   describe('editable', function() {
     describe('subject', function() {
-      var subjectEditor;
 
-      beforeEach(function() {
-        subjectEditor = element(by.css('.inplace-edit.attribute-subject'));
-      });
+      var subjectEditor = function(paneNumber) {
+        return detailsPaneHelper.loadPane(paneNumber, 'overview').then(function() {
+          return element(by.css('.inplace-edit.attribute-subject'));
+        });
+      };
 
       context('work package with update link', function() {
-        beforeEach(function() {
-          detailsPaneHelper.loadPane(819, 'overview');
-        });
-
         it('should render an editable subject', function() {
-          expect(subjectEditor.$('.inplace-editing--trigger-link').isPresent()).to.eventually.be.true;
+          subjectEditor(819).then(function(editor) {
+            expect(editor.$('.inplace-editing--trigger-link').isPresent())
+              .to.eventually.be.true;
+          });
         });
       });
 
       context('work package without update link', function() {
-        beforeEach(function() {
-          detailsPaneHelper.loadPane(820, 'overview');
-        });
-
         it('should not render an editable subject', function() {
-          expect(subjectEditor.$('.inplace-editing--trigger-link').isPresent()).to.eventually.be.false;
+          subjectEditor(820).then(function(editor) {
+            expect(editor.$('.inplace-editing--trigger-link').isPresent())
+              .to.eventually.be.false;
+          });
         });
       });
 
       context('work package with a wrong version', function() {
-        beforeEach(function() {
-          detailsPaneHelper.loadPane(821, 'overview');
-          subjectEditor.$('.inplace-editing--trigger-link').click();
-          subjectEditor.$('.inplace-edit--control--save a').click();
-        });
-
         it('should render an error', function() {
-          expect(
-            subjectEditor
-              .$('.inplace-edit--errors')
-              .isDisplayed()
-          ).to.eventually.be.true;
+          subjectEditor(821).then(function(editor) {
+            editor.$('.inplace-editing--trigger-link').click();
+            editor.$('.inplace-edit--control--save a').click();
+
+            return editor;
+          }).then(function(editor) {
+            expect(editor.$('.inplace-edit--errors').isDisplayed())
+              .to.eventually.be.true;
+          });
         });
       });
     });

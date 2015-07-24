@@ -86,8 +86,8 @@ module Redmine::Acts::Journalized
       def prepare_journaled_options_with_creation(options)
         result = prepare_journaled_options_without_creation(options)
 
-        vestal_journals_options[:only] = Array(options.delete(:only)).map(&:to_s).uniq if options[:only]
-        vestal_journals_options[:except] = Array(options.delete(:except)).map(&:to_s).uniq if options[:except]
+        vestal_journals_options[:only] = Array(result.delete(:only)).map(&:to_s).uniq if result[:only]
+        vestal_journals_options[:except] = Array(result.delete(:except)).map(&:to_s).uniq if result[:except]
 
         result
       end

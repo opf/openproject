@@ -11,7 +11,7 @@ class WorkPackageField
   end
 
   def read_state_text
-    @element.find('.inplace-edit--read-value span').text
+    @element.find('.inplace-edit--read-value').text
   end
 
   def trigger_link
