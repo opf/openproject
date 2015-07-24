@@ -525,7 +525,6 @@ OpenProject::Application.routes.draw do
     match '/sys/repo_auth', action: 'repo_auth', via: [:get, :post]
     match '/sys/projects.:format', action: 'projects', via: :get
     match '/sys/projects/:id/repository/update_storage', action: 'update_required_storage', via: :get
-    match '/sys/projects/:id/repository.:format', action: 'create_project_repository', via: :post
   end
 
   # alternate routes for the current user

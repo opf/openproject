@@ -55,24 +55,23 @@ namespace :scm do
       vendor = vendor.to_s.classify
       managed = config['manages']
 
-      puts "-- #{vendor} --"
-
       if managed.nil?
-        puts 'This vendor does not use managed repositories. Skipping.'
+        puts 'SCM vendor #{vendor} does not use managed repositories. Skipping.'
         next
       end
 
       unless Dir.exists?(managed)
-        $stderr.puts "WARNING: Managed repository path '#{managed}' does not exist!"
+        $stderr.puts "WARNING: Managed repository path set to '#{managed}'," \
+                     " but does not exist for SCM vendor #{vendor}!"
         next
       end
 
       missing = scan_repositories(managed)
 
-      if missing.empty?
-        puts 'Found no unassociated repositories. ✓'
-      else
+      unless missing.empty?
         puts <<-WARNING
+
+-- SCM vendor #{vendor} --
 
 Found #{missing.length} repositories in #{managed}
 without an associated project.
@@ -84,7 +83,7 @@ repositories whose associated project identifier is contained in the list above.
 
 To resolve these cases, you can either:
 
-1. Remove the affected repositories if they are only remains of earlier projects
+1. Remove the affected repositories if they are only remnants of earlier projects
 
 2. Move them out of the OpenProject managed directory '#{managed}'
 
@@ -92,6 +91,19 @@ To resolve these cases, you can either:
    as existing through the Frontend.
 
         WARNING
+      end
+    end
+  end
+
+  namespace :migrate do
+    desc 'Migrate existing repositories to managed for a given URL prefix'
+    task managed: :environment do |task, args|
+
+      urls = args.extras
+      abort "Requires at least one URL prefix to identify existing repositories" if urls.length < 1
+
+      urls.each do |url|
+        Repository.where('url LIKE ?', "#{url}%").update_all(scm_type: :managed)
       end
     end
   end
