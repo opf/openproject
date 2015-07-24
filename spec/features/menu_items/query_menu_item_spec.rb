@@ -96,8 +96,6 @@ feature 'Query menu items' do
       click_on I18n.t('js.toolbar.settings.page_settings')
       fill_in I18n.t('js.modals.label_name'), with: new_name
       click_on I18n.t('js.modals.button_submit')
-
-      ng_wait
     end
 
     after do
@@ -105,11 +103,11 @@ feature 'Query menu items' do
     end
 
     it 'displaying a success message', js: true do
-      flash_element = page.find('.flash', visible: true)
-      expect(flash_element.text).to eq 'Successful update.'
+      expect(page).to have_selector('.flash', text: 'Successful update')
     end
 
     it 'is renaming and reordering the list', js: true do
+      ng_wait
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
       expect(page).to have_selector('li:nth-child(3) a', text: new_name)
