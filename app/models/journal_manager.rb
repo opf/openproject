@@ -261,7 +261,6 @@ class JournalManager
     end
   end
 
-  # Need to clear the notification setting after each usage otherwise it might be cached
   def self.clear_notification
     @send_notification = true
   end
