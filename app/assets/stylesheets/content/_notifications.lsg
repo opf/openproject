@@ -36,6 +36,17 @@
 </div>
 ```
 
+## Severe warning
+
+```
+<div class="notification-box -warning -severe">
+  <a href="#" class="notification-box--close">&times;</a>
+  <div class="notification-box--content">
+    <p>This is a warning with severe consequences. You should not ignore it.</p>
+  </div>
+</div>
+```
+
 ## Success
 
 ```
