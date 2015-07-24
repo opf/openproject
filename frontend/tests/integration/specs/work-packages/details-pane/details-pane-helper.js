@@ -32,7 +32,7 @@ var expect = require('../../../spec_helper.js').expect,
 function loadPane(workPackageId, paneName) {
   var page = new WorkPackageDetailsPane(workPackageId, paneName);
   page.get();
-  browser.waitForAngular();
+  return browser.waitForAngular();
 }
 
 function showAll() {

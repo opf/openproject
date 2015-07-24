@@ -46,15 +46,19 @@ describe('OpenProject', function() {
   it('should show work packages', function() {
     page.get();
 
-    page.getTableHeaders().getText().then(function(text) {
-      expect(text).to.include.members([
-        '',
-        'ID',
-        'TYPE',
-        'STATUS',
-        'SUBJECT',
-        'ASSIGNEE'
-      ]);
+    page.getTableHeaders().map(function(heading) {
+      return heading.getText();
+    }).then(function(headingTexts) {
+      var expected = ['',
+                      'ID',
+                      'TYPE',
+                      'STATUS',
+                      'SUBJECT',
+                      'ASSIGNEE'];
+
+      for (var i = 0; i < expected.length; i++) {
+        expect(headingTexts[i]).to.equal(expected[i]);
+      }
     });
   });
 });
