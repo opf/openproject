@@ -221,9 +221,11 @@ class Journal::AggregatedJournal
 
   def predecessor
     unless defined? @predecessor
+      version_sql = "COALESCE(addition.version, #{Journal.table_name}.version)"
       raw_journal = self.class.query_aggregated_journals(journable: journable)
-                    .where("#{Journal.table_name}.version < ?", version)
-                    .order("#{Journal.table_name}.version DESC")
+                    .where("#{version_sql} < ?", version)
+                    .except(:order)
+                    .order("#{version_sql} DESC")
                     .first
 
       @predecessor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil

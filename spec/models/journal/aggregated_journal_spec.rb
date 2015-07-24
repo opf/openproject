@@ -137,6 +137,10 @@ describe Journal::AggregatedJournal, type: :model do
             expect(subject.first.initial?).to be_truthy
             expect(subject.second.initial?).to be_falsey
           end
+
+          it 'has the first as predecessor of the second journal' do
+            expect(subject.second.predecessor).to be_equivalent_to_journal subject.first
+          end
         end
 
         context 'adding another change without comment' do
@@ -159,6 +163,14 @@ describe Journal::AggregatedJournal, type: :model do
           it 'indicates the ID of the earlier journal via notes_id' do
             expect(subject.first.notes_id).to eql work_package.journals.second.id
           end
+
+          it 'is the initial journal' do
+            expect(subject.first.initial?).to be_truthy
+          end
+
+          it 'has no predecessor' do
+            expect(subject.first.predecessor).to be_nil
+          end
         end
       end
     end
@@ -170,6 +182,10 @@ describe Journal::AggregatedJournal, type: :model do
         expect(subject.count).to eql 2
         expect(subject.first).to be_equivalent_to_journal work_package.journals.first
         expect(subject.second).to be_equivalent_to_journal work_package.journals.second
+      end
+
+      it 'has the first as predecessor of the second journal' do
+        expect(subject.second.predecessor).to be_equivalent_to_journal subject.first
       end
     end
   end
