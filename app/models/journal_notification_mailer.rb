@@ -30,10 +30,12 @@
 class JournalNotificationMailer
   class << self
     def distinguish_journals(journal, send_notification)
-      if journal.journable_type == 'WorkPackage' && send_notification && journal.initial?
-        handle_create(journal.journable)
-      elsif journal.journable_type == 'WorkPackage' && send_notification
-        handle_update(journal)
+      if send_notification
+        if journal.journable_type == 'WorkPackage' && journal.initial?
+          handle_create(journal.journable)
+        elsif journal.journable_type == 'WorkPackage'
+          handle_update(journal)
+        end
       end
     end
 
