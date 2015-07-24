@@ -45,13 +45,6 @@ describe AdminController, type: :controller do
                   attributes: { class: /nodata/ }
   end
 
-  it 'should index with no configuration data' do
-    delete_configuration_data
-    get :projects
-    assert_tag tag: 'div',
-               attributes: { class: /nodata/ }
-  end
-
   it 'should projects' do
     get :projects
     assert_response :success
@@ -69,15 +62,6 @@ describe AdminController, type: :controller do
     assert_not_nil projects
     assert_equal 1, projects.size
     assert_equal 'OnlineStore', projects.first.name
-  end
-
-  it 'should load default configuration data' do
-    Setting.available_languages = [:de]
-    delete_configuration_data
-    post :default_configuration, lang: 'de'
-    assert_response :redirect
-    assert_nil flash[:error]
-    assert Status.find_by_name('neu')
   end
 
   it 'should test email' do
@@ -140,14 +124,5 @@ describe AdminController, type: :controller do
     Redmine::MenuManager.map :admin_menu do |menu|
       menu.delete :test_admin_menu_plugin_extension
     end
-  end
-
-  private
-
-  def delete_configuration_data
-    Role.delete_all('builtin = 0')
-    Type.delete_all(is_standard: false)
-    Status.delete_all
-    Enumeration.delete_all
   end
 end
