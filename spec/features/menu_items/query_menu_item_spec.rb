@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
 feature 'Query menu items' do
@@ -74,6 +75,10 @@ feature 'Query menu items' do
       expect(page).to have_selector('.flash', text: 'Successful update')
       expect(page).to have_selector('a', text: query.name)
     end
+
+    after do
+      ensure_wp_table_loaded
+    end
   end
 
   describe 'renaming a menu item' do
@@ -93,12 +98,16 @@ feature 'Query menu items' do
       click_on I18n.t('js.modals.button_submit')
     end
 
+    after do
+      ensure_wp_table_loaded
+    end
+
     it 'displaying a success message', js: true do
-      flash_element = page.find('.flash', visible: true)
-      expect(flash_element.text).to eq 'Successful update.'
+      expect(page).to have_selector('.flash', text: 'Successful update')
     end
 
     it 'is renaming and reordering the list', js: true do
+      ng_wait
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
       expect(page).to have_selector('li:nth-child(3) a', text: new_name)

@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'features/work_packages/details/inplace_editor/shared_examples'
-require 'features/work_packages/details/inplace_editor/shared_contexts'
+require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/work_package_field'
 require 'features/work_packages/work_packages_page'
 
@@ -24,6 +24,8 @@ describe 'subject inplace editor', js: true do
 
     row = page.find("#work-package-#{work_package.id}")
     row.double_click
+
+    ng_wait
   end
 
   context 'in read state' do

@@ -41,14 +41,11 @@ describe('OpenProject', function () {
       });
       it('show all / hide all should be accessible in one tab', function () {
         var editableTextarea = element(by.css('.attributes-group.ng-scope:nth-child(1) textarea'));
-        var button = element(by.css('.attributes-group.ng-scope:nth-child(2) .button[ng-click="execute()"]'));
         editableTextarea.sendKeys(protractor.Key.ESCAPE);
         browser.actions().sendKeys(protractor.Key.TAB).perform();
         browser.actions().sendKeys(protractor.Key.TAB).perform();
-        browser.driver.switchTo().activeElement().getAttribute('class').then(function (elementClassList) {
-          expect(button.getAttribute('class'))
-            .to.eventually.equal(elementClassList);
-        });
+        return expect(browser.driver.switchTo().activeElement().getText())
+          .to.eventually.equal('Show all');
       });
     });
   });

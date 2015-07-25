@@ -35,7 +35,11 @@ See doc/COPYRIGHT.rdoc for more details.
   </section>
   <section class="form--section">
     <div class="form--field"><%= setting_check_box :mail_handler_api_enabled,
-         :onclick => "if (this.checked) { Form.Element.enable('settings_mail_handler_api_key'); } else { Form.Element.disable('settings_mail_handler_api_key'); }"%></div>
+         :onclick => "if (this.checked) { Form.Element.enable('settings_mail_handler_api_key'); } else { Form.Element.disable('settings_mail_handler_api_key'); }"%>
+      <div class="form--field-instructions">
+        <%= l(:setting_mail_handler_api_description) %>
+      </div>
+    </div>
     <div class="form--field"><%= setting_text_field :mail_handler_api_key, :size => 30,
                                                  :id => 'settings_mail_handler_api_key',
                                                  :disabled => !Setting.mail_handler_api_enabled? %>

@@ -124,6 +124,10 @@ $nm-padding-box: rem-calc(10px)
       @include messages-icon
       @extend %nm-icon-warning
 
+    &.-severe
+      background-color: $nm-color-error-background
+      border-color: $nm-color-error-border
+
   //@hack adapting to provided styles
   //messy I dont have all the details for a magic resolve, this might change
   & p, & ul

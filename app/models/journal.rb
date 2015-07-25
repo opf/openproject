@@ -186,9 +186,10 @@ class Journal < ActiveRecord::Base
   end
 
   def predecessor
-    @predecessor ||= Journal.where('journable_type = ? AND journable_id = ? AND version < ?',
-                                   journable_type, journable_id, version)
-                     .order('version DESC')
+    @predecessor ||= self.class
+                     .where(journable_type: journable_type, journable_id: journable_id)
+                     .where("#{self.class.table_name}.version < ?", version)
+                     .order("#{self.class.table_name}.version DESC")
                      .first
   end
 
