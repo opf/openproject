@@ -11,15 +11,15 @@ fr:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: ne peut contenir que les ID de lots de travaux du sprint actuel
-              must_block_at_least_one_work_package: "doit contenir l'ID d'au moins un ticket"
+              can_only_contain_work_packages_of_current_sprint: can only contain IDs of work packages in the current sprint.
+              must_block_at_least_one_work_package: must contain the ID of at least one ticket.
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "doit être la même que la version de l'histoire"
+              task_version_must_be_the_same_as_story_version: "must be the same as the story's version."
             parent_id:
               parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: 'Type doit être parmi : %{type_names}'
+              type_must_be_one_of_the_following: 'Type must be one of the following: %{type_names}.'
         sprint:
-          cannot_end_before_it_starts: Un sprint ne peut pas se terminer avant de commencer
+          cannot_end_before_it_starts: Sprint cannot end before it starts.
   backlogs:
     add_new_story: Nouvelle histoire
     any: tout
@@ -88,7 +88,7 @@ fr:
   label_backlog: Backlog
   label_backlogs: Backlogs
   label_backlogs_unconfigured: "Vous n'avez pas encore configuré Backlogs. Veuillez vous rendre dans %{administration} > %{plugins}, puis cliquer sur le lien %{configure} pour ce plugin. Une fois que vous avez défini les champs, revenez sur cette page pour commencer à utiliser l'outil."
-  label_blocks_ids: Blocs (IDs)
+  label_blocks_ids: IDs of blocked work packages
   label_burndown: Avancement
   label_chart_options: Options du graphique
   label_column_in_backlog: Colonne dans le backlog
