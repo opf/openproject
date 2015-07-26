@@ -222,7 +222,7 @@ prevents you from such errors.
 [openproject@host] RAILS_ENV="production" bundle exec rake assets:precompile
 ```
 
-## Servce OpenProject with Apache and Passenger
+## Serve OpenProject with Apache and Passenger
 
 First, we exit the current bash session with the openproject user,
 so that we are again in a root shell.
