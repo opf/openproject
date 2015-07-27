@@ -51,11 +51,30 @@ describe JournalNotificationMailer do
   end
 
   shared_examples_for 'handles deliveries' do |notification_setting|
-    context 'sends a notification' do
+    context 'setting enabled' do
       let(:notifications) { [notification_setting] }
 
-      it do
+      it 'sends a notification' do
         expect(ActionMailer::Base.deliveries.size).to eq(1)
+      end
+
+      context 'insufficient work package changes' do
+        let(:another_work_package) {
+          FactoryGirl.create(:work_package,
+                             project: project,
+                             author: user,
+                             type: project.types.first)
+        }
+        before do
+          another_work_package.add_journal(user)
+          another_work_package.description = 'needs more changes'
+          ActionMailer::Base.deliveries.clear
+          another_work_package.save!(validate: false)
+        end
+
+        it 'sends no notification' do
+          expect(ActionMailer::Base.deliveries.size).to eq(0)
+        end
       end
     end
 
@@ -80,7 +99,17 @@ describe JournalNotificationMailer do
         work_package.save!(validate: false)
       end
 
-      it_behaves_like 'handles deliveries', 'work_package_updated'
+      context 'setting enabled' do
+        let(:notifications) { ['work_package_updated'] }
+
+        it 'sends a notification' do
+          expect(ActionMailer::Base.deliveries.size).to eq(1)
+        end
+      end
+
+      it 'sends no notification' do
+        expect(ActionMailer::Base.deliveries.size).to eq(0)
+      end
     end
 
     context 'work_package_note_added' do
