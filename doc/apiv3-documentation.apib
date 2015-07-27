@@ -2149,7 +2149,7 @@ Revisions are sets of updates to files in the context of repositories linked in 
 |:----------------:| --------------------------------------------------------------------------------------------------| ------------- | ----------- | -------------------- |
 | self             | This revision                                                                                     | Revision      | not null    | READ                 |
 | project          | The project to which the revision belongs                                                         | Project       | not null    | READ                 |
-| author           | The user that added this revision, if the committerName was mapped to a user in OpenProject       | User          |             | READ                 |
+| author           | The user that added this revision, if the authorName was mapped to a user in OpenProject       | User          |             | READ                 |
 
 
 ## Local Properties
@@ -2157,7 +2157,7 @@ Revisions are sets of updates to files in the context of repositories linked in 
 |:--------------:| ------------------------------------------------------------------------------------------------------------------------------------------------------------| ----------- | ----------- | -------------------- |
 | id             | Revisions's id, assigned by OpenProject                                                                                                                     | Integer     | x > 0       | READ                 |
 | identifier     | The SCM identifier of the revision (e.g. SHA hash)                                                                                                          | String      | not null    | READ                 |
-| committerName  | The name of the author that committed this revision. Note that this name is retrieved from the repository and does not identify a user in OpenProject.      | String      | not null    | READ                 |
+| authorName     | The name of the author that committed this revision. Note that this name is retrieved from the repository and does not identify a user in OpenProject.      | String      | not null    | READ                 |
 | message        | The commit message of the revision                                                                                                                          | Formattable | not null    | READ                 |
 | createdAt      | The time this revision was committed to the repository                                                                                                      | DateTime    | not null    | READ                 |
 
@@ -2181,7 +2181,7 @@ Revisions are sets of updates to files in the context of repositories linked in 
                 },
                 "id": 1,
                 "identifier": "11f4b07dff4f4ce9548a52b7d002daca7cd63ec6",
-                "committerName": "Some Developer",
+                "authorName": "Some Developer",
                 "message": {
                     "format": "plain",
                     "raw": "This revision provides new features\n\nAn elaborate description",
@@ -4018,6 +4018,120 @@ Gets a list of users that are able to be watchers of the specified work package.
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified work package does not exist."
             }
+
+## Revisions [/api/v3/work_packages/{id}/revisions]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/42/revisions" },
+                    "filter": {
+                        "href": "/api/v3/work_packages/42/revisions",
+                        "templated": true
+                    }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded": {
+                  "elements": [
+                    {
+                        "_type": "Revision",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/revisions/13",
+                            },
+                            "project": {
+                                "href": "/api/v3/projects/1",
+                                "title": "A Test Project
+                            },
+                            "author": {
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 13,
+                        "identifier": "11f4b07dff4f4ce9548a52b7d002daca7cd63ec6",
+                        "authorName": "John Sheppard",
+                        "message": {
+                            "format": "plain",
+                            "raw": "This revision provides new features\n\nAn elaborate description",
+                            "html": "<p>This revision provides new features<br/><br/>An elaborate description</p>"
+                        },
+                        "createdAt": "2015-07-21T13:36:59Z",
+                    },
+                    {
+                        "_type": "Revision",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/revisions/14",
+                            },
+                            "project": {
+                                "href": "/api/v3/projects/1",
+                                "title": "A Test Project
+                            },
+                            "author": {
+                                "href": "/api/v3/users/2",
+                                "title": "Jim Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 13,
+                        "identifier": "029ed72a3b7b7c4ab332b1f6eaa6576e7c946059",
+                        "authorName": "j1msheppard",
+                        "message": {
+                            "format": "plain",
+                            "raw": "This revision fixes some stuff\n\nMore information here",
+                            "html": "<p>This revision fixes some stuff<br/><br/>More information here</p>"
+                        },
+                        "createdAt": "2015-06-30T08:47:00Z",
+                    }]
+                }
+            }
+
+
+## Revisions [GET]
+
+Gets a list of revisions that are linked to this work package, e.g., because it is referenced in the commit message of the revision.
+
++ Parameters
+    + id (required, integer, `1`) ... work package id
+
++ Response 200 (application/hal+json)
+
+    [Revisions][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view changesets of the project this work package is contained in
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see linked revisions for this work package."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
 
 ## Comment WorkPackage [/api/v3/work_packages/{id}/activities]
 
