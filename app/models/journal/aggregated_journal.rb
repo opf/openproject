@@ -110,6 +110,7 @@ class Journal::AggregatedJournal
             successor.id IS NULL)"
 
       if journable
+        raise 'journable has no id' if journable.id.nil?
         sql += " AND predecessor.journable_type = '#{journable.class.name}' AND
                      predecessor.journable_id = #{journable.id}"
       end
