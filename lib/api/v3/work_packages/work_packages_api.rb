@@ -84,7 +84,7 @@ module API
                 def save_work_package(work_package)
                   if work_package.save
                     journals = ::Journal::AggregatedJournal.aggregated_journals(
-                      journable: represented)
+                      journable: work_package)
                     Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
                   else
                     fail ::API::Errors::ErrorBase.create_and_merge_errors(work_package.errors)
