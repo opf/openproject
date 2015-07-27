@@ -166,6 +166,7 @@ en:
     label_wait: "Please wait for configuration..."
     label_upload_counter: "%{done} of %{count} files finished"
     label_successful_update: 'Successful update'
+    label_validation_error: "The work package could not be saved due to the following errors:"
 
 
     text_are_you_sure: "Are you sure?"
