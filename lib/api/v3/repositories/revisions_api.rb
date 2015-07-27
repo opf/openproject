@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,32 +25,36 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
-
 module API
   module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Repositories::RevisionsAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+    module Repositories
+      class RevisionsAPI < ::API::OpenProjectAPI
+        resources :revisions do
+          params do
+            requires :id, desc: 'Revision id'
+          end
+          route_param :id do
+            helpers do
+              attr_reader :revision
 
-      get '/' do
-        RootRepresenter.new({})
+              def revision_representer
+                RevisionRepresenter.new(@revision)
+              end
+            end
+
+            before do
+              @revision = Changeset.find(params[:id])
+
+              authorize(:view_changesets, context: @revision.project) do
+                raise API::Errors::NotFound.new
+              end
+            end
+
+            get do
+              revision_representer
+            end
+          end
+        end
       end
     end
   end

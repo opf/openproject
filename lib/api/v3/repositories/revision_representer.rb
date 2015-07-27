@@ -27,31 +27,49 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+API::V3::Utilities::DateTimeFormatter
 
 module API
   module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Repositories::RevisionsAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+    module Repositories
+      class RevisionRepresenter < ::API::Decorators::Single
+        include API::V3::Utilities
 
-      get '/' do
-        RootRepresenter.new({})
+        self_link path: :revision,
+                  title_getter: -> (*) { nil }
+
+        link :project do
+          {
+            href: api_v3_paths.project(represented.project.id),
+            title: "#{represented.project.name}"
+          }
+        end
+
+        link :author do
+          {
+            href: api_v3_paths.user(represented.user.id),
+            title: "#{represented.user.name} - #{represented.user.login}"
+          } unless represented.user.nil?
+        end
+
+        property :id
+        property :identifier
+        property :author, as: :authorName
+        property :message,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   ::API::Decorators::Formattable.new(represented.comments, format: 'plain')
+                 },
+                 render_nil: true
+
+        property :created_at,
+                 getter: -> (*) {
+                   DateTimeFormatter::format_datetime(committed_on)
+                 }
+
+        def _type
+          'Revision'
+        end
       end
     end
   end

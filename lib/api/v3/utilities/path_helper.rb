@@ -114,6 +114,10 @@ module API
             "#{root}/relations/#{id}"
           end
 
+          def self.revision(id)
+            "#{root}/revisions/#{id}"
+          end
+
           def self.render_markup(format: nil, link: nil)
             format = format || Setting.text_formatting
             format = 'plain' if format == '' # Setting will return '' for plain
