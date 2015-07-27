@@ -77,6 +77,10 @@ describe TabularFormBuilder do
       it_behaves_like 'wrapped in field-container by default'
       it_behaves_like 'wrapped in container', 'text-field-container'
 
+      before do
+        allow(Setting).to receive(:available_languages).and_return([:en])
+      end
+
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <input class="form--text-field"
