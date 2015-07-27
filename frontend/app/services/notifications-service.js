@@ -27,7 +27,7 @@
 //++
 
 module.exports = function(I18n, $rootScope) {
-
+  'use strict';
   // private
   var createNotification = function(message) {
     if(typeof message === 'string') {
