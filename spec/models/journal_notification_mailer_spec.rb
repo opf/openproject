@@ -77,7 +77,7 @@ describe JournalNotificationMailer do
       before do
         work_package.add_journal(user)
         work_package.subject = 'A change to the issue'
-        expect(work_package.save(validate: false)).to be_truthy
+        work_package.save!(validate: false)
       end
 
       it_behaves_like 'handles deliveries', 'work_package_updated'
@@ -86,7 +86,7 @@ describe JournalNotificationMailer do
     context 'work_package_note_added' do
       before do
         work_package.add_journal(user, 'This update has a note')
-        expect(work_package.save(validate: false)).to be_truthy
+        work_package.save!(validate: false)
         work_package.recreate_initial_journal!
       end
 
@@ -97,7 +97,7 @@ describe JournalNotificationMailer do
       before do
         work_package.add_journal(user)
         work_package.status = FactoryGirl.build(:status)
-        expect(work_package.save(validate: false)).to be_truthy
+        work_package.save!(validate: false)
       end
 
       it_behaves_like 'handles deliveries', 'status_updated'
@@ -107,7 +107,7 @@ describe JournalNotificationMailer do
       before do
         work_package.add_journal(user)
         work_package.priority = IssuePriority.generate!
-        expect(work_package.save(validate: false)).to be_truthy
+        work_package.save!(validate: false)
       end
 
       it_behaves_like 'handles deliveries', 'work_package_priority_updated'
