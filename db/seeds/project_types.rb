@@ -35,11 +35,11 @@ else
 
   ProjectType.transaction do
     ProjectType.new.tap do |type|
-      type.name = I18n.t(:default_project_type_customer)
+      type.name = I18n.t(:default_project_type_scrum)
     end.save!
 
     ProjectType.new.tap do |type|
-      type.name = I18n.t(:default_project_type_internal)
+      type.name = I18n.t(:default_project_type_standard)
     end.save!
 
     reported_status_ids = ReportedProjectStatus.pluck(:id)
