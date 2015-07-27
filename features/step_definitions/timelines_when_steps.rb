@@ -256,6 +256,9 @@ When (/^I set duedate to "([^"]*)"$/) do |value|
 end
 
 When (/^I wait for timeline to load table$/) do
+  extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
+  ng_wait
+
   page.should have_selector('.tl-left-main')
 end
 
