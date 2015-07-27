@@ -2145,21 +2145,21 @@ For more details and all possible responses see the general specification of [Fo
 Revisions are sets of updates to files in the context of repositories linked in OpenProject.
 
 ## Linked Properties
-|  Link            | Description                                         | Type          | Constraints | Supported operations |
-|:----------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
-| self             | This revision                                       | Revision      | not null    | READ                 |
-| project          | The project to which the revision belongs           | Project       | not null    | READ                 |
-| committer        | The user that committed this revision, if defined   | User          |             | READ                 |
+|  Link            | Description                                                                                       | Type          | Constraints | Supported operations |
+|:----------------:| --------------------------------------------------------------------------------------------------| ------------- | ----------- | -------------------- |
+| self             | This revision                                                                                     | Revision      | not null    | READ                 |
+| project          | The project to which the revision belongs                                                         | Project       | not null    | READ                 |
+| author           | The user that added this revision, if the committerName was mapped to a user in OpenProject       | User          |             | READ                 |
 
 
 ## Local Properties
-| Property       | Description                                             | Type        | Constraints | Supported operations |
-|:--------------:| --------------------------------------------------------| ----------- | ----------- | -------------------- |
-| id             | Revisions's id                                          | Integer     | x > 0       | READ                 |
-| identifier     | The SCM identifier of the revision (e.g. SHA hash)      | String      | not null    | READ                 |
-| committerName  | The name of the author that committed this revision     | String      | not null    | READ                 |
-| message        | The commit message of the revision                      | Formattable | not null    | READ                 |
-| committedAt    | The time this revision was committed to the repository  | DateTime    | not null    | READ                 |
+| Property       | Description                                                                                                                                                 | Type        | Constraints | Supported operations |
+|:--------------:| ------------------------------------------------------------------------------------------------------------------------------------------------------------| ----------- | ----------- | -------------------- |
+| id             | Revisions's id, assigned by OpenProject                                                                                                                     | Integer     | x > 0       | READ                 |
+| identifier     | The SCM identifier of the revision (e.g. SHA hash)                                                                                                          | String      | not null    | READ                 |
+| committerName  | The name of the author that committed this revision. Note that this name is retrieved from the repository and does not identify a user in OpenProject.      | String      | not null    | READ                 |
+| message        | The commit message of the revision                                                                                                                          | Formattable | not null    | READ                 |
+| createdAt      | The time this revision was committed to the repository                                                                                                      | DateTime    | not null    | READ                 |
 
 ## Revision [/api/v3/revisions/{id}]
 
@@ -2175,7 +2175,7 @@ Revisions are sets of updates to files in the context of repositories linked in 
                     "project" {
                         "href": "/api/v3/projects/1"
                     },
-                    "committer": {
+                    "author": {
                         "href": "/api/v3/users/1"
                     },
                 },
@@ -2187,7 +2187,7 @@ Revisions are sets of updates to files in the context of repositories linked in 
                     "raw": "This revision provides new features\n\nAn elaborate description",
                     "html": "<p>This revision provides new features<br/><br/>An elaborate description</p>"
                 },
-                "committedAt": "2015-07-21T13:36:59Z"
+                "createdAt": "2015-07-21T13:36:59Z"
             }
 
 ## View revision [GET]
@@ -3233,8 +3233,8 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | category           | The category of the work package                                                                                                                      | Category     |              | READ / WRITE          |                                           |
 | priority           | The priority of the work package                                                                                                                      | Priority     | not null     | READ / WRITE          |                                           |
 | project            | The project to which the work package belongs                                                                                                         | Project      | not null     | READ                  |                                           |
-| revisions          | Revisions that are referencing the work package                                                                                                       | Revision     |              | READ                  | **Permission** view changesets            |
 | responsible        | The person that is responsible for the overall outcome                                                                                                | User         |              | READ / WRITE          |                                           |
+| revisions          | Revisions that are referencing the work package                                                                                                       | Revision     |              | READ                  | **Permission** view changesets            |
 | status             | The current status of the work package                                                                                                                | Status       | not null     | READ / WRITE          |                                           |
 | timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
 | type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
@@ -3329,6 +3329,9 @@ the human readable name of custom fields.*
                     "responsible": {
                         "href": "/api/v3/users/23",
                         "title": "Laron Leuschke - Alaina5788"
+                    },
+                    "revisions": {
+                        "href": "/api/v3/work_packages/1528/revisions"
                     },
                     "assignee": {
                         "href": "/api/v3/users/11",
