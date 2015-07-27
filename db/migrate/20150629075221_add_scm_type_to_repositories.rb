@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,33 +26,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
-  module Scm
-    class Base
-      class << self
-        def all
-          @scms
-        end
+##
+# Adds the scm_type column to the repositories table and updates all previous
+# repository to correspond to these types.
+#
+# As until now, OP only supported local Git repositories and local or remote Subversion
+# repositories.
+# We thus add the following types:
+#
+# - Repository::*: existing
+# - Repository::Git: local
+#
+class AddScmTypeToRepositories < ActiveRecord::Migration
+  def up
+    add_column :repositories, :scm_type, :string, null: true
 
-        def configured
-          @scms.select do |scm_name|
-            klass = Repository.const_get(scm_name)
+    Repository.update_all(scm_type: 'existing')
+    Repository.where(type: 'Repository::Git').update_all(scm_type: 'local')
 
-            klass.configured?
-          end
-        end
+    change_column_null :repositories, :scm_type, false
+  end
 
-        # Add a new SCM adapter and repository
-        def add(scm_name)
-          @scms ||= []
-          @scms << scm_name
-        end
-
-        # Remove a SCM adapter from Redmine's list of supported scms
-        def delete(scm_name)
-          @scms.delete(scm_name)
-        end
-      end
-    end
+  def down
+    remove_column :repositories, :scm_type
   end
 end

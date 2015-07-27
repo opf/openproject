@@ -397,7 +397,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created a changeset' do
-    with_created_filesystem_repository do
+    with_virtual_subversion_repository do
       let(:associated_instance) do
         FactoryGirl.build(:changeset,
                           repository_id: repository.id,
@@ -412,7 +412,7 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has updated a changeset' do
-    with_created_filesystem_repository do
+    with_virtual_subversion_repository do
       let(:associated_instance) do
         FactoryGirl.build(:changeset,
                           repository_id: repository.id,

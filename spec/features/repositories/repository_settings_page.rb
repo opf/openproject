@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,44 +26,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class RepositorySettingsPage
+  include Rails.application.routes.url_helpers
+  include Capybara::DSL
 
-describe Redmine::Scm::Base do
-  describe '.configured' do
-    subject { described_class.configured }
+  def initialize(project)
+    @project = project
+  end
 
-    let(:test_scm_class) do
-      Class.new
-    end
+  def repository_settings_path
+    settings_project_path(id: @project.id, tab: 'repository')
+  end
 
-    before do
-      Repository.const_set('TestScm', test_scm_class)
-      Redmine::Scm::Base.add 'TestScm'
-    end
-
-    after do
-      Repository.send(:remove_const, :TestScm)
-      Redmine::Scm::Base.delete 'TestScm'
-    end
-
-    context 'scm is configured' do
-      before do
-        allow(test_scm_class).to receive(:configured?).and_return(true)
-      end
-
-      it 'is included' do
-        is_expected.to include('TestScm')
-      end
-    end
-
-    context 'scm is not configured' do
-      before do
-        allow(test_scm_class).to receive(:configured?).and_return(false)
-      end
-
-      it 'is included' do
-        is_expected.to_not include('TestScm')
-      end
-    end
+  def visit_repository_settings
+    visit repository_settings_path
   end
 end

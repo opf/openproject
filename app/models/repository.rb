@@ -29,11 +29,16 @@
 
 class Repository < ActiveRecord::Base
   include Redmine::Ciphering
+  include OpenProject::Scm::ManageableRepository
 
   belongs_to :project
   has_many :changesets, order: "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
 
   before_save :sanitize_urls
+
+  # Managed repository lifetime
+  after_save :create_managed_repository, if: Proc.new { |repo| repo.managed? }
+  after_destroy :delete_managed_repository, if: Proc.new { |repo| repo.managed? }
 
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
@@ -78,12 +83,16 @@ class Repository < ActiveRecord::Base
   def scm
     @scm ||= scm_adapter.new(url, root_url,
                              login, password, path_encoding)
-    update_attribute(:root_url, @scm.root_url) if root_url.blank?
+    @scm.root_url = @scm.root_url.presence || root_url
     @scm
   end
 
-  def scm_name
-    self.class.scm_name
+  def vendor
+    self.class.vendor
+  end
+
+  def supported_types
+    []
   end
 
   def supports_cat?
@@ -235,7 +244,7 @@ class Repository < ActiveRecord::Base
       if project.repository
         begin
           project.repository.fetch_changesets
-        rescue Redmine::Scm::Adapters::CommandFailed => e
+        rescue OpenProject::Scm::Exceptions::CommandFailed => e
           logger.error "scm: error during fetching changesets: #{e.message}"
         end
       end
@@ -247,60 +256,67 @@ class Repository < ActiveRecord::Base
     all.each(&:scan_changesets_for_work_package_ids)
   end
 
-  def self.scm_name
-    'Abstract'
+
+  ##
+  # Builds a model instance of type +Repository::#{vendor}+ with the given parameters.
+  #
+  # @param [Project] project The project this repository belongs to.
+  # @param [String] vendor   The SCM vendor name (e.g., Git, Subversion)
+  # @param [Hash] params     Custom parameters for this SCM as delivered from the repository
+  #                          field.
+  #
+  # @param [Symbol] type     SCM tag to determine the type this repository should be built as
+  #
+  # @raise [OpenProject::Scm::RepositoryBuildError]
+  #                                  Raised when the instance could not be built
+  #                                  given the parameters.
+  # @raise [::NameError] Raised when the given +vendor+ could not be resolved to a class.
+  def self.build(project, vendor, params, type)
+    klass = build_scm_class(vendor)
+
+    # We can't possibly know the form fields this particular vendor
+    # desires, so we allow it to filter them from raw params
+    # before building the instance with it.
+    args = klass.permitted_params(params)
+
+    repository = klass.new(args)
+    repository.attributes = args
+    repository.project = project
+    repository.scm_type = type
+
+    repository.configure(type, args)
+
+    repository
   end
 
-  def self.available_scm
-    subclasses.map { |klass| [klass.scm_name, klass.name] }
+  ##
+  # Build a temporary model instance of the given vendor for temporary use in forms.
+  # Will not receive any args.
+  def self.build_scm_class(vendor)
+    klass = OpenProject::Scm::Manager.registered[vendor]
+
+    if klass.nil?
+      raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+        I18n.t('repositories.errors.disabled_or_unknown_vendor', vendor: vendor)
+      )
+    else
+      klass
+    end
   end
 
-  def self.factory(klass_name, *args)
-    klass = "Repository::#{klass_name}".constantize
-    klass.new(*args)
-  rescue
-    nil
+  ##
+  # Allow global permittible params. May be overridden by plugins
+  def self.permitted_params(params)
+    params.permit(:url)
   end
 
   def self.scm_adapter_class
     nil
   end
 
-  def self.scm_command
-    ret = ''
-    begin
-      ret = scm_adapter_class.client_command if scm_adapter_class
-    rescue Redmine::Scm::Adapters::CommandFailed => e
-      logger.error "scm: error during get command: #{e.message}"
-    end
-    ret
+  def self.vendor
+    name.demodulize
   end
-
-  def self.scm_version_string
-    ret = ''
-    begin
-      ret = scm_adapter_class.client_version_string if scm_adapter_class
-    rescue Redmine::Scm::Adapters::CommandFailed => e
-      logger.error "scm: error during get version string: #{e.message}"
-    end
-    ret
-  end
-
-  def self.scm_available
-    ret = false
-    begin
-      ret = scm_adapter_class.client_available if scm_adapter_class
-    rescue Redmine::Scm::Adapters::CommandFailed => e
-      logger.error "scm: error during get scm available: #{e.message}"
-    end
-    ret
-  end
-
-  def self.configured?
-    true
-  end
-
-  private
 
   # Strips url and root_url
   def sanitize_urls
@@ -314,5 +330,33 @@ class Repository < ActiveRecord::Base
     connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
     connection.delete("DELETE FROM #{ci} WHERE #{ci}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
     connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")
+  end
+
+  private
+
+  ##
+  # Create local managed repository request when the built instance
+  # is managed by OpenProject
+  def create_managed_repository
+    service = Scm::CreateManagedRepositoryService.new(self)
+    if service.call
+      true
+    else
+      raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+        service.localized_rejected_reason
+      )
+    end
+  end
+
+  ##
+  # Destroy local managed repository request when the built instance
+  # is managed by OpenProject
+  def delete_managed_repository
+    service = Scm::DeleteManagedRepositoryService.new(self)
+    # Even if the service can't remove the physical repository,
+    # we should continue removing the associated instance.
+    service.call
+
+    true
   end
 end

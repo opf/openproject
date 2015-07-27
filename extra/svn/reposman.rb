@@ -36,7 +36,7 @@ require 'net/http'
 require 'uri'
 
 Version = "1.4"
-SUPPORTED_SCM = %w( Subversion Git Filesystem )
+SUPPORTED_SCM = %w( Subversion Git )
 
 $verbose      = 0
 $quiet        = false

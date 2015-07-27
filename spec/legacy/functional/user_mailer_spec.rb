@@ -490,17 +490,12 @@ describe UserMailer, type: :mailer do
     # now change the issue, to get a nice journal
     issue.description = "This is related to issue ##{related_issue.id}\n"
 
-    changeset = with_existing_filesystem_scm do |repo_url|
-      repository = FactoryGirl.build(:repository,
-                                     url: repo_url,
+    repository = FactoryGirl.create(:repository_subversion,
                                      project: project)
 
-      repository.save!
-
-      FactoryGirl.create :changeset,
+    changeset = FactoryGirl.create :changeset,
                          repository: repository,
                          comments: 'This commit fixes #1, #2 and references #1 and #3'
-    end
 
     issue.description += " A reference to a changeset r#{changeset.revision}\n" if changeset
 

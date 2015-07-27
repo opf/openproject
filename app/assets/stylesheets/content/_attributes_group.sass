@@ -39,6 +39,13 @@
   @include grid-content
   padding: 0 1rem 0.4rem 0
 
+  // Exclusive toggleable attribute groups
+  // include a radio input to toggle them,
+  // but the positioning is off.
+  .attributes-group.-toggleable &
+    cursor: pointer
+    padding-left: 5px
+
 .attributes-group--header-control
   @include grid-content(shrink)
   padding: 0 0 0.4rem 0

@@ -26,40 +26,30 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
 
-describe Repository::Filesystem, type: :model do
-  fixtures :all
+require 'spec_helper'
+
+describe OpenProject::Scm::Manager do
+  let(:vendor) { 'TestScm' }
+  let(:scm_class) { Class.new }
 
   before do
-    @project = Project.find(3)
-
-    with_existing_filesystem_scm do |repo_path|
-      assert @repository = Repository::Filesystem.create(project: @project,
-                                                         url: repo_path)
-    end
+    Repository.const_set(vendor, scm_class)
+    OpenProject::Scm::Manager.add vendor
   end
 
-  it 'should fetch changesets' do
-    with_existing_filesystem_scm do
-      @repository.fetch_changesets
-      @repository.reload
-
-      assert_equal 0, @repository.changesets.count
-      assert_equal 0, @repository.changes.count
-    end
+  after do
+    Repository.send(:remove_const, vendor)
+    OpenProject::Scm::Manager.delete vendor
   end
 
-  it 'should entries' do
-    with_existing_filesystem_scm do
-      assert_equal 3, @repository.entries('', 2).size
-      assert_equal 2, @repository.entries('dir', 3).size
-    end
+  it 'is a valid const' do
+    expect(OpenProject::Scm::Manager.registered[vendor]).to eq(Repository::TestScm)
   end
 
-  it 'should cat' do
-    with_existing_filesystem_scm do
-      assert_equal "TEST CAT\n", @repository.scm.cat('test')
+  context 'scm is not known' do
+    it 'is not included' do
+      expect(OpenProject::Scm::Manager.registered).to_not have_key('SomeOtherScm')
     end
   end
 end

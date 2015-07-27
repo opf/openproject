@@ -26,12 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
-<% partial = escape_javascript render(partial: 'projects/settings/repository') %>
-jQuery('#tab-content-repository').html("<%= partial %>");
-
-<% if reload_menu %>
-  jQuery('#main-menu').html("<%= escape_javascript(render_main_menu(project)) %>");
-<% end %>
-
-activateFlashError();
+<div class="form--field -required">
+  <%= form.text_field(:url,
+                      label: l('repositories.git.path'),
+                      size: 60,
+                      required: true,
+      ) %>
+  <div class="form--field-instructions">
+    <%= raw l('repositories.git.instructions.path', example_path: '<code>/path/to/repository/.git</code>') %>
+  </div>
+</div>

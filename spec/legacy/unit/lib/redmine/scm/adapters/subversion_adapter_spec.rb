@@ -29,14 +29,14 @@
 
 require 'legacy_spec_helper'
 
-describe Redmine::Scm::Adapters::SubversionAdapter, type: :model do
+describe OpenProject::Scm::Adapters::Subversion, type: :model do
   if repository_configured?('subversion')
     before do
-      @adapter = Redmine::Scm::Adapters::SubversionAdapter.new(self.class.subversion_repository_url)
+      @adapter = OpenProject::Scm::Adapters::Subversion.new(self.class.subversion_repository_url)
     end
 
     it 'should client version' do
-      v = Redmine::Scm::Adapters::SubversionAdapter.client_version
+      v = @adapter.client_version
       assert v.is_a?(Array)
     end
 
@@ -53,8 +53,8 @@ describe Redmine::Scm::Adapters::SubversionAdapter, type: :model do
     private
 
     def test_scm_version_for(scm_version, version)
-      expect(@adapter.class).to receive(:scm_version_from_command_line).and_return(scm_version)
-      assert_equal version, @adapter.class.svn_binary_version
+      expect(@adapter).to receive(:scm_version_from_command_line).and_return(scm_version)
+      assert_equal version, @adapter.svn_binary_version
     end
 
   else

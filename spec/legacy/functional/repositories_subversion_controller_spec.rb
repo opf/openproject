@@ -44,6 +44,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
 
     @project = Project.find(PRJ_ID)
     @repository = Repository::Subversion.create(project: @project,
+                                                scm_type: 'local',
                                                 url: self.class.subversion_repository_url)
 
     # #reload is broken for repositories because it defines
@@ -114,7 +115,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_equal %w(6 3 2), changesets.map(&:revision)
 
     # svn properties displayed with svn >= 1.5 only
-    if Redmine::Scm::Adapters::SubversionAdapter.client_version_above?([1, 5, 0])
+    if @repository.scm.client_version_above?([1, 5, 0])
       assert_not_nil assigns(:properties)
       assert_equal 'native', assigns(:properties)['svn:eol-style']
       assert_tag :ul,
@@ -243,7 +244,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should revision with repository pointing to a subdirectory' do
     r = Project.find(1).repository
     # Changes repository url to a subdirectory
-    r.update_attribute :url, (r.url + '/test/some')
+    r.update_attribute :url, (r.url + '/subversion_test/folder/')
 
     get :revision, project_id: 1, rev: 2
     assert_response :success
@@ -252,11 +253,11 @@ describe RepositoriesController, 'Subversion', type: :controller do
                child: { tag: 'li',
                         # link to the entry at rev 2
                         child: { tag: 'a',
-                                 attributes: { href: '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo' },
+                                 attributes: { href: '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo' },
                                  content: 'repo',
                                  # link to partial diff
                                  sibling:  { tag: 'a',
-                                             attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo' }
+                                             attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' }
                                                      }
                                       }
                           }
@@ -301,6 +302,6 @@ describe RepositoriesController, 'Subversion', type: :controller do
     get :annotate, project_id: PRJ_ID, rev: 8, path: 'subversion_test/helloworld.c'
     assert_response :success
     assert_template 'annotate'
-    assert_tag tag: 'h2', content: /@ 8/
+    assert_tag tag: 'h3', content: /@ 8/
   end
 end

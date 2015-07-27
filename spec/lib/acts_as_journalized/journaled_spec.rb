@@ -96,7 +96,8 @@ describe 'Journalized Objects' do
 
   it 'should work with changesets' do
     Setting.enabled_scm = ['Subversion']
-    @repository ||= Repository.factory('Subversion', url: 'http://svn.test.com')
+    @repository ||= Repository.build_scm_class('Subversion').new
+    @repository.assign_attributes(scm_type: 'existing', url: 'http://svn.test.com')
     @repository.save!
     @changeset ||= FactoryGirl.create(:changeset, committer: @current.login, repository: @repository)
 

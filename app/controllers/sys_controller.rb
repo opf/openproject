@@ -47,8 +47,10 @@ class SysController < ActionController::Base
       render nothing: true, status: 409
     else
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
-      project.repository = Repository.factory(params[:vendor], params[:repository])
-      if project.repository && project.repository.save
+      service = Scm::RepositoryFactoryService.new(project, params)
+
+      if service.build_and_save
+        project.repository = service.repository
         render xml: project.repository, status: 201
       else
         render nothing: true, status: 422
