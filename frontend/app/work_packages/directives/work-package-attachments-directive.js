@@ -43,6 +43,9 @@ module.exports = function(
 
     var workPackage = scope.workPackage(),
         upload = function(event, workPackage) {
+          if (angular.isUndefined(scope.files)) {
+            return;
+          };
           if (scope.files.length > 0) {
             workPackageAttachmentsService.upload(workPackage, scope.files).then(function() {
               scope.files = [];
