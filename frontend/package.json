@@ -29,6 +29,7 @@
     "karma-firefox-launcher": "~0.1.3",
     "karma-junit-reporter": "~0.2.2",
     "karma-mocha": "~0.1.3",
+    "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-webpack": "^1.5.0",
     "mocha": "~1.18.2",

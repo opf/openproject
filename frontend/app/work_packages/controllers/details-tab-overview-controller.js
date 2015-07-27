@@ -31,7 +31,9 @@ module.exports = function(
            WorkPackagesOverviewService,
            WorkPackageFieldService,
            EditableFieldsState,
-           WorkPackageDisplayHelper
+           WorkPackageDisplayHelper,
+           NotificationsService,
+           I18n
            ) {
 
   var vm = this;
@@ -76,6 +78,9 @@ module.exports = function(
             right = getLabel(b).toLowerCase();
         return left.localeCompare(right);
       });
+    });
+    $scope.$on('workPackageUpdatedInEditor', function() {
+      NotificationsService.addSuccess(I18n.t('js.label_successful_update'));
     });
   }
 };

@@ -276,7 +276,7 @@ module.exports = function($http,
         }),
         contentType: 'application/json; charset=utf-8'
       } };
-      return workPackage.links.addRelation.fetch(options).then(function(relation){
+      return workPackage.links.addRelation.fetch(options).then(function(relation) {
         return relation;
       });
     },
