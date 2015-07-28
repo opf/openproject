@@ -26,21 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'api/v3/activities/activity_representer'
 
-shared_examples_for 'handling anonymous user' do
-  context 'anonymous user' do
-    before do
-      allow(User).to receive(:current).and_return(User.anonymous)
-    end
+module API
+  module V3
+    module Activities
+      class ActivitiesByWorkPackageAPI < ::API::OpenProjectAPI
+        resource :activities do
+          helpers do
+            def save_work_package(work_package)
+              if work_package.save
+                journals = ::Journal::AggregatedJournal.aggregated_journals(
+                  journable: work_package)
+                Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(work_package.errors)
+              end
+            end
+          end
 
-    context 'when access for anonymous user is not allowed' do
-      before do
-        allow(Setting).to receive(:login_required?).and_return(true)
-        get path
+          params do
+            requires :comment, type: String
+          end
+          post do
+            authorize({ controller: :journals, action: :new },
+                      context: @work_package.project) do
+              raise ::API::Errors::NotFound.new
+            end
+
+            @work_package.journal_notes = params[:comment]
+
+            save_work_package(@work_package)
+          end
+        end
       end
-
-      it_behaves_like 'unauthenticated access'
     end
   end
 end

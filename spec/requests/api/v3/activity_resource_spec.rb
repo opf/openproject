@@ -33,11 +33,19 @@ describe 'API v3 Activity resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) {
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  }
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:activity) { FactoryGirl.create(:work_package_journal, journable: work_package) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages, :edit_work_package_notes] }
+  let(:activity) { work_package.journals.first }
+
+  before do
+    allow(User).to receive(:current).and_return current_user
+    work_package.save!
+  end
 
   describe '#get' do
     subject(:response) { last_response }
@@ -45,10 +53,6 @@ describe 'API v3 Activity resource', type: :request do
     context 'logged in user' do
       let(:get_path) { api_v3_paths.activity activity.id }
       before do
-        allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
         get get_path
       end
 
@@ -80,9 +84,40 @@ describe 'API v3 Activity resource', type: :request do
       end
     end
 
-    it_behaves_like 'handling anonymous user', 'Activity', '/api/v3/activities/%s' do
+    it_behaves_like 'handling anonymous user' do
       let(:project) { FactoryGirl.create(:project, is_public: true) }
-      let(:id) { activity.id }
+      let(:path) { api_v3_paths.activity activity.id }
+    end
+  end
+
+  describe '#patch' do
+    subject(:response) { last_response }
+    let(:patch_path) { api_v3_paths.activity activity.id }
+    let(:valid_params) {
+      {
+        comment: 'a fancy comment!'
+      }
+    }
+
+    context 'authorized user' do
+      before do
+        patch patch_path, valid_params.to_json, 'CONTENT_TYPE' => 'application/json'
+      end
+
+      subject(:response) { last_response }
+
+      it 'should respond with HTTP OK' do
+        expect(subject.status).to eq(200)
+      end
+
+      it 'changes the comment' do
+        activity.reload
+        expect(activity.notes).to eql 'a fancy comment!'
+      end
+
+      it 'responds with the updated activity' do
+        expect(subject.body).to be_json_eql('a fancy comment!'.to_json).at_path('comment/raw')
+      end
     end
   end
 end
