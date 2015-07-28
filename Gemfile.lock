@@ -541,8 +541,8 @@ DEPENDENCIES
   pry-stack_explorer
   quiet_assets
   rabl (= 0.9.3)
-  rack-attack
   rack (~> 1.4.7)
+  rack-attack
   rack-protection!
   rack-test (~> 0.6.2)
   rack_session_access
