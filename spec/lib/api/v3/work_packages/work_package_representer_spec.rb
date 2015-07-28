@@ -738,28 +738,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }
         it { is_expected.to have_json_size(0).at_path('_embedded/activities') }
       end
-
-      describe 'linked revisions' do
-        context 'when no revisions available' do
-          it 'contains an empty linked property revisions' do
-            expect(subject).to have_json_size(0).at_path('_embedded/revisions')
-          end
-        end
-
-        context 'when revisions available' do
-          let(:repository) { FactoryGirl.build(:repository_subversion) }
-          let(:rev1) { FactoryGirl.build(:changeset, repository: repository) }
-          let(:rev2) { FactoryGirl.build(:changeset, repository: repository) }
-
-          before do
-            allow(work_package).to receive(:changesets).and_return([rev1, rev2])
-          end
-
-          it 'contains the linked revision' do
-            expect(subject).to have_json_size(2).at_path('_embedded/revisions')
-          end
-        end
-      end
     end
   end
 end

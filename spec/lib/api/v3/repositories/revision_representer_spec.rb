@@ -34,7 +34,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
   let(:representer) { described_class.new(revision) }
 
   let(:project) { FactoryGirl.build :project }
-  let(:repository) { FactoryGirl.build :repository_subversion, project: project}
+  let(:repository) { FactoryGirl.build :repository_subversion, project: project }
   let(:revision) {
     FactoryGirl.build(:changeset,
                       id: 42,
@@ -79,7 +79,6 @@ describe ::API::V3::Repositories::RevisionRepresenter do
         it { is_expected.to be_json_eql('foo bar '.to_json).at_path('authorName') }
       end
     end
-
 
     context 'with referencing commit message' do
       let(:work_package) { FactoryGirl.build_stubbed(:work_package, project: project) }

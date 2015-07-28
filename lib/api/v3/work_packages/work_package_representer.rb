@@ -290,14 +290,6 @@ module API
 
         property :activities, embedded: true, exec_context: :decorator
 
-        property :revisions,
-                 embedded: true,
-                 exec_context: :decorator,
-                 if: -> (*) {
-                   current_user_allowed_to(:view_changesets,
-                                           context: represented.project)
-                 }
-
         property :version,
                  embedded: true,
                  exec_context: :decorator,
@@ -323,12 +315,6 @@ module API
         def activities
           represented.journals.map do |activity|
             ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: current_user)
-          end
-        end
-
-        def revisions
-          represented.changesets.map do |revision|
-            ::API::V3::Repositories::RevisionRepresenter.new(revision, current_user: current_user)
           end
         end
 

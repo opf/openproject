@@ -44,16 +44,17 @@ describe 'API v3 Revisions resource', type: :request do
   let(:repository) {
     FactoryGirl.create(:repository_subversion, project: project)
   }
-  let(:project) do
+  let(:project) {
     FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
-  end
-  let(:role) do
+  }
+  let(:role) {
     FactoryGirl.create(:role,
                        permissions: [:view_changesets])
-  end
-  let(:current_user) do
+  }
+  let(:current_user) {
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-  end
+  }
+
   let(:unauthorized_user) { FactoryGirl.create(:user) }
 
   describe '#get' do
