@@ -31,6 +31,11 @@
 #
 class RemoveFilesystemRepositories < ActiveRecord::Migration
   def up
-    Repository.where(type: 'Repository::Filesystem').destroy_all
+    # Circumvent Repository.where(...) since this tries to load
+    # the Repository::Filesystem constant and fails.
+      ActiveRecord::Base.connection.execute <<-SQL
+        DELETE FROM repositories
+        WHERE type = #{quote_value("Repository::Filesystem")}
+      SQL
   end
 end
