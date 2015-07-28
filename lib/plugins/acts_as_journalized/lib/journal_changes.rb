@@ -69,11 +69,11 @@ module JournalChanges
         h[changed_attribute] = [nil, new_value]
       }
     else
-      new_attributes = send(journal_assoc_name).map(&:attributes)
-      old_attributes = predecessor.send(journal_assoc_name).map(&:attributes)
+      new_journals = send(journal_assoc_name).map(&:attributes)
+      old_journals = predecessor.send(journal_assoc_name).map(&:attributes)
 
-      merged_journals = JournalManager.merge_reference_journals_by_id new_attributes,
-                                                                      old_attributes,
+      merged_journals = JournalManager.merge_reference_journals_by_id new_journals,
+                                                                      old_journals,
                                                                       key.to_s
 
       changes.merge! JournalManager.added_references(merged_journals, association, value.to_s)
