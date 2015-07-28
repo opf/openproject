@@ -140,6 +140,8 @@ describe 'Create repository', type: :feature, js: true do
         find('input[type="radio"][value="managed"]').set(true)
         find('button[type="submit"]', text: I18n.t(:button_create)).click
 
+        expect(page).to have_completed_ajax
+
         expect(page).to have_selector('input[name="scm_type"][value="managed"]:checked')
         expect(page).to have_selector('a.icon-delete', text: I18n.t(:button_delete))
       end
@@ -151,6 +153,8 @@ describe 'Create repository', type: :feature, js: true do
         find('input[name="repository[url]"]').set(url)
 
         find('button[type="submit"]', text: I18n.t(:button_create)).click
+
+        expect(page).to have_completed_ajax
 
         expect(page).to have_selector('button[type="submit"]', text: I18n.t(:button_save))
         expect(page).to have_selector('a.icon-delete', text: I18n.t(:button_delete))
