@@ -505,7 +505,7 @@ class WorkPackage < ActiveRecord::Base
     end
     notified.uniq!
     # Remove users that can not view the issue
-    notified.reject { |user| !visible?(user) }
+    notified.select { |user| visible?(user) }
   end
 
   def done_ratio

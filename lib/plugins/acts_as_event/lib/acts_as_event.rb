@@ -96,7 +96,7 @@ module Redmine
         def recipients
           notified = []
           notified = project.notified_users if project
-          notified.reject { |user| !visible?(user) }
+          notified.select { |user| visible?(user) }
         end
 
         module ClassMethods

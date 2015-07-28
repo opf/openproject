@@ -68,7 +68,7 @@ class WikiContent < ActiveRecord::Base
   # Returns the mail adresses of users that should be notified
   def recipients
     notified = project.notified_users
-    notified.reject { |user| !visible?(user) }
+    notified.select { |user| visible?(user) }
   end
 
   # FIXME: Deprecate
