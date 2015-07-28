@@ -59,16 +59,16 @@ describe JournalNotificationMailer do
       end
 
       context 'insufficient work package changes' do
-        let(:another_work_package) {
+        let!(:another_work_package) {
           FactoryGirl.create(:work_package,
                              project: project,
                              author: user,
                              type: project.types.first)
         }
         before do
+          ActionMailer::Base.deliveries.clear
           another_work_package.add_journal(user)
           another_work_package.description = 'needs more changes'
-          ActionMailer::Base.deliveries.clear
           another_work_package.save!(validate: false)
         end
 
