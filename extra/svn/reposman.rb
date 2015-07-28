@@ -36,11 +36,10 @@ You can create repositories explicitly on the filesystem using managed repositor
 Enable managed repositories for each SCM vendor individually using the templates
 defined in configuration.yml.
 
-To convert repositories previously created by reposman.rb into managed repositories,
-use the following command:
+If you want to convert existing repositories previously createed (by reposman.rb or manually)
+into managed repositories, use the following command:
 
-   $ bundle exec rake scm:migrate:reposman[URL prefix (, URL prefix, ...)]
-
+    $ bundle exec rake scm:migrate:managed[URL prefix (, URL prefix, ...)]
 Where URL prefix denotes a common prefix of repositories whose status should be upgraded to :managed.
 Example:
 
@@ -50,5 +49,5 @@ If you have executed reposman.rb with the following parameters:
 
 Then you can pass a URL prefix of 'file:///opt/svn' and the rake task will migrate all repositories
 matching this prefix to :managed.
-You may pass more than one URL prefix to the task. 
+You may pass more than one URL prefix to the task.
 EOS
