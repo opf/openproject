@@ -204,6 +204,10 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
+          def self.work_package_revisions(id)
+            "#{work_package(id)}/revisions"
+          end
+
           def self.work_package_schema(project_id, type_id)
             "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end

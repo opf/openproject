@@ -38,14 +38,14 @@ module API
               attr_reader :revision
 
               def revision_representer
-                RevisionRepresenter.new(@revision)
+                RevisionRepresenter.new(revision)
               end
             end
 
             before do
               @revision = Changeset.find(params[:id])
 
-              authorize(:view_changesets, context: @revision.project) do
+              authorize(:view_changesets, context: revision.project) do
                 raise API::Errors::NotFound.new
               end
             end

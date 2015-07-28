@@ -41,14 +41,14 @@ module API
         link :project do
           {
             href: api_v3_paths.project(represented.project.id),
-            title: "#{represented.project.name}"
+            title: represented.project.name
           }
         end
 
         link :author do
           {
             href: api_v3_paths.user(represented.user.id),
-            title: "#{represented.user.name} - #{represented.user.login}"
+            title: represented.user.name
           } unless represented.user.nil?
         end
 
