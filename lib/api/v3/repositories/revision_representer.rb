@@ -58,7 +58,9 @@ module API
         property :message,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   ::API::Decorators::Formattable.new(represented.comments, format: 'plain')
+                   ::API::Decorators::Formattable.new(represented.comments,
+                                                      object: represented,
+                                                      format: 'plain')
                  },
                  render_nil: true
 
