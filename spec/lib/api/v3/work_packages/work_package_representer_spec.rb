@@ -87,7 +87,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'no start date' do
-          let(:work_package) { FactoryGirl.build(:work_package, start_date: nil) }
+          let(:work_package) { FactoryGirl.build(:work_package, id: 42, start_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
@@ -102,7 +102,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'no due date' do
-          let(:work_package) { FactoryGirl.build(:work_package, due_date: nil) }
+          let(:work_package) { FactoryGirl.build(:work_package, id: 42, due_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
@@ -288,7 +288,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'assignee' do
         context 'assignee is set' do
           let(:work_package) {
-            FactoryGirl.build(:work_package, assigned_to: FactoryGirl.build(:user))
+            FactoryGirl.build(:work_package, id: 42, assigned_to: FactoryGirl.build(:user))
           }
 
           it_behaves_like 'has a titled link' do
@@ -308,7 +308,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'responsible' do
         context 'responsible is set' do
           let(:work_package) {
-            FactoryGirl.build(:work_package, responsible: FactoryGirl.build(:user))
+            FactoryGirl.build(:work_package, id: 42, responsible: FactoryGirl.build(:user))
           }
 
           it_behaves_like 'has a titled link' do
