@@ -29,24 +29,28 @@
 #-- encoding: UTF-8
 module JournalChanges
   def get_changes
-    return {} if data.nil?
     return @changes if @changes
+    return {} if data.nil?
 
     @changes = HashWithIndifferentAccess.new
 
     if predecessor.nil?
-      @changes = data.journaled_attributes.select { |_, v| !v.nil? }
-                   .inject({}) { |h, (k, v)| h[k] = [nil, v]; h }
+      @changes = data.journaled_attributes
+                 .reject { |_, new_value| new_value.nil? }
+                 .inject({}) { |result, (attribute, new_value)|
+                   result[attribute] = [nil, new_value]
+                   result
+                 }
     else
-      normalized_data = JournalManager.normalize_newlines(data.journaled_attributes)
-      normalized_predecessor_data = JournalManager.normalize_newlines(predecessor.data.journaled_attributes)
+      normalized_new_data = JournalManager.normalize_newlines(data.journaled_attributes)
+      normalized_old_data = JournalManager.normalize_newlines(predecessor.data.journaled_attributes)
 
-      normalized_data.select do |k, v|
+      normalized_new_data.select { |attribute, new_value|
         # we dont record changes for changes from nil to empty strings and vice versa
-        pred = normalized_predecessor_data[k]
-        v != pred && (v.present? || pred.present?)
-      end.each do |k, v|
-        @changes[k] = [normalized_predecessor_data[k], v]
+        old_value = normalized_old_data[attribute]
+        new_value != old_value && (new_value.present? || old_value.present?)
+      }.each do |attribute, new_value|
+        @changes[attribute] = [normalized_old_data[attribute], new_value]
       end
     end
 
@@ -59,13 +63,17 @@ module JournalChanges
     journal_assoc_name = "#{journal_association}_journals"
 
     if predecessor.nil?
-      send(journal_assoc_name).each_with_object(changes) { |a, h| h["#{association}_#{a.send(key)}"] = [nil, a.send(value)] }
+      send(journal_assoc_name).each_with_object(changes) { |associated_journal, h|
+        changed_attribute = "#{association}_#{associated_journal.send(key)}"
+        new_value = associated_journal.send(value)
+        h[changed_attribute] = [nil, new_value]
+      }
     else
-      current = send(journal_assoc_name).map(&:attributes)
-      predecessor_journals = predecessor.send(journal_assoc_name).map(&:attributes)
+      new_attributes = send(journal_assoc_name).map(&:attributes)
+      old_attributes = predecessor.send(journal_assoc_name).map(&:attributes)
 
-      merged_journals = JournalManager.merge_reference_journals_by_id current,
-                                                                      predecessor_journals,
+      merged_journals = JournalManager.merge_reference_journals_by_id new_attributes,
+                                                                      old_attributes,
                                                                       key.to_s
 
       changes.merge! JournalManager.added_references(merged_journals, association, value.to_s)
