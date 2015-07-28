@@ -116,20 +116,6 @@ module LegacyAssertionsAndHelpers
     saved_settings.each { |k, v| Setting[k] = v }
   end
 
-  REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'
-
-  def with_existing_filesystem_scm(&block)
-    if Dir.exists?(REPOSITORY_PATH)
-      Setting.enabled_scm = Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include? 'Filesystem'
-      OpenProject::Configuration['scm_filesystem_path_whitelist'] = [REPOSITORY_PATH]
-
-      block.call(REPOSITORY_PATH)
-    else
-      warn 'Filesystem test repository NOT FOUND. Skipping tests !!! See doc/RUNNING_TESTS.'
-      nil
-    end
-  end
-
   def change_user_password(login, new_password)
     user = User.first(conditions: { login: login })
     user.password, user.password_confirmation = new_password, new_password

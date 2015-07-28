@@ -32,7 +32,7 @@
 
 require 'legacy_spec_helper'
 
-describe Redmine::Scm::Adapters::GitAdapter, type: :model do
+describe OpenProject::Scm::Adapters::Git, type: :model do
   let(:git_repository_path) {  Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository' }
 
   FELIX_UTF8 = 'Felix Schäfer'
@@ -48,7 +48,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
   before do
     skip 'Git test repository NOT FOUND. Skipping unit tests !!!' unless File.directory?(git_repository_path)
 
-    @adapter = Redmine::Scm::Adapters::GitAdapter.new(
+    @adapter = OpenProject::Scm::Adapters::Git.new(
       git_repository_path,
       nil,
       nil,
@@ -127,7 +127,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
 
   it 'should annotate' do
     annotate = @adapter.annotate('sources/watchers_controller.rb')
-    assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
+    assert_kind_of OpenProject::Scm::Adapters::Annotate, annotate
     assert_equal 41, annotate.lines.size
     assert_equal '# This program is free software; you can redistribute it and/or',
                  annotate.lines[4].strip
@@ -138,7 +138,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
 
   it 'should annotate moved file' do
     annotate = @adapter.annotate('renamed_test.txt')
-    assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
+    assert_kind_of OpenProject::Scm::Adapters::Annotate, annotate
     assert_equal 2, annotate.lines.size
   end
 
@@ -248,7 +248,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
   private
 
   def test_scm_version_for(scm_command_version, version)
-    expect(@adapter.class).to receive(:scm_version_from_command_line).and_return(scm_command_version)
-    assert_equal version, @adapter.class.scm_command_version
+    expect(@adapter).to receive(:scm_version_from_command_line).and_return(scm_command_version)
+    assert_equal version, @adapter.git_binary_version
   end
 end

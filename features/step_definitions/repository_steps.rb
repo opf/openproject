@@ -30,17 +30,10 @@
 Given(/^the project "(.*?)" has a repository$/) do |project_name|
   project = Project.find(project_name)
 
-  repo_path = Rails.root.join 'tmp/filesystem_repository'
-
-  FileUtils.mkdir_p repo_path
-
-  OpenProject::Configuration['scm_filesystem_path_whitelist'] = [repo_path]
-
-  repo = FactoryGirl.build(:repository,
-                           url: repo_path,
+  repo = FactoryGirl.build(:repository_subversion,
                            project: project)
 
-  Setting.enabled_scm = Setting.enabled_scm << repo.scm_name
+  Setting.enabled_scm = Setting.enabled_scm << repo.vendor
 
   repo.save!
 end

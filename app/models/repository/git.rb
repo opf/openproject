@@ -27,25 +27,53 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/git_adapter'
+require 'open_project/scm/adapters/git'
 
 class Repository::Git < Repository
   attr_protected :root_url
   validates_presence_of :url
 
-  ATTRIBUTE_KEY_NAMES = {
-    'url'          => 'Path to repository',
-  }
-  def self.human_attribute_name(attribute_key_name, options = {})
-    ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
-  end
-
   def self.scm_adapter_class
-    Redmine::Scm::Adapters::GitAdapter
+    OpenProject::Scm::Adapters::Git
   end
 
-  def self.scm_name
-    'Git'
+  def configure(scm_type, _args)
+    if scm_type == MANAGED_TYPE
+      unless manageable?
+        raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+          I18n.t('repositories.managed.error_not_manageable')
+        )
+      end
+
+      self.root_url = managed_repository_path
+      self.url = managed_repository_url
+    end
+  end
+
+  def self.permitted_params(params)
+    super(params)
+  end
+
+  def supported_types
+    types = [:local]
+    types << MANAGED_TYPE if manageable?
+
+    types
+  end
+
+  def managed_repo_created
+    scm.initialize_bare_git
+  end
+
+  def repository_identifier
+    "#{super}.git"
+  end
+
+  ##
+  # Git doesn't like local urls when visiting
+  # the repository, thus always use the path.
+  def managed_repository_url
+    managed_repository_path
   end
 
   def supports_directory_revisions?

@@ -218,6 +218,9 @@ module.exports = function() {
     },
 
     // API V3
+    apiConfigurationPath: function() {
+      return PathHelper.apiV3 + '/configuration';
+    },
     apiQueryStarPath: function(queryId) {
       return PathHelper.apiV3QueryPath(queryId) + '/star';
     },

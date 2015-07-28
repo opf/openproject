@@ -72,6 +72,8 @@ en:
         host: "Host"
         onthefly: "On-the-fly user creation"
         port: "Port"
+      changeset:
+        repository: "Repository"
       comment:
         commented: "Commented" # an object that this comment belongs to
       custom_field:
@@ -742,7 +744,6 @@ en:
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_file_added: "File added"
   label_file_plural: "Files"
-  label_filesystem_path: "Root directory"
   label_filter_add: "Add filter"
   label_filter_plural: "Filters"
   label_float: "Float"
@@ -1246,6 +1247,59 @@ en:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     subproject_id: "Subproject"
+
+  repositories:
+    checkout_instructions: "Checkout instructions"
+    create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
+    create_successful: "The repository has been registered."
+    delete_sucessful: "The repository has been deleted."
+    destroy:
+      title: "Are you absolutely sure?"
+      managed_text: "If you continue, this will permanently delete the managed repository of %{project_name}. This action cannot be reverted."
+      managed_path_note: "The following directory will be erased: %{path}"
+      linked_text: "You're about to remove the linked repository %{url} from the project %{project_name}.\nNote: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
+    errors:
+      build_failed: "Unable to create the repository with the selected configuration. %{reason}"
+      empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."
+      exists_on_filesystem: "The repository directory exists already on filesystem."
+      filesystem_access_failed: "An error occurred while creating the repository on filesystem: %{message}."
+      not_manageable: "This repository vendor cannot be managed by OpenProject."
+      path_permission_failed: "An error occurred trying to create the following path: %{path}. Please ensure that OpenProject may write to that folder."
+      unauthorized: "You're not authorized to access the repository or the credentials are invalid."
+      unavailable: "The repository is unavailable."
+      unlink_failed_unmanageable: "The repository was deleted, but its directory could not be removed, because it is no longer manageable by OpenProject."
+      exception_title: "Cannot access the repository: %{message}"
+      disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
+    git:
+      instructions:
+        managed_url: "This is the URL of the managed (local) Git repository."
+        path: "Specify the path to your local Git repository ( e.g., %{example_path} )."
+      local_title: "Link existing local Git repository"
+      local_introduction: "If you have an existing local Git repository, you can link it with OpenProject to access it from within the application."
+      managed_path: "Managed Git path (preview)"
+      managed_introduction: "Let OpenProject create and integrate a local Git repository automatically."
+      managed_title: "Git repository integrated into OpenProject"
+      path: "Path to Git repository"
+    go_to_revision: "Go to revision"
+    scm_vendor: "Source control management system"
+    scm_type: "Repository type"
+    scm_types:
+      local: "Link existing local repository"
+      existing: "Link existing repository"
+      managed: "Create new repository in OpenProject"
+    update_settings_successful: "The settings have been sucessfully saved."
+    url: "URL to repository"
+    subversion:
+      existing_title: "Existing Subversion repository"
+      existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
+      instructions:
+        managed_url: "This is the URL of the managed (local) Subversion repository."
+        url: "Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.\nThe following URL schemes are supported:"
+      managed_title: "Subversion repository integrated into OpenProject"
+      managed_introduction: "Let OpenProject create and integrate a local Subversion repository automatically."
+      managed_url: "Managed URL"
+      password: "Repository Password"
+      username: "Repository username"
 
   search_input_placeholder: "search ..."
 

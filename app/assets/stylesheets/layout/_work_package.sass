@@ -125,6 +125,26 @@
   & > .button
     margin: .5rem .5rem 0 0
 
+.work-package--attachments--files
+  > h4
+    margin-top: 5px
+
+.work-package--attachments--drop-box
+  border: 2px dashed $light-gray
+  background-color: lighten($gray, 5)
+  text-align: center
+  padding: 20px
+
+  > p
+    margin-bottom: 8px
+
+.work-package--attachments--label
+  font-size: 1rem
+  font-weight: bold
+
+.work-package--attachments--hint
+  font-size: 85%
+
 .controller-work_packages
   #work-packages-query-selection
     .select2-container
@@ -154,3 +174,39 @@
   #attributes
     .form--field-container
       max-width: 400px
+
+
+%flex-grow-shrink-zero
+  flex-grow: 0
+  flex-shrink: 0
+
+.work-package--attachments--files
+  ul
+    list-style: none
+    margin: 0
+    li
+      margin: rem-calc(5 0)
+      display: flex
+      flex-direction: row
+      align-items: center
+      .filename
+        margin: rem-calc(0 5)
+        flex-grow: 1
+        flex-basis: auto
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+      .filesize
+        @extend %flex-grow-shrink-zero
+        margin: rem-calc(0 10)
+      .button
+        @extend %flex-grow-shrink-zero
+        margin: 0
+        flex-basis: rem-calc(65)
+
+//an workaround for ie10
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  //IE10+ specific styles go here
+  .work-package--attachments--files ul li .filename
+    width: rem-calc(354)
+    display: block

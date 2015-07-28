@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/subversion_adapter'
+require 'open_project/scm/adapters/subversion'
 
 class Repository::Subversion < Repository
   attr_protected :root_url
@@ -35,15 +35,43 @@ class Repository::Subversion < Repository
   validates_format_of :url, with: /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i
 
   def self.scm_adapter_class
-    Redmine::Scm::Adapters::SubversionAdapter
+    OpenProject::Scm::Adapters::Subversion
   end
 
-  def self.scm_name
-    'Subversion'
+  def configure(scm_type, _args)
+    if scm_type == MANAGED_TYPE
+      unless manageable?
+        raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+          I18n.t('repositories.managed.error_not_manageable')
+        )
+      end
+
+      self.root_url = managed_repository_path
+      self.url = managed_repository_url
+    end
+  end
+
+  def self.permitted_params(params)
+    super(params).merge(params.permit(:login, :password))
+  end
+
+  def supported_types
+    types = [:existing]
+    types << MANAGED_TYPE if manageable?
+
+    types
+  end
+
+  def managed_repo_created
+    scm.create_empty_svn
   end
 
   def supports_directory_revisions?
     true
+  end
+
+  def repository_identifier
+    "#{super}.svn"
   end
 
   def repo_log_encoding

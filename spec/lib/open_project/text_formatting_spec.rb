@@ -65,7 +65,7 @@ describe OpenProject::TextFormatting do
 
     context "Changeset links" do
       let(:repository) do
-        FactoryGirl.build_stubbed :repository,
+        FactoryGirl.build_stubbed :repository_subversion,
                                   project: project
       end
       let(:changeset1) do
@@ -431,7 +431,7 @@ describe OpenProject::TextFormatting do
 
     context 'Redmine links' do
       let(:repository) do
-        FactoryGirl.build_stubbed :repository, project: project
+        FactoryGirl.build_stubbed :repository_subversion, project: project
       end
       let(:source_url) do
         { controller: 'repositories',

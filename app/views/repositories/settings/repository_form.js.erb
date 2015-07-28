@@ -1,0 +1,68 @@
+(function($) {
+
+	<% content = render partial: 'repositories/settings' %>
+	$('#tab-content-repository').html('<%= escape_javascript content %>');
+
+	<% unless flash.empty? %>
+	<%# TODO: Double flash from regular flash %>
+	var div_content = $('#content');
+	div_content.find('.flash').remove();
+	div_content.prepend('<%= render_flash_messages %>');
+	<% end %>
+
+	var toggleContent = function(content, selected) {
+		var targetName = '#toggleable-attributes-group--content-' + selected,
+				oldTargets = content.not(targetName),
+				newTarget  = $(targetName);
+
+		// would work with fieldset#disabled, but that's bugged up unto IE11
+		// https://connect.microsoft.com/IE/feedbackdetail/view/962368/
+		//
+		// Ugly workaround: disable all inputs manually, but
+		// spare enabling inputs marked with `aria-disabled`
+		oldTargets
+			.slideUp(500)
+			.prop('hidden', true)
+			.find('input')
+			.prop('disabled', true);
+
+		newTarget
+			.slideDown(500)
+			.prop('hidden', false)
+			.find('input')
+			.not('[aria-disabled="true"]')
+			.prop('disabled', false);
+	};
+
+	$('#tab-content-repository')
+		.find('.attributes-group.-toggleable')
+		.each(function(_i, el) {
+
+		var fs = $(el),
+			name = fs.attr('data-switch'),
+			switches = fs.find('[name="' + name + '"]'),
+			headers = fs.find('.attributes-group--header-text'),
+			content = fs.find('.attributes-group--content.-toggleable');
+
+		// If only one choice, skip setup
+		if (switches.length === 1) {
+			return;
+		}
+
+		// Clickable headers
+		headers.click(function() {
+			var input = $(this).find('input');
+			if (!input.prop('checked')) {
+				input
+					.prop('checked', true)
+					.trigger('change');
+			}
+		});
+
+		// Toggle content
+		switches.on('change', function() {
+			toggleContent(content, this.value);
+		});
+	});
+
+}(jQuery));

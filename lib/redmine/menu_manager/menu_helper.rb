@@ -203,7 +203,6 @@ module Redmine::MenuManager::MenuHelper
     html_options[:title] ||= caption
 
     html_options[:lang] = menu_item_locale(item)
-
     link_to link_text, url, html_options
   end
 

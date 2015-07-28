@@ -212,32 +212,26 @@ default:
   #   host: errbit.example.org
   #   port: 443 (default)
 
-  # Configuration of SCM executable command.
-  # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
-  # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
-  # Examples:
-  # scm_subversion_command: svn                                       # (default: svn)
-  # scm_git_command:        /usr/local/bin/git                        # (default: git)
-  # scm_subversion_command:
-  # scm_git_command:
+  # Configuration of Source control vendors
+  # client_command:
+  #   Use this command to the default SCM vendor command (taken from path).
+  #   Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
+  #   On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
+  # manages:
+  #   Enable managed repositories for this vendor. This allows OpenProject to
+  #   take control over the given path to create and delete repositories directly
+  #   when created in the frontend.
   #
-  # Enable filesystem base SCM by specifying the directories that are available
-  # to serve as an SCM directory. The format in which the available directories
-  # can be specified is close to a shell glob.  Please see
-  # http://ruby-doc.org/core-2.2.0/Dir.html#method-c-glob for details.
+  # Examplary configuration
   #
-  # Multiple patterns can be configured.
-  #
-  # If no directory is specified, there will be no option to configure a
-  # filesystem based SCM within OpenProject.
-  #
-  # Please note that this allows users to browse the filesystem which could
-  # lead to sensitive information (e.g. db credentials) being made accessible
-  # to them.
-  #
-  # scm_filesystem_path_whitelist:
-  #   - "/opt/app/openproject/repositories/*"
-  #   - "/tmp/**/*"
+  # scm:
+  #   Git:
+  #     client_command: /usr/local/bin/git
+  #     manages: /tmp/git
+  #   Subversion:
+  #     # Use command below to override the default svn command taken from path.
+  #     client_command: /usr/local/bin/svn
+  #     manages: /tmp/svn
 
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.
