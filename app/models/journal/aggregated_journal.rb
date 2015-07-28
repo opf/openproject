@@ -127,7 +127,7 @@ class Journal::AggregatedJournal
         group_counter = mysql_group_count_variable(uid)
         "(#{group_counter} := #{group_counter} + 1)"
       else
-        'row_number() OVER ()'
+        'row_number() OVER (ORDER BY predecessor.version ASC)'
       end
     end
 
