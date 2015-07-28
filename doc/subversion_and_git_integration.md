@@ -106,10 +106,10 @@ This functionality was previously provided in an asynchronous manner using repos
 This script has been integrated into OpenProject.
 Please remove any existing cronjobs that still use this script.
 
-To convert repositories previously created by reposman.rb into managed repositories,
-use the following command:
+If you want to convert existing repositories previously createed (by reposman.rb or manually)
+into managed repositories, use the following command:
 
-    $ bundle exec rake scm:migrate:reposman[URL prefix (, URL prefix, ...)]
+    $ bundle exec rake scm:migrate:managed[URL prefix (, URL prefix, ...)]
 
 Where URL prefix denotes a common prefix of repositories whose status should be upgraded to `:managed`.
 Example:

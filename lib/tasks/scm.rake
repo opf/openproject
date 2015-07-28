@@ -29,8 +29,8 @@
 
 namespace :scm do
   namespace :migrate do
-    desc 'Migrate reposman.rb repositories to managed'
-    task reposman: :environment do |task, args|
+    desc 'Migrate existing repositories to managed for a given URL prefix'
+    task managed: :environment do |task, args|
 
       urls = args.extras
       abort "Requires at least one URL prefix to identify existing repositories" if urls.length < 1
