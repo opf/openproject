@@ -239,6 +239,15 @@ class Journal::AggregatedJournal
     predecessor.nil?
   end
 
+  # The anchor number for html output
+  def anchor
+    predecessor.version
+  end
+
+  def project
+    @journal.project
+  end
+
   def data
     @data ||= "Journal::#{journable_type}Journal".constantize.find_by_journal_id(id)
   end

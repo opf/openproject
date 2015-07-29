@@ -54,7 +54,9 @@ module JournalsHelper
         #{avatar(journal.user)}
       </div>
       <h4>
-        <div class="journal-link" style="float:right;">#{link_to "##{journal.anchor}", anchor: "note-#{journal.anchor}"}</div>
+        <div class="journal-link" style="float:right;">
+          #{link_to "##{options[:index]}", anchor: "note-#{options[:index]}"}
+        </div>
         #{authoring journal.created_at, journal.user, label: header_label}
         #{content_tag('a', '', name: "note-#{journal.anchor}")}
       </h4>

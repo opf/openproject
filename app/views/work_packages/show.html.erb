@@ -105,7 +105,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if journals.present? %>
   <div id="history">
     <h3><%=l(:label_history)%></h3>
-    <%= render :partial => 'history', :locals => { :work_package => work_package, :journals => journals } %>
+    <%= render partial: 'history',
+               locals: { work_package: work_package,
+                         journals: Journal::AggregatedJournal.aggregated_journals(
+                            journable: work_package) } %>
   </div>
 <% end %>
 
