@@ -27,8 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-API::V3::Utilities::DateTimeFormatter
-
 module API
   module V3
     module Repositories
@@ -65,8 +63,9 @@ module API
                  render_nil: true
 
         property :created_at,
+                 exec_context: :decorator,
                  getter: -> (*) {
-                   DateTimeFormatter::format_datetime(committed_on)
+                   datetime_formatter.format_datetime(represented.committed_on)
                  }
 
         def _type
