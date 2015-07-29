@@ -191,12 +191,12 @@ describe WorkPackage, type: :model do
         context 'pre-condition' do
           subject { work_package.recipients }
 
-          it { is_expected.to include(work_package.author.mail) }
+          it { is_expected.to include(work_package.author) }
         end
 
         subject { copy.recipients }
 
-        it { is_expected.not_to include(copy.author.mail) }
+        it { is_expected.not_to include(copy.author) }
       end
 
       describe 'with children' do

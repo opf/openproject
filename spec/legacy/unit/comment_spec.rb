@@ -81,13 +81,13 @@ describe Comment, type: :model do
     news = FactoryGirl.create(:news, project: project, author: user)
 
     # with notifications for that event turned on
-    allow(Notifier).to receive(:notify?).with(:news_comment_added).and_return(true)
+    allow(Setting).to receive(:notified_events).and_return(['news_comment_added'])
     assert_difference 'ActionMailer::Base.deliveries.size', 1 do
       Comment.create!(commented: news, author: user, comments: 'more useful stuff')
     end
 
     # with notifications for that event turned off
-    allow(Notifier).to receive(:notify?).with(:news_comment_added).and_return(false)
+    allow(Setting).to receive(:notified_events).and_return([])
     assert_no_difference 'ActionMailer::Base.deliveries.size' do
       Comment.create!(commented: news, author: user, comments: 'more useful stuff')
     end

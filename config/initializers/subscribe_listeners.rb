@@ -27,39 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackageObserver < ActiveRecord::Observer
-  attr_accessor :send_notification
-
-  def after_create(work_package)
-    if send_notification
-      recipients = work_package.recipients + work_package.watcher_recipients
-      users = User.find_all_by_mails(recipients.uniq)
-
-      users.each do |user|
-        notify(user, work_package)
-      end
-    end
-    clear_notification
-  end
-
-  ##
-  # Notifies the user of the created work package.
-  def notify(user, work_package)
-    job = DeliverWorkPackageCreatedJob.new(user.id, work_package.id, User.current.id)
-
-    Delayed::Job.enqueue job
-  end
-
-  # Wrap send_notification so it defaults to true, when it's nil
-  def send_notification
-    return true if @send_notification.nil?
-    @send_notification
-  end
-
-  private
-
-  # Need to clear the notification setting after each usage otherwise it might be cached
-  def clear_notification
-    @send_notification = true
-  end
+OpenProject::Notifications.subscribe('journal_created') do |payload|
+  JournalNotificationMailer.distinguish_journals(payload[:journal], payload[:send_notification])
 end
