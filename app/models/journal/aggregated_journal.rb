@@ -163,7 +163,7 @@ class Journal::AggregatedJournal
     # to be considered for aggregation. This takes the current instance settings for temporal
     # proximity into account.
     def sql_beyond_aggregation_time?(predecessor, successor)
-      aggregation_time_seconds = Setting.journal_aggregation_time_minutes.to_i * 60
+      aggregation_time_seconds = Setting.journal_aggregation_time_minutes.to_i.minutes
 
       if OpenProject::Database.mysql?
         difference = "TIMESTAMPDIFF(second, #{predecessor}.created_at, #{successor}.created_at)"
@@ -197,6 +197,7 @@ class Journal::AggregatedJournal
            :user_id,
            :user,
            :notes,
+           :notes?,
            :activity_type,
            :created_at,
            :id,

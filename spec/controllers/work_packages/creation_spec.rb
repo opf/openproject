@@ -73,7 +73,7 @@ describe WorkPackagesController, type: :controller do
       # Find the enqueued job responsible for sending the notification
       # for the creation of the work package.
       Delayed::Job.all.map(&:payload_object).detect do |job|
-        if job.is_a? DeliverWorkPackageCreatedJob
+        if job.is_a? DeliverWorkPackageNotificationJob
           job.send(:work_package) == work_package
         end
       end
