@@ -36,10 +36,10 @@ if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(typ
   # This can happen when an existing database, having timelines planning elements,
   # gets migrated. During the migration, the existing planning elements are converted
   # to work_packages. Because the existance of a standard type cannot be guaranteed
-  # during the migration, such work packages receive a type_id of 0.
+  # during the migration, such work packages receive a type_id of nil.
   #
-  # Because all work packages that do not a type yet should always have had one
-  # (from todays standpoint) the assignment is done covertedly.
+  # Because all work packages that do not have a type yet should always have had one
+  # (from todays standpoint). The assignment is done covertedly.
 
   WorkPackage.transaction do
     green_color = colors[I18n.t(:default_color_green_light)]
