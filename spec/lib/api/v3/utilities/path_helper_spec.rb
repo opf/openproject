@@ -239,6 +239,16 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'revisions paths' do
+    describe '#revision' do
+      subject { helper.revision 1 }
+
+      it_behaves_like 'api v3 path'
+
+      it { is_expected.to eql('/api/v3/revisions/1') }
+    end
+  end
+
   describe 'schemas paths' do
     describe '#work_package_schema' do
       subject { helper.work_package_schema 1, 2 }
@@ -397,6 +407,14 @@ describe ::API::V3::Utilities::PathHelper do
       it_behaves_like 'api v3 work packages path'
 
       it { is_expected.to match(/^\/api\/v3\/work_packages\/42\/relations\/1/) }
+    end
+
+    describe '#work_package_revisions' do
+      subject { helper.work_package_revisions 42 }
+
+      it_behaves_like 'api v3 work packages path'
+
+      it { is_expected.to eql('/api/v3/work_packages/42/revisions') }
     end
 
     describe '#work_package_form' do

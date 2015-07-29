@@ -4108,7 +4108,7 @@ Gets a list of revisions that are linked to this work package, e.g., because it 
 
     **Required permission:** view changesets of the project this work package is contained in
 
-    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
 
     + Body
 
@@ -4120,16 +4120,16 @@ Gets a list of revisions that are linked to this work package, e.g., because it 
 
 + Response 404 (application/hal+json)
 
-    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+    Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
-    **Required permission:** view project
+    **Required permission:** view work package
 
     + Body
 
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified project does not exist."
+                "message": "The specified work project does not exist."
             }
 
 

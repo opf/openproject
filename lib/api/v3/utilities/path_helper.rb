@@ -114,6 +114,10 @@ module API
             "#{root}/relations/#{id}"
           end
 
+          def self.revision(id)
+            "#{root}/revisions/#{id}"
+          end
+
           def self.render_markup(format: nil, link: nil)
             format = format || Setting.text_formatting
             format = 'plain' if format == '' # Setting will return '' for plain
@@ -198,6 +202,10 @@ module API
 
           def self.work_package_relation(id, work_package_id)
             "#{work_package_relations(work_package_id)}/#{id}"
+          end
+
+          def self.work_package_revisions(id)
+            "#{work_package(id)}/revisions"
           end
 
           def self.work_package_schema(project_id, type_id)
