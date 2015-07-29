@@ -183,11 +183,11 @@ When (/^I set the second level grouping criteria to "(.*?)" for the timeline "(.
   }
   project_type = ProjectType.find_by_name(project_type_name)
 
-  page.should have_selector('#timeline_options_grouping_two_enabled', visible: false)
+  check(I18n.t('timelines.filter.grouping_two'))
+  fill_in(I18n.t('timelines.filter.grouping_two_phrase'), with: project_type.name)
+  find('.select2-result-label', text: project_type.name).click
 
-  page.execute_script("jQuery('#timeline_options_grouping_two_enabled').prop('checked', true)")
-  page.execute_script("jQuery('#timeline_options_grouping_two_selection').val('#{project_type.id}')")
-  page.execute_script("jQuery('#content form').submit()")
+  click_button(I18n.t(:button_save))
 end
 When (/^I set the columns shown in the timeline to:$/) do |table|
   steps %{
