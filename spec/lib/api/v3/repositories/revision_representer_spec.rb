@@ -51,7 +51,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { is_expected.to include_json('Revision'.to_json).at_path('_type') }
+    it { is_expected.to be_json_eql('Revision'.to_json).at_path('_type') }
 
     describe 'revision' do
       it { is_expected.to have_json_path('id') }
@@ -103,14 +103,25 @@ describe ::API::V3::Repositories::RevisionRepresenter do
       end
     end
 
-    context 'with linked user as author' do
-      let(:user) { FactoryGirl.build(:user) }
-      before do
-        allow(revision).to receive(:user).and_return(user)
+    describe 'author' do
+      context 'with no linked user' do
+        it_behaves_like 'has no link' do
+          let(:link) { 'author' }
+        end
       end
 
-      it { is_expected.to have_json_path('_links/author') }
-      it { is_expected.to be_json_eql(user.name.to_json).at_path('_links/author/title') }
+      context 'with linked user as author' do
+        let(:user) { FactoryGirl.build(:user) }
+        before do
+          allow(revision).to receive(:user).and_return(user)
+        end
+
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'author' }
+          let(:href) { api_v3_paths.user(user.id) }
+          let(:title) { user.name }
+        end
+      end
     end
   end
 end

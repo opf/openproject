@@ -55,8 +55,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       :add_work_package_watchers,
       :delete_work_package_watchers,
       :manage_work_package_relations,
-      :add_work_package_notes,
-      :view_changesets
+      :add_work_package_notes
     ]
   }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
@@ -322,6 +321,26 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'responsible is not set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'responsible' }
+          end
+        end
+      end
+
+      describe 'revisions' do
+        context 'when the user lacks the view_changesets permission' do
+          it 'should not have a link to revisions' do
+            expect(subject).not_to have_json_path('_links/revisions/href')
+          end
+        end
+
+        context 'when the user has the required permission' do
+          let(:revision_permissions) { [:view_changesets] }
+          let(:role) { FactoryGirl.create :role, permissions: permissions + revision_permissions }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'revisions' }
+            let(:href) {
+              api_v3_paths.work_package_revisions(work_package.id)
+            }
           end
         end
       end

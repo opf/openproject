@@ -49,11 +49,6 @@ describe 'API v3 Revisions by work package resource', type: :request do
 
   before do
     allow(User).to receive(:current).and_return current_user
-    FactoryGirl.create_list(:changeset,
-                            5,
-                            comments: "This commit references ##{work_package.id}",
-                            repository: repository
-    )
   end
 
   describe '#get' do
@@ -67,6 +62,36 @@ describe 'API v3 Revisions by work package resource', type: :request do
       expect(subject.status).to eq(200)
     end
 
-    it_behaves_like 'API V3 collection response', 5, 5, 'Revision'
+    it_behaves_like 'API V3 collection response', 0, 0, 'Revision'
+
+
+    context 'with existing revisions' do
+      before do
+        FactoryGirl.create_list(:changeset,
+                                5,
+                                comments: "This commit references ##{work_package.id}",
+                                repository: repository
+        )
+        get get_path
+      end
+
+      it_behaves_like 'API V3 collection response', 5, 5, 'Revision'
+    end
+
+    context 'user unauthorized to view work package' do
+      let(:current_user) { FactoryGirl.create(:user) }
+
+      it 'should respond with 404' do
+        expect(subject.status).to eq(404)
+      end
+    end
+
+    context 'user unauthorized to view revisions' do
+      let(:permissions) { [:view_work_packages] }
+
+      it 'should respond with 403' do
+        expect(subject.status).to eq(403)
+      end
+    end
   end
 end

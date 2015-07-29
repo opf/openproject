@@ -35,12 +35,12 @@ module API
         resources :revisions do
           before do
             authorize(:view_changesets, context: work_package.project) do
-              raise API::Errors::NotFound.new
+              raise API::Errors::Unauthorized.new
             end
           end
 
           get do
-            self_path = api_v3_paths.attachments_by_work_package(work_package.id)
+            self_path = api_v3_paths.work_package_revisions(work_package.id)
 
             revisions = work_package.changesets
             RevisionsCollectionRepresenter.new(revisions,

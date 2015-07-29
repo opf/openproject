@@ -59,31 +59,8 @@ describe 'API v3 Revisions resource', type: :request do
 
   describe '#get' do
     let(:get_path) { api_v3_paths.revision revision.id }
-    let(:expected_response) do
-      {
-        '_type' => 'Revision',
-        '_links' => {
-          'self' => {
-            'href' => "http://localhost:3000/api/v3/revisions/#{revision.id}"
-          },
-          'project' => {
-            'href' => "http://localhost:3000/api/v3/projects/#{project.id}",
-            'title' => project.title
-          },
-        },
-        'id' => revision.id,
-        'identifier' => revision.identifier,
-        'authorName' => revision.author,
-        'message' => {
-          'format' => 'plain',
-          'raw' => 'Some commit message',
-          'html' =>'<p>Some commit message</p>',
-        },
-        'createdAt' => revision.committed_on.utc.iso8601
-      }
-    end
 
-    context 'when acting as a user with permission to view work package' do
+    context 'when acting as a user with permission to view revisions' do
       before(:each) do
         allow(User).to receive(:current).and_return current_user
         get get_path
@@ -94,15 +71,15 @@ describe 'API v3 Revisions resource', type: :request do
       end
 
       describe 'response body' do
-        subject(:parsed_response) { JSON.parse(last_response.body) }
+        subject(:response) { last_response.body }
 
         it 'should respond with revision in HAL+JSON format' do
-          expect(parsed_response['id']).to eq(revision.id)
+          is_expected.to be_json_eql(revision.id.to_json).at_path('id')
         end
       end
 
       context 'requesting nonexistent revision' do
-        let(:get_path) { api_v3_paths.work_package 909090 }
+        let(:get_path) { api_v3_paths.revision 909090 }
 
         it_behaves_like 'not found'
       end
@@ -111,15 +88,6 @@ describe 'API v3 Revisions resource', type: :request do
     context 'when acting as an user without permission to view work package' do
       before(:each) do
         allow(User).to receive(:current).and_return unauthorized_user
-        get get_path
-      end
-
-      it_behaves_like 'not found'
-    end
-
-    context 'when acting as an anonymous user' do
-      before(:each) do
-        allow(User).to receive(:current).and_return User.anonymous
         get get_path
       end
 
