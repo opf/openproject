@@ -843,21 +843,10 @@ class WorkPackage < ActiveRecord::Base
     reload(select: [:lock_version, :created_at, :updated_at])
   end
 
-  # Returns an array of projects that current user can move issues to
-  def self.allowed_target_projects_on_move
-    projects = []
-    if User.current.admin?
-      projects = Project.where(Project.allowed_to_condition(User.current, :move_work_packages)).all
-    elsif User.current.logged?
-      if Role.non_member.allowed_to?(:move_work_packages)
-        projects = Project.visible.all
-      else
-        User.current.memberships.each do |m|
-          projects << m.project if m.roles.detect { |r| r.allowed_to?(:move_work_packages) }
-        end
-      end
-    end
-    projects
+  # Returns a scope for the projects
+  # the user is allowed to move a work package to
+  def self.allowed_target_projects_on_move(user = User.current)
+    Project.where(Project.allowed_to_condition(user, :move_work_packages))
   end
 
   # Do not redefine alias chain on reload (see #4838)

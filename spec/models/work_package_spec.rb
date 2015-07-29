@@ -1333,45 +1333,104 @@ describe WorkPackage, type: :model do
   end
 
   describe '#allowed_target_projects_on_move' do
-    let(:admin_user) { FactoryGirl.create :admin }
-    let(:valid_user) { FactoryGirl.create :user }
     let(:project) { FactoryGirl.create :project }
 
+    subject { WorkPackage.allowed_target_projects_on_move }
+
+    before do
+      allow(User).to receive(:current).and_return user
+      project
+    end
+
+    shared_examples_for 'has the permission to see projects' do
+      it 'sees the project' do
+        is_expected.to match_array [project]
+      end
+
+      it 'does not see the archived project' do
+        project.update_attribute(:status, Project::STATUS_ARCHIVED)
+
+        is_expected.to match_array []
+      end
+
+      it 'does not see the project having the work package module disabled' do
+        enabled_modules = project.enabled_module_names.delete(:work_package_tracking)
+        project.enabled_module_names = enabled_modules
+        project.save!
+
+        is_expected.to match_array []
+      end
+    end
+
+    shared_examples_for 'lacks the permission to see projects' do
+      it 'does not see the project' do
+        is_expected.to match_array []
+      end
+    end
+
     context 'admin user' do
-      before do
-        allow(User).to receive(:current).and_return admin_user
-        project
-      end
+      let(:admin_user) { FactoryGirl.create :admin }
 
-      subject { WorkPackage.allowed_target_projects_on_move }
-
-      it 'sees all active projects' do
-        is_expected.to match_array [project]
-      end
-
-      it 'does not see projects that have the work package module disabled' do
-        disabled_project = FactoryGirl.build :project
-        enabled_modules = disabled_project.enabled_module_names.delete(:work_package_tracking)
-        disabled_project.enabled_module_names = enabled_modules
-        disabled_project.save!
-
-        is_expected.to match_array [project]
+      it_behaves_like 'has the permission to see projects' do
+        let(:user) { admin_user }
       end
     end
 
     context 'non admin user' do
-      before do
-        allow(User).to receive(:current).and_return valid_user
+      let(:role) { FactoryGirl.build(:role, permissions: user_in_project_permissions) }
+      let(:user_in_project_permissions) { [:move_work_packages] }
+      let(:user_in_project) {
+        FactoryGirl.build :user,
+                          member_in_project: project,
+                          member_through_role: role
+      }
 
-        role = FactoryGirl.create :role, permissions: [:move_work_packages]
+      it_behaves_like 'has the permission to see projects' do
+        before do
+          user_in_project.save!
+        end
 
-        FactoryGirl.create(:member, user: valid_user, project: project, roles: [role])
+        let(:user) { user_in_project }
       end
 
-      subject { WorkPackage.allowed_target_projects_on_move.count }
+      it_behaves_like 'lacks the permission to see projects' do
+        let(:user_in_project_permissions) { [] }
 
-      it 'sees all active projects' do
-        is_expected.to eq Project.active.count
+        before do
+          user_in_project.save!
+        end
+
+        let(:user) { user_in_project }
+      end
+    end
+
+    context 'non member user' do
+      it_behaves_like 'lacks the permission to see projects' do
+        before do
+          project.update_attribute(:is_public, true)
+          FactoryGirl.create(:non_member, permissions: [])
+        end
+
+        let(:user) { FactoryGirl.create(:user) }
+      end
+
+      it_behaves_like 'has the permission to see projects' do
+        before do
+          project.update_attribute(:is_public, true)
+          FactoryGirl.create(:non_member, permissions: [:move_work_packages])
+        end
+
+        let(:user) { FactoryGirl.create(:user) }
+      end
+    end
+
+    context 'anonymous user' do
+      it_behaves_like 'lacks the permission to see projects' do
+        before do
+          project.update_attribute(:is_public, true)
+        end
+
+        let(:user) { FactoryGirl.create(:anonymous) }
       end
     end
   end
