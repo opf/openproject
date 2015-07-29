@@ -25,12 +25,7 @@ describe 'description inplace editor', js: true do
   before do
     allow(User).to receive(:current).and_return(user)
 
-    work_packages_page.visit_index
-
-    row = page.find("#work-package-#{work_package.id}")
-    row.double_click
-
-    ng_wait
+    work_packages_page.visit_index(work_package)
   end
 
   context 'in read state' do
