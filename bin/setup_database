@@ -12,8 +12,27 @@ FileUtils.chdir APP_ROOT do
 
   puts "== Preparing database =="
 
-  # fails silently if database already exists
-  system "#{rake} db:create"
+  # wait until the database server is up and running as seen from our app
+  # creates the target database as a side effect so we don't need to later
+  loop do
+    # indicates whether our server is up
+    # we can't use db:create only as it always returns success
+    connection_established = begin
+      # fails silently if database already exists
+      system "#{rake} db:create"
+      # returns true if server runs and database exists (therefore the create)
+      system "#{rake} db:version"
+    end
+
+    # exit the loop in case of success, otherwise retry in 10 seconds
+    if connection_established
+      puts "database is awake!"
+      break
+    else
+      puts "waiting for database to wake up..."
+      sleep 10 # seconds
+    end
+  end
 
   # is a schema.rb present (we don't check it in yet)
   schema_exists = File.exist?('db/schema.rb')
