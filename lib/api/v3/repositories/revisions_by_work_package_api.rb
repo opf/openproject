@@ -34,9 +34,7 @@ module API
       class RevisionsByWorkPackageAPI < ::API::OpenProjectAPI
         resources :revisions do
           before do
-            authorize(:view_changesets, context: work_package.project) do
-              raise API::Errors::Unauthorized.new
-            end
+            authorize(:view_changesets, context: work_package.project)
           end
 
           get do
