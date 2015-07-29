@@ -327,8 +327,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'revisions' do
         context 'when the user lacks the view_changesets permission' do
-          it 'should not have a link to revisions' do
-            expect(subject).not_to have_json_path('_links/revisions/href')
+          it_behaves_like 'has no link' do
+            let(:link) { 'revisions' }
           end
         end
 

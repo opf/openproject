@@ -44,6 +44,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
   let(:permissions) { [:view_work_packages, :view_changesets] }
   let(:repository) { FactoryGirl.create(:repository_subversion, project: project) }
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
+  let(:revisions) { [] }
 
   subject(:response) { last_response }
 
@@ -55,6 +56,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
     let(:get_path) { api_v3_paths.work_package_revisions work_package.id }
 
     before do
+      revisions.each do |rev| rev.save! end
       get get_path
     end
 
@@ -66,14 +68,13 @@ describe 'API v3 Revisions by work package resource', type: :request do
 
 
     context 'with existing revisions' do
-      before do
-        FactoryGirl.create_list(:changeset,
-                                5,
-                                comments: "This commit references ##{work_package.id}",
-                                repository: repository
+      let(:revisions) {
+        FactoryGirl.build_list(:changeset,
+                               5,
+                               comments: "This commit references ##{work_package.id}",
+                               repository: repository
         )
-        get get_path
-      end
+      }
 
       it_behaves_like 'API V3 collection response', 5, 5, 'Revision'
     end
