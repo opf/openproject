@@ -111,10 +111,22 @@ describe Repository::Subversion, type: :model do
     end
   end
 
+  describe 'with a remote repository' do
+    let(:instance) {
+      FactoryGirl.build(:repository_subversion,
+                                       url: 'https://somewhere.example.org/svn/foo'
+      )
+    }
+
+    it_behaves_like 'is not a countable repository' do
+      let(:repository) { instance }
+    end
+  end
+
   describe 'with an actual repository' do
     with_subversion_repository do |repo_dir|
       let(:url)      { "file://#{repo_dir}" }
-      let(:instance) { FactoryGirl.create(:repository_subversion, url: url) }
+      let(:instance) { FactoryGirl.create(:repository_subversion, url: url, root_url: url) }
 
       it 'should be available' do
         expect(instance.scm).to be_available
@@ -281,6 +293,10 @@ describe Repository::Subversion, type: :model do
           expect(event.event_title).to include('123456789:')
           expect(event.event_path).to match(/\?rev=123456789$/)
         end
+      end
+
+      it_behaves_like 'is a countable repository' do
+        let(:repository) { instance }
       end
     end
   end

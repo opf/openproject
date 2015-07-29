@@ -37,7 +37,7 @@ class Repository < ActiveRecord::Base
   before_save :sanitize_urls
 
   # Managed repository lifetime
-  after_save :create_managed_repository, if: Proc.new { |repo| repo.managed? }
+  after_create :create_managed_repository, if: Proc.new { |repo| repo.managed? }
   after_destroy :delete_managed_repository, if: Proc.new { |repo| repo.managed? }
 
   # Raw SQL to delete changesets and changes in the database
@@ -51,7 +51,7 @@ class Repository < ActiveRecord::Base
 
   acts_as_countable :required_project_storage,
                     label: :label_repository,
-                    countable: :updated_required_storage
+                    countable: :required_disk_storage
 
   def changes
     Change.where(changeset_id: changesets).joins(:changeset)
@@ -169,10 +169,15 @@ class Repository < ActiveRecord::Base
     path
   end
 
-  def updated_required_storage
-    if scm.has_storage?
-      storage = scm.updated_storage_information(self)
-      storage[:bytes_used] unless storage.nil?
+  def required_disk_storage
+    if scm.storage_countable?
+      if storage_updated_at.nil? ||
+         storage_updated_at < 12.hours.ago
+
+        Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(self)
+      end
+
+      required_storage_bytes
     end
   end
 

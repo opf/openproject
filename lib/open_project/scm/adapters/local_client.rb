@@ -54,6 +54,44 @@ module OpenProject
         end
 
         ##
+        # Determines whether this repository is eligible
+        # to count storage.
+        def storage_countable?
+          local? && File.directory?(local_repository_path)
+        end
+
+        ##
+        # Counts the repository storage requirement immediately
+        # or raises an exception if this is impossible for the current repository.
+        def count_repository!
+          if storage_countable?
+            count_required_storage
+          else
+            raise ScmError.new I18n.t('repositories.storage.not_available')
+          end
+        end
+
+        ##
+        # Retrieve the local FS path
+        # of this repository.
+        #
+        # Overriden by some vendors, as not
+        # all vendors have a path root_url.
+        # (e.g., subversion uses file:// URLs)
+        def local_repository_path
+          root_url
+        end
+
+        ##
+        # Reads the configuration for this strategy from OpenProject's `configuration.yml`.
+        def config
+          scm_config = OpenProject::Configuration
+          ['scm', vendor].inject(scm_config) do |acc, key|
+            HashWithIndifferentAccess.new acc[key]
+          end
+        end
+
+        ##
         # client executable command
         def client_command
           ''
@@ -176,6 +214,24 @@ module OpenProject
             logger.error("failed to convert from #{from} to #{to}. #{err}")
             nil
           end
+        end
+
+        private
+
+        ##
+        # Counts the repositories by files in ruby.
+        # For sake of compatibility, iterates all files
+        # in the repository to determine storage size.
+        #
+        # This is compatible, but quite inefficient, so should
+        # be run asynchronously.
+        def count_required_storage
+          bytes = 0
+          Find.find(local_repository_path) do |f|
+            bytes += File.size(f) if File.file?(f)
+          end
+
+          bytes
         end
       end
     end

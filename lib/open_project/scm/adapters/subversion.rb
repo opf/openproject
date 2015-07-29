@@ -34,7 +34,6 @@ module OpenProject
     module Adapters
       class Subversion < Base
         include LocalClient
-        include Quota::RepoSize
 
         def client_command
           @client_command ||= self.class.config[:client_command] || 'svn'

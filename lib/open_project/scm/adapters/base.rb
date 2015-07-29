@@ -52,7 +52,7 @@ module OpenProject
         # Overriden by descendants when
         # they are able to retrieve current
         # storage usage.
-        def has_storage?
+        def storage_countable?
           false
         end
 

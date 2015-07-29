@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,34 +25,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-class Scm::StorageUpdaterJob
-  def initialize(repository)
-    @id = repository.id
-
-    unless repository.scm.storage_countable?
-      raise OpenProject::Scm::Exceptions::ScmError.new(
-        I18n.t('repositories.storage.not_available')
-      )
-    end
-  end
-
-  def perform
-    bytes = repository.scm.count_repository!
-
-    repository.update_attributes!(
-      required_storage_bytes: bytes,
-      storage_updated_at: Time.now,
-    )
-  end
-
-  def destroy_failed_jobs?
-    true
-  end
-
-  private
-
-  def repository
-    @repository ||= Repository.find @id
+class AddStorageInformationToRepository < ActiveRecord::Migration
+  def change
+    add_column :repositories, :required_storage_bytes, :integer,
+               limit: 8, null: false, default: 0
+    add_column :repositories, :storage_updated_at, :datetime
   end
 end

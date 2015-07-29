@@ -111,7 +111,8 @@ describe Repository::Git, type: :model do
   describe 'with an actual repository' do
     with_git_repository do |repo_dir|
       let(:url)      { repo_dir }
-      let(:instance) { FactoryGirl.create(:repository_git, path_encoding: encoding, url: url) }
+      let(:instance) { FactoryGirl.create(:repository_git, path_encoding: encoding,
+                                          url: url, root_url: url) }
 
       before do
         instance.fetch_changesets
@@ -362,6 +363,11 @@ describe Repository::Git, type: :model do
           end
         end
       end
+
+      it_behaves_like 'is a countable repository' do
+        let(:repository) { instance }
+      end
+
     end
   end
 end

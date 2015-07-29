@@ -40,26 +40,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
 <% end %>
-<%= form_tag({}, :method => :get) do %>
-  <fieldset class="simple-filters--container">
-    <legend><%= l(:label_filter_plural) %></legend>
-    <ul class="simple-filters--filters">
-      <li class="simple-filters--filter">
-          <label for='status'><%= Project.human_attribute_name(:status) %> :</label>
-          <%= select_tag 'status', project_status_options_for_select(@status), :onchange => "this.form.submit(); return false;"  %>
-      </li>
-      <li class="simple-filters--filter">
-          <label for='name'><%= Project.model_name.human %>:</label>
-          <%= text_field_tag 'name', params[:name] %>
-      </li>
-    </ul>
-    <div class="simple-filters--controls">
-      <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
-      <%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'button -small -with-icon icon-undo' %>
-    </div>
-  </fieldset>
-<% end %>
-&nbsp;
 <div class="attributes-group">
   <div class="attributes-group--header">
       <div class="attributes-group--header-container">
@@ -83,6 +63,26 @@ See doc/COPYRIGHT.rdoc for more details.
       </dd>
   </dl>
 </div>
+<%= form_tag({}, :method => :get) do %>
+  <fieldset class="simple-filters--container">
+    <legend><%= l(:label_filter_plural) %></legend>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+          <label for='status'><%= Project.human_attribute_name(:status) %> :</label>
+          <%= select_tag 'status', project_status_options_for_select(@status), :onchange => "this.form.submit(); return false;"  %>
+      </li>
+      <li class="simple-filters--filter">
+          <label for='name'><%= Project.model_name.human %>:</label>
+          <%= text_field_tag 'name', params[:name] %>
+      </li>
+    </ul>
+    <div class="simple-filters--controls">
+      <%= submit_tag l(:button_apply), :class => 'button -highlight -small', :name => nil %>
+      <%= link_to l(:button_clear), {:controller => '/admin', :action => 'projects'}, :class => 'button -small -with-icon icon-undo' %>
+    </div>
+  </fieldset>
+<% end %>
+&nbsp;
 <div class="autoscroll">
   <table class="list">
     <thead>
