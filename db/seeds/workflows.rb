@@ -28,7 +28,7 @@
 #++
 
 colors = PlanningElementTypeColor.all
-colors = colors.map { |c| { c.name.to_sym =>  c.id } }.reduce({}, :merge)
+colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
 
 if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(type_id: nil).any?
   # Fixes work packages that do not have a type yet. They receive the standard type.
@@ -42,9 +42,10 @@ if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(typ
   # (from todays standpoint) the assignment is done covertedly.
 
   WorkPackage.transaction do
+    green_color = colors[I18n.t(:default_color_green_light)]
     standard_type = Type.find_or_create_by_is_standard(true, name: 'none',
                                                              position: 0,
-                                                             color_id: colors[:'Green-light'],
+                                                             color_id: green_color,
                                                              is_default: true,
                                                              is_in_roadmap: true,
                                                              in_aggregation: true,
@@ -83,7 +84,7 @@ else
   Type.transaction do
     task = Type.new.tap do |type|
       type.name = I18n.t(:default_type_task)
-      type.color_id = colors[:'Grey-medium']
+      type.color_id = colors[I18n.t(:default_color_grey)]
       type.is_default = true
       type.is_in_roadmap = true
       type.in_aggregation = false
@@ -95,7 +96,7 @@ else
 
     milestone = Type.new.tap do |type|
       type.name = I18n.t(:default_type_milestone)
-      type.color_id = colors[:'Green-light']
+      type.color_id = colors[I18n.t(:default_color_green_light)]
       type.is_default = false
       type.is_in_roadmap = false
       type.in_aggregation = true
@@ -107,7 +108,7 @@ else
 
     phase = Type.new.tap do |type|
       type.name = I18n.t(:default_type_phase)
-      type.color_id = colors[:'Blue-dark']
+      type.color_id = colors[I18n.t(:default_color_blue_dark)]
       type.is_default = false
       type.is_in_roadmap = false
       type.in_aggregation = true
@@ -119,7 +120,7 @@ else
 
     feature = Type.new.tap do |type|
       type.name = I18n.t(:default_type_feature)
-      type.color_id = colors[:Blue]
+      type.color_id = colors[I18n.t(:default_color_blue)]
       type.is_default = false
       type.is_in_roadmap = true
       type.in_aggregation = false
@@ -131,7 +132,7 @@ else
 
     epic = Type.new.tap do |type|
       type.name = I18n.t(:default_type_epic)
-      type.color_id = colors[:'Orange']
+      type.color_id = colors[I18n.t(:default_color_orange)]
       type.is_default = false
       type.is_in_roadmap = true
       type.in_aggregation = true
@@ -143,7 +144,7 @@ else
 
     user_story = Type.new.tap do |type|
       type.name = I18n.t(:default_type_user_story)
-      type.color_id = colors[:'Grey-dark']
+      type.color_id = colors[I18n.t(:default_color_grey_dark)]
       type.is_default = false
       type.is_in_roadmap = true
       type.in_aggregation = false
@@ -156,7 +157,7 @@ else
     bug = Type.new.tap do |type|
       type.name = I18n.t(:default_type_bug)
       type.is_default = false
-      type.color_id = colors[:Red]
+      type.color_id = colors[I18n.t(:default_color_red)]
       type.is_in_roadmap = true
       type.in_aggregation = false
       type.is_milestone = false

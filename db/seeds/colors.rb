@@ -64,7 +64,7 @@ else
     PlanningElementTypeColor.create(name: I18n.t(:default_color_grey_light),
                                     hexcode: '#F8F8F8')
 
-    PlanningElementTypeColor.create(name: I18n.t(:default_color_grey_medium),
+    PlanningElementTypeColor.create(name: I18n.t(:default_color_grey),
                                     hexcode: '#EAEAEA')
 
     PlanningElementTypeColor.create(name: I18n.t(:default_color_grey_dark),
