@@ -847,8 +847,7 @@ class WorkPackage < ActiveRecord::Base
   def self.allowed_target_projects_on_move
     projects = []
     if User.current.admin?
-      # admin is allowed to move issues to any active (visible) project
-      projects = Project.visible.all
+      projects = Project.where(Project.allowed_to_condition(User.current, :move_work_packages)).all
     elsif User.current.logged?
       if Role.non_member.allowed_to?(:move_work_packages)
         projects = Project.visible.all

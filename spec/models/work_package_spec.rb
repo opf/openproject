@@ -1343,10 +1343,19 @@ describe WorkPackage, type: :model do
         project
       end
 
-      subject { WorkPackage.allowed_target_projects_on_move.count }
+      subject { WorkPackage.allowed_target_projects_on_move }
 
       it 'sees all active projects' do
-        is_expected.to eq Project.active.count
+        is_expected.to match_array [project]
+      end
+
+      it 'does not see projects that have the work package module disabled' do
+        disabled_project = FactoryGirl.build :project
+        enabled_modules = disabled_project.enabled_module_names.delete(:work_package_tracking)
+        disabled_project.enabled_module_names = enabled_modules
+        disabled_project.save!
+
+        is_expected.to match_array [project]
       end
     end
 
