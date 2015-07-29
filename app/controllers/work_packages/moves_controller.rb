@@ -101,7 +101,7 @@ class WorkPackages::MovesController < ApplicationController
   def prepare_for_work_package_move
     @work_packages.sort!
     @copy = params.has_key? :copy
-    @allowed_projects = WorkPackage.allowed_target_projects_on_move
+    @allowed_projects = WorkPackage.allowed_target_projects_on_move(current_user)
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
     @target_project ||= @project
     @types = @target_project.types

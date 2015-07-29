@@ -1335,7 +1335,7 @@ describe WorkPackage, type: :model do
   describe '#allowed_target_projects_on_move' do
     let(:project) { FactoryGirl.create :project }
 
-    subject { WorkPackage.allowed_target_projects_on_move }
+    subject { WorkPackage.allowed_target_projects_on_move(user) }
 
     before do
       allow(User).to receive(:current).and_return user

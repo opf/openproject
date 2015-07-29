@@ -845,7 +845,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns a scope for the projects
   # the user is allowed to move a work package to
-  def self.allowed_target_projects_on_move(user = User.current)
+  def self.allowed_target_projects_on_move(user)
     Project.where(Project.allowed_to_condition(user, :move_work_packages))
   end
 
