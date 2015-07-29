@@ -29,14 +29,6 @@
 
 require "#{Rails.root}/db/seeds/basic_setup"
 
-# remove password-reset flag from admin user
-# (the default password is OK in dev mode)
-admin = User.where(login: 'admin').first
-if admin && admin.force_password_change?
-  admin.force_password_change = false
-  admin.save!
-end
-
 user_count = ENV.fetch('SEED_USER_COUNT', 3).to_i
 
 # Careful: The seeding recreates the seeded project before it runs, so any changes

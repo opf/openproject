@@ -30,21 +30,21 @@
 if User.admin.empty?
   user = User.new
 
-  old_password_length = Setting.password_min_length
-  Setting.password_min_length = 0
-
   user.admin = true
   user.login = 'admin'
-  user.password = 'admin'
-  # force password change on first login
-  user.force_password_change = true
+  user.password = '!AdminAdminAdmin123%&/'
   user.firstname = 'OpenProject'
   user.lastname = 'Admin'
   user.mail = ENV.fetch('ADMIN_EMAIL') { 'admin@example.net' }
   user.mail_notification = User::USER_MAIL_OPTION_NON.first
-  user.language = 'en'
-  user.status = 1
+  user.language = I18n.locale.to_s
+  user.status = User::STATUSES[:active]
   user.save!
 
-  Setting.password_min_length = old_password_length
+  # Enable the user to login easily but force him
+  # to change his password right away unless we are
+  # only seeding the development database.
+  user.force_password_change = Rails.env != 'development'
+  user.password = 'admin'
+  user.save(validate: false)
 end
