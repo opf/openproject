@@ -30,12 +30,31 @@
 # Removes all remaining Repository::Filesystem entries.
 #
 class RemoveFilesystemRepositories < ActiveRecord::Migration
+  include Migration::Utils
+
   def up
-    # Circumvent Repository.where(...) since this tries to load
-    # the Repository::Filesystem constant and fails.
-    ActiveRecord::Base.connection.execute <<-SQL
-      DELETE FROM repositories
-      WHERE type = #{quote_value("Repository::Filesystem")}
-    SQL
+
+    ActiveRecord::Base.transaction do
+      # Delete any changesets belonging to filesystem repositories
+      ActiveRecord::Base.connection.execute <<-SQL
+        DELETE FROM changesets
+        WHERE repository_id IN (
+          SELECT id
+          FROM repositories
+          WHERE type = #{filesystem_type}
+        )
+      SQL
+
+      # Circumvent Repository.where(...) since this tries to load
+      # the Repository::Filesystem constant and fails.
+      ActiveRecord::Base.connection.execute <<-SQL
+        DELETE FROM repositories
+        WHERE type = #{filesystem_type}
+      SQL
+    end
+  end
+
+  def filesystem_type
+    quote_value('Repository::Filesystem')
   end
 end
