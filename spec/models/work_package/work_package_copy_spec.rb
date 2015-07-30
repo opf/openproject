@@ -29,6 +29,218 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
+  describe '#move_to_project' do
+    let(:work_package) {
+      FactoryGirl.create(:work_package,
+                         project: project,
+                         type: type)
+    }
+    let(:target_project) { FactoryGirl.create(:project) }
+
+    before do
+      work_package
+
+      mock_allowed_to_move_to_project(target_project, true)
+    end
+
+    def mock_allowed_to_move_to_project(project, is_allowed = true)
+      allow(User).to receive(:current).and_return(user)
+      allowed_scope = double('allowed_scope')
+
+      allow(WorkPackage)
+        .to receive(:allowed_target_projects_on_move)
+        .with(user)
+        .and_return(allowed_scope)
+
+      allow(allowed_scope)
+        .to receive(:where)
+        .with(id: project.id)
+        .and_return(allowed_scope)
+
+      allow(allowed_scope)
+        .to receive(:exists?)
+        .and_return(is_allowed)
+    end
+
+    shared_examples_for 'moved work package' do
+      subject { work_package.project }
+
+      it { is_expected.to eq(target_project) }
+    end
+
+    context 'the project the work package is moved to' do
+      it_behaves_like 'moved work package' do
+        before do
+          work_package.move_to_project(target_project)
+        end
+      end
+
+      it 'will not move if the user does not have the permission' do
+        mock_allowed_to_move_to_project(target_project, false)
+
+        work_package.move_to_project(target_project)
+
+        expect(work_package.project).to eql(project)
+      end
+    end
+
+    describe '#time_entries' do
+      let(:time_entry_1) {
+        FactoryGirl.create(:time_entry,
+                           project: project,
+                           work_package: work_package)
+      }
+      let(:time_entry_2) {
+        FactoryGirl.create(:time_entry,
+                           project: project,
+                           work_package: work_package)
+      }
+
+      before do
+        time_entry_1
+        time_entry_2
+
+        work_package.reload
+        work_package.move_to_project(target_project)
+
+        time_entry_1.reload
+        time_entry_2.reload
+      end
+
+      context 'time entry 1' do
+        subject { work_package.time_entries }
+
+        it { is_expected.to include(time_entry_1) }
+      end
+
+      context 'time entry 2' do
+        subject { work_package.time_entries }
+
+        it { is_expected.to include(time_entry_2) }
+      end
+
+      it_behaves_like 'moved work package'
+    end
+
+    describe '#category' do
+      let(:category) {
+        FactoryGirl.create(:category,
+                           project: project)
+      }
+
+      before do
+        work_package.category = category
+        work_package.save!
+
+        work_package.reload
+      end
+
+      context 'with same category' do
+        let(:target_category) {
+          FactoryGirl.create(:category,
+                             name: category.name,
+                             project: target_project)
+        }
+
+        before do
+          target_category
+
+          work_package.move_to_project(target_project)
+        end
+
+        describe 'category moved' do
+          subject { work_package.category_id }
+
+          it { is_expected.to eq(target_category.id) }
+        end
+
+        it_behaves_like 'moved work package'
+      end
+
+      context 'w/o target category' do
+        before do
+          work_package.move_to_project(target_project)
+        end
+
+        describe 'category discarded' do
+          subject { work_package.category_id }
+
+          it { is_expected.to be_nil }
+        end
+
+        it_behaves_like 'moved work package'
+      end
+    end
+
+    describe '#version' do
+      let(:sharing) { 'none' }
+      let(:version) {
+        FactoryGirl.create(:version,
+                           status: 'open',
+                           project: project,
+                           sharing: sharing)
+      }
+      let(:work_package) {
+        FactoryGirl.create(:work_package,
+                           fixed_version: version,
+                           project: project)
+      }
+
+      before do
+        work_package.move_to_project(target_project)
+      end
+
+      it_behaves_like 'moved work package'
+
+      context 'unshared version' do
+        subject { work_package.fixed_version }
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'system wide shared version' do
+        let(:sharing) { 'system' }
+
+        subject { work_package.fixed_version }
+
+        it { is_expected.to eq(version) }
+      end
+
+      context 'move work package in project hierarchy' do
+        let(:target_project) {
+          FactoryGirl.create(:project,
+                             parent: project)
+        }
+
+        context 'unshared version' do
+          subject { work_package.fixed_version }
+
+          it { is_expected.to be_nil }
+        end
+
+        context 'shared version' do
+          let(:sharing) { 'tree' }
+
+          subject { work_package.fixed_version }
+
+          it { is_expected.to eq(version) }
+        end
+      end
+    end
+
+    describe '#type' do
+      let(:target_type) { FactoryGirl.create(:type) }
+      let(:target_project) {
+        FactoryGirl.create(:project,
+                           types: [target_type])
+      }
+
+      it 'is false if the current type is not defined for the new project' do
+        expect(work_package.move_to_project(target_project)).to be_falsey
+      end
+    end
+  end
+
   describe '#copy' do
     let(:user) { FactoryGirl.create(:user) }
     let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
