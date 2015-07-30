@@ -86,7 +86,7 @@ class MoveWorkPackageService
 
         work_package.children.each do |child|
           child_service = self.class.new(child, user)
-          unless child_service.call(new_project)
+          unless child_service.call(new_project, nil, options.merge(no_transaction: true))
             # Move failed and transaction was rollback'd
             return false
           end

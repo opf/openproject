@@ -481,6 +481,117 @@ describe WorkPackage, type: :model do
     end
   end
 
+  describe '#copy_from' do
+    let(:type) { FactoryGirl.create(:type_standard) }
+    let(:project) { FactoryGirl.create(:project, types: [type]) }
+    let(:custom_field) {
+      FactoryGirl.create(:work_package_custom_field,
+                         name: 'Database',
+                         field_format: 'list',
+                         possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
+                         is_required: true)
+    }
+
+    let(:source) { FactoryGirl.build(:work_package) }
+    let(:sink) { FactoryGirl.build(:work_package) }
+
+    before do
+      def self.change_custom_field_value(work_package, value)
+        work_package.custom_field_values = { custom_field.id => value } unless value.nil?
+        work_package.save
+      end
+    end
+
+    before do
+      project.work_package_custom_fields << custom_field
+      type.custom_fields << custom_field
+
+      source.save
+    end
+
+    before do
+      source.project_id = project.id
+      change_custom_field_value(source, 'MySQL')
+    end
+
+    shared_examples_for 'work package copy' do
+      context 'subject' do
+        subject { sink.subject }
+
+        it { is_expected.to eq(source.subject) }
+      end
+
+      context 'type' do
+        subject { sink.type }
+
+        it { is_expected.to eq(source.type) }
+      end
+
+      context 'status' do
+        subject { sink.status }
+
+        it { is_expected.to eq(source.status) }
+      end
+
+      context 'project' do
+        subject { sink.project_id }
+
+        it { is_expected.to eq(project_id) }
+      end
+
+      context 'watchers' do
+        subject { sink.watchers.map(&:user_id) }
+
+        it do
+          is_expected.to match_array(source.watchers.map(&:user_id))
+          sink.watchers.each { |w| expect(w).to be_valid }
+        end
+      end
+    end
+
+    shared_examples_for 'work package copy with custom field' do
+      it_behaves_like 'work package copy'
+
+      context 'custom_field' do
+        subject { sink.custom_value_for(custom_field.id).value }
+
+        it { is_expected.to eq('MySQL') }
+      end
+    end
+
+    context 'with project' do
+      let(:project_id) { source.project_id }
+
+      describe 'should copy project' do
+
+        before { sink.copy_from(source) }
+
+        it_behaves_like 'work package copy with custom field'
+      end
+
+      describe 'should not copy excluded project' do
+        let(:project_id) { sink.project_id }
+
+        before { sink.copy_from(source, exclude: [:project_id]) }
+
+        it_behaves_like 'work package copy'
+      end
+
+      describe 'should copy over watchers' do
+        let(:project_id) { sink.project_id }
+        let(:stub_user) { FactoryGirl.create(:user, member_in_project: project) }
+
+        before do
+          source.watchers.build(user: stub_user, watchable: source)
+
+          sink.copy_from(source)
+        end
+
+        it_behaves_like 'work package copy'
+      end
+    end
+  end
+
   describe '#destroy' do
     let(:time_entry_1) {
       FactoryGirl.create(:time_entry,
