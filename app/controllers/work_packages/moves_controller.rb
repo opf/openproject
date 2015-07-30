@@ -60,9 +60,10 @@ class WorkPackages::MovesController < ApplicationController
                                        :new_project_id,
                                        ids: [])
 
-      if r = work_package.move_to_project(@target_project, new_type,  copy: @copy,
-                                                                      attributes: permitted_params,
-                                                                      journal_note: @notes)
+      move_service = MoveWorkPackageService.new(work_package, current_user)
+      if r = move_service.call(@target_project, new_type, copy: @copy,
+                                                          attributes: permitted_params,
+                                                          journal_note: @notes)
         moved_work_packages << r
       else
         unsaved_work_package_ids << work_package.id
@@ -79,7 +80,7 @@ class WorkPackages::MovesController < ApplicationController
     else
       redirect_to project_work_packages_path(@project)
     end
-      end
+  end
 
   def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
     if unsaved_work_package_ids.empty? and not work_packages.empty?
