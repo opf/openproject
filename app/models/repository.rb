@@ -92,7 +92,7 @@ class Repository < ActiveRecord::Base
   end
 
   def self.available_types
-    []
+    supported_types - disabled_types
   end
 
   ##
@@ -293,7 +293,7 @@ class Repository < ActiveRecord::Base
     repository.attributes = args
     repository.project = project
 
-    verify_scm_type!(repository, type) unless type.nil?
+    set_verified_type!(repository, type) unless type.nil?
 
     repository.configure(type, args)
 
@@ -317,7 +317,7 @@ class Repository < ActiveRecord::Base
 
   ##
   # Verifies that the chosen scm type can be selected
-  def self.verify_scm_type!(repository, type)
+  def self.set_verified_type!(repository, type)
     if repository.class.available_types.include? type
       repository.scm_type = type
     else

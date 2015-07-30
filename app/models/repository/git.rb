@@ -54,11 +54,11 @@ class Repository::Git < Repository
     super(params)
   end
 
-  def self.available_types
+  def self.supported_types
     types = [:local]
     types << managed_type if manageable?
 
-    types - disabled_types
+    types
   end
 
   def managed_repo_created
