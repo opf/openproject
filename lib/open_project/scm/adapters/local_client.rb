@@ -56,7 +56,7 @@ module OpenProject
         ##
         # Determines whether this repository is eligible
         # to count storage.
-        def storage_countable?
+        def storage_available?
           local? && File.directory?(local_repository_path)
         end
 
@@ -64,7 +64,7 @@ module OpenProject
         # Counts the repository storage requirement immediately
         # or raises an exception if this is impossible for the current repository.
         def count_repository!
-          if storage_countable?
+          if storage_available?
             count_required_storage
           else
             raise ScmError.new I18n.t('repositories.storage.not_available')

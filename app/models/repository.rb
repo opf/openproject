@@ -170,7 +170,7 @@ class Repository < ActiveRecord::Base
   end
 
   def required_disk_storage
-    if scm.storage_countable?
+    if scm.storage_available?
       if storage_updated_at.nil? ||
          storage_updated_at < 12.hours.ago
 

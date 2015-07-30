@@ -31,7 +31,7 @@ class Scm::StorageUpdaterJob
   def initialize(repository)
     @id = repository.id
 
-    unless repository.scm.storage_countable?
+    unless repository.scm.storage_available?
       raise OpenProject::Scm::Exceptions::ScmError.new(
         I18n.t('repositories.storage.not_available')
       )
