@@ -38,7 +38,8 @@ module OpenProjectRepositoryAuthenticationSpecs
     let(:guest_role) { FactoryGirl.create(:role, permissions: []) }
     let(:valid_user_password) { 'Top Secret Password' }
     let(:valid_user) {
-      FactoryGirl.create(:user, login: 'johndoe',
+      FactoryGirl.create(:user,
+                         login: 'johndoe',
                          password: valid_user_password,
                          password_confirmation: valid_user_password)
     }
@@ -48,7 +49,8 @@ module OpenProjectRepositoryAuthenticationSpecs
       DeletedUser.first # creating it first in order to avoid problems with should_receive
 
       random_project = FactoryGirl.create(:project, is_public: false)
-      @member = FactoryGirl.create(:member, user: valid_user,
+      @member = FactoryGirl.create(:member,
+                                   user: valid_user,
                                    roles: [browse_role],
                                    project: random_project)
       allow(Setting).to receive(:sys_api_key).and_return('12345678')
@@ -73,7 +75,8 @@ module OpenProjectRepositoryAuthenticationSpecs
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
-        @member = FactoryGirl.create(:member, user: valid_user,
+        @member = FactoryGirl.create(:member,
+                                     user: valid_user,
                                      roles: [browse_role],
                                      project: @project)
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
@@ -94,7 +97,8 @@ module OpenProjectRepositoryAuthenticationSpecs
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
-        @member = FactoryGirl.create(:member, user: valid_user,
+        @member = FactoryGirl.create(:member,
+                                     user: valid_user,
                                      roles: [commit_role],
                                      project: @project)
         valid_user.save
@@ -116,7 +120,8 @@ module OpenProjectRepositoryAuthenticationSpecs
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
-        @member = FactoryGirl.create(:member, user: valid_user,
+        @member = FactoryGirl.create(:member,
+                                     user: valid_user,
                                      roles: [commit_role],
                                      project: @project)
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password + 'made invalid')
@@ -147,7 +152,8 @@ module OpenProjectRepositoryAuthenticationSpecs
         @project = FactoryGirl.create(:project, is_public: true)
 
         random_project = FactoryGirl.create(:project, is_public: false)
-        @member = FactoryGirl.create(:member, user: valid_user,
+        @member = FactoryGirl.create(:member,
+                                     user: valid_user,
                                      roles: [browse_role],
                                      project: random_project)
 
@@ -210,15 +216,13 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
 
       it 'should return the same as user_login for valid creds' do
-        expect(controller.send(:cached_user_login, valid_user.login, valid_user_password)).to eq(
-                                                                                                controller.send(:user_login, valid_user.login, valid_user_password)
-                                                                                              )
+        expect(controller.send(:cached_user_login, valid_user.login, valid_user_password))
+          .to eq(controller.send(:user_login, valid_user.login, valid_user_password))
       end
 
       it 'should return the same as user_login for invalid creds' do
-        expect(controller.send(:cached_user_login, 'invalid', 'invalid')).to eq(
-                                                                               controller.send(:user_login, 'invalid', 'invalid')
-                                                                             )
+        expect(controller.send(:cached_user_login, 'invalid', 'invalid'))
+          .to eq(controller.send(:user_login, 'invalid', 'invalid'))
       end
 
       it 'should use cache' do
@@ -378,7 +382,7 @@ module OpenProjectRepositoryAuthenticationSpecs
 
             it 'does not update to storage' do
               expect(Delayed::Job)
-                 .not_to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+                .not_to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
 
               request_storage
             end
@@ -390,7 +394,7 @@ module OpenProjectRepositoryAuthenticationSpecs
 
             it 'does update to storage' do
               expect(Delayed::Job)
-                 .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
 
               request_storage
             end

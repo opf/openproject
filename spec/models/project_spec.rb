@@ -254,7 +254,7 @@ describe Project, type: :model do
       it 'counts collections' do
         expect(project).to receive(:count_for).with(:required_project_storage).and_call_original
         storage_hash = project.required_storage
-        expect(storage_hash).to eq({"attributes.attachments"=>0, :total=>0})
+        expect(storage_hash).to eq('attributes.attachments' => 0, total: 0)
       end
 
       it 'counts only once before caching' do
@@ -271,10 +271,10 @@ describe Project, type: :model do
         allow(Project).to receive(:all).and_return(projects)
 
         allow(projects[0]).to receive(:count_for).and_return(
-            {"attributes.attachments"=> 23543, :total=> 23543}
+          'attributes.attachments' => 23543, total: 23543
         )
         allow(projects[1]).to receive(:count_for).and_return(
-            {"attributes.attachments"=> 2, label_repository: 2412345, :total=> 2412347}
+          'attributes.attachments' => 2, label_repository: 2412345, total: 2412347
         )
         Rails.cache.clear('projects/total_projects_size')
       end

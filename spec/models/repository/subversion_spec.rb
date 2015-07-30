@@ -114,7 +114,7 @@ describe Repository::Subversion, type: :model do
   describe 'with a remote repository' do
     let(:instance) {
       FactoryGirl.build(:repository_subversion,
-                                       url: 'https://somewhere.example.org/svn/foo'
+                        url: 'https://somewhere.example.org/svn/foo'
       )
     }
 

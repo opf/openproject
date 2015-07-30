@@ -5,7 +5,7 @@ shared_examples_for 'is a countable repository' do
     allow(job).to receive(:repository).and_return(repository)
   end
   it 'is countable' do
-    expect(repository.scm).to be_storage_countable
+    expect(repository.scm).to be_storage_available
   end
 
   context 'with patched counter' do
@@ -49,7 +49,7 @@ end
 
 shared_examples_for 'is not a countable repository' do
   it 'is not countable' do
-    expect(repository.scm).not_to be_storage_countable
+    expect(repository.scm).not_to be_storage_available
   end
 
   it 'does not return or update the count' do
