@@ -29,7 +29,7 @@ class MoveWorkPackageService
 
     if new_project &&
        work_package.project_id != new_project.id &&
-       WorkPackage.allowed_target_projects_on_move(User.current).where(id: new_project.id).exists?
+       WorkPackage.allowed_target_projects_on_move(user).where(id: new_project.id).exists?
 
       work_package.delete_relations(work_package)
       # work_package is moved to another project
@@ -62,7 +62,7 @@ class MoveWorkPackageService
     end # FIXME this eliminates the case, where values shall be bulk-assigned to null,
     # but this needs to work together with the permit
     if options[:copy]
-      work_package.author = User.current
+      work_package.author = user
       work_package.custom_field_values =
         self.work_package.custom_field_values.inject({}) do |h, v|
           h[v.custom_field_id] = v.value
@@ -74,7 +74,7 @@ class MoveWorkPackageService
                               self.work_package.status
                             end
     else
-      work_package.add_journal User.current, options[:journal_note] if options[:journal_note]
+      work_package.add_journal user, options[:journal_note] if options[:journal_note]
     end
 
     if work_package.save
@@ -108,7 +108,7 @@ class MoveWorkPackageService
 
   def create_and_save_journal_note(work_package, journal_note)
     if work_package && journal_note
-      work_package.add_journal User.current, journal_note
+      work_package.add_journal user, journal_note
       work_package.save!
     end
   end
