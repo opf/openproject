@@ -672,7 +672,10 @@ class WorkPackage < ActiveRecord::Base
     options ||= {}
     work_package = options[:copy] ? self.class.new.copy_from(self) : self
 
-    if new_project && work_package.project_id != new_project.id
+    if new_project &&
+       work_package.project_id != new_project.id &&
+       WorkPackage.allowed_target_projects_on_move(User.current).where(id: new_project.id).exists?
+
       delete_relations(work_package)
       # work_package is moved to another project
       # reassign to the category with same name if any

@@ -53,6 +53,25 @@ describe WorkPackage, type: :model do
                          value: false)
     }
 
+    def mock_allowed_to_move_to_project(project, is_allowed = true)
+      allow(User).to receive(:current).and_return(user)
+      allowed_scope = double('allowed_scope')
+
+      allow(WorkPackage)
+        .to receive(:allowed_target_projects_on_move)
+        .with(user)
+        .and_return(allowed_scope)
+
+      allow(allowed_scope)
+        .to receive(:where)
+        .with(id: project.id)
+        .and_return(allowed_scope)
+
+      allow(allowed_scope)
+        .to receive(:exists?)
+        .and_return(is_allowed)
+    end
+
     shared_examples_for 'copied work package' do
       subject { copy.id }
 
@@ -60,7 +79,10 @@ describe WorkPackage, type: :model do
     end
 
     describe 'to the same project' do
-      let(:copy) { work_package.move_to_project(source_project, nil, copy: true) }
+      let(:copy) {
+        mock_allowed_to_move_to_project(source_project)
+        work_package.move_to_project(source_project, nil, copy: true)
+      }
 
       it_behaves_like 'copied work package'
 
@@ -77,7 +99,10 @@ describe WorkPackage, type: :model do
         FactoryGirl.create(:project,
                            types: [target_type])
       }
-      let(:copy) { work_package.move_to_project(target_project, target_type, copy: true) }
+      let(:copy) do
+        mock_allowed_to_move_to_project(target_project)
+        work_package.move_to_project(target_project, target_type, copy: true)
+      end
 
       it_behaves_like 'copied work package'
 
@@ -103,6 +128,7 @@ describe WorkPackage, type: :model do
 
       describe '#attributes' do
         let(:copy) {
+          mock_allowed_to_move_to_project(target_project)
           work_package.move_to_project(target_project,
                                        target_type,
                                        copy: true,
@@ -201,7 +227,10 @@ describe WorkPackage, type: :model do
 
       describe 'with children' do
         let(:target_project) { FactoryGirl.create(:project, types: [source_type]) }
-        let(:copy) { child.reload.move_to_project(target_project) }
+        let(:copy) do
+          mock_allowed_to_move_to_project(target_project)
+          child.reload.move_to_project(target_project)
+        end
         let!(:child) {
           FactoryGirl.create(:work_package, parent: work_package, project: source_project)
         }

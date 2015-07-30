@@ -481,7 +481,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe '#move' do
+  describe '#move_to_project' do
     let(:work_package) {
       FactoryGirl.create(:work_package,
                          project: project,
@@ -489,10 +489,51 @@ describe WorkPackage, type: :model do
     }
     let(:target_project) { FactoryGirl.create(:project) }
 
+    before do
+      work_package
+
+      mock_allowed_to_move_to_project(target_project, true)
+    end
+
+    def mock_allowed_to_move_to_project(project, is_allowed = true)
+      allow(User).to receive(:current).and_return(user)
+      allowed_scope = double('allowed_scope')
+
+      allow(WorkPackage)
+        .to receive(:allowed_target_projects_on_move)
+        .with(user)
+        .and_return(allowed_scope)
+
+      allow(allowed_scope)
+        .to receive(:where)
+        .with(id: project.id)
+        .and_return(allowed_scope)
+
+      allow(allowed_scope)
+        .to receive(:exists?)
+        .and_return(is_allowed)
+    end
+
     shared_examples_for 'moved work package' do
       subject { work_package.project }
 
       it { is_expected.to eq(target_project) }
+    end
+
+    context 'the project the work package is moved to' do
+      it_behaves_like 'moved work package' do
+        before do
+          work_package.move_to_project(target_project)
+        end
+      end
+
+      it 'will not move if the user does not have the permission' do
+        mock_allowed_to_move_to_project(target_project, false)
+
+        work_package.move_to_project(target_project)
+
+        expect(work_package.project).to eql(project)
+      end
     end
 
     describe '#time_entries' do
@@ -569,7 +610,9 @@ describe WorkPackage, type: :model do
       end
 
       context 'w/o target category' do
-        before { work_package.move_to_project(target_project) }
+        before do
+          work_package.move_to_project(target_project)
+        end
 
         describe 'category discarded' do
           subject { work_package.category_id }
@@ -595,7 +638,9 @@ describe WorkPackage, type: :model do
                            project: project)
       }
 
-      before { work_package.move_to_project(target_project) }
+      before do
+        work_package.move_to_project(target_project)
+      end
 
       it_behaves_like 'moved work package'
 
@@ -642,9 +687,9 @@ describe WorkPackage, type: :model do
                            types: [target_type])
       }
 
-      subject { work_package.move_to_project(target_project) }
-
-      it { is_expected.to be_falsey }
+      it 'is false if the current type is not defined for the new project' do
+        expect(work_package.move_to_project(target_project)).to be_falsey
+      end
     end
   end
 
