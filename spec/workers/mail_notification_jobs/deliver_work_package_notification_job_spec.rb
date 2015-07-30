@@ -85,6 +85,45 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
   end
 
+  context 'outdated journal' do
+    before do
+      # make sure there is a later journal, that supersedes the original one
+      work_package.subject = 'changed subject'
+      work_package.save!
+    end
+
+    it 'does not send any mails' do
+      expect(UserMailer).not_to receive(:work_package_added)
+      expect(UserMailer).not_to receive(:work_package_updated)
+      subject.perform
+    end
+  end
+
+  context 'update journal' do
+    let(:journal) { work_package.journals.last }
+
+    before do
+      work_package.add_journal(FactoryGirl.create(:user), 'a comment')
+      work_package.save!
+    end
+
+    it 'sends an update mail' do
+      expect(UserMailer).to receive(:work_package_updated)
+      subject.perform
+    end
+
+    it 'sends a mail for the aggregated journal' do
+      expected = Journal::AggregatedJournal.aggregated_journals(journable: work_package).last
+      expect(UserMailer).to receive(:work_package_updated) do |_recipient, journal, _author|
+        expect(journal.id).to eq expected.id
+        expect(journal.notes_id).to eq expected.notes_id
+
+        double('mail', deliver: nil)
+      end
+      subject.perform
+    end
+  end
+
   describe 'impersonation' do
     describe 'the recipient should become the current user during mail creation' do
       before do
