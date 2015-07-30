@@ -90,7 +90,7 @@ pt-BR:
   group_by_others: Não em qualquer grupo
   help_click_to_edit: Clique aqui para editar.
   help_currency_format: 'Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit.'
-  help_override_rate: Enter a value here to override the default rate.
+  help_override_rate: Insira um valor aqui para substituir a taxa padrão.
   label_between: entre
   label_cost_filter_add: Adicionar filtro de entrada de custo
   label_costlog: Logged unit costs
@@ -119,7 +119,7 @@ pt-BR:
   label_group_by: Agrupar por
   label_group_by_add: Adicionar campo de agrupamento
   label_hourly_rate: Taxa horária
-  label_include_deleted: Incluir deletados
+  label_include_deleted: Incluir excluídos
   label_work_package_filter_add: Adicionar filtro de pacote de trabalho
   label_kind: Tipo
   label_less_or_equal: '<='
@@ -161,8 +161,8 @@ pt-BR:
   text_cost_object_change_type_confirmation: Tem certeza? Esta operação irá destruir informações do tipo específico de orçamento.
   text_destroy_cost_entries_question: '%{cost_entries} foram informados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?'
   text_destroy_time_and_cost_entries: Excluir horas e custos informados
-  text_destroy_time_and_cost_entries_question: '%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?'
-  text_reassign_time_and_cost_entries: 'Reassign reported hours and costs to this work package:'
+  text_destroy_time_and_cost_entries_question: '%{hours} horas, %{cost_entries} foram relatados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?'
+  text_reassign_time_and_cost_entries: 'Reatribua horas reportadas e custos para este pacote de trabalho:'
   text_warning_hidden_elements: Algumas entradas podem ter sido excluídas da agregação.
   week: semana
   x_entries:
