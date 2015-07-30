@@ -29,7 +29,7 @@ class MoveWorkPackageService
 
     if new_project &&
        work_package.project_id != new_project.id &&
-       WorkPackage.allowed_target_projects_on_move(user).where(id: new_project.id).exists?
+       allowed_to_move_to_project?(new_project)
 
       work_package.delete_relations(work_package)
       # work_package is moved to another project
@@ -111,5 +111,12 @@ class MoveWorkPackageService
       work_package.add_journal user, journal_note
       work_package.save!
     end
+  end
+
+  def allowed_to_move_to_project?(new_project)
+    WorkPackage
+      .allowed_target_projects_on_move(user)
+      .where(id: new_project.id)
+      .exists?
   end
 end
