@@ -53,7 +53,7 @@ else
                                     hexcode: '#FFCC00')
 
     PlanningElementTypeColor.create(name: I18n.t(:default_color_red),
-                                    hexcode: '#CC3333')
+                                    hexcode: '#FF3300')
 
     PlanningElementTypeColor.create(name: I18n.t(:default_color_magenta),
                                     hexcode: '#E20074')
