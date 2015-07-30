@@ -109,3 +109,6 @@ If you create or update a work package via email the attachments of the email wi
 
 If you create a work package via email and sent it to another email (to or bcc) OpenProject will search for a user with this email and add it as watcher.
 
+### Truncate Emails
+
+In the administator's setting you can specify lines after which an email will not be parsed anymore. That is useful if you want to reply to an email automatically sent to you from OpenProject. E.g. you could set it to `--Truncate here--` and insert this line into your email below the updates you want to perform. 
