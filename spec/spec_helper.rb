@@ -116,6 +116,15 @@ RSpec.configure do |config|
 
   Capybara.default_wait_time = 4
 
+  # Allow flickering tests to retry when timeouts occur.
+  # This configuration retries specs that fail with Net::ReadTimeout
+  # to repeat once after a wait time of two seconds.
+  config.verbose_retry = true
+  config.default_sleep_interval = 2
+  # This is really a 'try_count' (2 = run once + repeat once on error)
+  config.default_retry_count = 2
+  config.exceptions_to_retry = [Net::ReadTimeout]
+
   config.after(:each) do
     OpenProject::RspecCleanup.cleanup
   end
