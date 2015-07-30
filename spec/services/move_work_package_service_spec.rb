@@ -39,9 +39,12 @@ describe MoveWorkPackageService, type: :model do
   }
   let(:instance) { MoveWorkPackageService.new(work_package, user) }
 
-  def mock_allowed_to_move_to_project(project, is_allowed = true)
+  before do
     allow(User).to receive(:current).and_return(user)
-    allowed_scope = double('allowed_scope')
+  end
+
+  def mock_allowed_to_move_to_project(project, is_allowed = true)
+    allowed_scope = double('allowed_scope', :'exists?' => is_allowed)
 
     allow(WorkPackage)
       .to receive(:allowed_target_projects_on_move)
@@ -52,10 +55,6 @@ describe MoveWorkPackageService, type: :model do
       .to receive(:where)
       .with(id: project.id)
       .and_return(allowed_scope)
-
-    allow(allowed_scope)
-      .to receive(:exists?)
-      .and_return(is_allowed)
   end
 
   describe '#call' do
