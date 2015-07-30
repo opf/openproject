@@ -39,7 +39,7 @@ class Repository::Subversion < Repository
   end
 
   def configure(scm_type, _args)
-    if scm_type == MANAGED_TYPE
+    if scm_type == self.class.managed_type
       unless manageable?
         raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
           I18n.t('repositories.managed.error_not_manageable')
@@ -55,11 +55,11 @@ class Repository::Subversion < Repository
     super(params).merge(params.permit(:login, :password))
   end
 
-  def supported_types
+  def self.available_types
     types = [:existing]
-    types << MANAGED_TYPE if manageable?
+    types << managed_type if manageable?
 
-    types
+    types - disabled_types
   end
 
   def managed_repo_created

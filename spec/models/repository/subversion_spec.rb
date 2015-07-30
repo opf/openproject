@@ -36,7 +36,7 @@ describe Repository::Subversion, type: :model do
   before do
     allow(Setting).to receive(:enabled_scm).and_return(['Subversion'])
     allow(instance).to receive(:scm).and_return(adapter)
-    allow(adapter).to receive(:config).and_return(config)
+    allow(instance.class).to receive(:scm_config).and_return(config)
   end
 
   describe 'default Subversion' do
@@ -45,7 +45,15 @@ describe Repository::Subversion, type: :model do
     end
 
     it 'has one available type' do
-      expect(instance.supported_types).to eq [:existing]
+      expect(instance.class.available_types).to eq [:existing]
+    end
+
+    context 'with disabled typed' do
+      let(:config) { { disabled_types: [:existing, :managed] } }
+
+      it 'does not have any types' do
+        expect(instance.class.available_types).to be_empty
+      end
     end
   end
 
@@ -62,10 +70,16 @@ describe Repository::Subversion, type: :model do
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
+        expect(instance.class.available_types).to eq([:existing, :managed])
       end
 
-      it 'has two available types' do
-        expect(instance.supported_types).to eq [:existing, :managed]
+      context 'with disabled managed typed' do
+        let(:config) { { disabled_types: [:managed] } }
+
+        it 'is no longer manageable' do
+          expect(instance.class.available_types).to eq([:existing])
+          expect(instance.manageable?).to be false
+        end
       end
 
       context 'and associated project' do

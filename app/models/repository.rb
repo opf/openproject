@@ -87,12 +87,22 @@ class Repository < ActiveRecord::Base
     @scm
   end
 
-  def vendor
-    self.class.vendor
+  def self.scm_config
+    scm_adapter_class.config
   end
 
-  def supported_types
+  def self.available_types
     []
+  end
+
+  ##
+  # Retrieves the :disabled_types setting from `configuration.yml
+  def self.disabled_types
+    scm_config[:disabled_types] || []
+  end
+
+  def vendor
+    self.class.vendor
   end
 
   def supports_cat?
@@ -282,7 +292,8 @@ class Repository < ActiveRecord::Base
     repository = klass.new(args)
     repository.attributes = args
     repository.project = project
-    repository.scm_type = type
+
+    verify_scm_type!(repository, type) unless type.nil?
 
     repository.configure(type, args)
 
@@ -301,6 +312,20 @@ class Repository < ActiveRecord::Base
       )
     else
       klass
+    end
+  end
+
+  ##
+  # Verifies that the chosen scm type can be selected
+  def self.verify_scm_type!(repository, type)
+    if repository.class.available_types.include? type
+      repository.scm_type = type
+    else
+      raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+        I18n.t('repositories.errors.disabled_or_unknown_type',
+               type: type,
+               vendor: repository.vendor)
+      )
     end
   end
 

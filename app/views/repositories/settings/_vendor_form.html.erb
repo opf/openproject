@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% if repository.new_record? %>
-  <% scm_types = repository.supported_types %>
+  <% scm_types = repository.class.available_types %>
   <div class="attributes-group -toggleable" data-switch="scm_type">
     <% scm_types.each do |type|%>
       <%= render partial: "/repositories/settings/vendor_attribute_groups",

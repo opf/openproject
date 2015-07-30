@@ -36,11 +36,11 @@ module OpenProject
         include LocalClient
 
         def client_command
-          @client_command ||= config[:client_command] || 'svn'
+          @client_command ||= self.class.config[:client_command] || 'svn'
         end
 
         def svnadmin_command
-          @svnadmin_command ||= (config[:svnadmin_command] || 'svnadmin')
+          @svnadmin_command ||= (self.class.config[:svnadmin_command] || 'svnadmin')
         end
 
         def client_version

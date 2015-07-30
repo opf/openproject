@@ -36,7 +36,7 @@ describe OpenProject::Scm::Adapters::Subversion do
   let(:adapter) { OpenProject::Scm::Adapters::Subversion.new url, root_url }
 
   before do
-    allow(adapter).to receive(:config).and_return(config)
+    allow(adapter.class).to receive(:config).and_return(config)
   end
 
   describe 'client information' do

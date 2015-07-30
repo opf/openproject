@@ -78,7 +78,7 @@ class Scm::CreateRepositoryJob
   end
 
   def config
-    @config ||= repository.scm.config
+    @config ||= repository.class.scm_config
   end
 
   def repository

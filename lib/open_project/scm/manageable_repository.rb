@@ -30,32 +30,47 @@
 module OpenProject
   module Scm
     module ManageableRepository
-      ##
-      # We let SCM vendor implementation define their own
-      # types (e.g., for differences in the management of
-      # local vs. remote repositories).
-      #
-      # But if they are manageable by OpenProject, they must
-      # expose this type through +available_types+.
-      MANAGED_TYPE = :managed
-      ##
-      # Reads from configuration whether new repositories of this kind
-      # may be managed from OpenProject.
-      def manageable?
-        !managed_root.nil?
+      def self.included(base)
+        base.extend(ClassMethods)
+      end
+
+      module ClassMethods
+        ##
+        # We let SCM vendor implementation define their own
+        # types (e.g., for differences in the management of
+        # local vs. remote repositories).
+        #
+        # But if they are manageable by OpenProject, they must
+        # expose this type through +available_types+.
+        def managed_type
+          :managed
+        end
+
+        ##
+        # Reads from configuration whether new repositories of this kind
+        # may be managed from OpenProject.
+        def manageable?
+          ! (disabled_types.include?(managed_type) || managed_root.nil?)
+        end
+
+        ##
+        # Returns the managed root for this repository vendor
+        def managed_root
+          scm_config[:manages]
+        end
       end
 
       ##
-      # Returns the managed root for this repository vendor
-      def managed_root
-        scm.config[:manages]
+      #
+      def manageable?
+        self.class.manageable?
       end
 
       ##
       # Determines whether this repository IS currently managed
       # by openproject
       def managed?
-        scm_type.to_sym == MANAGED_TYPE
+        scm_type.to_sym == self.class.managed_type
       end
 
       ##
@@ -73,7 +88,7 @@ module OpenProject
       # Used only in the creation of a repository, at a later point
       # in time, it is referred to in the root_url
       def managed_repository_path
-        File.join(managed_root, repository_path)
+        File.join(self.class.managed_root, repository_path)
       end
 
       ##
