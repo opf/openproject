@@ -39,8 +39,8 @@ pt-BR:
     models:
       cost_object: Orçamento
       cost_type:
-        one: Tipo de custo
-        other: Tipos de custo
+        one: Cost type
+        other: Cost types
       material_budget_item: Unidade
       rate: Taxa
     errors:
@@ -157,7 +157,7 @@ pt-BR:
   permission_view_own_hourly_rate: Ver sua própria taxa horária
   permission_view_own_time_entries: Ver o próprio tempo gasto
   project_module_costs_module: Controle de custo
-  text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
+  text_assign_time_and_cost_entries_to_project: Atribuir horas relatadas e custos ao projeto
   text_cost_object_change_type_confirmation: Tem certeza? Esta operação irá destruir informações do tipo específico de orçamento.
   text_destroy_cost_entries_question: '%{cost_entries} foram informados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?'
   text_destroy_time_and_cost_entries: Excluir horas e custos informados
@@ -166,7 +166,7 @@ pt-BR:
   text_warning_hidden_elements: Algumas entradas podem ter sido excluídas da agregação.
   week: semana
   x_entries:
-    one: 1 entrada
-    other: '%{count} entradas'
+    one: 1 entry
+    other: '%{count} entries'
   js:
     text_are_you_sure: Você tem certeza?
