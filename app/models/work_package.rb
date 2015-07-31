@@ -209,7 +209,7 @@ class WorkPackage < ActiveRecord::Base
         journal = o.last_journal
         t = 'work_package'
 
-        t << if journal && journal.changed_data.empty? && !journal.initial?
+        t << if journal && journal.details.empty? && !journal.initial?
                '-note'
              else
                status = Status.find_by_id(o.status_id)

@@ -1491,20 +1491,20 @@ describe WorkPackage, type: :model do
       it 'should not include certain attributes' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        expect(recreated_journal.changed_data.include?('rgt')).to eq(false)
-        expect(recreated_journal.changed_data.include?('lft')).to eq(false)
-        expect(recreated_journal.changed_data.include?('lock_version')).to eq(false)
-        expect(recreated_journal.changed_data.include?('updated_at')).to eq(false)
-        expect(recreated_journal.changed_data.include?('updated_on')).to eq(false)
-        expect(recreated_journal.changed_data.include?('id')).to eq(false)
-        expect(recreated_journal.changed_data.include?('type')).to eq(false)
-        expect(recreated_journal.changed_data.include?('root_id')).to eq(false)
+        expect(recreated_journal.details.include?('rgt')).to eq(false)
+        expect(recreated_journal.details.include?('lft')).to eq(false)
+        expect(recreated_journal.details.include?('lock_version')).to eq(false)
+        expect(recreated_journal.details.include?('updated_at')).to eq(false)
+        expect(recreated_journal.details.include?('updated_on')).to eq(false)
+        expect(recreated_journal.details.include?('id')).to eq(false)
+        expect(recreated_journal.details.include?('type')).to eq(false)
+        expect(recreated_journal.details.include?('root_id')).to eq(false)
       end
 
       it 'should not include useless transitions' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        recreated_journal.changed_data.values.each do |change|
+        recreated_journal.details.values.each do |change|
           expect(change.first).not_to eq(change.last)
         end
       end

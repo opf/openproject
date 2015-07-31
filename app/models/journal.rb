@@ -102,6 +102,7 @@ class Journal < ActiveRecord::Base
     get_changes
   end
 
+  # TODO Evaluate whether this can be removed without disturbing any migrations
   alias_method :changed_data, :details
 
   def new_value_for(prop)

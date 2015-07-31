@@ -66,12 +66,12 @@ class JournalNotificationMailer
 
     def notify_for_status?(journal)
       Setting.notified_events.include?('status_updated') &&
-        journal.changed_data.has_key?(:status_id)
+        journal.details.has_key?(:status_id)
     end
 
     def notify_for_priority(journal)
       Setting.notified_events.include?('work_package_priority_updated') &&
-        journal.changed_data.has_key?(:priority_id)
+        journal.details.has_key?(:priority_id)
     end
 
     def delivery_time

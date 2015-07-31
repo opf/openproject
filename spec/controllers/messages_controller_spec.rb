@@ -70,7 +70,7 @@ describe MessagesController, type: :controller do
         describe '#journal' do
           let(:attachment_id) { "attachments_#{Message.last.attachments.first.id}" }
 
-          subject { Message.last.journals.last.changed_data }
+          subject { Message.last.journals.last.details }
 
           it { is_expected.to have_key attachment_id }
 
@@ -143,13 +143,13 @@ describe MessagesController, type: :controller do
         end
 
         describe '#key' do
-          subject { message.journals.last.changed_data }
+          subject { message.journals.last.details }
 
           it { is_expected.to have_key attachment_id }
         end
 
         describe '#value' do
-          subject { message.journals.last.changed_data[attachment_id].last }
+          subject { message.journals.last.details[attachment_id].last }
 
           it { is_expected.to eq(filename) }
         end
@@ -180,13 +180,13 @@ describe MessagesController, type: :controller do
         let(:attachment_id) { "attachments_#{attachment.id}" }
 
         describe '#key' do
-          subject { message.journals.last.changed_data }
+          subject { message.journals.last.details }
 
           it { is_expected.to have_key attachment_id }
         end
 
         describe '#value' do
-          subject { message.journals.last.changed_data[attachment_id].first }
+          subject { message.journals.last.details[attachment_id].first }
 
           it { is_expected.to eq(filename) }
         end
