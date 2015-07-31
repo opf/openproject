@@ -109,13 +109,8 @@ class RepositoriesController < ApplicationController
   end
 
   def destroy
-    if @project.repository.manageable?
-      flash[:notice] = I18n.t('repositories.delete_sucessful')
-    else
-      flash[:warning] = I18n.t('repositories.errors.unlink_failed_unmanageable')
-    end
-
     @project.repository.destroy
+    flash[:notice] = I18n.t('repositories.delete_sucessful')
     redirect_to settings_repository_tab_path
   end
 
