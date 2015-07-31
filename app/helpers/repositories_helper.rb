@@ -188,9 +188,14 @@ module RepositoriesHelper
     scms = OpenProject::Scm::Manager.enabled
     vendor = repository.nil? ? nil : repository.vendor
 
+    ## Set selected vendor
     if vendor && !repository.new_record?
       scms[vendor] = vendor
     end
+
+    # Remove repositories that were configured to have no
+    # available types left.
+    scms.reject! { |_, klass| klass.available_types.empty? }
 
     scms = [default_selected_option] + scms.keys
     options_for_select(scms, vendor)
