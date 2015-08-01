@@ -3,7 +3,7 @@ pt-BR:
     attributes:
       cost_entry:
         work_package: Pacote de trabalho
-        overridden_costs: Overridden costs
+        overridden_costs: Substitui custos
         spent: Gasto
         spent_on: Data
       cost_object:
@@ -24,7 +24,7 @@ pt-BR:
         unit_plural: Plural do nome da unidade
       work_package:
         cost_object_subject: Título do orçamento
-        labor_costs: Custos trabalhistas
+        labor_costs: Custos de trabalho
         material_costs: Custos unitários
         overall_costs: Custos totais
         spent_costs: Custos de gastos
@@ -34,20 +34,20 @@ pt-BR:
       user:
         default_rates: Taxas padrão
       variable_cost_object:
-        labor_budget: Custos trabalhistas planejados
+        labor_budget: Custos planejados de trabalho
         material_budget: Custos unitários planejados
     models:
       cost_object: Orçamento
       cost_type:
-        one: Cost type
-        other: Cost types
+        one: Tipo de custo
+        other: Tipos de custo
       material_budget_item: Unidade
       rate: Taxa
     errors:
       models:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Pacote de trabalho #%{id} não é válido para reatribuir as entradas de custo.'
-          nullify_is_not_valid_for_cost_entries: Cost entries can not be assigned to a project.
+          nullify_is_not_valid_for_cost_entries: Custos dos insumos não podem ser atribuídos a um projeto.
   attributes:
     budget: Custos planejados
     comment: Comentário
@@ -66,17 +66,17 @@ pt-BR:
   button_cancel_edit_costs: Cancelar edição de custos
   button_log_costs: Registrar custos unitários
   button_log_time: Registrar tempo
-  caption_booked_on_project: Booked on project
+  caption_booked_on_project: Reservado para o projeto
   caption_default: Padrão
   caption_default_rate_history_for: 'Taxa histórica padrão para %{user}'
   caption_labor: Trabalho
-  caption_labor_costs: Custos trabalhistas atuais
+  caption_labor_costs: Custos atuais do trabalho
   caption_locked_on: Bloqueado
   caption_material_costs: Custos unitários atuais
   caption_materials: Unidades
   caption_rate_history: Taxa histórica
   caption_rate_history_for: 'Taxa histórica do %{user}'
-  caption_rate_history_for_project: 'Rate history for %{user} in project %{project}'
+  caption_rate_history_for_project: 'Histórico de taxa para %{user} no projeto %{project}'
   caption_save_rate: Salvar taxa
   caption_set_rate: Fixar taxa atual
   caption_show_locked: Mostrar tipos bloqueados
@@ -89,11 +89,11 @@ pt-BR:
     cost_object: Orçamento editado
   group_by_others: Não em qualquer grupo
   help_click_to_edit: Clique aqui para editar.
-  help_currency_format: 'Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit.'
+  help_currency_format: 'Formato exibidos de valores de moeda. %n é substituído com o valor da moeda, %u é substituído com a unidade da moeda.'
   help_override_rate: Insira um valor aqui para substituir a taxa padrão.
   label_between: entre
   label_cost_filter_add: Adicionar filtro de entrada de custo
-  label_costlog: Logged unit costs
+  label_costlog: Custos unitários registrados
   label_cost_object: Orçamento
   label_cost_object_id: 'Orçamento #%{id}'
   label_cost_object_new: Novo orçamento
@@ -141,19 +141,19 @@ pt-BR:
   notice_no_cost_objects_available: Não há orçamentos disponíveis.
   notice_something_wrong: Algo deu errado. Por favor, tente novamente.
   notice_successful_restore: Restauração bem-sucedida.
-  permission_edit_cost_entries: Edit booked unit costs
+  permission_edit_cost_entries: Editar custos unitários reservados
   permission_edit_cost_objects: Editar os orçamentos
-  permission_edit_own_cost_entries: Edit own booked unit costs
+  permission_edit_own_cost_entries: Editar custos unitários próprios reservados
   permission_edit_hourly_rates: Editar taxas horárias
   permission_edit_own_hourly_rate: Editar as próprias taxas horárias
   permission_edit_rates: Editar taxas
-  permission_log_costs: Book unit costs
-  permission_log_own_costs: Book unit costs for oneself
-  permission_view_cost_entries: View booked costs
+  permission_log_costs: Reservar custos unitários
+  permission_log_own_costs: Reservar custos unitários próprios
+  permission_view_cost_entries: Ver custos reservados
   permission_view_cost_objects: Ver orçamentos
   permission_view_cost_rates: Ver taxas de custo
   permission_view_hourly_rates: Ver todas as taxas de horárias
-  permission_view_own_cost_entries: View own booked costs
+  permission_view_own_cost_entries: Ver custos reservados próprios
   permission_view_own_hourly_rate: Ver sua própria taxa horária
   permission_view_own_time_entries: Ver o próprio tempo gasto
   project_module_costs_module: Controle de custo
@@ -166,7 +166,7 @@ pt-BR:
   text_warning_hidden_elements: Algumas entradas podem ter sido excluídas da agregação.
   week: semana
   x_entries:
-    one: 1 entry
-    other: '%{count} entries'
+    one: 1 entrada
+    other: '%{count} entradas'
   js:
     text_are_you_sure: Você tem certeza?
