@@ -39,8 +39,8 @@ fr:
     models:
       cost_object: Budget
       cost_type:
-        one: Cost type
-        other: Cost types
+        one: Type de coût
+        other: Types de coûts
       material_budget_item: Unité
       rate: Tarif
     errors:
@@ -166,7 +166,7 @@ fr:
   text_warning_hidden_elements: "Certaines entrées peuvent avoir été exclues de l'agrégation."
   week: semaine
   x_entries:
-    one: 1 entry
-    other: '%{count} entries'
+    one: 1 entrée
+    other: '%{count} entrées'
   js:
     text_are_you_sure: Êtes-vous sûr ?
