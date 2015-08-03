@@ -40,8 +40,15 @@ class JournalNotificationMailer
     def handle_work_package_journal(journal)
       return nil unless send_notification? journal
 
-      job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id)
+      aggregated = find_aggregated_journal_for(journal)
 
+      # Send the notification on behalf of the predecessor in case it could not send it on its own
+      if Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
+        job = DeliverWorkPackageNotificationJob.new(aggregated.predecessor.id, User.current.id)
+        Delayed::Job.enqueue job
+      end
+
+      job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id)
       Delayed::Job.enqueue job, run_at: delivery_time
     end
 
@@ -69,6 +76,11 @@ class JournalNotificationMailer
 
     def delivery_time
       Setting.journal_aggregation_time_minutes.to_i.minutes.from_now
+    end
+
+    def find_aggregated_journal_for(raw_journal)
+      wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: raw_journal.journable)
+      wp_journals.detect { |journal| journal.version == raw_journal.version }
     end
   end
 end

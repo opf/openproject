@@ -41,45 +41,66 @@ describe JournalNotificationMailer do
                        author: user,
                        type: project.types.first)
   }
+  let(:journal) { work_package.journals.last }
+  let(:send_notification) { true }
   let(:notifications) { [] }
 
+  def call_listener
+    described_class.distinguish_journals(journal, send_notification)
+  end
+
   before do
+    # make sure no other calls are made due to WP creation/update
+    allow(OpenProject::Notifications).to receive(:send) # ... and do nothing
+
     allow(User).to receive(:current).and_return(user)
     allow(Setting).to receive(:notified_events).and_return(notifications)
+  end
 
-    ActionMailer::Base.deliveries.clear
+  shared_examples_for 'sends a regular notification' do
+    it do
+      expect(Delayed::Job).to receive(:enqueue)
+                                .with(
+                                  an_instance_of(EnqueueWorkPackageNotificationJob),
+                                  run_at: anything)
+
+      # immediate delivery is not part of regular notfications, it only covers an edge-case
+      expect(Delayed::Job).not_to receive(:enqueue)
+                                    .with(an_instance_of DeliverWorkPackageNotificationJob)
+      call_listener
+    end
   end
 
   shared_examples_for 'handles deliveries' do |notification_setting|
     context 'setting enabled' do
       let(:notifications) { [notification_setting] }
 
-      it 'sends a notification' do
-        expect(ActionMailer::Base.deliveries.size).to eq(1)
-      end
+      it_behaves_like 'sends a regular notification'
 
       context 'insufficient work package changes' do
-        let!(:another_work_package) {
+        let(:journal) { another_work_package.journals.last }
+        let(:another_work_package) {
           FactoryGirl.create(:work_package,
                              project: project,
                              author: user,
                              type: project.types.first)
         }
         before do
-          ActionMailer::Base.deliveries.clear
           another_work_package.add_journal(user)
           another_work_package.description = 'needs more changes'
           another_work_package.save!(validate: false)
         end
 
         it 'sends no notification' do
-          expect(ActionMailer::Base.deliveries.size).to eq(0)
+          expect(Delayed::Job).not_to receive(:enqueue)
+          call_listener
         end
       end
     end
 
     it 'sends no notification' do
-      expect(ActionMailer::Base.deliveries.size).to eq(0)
+      expect(Delayed::Job).not_to receive(:enqueue)
+      call_listener
     end
   end
 
@@ -102,13 +123,12 @@ describe JournalNotificationMailer do
       context 'setting enabled' do
         let(:notifications) { ['work_package_updated'] }
 
-        it 'sends a notification' do
-          expect(ActionMailer::Base.deliveries.size).to eq(1)
-        end
+        it_behaves_like 'sends a regular notification'
       end
 
       it 'sends no notification' do
-        expect(ActionMailer::Base.deliveries.size).to eq(0)
+        expect(Delayed::Job).not_to receive(:enqueue)
+        call_listener
       end
     end
 
@@ -116,7 +136,6 @@ describe JournalNotificationMailer do
       before do
         work_package.add_journal(user, 'This update has a note')
         work_package.save!(validate: false)
-        work_package.recreate_initial_journal!
       end
 
       it_behaves_like 'handles deliveries', 'work_package_note_added'
@@ -143,14 +162,19 @@ describe JournalNotificationMailer do
     end
 
     context 'send_notification disabled' do
-      before do
-        allow(JournalManager).to receive(:send_notification).and_return(false)
-        FactoryGirl.create(:work_package, project: project) # Provoke notification
-      end
+      let(:send_notification) { false }
 
       it 'sends no notification' do
-        expect(ActionMailer::Base.deliveries.size).to eq(0)
+        expect(Delayed::Job).not_to receive(:enqueue)
+        call_listener
       end
     end
+  end
+end
+
+describe 'initialization' do
+  it 'subscribes the listener' do
+    expect(JournalNotificationMailer).to receive(:distinguish_journals)
+    FactoryGirl.create(:work_package)
   end
 end

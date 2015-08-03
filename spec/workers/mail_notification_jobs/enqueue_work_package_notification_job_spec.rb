@@ -103,8 +103,12 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     # However, after adding Journal 3, the aggregation will look like (1), (2, 3). Therefore the
     # job for Journal 2 will not send a notification. Finally the job for Journal 3 will send a
     # notification, but only containing the changes of 2 and 3. The comment of journal 1 is lost.
-    # Therefore a Job needs to check whether it has hidden another job and execute
-    # its notifications too.
+    # Therefore two things have to happen:
+    # - someone needs to send notifications for the hidden journal
+    #   (done by JournalNotificationMailer)
+    # - in case a journal is hidden, its Job is not allowed to enqueue a mail for it
+    #   (because someone else will do it on behalf)
+    #   This is important since late exec of a Job might cause it to _not_ skip notifications
 
     before do
       change = { subject: 'new subject' }
@@ -150,9 +154,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     context 'journal 3 created after timeout of 1, but inside of timeout for 2' do
       # Job 1 will not send a mail because it does not know about journal 3
       #   (thinking 2 will take its mail)
-      # Job 3 will have to take over the mail for Job 1
+      # The mail of Job 1 is taken over by the JournalNotificationMailer for Journal 3
       # Even if Job 1 knew of journal 3 (due to late execution), it was not allowed to send a mail
-      #   (that would cause Job 3 to deliver a duplicate mail)
+      #   (that would cause a duplicate mail delivery)
 
       before do
         journal_2.created_at = journal_1.created_at + (timeout / 2)
@@ -171,17 +175,16 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         described_class.new(journal_2.id, author.id).perform
       end
 
-      it 'Job 3 sends mails for journals 1 + (2,3)' do
+      it 'Job 3 sends one mail for (2,3)' do
         expect(Delayed::Job).to receive(:enqueue)
                                   .with(an_instance_of DeliverWorkPackageNotificationJob)
-                                  .twice
+                                  .once
         described_class.new(journal_3.id, author.id).perform
       end
     end
 
     context 'journal 3 created after timeout of 1 and 2' do
-      # This is a normal case, just to ensure that Job 3 will recognize it is not responsible for
-      # (1,2).
+      # This is a normal case again, ensuring nobody takes responsiblity when not neccessary.
 
       before do
         journal_2.created_at = journal_1.created_at + (timeout / 2)

@@ -92,6 +92,32 @@ class Journal::AggregatedJournal
                COALESCE(addition.version, #{table_name}.version) \"version\"")
     end
 
+    # Returns whether "notification-hiding" should be assumed for the given journal pair.
+    # This leads to an aggregated journal effectively blocking notifications of an earlier journal,
+    # because it "steals" the addition from its predecessor. See the specs section under
+    # "mail suppressing aggregation" (for EnqueueWorkPackageNotificationJob) for more details
+    def hides_notifications?(successor, predecessor)
+      return false unless successor && predecessor
+
+      timeout = Setting.journal_aggregation_time_minutes.to_i.minutes
+
+      if successor.journable_type != predecessor.journable_type ||
+        successor.journable_id != predecessor.journable_id ||
+        successor.user_id != predecessor.user_id ||
+        (successor.created_at - predecessor.created_at) <= timeout
+        return false
+      end
+
+      # imaginary state in which the successor never existed
+      # if this leads to a state change of the predecessor, the successor must have taken journals
+      # from it.
+      pred_without_succ = Journal::AggregatedJournal.aggregated_journals(
+        journable: successor.journable,
+        until_version: successor.notes_version - 1).last
+
+      predecessor.id != pred_without_succ.id
+    end
+
     private
 
     # Provides a full SQL statement that returns journals that are aggregated on a basic level:
