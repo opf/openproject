@@ -49,13 +49,18 @@ class Journal::AggregatedJournal
       raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
     end
 
-    def aggregated_journals(journable: nil)
-      query_aggregated_journals(journable: journable).map { |journal|
+    ##
+    # The +journable+ parameter allows to filter for aggregated journals of a given journable.
+    #
+    # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
+    # to see the aggregated journals as if no versions were known after the specified version.
+    def aggregated_journals(journable: nil, until_version: nil)
+      query_aggregated_journals(journable: journable, until_version: until_version).map { |journal|
         Journal::AggregatedJournal.new(journal)
       }
     end
 
-    def query_aggregated_journals(journable: nil)
+    def query_aggregated_journals(journable: nil, until_version: nil)
       # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
       # where an entry with empty notes follows an entry containing notes, so that the notes
       # from the main entry are taken, while the remaining information is taken from the
@@ -68,10 +73,10 @@ class Journal::AggregatedJournal
       # that our own row (master) would not already have been merged by its predecessor. If it is
       # (that means if we can find a valid predecessor), we drop our current row, because it will
       # already be present (in a merged form) in the row of our predecessor.
-      Journal.from("(#{sql_rough_group(journable, 1)}) #{table_name}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, 2)}) addition
+      Journal.from("(#{sql_rough_group(journable, until_version, 1)}) #{table_name}")
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, 2)}) addition
                               ON #{sql_on_groups_belong_condition(table_name, 'addition')}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, 3)}) predecessor
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, 3)}) predecessor
                          ON #{sql_on_groups_belong_condition('predecessor', table_name)}")
       .where('predecessor.id IS NULL')
       .order("COALESCE(addition.created_at, #{table_name}.created_at) ASC")
@@ -80,6 +85,7 @@ class Journal::AggregatedJournal
                #{table_name}.user_id,
                #{table_name}.notes,
                #{table_name}.id \"notes_id\",
+               #{table_name}.version \"notes_version\",
                #{table_name}.activity_type,
                COALESCE(addition.created_at, #{table_name}.created_at) \"created_at\",
                COALESCE(addition.id, #{table_name}.id) \"id\",
@@ -97,13 +103,18 @@ class Journal::AggregatedJournal
     # To be able to self-join results of this statement, we add an additional column called
     # "group_number" to the result. This allows to compare a group resulting from this query with
     # its predecessor and successor.
-    def sql_rough_group(journable, uid)
+    def sql_rough_group(journable, until_version, uid)
+      if until_version && !journable
+        raise 'need to provide a journable, when specifying a version limit'
+      end
+
       sql = "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
       FROM #{sql_rough_group_from_clause(uid)}
       LEFT OUTER JOIN journals successor
         ON predecessor.version + 1 = successor.version AND
            predecessor.journable_type = successor.journable_type AND
            predecessor.journable_id = successor.journable_id
+           #{until_version ? " AND successor.version <= #{until_version}" : ''}
       WHERE (predecessor.user_id != successor.user_id OR
             (predecessor.notes != '' AND predecessor.notes IS NOT NULL) OR
             #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
@@ -113,6 +124,10 @@ class Journal::AggregatedJournal
         raise 'journable has no id' if journable.id.nil?
         sql += " AND predecessor.journable_type = '#{journable.class.name}' AND
                      predecessor.journable_id = #{journable.id}"
+
+        if until_version
+          sql += " AND predecessor.version <= #{until_version}"
+        end
       end
 
       sql
@@ -236,6 +251,21 @@ class Journal::AggregatedJournal
     @predecessor
   end
 
+  def successor
+    unless defined? @successor
+      version_sql = "COALESCE(addition.version, #{Journal.table_name}.version)"
+      raw_journal = self.class.query_aggregated_journals(journable: journable)
+                      .where("#{version_sql} > ?", version)
+                      .except(:order)
+                      .order("#{version_sql} ASC")
+                      .first
+
+      @successor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
+    end
+
+    @successor
+  end
+
   def initial?
     predecessor.nil?
   end
@@ -249,6 +279,10 @@ class Journal::AggregatedJournal
   # Thus we need to ensure manually that this column is correctly casted.
   def notes_id
     ActiveRecord::ConnectionAdapters::Column.value_to_integer(journal.notes_id)
+  end
+
+  def notes_version
+    ActiveRecord::ConnectionAdapters::Column.value_to_integer(journal.notes_version)
   end
 
   private
