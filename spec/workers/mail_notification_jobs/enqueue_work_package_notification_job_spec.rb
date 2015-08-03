@@ -47,7 +47,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
   before do
     # make sure no other calls are made due to WP creation/update
-    OpenProject::Notifications.unsubscribe('journal_created')
+    allow(OpenProject::Notifications).to receive(:send) # ... and do nothing
   end
 
   it 'sends a mail' do
