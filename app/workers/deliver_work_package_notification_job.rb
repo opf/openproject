@@ -34,61 +34,14 @@ class DeliverWorkPackageNotificationJob
   end
 
   def perform
-    # if the WP has been deleted the unaggregated journal will have been deleted too
-    # and our job here is done
-    return nil unless raw_journal
+    return unless raw_journal # abort, assuming that the underlying WP was deleted
 
     journal = find_aggregated_journal
 
-    # If we can't find the aggregated journal, it was superseded by a journal that aggregated ours.
-    # In that case a job for the new journal will have been enqueued that is now responsible for
-    # sending the notification. Our job here is done.
-    return nil unless journal
+    # The caller should have ensured that the journal can't outdate anymore
+    # before queuing a notification
+    raise 'aggregated journal got outdated' unless journal
 
-    # TODO: move this out of the delayed job, since putting it here would require us to loop over
-    # multiple predecessors
-    # Send the notification on behalf of the predecessor in case it could not send the notification
-    # on its own
-    if hides_notifications?(journal, journal.predecessor)
-      deliver_notifications_for(journal.predecessor)
-    end
-
-    unless hides_notifications?(journal.successor, journal)
-      deliver_notifications_for(journal)
-    end
-  end
-
-  private
-
-  def find_aggregated_journal
-    wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: work_package)
-    wp_journals.detect { |journal| journal.version == raw_journal.version }
-  end
-
-  # Returns whether "notification-hiding" should be assumed. This leads to an aggregated journal
-  # effectively blocking notifications of an earlier journal. See the specs section under
-  # "mail suppressing aggregation" for more details
-  def hides_notifications?(successor, predecessor)
-    return false unless successor && predecessor
-
-    timeout = Setting.journal_aggregation_time_minutes.to_i.minutes
-
-    if successor.user_id != predecessor.user_id ||
-      (successor.created_at - predecessor.created_at) <= timeout
-      return false
-    end
-
-    # imaginary state in which the successor never existed
-    # if this leads to a state change of the predecessor, the successor must have taken journals
-    # from it.
-    pred_without_succ = Journal::AggregatedJournal.aggregated_journals(
-      journable: work_package,
-      until_version: successor.notes_version - 1).last
-
-    predecessor.id != pred_without_succ.id
-  end
-
-  def deliver_notifications_for(journal)
     notification_receivers(work_package).uniq.each do |recipient|
       mail = User.execute_as(recipient) {
         if journal.initial?
@@ -100,6 +53,13 @@ class DeliverWorkPackageNotificationJob
 
       mail.deliver
     end
+  end
+
+  private
+
+  def find_aggregated_journal
+    wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: work_package)
+    wp_journals.detect { |journal| journal.version == raw_journal.version }
   end
 
   def notification_receivers(work_package)

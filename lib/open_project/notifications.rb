@@ -42,6 +42,12 @@ module OpenProject
       nil
     end
 
+    # Unsubscribe all listeners from the named event.
+    def self.unsubscribe(name)
+      ActiveSupport::Notifications.unsubscribe(name.to_s)
+      nil
+    end
+
     # Send a notification
     # payload should be a Hash and might be marshalled and unmarshalled before being
     # delivered (although it is not at the moment), so don't count on object equality

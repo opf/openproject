@@ -40,7 +40,7 @@ class JournalNotificationMailer
     def handle_work_package_journal(journal)
       return nil unless send_notification? journal
 
-      job = DeliverWorkPackageNotificationJob.new(journal.id, User.current.id)
+      job = EnqueueWorkPackageNotificationJob.new(journal.id, User.current.id)
 
       Delayed::Job.enqueue job, run_at: delivery_time
     end
