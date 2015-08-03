@@ -26,10 +26,20 @@ class MoveWorkPackageService
 
   def move_without_transaction(new_project, new_type = nil, options = {})
     attributes = options[:attributes] || {}
-    journal_note = options[:journal_note]
-    copy = options[:copy] || false
 
-    modified_work_package = if copy
+    modified_work_package = copy_or_move(options[:copy], new_project, new_type, attributes)
+
+    if options[:copy]
+      return false unless copy(modified_work_package, attributes, options)
+    else
+      return false unless move(modified_work_package, new_project, options)
+    end
+
+    modified_work_package
+  end
+
+  def copy_or_move(make_copy, new_project, new_type, attributes)
+    modified_work_package = if make_copy
                               WorkPackage.new.copy_from(work_package)
                             else
                               work_package
@@ -41,23 +51,31 @@ class MoveWorkPackageService
 
     bulk_assign_attributes(modified_work_package, attributes)
 
-    if copy
-      set_default_values_on_copy(modified_work_package, attributes)
-    elsif journal_note
-      modified_work_package.add_journal user, journal_note
+    modified_work_package
+  end
+
+  def copy(modified_work_package, attributes, options)
+    set_default_values_on_copy(modified_work_package, attributes)
+
+    return false unless modified_work_package.save
+
+    create_and_save_journal_note modified_work_package, options[:journal_note]
+
+    true
+  end
+
+  def move(modified_work_package, new_project, options)
+    if options[:journal_note]
+      modified_work_package.add_journal user, options[:journal_note]
     end
 
     return false unless modified_work_package.save
 
-    if copy
-      create_and_save_journal_note modified_work_package, journal_note
-    else
-      move_time_entries(modified_work_package, new_project)
+    move_time_entries(modified_work_package, new_project)
 
-      return false unless move_children(modified_work_package, new_project, options)
-    end
+    return false unless move_children(modified_work_package, new_project, options)
 
-    modified_work_package
+    true
   end
 
   def move_to_project(work_package, new_project)
