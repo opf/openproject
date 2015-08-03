@@ -31,7 +31,6 @@ describe Redmine::DefaultData::Loader do
       # * seed
       # * default data (e.g. by rake task or from UI)
       load "#{Rails.root}/db/seeds/all.rb"
-      Redmine::DefaultData::Loader.load
     end
 
     after(:each) do
