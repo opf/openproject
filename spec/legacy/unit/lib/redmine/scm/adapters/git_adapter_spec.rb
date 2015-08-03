@@ -169,8 +169,7 @@ describe OpenProject::Scm::Adapters::Git, type: :model do
     assert_equal '2010-09-18 19:59:46'.to_time, last_rev.time
   end
 
-  # TODO: need to handle edge cases of non-binary content that isn't UTF-8
-  xit 'test latin 1 path' do
+  it 'test latin 1 path' do
     if WINDOWS_PASS
       #
     else
