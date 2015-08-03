@@ -1037,7 +1037,7 @@ describe WorkPackage, type: :model do
         it { is_expected.not_to be_nil }
       end
 
-      let(:expected_users) { work_package.author.mail }
+      let(:expected_users) { work_package.author }
 
       it_behaves_like 'includes expected users'
     end
@@ -1051,7 +1051,7 @@ describe WorkPackage, type: :model do
         it { is_expected.not_to be_nil }
       end
 
-      let(:expected_users) { work_package.assigned_to.mail }
+      let(:expected_users) { work_package.assigned_to }
 
       it_behaves_like 'includes expected users'
     end

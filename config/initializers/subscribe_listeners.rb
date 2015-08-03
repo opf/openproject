@@ -27,16 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CommentObserver < ActiveRecord::Observer
-  def after_create(comment)
-    return unless Setting.notified_events.include?('news_comment_added')
-
-    if comment.commented.is_a?(News)
-      news = comment.commented
-      recipients = news.recipients + news.watcher_recipients
-      recipients.uniq.each do |user|
-        UserMailer.news_comment_added(user, comment, User.current).deliver
-      end
-    end
-  end
+OpenProject::Notifications.subscribe('journal_created') do |payload|
+  JournalNotificationMailer.distinguish_journals(payload[:journal], payload[:send_notification])
 end

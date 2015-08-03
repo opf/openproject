@@ -44,7 +44,7 @@ describe OpenProject::Scm::Adapters::Git do
   }
 
   before do
-    allow(adapter).to receive(:config).and_return(config)
+    allow(adapter.class).to receive(:config).and_return(config)
   end
 
   describe 'client information' do

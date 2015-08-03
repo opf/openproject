@@ -1267,8 +1267,8 @@ en:
       path_permission_failed: "An error occurred trying to create the following path: %{path}. Please ensure that OpenProject may write to that folder."
       unauthorized: "You're not authorized to access the repository or the credentials are invalid."
       unavailable: "The repository is unavailable."
-      unlink_failed_unmanageable: "The repository was deleted, but its directory could not be removed, because it is no longer manageable by OpenProject."
       exception_title: "Cannot access the repository: %{message}"
+      disabled_or_unknown_type: "The selected type %{type} is disabled or no longer available for the SCM vendor %{vendor}."
       disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
     git:
       instructions:

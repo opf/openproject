@@ -35,6 +35,10 @@ module OpenProject
       class Base
         attr_accessor :url, :root_url
 
+        def self.vendor
+          name.demodulize
+        end
+
         def initialize(url, root_url = nil)
           self.url = url
           self.root_url = root_url
@@ -57,7 +61,7 @@ module OpenProject
         end
 
         def vendor
-          self.class.name.demodulize
+          self.class.vendor
         end
 
         def info

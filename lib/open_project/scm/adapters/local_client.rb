@@ -32,20 +32,25 @@ module OpenProject
   module Scm
     module Adapters
       module LocalClient
+        def self.included(base)
+          base.extend(ClassMethods)
+        end
+
+        module ClassMethods
+          ##
+          # Reads the configuration for this strategy from OpenProject's `configuration.yml`.
+          def config
+            ['scm', vendor].inject(OpenProject::Configuration) do |acc, key|
+              HashWithIndifferentAccess.new acc[key]
+            end
+          end
+        end
+
         ##
         # Determines local capabilities for SCM creation.
         # Overridden by including classes when SCM may be remote.
         def local?
           true
-        end
-
-        ##
-        # Reads the configuration for this strategy from OpenProject's `configuration.yml`.
-        def config
-          scm_config = OpenProject::Configuration
-          ['scm', vendor].inject(scm_config) do |acc, key|
-            HashWithIndifferentAccess.new acc[key]
-          end
         end
 
         ##

@@ -325,6 +325,26 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'revisions' do
+        context 'when the user lacks the view_changesets permission' do
+          it_behaves_like 'has no link' do
+            let(:link) { 'revisions' }
+          end
+        end
+
+        context 'when the user has the required permission' do
+          let(:revision_permissions) { [:view_changesets] }
+          let(:role) { FactoryGirl.create :role, permissions: permissions + revision_permissions }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'revisions' }
+            let(:href) {
+              api_v3_paths.work_package_revisions(work_package.id)
+            }
+          end
+        end
+      end
+
       describe 'version' do
         let(:embedded_path) { '_embedded/version' }
         let(:href_path) { '_links/version/href' }

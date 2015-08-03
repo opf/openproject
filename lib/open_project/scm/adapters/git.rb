@@ -44,7 +44,7 @@ module OpenProject
         end
 
         def client_command
-          @client_command ||= config[:client_command] || 'git'
+          @client_command ||= self.class.config[:client_command] || 'git'
         end
 
         def client_version

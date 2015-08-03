@@ -37,7 +37,21 @@ describe Repository::Git, type: :model do
   before do
     allow(Setting).to receive(:enabled_scm).and_return(['Git'])
     allow(instance).to receive(:scm).and_return(adapter)
-    allow(adapter).to receive(:config).and_return(config)
+    allow(adapter.class).to receive(:config).and_return(config)
+  end
+
+  describe 'available types' do
+    it 'allow local by default' do
+      expect(instance.class.available_types).to eq([:local])
+    end
+
+    context 'with disabled typed' do
+      let(:config) { { disabled_types: [:local, :managed] } }
+
+      it 'does not have any types' do
+        expect(instance.class.available_types).to be_empty
+      end
+    end
   end
 
   describe 'managed git' do
@@ -53,6 +67,16 @@ describe Repository::Git, type: :model do
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
+        expect(instance.class.available_types).to eq([:local, :managed])
+      end
+
+      context 'with disabled managed typed' do
+        let(:config) { { disabled_types: [:managed] } }
+
+        it 'is no longer manageable' do
+          expect(instance.class.available_types).to eq([:local])
+          expect(instance.manageable?).to be false
+        end
       end
 
       context 'and associated project' do

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,16 +25,36 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+module API
+  module V3
+    module Repositories
+      class RevisionsAPI < ::API::OpenProjectAPI
+        resources :revisions do
+          params do
+            requires :id, desc: 'Revision id'
+          end
+          route_param :id do
+            helpers do
+              attr_reader :revision
 
-class CommentObserver < ActiveRecord::Observer
-  def after_create(comment)
-    return unless Setting.notified_events.include?('news_comment_added')
+              def revision_representer
+                RevisionRepresenter.new(revision)
+              end
+            end
 
-    if comment.commented.is_a?(News)
-      news = comment.commented
-      recipients = news.recipients + news.watcher_recipients
-      recipients.uniq.each do |user|
-        UserMailer.news_comment_added(user, comment, User.current).deliver
+            before do
+              @revision = Changeset.find(params[:id])
+
+              authorize(:view_changesets, context: revision.project) do
+                raise API::Errors::NotFound.new
+              end
+            end
+
+            get do
+              revision_representer
+            end
+          end
+        end
       end
     end
   end

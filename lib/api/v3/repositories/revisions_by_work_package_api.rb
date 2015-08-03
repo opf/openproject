@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,12 +26,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Notifier
-  def self.notify?(event)
-    notified_events.include?(event.to_s)
-  end
+require 'api/v3/repositories/revisions_collection_representer'
 
-  def self.notified_events
-    Setting.notified_events.to_a
+module API
+  module V3
+    module Repositories
+      class RevisionsByWorkPackageAPI < ::API::OpenProjectAPI
+        resources :revisions do
+          before do
+            authorize(:view_changesets, context: work_package.project)
+          end
+
+          get do
+            self_path = api_v3_paths.work_package_revisions(work_package.id)
+
+            revisions = work_package.changesets
+            RevisionsCollectionRepresenter.new(revisions,
+                                               revisions.count,
+                                               self_path)
+          end
+        end
+      end
+    end
   end
 end

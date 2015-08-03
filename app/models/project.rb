@@ -616,9 +616,9 @@ class Project < ActiveRecord::Base
     possible_responsible_members.map(&:principal).compact.sort
   end
 
-  # Returns the mail adresses of users that should be always notified on project events
+  # Returns users that should be always notified on project events
   def recipients
-    notified_users.map(&:mail)
+    notified_users
   end
 
   # Returns the users that should be notified on project events

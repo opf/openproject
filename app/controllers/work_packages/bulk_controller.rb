@@ -61,7 +61,7 @@ class WorkPackages::BulkController < ApplicationController
       work_package.assign_attributes attributes
 
       call_hook(:controller_work_package_bulk_before_save,  params: params, work_package: work_package)
-      JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
+      JournalManager.send_notification = params[:send_notification] == '0' ? false : true
       unless work_package.save
         unsaved_work_package_ids << work_package.id
       end
