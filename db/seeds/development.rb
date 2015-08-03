@@ -107,6 +107,10 @@ time_entry_activities = []
   time_entry_activities << time_entry_activity
 end
 
+repository = Repository::Subversion.create!(project: project,
+                                            url: 'file:///tmp/foo/bar.svn',
+                                            scm_type: 'existing')
+
 print 'Creating objects for...'
 user_count.times do |count|
   login = "#{Faker::Name.first_name}#{rand(10000)}"
