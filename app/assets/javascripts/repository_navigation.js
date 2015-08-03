@@ -34,7 +34,7 @@
       branch = $('#revision-branch-select'),
       selects = tag.add(branch),
       branch_selected = branch.length > 0 && revision.val() == branch.val(),
-      tag_selected = tag.length > 0 && revision.val() == tag.getValue();
+      tag_selected = tag.length > 0 && revision.val() == tag.val();
 
     var sendForm = function() {
       selects.prop('disable', true);
