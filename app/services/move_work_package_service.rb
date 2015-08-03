@@ -13,10 +13,10 @@ class MoveWorkPackageService
 
   def call(new_project, new_type = nil, options = {})
     if options[:no_transaction]
-      move_to_project_without_transaction(new_project, new_type, options)
+      move_without_transaction(new_project, new_type, options)
     else
       WorkPackage.transaction do
-        move_to_project_without_transaction(new_project, new_type, options) ||
+        move_without_transaction(new_project, new_type, options) ||
           raise(ActiveRecord::Rollback)
       end || false
     end
@@ -24,22 +24,51 @@ class MoveWorkPackageService
 
   private
 
-  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
-    work_package = options[:copy] ? WorkPackage.new.copy_from(self.work_package) : self.work_package
+  def move_without_transaction(new_project, new_type = nil, options = {})
+    attributes = options[:attributes] || {}
+    journal_note = options[:journal_note]
+    copy = options[:copy] || false
 
+    modified_work_package = if copy
+                              WorkPackage.new.copy_from(work_package)
+                            else
+                              work_package
+                            end
+
+    move_to_project(modified_work_package, new_project)
+
+    move_to_type(modified_work_package, new_type)
+
+    bulk_assign_attributes(modified_work_package, attributes)
+
+    if copy
+      set_default_values_on_copy(modified_work_package, attributes)
+    elsif journal_note
+      modified_work_package.add_journal user, journal_note
+    end
+
+    return false unless modified_work_package.save
+
+    if copy
+      create_and_save_journal_note modified_work_package, journal_note
+    else
+      move_time_entries(modified_work_package, new_project)
+
+      return false unless move_children(modified_work_package, new_project, options)
+    end
+
+    modified_work_package
+  end
+
+  def move_to_project(work_package, new_project)
     if new_project &&
        work_package.project_id != new_project.id &&
        allowed_to_move_to_project?(new_project)
 
       work_package.delete_relations(work_package)
-      # work_package is moved to another project
-      # reassign to the category with same name if any
-      new_category = if work_package.category.nil?
-                       nil
-                     else
-                       new_project.categories.find_by_name(work_package.category.name)
-                     end
-      work_package.category = new_category
+
+      reassign_category(work_package, new_project)
+
       # Keep the fixed_version if it's still valid in the new_project
       unless new_project.shared_versions.include?(work_package.fixed_version)
         work_package.fixed_version = nil
@@ -49,53 +78,54 @@ class MoveWorkPackageService
 
       enforce_cross_project_settings(work_package)
     end
+  end
+
+  def move_to_type(work_package, new_type)
     if new_type
       work_package.type = new_type
       work_package.reset_custom_values!
     end
+  end
+
+  def bulk_assign_attributes(work_package, attributes)
     # Allow bulk setting of attributes on the work_package
-    if options[:attributes]
+    if attributes
       # before setting the attributes, we need to remove the move-related fields
       work_package.attributes =
-        options[:attributes].except(:copy, :new_project_id, :new_type_id, :follow, :ids)
+        attributes.except(:copy, :new_project_id, :new_type_id, :follow, :ids)
           .reject { |_key, value| value.blank? }
     end # FIXME this eliminates the case, where values shall be bulk-assigned to null,
     # but this needs to work together with the permit
-    if options[:copy]
-      work_package.author = user
-      work_package.custom_field_values =
-        self.work_package.custom_field_values.inject({}) do |h, v|
-          h[v.custom_field_id] = v.value
-          h
-        end
-      work_package.status = if options[:attributes] && options[:attributes][:status_id].present?
-                              Status.find_by_id(options[:attributes][:status_id])
-                            else
-                              self.work_package.status
-                            end
-    else
-      work_package.add_journal user, options[:journal_note] if options[:journal_note]
-    end
+  end
 
-    if work_package.save
-      if options[:copy]
-        create_and_save_journal_note work_package, options[:journal_note]
-      else
-        # Manually update project_id on related time entries
-        TimeEntry.update_all("project_id = #{new_project.id}", work_package_id: work_package.id)
+  def set_default_values_on_copy(work_package, attributes)
+    work_package.author = user
 
-        work_package.children.each do |child|
-          child_service = self.class.new(child, user)
-          unless child_service.call(new_project, nil, options.merge(no_transaction: true))
-            # Move failed and transaction was rollback'd
-            return false
-          end
-        end
+    custom_field_values = self.work_package.custom_field_values.inject({}) { |h, v|
+      h[v.custom_field_id] = v.value
+      h
+    }
+
+    work_package.custom_field_values = custom_field_values
+
+    assign_status_or_default(work_package, attributes[:status_id])
+  end
+
+  def move_children(work_package, new_project, options)
+    work_package.children.each do |child|
+      child_service = self.class.new(child, user)
+      unless child_service.call(new_project, nil, options.merge(no_transaction: true))
+        # Move failed and transaction was rollback'd
+        return false
       end
-    else
-      return false
     end
-    work_package
+
+    true
+  end
+
+  def move_time_entries(work_package, new_project)
+    # Manually update project_id on related time entries
+    TimeEntry.update_all("project_id = #{new_project.id}", work_package_id: work_package.id)
   end
 
   def enforce_cross_project_settings(work_package)
@@ -118,5 +148,26 @@ class MoveWorkPackageService
       .allowed_target_projects_on_move(user)
       .where(id: new_project.id)
       .exists?
+  end
+
+  def reassign_category(work_package, new_project)
+    # work_package is moved to another project
+    # reassign to the category with same name if any
+    new_category = if work_package.category.nil?
+                     nil
+                   else
+                     new_project.categories.find_by_name(work_package.category.name)
+                   end
+    work_package.category = new_category
+  end
+
+  def assign_status_or_default(work_package, status_id)
+    status = if status_id.present?
+               Status.find_by_id(status_id)
+             else
+               self.work_package.status
+             end
+
+    work_package.status = status
   end
 end
