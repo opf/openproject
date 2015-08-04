@@ -37,9 +37,10 @@ describe SysController, type: :controller do
   let(:guest_role) { FactoryGirl.create(:role, permissions: []) }
   let(:valid_user_password) { 'Top Secret Password' }
   let(:valid_user) {
-    FactoryGirl.create(:user, login: 'johndoe',
-                              password: valid_user_password,
-                              password_confirmation: valid_user_password)
+    FactoryGirl.create(:user,
+                       login: 'johndoe',
+                       password: valid_user_password,
+                       password_confirmation: valid_user_password)
   }
 
   before(:each) do
@@ -47,9 +48,10 @@ describe SysController, type: :controller do
     DeletedUser.first # creating it first in order to avoid problems with should_receive
 
     random_project = FactoryGirl.create(:project, is_public: false)
-    @member = FactoryGirl.create(:member, user: valid_user,
-                                          roles: [browse_role],
-                                          project: random_project)
+    @member = FactoryGirl.create(:member,
+                                 user: valid_user,
+                                 roles: [browse_role],
+                                 project: random_project)
     allow(Setting).to receive(:sys_api_key).and_return('12345678')
     allow(Setting).to receive(:sys_api_enabled?).and_return(true)
     allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(true)
@@ -60,136 +62,218 @@ describe SysController, type: :controller do
       context 'for valid login, but no access to repo_auth' do
         before(:each) do
           @key = Setting.sys_api_key
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-          post "repo_auth", { :key => @key, :repository => "without-access", :method => "GET" }
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: 'without-access',
+               method: 'GET'
         end
 
-        it "should respond 403 not allowed" do
-          expect(response.code).to eq("403")
-          expect(response.body).to eq("Not allowed")
-        end
-      end
-
-      context 'for valid login and user has browse repository permission (role reporter) for project' do
-        before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => false)
-          @member = FactoryGirl.create(:member, :user => valid_user,
-                                                :roles => [browse_role],
-                                                :project => @project)
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        end
-
-        it "should respond 200 okay dokay for GET" do
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
-          expect(response.code).to eq("200")
-        end
-
-        it "should respond 403 not allowed for POST" do
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "POST" }
-          expect(response.code).to eq("403")
+        it 'should respond 403 not allowed' do
+          expect(response.code).to eq('403')
+          expect(response.body).to eq('Not allowed')
         end
       end
 
-      context 'for valid login and user has commit access permission (role developer) for project' do
+      context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
           @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => false)
-          @member = FactoryGirl.create(:member, :user => valid_user,
-                                                :roles => [commit_role],
-                                                :project => @project )
+          @project = FactoryGirl.create(:project, is_public: false)
+          @member = FactoryGirl.create(:member,
+                                       user: valid_user,
+                                       roles: [browse_role],
+                                       project: @project)
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+        end
+
+        it 'should respond 200 okay dokay for GET' do
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET'
+
+          expect(response.code).to eq('200')
+        end
+
+        it 'should respond 403 not allowed for POST' do
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'POST'
+
+          expect(response.code).to eq('403')
+        end
+      end
+
+      context 'for valid login and user has rw permission (role developer) for project' do
+        before(:each) do
+          @key = Setting.sys_api_key
+          @project = FactoryGirl.create(:project, is_public: false)
+          @member = FactoryGirl.create(:member,
+                                       user: valid_user,
+                                       roles: [commit_role],
+                                       project: @project)
           valid_user.save
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
         end
 
-        it "should respond 200 okay dokay for GET" do
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
-          expect(response.code).to eq("200")
+        it 'should respond 200 okay dokay for GET' do
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET'
+
+          expect(response.code).to eq('200')
         end
 
-        it "should respond 200 okay dokay for POST" do
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "POST" }
-          expect(response.code).to eq("200")
+        it 'should respond 200 okay dokay for POST' do
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'POST'
+
+          expect(response.code).to eq('200')
         end
       end
 
       context 'for invalid login and user has role manager for project' do
         before(:each) do
           @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => false )
-          @member = FactoryGirl.create(:member, :user => valid_user,
-                                                :roles => [commit_role],
-                                                :project => @project)
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password + "made invalid")
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
+          @project = FactoryGirl.create(:project, is_public: false)
+          @member = FactoryGirl.create(:member,
+                                       user: valid_user,
+                                       roles: [commit_role],
+                                       project: @project)
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password + 'made invalid'
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET'
         end
 
-        it "should respond 401 auth required" do
-          expect(response.code).to eq("401")
+        it 'should respond 401 auth required' do
+          expect(response.code).to eq('401')
         end
       end
 
       context 'for valid login and user is not member for project' do
         before(:each) do
           @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => false)
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
+          @project = FactoryGirl.create(:project, is_public: false)
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET'
         end
 
-        it "should respond 403 not allowed" do
-          expect(response.code).to eq("403")
+        it 'should respond 403 not allowed' do
+          expect(response.code).to eq('403')
         end
       end
 
-      context "for valid login and project is public" do
+      context 'for valid login and project is public' do
         before(:each) do
           @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => true)
+          @project = FactoryGirl.create(:project, is_public: true)
 
-          random_project = FactoryGirl.create(:project, :is_public => false)
-          @member = FactoryGirl.create(:member, :user => valid_user,
-                                                :roles => [browse_role],
-                                                :project => random_project)
+          random_project = FactoryGirl.create(:project, is_public: false)
+          @member = FactoryGirl.create(:member,
+                                       user: valid_user,
+                                       roles: [browse_role],
+                                       project: random_project)
 
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET" }
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET'
         end
 
-        it "should respond 200 OK" do
-          expect(response.code).to eq("200")
+        it 'should respond 200 OK' do
+          expect(response.code).to eq('200')
         end
       end
 
-      context "for invalid credentials" do
+      context 'for invalid credentials' do
         before(:each) do
           @key = Setting.sys_api_key
-          post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET" }
+          post 'repo_auth',
+               key: @key,
+               repository: 'any-repo',
+               method: 'GET'
         end
 
-        it "should respond 401 auth required" do
-          expect(response.code).to eq("401")
-          expect(response.body).to eq("Authorization required")
+        it 'should respond 401 auth required' do
+          expect(response.code).to eq('401')
+          expect(response.body).to eq('Authorization required')
         end
       end
 
-      context "for invalid api key" do
+      context 'for invalid api key' do
         before(:each) do
-          @key = "invalid"
+          @key = 'invalid'
         end
 
-        it "should respond 403 for valid username/password" do
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-          post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET" }
-          expect(response.code).to eq("403")
-          expect(response.body).to eq("Access denied. Repository management WS is disabled or key is invalid.")
+        it 'should respond 403 for valid username/password' do
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+          post 'repo_auth',
+               key: @key,
+               repository: 'any-repo',
+               method: 'GET'
+
+          expect(response.code).to eq('403')
+          expect(response.body)
+            .to eq('Access denied. Repository management WS is disabled or key is invalid.')
         end
 
-        it "should respond 403 for invalid username/password" do
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("invalid", "invalid")
-          post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET" }
-          expect(response.code).to eq("403")
-          expect(response.body).to eq("Access denied. Repository management WS is disabled or key is invalid.")
+        it 'should respond 403 for invalid username/password' do
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              'invalid',
+              'invalid'
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: 'any-repo',
+               method: 'GET'
+
+          expect(response.code).to eq('403')
+          expect(response.body)
+            .to eq('Access denied. Repository management WS is disabled or key is invalid.')
         end
       end
     end
@@ -200,136 +284,252 @@ describe SysController, type: :controller do
       context 'for valid login, but no access to repo_auth' do
         before(:each) do
           @key = Setting.sys_api_key
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-          post "repo_auth", { :key => @key, :repository => "without-access", :method => "GET", :git_smart_http => '1', :uri => "/git", :location => '/git' }
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: 'without-access',
+               method: 'GET',
+               git_smart_http: '1',
+               uri: '/git',
+               location: '/git'
         end
 
-        it "should respond 403 not allowed" do
-          expect(response.code).to eq("403")
-          expect(response.body).to eq("Not allowed")
-        end
-      end
-
-      context 'for valid login and user has browse repository permission (role reporter) for project' do
-        before(:each) do
-          @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => false)
-          @member = FactoryGirl.create(:member, :user => valid_user,
-                                                :roles => [browse_role],
-                                                :project => @project)
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        end
-
-        it "should respond 200 okay dokay for read-only access" do
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET", :git_smart_http => '1', :uri => '/git', :location => '/git' }
-          expect(response.code).to eq("200")
-        end
-
-        it "should respond 403 not allowed for write (push)" do
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "POST", :git_smart_http => '1', :uri => "/git/#{@project.identifier}/git-receive-pack", :location => '/git' }
-          expect(response.code).to eq("403")
+        it 'should respond 403 not allowed' do
+          expect(response.code).to eq('403')
+          expect(response.body).to eq('Not allowed')
         end
       end
 
-      context 'for valid login and user has commit access permission (role developer) for project' do
+      context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
           @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => false)
-          @member = FactoryGirl.create(:member, :user => valid_user,
-                                                :roles => [commit_role],
-                                                :project => @project )
+          @project = FactoryGirl.create(:project, is_public: false)
+          @member = FactoryGirl.create(:member,
+                                       user: valid_user,
+                                       roles: [browse_role],
+                                       project: @project)
+
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+        end
+
+        it 'should respond 200 okay dokay for read-only access' do
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET',
+               git_smart_http: '1',
+               uri: '/git',
+               location: '/git'
+
+          expect(response.code).to eq('200')
+        end
+
+        it 'should respond 403 not allowed for write (push)' do
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'POST',
+               git_smart_http: '1',
+               uri: "/git/#{@project.identifier}/git-receive-pack",
+               location: '/git'
+
+          expect(response.code).to eq('403')
+        end
+      end
+
+      context 'for valid login and user has rw permission (role developer) for project' do
+        before(:each) do
+          @key = Setting.sys_api_key
+          @project = FactoryGirl.create(:project, is_public: false)
+          @member = FactoryGirl.create(:member,
+                                       user: valid_user,
+                                       roles: [commit_role],
+                                       project: @project)
           valid_user.save
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
         end
 
-        it "should respond 200 okay dokay for GET" do
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET", :git_smart_http => '1', :uri => "/git", :location => '/git' }
-          expect(response.code).to eq("200")
+        it 'should respond 200 okay dokay for GET' do
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET',
+               git_smart_http: '1',
+               uri: '/git',
+               location: '/git'
+
+          expect(response.code).to eq('200')
         end
 
-        it "should respond 200 okay dokay for POST" do
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "POST", :git_smart_http => '1', :uri => "/git/#{@project.identifier}/git-receive-pack", :location => '/git' }
-          expect(response.code).to eq("200")
+        it 'should respond 200 okay dokay for POST' do
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'POST',
+               git_smart_http: '1',
+               uri: "/git/#{@project.identifier}/git-receive-pack",
+               location: '/git'
+
+          expect(response.code).to eq('200')
         end
       end
 
       context 'for invalid login and user has role manager for project' do
         before(:each) do
           @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => false )
-          @member = FactoryGirl.create(:member, :user => valid_user,
-                                                :roles => [commit_role],
-                                                :project => @project)
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password + "made invalid")
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET", :git_smart_http => '1', :uri => "/git", :location => '/git' }
+          @project = FactoryGirl.create(:project, is_public: false)
+          @member = FactoryGirl.create(:member,
+                                       user: valid_user,
+                                       roles: [commit_role],
+                                       project: @project)
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password + 'made invalid'
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET',
+               git_smart_http: '1',
+               uri: '/git',
+               location: '/git'
         end
 
-        it "should respond 401 auth required" do
-          expect(response.code).to eq("401")
+        it 'should respond 401 auth required' do
+          expect(response.code).to eq('401')
         end
       end
 
       context 'for valid login and user is not member for project' do
         before(:each) do
           @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => false)
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET", :git_smart_http => '1', :uri => "/git", :location => '/git' }
+          @project = FactoryGirl.create(:project, is_public: false)
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET',
+               git_smart_http: '1',
+               uri: '/git',
+               location: '/git'
         end
 
-        it "should respond 403 not allowed" do
-          expect(response.code).to eq("403")
+        it 'should respond 403 not allowed' do
+          expect(response.code).to eq('403')
         end
       end
 
       context 'for valid login and project is public' do
         before(:each) do
           @key = Setting.sys_api_key
-          @project = FactoryGirl.create(:project, :is_public => true)
+          @project = FactoryGirl.create(:project, is_public: true)
 
-          random_project = FactoryGirl.create(:project, :is_public => false)
-          @member = FactoryGirl.create(:member, :user => valid_user,
-                                                :roles => [browse_role],
-                                                :project => random_project)
+          random_project = FactoryGirl.create(:project, is_public: false)
+          @member = FactoryGirl.create(:member,
+                                       user: valid_user,
+                                       roles: [browse_role],
+                                       project: random_project)
 
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-          post "repo_auth", { :key => @key, :repository => @project.identifier, :method => "GET", :git_smart_http => '1', :uri => "/git", :location => '/git' }
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+          post 'repo_auth',
+               key: @key,
+               repository: @project.identifier,
+               method: 'GET',
+               git_smart_http: '1',
+               uri: '/git',
+               location: '/git'
         end
 
-        it "should respond 200 OK" do
-          expect(response.code).to eq("200")
+        it 'should respond 200 OK' do
+          expect(response.code).to eq('200')
         end
       end
 
       context 'for invalid credentials' do
         before(:each) do
           @key = Setting.sys_api_key
-          post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET", :git_smart_http => '1', :uri => "/git", :location => '/git' }
+          post 'repo_auth',
+               key: @key,
+               repository: 'any-repo',
+               method: 'GET',
+               git_smart_http: '1',
+               uri: '/git',
+               location: '/git'
         end
 
-        it "should respond 401 auth required" do
-          expect(response.code).to eq("401")
-          expect(response.body).to eq("Authorization required")
+        it 'should respond 401 auth required' do
+          expect(response.code).to eq('401')
+          expect(response.body).to eq('Authorization required')
         end
       end
 
       context 'for invalid api key' do
         before(:each) do
-          @key = "invalid"
+          @key = 'invalid'
         end
 
-        it "should respond 403 for valid username/password" do
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-          post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET", :git_smart_http => '1', :uri => "/git", :location => '/git' }
-          expect(response.code).to eq("403")
-          expect(response.body).to eq("Access denied. Repository management WS is disabled or key is invalid.")
+        it 'should respond 403 for valid username/password' do
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              valid_user.login,
+              valid_user_password
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: 'any-repo',
+               method: 'GET',
+               git_smart_http: '1',
+               uri: '/git',
+               location: '/git'
+
+          expect(response.code).to eq('403')
+          expect(response.body)
+            .to eq('Access denied. Repository management WS is disabled or key is invalid.')
         end
 
-        it "should respond 403 for invalid username/password" do
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("invalid", "invalid")
-          post "repo_auth", { :key => @key, :repository => "any-repo", :method => "GET", :git_smart_http => '1', :uri => "/git", :location => '/git' }
-          expect(response.code).to eq("403")
-          expect(response.body).to eq("Access denied. Repository management WS is disabled or key is invalid.")
+        it 'should respond 403 for invalid username/password' do
+          request.env['HTTP_AUTHORIZATION'] =
+            ActionController::HttpAuthentication::Basic.encode_credentials(
+              'invalid',
+              'invalid'
+            )
+
+          post 'repo_auth',
+               key: @key,
+               repository: 'any-repo',
+               method: 'GET',
+               git_smart_http: '1',
+               uri: '/git',
+               location: '/git'
+
+          expect(response.code).to eq('403')
+          expect(response.body)
+            .to eq('Access denied. Repository management WS is disabled or key is invalid.')
         end
       end
     end

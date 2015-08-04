@@ -85,9 +85,9 @@ class SysController < ActionController::Base
   def repo_auth
     project = Project.find_by_identifier(params[:repository])
     if authorized?(project, @authenticated_user)
-      render :text => "Access granted"
+      render text: 'Access granted'
     else
-      render :text => "Not allowed", :status => 403 # default to deny
+      render text: 'Not allowed', status: 403 # default to deny
     end
   end
 
@@ -107,14 +107,16 @@ class SysController < ActionController::Base
 
   def authorized_with_git?(project, user, uri, location)
     read_only = !%r{^#{location}/*[^/]+/+(info/refs\?service=)?git\-receive\-pack$}o.match(uri)
-    return (read_only && user.allowed_to?(:browse_repository, project)) ||
-     user.allowed_to?(:commit_access, project)
+
+    (read_only && user.allowed_to?(:browse_repository, project)) ||
+      user.allowed_to?(:commit_access, project)
   end
 
   def authorized_with_subversion?(project, user, method)
-    read_only = %w(GET PROPFIND REPORT OPTIONS).include?(params[:method])
-    return (read_only && user.allowed_to?(:browse_repository, project)) ||
-           user.allowed_to?(:commit_access, project)
+    read_only = %w(GET PROPFIND REPORT OPTIONS).include?(method)
+
+    (read_only && user.allowed_to?(:browse_repository, project)) ||
+      user.allowed_to?(:commit_access, project)
   end
 
   def check_enabled
