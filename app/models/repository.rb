@@ -50,7 +50,7 @@ class Repository < ActiveRecord::Base
   validate :validate_enabled_scm, on: :create
 
   acts_as_countable :required_project_storage,
-                    label: :label_repository,
+                    label: 'label_repository',
                     countable: :required_disk_storage
 
   def changes
@@ -177,8 +177,9 @@ class Repository < ActiveRecord::Base
 
   def required_disk_storage
     if scm.storage_available?
+      oldest_cachable_time = Setting.repository_storage_cache_minutes.to_i.minutes.ago
       if storage_updated_at.nil? ||
-         storage_updated_at < 12.hours.ago
+         storage_updated_at < oldest_cachable_time
 
         Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(self)
       end
