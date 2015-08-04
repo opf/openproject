@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if storage.key?(:total) && storage[:total] > 0 %>
 <div class="form--field">
-  <label class="form--label" for="project_project_type_id" title="<%= l('repositories.storage.title') %>"><%= l('repositories.storage.title') %></label>
+  <label class="form--label" for="project_project_type_id" title="<%= l(:label_required_disk_storage) %>"><%= l('repositories.storage.title') %></label>
   <span class="form--field-container">
     <td align="center"><%= render partial: '/storage/required_storage',
                                   locals: { storage: storage } %></td>

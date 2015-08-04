@@ -47,13 +47,15 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
   </div>
   <dl class="attributes-key-value">
-      <dt class="attributes-key-value--key">Count</dt>
+      <dt class="attributes-key-value--key"><%= l(:label_project_count) %></dt>
       <dd class="attributes-key-value--value-container">
           <div class="attributes-key-value--value -text">
-              <span title="Count"><%= Project.count %> projects</span>
+              <span title="<%= l(:label_project_count) %>">
+                <%= l(:label_x_projects, :count => Project.count) %>
+              </span>
           </div>
       </dd>
-      <dt class="attributes-key-value--key">Storage</dt>
+      <dt class="attributes-key-value--key"><%= l(:label_required_disk_storage) %></dt>
       <dd class="attributes-key-value--value-container">
           <div class="attributes-key-value--value -text">
               <span title="0">
@@ -89,7 +91,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <tr>
         <th><%=  Project.model_name.human %></th>
         <th><%=  Project.human_attribute_name(:is_public) %></th>
-        <th><%=  l('repositories.storage.title') %></th>
+        <th><%=  l(:label_required_disk_storage) %></th>
         <th><%=  Project.human_attribute_name(:created_on) %></th>
         <th></th>
       </tr>

@@ -670,6 +670,7 @@ en:
   label_category: "Category"
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
+  label_required_disk_storage: "Required disk storage"
   label_change_plural: "Changes"
   label_change_properties: "Change properties"
   label_change_status: "Change status"
@@ -886,6 +887,7 @@ en:
   label_principal_search: "Search for users or groups"
   label_profile: "Profile"
   label_project_all: "All Projects"
+  label_project_count: "Total number of projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
   label_project_latest: "Latest projects"
   label_project_default_type: "Allow empty type"
@@ -1289,7 +1291,6 @@ en:
       managed: "Create new repository in OpenProject"
     storage:
       not_available: "Disk storage consumption is not available for this repository."
-      title: "Required disk storage"
     subversion:
       existing_title: "Existing Subversion repository"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
