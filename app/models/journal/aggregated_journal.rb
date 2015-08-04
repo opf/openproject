@@ -41,6 +41,12 @@
 #    be dropped
 class Journal::AggregatedJournal
   class << self
+    # Returns the aggregated journal that contains the specified (vanilla) journal.
+    def for_journal(vanilla_journal)
+      Journal::AggregatedJournal.aggregated_journals(journable: vanilla_journal.journable)
+                  .detect { |journal| journal.version >= vanilla_journal.version }
+    end
+
     def with_notes_id(notes_id)
       raw_journal = query_aggregated_journals
                       .where("#{table_name}.id = ?", notes_id)

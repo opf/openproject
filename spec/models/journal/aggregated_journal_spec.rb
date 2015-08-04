@@ -120,6 +120,14 @@ describe Journal::AggregatedJournal, type: :model do
         expect(subject.first.successor).to be_nil
       end
 
+      it 'returns the single journal for both original journals' do
+        expect(described_class.for_journal work_package.journals.first)
+          .to be_equivalent_to_journal subject.first
+
+        expect(described_class.for_journal work_package.journals.second)
+          .to be_equivalent_to_journal subject.first
+      end
+
       context 'with a comment' do
         let(:notes) { 'This is why I changed it.' }
 
@@ -152,6 +160,19 @@ describe Journal::AggregatedJournal, type: :model do
 
           it 'has the second as successor of the first journal' do
             expect(subject.first.successor).to be_equivalent_to_journal subject.second
+          end
+
+          it 'returns the same aggregated journal for the first two originals' do
+            expect(described_class.for_journal work_package.journals.first)
+              .to be_equivalent_to_journal subject.first
+
+            expect(described_class.for_journal work_package.journals.second)
+              .to be_equivalent_to_journal subject.first
+          end
+
+          it 'returns a different aggregated journal for the last original' do
+            expect(described_class.for_journal work_package.journals.last)
+              .to be_equivalent_to_journal subject.second
           end
         end
 
