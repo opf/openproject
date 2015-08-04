@@ -51,9 +51,22 @@ module.exports = function(
         EditableFieldsState.workPackage,
         fieldController.field
       ).then(function(values) {
-        var sorting = WorkPackageFieldConfigurationService.getDropdownSortingStrategy(fieldController.field);
+
+        var sorting = WorkPackageFieldConfigurationService
+          .getDropdownSortingStrategy(fieldController.field);
+
         if (sorting !== null) {
           values = _.sortBy(values, sorting);
+        }
+
+        if (!WorkPackageFieldService.isRequired(EditableFieldsState.workPackage,
+                                                fieldController.field)) {
+          var arrayWithEmptyOption = [{
+            href: null,
+            name: I18n.t('js.inplace.clear_value_label')
+          }];
+
+          values = arrayWithEmptyOption.concat(values);
         }
         scope.customEditorController.allowedValues = values;
         scope.fieldController.state.isBusy = false;
