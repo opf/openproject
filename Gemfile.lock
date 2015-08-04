@@ -9,6 +9,7 @@ GIT
 GIT
   remote: https://github.com/finnlabs/acts_as_countable.git
   revision: 2471265a14b011d566d3865c1c52516f970c02e1
+  ref: 2471265
   specs:
     acts_as_countable (0.1.0)
 
