@@ -67,7 +67,7 @@ module OpenProject
           if storage_available?
             count_required_storage
           else
-            raise ScmError.new I18n.t('repositories.storage.not_available')
+            raise Exceptions::ScmError.new I18n.t('repositories.storage.not_available')
           end
         end
 
