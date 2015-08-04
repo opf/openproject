@@ -94,23 +94,32 @@ PerlLoadModule Apache::OpenProjectAuthentication
 &lt;/VirtualHost&gt;
 </pre>
 
-## Automatically create repositories with reposman.rb
+## Automatically create repositories
 
-The reposman.rb script can create repositories for your newly created OpenProject projects.
-It is useful when run from a cron job (so that repositories appear 'magically' some time after you created
-a project in the OpenProject administration view).
+You can create repositories explicitly on the filesystem using managed repositories.
+Enable managed repositories for each SCM vendor individually using the templates
+defined in configuration.yml.
 
-<pre>
-ruby extra/svn/reposman.rb \
-  --openproject-host "http://127.0.0.1:3000" \
-  --owner "www-data" \
-  --group "openproject" \
-  --public-mode '2750' \
-  --private-mode '2750' \
-  --svn-dir "/srv/openproject/svn" \
-  --url "file:///srv/openproject/svn" \
-  --key "REPLACE WITH REPOSITORY API KEY" \
-  --scm Subversion \
-  --verbose
-</pre>
+### reposman.rb
+
+This functionality was previously provided in an asynchronous manner using reposman.rb.
+This script has been integrated into OpenProject.
+Please remove any existing cronjobs that still use this script.
+
+If you want to convert existing repositories previously createed (by reposman.rb or manually)
+into managed repositories, use the following command:
+
+    $ bundle exec rake scm:migrate:managed[URL prefix (, URL prefix, ...)]
+
+Where URL prefix denotes a common prefix of repositories whose status should be upgraded to `:managed`.
+Example:
+
+If you have executed reposman.rb with the following parameters:
+
+    $ reposman.rb [...] --svn-dir "/opt/svn" --url "file:///opt/svn"
+
+Then you can pass the task a URL prefix `file:///opt/svn` and the rake task will migrate all repositories
+matching this prefix to `:managed`.
+You may pass more than one URL prefix to the task.
+   
 

@@ -520,7 +520,6 @@ OpenProject::Application.routes.draw do
 
   scope controller: 'sys' do
     match '/sys/projects.:format', action: 'projects', via: :get
-    match '/sys/projects/:id/repository.:format', action: 'create_project_repository', via: :post
   end
 
   # alternate routes for the current user
