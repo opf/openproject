@@ -201,7 +201,7 @@ describe JournalNotificationMailer do
     #   (because someone else will do it on behalf)
     #   This is important since late exec of a Job might cause it to _not_ skip notifications
 
-    let(:author) { FactoryGirl.create(:user) }
+    let(:author) { user }
     let(:notifications) { ['work_package_updated'] }
     let(:timeout) { Setting.journal_aggregation_time_minutes.to_i.minutes }
 
@@ -262,10 +262,8 @@ describe JournalNotificationMailer do
         include_context 'updated until Journal 3'
 
         before do
-          journal_2.created_at = journal_1.created_at + (timeout / 2)
-          journal_3.created_at = journal_1.created_at + timeout + 5.seconds
-          journal_2.save!
-          journal_3.save!
+          journal_2.update_attribute(:created_at, journal_1.created_at + (timeout / 2))
+          journal_3.update_attribute(:created_at, journal_1.created_at + timeout + 5.seconds)
         end
 
         it 'immediately delivers a mail on behalf of Journal 1' do
@@ -292,14 +290,28 @@ describe JournalNotificationMailer do
         include_context 'updated until Journal 3'
 
         before do
-          journal_2.created_at = journal_1.created_at + (timeout / 2)
-          journal_3.created_at = journal_2.created_at + timeout + 5.seconds
-          journal_2.save!
-          journal_3.save!
+          journal_2.update_attribute(:created_at, journal_1.created_at + (timeout / 2))
+          journal_3.update_attribute(:created_at, journal_2.created_at + timeout + 5.seconds)
         end
 
         it_behaves_like 'enqueues a regular notification'
       end
+    end
+
+    context 'two subsequent changes after timeout of another journal' do
+      # This is a normal case again, because handling edge cases makes us miss on the normal cases
+
+      before do
+        work_package.journals.first.update_attribute(:created_at, (timeout + 5.seconds).ago)
+        work_package.reload
+
+        expect(work_package.update_by!(author, { done_ratio: 50 })).to be_truthy
+        work_package.reload
+        expect(work_package.update_by!(author, { done_ratio: 60 })).to be_truthy
+        work_package.reload
+      end
+
+      it_behaves_like 'enqueues a regular notification'
     end
   end
 end
