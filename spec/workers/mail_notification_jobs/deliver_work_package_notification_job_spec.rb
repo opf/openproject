@@ -144,4 +144,18 @@ describe DeliverWorkPackageNotificationJob, type: :model do
       end
     end
   end
+
+  describe 'exceptions' do
+    describe 'exceptions should be raised' do
+      before do
+        mail = double('mail')
+        allow(mail).to receive(:deliver).and_raise(SocketError)
+        expect(UserMailer).to receive(:work_package_added).and_return(mail)
+      end
+
+      it 'raises the error' do
+        expect { subject.perform }.to raise_error(SocketError)
+      end
+    end
+  end
 end

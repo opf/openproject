@@ -73,7 +73,7 @@ describe WorkPackagesController, type: :controller do
       # Find the enqueued job responsible for sending the notification
       # for the creation of the work package.
       Delayed::Job.all.map(&:payload_object).detect do |job|
-        if job.is_a? DeliverWorkPackageNotificationJob
+        if job.is_a? EnqueueWorkPackageNotificationJob
           job.send(:work_package) == work_package
         end
       end
@@ -123,10 +123,6 @@ describe WorkPackagesController, type: :controller do
       describe 'notification job' do
         it 'is enqueued' do
           expect(job).to be_present
-        end
-
-        it 'fails' do
-          expect { job.perform }.to raise_error(SocketError)
         end
       end
     end
