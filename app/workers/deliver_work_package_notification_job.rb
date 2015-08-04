@@ -27,53 +27,54 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Requires including class to implement #notification_mail.
-class MailNotificationJob
-  mattr_accessor :raise_exceptions
-
-  def initialize(recipient_id, author_id)
-    @recipient_id = recipient_id
-    @author_id    = author_id
+class DeliverWorkPackageNotificationJob
+  def initialize(journal_id, author_id)
+    @journal_id = journal_id
+    @author_id = author_id
   end
 
   def perform
-    execute_as recipient do
-      notify
+    return unless raw_journal # abort, assuming that the underlying WP was deleted
+
+    journal = find_aggregated_journal
+
+    # The caller should have ensured that the journal can't outdate anymore
+    # before queuing a notification
+    raise 'aggregated journal got outdated' unless journal
+
+    notification_receivers(work_package).uniq.each do |recipient|
+      mail = User.execute_as(recipient) {
+        if journal.initial?
+          UserMailer.work_package_added(recipient, work_package, author)
+        else
+          UserMailer.work_package_updated(recipient, journal, author)
+        end
+      }
+
+      mail.deliver
     end
-  rescue ActiveRecord::RecordNotFound => e
-    # Expecting this error if recipient user was deleted intermittently.
-    # Since we cannot recover from this error we catch it and move on.
-    Rails.logger.error "Cannot deliver notification (#{self.inspect})
-                        as required record was not found: #{e}".squish
-    raise e if raise_exceptions
-  end
-
-  def error(_job, e)
-    Rails.logger.error "notification failed (#{self.inspect}): #{e}"
-  end
-
-  protected
-
-  def recipient
-    @recipient ||= Principal.find(@recipient_id)
-  end
-
-  def author
-    @author ||= Principal.find(@author_id)
   end
 
   private
 
-  def notify
-    notification_mail.deliver
+  def find_aggregated_journal
+    wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: work_package)
+    wp_journals.detect { |journal| journal.version == raw_journal.version }
   end
 
-  def execute_as(user)
-    previous_user = User.current
-    User.current = user
-    yield
-  ensure
-    User.current = previous_user
+  def notification_receivers(work_package)
+    work_package.recipients + work_package.watcher_recipients
+  end
+
+  def raw_journal
+    @raw_journal ||= Journal.find_by_id(@journal_id)
+  end
+
+  def work_package
+    @work_package ||= raw_journal.journable
+  end
+
+  def author
+    @author ||= User.find_by_id(@author_id) || DeletedUser.first
   end
 end

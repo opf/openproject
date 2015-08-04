@@ -49,13 +49,18 @@ class Journal::AggregatedJournal
       raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
     end
 
-    def aggregated_journals(journable: nil)
-      query_aggregated_journals(journable: journable).map { |journal|
+    ##
+    # The +journable+ parameter allows to filter for aggregated journals of a given journable.
+    #
+    # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
+    # to see the aggregated journals as if no versions were known after the specified version.
+    def aggregated_journals(journable: nil, until_version: nil)
+      query_aggregated_journals(journable: journable, until_version: until_version).map { |journal|
         Journal::AggregatedJournal.new(journal)
       }
     end
 
-    def query_aggregated_journals(journable: nil)
+    def query_aggregated_journals(journable: nil, until_version: nil)
       # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
       # where an entry with empty notes follows an entry containing notes, so that the notes
       # from the main entry are taken, while the remaining information is taken from the
@@ -68,10 +73,10 @@ class Journal::AggregatedJournal
       # that our own row (master) would not already have been merged by its predecessor. If it is
       # (that means if we can find a valid predecessor), we drop our current row, because it will
       # already be present (in a merged form) in the row of our predecessor.
-      Journal.from("(#{sql_rough_group(journable, 1)}) #{table_name}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, 2)}) addition
+      Journal.from("(#{sql_rough_group(journable, until_version, 1)}) #{table_name}")
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, 2)}) addition
                               ON #{sql_on_groups_belong_condition(table_name, 'addition')}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, 3)}) predecessor
+      .joins("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, 3)}) predecessor
                          ON #{sql_on_groups_belong_condition('predecessor', table_name)}")
       .where('predecessor.id IS NULL')
       .order("COALESCE(addition.created_at, #{table_name}.created_at) ASC")
@@ -80,10 +85,46 @@ class Journal::AggregatedJournal
                #{table_name}.user_id,
                #{table_name}.notes,
                #{table_name}.id \"notes_id\",
+               #{table_name}.version \"notes_version\",
                #{table_name}.activity_type,
                COALESCE(addition.created_at, #{table_name}.created_at) \"created_at\",
                COALESCE(addition.id, #{table_name}.id) \"id\",
-               COALESCE(addition.version, #{table_name}.version) \"version\"")
+               #{version_projection} \"version\"")
+    end
+
+    # Returns whether "notification-hiding" should be assumed for the given journal pair.
+    # This leads to an aggregated journal effectively blocking notifications of an earlier journal,
+    # because it "steals" the addition from its predecessor. See the specs section under
+    # "mail suppressing aggregation" (for EnqueueWorkPackageNotificationJob) for more details
+    def hides_notifications?(successor, predecessor)
+      return false unless successor && predecessor
+
+      timeout = Setting.journal_aggregation_time_minutes.to_i.minutes
+
+      if successor.journable_type != predecessor.journable_type ||
+         successor.journable_id != predecessor.journable_id ||
+         successor.user_id != predecessor.user_id ||
+         (successor.created_at - predecessor.created_at) <= timeout
+        return false
+      end
+
+      # imaginary state in which the successor never existed
+      # if this makes the predecessor disappear, the successor must have taken journals
+      # from it (that now became part of the predecessor again).
+      !Journal::AggregatedJournal
+        .query_aggregated_journals(
+          journable: successor.journable,
+          until_version: successor.version - 1)
+        .where("#{version_projection} = #{predecessor.version}")
+        .exists?
+    end
+
+    def table_name
+      Journal.table_name
+    end
+
+    def version_projection
+      "COALESCE(addition.version, #{table_name}.version)"
     end
 
     private
@@ -97,13 +138,18 @@ class Journal::AggregatedJournal
     # To be able to self-join results of this statement, we add an additional column called
     # "group_number" to the result. This allows to compare a group resulting from this query with
     # its predecessor and successor.
-    def sql_rough_group(journable, uid)
+    def sql_rough_group(journable, until_version, uid)
+      if until_version && !journable
+        raise 'need to provide a journable, when specifying a version limit'
+      end
+
       sql = "SELECT predecessor.*, #{sql_group_counter(uid)} AS group_number
       FROM #{sql_rough_group_from_clause(uid)}
       LEFT OUTER JOIN journals successor
         ON predecessor.version + 1 = successor.version AND
            predecessor.journable_type = successor.journable_type AND
            predecessor.journable_id = successor.journable_id
+           #{until_version ? " AND successor.version <= #{until_version}" : ''}
       WHERE (predecessor.user_id != successor.user_id OR
             (predecessor.notes != '' AND predecessor.notes IS NOT NULL) OR
             #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
@@ -113,6 +159,10 @@ class Journal::AggregatedJournal
         raise 'journable has no id' if journable.id.nil?
         sql += " AND predecessor.journable_type = '#{journable.class.name}' AND
                      predecessor.journable_id = #{journable.id}"
+
+        if until_version
+          sql += " AND predecessor.version <= #{until_version}"
+        end
       end
 
       sql
@@ -163,7 +213,7 @@ class Journal::AggregatedJournal
     # to be considered for aggregation. This takes the current instance settings for temporal
     # proximity into account.
     def sql_beyond_aggregation_time?(predecessor, successor)
-      aggregation_time_seconds = Setting.journal_aggregation_time_minutes.to_i * 60
+      aggregation_time_seconds = Setting.journal_aggregation_time_minutes.to_i.minutes
 
       if OpenProject::Database.mysql?
         difference = "TIMESTAMPDIFF(second, #{predecessor}.created_at, #{successor}.created_at)"
@@ -174,10 +224,6 @@ class Journal::AggregatedJournal
       end
 
       "(#{difference} > #{threshold})"
-    end
-
-    def table_name
-      Journal.table_name
     end
   end
 
@@ -197,6 +243,7 @@ class Journal::AggregatedJournal
            :user_id,
            :user,
            :notes,
+           :notes?,
            :activity_type,
            :created_at,
            :id,
@@ -222,17 +269,30 @@ class Journal::AggregatedJournal
 
   def predecessor
     unless defined? @predecessor
-      version_sql = "COALESCE(addition.version, #{Journal.table_name}.version)"
       raw_journal = self.class.query_aggregated_journals(journable: journable)
-                    .where("#{version_sql} < ?", version)
+                    .where("#{self.class.version_projection} < ?", version)
                     .except(:order)
-                    .order("#{version_sql} DESC")
+                    .order("#{self.class.version_projection} DESC")
                     .first
 
       @predecessor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
     end
 
     @predecessor
+  end
+
+  def successor
+    unless defined? @successor
+      raw_journal = self.class.query_aggregated_journals(journable: journable)
+                      .where("#{self.class.version_projection} > ?", version)
+                      .except(:order)
+                      .order("#{self.class.version_projection} ASC")
+                      .first
+
+      @successor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
+    end
+
+    @successor
   end
 
   def initial?
@@ -248,6 +308,10 @@ class Journal::AggregatedJournal
   # Thus we need to ensure manually that this column is correctly casted.
   def notes_id
     ActiveRecord::ConnectionAdapters::Column.value_to_integer(journal.notes_id)
+  end
+
+  def notes_version
+    ActiveRecord::ConnectionAdapters::Column.value_to_integer(journal.notes_version)
   end
 
   private
