@@ -934,14 +934,13 @@ class Project < ActiveRecord::Base
 
   def required_storage
     Rails.cache.fetch("project##{id}/project_storage", expires_in: 1.hour) do
-      storage, = count_for(:required_project_storage)
-      storage
+      count_for(:required_project_storage).first
     end
   end
 
   def self.total_projects_size
     Rails.cache.fetch('projects/total_projects_size', expires_in: 1.hour) do
-      Project.all.map{ |p| p.required_storage[:total] }.sum
+      Project.all.map { |p| p.required_storage[:total] }.sum
     end
   end
 
