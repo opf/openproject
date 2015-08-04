@@ -123,8 +123,8 @@ describe Repository::Git, type: :model do
       end
 
       it 'should fetch changesets from scratch' do
-        expect(instance.changesets.count).to eq(21)
-        expect(instance.changes.count).to eq(33)
+        expect(instance.changesets.count).to eq(22)
+        expect(instance.changes.count).to eq(34)
 
         commit = instance.changesets.reorder('committed_on ASC').first
         expect(commit.comments).to eq("Initial import.\nThe repository contains 3 files.")
@@ -146,18 +146,18 @@ describe Repository::Git, type: :model do
         # Remove the 3 latest changesets
         instance.changesets.find(:all, order: 'committed_on DESC', limit: 8).each(&:destroy)
         instance.reload
-        expect(instance.changesets.count).to eq(13)
+        expect(instance.changesets.count).to eq(14)
 
         rev_a_commit = instance.changesets.order('committed_on DESC').first
-        expect(rev_a_commit.revision).to eq('4f26664364207fa8b1af9f8722647ab2d4ac5d43')
-        expect(rev_a_commit.scmid).to eq('4f26664364207fa8b1af9f8722647ab2d4ac5d43')
+        expect(rev_a_commit.revision).to eq('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
+        expect(rev_a_commit.scmid).to eq('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
         # Mon Jul 5 22:34:26 2010 +0200
-        committed_on = Time.gm(2010, 7, 5, 20, 34, 26)
+        committed_on = Time.gm(2010, 9, 18, 19, 59, 46)
         expect(rev_a_commit.committed_on).to eq(committed_on)
         expect(instance.latest_changeset.committed_on).to eq(committed_on)
 
         instance.fetch_changesets
-        expect(instance.changesets.count).to eq(21)
+        expect(instance.changesets.count).to eq(22)
       end
 
       describe '.latest_changesets' do
@@ -296,7 +296,7 @@ describe Repository::Git, type: :model do
       end
 
       it 'should next nil' do
-        %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
+        %w|71e5c1d3dca6304805b143b9d0e6695fb3895ea4 71e5c1d3|.each do |r1|
           changeset = instance.find_changeset_by_name(r1)
           expect(changeset.next).to be_nil
         end
