@@ -74,11 +74,16 @@ td.comment {
   text-align: left;
 }
 
-table.labor_budget_items td.hours,
-td.units {
+table.labor_budget_items, td.hours {
   font-weight: normal;
   padding-right: .5em;
   text-align: right;
+}
+
+td.units {
+  font-weight: normal;
+  padding-right: .5em;
+  text-align: left;
 }
 
 
@@ -95,6 +100,25 @@ td.comment input {
 
 .inline_editable {
   cursor: pointer;
+}
+
+.budget_fieldset{
+  margin: 8px 2px;
+}
+
+.budget_table_inputFields{
+  vertical-align: top !important;
+  padding: 6px 6px;
+}
+
+.budget_table_fields{
+  vertical-align: top !important;
+  padding: 15px 6px;
+  text-align: left;
+}
+
+#submit_button{
+  margin: 1rem 1rem 1rem 0.1rem;
 }
 
 table.progress td.exceeded { background: #E1B9B9 none repeat scroll 0%; }

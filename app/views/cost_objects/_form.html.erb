@@ -44,11 +44,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   //]]>
 </script>
 
-<fieldset id="material_budget_items_fieldset">
+<fieldset id="material_budget_items_fieldset" class="budget_fieldset">
   <legend><%= VariableCostObject.human_attribute_name(:material_budget) %></legend>
   <table class="list material_budget_items" id="material_budget_items">
     <thead><tr>
-      <th class="cost_units"><%= MaterialBudgetItem.human_attribute_name(:units) %></th>
+      <th class="cost_units">Amount</th>
+      <th>Unit</th>
       <th><%= MaterialBudgetItem.human_attribute_name(:cost_type) %></th>
       <th><%= MaterialBudgetItem.human_attribute_name(:comment) %></th>
       <% if User.current.allowed_to?(:view_cost_rates, @project)%><th class="currency" id="material_budget_items_price"><%= MaterialBudgetItem.human_attribute_name(:budget) %></th><%end%>
@@ -63,7 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <div style="text-align: right"><%= link_to_function l(:button_add_budget_item), "materialBudgetItemsForm.add()", {:class => "icon-context icon-add"} %></div>
 </fieldset>
 
-<fieldset id="labor_budget_items_fieldset">
+<fieldset id="labor_budget_items_fieldset" class="budget_fieldset">
   <legend><%= VariableCostObject.human_attribute_name(:labor_budget) %></legend>
   <table class="list labor_budget_items" id="labor_budget_items">
     <thead><tr>
