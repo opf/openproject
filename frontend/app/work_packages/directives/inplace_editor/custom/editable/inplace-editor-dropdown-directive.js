@@ -26,7 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $timeout) {
+module.exports = function(
+    WorkPackageFieldService,
+    WorkPackageFieldConfigurationService,
+    EditableFieldsState,
+    I18n,
+    $timeout) {
   return {
     restrict: 'E',
     transclude: true,
@@ -46,6 +51,10 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $t
         EditableFieldsState.workPackage,
         fieldController.field
       ).then(function(values) {
+        var sorting = WorkPackageFieldConfigurationService.getDropdownSortingStrategy(fieldController.field);
+        if (sorting !== null) {
+          values = _.sortBy(values, sorting);
+        }
         scope.customEditorController.allowedValues = values;
         scope.fieldController.state.isBusy = false;
         if (!EditableFieldsState.forcedEditState) {
