@@ -331,35 +331,55 @@ describe OpenProject::Scm::Adapters::Git do
           end
         end
 
-        context 'with default encoding' do
-          it_behaves_like 'retrieve entries'
-        end
-
-        context 'with latin-1 encoding' do
-          let (:encoding) { 'ISO-8859-1' }
+        describe 'encoding' do
           let (:char1_hex) { "\xc3\x9c".force_encoding('UTF-8') }
 
-          it_behaves_like 'retrieve entries'
+          context 'with default encoding' do
+            it_behaves_like 'retrieve entries'
 
-          it 'can be retrieved with latin-1 encoding' do
-            entries = adapter.entries('latin-1-dir', '64f1f3e8')
-            expect(entries.length).to eq(3)
-            f1 = entries[1]
+            it 'can retrieve directories containing entries encoded in latin-1' do
+              entries = adapter.entries('latin-1-dir', '64f1f3e8')
+              f1 = entries[1]
 
-            expect(f1.name).to eq("test-#{char1_hex}-2.txt")
-            expect(f1.path).to eq("latin-1-dir/test-#{char1_hex}-2.txt")
-            expect(f1).to be_file
+              expect(f1.name).to eq("test-\xDC-2.txt")
+              expect(f1.path).to eq("latin-1-dir/test-\xDC-2.txt")
+              expect(f1).to be_file
+            end
+
+            it 'cannot retrieve files with latin-1 encoding in their path' do
+              entries = adapter.entries('latin-1-dir', '64f1f3e8')
+              latin1_path = entries[1].path
+
+              expect { adapter.entries(latin1_path, '1ca7f5ed') }
+                .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+            end
           end
 
-          it 'can be retrieved with latin-1 directories' do
-            entries = adapter.entries("latin-1-dir/test-#{char1_hex}-subdir",
-                                      '1ca7f5ed')
-            expect(entries.length).to eq(3)
-            f1 = entries[1]
+          context 'with latin-1 encoding' do
+            let (:encoding) { 'ISO-8859-1' }
 
-            expect(f1).to be_file
-            expect(f1.name).to eq("test-#{char1_hex}-2.txt")
-            expect(f1.path).to eq("latin-1-dir/test-#{char1_hex}-subdir/test-#{char1_hex}-2.txt")
+            it_behaves_like 'retrieve entries'
+
+            it 'can be retrieved with latin-1 encoding' do
+              entries = adapter.entries('latin-1-dir', '64f1f3e8')
+              expect(entries.length).to eq(3)
+              f1 = entries[1]
+
+              expect(f1.name).to eq("test-#{char1_hex}-2.txt")
+              expect(f1.path).to eq("latin-1-dir/test-#{char1_hex}-2.txt")
+              expect(f1).to be_file
+            end
+
+            it 'can be retrieved with latin-1 directories' do
+              entries = adapter.entries("latin-1-dir/test-#{char1_hex}-subdir",
+                                        '1ca7f5ed')
+              expect(entries.length).to eq(3)
+              f1 = entries[1]
+
+              expect(f1).to be_file
+              expect(f1.name).to eq("test-#{char1_hex}-2.txt")
+              expect(f1.path).to eq("latin-1-dir/test-#{char1_hex}-subdir/test-#{char1_hex}-2.txt")
+            end
           end
         end
       end
@@ -403,6 +423,15 @@ describe OpenProject::Scm::Adapters::Git do
 
           expect { adapter.annotate('/path/outside/repository') }
             .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+        end
+
+        it 'should return nil for binary path' do
+          expect(adapter.annotate('images/edit.png')).to be_nil
+        end
+
+        # We should rethink the output of annotated files for these formats.
+        it 'also returns nil for UTF-16 encoded file' do
+          expect(adapter.annotate('utf16.txt')).to be_nil
         end
       end
 

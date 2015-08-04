@@ -299,7 +299,7 @@ module OpenProject
           args = %w|blame --encoding=UTF-8|
           args << '-p' << identifier << '--' << scm_encode(@path_encoding, 'UTF-8', path)
           blame = Annotate.new
-          content = capture_git(args)
+          content = capture_git(args, binmode: true)
 
           # Deny to parse large binary files
           # Quick test for null bytes, this may not match all files,
