@@ -89,7 +89,7 @@ class Journal::AggregatedJournal
                #{table_name}.activity_type,
                COALESCE(addition.created_at, #{table_name}.created_at) \"created_at\",
                COALESCE(addition.id, #{table_name}.id) \"id\",
-               COALESCE(addition.version, #{table_name}.version) \"version\"")
+               #{version_projection} \"version\"")
     end
 
     # Returns whether "notification-hiding" should be assumed for the given journal pair.
@@ -102,20 +102,29 @@ class Journal::AggregatedJournal
       timeout = Setting.journal_aggregation_time_minutes.to_i.minutes
 
       if successor.journable_type != predecessor.journable_type ||
-        successor.journable_id != predecessor.journable_id ||
-        successor.user_id != predecessor.user_id ||
-        (successor.created_at - predecessor.created_at) <= timeout
+         successor.journable_id != predecessor.journable_id ||
+         successor.user_id != predecessor.user_id ||
+         (successor.created_at - predecessor.created_at) <= timeout
         return false
       end
 
       # imaginary state in which the successor never existed
-      # if this leads to a state change of the predecessor, the successor must have taken journals
-      # from it.
-      pred_without_succ = Journal::AggregatedJournal.aggregated_journals(
-        journable: successor.journable,
-        until_version: successor.notes_version - 1).last
+      # if this makes the predecessor disappear, the successor must have taken journals
+      # from it (that now became part of the predecessor again).
+      !Journal::AggregatedJournal
+        .query_aggregated_journals(
+          journable: successor.journable,
+          until_version: successor.version - 1)
+        .where("#{version_projection} = #{predecessor.version}")
+        .exists?
+    end
 
-      predecessor.id != pred_without_succ.id
+    def table_name
+      Journal.table_name
+    end
+
+    def version_projection
+      "COALESCE(addition.version, #{table_name}.version)"
     end
 
     private
@@ -216,10 +225,6 @@ class Journal::AggregatedJournal
 
       "(#{difference} > #{threshold})"
     end
-
-    def table_name
-      Journal.table_name
-    end
   end
 
   include JournalChanges
@@ -264,11 +269,10 @@ class Journal::AggregatedJournal
 
   def predecessor
     unless defined? @predecessor
-      version_sql = "COALESCE(addition.version, #{Journal.table_name}.version)"
       raw_journal = self.class.query_aggregated_journals(journable: journable)
-                    .where("#{version_sql} < ?", version)
+                    .where("#{self.class.version_projection} < ?", version)
                     .except(:order)
-                    .order("#{version_sql} DESC")
+                    .order("#{self.class.version_projection} DESC")
                     .first
 
       @predecessor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
@@ -279,11 +283,10 @@ class Journal::AggregatedJournal
 
   def successor
     unless defined? @successor
-      version_sql = "COALESCE(addition.version, #{Journal.table_name}.version)"
       raw_journal = self.class.query_aggregated_journals(journable: journable)
-                      .where("#{version_sql} > ?", version)
+                      .where("#{self.class.version_projection} > ?", version)
                       .except(:order)
-                      .order("#{version_sql} ASC")
+                      .order("#{self.class.version_projection} ASC")
                       .first
 
       @successor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
