@@ -126,6 +126,15 @@ describe JournalNotificationMailer do
         let(:notifications) { ['work_package_updated'] }
 
         it_behaves_like 'enqueues a regular notification'
+
+        context 'WP creation' do
+          let(:journal) { FactoryGirl.create(:work_package).journals.first }
+
+          it 'sends no notification' do
+            expect(Delayed::Job).not_to receive(:enqueue)
+            call_listener
+          end
+        end
       end
 
       it 'sends no notification' do
