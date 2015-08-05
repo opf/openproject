@@ -27,19 +27,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWorkPackageCreatedJob < MailNotificationJob
-  def initialize(recipient_id, work_package_id, author_id)
-    super(recipient_id, author_id)
-    @work_package_id = work_package_id
+class Scm::StorageUpdaterJob
+  def initialize(repository)
+    @id = repository.id
+
+    unless repository.scm.storage_available?
+      raise OpenProject::Scm::Exceptions::ScmError.new(
+        I18n.t('repositories.storage.not_available')
+      )
+    end
+  end
+
+  def perform
+    bytes = repository.scm.count_repository!
+
+    repository.update_attributes!(
+      required_storage_bytes: bytes,
+      storage_updated_at: Time.now,
+    )
+  end
+
+  def destroy_failed_jobs?
+    true
   end
 
   private
 
-  def notification_mail
-    @notification_mail ||= UserMailer.work_package_added(recipient, work_package, author)
-  end
-
-  def work_package
-    @work_package ||= WorkPackage.find(@work_package_id)
+  def repository
+    @repository ||= Repository.find @id
   end
 end

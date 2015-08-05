@@ -27,6 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# Disable mail delivery for the duration of this task
+ActionMailer::Base.perform_deliveries = false
+
+# Avoid asynchronous DeliverWorkPackageCreatedJob
+Delayed::Worker.delay_jobs = false
+
 # remove password-reset flag from admin user
 # (the default password is OK in dev mode)
 admin = User.where(login: 'admin').first

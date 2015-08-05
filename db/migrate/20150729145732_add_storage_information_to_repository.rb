@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,54 +25,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-##
-# Requires including class to implement #notification_mail.
-class MailNotificationJob
-  mattr_accessor :raise_exceptions
-
-  def initialize(recipient_id, author_id)
-    @recipient_id = recipient_id
-    @author_id    = author_id
-  end
-
-  def perform
-    execute_as recipient do
-      notify
-    end
-  rescue ActiveRecord::RecordNotFound => e
-    # Expecting this error if recipient user was deleted intermittently.
-    # Since we cannot recover from this error we catch it and move on.
-    Rails.logger.error "Cannot deliver notification (#{self.inspect})
-                        as required record was not found: #{e}".squish
-    raise e if raise_exceptions
-  end
-
-  def error(_job, e)
-    Rails.logger.error "notification failed (#{self.inspect}): #{e}"
-  end
-
-  protected
-
-  def recipient
-    @recipient ||= Principal.find(@recipient_id)
-  end
-
-  def author
-    @author ||= Principal.find(@author_id)
-  end
-
-  private
-
-  def notify
-    notification_mail.deliver
-  end
-
-  def execute_as(user)
-    previous_user = User.current
-    User.current = user
-    yield
-  ensure
-    User.current = previous_user
+class AddStorageInformationToRepository < ActiveRecord::Migration
+  def change
+    add_column :repositories, :required_storage_bytes, :integer,
+               limit: 8, null: false, default: 0
+    add_column :repositories, :storage_updated_at, :datetime
   end
 end

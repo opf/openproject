@@ -37,21 +37,19 @@ describe Journal, type: :model do
     end
   end
 
-  it 'should create should send email notification' do
-    ActionMailer::Base.deliveries.clear
+  it 'create should send email notification' do
     issue = WorkPackage.find(:first)
     if issue.journals.empty?
       issue.add_journal(User.current, 'This journal represents the creationa of journal version 1')
       issue.save
     end
-    user = User.find(:first)
-    assert_equal 0, ActionMailer::Base.deliveries.size
+    ActionMailer::Base.deliveries.clear
     issue.reload
     issue.update_attribute(:subject, 'New subject to trigger automatic journal entry')
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
-  it 'should create should not send email notification if told not to' do
+  it 'create should not send email notification if told not to' do
     ActionMailer::Base.deliveries.clear
     issue = WorkPackage.find(:first)
     user = User.find(:first)
