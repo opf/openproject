@@ -296,23 +296,20 @@ module OpenProject
 
         def annotate(path, identifier = nil)
           identifier = 'HEAD' if identifier.blank?
-          args = %w|blame|
+          args = %w|blame --encoding=UTF-8|
           args << '-p' << identifier << '--' << scm_encode(@path_encoding, 'UTF-8', path)
           blame = Annotate.new
           content = capture_git(args, binmode: true)
 
-          if content.respond_to?(:force_encoding) &&
-             (content.dup.force_encoding('UTF-8') != content.dup.force_encoding('BINARY'))
-
-            # Ruby 1.9.2
-            # TODO: need to handle edge cases of non-binary content that isn't UTF-8
-            return nil
-          end
+          # Deny to parse large binary files
+          # Quick test for null bytes, this may not match all files,
+          # but should be a reasonable workaround
+          return nil if content.dup.force_encoding('BINARY').count("\x00") > 0
 
           identifier = ''
           # git shows commit author on the first occurrence only
           authors_by_commit = {}
-          content.split("\n").each do |line|
+          content.scrub.split("\n").each do |line|
             if line =~ /^([0-9a-f]{39,40})\s.*/
               identifier = $1
             elsif line =~ /^author (.+)/

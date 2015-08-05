@@ -226,6 +226,11 @@ module RepositoriesHelper
               )
   end
 
+  def git_path_encoding_options(repository)
+    default = repository.new_record? ? 'UTF-8' : repository.path_encoding
+    options_for_select(Setting::ENCODINGS, default)
+  end
+
   ##
   # Determines whether the repository settings save button should be shown.
   # By default, it is not shown when repository exists and is managed.

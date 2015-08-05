@@ -151,7 +151,7 @@ describe OpenProject::Scm::Adapters::Git do
         it 'builds the info object' do
           info = adapter.info
           expect(info.root_url).to eq(repo_dir)
-          expect(info.lastrev.identifier).to eq('83ca5fd546063a3c7dc2e568ba3355661a9e2b2c')
+          expect(info.lastrev.identifier).to eq('71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
         end
       end
 
@@ -160,7 +160,7 @@ describe OpenProject::Scm::Adapters::Git do
 
         it 'references the last revision for empty path' do
           lastrev = adapter.lastrev('', nil)
-          expect(lastrev.identifier).to eq('83ca5fd546063a3c7dc2e568ba3355661a9e2b2c')
+          expect(lastrev.identifier).to eq('71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
         end
 
         it 'references the last revision of the given path' do
@@ -202,13 +202,13 @@ describe OpenProject::Scm::Adapters::Git do
       describe '.revisions' do
         it 'should retrieve all revisions' do
           rev = adapter.revisions('', nil, nil, all: true)
-          expect(rev.length).to eq(21)
+          expect(rev.length).to eq(22)
         end
 
         it 'should retrieve the latest revision' do
           rev = adapter.revisions('', nil, nil, all: true)
-          expect(rev.latest.identifier).to eq('1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127')
-          expect(rev.latest.format_identifier).to eq('1ca7f5ed')
+          expect(rev.latest.identifier).to eq('71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
+          expect(rev.latest.format_identifier).to eq('71e5c1d3')
         end
 
         it 'should retrieve a certain revisions' do
@@ -220,7 +220,7 @@ describe OpenProject::Scm::Adapters::Git do
 
         it 'should retrieve revisions in reverse' do
           rev = adapter.revisions('', nil, nil, all: true, reverse: true)
-          expect(rev.length).to eq(21)
+          expect(rev.length).to eq(22)
           expect(rev[0].identifier).to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
           expect(rev[20].identifier).to eq('1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127')
         end
@@ -228,17 +228,20 @@ describe OpenProject::Scm::Adapters::Git do
         it 'should retrieve revisions in a specific time frame' do
           since = Time.gm(2010, 9, 30, 0, 0, 0)
           rev = adapter.revisions('', nil, nil, all: true, since: since)
-          expect(rev.length).to eq(6)
-          expect(rev[0].identifier).to eq('1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127')
-          expect(rev[5].identifier).to eq('67e7792ce20ccae2e4bb73eed09bb397819c8834')
+          expect(rev.length).to eq(7)
+          expect(rev[0].identifier).to eq('71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
+          expect(rev[1].identifier).to eq('1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127')
+          expect(rev[5].identifier).to eq('9a6f3b947d16f11b537363a60904d1b1d3bfcd2f')
+          expect(rev[6].identifier).to eq('67e7792ce20ccae2e4bb73eed09bb397819c8834')
         end
 
         it 'should retrieve revisions in a specific time frame in reverse' do
           since = Time.gm(2010, 9, 30, 0, 0, 0)
           rev = adapter.revisions('', nil, nil, all: true, since: since, reverse: true)
-          expect(rev.length).to eq(6)
+          expect(rev.length).to eq(7)
           expect(rev[0].identifier).to eq('67e7792ce20ccae2e4bb73eed09bb397819c8834')
           expect(rev[5].identifier).to eq('1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127')
+          expect(rev[6].identifier).to eq('71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
         end
 
         it 'should retrieve revisions by filename' do
@@ -328,35 +331,55 @@ describe OpenProject::Scm::Adapters::Git do
           end
         end
 
-        context 'with default encoding' do
-          it_behaves_like 'retrieve entries'
-        end
-
-        context 'with latin-1 encoding' do
-          let (:encoding) { 'ISO-8859-1' }
+        describe 'encoding' do
           let (:char1_hex) { "\xc3\x9c".force_encoding('UTF-8') }
 
-          it_behaves_like 'retrieve entries'
+          context 'with default encoding' do
+            it_behaves_like 'retrieve entries'
 
-          it 'can be retrieved with latin-1 encoding' do
-            entries = adapter.entries('latin-1-dir', '64f1f3e8')
-            expect(entries.length).to eq(3)
-            f1 = entries[1]
+            it 'can retrieve directories containing entries encoded in latin-1' do
+              entries = adapter.entries('latin-1-dir', '64f1f3e8')
+              f1 = entries[1]
 
-            expect(f1.name).to eq("test-#{char1_hex}-2.txt")
-            expect(f1.path).to eq("latin-1-dir/test-#{char1_hex}-2.txt")
-            expect(f1).to be_file
+              expect(f1.name).to eq("test-\xDC-2.txt")
+              expect(f1.path).to eq("latin-1-dir/test-\xDC-2.txt")
+              expect(f1).to be_file
+            end
+
+            it 'cannot retrieve files with latin-1 encoding in their path' do
+              entries = adapter.entries('latin-1-dir', '64f1f3e8')
+              latin1_path = entries[1].path
+
+              expect { adapter.entries(latin1_path, '1ca7f5ed') }
+                .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+            end
           end
 
-          it 'can be retrieved with latin-1 directories' do
-            entries = adapter.entries("latin-1-dir/test-#{char1_hex}-subdir",
-                                      '1ca7f5ed')
-            expect(entries.length).to eq(3)
-            f1 = entries[1]
+          context 'with latin-1 encoding' do
+            let (:encoding) { 'ISO-8859-1' }
 
-            expect(f1).to be_file
-            expect(f1.name).to eq("test-#{char1_hex}-2.txt")
-            expect(f1.path).to eq("latin-1-dir/test-#{char1_hex}-subdir/test-#{char1_hex}-2.txt")
+            it_behaves_like 'retrieve entries'
+
+            it 'can be retrieved with latin-1 encoding' do
+              entries = adapter.entries('latin-1-dir', '64f1f3e8')
+              expect(entries.length).to eq(3)
+              f1 = entries[1]
+
+              expect(f1.name).to eq("test-#{char1_hex}-2.txt")
+              expect(f1.path).to eq("latin-1-dir/test-#{char1_hex}-2.txt")
+              expect(f1).to be_file
+            end
+
+            it 'can be retrieved with latin-1 directories' do
+              entries = adapter.entries("latin-1-dir/test-#{char1_hex}-subdir",
+                                        '1ca7f5ed')
+              expect(entries.length).to eq(3)
+              f1 = entries[1]
+
+              expect(f1).to be_file
+              expect(f1.name).to eq("test-#{char1_hex}-2.txt")
+              expect(f1.path).to eq("latin-1-dir/test-#{char1_hex}-subdir/test-#{char1_hex}-2.txt")
+            end
           end
         end
       end
@@ -401,6 +424,15 @@ describe OpenProject::Scm::Adapters::Git do
           expect { adapter.annotate('/path/outside/repository') }
             .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
         end
+
+        it 'should return nil for binary path' do
+          expect(adapter.annotate('images/edit.png')).to be_nil
+        end
+
+        # We should rethink the output of annotated files for these formats.
+        it 'also returns nil for UTF-16 encoded file' do
+          expect(adapter.annotate('utf16.txt')).to be_nil
+        end
       end
 
       describe '.cat' do
@@ -418,12 +450,12 @@ describe OpenProject::Scm::Adapters::Git do
       describe '.diff' do
         it 'provides a full diff of the last commit by default' do
           diff = adapter.diff('', 'HEAD')
-          expect(diff[0]).to eq('commit 83ca5fd546063a3c7dc2e568ba3355661a9e2b2c')
-          expect(diff[1]).to eq("Author: Felix Sch\xE4fer <felix@fachschaften.org>")
+          expect(diff[0]).to eq('commit 71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
+          expect(diff[1]).to eq("Author: Oliver G\xFCnther <mail@oliverguenther.de>")
         end
 
         it 'provides a negative diff' do
-          diff = adapter.diff('', 'HEAD~1', 'HEAD')
+          diff = adapter.diff('', 'HEAD~2', 'HEAD~1')
           expect(diff.join("\n")).to include('-And this is a file')
         end
 
