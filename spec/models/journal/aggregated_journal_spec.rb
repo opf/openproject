@@ -30,7 +30,7 @@
 require 'spec_helper'
 
 RSpec::Matchers.define :be_equivalent_to_journal do |expected|
-  ignored_attributes = [:notes_id]
+  ignored_attributes = [:notes_id, :notes_version]
 
   match do |actual|
     expected_attributes = get_normalized_attributes expected
@@ -70,7 +70,7 @@ describe Journal::AggregatedJournal, type: :model do
   let(:user2) { FactoryGirl.create(:user) }
   let(:initial_author) { user1 }
 
-  subject { described_class.aggregated_journals.sort_by &:id }
+  subject { described_class.aggregated_journals }
 
   before do
     allow(User).to receive(:current).and_return(initial_author)
@@ -88,6 +88,10 @@ describe Journal::AggregatedJournal, type: :model do
 
   it 'is the initial journal' do
     expect(subject.first.initial?).to be_truthy
+  end
+
+  it 'has no successor' do
+    expect(subject.first.successor).to be_nil
   end
 
   context 'WP updated immediately after uncommented change' do
@@ -110,6 +114,10 @@ describe Journal::AggregatedJournal, type: :model do
 
       it 'is the initial journal' do
         expect(subject.first.initial?).to be_truthy
+      end
+
+      it 'has no successor' do
+        expect(subject.first.successor).to be_nil
       end
 
       context 'with a comment' do
@@ -141,6 +149,10 @@ describe Journal::AggregatedJournal, type: :model do
           it 'has the first as predecessor of the second journal' do
             expect(subject.second.predecessor).to be_equivalent_to_journal subject.first
           end
+
+          it 'has the second as successor of the first journal' do
+            expect(subject.first.successor).to be_equivalent_to_journal subject.second
+          end
         end
 
         context 'adding another change without comment' do
@@ -170,6 +182,10 @@ describe Journal::AggregatedJournal, type: :model do
 
           it 'has no predecessor' do
             expect(subject.first.predecessor).to be_nil
+          end
+
+          it 'has no successor' do
+            expect(subject.first.successor).to be_nil
           end
         end
       end
@@ -221,15 +237,44 @@ describe Journal::AggregatedJournal, type: :model do
   end
 
   context 'passing a journable as parameter' do
-    subject { described_class.aggregated_journals(journable: work_package).sort_by &:id }
+    subject { described_class.aggregated_journals(journable: work_package) }
     let(:other_wp) { FactoryGirl.build(:work_package) }
+    let(:new_author) { initial_author }
+
     before do
       other_wp.save!
+
+      changes = { subject: 'a new subject!' }
+      expect(work_package.update_by!(new_author, changes)).to be_truthy
     end
 
-    it 'only returns the journal for the requested work package' do
+    it 'only returns the journals for the requested work package' do
       expect(subject.count).to eq 1
-      expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+      expect(subject.first).to be_equivalent_to_journal work_package.journals.last
+    end
+
+    context 'specifying a maximum version' do
+      subject {
+        described_class.aggregated_journals(journable: work_package, until_version: version)
+      }
+
+      context 'equal to the latest version' do
+        let(:version) { work_package.journals.last.version }
+
+        it 'returns the same as for no specified version' do
+          expect(subject.count).to eq 1
+          expect(subject.first).to be_equivalent_to_journal work_package.journals.last
+        end
+      end
+
+      context 'equal to the first version' do
+        let(:version) { work_package.journals.first.version }
+
+        it 'does not aggregate the second journal' do
+          expect(subject.count).to eq 1
+          expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+        end
+      end
     end
   end
 end

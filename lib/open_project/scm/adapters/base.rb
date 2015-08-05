@@ -48,6 +48,14 @@ module OpenProject
           false
         end
 
+        ##
+        # Overriden by descendants when
+        # they are able to retrieve current
+        # storage usage.
+        def storage_available?
+          false
+        end
+
         def available?
           check_availability!
           true

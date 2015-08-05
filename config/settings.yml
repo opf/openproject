@@ -264,3 +264,9 @@ users_deletable_by_self:
 journal_aggregation_time_minutes:
   default: 5
   format: int
+repository_storage_cache_minutes:
+  default: 720
+  format: int
+project_storage_cache_minutes:
+  default: 60
+  format: int
