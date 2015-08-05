@@ -39,6 +39,7 @@ module.exports = function(
   };
 
   var attachmentsController = function(scope, element, attrs) {
+    scope.files = [];
 
     var workPackage = scope.workPackage(),
         upload = function(event, workPackage) {
