@@ -41,10 +41,13 @@
 #    be dropped
 class Journal::AggregatedJournal
   class << self
-    # Returns the aggregated journal that contains the specified (vanilla) journal.
-    def for_journal(vanilla_journal)
-      Journal::AggregatedJournal.aggregated_journals(journable: vanilla_journal.journable)
-                  .detect { |journal| journal.version >= vanilla_journal.version }
+    # Returns the aggregated journal that contains the specified (vanilla/pure) journal.
+    def for_journal(pure_journal)
+      raw = Journal::AggregatedJournal.query_aggregated_journals(journable: pure_journal.journable)
+            .where("#{version_projection} >= ?", pure_journal.version)
+            .first
+
+      raw ? Journal::AggregatedJournal.new(raw) : nil
     end
 
     def with_notes_id(notes_id)
