@@ -37,7 +37,7 @@ class Repository < ActiveRecord::Base
   before_save :sanitize_urls
 
   # Managed repository lifetime
-  after_save :create_managed_repository, if: Proc.new { |repo| repo.managed? }
+  after_create :create_managed_repository, if: Proc.new { |repo| repo.managed? }
   after_destroy :delete_managed_repository, if: Proc.new { |repo| repo.managed? }
 
   # Raw SQL to delete changesets and changes in the database
@@ -48,6 +48,10 @@ class Repository < ActiveRecord::Base
 
   validates_length_of :password, maximum: 255, allow_nil: true
   validate :validate_enabled_scm, on: :create
+
+  acts_as_countable :required_project_storage,
+                    label: 'label_repository',
+                    countable: :required_disk_storage
 
   def changes
     Change.where(changeset_id: changesets).joins(:changeset)
@@ -83,7 +87,13 @@ class Repository < ActiveRecord::Base
   def scm
     @scm ||= scm_adapter.new(url, root_url,
                              login, password, path_encoding)
-    @scm.root_url = @scm.root_url.presence || root_url
+
+    # override the adapter's root url with the full url
+    # if none other was set.
+    unless @scm.root_url.present?
+      @scm.root_url = root_url.presence || url
+    end
+
     @scm
   end
 
@@ -163,6 +173,19 @@ class Repository < ActiveRecord::Base
   # Returns a path relative to the url of the repository
   def relative_path(path)
     path
+  end
+
+  def required_disk_storage
+    if scm.storage_available?
+      oldest_cachable_time = Setting.repository_storage_cache_minutes.to_i.minutes.ago
+      if storage_updated_at.nil? ||
+         storage_updated_at < oldest_cachable_time
+
+        Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(self)
+      end
+
+      required_storage_bytes
+    end
   end
 
   # Finds and returns a revision with a number or the beginning of a hash
