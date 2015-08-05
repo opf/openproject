@@ -227,8 +227,8 @@ module RepositoriesHelper
   end
 
   def git_path_encoding_options(repository)
-    options = [default_selected_option] + Setting::ENCODINGS
-    options_for_select(options, repository.path_encoding)
+    default = repository.new_record? ? 'UTF-8' : repository.path_encoding
+    options_for_select(Setting::ENCODINGS, default)
   end
 
   ##
