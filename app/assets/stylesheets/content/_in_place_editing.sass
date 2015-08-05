@@ -169,6 +169,9 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
   &.-default
     font-style: italic
 
+  p
+    font-size: inherit
+
 .inplace-edit--preview
   border: 1px solid $inplace-edit--border-color
   padding: 0.375rem
@@ -216,12 +219,6 @@ a.inplace-editing--trigger-link,
     .inplace-edit--icon-wrapper
       visibility: visible
 
-.attributes-group
-  .inplace-edit
-    .inplace-edit--read-value
-      .ng-binding
-        p
-          font-size: inherit
 
 .inplace-editing--container
   @include grid-block
