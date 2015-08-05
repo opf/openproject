@@ -119,13 +119,6 @@ class MoveWorkPackageService
   def set_default_values_on_copy(work_package, attributes)
     work_package.author = user
 
-    custom_field_values = self.work_package.custom_field_values.inject({}) { |h, v|
-      h[v.custom_field_id] = v.value
-      h
-    }
-
-    work_package.custom_field_values = custom_field_values
-
     assign_status_or_default(work_package, attributes[:status_id])
   end
 
