@@ -1,14 +1,12 @@
 jQuery(function($) {
   var tooltipTriggers = $('.advanced-tooltip-trigger');
-  tooltipTriggers.each(function createTooltip(index, el) {
-    var content = $($(el).data('tooltip-target'))[0].outerHTML;
+  tooltipTriggers.each(function (index, el) {
+    var tooltip = $($(el).data('tooltip-target'));
     $(el).mouseover(function () {
-      var width = $(this).outerWidth(true);
-      $(this).wrap('<div class="advanced-tooltip-wraper"/>');
-      $(this).after(content).next().css({'left': (width) + 'px', 'top': 0});
+      var top = $(this).offset().top - $(window).scrollTop();
+      tooltip.css({'opacity': 1, 'visibility': 'visible', 'top': top});
     }).mouseout(function () {
-      $(this).unwrap();
-      $(this).next().remove();
+      tooltip.css({'opacity': 0, 'visibility': 'hidden'});
     });
   });
 });

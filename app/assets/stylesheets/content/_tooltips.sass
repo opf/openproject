@@ -189,14 +189,16 @@ table
   visibility: hidden
   opacity: 0
   transition: visibility 0s linear 0.2s, opacity 0.2s linear
-  position: absolute
+  position: fixed
   border: $advanced-tooltip--border
+  border-radius: 3px
   background: $tooltip--background-color
   padding: 15px
   font-style: italic
   line-height: 18px
   width: 353px
   margin-left: 10px
+  z-index: 99
   ul
     margin-top:  20px
     padding-left: 20px
@@ -223,10 +225,3 @@ table
     border-style: solid
     border-width: 11px
 
-.advanced-tooltip-wraper
-  position: relative
-  z-index: 99999
-  .advanced-tooltip-content
-    visibility: visible
-    opacity: 1
-    transition-delay: 0.10s
