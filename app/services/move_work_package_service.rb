@@ -148,7 +148,7 @@ class MoveWorkPackageService
   end
 
   def create_and_save_journal_note(work_package, journal_note)
-    if work_package && journal_note
+    if journal_note
       work_package.add_journal user, journal_note
       work_package.save!
     end
