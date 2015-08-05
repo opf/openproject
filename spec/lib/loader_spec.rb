@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Redmine::DefaultData::Loader do
+describe 'Seeding' do
 
   describe '#load' do
     before :each do
@@ -27,9 +27,7 @@ describe Redmine::DefaultData::Loader do
       create_non_member_role
       create_anonymous_role
 
-      # load all data that a user would when loading default data. That is:
-      # * seed
-      # * default data (e.g. by rake task or from UI)
+      # Load all data that a user would when seeding.
       load "#{Rails.root}/db/seeds/all.rb"
     end
 
