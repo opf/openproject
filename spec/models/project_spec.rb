@@ -258,7 +258,11 @@ describe Project, type: :model do
       end
 
       it 'counts only once before caching' do
-        expect(project).to receive(:count_for).with(:required_project_storage).once
+        expect(project)
+          .to receive(:count_for).with(:required_project_storage)
+          .once
+          .and_return([{ 'whatever' => 123, total: 1234 }, 'my label'])
+
         project.required_storage
         project.required_storage
       end
@@ -271,10 +275,12 @@ describe Project, type: :model do
         allow(Project).to receive(:all).and_return(projects)
 
         allow(projects[0]).to receive(:count_for).and_return(
-          'attributes.attachments' => 23543, total: 23543
+          [{ 'attributes.attachments' => 23543, total: 23543 },
+           'unused project label']
         )
         allow(projects[1]).to receive(:count_for).and_return(
-          'attributes.attachments' => 2, label_repository: 2412345, total: 2412347
+          [{ 'attributes.attachments' => 2, label_repository: 2412345, total: 2412347 },
+           'unused project label']
         )
         Rails.cache.clear('projects/total_projects_size')
       end
