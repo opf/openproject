@@ -97,6 +97,10 @@ td.comment input {
   cursor: pointer;
 }
 
+#cost_object_fixed_date {
+  width: 10%;
+}
+
 table.progress td.exceeded { background: #E1B9B9 none repeat scroll 0%; }
 
 fieldset#group-by table { border-collapse: collapse; }
