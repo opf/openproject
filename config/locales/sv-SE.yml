@@ -39,8 +39,8 @@ sv:
     models:
       cost_object: Budget
       cost_type:
-        one: Kostnadstyp
-        other: Kostnadstyper
+        one: Cost type
+        other: Cost types
       material_budget_item: Enhet
       rate: Timpris
     errors:
@@ -166,7 +166,7 @@ sv:
   text_warning_hidden_elements: Vissa poster kan ha undantagits från summeringen.
   week: vecka
   x_entries:
-    one: 1 post
-    other: '%{count} poster'
+    one: 1 entry
+    other: '%{count} entries'
   js:
     text_are_you_sure: Är du säker?
