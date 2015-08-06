@@ -1091,6 +1091,11 @@ en:
   label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
   label_visible_elements: Visible elements
 
+  auth_source:
+    using_abstract_auth_source: "Can't use an abstract authentication source."
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
 
