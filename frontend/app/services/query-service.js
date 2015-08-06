@@ -395,9 +395,9 @@ module.exports = function(
 
     getQueryPath: function(query) {
       if (query.project_id) {
-        return PathHelper.projectPath(query.project_id) + PathHelper.workPackagesPath() + '?query_id=' + query.id;
+        return PathHelper.staticProjectWorkPackagesPath(query.project_id) + '?query_id=' + query.id;
       } else {
-        return PathHelper.workPackagesPath() + '?query_id=' + query.id;
+        return PathHelper.staticWorkPackagesPath() + '?query_id=' + query.id;
       }
     },
 
