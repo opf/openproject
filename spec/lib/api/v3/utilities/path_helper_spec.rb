@@ -312,10 +312,6 @@ describe ::API::V3::Utilities::PathHelper do
   end
 
   describe 'work packages paths' do
-    shared_examples_for 'api v3 work packages path' do
-      it { is_expected.to match(/^\/api\/v3\/work_packages/) }
-    end
-
     describe '#work_packages' do
       subject { helper.work_packages }
 
@@ -337,7 +333,7 @@ describe ::API::V3::Utilities::PathHelper do
     describe '#work_package_relations' do
       subject { helper.work_package_relations 42 }
 
-      it_behaves_like 'api v3 work packages path', '/work_packages/42/relations'
+      it_behaves_like 'api v3 path', '/work_packages/42/relations'
     end
 
     describe '#work_package_relation' do
