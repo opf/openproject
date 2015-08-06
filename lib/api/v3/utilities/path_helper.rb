@@ -221,12 +221,6 @@ module API
           def self.work_packages_by_project(project_id)
             "#{project(project_id)}/work_packages"
           end
-
-          def self.root_path
-            @@root_path ||= Class.new.tap do |c|
-              c.extend(::API::V3::Utilities::PathHelper)
-            end.root_path
-          end
         end
 
         def api_v3_paths
