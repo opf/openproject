@@ -189,26 +189,14 @@ class Version < ActiveRecord::Base
     end
   end
 
-  # Versions are sorted by effective_date and "Project Name - Version name"
-  # Those with no effective_date are at the end, sorted by "Project Name - Version name"
+  # Versions are sorted by "Project Name - Version name"
   def <=>(version)
-    if effective_date
-      if version.effective_date
-        if effective_date == version.effective_date
-          "#{project.name} - #{name}" <=> "#{version.project.name} - #{version.name}"
-        else
-          effective_date <=> version.effective_date
-        end
-      else
-        -1
-      end
-    else
-      if version.effective_date
-        1
-      else
-        "#{project.name} - #{name}" <=> "#{version.project.name} - #{version.name}"
-      end
-    end
+    # using string interpolation for comparison is not efficient
+    # (see to_s_with_project's implementation) but I wanted to
+    # tie the comparison to the presentation as sorting is mostly
+    # used within sorted tables.
+    # Thus, when the representation changes, the sorting will change as well.
+    to_s_with_project <=> version.to_s_with_project
   end
 
   # Returns the sharings that +user+ can set the version to
