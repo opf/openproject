@@ -45,7 +45,7 @@ describe 'Work package calendar index', type: :feature do
     end
 
     describe 'Filter fieldset', js: true do
-      it_behaves_like 'toggable fieldset initially expanded' do
+      it_behaves_like 'toggable fieldset initially collapsed' do
         let(:fieldset_name) { 'Filters' }
       end
     end
