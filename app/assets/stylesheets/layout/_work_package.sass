@@ -30,14 +30,32 @@
   @extend %absolute-layout-mode
 
 #content
-  $flash-margins-padding: 10px + (2 * 4px)
+  $flash-margins-padding: 10px
 
   // HACK: workaround to ensure correct height applied to child elements
+  // the dom looks like this
+  // flash (generated from rails - if it was generated when rendering the page)
+  // flash (generated from angular - exists always but is hidden with ng-hide if not needed)
+  // div[ui-view] (main content we want to adjust the height for)
+  // div style="clear:both;" (is pushed to overflow - of no relevance)
+  //
+  // There can be at most two flash messages visible on the page.
+  // We need to adjust the hight of the div[ui-view] depending on the amount of flash messages.
+  //
+  // This makes use of more specific rules overwriting less specific ones.
+  // Per default, the height is always 100%
   .flash + div[ui-view]
+    height: 100%
+
+  // If there is only one flash message shown:
+  // Subtract the height of the flash message
+  .flash:not(.ng-hide) ~ div[ui-view]
     height: calc(100% - #{($content-flash-height + $flash-margins-padding)})
 
-  .flash.ng-hide + div[ui-view]
-    height: 100%
+  // If there are two flash messages shown:
+  // Subtract the height of the two flash messages
+  .flash:not(.ng-hide) ~ .flash:not(.ng-hide) ~ div[ui-view]
+    height: calc(100% - #{2 * ($content-flash-height + $flash-margins-padding)})
 
 // HACK: workaround to ensure correct height applied to child elements
 #work-packages-index
