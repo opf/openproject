@@ -63,7 +63,7 @@ describe Repository::Git, type: :model do
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
       let(:project) { FactoryGirl.build :project }
-      let(:identifier) { "#{project.identifier}.git" }
+      let(:identifier) { project.identifier + '.git' }
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
@@ -102,7 +102,7 @@ describe Repository::Git, type: :model do
 
         it 'outputs the correct hierarchy path' do
           expect(instance.managed_repository_path)
-            .to eq(File.join(managed_path, parent.identifier, identifier))
+            .to eq(File.join(managed_path, identifier))
         end
       end
     end

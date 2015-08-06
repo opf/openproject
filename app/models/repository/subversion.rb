@@ -70,10 +70,6 @@ class Repository::Subversion < Repository
     true
   end
 
-  def repository_identifier
-    "#{super}.svn"
-  end
-
   def repo_log_encoding
     'UTF-8'
   end
