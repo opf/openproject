@@ -223,6 +223,11 @@ class Journal::AggregatedJournal
     # proximity into account.
     def sql_beyond_aggregation_time?(predecessor, successor)
       aggregation_time_seconds = Setting.journal_aggregation_time_minutes.to_i.minutes
+      if aggregation_time_seconds == 0
+        # if aggregation is disabled, we consider everything to be beyond aggregation time
+        # even if creation dates are exactly equal
+        return '(true = true)'
+      end
 
       if OpenProject::Database.mysql?
         difference = "TIMESTAMPDIFF(second, #{predecessor}.created_at, #{successor}.created_at)"

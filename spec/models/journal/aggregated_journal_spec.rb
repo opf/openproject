@@ -244,6 +244,29 @@ describe Journal::AggregatedJournal, type: :model do
     end
   end
 
+  context 'aggregation is disabled' do
+    before do
+      allow(Setting).to receive(:journal_aggregation_time_minutes).and_return(0)
+    end
+
+    context 'WP updated within milliseconds' do
+      let(:delay) { 0.001.seconds }
+
+      before do
+        work_package.status = FactoryGirl.build(:status)
+        work_package.save!
+        work_package.journals.second.created_at = work_package.journals.first.created_at + delay
+        work_package.journals.second.save!
+      end
+
+      it 'returns both journals' do
+        expect(subject.count).to eql 2
+        expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+        expect(subject.second).to be_equivalent_to_journal work_package.journals.second
+      end
+    end
+  end
+
   context 'different WP updated immediately after change' do
     let(:other_wp) { FactoryGirl.build(:work_package) }
     before do
