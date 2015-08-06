@@ -222,6 +222,13 @@ default:
   #   take control over the given path to create and delete repositories directly
   #   when created in the frontend.
   #   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
+  # mode:
+  #   The file mode to set the repository folder to (defaults to 0700).
+  #   Important: The user running OpenProject must be a member of this group in order to have the
+  #   privilege to set the group ownership.
+  # group:
+  #   The group that should own the repository folder.
+  #   Note: The owner is always the user that runs OpenProject!
   # disabled_types:
   #   Disable specific repository types for this particular vendor. This allows
   #   to restrict the available choices a project administrator has for creating repositories
