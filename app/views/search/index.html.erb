@@ -56,11 +56,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
       </li>
       <li class="simple-filters--filter">
-        <% @object_types.each do |t| %>
-          <%= styled_label_tag t, class: 'form--label-with-check-box' do %>
-            <%= styled_check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %>
+        <ul>
+          <% @object_types.each do |t| %>
+            <li class="form--field -trailing-label">
+              <%= styled_label_tag t, type_label(t) %>
+              <span class="form--field-container">
+                <%= styled_check_box_tag t, 1, @scope.include?(t) %> 
+              </span>
+            </li>
           <% end %>
-        <% end %>
+        </ul>
       </li>
     </ul>
     <%= styled_submit_tag l(:button_submit), :name => 'submit', class: 'button -highlight -small' %>
