@@ -100,12 +100,9 @@ describe('Inplace editor dropdown directive', function() {
   it('prints the allowedValues as options in a ui-select', function() {
     compile();
 
-    expect(element.find('li .select2-result-label div')[0].innerHTML)
-      .to.equal(allowedValues[0].name);
-    expect(element.find('li .select2-result-label div')[1].innerHTML)
-      .to.equal(allowedValues[1].name);
-    expect(element.find('li .select2-result-label div')[2].innerHTML)
-      .to.equal(allowedValues[2].name);
+    element.find('li .select2-result-label div').each(function(index) {
+      expect(angular.element(this).text()).to.equal(allowedValues[index].name);
+    });
   });
 
   it ('has a ui-select option at the beginning if isRequired is false', function () {
@@ -113,8 +110,8 @@ describe('Inplace editor dropdown directive', function() {
 
     compile();
 
-    expect(element.find('li .select2-result-label div')[0].innerHTML)
-      .to.equal('');
+    expect(element.find('li .select2-result-label div').length).to.equal(4);
+    expect(element.find('li .select2-result-label div').first().text()).to.equal('');
   });
 
   it('sorts the allowed values if specified by the configuration service', function() {
@@ -122,11 +119,8 @@ describe('Inplace editor dropdown directive', function() {
 
     compile();
 
-    expect(element.find('li .select2-result-label div')[0].innerHTML)
-      .to.equal(allowedValues[2].name);
-    expect(element.find('li .select2-result-label div')[1].innerHTML)
-      .to.equal(allowedValues[1].name);
-    expect(element.find('li .select2-result-label div')[2].innerHTML)
-      .to.equal(allowedValues[0].name);
+    element.find('li .select2-result-label div').each(function(index) {
+      expect(angular.element(this).text()).to.equal(allowedValues[2 - index].name);
+    });
   });
 });
