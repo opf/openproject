@@ -70,8 +70,6 @@ describe('Inplace editor dropdown directive', function() {
     });
 
     workPackageFieldService.getAllowedValues = sinon.stub().returns(allowedValuePromise);
-    workPackageFieldService.isRequired = sinon.stub().returns(true);
-    workPackageFieldConfigurationService.getDropdownSortingStrategy = sinon.stub().returns(null);
 
     // severing dependency from the work package field directive as described by
     // http://busypeoples.github.io/post/testing-angularjs-hierarchical-directives
@@ -82,7 +80,18 @@ describe('Inplace editor dropdown directive', function() {
     element.data('$workPackageFieldController', workPackageFieldController);
   }));
 
-  var compile = function() {
+  var compile = function(configuration) {
+    var defaultConfig = {
+                          isRequired: true,
+                          getDropdownSortingStrategy: null
+                        };
+
+    configuration = angular.extend(defaultConfig, configuration);
+    workPackageFieldService.isRequired = sinon.stub()
+      .returns(configuration.isRequired);
+    workPackageFieldConfigurationService.getDropdownSortingStrategy = sinon.stub()
+      .returns(configuration.getDropdownSortingStrategy);
+
     angularCompile(element)(scope);
 
     scope.$digest();
@@ -98,7 +107,7 @@ describe('Inplace editor dropdown directive', function() {
   };
 
   it('prints the allowedValues as options in a ui-select', function() {
-    compile();
+    compile({});
 
     element.find('li .select2-result-label div').each(function(index) {
       expect(angular.element(this).text()).to.equal(allowedValues[index].name);
@@ -106,18 +115,14 @@ describe('Inplace editor dropdown directive', function() {
   });
 
   it ('has a ui-select option at the beginning if isRequired is false', function () {
-    workPackageFieldService.isRequired = sinon.stub().returns(false);
-
-    compile();
+    compile({ isRequired: false });
 
     expect(element.find('li .select2-result-label div').length).to.equal(4);
     expect(element.find('li .select2-result-label div').first().text()).to.equal('');
   });
 
   it('sorts the allowed values if specified by the configuration service', function() {
-    workPackageFieldConfigurationService.getDropdownSortingStrategy = sinon.stub().returns('name');
-
-    compile();
+    compile({ getDropdownSortingStrategy: 'name' });
 
     element.find('li .select2-result-label div').each(function(index) {
       expect(angular.element(this).text()).to.equal(allowedValues[2 - index].name);
