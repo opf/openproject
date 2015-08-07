@@ -28,7 +28,7 @@
 #++
 
 class Scm::StorageUpdaterJob
-  include OpenProject::ResetsRequestStore
+  include OpenProject::BeforeDelayedJob
 
   def initialize(repository)
     @id = repository.id

@@ -28,7 +28,7 @@
 #++
 
 class DeliverWorkPackageNotificationJob
-  include OpenProject::ResetsRequestStore
+  include OpenProject::BeforeDelayedJob
 
   def initialize(journal_id, author_id)
     @journal_id = journal_id

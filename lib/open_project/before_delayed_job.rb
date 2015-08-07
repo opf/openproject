@@ -26,38 +26,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-describe OpenProject::ResetsRequestStore do
-  class JobMock
-    include OpenProject::ResetsRequestStore
-
-    def initialize(callback)
-      @callback = callback
+module OpenProject
+  # Includable in a delayed job to perform common operations that should happen before all
+  # delayed jobs.
+  module BeforeDelayedJob
+    def self.included(base)
+      base.prepend Overrides
     end
 
-    def perform
-      @callback.call
+    module Overrides
+      def perform
+        reset_request_store!
+        super
+      end
+
+      private
+
+      # Resets the thread local request store.
+      # This should be done, because normal application code expects the RequestStore to be
+      # invalidated between multiple requests and does usually not care whether it is executed
+      # from a request or from a delayed job.
+      # For a delayed job, each job execution is the thing that comes closest to
+      # the concept of a new request.
+      def reset_request_store!
+        RequestStore.clear!
+      end
     end
-  end
-
-  it 'resets the request store on each perform' do
-    job = JobMock.new(->() do
-      expect(RequestStore[:test_value]).to be_nil
-      RequestStore[:test_value] = 42
-    end)
-
-    job.perform
-    job.perform
-  end
-
-  it 'leaves the request store populated after perform' do
-    job = JobMock.new(->() do
-      RequestStore[:test_value] = 42
-    end)
-
-    job.perform
-
-    expect(RequestStore[:test_value]).to eql 42
   end
 end
