@@ -50,7 +50,7 @@ module OpenProject
         # Reads from configuration whether new repositories of this kind
         # may be managed from OpenProject.
         def manageable?
-          ! (disabled_types.include?(managed_type) || managed_root.nil?)
+          !(disabled_types.include?(managed_type) || managed_root.nil?)
         end
 
         ##
@@ -88,7 +88,7 @@ module OpenProject
       # Used only in the creation of a repository, at a later point
       # in time, it is referred to in the root_url
       def managed_repository_path
-        File.join(self.class.managed_root, repository_path)
+        File.join(self.class.managed_root, repository_identifier)
       end
 
       ##
@@ -100,26 +100,6 @@ module OpenProject
         "file://#{managed_repository_path}"
       end
 
-      ##
-      # Determine the parent path of the given project
-      def parent_projects_path
-        File.join(*parent_projects)
-      end
-
-      ##
-      # Determine all parent projects of this repository
-      def parent_projects
-        parent_parts = []
-        p = project
-        while p.parent
-          parent_id = p.parent.identifier.to_s
-          parent_parts.unshift(parent_id)
-          p = p.parent
-        end
-
-        parent_parts
-      end
-
       protected
 
       ##
@@ -128,20 +108,6 @@ module OpenProject
       # append '.git' to that path.
       def repository_identifier
         project.identifier
-      end
-
-      private
-
-      ##
-      # Generate a uniquely identified path from the project
-      # hierarchy.
-      def repository_path
-        parent_path = parent_projects_path
-        if parent_path.empty?
-          repository_identifier
-        else
-          File.join(parent_path, repository_identifier)
-        end
       end
     end
   end
