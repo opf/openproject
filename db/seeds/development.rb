@@ -33,29 +33,10 @@ ActionMailer::Base.perform_deliveries = false
 # Avoid asynchronous DeliverWorkPackageCreatedJob
 Delayed::Worker.delay_jobs = false
 
-# remove password-reset flag from admin user
-# (the default password is OK in dev mode)
-admin = User.where(login: 'admin').first
-if admin && admin.force_password_change?
-  admin.force_password_change = false
-  admin.save!
-end
-
-# set some sensible defaults:
-include Redmine::I18n
-
-# sensible shortcut: Create the default data in english
-begin
-  set_language_if_valid('en')
-  Redmine::DefaultData::Loader.load(current_language)
-  puts 'Default configuration data loaded.'
-rescue Redmine::DefaultData::DataAlreadyLoaded
-  puts 'Redmine Default-Data already loaded'
-end
-
 user_count = ENV.fetch('SEED_USER_COUNT', 3).to_i
 
-# Careful: The seeding recreates the seeded project before it runs, so any changes on the seeded project will be lost.
+# Careful: The seeding recreates the seeded project before it runs, so any changes
+# on the seeded project will be lost.
 puts 'Creating seeded project...'
 if delete_me = Project.find_by_identifier('seeded_project')
   delete_me.destroy
@@ -154,7 +135,6 @@ user_count.times do |count|
     )
     work_package.type = types.sample
     work_package.save!
-
   end
 
   ## extend user's last issue
@@ -217,7 +197,6 @@ user_count.times do |count|
     ## add attachments
 
     3.times do |_attachment_count|
-
       attachment = Attachment.new(container: issue,
                                   author: user,
                                   file: OpenProject::Files.create_uploaded_file(
@@ -225,7 +204,6 @@ user_count.times do |count|
       attachment.save!
 
       issue.attachments << attachment
-
     end
 
     ## add custom values

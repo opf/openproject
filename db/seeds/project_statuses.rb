@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/support/toggable_fieldsets'
-require 'features/work_packages/work_packages_page'
+if ReportedProjectStatus.any?
+  puts '***** Skipping reported project status as there are already some configured'
+else
+  ReportedProjectStatus.transaction do
+    ReportedProjectStatus.new.tap do |status|
+      status.name = I18n.t(:default_reported_project_status_green)
+      status.is_default = true
+    end.save!
 
-describe 'Work package calendar index', type: :feature do
-  describe 'Toggable fieldset', js: true do
-    include_context 'Toggable fieldset examples'
+    ReportedProjectStatus.new.tap do |status|
+      status.name = I18n.t(:default_reported_project_status_amber)
+      status.is_default = false
+    end.save!
 
-    let(:project) { FactoryGirl.create(:project) }
-    let(:current_user) { FactoryGirl.create (:admin) }
-    let(:work_packages_page) { WorkPackagesPage.new(project) }
-
-    before do
-      allow(User).to receive(:current).and_return current_user
-
-      work_packages_page.visit_calendar
-    end
-
-    describe 'Filter fieldset', js: true do
-      it_behaves_like 'toggable fieldset initially collapsed' do
-        let(:fieldset_name) { 'Filters' }
-      end
-    end
+    ReportedProjectStatus.new.tap do |status|
+      status.name = I18n.t(:default_reported_project_status_red)
+      status.is_default = false
+    end.save!
   end
 end

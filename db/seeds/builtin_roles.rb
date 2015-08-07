@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/support/toggable_fieldsets'
-require 'features/work_packages/work_packages_page'
+if Role.find_by_builtin(Role::BUILTIN_NON_MEMBER).nil?
+  role = Role.new
 
-describe 'Work package calendar index', type: :feature do
-  describe 'Toggable fieldset', js: true do
-    include_context 'Toggable fieldset examples'
+  role.name = 'Non member'
+  role.position = 0
+  role.builtin = Role::BUILTIN_NON_MEMBER
+  role.save!
+end
 
-    let(:project) { FactoryGirl.create(:project) }
-    let(:current_user) { FactoryGirl.create (:admin) }
-    let(:work_packages_page) { WorkPackagesPage.new(project) }
+if Role.find_by_builtin(Role::BUILTIN_ANONYMOUS).nil?
+  role = Role.new
 
-    before do
-      allow(User).to receive(:current).and_return current_user
-
-      work_packages_page.visit_calendar
-    end
-
-    describe 'Filter fieldset', js: true do
-      it_behaves_like 'toggable fieldset initially collapsed' do
-        let(:fieldset_name) { 'Filters' }
-      end
-    end
-  end
+  role.name = 'Anonymous'
+  role.position = 1
+  role.builtin = Role::BUILTIN_ANONYMOUS
+  role.save!
 end

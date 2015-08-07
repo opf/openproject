@@ -40,7 +40,9 @@ class AuthSource < ActiveRecord::Base
   def authenticate(_login, _password)
   end
 
+  # implemented by a subclass, should raise when no connection is possible and not raise on success
   def test_connection
+    raise I18n.t('auth_source.using_abstract_auth_source')
   end
 
   def auth_method_name

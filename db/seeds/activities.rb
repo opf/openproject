@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/support/toggable_fieldsets'
-require 'features/work_packages/work_packages_page'
+if TimeEntryActivity.any?
+  puts '***** Skipping activities as there are already some configured'
+else
+  TimeEntryActivity.transaction do
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_management)
+      activity.position = 1
+      activity.is_default = true
+    end.save!
 
-describe 'Work package calendar index', type: :feature do
-  describe 'Toggable fieldset', js: true do
-    include_context 'Toggable fieldset examples'
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_specification)
+      activity.position = 2
+    end.save!
 
-    let(:project) { FactoryGirl.create(:project) }
-    let(:current_user) { FactoryGirl.create (:admin) }
-    let(:work_packages_page) { WorkPackagesPage.new(project) }
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_development)
+      activity.position = 3
+    end.save!
 
-    before do
-      allow(User).to receive(:current).and_return current_user
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_testing)
+      activity.position = 4
+    end.save!
 
-      work_packages_page.visit_calendar
-    end
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_support)
+      activity.position = 5
+    end.save!
 
-    describe 'Filter fieldset', js: true do
-      it_behaves_like 'toggable fieldset initially collapsed' do
-        let(:fieldset_name) { 'Filters' }
-      end
-    end
+    TimeEntryActivity.new.tap do |activity|
+      activity.name = I18n.t(:default_activity_other)
+      activity.position = 6
+    end.save!
   end
 end
