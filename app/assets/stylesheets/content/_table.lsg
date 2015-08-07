@@ -6,13 +6,20 @@
 ```
 <div class="table-component--wrapper">
 <table role="grid" class="table-component">
+  <colgroup>
+    <col>
+    <col>
+    <col>
+    <col>
+    <col>
+  </colgroup>
   <thead>
     <tr>
       <th>First</th>
       <th>Second</th>
-      <th >Third</th>
+      <th>Third</th>
       <th>Forth</th>
-      <th >Fifth</th>
+      <th>Fifth</th>
     </tr>
     </thead>
     <tbody>

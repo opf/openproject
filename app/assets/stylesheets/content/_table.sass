@@ -61,8 +61,14 @@ $tc-row-hover-line-background-color: #e4f7fb
     th
       text-transform: $tc-header-text-transformation
       padding: $tc-header-cell-padding
+      text-align: left
       &:hover
         background-color: $tc-header-cell-hover-background-color
     td
       font-size: $tc-cells-font-size
       padding: $tc-cell-padding
+
+  col
+    &:hover,
+    &.hover
+      background:   #f8f8f8
