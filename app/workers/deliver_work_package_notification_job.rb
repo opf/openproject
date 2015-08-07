@@ -45,7 +45,7 @@ class DeliverWorkPackageNotificationJob
     notification_receivers(work_package).uniq.each do |recipient|
       mail = User.execute_as(recipient) {
         if journal.initial?
-          UserMailer.work_package_added(recipient, work_package, author)
+          UserMailer.work_package_added(recipient, journal, author)
         else
           UserMailer.work_package_updated(recipient, journal, author)
         end

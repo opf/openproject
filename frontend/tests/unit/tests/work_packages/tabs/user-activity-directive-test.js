@@ -49,7 +49,7 @@ describe('userActivity Directive', function() {
 
     beforeEach(inject(function($rootScope, $compile, $uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper) {
       var html;
-      html = '<div exclusive-edit class="exclusive-edit"><user-activity work-package="workPackage" activity="activity" activity-no="activityNo" input-element-id="inputElementId"></user-activity></div>';
+      html = '<div exclusive-edit class="exclusive-edit"><user-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial" input-element-id="inputElementId"></user-activity></div>';
 
       rootScope = $rootScope;
       scope = $rootScope.$new();
@@ -107,8 +107,9 @@ describe('userActivity Directive', function() {
                   html: '<strong>Type</strong> changed'
                 },
               ]
-            },
+            }
           };
+          scope.isInitial = false;
           compile();
         });
 
@@ -163,6 +164,18 @@ describe('userActivity Directive', function() {
 
             expect(detail1).to.eq(scope.activity.props.details[0].html);
             expect(detail2).to.eq(scope.activity.props.details[1].html);
+          });
+
+          context('for initial journal', function() {
+            beforeEach(function() {
+              scope.isInitial = true;
+              compile();
+            });
+            it('should not render activity details', function() {
+              var listFinder = element.find('ul.work-package-details-activities-messages');
+
+              expect(listFinder).to.have.length(0);
+            });
           });
         });
       });

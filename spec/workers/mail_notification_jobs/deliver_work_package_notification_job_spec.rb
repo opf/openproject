@@ -52,7 +52,10 @@ describe DeliverWorkPackageNotificationJob, type: :model do
   end
 
   it 'sends a mail' do
-    expect(UserMailer).to receive(:work_package_added).with(recipient, work_package, author)
+    expect(UserMailer).to receive(:work_package_added).with(
+                            recipient,
+                            an_instance_of(Journal::AggregatedJournal),
+                            author)
     subject.perform
   end
 
@@ -79,7 +82,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
 
     it 'uses the deleted user as author' do
       expect(UserMailer).to receive(:work_package_added)
-                              .with(recipient, work_package, DeletedUser.first)
+                              .with(anything, anything, DeletedUser.first)
 
       subject.perform
     end
@@ -93,7 +96,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     it 'raises an error' do
-      expect { subject.perform }.to raise_error
+      expect { subject.perform }.to raise_error('aggregated journal got outdated')
     end
   end
 

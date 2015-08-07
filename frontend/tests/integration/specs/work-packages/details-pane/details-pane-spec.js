@@ -72,15 +72,15 @@ describe('OpenProject', function() {
         it('should render the last 3 activites', function() {
           expect(
             $('ul li:nth-child(1) div.comments-number').getText()
-          ).to.eventually.equal('#3');
+          ).to.eventually.equal('#4');
 
           expect(
             $('ul li:nth-child(2) div.comments-number').getText()
-          ).to.eventually.equal('#2');
+          ).to.eventually.equal('#3');
 
           expect(
             $('ul li:nth-child(3) div.comments-number').getText()
-          ).to.eventually.equal('#1');
+          ).to.eventually.equal('#2');
         });
 
         it('should contain the activities details', function() {
