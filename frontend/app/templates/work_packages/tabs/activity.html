@@ -14,8 +14,14 @@
                          activity="activity"
                          activity-no="activityNo"
                          is-initial="isInitial"
+                         ng-if="matchesActivityType(activity, '^Activity')"
                          input-element-id="'add-comment-text'">
           </user-activity>
+          <revision-activity work-package="workPackage"
+                         activity="activity"
+                         activity-no="activityNo"
+                         ng-if="matchesActivityType(activity, '^Revision$')">
+          </revision-activity>
         </li>
       </ul>
     </div>

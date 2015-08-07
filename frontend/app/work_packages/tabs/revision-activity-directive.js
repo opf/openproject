@@ -26,11 +26,39 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
-  return function(items, isDescending, visible) {
+module.exports = function($sce,
+    I18n,
+    PathHelper,
+    ActivityService,
+    UsersHelper) {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: '/templates/work_packages/tabs/_revision_activity.html',
+    scope: {
+      workPackage: '=',
+      activity: '=',
+      activityNo: '=',
+    },
+    link: function(scope) {
+      scope.I18n = I18n;
+      if (scope.activity.links.author === undefined) {
+        scope.userName = scope.activity.props.authorName;
+      } else {
+        scope.userPath = PathHelper.staticUserPath;
+        scope.activity.links.author.fetch().then(function(user) {
+          scope.userId = user.props.id;
+          scope.userName = user.props.name;
+          scope.userAvatar = user.props.avatar;
+          scope.userActive = UsersHelper.isActive(user);
+        });
+      }
 
-    // We want to enforce descending order here, and when the setting
-    // is already descending, we no longer have to do that ourselves.
-    return isDescending ? items.slice(0,visible) : items.slice(-visible).reverse();
+      scope.project = scope.workPackage.embedded.project;
+      scope.revision = scope.activity.props.identifier;
+      scope.formattedRevision = (scope.revision.length > 8 ? scope.revision.substr(0,8) : scope.revision);
+      scope.revisionPath = PathHelper.revisionPath(scope.project.props.identifier, scope.revision);
+      scope.message = $sce.trustAsHtml(scope.activity.props.message.html);
+    }
   };
 };

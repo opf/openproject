@@ -52,6 +52,14 @@ angular.module('openproject.workPackages.tabs')
     'AutoCompleteHelper',
     require('./user-activity-directive')
   ])
+  .directive('revisionActivity', [
+    '$sce',
+    'I18n',
+    'PathHelper',
+    'ActivityService',
+    'UsersHelper',
+    require('./revision-activity-directive')
+  ])
   .directive('workPackageRelations', [
     'I18n',
     'WorkPackagesHelper',
