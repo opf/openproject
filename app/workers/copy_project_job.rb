@@ -34,6 +34,7 @@ class CopyProjectJob < Struct.new(:user_id,
                                   :associations_to_copy,
                                   :send_mails)
   include OpenProject::LocaleHelper
+  include OpenProject::ResetsRequestStore
 
   def perform
     User.current = user

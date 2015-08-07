@@ -28,6 +28,8 @@
 #++
 
 class DeleteUserJob
+  include OpenProject::ResetsRequestStore
+
   def initialize(user)
     @user_id = user.id
   end

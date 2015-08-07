@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,35 +26,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Scm::StorageUpdaterJob
-  include OpenProject::ResetsRequestStore
+require 'spec_helper'
 
-  def initialize(repository)
-    @id = repository.id
+describe OpenProject::ResetsRequestStore do
+  class JobMock
+    include OpenProject::ResetsRequestStore
 
-    unless repository.scm.storage_available?
-      raise OpenProject::Scm::Exceptions::ScmError.new(
-        I18n.t('repositories.storage.not_available')
-      )
+    def initialize(callback)
+      @callback = callback
+    end
+
+    def perform
+      @callback.call
     end
   end
 
-  def perform
-    bytes = repository.scm.count_repository!
+  it 'resets the request store on each perform' do
+    job = JobMock.new(->() do
+      expect(RequestStore[:test_value]).to be_nil
+      RequestStore[:test_value] = 42
+    end)
 
-    repository.update_attributes!(
-      required_storage_bytes: bytes,
-      storage_updated_at: Time.now,
-    )
+    job.perform
+    job.perform
   end
 
-  def destroy_failed_jobs?
-    true
-  end
+  it 'leaves the request store populated after perform' do
+    job = JobMock.new(->() do
+      RequestStore[:test_value] = 42
+    end)
 
-  private
+    job.perform
 
-  def repository
-    @repository ||= Repository.find @id
+    expect(RequestStore[:test_value]).to eql 42
   end
 end
