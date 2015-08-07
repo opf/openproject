@@ -55,6 +55,7 @@ Feature: Having an inline diff view for work package description changes
   Scenario: A work package with a changed description has a callable diff showing the changes inline
     Given the work_package "wp1" is updated with the following:
       | description | Altered description |
+    And journals are not being aggregated
 
     When I go to the page of the work package "wp1"
 

@@ -120,6 +120,14 @@ describe Journal::AggregatedJournal, type: :model do
         expect(subject.first.successor).to be_nil
       end
 
+      it 'returns the single journal for both original journals' do
+        expect(described_class.for_journal work_package.journals.first)
+          .to be_equivalent_to_journal subject.first
+
+        expect(described_class.for_journal work_package.journals.second)
+          .to be_equivalent_to_journal subject.first
+      end
+
       context 'with a comment' do
         let(:notes) { 'This is why I changed it.' }
 
@@ -152,6 +160,19 @@ describe Journal::AggregatedJournal, type: :model do
 
           it 'has the second as successor of the first journal' do
             expect(subject.first.successor).to be_equivalent_to_journal subject.second
+          end
+
+          it 'returns the same aggregated journal for the first two originals' do
+            expect(described_class.for_journal work_package.journals.first)
+              .to be_equivalent_to_journal subject.first
+
+            expect(described_class.for_journal work_package.journals.second)
+              .to be_equivalent_to_journal subject.first
+          end
+
+          it 'returns a different aggregated journal for the last original' do
+            expect(described_class.for_journal work_package.journals.last)
+              .to be_equivalent_to_journal subject.second
           end
         end
 
@@ -220,6 +241,29 @@ describe Journal::AggregatedJournal, type: :model do
       expect(subject.count).to eql 2
       expect(subject.first).to be_equivalent_to_journal work_package.journals.first
       expect(subject.second).to be_equivalent_to_journal work_package.journals.second
+    end
+  end
+
+  context 'aggregation is disabled' do
+    before do
+      allow(Setting).to receive(:journal_aggregation_time_minutes).and_return(0)
+    end
+
+    context 'WP updated within milliseconds' do
+      let(:delay) { 0.001.seconds }
+
+      before do
+        work_package.status = FactoryGirl.build(:status)
+        work_package.save!
+        work_package.journals.second.created_at = work_package.journals.first.created_at + delay
+        work_package.journals.second.save!
+      end
+
+      it 'returns both journals' do
+        expect(subject.count).to eql 2
+        expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+        expect(subject.second).to be_equivalent_to_journal work_package.journals.second
+      end
     end
   end
 

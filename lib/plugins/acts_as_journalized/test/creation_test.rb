@@ -81,7 +81,7 @@ class CreationTest < Test::Unit::TestCase
 
     should 'not contain Rails timestamps' do
       %w(created_at created_on updated_at updated_on).each do |timestamp|
-        assert_does_not_contain @user.journals.last.changed_data.keys, timestamp
+        assert_does_not_contain @user.journals.last.details.keys, timestamp
       end
     end
 
@@ -93,7 +93,7 @@ class CreationTest < Test::Unit::TestCase
       end
 
       should 'only contain the specified columns' do
-        assert_equal @only, @user.journals.last.changed_data.keys
+        assert_equal @only, @user.journals.last.details.keys
       end
 
       teardown do
@@ -110,7 +110,7 @@ class CreationTest < Test::Unit::TestCase
 
       should 'not contain the specified columns' do
         @except.each do |column|
-          assert_does_not_contain @user.journals.last.changed_data.keys, column
+          assert_does_not_contain @user.journals.last.details.keys, column
         end
       end
 
@@ -128,7 +128,7 @@ class CreationTest < Test::Unit::TestCase
       end
 
       should 'respect only the :only options' do
-        assert_equal @only, @user.journals.last.changed_data.keys
+        assert_equal @only, @user.journals.last.details.keys
       end
 
       teardown do
