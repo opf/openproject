@@ -222,6 +222,13 @@ class ApplicationController < ActionController::Base
     I18n.fallbacks.defaults = fallbacks
   end
 
+  ##
+  # Sets the language for the current request.
+  # The language is determined with the following priority:
+  #
+  #   1. The language as configured by the user.
+  #   2. The first language defined in the Accept-Language header sent by the browser.
+  #   3. OpenProject's default language defined in the settings.
   def set_localization
     lang = nil
     lang = find_language(User.current.language) if User.current.logged?

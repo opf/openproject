@@ -48,25 +48,6 @@ class PlanningElementTypeColor < ActiveRecord::Base
   validates_length_of :name, maximum: 255, unless: lambda { |e| e.name.blank? }
   validates_format_of :hexcode, with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? }
 
-  def self.colors
-    [
-      find_or_initialize_by_name_and_hexcode('Black',      '#000000'),
-      find_or_initialize_by_name_and_hexcode('White',      '#FFFFFF'),
-      find_or_initialize_by_name_and_hexcode('Blue',       '#3399CC'),
-      find_or_initialize_by_name_and_hexcode('Mint',       '#66CCCC'),
-      find_or_initialize_by_name_and_hexcode('Lime',       '#66CC99'),
-      find_or_initialize_by_name_and_hexcode('Green-neon', '#00CC33'),
-      find_or_initialize_by_name_and_hexcode('Green',      '#339933'),
-      find_or_initialize_by_name_and_hexcode('Orange',     '#FFCC00'),
-      find_or_initialize_by_name_and_hexcode('Red',        '#CC3333'),
-      find_or_initialize_by_name_and_hexcode('Red-bright', '#FF3300'),
-      find_or_initialize_by_name_and_hexcode('Yellow',     '#FFFF00'),
-      find_or_initialize_by_name_and_hexcode('Purple',     '#CC0066'),
-      find_or_initialize_by_name_and_hexcode('Grey-dark',  '#666666'),
-      find_or_initialize_by_name_and_hexcode('Grey-light', '#DDDDDD')
-    ]
-  end
-
   def text_hexcode
     # 0.63 - Optimal threshold to switch between white and black text color
     #        determined by intensive user tests and expensive research

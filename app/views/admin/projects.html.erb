@@ -27,10 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div id="admin-index">
-  <%= render :partial => 'no_data' if @no_configuration_data %>
-</div>
-
 <% html_title(l(:label_administration), l(:label_project_plural)) -%>
 <%= toolbar title: l(:label_project_plural) do %>
   <li class="toolbar-item">

@@ -27,6 +27,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# add seeds specific for the production-environment here
+%w{ roles
+    activities
+    colors
+    workflows
+    priorities
+    project_statuses
+    project_types }.each do |file|
+  puts "**** #{file}"
 
-require "#{Rails.root}/db/seeds/basic_setup"
+  require "#{Rails.root}/db/seeds/#{file}"
+end

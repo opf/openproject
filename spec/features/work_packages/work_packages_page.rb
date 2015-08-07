@@ -35,8 +35,8 @@ class WorkPackagesPage
     @project = project
   end
 
-  def visit_index
-    visit index_path
+  def visit_index(work_package = nil)
+    visit index_path(work_package)
 
     ensure_index_page_loaded
   end
@@ -77,8 +77,10 @@ class WorkPackagesPage
 
   private
 
-  def index_path
-    @project ? project_work_packages_path(@project) : work_packages_path
+  def index_path(work_package = nil)
+    path = @project ? project_work_packages_path(@project) : work_packages_path
+    path += "/#{work_package.id}/overview" if work_package
+    path
   end
 
   def query_path(query)
