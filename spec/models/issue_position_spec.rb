@@ -253,6 +253,13 @@ describe WorkPackage, :type => :model do
       let(:version_go_live) { FactoryGirl.create(:version,
                                              :project_id => project_wo_backlogs.id,
                                              :name => 'Go-Live') }
+      let(:admin) { FactoryGirl.create(:admin) }
+
+      def move_to_project(work_package, project)
+        service = MoveWorkPackageService.new(work_package, admin)
+
+        service.call(project)
+      end
 
       before do
         project_wo_backlogs.enabled_module_names = project_wo_backlogs.enabled_module_names - ["backlogs"]
@@ -277,7 +284,7 @@ describe WorkPackage, :type => :model do
           end
 
           it 'sets the fixed_version_id to nil' do
-            result = work_package_i.move_to_project(project)
+            result = move_to_project(work_package_i, project)
 
             expect(result).to be_truthy
 
@@ -285,7 +292,7 @@ describe WorkPackage, :type => :model do
           end
 
           it 'removes it from any list' do
-            result = work_package_i.move_to_project(project)
+            result = move_to_project(work_package_i, project)
 
             expect(result).to be_truthy
 
@@ -303,7 +310,7 @@ describe WorkPackage, :type => :model do
           end
 
           it 'keeps the fixed_version_id' do
-            result = work_package_i.move_to_project(project)
+            result = move_to_project(work_package_i, project)
 
             expect(result).to be_truthy
 
@@ -311,7 +318,7 @@ describe WorkPackage, :type => :model do
           end
 
           it 'adds it to the bottom of the list' do
-            result = work_package_i.move_to_project(project)
+            result = move_to_project(work_package_i, project)
 
             expect(result).to be_truthy
 
@@ -323,7 +330,7 @@ describe WorkPackage, :type => :model do
       describe '- Moving an work_package away from backlogs_enabled project to a project without backlogs' do
         describe 'if the fixed_version may not be kept' do
           it 'sets the fixed_version_id to nil' do
-            result = work_package_3.move_to_project(project_wo_backlogs)
+            result = move_to_project(work_package_3, project_wo_backlogs)
 
             expect(result).to be_truthy
 
@@ -331,7 +338,7 @@ describe WorkPackage, :type => :model do
           end
 
           it 'removes it from any list' do
-            result = work_package_3.move_to_project(sub_project_wo_backlogs)
+            result = move_to_project(work_package_3, sub_project_wo_backlogs)
 
             expect(result).to be_truthy
 
@@ -339,7 +346,7 @@ describe WorkPackage, :type => :model do
           end
 
           it 'reorders the remaining work_packages' do
-            result = work_package_3.move_to_project(sub_project_wo_backlogs)
+            result = move_to_project(work_package_3, sub_project_wo_backlogs)
 
             expect(result).to be_truthy
 
@@ -364,7 +371,7 @@ describe WorkPackage, :type => :model do
           end
 
           it 'keeps the fixed_version_id' do
-            result = work_package_ii.move_to_project(sub_project_wo_backlogs)
+            result = move_to_project(work_package_ii, sub_project_wo_backlogs)
 
             expect(result).to be_truthy
 
@@ -372,7 +379,7 @@ describe WorkPackage, :type => :model do
           end
 
           it 'removes it from any list' do
-            result = work_package_ii.move_to_project(sub_project_wo_backlogs)
+            result = move_to_project(work_package_ii, sub_project_wo_backlogs)
 
             expect(result).to be_truthy
 
@@ -380,7 +387,7 @@ describe WorkPackage, :type => :model do
           end
 
           it 'reorders the remaining work_packages' do
-            result = work_package_ii.move_to_project(sub_project_wo_backlogs)
+            result = move_to_project(work_package_ii, sub_project_wo_backlogs)
 
             expect(result).to be_truthy
 

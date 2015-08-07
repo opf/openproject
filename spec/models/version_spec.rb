@@ -61,6 +61,14 @@ describe Version, :type => :model do
 
     let(:version) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Version') }
 
+    let(:admin) { FactoryGirl.create(:admin) }
+
+    def move_to_project(work_package, project)
+      service = MoveWorkPackageService.new(work_package, admin)
+
+      service.call(project)
+    end
+
     before do
       # We had problems while writing these specs, that some elements kept
       # creaping around between tests. This should be fast enough to not harm
@@ -102,13 +110,13 @@ describe Version, :type => :model do
       work_package2.reload
       work_package3.reload
 
-      work_package3.move_to_project(project2)
+      move_to_project(work_package3, project2)
 
       work_package1.reload
       work_package2.reload
       work_package3.reload
 
-      work_package2.move_to_project(project2)
+      move_to_project(work_package2, project2)
 
       work_package1.reload
       work_package2.reload
