@@ -38,16 +38,44 @@ $tc-header-cell-hover-background-color: #f8f8f8
 $tc-row-bottom-border-color: #ddd
 $tc-row-bottom-border-height: rem-calc(1)
 $tc-row-hover-line-background-color: #e4f7fb
+$tc--header-height: 40px
+$tc--footer-height: 34px
 
-.table-component--wrapper
-  position: relative
-  overflow-x: auto
+.table-component--container
+  position:     relative
+  height:       100%
+  padding-top:    $tc--header-height
+  overflow:
+    x: auto
+    y: hidden
+
+  &.-with-footer
+    padding-bottom: $tc--footer-height
+
+.table-component--results-container
+  height:       100%
+  overflow:
+    x: hidden
+    y: auto
 
 .table-component
   border-collapse: collapse
   margin: 0
   font-size: $tc-header-font-size
   font-family: $tc-font-family
+
+  thead
+    tr
+      &:hover
+        background: none
+      th
+        padding: 0
+
+    th
+      font-size: $work-packages-table--header-font-size
+      text-transform: uppercase
+      text-align: left
+      line-height: 34px
 
   tbody
     &>tr:first-child
@@ -68,7 +96,59 @@ $tc-row-hover-line-background-color: #e4f7fb
       font-size: $tc-cells-font-size
       padding: $tc-cell-padding
 
+    .sort
+      &.asc:after
+        @include icon-common
+        content: "\e0dd"
+        margin-left: 5px
+        font-size: 1.2em
+        vertical-align: text-bottom
+
+      &.desc:after
+        @include icon-common
+        content: "\e0de"
+        margin-left: 5px
+        font-size: 1.2em
+        vertical-align: text-bottom
+
   col
     &:hover,
     &.hover
       background:   #f8f8f8
+
+  .table-component--sort-header-outer
+    position:     absolute
+    top:          0
+    padding:      0 8px
+    line-height:  $tc--header-height
+    overflow:     hidden
+    z-index:      1
+
+    &:hover,
+    &.hover
+      background:   #f8f8f8
+
+  .table-component--sort-header
+    white-space: nowrap
+    width:   100%
+    clear:   both
+    display: table
+
+    & > a,
+    & > span
+      display: table-cell
+      font-weight: bold
+
+    & > .dropdown-indicator
+      width: 1em
+      text-align: right
+
+.table-component--header-background
+  position:     absolute
+  top:          0
+  width:        100%
+  height:       $tc--header-height
+  background:   white
+  border-bottom: 1px solid #dddddd
+  box-shadow:   0 5px 15px -5px #dddddd
+  z-index:      0

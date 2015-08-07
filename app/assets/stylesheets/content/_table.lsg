@@ -4,54 +4,105 @@
 [WP tables](http://localhost:8080/assets/css/styleguide.html#with-work-packages)
 
 ```
-<div class="table-component--wrapper">
-<table role="grid" class="table-component">
-  <colgroup>
-    <col>
-    <col>
-    <col>
-    <col>
-    <col>
-  </colgroup>
-  <thead>
-    <tr>
-      <th>First</th>
-      <th>Second</th>
-      <th>Third</th>
-      <th>Forth</th>
-      <th>Fifth</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
-      <td>Nullam a sem et metus congue placerat.</td>
-      <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
-      <td>Maecenas elementum orci a varius suscipit.</td>
-      <td>Nunc molestie neque sit amet eros semper dapibus.</td>
-    </tr>
-    <tr>
-      <td>Nullam a sem et metus congue placerat.</td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
-      <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
-      <td>Maecenas elementum orci a varius suscipit.</td>
-      <td>Nunc molestie neque sit amet eros semper dapibus.</td>
-    </tr>
-    <tr>
-      <td>Nullam a sem et metus congue placerat.</td>
-      <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
-      <td>Maecenas elementum orci a varius suscipit.</td>
-      <td>Nunc molestie neque sit amet eros semper dapibus.</td>
-    </tr>
-    <tr>
-      <td>Nullam a sem et metus congue placerat.</td>
-      <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
-      <td>Maecenas elementum orci a varius suscipit.</td>
-      <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
-      <td>Nunc molestie neque sit amet eros semper dapibus.</td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-component--container">
+  <div class="table-component--results-container" style="max-height: 340px;">
+    <table role="grid" class="table-component">
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="table-component--sort-header-outer">
+              <div class="table-component--sort-header">
+                <span class="sort asc">
+                  First
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="table-component--sort-header-outer">
+              <div class="table-component--sort-header">
+                <span class="sort asc">
+                  Second
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="table-component--sort-header-outer">
+              <div class="table-component--sort-header">
+                <span class="sort desc">
+                  Third
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="table-component--sort-header-outer">
+              <div class="table-component--sort-header">
+                <span class="sort desc">
+                  Fourth
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="table-component--sort-header-outer">
+              <div class="table-component--sort-header">
+                <span class="sort desc">
+                  Fifth
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+            <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="table-component--header-background"></div>
+  </div>
 </div>
+
 ```
