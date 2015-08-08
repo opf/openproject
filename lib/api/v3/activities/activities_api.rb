@@ -38,30 +38,27 @@ module API
           end
           route_param :id do
             before do
-              @activity = Journal.find(params[:id])
-              @representer = ActivityRepresenter.new(@activity, current_user: current_user)
-            end
+              @activity = Journal::AggregatedJournal.with_notes_id(params[:id])
+              raise API::Errors::NotFound unless @activity
 
-            get do
               authorize(:view_project, context: @activity.journable.project)
-              @representer
             end
 
             helpers do
               def save_activity(activity)
-                if activity.save
-                  representer = ActivityRepresenter.new(activity)
-
-                  representer
-                else
+                unless activity.save
                   fail ::API::Errors::ErrorBase.create_and_merge_errors(activity.errors)
                 end
               end
 
               def authorize_edit_own(activity)
-                return authorize({ controller: :journals, action: :edit }, context: @activity.journable.project)
-                raise API::Errors::Unauthorized.new(current_user) unless activity.editable_by?(current_user)
+                authorize({ controller: :journals, action: :edit },
+                          context: activity.journable.project)
               end
+            end
+
+            get do
+              ActivityRepresenter.new(@activity, current_user: current_user)
             end
 
             params do
@@ -69,11 +66,12 @@ module API
             end
 
             patch do
-              authorize_edit_own(@activity)
+              editable_activity = Journal.find(@activity.notes_id)
+              authorize_edit_own(editable_activity)
+              editable_activity.notes = params[:comment]
+              save_activity(editable_activity)
 
-              @activity.notes = params[:comment]
-
-              save_activity(@activity)
+              ActivityRepresenter.new(@activity.reloaded, current_user: current_user)
             end
           end
         end

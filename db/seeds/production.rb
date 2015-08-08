@@ -29,30 +29,4 @@
 
 # add seeds specific for the production-environment here
 
-standard_type = ::Type.find_by(is_standard: true)
-
-# Adds the standard type to all existing projects
-#
-# As this seed might be executed on an existing database, there might be projects
-# that do not have the default type yet.
-
-projects_without_standard_type = Project.where("NOT EXISTS (SELECT * from projects_types WHERE projects.id = projects_types.project_id AND projects_types.type_id = #{standard_type.id})")
-                                 .all
-
-projects_without_standard_type.each do |project|
-  project.types << standard_type
-end
-
-# Fixes work packages that do not have a type yet. They receive the standard type.
-#
-# This can happen when an existing database, having timelines planning elements,
-# gets migrated. During the migration, the existing planning elements are converted
-# to work_packages. Because the existance of a standard type cannot be guaranteed
-# during the migration, such work packages receive a type_id of 0.
-#
-# Because all work packages that do not a type yet should always have had one
-# (from todays standpoint) the assignment is done covertedly.
-
-[WorkPackage, Journal::WorkPackageJournal].each do |klass|
-  klass.where(type_id: [0, nil]).update_all(type_id: standard_type.id)
-end
+require "#{Rails.root}/db/seeds/basic_setup"

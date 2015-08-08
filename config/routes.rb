@@ -329,9 +329,11 @@ OpenProject::Application.routes.draw do
       match :autocomplete_for_member, on: :collection, via: [:get, :post]
     end
 
-    resource :repository, only: [:destroy] do
+    resource :repository, controller: 'repositories', except: [:new] do
       get :edit # needed as show is configured manually with a wildcard
-      post :edit
+
+      # Destroy uses a get request to prompt the user before the actual DELETE request
+      get :destroy_info
       get :committers
       post :committers
       get :graph
@@ -512,6 +514,7 @@ OpenProject::Application.routes.draw do
 
   scope controller: 'sys' do
     match '/sys/projects.:format', action: 'projects', via: :get
+    match '/sys/projects/:id/repository/update_storage', action: 'update_required_storage', via: :get
     match '/sys/projects/:id/repository.:format', action: 'create_project_repository', via: :post
   end
 

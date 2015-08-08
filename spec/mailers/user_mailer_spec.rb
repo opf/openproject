@@ -108,7 +108,7 @@ describe UserMailer, type: :mailer do
 
   describe '#work_package_added' do
     before do
-      UserMailer.work_package_added(recipient, work_package, user).deliver
+      UserMailer.work_package_added(recipient, journal, user).deliver
     end
 
     it_behaves_like 'mail is sent'

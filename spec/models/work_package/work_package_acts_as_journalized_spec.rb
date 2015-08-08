@@ -162,7 +162,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'last created journal' do
-        subject { work_package.journals.last.changed_data }
+        subject { work_package.journals.last.details }
 
         it 'contains all changes' do
           [:subject, :description, :type_id, :status_id, :priority_id,
@@ -232,7 +232,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'new attachment' do
-        subject { work_package.journals.last.changed_data }
+        subject { work_package.journals.last.details }
 
         it { is_expected.to have_key attachment_id }
 
@@ -254,7 +254,7 @@ describe WorkPackage, type: :model do
       context 'attachment removed' do
         before do work_package.attachments.delete(attachment) end
 
-        subject { work_package.journals.last.changed_data }
+        subject { work_package.journals.last.details }
 
         it { is_expected.to have_key attachment_id }
 
@@ -285,7 +285,7 @@ describe WorkPackage, type: :model do
       context 'new custom value' do
         include_context 'work package with custom value'
 
-        subject { work_package.journals.last.changed_data }
+        subject { work_package.journals.last.details }
 
         it { is_expected.to have_key custom_field_id }
 
@@ -305,7 +305,7 @@ describe WorkPackage, type: :model do
           work_package.save!
         end
 
-        subject { work_package.journals.last.changed_data }
+        subject { work_package.journals.last.details }
 
         it { is_expected.to have_key custom_field_id }
 
@@ -340,7 +340,7 @@ describe WorkPackage, type: :model do
           work_package.save!
         end
 
-        subject { work_package.journals.last.changed_data }
+        subject { work_package.journals.last.details }
 
         it { is_expected.to have_key custom_field_id }
 

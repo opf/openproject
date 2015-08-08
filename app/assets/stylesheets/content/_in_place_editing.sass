@@ -169,6 +169,12 @@ $inplace-edit--selected-date-border-color: $primary-color-dark
   &.-default
     font-style: italic
 
+  p
+    font-size: inherit
+
+    &:last-of-type
+      margin-bottom: 0
+
 .inplace-edit--preview
   border: 1px solid $inplace-edit--border-color
   padding: 0.375rem
@@ -215,6 +221,7 @@ a.inplace-editing--trigger-link,
       border-color: $inplace-edit--border-color
     .inplace-edit--icon-wrapper
       visibility: visible
+
 
 .inplace-editing--container
   @include grid-block

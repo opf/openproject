@@ -69,6 +69,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   end
 
   def link(key, options)
+
     url_attr = default_attributes(options).merge(controller: '/journals',
                                                  action: 'diff',
                                                  id: @journal.id,

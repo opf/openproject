@@ -133,6 +133,10 @@ Then /^there should be a user with the following:$/ do |table|
   end
 end
 
+Given 'journals are not being aggregated' do
+  Setting.journal_aggregation_time_minutes = 0
+end
+
 ##
 # admin users list
 #

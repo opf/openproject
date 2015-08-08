@@ -31,7 +31,8 @@ module.exports = function(
   EditableFieldsState,
   FocusHelper,
   $timeout,
-  ApiHelper) {
+  ApiHelper,
+  $rootScope) {
   return {
     transclude: true,
     replace: true,
@@ -42,6 +43,11 @@ module.exports = function(
     controller: function($scope, WorkPackageService) {
       var vm = this;
       var acknowledgedValidationErrors = ['required', 'number'];
+
+      // go full retard
+      var uploadPendingAttachments = function(wp) {
+        $rootScope.$broadcast('uploadPendingAttachments', wp);
+      };
 
       this.submit = function(notify) {
         var fieldController = $scope.fieldController;
@@ -82,6 +88,7 @@ module.exports = function(
                     EditableFieldsState.errors = null;
                   }
                 );
+                uploadPendingAttachments(updatedWorkPackage);
               })).catch(setFailure);
             } else {
               afterError();

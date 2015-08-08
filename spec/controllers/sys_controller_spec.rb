@@ -38,9 +38,10 @@ module OpenProjectRepositoryAuthenticationSpecs
     let(:guest_role) { FactoryGirl.create(:role, permissions: []) }
     let(:valid_user_password) { 'Top Secret Password' }
     let(:valid_user) {
-      FactoryGirl.create(:user, login: 'johndoe',
-                                password: valid_user_password,
-                                password_confirmation: valid_user_password)
+      FactoryGirl.create(:user,
+                         login: 'johndoe',
+                         password: valid_user_password,
+                         password_confirmation: valid_user_password)
     }
 
     before(:each) do
@@ -48,9 +49,10 @@ module OpenProjectRepositoryAuthenticationSpecs
       DeletedUser.first # creating it first in order to avoid problems with should_receive
 
       random_project = FactoryGirl.create(:project, is_public: false)
-      @member = FactoryGirl.create(:member, user: valid_user,
-                                            roles: [browse_role],
-                                            project: random_project)
+      @member = FactoryGirl.create(:member,
+                                   user: valid_user,
+                                   roles: [browse_role],
+                                   project: random_project)
       allow(Setting).to receive(:sys_api_key).and_return('12345678')
       allow(Setting).to receive(:sys_api_enabled?).and_return(true)
       allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(true)
@@ -60,7 +62,7 @@ module OpenProjectRepositoryAuthenticationSpecs
       before(:each) do
         @key = Setting.sys_api_key
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        post 'repo_auth',  key: @key, repository: 'without-access', method: 'GET'
+        post 'repo_auth', key: @key, repository: 'without-access', method: 'GET'
       end
 
       it 'should respond 403 not allowed' do
@@ -73,19 +75,20 @@ module OpenProjectRepositoryAuthenticationSpecs
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
-        @member = FactoryGirl.create(:member, user: valid_user,
-                                              roles: [browse_role],
-                                              project: @project)
+        @member = FactoryGirl.create(:member,
+                                     user: valid_user,
+                                     roles: [browse_role],
+                                     project: @project)
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
       end
 
       it 'should respond 200 okay dokay for GET' do
-        post 'repo_auth',  key: @key, repository: @project.identifier, method: 'GET'
+        post 'repo_auth', key: @key, repository: @project.identifier, method: 'GET'
         expect(response.code).to eq('200')
       end
 
       it 'should respond 403 not allowed for POST' do
-        post 'repo_auth',  key: @key, repository: @project.identifier, method: 'POST'
+        post 'repo_auth', key: @key, repository: @project.identifier, method: 'POST'
         expect(response.code).to eq('403')
       end
     end
@@ -94,20 +97,21 @@ module OpenProjectRepositoryAuthenticationSpecs
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
-        @member = FactoryGirl.create(:member, user: valid_user,
-                                              roles: [commit_role],
-                                              project: @project)
+        @member = FactoryGirl.create(:member,
+                                     user: valid_user,
+                                     roles: [commit_role],
+                                     project: @project)
         valid_user.save
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
       end
 
       it 'should respond 200 okay dokay for GET' do
-        post 'repo_auth',  key: @key, repository: @project.identifier, method: 'GET'
+        post 'repo_auth', key: @key, repository: @project.identifier, method: 'GET'
         expect(response.code).to eq('200')
       end
 
       it 'should respond 200 okay dokay for POST' do
-        post 'repo_auth',  key: @key, repository: @project.identifier, method: 'POST'
+        post 'repo_auth', key: @key, repository: @project.identifier, method: 'POST'
         expect(response.code).to eq('200')
       end
     end
@@ -116,11 +120,12 @@ module OpenProjectRepositoryAuthenticationSpecs
       before(:each) do
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
-        @member = FactoryGirl.create(:member, user: valid_user,
-                                              roles: [commit_role],
-                                              project: @project)
+        @member = FactoryGirl.create(:member,
+                                     user: valid_user,
+                                     roles: [commit_role],
+                                     project: @project)
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password + 'made invalid')
-        post 'repo_auth',  key: @key, repository: @project.identifier, method: 'GET'
+        post 'repo_auth', key: @key, repository: @project.identifier, method: 'GET'
       end
 
       it 'should respond 401 auth required' do
@@ -133,7 +138,7 @@ module OpenProjectRepositoryAuthenticationSpecs
         @key = Setting.sys_api_key
         @project = FactoryGirl.create(:project, is_public: false)
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        post 'repo_auth',  key: @key, repository: @project.identifier, method: 'GET'
+        post 'repo_auth', key: @key, repository: @project.identifier, method: 'GET'
       end
 
       it 'should respond 403 not allowed' do
@@ -147,12 +152,13 @@ module OpenProjectRepositoryAuthenticationSpecs
         @project = FactoryGirl.create(:project, is_public: true)
 
         random_project = FactoryGirl.create(:project, is_public: false)
-        @member = FactoryGirl.create(:member, user: valid_user,
-                                              roles: [browse_role],
-                                              project: random_project)
+        @member = FactoryGirl.create(:member,
+                                     user: valid_user,
+                                     roles: [browse_role],
+                                     project: random_project)
 
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        post 'repo_auth',  key: @key, repository: @project.identifier, method: 'GET'
+        post 'repo_auth', key: @key, repository: @project.identifier, method: 'GET'
       end
 
       it 'should respond 200 OK' do
@@ -163,7 +169,7 @@ module OpenProjectRepositoryAuthenticationSpecs
     describe '#repo_auth', 'for invalid credentials' do
       before(:each) do
         @key = Setting.sys_api_key
-        post 'repo_auth',  key: @key, repository: 'any-repo', method: 'GET'
+        post 'repo_auth', key: @key, repository: 'any-repo', method: 'GET'
       end
 
       it 'should respond 401 auth required' do
@@ -179,14 +185,14 @@ module OpenProjectRepositoryAuthenticationSpecs
 
       it 'should respond 403 for valid username/password' do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(valid_user.login, valid_user_password)
-        post 'repo_auth',  key: @key, repository: 'any-repo', method: 'GET'
+        post 'repo_auth', key: @key, repository: 'any-repo', method: 'GET'
         expect(response.code).to eq('403')
         expect(response.body).to eq('Access denied. Repository management WS is disabled or key is invalid.')
       end
 
       it 'should respond 403 for invalid username/password' do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials('invalid', 'invalid')
-        post 'repo_auth',  key: @key, repository: 'any-repo', method: 'GET'
+        post 'repo_auth', key: @key, repository: 'any-repo', method: 'GET'
         expect(response.code).to eq('403')
         expect(response.body).to eq('Access denied. Repository management WS is disabled or key is invalid.')
       end
@@ -210,15 +216,13 @@ module OpenProjectRepositoryAuthenticationSpecs
       end
 
       it 'should return the same as user_login for valid creds' do
-        expect(controller.send(:cached_user_login, valid_user.login, valid_user_password)).to eq(
-          controller.send(:user_login, valid_user.login, valid_user_password)
-        )
+        expect(controller.send(:cached_user_login, valid_user.login, valid_user_password))
+          .to eq(controller.send(:user_login, valid_user.login, valid_user_password))
       end
 
       it 'should return the same as user_login for invalid creds' do
-        expect(controller.send(:cached_user_login, 'invalid', 'invalid')).to eq(
-          controller.send(:user_login, 'invalid', 'invalid')
-        )
+        expect(controller.send(:cached_user_login, 'invalid', 'invalid'))
+          .to eq(controller.send(:user_login, 'invalid', 'invalid'))
       end
 
       it 'should use cache' do
@@ -258,6 +262,143 @@ module OpenProjectRepositoryAuthenticationSpecs
           end
 
           controller.send(:cached_user_login, valid_user.login, valid_user_password)
+        end
+      end
+    end
+
+    describe 'update_required_storage' do
+      let(:force) { nil }
+      let(:apikey) { Setting.sys_api_key }
+      let(:last_updated) { nil }
+
+      def request_storage
+        get 'update_required_storage', key: apikey, id: id, force: force
+      end
+
+      context 'missing project' do
+        let(:id) { 1234 }
+
+        it 'returns 404' do
+          request_storage
+          expect(response.code).to eq('404')
+          expect(response.body).to include('Could not find project #1234')
+        end
+      end
+
+      context 'available project, but missing repository' do
+        let(:project) { FactoryGirl.build_stubbed(:project) }
+        let(:id) { project.id }
+        before do
+          allow(Project).to receive(:find).and_return(project)
+          request_storage
+        end
+
+        it 'returns 404' do
+          expect(response.code).to eq('404')
+          expect(response.body).to include("Project ##{project.id} does not have a repository.")
+        end
+      end
+
+      context 'stubbed repository' do
+        let(:project) { FactoryGirl.build_stubbed(:project) }
+        let(:id) { project.id }
+        let(:repository) {
+          FactoryGirl.build_stubbed(:repository_subversion, url: url, root_url: url)
+        }
+
+        before do
+          allow(Project).to receive(:find).and_return(project)
+          allow(project).to receive(:repository).and_return(repository)
+
+          allow(repository).to receive(:storage_updated_at).and_return(last_updated)
+          request_storage
+        end
+
+        context 'local non-existing repository' do
+          let(:root_url) { '/tmp/does/not/exist/svn/foo.svn' }
+          let(:url) { "file://#{root_url}" }
+
+          it 'does not have storage available' do
+            expect(repository.scm.storage_available?).to be false
+            expect(response.code).to eq('400')
+          end
+        end
+
+        context 'remote stubbed repository' do
+          let(:root_url) { '' }
+          let(:url) { 'https://foo.example.org/svn/bar' }
+
+          it 'has no storage available' do
+            request_storage
+            expect(repository.scm.storage_available?).to be false
+            expect(response.code).to eq('400')
+          end
+        end
+      end
+
+      context 'local existing repository' do
+        with_subversion_repository do |repo_dir|
+          let(:root_url) { repo_dir }
+          let(:url) { "file://#{root_url}" }
+
+          let(:project) { FactoryGirl.create(:project) }
+          let(:id) { project.id }
+          let(:repository) {
+            FactoryGirl.create(:repository_subversion, project: project, url: url, root_url: url)
+          }
+
+          before do
+            allow(Project).to receive(:find).and_return(project)
+            allow(project).to receive(:repository).and_return(repository)
+            allow(repository).to receive(:storage_updated_at).and_return(last_updated)
+          end
+
+          it 'has storage available' do
+            expect(repository.scm.storage_available?).to be true
+          end
+
+          context 'storage never updated before' do
+            it 'updates the storage' do
+              expect(repository.required_storage_bytes).to be == 0
+              request_storage
+
+              repository.reload
+              expect(repository.required_storage_bytes).to be > 0
+            end
+          end
+
+          context 'outdated storage' do
+            let(:last_updated) { 2.days.ago }
+            it 'updates the storage' do
+              expect(Delayed::Job)
+                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+
+              request_storage
+            end
+          end
+
+          context 'valid storage time' do
+            let(:last_updated) { 10.minutes.ago }
+
+            it 'does not update to storage' do
+              expect(Delayed::Job)
+                .not_to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+
+              request_storage
+            end
+          end
+
+          context 'valid storage time and force' do
+            let(:force) { '1' }
+            let(:last_updated) { 10.minutes.ago }
+
+            it 'does update to storage' do
+              expect(Delayed::Job)
+                .to receive(:enqueue).with(instance_of(::Scm::StorageUpdaterJob))
+
+              request_storage
+            end
+          end
         end
       end
     end

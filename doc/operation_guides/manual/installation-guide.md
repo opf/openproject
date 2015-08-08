@@ -222,7 +222,13 @@ prevents you from such errors.
 [openproject@host] RAILS_ENV="production" bundle exec rake assets:precompile
 ```
 
-## Servce OpenProject with Apache and Passenger
+**NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
+```bash
+[openproject@all] RAILS_ENV="production" LOCALE=fr bundle exec rake db:seed
+```
+will seed the database in the french language.
+
+## Serve OpenProject with Apache and Passenger
 
 First, we exit the current bash session with the openproject user,
 so that we are again in a root shell.

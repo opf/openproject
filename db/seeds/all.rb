@@ -29,61 +29,9 @@
 
 # add seeds here, that need to be available in all environments
 
-# Magic code. This useless use of a constant in void context actually
-# has autoloader side-effects that allow the circular dependency (User->
-# Principal-> Project-> User) to exist well into the future. Hooray for
-# not fixing stuff!
-Project
+%w{ builtin_roles
+    admin_user }.each do |file|
+  puts "**** #{file}"
 
-PlanningElementTypeColor.colors.map(&:save)
-default_color = PlanningElementTypeColor.find_by(name: 'Grey-light')
-
-::Type.find_or_create_by(is_standard: true) do |type|
-  type.name           = 'none'
-  type.position       = 0
-  type.color_id       = default_color.id
-  type.is_default     = true
-  type.is_in_roadmap  = true
-  type.in_aggregation = true
-  type.is_milestone   = false
-end
-
-if Role.find_by(builtin: Role::BUILTIN_NON_MEMBER).nil?
-  role = Role.new
-
-  role.name = 'Non member'
-  role.position = 0
-  role.builtin = Role::BUILTIN_NON_MEMBER
-  role.save!
-end
-
-if Role.find_by(builtin: Role::BUILTIN_ANONYMOUS).nil?
-  role = Role.new
-
-  role.name = 'Anonymous'
-  role.position = 1
-  role.builtin = Role::BUILTIN_ANONYMOUS
-  role.save!
-end
-
-if User.admin.empty?
-  user = User.new
-
-  old_password_length = Setting.password_min_length
-  Setting.password_min_length = 0
-
-  user.admin = true
-  user.login = 'admin'
-  user.password = 'admin'
-  # force password change on first login
-  user.force_password_change = true
-  user.firstname = 'OpenProject'
-  user.lastname = 'Admin'
-  user.mail = ENV.fetch('ADMIN_EMAIL') { 'admin@example.net' }
-  user.mail_notification = User::USER_MAIL_OPTION_NON.first
-  user.language = 'en'
-  user.status = 1
-  user.save!
-
-  Setting.password_min_length = old_password_length
+  require "#{Rails.root}/db/seeds/#{file}"
 end

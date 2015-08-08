@@ -371,7 +371,7 @@ describe User, type: :model do
     @jsmith.notified_project_ids = []
     @jsmith.save
     @jsmith.reload
-    assert @jsmith.projects.first.recipients.include?(@jsmith.mail)
+    assert @jsmith.projects.first.recipients.include?(@jsmith)
   end
 
   it 'should mail notification selected' do
@@ -379,7 +379,7 @@ describe User, type: :model do
     @jsmith.notified_project_ids = [1]
     @jsmith.save
     @jsmith.reload
-    assert Project.find(1).recipients.include?(@jsmith.mail)
+    assert Project.find(1).recipients.include?(@jsmith)
   end
 
   it 'should mail notification only my events' do
@@ -387,7 +387,7 @@ describe User, type: :model do
     @jsmith.notified_project_ids = []
     @jsmith.save
     @jsmith.reload
-    assert !@jsmith.projects.first.recipients.include?(@jsmith.mail)
+    assert !@jsmith.projects.first.recipients.include?(@jsmith)
   end
 
   it 'should comments sorting preference' do

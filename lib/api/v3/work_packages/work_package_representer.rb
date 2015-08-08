@@ -128,6 +128,12 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
         end
 
+        link :revisions do
+          {
+            href: api_v3_paths.work_package_revisions(represented.id)
+          } if current_user_allowed_to(:view_changesets, context: represented.project)
+        end
+
         link :watch do
           {
             href: api_v3_paths.work_package_watchers(represented.id),
@@ -307,7 +313,7 @@ module API
         end
 
         def activities
-          represented.journals.map do |activity|
+          ::Journal::AggregatedJournal.aggregated_journals(journable: represented).map do |activity|
             ::API::V3::Activities::ActivityRepresenter.new(activity, current_user: current_user)
           end
         end

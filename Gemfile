@@ -49,6 +49,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.0'
 gem 'acts_as_list', '~> 0.3.0'
+gem 'acts_as_countable', git: "https://github.com/finnlabs/acts_as_countable.git", ref: '2471265'
 
 gem 'friendly_id', '~> 5.1.0'
 
@@ -93,7 +94,8 @@ gem 'syck', platforms: [:mri, :mingw, :x64_mingw], require: false
 gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
-gem 'airbrake', '~> 4.1.0'
+# don't require by default, instead load on-demand when actually configured
+gem 'airbrake', '~> 4.1.0', require: false
 
 group :production do
   # we use dalli as standard memcache client

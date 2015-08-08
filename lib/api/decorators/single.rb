@@ -54,10 +54,10 @@ module API
                exec_context: :decorator,
                render_nil: false
 
-      def self.self_link(path: nil, title_getter: -> (*) { represented.name })
+      def self.self_link(path: nil, id_attribute: :id, title_getter: -> (*) { represented.name })
         link :self do
           path = _type.underscore unless path
-          link_object = { href: api_v3_paths.send(path, represented.id) }
+          link_object = { href: api_v3_paths.send(path, represented.send(id_attribute)) }
           title = instance_eval(&title_getter)
           link_object[:title] = title if title
 

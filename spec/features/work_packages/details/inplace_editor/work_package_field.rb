@@ -1,11 +1,13 @@
 class WorkPackageField
+  include Capybara::DSL
+  include RSpec::Matchers
+
   attr_reader :element
 
   def initialize(page, property_name)
     @property_name = property_name
 
-    # safeguard to ensure that the details pane has been opened
-    page.find('.work-packages--details-content')
+    ensure_page_loaded
 
     @element = page.find(field_selector)
   end
@@ -67,5 +69,14 @@ class WorkPackageField
 
   def errors_element
     @element.find('.inplace-edit--errors')
+  end
+
+  def ensure_page_loaded
+    if Capybara.current_driver == Capybara.javascript_driver
+      extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
+      ng_wait
+
+      expect(page).to have_selector('.work-packages--details-content')
+    end
   end
 end

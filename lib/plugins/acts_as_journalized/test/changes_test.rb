@@ -34,7 +34,7 @@ class ChangesTest < Test::Unit::TestCase
     setup do
       @user = User.create(name: 'Steve Richert')
       @user.update_attribute(:last_name, 'Jobs')
-      @changes = @user.journals.last.changed_data
+      @changes = @user.journals.last.details
     end
 
     should 'be a hash' do
@@ -73,7 +73,7 @@ class ChangesTest < Test::Unit::TestCase
       @user.first_name = 'Stephen'
       model_changes = @user.changed_data
       @user.save
-      changes = @user.journals.last.changed_data
+      changes = @user.journals.last.details
       assert_equal model_changes, changes
     end
   end

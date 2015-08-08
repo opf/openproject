@@ -180,6 +180,11 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_journalized except: ['root_id']
 
+  acts_as_countable :required_project_storage,
+                    label: 'attributes.attachments',
+                    collection: true,
+                    countable: Proc.new { joins(:attachments).sum(:filesize).to_i }
+
   # This one is here only to ease reading
   module JournalizedProcs
     def self.event_title
@@ -202,7 +207,7 @@ class WorkPackage < ActiveRecord::Base
         journal = o.last_journal
         t = 'work_package'
 
-        t << if journal && journal.changed_data.empty? && !journal.initial?
+        t << if journal && journal.details.empty? && !journal.initial?
                '-note'
              else
                status = Status.find_by(id: o.status_id)
@@ -432,6 +437,7 @@ class WorkPackage < ActiveRecord::Base
   # TODO: move into Business Object and rename to update
   # update for now is a private method defined by AR
   def update_by!(user, attributes)
+    attributes = attributes.dup
     raw_attachments = attributes.delete(:attachments)
 
     update_by(user, attributes)
@@ -479,16 +485,8 @@ class WorkPackage < ActiveRecord::Base
     @spent_hours ||= compute_spent_hours(usr)
   end
 
-  # Moves/copies an work_package to a new project and type
-  # Returns the moved/copied work_package on success, false on failure
-  def move_to_project(*args)
-    WorkPackage.transaction do
-      move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
-    end || false
-  end
-
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  # Returns the mail addresses of users that should be notified
+  # Returns users that should be notified
   def recipients
     notified = project.notified_users
     # Author and assignee are always notified unless they have been
@@ -503,8 +501,7 @@ class WorkPackage < ActiveRecord::Base
     end
     notified.uniq!
     # Remove users that can not view the issue
-    notified.reject! do |user| !visible?(user) end
-    notified.map(&:mail)
+    notified.select { |user| visible?(user) }
   end
 
   def done_ratio
@@ -667,77 +664,6 @@ class WorkPackage < ActiveRecord::Base
     done_date <= Date.today
   end
 
-  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
-    options ||= {}
-    work_package = options[:copy] ? self.class.new.copy_from(self) : self
-
-    if new_project && work_package.project_id != new_project.id
-      delete_relations(work_package)
-      # work_package is moved to another project
-      # reassign to the category with same name if any
-      new_category = if work_package.category.nil?
-                       nil
-                     else
-                       new_project.categories.find_by(name: work_package.category.name)
-                     end
-      work_package.category = new_category
-      # Keep the fixed_version if it's still valid in the new_project
-      unless new_project.shared_versions.include?(work_package.fixed_version)
-        work_package.fixed_version = nil
-      end
-
-      work_package.project = new_project
-
-      enforce_cross_project_settings(work_package)
-    end
-    if new_type
-      work_package.type = new_type
-      work_package.reset_custom_values!
-    end
-    # Allow bulk setting of attributes on the work_package
-    if options[:attributes]
-      # before setting the attributes, we need to remove the move-related fields
-      work_package.attributes =
-        options[:attributes].except(:copy, :new_project_id, :new_type_id, :follow, :ids)
-          .reject { |_key, value| value.blank? }
-    end # FIXME this eliminates the case, where values shall be bulk-assigned to null,
-    # but this needs to work together with the permit
-    if options[:copy]
-      work_package.author = User.current
-      work_package.custom_field_values =
-        custom_field_values.inject({}) do |h, v|
-          h[v.custom_field_id] = v.value
-          h
-        end
-      work_package.status = if options[:attributes] && options[:attributes][:status_id].present?
-                              Status.find_by(id: options[:attributes][:status_id])
-                            else
-                              status
-                            end
-    else
-      work_package.add_journal User.current, options[:journal_note] if options[:journal_note]
-    end
-
-    if work_package.save
-      if options[:copy]
-        create_and_save_journal_note work_package, options[:journal_note]
-      else
-        # Manually update project_id on related time entries
-        TimeEntry.where(work_package_id: id).update_all("project_id = #{new_project.id}")
-
-        work_package.children.each do |child|
-          unless child.move_to_project_without_transaction(new_project)
-            # Move failed and transaction was rollback'd
-            return false
-          end
-        end
-      end
-    else
-      return false
-    end
-    work_package
-  end
-
   # check if user is allowed to edit WorkPackage Journals.
   # see Redmine::Acts::Journalized::Permissions#journal_editable_by
   def editable_by?(user)
@@ -842,22 +768,10 @@ class WorkPackage < ActiveRecord::Base
     reload(select: [:lock_version, :created_at, :updated_at])
   end
 
-  # Returns an array of projects that current user can move issues to
-  def self.allowed_target_projects_on_move
-    projects = []
-    if User.current.admin?
-      # admin is allowed to move issues to any active (visible) project
-      projects = Project.visible
-    elsif User.current.logged?
-      if Role.non_member.allowed_to?(:move_work_packages)
-        projects = Project.visible
-      else
-        User.current.memberships.each do |m|
-          projects << m.project if m.roles.detect { |r| r.allowed_to?(:move_work_packages) }
-        end
-      end
-    end
-    projects
+  # Returns a scope for the projects
+  # the user is allowed to move a work package to
+  def self.allowed_target_projects_on_move(user)
+    Project.where(Project.allowed_to_condition(user, :move_work_packages))
   end
 
   # Do not redefine alias chain on reload (see #4838)
@@ -1103,21 +1017,6 @@ class WorkPackage < ActiveRecord::Base
     if invalid_attachment = attachments.detect { |a| !a.valid? }
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
-  end
-
-  def create_and_save_journal_note(work_package, journal_note)
-    if work_package && journal_note
-      work_package.add_journal User.current, journal_note
-      work_package.save!
-    end
-  end
-
-  def enforce_cross_project_settings(work_package)
-    parent_in_project =
-      work_package.parent.nil? || work_package.parent.project == work_package.project
-
-    work_package.parent_id =
-      nil unless Setting.cross_project_work_package_relations? || parent_in_project
   end
 
   def compute_spent_hours(usr = User.current)

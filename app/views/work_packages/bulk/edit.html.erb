@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field">
             <label class="form--label" for='work_package_priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
             <div class="form--field-container">
-              <%= styled_select_tag('work_package[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
+              <%= styled_select_tag('work_package[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
             </div>
           </div>
           <div class="form--field">

@@ -28,6 +28,12 @@
 #++
 
 class JournalManager
+  class << self
+    attr_accessor :send_notification
+  end
+
+  self.send_notification = true
+
   def self.is_journalized?(obj)
     not obj.nil? and obj.respond_to? :journals
   end
@@ -85,31 +91,45 @@ class JournalManager
   # This would lead to false change information, otherwise.
   # We need to be careful though, because we want to accept false (and false.blank? == true)
   def self.remove_empty_associations(associations, value)
-    associations.reject { |h| h.has_key?(value) && h[value].blank? && h[value] != false }
+    associations.reject { |association|
+      association.has_key?(value) &&
+        association[value].blank? &&
+        association[value] != false
+    }
   end
 
-  def self.merge_reference_journals_by_id(current, predecessor, key)
-    all_attachable_journal_ids = current.map { |j| j[key] } | predecessor.map { |j| j[key] }
+  def self.merge_reference_journals_by_id(new_journals, old_journals, id_key)
+    all_associated_journal_ids = new_journals.map { |j| j[id_key] } |
+                                 old_journals.map { |j| j[id_key] }
 
-    all_attachable_journal_ids.each_with_object({}) { |i, h|
-      h[i] = [predecessor.detect { |j| j[key] == i },
-              current.detect { |j| j[key] == i }]
+    all_associated_journal_ids.each_with_object({}) { |id, result|
+      result[id] = [old_journals.detect { |j| j[id_key] == id },
+                    new_journals.detect { |j| j[id_key] == id }]
     }
   end
 
   def self.added_references(merged_references, key, value)
-    merged_references.select { |_, v| v[0].nil? and not v[1].nil? }
-      .each_with_object({}) { |k, h| h["#{key}_#{k[0]}"] = [nil, k[1][1][value]] }
+    merged_references.select { |_, (old_attributes, new_attributes)|
+      old_attributes.nil? && !new_attributes.nil?
+    }.each_with_object({}) { |(id, (_, new_attributes)), result|
+      result["#{key}_#{id}"] = [nil, new_attributes[value]]
+    }
   end
 
   def self.removed_references(merged_references, key, value)
-    merged_references.select { |_, v| not v[0].nil? and v[1].nil? }
-      .each_with_object({}) { |k, h| h["#{key}_#{k[0]}"] = [k[1][0][value], nil] }
+    merged_references.select { |_, (old_attributes, new_attributes)|
+      !old_attributes.nil? && new_attributes.nil?
+    }.each_with_object({}) { |(id, (old_attributes, _)), result|
+      result["#{key}_#{id}"] = [old_attributes[value], nil]
+    }
   end
 
   def self.changed_references(merged_references, key, value)
-    merged_references.select { |_, v| not v[0].nil? and not v[1].nil? and v[0][value] != v[1][value] }
-      .each_with_object({}) { |k, h| h["#{key}_#{k[0]}"] = [k[1][0][value], k[1][1][value]] }
+    merged_references.select { |_, (old_attributes, new_attributes)|
+      !old_attributes.nil? && !new_attributes.nil? && old_attributes[value] != new_attributes[value]
+    }.each_with_object({}) { |(id, (old_attributes, new_attributes)), result|
+      result["#{key}_#{id}"] = [old_attributes[value], new_attributes[value]]
+    }
   end
 
   def self.recreate_initial_journal(type, journal, changed_data)
@@ -136,7 +156,7 @@ class JournalManager
                              journable_type: journal_class_name(journable.class),
                              version: version,
                              activity_type: journable.send(:activity_type),
-                             changed_data: journable.attributes.symbolize_keys }
+                             details: journable.attributes.symbolize_keys }
 
       create_journal journable, journal_attributes, user, notes
     end
@@ -146,17 +166,19 @@ class JournalManager
     type = base_class(journable.class)
     extended_journal_attributes = journal_attributes.merge(journable_type: type.to_s)
                                   .merge(notes: notes)
-                                  .except(:changed_data)
+                                  .except(:details)
                                   .except(:id)
 
     unless extended_journal_attributes.has_key? :user_id
       extended_journal_attributes[:user_id] = user.id
     end
 
-    journal_attributes[:changed_data] = normalize_newlines(journal_attributes[:changed_data])
+    journal_attributes[:details] = normalize_newlines(journal_attributes[:details])
 
     journal = journable.journals.build extended_journal_attributes
-    journal.data = create_journal_data journal.id, type, valid_journal_attributes(type, journal_attributes[:changed_data])
+    journal.data = create_journal_data journal.id,
+                                       type,
+                                       valid_journal_attributes(type, journal_attributes[:details])
 
     create_association_data journable, journal
 
@@ -252,5 +274,9 @@ class JournalManager
     journable.custom_values.select { |c| c.value.present? || c.value == false }.each do |cv|
       journal.customizable_journals.build custom_field_id: cv.custom_field_id, value: cv.value
     end
+  end
+
+  def self.reset_notification
+    @send_notification = true
   end
 end

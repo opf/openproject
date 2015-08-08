@@ -30,14 +30,32 @@
   @extend %absolute-layout-mode
 
 #content
-  $flash-margins-padding: 10px + (2 * 4px)
+  $flash-margins-padding: 10px
 
   // HACK: workaround to ensure correct height applied to child elements
+  // the dom looks like this
+  // flash (generated from rails - if it was generated when rendering the page)
+  // flash (generated from angular - exists always but is hidden with ng-hide if not needed)
+  // div[ui-view] (main content we want to adjust the height for)
+  // div style="clear:both;" (is pushed to overflow - of no relevance)
+  //
+  // There can be at most two flash messages visible on the page.
+  // We need to adjust the hight of the div[ui-view] depending on the amount of flash messages.
+  //
+  // This makes use of more specific rules overwriting less specific ones.
+  // Per default, the height is always 100%
   .flash + div[ui-view]
+    height: 100%
+
+  // If there is only one flash message shown:
+  // Subtract the height of the flash message
+  .flash:not(.ng-hide) ~ div[ui-view]
     height: calc(100% - #{($content-flash-height + $flash-margins-padding)})
 
-  .flash.ng-hide + div[ui-view]
-    height: 100%
+  // If there are two flash messages shown:
+  // Subtract the height of the two flash messages
+  .flash:not(.ng-hide) ~ .flash:not(.ng-hide) ~ div[ui-view]
+    height: calc(100% - #{2 * ($content-flash-height + $flash-margins-padding)})
 
 // HACK: workaround to ensure correct height applied to child elements
 #work-packages-index
@@ -125,6 +143,26 @@
   & > .button
     margin: .5rem .5rem 0 0
 
+.work-package--attachments--files
+  > h4
+    margin-top: 5px
+
+.work-package--attachments--drop-box
+  border: 2px dashed $light-gray
+  background-color: lighten($gray, 5)
+  text-align: center
+  padding: 20px
+
+  > p
+    margin-bottom: 8px
+
+.work-package--attachments--label
+  font-size: 1rem
+  font-weight: bold
+
+.work-package--attachments--hint
+  font-size: 85%
+
 .controller-work_packages
   #work-packages-query-selection
     .select2-container
@@ -154,3 +192,39 @@
   #attributes
     .form--field-container
       max-width: 400px
+
+
+%flex-grow-shrink-zero
+  flex-grow: 0
+  flex-shrink: 0
+
+.work-package--attachments--files
+  ul
+    list-style: none
+    margin: 0
+    li
+      margin: rem-calc(5 0)
+      display: flex
+      flex-direction: row
+      align-items: center
+      .filename
+        margin: rem-calc(0 5)
+        flex-grow: 1
+        flex-basis: auto
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+      .filesize
+        @extend %flex-grow-shrink-zero
+        margin: rem-calc(0 10)
+      .button
+        @extend %flex-grow-shrink-zero
+        margin: 0
+        flex-basis: rem-calc(65)
+
+//an workaround for ie10
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  //IE10+ specific styles go here
+  .work-package--attachments--files ul li .filename
+    width: rem-calc(354)
+    display: block

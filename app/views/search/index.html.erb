@@ -47,20 +47,29 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </li>
       <li class="simple-filters--filter">
-        <%= styled_label_tag :all_words, class: 'form--label-with-check-box' do %>
-          <%= styled_check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %>
-        <% end %>
-        <%= styled_label_tag :titles_only, class: 'form--label-with-check-box' do %>
-          <%= styled_check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %>
-        <% end %>
+        <span class="form--field -trailing-label">
+          <%= styled_label_tag :all_words, l(:label_all_words) %>
+          <span class="form--field-container">
+            <%= styled_check_box_tag 'all_words', 1, @all_words %>
+          </span> 
+        </span>
+        <span class="form--field -trailing-label">
+          <%= styled_label_tag :titles_only, l(:label_search_titles_only) %>
+          <span class="form--field-container">
+            <%= styled_check_box_tag 'titles_only', 1, @titles_only %> 
+          </span>
+        </span>
 
       </li>
       <li class="simple-filters--filter">
-        <% @object_types.each do |t| %>
-          <%= styled_label_tag t, class: 'form--label-with-check-box' do %>
-            <%= styled_check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %>
+          <% @object_types.each do |t| %>
+            <span class="form--field -trailing-label">
+              <%= styled_label_tag t, type_label(t) %>
+              <span class="form--field-container">
+                <%= styled_check_box_tag t, 1, @scope.include?(t) %> 
+              </span>
+            </span>
           <% end %>
-        <% end %>
       </li>
     </ul>
     <%= styled_submit_tag l(:button_submit), :name => 'submit', class: 'button -highlight -small' %>

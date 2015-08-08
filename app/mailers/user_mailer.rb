@@ -47,8 +47,10 @@ class UserMailer < BaseMailer
     end
   end
 
-  def work_package_added(user, work_package, author)
+  def work_package_added(user, journal, author)
+    work_package = journal.journable.reload
     @issue = work_package # instance variable is used in the view
+    @journal = journal
 
     set_work_package_headers(work_package)
 

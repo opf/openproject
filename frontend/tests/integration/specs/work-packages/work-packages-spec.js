@@ -34,30 +34,25 @@ describe('OpenProject', function() {
 
   beforeEach(function() {
     page.get();
-    browser.waitForAngular();
   });
 
   it('should show work packages title', function() {
-    page.get();
-
     expect(page.getSelectableTitle().getText()).to.eventually.equal('Work packages');
   });
 
-  it('should show work packages', function() {
-    page.get();
+  it('should show the default column headers', function() {
+    var expected = ['', //note that there is hidden text
+                    'ID',
+                    'TYPE',
+                    'STATUS',
+                    'SUBJECT',
+                    'ASSIGNEE'];
 
-    page.getTableHeaders().map(function(heading) {
-      return heading.getText();
-    }).then(function(headingTexts) {
-      var expected = ['',
-                      'ID',
-                      'TYPE',
-                      'STATUS',
-                      'SUBJECT',
-                      'ASSIGNEE'];
-
-      for (var i = 0; i < expected.length; i++) {
-        expect(headingTexts[i]).to.equal(expected[i]);
+    // the $$('a') should be unnecessary but it was added to prevent flickering
+    // runs caused by .hidden-for-sighted elements being visible when they shouldn't.
+    page.getTableHeaders().$$('a').then(function(headings) {
+      for (var i = 0; i < headings.length; i++) {
+        expect(headings[i].getText()).to.eventually.equal(expected[i]);
       }
     });
   });

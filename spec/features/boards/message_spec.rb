@@ -47,9 +47,7 @@ describe 'messages', type: :feature do
     end
 
     before do
-      visit project_path(topic.board.project)
-      click_on 'Forums'
-      click_on topic.subject, match: :first
+      visit topic_path(topic)
     end
 
     describe 'clicking on quote', js: true do

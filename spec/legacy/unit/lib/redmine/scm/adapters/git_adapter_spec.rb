@@ -32,7 +32,7 @@
 
 require 'legacy_spec_helper'
 
-describe Redmine::Scm::Adapters::GitAdapter, type: :model do
+describe OpenProject::Scm::Adapters::Git, type: :model do
   let(:git_repository_path) {  Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository' }
 
   FELIX_UTF8 = 'Felix Schäfer'
@@ -48,7 +48,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
   before do
     skip 'Git test repository NOT FOUND. Skipping unit tests !!!' unless File.directory?(git_repository_path)
 
-    @adapter = Redmine::Scm::Adapters::GitAdapter.new(
+    @adapter = OpenProject::Scm::Adapters::Git.new(
       git_repository_path,
       nil,
       nil,
@@ -88,7 +88,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
   end
 
   it 'should getting all revisions' do
-    assert_equal 21, @adapter.revisions('', nil, nil, all: true).length
+    assert_equal 22, @adapter.revisions('', nil, nil, all: true).length
   end
 
   it 'should getting certain revisions' do
@@ -97,15 +97,16 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
 
   it 'should revisions reverse' do
     revs1 = @adapter.revisions('', nil, nil, all: true, reverse: true)
-    assert_equal 21, revs1.length
+    assert_equal 22, revs1.length
     assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[0].identifier
     assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[20].identifier
 
     since2 = Time.gm(2010, 9, 30, 0, 0, 0)
     revs2 = @adapter.revisions('', nil, nil, all: true, since: since2, reverse: true)
-    assert_equal 6, revs2.length
+    assert_equal 7, revs2.length
     assert_equal '67e7792ce20ccae2e4bb73eed09bb397819c8834', revs2[0].identifier
     assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[5].identifier
+    assert_equal '71e5c1d3dca6304805b143b9d0e6695fb3895ea4', revs2[6].identifier
   end
 
   it 'should getting revisions with spaces in filename' do
@@ -127,7 +128,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
 
   it 'should annotate' do
     annotate = @adapter.annotate('sources/watchers_controller.rb')
-    assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
+    assert_kind_of OpenProject::Scm::Adapters::Annotate, annotate
     assert_equal 41, annotate.lines.size
     assert_equal '# This program is free software; you can redistribute it and/or',
                  annotate.lines[4].strip
@@ -138,7 +139,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
 
   it 'should annotate moved file' do
     annotate = @adapter.annotate('renamed_test.txt')
-    assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
+    assert_kind_of OpenProject::Scm::Adapters::Annotate, annotate
     assert_equal 2, annotate.lines.size
   end
 
@@ -169,8 +170,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
     assert_equal '2010-09-18 19:59:46'.to_time, last_rev.time
   end
 
-  # TODO: need to handle edge cases of non-binary content that isn't UTF-8
-  xit 'test latin 1 path' do
+  it 'test latin 1 path' do
     if WINDOWS_PASS
       #
     else
@@ -248,7 +248,7 @@ describe Redmine::Scm::Adapters::GitAdapter, type: :model do
   private
 
   def test_scm_version_for(scm_command_version, version)
-    expect(@adapter.class).to receive(:scm_version_from_command_line).and_return(scm_command_version)
-    assert_equal version, @adapter.class.scm_command_version
+    expect(@adapter).to receive(:scm_version_from_command_line).and_return(scm_command_version)
+    assert_equal version, @adapter.git_binary_version
   end
 end

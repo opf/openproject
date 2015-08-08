@@ -53,10 +53,11 @@ class LdapAuthSource < AuthSource
 
   # test the connection to the LDAP
   def test_connection
-    ldap_con = initialize_ldap_con(account, account_password)
-    ldap_con.open {}
+    unless authenticate_dn(account, account_password)
+      raise I18n.t('auth_source.ldap_error', error_message: I18n.t('auth_source.ldap_auth_failed'))
+    end
   rescue  Net::LDAP::LdapError => text
-    raise 'LdapError: ' + text.to_s
+    raise I18n.t('auth_source.ldap_error', error_message: text.to_s)
   end
 
   def auth_method_name

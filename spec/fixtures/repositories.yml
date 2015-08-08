@@ -35,6 +35,7 @@ repositories_001:
   password: ""
   login: ""
   type: Repository::Subversion
+  scm_type: existing
 repositories_002:
   project_id: 2
   url: svn://localhost/test
@@ -43,3 +44,4 @@ repositories_002:
   password: ""
   login: ""
   type: Repository::Subversion
+  scm_type: existing

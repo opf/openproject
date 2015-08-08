@@ -77,7 +77,8 @@ describe 'IssueNestedSet', type: :model do
     assert_equal [1, parent1.id, 5], [parent1.project_id, parent1.root_id, parent1.nested_set_span]
 
     # child can not be moved to Project 2 because its child is on a disabled type
-    assert_equal false, WorkPackage.find(child.id).move_to_project(Project.find(2))
+    service = MoveWorkPackageService.new(child, User.current)
+    assert_equal false, service.call(Project.find(2))
     child.reload
     grandchild.reload
     parent1.reload
