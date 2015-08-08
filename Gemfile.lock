@@ -36,9 +36,9 @@ GIT
     rspec-example_disabler (0.0.1)
 
 GIT
-  remote: https://github.com/opf/openproject-translations.git
+  remote: https://github.com/myabc/openproject-translations.git
   revision: 89f7a195cc3b2bc71e6fc35586b61951da4f7e8c
-  branch: feature/rails4
+  branch: feature/merge-dev-into-rails4
   specs:
     openproject-translations (4.3.0)
       crowdin-api (~> 0.2.4)
