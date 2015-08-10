@@ -32,7 +32,7 @@ module Api
     class ProjectAssociationsController < ::ProjectAssociationsController
       include ::Api::V2::ApiController
 
-      respond_to :api
+      respond_to :xml, :json
 
       def self.accept_key_auth_actions
         super + ['available_projects']
