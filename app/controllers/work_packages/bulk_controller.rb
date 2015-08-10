@@ -39,7 +39,6 @@ class WorkPackages::BulkController < ApplicationController
   include IssuesHelper
 
   def edit
-    @work_packages.sort!
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject { |memo, w| memo & w }
     @custom_fields = @projects.map(&:all_work_package_custom_fields).inject { |memo, c| memo & c }
     @assignables = @projects.map(&:possible_assignees).inject { |memo, a| memo & a }
@@ -48,8 +47,6 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def update
-    @work_packages.sort!
-
     unsaved_work_package_ids = []
 
     @work_packages.each do |work_package|

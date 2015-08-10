@@ -388,6 +388,7 @@ class ApplicationController < ActionController::Base
   def find_work_packages
     @work_packages = WorkPackage.includes(:project)
                      .where(id: params[:work_package_id] || params[:ids])
+                     .order('id ASC')
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
     @projects = @work_packages.map(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
@@ -551,7 +552,7 @@ class ApplicationController < ActionController::Base
 
   def render_feed(items, options = {})
     @items = items || []
-    @items.sort! do |x, y| y.event_datetime <=> x.event_datetime end
+    @items = @items.sort do |x, y| y.event_datetime <=> x.event_datetime end
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render template: 'common/feed', layout: false, content_type: 'application/atom+xml'

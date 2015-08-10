@@ -157,7 +157,7 @@ describe TimelogController, type: :controller do
     refute_nil TimeEntry.find_by(id: 1)
 
     # remove the simulation
-    TimeEntry._destroy_callbacks.reject! { |callback| callback.filter == :stop_callback_chain }
+    TimeEntry._destroy_callbacks.reject { |callback| callback.filter == :stop_callback_chain }
   end
 
   it 'should index all projects' do
