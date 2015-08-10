@@ -46,7 +46,7 @@ describe ActiveSupport do
 
   it 'escapes html entities in json' do
     ActiveSupport.escape_html_entities_in_json = true
-    expected_output = "{\"\\u003C\\u003E\":\"\\u003C\\u003E\"}"
+    expected_output = "{\"\\u003c\\u003e\":\"\\u003c\\u003e\"}"
 
     expect(ActiveSupport::JSON.encode('<>' => '<>')).to eql(expected_output)
   end
