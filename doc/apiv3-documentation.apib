@@ -470,8 +470,8 @@ Cursor based pagination is therefore less suited for use cases where you want to
 The root resource contains links to available resources in the API. By following these links
 a client should be able to discover further resources in the API.
 
-*Note: Currently there are no list actions for projects and work packages available.*
-*A client will therefore have to know links to these resources and can't (yet) discover them.*
+*Note: Currently there is no list action for projects available.*
+*A client will therefore have to know links to projects and can't (yet) discover them.*
 
 | Link                | Description                                      | Type          | Nullable | Supported operations |
 |:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
@@ -481,6 +481,7 @@ a client should be able to discover further resources in the API.
 | types               | List of available work package types             | Collection    |          | READ                 |
 
 ## Local Properties
+
 | Property                  | Description                                          | Type       | Condition                         | Supported operations |
 | :-----------------------: | ---------------------------------------------------- | ---------- | --------------------------------- | -------------------- |
 | instanceName              | The name of the OpenProject instance                 | String     |                                   | READ                 |
@@ -1645,14 +1646,17 @@ The request body is the actual string that shall be rendered as HTML string.
 | createWorkPackageImmediate | Directly creates a work package in the project                       | **Permission**: add work packages |
 
 ## Linked Properties
-| Link       | Description                          | Type       | Constraints | Supported operations |
-| :------:   | -------------                        | ----       | ----------- | -------------------- |
-| self       | This project                         | Project    | not null    | READ                 |
-| categories | Categories available in this project | Categories | not null    | READ                 |
-| types      | Types available in this project      | Types      | not null    | READ                 |
-| versions   | Versions available in this project   | Versions   | not null    | READ                 |
+
+| Link         | Description                          | Type       | Constraints | Supported operations |
+| :----------: | -------------                        | ----       | ----------- | -------------------- |
+| self         | This project                         | Project    | not null    | READ                 |
+| categories   | Categories available in this project | Collection | not null    | READ                 |
+| types        | Types available in this project      | Collection | not null    | READ                 |
+| versions     | Versions available in this project   | Collection | not null    | READ                 |
+| workPackages | Work Packages of this project        | Collection | not null    | READ                 |
 
 ## Local Properties
+
 | Property    | Description                                   | Type     | Constraints | Supported operations |
 | :---------: | -------------                                 | ----     | ----------- | -------------------- |
 | id          | Projects's id                                 | Integer  | x > 0       | READ                 |
@@ -1685,7 +1689,8 @@ The request body is the actual string that shall be rendered as HTML string.
                     },
                     "categories": { "href": "/api/v3/projects/1/categories" },
                     "types": { "href": "/api/v3/projects/1/types" },
-                    "versions": { "href": "/api/v3/projects/1/versions" }
+                    "versions": { "href": "/api/v3/projects/1/versions" },
+                    "workPackages": { "href": "/api/v3/projects/1/work_packages" }
                 },
                 "id": 1,
                 "identifier": "project_identifier",
@@ -3144,7 +3149,7 @@ Note that due to sharing this might be more than the versions *defined* by that 
 | timeEntries        | All time entries logged on the work package. Please note that this is a link to an HTML resource for now and as such, the link is subject to change.  | N/A          |              | READ                  | **Permission** view time entries          |
 | type               | The type of the work package                                                                                                                          | Type         | not null     | READ / WRITE          |                                           |
 | version            | The version associated to the work package                                                                                                            | Version      |              | READ / WRITE          |                                           |
-| watchers           | All users that are currently watching this work package                                                                                               | Users        |              | READ                  | **Permission** view work package watchers |
+| watchers           | All users that are currently watching this work package                                                                                               | Collection   |              | READ                  | **Permission** view work package watchers |
 
 ## Local Properties
 
