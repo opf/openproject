@@ -6,6 +6,13 @@
 <div class="work-packages-table--container">
   <div class="work-packages-table--results-container">
     <table class="workpackages-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
       <thead>
         <tr>
           <th>
