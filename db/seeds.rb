@@ -72,7 +72,7 @@ end
   end
 end
 
-Rails::Application::Railties.engines.each do |engine|
+::Rails::Engine.subclasses.map(&:instance).each do |engine|
   puts "*** Loading #{engine.engine_name} seed data"
   engine.load_seed
 end
