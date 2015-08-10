@@ -57,7 +57,7 @@ module.exports = function($sce,
       scope.project = scope.workPackage.embedded.project;
       scope.revision = scope.activity.props.identifier;
       scope.formattedRevision = scope.activity.props.formattedIdentifier;
-      scope.revisionPath = scope.activity.links.showRevision;
+      scope.revisionPath = scope.activity.links.showRevision.href;
       scope.message = $sce.trustAsHtml(scope.activity.props.message.html);
     }
   };
