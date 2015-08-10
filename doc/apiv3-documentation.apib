@@ -3649,6 +3649,82 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "The specified work package does not exist."
             }
 
+## Work Packages by Project [/api/v3/projects/{id}/work_packages]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/projects/14/work_packages" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded": {
+                    "elements": [
+                    {
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/work_packages/1"
+                            }
+                        },
+                        "id": 1,
+                        "subject": "Skipped other properties for brevity"
+                    },
+                    {
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/work_packages/2"
+                            }
+                        },
+                        "id": 2,
+                        "subject": "Skipped other properties for brevity"
+                    }]
+                }
+            }
+
+## List work packages [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
++ Response 200 (application/hal+json)
+
+    [Work Packages by Project][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the work package of this project."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
 ## Watchers [/api/v3/work_packages/{work_package_id}/watchers]
 
 + Model
