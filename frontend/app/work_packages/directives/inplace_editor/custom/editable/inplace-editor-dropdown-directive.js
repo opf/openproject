@@ -26,7 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $timeout) {
+module.exports = function(
+    WorkPackageFieldService,
+    WorkPackageFieldConfigurationService,
+    EditableFieldsState,
+    I18n,
+    $timeout,
+    $q) {
   return {
     restrict: 'E',
     transclude: true,
@@ -37,17 +43,47 @@ module.exports = function(WorkPackageFieldService, EditableFieldsState, I18n, $t
     controller: function() {
       this.allowedValues = [];
       this.nullValueLabel = I18n.t('js.inplace.null_value_label');
+
+      this.updateAllowedValues = function(field) {
+        var customEditorController = this;
+
+        return $q(function(resolve) {
+          WorkPackageFieldService.getAllowedValues(
+            EditableFieldsState.workPackage,
+            field
+          ).then(function(values) {
+
+            var sorting = WorkPackageFieldConfigurationService
+              .getDropdownSortingStrategy(field);
+
+            if (sorting !== null) {
+              values = _.sortBy(values, sorting);
+            }
+
+            if (!WorkPackageFieldService.isRequired(EditableFieldsState.workPackage,
+                                                    field)) {
+              var arrayWithEmptyOption = [{
+                href: null,
+                name: I18n.t('js.inplace.clear_value_label')
+              }];
+
+              values = arrayWithEmptyOption.concat(values);
+            }
+            customEditorController.allowedValues = values;
+
+            resolve();
+          });
+        });
+      };
     },
     controllerAs: 'customEditorController',
     link: function(scope, element, attrs, fieldController) {
       scope.fieldController = fieldController;
       scope.fieldController.state.isBusy = true;
-      WorkPackageFieldService.getAllowedValues(
-        EditableFieldsState.workPackage,
-        fieldController.field
-      ).then(function(values) {
-        scope.customEditorController.allowedValues = values;
-        scope.fieldController.state.isBusy = false;
+
+      scope.customEditorController.updateAllowedValues(fieldController.field).then(function() {
+        fieldController.state.isBusy = false;
+
         if (!EditableFieldsState.forcedEditState) {
           $timeout(function() {
             element.find('.ui-select-match').trigger('click');
