@@ -360,7 +360,8 @@ OpenProject::Application.routes.draw do
       end
 
       get '/revision(/:rev)', rev: /[a-z0-9\.\-_]+/,
-                              action: :revision
+                              action: :revision,
+                              as: 'show_revision'
 
       get '(/revisions/:rev)(/*path)', action: :show,
                                        format: false,

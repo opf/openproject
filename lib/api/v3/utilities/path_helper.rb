@@ -130,6 +130,10 @@ module API
             path
           end
 
+          def self.show_revision(project_id, identifier)
+            show_revision_project_repository_path(project_id, identifier)
+          end
+
           def self.statuses
             "#{root}/statuses"
           end

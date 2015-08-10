@@ -67,6 +67,14 @@ describe ::API::V3::Repositories::RevisionRepresenter do
         it { is_expected.to be_json_eql('1234'.to_json).at_path('identifier') }
       end
 
+      describe 'formattedIdentifier' do
+        before do
+          allow(revision).to receive(:format_identifier).and_return('123')
+        end
+        it { is_expected.to have_json_path('formattedIdentifier') }
+        it { is_expected.to be_json_eql('123'.to_json).at_path('formattedIdentifier') }
+      end
+
       describe 'createdAt' do
         it_behaves_like 'has UTC ISO 8601 date and time' do
           let(:date) { revision.committed_on }
@@ -121,6 +129,13 @@ describe ::API::V3::Repositories::RevisionRepresenter do
           let(:href) { api_v3_paths.user(user.id) }
           let(:title) { user.name }
         end
+      end
+    end
+
+    describe 'showRevision' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'showRevision' }
+        let(:href) { api_v3_paths.show_revision(project.identifier, revision.identifier) }
       end
     end
   end
