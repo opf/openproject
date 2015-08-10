@@ -39,6 +39,8 @@ class PlanningElementTypeColorsController < ApplicationController
   helper :timelines
   layout 'admin'
 
+  menu_item :colors
+
   def index
     @colors = PlanningElementTypeColor.all
     respond_to do |format|
