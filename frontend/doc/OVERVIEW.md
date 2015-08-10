@@ -67,7 +67,8 @@ This is the general structure (to a depth of 3 folders):
 This is where most of the magic happens. Contains all of the production relevant code for excuting the individual parts of the frontend. Does __not__ contain the test code.
 
 The `app` folder is furthermore divided into:
-    - `work_packages` contains all the specific sources for the Work Package list and the attached details pane, as well as the full screen view
-    - `timelines` contains all code necessary for project timelines
-    - `time_entries` contains a single controller used in the timelog views 
-    - all the rest of the folders containing common components divided by their type
+
+* `work_packages` contains all the specific sources for the Work Package list and the attached details pane, as well as the full screen view
+* `timelines` contains all code necessary for project timelines
+* `time_entries` contains a single controller used in the timelog views 
+* all the rest of the folders containing common components divided by their type
