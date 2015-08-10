@@ -27,11 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'roar/decorator'
+require 'roar/json'
+require 'roar/json/collection'
+require 'roar/json/hal'
+
 module API
-  module Decorators
-    class UnpaginatedCollection < ::API::Decorators::Collection
-      def initialize(models, self_link, context: {})
-        super(models, models.count, self_link, context: context)
+  module V3
+    module WorkPackages
+      class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
       end
     end
   end

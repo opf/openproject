@@ -59,6 +59,11 @@ shared_examples_for 'has an untitled link' do
   it { is_expected.not_to have_json_path("_links/#{link}/title") }
 end
 
+shared_examples_for 'has a templated link' do
+  it { is_expected.to be_json_eql(href.to_json).at_path("_links/#{link}/href") }
+  it { is_expected.to be_json_eql(true.to_json).at_path("_links/#{link}/templated") }
+end
+
 shared_examples_for 'has an empty link' do
   it { is_expected.to be_json_eql(nil.to_json).at_path("_links/#{link}/href") }
 

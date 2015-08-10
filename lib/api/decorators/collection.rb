@@ -29,9 +29,46 @@
 
 module API
   module Decorators
-    class UnpaginatedCollection < ::API::Decorators::Collection
-      def initialize(models, self_link, context: {})
-        super(models, models.count, self_link, context: context)
+    class Collection < ::API::Decorators::Single
+      include API::Utilities::UrlHelper
+
+      def initialize(models, total, self_link, context: {})
+        @total = total
+        @self_link = self_link
+
+        super(models, context)
+      end
+
+      class_attribute :element_decorator_class
+
+      def self.element_decorator(klass)
+        self.element_decorator_class = klass
+      end
+
+      def element_decorator
+        self.class.element_decorator_class
+      end
+
+      link :self do
+        { href: @self_link }
+      end
+
+      property :total, getter: -> (*) { @total }, exec_context: :decorator
+      property :count, getter: -> (*) { count }
+
+      collection :elements,
+                 getter: -> (*) {
+                   represented.map { |model|
+                     element_decorator.new(model, context)
+                   }
+                 },
+                 exec_context: :decorator,
+                 embedded: true
+
+      private
+
+      def _type
+        'Collection'
       end
     end
   end
