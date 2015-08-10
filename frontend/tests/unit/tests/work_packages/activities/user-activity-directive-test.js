@@ -31,7 +31,7 @@
 describe('userActivity Directive', function() {
     var compile, element, rootScope, scope;
 
-    beforeEach(angular.mock.module('openproject.workPackages.tabs'));
+    beforeEach(angular.mock.module('openproject.workPackages.activities'));
     beforeEach(function() {
       module(
         'ng-context-menu',
