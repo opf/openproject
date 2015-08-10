@@ -4,9 +4,9 @@
 [WP tables](http://localhost:8080/assets/css/styleguide.html#with-work-packages)
 
 ```
-<div class="table-component--container">
-  <div class="table-component--results-container" style="max-height: 340px;">
-    <table role="grid" class="table-component">
+<div class="generic-table--container">
+  <div class="generic-table--results-container" style="max-height: 340px;">
+    <table role="grid" class="generic-table">
       <colgroup>
         <col>
         <col>
@@ -17,8 +17,8 @@
       <thead>
         <tr>
           <th>
-            <div class="table-component--sort-header-outer">
-              <div class="table-component--sort-header">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span class="sort asc">
                   First
                 </span>
@@ -26,8 +26,8 @@
             </div>
           </th>
           <th>
-            <div class="table-component--sort-header-outer">
-              <div class="table-component--sort-header">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span class="sort asc">
                   Second
                 </span>
@@ -35,8 +35,8 @@
             </div>
           </th>
           <th>
-            <div class="table-component--sort-header-outer">
-              <div class="table-component--sort-header">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span class="sort desc">
                   Third
                 </span>
@@ -44,8 +44,8 @@
             </div>
           </th>
           <th>
-            <div class="table-component--sort-header-outer">
-              <div class="table-component--sort-header">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span class="sort desc">
                   Fourth
                 </span>
@@ -53,8 +53,8 @@
             </div>
           </th>
           <th>
-            <div class="table-component--sort-header-outer">
-              <div class="table-component--sort-header">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span class="sort desc">
                   Fifth
                 </span>
@@ -92,7 +92,7 @@
           <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
           <td>Nunc molestie neque sit amet eros semper dapibus.</td>
         </tr>
-            <tr>
+        <tr>
           <td>Nullam a sem et metus congue placerat.</td>
           <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
           <td>Maecenas elementum orci a varius suscipit.</td>
@@ -101,7 +101,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="table-component--header-background"></div>
+    <div class="generic-table--header-background"></div>
   </div>
 </div>
 
