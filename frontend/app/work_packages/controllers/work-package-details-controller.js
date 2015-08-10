@@ -174,10 +174,6 @@ module.exports = function($scope,
     return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
   };
 
-  $scope.matchesActivityType = function(activity, type) {
-    return !!activity.props._type.match(type);
-  };
-
   function aggregateActivities(workPackage) {
     // Do not yet add any intermittent result to the scope,
     // as we will get an inconsistent activity view

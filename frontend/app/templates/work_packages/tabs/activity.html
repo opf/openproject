@@ -10,18 +10,20 @@
           <h3 class="activity-date"
               ng-if="currentDate !== (activities[$index-1].props.createdAt | date:'longDate')"
               ng-bind="currentDate"/>
-          <user-activity work-package="workPackage"
-                         activity="activity"
-                         activity-no="activityNo"
-                         is-initial="isInitial"
-                         ng-if="matchesActivityType(activity, '^Activity')"
-                         input-element-id="'add-comment-text'">
-          </user-activity>
-          <revision-activity work-package="workPackage"
-                         activity="activity"
-                         activity-no="activityNo"
-                         ng-if="matchesActivityType(activity, '^Revision$')">
-          </revision-activity>
+          <div ng-switch="activity.props._type">
+            <revision-activity work-package="workPackage"
+                           activity="activity"
+                           activity-no="activityNo"
+                           ng-switch-when="Revision">
+            </revision-activity>
+            <user-activity work-package="workPackage"
+                      activity="activity"
+                      activity-no="activityNo"
+                      is-initial="isInitial"
+                      ng-switch-default
+                      input-element-id="'add-comment-text'">
+            </user-activity>
+          </div>
         </li>
       </ul>
     </div>
