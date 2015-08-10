@@ -29,3 +29,4 @@ The individual topic for the documentation fo the frontend are
 - OVERVIEW.md - a general overview on the folder structure and a general "what is where"
 - TESTING.md - documentation of our approach to integration and unit testing
 - STYLING.md - notes on styling and the Sass-Pipeline
+- RAILS.md - an overview for the frontend parts still left in the Rails stack (mostly the JavaScript
