@@ -28,24 +28,58 @@
 
 require 'spec_helper'
 
-shared_examples_for 'API V3 collection decorated' do |total, count, self_link, type|
-  it { expect(collection).to be_json_eql('Collection'.to_json).at_path('_type') }
+shared_examples_for 'generic APIv3 collection' do
+  describe '_links' do
+    it 'has a self link' do
+      expect(collection).to be_json_eql(self_link.to_json).at_path('_links/self/href')
+    end
+  end
 
-  describe 'elements' do
-    it { expect(collection).to be_json_eql(type.to_json).at_path('_embedded/elements/0/_type') }
+  it 'has a collection type' do
+    expect(collection).to be_json_eql('Collection'.to_json).at_path('_type')
+  end
+
+  describe 'elements are typed correctly' do
+    it do
+      expect(collection).to be_json_eql(collection_inner_type.to_json)
+                              .at_path('_embedded/elements/0/_type')
+    end
+  end
+end
+
+shared_examples_for 'unpaginated APIv3 collection' do |count, self_link, type|
+  it_behaves_like 'generic APIv3 collection' do
+    let(:self_link) { "/api/v3/#{self_link}" }
+    let(:collection_inner_type) { type }
   end
 
   describe 'quantities' do
-    it { expect(collection).to be_json_eql(total.to_json).at_path('total') }
+    it { expect(collection).to be_json_eql(count.to_json).at_path('total') }
 
     it { expect(collection).to be_json_eql(count.to_json).at_path('count') }
 
     it { expect(collection).to have_json_size(count).at_path('_embedded/elements') }
   end
+end
 
-  describe '_links' do
-    let(:href) { "/api/v3/#{self_link}".to_json }
+shared_examples_for 'offset-paginated APIv3 collection' do
+  it 'indicates the page number as offset' do
+    expect(collection).to be_json_eql(page.to_json).at_path('offset')
+  end
 
-    it { expect(collection).to be_json_eql(href).at_path('_links/self/href') }
+  it 'indicates the expected pageSize' do
+    expect(collection).to be_json_eql(page_size.to_json).at_path('pageSize')
+  end
+
+  it 'indicates the total amount of elements (over all pages)' do
+    expect(collection).to be_json_eql(total.to_json).at_path('total')
+  end
+
+  it 'indicates the number of elements on this page' do
+    expect(collection).to be_json_eql(actual_count.to_json).at_path('count')
+  end
+
+  it 'embeds the expected number of elements' do
+    expect(collection).to have_json_size(actual_count).at_path('_embedded/elements')
   end
 end

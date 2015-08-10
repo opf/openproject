@@ -37,6 +37,6 @@ describe ::API::V3::Statuses::StatusCollectionRepresenter do
   context 'generation' do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'API V3 collection decorated', 3, 3, 'statuses', 'Status'
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'statuses', 'Status'
   end
 end

@@ -40,6 +40,6 @@ describe ::API::V3::Users::UserCollectionRepresenter do
   context 'generation' do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'API V3 collection decorated', 3, 3, 'work_package/1/watchers', 'User'
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'work_package/1/watchers', 'User'
   end
 end

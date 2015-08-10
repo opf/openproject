@@ -35,6 +35,6 @@ describe ::API::V3::Priorities::PriorityCollectionRepresenter do
   context 'generation' do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'API V3 collection decorated', 3, 3, 'priorities', 'Priority'
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'priorities', 'Priority'
   end
 end

@@ -36,6 +36,6 @@ describe ::API::V3::Projects::ProjectCollectionRepresenter do
   context 'generation' do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'API V3 collection decorated', 3, 3, 'versions/1/projects', 'Project'
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'versions/1/projects', 'Project'
   end
 end
