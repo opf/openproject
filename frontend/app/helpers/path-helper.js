@@ -76,12 +76,6 @@ module.exports = function() {
     queryPath: function(queryIdentifier) {
       return '/queries/' + queryIdentifier;
     },
-    repositoryPath: function(projectIdentifier) {
-      return PathHelper.projectPath(projectIdentifier) + '/repository';
-    },
-    revisionPath: function(projectIdentifier, revisionIdentifier) {
-      return PathHelper.repositoryPath(projectIdentifier) + '/revision/' + revisionIdentifier;
-    },
     timeEntriesPath: function(projectIdentifier, workPackageIdentifier) {
       var path = '/time_entries';
 
