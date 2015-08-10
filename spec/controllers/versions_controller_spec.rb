@@ -263,7 +263,7 @@ describe VersionsController, type: :controller do
 
     context 'status by version' do
       before do
-        get :status_by, id: version2.id, format: :js
+        xhr :get, :status_by, id: version2.id, format: :js
       end
 
       it { expect(response).to be_success }
@@ -272,7 +272,7 @@ describe VersionsController, type: :controller do
 
     context 'status by version with status_by' do
       before do
-        get :status_by, id: version2.id, format: :js, status_by: 'status'
+        xhr :get, :status_by, id: version2.id, format: :js, status_by: 'status'
       end
 
       it { expect(response).to be_success }
