@@ -21,3 +21,11 @@ following workflow:
     ./scripts/clean-shrinkwrap.js
 
 Please commit `npm-shrinkwrap.json` along with any changes to `package.json`.
+
+## Topics
+
+The individual topic for the documentation fo the frontend are
+
+- OVERVIEW.md - a general overview on the folder structure and a general "what is where"
+- TESTING.md - documentation of our approach to integration and unit testing
+- STYLING.md - notes on styling and the Sass-Pipeline
