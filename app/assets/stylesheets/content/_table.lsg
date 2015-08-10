@@ -106,3 +106,19 @@
 </div>
 
 ```
+
+## with no content
+
+```
+<div class="generic-table--container" style="height:150px">
+  <div class="generic-table--no-results-container">
+    <h2 class="generic-table--no-results-title">
+      <i class="icon-info"></i>
+      Nothing to display
+    </h2>
+    <div class="generic-table--no-results-description">
+      <p>Either nothing have been created or everything is filtered out.</p>
+    </div>
+  </div>
+</div>
+```
