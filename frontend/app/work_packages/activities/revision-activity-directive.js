@@ -34,7 +34,7 @@ module.exports = function($sce,
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/tabs/_revision_activity.html',
+    templateUrl: '/templates/work_packages/activities/_revision.html',
     scope: {
       workPackage: '=',
       activity: '=',
@@ -56,8 +56,8 @@ module.exports = function($sce,
 
       scope.project = scope.workPackage.embedded.project;
       scope.revision = scope.activity.props.identifier;
-      scope.formattedRevision = (scope.revision.length > 8 ? scope.revision.substr(0,8) : scope.revision);
-      scope.revisionPath = PathHelper.revisionPath(scope.project.props.identifier, scope.revision);
+      scope.formattedRevision = scope.activity.props.formattedIdentifier;
+      scope.revisionPath = scope.activity.links.showRevision;
       scope.message = $sce.trustAsHtml(scope.activity.props.message.html);
     }
   };

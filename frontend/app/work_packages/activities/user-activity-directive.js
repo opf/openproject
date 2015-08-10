@@ -40,7 +40,7 @@ module.exports = function($uiViewScroll,
     restrict: 'E',
     replace: true,
     require: '^?exclusiveEdit',
-    templateUrl: '/templates/work_packages/tabs/_user_activity.html',
+    templateUrl: '/templates/work_packages/activities/_user.html',
     scope: {
       workPackage: '=',
       activity: '=',

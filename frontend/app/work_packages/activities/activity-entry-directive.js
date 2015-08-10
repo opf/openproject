@@ -1,4 +1,5 @@
 //-- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -26,13 +27,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-require('./activities');
-require('./config');
-require('./controllers');
-require('./directives');
-require('./filters');
-require('./helpers');
-require('./models');
-require('./services');
-require('./tabs');
-require('./view_models');
+module.exports = function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: '/templates/work_packages/activities/_entry.html',
+    scope: {
+      workPackage: '=',
+      activity: '=',
+      activityNo: '=',
+      isInitial: '=',
+      inputElementId: '=',
+      autocompletePath: '='
+    },
+    link: function(scope) {
+      scope.activityType = scope.activity.props._type;
+    }
+  };
+};

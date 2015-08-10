@@ -39,27 +39,6 @@ angular.module('openproject.workPackages.tabs')
     'WorkPackagesHelper', require(
       './related-work-package-table-row-directive')
   ])
-  .directive('userActivity', [
-    '$uiViewScroll',
-    '$timeout',
-    '$location',
-    '$sce',
-    'I18n',
-    'PathHelper',
-    'ActivityService',
-    'UsersHelper',
-    'ConfigurationService',
-    'AutoCompleteHelper',
-    require('./user-activity-directive')
-  ])
-  .directive('revisionActivity', [
-    '$sce',
-    'I18n',
-    'PathHelper',
-    'ActivityService',
-    'UsersHelper',
-    require('./revision-activity-directive')
-  ])
   .directive('workPackageRelations', [
     'I18n',
     'WorkPackagesHelper',
