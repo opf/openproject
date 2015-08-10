@@ -30,11 +30,11 @@ require 'spec_helper'
 
 describe ::API::V3::Priorities::PriorityCollectionRepresenter do
   let(:priorities)  { FactoryGirl.build_list(:priority, 3) }
-  let(:representer) { described_class.new(priorities, 42, '/api/v3/priorities') }
+  let(:representer) { described_class.new(priorities, '/api/v3/priorities') }
 
   context 'generation' do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'API V3 collection decorated', 42, 3, 'priorities', 'Priority'
+    it_behaves_like 'API V3 collection decorated', 3, 3, 'priorities', 'Priority'
   end
 end

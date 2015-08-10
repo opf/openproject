@@ -41,9 +41,7 @@ module API
             self_path = api_v3_paths.work_package_revisions(work_package.id)
 
             revisions = work_package.changesets
-            RevisionsCollectionRepresenter.new(revisions,
-                                               revisions.count,
-                                               self_path)
+            RevisionsCollectionRepresenter.new(revisions, self_path)
           end
         end
       end

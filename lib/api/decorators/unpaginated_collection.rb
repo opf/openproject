@@ -32,13 +32,13 @@ require 'roar/json/hal'
 
 module API
   module Decorators
-    class Collection < Roar::Decorator
+    class UnpaginatedCollection < Roar::Decorator
       include Roar::JSON::HAL
       include Roar::Hypermedia
       include API::Utilities::UrlHelper
 
-      def initialize(models, total, self_link, context: {})
-        @total = total
+      def initialize(models, self_link, context: {})
+        @total = models.count
         @self_link = self_link
         @context = context
 
