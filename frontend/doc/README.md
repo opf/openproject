@@ -30,4 +30,5 @@ The individual topic for the documentation for the frontend are
 2. `BUILD.md` - notes on building the JavaScript for the asset pipeline
 3. `TESTING.md` - documentation of our approach to integration and unit testing
 4. `STYLING.md` - notes on styling and the Sass-Pipeline
-5. `RAILS.md` - an overview for the frontend parts still left in the Rails stack (mostly the JavaScript)
+5. `API.md` - notes on dealing with the several APIs provided by OpenProject
+6. `RAILS.md` - an overview for the frontend parts still left in the Rails stack (mostly the JavaScript)
