@@ -3617,7 +3617,7 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "The specified work package does not exist."
             }
 
-## Work Packages by Project [/api/v3/projects/{id}/work_packages{?offset,pageSize,notify}]
+## Work Packages by Project [/api/v3/projects/{id}/work_packages{?offset,pageSize,filters,notify}]
 
 + Model
     + Body
@@ -3662,6 +3662,9 @@ For more details and all possible responses see the general specification of [Fo
     + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
 
     + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filters (optional, string, `[{ ""status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
 
 + Response 200 (application/hal+json)
 
