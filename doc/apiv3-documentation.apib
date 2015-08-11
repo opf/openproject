@@ -1861,7 +1861,7 @@ but are also limited to the projects that the current user is allowed to see.
 
 ## View query [GET]
 
-**NOT IMPLEMENTED**
+*might be subject to change in the future*
 
 + Parameters
     + id (required, integer, `1`) ... Query id
@@ -1869,6 +1869,22 @@ but are also limited to the projects that the current user is allowed to see.
 + Response 200 (application/hal+json)
 
     [Query][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
 
 ## Star Query [/api/v3/queries/{id}/star]
 
@@ -1947,6 +1963,38 @@ but are also limited to the projects that the current user is allowed to see.
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
                 "message": "The request body was not empty."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** for own queries none; for public queries: manage public queries
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding query.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to star this query."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
             }
 
 ## Unstar Query [/api/v3/queries/{id}/unstar]
@@ -2028,6 +2076,37 @@ but are also limited to the projects that the current user is allowed to see.
                 "message": "The request body was not empty."
             }
 
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** for own queries none; for public queries: manage public queries
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding query.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to unstar this query."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
 
 # Group Revisions
 

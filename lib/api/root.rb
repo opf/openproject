@@ -99,10 +99,14 @@ module API
       end
 
       def authorize(permission, context: nil, global: false, user: current_user)
-        is_authorized = AuthorizationService.new(permission,
-                                                 context: context,
-                                                 global: global,
-                                                 user: user).call
+        authorize_by_with_raise AuthorizationService.new(permission,
+                                                         context: context,
+                                                         global: global,
+                                                         user: user)
+      end
+
+      def authorize_by_with_raise(callable)
+        is_authorized = callable.call
 
         return true if is_authorized
 
@@ -113,14 +117,6 @@ module API
         end
 
         false
-      end
-
-      def authorize_by_with_raise(&_block)
-        if yield
-          true
-        else
-          raise API::Errors::Unauthorized
-        end
       end
 
       def running_in_test_env?
