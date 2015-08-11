@@ -88,4 +88,4 @@ var addAttachmentPath = workPackage._links.addAttachment.href;
 
 One of the minor drawbacks of `hyperagent.js` is that it only supports `GET` requests at the moment and one has to awkwardly inject the `method` desired into the `options` of the AJAX call made (see also the `setup` method of `hal-api-resource.js`, as well as an example in `loadWorkPackageForm` in `./frontend/app/services/work-package-service.js`).
 
-The goal should be to leverage `angular.$http` and make the calls accordingly. One of the short term goals should be to remove duplication.
+The goal should be to leverage `angular.$http` and make the calls accordingly. One of the short term goals should be to remove duplication introduced when building requests via the `HALAPIResource`.
