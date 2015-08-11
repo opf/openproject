@@ -72,3 +72,29 @@ The `app` folder is furthermore divided into:
 * `timelines` contains all code necessary for project timelines
 * `time_entries` contains a single controller used in the timelog views 
 * all the rest of the folders containing common components divided by their type
+
+The common components are divided into their usual use cases and are available to every other module partaking in the build process.
+
+## Using `index.js` to define modules
+
+Most directories contain an `index.js` defining what is actually required in the build process. The `index.js` can be seen as a sort of manifest defining what gets included and what not. __However__ this is slightly misleading, as the code in `index.js` is actually functional, definiing many `angular` modules.
+
+### Example: `timeEntries`
+
+The initial file is located at `./frontend/app/time_entries/index.js` for which the module necessary is actually defined in `/frontend/app/openproject-app.js`
+
+The file itself just requires `./controllers`, which is the directory next to it. `webpack` will look into the folder, look up the next `index.js` (`./frontend/app/time_entries/controllers/index.js`) and add the contents of that file:
+
+```javascript
+angular.module('openproject.timeEntries.controllers')
+  .controller('TimeEntriesController', ['$scope', '$http', 'PathHelper',
+    'SortService', 'PaginationService',
+    require('./time-entries-controller')
+  ]);
+```
+
+The file consists of a single module definition, that requires another file (`./frontend/app/time_entries/controllers/time-entries-controller.js`), which contains the actual controller function.
+
+The files mostly follow the __Asynchronous Module Defintion__ (AMD), so the different parts of the application can be isolated.
+
+However, this makes planning the injections abit harder, as they are spread out over two files (the `$injector` definition being in the respective `index.js`, the actual function signature being in the module itself.)

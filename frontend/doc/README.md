@@ -24,7 +24,7 @@ Please commit `npm-shrinkwrap.json` along with any changes to `package.json`.
 
 ## Topics
 
-The individual topic for the documentation for the frontend are
+The individual topics for the documentation for the frontend are
 
 1. `OVERVIEW.md` - a general overview on the folder structure and a general "what is where"
 2. `BUILD.md` - notes on building the JavaScript for the asset pipeline
