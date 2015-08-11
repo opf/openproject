@@ -40,10 +40,26 @@
   font-size: 1.125rem
   font-weight: bold
 
+
+div[class*='work-packages--details--']
+  width: 100%
   .inplace-edit--read-value
+    .dynamic-attribute
+      width: 100%
+
     span          
       overflow: hidden
       text-overflow: ellipsis
+      display: block
+
+      p
+        overflow: inherit
+        text-overflow: inherit
+
+      a
+        overflow: inherit
+        text-overflow: inherit
+        display: inherit
 
 .work-packages--details--subject
   @include grid-content
