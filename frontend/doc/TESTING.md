@@ -84,7 +84,19 @@ describe('edit state', function() {
 
 Tests can be focused by using `iit` (not a typo) instead of `it` and can be ignored by using `xit` instead of it.
 
-Configuration is done in `/frontend/tests/integration/protractor.conf.js`. The only usable browser right now for protractor is Firefox. That is, you can change your browser locally to Chrome if you want to, however, TravisCI so far only supports running tests via Firefox.
+Configuration is done in `./frontend/tests/integration/protractor.conf.js`. The only usable browser right now for protractor is Firefox. That is, you can change your browser locally to Chrome if you want to, however, TravisCI so far only supports running tests via Firefox.
+
+### Mocking
+
+As the backend ist not present during testing, the protractor suite actually uses mocked json responses to facilitate the behaviour of data when testing the components.
+
+__Note:__ All mocks are found under `/frontend/tests/integration/mocks/` and a re usually loaded via a custom function defined in the tests which wrap `WorkPackageDetailsPane`, which in turn wraps a call to `browser.get()` (see `./frontend/tests/integration/pages/work-package-details-pane.js`)
+
+A mock usually just represents a probable json response from the backend. As the protractor suite does not use the Rails backend, this can be a source of confusion:
+
+__Make sure you keep your mocks in sync with the current implementation of the API__
+
+Otherwise, you will not be able to detect problems with the API and/or your component.
 
 ## Capybara/Cucumber/RSpec E2E Testing
 
