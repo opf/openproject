@@ -38,8 +38,9 @@ module API
         Setting.api_max_page_size.to_i
       end
 
-      def initialize(models, self_link, page: nil, per_page: nil, context: {})
+      def initialize(models, self_link, query: {}, page: nil, per_page: nil, context: {})
         @self_link_base = self_link
+        @query = query
         @page = page || 1
         @per_page = [per_page || self.class.per_page_default(models),
                      self.class.per_page_maximum].min
@@ -88,7 +89,7 @@ module API
       private
 
       def make_page_link(page:, page_size:)
-        query = { offset: page, pageSize: page_size }.to_query
+        query = @query.merge(offset: page, pageSize: page_size).to_query
         "#{@self_link_base}?#{query}"
       end
     end

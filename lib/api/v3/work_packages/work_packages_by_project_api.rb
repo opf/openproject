@@ -44,19 +44,50 @@ module API
                   project: @project,
                   send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
             end
+
+            def set_filters_from_json(query, json)
+              filters = JSON.parse(json)
+              operators = filters.inject({}) { |result, filter|
+                attribute = filter.keys.first # there should only be one attribute per filter
+                result[attribute] = filter[attribute]['operator']
+                result
+              }
+              values = filters.inject({}) { |result, filter|
+                attribute = filter.keys.first # there should only be one attribute per filter
+                result[attribute] = filter[attribute]['values']
+                result
+              }
+
+              query.filters = []
+              query.add_filters(filters.map(&:keys).flatten, operators, values)
+            end
+
+            def collection_representer(work_packages, filter_json:)
+              query = {}
+              query[:filters] = filter_json if filter_json
+
+              ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
+                work_packages,
+                api_v3_paths.work_packages_by_project(@project.id),
+                query: query,
+                page: params[:offset] ? params[:offset].to_i : nil,
+                per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
+                context: {
+                  current_user: current_user
+                }
+              )
+            end
           end
 
           get do
             authorize(:view_work_packages, context: @project)
-            ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
-              @project.work_packages,
-              api_v3_paths.work_packages_by_project(@project.id),
-              page: params[:offset] ? params[:offset].to_i : nil,
-              per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
-              context: {
-                current_user: current_user
-              }
-            )
+
+            query = Query.new({ name: '_', project: @project })
+            set_filters_from_json(query, params[:filters]) if params[:filters]
+
+
+            collection_representer(query.results.work_packages,
+                                   filter_json: params[:filters])
           end
 
           post do
