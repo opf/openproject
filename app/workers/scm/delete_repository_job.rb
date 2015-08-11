@@ -35,6 +35,8 @@
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
 class Scm::DeleteRepositoryJob
+  include OpenProject::BeforeDelayedJob
+
   def initialize(managed_path)
     @managed_path = managed_path
   end

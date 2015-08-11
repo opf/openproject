@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,20 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeleteUserJob
-  include OpenProject::BeforeDelayedJob
+require 'spec_helper'
 
-  def initialize(user)
-    @user_id = user.id
+describe OpenProject::BeforeDelayedJob do
+  class JobMock
+    include OpenProject::BeforeDelayedJob
+
+    def initialize(callback)
+      @callback = callback
+    end
+
+    def perform
+      @callback.call
+    end
   end
 
-  def perform
-    user.destroy
-  end
+  describe 'resets request store' do
+    it 'resets request store on each perform' do
+      job = JobMock.new(->() do
+        expect(RequestStore[:test_value]).to be_nil
+        RequestStore[:test_value] = 42
+      end)
 
-  private
+      job.perform
+      job.perform
+    end
 
-  def user
-    @user ||= User.find @user_id
+    it 'leaves the request store populated after perform' do
+      job = JobMock.new(->() do
+        RequestStore[:test_value] = 42
+      end)
+
+      job.perform
+
+      expect(RequestStore[:test_value]).to eql 42
+    end
   end
 end

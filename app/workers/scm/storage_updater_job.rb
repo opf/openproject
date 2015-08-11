@@ -28,6 +28,8 @@
 #++
 
 class Scm::StorageUpdaterJob
+  include OpenProject::BeforeDelayedJob
+
   def initialize(repository)
     @id = repository.id
 

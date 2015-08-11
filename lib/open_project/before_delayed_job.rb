@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,20 +26,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeleteUserJob
-  include OpenProject::BeforeDelayedJob
+module OpenProject
+  # Includable in a delayed job to perform common operations that should happen before all
+  # delayed jobs.
+  module BeforeDelayedJob
+    def self.included(base)
+      base.prepend Overrides
+    end
 
-  def initialize(user)
-    @user_id = user.id
-  end
+    module Overrides
+      def perform
+        reset_request_store!
+        super
+      end
 
-  def perform
-    user.destroy
-  end
+      private
 
-  private
-
-  def user
-    @user ||= User.find @user_id
+      # Resets the thread local request store.
+      # This should be done, because normal application code expects the RequestStore to be
+      # invalidated between multiple requests and does usually not care whether it is executed
+      # from a request or from a delayed job.
+      # For a delayed job, each job execution is the thing that comes closest to
+      # the concept of a new request.
+      def reset_request_store!
+        RequestStore.clear!
+      end
+    end
   end
 end
