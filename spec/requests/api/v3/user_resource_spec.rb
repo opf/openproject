@@ -66,8 +66,8 @@ describe 'API v3 User resource', type: :request do
       end
     end
 
-    it_behaves_like 'handling anonymous user', 'User', '/api/v3/users/%s' do
-      let(:id) { user.id }
+    it_behaves_like 'handling anonymous user' do
+      let(:path) { api_v3_paths.user user.id }
     end
   end
 

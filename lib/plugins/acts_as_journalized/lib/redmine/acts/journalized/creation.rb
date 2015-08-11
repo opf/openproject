@@ -86,8 +86,8 @@ module Redmine::Acts::Journalized
       def prepare_journaled_options_with_creation(options)
         result = prepare_journaled_options_without_creation(options)
 
-        vestal_journals_options[:only] = Array(options.delete(:only)).map(&:to_s).uniq if options[:only]
-        vestal_journals_options[:except] = Array(options.delete(:except)).map(&:to_s).uniq if options[:except]
+        vestal_journals_options[:only] = Array(result.delete(:only)).map(&:to_s).uniq if result[:only]
+        vestal_journals_options[:except] = Array(result.delete(:except)).map(&:to_s).uniq if result[:except]
 
         result
       end
@@ -113,10 +113,10 @@ module Redmine::Acts::Journalized
           # Try to find the real initial values
           unless journals.empty?
             journals[1..-1].each do |journal|
-              unless journal.changed_data[name].nil?
+              unless journal.details[name].nil?
                 # Found the first change in journals
                 # Copy the first value as initial change value
-                initial_changes[name] = journal.changed_data[name].first
+                initial_changes[name] = journal.details[name].first
                 break
               end
             end
@@ -180,9 +180,9 @@ module Redmine::Acts::Journalized
       # Specifies the attributes used during journal creation. This is separated into its own
       # method so that it can be overridden by the VestalVersions::Users feature.
       def journal_attributes
-        attributes = { journaled_id: id, activity_type: activity_type,
-                       changed_data: journal_changes, version: last_version + 1,
-                       notes: journal_notes, user_id: (journal_user.try(:id) || User.current.try(:id))
+        { journaled_id: id, activity_type: activity_type,
+          details: journal_changes, version: last_version + 1,
+          notes: journal_notes, user_id: (journal_user.try(:id) || User.current.try(:id))
         }.merge(extra_journal_attributes || {})
       end
     end

@@ -30,7 +30,7 @@ source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.22"
 
-gem "coderay", "~> 1.0.9"
+gem "coderay", "~> 1.1.0"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 gem 'globalize', "~> 3.1.0"
@@ -45,6 +45,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 gem 'rails_autolink', '~> 1.1.6'
 gem "will_paginate", '~> 3.0'
 gem "acts_as_list", "~> 0.3.0"
+gem 'acts_as_countable', git: "https://github.com/finnlabs/acts_as_countable.git", ref: '2471265'
 
 gem 'awesome_nested_set'
 
@@ -93,7 +94,8 @@ gem 'syck', :platforms => [:mri, :mingw, :x64_mingw], :require => false
 gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
-gem 'airbrake', '~> 4.1.0'
+# don't require by default, instead load on-demand when actually configured
+gem 'airbrake', '~> 4.1.0', require: false
 
 group :production do
   # we use dalli as standard memcache client
@@ -128,7 +130,7 @@ gem 'unicorn'
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
 
-gem 'rack', '~>1.4.6'
+gem 'rack', '~>1.4.7'
 
 gem 'i18n', '~> 0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
@@ -158,11 +160,11 @@ group :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'rspec-legacy_formatters'
-  gem 'capybara', '~> 2.3.0'
+  gem 'capybara', '~> 2.4.4'
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.1'
-  gem 'selenium-webdriver', '~> 2.45.0'
+  gem 'selenium-webdriver', '~> 2.46.2'
   gem 'timecop', '~> 0.7.1'
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
@@ -231,7 +233,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'release/4.3'
+  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles

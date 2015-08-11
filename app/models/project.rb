@@ -93,6 +93,9 @@ class Project < ActiveRecord::Base
                 author: nil,
                 datetime: :created_on
 
+  acts_as_countable :required_project_storage,
+                    countable: [:work_packages, :repository]
+
   attr_protected :status
 
   validates_presence_of :name, :identifier
@@ -616,9 +619,9 @@ class Project < ActiveRecord::Base
     possible_responsible_members.map(&:principal).compact.sort
   end
 
-  # Returns the mail adresses of users that should be always notified on project events
+  # Returns users that should be always notified on project events
   def recipients
-    notified_users.map(&:mail)
+    notified_users
   end
 
   # Returns the users that should be notified on project events
@@ -927,6 +930,24 @@ class Project < ActiveRecord::Base
       subproject.send :archive!
     end
     update_attribute :status, STATUS_ARCHIVED
+  end
+
+  def required_storage
+    Rails.cache.fetch("project##{id}/project_storage",
+                      expires_in: self.class.project_storage_expires_in) do
+      count_for(:required_project_storage).first
+    end
+  end
+
+  def self.total_projects_size
+    Rails.cache.fetch('projects/total_projects_size',
+                      expires_in: project_storage_expires_in) do
+      Project.all.map { |p| p.required_storage[:total] }.sum
+    end
+  end
+
+  def self.project_storage_expires_in
+    Setting.project_storage_cache_minutes.to_i.minutes
   end
 
   protected

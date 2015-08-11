@@ -173,9 +173,9 @@ module WorkPackagesHelper
 
       ['start_date', 'due_date'].each do |date|
         if changed_dates[date].nil? &&
-           journal.changed_data[date] &&
-           journal.changed_data[date].first
-          changed_dates[date] = " (<del>#{journal.changed_data[date].first}</del>)".html_safe
+           journal.details[date] &&
+           journal.details[date].first
+          changed_dates[date] = " (<del>#{journal.details[date].first}</del>)".html_safe
         end
       end
     end

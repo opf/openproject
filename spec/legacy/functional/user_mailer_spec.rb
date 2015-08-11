@@ -201,7 +201,7 @@ describe UserMailer, type: :mailer do
   it 'should email headers' do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue, user)
+    mail = UserMailer.work_package_added(user, issue.journals.first, user)
     assert mail.deliver
     assert_not_nil mail
     assert_equal 'bulk', mail.header['Precedence'].to_s
@@ -212,7 +212,7 @@ describe UserMailer, type: :mailer do
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    UserMailer.work_package_added(user, issue, user).deliver
+    UserMailer.work_package_added(user, issue.journals.first, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /text\/plain/, mail.content_type
     assert_equal 0, mail.parts.size
@@ -223,7 +223,7 @@ describe UserMailer, type: :mailer do
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    UserMailer.work_package_added(user, issue, user).deliver
+    UserMailer.work_package_added(user, issue.journals.first, user).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_match /multipart\/alternative/, mail.content_type
     assert_equal 2, mail.parts.size
@@ -264,7 +264,7 @@ describe UserMailer, type: :mailer do
   it 'should issue add message id' do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue, user)
+    mail = UserMailer.work_package_added(user, issue.journals.first, user)
     mail.deliver
     assert_not_nil mail
     assert_equal UserMailer.generate_message_id(issue, user), mail.message_id
@@ -318,7 +318,7 @@ describe UserMailer, type: :mailer do
       ActionMailer::Base.deliveries.clear
       with_settings available_languages: ['en', 'de'] do
         I18n.locale = 'en'
-        assert UserMailer.work_package_added(user, issue, user).deliver
+        assert UserMailer.work_package_added(user, issue.journals.first, user).deliver
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -338,7 +338,7 @@ describe UserMailer, type: :mailer do
       with_settings available_languages: ['en', 'de'],
                     default_language: 'de' do
         I18n.locale = 'de'
-        assert UserMailer.work_package_added(user, issue, user).deliver
+        assert UserMailer.work_package_added(user, issue.journals.first, user).deliver
         assert_equal 1, ActionMailer::Base.deliveries.size
         mail = last_email
         assert_equal ['foo@bar.de'], mail.to
@@ -490,17 +490,12 @@ describe UserMailer, type: :mailer do
     # now change the issue, to get a nice journal
     issue.description = "This is related to issue ##{related_issue.id}\n"
 
-    changeset = with_existing_filesystem_scm do |repo_url|
-      repository = FactoryGirl.build(:repository,
-                                     url: repo_url,
+    repository = FactoryGirl.create(:repository_subversion,
                                      project: project)
 
-      repository.save!
-
-      FactoryGirl.create :changeset,
+    changeset = FactoryGirl.create :changeset,
                          repository: repository,
                          comments: 'This commit fixes #1, #2 and references #1 and #3'
-    end
 
     issue.description += " A reference to a changeset r#{changeset.revision}\n" if changeset
 

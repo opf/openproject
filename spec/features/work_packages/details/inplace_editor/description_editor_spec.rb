@@ -1,7 +1,8 @@
 require 'spec_helper'
 require 'features/work_packages/details/inplace_editor/shared_examples'
-require 'features/work_packages/details/inplace_editor/shared_contexts'
+require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/work_package_field'
+require 'features/work_packages/work_packages_page'
 
 describe 'description inplace editor', js: true do
   include_context 'maximized window'
@@ -19,15 +20,12 @@ describe 'description inplace editor', js: true do
   }
   let(:user) { FactoryGirl.create :admin }
   let(:field) { WorkPackageField.new page, property_name }
+  let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   before do
     allow(User).to receive(:current).and_return(user)
-    visit project_work_packages_path(project)
 
-    ensure_wp_table_loaded
-
-    row = page.find("#work-package-#{work_package.id}")
-    row.double_click
+    work_packages_page.visit_index(work_package)
   end
 
   context 'in read state' do

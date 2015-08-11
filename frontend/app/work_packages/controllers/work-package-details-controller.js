@@ -174,8 +174,7 @@ module.exports = function($scope,
 
   function displayedActivities(workPackage) {
     var activities = workPackage.embedded.activities;
-    // remove first activity (assumes activities are sorted chronologically)
-    activities.splice(0, 1);
+
     if ($scope.activitiesSortedInDescendingOrder) {
       activities.reverse();
     }

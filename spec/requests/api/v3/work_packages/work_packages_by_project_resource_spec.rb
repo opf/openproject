@@ -33,24 +33,56 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  let(:current_user) {
+    FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
+  }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages] }
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
+  let(:path) { api_v3_paths.work_packages_by_project project.id }
+
+  before do
+    allow(User).to receive(:current).and_return current_user
+  end
+
+  describe '#get' do
+    subject { last_response }
+
+    before do
+      get path
+    end
+
+    it 'succeeds' do
+      expect(subject.status).to eql 200
+    end
+
+    context 'not allowed to see the project' do
+      let(:current_user) { FactoryGirl.build(:user) }
+
+      it 'fails with HTTP Not Found' do
+        expect(subject.status).to eql 404
+      end
+    end
+
+    context 'not allowed to see work packages' do
+      let(:permissions) { [:view_project] }
+
+      it 'fails with HTTP Not Found' do
+        expect(subject.status).to eql 403
+      end
+    end
+  end
 
   describe '#post' do
+    let(:permissions) { [:add_work_packages, :view_project] }
     let(:status) { FactoryGirl.build(:status, is_default: true) }
     let(:priority) { FactoryGirl.build(:priority, is_default: true) }
     let(:parameters) { { subject: 'new work packages' } }
-    let(:permissions) { [:add_work_packages, :view_project] }
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-    let(:current_user) do
-      FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
-    end
-    let(:path) { api_v3_paths.work_packages_by_project project.id }
 
     before do
       status.save!
       priority.save!
 
-      allow(User).to receive(:current).and_return current_user
       ActionMailer::Base.deliveries.clear
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
     end

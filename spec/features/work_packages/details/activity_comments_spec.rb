@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-require 'features/work_packages/details/inplace_editor/shared_contexts'
+require 'features/work_packages/shared_contexts'
 
 describe 'activity comments', js: true do
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
@@ -18,20 +18,26 @@ describe 'activity comments', js: true do
     row = page.find("#work-package-#{work_package.id}")
     row.double_click
 
-    expect(find('#add-comment-text')).to be_present
+    ng_wait
   end
 
   it 'should alert user if navigating with unsaved form' do
-    page.execute_script("jQuery('#add-comment-text').val('Foobar').trigger('change')")
+    fill_in I18n.t('js.label_add_comment_title'), with: 'Foobar'
+
     visit root_path
+
     page.driver.browser.switch_to.alert.accept
+
     expect(current_path).to eq(root_path)
   end
 
   it 'should not alert if comment has been submitted' do
-    page.execute_script("jQuery('#add-comment-text').val('Foobar').trigger('change')")
-    page.execute_script("jQuery('#add-comment-text').siblings('button').trigger('click')")
+    fill_in I18n.t('js.label_add_comment_title'), with: 'Foobar'
+
+    click_button I18n.t('js.label_add_comment')
+
     visit root_path
+
     expect(current_path).to eq(root_path)
   end
 end

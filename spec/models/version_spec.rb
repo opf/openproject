@@ -82,6 +82,54 @@ describe Version, type: :model do
     end
   end
 
+  context '#<=>' do
+    let(:version1) { FactoryGirl.build_stubbed(:version) }
+    let(:version2) { FactoryGirl.build_stubbed(:version) }
+
+    it 'is 0 if name and project are equal' do
+      version1.project = version2.project
+      version1.name = version2.name
+
+      expect(version1 <=> version2).to be 0
+    end
+
+    it "is -1 if the project name is alphabetically before the other's project name" do
+      version1.name = 'BBBB'
+      version1.project.name = 'AAAA'
+      version2.name = 'AAAA'
+      version2.project.name = 'BBBB'
+
+      expect(version1 <=> version2).to eql -1
+    end
+
+    it "is 1 if the project name is alphabetically after the other's project name" do
+      version1.name = 'AAAA'
+      version1.project.name = 'BBBB'
+      version2.name = 'BBBB'
+      version2.project.name = 'AAAA'
+
+      expect(version1 <=> version2).to eql 1
+    end
+
+    it "is -1 if the project name is equal
+        and the version's name is alphabetically before the other's name" do
+      version1.project.name = version2.project.name
+      version1.name = 'AAAA'
+      version2.name = 'BBBB'
+
+      expect(version1 <=> version2).to eql -1
+    end
+
+    it "is 1 if the project name is equal
+        and the version's name is alphabetically after the other's name" do
+      version1.project.name = version2.project.name
+      version1.name = 'BBBB'
+      version2.name = 'AAAA'
+
+      expect(version1 <=> version2).to eql 1
+    end
+  end
+
   context '#projects' do
     let(:grand_parent_project) do
       FactoryGirl.build(:project, name: 'grand_parent_project')

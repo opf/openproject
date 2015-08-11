@@ -30,45 +30,61 @@
 require 'SVG/Graph/Bar'
 require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
+require_dependency 'open_project/scm/adapters'
 
-class ChangesetNotFound < Exception; end
-class InvalidRevisionParam < Exception; end
+class ChangesetNotFound < Exception
+end
+class InvalidRevisionParam < Exception
+end
 
 class RepositoriesController < ApplicationController
   include PaginationHelper
 
   menu_item :repository
-  menu_item :settings, only: :edit
+  menu_item :settings, only: [:edit, :destroy_info]
   default_search_scope :changesets
 
-  before_filter :find_repository, except: :edit
-  before_filter :find_project, only: :edit
+  before_filter :find_project_by_project_id
+  before_filter :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
   before_filter :authorize
   accept_key_auth :revisions
 
-  rescue_from Redmine::Scm::Adapters::CommandFailed, with: :show_error_command_failed
+  rescue_from OpenProject::Scm::Exceptions::ScmError, with: :show_error_command_failed
 
   def edit
-    @repository = @project.repository
-    if !@repository
-      @repository = Repository.factory(params[:repository_scm])
-      @repository.project = @project if @repository
+    service = Scm::RepositoryFactoryService.new(@project, params)
+    if service.build_temporary
+      @repository = service.repository
+    else
+      logger.error("Cannot create repository for #{params[:scm_vendor]}")
+      flash.now[:error] = service.build_error
     end
-    if request.post? && @repository
-      @repository.attributes = params[:repository]
-      @repository.save
-    end
-
-    menu_reload_required = if @repository.persisted? && !@project.repository
-                             @project.reload # needed to reload association
-                           end
 
     respond_to do |format|
-      format.js do
-        render template: '/projects/settings/repository',
-               locals: { project: @project,
-                         reload_menu: menu_reload_required }
-      end
+      format.js { render 'repositories/settings/repository_form' }
+    end
+  end
+
+  def update
+    @repository = @project.repository
+    update_repository(params.fetch(:repository, {}))
+    respond_to do |format|
+      format.js { render 'repositories/settings/repository_form' }
+    end
+  end
+
+  def create
+    service = Scm::RepositoryFactoryService.new(@project, params)
+    if service.build_and_save
+      @repository = service.repository
+      flash[:notice] = l('repositories.create_successful')
+      flash[:notice] << (' ' + l('repositories.create_managed_delay')) if @repository.managed?
+    else
+      flash[:error] = service.build_error
+    end
+
+    respond_to do |format|
+      format.js { render js: "window.location = '#{settings_repository_tab_path}'" }
     end
   end
 
@@ -87,9 +103,15 @@ class RepositoriesController < ApplicationController
     end
   end
 
+  def destroy_info
+    @repository = @project.repository
+    @back_link = settings_repository_tab_path
+  end
+
   def destroy
-    @repository.destroy
-    redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'repository'
+    @project.repository.destroy
+    flash[:notice] = I18n.t('repositories.delete_sucessful')
+    redirect_to settings_repository_tab_path
   end
 
   def show
@@ -123,7 +145,8 @@ class RepositoriesController < ApplicationController
   end
 
   def revisions
-    @changesets = @repository.changesets.includes(:user, :repository)
+    @changesets = @repository.changesets
+                  .includes(:user, :repository)
                   .page(params[:page])
                   .per_page(per_page_param)
 
@@ -138,13 +161,17 @@ class RepositoriesController < ApplicationController
     (show_error_not_found; return) unless @entry
 
     # If the entry is a dir, show the browser
-    (show; return) if @entry.is_dir?
+    if @entry.dir?
+      show
+      return
+    end
 
     @content = @repository.cat(@path, @rev)
     (show_error_not_found; return) unless @content
     if 'raw' == params[:format] ||
        (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
        !is_entry_text_data?(@content, @path)
+
       # Force the download
       send_opt = { filename: filename_for_content_disposition(@path.split('/').last) }
       send_type = Redmine::MimeType.of(@path)
@@ -174,6 +201,7 @@ class RepositoriesController < ApplicationController
     end
     true
   end
+
   private :is_entry_text_data?
 
   def annotate
@@ -204,9 +232,10 @@ class RepositoriesController < ApplicationController
       (show_error_not_found; return) unless @diff
       filename = "changeset_r#{@rev}"
       filename << "_r#{@rev_to}" if @rev_to
-      send_data @diff.join, filename: "#{filename}.diff",
-                            type: 'text/x-patch',
-                            disposition: 'attachment'
+      send_data @diff.join,
+                filename: "#{filename}.diff",
+                type: 'text/x-patch',
+                disposition: 'attachment'
     else
       @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
       @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
@@ -245,6 +274,7 @@ class RepositoriesController < ApplicationController
       end
       data = graph_commits_per_author(@repository)
     end
+
     if data
       headers['Content-Type'] = 'image/svg+xml'
       send_data(data, type: 'image/svg+xml', disposition: 'inline')
@@ -257,10 +287,26 @@ class RepositoriesController < ApplicationController
 
   REV_PARAM_RE = %r{\A[a-f0-9]*\Z}i
 
+  def update_repository(repo_params)
+    @repository.attributes = @repository.class.permitted_params(repo_params)
+
+    if @repository.save
+      flash.now[:notice] = l('repositories.update_settings_successful')
+    else
+      flash.now[:error] = @repository.errors.full_messages.join('\n')
+    end
+  end
+
+  def settings_repository_tab_path
+    settings_project_path(@project, tab: 'repository')
+  end
+
   def find_repository
-    @project = Project.find(params[:project_id])
     @repository = @project.repository
     (render_404; return false) unless @repository
+
+    @repository.scm.check_availability!
+
     @path = params[:path] || ''
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
     @rev_to = params[:rev_to]
@@ -270,6 +316,8 @@ class RepositoriesController < ApplicationController
         raise InvalidRevisionParam
       end
     end
+  rescue OpenProject::Scm::Exceptions::ScmEmpty
+    render 'empty'
   rescue ActiveRecord::RecordNotFound
     render_404
   rescue InvalidRevisionParam
@@ -280,7 +328,6 @@ class RepositoriesController < ApplicationController
     render_error message: l(:error_scm_not_found), status: 404
   end
 
-  # Handler for Redmine::Scm::Adapters::CommandFailed exception
   def show_error_command_failed(exception)
     render_error l(:error_scm_command_failed, exception.message)
   end

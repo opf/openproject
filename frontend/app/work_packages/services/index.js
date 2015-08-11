@@ -51,6 +51,8 @@ angular.module('openproject.workPackages.services')
       attributes: []
     }
   ])
+  .factory('WorkPackageFieldConfigurationService',
+           require('./work-package-field-configuration-service'))
   .constant('WORK_PACKAGE_REGULAR_EDITABLE_FIELD', [
     'assignee', 'responsible', 'status', 'version', 'priority'
   ])
@@ -70,4 +72,14 @@ angular.module('openproject.workPackages.services')
   ])
   .service('EditableFieldsState',
     require('./editable-fields-state')
-  );
+  )
+  .service('WorkPackageAttachmentsService', [
+    'Upload', // 'Upload' is provided by ngFileUpload
+    'PathHelper',
+    'I18n',
+    'NotificationsService',
+    '$q',
+    '$timeout',
+    '$http',
+    require('./work-package-attachments-service')
+  ]);

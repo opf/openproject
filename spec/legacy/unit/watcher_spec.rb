@@ -92,10 +92,10 @@ describe Watcher do
 
     assert @issue.watcher_recipients.empty?
     assert @issue.add_watcher(@user)
-    assert_contains @issue.watcher_recipients, @user.mail
+    assert_contains @issue.watcher_recipients, @user
 
     @user.update_attribute :mail_notification, 'none'
-    assert_does_not_contain @issue.watcher_recipients, @user.mail
+    assert_does_not_contain @issue.watcher_recipients, @user
   end
 
   it 'should unwatch' do

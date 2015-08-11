@@ -131,21 +131,24 @@ module OpenProject
     end
 
     describe 'find_language' do
-      it 'is nil if language is not active' do
+      before do
         allow(Setting).to receive(:available_languages).and_return([:de])
+      end
 
+      it 'is nil if language is not active' do
         expect(find_language(:en)).to be_nil
       end
 
-      it 'is the language if it is active' do
-        allow(Setting).to receive(:available_languages).and_return([:de])
+      it 'is nil if no language is given' do
+        expect(find_language('')).to be_nil
+        expect(find_language(nil)).to be_nil
+      end
 
+      it 'is the language if it is active' do
         expect(find_language(:de)).to eql :de
       end
 
       it 'can be found by uppercase if it is active' do
-        allow(Setting).to receive(:available_languages).and_return([:de])
-
         expect(find_language(:DE)).to eql :de
       end
     end

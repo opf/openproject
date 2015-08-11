@@ -151,10 +151,6 @@ module.exports = function(I18n, WorkPackagesTableService, $window, $timeout, fla
         angular.element($window).trigger('resize');
       });
 
-      element.on('hover', 'th', function() {
-        element.find('col:eq('+ jQuery(this).index() +')').toggleClass('hover');
-      });
-
       scope.setCheckedStateForAllRows = function(state) {
         WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, state);
       };

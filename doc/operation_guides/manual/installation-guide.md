@@ -1,182 +1,171 @@
-# Installation of OpenProject 4.2 with Apache on Debian 7.7 or Ubuntu 14.04 LTS
+# Installation of OpenProject 4.2 with Apache on Ubuntu 14.04. LTS
 
-**This tutorial helps you to deploy OpenProject 4.2. Please, aware that:**
+This tutorial helps you to deploy OpenProject 4.2. Please, aware that:
 
-1. This guide requires that you have a clean **Debian 7.7 x64** or **Ubuntu 14.04 x64** installation with administrative rights. We have tested the installation guide on a Debian minimal netinstall image and on an Ubuntu Server image, but it should work on any derivative.
-2. OpenProject will be installed with a MySQL database (the guide should work analogous with PostgreSQL).
-3. OpenProject will be served in a production environment with Apache (this guide should work analogous with other servers, like nginx and others)
+This guide requires that you have a clean Ubuntu 14.04 x64 installation
+with administrative rights. We have tested the installation guide on an
+Ubuntu Server image, but it should work on any derivative.
 
-In this guide, we will install **OpenProject 4.2** with a **MySQL** database. Openproject will be served with the **Apache** web server. When your server needs to reboot, OpenProject should start automatically with your server.
+OpenProject will be installed with a MySQL database (the guide should
+work similarly with PostgreSQL).
+
+OpenProject will be served in a production environment with Apache
+(this guide should work similarly with other servers, like nginx and others)
 
 Note: We have highlighted commands to execute like this
-```bash
-[user@host] command
-```
 
-Where the `user` is the operating system user the command is executed with. The `host` is either `debian` (when the command is Debian-specific), `ubuntu` (when the command is Ubuntu-specific), or `all` (when the command shall be executed on either operating system).
-
-If you find any bugs or you have any recommendations for improving this tutorial, please, feel free to create a pull request against this guide.
-
-## Prepare Your Environment
-
-Install tools needed to compile Ruby and run OpenProject:
-
-### Only on Debian
 
 ```bash
-[root@debian] apt-get update
-[root@debian] apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libmysqlclient-dev libpq-dev memcached libffi5
+[user@host] command to execute
 ```
 
-### Only on Ubuntu
+The `user` is the operating system user the command is executed with.
+In our case it will be `root` for most of the time or `openproject`.
 
-```bash
-[root@ubuntu] apt-get update
-[root@ubuntu] apt-get install git curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libmysqlclient-dev libpq-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties memcached libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
-```
+If you find any bugs or you have any recommendations for improving this
+tutorial, please, feel free to create a pull request against this guide.
 
-### Debian and Ubuntu
+# Prepare Your Environment
 
 Create a dedicated user for OpenProject:
 
 ```bash
-[root@all] groupadd openproject
-[root@all] useradd --create-home --gid openproject openproject
-[root@all] passwd openproject (enter desired password)
+sudo groupadd openproject
+sudo useradd --create-home --gid openproject openproject
+sudo passwd openproject #(enter desired password)
 ```
 
-## Install Database (MySQL) Packages
-
-During installation, you have to enter a password for the mysql root-user.
+## Installation of Essentials
 
 ```bash
-[root@all] apt-get install mysql-server mysql-client
+[root@host] apt-get update -y
+[root@host] apt-get install -y zlib1g-dev build-essential \
+                    libssl-dev libreadline-dev            \
+                    libyaml-dev libgdbm-dev               \
+                    libncurses5-dev automake              \
+                    libtool bison libffi-dev git curl     \
+                    libxml2 libxml2-dev libxslt1-dev # nokogiri
 ```
 
-As a reference, we have installed the following MySQL version:
+## Installation of Memcached
 
 ```bash
-[root@all] mysql --version
-              mysql  Ver 14.14 Distrib 5.5.40, for debian-linux-gnu (x86_64) using readline 6.3
+[root@host] apt-get install -y memcached
 ```
 
-Create the OpenProject MySQL-user and database:
+## Installation of MySQL
+
 
 ```bash
-[root@all] mysql -u root -p
+[root@host] apt-get install mysql-server libmysqlclient-dev
 ```
 
-You may replace the string `"openproject"` with the desired username and database-name. The password `"my_password"` should definitely be changed.
+During the installation you will be asked to set the root password.
+
+
+We use the following command to open a `mysql` console and create
+the OpenProject database.
+
+```bash
+[root@host] mysql -uroot -p
+```
+
+You may replace the string `openproject` with the desired username and
+database name. The password `my_password` should definitely be changed.
 
 ```sql
 mysql> CREATE DATABASE openproject CHARACTER SET utf8;
 mysql> CREATE USER 'openproject'@'localhost' IDENTIFIED BY 'my_password';
 mysql> GRANT ALL PRIVILEGES ON openproject.* TO 'openproject'@'localhost';
-mysql> \q
+mysql> FLUSH PRIVILEGES;
+mysql> QUIT
 ```
 
-## Install Node.js
+## Installation of Ruby
 
-We will install the latest 0.10.x version of Node.js via [nodeenv](https://pypi.pythn.org/pypi/nodeenv):
+The are several possibilities to install Ruby on your machine. We will
+use [rbenv](http://rbenv.org/).
 
 ```bash
-[root@all] apt-get install python python-pip
-[root@all] pip install nodeenv
+[root@host] su openproject --login
+[openproject@host] git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+[openproject@host] echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.profile
+[openproject@host] echo 'eval "$(rbenv init -)"' >> ~/.profile
+[openproject@host] source ~/.profile
+[openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+[openproject@host] rbenv install 2.1.6
+[openproject@host] rbenv rehash
+[openproject@host] rbenv global 2.1.6
 ```
 
+To check our Ruby installation we run `ruby --version`. It should output
+something very similar to:
 
-## Install Ruby
-
-Switch to the dedicated OpenProject-user (user `openproject` in our case):
-
-```bash
-[root@all] su openproject -c "bash -l"
+```
+ruby 2.1.6p336 (2015-04-13 revision 50298) [x86_64-linux]
 ```
 
-Switch to the user's home directory ...
+## Installation of Node
+
+The are several possibilities to install Node on your machine. We will
+use [nodenv](https://github.com/OiNutter/nodenv#installation). Please
+run `su openproject --login` if you are the `root` user. If you are
+already the `openproject` user you can skip this command. Please be
+aware that the actual installation of a specific node version takes some
+time to finsih.
 
 ```bash
-[openproject@all] cd ~
+[openproject@host] git clone https://github.com/OiNutter/nodenv.git ~/.nodenv
+[openproject@host] echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.profile
+[openproject@host] echo 'eval "$(nodenv init -)"' >> ~/.profile
+[openproject@host] source ~/.profile
+[openproject@host] git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
+
+[openproject@host] nodenv install 0.12.7
+[openproject@host] nodenv rehash
+[openproject@host] nodenv global 0.12.7
 ```
 
-... and install RVM (Ruby Version Manager)
+To check our Node installation we run `node --version`. It should output
+something very similar to:
 
-```bash
-[openproject@all] \curl -sSL https://get.rvm.io | bash -s stable
+```
+v0.12.7
 ```
 
-It can be that curl fails to download the RVM source, because of the missing GPG key. If that is the case, download the key (as suggested in the error message):
+## Installation of OpenProject
 
 ```bash
-[openproject@all] gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
-```
-
-Then try to download RVM again and continue the installation with:
-
-```bash
-[openproject@all] source $HOME/.rvm/scripts/rvm
-[openproject@all] rvm autolibs disable
-[openproject@all] rvm install 2.1.5
-[openproject@all] rvm use --default 2.1.5
-[openproject@all] gem install bundler
-```
-
-As a reference, we have installed the following version of bundler:
-
-```bash
-[openproject@all] bundle --version
-                  Bundler version 1.7.4
-```
-
-## Activate Node.js
-
-```bash
-[openproject@all] cd ~
-[openproject@all] nodeenv nodeenv
-[openproject@all] source ./nodeenv/bin/activate
-[openproject@all] npm -g install bower
-```
-
-As a reference, the following Node.js and NPM versions have been installed on our system:
-
-```bash
-[openproject@all] node --version
-                  v0.10.33
-[openproject@all] npm --version
-                  1.4.28
-[openproject@all] bower --version
-                  1.3.12
-```
-
-## Install OpenProject
-
-```bash
-[openproject@all] cd ~
-[openproject@all] git clone https://github.com/opf/openproject.git
-[openproject@all] cd openproject
-[openproject@all] git checkout v4.2.0 # please use actual current stable version v4.2.X
-[openproject@all] bundle install
-[openproject@all] npm install
+[openproject@host] cd ~
+[openproject@host] git clone https://github.com/opf/openproject.git
+[openproject@host] cd openproject
+[openproject@host] git checkout v4.2.0 # please use actual current stable version v4.2.X
+[openproject@host] gem install bundler
+[openproject@host] bundle install --deployment --without postgres sqlite rmagick development test therubyracer
+[openproject@host] npm install
 ```
 
 ## Configure OpenProject
 
-Create and configure the database configuration file in `config/database.yml` (relative to the openproject-directory).
+Create and configure the database configuration file in config/database.yml
+(relative to the openproject-directory).
 
 ```bash
-[openproject@all] cp config/database.yml.example config/database.yml
+[openproject@host] cp config/database.yml.example config/database.yml
 ```
 
-Now edit the `config/database.yml` file and insert your database credentials.
-It should look like this (just with your database name, username, and password):
+Now we edit the `config/database.yml` file and insert our database credentials.
+It should look like this (please keep in mind that you have to use the values
+you used above: user, database and password):
 
-```ruby
+```yaml
 production:
   adapter: mysql2
   database: openproject
   host: localhost
   username: openproject
-  password: openproject
+  password: my_password
   encoding: utf8
 
 development:
@@ -184,19 +173,19 @@ development:
   database: openproject
   host: localhost
   username: openproject
-  password: openproject
+  password: my_password
   encoding: utf8
 ```
 
-Configure email notifications (using a gmail account as an example) by creating configuration.yml in `config` directory.
+Next we configure email notifications (this example uses a gmail account) by creating the `configuration.yml` in config directory.
 
 ```bash
-[openproject@all] cp config/configuration.yml.example config/configuration.yml
+[openproject@host] cp config/configuration.yml.example config/configuration.yml
 ```
 
-Now, edit the `configuration.yml` file as you like.
+Now we edit the `configuration.yml` file to suit our needs.
 
-```ruby
+```yaml
 production:                          #main level
   email_delivery_method: :smtp       #settings for the production environment
   smtp_address: smtp.gmail.com
@@ -208,132 +197,87 @@ production:                          #main level
   smtp_authentication: plain
 ```
 
-Add this line into `configuration.yml` file at the of of file for better performance of OpenProject:
+Add this line into `configuration.yml` file at the end of the file for
+a better performance of OpenProject:
 
-```ruby
+```yaml
 rails_cache_store: :memcache
 ```
 
-**NOTE:** You should validate your .yml-files, for example with http://www.yamllint.com/. Both, the `database.yml` and `configuration.yml` file are sensitive to whitespace. It is pretty easy to write invalid .yml files without seeing the error. Validating those files prevents you from such errors.
+__NOTE:__ You should validate your `yml` files, for example with
+http://www.yamllint.com/. Both, the `database.yml` and `configuration.yml`
+file are sensitive to whitespace. It is pretty easy to write
+invalid `yml` files without seeing the error. Validating those files
+prevents you from such errors.
+
 
 ## Finish the Installation of OpenProject
 
 ```bash
-[openproject@all] cd ~/openproject
-[openproject@all] bundle exec rake db:create:all
-[openproject@all] bundle exec rake generate_secret_token
-[openproject@all] RAILS_ENV="production" bundle exec rake db:migrate
-[openproject@all] RAILS_ENV="production" bundle exec rake db:seed
-[openproject@all] RAILS_ENV="production" bundle exec rake assets:precompile
+[openproject@host] cd ~/openproject
+[openproject@host] bundle exec rake db:create:all
+[openproject@host] bundle exec rake generate_secret_token
+[openproject@host] RAILS_ENV="production" bundle exec rake db:migrate
+[openproject@host] RAILS_ENV="production" bundle exec rake db:seed
+[openproject@host] RAILS_ENV="production" bundle exec rake assets:precompile
 ```
 
+**NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
+```bash
+[openproject@all] RAILS_ENV="production" LOCALE=fr bundle exec rake db:seed
+```
+will seed the database in the french language.
 
 ## Serve OpenProject with Apache and Passenger
 
-OpenProject will be served by the Rails application server "Passenger", and the apache webserver.
-We set up the system in a way, that automatically starts OpenProject with the operating system.
-
-### Only on Debian
-
-First, exit the current bash session with the `openproject` user, so that we are again in a root shell.
-Then, we prepare apache and passenger:
-
-```bash
-[openproject@debian] exit
-[root@debian] apt-get install apache2 libcurl4-gnutls-dev apache2-threaded-dev libapr1-dev libaprutil1-dev
-[root@debian] chmod o+x "/home/openproject"
-```
-
-Now, the Passenger gem is installed and integrated into apache.
-
-```bash
-[root@debian] su - openproject -c "bash -l"
-[openproject@debian] cd ~/openproject
-[openproject@debian] gem install passenger
-[openproject@debian] passenger-install-apache2-module
-```
-
-Follow the instructions passenger provides.
-The passenger installer will ask you the question in "Which languages are you interested in?". We are interested only in ruby.
-
-As told by the installer, add this lines to `/etc/apache2/apache2.conf`.
-But before copy&pasting the following lines, check if the content (especially the version numbers!) is the same as the `passenger-install-apache2-module` installer said. When you're in doubt, do what passenger tells you.
-
-```apache
-LoadModule passenger_module /home/openproject/.rvm/gems/ruby-2.1.5/gems/passenger-4.0.53/buildout/apache2/mod_passenger.so
-<IfModule mod_passenger.c>
-  PassengerRoot /home/openproject/.rvm/gems/ruby-2.1.5/gems/passenger-4.0.53
-  PassengerDefaultRuby /home/openproject/.rvm/gems/ruby-2.1.5/wrappers/ruby
-</IfModule>
-```
-
-As the root user, create the file `/etc/apache2/conf.d/openproject.conf` with the following contents:
-
-```apache
-<VirtualHost *:80>
-   ServerName www.myopenprojectsite.com
-   # !!! Be sure to point DocumentRoot to 'public'!
-   DocumentRoot /home/openproject/openproject/public
-   <Directory /home/openproject/openproject/public>
-      # This relaxes Apache security settings.
-      AllowOverride all
-      # MultiViews must be turned off.
-      Options -MultiViews
-      # Uncomment this if you're on Apache >= 2.4:
-      #Require all granted
-   </Directory>
-</VirtualHost>
-```
-
-### Only on Ubuntu
-
-First, exit the current bash session with the `openproject` user, so that we are again in a root shell.
-Then, we prepare apache and passenger:
+First, we exit the current bash session with the openproject user,
+so that we are again in a root shell.
 
 ```bash
 [openproject@ubuntu] exit
-[root@ubuntu] apt-get install apache2 libcurl4-gnutls-dev apache2-threaded-dev libapr1-dev libaprutil1-dev
+```
+
+Then, we prepare apache and passenger:
+
+```bash
+[root@host] apt-get install -y apache2 libcurl4-gnutls-dev      \
+                               apache2-threaded-dev libapr1-dev \
+                               libaprutil1-dev
 [root@ubuntu] chmod o+x "/home/openproject"
 ```
 
-As a reference, the following version of apache was installed:
-
-```bash
-[root@ubuntu] apache --version
-```
-
 Now, the Passenger gem is installed and integrated into apache.
 
-```bash
-[root@ubuntu] su - openproject -c "bash -l"
+[root@ubuntu] su openproject --login
 [openproject@ubuntu] cd ~/openproject
 [openproject@ubuntu] gem install passenger
 [openproject@ubuntu] passenger-install-apache2-module
-```
-
 Follow the instructions passenger provides.
-The passenger installer will ask you the question in "Which languages are you interested in?". We are interested only in ruby.
+The passenger installer will ask you the question in "Which languages are you
+interested in?". We are interested only in ruby.
 
-The passenger installer tells us to edit the apache config files. To do this, continue as the root user:
+The passenger installer tells us to edit the apache config files.
+To do this, continue as the root user:
 
 ```bash
-[openproject@ubuntu] exit
+[openproject@host] exit
 ```
 
-As told by the installer, create the file `/etc/apache2/mods-available/passenger.load` and add the following line.
-But before copy&pasting the following lines, check if the content (especially the version numbers!) is the same as the `passenger-install-apache2-module` installer said. When you're in doubt, do what passenger tells you.
+As told by the installer, create the file /etc/apache2/mods-available/passenger.load and add the following line.
+But before copy&pasting the following lines, check if the content (especially the version numbers!) is the same as the passenger-install-apache2-module installer said. When you're in doubt, do what passenger tells you.
+
 
 ```apache
-LoadModule passenger_module /home/openproject/.rvm/gems/ruby-2.1.5/gems/passenger-4.0.53/buildout/apache2/mod_passenger.so
+LoadModule passenger_module /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/passenger-5.0.14/buildout/apache2/mod_passenger.so
 ```
 
-Then create the file `/etc/apache2/mods-available/passenger.conf` with the following contents (again, take care of the version numbers!):
+Then create the file /etc/apache2/mods-available/passenger.conf with the following contents (again, take care of the version numbers!):
 
 ```apache
-<IfModule mod_passenger.c>
-  PassengerRoot /home/openproject/.rvm/gems/ruby-2.1.5/gems/passenger-4.0.53
-  PassengerDefaultRuby /home/openproject/.rvm/gems/ruby-2.1.5/wrappers/ruby
-</IfModule>
+   <IfModule mod_passenger.c>
+     PassengerRoot /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/passenger-5.0.14
+     PassengerDefaultRuby /home/openproject/.rbenv/versions/2.1.6/bin/ruby
+   </IfModule>
 ```
 
 Then run:
@@ -342,11 +286,13 @@ Then run:
 [root@openproject] a2enmod passenger
 ```
 
-As the root user, create the file `/etc/apache2/sites-available/openproject.conf` with the following contents:
+As the root user, create the file /etc/apache2/sites-available/openproject.conf with the following contents:
 
 ```apache
+SetEnv EXECJS_RUNTIME Disabled
+
 <VirtualHost *:80>
-   ServerName www.myopenprojectsite.com
+   ServerName yourdomain.com
    # !!! Be sure to point DocumentRoot to 'public'!
    DocumentRoot /home/openproject/openproject/public
    <Directory /home/openproject/openproject/public>
@@ -360,27 +306,23 @@ As the root user, create the file `/etc/apache2/sites-available/openproject.conf
 </VirtualHost>
 ```
 
-Let's enable our new `openproject` site (and disable the default site, if necessary)
+Let's enable our new openproject site (and disable the default site, if necessary)
 
 ```bash
-[root@ubuntu] a2dissite 000-default
-[root@ubuntu] a2ensite openproject
+[root@host] a2dissite 000-default
+[root@host] a2ensite openproject
 ```
-
-### Debian and Ubuntu
 
 Now, we (re-)start Apache:
 
 ```bash
-[root@all] service apache2 reload
+[root@host] service apache2 restart
 ```
 
 Your OpenProject installation should be accessible on port 80 (http). A default admin-account is created for you having the following credentials:
 
-```bash
-Username: admin
-Password: admin
-```
+Username: `admin`
+Password: `admin`
 
 Please, change the password on the first login. Also, we highly recommend to configure the SSL module in Apache for https communication.
 
@@ -421,7 +363,7 @@ OpenProject plug-ins are separated in ruby gems. You can install them by listing
 
 ```ruby
 # Required by backlogs
-gem "openproject-meeting", git: "https://github.com/finnlabs/openproject-meeting.git", :tag => "v4.1.0"
+gem "openproject-meeting", git: "https://github.com/finnlabs/openproject-meeting.git", :tag => "v4.2.2"
 ```
 
 If you have modified the `Gemfile.plugin` file, always repeat the following steps of the OpenProject installation:
@@ -514,3 +456,4 @@ If you need to restart the server (for example after a configuration change), do
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community [forum](https://community.openproject.org/projects/openproject/boards/9).
 [Follow OpenProject on twitter](https://twitter.com/openproject), and follow the news on [openproject.org](http://openproject.org) to stay up to date.
+

@@ -202,40 +202,38 @@ RAW
       'invalid:version:"1.0"'                 => 'invalid:version:"1.0"'
     }
 
-    with_existing_filesystem_scm do |repo_path|
-      repository = FactoryGirl.create :repository,
-                                      url: repo_path,
-                                      project: @project
-      changeset = FactoryGirl.create :changeset,
-                                     repository: repository,
-                                     comments: 'This commit fixes #1, #2 and references #1 & #3'
-      identifier = @project.identifier
+    repository = FactoryGirl.create :repository_subversion,
+                                    project: @project
 
-      source_link = link_to("#{identifier}:source:/some/file",
-                            { controller: 'repositories',
-                              action: 'entry',
-                              project_id: identifier,
-                              path: 'some/file' },
-                            class: 'source')
-      changeset_link = link_to("#{identifier}:r#{changeset.revision}",
-                               { controller: 'repositories',
-                                 action: 'revision',
-                                 project_id: identifier,
-                                 rev: changeset.revision },
-                               class: 'changeset',
-                               title: 'This commit fixes #1, #2 and references #1 & #3')
+    changeset = FactoryGirl.create :changeset,
+                                   repository: repository,
+                                   comments: 'This commit fixes #1, #2 and references #1 & #3'
+    identifier = @project.identifier
 
-      to_test.merge!(
-        # changeset
-        "r#{changeset.revision}"                => "r#{changeset.revision}",
-        "#{@project.identifier}:r#{changeset.revision}"  => changeset_link,
-        "invalid:r#{changeset.revision}"        => "invalid:r#{changeset.revision}",
-        # source
-        'source:/some/file'                     => 'source:/some/file',
-        "#{@project.identifier}:source:/some/file"       => source_link,
-        'invalid:source:/some/file'             => 'invalid:source:/some/file',
-      )
-    end
+    source_link = link_to("#{identifier}:source:/some/file",
+                          { controller: 'repositories',
+                            action: 'entry',
+                            project_id: identifier,
+                            path: 'some/file' },
+                          class: 'source')
+    changeset_link = link_to("#{identifier}:r#{changeset.revision}",
+                             { controller: 'repositories',
+                               action: 'revision',
+                               project_id: identifier,
+                               rev: changeset.revision },
+                             class: 'changeset',
+                             title: 'This commit fixes #1, #2 and references #1 & #3')
+
+    to_test.merge!(
+      # changeset
+      "r#{changeset.revision}"                => "r#{changeset.revision}",
+      "#{@project.identifier}:r#{changeset.revision}"  => changeset_link,
+      "invalid:r#{changeset.revision}"        => "invalid:r#{changeset.revision}",
+      # source
+      'source:/some/file'                     => 'source:/some/file',
+      "#{@project.identifier}:source:/some/file"       => source_link,
+      'invalid:source:/some/file'             => 'invalid:source:/some/file',
+    )
 
     # format_text "sees" the text is parses from the_other_project (and not @project)
     the_other_project = FactoryGirl.create :valid_project
@@ -259,7 +257,7 @@ RAW
     to_test = {
       'commit:abcd' => changeset_link,
     }
-    r = Repository::Git.create!(project: @project, url: '/tmp/test/git')
+    r = Repository::Git.create!(project: @project, scm_type: 'local', url: '/tmp/test/git')
     assert r
     c = Changeset.new(repository: r,
                       committed_on: Time.now,

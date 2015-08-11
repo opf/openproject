@@ -30,7 +30,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <section class="form--section">
     <div class="form--field"><%= setting_check_box :autofetch_changesets %></div>
     <div class="form--field"><%= setting_check_box :sys_api_enabled,
-         :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %></div>
+         :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %>
+      <div class="form--field-instructions">
+        <%= l(:setting_sys_api_description) %>
+      </div>
+    </div>
     <div class="form--field"><%= setting_text_field :sys_api_key, :size => 30,
                                         :id => 'settings_sys_api_key',
                                         :disabled => !Setting.sys_api_enabled?,
@@ -39,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= link_to_function l(:label_generate_key), "if ($('settings_sys_api_key').disabled == false) { $('settings_sys_api_key').value = randomKey(20) }" %>
       </span>
     </div>
-    <div class="form--field"><%= setting_multiselect(:enabled_scm, Redmine::Scm::Base.configured) %></div>
+    <div class="form--field"><%= setting_multiselect(:enabled_scm, OpenProject::Scm::Manager.vendors) %></div>
     <div class="form--field">
       <%= setting_text_field :repositories_encodings, :size => 60 %>
       <div class="form--field-instructions"><%= l(:text_comma_separated) %></div>

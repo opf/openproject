@@ -103,6 +103,8 @@ available_languages:
   serialized: true
   default:
   - en
+  - de
+  - fr
 default_language:
   default: en
 host_name:
@@ -171,6 +173,15 @@ notified_events:
   default:
   - work_package_added
   - work_package_updated
+  - work_package_note_added
+  - status_updated
+  - work_package_priority_updated
+  - news_added
+  - news_comment_added
+  - file_added
+  - message_posted
+  - wiki_content_added
+  - wiki_content_updated
 mail_handler_body_delimiters:
   default: ''
 mail_handler_api_enabled:
@@ -243,7 +254,7 @@ gravatar_default:
 start_of_week:
   default: ''
 rest_api_enabled:
-  default: 0
+  default: 1
 session_ttl_enabled:
   default: 0
 session_ttl:
@@ -264,3 +275,12 @@ users_deletable_by_self:
 journal_aggregation_time_minutes:
   default: 5
   format: int
+repository_storage_cache_minutes:
+  default: 720
+  format: int
+project_storage_cache_minutes:
+  default: 60
+  format: int
+api_max_page_size:
+  format: int
+  default: 500

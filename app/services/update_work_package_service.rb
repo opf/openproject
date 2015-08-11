@@ -35,7 +35,7 @@ class UpdateWorkPackageService
     self.work_package = work_package
     self.permitted_params = permitted_params
 
-    JournalObserver.instance.send_notification = send_notifications
+    JournalManager.send_notification = send_notifications
   end
 
   def update

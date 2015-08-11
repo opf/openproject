@@ -42,9 +42,7 @@ module API
           end
 
           get do
-            PriorityCollectionRepresenter.new(@priorities,
-                                              @priorities.count,
-                                              api_v3_paths.priorities)
+            PriorityCollectionRepresenter.new(@priorities, api_v3_paths.priorities)
           end
 
           route_param :id do

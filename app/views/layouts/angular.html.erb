@@ -66,6 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </h2>
       </div>
     </noscript>
+    <notifications></notifications>
     <% main_menu = render_main_menu(@project) %>
     <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
     <div id="wrapper" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>"

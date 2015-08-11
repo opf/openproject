@@ -32,6 +32,8 @@ require 'open_project/repository_authentication'
 class SysController < ActionController::Base
   before_filter :check_enabled
   before_filter :require_basic_auth, only: [:repo_auth]
+  before_filter :find_project, only: [:update_required_storage]
+  before_filter :find_repository_with_storage, only: [:update_required_storage]
 
   def projects
     p = Project.active.has_module(:repository).find(:all, include: :repository, order: 'identifier')
@@ -47,13 +49,20 @@ class SysController < ActionController::Base
       render nothing: true, status: 409
     else
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
-      project.repository = Repository.factory(params[:vendor], params[:repository])
-      if project.repository && project.repository.save
+      service = Scm::RepositoryFactoryService.new(project, params)
+
+      if service.build_and_save
+        project.repository = service.repository
         render xml: project.repository, status: 201
       else
         render nothing: true, status: 422
       end
     end
+  end
+
+  def update_required_storage
+    update_storage_information(@repository, params[:force] == '1')
+    render nothing: true, status: 200
   end
 
   def fetch_changesets
@@ -97,6 +106,33 @@ class SysController < ActionController::Base
   end
 
   private
+
+  def update_storage_information(repository, force = false)
+    if force
+      Delayed::Job.enqueue ::Scm::StorageUpdaterJob.new(repository)
+    else
+      repository.required_disk_storage
+    end
+  end
+
+  def find_project
+    @project = Project.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render text: "Could not find project ##{params[:id]}.", status: 404
+  end
+
+  def find_repository_with_storage
+    @repository = @project.repository
+
+    if @repository.nil?
+      render text: "Project ##{@project.id} does not have a repository.", status: 404
+    else
+      return true if @repository.scm.storage_available?
+      render text: 'repositories.storage.not_available', status: 400
+    end
+
+    false
+  end
 
   def require_basic_auth
     authenticate_with_http_basic do |username, password|

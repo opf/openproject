@@ -87,7 +87,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'no start date' do
-          let(:work_package) { FactoryGirl.build(:work_package, start_date: nil) }
+          let(:work_package) { FactoryGirl.build(:work_package, id: 42, start_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
@@ -102,7 +102,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'no due date' do
-          let(:work_package) { FactoryGirl.build(:work_package, due_date: nil) }
+          let(:work_package) { FactoryGirl.build(:work_package, id: 42, due_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
@@ -288,7 +288,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'assignee' do
         context 'assignee is set' do
           let(:work_package) {
-            FactoryGirl.build(:work_package, assigned_to: FactoryGirl.build(:user))
+            FactoryGirl.build(:work_package, id: 42, assigned_to: FactoryGirl.build(:user))
           }
 
           it_behaves_like 'has a titled link' do
@@ -308,7 +308,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'responsible' do
         context 'responsible is set' do
           let(:work_package) {
-            FactoryGirl.build(:work_package, responsible: FactoryGirl.build(:user))
+            FactoryGirl.build(:work_package, id: 42, responsible: FactoryGirl.build(:user))
           }
 
           it_behaves_like 'has a titled link' do
@@ -321,6 +321,26 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'responsible is not set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'responsible' }
+          end
+        end
+      end
+
+      describe 'revisions' do
+        context 'when the user lacks the view_changesets permission' do
+          it_behaves_like 'has no link' do
+            let(:link) { 'revisions' }
+          end
+        end
+
+        context 'when the user has the required permission' do
+          let(:revision_permissions) { [:view_changesets] }
+          let(:role) { FactoryGirl.create :role, permissions: permissions + revision_permissions }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'revisions' }
+            let(:href) {
+              api_v3_paths.work_package_revisions(work_package.id)
+            }
           end
         end
       end
@@ -434,6 +454,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'embeds the attachments as collection' do
           is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/attachments/_type')
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'addAttachment' }
+          let(:href) { api_v3_paths.attachments_by_work_package(work_package.id) }
+        end
+
+        it 'addAttachments is a post link' do
+          is_expected.to be_json_eql('post'.to_json).at_path('_links/addAttachment/method')
         end
       end
 
