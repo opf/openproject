@@ -102,3 +102,54 @@ Otherwise, you will not be able to detect problems with the API and/or your comp
 
 The heavy lifting is done via these Testsuites, which are tightly integrated with the Rails stack (and not even part of the `./frontend` folder). Most of the actually test Rails view, but there are a few exceptions, such as the tests in `./spec/features/work_packages/details` which test a good deal of features related to the Work Package Details pane.
 
+## A note on plugins & commands used
+
+So far, no plugins provide an extension for the protractor suite. The protractor suite is only for the core (`opf/openproject` itself). The coverage is not complete.
+
+However, plugins to provide some integration tests based on RSpec, Capybara and cucumber. To run the tests of a plugin, the core is required.
+
+### Example: `openproject-plugin`
+
+Assumptions:
+
+- The plugin `openproject-plugins` exists on your local file system, parallel to a clone of `openproject`
+- The plugin contains a `spec` folder and spec that form a suite to testing the plugin
+- The plugin is installed into the Installation of OpenProject located in `openproject`
+
+__Note:__ For installing OpenProject plugins, please refer to `./doc/DEVELOP_PLUGINS.md`
+
+To run specs for a given plugin:
+
+```bash
+$ pwd
+/home/user/code/openproject
+$ rspec ../openproject-plugin/spec
+```
+
+Same with cucumber:
+
+```bash
+$ pwd
+/home/user/code/openproject
+$ cuke ../openproject-plugin/features
+```
+
+__Note:__ `cuke` is a very useful shorthand for:
+
+```bash
+function cuke() {
+  bundle exec rake cucumber:custom["$1"]
+}
+```
+
+There are (in older branches) some legacy tests that might have to be executed,which can be done via:
+
+```bash
+$ pwd
+/home/user/code/openproject
+$ rake test:units TEST=../openproject-plugin/test
+```
+
+These older legacy tests have been migrated for version `4.1`, but can still popup in some older plugins, or even an old version of OpenProject. the legacy tests have been converted by @myabc via gem and are located (for newer versions) here: `./spec/legacy/`. These should be removed in the future an be replaced by either proper specs or even complete features.
+
+
