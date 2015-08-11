@@ -41,18 +41,17 @@ describe('OpenProject', function() {
   });
 
   it('should show the default column headers', function() {
-    var expected = ['', //note that there is hidden text
-                    'ID',
+    // ignoring the first element as selenium's behaviour seems
+    // to be inconsistent between various browsers (and their version)
+    var expected = ['ID',
                     'TYPE',
                     'STATUS',
                     'SUBJECT',
                     'ASSIGNEE'];
 
-    // the $$('a') should be unnecessary but it was added to prevent flickering
-    // runs caused by .hidden-for-sighted elements being visible when they shouldn't.
-    page.getTableHeaders().$$('a').then(function(headings) {
-      for (var i = 0; i < headings.length; i++) {
-        expect(headings[i].getText()).to.eventually.equal(expected[i]);
+    page.getTableHeaders().then(function(headings) {
+      for (var i = 1; i < headings.length; i++) {
+        expect(headings[i].getText()).to.eventually.equal(expected[i - 1]);
       }
     });
   });
