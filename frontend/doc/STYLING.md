@@ -3,6 +3,8 @@ Styling the frontend
 
 Frontend styling is coupled to the Living Styleguide. The guide implements the same CSS that the usual frontend does. It takes the very same Sass files used in the Asset pipeline to build a second css file that is then used for diplaying the guide.
 
+All styles for OpenProject itself are found in `./app/assets/stylesheets`. The frontend folder contains no styling, besides rendered files and some styling for the styleguide itself.
+
 ## Building
 
 The guide is built via the the `gulp` stack.
@@ -17,9 +19,28 @@ http://localhost:8080/assets/css/styleguide.html
 
 The static server will serve the whole `./frontend/public` folder, however, `styleguide.html` is the index for the styleguide.
 
+### A note on the legacy styleguide
+
+In the past, the Styleguide was built using the Rails stack - this was later changed to the `gulp` pipeline. The original version, at the time of writing, is still in the sources - it can be found here: `./app/assets/stylesheets/styleguide.html.lsg`.
+
+This does no longer work, as the main rails stack had the dependency removed, there is no need to update both dependencies.
+
 ## Using the styleguide
 
 The styleguide itself is just a long html page demonstrating the components. It can be modified by altering its base file `styleguide.jade` (see `./frontend/app/assets/styleguide.jade`).
+
+The general approach here is that for every partial of sass there is a Markdown file (`*.lsg`) describing it:
+
+```bash
+$ cd app/assets/stylesheets/content
+$ ls -la _accounts*
+_accounts.lsg
+_accounts.sass
+```
+
+The `lsg` is simple markdown containing information on how to use the component described.
+
+Ideally, this should be only one component per Sass partial, but this is not always possible, as seen in the cases of e.g. `./app/assets/stylesheets/content/_work_packages.sass` which describes an area of theapplication instead of a single component.
 
 ### Getting JavaScript to work with the Styleguide
 
