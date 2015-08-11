@@ -110,7 +110,7 @@ Note that the tabindex has to be set manually on the `<span>` and not the contai
 ### HTML tooltips
 
 ```
-<span class="advanced-tooltip-trigger" data-tooltip-target="#advanced-tooltip-sample">
+<span class="advanced-tooltip-trigger" aria-describedby="advanced-tooltip-sample">
   <i class="icon icon-help1"></i>
 </span>
 <div class="advanced-tooltip-content" id="advanced-tooltip-sample">
