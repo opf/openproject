@@ -31,10 +31,10 @@ module PasswordHelper
   def render_password_complexity_tooltip
     rules = password_rules_description
 
-    s = content_tag(:p, OpenProject::Passwords::Evaluator.min_length_description)
-    s += rules.capitalize.html_safe if rules.present?
+    s = OpenProject::Passwords::Evaluator.min_length_description
+    s += "<br> #{rules}" if rules.present?
 
-    s
+    s.html_safe
   end
 
   private
