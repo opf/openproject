@@ -20,17 +20,21 @@
 
       <!-- Operator -->
       <div class="advanced-filters--filter-operator">
-        <select require
-                focus="$index == focusElementIndex"
-                class="advanced-filters--select"
-                id="operators-{{filter.name}}"
-                name="op[{{filter.name}}]"
-                ng-model="filter.operator"
-                style="vertical-align: top;"
-                ng-disabled="isLoading">
+        <ui-select ng-model="filter.operator" theme="select2" search-enabled="false"
+          focus="$index == focusElementIndex"
+          id="operators-{{filter.name}}"
+          name="op[{{filter.name}}]"
+          style="vertical-align: top;"
+          ng-disabled="disabled">
 
-          <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option[0] }}" ng-selected="option[0] == filter.operator" label="{{ I18n.t('js.' + option[1]) }}">{{ I18n.t('js.' + option[1]) }}</option>
-        </select>
+          <ui-select-match placeholder="Select a filter">
+            {{ I18n.t('js.' + $select.selected[1]) }}
+          </ui-select-match>
+
+          <ui-select-choices repeat="option[0] as option in operatorsAndLabelsByFilterType[filter.type]">
+            <div ng-bind-html="I18n.t('js.' + option[1])"></div>
+          </ui-select-choices>
+        </ui-select>
       </div>
 
       <!-- Values -->
