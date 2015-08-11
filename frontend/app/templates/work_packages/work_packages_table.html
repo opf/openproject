@@ -3,10 +3,8 @@
   <div class="work-packages-table--results-container" ng-if="rows.length">
     <table class="workpackages-table keyboard-accessible-list">
       <colgroup>
-        <col />
-        <col ng-hide="hideWorkPackageDetails" />
-        <col />
-        <col ng-repeat="column in columns" />
+        <col highlight-col />
+        <col highlight-col ng-repeat="column in columns" />
       </colgroup>
       <thead>
         <tr>
