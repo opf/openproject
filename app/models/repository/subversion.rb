@@ -51,6 +51,10 @@ class Repository::Subversion < Repository
     end
   end
 
+  def self.authorization_policy
+    ::Scm::SubversionAuthorizationPolicy
+  end
+
   def self.permitted_params(params)
     super(params).merge(params.permit(:login, :password))
   end
