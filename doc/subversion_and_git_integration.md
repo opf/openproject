@@ -41,7 +41,7 @@ All things in that repository should be accessible by the apache system user and
 We provide an example apache configuration. Some details are explained inline as comments.
 
     # Load OpenProject per module used to authenticate requests against the user database.
-    # Be sure that the OpenProjectAuthentication.pm script in located in your perl path.
+    # Be sure that the OpenProjectAuthentication.pm script is located in your perl path.
     PerlSwitches -I/srv/www/perl-lib -T
     PerlLoadModule Apache::OpenProjectAuthentication
     

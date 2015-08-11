@@ -99,6 +99,10 @@ class Repository < ActiveRecord::Base
     @scm
   end
 
+  def self.authorization_policy
+    nil
+  end
+
   def self.scm_config
     scm_adapter_class.config
   end

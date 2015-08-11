@@ -92,7 +92,7 @@ class SysController < ActionController::Base
 
   def repo_auth
     project = Project.find_by(identifier: params[:repository])
-    if authorized?(project, @authenticated_user)
+    if project && authorized?(project, @authenticated_user)
       render text: 'Access granted'
     else
       render text: 'Not allowed', status: 403 # default to deny
@@ -102,29 +102,14 @@ class SysController < ActionController::Base
   private
 
   def authorized?(project, user)
-    if git_auth?
-      authorized_with_git?(project, user, params[:uri], params[:location])
+    repository = project.repository
+
+    if repository
+      policy = repository.class.authorization_policy
+      policy.new(project, user).authorized?(params)
     else
-      authorized_with_subversion?(project, user, params[:method])
+      false
     end
-  end
-
-  def git_auth?
-    params[:git_smart_http] == '1'
-  end
-
-  def authorized_with_git?(project, user, uri, location)
-    read_only = !%r{^#{location}/*[^/]+/+(info/refs\?service=)?git\-receive\-pack$}o.match(uri)
-
-    (read_only && user.allowed_to?(:browse_repository, project)) ||
-      user.allowed_to?(:commit_access, project)
-  end
-
-  def authorized_with_subversion?(project, user, method)
-    read_only = %w(GET PROPFIND REPORT OPTIONS).include?(method)
-
-    (read_only && user.allowed_to?(:browse_repository, project)) ||
-      user.allowed_to?(:commit_access, project)
   end
 
   def check_enabled
@@ -134,8 +119,6 @@ class SysController < ActionController::Base
       return false
     end
   end
-
-  private
 
   def update_storage_information(repository, force = false)
     if force
