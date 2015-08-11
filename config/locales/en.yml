@@ -275,7 +275,6 @@ en:
       comment: "Comment"
       custom_field: "Custom field"
       group: "Group"
-      issue: "Issue"
       category: "Category"
       status: "Work package status"
       member: "Member"
@@ -286,7 +285,6 @@ en:
         one : "Role"
         other: "Roles"
       type: "Type"
-      planning_element: Planning element
       project_type: Project type
       user: "User"
       version: "Version"
@@ -646,7 +644,6 @@ en:
   label_add_another_file: "Add another file"
   label_add_columns: "Add selected columns"
   label_add_note: "Add a note"
-  label_add_related_issues: "Add related issue"
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "added"
@@ -1529,7 +1526,6 @@ en:
       project_type: "Project type"
       project_types: "Project types"
     project_menu:
-      planning_elements: "Planning elements"
       project_associations: "Dependencies"
       reportings: "Status reportings"
       reports: "Timeline reports"
