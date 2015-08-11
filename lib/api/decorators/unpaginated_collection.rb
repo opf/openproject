@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,7 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-RSpec.shared_context 'status collection representer' do |self_link|
-  let(:statuses)  { FactoryGirl.build_list(:status, 3) }
-  let(:representer) { described_class.new(statuses, 42, self_link) }
+module API
+  module Decorators
+    class UnpaginatedCollection < ::API::Decorators::Collection
+      def initialize(models, self_link, context: {})
+        super(models, models.count, self_link, context: context)
+      end
+    end
+  end
 end

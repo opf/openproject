@@ -35,11 +35,11 @@ describe ::API::V3::Users::UserCollectionRepresenter do
                            created_on: Time.now,
                            updated_on: Time.now)
   }
-  let(:representer) { described_class.new(users, 42, '/api/v3/work_package/1/watchers') }
+  let(:representer) { described_class.new(users, '/api/v3/work_package/1/watchers') }
 
   context 'generation' do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'API V3 collection decorated', 42, 3, 'work_package/1/watchers', 'User'
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'work_package/1/watchers', 'User'
   end
 end

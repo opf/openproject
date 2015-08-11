@@ -27,25 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/versions/version_collection_representer'
+require 'roar/decorator'
+require 'roar/json'
+require 'roar/json/collection'
+require 'roar/json/hal'
 
 module API
   module V3
-    module Versions
-      class VersionsByProjectAPI < ::API::OpenProjectAPI
-        resources :versions do
-          before do
-            @versions = @project.shared_versions.all
-
-            authorize_any [:view_work_packages, :manage_versions], projects: @project
-          end
-
-          get do
-            VersionCollectionRepresenter.new(@versions,
-                                             api_v3_paths.versions_by_project(@project.id),
-                                             context: { current_user: current_user })
-          end
-        end
+    module WorkPackages
+      class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
       end
     end
   end

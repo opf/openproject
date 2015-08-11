@@ -35,7 +35,7 @@ require 'roar/json/hal'
 module API
   module V3
     module Versions
-      class VersionCollectionRepresenter < ::API::Decorators::Collection
+      class VersionCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::Versions::VersionRepresenter
       end
     end

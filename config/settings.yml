@@ -281,3 +281,6 @@ repository_storage_cache_minutes:
 project_storage_cache_minutes:
   default: 60
   format: int
+api_max_page_size:
+  format: int
+  default: 500

@@ -334,14 +334,14 @@ the amount of elements returned in this response and action links to retrieve th
 | total    | The total amount of elements available in the collection        | Integer | always                      |
 | pageSize | Amount of elements that a response will hold                    | Integer | when paginated              |
 | count    | Actual amount of elements in this response                      | Integer | always                      |
-| offset   | Amount of elements preceding the first element of this response | Integer | when offset based available |
+| offset   | The page number that is requested from paginated collection     | Integer | when offset based available |
 
 ## Links
 
 | Link             | Description                                                              | Availability                |
 |:----------------:| ------------------------------------------------------------------------ | --------------------------- |
 | self             | Link to the current page in the collection                               | always                      |
-| changeSize       | Templated link to change the page size, preserving the relative position | when paginated              |
+| changeSize       | Templated link to change the page size, might change relative position   | when paginated              |
 | filter           | Templated link to receive only elements matching the provided OQL query  | when filtering available    |
 | jumpTo           | Templated link to jump to a specified offset                             | when offset based available |
 | nextByOffset     | Link to retrieve the following page of elements (offset based)           | when offset based available |
@@ -367,9 +367,9 @@ Note that for linked resources you can either compare against the **ID** of the 
 
 ## Offset based pagination [/api/v3/examples{?offset,pageSize}]
 
-Offset based pagination works by specifying two values: the **offset** and the **pageSize**. The offset determines how many elements are
-skipped before the first element that is present in the result. The page size determines how many items there will be in the result. Note
-that the server might not allow arbitrarily large page sizes, a client should therefore always check the page size accepted by the server
+Offset based pagination works by specifying two values: the **offset** and the **pageSize**. The page size determines how many items there will
+be in a single response at most. The offset determines which page is returned as response, with 1 being the first page (one-indexed).
+Note that the server might not allow arbitrarily large page sizes, a client should therefore always check the page size accepted by the server
 using the **pageSize** property of the response.
 
 The benefit of offset based pagination is that the total number of pages can be easily determined and that it is possible to jump
@@ -382,7 +382,7 @@ between two page requests, it is possible that the client receives elements clos
 ## view offset based [GET]
 
 + Parameters
-    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
 
     + pageSize (optional, integer, `25`) ... Number of elements to display per page.
 
@@ -4372,7 +4372,7 @@ Gets a list of users that can be assigned to work packages in the given project.
 + Parameters
     + project_id (required, integer, `1`) ... Project id
 
-    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
 
     + pageSize (optional, integer, `25`) ... Number of elements to display per page.
 
@@ -4496,7 +4496,7 @@ Gets a list of users that can be assigned as the responsible of a work package i
 + Parameters
     + project_id (required, integer, `1`) ... Project id
 
-    + offset = `0` (optional, integer, `25`) ... Number of elements to skip before the first element of the response.
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
 
     + pageSize (optional, integer, `25`) ... Number of elements to display per page.
 
