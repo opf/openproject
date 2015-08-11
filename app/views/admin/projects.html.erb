@@ -81,44 +81,85 @@ See doc/COPYRIGHT.rdoc for more details.
   </fieldset>
 <% end %>
 &nbsp;
-<div class="autoscroll">
-  <table class="list">
-    <thead>
-      <tr>
-        <th><%=  Project.model_name.human %></th>
-        <th><%=  Project.human_attribute_name(:is_public) %></th>
-        <th><%=  l(:label_required_disk_storage) %></th>
-        <th><%=  Project.human_attribute_name(:created_on) %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% project_tree(@projects) do |project, level| %>
-        <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-          <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
-          <td align="center"><%= checked_image project.is_public? %></td>
-          <td align="center"><%= render partial: '/storage/required_storage',
-                                        locals: { storage: project.required_storage} %></td>
-          <td align="center"><%= format_date(project.created_on) %></td>
-          <td class="buttons">
-            <%= link_to(l(:button_archive),
-                archive_project_path(project, :status => params[:status]),
-                :confirm => l(:text_are_you_sure),
-                :method => :put,
-                :class => 'icon icon-locked') if project.active? %>
-            <%= link_to(l(:button_unarchive),
-                unarchive_project_path(project, :status => params[:status]),
-                :method => :put,
-                :class => 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
-            <%= link_to(l(:button_copy),
-                copy_from_project_path(project, :admin),
-                :class => 'icon icon-copy') %>
-            <%= link_to(l(:button_delete),
-                confirm_destroy_project_path(project),
-                :class => 'icon icon-delete') %>
-          </td>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table role="grid" class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%=  Project.model_name.human %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>            
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%=  Project.human_attribute_name(:is_public) %>                
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%=  l(:label_required_disk_storage) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%=  Project.human_attribute_name(:created_on) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% project_tree(@projects) do |project, level| %>
+          <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+            <td class="name"><span><%= link_to project, settings_project_path(project), :title => project.short_description %></span></td>
+            <td><%= checked_image project.is_public? %></td>
+            <td><%= render partial: '/storage/required_storage',
+                                          locals: { storage: project.required_storage} %></td>
+            <td><%= format_date(project.created_on) %></td>
+            <td class="buttons">
+              <%= link_to(l(:button_archive),
+                  archive_project_path(project, :status => params[:status]),
+                  :confirm => l(:text_are_you_sure),
+                  :method => :put,
+                  :class => 'icon icon-locked') if project.active? %>
+              <%= link_to(l(:button_unarchive),
+                  unarchive_project_path(project, :status => params[:status]),
+                  :method => :put,
+                  :class => 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+              <%= link_to(l(:button_copy),
+                  copy_from_project_path(project, :admin),
+                  :class => 'icon icon-copy') %>
+              <%= link_to(l(:button_delete),
+                  confirm_destroy_project_path(project),
+                  :class => 'icon icon-delete') %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
