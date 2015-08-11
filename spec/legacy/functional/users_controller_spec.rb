@@ -162,6 +162,7 @@ describe UsersController, type: :controller do
                mail: 'jdoe@gmail.com',
                mail_notification: 'none'
              },
+             pref: { },
              send_information: '1'
       end
     end
