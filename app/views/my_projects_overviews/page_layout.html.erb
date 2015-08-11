@@ -42,11 +42,10 @@ See doc/COPYRIGHT.md for more details.
 
 <h4><%=l(:label_visible_elements) %></h4>
 <div id="visible-grid">
-  <div class="grid-block medium-up-1">
-    <% top_fields.each do |f| %>
-      <%= grid_field f %>
-    <% end %>
-  </div>
+  <% top_fields.each do |f| %>
+    <%= grid_field f %>
+  <% end %>
+
   <div class="grid-block">
     <% middle_fields.each do |f| %>
       <%= grid_field f %>

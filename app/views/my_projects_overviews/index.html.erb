@@ -39,12 +39,10 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 
 <div id="invisible-grid">
-  <div class="grid-block medium-up-1">
-    <% top_fields.each do |f| %>
-      <%= rendered_field f %>
-    <% end %>
-  </div>
-  <div class="grid-block medium-up-2">
+  <% top_fields.each do |f| %>
+    <%= rendered_field f %>
+  <% end %>
+  <div class="grid-block">
     <% middle_fields.each do |f| %>
       <%= rendered_field f %>
     <% end %>
