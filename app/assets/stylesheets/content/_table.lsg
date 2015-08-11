@@ -8,11 +8,11 @@
   <div class="generic-table--results-container" style="max-height: 340px;">
     <table role="grid" class="generic-table">
       <colgroup>
-        <col>
-        <col>
-        <col>
-        <col>
-        <col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
       </colgroup>
       <thead>
         <tr>
