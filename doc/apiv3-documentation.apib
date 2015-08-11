@@ -1140,6 +1140,7 @@ For now this endpoint will only allow access to settings deemed useful for a cli
 | Property                  | Description                                        | Type       | Condition                         | Supported operations |
 | :-----------------------: | -------------------------------------------------- | ---------- | --------------------------------- | -------------------- |
 | maximumAttachmentFileSize | The maximum allowed size of an attachment in Bytes | Integer    |                                   | READ                 |
+| perPageOptions            | Pag size steps to be offered in paginated list UI  | Integer[]  |                                   | READ                 |
 
 ## Configuration [/api/v3/configuration]
 
@@ -1151,7 +1152,8 @@ For now this endpoint will only allow access to settings deemed useful for a cli
                 "_links": {
                     "href": "/api/v3/configuration"
                 },
-                "maximumAttachmentFileSize": 5242880
+                "maximumAttachmentFileSize": 5242880,
+                "perPageOptions": [1, 10, 100]
             }
 
 ## View configuration [GET]

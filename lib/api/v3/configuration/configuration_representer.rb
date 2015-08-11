@@ -42,6 +42,9 @@ module API
         property :maximum_attachment_file_size,
                  getter: -> (*) { attachment_max_size.to_i.kilobyte }
 
+        property :per_page_options,
+                 getter: -> (*) { per_page_options.split(',').map(&:to_i) }
+
         private
 
         def _type
