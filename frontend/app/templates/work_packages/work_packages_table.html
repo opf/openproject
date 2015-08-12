@@ -1,8 +1,8 @@
-<div class="work-packages-table--container"
+<div class="generic-table--container work-package-table--container"
   ng-class="{ '-with-footer': displaySums }"
   interactive-table>
-  <div class="work-packages-table--results-container generic-table--results-container" ng-if="rows.length">
-    <table class="workpackages-table keyboard-accessible-list">
+  <div class="generic-table--results-container" ng-if="rows.length">
+    <table class="keyboard-accessible-list generic-table">
       <colgroup>
         <col highlight-col />
         <col highlight-col ng-repeat="column in columns" />
@@ -10,7 +10,7 @@
       <thead>
         <tr>
           <th class="checkbox hide-when-print">
-            <div class="work-packages-table--header-outer generic-table--sort-header-outer">
+            <div class="generic-table--header-outer">
               <a href
                  alt="{{toggleRowsLabel}}"
                  class="no-decoration-on-hover"
@@ -24,7 +24,7 @@
 
           <th sort-header ng-repeat="column in columns"
                           has-dropdown-menu
-                          position-relative-to=".sort-header-outer"
+                          position-relative-to=".generic-table--sort-header-outer"
                           target="ColumnContextMenu"
                           locals="columns, column"
                           locale="column.custom_field && columns.custom_field.name_locale || I18n.locale"
@@ -164,12 +164,12 @@
             ng-if="displaySums"
             class="sum group all issue work_package">
           <td colspan="{{1  - (!!hideWorkPackageDetails * 1)}}">
-            <div class="work-packages-table--footer-outer">
+            <div class="generic-table--footer-outer">
               {{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}
             </div>
           </td>
           <td ng-repeat="column in columns">
-            <div class="work-packages-table--footer-outer">
+            <div class="generic-table--footer-outer">
               {{ column.total_sum }}
             </div>
           </td>
@@ -177,15 +177,15 @@
 
       </tfoot>
     </table>
-    <div class="work-packages-table--header-background"></div>
-    <div class="work-packages-table--footer-background" ng-if="displaySums"></div>
+    <div class="generic-table--header-background"></div>
+    <div class="generic-table--footer-background" ng-if="displaySums"></div>
   </div>
-  <div class="work-packages-table--no-results-container" ng-if="!rows.length">
-    <h2 class="work-packages-table--no-results-title">
+  <div class="generic-table--no-results-container" ng-if="!rows.length">
+    <h2 class="generic-table--no-results-title">
       <i class="icon-info"></i>
       {{ I18n.t('js.work_packages.no_results.title') }}
     </h2>
-    <div class="work-packages-table--no-results-description"
+    <div class="generic-table--no-results-description"
       ng-bind-html="I18n.t('js.work_packages.no_results.description_html')"></div>
   </div>
 </div>
