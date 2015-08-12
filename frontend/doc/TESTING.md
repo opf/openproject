@@ -61,7 +61,7 @@ __Note__: All of the test files live in `./frontend/tests/integration/specs`.
 
 The protractor based suite offers integration tests for the Angular based views, first and foremost, the WorkPackage application. It's based on AngularJS' own [protractor library](https://github.com/angular/protractor) and therefore requires Selenium.
 
-It does not offer real End to End (E2E) Testing,a s there is currently no way to start up the whole application beforehand, so the suite uses a mock server to test each component independently and in the context of a page.
+It does not offer real End to End (E2E) Testing,a s there is currently no way to start up the whole application beforehand, so the suite uses a mock server and mock json to test each component independently and in the context of a page.
 
 Every command related to the suite is wrapped via `gulp`. the most interesting commands are:
 
@@ -86,17 +86,21 @@ Tests can be focused by using `iit` (not a typo) instead of `it` and can be igno
 
 Configuration is done in `./frontend/tests/integration/protractor.conf.js`. The only usable browser right now for protractor is Firefox. That is, you can change your browser locally to Chrome if you want to, however, TravisCI so far only supports running tests via Firefox.
 
+The protractor suite currently only covers the work packages list and provides no integration testing for timelines and the other components (most of them are tested as collateral).
+
 ### Mocking
 
 As the backend ist not present during testing, the protractor suite actually uses mocked json responses to facilitate the behaviour of data when testing the components.
 
-__Note:__ All mocks are found under `/frontend/tests/integration/mocks/` and a re usually loaded via a custom function defined in the tests which wrap `WorkPackageDetailsPane`, which in turn wraps a call to `browser.get()` (see `./frontend/tests/integration/pages/work-package-details-pane.js`)
+__Note:__ All mocks are found under `./frontend/tests/integration/mocks/` and a re usually loaded via a custom function defined in the tests which wrap `WorkPackageDetailsPane`, which in turn wraps a call to `browser.get()` (see `./frontend/tests/integration/pages/work-package-details-pane.js`)
 
 A mock usually just represents a probable json response from the backend. As the protractor suite does not use the Rails backend, this can be a source of confusion:
 
-__Make sure you keep your mocks in sync with the current implementation of the API__
+__Make sure you keep your mocks in sync with the current implementation of the API__. Otherwise, you will not be able to detect problems with the API and/or your component.
 
-Otherwise, you will not be able to detect problems with the API and/or your component.
+### Dummy servers
+
+The protractor suite also used dummy services to mock out the endpoints of all of the APIs for mocking. these files are still found under `./frontend/tests/integration/mocks/`. These can probably be removed in future versions.
 
 ## Capybara/Cucumber/RSpec E2E Testing
 
