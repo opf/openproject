@@ -45,8 +45,10 @@ See doc/COPYRIGHT.rdoc for more details.
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span class="sort desc">
-                  <%= TimeEntry.human_attribute_name(:spent_on) %>
+                <span>
+                  <sort-link sort-attr="spent_on" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:spent_on) %>
+                  </sort-link>
                 </span>
               </div>
             </div>
@@ -55,7 +57,9 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= TimeEntry.human_attribute_name(:user) %>
+                  <sort-link sort-attr="user" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:user) %>
+                  </sort-link>
                 </span>
               </div>
             </div>
@@ -64,7 +68,9 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= TimeEntry.human_attribute_name(:activity) %>
+                  <sort-link sort-attr="activity" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:activity) %>
+                  </sort-link>
                 </span>
               </div>
             </div>
@@ -73,6 +79,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
+                  <sort-link sort-attr="project" sort-func="loadTimeEntries()">
                   <%= TimeEntry.human_attribute_name(:project) %>
                 </span>
               </div>
@@ -82,7 +89,9 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= TimeEntry.human_attribute_name(:issue) %>
+                  <sort-link sort-attr="work_package" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:issue) %>
+                  </sort-link>
                 </span>
               </div>
             </div>
@@ -91,7 +100,9 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= TimeEntry.human_attribute_name(:comments) %>
+                  <sort-link sort-attr="hours" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:comments) %>
+                  </sort-link>
                 </span>
               </div>
             </div>

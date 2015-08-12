@@ -104,7 +104,9 @@ See doc/COPYRIGHT.rdoc for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= Message.human_attribute_name(:created_on) %>
+                      <sort-link sort-attr="created_on" sort-func="loadMessages()">
+                        <%= Message.human_attribute_name(:created_on) %>
+                      </sort-link>
                     </span>
                   </div>
                 </div>
@@ -113,7 +115,9 @@ See doc/COPYRIGHT.rdoc for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= l(:label_reply_plural) %>
+                      <sort-link sort-attr="replies" sort-func="loadMessages()">
+                        <%= l(:label_reply_plural) %>
+                      </sort-link>
                     </span>
                   </div>
                 </div>
@@ -121,8 +125,10 @@ See doc/COPYRIGHT.rdoc for more details.
               <th>
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
-                    <span class="sort desc">
-                      <%= l(:label_message_last) %>
+                    <span>
+                      <sort-link sort-attr="updated_on" sort-func="loadMessages()">
+                        <%= l(:label_message_last) %>
+                      </sort-link>
                     </span>
                   </div>
                 </div>
@@ -155,7 +161,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <table-pagination total-entries="totalMessageCount" update-results="loadMessages()"></table-pagination>
     <modal-loading></modal-loading>
   <% else %>
-    <div class="generic-table--container" style="height:150px">
+    <div class="generic-table--container">
       <div class="generic-table--no-results-container">
         <h2 class="generic-table--no-results-title">
           <i class="icon-info"></i>
