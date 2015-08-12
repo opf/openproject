@@ -1220,7 +1220,7 @@ en:
   permission_edit_time_entries: "Edit time logs"
   permission_edit_timelines: "Edit timelines"
   permission_edit_wiki_pages: "Edit wiki pages"
-  permission_export_work_packages: "Export Work Packages"
+  permission_export_work_packages: "Export work packages"
   permission_export_wiki_pages: "Export wiki pages"
   permission_list_attachments: "List attachments"
   permission_log_time: "Log spent time"
