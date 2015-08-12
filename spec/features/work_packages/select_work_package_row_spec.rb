@@ -60,7 +60,7 @@ describe 'Select work package row', type: :feature do
 
   describe 'Work package row selection', js: true do
     def select_work_package_row(number, mouse_button_behavior = :left)
-      element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
+      element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
       case mouse_button_behavior
       when :double
         element.double_click
@@ -72,7 +72,7 @@ describe 'Select work package row', type: :feature do
     end
 
     def select_work_package_row_with_shift(number)
-      element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
+      element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
       page.driver.browser.action.key_down(:shift)
         .click(element.native)
         .key_up(:shift)
@@ -80,7 +80,7 @@ describe 'Select work package row', type: :feature do
     end
 
     def select_work_package_row_with_ctrl(number)
-      element = find(".workpackages-table tr:nth-of-type(#{number}).issue td.id")
+      element = find(".work-package-table--container tr:nth-of-type(#{number}).issue td.id")
       page.driver.browser.action.key_down(:control)
         .click(element.native)
         .key_up(:control)
@@ -88,7 +88,7 @@ describe 'Select work package row', type: :feature do
     end
 
     def check_row_selection_state(row_index, state = true)
-      selector = ".workpackages-table tr:nth-of-type(#{row_index}).issue input[type=checkbox]:checked"
+      selector = ".work-package-table--container tr:nth-of-type(#{row_index}).issue input[type=checkbox]:checked"
 
       expect(page).to (state ? have_selector(selector) : have_no_selector(selector))
     end
