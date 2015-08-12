@@ -87,78 +87,13 @@ See doc/COPYRIGHT.rdoc for more details.
       </colgroup>
       <thead>
         <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span class="sort asc">
-                  <%= User.human_attribute_name(:login) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= User.human_attribute_name(:firstname) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= User.human_attribute_name(:lastname) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= User.human_attribute_name(:mail) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= User.human_attribute_name(:admin)%>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= User.human_attribute_name(:created_on)%>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= User.human_attribute_name(:last_login_on)%>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span class="sort asc">
-                  <%= User.human_attribute_name(:status) %>
-                </span>
-              </div>
-            </div>
-          </th>
+          <%= sort_header_tag('login', :caption => User.human_attribute_name(:login)) %>
+          <%= sort_header_tag('firstname', :caption => User.human_attribute_name(:firstname)) %>
+          <%= sort_header_tag('lastname', :caption => User.human_attribute_name(:lastname)) %>
+          <%= sort_header_tag('mail', :caption => User.human_attribute_name(:mail)) %>
+          <%= sort_header_tag('admin', :caption => User.human_attribute_name(:admin), :default_order => 'desc') %>
+          <%= sort_header_tag('created_on', :caption => User.human_attribute_name(:created_on), :default_order => 'desc') %>
+          <%= sort_header_tag('last_login_on', :caption => User.human_attribute_name(:last_login_on), :default_order => 'desc') %>
           <th></th>
         </tr>
       </thead>
