@@ -1,6 +1,7 @@
 <div class="work-packages-table--container"
-  ng-class="{ '-with-footer': displaySums }">
-  <div class="work-packages-table--results-container" ng-if="rows.length">
+  ng-class="{ '-with-footer': displaySums }"
+  interactive-table>
+  <div class="work-packages-table--results-container generic-table--results-container" ng-if="rows.length">
     <table class="workpackages-table keyboard-accessible-list">
       <colgroup>
         <col highlight-col />
@@ -9,7 +10,7 @@
       <thead>
         <tr>
           <th class="checkbox hide-when-print">
-            <div class="work-packages-table--header-outer">
+            <div class="work-packages-table--header-outer generic-table--sort-header-outer">
               <a href
                  alt="{{toggleRowsLabel}}"
                  class="no-decoration-on-hover"
