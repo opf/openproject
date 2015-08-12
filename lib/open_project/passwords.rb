@@ -104,16 +104,8 @@ module OpenProject
       def self.rules_description
         return '' if min_adhered_rules == 0
 
-        rules = active_rules.map do |rule|
-          I18n.t(rule.to_sym,
-                 scope: [:activerecord, :errors, :models, :user, :attributes, :password])
-        end
-
-        I18n.t(:weak,
-               scope: [:activerecord, :errors, :models, :user, :attributes, :password],
-               rules: rules.join(', '),
-               min_count: min_adhered_rules,
-               all_count: active_rules.size)
+        rules = active_rules_list.join(', ')
+        rules_description_locale(rules)
       end
 
       # Returns a text describing the minimum length of a password.
@@ -129,6 +121,22 @@ module OpenProject
         active_rules.count do |name|
           password =~ RULES[name] ? true : false
         end
+      end
+
+      # Return a collection with active rules
+      def self.active_rules_list
+        active_rules.map do |rule|
+          I18n.t(rule.to_sym,
+                 scope: [:activerecord, :errors, :models, :user, :attributes, :password])
+        end
+      end
+
+      def self.rules_description_locale(rules)
+        I18n.t(:weak,
+               scope: [:activerecord, :errors, :models, :user, :attributes, :password],
+               rules: rules,
+               min_count: min_adhered_rules,
+               all_count: active_rules.size)
       end
     end
 

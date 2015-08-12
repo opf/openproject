@@ -250,7 +250,7 @@ en:
         user:
           attributes:
             password:
-              weak: "must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}"
               lowercase: "lowercase (e.g. 'a')"
               uppercase: "uppercase (e.g. 'A')"
               numeric: "numeric (e.g. '1')"
@@ -258,6 +258,9 @@ en:
               reused:
                 one: "has been used before. Please choose one that is different from your last one."
                 other: "has been used before. Please choose one that is different from your last %{count}."
+              match:
+                confirm: "Confirm new password."
+                description: "'Password confirmation' should match the input in the 'New password' field."
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "Please choose at least one role."
