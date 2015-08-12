@@ -98,3 +98,25 @@ The file consists of a single module definition, that requires another file (`./
 The files mostly follow the __Asynchronous Module Defintion__ (AMD), so the different parts of the application can be isolated.
 
 However, this makes planning the injections abit harder, as they are spread out over two files (the `$injector` definition being in the respective `index.js`, the actual function signature being in the module itself.)
+
+## Template handling in `./frontend/app/templates`
+
+Out of the box, `angular` will offer asynchronous template loading from a URL. given a directive `testDirective`, the usual implementation could look like this:
+
+```javascript
+angular.module('foo')
+    .directive('testDirective', function() {
+        return {
+            replace: true,
+            templateUrl: '/templates/foo/test-directive.html',
+            link: function(scope, element, attrs, ctrl) {
+                /* here be dragons */ 
+            }
+        }
+    })
+```
+
+In this example, what would usually happen during compilation is the asynchronous loading of `/templates/foo/test-directive.html`. 
+
+As there are quite a few directives, the OpenProject frontend prevents the request to the server by using `angular.$templateCache`. Using a buildstep in the `gulp` process (via `webpack` actually): templates are compiled as JS and put alongside the rest of the code in `openproject-core-app.js`. The `loader` for the templates can be found in `./frontend/webpack.config.js` which is dependent on [`ngtemplate-loader`](https://github.com/WearyMonkey/ngtemplate-loader).
+
