@@ -103,7 +103,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </thead>
         <tbody id="material_budget_items_body">
           <%- @cost_object.material_budget_items.each_with_index do |material_budget_item, index| -%>
-            <%= render :partial => 'material_budget_item', :object => material_budget_item, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
+            <%= render :partial => 'material_budget_item', :object => material_budget_item, :locals => {:index => index} %>
           <%- end -%>
         </tbody>
       </table>
@@ -172,7 +172,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </thead>
         <tbody id="labor_budget_items_body">
         <%- @cost_object.labor_budget_items.each_with_index do |labor_budget_item, index| -%>
-          <%= render :partial => 'labor_budget_item', :object => labor_budget_item, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
+          <%= render :partial => 'labor_budget_item', :object => labor_budget_item, :locals => {:index => index} %>
         <%- end -%>
         </tbody>
       </table>
