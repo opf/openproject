@@ -201,6 +201,15 @@ class Setting < ActiveRecord::Base
     end
   end
 
+  # clears all settings from the cache. #delete_matched might not be supported
+  # by every implementation. in this case we fall back to clearing the entire
+  # cache. if #clear is also not supported we just yawn and fail together.
+  def self.clear_cache!
+    Rails.cache.delete_matched /\/openproject\/settings\/.*/
+  rescue NotImplementedError, NoMethodError
+    Rails.cache.clear
+  end
+
   def self.cache_key(name)
     RequestStore.store[:settings_updated_on] ||= Setting.maximum(:updated_on)
     most_recent_settings_change = (RequestStore.store[:settings_updated_on] || Time.now.utc).to_i

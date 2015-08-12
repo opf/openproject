@@ -175,4 +175,49 @@ describe Setting, type: :model do
     end
   end
 
+  describe ".clear_cache!" do
+    before do
+      # prime the cache
+      Setting.host_name = 'foo'
+    end
+
+    it "doesn't fetch the setting from the database again" do
+      expect(Setting).to receive(:find_by_name).with('host_name').once
+
+      Setting.host_name
+      Setting.host_name
+    end
+
+    it "fetches the setting again when the cache was cleared" do
+      expect(Setting).to receive(:find_by_name).with('host_name').twice
+
+      Setting.host_name
+      Setting.clear_cache!
+      Setting.host_name
+    end
+
+    it "it doesn't affected any other cached values" do
+      Rails.cache.write('foo', 'bar')
+      Setting.clear_cache!
+      expect(Rails.cache.read('foo')).to eq 'bar'
+    end
+
+    it "falls back to clearing everything if partial deletion is unsupported" do
+      expected = lambda do |exception|
+        expect(Rails.cache).to receive(:delete_matched).and_raise(exception)
+
+        Rails.cache.write('foo', 'bar')
+        Setting.clear_cache!
+        expect(Rails.cache.read('foo')).to be_nil
+      end
+
+      # base implementation of ActiveSupport::Cache::Store raises NotImplementedError
+      # https://github.com/rails/rails/blob/v3.2.22/activesupport/lib/active_support/cache.rb#L399
+      expected.call(NotImplementedError)
+
+      # when implementation doesn't decend from ActiveSupport::Cache::Store
+      expected.call(NoMethodError)
+    end
+  end
+
 end
