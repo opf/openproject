@@ -98,11 +98,13 @@ module API
         current_user && (current_user.admin? || !current_user.anonymous?)
       end
 
-      def authorize(permission, context: nil, global: false, user: current_user)
-        authorize_by_with_raise AuthorizationService.new(permission,
-                                                         context: context,
-                                                         global: global,
-                                                         user: user)
+      def authorize(permission, context: nil, global: false, user: current_user, &block)
+        auth_service = AuthorizationService.new(permission,
+                                                context: context,
+                                                global: global,
+                                                user: user)
+
+        authorize_by_with_raise auth_service, &block
       end
 
       def authorize_by_with_raise(callable)
