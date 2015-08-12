@@ -47,7 +47,7 @@ module.exports = function($timeout, $window){
       function getHeadersFooters() {
         return element.find(
           '.generic-table--sort-header-outer,' +
-          '.generic-table--header,' +
+          '.generic-table--header-outer,' +
           '.generic-table--footer-outer'
         );
       }
