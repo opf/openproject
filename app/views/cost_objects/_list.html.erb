@@ -33,24 +33,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </colgroup>
       <thead>
         <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  #
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= CostObject.human_attribute_name(:subject) %>
-                </span>
-              </div>
-            </div>
-          </th>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%= sort_header_tag("subject", :caption => CostObject.human_attribute_name(:subject)) %>
           <th class="currency">
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
