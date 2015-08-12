@@ -1,8 +1,8 @@
 fr:
   button_save_as: Enregistrer le rapport sous…
   comments: Commentaire
-  cost_reports_title: Rapports de coûts
-  label_cost_report: Rapport de coûts
+  cost_reports_title: Rapports de coût
+  label_cost_report: Rapport de coût
   description_drill_down: Afficher les détails
   description_filter_selection: Sélection
   description_multi_select: Voir la sélection multiple
@@ -41,7 +41,7 @@ fr:
   load_query_question: "Ce rapport a %{size} cellules et peut prendre un certain temps à s'afficher. Êtes-vous sûr de vouloir l'afficher ?"
   permission_save_cost_reports: Enregistrer des rapports publics de coûts
   permission_save_private_cost_reports: Enregistrer des rapports privés de coûts
-  project_module_reporting_module: Rapports de coûts
+  project_module_reporting_module: Rapports de coût
   text_costs_are_rounded_note: Les valeurs affichées sont arrondies. Tous les calculs sont basés sur les valeurs non arrondies.
   toggle_multiselect: activer/désactiver la sélection multiple
   units: Unité
