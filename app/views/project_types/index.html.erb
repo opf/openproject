@@ -40,40 +40,83 @@ See doc/COPYRIGHT.rdoc for more details.
 
 
 <% if @project_types.blank? %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
+ <div class="generic-table--container" style="height:150px">
+    <div class="generic-table--no-results-container">
+      <h2 class="generic-table--no-results-title">
+        <i class="icon-info"></i>
+        Nothing to display
+      </h2>
+      <div class="generic-table--no-results-description">
+        <p class="nodata"><%= l(:label_no_data) %></p>
+      </div>
+    </div>
+  </div>
 <% else %>
-  <div class="autoscroll">
-    <table class="list timelines-pt">
-      <thead>
-        <tr>
-          <th><%= ProjectType.human_attribute_name(:name) %></th>
-          <th><%= ProjectType.human_attribute_name(:position) %></th>
-          <th><%= ProjectType.human_attribute_name(:allows_association) %></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @project_types.each do |type| %>
-          <tr class="<%= cycle("odd", "even") %>">
-            <td class="timelines-pt-name">
-              <%= link_to(h(type.name), edit_project_type_path(type)) %>
-            </td>
-            <td class="timelines-pt-reorder">
-              <%= reorder_links('project_type', {:action => 'move', :id => type}) %>
-            </td>
-            <td class="timelines-pt-allows_association">
-              <%= checked_image(type.allows_association) %>
-            </td>
-            <td class="timelines-pt-actions buttons">
-              <%= link_to(confirm_destroy_project_type_path(type),
-                         :class => 'icon icon-delete') do %>
-                <%= l(:button_delete) %>
-                <span class="hidden-for-sighted"><%=h type.name %></span>
-              <% end %>
-            </td>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table role="grid" class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= ProjectType.human_attribute_name(:name) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= ProjectType.human_attribute_name(:position) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= ProjectType.human_attribute_name(:allows_association) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @project_types.each do |type| %>
+            <tr>
+              <td class="timelines-pt-name">
+                <%= link_to(h(type.name), edit_project_type_path(type)) %>
+              </td>
+              <td class="timelines-pt-reorder">
+                <%= reorder_links('project_type', {:action => 'move', :id => type}) %>
+              </td>
+              <td class="timelines-pt-allows-association">
+                <%= checked_image(type.allows_association) %>
+              </td>
+              <td class="timelines-pt-actions buttons">
+                <%= link_to(confirm_destroy_project_type_path(type),
+                           :class => 'icon icon-delete') do %>
+                  <%= l(:button_delete) %>
+                  <span class="hidden-for-sighted"><%=h type.name %></span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="generic-table--header-background"></div>
+    </div>
   </div>
 <% end %>
