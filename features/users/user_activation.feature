@@ -40,7 +40,7 @@ And I click on "Submit"
 Then I should see "Your account was created and is now pending administrator approval"
 And I am admin
 And I am on the admin page of pending users
-Then I should see "heidi" within ".autoscroll"
+Then I should see "heidi" within ".generic-table"
 
 Scenario: An admin activates the pending registration request
 Given I am on the registration page
@@ -54,5 +54,5 @@ And I click on "Submit"
 Then I should see "Your account was created and is now pending administrator approval"
 And I am already admin
 And I am on the admin page of pending users
-When I follow "Activate" within ".autoscroll"
+When I follow "Activate" within ".generic-table"
 Then I should see "Successful update"
