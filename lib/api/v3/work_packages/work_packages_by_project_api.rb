@@ -36,6 +36,8 @@ module API
       class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
         resources :work_packages do
           helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+          helpers ::API::V3::WorkPackages::WorkPackageListHelpers
+
           helpers do
             def create_service
               @create_service ||=
@@ -44,56 +46,11 @@ module API
                   project: @project,
                   send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
             end
-
-            def set_filters_from_json(query, json)
-              filters = JSON.parse(json)
-              operators = filters.inject({}) { |result, filter|
-                attribute = filter.keys.first # there should only be one attribute per filter
-                result[attribute] = filter[attribute]['operator']
-                result
-              }
-              values = filters.inject({}) { |result, filter|
-                attribute = filter.keys.first # there should only be one attribute per filter
-                result[attribute] = filter[attribute]['values']
-                result
-              }
-
-              query.filters = []
-              query.add_filters(filters.map(&:keys).flatten, operators, values)
-            end
-
-            def set_sorting_from_json(query, json)
-              query.sort_criteria = JSON.parse(json)
-            end
-
-            def collection_representer(work_packages, filter_json:, sort_json:)
-              query = {}
-              query[:filters] = filter_json if filter_json
-              query[:sort_by] = sort_json if sort_json
-
-              ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
-                work_packages,
-                api_v3_paths.work_packages_by_project(@project.id),
-                query: query,
-                page: params[:offset] ? params[:offset].to_i : nil,
-                per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
-                context: {
-                  current_user: current_user
-                }
-              )
-            end
           end
 
           get do
             authorize(:view_work_packages, context: @project)
-
-            query = Query.new({ name: '_', project: @project })
-            set_filters_from_json(query, params[:filters]) if params[:filters]
-            set_sorting_from_json(query, params[:sort_by]) if params[:sort_by]
-
-            collection_representer(query.results.sorted_work_packages,
-                                   filter_json: params[:filters],
-                                   sort_json: params[:sort_by])
+            work_packages_by_params(project: @project)
           end
 
           post do
