@@ -100,6 +100,9 @@ describe Setting, type: :model do
 
     after do
       Setting.find_by_name('notified_events').destroy
+      # have to clear the cache as well
+      # as settings are stored there
+      Rails.cache.clear
     end
   end
 
@@ -166,6 +169,9 @@ describe Setting, type: :model do
 
     after do
       Setting.destroy_all
+      # have to clear the cache as well
+      # as settings are stored there
+      Rails.cache.clear
     end
   end
 

@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="notification-box--content">
     <p><%= l('repositories.errors.exception_title',
              message: l('repositories.errors.empty_repository')) %></p>
-    <%# TODO: Add checkout instructions when included in core %>
   </div>
 </div>
+<%= call_hook(:view_repositories_show_contextual,
+    { repository: @repository, project: @project }) %>

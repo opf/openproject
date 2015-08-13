@@ -84,6 +84,7 @@ angular.module('openproject.uiComponents')
     down: 40
   })
   .directive('selectableTitle', [require('./selectable-title-directive')])
+  .directive('interactiveTable', ['$timeout', '$window', require('./interactive-table-directive')])
   .constant('DOUBLE_CLICK_DELAY', 300)
   // Thanks to http://stackoverflow.com/a/20445344
   .directive('singleClick', [
