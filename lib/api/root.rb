@@ -90,7 +90,7 @@ module API
       end
 
       def set_localization
-        SetLocalizationService.new(User.current, env['HTTP_ACCEPT_LANGUAGE']).perform
+        SetLocalizationService.new(User.current, env['HTTP_ACCEPT_LANGUAGE']).call
       end
 
       def logged_in?

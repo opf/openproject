@@ -15,7 +15,7 @@ class SetLocalizationService
   #   2. The first language defined in the Accept-Language header sent by the browser.
   #   3. OpenProject's default language defined in the settings.
 
-  def perform
+  def call
     lang = user_language || header_language || default_language
 
     set_language_if_valid(lang)

@@ -228,7 +228,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_localization
-    SetLocalizationService.new(User.current, request.env['HTTP_ACCEPT_LANGUAGE']).perform
+    SetLocalizationService.new(User.current, request.env['HTTP_ACCEPT_LANGUAGE']).call
   end
 
   def require_login

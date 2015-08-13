@@ -24,7 +24,7 @@ describe SetLocalizationService do
     it 'falls back to the header' do
       expect_locale(http_accept_language)
 
-      instance.perform
+      instance.call
     end
   end
 
@@ -32,7 +32,7 @@ describe SetLocalizationService do
     it "falls back to the instance's default language" do
       expect_locale(default_language)
 
-      instance.perform
+      instance.call
     end
   end
 
@@ -40,7 +40,7 @@ describe SetLocalizationService do
     it "sets the language to the user's selected language" do
       expect_locale(user_language)
 
-      instance.perform
+      instance.call
     end
 
     context 'with the language not being valid' do
