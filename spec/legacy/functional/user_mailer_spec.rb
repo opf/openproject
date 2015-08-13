@@ -50,6 +50,8 @@ describe UserMailer, type: :mailer do
   it 'should test mail sends a simple greeting' do
     user = FactoryGirl.create(:user, mail: 'foo@bar.de')
 
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+
     mail = UserMailer.test_mail(user)
     assert mail.deliver
 
@@ -211,6 +213,7 @@ describe UserMailer, type: :mailer do
   it 'should plain text mail' do
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue, user).deliver
     mail = ActionMailer::Base.deliveries.last
@@ -222,6 +225,7 @@ describe UserMailer, type: :mailer do
   it 'should html mail' do
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue, user).deliver
     mail = ActionMailer::Base.deliveries.last
@@ -232,6 +236,7 @@ describe UserMailer, type: :mailer do
 
   it 'should mail from with phrase' do
     user  = FactoryGirl.create(:user)
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     with_settings mail_from: 'Redmine app <redmine@example.net>' do
       UserMailer.test_mail(user).deliver
     end
@@ -284,6 +289,7 @@ describe UserMailer, type: :mailer do
 
   it 'should message posted message id' do
     user    = FactoryGirl.create(:user)
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     message = FactoryGirl.create(:message)
     UserMailer.message_posted(user, message, user).deliver
     mail = ActionMailer::Base.deliveries.last
@@ -298,6 +304,7 @@ describe UserMailer, type: :mailer do
 
   it 'should reply posted message id' do
     user    = FactoryGirl.create(:user)
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     parent  = FactoryGirl.create(:message)
     message = FactoryGirl.create(:message, parent: parent)
     UserMailer.message_posted(user, message, user).deliver
@@ -315,6 +322,7 @@ describe UserMailer, type: :mailer do
     it 'should change mail language depending on recipient language' do
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: 'de')
+      FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
       ActionMailer::Base.deliveries.clear
       with_settings available_languages: ['en', 'de'] do
         I18n.locale = 'en'
@@ -334,6 +342,7 @@ describe UserMailer, type: :mailer do
       # 3. I18n.default_locale
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: '') # (auto)
+      FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
       ActionMailer::Base.deliveries.clear
       with_settings available_languages: ['en', 'de'],
                     default_language: 'de' do
