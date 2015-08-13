@@ -13,7 +13,7 @@ To get a feel for which API is used at which point, please refer to the `PathHel
 
 ## HAL
 
-While having a `PathHelper` certainly helps, the long-term idea is to levergae the [HAL](http://stateless.co/hal_specification.html)-capabilities of the APIv3 (thereby excluding `v2` and `experimental` long term) to let any client discover th paths in the api by inspecting the responses from any given call.
+While having a `PathHelper` certainly helps, the long-term idea is to leverage the [HAL](http://stateless.co/hal_specification.html)-capabilities of the APIv3 (thereby excluding `v2` and `experimental` long term) to let any client discover the paths in the api by inspecting the responses from any given call.
 
 __Note:__ All responses from the APIv3 are thereby of `Content-Type: application/hal+json` and not just `Content-Type: application/json`. Some developer client tools sometimes get confused with that and do not interpret the formatting correctly.
 
