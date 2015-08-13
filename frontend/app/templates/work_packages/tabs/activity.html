@@ -4,7 +4,7 @@
         <li ng-repeat="activity in activities"
             class="work-package-details-activities-activity"
             ng-init="activityNo    = activitiesSortedInDescendingOrder && activities.length - $index || $index + 1;
-                     isInitial     = activityNo == 1;
+                     isInitial     = isInitialActivity(activity, activityNo);
                      currentDate   = (activity.props.createdAt|date:'longDate');
                      currentAnchor = 'note-' + activityNo">
           <h3 class="activity-date"
