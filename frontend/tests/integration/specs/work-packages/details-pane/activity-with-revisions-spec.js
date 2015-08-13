@@ -26,32 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-exports.config = {
+var expect = require('../../../spec_helper.js').expect,
+    detailsPaneHelper = require('./details-pane-helper.js'),
+    elements = detailsPaneHelper.elements;
 
-  framework: 'mocha',
+/*jshint expr: true*/
 
-  // Capabilities to be passed to the webdriver instance.
-  capabilities: {
-    'browserName': 'firefox'
-  },
+describe('OpenProject', function() {
+  describe('activity pane with revisions', function() {
+    beforeEach(function() {
+      detailsPaneHelper.loadPane(820, 'activity');
+    });
 
-  directConnect: false,
+    it('should render all activities and one revision', function() {
+      var locator = by.css('.work-package-details-activities-activity');
+      elements.count(locator, 61);
+    });
 
-  specs: [
-    'specs/*spec.js',
-    'specs/**/*spec.js'
-  ],
-
-  allScriptsTimeout: 500000,
-
-  mochaOpts: {
-    timeout:  500000,
-    reporter: 'mocha-jenkins-reporter'
-  },
-
-  baseUrl: 'http://localhost:8080',
-
-  onPrepare: function() {
-    browser.driver.manage().window().maximize();
-  }
-};
+    it('should render one revision at the correct position', function() {
+      expect(
+        $('.work-package-details-activities-activity:nth-of-type(61) .date').getText()
+      ).to.eventually.contain('committed revision 1cb82424');
+    });
+  });
+});
