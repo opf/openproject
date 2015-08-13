@@ -74,8 +74,13 @@ module.exports = function($timeout, $window){
 
       function setHeaderFooterWidths() {
         getHeadersFooters().each(function() {
-          var parentWidth = angular.element(this).parent().width();
-          angular.element(this).css('width', parentWidth + 'px');
+          var spacer = angular.element(this).parent();
+
+          var width = spacer.width();
+
+          if (width !== 0) {
+            angular.element(this).css('width', width + 'px');
+          }
         });
       }
 
@@ -95,7 +100,27 @@ module.exports = function($timeout, $window){
         });
       };
 
-      $timeout(setTableWidths);
+      var cloneSpacer = function() {
+        getHeadersFooters().each(function() {
+          var html = angular.element(this).text();
+          var hiddenForSighted = angular.element(this).find('.hidden-for-sighted').text();
+
+          html = html.replace(hiddenForSighted, '');
+
+          var spacerHtml = '<div class="generic-table--header-spacer">' + html + '</div>';
+
+          var newElement = angular.element(spacerHtml);
+
+          newElement.appendTo(angular.element(this).parent());
+        });
+      };
+
+      var initialize = function() {
+        cloneSpacer();
+        setTableWidths();
+      };
+
+      $timeout(initialize);
       angular.element($window).on('resize', _.debounce(setTableWidths, 50));
       scope.$on('$stateChangeSuccess', function() {
         $timeout(setTableWidths, 200);
