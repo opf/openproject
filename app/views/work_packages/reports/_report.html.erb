@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% column_names = report.statuses.map(&:name) + [l(:label_open_work_packages), l(:label_closed_work_packages), l(:label_total)] %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table role="grid" class="generic-table">
+      <table interactive-table role="grid" class="generic-table">
         <colgroup>
          <% column_names.each do |name| %>
             <col highlight-col>
