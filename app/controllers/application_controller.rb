@@ -227,25 +227,8 @@ class ApplicationController < ActionController::Base
     I18n.fallbacks.defaults = fallbacks
   end
 
-  ##
-  # Sets the language for the current request.
-  # The language is determined with the following priority:
-  #
-  #   1. The language as configured by the user.
-  #   2. The first language defined in the Accept-Language header sent by the browser.
-  #   3. OpenProject's default language defined in the settings.
   def set_localization
-    lang = nil
-    lang = find_language(User.current.language) if User.current.logged?
-    if lang.nil? && request.env['HTTP_ACCEPT_LANGUAGE']
-      accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first
-      unless accept_lang.blank?
-        accept_lang = accept_lang.downcase
-        lang = find_language(accept_lang) || find_language(accept_lang.split('-').first)
-      end
-    end
-    lang ||= Setting.default_language
-    set_language_if_valid(lang)
+    SetLocalizationService.new(User.current, request.env['HTTP_ACCEPT_LANGUAGE']).perform
   end
 
   def require_login
@@ -592,28 +575,6 @@ class ApplicationController < ActionController::Base
 
   def accept_key_auth_actions
     self.class.accept_key_auth_actions || []
-  end
-
-  # qvalues http header parser
-  # code taken from webrick
-  def parse_qvalues(value)
-    tmp = []
-    if value
-      parts = value.split(/,\s*/)
-      parts.each do |part|
-        match = /\A([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?\z/.match(part)
-        if match
-          val = match[1]
-          q = (match[2] || 1).to_f
-          tmp.push([val, q])
-        end
-      end
-      tmp = tmp.sort_by { |_val, q| -q }
-      tmp.map! { |val, _q| val }
-    end
-    return tmp
-  rescue
-    nil
   end
 
   # Returns a string that can be used as filename value in Content-Disposition header
