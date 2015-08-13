@@ -63,6 +63,11 @@ describe ::API::V3::RootRepresenter do
         let(:link) { 'types' }
         let(:href) { api_v3_paths.types }
       end
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'workPackages' }
+        let(:href) { api_v3_paths.work_packages }
+      end
     end
 
     it 'shows the name of the instance' do

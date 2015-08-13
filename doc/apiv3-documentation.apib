@@ -462,6 +462,7 @@ a client should be able to discover further resources in the API.
 | priorities          | List of available priorities                     | Collection    |          | READ                 |
 | statuses            | List of available work package statuses          | Collection    |          | READ                 |
 | types               | List of available work package types             | Collection    |          | READ                 |
+| workPackages        | List of all work packages                        | Collection    |          | READ                 |
 
 ## Local Properties
 
@@ -488,6 +489,9 @@ a client should be able to discover further resources in the API.
                     },
                     "types" : {
                         "href" : "/api/v3/types"
+                    },
+                    "workPackages" : {
+                        "href" : "/api/v3/work_packages"
                     }
                 },
                 "instanceName" : "My own OpenProject",
@@ -3617,7 +3621,75 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "The specified work package does not exist."
             }
 
-## Work Packages by Project [/api/v3/projects/{id}/work_packages{?offset,pageSize,filters,notify}]
+## Work Packages [/api/v3/work_packages{?offset,pageSize,filters,sortBy}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded": {
+                    "elements": [
+                    {
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/work_packages/1"
+                            }
+                        },
+                        "id": 1,
+                        "subject": "Skipped other properties for brevity"
+                    },
+                    {
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/work_packages/2"
+                            }
+                        },
+                        "id": 2,
+                        "subject": "Skipped other properties for brevity"
+                    }]
+                }
+            }
+
+## List Work Packages [GET]
+
++ Parameters
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+
+    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+
++ Response 200 (application/hal+json)
+
+    [Work Packages][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages (globally or in any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see work packages."
+            }
+
+## Work Packages by Project [/api/v3/projects/{id}/work_packages{?offset,pageSize,filters,sortBy,notify}]
 
 + Model
     + Body
@@ -3663,7 +3735,10 @@ For more details and all possible responses see the general specification of [Fo
 
     + pageSize (optional, integer, `25`) ... Number of elements to display per page.
 
-    + filters (optional, string, `[{ ""status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
+    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+
+    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
 
 + Response 200 (application/hal+json)
@@ -3683,7 +3758,7 @@ For more details and all possible responses see the general specification of [Fo
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to see the work package of this project."
+                "message": "You are not allowed to see the work packages of this project."
             }
 
 + Response 404 (application/hal+json)
