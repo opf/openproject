@@ -165,7 +165,10 @@ end
 Then(/^the "([^"]*)" row should (not )?be marked as allowing associations$/) do |title, negation|
   should_be_visible = !negation
 
-  table_row = page.all(:css, 'table.generic-table tbody tr td', text: title).first.find(:xpath, './ancestor::tr')
+  table_row = page
+              .all(:css, 'table.generic-table tbody tr td', text: title)
+              .first
+              .find(:xpath, './ancestor::tr')
   nodes = table_row.all(:css, '.timelines-pt-allows_association span.icon-yes')
   if should_be_visible
     nodes.should_not be_empty
