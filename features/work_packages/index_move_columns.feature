@@ -70,11 +70,11 @@ Feature: Disabled done ratio on the work package index
     And I choose "Columns" from the toolbar "settings" dropdown
     And I select to see column "Author"
     And I click "Apply"
-    Then I should see "Author" within ".workpackages-table"
+    Then I should see "Author" within ".work-package-table--container table"
 
   @javascript
   Scenario: Subject column should not be displayed when Subject is moved out of selected columns
     When I go to the work packages index page of the project "project1"
     And I choose "Columns" from the toolbar "settings" dropdown
     And I select to not see column "Subject"
-    Then I should not see "Subject" within ".workpackages-table"
+    Then I should not see "Subject" within ".work-package-table--container table"
