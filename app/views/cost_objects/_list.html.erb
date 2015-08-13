@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <div class="generic-table--container">
   <div class="generic-table--results-container">
-    <table role="grid" class="generic-table" id="material_budget_items">
+    <table interactive-table role="grid" class="generic-table" id="material_budget_items">
       <colgroup>
         <col highlight-col>
         <col highlight-col>
@@ -93,7 +93,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <% end %>
         <% if cost_objects.length > 0 %>
         <tr>
-          <td colspan="2" />
+          <td />
+          <td />
           <td class="currency"><strong><%= number_to_currency( total_budget, :precision => 0) %></strong></td>
           <td class="currency"><strong><%= number_to_currency( spent, :precision => 0) %></strong></td>
           <td class="currency"><strong><%= number_to_currency( total_budget - spent, :precision => 0) %></strong></td>
