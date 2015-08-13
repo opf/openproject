@@ -52,4 +52,4 @@ Feature: Navigating from reports to index
   Scenario: Navigating from work package reports page to a type report
     When I go to the work_packages/report page of the project called "parent"
     And  I follow "Further analyze: Type"
-    Then I should see "Bug" within ".list"
+    Then I should see "Bug" within ".generic-table"

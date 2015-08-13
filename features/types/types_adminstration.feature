@@ -90,4 +90,4 @@ Feature: Type Administration
   Scenario: A standard type cannot be deleted
      When I go to the global index page of types
      Then "Standard" should be the last element in the list
-      And I should not see "Delete" within "table.timelines-pet tbody tr:last td:last"
+      And I should not see "Delete" within "table.generic-table tbody tr:last td:last"

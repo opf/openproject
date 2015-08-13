@@ -171,7 +171,7 @@ def locale_for_language(language)
 end
 
 Then(/^I should see "(.*?)" for report "(.*?)"$/) do |link_name, table_value_name|
-  within 'table.timelines-reportings' do
+  within 'table.generic-table' do
     table_data = first('td a', text: table_value_name)
     row = table_data.find(:xpath, '../..')
 
@@ -180,7 +180,7 @@ Then(/^I should see "(.*?)" for report "(.*?)"$/) do |link_name, table_value_nam
 end
 
 When(/^I follow link "(.*?)" for report "(.*?)"$/) do |link_name, table_value_name|
-  within 'table.timelines-reportings' do
+  within 'table.generic-table' do
     table_data = first('td a', text: table_value_name)
     row = table_data.find(:xpath, '../..')
 

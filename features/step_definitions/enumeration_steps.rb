@@ -47,7 +47,7 @@ Then(/^I should see the enumeration:$/) do |table|
   # as the html is not structured in any way we have to look for the first
   # h3 that contains the heading for the activity we are interested in
   # and then the td within the directly following table
-  should have_selector("h3:contains('#{i18n_for_activity_type(type)}') + table td",
+  should have_selector("h3:contains('#{i18n_for_activity_type(type)}') + .generic-table--container table td",
                        text: attributes['name'])
 end
 
