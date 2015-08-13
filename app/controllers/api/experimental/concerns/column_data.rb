@@ -180,6 +180,7 @@ module Api::Experimental::Concerns::ColumnData
     end
   end
 
+  # FIXME: Deprecated. Should be removable once the experimental WP controller is gone
   def includes_for_columns(column_names)
     column_names = Array(column_names)
     includes = (WorkPackage.reflections.keys & column_names.map(&:to_sym))

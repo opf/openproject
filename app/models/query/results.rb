@@ -85,6 +85,16 @@ class ::Query::Results
       .references(:projects)
   end
 
+  # Same as :work_packages, but returns a result sorted by the sort_criteria defined in the query.
+  # Note: It escapes me, why this is not the default behaviour.
+  # If there is a reason: This is a somewhat DRY way of using the sort criteria.
+  # If there is no reason: The :work_package method can die over time and be replaced by this one.
+  def sorted_work_packages
+    work_packages
+      .includes(includes_for_columns(query.involved_columns))
+      .order(query.sort_criteria_sql)
+  end
+
   def versions
     Version.includes(:project)
       .where(::Query.merge_conditions(query.project_statement, options[:conditions]))
@@ -106,5 +116,22 @@ class ::Query::Results
     order_option = nil if order_option.blank?
 
     order_option
+  end
+
+  private
+
+  def includes_for_columns(column_names)
+    column_names = Array(column_names)
+    includes = (WorkPackage.reflections.keys & column_names.map(&:to_sym))
+
+    if column_names.any? { |column| custom_field_column?(column) }
+      includes << { custom_values: :custom_field }
+    end
+
+    includes
+  end
+
+  def custom_field_column?(name)
+    name.to_s =~ /\Acf_\d+\z/
   end
 end

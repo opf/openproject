@@ -48,7 +48,7 @@ module Api
       def index
         @work_packages = current_work_packages
 
-        columns = all_query_columns(@query)
+        columns = @query.involved_columns
 
         @column_names, @custom_field_column_ids = separate_columns_by_custom_fields(columns)
 
@@ -97,7 +97,7 @@ module Api
       def current_work_packages
         initialize_sort
 
-        results = @query.results include: includes_for_columns(all_query_columns(@query)),
+        results = @query.results include: includes_for_columns(@query.involved_columns),
                                  order: sort_clause
 
         work_packages = results.work_packages
@@ -116,15 +116,6 @@ module Api
         sort_clear
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
-      end
-
-      def all_query_columns(query)
-        columns = query.columns.map(&:name) + [:id]
-
-        columns << query.group_by.to_sym if query.group_by
-        columns += query.sort_criteria.map { |x| x.first.to_sym }
-
-        columns
       end
 
       def work_packages_of_ids(ids, column_names)

@@ -254,6 +254,18 @@ class Query < ActiveRecord::Base
     column_names.nil? || column_names.empty?
   end
 
+  ##
+  # Returns the columns involved in this query, including those only needed for sorting or grouping
+  # puposes, not only the ones displayed (see :columns).
+  def involved_columns
+    columns = self.columns.map(&:name)
+
+    columns << group_by.to_sym if group_by
+    columns += sort_criteria.map { |x| x.first.to_sym }
+
+    columns.uniq
+  end
+
   def sort_criteria=(arg)
     c = []
     if arg.is_a?(Hash)
@@ -265,6 +277,13 @@ class Query < ActiveRecord::Base
 
   def sort_criteria
     read_attribute(:sort_criteria) || []
+  end
+
+  def sort_criteria_sql
+    criteria = SortHelper::SortCriteria.new
+    criteria.available_criteria = sortable_columns
+    criteria.criteria = sort_criteria
+    criteria.to_sql
   end
 
   def sort_criteria_key(arg)

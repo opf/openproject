@@ -62,9 +62,14 @@ module API
               query.add_filters(filters.map(&:keys).flatten, operators, values)
             end
 
-            def collection_representer(work_packages, filter_json:)
+            def set_sorting_from_json(query, json)
+              query.sort_criteria = JSON.parse(json)
+            end
+
+            def collection_representer(work_packages, filter_json:, sort_json:)
               query = {}
               query[:filters] = filter_json if filter_json
+              query[:sort_by] = sort_json if sort_json
 
               ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
                 work_packages,
@@ -84,10 +89,11 @@ module API
 
             query = Query.new({ name: '_', project: @project })
             set_filters_from_json(query, params[:filters]) if params[:filters]
+            set_sorting_from_json(query, params[:sort_by]) if params[:sort_by]
 
-
-            collection_representer(query.results.work_packages,
-                                   filter_json: params[:filters])
+            collection_representer(query.results.sorted_work_packages,
+                                   filter_json: params[:filters],
+                                   sort_json: params[:sort_by])
           end
 
           post do
