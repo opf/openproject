@@ -67,6 +67,35 @@ angular.module('openproject')
         }
       }
     })
+
+    .state('work-packages.show', {
+      url: '/{workPackageId:[0-9]+}?query_props',
+      templateUrl: '/templates/work_packages.show.html',
+      controller: 'WorkPackageShowController',
+      resolve: {
+        workPackage: function(WorkPackageService, $stateParams) {
+          return WorkPackageService.getWorkPackage($stateParams.workPackageId);
+        }
+      }
+    })
+    .state('work-packages.show.activity', {
+      url: '/activity',
+      templateUrl: '/templates/work_packages/tabs/activity.html'
+    })
+    .state('work-packages.show.activity.details', {
+      url: '#{activity_no:[0-9]+}',
+      templateUrl: '/templates/work_packages/tabs/activity.html'
+    })
+    .state('work-packages.show.relations', {
+      url: '/relations',
+      templateUrl: '/templates/work_packages/tabs/relations.html'
+    })
+    .state('work-packages.show.watchers', {
+      url: '/watchers',
+      controller: 'DetailsTabWatchersController',
+      templateUrl: '/templates/work_packages/tabs/watchers.html'
+    })
+
     .state('work-packages.list', {
       url: '',
       controller: 'WorkPackagesListController',
@@ -79,7 +108,7 @@ angular.module('openproject')
       templateUrl: '/templates/work_packages.list.new.html'
     })
     .state('work-packages.list.details', {
-      url: '/{workPackageId:[0-9]+}?query_props',
+      url: '/details/{workPackageId:[0-9]+}?query_props',
       templateUrl: '/templates/work_packages.list.details.html',
       controller: 'WorkPackageDetailsController',
       resolve: {
