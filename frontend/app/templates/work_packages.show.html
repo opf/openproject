@@ -1,12 +1,8 @@
 <div class="toolbar-container">
-  <div toolbar class="toolbar">
-    <selectable-title focus
-                      selected-title="selectedTitle"
-                      groups="groups"
-                      transition-method="loadQuery">
-    </selectable-title>
+  <div toolbar id="toolbar">
+    <h2 title="{{workPackage.props.subject}}"><a href="" ng-bind="type.props.name" /> {{workPackage.props.subject}}</h2>
 
-    <ul class="toolbar-items">
+    <ul id="toolbar-items">
       <li class="toolbar-item">
         <button class="button -alt-highlight"
                 has-dropdown-menu
@@ -16,20 +12,6 @@
           <i class="button--icon icon-add"></i>
           <span class="button--text" ng-bind="::I18n.t('js.toolbar.unselected_title')"></span>
           <i class="button--dropdown-indicator"></i>
-        </button>
-      </li>
-      <li class="toolbar-item">
-        <label for="work-packages-filter-toggle-button" class="hidden-for-sighted">
-          {{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}
-        </label>
-        <button id="work-packages-filter-toggle-button"
-                class="button"
-                title="{{ getToggleActionLabel(showFiltersOptions) + ' ' + I18n.t('js.button_filter') }}"
-                ng-click="toggleShowFilterOptions()"
-                ng-class="{ '-active': showFiltersOptions }">
-          <i class="icon-filter-big button--icon"></i>
-          <span class="button--text" ng-bind="::I18n.t('js.toolbar.filter')"></span>
-          <span class="badge -secondary">{{ getFilterCount() }}</span>
         </button>
       </li>
       <li class="toolbar-item" feature-flag="detailsView">
@@ -104,30 +86,81 @@
 <back-url></back-url>
 
 
-<div class="work-packages--split-view" cg-busy="[settingUpPage,refreshWorkPackages]">
-  <div class="work-packages--list">
-    <div class="work-packages--list-table-area">
-      <work-packages-table ng-if="rows && columns"
-                           project-identifier="projectIdentifier"
-                           columns="columns"
-                           rows="rows"
-                           query="query"
-                           group-by="query.groupBy"
-                           group-by-column="groupByColumn"
-                           count-by-group="workPackageCountByGroup"
-                           display-sums="query.displaySums"
-                           total-sums="totalSums"
-                           group-sums="groupSums"
-                           activation-callback="showWorkPackageDetails(id, force)">
-      </work-packages-table>
+<div class="work-packages--split-view">
+  <div class="work-packages--left">
+    <div class="attributes-group">
+
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text">
+            {{ I18n.t('js.label_description') }}
+          </h3>
+        </div>
+      </div>
+
+      <div class="single-attribute wiki">
+        <work-package-field field="'description'"></work-package-field>
+      </div>
     </div>
-    <div class="work-packages--list-pagination-area">
-      <table-pagination total-entries="totalEntries">
-      </table-pagination>
+
+    <div ng-repeat="group in vm.groupedFields" ng-hide="vm.hideEmptyFields && vm.isGroupHideable(vm.groupedFields, group.groupName, vm.workPackage)" class="attributes-group">
+
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text"
+            ng-bind="I18n.t('js.work_packages.property_groups.' + group.groupName)"></h3>
+        </div>
+        <div class="attributes-group--header-toggle">
+          <panel-expander tabindex="-1" ng-if="vm.showToggleButton() && $first"
+            collapsed="vm.hideEmptyFields"
+            expand-text="{{ I18n.t('js.label_show_attributes') }}"
+            collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
+          </panel-expander>
+        </div>
+      </div>
+
+      <dl class="attributes-key-value">
+        <dt
+            ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+            ng-if="vm.isSpecified(vm.workPackage, field)"
+            ng-repeat-start="field in group.attributes" class="attributes-key-value--key">
+            {{vm.getLabel(vm.workPackage, field)}}
+            <span class="required" ng-if="vm.hasNiceStar(vm.workPackage, field)"> *</span>
+        </dt>
+        <dd
+            ng-hide="vm.hideEmptyFields && vm.isFieldHideable(vm.workPackage, field)"
+            ng-if="vm.isSpecified(vm.workPackage, field)"
+            ng-repeat-end
+            class="attributes-key-value--value-container">
+          <work-package-field field="field"></work-package-field>
+        </dd>
+      </dl>
     </div>
-    <modal-loading>
-    </modal-loading>
+
+    <work-package-attachments edit work-package="vm.workPackage"></work-package-attachments>
+
   </div>
-  <div class="work-packages--details" ui-view ng-show="workPackage"
-    feature-flag="detailsView"></div>
+  <div class="work-packages--right">
+    <div id="tabs">
+      <ul class="tabrow">
+        <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+        properly. Thus, don't remove the hrefs or the empty URLs! -->
+        <li ui-sref="work-packages.show.activity({})"
+            ui-sref-active="selected">
+          <a href="" ng-bind="I18n.t('js.work_packages.tabs.activity')"/>
+        </li>
+        <li ui-sref="work-packages.show.relations({})"
+            ui-sref-active="selected">
+          <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
+        </li>
+        <li ng-if="canViewWorkPackageWatchers()"
+            ui-sref="work-packages.show.watchers({})"
+            ui-sref-active="selected">
+          <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
+        </li>
+      </ul>
+    </div>
+    <div class="tabcontent" ui-view>
+    </div>
+  </div>
 </div>

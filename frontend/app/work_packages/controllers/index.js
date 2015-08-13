@@ -109,6 +109,26 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackagesDisplayHelper',
     require('./work-package-new-controller')
   ])
+  .controller('WorkPackageShowController', [
+    '$scope',
+    '$state',
+    'latestTab',
+    'workPackage',
+    'I18n',
+    'RELATION_TYPES',
+    'RELATION_IDENTIFIERS',
+    '$q',
+    'WorkPackagesHelper',
+    'PathHelper',
+    'UsersHelper',
+    'ConfigurationService',
+    'WorkPackageService',
+    'CommonRelationsHandler',
+    'ChildrenRelationsHandler',
+    'ParentRelationsHandler',
+    'EditableFieldsState',
+    require('./work-package-show-controller')
+  ])
   .controller('WorkPackagesController', [
     '$scope',
     '$state',

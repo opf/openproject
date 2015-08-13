@@ -301,6 +301,15 @@ module.exports = function($scope, $rootScope, $state, $location, latestTab,
     }
   };
 
+  $scope.showWorkPackageShowView = function() {
+    var id = $state.params.workPackageId;
+    if (id) {
+      $state.go('work-packages.show.activity', {workPackageId: id});
+    } else {
+      $state.go('work-packages.show.activity', {workPackageId: $scope.preselectedWorkPackageId});
+    }
+  };
+
   $scope.getFilterCount = function() {
     if ($scope.query) {
       var filters = $scope.query.filters;
