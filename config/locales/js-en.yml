@@ -48,6 +48,7 @@ en:
     button_edit: "Edit"
     button_filter: "Filter"
     button_list_view: "List view"
+    button_show_view: "Fullscreen view"
     button_log_time: "Log time"
     button_more: "More"
     button_move: "Move"
