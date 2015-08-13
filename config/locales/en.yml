@@ -1197,7 +1197,7 @@ en:
   permission_browse_repository: "Browse repository"
   permission_change_wiki_parent_page: "Change parent wiki page"
   permission_comment_news: "Comment news"
-  permission_commit_access: "Commit access"
+  permission_commit_access: "Submit commits"
   permission_copy_projects: "Copy projects"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
