@@ -35,12 +35,12 @@ module API
         def work_packages_by_params(project: nil)
           query = Query.new({ name: '_', project: project })
           set_filters_from_json(query, params[:filters]) if params[:filters]
-          set_sorting_from_json(query, params[:sort_by]) if params[:sort_by]
+          set_sorting_from_json(query, params[:sortBy]) if params[:sortBy]
 
           collection_representer(query.results.sorted_work_packages,
                                  project: project,
                                  filter_json: params[:filters],
-                                 sort_json: params[:sort_by])
+                                 sort_json: params[:sortBy])
         end
 
         def set_filters_from_json(query, json)
@@ -67,7 +67,7 @@ module API
         def collection_representer(work_packages, project:, filter_json:, sort_json:)
           query = {}
           query[:filters] = filter_json if filter_json
-          query[:sort_by] = sort_json if sort_json
+          query[:sortBy] = sort_json if sort_json
 
           self_link = if project
                         api_v3_paths.work_packages_by_project(project.id)
