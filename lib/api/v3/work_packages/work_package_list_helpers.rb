@@ -58,16 +58,13 @@ module API
 
         def set_filters_from_json(query, json)
           filters = JSON.parse(json)
-          operators = filters.inject({}) { |result, filter|
+          operators = {}
+          values = {}
+          filters.each do |filter|
             attribute = filter.keys.first # there should only be one attribute per filter
-            result[attribute] = filter[attribute]['operator']
-            result
-          }
-          values = filters.inject({}) { |result, filter|
-            attribute = filter.keys.first # there should only be one attribute per filter
-            result[attribute] = filter[attribute]['values']
-            result
-          }
+            operators[attribute] = filter[attribute]['operator']
+            values[attribute] = filter[attribute]['values']
+          end
 
           query.filters = []
           query.add_filters(filters.map(&:keys).flatten, operators, values)
@@ -102,9 +99,7 @@ module API
 
             # TODO: insert valueLink
             if params[:showSums] == 'true'
-              sums = convert_column_keys(results.all_sums_for_group(group))
-              convert_durations! sums
-              group_element[:sums] = sums
+              group_element[:sums] = format_query_sums results.all_sums_for_group(group)
             end
 
             group_element
@@ -113,15 +108,17 @@ module API
 
         def generate_total_sums(results, query_params)
           if params[:showSums] == 'true'
-            total_sums = results.all_total_sums
-            total_sums = convert_column_keys total_sums
-            convert_durations! total_sums
             query_params[:showSums] = 'true'
-            total_sums
+            format_query_sums results.all_total_sums
           end
         end
 
-        def convert_column_keys(hash_by_column)
+        def format_query_sums(sums)
+          sums = format_column_keys sums
+          format_durations! sums
+        end
+
+        def format_column_keys(hash_by_column)
           converter = API::Utilities::PropertyNameConverter
           ::Hash[hash_by_column.map { |column, value|
                    column_name = converter.from_ar_name(column.name.to_s)
@@ -129,7 +126,7 @@ module API
                  }]
         end
 
-        def convert_durations!(sums)
+        def format_durations!(sums)
           formatter = ::API::V3::Utilities::DateTimeFormatter
           # FIXME: this knowledge should not be hardcoded... probably decide with the help of
           # a WorkPackageSchema?
@@ -138,6 +135,8 @@ module API
               sums[attribute] = formatter.format_duration_from_hours sums[attribute]
             end
           end
+
+          sums
         end
 
         def collection_representer(work_packages, project:, query_params:, groups:, sums:)
