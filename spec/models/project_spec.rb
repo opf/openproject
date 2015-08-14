@@ -287,7 +287,6 @@ describe Project, type: :model do
       end
 
       it 'counts required_storage on all projects' do
-        expect(Project.all.length).to eq(3)
         expect(Project.total_projects_size).to eq(2435890)
       end
 
