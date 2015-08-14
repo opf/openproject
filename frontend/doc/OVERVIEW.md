@@ -64,7 +64,7 @@ This is the general structure (to a depth of 3 folders):
 
 ## The `app` folder
 
-This is where most of the magic happens. Contains all of the production relevant code for excuting the individual parts of the frontend. Does __not__ contain the test code.
+This can be considered the main `src` folder. It contains all of the production relevant code for excuting the individual parts of the frontend. It does __not__ contain the test code.
 
 The `app` folder is furthermore divided into:
 
@@ -77,7 +77,7 @@ The common components are divided into their usual use cases and are available t
 
 ## Using `index.js` to define modules
 
-Most directories contain an `index.js` defining what is actually required in the build process. The `index.js` can be seen as a sort of manifest defining what gets included and what not. __However__ this is slightly misleading, as the code in `index.js` is actually functional, definiing many `angular` modules.
+Most directories contain an `index.js` defining what is actually required in the build process. The `index.js` can be seen as a manifest defining what gets included and what not. _However_ this is slightly misleading, as the code in `index.js` is actually functional, defining many `angular` modules.
 
 ### Example: `timeEntries`
 
@@ -95,9 +95,9 @@ angular.module('openproject.timeEntries.controllers')
 
 The file consists of a single module definition, that requires another file (`./frontend/app/time_entries/controllers/time-entries-controller.js`), which contains the actual controller function.
 
-The files mostly follow the __Asynchronous Module Defintion__ (AMD), so the different parts of the application can be isolated.
+The files follow the __Asynchronous Module Defintion__ (AMD), so the different parts of the application can be isolated.
 
-However, this makes planning the injections abit harder, as they are spread out over two files (the `$injector` definition being in the respective `index.js`, the actual function signature being in the module itself.)
+This makes planning the injections a bit harder, as they are spread out over two files (the `$injector` definition being in the respective `index.js`, the actual function signature being in the module itself.)
 
 ## Template handling in `./frontend/app/templates`
 
@@ -118,5 +118,7 @@ angular.module('foo')
 
 In this example, what would usually happen during compilation is the asynchronous loading of `/templates/foo/test-directive.html`. 
 
-As there are quite a few directives, the OpenProject frontend prevents the request to the server by using `angular.$templateCache`. Using a buildstep in the `gulp` process (via `webpack` actually): templates are compiled as JS and put alongside the rest of the code in `openproject-core-app.js`. The `loader` for the templates can be found in `./frontend/webpack.config.js` which is dependent on [`ngtemplate-loader`](https://github.com/WearyMonkey/ngtemplate-loader).
+As there are quite a few directives, the OpenProject frontend prevents the request to the server by using `angular.$templateCache`. 
+
+Using a buildstep in the `gulp` process (via `webpack` actually): templates are compiled as JS and put alongside the rest of the code in `openproject-core-app.js`. The `loader` for the templates can be found in `./frontend/webpack.config.js` which is dependent on [`ngtemplate-loader`](https://github.com/WearyMonkey/ngtemplate-loader).
 

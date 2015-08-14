@@ -1,9 +1,9 @@
 Styling the frontend
 ====================
 
-Frontend styling is coupled to the Living Styleguide. The guide implements the same CSS that the usual frontend does. It takes the very same Sass files used in the Asset pipeline to build a second css file that is then used for diplaying the guide.
+Frontend styling is coupled to the Living Styleguide. The guide implements the same CSS that the application does. It takes the very same Sass files used in the Asset pipeline to build a second css file that is then used for diplaying the guide.
 
-All styles for OpenProject itself are found in `./app/assets/stylesheets`. The frontend folder contains no styling, besides rendered files and some styling for the styleguide itself.
+All styles for OpenProject are found in `./app/assets/stylesheets`. The frontend folder contains no styling, besides rendered files and some styling for the styleguide itself.
 
 ## Building
 
@@ -40,11 +40,11 @@ _accounts.sass
 
 The `lsg` is simple markdown containing information on how to use the component described.
 
-Ideally, this should be only one component per Sass partial, but this is not always possible, as seen in the cases of e.g. `./app/assets/stylesheets/content/_work_packages.sass` which describes an area of theapplication instead of a single component.
+Ideally, this should be only one component per Sass partial, but this is not always possible, as seen in the case of `./app/assets/stylesheets/content/_work_packages.sass` which describes an area of the application instead of a single component.
 
 ### Getting JavaScript to work with the Styleguide
 
-In an ideal world, the styleguide would convey only styling-related information. Unfortunately, for practical purposes such as styling `ui.select`, which require some JavaScript to be active, the styleguide intorduces some custom JavaScript:
+In an ideal world, the styleguide would convey only styling-related information. Unfortunately, for practical purposes such as styling `ui.select` which requires some JavaScript to be active, the styleguide introduces some custom JavaScript:
 
 ```jade
 //from styleguide.jade
@@ -62,12 +62,12 @@ app.use('/assets', express.static(railsRoot + '/app/assets/javascripts'));
 app.use('/assets', express.static(railsRoot + '/app/assets/images'));
 ```
 
-which enables asset serving from the respective Rails directories.
+This enables asset serving from the respective Rails directories.
 
-If you want to add more JavaScript to it, you can directly include it in the `styleguide.jade`, but it is ill-advised. The styleguide should be used for the styling of the rendered output and not necessarily display functionality, mostly to avoid duplication of code (use a test to demonstrate functionality!).
+If you want to add more JavaScript to it, you can directly include it in the `styleguide.jade`, _but_ it is ill-advised. The styleguide should be used for the styling of the rendered output and not necessarily display functionality, mostly to avoid duplication of code (use a test to demonstrate functionality!).
 
 ## A note on the css style used
 
-Originally introduced by @myabc, Sass-Code should ideally follow a convention as described in [Simple naming for CSS class names](http://www.hagenburger.net/BLOG/Modular-CSS-Class-Names.html).
+Originally introduced by `@myabc`, Sass-Code should ideally follow a convention as described in [Simple naming for CSS class names](http://www.hagenburger.net/BLOG/Modular-CSS-Class-Names.html).
 
-So far, we mostly used Sass partials, grouped by their component, however, there is still a lot of legacy code in there, especially in the plugins. The legacy code for the core can be found within `./app/assets/stylesheets/_misc_legacy.sass`
+So far, mostly Sass partials have been used, grouped by their component. There is still a lot of legacy code in there, especially in the plugins. The legacy code for the core can be found within `./app/assets/stylesheets/_misc_legacy.sass`

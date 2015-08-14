@@ -13,7 +13,7 @@ All of these are currently run on TravisCI for each push and each Pull Request.
 
 __Note__: the default browser for testing is [PhantomJS](http://phantomjs.org). The configuration for all of this can be found at `/frontend/karma.conf.js`.
 
-All test files for `karma` live under `./frontend/tests/unit/tests`. There are some `factories` and `mocks` present, which at some point in time were usable via `rosie.js`.
+All test files for `karma` live in `./frontend/tests/unit/tests`. There are some `factories` and `mocks` present, which at some point in time were usable via [`rosie.js`](https://github.com/bkeepers/rosie).
 
 Karma unit tests can be executed via
 
@@ -27,28 +27,29 @@ Optionally, if more than the default browser should be used, a `--browsers` flag
 ./frontend/node_modules/.bin/karma start --browsers PhantomJS,Firefox
 ```
 
-By default, this command will wait and watch the test files and run the tests again, if something changes. If only one run is required, use a `--single-run` flag.
+By default, this command will wait and watch the test files and run the tests again if something changes. If only one run is required, use a `--single-run` flag.
 
 You may also want to use `npm` from the project root:
 
-```
-npm karma
+```bash
+# shorthand for ./frontend/node_modules/.bin/karma start --browsers PhantomJS,Firefox --single-run
+$ npm karma
 ```
 
-The tests use [`mocha`](https://mochajs.org/) for it's test syntax. With a syntax looking like this
+The tests use [`mocha`](https://mochajs.org/) for it's test syntax. With a syntax looking like this:
 
 ```javascript
 describe('my new feature', function() {
   /* tests */
-})
+});
 ```
 
-individual parts of the test suite can easily be run independently from the suite by adding `.only` to the DSLs constructs (`describe`, `context`, `it`):
+Individual parts of the test suite can easily be run independently from the suite by adding `.only` to the DSLs constructs (`describe`, `context`, `it`):
 
 ```javascript
 describe.only('my new feature', function() {
   /* tests */
-})
+});
 ```
 
 ### Note on Templates
@@ -59,15 +60,17 @@ The karma runner uses a plugin to precompile the templates for directive tests c
 
 __Note__: All of the test files live in `./frontend/tests/integration/specs`.
 
-The protractor based suite offers integration tests for the Angular based views, first and foremost, the WorkPackage application. It's based on AngularJS' own [protractor library](https://github.com/angular/protractor) and therefore requires Selenium.
+The protractor based suite offers integration tests for the `angular` based views, first and foremost, the WorkPackage (list) application. It's based on `angular`s own [protractor library](https://github.com/angular/protractor) and therefore requires Selenium.
 
-It does not offer real End to End (E2E) Testing,a s there is currently no way to start up the whole application beforehand, so the suite uses a mock server and mock json to test each component independently and in the context of a page.
+It does not offer real End to End (E2E) Testing, as there is currently no way to start up the whole application beforehand, so the suite uses a mock server and mock json to test each component independently and in the context of a page.
 
-Every command related to the suite is wrapped via `gulp`. the most interesting commands are:
+Every command related to the suite is wrapped via `gulp`. The commands are:
 
 - `gulp tests:protractor` - starts up a server, recompiles the codebase necessary and starts a single run via protractor.
 - `gulp webdriver:*` - the webdriver tasks are in there to update the selenium server necessary to run protractor at all
 - `npm protractor` - a wrapper around `gulp tests:protractor`, runnable from the project root
+
+__Note__: Protractor process uses the same static server as the styleguide. All assets are served from `./frontend/public`. To get a grip on the entry point, see `./frontend/public/index.html`.
 
 The `protractor` library brings it's own syntax when it comes to writing the tests themselves:
 
@@ -84,7 +87,7 @@ describe('edit state', function() {
 
 Tests can be focused by using `iit` (not a typo) instead of `it` and can be ignored by using `xit` instead of it.
 
-Configuration is done in `./frontend/tests/integration/protractor.conf.js`. The only usable browser right now for protractor is Firefox. That is, you can change your browser locally to Chrome if you want to, however, TravisCI so far only supports running tests via Firefox.
+Configuration is done in `./frontend/tests/integration/protractor.conf.js`. The only usable browser right now for protractor is Firefox. You can change your browser locally to Chrome if you want to, however, TravisCI so far only supports running tests via Firefox.
 
 The protractor suite currently only covers the work packages list and provides no integration testing for timelines and the other components (most of them are tested as collateral).
 
@@ -92,19 +95,19 @@ The protractor suite currently only covers the work packages list and provides n
 
 As the backend ist not present during testing, the protractor suite actually uses mocked json responses to facilitate the behaviour of data when testing the components.
 
-__Note:__ All mocks are found under `./frontend/tests/integration/mocks/` and a re usually loaded via a custom function defined in the tests which wrap `WorkPackageDetailsPane`, which in turn wraps a call to `browser.get()` (see `./frontend/tests/integration/pages/work-package-details-pane.js`)
+__Note:__ All mocks are found under `./frontend/tests/integration/mocks/` and are usually loaded via a custom function defined in the tests which wrap `WorkPackageDetailsPane`, which in turn wraps a call to `browser.get()` (see `./frontend/tests/integration/pages/work-package-details-pane.js`)
 
 A mock usually just represents a probable json response from the backend. As the protractor suite does not use the Rails backend, this can be a source of confusion:
 
-__Make sure you keep your mocks in sync with the current implementation of the API__. Otherwise, you will not be able to detect problems with the API and/or your component.
+__Make sure you keep your mocks in sync with the current implementation of the API__. Otherwise you will not be able to detect problems with the API and/or your component.
 
 ### Dummy servers
 
-The protractor suite also used dummy services to mock out the endpoints of all of the APIs for mocking. these files are still found under `./frontend/tests/integration/mocks/`. These can probably be removed in future versions.
+The protractor suite also used dummy services to mock out the endpoints of all of the APIs. These files are still found under `./frontend/tests/integration/mocks/` and can probably be removed in future versions.
 
 ## Capybara/Cucumber/RSpec E2E Testing
 
-The heavy lifting is done via these Testsuites, which are tightly integrated with the Rails stack (and not even part of the `./frontend` folder). Most of the actually test Rails view, but there are a few exceptions, such as the tests in `./spec/features/work_packages/details` which test a good deal of features related to the Work Package Details pane.
+The heavy lifting is done via these Testsuites, which are tightly integrated with the Rails stack (and not even part of the `./frontend` folder). Most of them actually test Rails views, but there are a few exceptions: The specs in `./spec/features/work_packages/details` test a good deal of features related to the Work Package Details pane.
 
 ## A note on plugins & commands used
 
@@ -154,6 +157,4 @@ $ pwd
 $ rake test:units TEST=../openproject-plugin/test
 ```
 
-These older legacy tests have been migrated for version `4.1`, but can still popup in some older plugins, or even an old version of OpenProject. the legacy tests have been converted by @myabc via gem and are located (for newer versions) here: `./spec/legacy/`. These should be removed in the future an be replaced by either proper specs or even complete features.
-
-
+These older legacy tests have been migrated for version `4.1`, but can still popup in some older plugins, or even an old version of OpenProject. the legacy tests have been converted by `@myabc` via gem and are located (for newer versions) here: `./spec/legacy/`. These should be removed in the future an be replaced by either proper specs or even complete features.
