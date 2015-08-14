@@ -97,8 +97,7 @@ module Api
       def current_work_packages
         initialize_sort
 
-        results = @query.results include: includes_for_columns(@query.involved_columns),
-                                 order: sort_clause
+        results = @query.results order: sort_clause
 
         work_packages = results.work_packages
                         .page(page_param)

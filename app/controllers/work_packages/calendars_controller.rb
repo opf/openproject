@@ -50,8 +50,7 @@ class WorkPackages::CalendarsController < ApplicationController
     retrieve_query
     @query.group_by = nil
     if @query.valid?
-      events = @query.results(include: [:type, :assigned_to, :priority],
-                              conditions: ["((#{WorkPackage.table_name}.start_date BETWEEN ? AND ?) OR (#{WorkPackage.table_name}.due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
+      events = @query.results(conditions: ["((#{WorkPackage.table_name}.start_date BETWEEN ? AND ?) OR (#{WorkPackage.table_name}.due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
                              ).work_packages
       events += @query.results(conditions: ["#{Version.table_name}.effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt]).versions
 
