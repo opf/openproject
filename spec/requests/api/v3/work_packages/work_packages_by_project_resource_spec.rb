@@ -42,7 +42,10 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     let(:permissions) { [:add_work_packages, :view_project] }
     let(:role) { FactoryGirl.create(:role, permissions: permissions) }
     let(:current_user) do
-      FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
+      user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+      FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+
+      user
     end
     let(:path) { api_v3_paths.work_packages_by_project project.id }
 

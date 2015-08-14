@@ -37,6 +37,7 @@ describe JournalObserver, type: :model do
     @user = FactoryGirl.create :user,
                                mail_notification: 'all',
                                member_in_project: @project
+    FactoryGirl.create(:user_preference, user: @user, others: { no_self_notified: false })
     @issue = FactoryGirl.create :work_package,
                                 project: @project,
                                 author: @user,

@@ -78,6 +78,6 @@ class UserPreference < ActiveRecord::Base
   private
 
   def init_other_preferences
-    self.others ||= {}
+    self.others ||= { no_self_notified: true }
   end
 end

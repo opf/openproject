@@ -38,7 +38,13 @@ require 'spec_helper'
 # records are missing (e.g. the user to be notified), and that jobs with any other
 # sort of error fail as expected in order to be rescheduled.
 shared_examples 'a mail notification job' do
-  let!(:user) { FactoryGirl.create :user } # user to be notified
+  let!(:user) {
+    user = FactoryGirl.create :user
+
+    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+
+    user
+  } # user to be notified
 
   context 'with all records found' do
     let(:mail_subject) { 'all records found!' }
