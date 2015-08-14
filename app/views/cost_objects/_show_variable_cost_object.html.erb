@@ -20,143 +20,322 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <h3><%= l(:caption_materials) %></h3>
 <div class="grid-block">
-<div class="grid-content">
-  <h4><%= VariableCostObject.human_attribute_name(:material_budget) %></h4>
-  <table class="material_budget_items list">
-    <thead><tr>
-      <th><%= MaterialBudgetItem.human_attribute_name(:units) %></th>
-      <th><%= MaterialBudgetItem.human_attribute_name(:cost_type) %></th>
-      <th><%= MaterialBudgetItem.human_attribute_name(:comment) %></th>
-      <th class="currency"><%= MaterialBudgetItem.human_attribute_name(:budget) %></th>
-    </tr></thead>
-    <tbody>
-      <% @cost_object.material_budget_items.each do |material_budget_item| %>
-      <tr>
-        <td class="units"><%=h pluralize(material_budget_item.units, material_budget_item.cost_type.unit, material_budget_item.cost_type.unit_plural) %></td>
-        <td><%=h material_budget_item.cost_type.name %></td>
-        <td class="comments"><%=h material_budget_item.comments %></td>
-        <td class="currency"><%= material_budget_item.costs_visible_by?(User.current) ? number_to_currency(material_budget_item.costs) : "" %></td>
-      </tr>
-      <% end %>
-      <% if User.current.allowed_to?(:view_cost_rates, @project) %>
-      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.material_budget) %></strong></td></tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-<div class="grid-content">
-  <h4><%= l(:caption_material_costs) %></h4>
-  <table class="material_budget_items list">
-    <thead><tr>
-      <th><%= CostEntry.human_attribute_name(:work_package)%></th>
-      <th><%= CostEntry.human_attribute_name(:units) %></th>
-      <th><%= CostEntry.human_attribute_name(:cost_type) %></th>
-      <th class="currency"><%= CostEntry.human_attribute_name(:costs) %></th>
-    </tr></thead>
-    <tbody>
-      <% @cost_object.cost_entries.visible(User.current, @project).all(:include => [:cost_type]).group_by(&:work_package).each do |work_package, cost_entries|
-      entries = cost_entries.inject(Hash.new)  do |results, entry|
-        result = results[entry.cost_type.id.to_s]
-        unless result
-          result = CostEntry.new(:cost_type => entry.cost_type, :cost_object => @cost_object, :overridden_costs => 0.0, :units => 0)
-          results[entry.cost_type.id.to_s] = result
-        end
+  <div class="grid-content">
+    <h4><%= VariableCostObject.human_attribute_name(:material_budget) %></h4>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table material_budget_items">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= MaterialBudgetItem.human_attribute_name(:units) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= MaterialBudgetItem.human_attribute_name(:cost_type) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= MaterialBudgetItem.human_attribute_name(:comment) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th class="currency">
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= MaterialBudgetItem.human_attribute_name(:budget) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @cost_object.material_budget_items.each do |material_budget_item| %>
+            <tr>
+              <td class="units"><%=h pluralize(material_budget_item.units, material_budget_item.cost_type.unit, material_budget_item.cost_type.unit_plural) %></td>
+              <td><%=h material_budget_item.cost_type.name %></td>
+              <td class="comments"><%=h material_budget_item.comments %></td>
+              <td class="currency"><%= material_budget_item.costs_visible_by?(User.current) ? number_to_currency(material_budget_item.costs) : "" %></td>
+            </tr>
+            <% end %>
+            <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+            <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.material_budget) %></strong></td></tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-content">
+    <h4><%= l(:caption_material_costs) %></h4>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table material_budget_items">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= CostEntry.human_attribute_name(:work_package)%>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= CostEntry.human_attribute_name(:units) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= CostEntry.human_attribute_name(:cost_type) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= CostEntry.human_attribute_name(:costs) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+            <% @cost_object.cost_entries.visible(User.current, @project).all(:include => [:cost_type]).group_by(&:work_package).each do |work_package, cost_entries|
+            entries = cost_entries.inject(Hash.new)  do |results, entry|
+              result = results[entry.cost_type.id.to_s]
+              unless result
+                result = CostEntry.new(:cost_type => entry.cost_type, :cost_object => @cost_object, :overridden_costs => 0.0, :units => 0)
+                results[entry.cost_type.id.to_s] = result
+              end
 
-        result.overridden_costs += entry.real_costs
-        result.units += entry.units
-        results
-      end.values
+              result.overridden_costs += entry.real_costs
+              result.units += entry.units
+              results
+            end.values
 
-      entries.each do |c|
-      %>
-        <tr>
-          <td class="subject"><%= link_to_work_package work_package %></td>
-          <td><%= link_to pluralize(c.units, c.cost_type.unit, c.cost_type.unit_plural), {:controller => "/costlog", :action => "index", :cost_type_id => c.cost_type, :work_package_id => work_package} %></td>
-          <td><%= c.cost_type %></td>
-          <td class="currency"><%= c.costs_visible_by?(User.current) ? number_to_currency(c.real_costs) : "" %></td>
-        </tr>
-      <% end %>
-    <% end %>
-    <% if User.current.allowed_to?(:view_cost_rates, @project) %>
-      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.spent_material) %></strong></td></tr>
-    <% end %>
-    </tbody>
-  </table>
-</div>
+            entries.each do |c|
+            %>
+              <tr>
+                <td class="subject"><%= link_to_work_package work_package %></td>
+                <td><%= link_to pluralize(c.units, c.cost_type.unit, c.cost_type.unit_plural), {:controller => "/costlog", :action => "index", :cost_type_id => c.cost_type, :work_package_id => work_package} %></td>
+                <td><%= c.cost_type %></td>
+                <td class="currency"><%= c.costs_visible_by?(User.current) ? number_to_currency(c.real_costs) : "" %></td>
+              </tr>
+            <% end %>
+            <% end %>
+            <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+              <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.spent_material) %></strong></td></tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <h3><%= l(:caption_labor) %></h3>
 
 <div class="grid-block">
-<div class="grid-content">
-  <h4><%= VariableCostObject.human_attribute_name(:labor_budget)%></h4>
-  <table class="labor_budget_items list">
-    <thead><tr>
-      <th><%= LaborBudgetItem.human_attribute_name(:hours) %></th>
-      <th><%= LaborBudgetItem.human_attribute_name(:user) %></th>
-      <th><%= LaborBudgetItem.human_attribute_name(:comment) %></th>
-      <th class="currency"><%= LaborBudgetItem.human_attribute_name(:budget) %></th>
-    </tr></thead>
-    <tbody>
-      <% @cost_object.labor_budget_items.each do |labor_budget_item| %>
-      <tr>
-        <td class="hours"><%= labor_budget_item.hours %>h</td>
-        <td><%=h labor_budget_item.user.name %></td>
-        <td class="comments"><%=h labor_budget_item.comments %></td>
-        <% if labor_budget_item.costs_visible_by?(User.current) %>
-          <td class="currency">
-            <%= number_to_currency(labor_budget_item.costs)%>
-          </td>
-        <% else %>
-          <td></td>
-        <% end %>
-      </tr>
-      <% end %>
-      <% if User.current.allowed_to?(:view_hourly_rates, @project) || User.current.allowed_to?(:view_own_hourly_rate, @project) %>
-      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.labor_budget) %></strong></td></tr>
-      <% end %>
+  <div class="grid-content">
+    <h4><%= VariableCostObject.human_attribute_name(:labor_budget)%></h4>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table labor_budget_items">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= LaborBudgetItem.human_attribute_name(:hours) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= LaborBudgetItem.human_attribute_name(:user) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= LaborBudgetItem.human_attribute_name(:comment) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th class="currency">
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= LaborBudgetItem.human_attribute_name(:budget) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @cost_object.labor_budget_items.each do |labor_budget_item| %>
+            <tr>
+              <td class="hours"><%= labor_budget_item.hours %>h</td>
+              <td><%=h labor_budget_item.user.name %></td>
+              <td class="comments"><%=h labor_budget_item.comments %></td>
+              <% if labor_budget_item.costs_visible_by?(User.current) %>
+                <td class="currency">
+                  <%= number_to_currency(labor_budget_item.costs)%>
+                </td>
+              <% else %>
+                <td></td>
+              <% end %>
+            </tr>
+            <% end %>
+            <% if User.current.allowed_to?(:view_hourly_rates, @project) || User.current.allowed_to?(:view_own_hourly_rate, @project) %>
+            <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.labor_budget) %></strong></td></tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
+  </div>
 
-    </tbody>
-  </table>
-</div>
+  <div class="grid-content">
+    <h4><%= l(:caption_labor_costs) %></h4>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table labor_budget_items">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= TimeEntry.human_attribute_name(:work_package) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= TimeEntry.human_attribute_name(:hours) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= TimeEntry.human_attribute_name(:user) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th class="currency">
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= TimeEntry.human_attribute_name(:costs) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @cost_object.time_entries.visible(User.current, @project).all.group_by(&:work_package).each do |work_package, time_entries|
+            entries = time_entries.inject(Hash.new)  do |results, entry|
+              result = results[entry.user.id.to_s]
+              unless result
+                result = TimeEntry.new(:user => entry.user, :overridden_costs => 0)
+                result.hours = 0
+                results[entry.user.id.to_s] = result
+              end
 
-<div class="grid-content">
-  <h4><%= l(:caption_labor_costs) %></h4>
-  <table class="labor_budget_items list">
-    <thead><tr>
-      <th><%= TimeEntry.human_attribute_name(:work_package) %></th>
-      <th><%= TimeEntry.human_attribute_name(:hours) %></th>
-      <th><%= TimeEntry.human_attribute_name(:user) %></th>
-      <th class="currency"><%= TimeEntry.human_attribute_name(:costs) %></th>
-    </tr></thead>
-    <tbody>
-    <% @cost_object.time_entries.visible(User.current, @project).all.group_by(&:work_package).each do |work_package, time_entries|
-      entries = time_entries.inject(Hash.new)  do |results, entry|
-        result = results[entry.user.id.to_s]
-        unless result
-          result = TimeEntry.new(:user => entry.user, :overridden_costs => 0)
-          result.hours = 0
-          results[entry.user.id.to_s] = result
-        end
+              result.overridden_costs += entry.real_costs
+              result.hours += entry.hours
+              results
+            end.values
 
-        result.overridden_costs += entry.real_costs
-        result.hours += entry.hours
-        results
-      end.values
+            entries.each do |t|
+            %>
+              <tr>
+                <td class="subject"><%= link_to_work_package work_package %></td>
+                <td class="hours"><%= link_to "#{t.hours}h", {:controller => "/timelog", :action => "index", :work_package_id => work_package} %></td>
+                <td><%=h t.user.name %></td>
+                <td class="currency"><%= number_to_currency(t.real_costs) %></td>
+              </tr>
+            <% end %>
+          <% end %>
+            <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.spent_labor) %></strong></td></tr>
 
-      entries.each do |t|
-      %>
-        <tr>
-          <td class="subject"><%= link_to_work_package work_package %></td>
-          <td class="hours"><%= link_to "#{t.hours}h", {:controller => "/timelog", :action => "index", :work_package_id => work_package} %></td>
-          <td><%=h t.user.name %></td>
-          <td class="currency"><%= number_to_currency(t.real_costs) %></td>
-        </tr>
-      <% end %>
-    <% end %>
-      <tr><td colspan="4" class="currency"><strong><%= number_to_currency(@cost_object.spent_labor) %></strong></td></tr>
-
-    </tbody>
-  </table>
-</div>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
+  </div>
 </div>
