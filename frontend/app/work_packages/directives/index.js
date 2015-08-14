@@ -102,6 +102,9 @@ angular.module('openproject.workPackages.directives')
     'ConfigurationService',
     'ConversionService',
     require('./work-package-attachments-directive')
+  ])
+  .directive('workPackageWatchersLookup', [
+    require('./work-package-watchers-lookup-directive.js')
   ]);
 
   require('./inplace_editor');

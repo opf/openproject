@@ -55,7 +55,6 @@ module.exports = function($http, $q) {
         $q.all([load(workPackage), available(workPackage)]).then(function(allWatchers) {
           var watching = allWatchers[0],
               available = _.difference(allWatchers[1], allWatchers[0]);
-          console.log(allWatchers, watching, available);
           watchers.resolve({ watching: watching, available: available });
         }, function(err) {
           watchers.reject(err);
