@@ -335,6 +335,8 @@ the amount of elements returned in this response and action links to retrieve th
 | pageSize | Amount of elements that a response will hold                    | Integer | when paginated              |
 | count    | Actual amount of elements in this response                      | Integer | always                      |
 | offset   | The page number that is requested from paginated collection     | Integer | when offset based available |
+| groups   | Summarized information about aggregation groups                 | Object  | when grouping               |
+| totalSums| Aggregations of supported values for elements of the collection | Object  | when showing sums           |
 
 ## Links
 
@@ -445,6 +447,91 @@ Cursor based pagination is therefore less suited for use cases where you want to
                         { "foo": "bar" },
                         { "foo": "baz" }
                     ]
+                }
+            }
+
+## Aggregations [/api/v3/examples{?groupBy,showSums}]
+
+Collections may support different kinds of aggregations.
+Some properties can be summed up. If requested the collection will include the `totalSums` property,
+which is a dictionary, where the keys represent the names of the summed properties and the values represent their sums.
+
+It is also possible to group the contents of a collection. In this case:
+
+* the `elements` will be ordered by the specified group key (so that the client receives one group after another)
+* The `groups` property will contain a collection of group objects
+
+A group object contains aggregation data for the elements of a group:
+
+### Local Properties
+
+| Property | Description                                                         | Type       | Availability                |
+|:--------:| ------------------------------------------------------------------- | ---------- | --------------------------- |
+| value    | The value to which the group belongs (e.g. the Status' name)        | String     | always                      |
+| count    | Actual amount of elements in this response                          | Integer    | always                      |
+| sums     | A dictionary with property sums inside this group (see `totalSums`) | Dictionary | when sums requested         |
+
+## Links
+
+| Link             | Description                                                 | Availability                          |
+|:----------------:| ------------------------------------------------------------| ------------------------------------- |
+| valueLink        | Link to the corresponding grouping object (e.g. the Status) | only if grouping by a linkable object |
+
+Note that you will always receive a `value`, but only receive a `valueLink` if the grouping was performed
+on a linkable property.
+
+## view aggregated result [GET]
+
++ Parameters
+    + groupBy (optional, string, `status`) ... The column to group by.
+    Note: Aggregation is as of now only supported by the work package collection.
+    You can pass any column name as returned by the [queries](#queries) endpoint.
+
+    + showSums = `false` (optional), boolean, `true` ... Indicates whether properties should be summed up if they support it.
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/examples?groupBy=foo&showSums=true" },
+                    "changeSize": {
+                        "href": "/api/v3/examples?after=buz&pageSize={size}",
+                        "templated": true
+                    }
+                },
+                "_type": "Collection",
+                "total": 5,
+                "pageSize": 25,
+                "count": 5,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar", "i": 1 },
+                        { "foo": "bar", "i": 2 },
+                        { "foo": "bar", "i": 3 },
+                        { "foo": "baz", "i": 4 },
+                        { "foo": "baz", "i": 5 }
+                    ],
+                    "groups": [
+                        {
+                            "value : "bar",
+                            "count": 3,
+                            "sums": {
+                                "i": 6
+                            }
+                        },
+                        {
+                            "value : "baz",
+                            "count": 2,
+                            "sums": {
+                                "i": 9
+                            }
+                        }
+                    ],
+                    "totalSums": {
+                        "i": 15
+                    }
                 }
             }
 
