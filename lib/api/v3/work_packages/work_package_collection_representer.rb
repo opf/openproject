@@ -41,14 +41,23 @@ module API
         def initialize(models,
                        self_link,
                        query: {},
+                       groups:,
                        total_sums:,
                        page: nil,
                        per_page: nil,
                        context: {})
+          @groups = groups
           @total_sums = total_sums
 
           super(models, self_link, query: query, page: page, per_page: per_page, context: context)
         end
+
+        property :groups,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   @groups
+                 },
+                 render_nil: false
 
         property :total_sums,
                  exec_context: :decorator,

@@ -38,12 +38,14 @@ module API
 
           apply_filters query, query_params
           apply_sorting query, query_params
+          groups = apply_and_generate_groups query, query_params
 
           total_sums = generate_total_sums query.results, query_params
 
           collection_representer(query.results.sorted_work_packages,
                                  project: project,
                                  query_params: query_params,
+                                 groups: groups,
                                  sums: total_sums)
         end
 
@@ -82,9 +84,36 @@ module API
           query.sort_criteria = JSON.parse(json)
         end
 
+        def apply_and_generate_groups(query, query_params)
+          if params[:groupBy]
+            query.group_by = params[:groupBy]
+            query_params[:groupBy] = params[:groupBy]
+
+            generate_groups query.results
+          end
+        end
+
+        def generate_groups(results)
+          results.work_package_count_by_group.map { |group, count|
+            group_element = {
+              value: group.to_s,
+              count: count
+            }
+
+            # TODO: insert valueLink
+            if params[:showSums] == 'true'
+              sums = convert_column_keys(results.all_sums_for_group(group))
+              convert_durations! sums
+              group_element[:sums] = sums
+            end
+
+            group_element
+          }
+        end
+
         def generate_total_sums(results, query_params)
           if params[:showSums] == 'true'
-            total_sums = results.total_sums_by_available_columns
+            total_sums = results.all_total_sums
             total_sums = convert_column_keys total_sums
             convert_durations! total_sums
             query_params[:showSums] = 'true'
@@ -111,7 +140,7 @@ module API
           end
         end
 
-        def collection_representer(work_packages, project:, query_params:, sums:)
+        def collection_representer(work_packages, project:, query_params:, groups:, sums:)
           self_link = if project
                         api_v3_paths.work_packages_by_project(project.id)
                       else
@@ -124,6 +153,7 @@ module API
             query: query_params,
             page: params[:offset] ? params[:offset].to_i : nil,
             per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
+            groups: groups,
             total_sums: sums,
             context: {
               current_user: current_user
