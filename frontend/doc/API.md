@@ -48,7 +48,7 @@ Example:
 }
 ```
 
-The `Project` structure contains links to ressources associated. At the time of writing, there is no ticket endpoint in the API, but just to give an example of using this, given the knowledge about `_links`, one may easily infer the path from the response:
+The `Project` structure contains links to ressources associated. Given the knowledge about `_links`, one may easily infer the path from the response:
 
 ```javascript
 // some magic to retrieve an object, note that the services used are examplary 
