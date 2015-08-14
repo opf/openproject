@@ -34,13 +34,26 @@ module API
 
         def work_packages_by_params(project: nil)
           query = Query.new({ name: '_', project: project })
-          set_filters_from_json(query, params[:filters]) if params[:filters]
-          set_sorting_from_json(query, params[:sortBy]) if params[:sortBy]
+          query_params = {}
+          if params[:filters]
+            set_filters_from_json(query, params[:filters])
+            query_params[:filters] = params[:filters]
+          end
+          if params[:sortBy]
+            set_sorting_from_json(query, params[:sortBy])
+            query_params[:sortBy] = params[:sortBy]
+          end
+          if params[:showSums] == 'true'
+            total_sums = query.results.total_sums_by_available_columns
+            total_sums = convert_column_keys total_sums
+            convert_durations! total_sums
+            query_params[:showSums] = 'true'
+          end
 
           collection_representer(query.results.sorted_work_packages,
                                  project: project,
-                                 filter_json: params[:filters],
-                                 sort_json: params[:sortBy])
+                                 query_params: query_params,
+                                 sums: total_sums)
         end
 
         def set_filters_from_json(query, json)
@@ -64,11 +77,26 @@ module API
           query.sort_criteria = JSON.parse(json)
         end
 
-        def collection_representer(work_packages, project:, filter_json:, sort_json:)
-          query = {}
-          query[:filters] = filter_json if filter_json
-          query[:sortBy] = sort_json if sort_json
+        def convert_column_keys(hash_by_column)
+          converter = API::Utilities::PropertyNameConverter
+          ::Hash[hash_by_column.map { |column, value|
+                   column_name = converter.from_ar_name(column.name.to_s)
+                   [column_name, value]
+                 }]
+        end
 
+        def convert_durations!(sums)
+          formatter = ::API::V3::Utilities::DateTimeFormatter
+          # FIXME: this knowledge should not be hardcoded... probably decide with the help of
+          # a WorkPackageSchema?
+          %w(estimatedTime spentTime).each do |attribute|
+            if sums.include? attribute
+              sums[attribute] = formatter.format_duration_from_hours sums[attribute]
+            end
+          end
+        end
+
+        def collection_representer(work_packages, project:, query_params:, sums:)
           self_link = if project
                         api_v3_paths.work_packages_by_project(project.id)
                       else
@@ -78,9 +106,10 @@ module API
           ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
             work_packages,
             self_link,
-            query: query,
+            query: query_params,
             page: params[:offset] ? params[:offset].to_i : nil,
             per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
+            total_sums: sums,
             context: {
               current_user: current_user
             }

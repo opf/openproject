@@ -37,6 +37,25 @@ module API
     module WorkPackages
       class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
+
+        def initialize(models,
+                       self_link,
+                       query: {},
+                       total_sums:,
+                       page: nil,
+                       per_page: nil,
+                       context: {})
+          @total_sums = total_sums
+
+          super(models, self_link, query: query, page: page, per_page: per_page, context: context)
+        end
+
+        property :total_sums,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   @total_sums
+                 },
+                 render_nil: false
       end
     end
   end

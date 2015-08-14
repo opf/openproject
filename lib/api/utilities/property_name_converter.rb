@@ -49,6 +49,7 @@ module API
         #  * converting totally different attribute names (e.g. createdAt vs createdOn)
         def from_ar_name(attribute)
           attribute = normalize_attribute_name attribute
+          attribute = normalize_custom_field_name attribute
 
           special_conversion = WELL_KNOWN_ATTRIBUTE_CONVERSIONS[attribute.to_sym]
           return special_conversion if special_conversion
@@ -63,6 +64,18 @@ module API
         # e.g. status_id -> status
         def normalize_attribute_name(attribute)
           attribute.to_s.sub(/(.+)_id\z/, '\1')
+        end
+
+        # expands short custom field column names to be represented in the long form for
+        # custom field columns (e.g. cf_1 -> custom_field_1)
+        def normalize_custom_field_name(attribute)
+          match = attribute.match /\Acf_(?<id>\d+)\z/
+
+          if match
+            "custom_field_#{match[:id]}"
+          else
+            attribute
+          end
         end
       end
     end

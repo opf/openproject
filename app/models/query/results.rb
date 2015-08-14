@@ -107,6 +107,14 @@ class ::Query::Results
     query.columns.map { |column| total_sum_of(column) }
   end
 
+  def total_sums_by_available_columns
+    query.available_columns.inject({}) { |result, column|
+      sum = total_sum_of(column)
+      result[column] = sum unless sum.nil?
+      result
+    }
+  end
+
   def column_group_sums
     query.group_by_column && query.columns.map { |column| grouped_sums(column) }
   end

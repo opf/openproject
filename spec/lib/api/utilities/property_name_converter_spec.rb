@@ -50,6 +50,14 @@ describe ::API::Utilities::PropertyNameConverter do
       end
     end
 
+    context 'custom fields' do
+      let(:attribute_name) { :cf_1337 }
+
+      it 'converts short custom fields to their long form' do
+        is_expected.to eql('customField1337')
+      end
+    end
+
     # N.B. not re-iterating all existing known replacements here. Just using a single example
     # to verify that it is done at all
     context 'special replacements' do
