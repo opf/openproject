@@ -83,9 +83,10 @@ See doc/COPYRIGHT.rdoc for more details.
           <% block.each do |user| %>
             <div class="form--field -wide-label">
               <%= f.collection_check_box(:watcher_user_ids,
-                                                     user.id,
-                                                     work_package.watched_by?(user) && work_package.visible?(user),
-                                                     user.name) %>
+                                         user.id,
+                                         work_package.watched_by?(user) && work_package.visible?(user),
+                                         user.name,
+                                         unchecked_value: nil) %>
             </div>
           <% end %>
         </div>
