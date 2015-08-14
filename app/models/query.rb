@@ -195,7 +195,7 @@ class Query < ActiveRecord::Base
                             WorkPackageCustomField.all
                           ).map { |cf| ::QueryCustomFieldColumn.new(cf) }
     if WorkPackage.done_ratio_disabled?
-      @available_columns.select! { |column| column.name != :done_ratio }.length
+      @available_columns.select! { |column| column.name != :done_ratio }
     end
     @available_columns
   end
