@@ -35,25 +35,23 @@ module API
         def work_packages_by_params(project: nil)
           query = Query.new({ name: '_', project: project })
           query_params = {}
-          if params[:filters]
-            set_filters_from_json(query, params[:filters])
-            query_params[:filters] = params[:filters]
-          end
-          if params[:sortBy]
-            set_sorting_from_json(query, params[:sortBy])
-            query_params[:sortBy] = params[:sortBy]
-          end
-          if params[:showSums] == 'true'
-            total_sums = query.results.total_sums_by_available_columns
-            total_sums = convert_column_keys total_sums
-            convert_durations! total_sums
-            query_params[:showSums] = 'true'
-          end
+
+          apply_filters query, query_params
+          apply_sorting query, query_params
+
+          total_sums = generate_total_sums query.results, query_params
 
           collection_representer(query.results.sorted_work_packages,
                                  project: project,
                                  query_params: query_params,
                                  sums: total_sums)
+        end
+
+        def apply_filters(query, query_params)
+          if params[:filters]
+            set_filters_from_json(query, params[:filters])
+            query_params[:filters] = params[:filters]
+          end
         end
 
         def set_filters_from_json(query, json)
@@ -73,8 +71,25 @@ module API
           query.add_filters(filters.map(&:keys).flatten, operators, values)
         end
 
+        def apply_sorting(query, query_params)
+          if params[:sortBy]
+            set_sorting_from_json(query, params[:sortBy])
+            query_params[:sortBy] = params[:sortBy]
+          end
+        end
+
         def set_sorting_from_json(query, json)
           query.sort_criteria = JSON.parse(json)
+        end
+
+        def generate_total_sums(results, query_params)
+          if params[:showSums] == 'true'
+            total_sums = results.total_sums_by_available_columns
+            total_sums = convert_column_keys total_sums
+            convert_durations! total_sums
+            query_params[:showSums] = 'true'
+            total_sums
+          end
         end
 
         def convert_column_keys(hash_by_column)
