@@ -53,7 +53,7 @@ env:
     # - "TEST_SUITE=spec:core   DB=mysql2"
     # - "TEST_SUITE=spec:legacy DB=mysql2"
     # postgres
-    - "TEST_SUITE=cucumber    DB=postgres"
+    # - "TEST_SUITE=cucumber    DB=postgres"
     - "TEST_SUITE=spec:core   DB=postgres"
     # - "TEST_SUITE=spec:legacy DB=postgres"
 
