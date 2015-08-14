@@ -82,9 +82,4 @@ angular.module('openproject.workPackages.services')
     '$timeout',
     '$http',
     require('./work-package-attachments-service')
-  ])
-  .service('WatchersService', [
-    '$http',
-    '$q',
-    require('./watchers-service.js')
   ]);
