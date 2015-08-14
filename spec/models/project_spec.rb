@@ -271,6 +271,7 @@ describe Project, type: :model do
     describe '#total_projects_size' do
       let(:projects) { FactoryGirl.build_list(:project, 3) }
       before do
+        project.save
         projects.each(&:save!)
         allow(Project).to receive(:all).and_return(projects)
 
