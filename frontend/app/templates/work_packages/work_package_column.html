@@ -5,6 +5,7 @@
   </progress-bar>
 
   <a ng-switch-when="link" href="{{ url }}" title="{{ displayText }}">{{ displayText }}</a>
+  <a ng-switch-when="ref" ui-sref="{{ stateRef }}" title="{{ displayText }}">{{ displayText }}</a>
 
   <span ng-switch-default title="{{ displayText }}">{{ displayText }}</span>
 </span>
