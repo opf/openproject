@@ -114,14 +114,18 @@ module.exports = function(PathHelper, WorkPackagesHelper, UserService){
       function displayDataAsLink(id) {
         // Example of how we can look to the provided meta data to format the column
         // This relies on the meta being sent from the server
-        scope.displayType = 'link';
-        scope.url = getLinkFor(id, scope.column.meta_data.link);
+        var link_meta = scope.column.meta_data.link;
+        if (link_meta.model_type === 'work_package') {
+          scope.displayType = 'ref';
+          scope.stateRef = 'work-packages.show.activity({workPackageId: ' + id + '})';
+        } else {
+          scope.displayType = 'link';
+          scope.url = getLinkFor(id, link_meta);
+        }
       }
 
       function getLinkFor(id, link_meta){
         switch (link_meta.model_type) {
-          case 'work_package':
-            return PathHelper.workPackagePath(id);
           case 'user':
             if (scope.workPackage[scope.column.name] && scope.workPackage[scope.column.name].type == 'Group') {
               // if it's a group, we have nothing to link to
