@@ -114,7 +114,7 @@ module.exports = function(
                   }
                 });
               }
-            }).catch(setFailure).finally(showErrors);
+            }).catch(setFailure);
         }
 
       };
@@ -159,6 +159,7 @@ module.exports = function(
         EditableFieldsState.errors = {
           '_common': ApiHelper.getErrorMessage(e)
         };
+        showErrors();
       }
     },
     link: function(scope, element, attrs, fieldController) {
