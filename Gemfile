@@ -144,7 +144,6 @@ group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'shoulda-context', '~> 1.2'
 
-  gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.5", :require => false
   gem 'cucumber-rails', "~> 1.4.2", :require => false
