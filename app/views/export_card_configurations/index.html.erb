@@ -32,56 +32,99 @@ See doc/COPYRIGHT.md for more details.
 
 <h2><%=l(:label_export_card_configuration_plural)%></h2>
 
-<table class="list">
-  <thead>
-    <tr>
-      <th>
-        <%= Type.human_attribute_name(:name) %>
-      </th>
-      <th>
-        <%= l(:export_config_page_size) %>
-      </th>
-      <th>
-        <%= l(:export_config_per_page) %>
-      </th>
-      <th>
-        <%= l(:export_config_orientation) %>
-      </th>
-      <th>
-        <%= Type.human_attribute_name(:active) %>
-      </th>
-      <th></th>
-  </tr>
-  </thead>
-  <tbody>
-<% for config in @configs %>
-  <tr class="<%= cycle("odd", "even") %>">
-    <td ><%= link_to config.name, edit_pdf_export_export_card_configuration_path(config) %></td>
-    <td><%= config.page_size %></td>
-    <td><%= config.per_page %></td>
-    <td><%= config.orientation %></td>
-    <td><%= config.active %></td>
-    <td class="buttons">
-      <% if config.can_delete? %>
-        <%= link_to pdf_export_export_card_configuration_path(config), :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
-          <%= t(:button_delete) %>
-          <span class="hidden-for-sighted"><%=h config.name %></span>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table interactive-table role="grid" class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:name) %>
+                  </span>
+                </div>
+              </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l(:export_config_page_size) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l(:export_config_per_page) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l(:export_config_orientation) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Type.human_attribute_name(:active) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <% for config in @configs %>
+          <tr>
+            <td ><%= link_to config.name, edit_pdf_export_export_card_configuration_path(config) %></td>
+            <td><%= config.page_size %></td>
+            <td><%= config.per_page %></td>
+            <td><%= config.orientation %></td>
+            <td><%= config.active %></td>
+            <td class="buttons">
+              <% if config.can_delete? %>
+                <%= link_to pdf_export_export_card_configuration_path(config), :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
+                  <%= t(:button_delete) %>
+                  <span class="hidden-for-sighted"><%=h config.name %></span>
+                <% end %>
+              <% end %>
+              <% if config.can_activate? %>
+                <%= link_to activate_pdf_export_export_card_configuration_path(config), :method => :post, :class => 'icon-context icon-delete' do %>
+                  <%= t(:label_export_card_activate) %>
+                  <span class="hidden-for-sighted"><%=h config.name %></span>
+                <% end %>
+              <% end %>
+              <% if config.can_deactivate? %>
+                <%= link_to deactivate_pdf_export_export_card_configuration_path(config), :method => :post, :class => 'icon-context icon-delete' do %>
+                  <%= t(:label_export_card_deactivate) %>
+                  <span class="hidden-for-sighted"><%=h config.name %></span>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
         <% end %>
-      <% end %>
-      <% if config.can_activate? %>
-        <%= link_to activate_pdf_export_export_card_configuration_path(config), :method => :post, :class => 'icon-context icon-delete' do %>
-          <%= t(:label_export_card_activate) %>
-          <span class="hidden-for-sighted"><%=h config.name %></span>
-        <% end %>
-      <% end %>
-      <% if config.can_deactivate? %>
-        <%= link_to deactivate_pdf_export_export_card_configuration_path(config), :method => :post, :class => 'icon-context icon-delete' do %>
-          <%= t(:label_export_card_deactivate) %>
-          <span class="hidden-for-sighted"><%=h config.name %></span>
-        <% end %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
-  </tbody>
-</table>
+      </tbody>
+    </table>
+    <div class="generic-table--header-background"></div>
+  </div>
+</div>
