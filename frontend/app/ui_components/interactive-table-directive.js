@@ -120,6 +120,15 @@ module.exports = function($timeout, $window){
         setTableWidths();
       };
 
+      var mouseoverHandler = function () {
+        angular.element(this).off('mouseover', mouseoverHandler);
+        setHeaderFooterWidths();
+      };
+
+      angular.element(element)
+        .closest('.generic-table--container')
+        .on('mouseover', mouseoverHandler);
+
       $timeout(initialize);
       angular.element($window).on('resize', _.debounce(setTableWidths, 50));
       scope.$on('$stateChangeSuccess', function() {
