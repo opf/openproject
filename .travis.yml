@@ -49,13 +49,13 @@ env:
     - "TEST_SUITE=karma"
     - "TEST_SUITE=protractor"
     # mysql2
-    - "TEST_SUITE=cucumber    DB=mysql2"
-    - "TEST_SUITE=spec:core   DB=mysql2"
-    - "TEST_SUITE=spec:legacy DB=mysql2"
+    # - "TEST_SUITE=cucumber    DB=mysql2"
+    # - "TEST_SUITE=spec:core   DB=mysql2"
+    # - "TEST_SUITE=spec:legacy DB=mysql2"
     # postgres
     - "TEST_SUITE=cucumber    DB=postgres"
     - "TEST_SUITE=spec:core   DB=postgres"
-    - "TEST_SUITE=spec:legacy DB=postgres"
+    # - "TEST_SUITE=spec:legacy DB=postgres"
 
 before_install:
   - "echo `firefox -v`"
@@ -79,9 +79,9 @@ script:
 
 notifications:
   email: false
-  webhooks:
-    urls:
-      - "https://webhooks.gitter.im/e/435ab5d5c6944305da2f"
+  # webhooks:
+  #   urls:
+  #     - "https://webhooks.gitter.im/e/435ab5d5c6944305da2f"
 
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
 # addons:
