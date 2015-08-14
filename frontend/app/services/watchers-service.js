@@ -54,11 +54,8 @@ module.exports = function($http, $q) {
         var watchers = $q.defer();
         $q.all([load(workPackage), available(workPackage)]).then(function(allWatchers) {
           var watching = allWatchers[0],
-              available = _.filter(allWatchers[1], function(user) {
-                return _.findIndex(allWatchers[0], function(matchedUser) {
-                  return matchedUser.id !== user.id;
-                }) > -1;
-              })
+              available = _.difference(allWatchers[1], allWatchers[0]);
+          console.log(allWatchers, watching, available);
           watchers.resolve({ watching: watching, available: available });
         }, function(err) {
           watchers.reject(err);
@@ -67,8 +64,8 @@ module.exports = function($http, $q) {
       };
 
   return {
-    load: load,
-    available: available,
-    all: all
+    loadForWorkPackage: load,
+    availableForWorkPackage: available,
+    forWorkPackage: all
   };
 };

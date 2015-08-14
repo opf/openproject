@@ -29,28 +29,28 @@
 module.exports = function($scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDEX) {
   'use strict';
 
-  var fetchWatchers = function(loading) {
-    $scope.error = false;
-    $scope.loading = angular.isUndefined(loading) ? true : false;
-    WatchersService.all($scope.workPackage).then(function(users) {
-      $scope.watchers = users.watching;
-      $scope.available = users.available;
-    }, function() {
-      $scope.watchers = [];
-      $scope.available = [];
-      $scope.error = true;
-    }).finally(function() {
-      $scope.loading = false;
-    });
-  }
+  var vm = this,
+      fetchWatchers = function(loading) {
+        vm.error = false;
+        vm.loading = angular.isUndefined(loading) ? true : false;
+        WatchersService.forWorkPackage($scope.workPackage).then(function(users) {
+          vm.watching = users.watching;
+          vm.available = users.available;
+        }, function() {
+          vm.watchers = [];
+          vm.available = [];
+          vm.error = true;
+        }).finally(function() {
+          vm.loading = false;
+        });
+      };
 
+  vm.I18n = I18n;
   fetchWatchers();
-
-  $scope.I18n = I18n;
 
   $scope.add = function() {
     $scope.adding = true;
-  }
+  };
 
   // $scope.watcherListString = function() {
   //   return _.map($scope.watcher.selected, function(item) {

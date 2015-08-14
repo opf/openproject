@@ -1,11 +1,16 @@
 <div id="detail-panel-watchers">
-
-  <ul class="watchers-list" ng-if="watchers.length">
-    <li ng-repeat="watcher in watchers">
-      <a data-ng-href="{{watcher._links.self.href}}">{{watcher._links.self.title}}</a>
-    </li>
-    <li data-ng-show="adding">
-    </li>
-  </ul>
-  <a data-ng-click="adding = true" data-ng-hide="adding">Add watcher</a>
+  <div class="notification-box -error" data-ng-show="watchers.error">
+    <div class="notification-box--content">
+      <p>An error occured while loading the watchers</p>
+    </div>
+  </div>
+  <div data-ng-show="watchers.loading">
+    loading watchers...
+  </div>
+  <div data-ng-hide="watchers.loading || watchers.error">
+    <ul class="work-package--watchers">
+      <work-package-watcher data-watcher="watcher" data-ng-repeat="watcher in watchers.watching"></work-package-watcher>
+    </ul>
+    <work-package-watcher-lookup data-watchers="watchers.available" data-ng-hide="watchers.available.length"></work-package-watcher-lookup>
+  </div>
 </div>
