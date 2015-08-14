@@ -48,8 +48,8 @@ class Scm::CreateRepositoryJob
     # e.g., initializing an empty scm repository within it
     repository.managed_repo_created
 
-    # Ensure ownership after creation
-    ensure_ownership(mode, config[:owner], config[:group])
+    # Ensure group ownership after creation
+    ensure_group(mode, config[:group])
   end
 
   def destroy_failed_jobs?
@@ -67,14 +67,14 @@ class Scm::CreateRepositoryJob
   end
 
   ##
-  # Overrides the owner/group permission of the created repository
+  # Overrides the group permission of the created repository
   # after the adapter was able to work in the directory.
-  def ensure_ownership(mode, owner, group)
+  def ensure_group(mode, group)
     FileUtils.chmod_R(mode, repository.root_url)
 
-    # Note that this is effectively a noop when owner or group is nil,
+    # Note that this is effectively a noop when group is nil,
     # and then permissions remain OPs runuser/-group
-    FileUtils.chown_R(owner, group, repository.root_url)
+    FileUtils.chown_R(nil, group, repository.root_url)
   end
 
   def config

@@ -94,7 +94,8 @@ gem 'syck', :platforms => [:mri, :mingw, :x64_mingw], :require => false
 gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
-gem 'airbrake', '~> 4.1.0'
+# don't require by default, instead load on-demand when actually configured
+gem 'airbrake', '~> 4.1.0', require: false
 
 group :production do
   # we use dalli as standard memcache client
@@ -232,7 +233,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'release/4.3'
+  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles

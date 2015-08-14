@@ -34,6 +34,8 @@ module API
         include API::Utilities::UrlHelper
 
         class ApiV3Path
+          extend API::Utilities::UrlHelper
+
           def self.root
             "#{root_path}api/v3"
           end
@@ -47,7 +49,7 @@ module API
           end
 
           def self.attachment_download(id)
-            Rails.application.routes.url_helpers.attachment_path(id)
+            attachment_path(id)
           end
 
           def self.attachments_by_work_package(id)
@@ -218,12 +220,6 @@ module API
 
           def self.work_packages_by_project(project_id)
             "#{project(project_id)}/work_packages"
-          end
-
-          def self.root_path
-            @@root_path ||= Class.new.tap do |c|
-              c.extend(::API::V3::Utilities::PathHelper)
-            end.root_path
           end
         end
 

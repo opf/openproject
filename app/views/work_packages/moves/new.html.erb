@@ -72,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="form--field-container">
               <%= styled_select_tag('priority_id',
                      content_tag('option', l(:label_no_change_option), :value => '') +
-                     options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
+                     options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
             </div>
           </div>
           <div class="form--field">

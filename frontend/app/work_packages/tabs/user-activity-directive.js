@@ -45,6 +45,7 @@ module.exports = function($uiViewScroll,
       workPackage: '=',
       activity: '=',
       activityNo: '=',
+      isInitial: '=',
       inputElementId: '='
     },
     link: function(scope, element, attrs, exclusiveEditController) {

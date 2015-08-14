@@ -78,9 +78,9 @@ describe Journal, type: :model do
     end
 
     journal = issue.reload.journals.first
-    assert_equal [nil, 'Test initial journal'], journal.changed_data[:subject]
-    assert_equal [nil, @project.id], journal.changed_data[:project_id]
-    assert_equal [nil, 'Some content'], journal.changed_data[:description]
+    assert_equal [nil, 'Test initial journal'], journal.details[:subject]
+    assert_equal [nil, @project.id], journal.details[:project_id]
+    assert_equal [nil, 'Some content'], journal.details[:description]
   end
 
   specify 'creating a journal should update the updated_on value of the parent record (touch)' do

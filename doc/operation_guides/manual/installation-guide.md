@@ -228,7 +228,7 @@ prevents you from such errors.
 ```
 will seed the database in the french language.
 
-## Servce OpenProject with Apache and Passenger
+## Serve OpenProject with Apache and Passenger
 
 First, we exit the current bash session with the openproject user,
 so that we are again in a root shell.

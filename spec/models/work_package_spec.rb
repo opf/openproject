@@ -481,170 +481,114 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe '#move' do
-    let(:work_package) {
-      FactoryGirl.create(:work_package,
-                         project: project,
-                         type: type)
+  describe '#copy_from' do
+    let(:type) { FactoryGirl.create(:type_standard) }
+    let(:project) { FactoryGirl.create(:project, types: [type]) }
+    let(:custom_field) {
+      FactoryGirl.create(:work_package_custom_field,
+                         name: 'Database',
+                         field_format: 'list',
+                         possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
+                         is_required: true)
     }
-    let(:target_project) { FactoryGirl.create(:project) }
 
-    shared_examples_for 'moved work package' do
-      subject { work_package.project }
+    let(:source) { FactoryGirl.build(:work_package) }
+    let(:sink) { FactoryGirl.build(:work_package) }
 
-      it { is_expected.to eq(target_project) }
+    before do
+      def self.change_custom_field_value(work_package, value)
+        work_package.custom_field_values = { custom_field.id => value } unless value.nil?
+        work_package.save
+      end
     end
 
-    describe '#time_entries' do
-      let(:time_entry_1) {
-        FactoryGirl.create(:time_entry,
-                           project: project,
-                           work_package: work_package)
-      }
-      let(:time_entry_2) {
-        FactoryGirl.create(:time_entry,
-                           project: project,
-                           work_package: work_package)
-      }
+    before do
+      project.work_package_custom_fields << custom_field
+      type.custom_fields << custom_field
 
-      before do
-        time_entry_1
-        time_entry_2
-
-        work_package.reload
-        work_package.move_to_project(target_project)
-
-        time_entry_1.reload
-        time_entry_2.reload
-      end
-
-      context 'time entry 1' do
-        subject { work_package.time_entries }
-
-        it { is_expected.to include(time_entry_1) }
-      end
-
-      context 'time entry 2' do
-        subject { work_package.time_entries }
-
-        it { is_expected.to include(time_entry_2) }
-      end
-
-      it_behaves_like 'moved work package'
+      source.save
     end
 
-    describe '#category' do
-      let(:category) {
-        FactoryGirl.create(:category,
-                           project: project)
-      }
+    before do
+      source.project_id = project.id
+      change_custom_field_value(source, 'MySQL')
+    end
 
-      before do
-        work_package.category = category
-        work_package.save!
+    shared_examples_for 'work package copy' do
+      context 'subject' do
+        subject { sink.subject }
 
-        work_package.reload
+        it { is_expected.to eq(source.subject) }
       end
 
-      context 'with same category' do
-        let(:target_category) {
-          FactoryGirl.create(:category,
-                             name: category.name,
-                             project: target_project)
-        }
+      context 'type' do
+        subject { sink.type }
+
+        it { is_expected.to eq(source.type) }
+      end
+
+      context 'status' do
+        subject { sink.status }
+
+        it { is_expected.to eq(source.status) }
+      end
+
+      context 'project' do
+        subject { sink.project_id }
+
+        it { is_expected.to eq(project_id) }
+      end
+
+      context 'watchers' do
+        subject { sink.watchers.map(&:user_id) }
+
+        it do
+          is_expected.to match_array(source.watchers.map(&:user_id))
+          sink.watchers.each { |w| expect(w).to be_valid }
+        end
+      end
+    end
+
+    shared_examples_for 'work package copy with custom field' do
+      it_behaves_like 'work package copy'
+
+      context 'custom_field' do
+        subject { sink.custom_value_for(custom_field.id).value }
+
+        it { is_expected.to eq('MySQL') }
+      end
+    end
+
+    context 'with project' do
+      let(:project_id) { source.project_id }
+
+      describe 'should copy project' do
+
+        before { sink.copy_from(source) }
+
+        it_behaves_like 'work package copy with custom field'
+      end
+
+      describe 'should not copy excluded project' do
+        let(:project_id) { sink.project_id }
+
+        before { sink.copy_from(source, exclude: [:project_id]) }
+
+        it_behaves_like 'work package copy'
+      end
+
+      describe 'should copy over watchers' do
+        let(:project_id) { sink.project_id }
+        let(:stub_user) { FactoryGirl.create(:user, member_in_project: project) }
 
         before do
-          target_category
+          source.watchers.build(user: stub_user, watchable: source)
 
-          work_package.move_to_project(target_project)
+          sink.copy_from(source)
         end
 
-        describe 'category moved' do
-          subject { work_package.category_id }
-
-          it { is_expected.to eq(target_category.id) }
-        end
-
-        it_behaves_like 'moved work package'
+        it_behaves_like 'work package copy'
       end
-
-      context 'w/o target category' do
-        before { work_package.move_to_project(target_project) }
-
-        describe 'category discarded' do
-          subject { work_package.category_id }
-
-          it { is_expected.to be_nil }
-        end
-
-        it_behaves_like 'moved work package'
-      end
-    end
-
-    describe '#version' do
-      let(:sharing) { 'none' }
-      let(:version) {
-        FactoryGirl.create(:version,
-                           status: 'open',
-                           project: project,
-                           sharing: sharing)
-      }
-      let(:work_package) {
-        FactoryGirl.create(:work_package,
-                           fixed_version: version,
-                           project: project)
-      }
-
-      before { work_package.move_to_project(target_project) }
-
-      it_behaves_like 'moved work package'
-
-      context 'unshared version' do
-        subject { work_package.fixed_version }
-
-        it { is_expected.to be_nil }
-      end
-
-      context 'system wide shared version' do
-        let(:sharing) { 'system' }
-
-        subject { work_package.fixed_version }
-
-        it { is_expected.to eq(version) }
-      end
-
-      context 'move work package in project hierarchy' do
-        let(:target_project) {
-          FactoryGirl.create(:project,
-                             parent: project)
-        }
-
-        context 'unshared version' do
-          subject { work_package.fixed_version }
-
-          it { is_expected.to be_nil }
-        end
-
-        context 'shared version' do
-          let(:sharing) { 'tree' }
-
-          subject { work_package.fixed_version }
-
-          it { is_expected.to eq(version) }
-        end
-      end
-    end
-
-    describe '#type' do
-      let(:target_type) { FactoryGirl.create(:type) }
-      let(:target_project) {
-        FactoryGirl.create(:project,
-                           types: [target_type])
-      }
-
-      subject { work_package.move_to_project(target_project) }
-
-      it { is_expected.to be_falsey }
     end
   end
 
@@ -1333,36 +1277,104 @@ describe WorkPackage, type: :model do
   end
 
   describe '#allowed_target_projects_on_move' do
-    let(:admin_user) { FactoryGirl.create :admin }
-    let(:valid_user) { FactoryGirl.create :user }
     let(:project) { FactoryGirl.create :project }
 
-    context 'admin user' do
-      before do
-        allow(User).to receive(:current).and_return admin_user
-        project
+    subject { WorkPackage.allowed_target_projects_on_move(user) }
+
+    before do
+      allow(User).to receive(:current).and_return user
+      project
+    end
+
+    shared_examples_for 'has the permission to see projects' do
+      it 'sees the project' do
+        is_expected.to match_array [project]
       end
 
-      subject { WorkPackage.allowed_target_projects_on_move.count }
+      it 'does not see the archived project' do
+        project.update_attribute(:status, Project::STATUS_ARCHIVED)
 
-      it 'sees all active projects' do
-        is_expected.to eq Project.active.count
+        is_expected.to match_array []
+      end
+
+      it 'does not see the project having the work package module disabled' do
+        enabled_modules = project.enabled_module_names.delete(:work_package_tracking)
+        project.enabled_module_names = enabled_modules
+        project.save!
+
+        is_expected.to match_array []
+      end
+    end
+
+    shared_examples_for 'lacks the permission to see projects' do
+      it 'does not see the project' do
+        is_expected.to match_array []
+      end
+    end
+
+    context 'admin user' do
+      let(:admin_user) { FactoryGirl.create :admin }
+
+      it_behaves_like 'has the permission to see projects' do
+        let(:user) { admin_user }
       end
     end
 
     context 'non admin user' do
-      before do
-        allow(User).to receive(:current).and_return valid_user
+      let(:role) { FactoryGirl.build(:role, permissions: user_in_project_permissions) }
+      let(:user_in_project_permissions) { [:move_work_packages] }
+      let(:user_in_project) {
+        FactoryGirl.build :user,
+                          member_in_project: project,
+                          member_through_role: role
+      }
 
-        role = FactoryGirl.create :role, permissions: [:move_work_packages]
+      it_behaves_like 'has the permission to see projects' do
+        before do
+          user_in_project.save!
+        end
 
-        FactoryGirl.create(:member, user: valid_user, project: project, roles: [role])
+        let(:user) { user_in_project }
       end
 
-      subject { WorkPackage.allowed_target_projects_on_move.count }
+      it_behaves_like 'lacks the permission to see projects' do
+        let(:user_in_project_permissions) { [] }
 
-      it 'sees all active projects' do
-        is_expected.to eq Project.active.count
+        before do
+          user_in_project.save!
+        end
+
+        let(:user) { user_in_project }
+      end
+    end
+
+    context 'non member user' do
+      it_behaves_like 'lacks the permission to see projects' do
+        before do
+          project.update_attribute(:is_public, true)
+          FactoryGirl.create(:non_member, permissions: [])
+        end
+
+        let(:user) { FactoryGirl.create(:user) }
+      end
+
+      it_behaves_like 'has the permission to see projects' do
+        before do
+          project.update_attribute(:is_public, true)
+          FactoryGirl.create(:non_member, permissions: [:move_work_packages])
+        end
+
+        let(:user) { FactoryGirl.create(:user) }
+      end
+    end
+
+    context 'anonymous user' do
+      it_behaves_like 'lacks the permission to see projects' do
+        before do
+          project.update_attribute(:is_public, true)
+        end
+
+        let(:user) { FactoryGirl.create(:anonymous) }
       end
     end
   end
@@ -1491,20 +1503,20 @@ describe WorkPackage, type: :model do
       it 'should not include certain attributes' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        expect(recreated_journal.changed_data.include?('rgt')).to eq(false)
-        expect(recreated_journal.changed_data.include?('lft')).to eq(false)
-        expect(recreated_journal.changed_data.include?('lock_version')).to eq(false)
-        expect(recreated_journal.changed_data.include?('updated_at')).to eq(false)
-        expect(recreated_journal.changed_data.include?('updated_on')).to eq(false)
-        expect(recreated_journal.changed_data.include?('id')).to eq(false)
-        expect(recreated_journal.changed_data.include?('type')).to eq(false)
-        expect(recreated_journal.changed_data.include?('root_id')).to eq(false)
+        expect(recreated_journal.details.include?('rgt')).to eq(false)
+        expect(recreated_journal.details.include?('lft')).to eq(false)
+        expect(recreated_journal.details.include?('lock_version')).to eq(false)
+        expect(recreated_journal.details.include?('updated_at')).to eq(false)
+        expect(recreated_journal.details.include?('updated_on')).to eq(false)
+        expect(recreated_journal.details.include?('id')).to eq(false)
+        expect(recreated_journal.details.include?('type')).to eq(false)
+        expect(recreated_journal.details.include?('root_id')).to eq(false)
       end
 
       it 'should not include useless transitions' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        recreated_journal.changed_data.values.each do |change|
+        recreated_journal.details.values.each do |change|
           expect(change.first).not_to eq(change.last)
         end
       end

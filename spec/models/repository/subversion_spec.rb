@@ -66,7 +66,6 @@ describe Repository::Subversion, type: :model do
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
       let(:project) { FactoryGirl.build :project }
-      let(:identifier) { "#{project.identifier}.svn" }
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
@@ -88,8 +87,7 @@ describe Repository::Subversion, type: :model do
         end
 
         it 'outputs valid managed paths' do
-          expect(instance.repository_identifier).to eq(identifier)
-          path = File.join(managed_path, identifier)
+          path = File.join(managed_path, project.identifier)
           expect(instance.managed_repository_path).to eq(path)
           expect(instance.managed_repository_url).to eq("file://#{path}")
         end
@@ -105,7 +103,7 @@ describe Repository::Subversion, type: :model do
 
         it 'outputs the correct hierarchy path' do
           expect(instance.managed_repository_path)
-            .to eq(File.join(managed_path, parent.identifier, identifier))
+            .to eq(File.join(managed_path, project.identifier))
         end
       end
     end

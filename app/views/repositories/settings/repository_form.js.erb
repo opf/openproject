@@ -23,13 +23,13 @@
 		oldTargets
 			.slideUp(500)
 			.prop('hidden', true)
-			.find('input')
+			.find('input,select')
 			.prop('disabled', true);
 
 		newTarget
 			.slideDown(500)
 			.prop('hidden', false)
-			.find('input')
+			.find('input,select')
 			.not('[aria-disabled="true"]')
 			.prop('disabled', false);
 	};

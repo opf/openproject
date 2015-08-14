@@ -954,7 +954,7 @@ describe WorkPackagesController, type: :controller do
         describe '#journal' do
           let(:attachment_id) { "attachments_#{new_work_package.attachments.first.id}" }
 
-          subject { new_work_package.journals.last.changed_data }
+          subject { new_work_package.journals.last.details }
 
           it { is_expected.to have_key attachment_id }
 

@@ -26,23 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/***** Diff ****
+module.exports = function() {
+  function getDropdownSortingStrategy(field) {
+    var sorting;
 
-img.diff, div.diff, table.diff, blockquote.diff, address.diff, h1.diff, h2.diff, h3.diff, h4.diff, h5.diff, h6.diff, hr.diff, p.diff, pre.diff, table.diff, ul.diff, ol.diff
-  padding: 3px
-  margin: 3px
+    switch(field) {
+      case 'version':
+        sorting = 'title';
+        break;
+      default:
+        sorting = null;
+    }
+    return sorting;
+  }
 
-del
-  &.diffmod, &.diffdel
-    background: #fcc
-
-ins
-  &.diffmod, &.diffins
-    background: #cfc
-
-.text-diff
-  padding: 1em
-  background-color: #f6f6f6
-  color: #505050
-  border: 1px solid #e4e4e4
-  line-height: normal
+  return {
+    getDropdownSortingStrategy: getDropdownSortingStrategy
+  };
+};

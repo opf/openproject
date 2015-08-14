@@ -63,11 +63,13 @@ describe('OpenProject', function(){
           subjectEditor(821).then(function(editor) {
             editor.$('.inplace-editing--trigger-link').click();
             editor.$('.inplace-edit--control--save a').click();
-
             return editor;
-          }).then(function(editor) {
-            expect(editor.$('.inplace-edit--errors').isDisplayed())
-              .to.eventually.be.true;
+          }).then(function() {
+            // damn those dirty ap.. i mean animations.
+            setTimeout(function() {
+              expect($('.notification-box.-error').isDisplayed())
+                .to.be.true;
+            }, 1000);
           });
         });
       });

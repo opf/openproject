@@ -41,6 +41,15 @@
 #    be dropped
 class Journal::AggregatedJournal
   class << self
+    # Returns the aggregated journal that contains the specified (vanilla/pure) journal.
+    def for_journal(pure_journal)
+      raw = Journal::AggregatedJournal.query_aggregated_journals(journable: pure_journal.journable)
+            .where("#{version_projection} >= ?", pure_journal.version)
+            .first
+
+      raw ? Journal::AggregatedJournal.new(raw) : nil
+    end
+
     def with_notes_id(notes_id)
       raw_journal = query_aggregated_journals
                       .where("#{table_name}.id = ?", notes_id)
@@ -214,6 +223,11 @@ class Journal::AggregatedJournal
     # proximity into account.
     def sql_beyond_aggregation_time?(predecessor, successor)
       aggregation_time_seconds = Setting.journal_aggregation_time_minutes.to_i.minutes
+      if aggregation_time_seconds == 0
+        # if aggregation is disabled, we consider everything to be beyond aggregation time
+        # even if creation dates are exactly equal
+        return '(true = true)'
+      end
 
       if OpenProject::Database.mysql?
         difference = "TIMESTAMPDIFF(second, #{predecessor}.created_at, #{successor}.created_at)"

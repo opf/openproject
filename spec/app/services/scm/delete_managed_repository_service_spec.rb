@@ -95,25 +95,17 @@ describe Scm::DeleteManagedRepositoryService do
       let(:parent) { FactoryGirl.create(:project) }
       let(:project) { FactoryGirl.create(:project, parent: parent) }
       let(:repo_path) {
-        Pathname.new(File.join(tmpdir, 'svn', parent.identifier, "#{project.identifier}.svn"))
+        Pathname.new(File.join(tmpdir, 'svn', project.identifier))
       }
 
-      it 'deletes the parent path when empty' do
+      it 'does not delete anything but the repository itself' do
         expect(service.call).to be true
         path = Pathname.new(repository.root_url)
         expect(path).to eq(repo_path)
 
         expect(path.exist?).to be false
-        expect(path.parent.exist?).to be false
-      end
-
-      it 'keeps the parent path when not empty' do
-        other_repo = repo_path.parent + 'foobar'
-        other_repo.mkdir
-
-        expect(service.call).to be true
-        expect(repo_path.exist?).to be false
-        expect(repo_path.parent.exist?).to be true
+        expect(path.parent.exist?).to be true
+        expect(path.parent.to_s).to eq(repository.class.managed_root)
       end
     end
   end

@@ -47,7 +47,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       end
       xml.content "type" => "html" do
         xml.text! '<ul>'
-        change.changed_data.each do |detail|
+        change.details.each do |detail|
           change_content = change.render_detail(detail, :no_html => false)
           xml.text!(content_tag(:li, change_content)) if change_content.present?
         end
