@@ -114,7 +114,16 @@ function ts_makeSortable(t) {
 	// We have a first row: assume it's the header, and make its contents clickable links
 	for (i = 0; i < firstRow.cells.length; i += 1) {
 		cell = firstRow.cells[i];
-		txt = ts_getInnerText(cell);
+
+		var descendants = cell.descendants();
+
+		for(var j = 0;  j < descendants.length; j++ ) {
+			if (descendants[j].descendants().length == 0) {
+				cell = descendants[j];
+			}
+		};
+
+		txt = cell.innerHTML;
 		if (cell.className !== "unsortable" && cell.className.indexOf("unsortable") === -1) {
 			cell.innerHTML = '<a href="#" class="sortheader sort" onclick="ts_resortTable(this, ' +
 				i +
@@ -123,9 +132,7 @@ function ts_makeSortable(t) {
 				'</a>';
 		}
 	}
-	if (alternate_row_colors) {
-		alternate(t);
-	}
+	
 }
 
 function sortables_init() {
