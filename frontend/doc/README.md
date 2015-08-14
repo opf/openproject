@@ -32,3 +32,4 @@ The individual topics for the documentation for the frontend are
 4. `STYLING.md` - notes on styling and the Sass-Pipeline
 5. `API.md` - notes on dealing with the several APIs provided by OpenProject
 6. `RAILS.md` - an overview for the frontend parts still left in the Rails stack (mostly the JavaScript)
+7. `MISC.md` - contains additional topics not fitting anywhere else

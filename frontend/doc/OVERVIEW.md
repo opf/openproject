@@ -1,7 +1,7 @@
 Development overview
 ====================
 
-This should give an idea about the contents of the `./frontend` folder. Most of what you find here is an amalgamation of [AngularJS](https://angularjs.org) and JQuery, as well as a good list of libraries used to ease the process of development.
+This should give an idea about the contents of the `./frontend` folder. Most of what you find here is an amalgamation of [AngularJS](https://angularjs.org) and `jQuery`, as well as a good list of libraries used to ease the process of development.
 
 This is the general structure (to a depth of 3 folders):
 
