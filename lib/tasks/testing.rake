@@ -125,6 +125,11 @@ namespace :spec do
         end
       end
     end
+
+    desc "Run specs w/o features"
+    RSpec::Core::RakeTask.new(no_features: 'spec:prepare') do |t|
+      t.exclude_pattern = 'spec/features/**/*_spec.rb'
+    end
   rescue LoadError
     # when you bundle without development and test (e.g. to create a deployment
     # artefact) still all tasks get loaded. To avoid an error we rescue here.
