@@ -28,8 +28,9 @@
 
 # This addresses some of the forms of the admin's user panel
 #
-Feature: User
 
+@javascript
+Feature: User
   Background:
     Given I am already admin
 
@@ -60,7 +61,7 @@ Feature: User
     And there is a role "beta"
     And there is a role "gamma"
 
-  @javascript
+
   Scenario: Granting Membership to a project with one role
     When I go to the memberships tab of the edit page for the user peter
     And I select "Project1" from "membership_project_id"
@@ -70,7 +71,7 @@ Feature: User
       | alpha |
     And I should not see membership to the project "project2"
 
-  @javascript
+
   Scenario: Granting Membership to a project with multiple
     When I go to the memberships tab of the edit page for the user peter
     And I select "Project1" from "membership_project_id"
@@ -84,7 +85,7 @@ Feature: User
       | gamma |
     And I should not see membership to the project "project2"
 
-  @javascript
+
   Scenario: Revoking Membership to a project
     When the user "peter" is a "alpha" in the project "project1"
     And I go to the memberships tab of the edit page for the user peter
@@ -94,7 +95,7 @@ Feature: User
     And I go to the memberships tab of the edit page for the user peter
     Then I should not see membership to the project "project1"
 
-  @javascript
+
   Scenario: Editing membership to a project
     When the user "peter" is a "alpha" in the project "project1"
     And I go to the memberships tab of the edit page for the user peter
@@ -110,7 +111,7 @@ Feature: User
       | beta  |
       | gamma |
 
-  @javascript
+
   Scenario: re-adding a Member inside Admin Panel
     When the user "peter" is a "alpha" in the project "project1"
      And I go to the memberships tab of the edit page for the user peter
