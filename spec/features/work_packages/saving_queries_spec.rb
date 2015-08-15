@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require 'features/work_packages/page_objects/work_packages_page'
 
 describe 'Query Saving', type: :feature, js: true do
   let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }

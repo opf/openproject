@@ -31,7 +31,7 @@
 require 'spec_helper'
 require 'features/custom_fields/custom_fields_page'
 require 'features/projects/project_settings_page'
-require 'features/work_packages/work_packages_page'
+require 'features/work_packages/page_objects/work_packages_page'
 
 describe 'Custom field accessibility', type: :feature, selenium: true do
   describe 'language tag' do

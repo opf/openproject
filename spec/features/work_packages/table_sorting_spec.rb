@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require 'features/work_packages/page_objects/work_packages_page'
 
 describe 'Select work package row', type: :feature, js: true, selenium: true do
   let(:user) { FactoryGirl.create(:admin) }

@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'features/work_packages/details/inplace_editor/shared_examples'
-require 'features/work_packages/shared_contexts'
-require 'features/work_packages/details/inplace_editor/work_package_field'
-require 'features/work_packages/work_packages_page'
+require 'features/work_packages/support/shared_contexts'
+require 'features/work_packages/support/shared_examples'
+require 'features/work_packages/page_objects/work_package_field'
+require 'features/work_packages/page_objects/work_packages_page'
 
 describe 'description inplace editor', js: true, selenium: true do
   include_context 'maximized window'
