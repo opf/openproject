@@ -56,7 +56,7 @@ Capybara::Webkit.configure do |config|
   # config.block_url("example.com")
 
   # Timeout if requests take longer than 5 seconds
-  config.timeout = 2
+  config.timeout = 5
 
   # Don't raise errors when SSL certificates can't be validated
   config.ignore_ssl_errors
