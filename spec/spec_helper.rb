@@ -41,7 +41,6 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
 require 'capybara/rails'
-require 'capybara-screenshot/rspec'
 
 Capybara.javascript_driver = :webkit
 Capybara.default_wait_time = 2
