@@ -28,8 +28,6 @@
 
 require 'spec_helper'
 
-require 'support/shared/acts_as_watchable'
-
 describe Board, type: :model do
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { FactoryGirl.create(:board) }

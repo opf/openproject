@@ -26,8 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root + 'spec/support/file_helpers'
-
 FactoryGirl.define do
   factory :attachment do
     container factory: :work_package

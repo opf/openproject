@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require File.expand_path('../../support/shared/become_member', __FILE__)
 
 describe Project, type: :model do
   include BecomeMember

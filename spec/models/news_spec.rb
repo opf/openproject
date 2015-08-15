@@ -27,7 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
-require File.expand_path('../../support/shared/become_member', __FILE__)
 
 require 'support/shared/acts_as_watchable'
 
