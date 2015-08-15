@@ -63,6 +63,7 @@ Feature: Attachments on work packages
   Scenario: Deleting a work package's attachment is possible
     When I go to the page for the issue "work package 1"
     When I click the first delete attachment link
+    And I accept the alert dialog
     Then I should not see ".icon-attachment"
 
   # see ticket #1916 on OpenProject.org
