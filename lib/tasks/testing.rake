@@ -78,7 +78,6 @@ namespace :test do
         Rake::Task["test:scm:setup:#{scm}"].execute
       end
     end
-
   end
 
   desc 'runs all tests'
@@ -101,9 +100,9 @@ namespace :spec do
       t.exclude_pattern = ''
     end
 
-    desc "Run specs w/o features, controllers, requests and models"
+    desc "Run specs w/o api, features, controllers, requests and models"
     RSpec::Core::RakeTask.new(misc: 'spec:prepare') do |t|
-      t.exclude_pattern = 'spec/{models,controllers,requests,features}/**/*_spec.rb'
+      t.exclude_pattern = 'spec/{api,models,controllers,requests,features}/**/*_spec.rb'
     end
 
   rescue LoadError

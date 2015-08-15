@@ -58,6 +58,7 @@ env:
 
     # - "TEST_SUITE=spec:features     DB=postgres"
     - "TEST_SUITE=spec:misc         DB=postgres"
+    - "TEST_SUITE=spec:api          DB=postgres"
     - "TEST_SUITE=spec:models       DB=postgres"
     - "TEST_SUITE=spec:controllers  DB=postgres"
     - "TEST_SUITE=spec:requests     DB=postgres"
