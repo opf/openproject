@@ -74,27 +74,6 @@ RSpec.configure do |config|
   # Thanks a lot!
   config.use_transactional_fixtures = false
 
-  config.before(:suite) do
-    DatabaseCleaner.clean_with :truncation
-  end
-
-  config.before(:each) do |example|
-    DatabaseCleaner.strategy = if example.metadata[:js]
-                                 # JS => doesn't share connections => can't use transactions
-                                 # truncations seem to fail more often + they are slower
-                                 :deletion
-                               else
-                                 # No JS/Devise => run with Rack::Test => transactions are ok
-                                 :transaction
-                               end
-
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
-
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
