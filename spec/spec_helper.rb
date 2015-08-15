@@ -45,9 +45,6 @@ require 'capybara/rails'
 Capybara.javascript_driver = :webkit
 Capybara.default_wait_time = 2
 
-require 'factory_girl'
-FactoryGirl.find_definitions
-
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
