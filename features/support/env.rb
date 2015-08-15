@@ -40,7 +40,13 @@ end
 
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
+
 require 'capybara-screenshot/cucumber'
+# Do not create screenshot on ci servers like jenkins, travis, codeship
+if ENV['CI']
+  Capybara::Screenshot.autosave_on_failure = false
+end
+
 require 'capybara-select2'
 require 'factory_girl_rails'
 
