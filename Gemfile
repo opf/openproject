@@ -189,6 +189,7 @@ group :development do
   gem 'faker'
   gem 'quiet_assets'
   gem 'rubocop', '~> 0.32'
+  gem 'parallel_tests'
 end
 
 group :development, :test do
