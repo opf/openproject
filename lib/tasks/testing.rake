@@ -110,6 +110,17 @@ namespace :spec do
       t.pattern = 'spec/api/v3/**/*_spec.rb'
     end
 
+    desc "Run requests specs for api v3"
+    RSpec::Core::RakeTask.new(api_v3_requests: 'spec:prepare') do |t|
+      t.pattern = 'spec/api/v3/requests/**/*_spec.rb'
+    end
+
+    desc "Run specs for api v3 except requests"
+    RSpec::Core::RakeTask.new(api_v3_misc: 'spec:prepare') do |t|
+      t.pattern = 'spec/api/v3/**/*_spec.rb'
+      t.exclude_pattern = 'spec/api/v3/requests/**/*_spec.rb'
+    end
+
     desc "Run specs for api experimental"
     RSpec::Core::RakeTask.new(:api_exp) do |t|
       t.pattern = 'spec/api/experimental/**/*_spec.rb'
