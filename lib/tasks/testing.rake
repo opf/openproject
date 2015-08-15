@@ -101,9 +101,9 @@ namespace :spec do
       t.exclude_pattern = ''
     end
 
-    desc "Run specs w/o features, controllers and requests"
-    RSpec::Core::RakeTask.new(no_frc: 'spec:prepare') do |t|
-      t.exclude_pattern = 'spec/{controllers,requests,features}/**/*_spec.rb'
+    desc "Run specs w/o features, controllers, requests and models"
+    RSpec::Core::RakeTask.new(:misc) do |t|
+      t.exclude_pattern = 'spec/{models,controllers,requests,features}/**/*_spec.rb'
     end
 
   rescue LoadError
