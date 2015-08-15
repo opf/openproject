@@ -57,9 +57,10 @@ env:
     # - "TEST_SUITE=spec:core   DB=postgres"
     # - "TEST_SUITE=spec:legacy DB=postgres"
     - "TEST_SUITE=spec:features     DB=postgres"
+    - "TEST_SUITE=spec:misc         DB=postgres"
+    - "TEST_SUITE=spec:models       DB=postgres"
     - "TEST_SUITE=spec:controllers  DB=postgres"
     - "TEST_SUITE=spec:requests     DB=postgres"
-    - "TEST_SUITE=spec:no_frc       DB=postgres"
 
 before_install:
   - "echo `firefox -v`"
