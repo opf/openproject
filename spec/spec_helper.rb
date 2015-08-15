@@ -83,9 +83,6 @@ RSpec.configure do |config|
 
   config.run_all_when_everything_filtered = true
 
-  # add helpers to parse json-responses
-  config.include JsonSpec::Helpers
-
   config.mock_with :rspec do |c|
     c.yield_receiver_to_any_instance_implementation_blocks = true
   end
