@@ -102,7 +102,7 @@ namespace :spec do
     end
 
     desc "Run specs w/o features, controllers, requests and models"
-    RSpec::Core::RakeTask.new(:misc) do |t|
+    RSpec::Core::RakeTask.new(misc: 'spec:prepare') do |t|
       t.exclude_pattern = 'spec/{models,controllers,requests,features}/**/*_spec.rb'
     end
 
