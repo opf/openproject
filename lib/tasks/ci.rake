@@ -81,10 +81,11 @@ namespace :ci do
       # Loading the environment before db:create does not work, since initializing the application
       # depends on an existing databse.
       Rake::Task['environment'].invoke
-      Rake::Task['db:load_config'].execute
-
-      Rake::Task['db:migrate'].invoke
-      Rake::Task['db:schema:dump'].invoke
+      # Rake::Task['db:load_config'].execute
+      #
+      # Rake::Task['db:migrate'].invoke
+      # Rake::Task['db:schema:dump'].invoke
+      Rake::Task['db:schema:load'].invoke
 
       # Create test repositories
       Rake::Task['test:scm:setup:all'].invoke
@@ -96,8 +97,9 @@ namespace :ci do
     Rake::Task['ci:dump_environment'].invoke
     Rake::Task['db:drop'].invoke
     Rake::Task['db:create'].invoke
-    Rake::Task['db:migrate'].invoke
-    Rake::Task['db:schema:dump'].invoke
+    Rake::Task['db:schema:load'].invoke
+    # Rake::Task['db:migrate'].invoke
+    # Rake::Task['db:schema:dump'].invoke
     Rake::Task['test:scm:update'].invoke
   end
 
