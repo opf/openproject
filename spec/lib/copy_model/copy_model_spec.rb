@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'tableless_spec_helper'
 
 class CopyDummy < Tableless
   include CopyModel
