@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Project Association Management
   As a Project Member
   I want to view, edit and delete project associations for my project

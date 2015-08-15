@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Localized decimal custom fields can be created
 
   Background:
@@ -43,4 +44,3 @@ Feature: Localized decimal custom fields can be created
     And I set the english localization of the "default_value" attribute to "20.34"
     And I press "Save"
     Then I should be on the custom fields page
-

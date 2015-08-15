@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium @javascript
 Feature: Attachments on work packages
   Background:
     Given there is 1 project with the following:
@@ -65,7 +66,6 @@ Feature: Attachments on work packages
     Then I should not see ".icon-attachment"
 
   # see ticket #1916 on OpenProject.org
-  @javascript
   Scenario: Deleting attachment while editing a work package
     When I go to the page for the work package "work package 1"
      And I select "Update" from the action menu

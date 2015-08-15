@@ -26,6 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+@selenium
 Feature: Editing text custom fields
 
   Background:
@@ -80,5 +81,3 @@ Feature: Editing text custom fields
       | locale  | name            | default_value  |
       | en      | My Custom Field | default        |
       | de      | My Custom Field | nil            |
-
-
