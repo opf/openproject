@@ -99,6 +99,17 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
       define_cucumber_task(:plugins, 'Run plugin features', [:options])
       define_cucumber_task(:all, 'Run core and plugin features', [:options])
       define_cucumber_task(:custom, 'Run features selected via features argument', [:features])
+
+
+      # Define custom tasks to be used for travis build matrix to run the matrix task use
+      #    rake cucumber:matrix\['_base'\]
+      task :matrix, :modules do |t, args|
+        Cucumber::Rake::Task.new(run: ['db:test:prepare', 'assets:webpack']) do |t|
+          t.cucumber_opts = "features/_#{args[:modules]} --format progress"
+        end
+        Rake::Task[:run].invoke
+      end
+
     end
 
     desc 'Alias for cucumber:ok'
