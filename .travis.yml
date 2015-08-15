@@ -51,20 +51,25 @@ env:
     # - "TEST_SUITE=spec:legacy DB=mysql2"
 
     # postgres
-    # - "TEST_SUITE=cucumber    DB=postgres"
-    - "TEST_SUITE=spec:features          DB=postgres"
-    - "TEST_SUITE=spec:api_v3_misc       DB=postgres"
-    - "TEST_SUITE=spec:api_v3_requests   DB=postgres"
-    - "TEST_SUITE=spec:api_v2            DB=postgres"
-    - "TEST_SUITE=spec:api_exp           DB=postgres"
-    - "TEST_SUITE=spec:misc              DB=postgres"
-    - "TEST_SUITE=spec:models            DB=postgres"
-    - "TEST_SUITE=spec:controllers       DB=postgres"
-    - "TEST_SUITE=spec:requests          DB=postgres"
+    - "TEST_SUITE=cucumber:matrix[base]             DB=postgres"
+    - "TEST_SUITE=cucumber:matrix[projects]         DB=postgres"
+    - "TEST_SUITE=cucumber:matrix[timelines]        DB=postgres"
+    - "TEST_SUITE=cucumber:matrix[wiki]             DB=postgres"
+    - "TEST_SUITE=cucumber:matrix[work_packages]    DB=postgres"
+
+    # - "TEST_SUITE=spec:features          DB=postgres"
+    # - "TEST_SUITE=spec:api_v3_misc       DB=postgres"
+    # - "TEST_SUITE=spec:api_v3_requests   DB=postgres"
+    # - "TEST_SUITE=spec:api_v2            DB=postgres"
+    # - "TEST_SUITE=spec:api_exp           DB=postgres"
+    # - "TEST_SUITE=spec:misc              DB=postgres"
+    # - "TEST_SUITE=spec:models            DB=postgres"
+    # - "TEST_SUITE=spec:controllers       DB=postgres"
+    # - "TEST_SUITE=spec:requests          DB=postgres"
 
     # frontend
-    - "TEST_SUITE=karma"
-    - "TEST_SUITE=protractor"
+    # - "TEST_SUITE=karma"
+    # - "TEST_SUITE=protractor"
 
 before_install:
   - "echo `firefox -v`"
