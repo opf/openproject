@@ -102,6 +102,7 @@ Feature: Viewing a work package
     Then I should see "Bug #2: issue2"
     Then I should see "Bug #1: issue1" within ".work-package-1"
 
+  @wip
   Scenario: Add subtask leads to issue creation page for a parent issue
     When I go to the page of the work package "issue1"
     Then I should see "Add subtask"
