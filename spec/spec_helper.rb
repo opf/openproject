@@ -88,18 +88,6 @@ RSpec.configure do |config|
 
   config.include ::Angular::DSL
 
-  config.after(:each) do
-    OpenProject::RspecCleanup.cleanup
-  end
-
-  config.after(:suite) do
-    [User, Project, WorkPackage].each do |cls|
-      if cls.count > 0
-        raise "your specs leave a #{cls} in the DB\ndid you use before(:all) instead of before or forget to kill the instances in a after(:all)?"
-      end
-    end
-  end
-
   config.mock_with :rspec do |c|
     c.yield_receiver_to_any_instance_implementation_blocks = true
   end
@@ -116,17 +104,3 @@ Rails.application.config.plugins_to_test_paths.each do |dir|
     require disable_specs_file
   end
 end
-
-module OpenProject::RspecCleanup
-  def self.cleanup
-    # Cleanup after specs changing locale explicitly or
-    # by calling code in the app setting changing the locale.
-    I18n.locale = :en
-
-    # Set the class instance variable @current_user to nil
-    # to avoid having users from one spec present in the next
-    ::User.instance_variable_set(:@current_user, nil)
-  end
-end
-
-OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
