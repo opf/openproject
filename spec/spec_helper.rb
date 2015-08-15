@@ -95,12 +95,3 @@ RSpec.configure do |config|
   # include spec/api for API request specs
   config.include RSpec::Rails::RequestExampleGroup, type: :request
 end
-
-# load disable_specs.rbs from plugins
-Rails.application.config.plugins_to_test_paths.each do |dir|
-  disable_specs_file = File.join(dir, 'spec', 'disable_specs.rb')
-  if File.exists?(disable_specs_file)
-    puts 'Loading ' + disable_specs_file
-    require disable_specs_file
-  end
-end
