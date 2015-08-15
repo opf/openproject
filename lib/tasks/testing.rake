@@ -139,6 +139,7 @@ end
 
 %w(test spec).each do |type|
   if Rake::Task.task_defined?("#{type}:prepare")
+    # FIXME: only webpack for feature specs
     Rake::Task["#{type}:prepare"].enhance(['assets:webpack'])
   end
 end
