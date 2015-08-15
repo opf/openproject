@@ -102,11 +102,11 @@ feature 'Query menu items' do
       ensure_wp_table_loaded
     end
 
-    it 'displaying a success message', js: true do
+    it 'displaying a success message', js: true, selenium: true do
       expect(page).to have_selector('.flash', text: 'Successful update')
     end
 
-    it 'is renaming and reordering the list', js: true do
+    it 'is renaming and reordering the list', js: true, selenium: true do
       ng_wait
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.

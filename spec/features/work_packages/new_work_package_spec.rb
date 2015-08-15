@@ -29,14 +29,14 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'New work package', type: :feature do
+describe 'New work package', type: :feature, js: true  do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   before { allow(User).to receive(:current).and_return(user) }
 
-  describe 'Datepicker', js: true do
+  describe 'Datepicker' do
     shared_examples_for 'first week day set' do |locale: :de|
       let(:datepicker_selector) { '#ui-datepicker-div table.ui-datepicker-calendar thead tr th:nth-of-type(2)' }
 

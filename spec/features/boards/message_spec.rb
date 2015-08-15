@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe 'messages', type: :feature, selenium: true do
+# FIXME: Capybara overlapping element spec
+
+describe 'messages', type: :feature do
   let(:user) { FactoryGirl.create :admin, firstname: 'Hugo', lastname: 'Hungrig' }
 
   before do
@@ -50,7 +52,7 @@ describe 'messages', type: :feature, selenium: true do
       visit topic_path(topic)
     end
 
-    describe 'clicking on quote', js: true do
+    describe 'clicking on quote', js: true, selenium: true do
       it 'opens the filled-in reply form' do
         msg = find 'div.reply', text: /Go Ahead!/
         within(msg) { click_on 'Quote' }

@@ -64,7 +64,7 @@ describe 'create users', type: :feature do
     it_behaves_like 'successful user creation'
   end
 
-  context 'with external authentication', js: true do
+  context 'with external authentication' do
     before do
       auth_source.save!
 

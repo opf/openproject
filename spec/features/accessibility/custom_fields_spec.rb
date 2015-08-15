@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# FIXME: Capybara overlapping element spec
+
 require 'spec_helper'
 require 'features/custom_fields/custom_fields_page'
 require 'features/projects/project_settings_page'

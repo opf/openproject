@@ -46,7 +46,7 @@ describe 'Workflow copy', type: :feature do
     allow(User).to receive(:current).and_return(admin)
   end
 
-  context 'lala' do
+  context '' do
     before do
       workflow.save
       visit url_for(controller: '/workflows', action: :copy)

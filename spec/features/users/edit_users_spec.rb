@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/projects/projects_page'
 
-describe 'edit users', type: :feature, js: true do
+describe 'edit users', type: :feature do
   let(:current_user) { FactoryGirl.create :admin }
   let(:user) { FactoryGirl.create :user }
 
@@ -47,7 +47,7 @@ describe 'edit users', type: :feature, js: true do
     find :css, 'input#user_password'
   end
 
-  context 'with internal authentication' do
+  context 'with internal authentication', js: true do
     before do
       visit edit_user_path(user)
     end
@@ -64,7 +64,7 @@ describe 'edit users', type: :feature, js: true do
     end
   end
 
-  context 'with external authentication' do
+  context 'with external authentication', js: true do
     before do
       user.auth_source = auth_source
       user.save!

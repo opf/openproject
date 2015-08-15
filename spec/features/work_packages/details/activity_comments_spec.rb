@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'features/work_packages/details/inplace_editor/shared_examples'
+require 'features/work_packages/shared_contexts'
 
 describe 'activity comments', js: true, selenium: true do
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
