@@ -105,6 +105,21 @@ namespace :spec do
       t.exclude_pattern = 'spec/{api,models,controllers,requests,features}/**/*_spec.rb'
     end
 
+    desc "Run specs for api v3"
+    RSpec::Core::RakeTask.new(api_v3: 'spec:prepare') do |t|
+      t.pattern = 'spec/api/v3/**/*_spec.rb'
+    end
+
+    desc "Run specs for api experimental"
+    RSpec::Core::RakeTask.new(:api_exp) do |t|
+      t.pattern = 'spec/api/experimental/**/*_spec.rb'
+    end
+
+    desc "Run specs for api v2 and v1"
+    RSpec::Core::RakeTask.new(:api_v2) do |t|
+      t.pattern = 'spec/api/{v1,v2}/**/*_spec.rb'
+    end
+
   rescue LoadError
     # when you bundle without development and test (e.g. to create a deployment
     # artefact) still all tasks get loaded. To avoid an error we rescue here.
