@@ -148,7 +148,7 @@ GEM
       capybara (>= 1.0, < 3)
       colored
       launchy
-    capybara-webkit (1.5.1)
+    capybara-webkit (1.6.0)
       capybara (>= 2.3.0, < 2.5.0)
       json
     carrierwave (0.10.0)
@@ -272,7 +272,7 @@ GEM
     ipaddress (0.8.0)
     iso8601 (0.8.2)
     journey (1.0.4)
-    json (1.8.2)
+    json (1.8.3)
     json_spec (1.1.4)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
