@@ -105,7 +105,7 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
       #    rake cucumber:matrix\['_base'\]
       task :matrix, :modules do |t, args|
         Cucumber::Rake::Task.new(run: ['db:test:prepare', 'assets:webpack']) do |t|
-          t.cucumber_opts = "features/_#{args[:modules]} --format progress"
+          t.cucumber_opts = "features/_#{args[:modules]} --format progress --tags ~@wip"
         end
         Rake::Task[:run].invoke
       end
