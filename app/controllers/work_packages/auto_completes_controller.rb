@@ -73,9 +73,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
   def find_project
     project_id = (params[:work_package] && params[:work_package][:project_id]) || params[:project_id]
     return nil unless project_id
-    Project.find(project_id)
-  rescue ActiveRecord::RecordNotFound
-    nil
+    Project.find_by_id(project_id)
   end
 
   def determine_scope
