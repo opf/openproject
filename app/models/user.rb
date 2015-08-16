@@ -213,21 +213,11 @@ class User < Principal
   end
 
   def self.register_allowance_evaluator(filter)
-    self.registered_allowance_evaluators ||= []
-
     registered_allowance_evaluators << filter
   end
 
-  # replace by class_attribute when on rails 3.x
-  class_eval do
-    def self.registered_allowance_evaluators() nil end
-    def self.registered_allowance_evaluators=(val)
-      singleton_class.class_eval do
-        define_method(:registered_allowance_evaluators) do
-          val
-        end
-      end
-    end
+  def self.registered_allowance_evaluators
+    @@registered_allowance_evaluators ||= []
   end
 
   register_allowance_evaluator OpenProject::PrincipalAllowanceEvaluator::Default
