@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
+require 'features/projects/projects/projects_page'
 
 describe 'edit users', type: :feature, js: true, selenium: true do
   let(:current_user) { FactoryGirl.create :admin }

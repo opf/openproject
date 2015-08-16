@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'features/categories/categories_page'
+require 'features/admin/categories/categories_page'
 
 describe 'Deletion', type: :feature do
   let(:current_user) { FactoryGirl.create :admin }

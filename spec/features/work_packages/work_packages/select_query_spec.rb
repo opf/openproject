@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/page_objects/work_packages_page'
+require_relative 'page_objects/work_packages_page'
 
 describe 'Query selection', type: :feature, js: true, selenium: true do
   let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }

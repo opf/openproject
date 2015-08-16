@@ -27,37 +27,45 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
+require_relative '../support/shared_contexts'
+require_relative '../support/shared_examples'
 
-describe 'Delete project', type: :feature do
-  let(:current_user) { FactoryGirl.create (:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:projects_page) { ProjectsPage.new(project) }
-  let(:delete_button) { find('input[type="submit"]') }
+describe 'activity comments', js: true, selenium: true do
+  let(:project) { FactoryGirl.create :project_with_types, is_public: true }
+  let!(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:user) { FactoryGirl.create :admin }
+
+  include_context 'maximized window'
 
   before do
-    allow(User).to receive(:current).and_return current_user
+    allow(User).to receive(:current).and_return(user)
+    visit project_work_packages_path(project)
 
-    projects_page.visit_confirm_destroy
+    ensure_wp_table_loaded
+
+    row = page.find("#work-package-#{work_package.id}")
+    row.double_click
+
+    ng_wait
   end
 
-  it { expect(find('input#confirm')).not_to be_nil }
+  it 'should alert user if navigating with unsaved form' do
+    fill_in I18n.t('js.label_add_comment_title'), with: 'Foobar'
 
-  describe 'click delete w/o confirm' do
-    before { delete_button.click }
+    visit root_path
 
-    it { expect(find('.error', text: I18n.t(:notice_project_not_deleted))).not_to be_nil }
+    page.driver.browser.switch_to.alert.accept
+
+    expect(current_path).to eq(root_path)
   end
 
-  describe 'click delete with confirm' do
-    let(:confirm_checkbox) { find('input#confirm') }
+  it 'should not alert if comment has been submitted' do
+    fill_in I18n.t('js.label_add_comment_title'), with: 'Foobar'
 
-    before do
-      confirm_checkbox.set true
+    click_button I18n.t('js.label_add_comment')
 
-      delete_button.click
-    end
+    visit root_path
 
-    it { expect(find('h2', text: 'Projects')).not_to be_nil }
+    expect(current_path).to eq(root_path)
   end
 end

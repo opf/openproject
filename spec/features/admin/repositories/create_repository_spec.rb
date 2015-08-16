@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'features/repositories/repository_settings_page'
+require 'features/admin/repositories/repository_settings_page'
 
 describe 'Create repository', type: :feature, js: true, selenium: true do
   let(:current_user) { FactoryGirl.create (:admin) }

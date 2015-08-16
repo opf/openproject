@@ -27,27 +27,37 @@
 #++
 
 require 'spec_helper'
-require 'features/support/toggable_fieldsets'
-require 'features/work_packages/page_objects/work_packages_page'
+require 'features/projects/projects/projects_page'
 
-describe 'Work package calendar index', type: :feature do
-  describe 'Toggable fieldset', js: true do
-    include_context 'Toggable fieldset examples'
+describe 'Delete project', type: :feature do
+  let(:current_user) { FactoryGirl.create (:admin) }
+  let(:project) { FactoryGirl.create(:project) }
+  let(:projects_page) { ProjectsPage.new(project) }
+  let(:delete_button) { find('input[type="submit"]') }
 
-    let(:project) { FactoryGirl.create(:project) }
-    let(:current_user) { FactoryGirl.create (:admin) }
-    let(:work_packages_page) { WorkPackagesPage.new(project) }
+  before do
+    allow(User).to receive(:current).and_return current_user
+
+    projects_page.visit_confirm_destroy
+  end
+
+  it { expect(find('input#confirm')).not_to be_nil }
+
+  describe 'click delete w/o confirm' do
+    before { delete_button.click }
+
+    it { expect(find('.error', text: I18n.t(:notice_project_not_deleted))).not_to be_nil }
+  end
+
+  describe 'click delete with confirm' do
+    let(:confirm_checkbox) { find('input#confirm') }
 
     before do
-      allow(User).to receive(:current).and_return current_user
+      confirm_checkbox.set true
 
-      work_packages_page.visit_calendar
+      delete_button.click
     end
 
-    describe 'Filter fieldset', js: true do
-      it_behaves_like 'toggable fieldset initially collapsed' do
-        let(:fieldset_name) { 'Filters' }
-      end
-    end
+    it { expect(find('h2', text: 'Projects')).not_to be_nil }
   end
 end

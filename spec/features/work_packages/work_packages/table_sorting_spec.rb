@@ -27,45 +27,52 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/support/shared_contexts'
-require 'features/work_packages/support/shared_examples'
+require_relative 'page_objects/work_packages_page'
 
-describe 'activity comments', js: true, selenium: true do
-  let(:project) { FactoryGirl.create :project_with_types, is_public: true }
-  let!(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:user) { FactoryGirl.create :admin }
+describe 'Select work package row', type: :feature, js: true, selenium: true do
+  let(:user) { FactoryGirl.create(:admin) }
+  let(:project) { FactoryGirl.create(:project) }
+  let(:work_package_1) do
+    FactoryGirl.create(:work_package, project: project)
+  end
+  let(:work_package_2) do
+    FactoryGirl.create(:work_package, project: project)
+  end
+  let(:work_packages_page) { WorkPackagesPage.new(project) }
 
-  include_context 'maximized window'
+  let(:version_1) do
+    FactoryGirl.create(:version, project: project,
+                                 name: 'aaa_version')
+  end
+  let(:version_2) do
+    FactoryGirl.create(:version, project: project,
+                                 name: 'zzz_version')
+  end
 
   before do
     allow(User).to receive(:current).and_return(user)
-    visit project_work_packages_path(project)
 
-    ensure_wp_table_loaded
+    work_package_1
+    work_package_2
 
-    row = page.find("#work-package-#{work_package.id}")
-    row.double_click
-
-    ng_wait
+    work_packages_page.visit_index
   end
 
-  it 'should alert user if navigating with unsaved form' do
-    fill_in I18n.t('js.label_add_comment_title'), with: 'Foobar'
+  include_context 'ui-select helpers'
+  include_context 'work package table helpers'
 
-    visit root_path
+  context 'sorting by version' do
+    before do
+      work_package_1.update_attribute(:fixed_version_id, version_2.id)
+      work_package_2.update_attribute(:fixed_version_id, version_1.id)
+    end
 
-    page.driver.browser.switch_to.alert.accept
+    it 'sorts by version although version is not selected as a column' do
+      remove_wp_table_column('Version')
 
-    expect(current_path).to eq(root_path)
-  end
+      sort_wp_table_by('Version')
 
-  it 'should not alert if comment has been submitted' do
-    fill_in I18n.t('js.label_add_comment_title'), with: 'Foobar'
-
-    click_button I18n.t('js.label_add_comment')
-
-    visit root_path
-
-    expect(current_path).to eq(root_path)
+      expect_work_packages_to_be_in_order([work_package_1, work_package_2])
+    end
   end
 end
