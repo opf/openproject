@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::API::V3::Activities::ActivityRepresenter do
   let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }

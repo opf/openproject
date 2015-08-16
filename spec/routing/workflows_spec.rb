@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'workflows routes', type: :routing do
   it { expect(get('/workflows')).to route_to('workflows#index') }

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 

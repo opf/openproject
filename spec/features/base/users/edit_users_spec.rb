@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 require 'features/projects/projects/projects_page'
 
 describe 'edit users', type: :feature, js: true, selenium: true do

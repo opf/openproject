@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Wiki, type: :model do
   let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }

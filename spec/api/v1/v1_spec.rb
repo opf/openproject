@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 require 'rack/test'
 
 # NOTICE: Api v1 is not supported but we want to ensure proper messages

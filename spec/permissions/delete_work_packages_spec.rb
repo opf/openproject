@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe WorkPackages::BulkController, 'delete_work_packages permission', type: :controller do
   include PermissionSpecs

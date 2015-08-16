@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::API::Decorators::Formattable do
   let(:represented) { 'A *raw* string!' }

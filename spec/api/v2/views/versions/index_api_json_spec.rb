@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'api/v2/versions/index.api.rabl', type: :view do
   let(:shared_with) { [42, 1, 2, 3] }

@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'spec_helper'
+require 'rails_helper'
 
 describe JournalNotificationMailer do
   let(:project) { FactoryGirl.create(:project_with_types) }

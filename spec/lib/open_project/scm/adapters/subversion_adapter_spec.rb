@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe OpenProject::Scm::Adapters::Subversion do
   let(:root_url) { '/tmp/bar.svn' }

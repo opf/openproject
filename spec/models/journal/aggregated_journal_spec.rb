@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++require 'rspec'
 
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec::Matchers.define :be_equivalent_to_journal do |expected|
   ignored_attributes = [:notes_id, :notes_version]

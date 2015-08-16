@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 # Concern is included into AccountController and depends on methods available there
 describe AccountController, type: :controller do

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 require 'rack/test'
 
 describe 'API v3 Work package resource', type: :request do

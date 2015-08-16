@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 require_relative 'pagination_spec_helper'
 
 describe Api::V2::Pagination::ReportedProjectStatusesController, type: :controller do

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 require_relative 'page_objects/work_packages_page'
 
 describe 'Select work package row', type: :feature, js: true, selenium: true do

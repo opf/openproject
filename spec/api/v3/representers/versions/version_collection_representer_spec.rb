@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::API::V3::Versions::VersionCollectionRepresenter do
   let(:self_link) { '/api/v3/projects/1/versions' }

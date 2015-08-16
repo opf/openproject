@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 require 'features/work_packages/work_packages/page_objects/work_packages_page'
 
 shared_context 'Toggable fieldset examples' do

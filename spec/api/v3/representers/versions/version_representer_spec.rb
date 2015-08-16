@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::API::V3::Versions::VersionRepresenter do
   let(:version) { FactoryGirl.build_stubbed(:version) }

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples_for 'API V3 formattable' do |property|
   it { is_expected.to have_json_path(property) }

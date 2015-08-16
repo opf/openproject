@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples_for 'action link' do
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :edit_work_packages]) }

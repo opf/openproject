@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Activity::WorkPackageActivityProvider, type: :model do
   let(:event_scope)               { 'work_packages' }

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Api::V2::WorkflowsController, type: :routing do
   it 'should connect GET /projects/blubs/workflows to workflows#index' do

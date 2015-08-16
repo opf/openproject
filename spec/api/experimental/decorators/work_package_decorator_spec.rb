@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe API::Experimental::WorkPackageDecorator, type: :model do
   let(:wp1) { FactoryGirl.build_stubbed(:work_package) }

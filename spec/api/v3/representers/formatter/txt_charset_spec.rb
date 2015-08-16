@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe API::V3::Formatter::TxtCharset do
   let(:umlaut_object_ascii) { 'ümläutß'.force_encoding('ASCII-8BIT') }

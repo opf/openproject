@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Api::V2::AuthenticationController, type: :controller do
   before { allow(Setting).to receive(:rest_api_enabled?).and_return true }

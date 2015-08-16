@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Api::V2::Pagination::PrincipalsController, type: :routing do
   it 'should connect GET /api/v2/pagination/principals to principals#edit' do

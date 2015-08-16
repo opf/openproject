@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 require 'features/admin/repositories/repository_settings_page'
 
 describe 'Create repository', type: :feature, js: true, selenium: true do

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'my routes', type: :routing do
   it '/my/add_block POST routes to my#add_block' do

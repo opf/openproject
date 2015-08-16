@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:self_base_link) { '/api/v3/example' }

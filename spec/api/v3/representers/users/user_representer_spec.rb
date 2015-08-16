@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::API::V3::Users::UserRepresenter do
   let(:user) { FactoryGirl.build_stubbed(:user, status: 1) }

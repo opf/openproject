@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 require_relative '../../support/shared_contexts'
 require_relative '../../support/shared_examples'
 require_relative '../../page_objects/work_package_field'

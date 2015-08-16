@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::API::V3::WorkPackages::UpdateContract do
   let(:project) { FactoryGirl.create(:project, is_public: false) }

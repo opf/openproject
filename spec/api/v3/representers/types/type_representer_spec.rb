@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::API::V3::Types::TypeRepresenter do
   let(:type) { FactoryGirl.build_stubbed(:type, color: FactoryGirl.build(:color)) }

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Api::V2::ReportingsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }

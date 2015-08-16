@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++require 'rspec'
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ::API::V3::WorkPackages::CreateFormRepresenter do
   include API::V3::Utilities::PathHelper

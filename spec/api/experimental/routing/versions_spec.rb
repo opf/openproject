@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Api::Experimental::VersionsController, type: :routing do
   it 'should connect GET ' +

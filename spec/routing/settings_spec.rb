@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'settings routes', type: :routing do
   it { expect(get('/settings')).to route_to('settings#index') }

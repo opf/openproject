@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples_for 'handling anonymous user' do
   context 'anonymous user' do

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe ProjectsController, type: :routing do
   it 'should connect GET /api/v2/projects/level_list.json to projects#level_list' do

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'api/experimental/projects/show.api.rabl', type: :view do
   let(:principal) { FactoryGirl.build(:principal) }

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe MessagesController, 'edit_own_messages permission', type: :controller do
   include PermissionSpecs

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe CustomFieldsController, type: :controller do
   let(:custom_field) { FactoryGirl.build(:custom_field) }

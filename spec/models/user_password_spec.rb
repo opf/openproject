@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe UserPassword, type: :model do
   let(:old_password) { FactoryGirl.create(:old_user_password) }

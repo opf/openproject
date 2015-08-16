@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe WikiController, 'edit_wiki_pages permission', type: :controller do
   include PermissionSpecs

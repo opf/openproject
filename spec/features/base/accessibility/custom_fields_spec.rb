@@ -28,7 +28,7 @@
 
 # FIXME: Capybara overlapping element spec
 
-require 'spec_helper'
+require 'rails_helper'
 require 'features/admin/custom_fields/custom_fields_page'
 require 'features/projects/projects/project_settings_page'
 require 'features/work_packages/work_packages/page_objects/work_packages_page'
