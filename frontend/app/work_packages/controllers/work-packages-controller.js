@@ -49,6 +49,10 @@ module.exports = function($scope, $state, $stateParams, QueryService, PathHelper
     return $state.includes('work-packages.list.details');
   };
 
+  $scope.isListViewActive = function() {
+    return $state.is('work-packages.list');
+  };
+
   $scope.isShowViewActive = function() {
     return $state.includes('work-packages.show');
   };
