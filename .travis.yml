@@ -52,6 +52,7 @@ env:
 
     # postgres
     - "TEST_SUITE=cucumber:matrix[base]             DB=postgres"
+    - "TEST_SUITE=cucumber:matrix[admin]            DB=postgres"
     - "TEST_SUITE=cucumber:matrix[work_packages]    DB=postgres"
     - "TEST_SUITE=cucumber:matrix[projects]         DB=postgres"
     - "TEST_SUITE=cucumber:matrix[timelines]        DB=postgres"
