@@ -29,6 +29,8 @@
 require 'spec_helper'
 require 'rack/test'
 
+# NOTICE: Api v1 is not supported but we want to ensure proper messages
+# if some calls this api version
 describe 'removed api v1', type: :request do
   include Rack::Test::Methods
 
