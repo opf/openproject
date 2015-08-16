@@ -66,7 +66,7 @@ require_relative 'paths.rb'
 # steps to use the XPath syntax.
 Capybara.configure do |config|
   config.default_selector = :css
-  config.default_wait_time = 2
+  config.default_wait_time = 5
   config.exact_options = true
   config.ignore_hidden_elements = true
   config.match = :one
