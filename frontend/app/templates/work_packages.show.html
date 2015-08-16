@@ -21,11 +21,11 @@
               {{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}
             </label>
             <button id="work-packages-list-view-button"
-                    accesskey="{{ !isDetailsViewActive() ? '' : '8' }}"
+                    accesskey="{{ isListViewActive() ? '' : '8' }}"
                     class="button"
-                    title="{{ getActivationActionLabel(isDetailsViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
+                    title="{{ getActivationActionLabel(!isListViewActive()) + ' ' + I18n.t('js.button_list_view') }}"
                     ng-click="closeDetailsView()"
-                    ng-class="{ '-active': !isDetailsViewActive() }">
+                    ng-class="{ '-active': isListViewActive() }">
               <i class="icon-table-view button--icon"></i>
             </button>
           </li>
@@ -40,7 +40,7 @@
                     class="button"
                     title="{{ getActivationActionLabel(!isDetailsViewActive()) + ' ' + I18n.t('js.button_details_view') }}"
                     ng-class="{ '-active': isDetailsViewActive() }"
-                    ng-click="openLatestTab()">
+                    ng-click="showWorkPackageDetails()">
               <i class="icon-table-detail-view button--icon"></i>
             </button>
           </li>
