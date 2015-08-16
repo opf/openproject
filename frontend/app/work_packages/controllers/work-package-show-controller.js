@@ -193,6 +193,14 @@ module.exports = function($scope,
     hideAllAttributes: true
   };
 
+  $scope.showWorkPackageDetails = function() {
+    $state.go('work-packages.list.details.overview', {workPackageId: $scope.workPackage.props.id});
+  };
+
+  $scope.closeDetailsView = function() {
+    $state.go('work-packages.list');
+  };
+
   function getFocusAnchorLabel(tab, workPackage) {
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
         params = {
