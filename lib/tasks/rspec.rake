@@ -8,6 +8,7 @@ namespace :spec do
   desc 'Run the code examples in spec, excluding legacy'
   begin
     require 'rspec/core/rake_task'
+
     RSpec::Core::RakeTask.new(core: 'spec:prepare') do |t|
       t.exclude_pattern = ''
     end
@@ -17,30 +18,30 @@ namespace :spec do
       t.exclude_pattern = 'spec/{api,models,controllers,requests,features}/**/*_spec.rb'
     end
 
-    desc "Run specs for api v3"
-    RSpec::Core::RakeTask.new(api_v3: 'spec:prepare') do |t|
-      t.pattern = 'spec/api/v3/**/*_spec.rb'
-    end
-
     desc "Run requests specs for api v3"
-    RSpec::Core::RakeTask.new(api_v3_requests: 'spec:prepare') do |t|
+    RSpec::Core::RakeTask.new('api:v3:requests' => 'spec:prepare') do |t|
       t.pattern = 'spec/api/v3/requests/**/*_spec.rb'
     end
 
     desc "Run specs for api v3 except requests"
-    RSpec::Core::RakeTask.new(api_v3_misc: 'spec:prepare') do |t|
+    RSpec::Core::RakeTask.new('api:v3:misc' => 'spec:prepare') do |t|
       t.pattern = 'spec/api/v3/**/*_spec.rb'
       t.exclude_pattern = 'spec/api/v3/requests/**/*_spec.rb'
     end
 
-    desc "Run specs for api experimental"
-    RSpec::Core::RakeTask.new(:api_exp) do |t|
-      t.pattern = 'spec/api/experimental/**/*_spec.rb'
-    end
+    sub_types = begin
+            dirs = Dir['./spec/{api,features}/**/*_spec.rb'].
+              map { |f| f.sub(/^\.\/(spec\/\w+\/\w+)\/.*/, '\\1') }.
+              uniq.
+              select { |f| File.directory?(f) }
+            Hash[dirs.map { |d| ["#{d.split('/').second}:#{d.split('/').last}", d] }]
+          end
 
-    desc "Run specs for api v2 and v1"
-    RSpec::Core::RakeTask.new(:api_v2) do |t|
-      t.pattern = 'spec/api/{v1,v2}/**/*_spec.rb'
+    sub_types.each do |type, dir|
+      desc "Run the code examples in #{dir}"
+      RSpec::Core::RakeTask.new(type => "spec:prepare") do |t|
+        t.pattern = "./#{dir}/**/*_spec.rb"
+      end
     end
 
   rescue LoadError
