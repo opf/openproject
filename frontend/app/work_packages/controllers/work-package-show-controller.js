@@ -41,7 +41,12 @@ module.exports = function($scope,
     WorkPackageService,
     CommonRelationsHandler,
     ChildrenRelationsHandler,
-    ParentRelationsHandler
+    ParentRelationsHandler,
+    WorkPackagesOverviewService,
+    WorkPackageFieldService,
+    EditableFieldsState,
+    WorkPackagesDisplayHelper,
+    NotificationsService
   ) {
   $scope.$on('$stateChangeSuccess', function(event, toState){
     latestTab.registerState(toState.name);
@@ -203,4 +208,53 @@ module.exports = function($scope,
     $state.current.url.replace(/\//, ''),
     $scope.workPackage
   );
+
+  // Stuff copied from DetailsTabOverviewController
+  var vm = this;
+
+  vm.groupedFields = [];
+  vm.hideEmptyFields = true;
+  vm.workPackage = $scope.workPackage;
+
+  vm.isGroupHideable = WorkPackagesDisplayHelper.isGroupHideable;
+  vm.isFieldHideable = WorkPackagesDisplayHelper.isFieldHideable;
+  vm.getLabel = WorkPackagesDisplayHelper.getLabel;
+  vm.isSpecified = WorkPackagesDisplayHelper.isSpecified;
+  vm.hasNiceStar = WorkPackagesDisplayHelper.hasNiceStar;
+  vm.showToggleButton = WorkPackagesDisplayHelper.showToggleButton;
+
+  activate();
+
+  function activate() {
+    EditableFieldsState.forcedEditState = false;
+    $scope.$watch('workPackage.schema', function(schema) {
+      if (schema) {
+        WorkPackagesDisplayHelper.setFocus();
+        vm.workPackage = $scope.workPackage;
+      }
+    });
+    vm.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
+
+    $scope.$watchCollection('vm.workPackage.form', function(form) {
+      var schema = WorkPackageFieldService.getSchema(vm.workPackage);
+      var otherGroup = _.find(vm.groupedFields, {groupName: 'other'});
+      otherGroup.attributes = [];
+      _.forEach(schema.props, function(prop, propName) {
+        if (propName.match(/^customField/)) {
+          otherGroup.attributes.push(propName);
+        }
+      });
+      otherGroup.attributes.sort(function(a, b) {
+        var getLabel = function(field) {
+          return vm.getLabel(vm.workPackage, field);
+        };
+        var left = getLabel(a).toLowerCase(),
+            right = getLabel(b).toLowerCase();
+        return left.localeCompare(right);
+      });
+    });
+    $scope.$on('workPackageUpdatedInEditor', function() {
+      NotificationsService.addSuccess(I18n.t('js.label_successful_update'));
+    });
+  }
 };
