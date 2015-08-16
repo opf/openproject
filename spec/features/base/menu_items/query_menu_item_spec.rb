@@ -27,8 +27,8 @@
 #++
 
 require 'rails_helper'
-require 'features/work_packages/work_packages/support/shared_contexts'
-require 'features/work_packages/work_packages/page_objects/work_packages_page'
+require 'features/work_packages/support/shared_contexts'
+require 'features/work_packages/page_objects/work_packages_page'
 
 feature 'Query menu items' do
   let(:user) { FactoryGirl.create :admin }

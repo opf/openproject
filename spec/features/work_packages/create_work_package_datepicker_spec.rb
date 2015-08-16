@@ -29,7 +29,7 @@
 require 'rails_helper'
 require_relative 'page_objects/work_packages_page'
 
-describe 'New work package', type: :feature, js: true  do
+describe 'Create work package', type: :feature, js: true  do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }

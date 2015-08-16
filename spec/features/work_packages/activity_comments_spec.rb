@@ -27,8 +27,8 @@
 #++
 
 require 'rails_helper'
-require_relative '../support/shared_contexts'
-require_relative '../support/shared_examples'
+require_relative 'support/shared_contexts'
+require_relative 'support/shared_examples'
 
 describe 'activity comments', js: true, selenium: true do
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }

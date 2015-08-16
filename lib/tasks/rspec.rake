@@ -44,6 +44,19 @@ namespace :spec do
       end
     end
 
+    # custom task to brake down feature/work_packages specs
+    desc "Run specs features/work_packages without inplace editor specs"
+    RSpec::Core::RakeTask.new('features:work_packages:wo_inplace' => 'spec:prepare') do |t|
+      t.pattern = 'spec/features/work_packages/**/*_spec.rb'
+      t.exclude_pattern = 'spec/features/work_packages/inplace_editor/**/*_spec.rb'
+    end
+
+    # custom task to brake down feature/work_packages specs
+    desc "Run specs features/work_packages inplace editor specs"
+    RSpec::Core::RakeTask.new('features:work_packages:inplace' => 'spec:prepare') do |t|
+      t.pattern = 'spec/features/work_packages/inplace_editor/**/*_spec.rb'
+    end
+
   rescue LoadError
     # when you bundle without development and test (e.g. to create a deployment
     # artefact) still all tasks get loaded. To avoid an error we rescue here.

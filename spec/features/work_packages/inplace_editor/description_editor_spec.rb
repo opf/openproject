@@ -27,21 +27,28 @@
 #++
 
 require 'rails_helper'
-require_relative '../../support/shared_contexts'
-require_relative '../../support/shared_examples'
-require_relative '../../page_objects/work_package_field'
-require_relative '../../page_objects/work_packages_page'
+require_relative '../support/shared_contexts'
+require_relative '../support/shared_examples'
+require_relative '../page_objects/work_package_field'
+require_relative '../page_objects/work_packages_page'
 
-describe 'subject inplace editor', js: true, selenium: true do
+describe 'description inplace editor', js: true, selenium: true do
   include_context 'maximized window'
 
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
-  let(:property_name) { :subject }
-  let(:property_title) { 'Subject' }
-  let!(:work_package) { FactoryGirl.create :work_package, project: project }
+  let(:property_name) { :description }
+  let(:property_title) { 'Description' }
+  let(:description_text) { 'Ima description' }
+  let!(:work_package) {
+    FactoryGirl.create(
+      :work_package,
+      project: project,
+      description: description_text
+    )
+  }
   let(:user) { FactoryGirl.create :admin }
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:field) { WorkPackageField.new page, property_name }
+  let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   before do
     allow(User).to receive(:current).and_return(user)
@@ -50,49 +57,46 @@ describe 'subject inplace editor', js: true, selenium: true do
   end
 
   context 'in read state' do
-    it 'has correct content' do
+    it 'renders the correct text' do
       expect(field.read_state_text).to eq work_package.send(property_name)
+    end
+
+    context 'when is empty' do
+      let(:description_text) { '' }
+
+      it 'renders a placeholder' do
+        expect(field.read_state_text).to eq 'Click to enter description...'
+      end
+    end
+
+    context 'when is editable' do
+      context 'when clicking on an anchor' do
+        it 'navigates to the given url'
+        it 'does not trigger editing'
+      end
     end
   end
 
   it_behaves_like 'an auth aware field'
   it_behaves_like 'a cancellable field'
-  it_behaves_like 'having a single validation point'
-  it_behaves_like 'a required field'
 
   context 'in edit state' do
     before do
       field.activate_edition
     end
 
-    it 'renders a text input' do
+    after do
+      field.cancel_by_click
+    end
+
+    it 'renders a textarea' do
       expect(field.input_element).to be_visible
-      expect(field.input_element['type']).to eq 'text'
+      expect(field.input_element.tag_name).to eq 'textarea'
     end
-
-    it 'has a correct value for the input' do
-      expect(field.input_element[:value]).to eq work_package.subject
-    end
-
-    context 'on save' do
-      before do
-        field.input_element.set 'Aloha'
-      end
-
-      # safeguard
-      include_context 'ensure wp details pane update done' do
-        let(:update_user) { user }
-      end
-
-      it 'displays the new value after save' do
-        field.submit_by_click
-        expect(field.read_state_text).to eq 'Aloha'
-      end
-
-      it 'saves the value on ENTER' do
-        field.submit_by_enter
-        expect(field.read_state_text).to eq 'Aloha'
-      end
-    end
+    it 'renders formatting buttons'
+    it 'renders a preview button'
+    it 'prevents page navigation in edit mode'
+    it 'has a correct value for the textarea'
+    it 'displays the new HTML after save'
   end
 end

@@ -27,7 +27,7 @@
 #++
 
 require 'rails_helper'
-require 'features/work_packages/work_packages/page_objects/work_packages_page'
+require 'features/work_packages/page_objects/work_packages_page'
 
 shared_context 'Toggable fieldset examples' do
   def toggable_title
