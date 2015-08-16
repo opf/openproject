@@ -29,7 +29,7 @@
 # This addresses some of the forms of the admin's user panel
 #
 
-@javascript
+@javascript @selenium
 Feature: User
   Background:
     Given I am already admin
@@ -46,12 +46,10 @@ Feature: User
       And there is 1 project with the following:
         | Identifier | project3 |
         | name       | Project3 |
-
       And there is 1 User with:
         | Login     | peter |
         | Firstname | Peter |
         | Lastname  | Pan   |
-
       And there is 1 User with:
         | Login     | hannibal |
         | Firstname | Hannibal |
@@ -71,7 +69,6 @@ Feature: User
       | alpha |
     And I should not see membership to the project "project2"
 
-
   Scenario: Granting Membership to a project with multiple
     When I go to the memberships tab of the edit page for the user peter
     And I select "Project1" from "membership_project_id"
@@ -85,7 +82,6 @@ Feature: User
       | gamma |
     And I should not see membership to the project "project2"
 
-
   Scenario: Revoking Membership to a project
     When the user "peter" is a "alpha" in the project "project1"
     And I go to the memberships tab of the edit page for the user peter
@@ -94,7 +90,6 @@ Feature: User
     When I delete membership to project "project1"
     And I go to the memberships tab of the edit page for the user peter
     Then I should not see membership to the project "project1"
-
 
   Scenario: Editing membership to a project
     When the user "peter" is a "alpha" in the project "project1"
@@ -111,7 +106,6 @@ Feature: User
       | beta  |
       | gamma |
 
-  @selenium
   Scenario: re-adding a Member inside Admin Panel
     When the user "peter" is a "alpha" in the project "project1"
      And I go to the memberships tab of the edit page for the user peter
