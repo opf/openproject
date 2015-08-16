@@ -125,7 +125,11 @@ angular.module('openproject.workPackages.controllers')
     'CommonRelationsHandler',
     'ChildrenRelationsHandler',
     'ParentRelationsHandler',
+    'WorkPackagesOverviewService',
+    'WorkPackageFieldService',
     'EditableFieldsState',
+    'WorkPackagesDisplayHelper',
+    'NotificationsService',
     require('./work-package-show-controller')
   ])
   .controller('WorkPackagesController', [
