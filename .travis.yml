@@ -64,6 +64,7 @@ env:
     - "TEST_SUITE=spec:features:base                      DB=postgres"
     - "TEST_SUITE=spec:features:projects                  DB=postgres"
     - "TEST_SUITE=spec:features:wiki                      DB=postgres"
+    - "TEST_SUITE=spec:legacy                             DB=postgres"
     - "TEST_SUITE=spec:api:v3:requests                    DB=postgres"
     - "TEST_SUITE=spec:api:v3:misc                        DB=postgres"
     - "TEST_SUITE=spec:api:v2                             DB=postgres"
