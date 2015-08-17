@@ -21,8 +21,6 @@ nl:
     meeting_minutes: Notulen van de vergadering bewerkt
     meeting_minutes_created: Notulen gemaakt
   error_notification_with_errors: 'Notificatie verzenden mislukt. De volgende geadresseerden konden niet worden gemeld: %{recipients}'
-  label_meeting_hour: Tijd (uur)
-  label_meeting_minute: Tijd (minuut)
   label_meeting: Vergadering
   label_meeting_plural: Vergaderingen
   label_meeting_new: Nieuwe vergadering

@@ -21,8 +21,6 @@ sv:
     meeting_minutes: Mötesprotokoll redigerat
     meeting_minutes_created: Mötesprotokoll skapat
   error_notification_with_errors: 'Det gick inte att skicka underrättelse. Följande mottagare kunde inte underrättas: %{recipients}'
-  label_meeting_hour: Tid (timme)
-  label_meeting_minute: Tid (minuter)
   label_meeting: Möte
   label_meeting_plural: Möten
   label_meeting_new: Nytt möte

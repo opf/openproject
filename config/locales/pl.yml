@@ -21,8 +21,6 @@ pl:
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
   error_notification_with_errors: 'Nie udało się wysłać powiadomienie do adresatów: %{recipients}'
-  label_meeting_hour: Czas (godziny)
-  label_meeting_minute: Czasu (minuty)
   label_meeting: Spotkanie
   label_meeting_plural: Spotkania
   label_meeting_new: Nowe spotkanie

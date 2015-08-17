@@ -21,8 +21,6 @@
     meeting_minutes: Møtereferater endret
     meeting_minutes_created: Møtereferater opprettet
   error_notification_with_errors: 'Kan ikke sende påminning. Følgende mottakere kan ikke varsles: %{recipients}'
-  label_meeting_hour: Klokkeslett (time)
-  label_meeting_minute: Klokkeslett (minutt)
   label_meeting: Møte
   label_meeting_plural: Møter
   label_meeting_new: Nytt møte
