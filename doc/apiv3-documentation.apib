@@ -215,6 +215,7 @@ embedded errors or simply state that multiple errors occured.
 
 ## List of Error Identifiers
 
+* `urn:openproject-org:api:v3:errors:InvalidQuery` (**HTTP 400**) - The query contained a value that did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**) - The format of the request body did not match the servers expectation
 * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**) - The client specified a rendering context that does not exist
 * `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**) - The client used an invalid transition in the attempt to change the status of a user account.
@@ -3762,6 +3763,20 @@ For more details and all possible responses see the general specification of [Fo
 
     [Work Packages][]
 
++ Response 400 (application/hal+json)
+
+    Returned if the client sends a query parameter, that the server knows, but does not understand.
+    E.g. by providing a syntactically incorrect `filters` parameter.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidQuery",
+                "message": "Operator can't be blank."
+            }
+
+
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions.
@@ -3831,6 +3846,19 @@ For more details and all possible responses see the general specification of [Fo
 + Response 200 (application/hal+json)
 
     [Work Packages by Project][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends a query parameter, that the server knows, but does not understand.
+    E.g. by providing a syntactically incorrect `filters` parameter.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidQuery",
+                "message": "Operator can't be blank."
+            }
 
 + Response 403 (application/hal+json)
 

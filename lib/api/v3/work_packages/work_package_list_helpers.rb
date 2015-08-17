@@ -36,11 +36,15 @@ module API
           query = Query.new({ name: '_', project: project })
           query_params = {}
 
-          apply_filters query, query_params
-          apply_sorting query, query_params
-          groups = apply_and_generate_groups query, query_params
+          begin
+            apply_filters query, query_params
+            apply_sorting query, query_params
+            groups = apply_and_generate_groups query, query_params
 
-          total_sums = generate_total_sums query.results, query_params
+            total_sums = generate_total_sums query.results, query_params
+          rescue ::JSON::ParserError => error
+            raise ::API::Errors::InvalidQuery.new(error.message)
+          end
 
           collection_representer(query.results.sorted_work_packages,
                                  project: project,
@@ -78,6 +82,15 @@ module API
 
           query.filters = []
           query.add_filters(filters.map(&:keys).flatten, operators, values)
+
+          bad_filter = query.filters.detect { |filter| filter.invalid? }
+          if bad_filter
+            api_errors = bad_filter.errors.full_messages.map { |message|
+              ::API::Errors::InvalidQuery.new(message)
+            }
+
+            raise ::API::Errors::MultipleErrors.create_if_many api_errors
+          end
         end
 
         def apply_sorting(query, query_params)
