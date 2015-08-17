@@ -117,4 +117,9 @@ angular.module('openproject.services')
     require('./api-notifications-service.js')
   ])
   .service('WatchersService', require('./watchers-service.js'))
+  .service('WatchersService', [
+    '$http',
+    '$q',
+    require('./watchers-service.js')
+  ])
   .service('ConversionService', require('./conversion-service.js'));
