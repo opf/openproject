@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </div>
               </th>
               <th>
-                <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header-outer" style="max-width:200px;">
                   <div class="generic-table--sort-header">
                     <span>
                       <%= Enumeration.human_attribute_name(:is_default) %>
@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </div>
               </th>
               <th>
-                <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header-outer" style="max-width:200px;">
                   <div class="generic-table--sort-header">
                     <span>
                       <%= Enumeration.human_attribute_name(:active) %>
@@ -72,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </div>
               </th>
               <th>
-                <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header-outer" style="max-width:200px;">
                   <div class="generic-table--sort-header">
                     <span>
                       <%=l(:button_sort)%>
@@ -80,16 +80,16 @@ See doc/COPYRIGHT.rdoc for more details.
                   </div>
                 </div>
               </th>
-              <th></th>
+              <th style="max-width:200px;"></th>
             </tr>
           </thead>
           <% enumerations.each do |enumeration| %>
             <tr>
               <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
-              <td><%= checked_image enumeration.is_default? %></td>
-              <td><%= checked_image enumeration.active? %></td>
-              <td><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :method => :put) %></td>
-              <td class="buttons">
+              <td style="width:200px;"><%= checked_image enumeration.is_default? %></td>
+              <td style="width:200px;"><%= checked_image enumeration.active? %></td>
+              <td style="width:200px;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :method => :put) %></td>
+              <td class="buttons" style="width:200px;">
                 <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
                     :method => :delete,
                     :confirm => l(:text_are_you_sure),
