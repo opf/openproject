@@ -27,10 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-OpenProject::Notifications.subscribe('journal_created') do |payload|
-  JournalNotificationMailer.distinguish_journals(payload[:journal], payload[:send_notification])
-end
-
-OpenProject::Notifications.subscribe('watcher_added') do |payload|
-  WatcherNotificationMailer.handle_watcher(payload[:watcher_id])
+class WatcherNotificationMailer
+  class << self
+    def handle_watcher(watcher_id)
+      job = DeliverWatcherNotificationJob.new(watcher_id)
+      Delayed::Job.enqueue job
+    end
+  end
 end
