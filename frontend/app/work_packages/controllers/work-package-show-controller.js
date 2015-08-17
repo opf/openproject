@@ -62,6 +62,7 @@ module.exports = function($scope,
   $scope.I18n = I18n;
   $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
   $scope.maxDescriptionLength = 800;
+  $scope.projectIdentifier = $scope.workPackage.embedded.project.props.identifier;
 
   function refreshWorkPackage(callback) {
     WorkPackageService.getWorkPackage($scope.workPackage.props.id)
@@ -194,11 +195,11 @@ module.exports = function($scope,
   };
 
   $scope.showWorkPackageDetails = function() {
-    $state.go('work-packages.list.details.overview', {workPackageId: $scope.workPackage.props.id});
+    $state.go('work-packages.list.details.overview', {workPackageId: $scope.workPackage.props.id, projectIdentifier: $scope.projectIdentifier});
   };
 
   $scope.closeDetailsView = function() {
-    $state.go('work-packages.list');
+    $state.go('work-packages.list', {projectIdentifier: $scope.projectIdentifier});
   };
 
   function getFocusAnchorLabel(tab, workPackage) {

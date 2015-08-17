@@ -42,13 +42,13 @@ angular.module('openproject')
         encode: valToString,
         decode: valFromString,
         is: regexpMatches,
-        pattern: /.*/
+        pattern: /\/projects\/.*/
       });
   })();
 
   $stateProvider
     .state('work-packages', {
-      url: '{projectPath:projectPathType}/work_packages?query_id',
+      url: '',
       abstract: true,
       templateUrl: '/templates/work_packages.html',
       controller: 'WorkPackagesController',
@@ -69,13 +69,26 @@ angular.module('openproject')
     })
 
     .state('work-packages.show', {
-      url: '/{workPackageId:[0-9]+}?query_props',
+      url: '/work_packages/{workPackageId:[0-9]+}?query_props',
       templateUrl: '/templates/work_packages.show.html',
       controller: 'WorkPackageShowController',
       controllerAs: 'vm',
       resolve: {
         workPackage: function(WorkPackageService, $stateParams) {
           return WorkPackageService.getWorkPackage($stateParams.workPackageId);
+        },
+        // TODO hack, get rid of latestTab in ShowController
+        latestTab: function($state) {
+          var stateName = 'work-package.overview'; // the default tab
+
+          return {
+            getStateName: function() {
+              return stateName;
+            },
+            registerState: function() {
+              stateName = $state.current.name;
+            }
+          };
         }
       }
     })
@@ -98,7 +111,7 @@ angular.module('openproject')
     })
 
     .state('work-packages.list', {
-      url: '',
+      url: '/projects/:projectIdentifier/work_packages?query_id',
       controller: 'WorkPackagesListController',
       templateUrl: '/templates/work_packages.list.html'
     })
