@@ -37,7 +37,7 @@ Before do |scenario|
     Setting.notified_events = [] # can not test mailer
 
     if Capybara.current_driver.to_s.include?('selenium')
-      Capybara.current_session.driver.browser.manage.window.resize_to(3000, 3000)
+      Capybara.current_session.driver.browser.manage.window.resize_to(1680, 1000)
     end
   end
 end
