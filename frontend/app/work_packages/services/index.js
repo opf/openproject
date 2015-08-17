@@ -51,6 +51,8 @@ angular.module('openproject.workPackages.services')
       attributes: []
     }
   ])
+  .factory('WorkPackageFieldConfigurationService',
+           require('./work-package-field-configuration-service'))
   .constant('WORK_PACKAGE_REGULAR_EDITABLE_FIELD', [
     'assignee', 'responsible', 'status', 'version', 'priority'
   ])

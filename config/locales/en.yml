@@ -260,6 +260,9 @@ en:
               reused:
                 one: "has been used before. Please choose one that is different from your last one."
                 other: "has been used before. Please choose one that is different from your last %{count}."
+              match:
+                confirm: "Confirm new password."
+                description: "'Password confirmation' should match the input in the 'New password' field."
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "Please choose at least one role."
@@ -275,7 +278,6 @@ en:
       comment: "Comment"
       custom_field: "Custom field"
       group: "Group"
-      issue: "Issue"
       category: "Category"
       status: "Work package status"
       member: "Member"
@@ -286,7 +288,6 @@ en:
         one : "Role"
         other: "Roles"
       type: "Type"
-      planning_element: Planning element
       project_type: Project type
       user: "User"
       version: "Version"
@@ -646,7 +647,6 @@ en:
   label_add_another_file: "Add another file"
   label_add_columns: "Add selected columns"
   label_add_note: "Add a note"
-  label_add_related_issues: "Add related issue"
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "added"
@@ -1199,7 +1199,7 @@ en:
   permission_browse_repository: "Browse repository"
   permission_change_wiki_parent_page: "Change parent wiki page"
   permission_comment_news: "Comment news"
-  permission_commit_access: "Commit access"
+  permission_commit_access: "Submit commits"
   permission_copy_projects: "Copy projects"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
@@ -1222,7 +1222,7 @@ en:
   permission_edit_time_entries: "Edit time logs"
   permission_edit_timelines: "Edit timelines"
   permission_edit_wiki_pages: "Edit wiki pages"
-  permission_export_work_packages: "Export Work Packages"
+  permission_export_work_packages: "Export work packages"
   permission_export_wiki_pages: "Export wiki pages"
   permission_list_attachments: "List attachments"
   permission_log_time: "Log spent time"
@@ -1424,7 +1424,7 @@ en:
     session: "Session"
     brute_force_prevention: "Automated user blocking"
 
-  show_hide_project_menu: "Hide/Show project menu"
+  show_hide_project_menu: "Show/Hide project menu"
 
   status_active: "active"
 
@@ -1529,7 +1529,6 @@ en:
       project_type: "Project type"
       project_types: "Project types"
     project_menu:
-      planning_elements: "Planning elements"
       project_associations: "Dependencies"
       reportings: "Status reportings"
       reports: "Timeline reports"

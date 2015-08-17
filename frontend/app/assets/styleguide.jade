@@ -9,8 +9,23 @@ html(id="STYLEGUIDE_HTML_ID")
     link(rel='stylesheet', type='text/css', href='/assets/bundles/openproject-global.css')
     != stylesheet
     script(src='/assets/bundles/openproject-global.js')
+    script(src='/assets/tooltips.js')
     script.
       angular.module('openproject-style-guide', ['ui.select', 'ngSanitize'])
+
+        // Add uiComponents to the styleguide.
+        // In order to be able to do that, we have to mock some
+        // services that directives in uiComponents rely on.
+      angular.module('openproject-style-guide')
+        .service('ActivityService', function() {} )
+        .service('ConfigurationService', function() {} )
+        .service('AutoCompleteHelper', function() {} )
+        .requires.push('openproject.uiComponents');
+
+    // get all of angular to be known
+    script(src='/assets/bundles/openproject-core-app.js')
+    // avoid errors of undefined jsToolBar
+    script(src='/assets/jstoolbar/jstoolbar.js')
 
   body.livingstyleguide(ng-app='openproject-style-guide', ng-strict-di=true)
 

@@ -82,7 +82,7 @@ module QueriesHelper
       # User can see public queries and his own queries
       visible = ARCondition.new(['is_public = ? OR user_id = ?', true, (User.current.logged? ? User.current.id : 0)])
       # Project specific queries and global queries
-      visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id IS NULL OR project_id = ?', @project.id])
+      visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id = ?', @project.id])
       @visible_queries = Query.where(visible.conditions)
                          .order('name ASC')
                          .select(:id, :name, :is_public, :project_id)

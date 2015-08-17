@@ -50,8 +50,16 @@ module API
           } unless represented.user.nil?
         end
 
+        link :showRevision do
+          {
+            href: api_v3_paths.show_revision(represented.project.identifier,
+                                             represented.identifier)
+          }
+        end
+
         property :id
         property :identifier
+        property :format_identifier, as: :formattedIdentifier
         property :author, as: :authorName
         property :message,
                  exec_context: :decorator,

@@ -147,14 +147,6 @@ module.exports = function(
       return _.extend({}, item, { name: item.title });
     });
 
-    if (!WorkPackageFieldService.isRequired(workPackage, field)) {
-      var arrayWithEmptyOption = [{
-        href: null,
-        name: I18n.t('js.inplace.clear_value_label')
-      }];
-      options = arrayWithEmptyOption.concat(options);
-    }
-
     return options;
   }
 
@@ -166,13 +158,6 @@ module.exports = function(
       options = _.map(r.data._embedded.elements, function(item) {
         return _.extend({}, item._links.self, { name: item.name });
       });
-      if (!WorkPackageFieldService.isRequired(workPackage, field)) {
-        var arrayWithEmptyOption = [{
-          href: null,
-          name: I18n.t('js.inplace.clear_value_label')
-        }];
-        options = arrayWithEmptyOption.concat(options);
-      }
       return options;
     });
   }

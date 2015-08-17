@@ -30,7 +30,7 @@
 module API
   module V3
     module Repositories
-      class RevisionsCollectionRepresenter < ::API::Decorators::Collection
+      class RevisionsCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::Repositories::RevisionRepresenter
       end
     end

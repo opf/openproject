@@ -42,13 +42,21 @@ div.box-actions
   z-index: 500
 
 #invisible-grid
-
   #list-top
     padding: 0 4px
-  #list-right
-    padding: 0 4px 0 10px
-  #list-left
+
+#visible-grid,
+#invisible-grid
+  // TODO: this fixes an issue which currently breaks the layout
+  // It has to be removed once it is fixed upstream
+  // @see https://github.com/zurb/foundation-apps/issues/575
+  .left, .right
+    @extend .medium-6
+
+  .left
     padding: 0 10px 0px 4px
+  .right
+    padding: 0 4px 0 10px
 
 .block-receiver
   border: 1px dashed $my-page-edit-box-border-color
@@ -57,11 +65,6 @@ div.box-actions
 
   #visible-grid &
     min-height: 32px
-    // TODO: this fixes an issue which currently breaks the layout
-    // It has to be removed once it is fixed upstream
-    // @see https://github.com/zurb/foundation-apps/issues/575
-    &.left, &.right
-      @extend .medium-6
 
   div.mypage-box
     margin-top: 8px

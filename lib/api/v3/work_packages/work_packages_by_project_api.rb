@@ -46,6 +46,19 @@ module API
             end
           end
 
+          get do
+            authorize(:view_work_packages, context: @project)
+            ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
+              @project.work_packages,
+              api_v3_paths.work_packages_by_project(@project.id),
+              page: params[:offset] ? params[:offset].to_i : nil,
+              per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
+              context: {
+                current_user: current_user
+              }
+            )
+          end
+
           post do
             work_package = create_service.create
 

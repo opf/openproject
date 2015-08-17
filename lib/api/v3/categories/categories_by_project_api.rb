@@ -41,9 +41,7 @@ module API
           get do
             self_link = api_v3_paths.categories(@project.identifier)
 
-            CategoryCollectionRepresenter.new(@categories,
-                                              @categories.count,
-                                              self_link)
+            CategoryCollectionRepresenter.new(@categories, self_link)
           end
         end
       end

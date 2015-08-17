@@ -82,19 +82,20 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def collection_check_box(field,
-                           value,
+                           checked_value,
                            checked,
-                           text = field.to_s + "_#{value}",
+                           text = field.to_s + "_#{checked_value}",
                            options = {})
 
-    label_for = "#{sanitized_object_name}_#{field}_#{value}".to_sym
+    label_for = "#{sanitized_object_name}_#{field}_#{checked_value}".to_sym
+    unchecked_value = options.delete(:unchecked_value) { '' }
 
     input_options = options.reverse_merge(multiple: true,
                                           checked: checked,
                                           for: label_for,
                                           label: text)
 
-    check_box(field, input_options, value, '')
+    check_box(field, input_options, checked_value, unchecked_value)
   end
 
   def fields_for_custom_fields(record_name, record_object = nil, options = {}, &block)

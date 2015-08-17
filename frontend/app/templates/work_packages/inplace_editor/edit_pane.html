@@ -3,10 +3,6 @@
       <div class="inplace-edit--write-value" ng-include="templateUrl" ng-click="editPaneController.markActive()" tabindex="-1">
       </div>
     <div class="inplace-edit--dashboard">
-      <div class="inplace-edit--errors" ng-show="editPaneController.error">
-        <i class="icon-attention2 inplace-edit--errors--icon"></i>
-        <div class="inplace-edit--errors--text" ng-bind="editPaneController.error" role="alert" aria-live="polite"></div>
-      </div>
       <div class="inplace-edit--controls" ng-hide="fieldController.state.isBusy || !editPaneController.isActive()">
         <accessible-by-keyboard execute="editPaneController.submit(false)" class="inplace-edit--control inplace-edit--control--save">
           <icon-wrapper icon-name="yes" icon-title="{{ editPaneController.saveTitle }}">

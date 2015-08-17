@@ -218,6 +218,12 @@ describe ::API::V3::Utilities::PathHelper do
 
       it_behaves_like 'api v3 path', '/revisions/1'
     end
+
+    describe '#show_revision' do
+      subject { helper.show_revision 'foo', 1234 }
+
+      it_behaves_like 'path', '/projects/foo/repository/revision/1234'
+    end
   end
 
   describe 'schemas paths' do

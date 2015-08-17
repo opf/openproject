@@ -28,6 +28,8 @@
 #++
 
 class DeliverWorkPackageNotificationJob
+  include OpenProject::BeforeDelayedJob
+
   def initialize(journal_id, author_id)
     @journal_id = journal_id
     @author_id = author_id

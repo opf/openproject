@@ -47,8 +47,8 @@ describe('details pane', function() {
     });
 
     context('read value', function() {
-      it('is editable', function() {
-        expect(dateRangePicker.$('.inplace-edit--write').isPresent()).to.eventually.be.true;
+      iit('is editable', function() {
+        expect(dateRangePicker.$('.inplace-edit--write').isDisplayed()).to.eventually.be.false;
       });
 
       it('should be present on page', function(){

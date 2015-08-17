@@ -53,9 +53,7 @@ module API
           get do
             self_path = api_v3_paths.attachments_by_work_package(@work_package.id)
             attachments = @work_package.attachments
-            AttachmentCollectionRepresenter.new(attachments,
-                                                attachments.count,
-                                                self_path)
+            AttachmentCollectionRepresenter.new(attachments, self_path)
           end
 
           post do

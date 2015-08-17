@@ -44,6 +44,8 @@ class TimelogController < ApplicationController
   include PaginationHelper
   include OpenProject::ClientPreferenceExtractor
 
+  menu_item :time_entries
+
   def index
     sort_init 'spent_on', 'desc'
     sort_update 'spent_on' => 'spent_on',

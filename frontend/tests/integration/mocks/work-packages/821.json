@@ -92,6 +92,9 @@
     },
     "schema": {
       "href": "/api/v3/work_packages/schemas/1-7"
+    },
+    "attachments": {
+      "href": "/api/v3/work_packages/821/attachments"
     }
   },
   "id": 821,

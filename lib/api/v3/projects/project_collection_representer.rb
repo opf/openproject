@@ -35,7 +35,7 @@ require 'roar/json/hal'
 module API
   module V3
     module Projects
-      class ProjectCollectionRepresenter < ::API::Decorators::Collection
+      class ProjectCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::Projects::ProjectRepresenter
       end
     end
