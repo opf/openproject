@@ -34,6 +34,8 @@ describe 'project menu', type: :feature do
 
   before do
     allow(User).to receive(:current).and_return current_user
+    # remove filters that might be left overs from former specs
+    CostQuery::Cache.reset!
   end
 
   ##
