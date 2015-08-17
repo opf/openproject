@@ -198,6 +198,7 @@ class User < Principal
     end
   end
 
+  # FIXME: why do we want to overwrite the reload method
   def reload(*args)
     @name = nil
     @projects_by_role = nil
