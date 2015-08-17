@@ -21,8 +21,6 @@ pt-BR:
     meeting_minutes: Ata da reunião editada
     meeting_minutes_created: Ata da reunião criada
   error_notification_with_errors: 'Falha ao enviar notificação. Os seguintes destinatários não puderam ser notificados: %{recipients}'
-  label_meeting_hour: Horário (hora)
-  label_meeting_minute: Horário (minuto)
   label_meeting: Reunião
   label_meeting_plural: Reuniões
   label_meeting_new: Nova Reunião
