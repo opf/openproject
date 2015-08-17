@@ -3709,7 +3709,7 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "The specified work package does not exist."
             }
 
-## Work Packages [/api/v3/work_packages{?offset,pageSize,filters,sortBy}]
+## Work Packages [/api/v3/work_packages{?offset,pageSize,filters,sortBy,groupBy,showSums}]
 
 + Model
     + Body
@@ -3759,6 +3759,10 @@ For more details and all possible responses see the general specification of [Fo
     + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
 
+    + groupBy (optional, string, `status`) ... The column to group by.
+
+    + showSums = `false` (optional), boolean, `true` ... Indicates whether properties should be summed up if they support it.
+
 + Response 200 (application/hal+json)
 
     [Work Packages][]
@@ -3791,7 +3795,7 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "You are not allowed to see work packages."
             }
 
-## Work Packages by Project [/api/v3/projects/{id}/work_packages{?offset,pageSize,filters,sortBy,notify}]
+## Work Packages by Project [/api/v3/projects/{id}/work_packages{?offset,pageSize,filters,sortBy,groupBy,showSums,notify}]
 
 + Model
     + Body
@@ -3842,6 +3846,10 @@ For more details and all possible responses see the general specification of [Fo
 
     + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
+
+    + groupBy (optional, string, `status`) ... The column to group by.
+
+    + showSums = `false` (optional), boolean, `true` ... Indicates whether properties should be summed up if they support it.
 
 + Response 200 (application/hal+json)
 
