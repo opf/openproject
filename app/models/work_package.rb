@@ -180,11 +180,6 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_journalized except: ['root_id']
 
-  acts_as_countable :required_project_storage,
-                    label: 'attributes.attachments',
-                    collection: true,
-                    countable: Proc.new { joins(:attachments).sum(:filesize).to_i }
-
   # This one is here only to ease reading
   module JournalizedProcs
     def self.event_title

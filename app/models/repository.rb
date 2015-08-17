@@ -51,10 +51,6 @@ class Repository < ActiveRecord::Base
   validates_length_of :password, maximum: 255, allow_nil: true
   validate :validate_enabled_scm, on: :create
 
-  acts_as_countable :required_project_storage,
-                    label: 'label_repository',
-                    countable: :required_disk_storage
-
   def changes
     Change.where(changeset_id: changesets).joins(:changeset)
   end
