@@ -33,6 +33,8 @@ ActionMailer::Base.perform_deliveries = false
 # Avoid asynchronous DeliverWorkPackageCreatedJob
 Delayed::Worker.delay_jobs = false
 
+require_relative 'basic_setup'
+
 user_count = ENV.fetch('SEED_USER_COUNT', 3).to_i
 
 # Careful: The seeding recreates the seeded project before it runs, so any changes
@@ -133,7 +135,9 @@ user_count.times do |count|
                                    start_date: s = Date.today - (25 - rand(50)).days,
                                    due_date: s + (1 + rand(120)).days
     )
-    work_package.type = types.sample
+    work_package.type     = types.sample
+    work_package.status   = Status.all.sample
+    work_package.priority = IssuePriority.all.sample
     work_package.save!
   end
 
