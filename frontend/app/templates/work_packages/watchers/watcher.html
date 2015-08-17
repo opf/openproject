@@ -1,5 +1,5 @@
 <li data-ng-class="{'loading':watcher.loading,'deleting':deleting}">
-  <a ng-href="{{watcher._links.self.href}}" title="{{watcher.name}}">
+  <a ng-href="/users/{{watcher.id}}" title="{{watcher.name}}">
     <img data-ng-src="{{watcher.avatar}}" alt="{{watcher.name}}" data-ng-show="watcher.avatar">
     <span class="work-package--watcher-name">{{watcher.name}}</span>
   </a>
