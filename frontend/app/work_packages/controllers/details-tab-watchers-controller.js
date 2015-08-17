@@ -55,7 +55,15 @@ module.exports = function(scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDEX
             scope.$broadcast('watchers.add.finished', watcher);
           })
           .finally(function() {
-            watcher.loading = false;
+            delete watcher.loading;
+          });
+      },
+      removeWatcher = function(event, watcher) {
+        event.stopPropagation();
+        WatchersService
+          .removeFromWorkPackage(scope.workPackage, watcher)
+          .then(function(watcher) {
+            _.remove(vm.watching, watcher);
           });
       };
 
@@ -64,7 +72,7 @@ module.exports = function(scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDEX
   fetchWatchers();
 
   scope.$on('watchers.add', addWatcher);
-  // scope.$on('watchers.remove', removeWatcher);
+  scope.$on('watchers.remove', removeWatcher);
 
   // $scope.watcherListString = function() {
   //   return _.map($scope.watcher.selected, function(item) {

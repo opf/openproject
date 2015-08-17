@@ -9,7 +9,7 @@
   </div>
   <div data-ng-hide="watchers.loading || watchers.error">
     <ul class="work-package--watchers">
-      <work-package-watcher data-watcher="watcher" data-ng-repeat="watcher in watchers.watching"></work-package-watcher>
+      <work-package-watcher data-watcher="watcher" data-ng-repeat="watcher in watchers.watching track by watcher.id"></work-package-watcher>
     </ul>
     <work-package-watchers-lookup data-watchers="watchers.available" data-ng-show="watchers.available.length"></work-package-watchers-lookup>
   </div>
