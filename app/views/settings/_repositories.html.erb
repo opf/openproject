@@ -28,7 +28,20 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= styled_form_tag({:action => 'edit', :tab => 'repositories'}) do %>
   <section class="form--section">
-    <div class="form--field"><%= setting_check_box :autofetch_changesets %></div>
+    <div class="form--field">
+      <%= setting_check_box :autofetch_changesets %>
+      <div class="form--field-instructions">
+        <%=  simple_format l('repositories.autofetch_information') %>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= setting_text_field :repository_storage_cache_minutes,
+                             unit: I18n.t(:label_minute_plural),
+                             type: 'number' %>
+      <div class="form--field-instructions">
+        <%= simple_format l('repositories.storage.update_timeout') %>
+      </div>
+    </div>
     <div class="form--field"><%= setting_check_box :sys_api_enabled,
          :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %>
       <div class="form--field-instructions">

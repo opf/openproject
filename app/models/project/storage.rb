@@ -52,14 +52,12 @@ module Project::Storage
       }
     end
 
-
     # Workaround for PG adapter returning strings on aggregate functions
     # TODO: This should be fixed and thus removed in Rails 4.
     %w[required_disk_space work_package_required_space
        wiki_required_space repositories_required_space].each do |attribute|
-
       define_method attribute do
-        value = self.read_attribute(attribute)
+        value = read_attribute(attribute)
 
         # Maintain nil value consistency with other adapters
         value.presence && value.to_i
@@ -94,8 +92,8 @@ module Project::Storage
     # Returns the total required disk space for all projects in bytes
     def total_projects_size
       Project.from("(#{Project.with_required_storage.to_sql}) sub")
-             .sum(:required_disk_space)
-             .to_i
+        .sum(:required_disk_space)
+        .to_i
     end
 
     private
