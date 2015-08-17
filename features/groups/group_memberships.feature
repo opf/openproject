@@ -180,7 +180,7 @@ Feature: Group Memberships
      Then I should see "Successful update." within ".notice"
       And I should see "Project1"
 
-     When I follow "Delete" within "table.list.memberships"
+     When I follow "Delete" within "table.generic-table.memberships"
 
      Then I should see "Successful deletion." within ".notice"
       And I should see "No data to display"
