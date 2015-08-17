@@ -28,32 +28,85 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% if work_packages && work_packages.any? %>
   <%= form_tag({}) do %>
-    <table class="list issues work_packages">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th><%= WorkPackage.human_attribute_name(:project)%></th>
-          <th><%= WorkPackage.human_attribute_name(:type)%></th>
-          <th><%= WorkPackage.human_attribute_name(:subject)%></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for work_package in work_packages %>
-          <tr id="work_package-<%= h(work_package.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= work_package_css_classes(work_package) %>">
-            <td class="id">
-              <%= check_box_tag("ids[]", work_package.id, false, :style => 'display:none;') %>
-              <%= link_to_work_package(work_package, :id_only => true) %>
-            </td>
-            <td class="project"><%= link_to_project(work_package.project) %></td>
-            <td class="type"><%=h work_package.type %></td>
-            <td class="subject">
-              <%= link_to_work_package(work_package, :subject_only => true) %> (<%=h work_package.status %>)
-      </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table interactive-table role="grid" class="generic-table work_packages">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      #
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= WorkPackage.human_attribute_name(:project)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= WorkPackage.human_attribute_name(:type)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= WorkPackage.human_attribute_name(:subject)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for work_package in work_packages %>
+              <tr id="work_package-<%= h(work_package.id) %>" class="hascontextmenu <%= work_package_css_classes(work_package) %>">
+                <td class="id">
+                  <%= check_box_tag("ids[]", work_package.id, false, :style => 'display:none;') %>
+                  <%= link_to_work_package(work_package, :id_only => true) %>
+                </td>
+                <td class="project"><%= link_to_project(work_package.project) %></td>
+                <td class="type"><%=h work_package.type %></td>
+                <td class="subject">
+                  <%= link_to_work_package(work_package, :subject_only => true) %> (<%=h work_package.status %>)
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="generic-table--header-background"></div>
+      </div>
+    </div>
   <% end %>
 <% else %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
+ <div class="generic-table--container">
+    <div class="generic-table--no-results-container">
+      <h2 class="generic-table--no-results-title">
+        <i class="icon-info"></i>
+        Nothing to display
+      </h2>
+      <div class="generic-table--no-results-description">
+        <p class="nodata"><%= l(:label_no_data) %></p>
+      </div>
+    </div>
+  </div>
 <% end %>
