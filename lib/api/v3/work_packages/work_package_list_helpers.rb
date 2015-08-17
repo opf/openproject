@@ -56,6 +56,16 @@ module API
           end
         end
 
+        # Expected format looks like:
+        # [
+        #   {
+        #     "filtered_field_name": {
+        #       "operator": "a name for a filter operation",
+        #       "values": ["values", "for the", "operation"]
+        #     }
+        #   },
+        #   { /* more filters if needed */}
+        # ]
         def set_filters_from_json(query, json)
           filters = JSON.parse(json)
           operators = {}
