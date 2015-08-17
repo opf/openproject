@@ -103,6 +103,9 @@ angular.module('openproject.workPackages.directives')
     'ConversionService',
     require('./work-package-attachments-directive')
   ])
+  .directive('workPackageWatcher', [
+    require('./work-package-watcher-directive')
+  ])
   .directive('workPackageWatchersLookup', [
     require('./work-package-watchers-lookup-directive.js')
   ]);

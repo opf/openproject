@@ -42,7 +42,7 @@ module.exports = function($http, $q) {
     };
   };
 
-  var load = function(workPackage) {
+  var watching = function(workPackage) {
         var path = workPackage.links.watchers.url();
         return getWatchers(path)();
       },
@@ -52,9 +52,10 @@ module.exports = function($http, $q) {
       },
       all = function(workPackage) {
         var watchers = $q.defer();
-        $q.all([load(workPackage), available(workPackage)]).then(function(allWatchers) {
+        $q.all([watching(workPackage), available(workPackage)]).then(function(allWatchers) {
           var watching = allWatchers[0],
               available = _.difference(allWatchers[1], allWatchers[0]);
+          console.log(available);
           watchers.resolve({ watching: watching, available: available });
         }, function(err) {
           watchers.reject(err);
@@ -79,6 +80,21 @@ module.exports = function($http, $q) {
         });
 
         return added.promise;
+      },
+      remove = function(workPackage, watcher) {
+        var removed = $q.defer(),
+            path = workPackage.links.removeWatcher.props.href,
+            method = workPackage.links.removeWatcher.props.method;
+
+        path = path.replace(/\{user\_id\}/, watcher.id);
+
+        $http[method](path).then(function() {
+          removed.resolve(watcher);
+        }, function(err) {
+          remove.reject(err);
+        })
+
+        return removed.promise;
       };
 
   /*
@@ -91,9 +107,10 @@ module.exports = function($http, $q) {
    * The public interface is therefore designed around handling WPs
    */
   return {
-    loadForWorkPackage: load,
+    watchingForWorkPackage: watching,
     availableForWorkPackage: available,
     forWorkPackage: all,
-    addForWorkPackage: add
+    addForWorkPackage: add,
+    removeFromWorkPackage: remove
   };
 };

@@ -1,0 +1,5 @@
+<li data-ng-class="{'loading':watcher.loading,'deleting':deleting}">
+  <img data-ng-src="{{watcher.avatar}}" alt="{{watcher.name}}" data-ng-show="watcher.avatar">
+  {{watcher.name}}
+  <a data-ng-click="remove()">&times;</a>
+</li>
