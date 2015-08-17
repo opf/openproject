@@ -39,9 +39,10 @@ describe('WatchersService', function() {
     'WatchersService',
     function(_WatchersService_) {
       WatchersService = _WatchersService_;
-  }]));
+    }])
+  );
 
-  context.only('for workPackage', function() {
+  context('for workPackage', function() {
 
     var availableWatchersPath = '/work_packages/123/available_watchers',
         watchersPath = '/work_packages/123/watchers',
