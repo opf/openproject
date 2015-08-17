@@ -435,9 +435,9 @@ class WorkPackagesController < ApplicationController
   def per_page_param
     case params[:format]
     when 'csv', 'pdf'
-      Setting.work_packages_export_limit.to_i
+      Setting.work_packages_export_limit
     when 'atom'
-      Setting.feeds_limit.to_i
+      Setting.feeds_limit
     else
       super
     end

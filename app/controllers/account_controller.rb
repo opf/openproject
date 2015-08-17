@@ -246,7 +246,7 @@ class AccountController < ApplicationController
         elsif user.password_expired?
           return if redirect_if_password_change_not_allowed(user)
           render_password_change(I18n.t(:notice_account_password_expired,
-                                        days: Setting.password_days_valid.to_i))
+                                        days: Setting.password_days_valid))
         else
           invalid_credentials
         end
@@ -440,7 +440,7 @@ class AccountController < ApplicationController
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
                 " at #{Time.now.utc}"
 
-    if Setting.brute_force_block_after_failed_logins.to_i == 0
+    if Setting.brute_force_block_after_failed_logins == 0
       flash_hash[:error] = I18n.t(:notice_account_invalid_credentials)
     else
       flash_hash[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)

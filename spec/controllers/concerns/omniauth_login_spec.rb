@@ -431,7 +431,7 @@ describe AccountController, type: :controller do
           user.save!
 
           # Make sure we don't get a specific message when brute-force protection is enabled
-          with_settings(brute_force_block_after_failed_logins: '0') do
+          with_settings(brute_force_block_after_failed_logins: 0) do
             post :omniauth_login
           end
         end

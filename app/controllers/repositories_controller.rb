@@ -139,7 +139,7 @@ class RepositoriesController < ApplicationController
   def changes
     @entry = @repository.entry(@path, @rev)
     (show_error_not_found; return) unless @entry
-    @changesets = @repository.latest_changesets(@path, @rev, Setting.repository_log_display_limit.to_i)
+    @changesets = @repository.latest_changesets(@path, @rev, Setting.repository_log_display_limit)
     @properties = @repository.properties(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
   end
@@ -169,7 +169,7 @@ class RepositoriesController < ApplicationController
     @content = @repository.cat(@path, @rev)
     (show_error_not_found; return) unless @content
     if 'raw' == params[:format] ||
-       (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
+       (@content.size && @content.size > Setting.file_max_size_displayed.kilobyte) ||
        !is_entry_text_data?(@content, @path)
 
       # Force the download

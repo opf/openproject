@@ -52,8 +52,8 @@ class Attachment < ActiveRecord::Base
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
   def filesize_below_allowed_maximum
-    if filesize > Setting.attachment_max_size.to_i.kilobytes
-      errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
+    if filesize > Setting.attachment_max_size.kilobytes
+      errors.add(:file, :file_too_large, count: Setting.attachment_max_size.kilobytes)
     end
   end
 

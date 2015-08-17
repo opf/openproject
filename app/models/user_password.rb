@@ -43,7 +43,7 @@ class UserPassword < ActiveRecord::Base
   end
 
   def expired?
-    days_valid = Setting.password_days_valid.to_i.days
+    days_valid = Setting.password_days_valid.days
     return false if days_valid == 0
     created_at < (Time.now - days_valid)
   end

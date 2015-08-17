@@ -46,7 +46,7 @@ welcome_text:
   default:
 log_requesting_user:
   default: 0
-  format: int
+  format: bool
 login_required:
   default: 0
 self_registration:
@@ -112,6 +112,7 @@ host_name:
 protocol:
   default: http
 feeds_enabled:
+  format: bool
   default: 1
 feeds_limit:
   format: int

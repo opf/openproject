@@ -123,11 +123,11 @@ class User < Principal
   scope :not_blocked, lambda { create_blocked_scope(false) }
 
   def self.create_blocked_scope(blocked)
-    block_duration = Setting.brute_force_block_minutes.to_i.minutes
+    block_duration = Setting.brute_force_block_minutes.minutes
     blocked_if_login_since = Time.now - block_duration
     negation = blocked ? '' : 'NOT'
     where("#{negation} (failed_login_count >= ? AND last_failed_login_on > ?)",
-          Setting.brute_force_block_after_failed_logins.to_i,
+          Setting.brute_force_block_after_failed_logins,
           blocked_if_login_since)
   end
 
@@ -291,7 +291,7 @@ class User < Principal
     # Make sure there's only 1 token that matches the key
     if tokens.size == 1
       token = tokens.first
-      if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
+      if (token.created_on > Setting.autologin.day.ago) && token.user && token.user.active?
         token.user.log_successful_login
         token.user
       end
@@ -403,7 +403,7 @@ class User < Principal
   # Brute force prevention - public instance methods
   #
   def failed_too_many_recent_login_attempts?
-    block_threshold = Setting.brute_force_block_after_failed_logins.to_i
+    block_threshold = Setting.brute_force_block_after_failed_logins
     return false if block_threshold == 0  # disabled
     (last_failed_login_within_block_time? and
             failed_login_count >= block_threshold)
@@ -785,7 +785,7 @@ class User < Principal
       if former_passwords_include?(password)
         errors.add(:password,
                    I18n.t(:reused,
-                          count: Setting[:password_count_former_banned].to_i,
+                          count: Setting.password_count_former_banned,
                           scope: [:activerecord,
                                   :errors,
                                   :models,
@@ -813,8 +813,8 @@ class User < Principal
   end
 
   def former_passwords_include?(password)
-    return false if Setting[:password_count_former_banned].to_i == 0
-    ban_count = Setting[:password_count_former_banned].to_i
+    return false if Setting.password_count_former_banned == 0
+    ban_count = Setting.password_count_former_banned
     # make reducing the number of banned former passwords immediately effective
     # by only checking this number of former passwords
     passwords[0, ban_count].any? { |f| f.same_as_plain_password?(password) }
@@ -822,7 +822,7 @@ class User < Principal
 
   def clean_up_former_passwords
     # minimum 1 to keep the actual user password
-    keep_count = [1, Setting[:password_count_former_banned].to_i].max
+    keep_count = [1, Setting.password_count_former_banned].max
     (passwords[keep_count..-1] || []).each(&:destroy)
   end
 
@@ -898,7 +898,7 @@ class User < Principal
   # Brute force prevention - instance methods
   #
   def last_failed_login_within_block_time?
-    block_duration = Setting.brute_force_block_minutes.to_i.minutes
+    block_duration = Setting.brute_force_block_minutes.minutes
     last_failed_login_on and
       Time.now - last_failed_login_on < block_duration
   end

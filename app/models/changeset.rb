@@ -206,7 +206,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def fix_work_package(work_package)
-    status = Status.find_by_id(Setting.commit_fix_status_id.to_i)
+    status = Status.find_by_id(Setting.commit_fix_status_id)
     if status.nil?
       logger.warn("No status matches commit_fix_status_id setting (#{Setting.commit_fix_status_id})") if logger
       return work_package
@@ -247,8 +247,8 @@ class Changeset < ActiveRecord::Base
   end
 
   def log_time_activity
-    if Setting.commit_logtime_activity_id.to_i > 0
-      TimeEntryActivity.find_by_id(Setting.commit_logtime_activity_id.to_i)
+    if Setting.commit_logtime_activity_id > 0
+      TimeEntryActivity.find_by_id(Setting.commit_logtime_activity_id)
     end
   end
 

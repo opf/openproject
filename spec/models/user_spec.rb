@@ -329,7 +329,7 @@ describe User, type: :model do
     end
 
     it { expect(@u.valid?).to be_falsey }
-    it { expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short', count: Setting.password_min_length.to_i) }
+    it { expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short', count: Setting.password_min_length) }
   end
 
   describe '#random_password' do

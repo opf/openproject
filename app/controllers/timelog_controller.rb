@@ -91,7 +91,7 @@ class TimelogController < ApplicationController
                                          include: [:project, :activity, :user, { work_package: :type }],
                                          conditions: cond.conditions,
                                          order: "#{TimeEntry.table_name}.created_on DESC",
-                                         limit: Setting.feeds_limit.to_i)
+                                         limit: Setting.feeds_limit)
         render_feed(entries, title: l(:label_spent_time))
       }
       format.csv {

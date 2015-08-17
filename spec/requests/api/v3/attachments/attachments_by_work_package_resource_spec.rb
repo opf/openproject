@@ -75,7 +75,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
     let(:max_file_size) { 1 } # given in kiB
 
     before do
-      allow(Setting).to receive(:attachment_max_size).and_return max_file_size.to_s
+      allow(Setting).to receive(:attachment_max_size).and_return max_file_size
       post request_path, request_parts
     end
 
