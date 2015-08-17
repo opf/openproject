@@ -1,11 +1,11 @@
 <div id="detail-panel-watchers">
   <div class="notification-box -error" data-ng-show="watchers.error">
     <div class="notification-box--content">
-      <p>An error occured while loading the watchers</p>
+      <p>{{::I18n.t('js.watchers.label_error_loading')}}</p>
     </div>
   </div>
   <div data-ng-show="watchers.loading">
-    loading watchers...
+    <p>{{I18n.t('js.watchers.label_loading')}}</p>
   </div>
   <div data-ng-hide="watchers.loading || watchers.error">
     <ul class="work-package--watchers">

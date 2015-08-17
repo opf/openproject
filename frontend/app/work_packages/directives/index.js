@@ -104,9 +104,11 @@ angular.module('openproject.workPackages.directives')
     require('./work-package-attachments-directive')
   ])
   .directive('workPackageWatcher', [
+    'I18n',
     require('./work-package-watcher-directive')
   ])
   .directive('workPackageWatchersLookup', [
+    'I18n',
     require('./work-package-watchers-lookup-directive.js')
   ]);
 
