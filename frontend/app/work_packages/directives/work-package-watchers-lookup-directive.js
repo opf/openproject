@@ -1,7 +1,7 @@
 module.exports = function() {
   'use strict';
 
-  var workPackageWatchersLookupController = function(scope, element) {
+  var workPackageWatchersLookupController = function(scope) {
     scope.locked = false;
     scope.addWatcher = function() {
       if (!scope.selectedWatcher) {
@@ -24,7 +24,7 @@ module.exports = function() {
       scope.selectedWatcher = null;
 
       //set the focus back to allow for next watcher
-      element.focus();
+      angular.element('#watchers-lookup_value').focus();
     });
   };
 
