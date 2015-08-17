@@ -99,9 +99,9 @@ describe TimeEntry, type: :model do
   context '#earliest_date_for_project' do
     before do
       User.current = nil
-      @public_project = Project.generate!(is_public: true)
+      @public_project = FactoryGirl.create(:project, is_public: true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
-      TimeEntry.generate!(spent_on: '2010-01-01',
+      FactoryGirl.create(:time_entry, spent_on: '2010-01-01',
                           work_package: @issue,
                           project: @public_project)
     end
@@ -122,9 +122,9 @@ describe TimeEntry, type: :model do
   context '#latest_date_for_project' do
     before do
       User.current = nil
-      @public_project = Project.generate!(is_public: true)
+      @public_project = FactoryGirl.create(:project, is_public: true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
-      TimeEntry.generate!(spent_on: '2010-01-01',
+      FactoryGirl.create(:time_entry, spent_on: '2010-01-01',
                           work_package: @issue,
                           project: @public_project)
     end
