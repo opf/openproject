@@ -223,7 +223,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/myabc/openproject-translations.git', branch: 'feature/merge-dev-into-rails4'
+  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'feature/rails4'
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
