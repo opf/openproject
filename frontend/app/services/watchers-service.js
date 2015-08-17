@@ -60,11 +60,40 @@ module.exports = function($http, $q) {
           watchers.reject(err);
         });
         return watchers.promise;
+      },
+      add = function(workPackage, watcher) {
+        var added = $q.defer(),
+            // somehow, the path will not be correctly inferred when using url()
+            path = workPackage.links.addWatcher.props.href,
+            method = workPackage.links.addWatcher.props.method,
+            payload = {
+              user: {
+                href: watcher._links.self.href // watcher is not a ressource
+              }
+            };
+
+        $http[method](path, payload).then(function() {
+          added.resolve(watcher);
+        }, function(err) {
+          added.reject(err);
+        });
+
+        return added.promise;
       };
 
+  /*
+   * NOTE: In theorey, this service is independent from WorkPackages,
+   * however, the only thing currently handled by it is WorkPackage
+   * related watching.
+   * This might change in the future, as other Objects are watchable in
+   * OP - e.g. wiki pages.
+   *
+   * The public interface is therefore designed around handling WPs
+   */
   return {
     loadForWorkPackage: load,
     availableForWorkPackage: available,
-    forWorkPackage: all
+    forWorkPackage: all,
+    addForWorkPackage: add
   };
 };

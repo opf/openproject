@@ -1,6 +1,22 @@
 <div class="work-package--watchers-lookup">
-  <form data-ng-submit="addWatcher()">
-    <input type="text" placeholder="Type to add a watcher" data-ng-model="watcher">
+  <form data-ng-submit="addWatcher()" class="form">
+    <div class="form--field">
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <angucomplete-alt
+            id="watchers-lookup"
+            placeholder="Type to add users"
+            pause="100"
+            selected-object="selectedWatcher"
+            search-fields="name"
+            local-data="watchers"
+            title-field="name"
+            image-field="avatar"
+            minlength="2"
+            input-class="form--text-field"/>
+        </div>
+      </div>
+    </div>
   </form>
 </div>
 
