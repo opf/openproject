@@ -26,5 +26,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'factory_girl'
-FactoryGirl.find_definitions
+require 'factory_girl_rails'
