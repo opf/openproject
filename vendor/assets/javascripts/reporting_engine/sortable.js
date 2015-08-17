@@ -132,7 +132,6 @@ function ts_makeSortable(t) {
 				'</a>';
 		}
 	}
-	
 }
 
 function sortables_init() {
@@ -287,7 +286,6 @@ function ts_resortTable(lnk, clid) {
 			t.tBodies[0].appendChild(newRows[i]);
 		}
 	}
-	alternate(t);
 }
 
 function addEvent(elm, evType, fn, useCapture)
