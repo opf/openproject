@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDEX) {
+module.exports = function(scope, I18n, WatchersService) {
   'use strict';
 
   var vm = this,
@@ -48,7 +48,8 @@ module.exports = function(scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDEX
         // last stop for this one
         event.stopPropagation();
         watcher.loading = true;
-        vm.watching.push(watcher);
+        add(watcher, vm.watching);
+        remove(watcher, vm.available);
         WatchersService
           .addForWorkPackage(scope.workPackage, watcher)
           .then(function(watcher) {
@@ -63,8 +64,28 @@ module.exports = function(scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDEX
         WatchersService
           .removeFromWorkPackage(scope.workPackage, watcher)
           .then(function(watcher) {
-            _.remove(vm.watching, watcher);
+            remove(watcher, vm.watching);
+            add(watcher, vm.available);
           });
+      };
+  // helpers to work with the watchers array
+  var remove = function(watcher, arr) {
+        var idx = _.findIndex(arr, watcher, equality(watcher));
+
+        if (idx > -1) {
+          arr.splice(idx, 1);
+        }
+      },
+      add = function(watcher, arr) {
+        var idx = _.findIndex(arr, watcher, equality(watcher));
+        if (idx === -1) {
+          arr.push(watcher);
+        }
+      },
+      equality = function(firstElement) {
+        return function(secondElement) {
+          return firstElement.id === secondElement.id;
+        };
       };
 
   vm.watching = [];
@@ -73,122 +94,4 @@ module.exports = function(scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDEX
 
   scope.$on('watchers.add', addWatcher);
   scope.$on('watchers.remove', removeWatcher);
-
-  // $scope.watcherListString = function() {
-  //   return _.map($scope.watcher.selected, function(item) {
-  //     return item.props.name;
-  //   }).join(', ');
-  // };
-
-  // /**
-  //  * @name getResourceIdentifier
-  //  * @function
-  //  *
-  //  * @description
-  //  * Returns the resource identifier of an API resource retrieved via hyperagent
-  //  *
-  //  * @param {Object} resource The resource object
-  //  *
-  //  * @returns {String} identifier
-  //  */
-  // function getResourceIdentifier(resource) {
-  //   // TODO move to helper
-  //   return resource.links.self.href;
-  // }
-
-  // /**
-  //  * @name getFilteredCollection
-  //  * @function
-  //  *
-  //  * @description
-  //  * Filters collection of HAL resources by entries listed in resourcesToBeFilteredOut
-  //  *
-  //  * @param {Array} collection Array of resources retrieved via hyperagent
-  //  * @param {Array} resourcesToBeFilteredOut Entries to be filtered out
-  //  *
-  //  * @returns {Array} filtered collection
-  //  */
-  // function getFilteredCollection(collection, resourcesToBeFilteredOut) {
-  //   return collection.filter(function(resource) {
-  //     return resourcesToBeFilteredOut.map(getResourceIdentifier).indexOf(getResourceIdentifier(resource)) === -1;
-  //   });
-  // }
-
-  // function fetchAvailableWatchers() {
-  //   if ($scope.workPackage.links.availableWatchers === undefined) {
-  //     $scope.availableWatchers = [];
-  //     return;
-  //   }
-
-  //   $scope.workPackage.links.availableWatchers
-  //     .fetch()
-  //     .then(function(data) {
-  //       // Temporarily filter out watchers already assigned to the work package on the client-side
-  //       $scope.availableWatchers = getFilteredCollection(data.embedded.elements, $scope.watchers);
-  //       // TODO do filtering on the API side and replace the update of the
-  //       // available watchers with the code provided in the following line
-  //       // $scope.availableWatchers = data.embedded.elements;
-  //     });
-  // }
-
-  // function addWatcher(newValue, oldValue) {
-  //   if (newValue && newValue !== oldValue) {
-  //     var user = newValue[newValue.length - 1],
-  //         href = user ? user.links.self.href : null;
-
-  //     if (href) {
-  //       var data = JSON.stringify({ user: { href: href } });
-  //       $scope.workPackage.link('addWatcher', {})
-  //         .fetch({ajax: {
-  //             method: 'POST',
-  //             contentType: 'application/json; charset=utf-8',
-  //             data: data
-  //           }})
-  //         .then(addWatcherSuccess, $scope.outputError);
-  //     }
-  //   }
-  // }
-
-  // function addWatcherSuccess() {
-  //   $scope.outputMessage(I18n.t("js.label_watcher_added_successfully"));
-  //   $scope.refreshWorkPackage();
-
-  //   $scope.watcher.selected = null;
-
-  //   $scope.focusElementIndex = ADD_WATCHER_SELECT_INDEX;
-  // }
-
-  // $scope.deleteWatcher = function(watcher) {
-  //   watcher.links.removeWatcher
-  //     .fetch({ ajax: watcher.links.removeWatcher.props })
-  //     .then(deleteWatcherSuccess(watcher), $scope.outputError);
-  // };
-
-  // function deleteWatcherSuccess(watcher) {
-  //   $scope.outputMessage(I18n.t("js.label_watcher_deleted_successfully"));
-  //   removeWatcherFromList(watcher);
-  // }
-
-  // function removeWatcherFromList(watcher) {
-  //   var index = $scope.watchers.indexOf(watcher);
-
-  //   if (index >= 0) {
-  //     $scope.watchers.splice(index, 1);
-
-  //     updateWatcherFocus(index);
-  //     $scope.$emit('workPackageRefreshRequired');
-  //   }
-  // }
-
-  // function updateWatcherFocus(index) {
-  //   if ($scope.watchers.length == 0) {
-  //     $scope.focusElementIndex = ADD_WATCHER_SELECT_INDEX;
-  //   } else {
-  //     $scope.focusElementIndex = (index < $scope.watchers.length) ? index : $scope.watchers.length - 1;
-  //   }
-
-  //   $timeout(function() {
-  //     $scope.$broadcast('updateFocus');
-  //   });
-  // }
 };

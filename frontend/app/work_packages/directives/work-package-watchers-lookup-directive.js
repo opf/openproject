@@ -1,7 +1,7 @@
 module.exports = function() {
   'use strict';
 
-  var workPackageWatchersLookupController = function(scope) {
+  var workPackageWatchersLookupController = function(scope, element) {
     scope.locked = false;
     scope.addWatcher = function() {
       if (!scope.selectedWatcher) {
@@ -17,7 +17,14 @@ module.exports = function() {
 
     scope.$on('watchers.add.finished', function() {
       scope.locked = !scope.locked;
+
+      // to clear the input of the directive
+      scope.$broadcast('angucomplete-alt:clearInput');
+
       scope.selectedWatcher = null;
+
+      //set the focus back to allow for next watcher
+      element.focus();
     });
   };
 
