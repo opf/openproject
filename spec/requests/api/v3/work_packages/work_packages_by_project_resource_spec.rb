@@ -50,7 +50,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     subject { last_response }
 
     before do
-      work_packages.each do |wp| wp.save! end
+      work_packages.each(&:save!)
       get path
     end
 
@@ -160,12 +160,12 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
           prio1_path = api_v3_paths.priority(priority1.id)
           prio2_path = api_v3_paths.priority(priority2.id)
 
-          expect(subject.body).to be_json_eql(prio2_path.to_json)
-                                    .at_path('_embedded/elements/0/_links/priority/href')
-          expect(subject.body).to be_json_eql(prio1_path.to_json)
-                                    .at_path('_embedded/elements/1/_links/priority/href')
-          expect(subject.body).to be_json_eql(prio1_path.to_json)
-                                    .at_path('_embedded/elements/2/_links/priority/href')
+          expect(subject.body).to(be_json_eql(prio2_path.to_json)
+                                    .at_path('_embedded/elements/0/_links/priority/href'))
+          expect(subject.body).to(be_json_eql(prio1_path.to_json)
+                                    .at_path('_embedded/elements/1/_links/priority/href'))
+          expect(subject.body).to(be_json_eql(prio1_path.to_json)
+                                    .at_path('_embedded/elements/2/_links/priority/href'))
         end
 
         it 'contains group elements' do

@@ -33,7 +33,7 @@ module API
         extend Grape::API::Helpers
 
         def work_packages_by_params(project: nil)
-          query = Query.new({ name: '_', project: project })
+          query = Query.new(name: '_', project: project)
           query_params = {}
 
           begin
@@ -83,13 +83,9 @@ module API
           query.filters = []
           query.add_filters(filters.map(&:keys).flatten, operators, values)
 
-          bad_filter = query.filters.detect { |filter| filter.invalid? }
+          bad_filter = query.filters.detect(&:invalid?)
           if bad_filter
-            api_errors = bad_filter.errors.full_messages.map { |message|
-              ::API::Errors::InvalidQuery.new(message)
-            }
-
-            raise ::API::Errors::MultipleErrors.create_if_many api_errors
+            raise_invalid_query(bad_filter.errors)
           end
         end
 
@@ -143,10 +139,12 @@ module API
 
         def format_column_keys(hash_by_column)
           converter = API::Utilities::PropertyNameConverter
-          ::Hash[hash_by_column.map { |column, value|
-                   column_name = converter.from_ar_name(column.name.to_s)
-                   [column_name, value]
-                 }]
+          ::Hash[
+            hash_by_column.map { |column, value|
+              column_name = converter.from_ar_name(column.name.to_s)
+              [column_name, value]
+            }
+          ]
         end
 
         def format_durations!(sums)
@@ -181,6 +179,14 @@ module API
               current_user: current_user
             }
           )
+        end
+
+        def raise_invalid_query(errors)
+          api_errors = errors.full_messages.map { |message|
+            ::API::Errors::InvalidQuery.new(message)
+          }
+
+          raise ::API::Errors::MultipleErrors.create_if_many api_errors
         end
       end
     end
