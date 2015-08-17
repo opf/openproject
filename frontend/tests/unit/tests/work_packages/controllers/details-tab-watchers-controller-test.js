@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-describe.only('DetailsTabWatchersController', function() {
+describe('DetailsTabWatchersController', function() {
   'use strict';
 
   beforeEach(module('openproject'));
