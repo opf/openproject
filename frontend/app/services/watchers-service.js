@@ -54,8 +54,11 @@ module.exports = function($http, $q) {
         var watchers = $q.defer();
         $q.all([watching(workPackage), available(workPackage)]).then(function(allWatchers) {
           var watching = allWatchers[0],
-              available = _.difference(allWatchers[1], allWatchers[0]);
-          console.log(available);
+              available = _.filter(allWatchers[1], function(user) {
+                return _.findIndex(watching, function(watchingUser) {
+                  return user.id === watchingUser.id;
+                }) === -1;
+              });
           watchers.resolve({ watching: watching, available: available });
         }, function(err) {
           watchers.reject(err);
@@ -92,7 +95,7 @@ module.exports = function($http, $q) {
           removed.resolve(watcher);
         }, function(err) {
           remove.reject(err);
-        })
+        });
 
         return removed.promise;
       };
