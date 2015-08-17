@@ -26,11 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $rootScope, $state, $location, latestTab,
+module.exports = function($scope, $rootScope, $state, $stateParams, $location, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
       AuthorisationService, UrlParamsHelper, PathHelper, Query,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE, NotificationsService) {
+
+  $scope.projectIdentifier = $stateParams.projectIdentifier;
 
   // Setup
   function initialSetup() {
