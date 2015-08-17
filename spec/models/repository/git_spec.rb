@@ -149,7 +149,7 @@ describe Repository::Git, type: :model do
 
       it 'should fetch changesets incremental' do
         # Remove the 3 latest changesets
-        instance.changesets.find(:all, order: 'committed_on DESC', limit: 8).each(&:destroy)
+        instance.changesets.order('committed_on DESC').limit(8).each(&:destroy)
         instance.reload
         expect(instance.changesets.count).to eq(14)
 
