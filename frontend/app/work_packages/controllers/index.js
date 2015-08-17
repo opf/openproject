@@ -146,6 +146,7 @@ angular.module('openproject.workPackages.controllers')
     '$scope',
     '$rootScope',
     '$state',
+    '$stateParams',
     '$location',
     'latestTab',
     'I18n',
