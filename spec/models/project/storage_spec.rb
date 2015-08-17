@@ -55,20 +55,20 @@ describe Project::Storage, type: :model do
       # be properly reloaded here in all cases.
       project1.wiki.reload
 
-      expect(p1.work_package_required_space).to eq('2500')
+      expect(p1.work_package_required_space).to eq(2500)
       expect(p1.repositories_required_space).to be_nil
 
-      expect(p1.required_disk_space).to eq('12500')
+      expect(p1.required_disk_space).to eq(12500)
 
       expect(p2.wiki_required_space).to be_nil
       expect(p2.work_package_required_space).to be_nil
-      expect(p2.repositories_required_space).to eq('1234')
+      expect(p2.repositories_required_space).to eq(1234)
 
-      expect(p2.required_disk_space).to eq('1234')
+      expect(p2.required_disk_space).to eq(1234)
     end
 
     it 'outputs the correct total amount' do
-      expect(Project.total_projects_size).to eq('13734')
+      expect(Project.total_projects_size).to eq(13734)
     end
 
     context 'with a project with all modules' do
@@ -80,15 +80,15 @@ describe Project::Storage, type: :model do
       it 'counts all projects correctly' do
         project = Project.with_required_storage.find(project1.id)
 
-        expect(project.wiki_required_space).to eq('10000')
-        expect(project.work_package_required_space).to eq('2500')
-        expect(project.repositories_required_space).to eq('543211234')
+        expect(project.wiki_required_space).to eq(10000)
+        expect(project.work_package_required_space).to eq(2500)
+        expect(project.repositories_required_space).to eq(543211234)
 
-        expect(project.required_disk_space).to eq('543223734')
+        expect(project.required_disk_space).to eq(543223734)
       end
 
       it 'outputs the correct total amount' do
-        expect(Project.total_projects_size).to eq('543224968')
+        expect(Project.total_projects_size).to eq(543224968)
       end
     end
   end

@@ -43,13 +43,27 @@ module Project::Storage
       storage = self.class.with_required_storage.find(id)
 
       {
-        'total' => storage.required_disk_space.to_i,
+        'total' => storage.required_disk_space,
         'modules' => {
-          'label_work_package_plural' => storage.work_package_required_space.to_i,
-          'project_module_wiki' => storage.wiki_required_space.to_i,
-          'label_repository' => storage.repositories_required_space.to_i
-        }.select { |_, v| v > 0 }
+          'label_work_package_plural' => storage.work_package_required_space,
+          'project_module_wiki' => storage.wiki_required_space,
+          'label_repository' => storage.repositories_required_space
+        }.select { |_, v| v.presence && v > 0 }
       }
+    end
+
+
+    # Workaround for PG adapter returning strings on aggregate functions
+    # TODO: This should be fixed and thus removed in Rails 4.
+    %w[required_disk_space work_package_required_space
+       wiki_required_space repositories_required_space].each do |attribute|
+
+      define_method attribute do
+        value = self.read_attribute(attribute)
+
+        # Maintain nil value consistency with other adapters
+        value.presence && value.to_i
+      end
     end
   end
 
@@ -79,7 +93,9 @@ module Project::Storage
     ##
     # Returns the total required disk space for all projects in bytes
     def total_projects_size
-      Project.from("(#{Project.with_required_storage.to_sql}) sub").sum(:required_disk_space)
+      Project.from("(#{Project.with_required_storage.to_sql}) sub")
+             .sum(:required_disk_space)
+             .to_i
     end
 
     private
