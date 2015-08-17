@@ -110,16 +110,17 @@ describe('WatchersService', function() {
           }
         };
 
+    afterEach(function() {
+      $httpBackend.verifyNoOutstandingRequest();
+      $httpBackend.verifyNoOutstandingExpectation();
+    });
+
     describe('load watchers', function () {
 
       beforeEach(inject(['$httpBackend', function(_$httpBackend_) {
         $httpBackend = _$httpBackend_;
       }]));
 
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingRequest();
-        $httpBackend.verifyNoOutstandingExpectation();
-      });
 
       it('should load both available and watching users', function() {
 
@@ -153,11 +154,6 @@ describe('WatchersService', function() {
         $httpBackend = _$httpBackend_;
       }]));
 
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingRequest();
-        $httpBackend.verifyNoOutstandingExpectation();
-      });
-
       it('should be possible to add watchers', function() {
         $httpBackend.expectPOST(watchersPath).respond({});
 
@@ -178,11 +174,6 @@ describe('WatchersService', function() {
       beforeEach(inject(['$httpBackend', function(_$httpBackend_) {
         $httpBackend = _$httpBackend_;
       }]));
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingRequest();
-        $httpBackend.verifyNoOutstandingExpectation();
-      });
 
       it('should be possible to delete watchers', function() {
         $httpBackend.expectDELETE('/work_packages/123/watchers/9').respond({});
