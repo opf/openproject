@@ -452,7 +452,7 @@ GEM
       railties (~> 3.0)
     structured_warnings (0.1.4)
     svg-graph (1.0.5)
-    syck (1.0.1)
+    syck (1.0.5)
     thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
