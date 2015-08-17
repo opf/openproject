@@ -124,7 +124,8 @@ module.exports = {
       'hyperagent': 'hyperagent/dist/hyperagent',
       'openproject-ui_components':
         'openproject-ui_components/app/assets/javascripts/angular/ui-components-app',
-      'ngFileUpload': 'ng-file-upload/ng-file-upload'
+      'ngFileUpload': 'ng-file-upload/ng-file-upload',
+      'angucomplete-alt': 'angucomplete-alt/angucomplete-alt'
     }, pluginAliases)
   },
 

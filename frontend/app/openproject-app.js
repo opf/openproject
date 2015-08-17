@@ -60,6 +60,7 @@ require('angular-busy/dist/angular-busy.css');
 require('angular-context-menu');
 require('mousetrap');
 require('ngFileUpload');
+require('angucomplete-alt');
 
 // global
 angular.module('openproject.uiComponents', ['ui.select', 'ngSanitize'])
@@ -115,7 +116,8 @@ angular.module('openproject.workPackages', [
   'openproject.workPackages.tabs',
   'openproject.uiComponents',
   'ng-context-menu',
-  'ngFileUpload'
+  'ngFileUpload',
+  'angucomplete-alt'
 ]);
 angular.module('openproject.workPackages.services', []);
 angular.module(

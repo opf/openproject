@@ -26,14 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDEX) {
+module.exports = function(scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDEX) {
   'use strict';
 
   var vm = this,
       fetchWatchers = function(loading) {
         vm.error = false;
         vm.loading = angular.isUndefined(loading) ? true : false;
-        WatchersService.forWorkPackage($scope.workPackage).then(function(users) {
+        WatchersService.forWorkPackage(scope.workPackage).then(function(users) {
           vm.watching = users.watching;
           vm.available = users.available;
         }, function() {
@@ -43,14 +43,28 @@ module.exports = function($scope, I18n, WatchersService, ADD_WATCHER_SELECT_INDE
         }).finally(function() {
           vm.loading = false;
         });
+      },
+      addWatcher = function(event, watcher) {
+        // last stop for this one
+        event.stopPropagation();
+        watcher.loading = true;
+        vm.watching.push(watcher);
+        WatchersService
+          .addForWorkPackage(scope.workPackage, watcher)
+          .then(function(watcher) {
+            scope.$broadcast('watchers.add.finished', watcher);
+          })
+          .finally(function() {
+            watcher.loading = false;
+          });
       };
 
+  vm.watching = [];
   vm.I18n = I18n;
   fetchWatchers();
 
-  $scope.add = function() {
-    $scope.adding = true;
-  };
+  scope.$on('watchers.add', addWatcher);
+  // scope.$on('watchers.remove', removeWatcher);
 
   // $scope.watcherListString = function() {
   //   return _.map($scope.watcher.selected, function(item) {
