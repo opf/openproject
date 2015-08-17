@@ -28,7 +28,50 @@
 
 /*jshint expr: true*/
 
-describe('DetailsTabWatchersController', function() {
+describe.only('DetailsTabWatchersController', function() {
+  'use strict';
 
+  beforeEach(module('openproject'));
+
+  var $controller, $rootScope;
+  beforeEach(inject(['$controller', '$rootScope', function(ctrl, root) {
+    $controller = ctrl;
+    $rootScope = root;
+  }]));
+
+  var workPackage = {
+    links: {
+      watchers: {
+        url: function() {
+          return '/work_packages/123/watchers';
+        }
+      },
+      availableWatchers: {
+        url: function() {
+          return '/work_packages/123/available_watchers';
+        }
+      }
+    }
+  };
+
+
+  it('should exist', function() {
+    var locals = {
+          $scope: $rootScope.$new()
+        };
+
+    locals.$scope.workPackage = workPackage;
+    expect($controller('DetailsTabWatchersController', locals)).to.exist;
+  });
+
+  it('should not work without a work workPackage', function() {
+    var locals = {
+      $scope: $rootScope.$new()
+    };
+
+    expect(function() {
+      $controller('DetailsTabWatchersController', locals);
+    }).to.throw;
+  });
 });
 
