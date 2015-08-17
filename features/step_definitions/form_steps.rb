@@ -30,3 +30,7 @@
 When /^I submit the form by the "(.+?)" button$/ do |button_text|
   click_button(button_text, exact: true)
 end
+
+When /^I should not see the autologin checkbox$/ do
+  expect(page).to_not have_field('autologin')
+end

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-@selenium @javascript
+
 Feature: Viewing a work package
   Background:
     Given there is 1 project with the following:
@@ -102,22 +102,23 @@ Feature: Viewing a work package
     Then I should see "Bug #2: issue2"
     Then I should see "Bug #1: issue1" within ".work-package-1"
 
-  @wip
   Scenario: Add subtask leads to issue creation page for a parent issue
     When I go to the page of the work package "issue1"
     Then I should see "Add subtask"
     When I click on "Add subtask"
     Then I should be on the new work_package page of the project called "omicronpersei8"
 
+  @javascript
   Scenario: Adding a relation will add it to the list of related work packages through AJAX instantly
     When I go to the page of the work package "issue1"
-    And I click on "Add related work package"
+    And I click on "Add related work packages"
     And I fill in "relation_to_id" with "3"
     And I press "Add"
     And I wait for the AJAX requests to finish
     Then I should be on the page of the work package "issue1"
     And I should see "related to Bug #3: issue3"
 
+  @javascript
   Scenario: Removing an existing relation will remove it from the list of related work packages through AJAX instantly
     Given a relation between "issue1" and "issue3"
     When I go to the page of the work package "issue1"
@@ -140,21 +141,25 @@ Feature: Viewing a work package
     When I click "Unwatch" within "#content > .action_menu_specific"
     Then I should see "Watch" within "#content > .action_menu_specific"
 
+  @javascript
   Scenario: Log time leads to time entry creation page for issues
     When I go to the page of the work package "issue1"
     When I select "Log time" from the action menu
     Then I should see "Spent time"
 
+  @javascript
   Scenario: For an issue copy leads to work package copy page
     When I go to the page of the work package "issue1"
     When I select "Copy" from the action menu
     Then I should see "Copy"
 
+  @javascript
   Scenario: For an issue move leads to work package copy page
     When I go to the page of the work package "issue1"
     When I select "Move" from the action menu
     Then I should see "Move"
 
+  @javascript @selenium
   Scenario: For an issue deletion leads to the work package list
     When I go to the page of the work package "issue1"
     When I select "Delete" from the action menu
@@ -165,6 +170,7 @@ Feature: Viewing a work package
     When I go to the page of the work package "issue1"
     Then I should see "Quote" within ".description"
 
+  @javascript @selenium
   Scenario: Description quoting link sets edit note
     When I go to the page of the work package "issue1"
      And I click on "Quote" within ".description"

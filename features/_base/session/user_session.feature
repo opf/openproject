@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-@selenium
+
 Feature: User session
   Background:
     Given there is 1 user with the following:
@@ -49,7 +49,6 @@ Feature: User session
     And I click on "t:button_login" within "#login-form" [i18n]
     Then I should be on the my account page
 
-  @wip
   Scenario: Autologin works if enabled
     Given the "autologin" setting is set to 1
     Given the "session_ttl_enabled" setting is set to true
@@ -59,15 +58,10 @@ Feature: User session
     And I go to the home page
     Then I should be logged in as "bob"
 
-  @wip
   Scenario: Autologin does not work if disabled
     Given the "autologin" setting is set to 0
-    Given the "session_ttl_enabled" setting is set to true
-    And the "session_ttl" setting is set to 5
-    When I login with autologin enabled as "bob"
-    And I wait for "10" minutes
-    And I go to the home page
-    Then I should be logged out
+    When I go to the login page
+    Then I should not see the autologin checkbox
 
   Scenario: A user can log in
     When I login as "bob"
@@ -104,7 +98,7 @@ Feature: User session
     Then there should be a flash error message
     And the flash message should contain "Invalid user or password"
 
-  @javascript
+  @javascript @selenium
   Scenario: A deleted block is always visible in My page block list
     Given I am already admin
     When I go to the My page personalization page

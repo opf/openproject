@@ -308,7 +308,8 @@ end
 When /^(?:|I )login with autologin enabled as (.+?)(?: with password (.+))?$/ do |username, password|
   username = username.gsub("\"", '')
   password = password.nil? ? 'adminADMIN!' : password.gsub("\"", '')
-  page.driver.post signin_path(username: username, password: password, autologin: 1)
+
+  login_with_autologin(username, password)
 end
 
 When 'I logout' do
