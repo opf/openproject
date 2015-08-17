@@ -161,7 +161,7 @@ GEM
       rails (>= 3, < 5)
     daemons (1.2.2)
     dalli (2.7.4)
-    database_cleaner (1.2.0)
+    database_cleaner (1.4.1)
     date_validator (0.7.1)
       activemodel
     debug_inspector (0.0.2)
@@ -491,7 +491,7 @@ DEPENDENCIES
   cucumber-rails (~> 1.4.2)
   daemons
   dalli (~> 2.7.2)
-  database_cleaner (~> 1.2.0)
+  database_cleaner (~> 1.4.1)
   date_validator (~> 0.7.1)
   delayed_job_active_record (~> 4.0.2)
   equivalent-xml (~> 0.5.1)
