@@ -37,7 +37,7 @@ namespace :spec do
 
     desc "Run specs w/o api, features, controllers, requests and models"
     RSpec::Core::RakeTask.new(misc: 'spec:prepare') do |t|
-      t.exclude_pattern = 'spec/{api,models,controllers,requests,features}/**/*_spec.rb'
+      t.exclude_pattern = 'spec/{api,models,controllers,requests,features,legacy}/**/*_spec.rb'
     end
 
     desc "Run requests specs for api v3"
