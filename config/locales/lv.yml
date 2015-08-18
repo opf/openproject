@@ -1,0 +1,19 @@
+lv:
+  label_hidden_elements: Paslēptie elementi
+  label_visible_elements: Redzamie elementi
+  label_project_description: Projekta apraksts
+  label_project_details: Detalizēta informācija par projektu
+  label_project_homepage: Sākumlapa
+  label_custom_element: 'Pievienot "teaser"...'
+  info_custom_text: Pielāgots teksts
+  label_confirm_delete: Vai tiešām dzēst šo elementu?
+  label_work_packages_reported_by_me: Mani izveidotie pieteikumi
+  label_work_packages_responsible_for: Pieteikumi, kuros es esmu atbildīgais
+  label_work_packages_assigned_to_me: Man piešķirtie pieteikumi
+  label_work_packages_watched: Pieteikumi, kuriem tiek sekots
+  label_work_package_tracking: Pieteikuma sekošana
+  label_members: Dalībnieki
+  label_subprojects: Apakšprojekti
+  project_page:
+    all: Rādīt visus
+    x_more: '... (vēl%{count})'
