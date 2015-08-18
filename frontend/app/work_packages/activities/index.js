@@ -44,6 +44,7 @@ angular.module('openproject.workPackages.activities')
     require('./user-activity-directive')
   ])
   .directive('revisionActivity', [
+    '$compile',
     '$sce',
     'I18n',
     'PathHelper',

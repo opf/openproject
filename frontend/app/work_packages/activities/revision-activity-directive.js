@@ -26,7 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($sce,
+module.exports = function($compile,
+    $sce,
     I18n,
     PathHelper,
     ActivityService,
@@ -40,7 +41,7 @@ module.exports = function($sce,
       activity: '=',
       activityNo: '=',
     },
-    link: function(scope) {
+    link: function(scope, element) {
       scope.I18n = I18n;
       if (scope.activity.links.author === undefined) {
         scope.userName = scope.activity.props.authorName;
@@ -59,6 +60,28 @@ module.exports = function($sce,
       scope.formattedRevision = scope.activity.props.formattedIdentifier;
       scope.revisionPath = scope.activity.links.showRevision.href;
       scope.message = $sce.trustAsHtml(scope.activity.props.message.html);
+
+      var date = '<op-date-time date-time-value="activity.props.createdAt"/></op-date-time>';
+      var link = [
+        '<a ng-href="{{ revisionPath }}" title="{{ revision }}">',
+        '{{ I18n.t("js.label_committed_link", { revision_identifier: formattedRevision }) }}',
+        '</a>'
+      ].join('');
+
+      scope.combinedRevisionLink = I18n.t("js.label_committed_at",
+        {
+          committed_revision_link: link,
+          date: date
+        });
+
+      scope.$watch('combinedRevisionLink', function(html) {
+        var span = angular.element(html),
+          link = element.find('.revision-activity--revision-link');
+
+        link.append(span);
+        $compile(link.contents())(scope);
+      });
+
     }
   };
 };

@@ -11,13 +11,7 @@
   </div>
   <span class="user" ng-if="userActive"><a ng-href="{{ userPath(userId) }}" name="{{ currentAnchor }}" ng-bind="userName"></a></span>
   <span class="user" ng-if="!userActive">{{ userName }}</span>
-  <span class="date">
-    <a ng-href="{{ revisionPath }}" title="{{ revision }}">
-      {{ I18n.t('js.label_committed_at', { revision: formattedRevision }) }}
-    </a>
-    {{ I18n.t('js.label_at') }}
-    <op-date-time date-time-value="activity.props.createdAt"/></op-date-time>
-  </span>
+  <span class="revision-activity--revision-link date"></span>
   <span class="user-comment wiki">
     <span class="message" ng-bind-html="message"/>
   </span>
