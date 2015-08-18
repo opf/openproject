@@ -21,8 +21,6 @@ it:
     meeting_minutes: Verbali riunione modificati
     meeting_minutes_created: Verbale riunione creato
   error_notification_with_errors: 'Impossibile inviare notifica. Non è possibile notificare i seguenti destinatari: %{recipients}'
-  label_meeting_hour: Tempo (ore)
-  label_meeting_minute: Tempo (minuti)
   label_meeting: Riunione
   label_meeting_plural: Riunioni
   label_meeting_new: Nuova riunione
