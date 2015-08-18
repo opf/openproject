@@ -1,6 +1,6 @@
 AllCops:
   Exclude:
-    - *.gemspec
+    - '*.gemspec'
 
 AccessorMethodName:
   Enabled: false
