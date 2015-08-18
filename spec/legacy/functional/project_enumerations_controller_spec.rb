@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe ProjectEnumerationsController, type: :controller do
+RSpec.describe ProjectEnumerationsController, type: :controller do
   fixtures :all
 
   before do

@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::Ciphering do
+RSpec.describe Redmine::Ciphering do
   it 'should password should be encrypted' do
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
       r = FactoryGirl.create(:repository_subversion, password: 'foo')

@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Relation, type: :model do
+RSpec.describe Relation, type: :model do
   include MiniTest::Assertions # refute
 
   fixtures :all

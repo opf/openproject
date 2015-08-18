@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::Notifiable do
+RSpec.describe Redmine::Notifiable do
   it 'should all' do
     assert_equal 11, Redmine::Notifiable.all.length
 

@@ -28,9 +28,8 @@
 #++
 
 require 'legacy_spec_helper'
-require 'timelog_controller'
 
-describe TimelogController, type: :controller do
+RSpec.describe TimelogController, type: :controller do
   render_views
 
   fixtures :all

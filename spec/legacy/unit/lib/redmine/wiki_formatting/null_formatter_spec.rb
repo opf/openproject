@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe Redmine::WikiFormatting::NullFormatter::Formatter do
+RSpec.describe Redmine::WikiFormatting::NullFormatter::Formatter do
   before do
     @formatter = Redmine::WikiFormatting::NullFormatter::Formatter
   end

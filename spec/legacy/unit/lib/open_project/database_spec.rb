@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe OpenProject::Database do
+RSpec.describe OpenProject::Database do
   it 'should return the correct identifier' do
     allow(OpenProject::Database).to receive(:adapter_name).and_return 'PostgresQL'
 

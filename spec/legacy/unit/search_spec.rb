@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'Search' do # FIXME: naming (RSpec-port)
+RSpec.describe 'Search' do # FIXME: naming (RSpec-port)
   fixtures :all
 
   before do

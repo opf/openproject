@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Watcher do
+RSpec.describe Watcher do
   before do
     @user  = FactoryGirl.create :user
     @issue = FactoryGirl.create :work_package

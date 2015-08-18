@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Message, type: :model do
+RSpec.describe Message, type: :model do
   fixtures :all
 
   before do

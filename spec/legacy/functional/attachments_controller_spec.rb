@@ -28,9 +28,8 @@
 #++
 
 require 'legacy_spec_helper'
-require 'attachments_controller'
 
-describe AttachmentsController, type: :controller do
+RSpec.describe AttachmentsController, type: :controller do
   render_views
 
   fixtures :all

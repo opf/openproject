@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Category, type: :model do
+RSpec.describe Category, type: :model do
   before do
     @project = FactoryGirl.create :project
     @category = FactoryGirl.create :category, project: @project

@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe Redmine::UnifiedDiff do
+RSpec.describe Redmine::UnifiedDiff do
   it 'should subversion diff' do
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'))
     # number of files

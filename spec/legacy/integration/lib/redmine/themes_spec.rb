@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'Themes' do
+RSpec.describe 'Themes' do
   include MiniTest::Assertions
 
   fixtures :all

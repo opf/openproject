@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Status, type: :model do
+RSpec.describe Status, type: :model do
   fixtures :all
 
   it 'should create' do

@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Version, type: :model do
+RSpec.describe Version, type: :model do
   fixtures :all
 
   it 'should create' do

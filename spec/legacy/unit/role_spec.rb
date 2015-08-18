@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Role, type: :model do
+RSpec.describe Role, type: :model do
   fixtures :all
 
   it 'should copy workflows' do

@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'watchers_controller'
 
-describe WatchersController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe WatchersController, type: :controller do
   fixtures :all
 
   render_views

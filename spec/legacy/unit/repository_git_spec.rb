@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Repository::Git, type: :model do
+RSpec.describe Repository::Git, type: :model do
   fixtures :all
 
   # No '..' in the repository path

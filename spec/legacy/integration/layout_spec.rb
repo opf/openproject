@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe 'Layout' do
+RSpec.describe 'Layout' do
   fixtures :all
 
   specify 'browsing to a missing page should render the base layout' do

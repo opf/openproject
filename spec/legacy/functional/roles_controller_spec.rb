@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'roles_controller'
 
-describe RolesController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe RolesController, type: :controller do
   render_views
 
   fixtures :all

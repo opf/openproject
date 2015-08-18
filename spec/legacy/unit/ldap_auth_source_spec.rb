@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe LdapAuthSource, type: :model do
+RSpec.describe LdapAuthSource, type: :model do
   fixtures :all
 
   it 'should create' do

@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe CustomValue, type: :model do
+RSpec.describe CustomValue, type: :model do
   it 'should string field validation with blank value' do
     f = CustomField.new(field_format: 'string')
     v = CustomValue.new(custom_field: f)

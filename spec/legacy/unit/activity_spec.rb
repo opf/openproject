@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Activity, type: :model do
+RSpec.describe Activity, type: :model do
   fixtures :all
 
   before do

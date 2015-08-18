@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe UserPreference do
+RSpec.describe UserPreference do
   include MiniTest::Assertions
 
   it 'should validations' do

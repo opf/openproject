@@ -44,7 +44,7 @@ module RedmineMenuTestHelper
   end
 end
 
-describe Redmine do
+RSpec.describe Redmine do
   include RedmineMenuTestHelper
 
   it 'should top_menu' do

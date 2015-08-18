@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'projects_controller'
 
-describe ProjectsController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe ProjectsController, type: :controller do
   include MiniTest::Assertions # refute
 
   render_views

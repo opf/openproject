@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe EnabledModule do
+RSpec.describe EnabledModule do
   it 'should enabling_wiki_should_create_a_wiki' do
     CustomField.delete_all
     FactoryGirl.create(:type_standard)

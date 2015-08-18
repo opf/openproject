@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::MimeType do
+RSpec.describe Redmine::MimeType do
   it 'should of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text/plain',

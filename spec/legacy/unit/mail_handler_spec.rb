@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe MailHandler, type: :model do
+RSpec.describe MailHandler, type: :model do
   fixtures :all
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures/mail_handler'

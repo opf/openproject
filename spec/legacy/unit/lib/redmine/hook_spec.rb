@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
+RSpec.describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
   fixtures :all
 
   # Some hooks that are manually registered in these tests

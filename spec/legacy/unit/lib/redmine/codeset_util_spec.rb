@@ -39,7 +39,7 @@
 #
 require 'legacy_spec_helper'
 
-describe Redmine::CodesetUtil do
+RSpec.describe Redmine::CodesetUtil do
   it 'should to utf8 by setting from latin1' do
     with_settings repositories_encodings: 'UTF-8,ISO-8859-1' do
       s1 = "Texte encod\xc3\xa9"

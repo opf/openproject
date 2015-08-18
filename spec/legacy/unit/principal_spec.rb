@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Principal, type: :model do
+RSpec.describe Principal, type: :model do
   context '#like' do
     before do
       FactoryGirl.create(:principal, login: 'login')

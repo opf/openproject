@@ -32,7 +32,7 @@
 
 require 'legacy_spec_helper'
 
-describe OpenProject::Scm::Adapters::Git, type: :model do
+RSpec.describe OpenProject::Scm::Adapters::Git, type: :model do
   let(:git_repository_path) {  Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository' }
 
   FELIX_UTF8 = 'Felix Schäfer'

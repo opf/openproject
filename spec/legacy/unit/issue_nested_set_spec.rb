@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'IssueNestedSet', type: :model do
+RSpec.describe 'IssueNestedSet', type: :model do
   include MiniTest::Assertions # refute
 
   fixtures :all

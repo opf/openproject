@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe Redmine::WikiFormatting::Macros, type: :helper do
+RSpec.describe Redmine::WikiFormatting::Macros, type: :helper do
   include ApplicationHelper
   include WorkPackagesHelper
   include ActionView::Helpers::TextHelper

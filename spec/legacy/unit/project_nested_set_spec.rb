@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'ProjectNestedSet', type: :model do
+RSpec.describe 'ProjectNestedSet', type: :model do
   context 'nested set' do
     before do
       FactoryGirl.create(:type_standard)

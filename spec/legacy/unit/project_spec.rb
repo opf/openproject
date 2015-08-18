@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Project, type: :model do
+RSpec.describe Project, type: :model do
   fixtures :all
 
   before do

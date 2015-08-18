@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe 'ApiTest: HttpBasicLoginWithApiToken', type: :request do
+RSpec.describe 'ApiTest: HttpBasicLoginWithApiToken', type: :request do
   fixtures :all
 
   before do

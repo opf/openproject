@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Member, type: :model do
+RSpec.describe Member, type: :model do
   before do
     Role.non_member.add_permission! :view_work_packages # non_member users may be watchers of work units
     Role.non_member.add_permission! :view_wiki_pages # non_member users may be watchers of wikis

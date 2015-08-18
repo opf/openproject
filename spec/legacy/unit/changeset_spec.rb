@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Changeset, type: :model do
+RSpec.describe Changeset, type: :model do
   fixtures :all
 
   it 'should ref keywords any' do

@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe IssuePriority do
+RSpec.describe IssuePriority do
   fixtures :all
 
   it 'should be an enumeration' do

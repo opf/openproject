@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Query, type: :model do
+RSpec.describe Query, type: :model do
   fixtures :all
 
   it 'should custom fields for all projects should be available in global queries' do

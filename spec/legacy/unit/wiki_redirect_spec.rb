@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe WikiRedirect, type: :model do
+RSpec.describe WikiRedirect, type: :model do
   fixtures :all
 
   before do

@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Token do
+RSpec.describe Token do
   fixtures :all
 
   it 'should create' do

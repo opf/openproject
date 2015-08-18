@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Repository, type: :model do
+RSpec.describe Repository, type: :model do
   fixtures :all
 
   before do

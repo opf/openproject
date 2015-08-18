@@ -29,7 +29,7 @@
 
 require 'legacy_spec_helper'
 
-describe 'ApiTest: DisabledRestApiTest', type: :request do
+RSpec.describe 'ApiTest: DisabledRestApiTest', type: :request do
   fixtures :all
 
   before do

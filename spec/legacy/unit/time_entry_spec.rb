@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe TimeEntry, type: :model do
+RSpec.describe TimeEntry, type: :model do
   fixtures :all
 
   it 'should hours format' do

@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Journal, type: :model do
+RSpec.describe Journal, type: :model do
   fixtures :all
 
   around do |example|

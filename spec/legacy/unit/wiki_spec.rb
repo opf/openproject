@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Wiki, type: :model do
+RSpec.describe Wiki, type: :model do
   fixtures :all
 
   it 'should create' do

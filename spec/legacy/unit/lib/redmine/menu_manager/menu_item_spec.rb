@@ -35,7 +35,7 @@ module RedmineMenuTestHelper
   end
 end
 
-describe Redmine::MenuManager::MenuItem do
+RSpec.describe Redmine::MenuManager::MenuItem do
   include RedmineMenuTestHelper
 
   Redmine::MenuManager.map :test_menu do |menu|

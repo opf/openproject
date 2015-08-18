@@ -26,10 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
-require 'admin_controller'
 
-describe AdminController, type: :controller do
+require 'legacy_spec_helper'
+
+RSpec.describe AdminController, type: :controller do
   render_views
 
   fixtures :all

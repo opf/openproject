@@ -28,7 +28,7 @@
 #++
 require 'legacy_spec_helper'
 
-describe Redmine::Helpers::Calendar, type: :model do
+RSpec.describe Redmine::Helpers::Calendar, type: :model do
   it 'should monthly' do
     Setting.available_languages = [:de, :en]
     c = Redmine::Helpers::Calendar.new(Date.today, :de, :month)
