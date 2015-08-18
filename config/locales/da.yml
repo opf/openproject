@@ -21,8 +21,6 @@ da:
     meeting_minutes: Mødereferat er ændret
     meeting_minutes_created: Mødereferat er udfærdiget
   error_notification_with_errors: 'Kunne ikke sende påmindelse. Følgende modtagere blev ikke nået: %{recipients}'
-  label_meeting_hour: Tidspunkt (time)
-  label_meeting_minute: Tidspunkt (minut)
   label_meeting: Møde
   label_meeting_plural: Møder
   label_meeting_new: Nyt møde

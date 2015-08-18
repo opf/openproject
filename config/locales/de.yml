@@ -21,8 +21,6 @@ de:
     meeting_minutes: Protokoll bearbeitet
     meeting_minutes_created: Protokoll erstellt
   error_notification_with_errors: 'Benachrichtigungversenden fehlgeschlagen. Folgende Empfänger konnten nicht benachrichtigt werden: %{recipients}'
-  label_meeting_hour: Uhrzeit (Stunde)
-  label_meeting_minute: Uhrzeit (Minute)
   label_meeting: Besprechung
   label_meeting_plural: Besprechungen
   label_meeting_new: Neue Besprechung
