@@ -14,6 +14,6 @@
 
 module OpenProject
   module GithubIntegration
-    VERSION = "4.3.0"
+    VERSION = "5.0.0-alpha"
   end
 end
